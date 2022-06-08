@@ -22,7 +22,9 @@ async function listAppServicePlans() {
   const credential = new DefaultAzureCredential();
   const client = WebSiteManagementClient(credential);
   const resArray = new Array();
-  const initialResposne = await client.appServicePlans.list(subscriptionId);
+  const initialResposne = await client
+    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms", subscriptionId)
+    .get();
   const res = paginate(client, initialResposne);
   for await (let item of res) {
     resArray.push(item);

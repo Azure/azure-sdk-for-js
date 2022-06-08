@@ -80,7 +80,7 @@ import {
   DeletedAppRestoreRequest,
   SnapshotRestoreRequest,
   SiteSourceControl,
-  VnetInfoResource,
+  VnetInfoResource
 } from "./models";
 
 export type AppServiceCertificateOrdersListParameters = RequestParameters;
@@ -294,7 +294,8 @@ export interface DomainsDeleteQueryParam {
   queryParameters?: DomainsDeleteQueryParamProperties;
 }
 
-export type DomainsDeleteParameters = DomainsDeleteQueryParam & RequestParameters;
+export type DomainsDeleteParameters = DomainsDeleteQueryParam &
+  RequestParameters;
 
 export interface DomainsUpdateBodyParam {
   /** Domain registration information. */
@@ -563,7 +564,8 @@ export interface AppServicePlansListQueryParam {
   queryParameters?: AppServicePlansListQueryParamProperties;
 }
 
-export type AppServicePlansListParameters = AppServicePlansListQueryParam & RequestParameters;
+export type AppServicePlansListParameters = AppServicePlansListQueryParam &
+  RequestParameters;
 export type AppServicePlansListByResourceGroupParameters = RequestParameters;
 export type AppServicePlansGetParameters = RequestParameters;
 
@@ -702,7 +704,8 @@ export interface CertificatesListQueryParam {
   queryParameters?: CertificatesListQueryParamProperties;
 }
 
-export type CertificatesListParameters = CertificatesListQueryParam & RequestParameters;
+export type CertificatesListParameters = CertificatesListQueryParam &
+  RequestParameters;
 export type CertificatesListByResourceGroupParameters = RequestParameters;
 export type CertificatesGetParameters = RequestParameters;
 
@@ -924,7 +927,12 @@ export type KubeEnvironmentsUpdateParameters = KubeEnvironmentsUpdateMediaTypesP
   RequestParameters;
 
 export interface ProviderGetAvailableStacksQueryParamProperties {
-  osTypeSelected?: "Windows" | "Linux" | "WindowsFunctions" | "LinuxFunctions" | "All";
+  osTypeSelected?:
+    | "Windows"
+    | "Linux"
+    | "WindowsFunctions"
+    | "LinuxFunctions"
+    | "All";
 }
 
 export interface ProviderGetAvailableStacksQueryParam {
@@ -984,7 +992,12 @@ export type ProviderGetWebAppStacksParameters = ProviderGetWebAppStacksQueryPara
   RequestParameters;
 
 export interface ProviderGetAvailableStacksOnPremQueryParamProperties {
-  osTypeSelected?: "Windows" | "Linux" | "WindowsFunctions" | "LinuxFunctions" | "All";
+  osTypeSelected?:
+    | "Windows"
+    | "Linux"
+    | "WindowsFunctions"
+    | "LinuxFunctions"
+    | "All";
 }
 
 export interface ProviderGetAvailableStacksOnPremQueryParam {
@@ -1005,7 +1018,8 @@ export interface RecommendationsListQueryParam {
   queryParameters?: RecommendationsListQueryParamProperties;
 }
 
-export type RecommendationsListParameters = RecommendationsListQueryParam & RequestParameters;
+export type RecommendationsListParameters = RecommendationsListQueryParam &
+  RequestParameters;
 export type RecommendationsResetAllFiltersParameters = RequestParameters;
 export type RecommendationsDisableRecommendationForSubscriptionParameters = RequestParameters;
 
@@ -1180,7 +1194,8 @@ export interface ListBillingMetersQueryParam {
   queryParameters?: ListBillingMetersQueryParamProperties;
 }
 
-export type ListBillingMetersParameters = ListBillingMetersQueryParam & RequestParameters;
+export type ListBillingMetersParameters = ListBillingMetersQueryParam &
+  RequestParameters;
 
 export interface CheckNameAvailabilityBodyParam {
   /** Name availability request. */
@@ -1226,7 +1241,8 @@ export interface ListGeoRegionsQueryParam {
   queryParameters?: ListGeoRegionsQueryParamProperties;
 }
 
-export type ListGeoRegionsParameters = ListGeoRegionsQueryParam & RequestParameters;
+export type ListGeoRegionsParameters = ListGeoRegionsQueryParam &
+  RequestParameters;
 
 export interface ListSiteIdentifiersAssignedToHostNameBodyParam {
   /** Hostname information. */
@@ -1268,7 +1284,9 @@ export interface MoveMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type MoveParameters = MoveMediaTypesParam & MoveBodyParam & RequestParameters;
+export type MoveParameters = MoveMediaTypesParam &
+  MoveBodyParam &
+  RequestParameters;
 
 export interface ValidateBodyParam {
   /** Request with the resources to validate. */
@@ -1280,7 +1298,9 @@ export interface ValidateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ValidateParameters = ValidateMediaTypesParam & ValidateBodyParam & RequestParameters;
+export type ValidateParameters = ValidateMediaTypesParam &
+  ValidateBodyParam &
+  RequestParameters;
 
 export interface ValidateMoveBodyParam {
   /** Object that represents the resource to move. */
@@ -1622,7 +1642,8 @@ export interface WebAppsDeleteQueryParam {
   queryParameters?: WebAppsDeleteQueryParamProperties;
 }
 
-export type WebAppsDeleteParameters = WebAppsDeleteQueryParam & RequestParameters;
+export type WebAppsDeleteParameters = WebAppsDeleteQueryParam &
+  RequestParameters;
 
 export interface WebAppsUpdateBodyParam {
   /** A JSON representation of the app properties. See example. */
@@ -2410,7 +2431,8 @@ export interface WebAppsRestartQueryParam {
   queryParameters?: WebAppsRestartQueryParamProperties;
 }
 
-export type WebAppsRestartParameters = WebAppsRestartQueryParam & RequestParameters;
+export type WebAppsRestartParameters = WebAppsRestartQueryParam &
+  RequestParameters;
 
 export interface WebAppsRestoreFromBackupBlobBodyParam {
   /** Information on restore request . */
@@ -2485,7 +2507,8 @@ export interface WebAppsDeleteSlotQueryParam {
   queryParameters?: WebAppsDeleteSlotQueryParamProperties;
 }
 
-export type WebAppsDeleteSlotParameters = WebAppsDeleteSlotQueryParam & RequestParameters;
+export type WebAppsDeleteSlotParameters = WebAppsDeleteSlotQueryParam &
+  RequestParameters;
 
 export interface WebAppsUpdateSlotBodyParam {
   /** A JSON representation of the app properties. See example. */
@@ -3218,7 +3241,8 @@ export interface WebAppsRestartSlotQueryParam {
   queryParameters?: WebAppsRestartSlotQueryParamProperties;
 }
 
-export type WebAppsRestartSlotParameters = WebAppsRestartSlotQueryParam & RequestParameters;
+export type WebAppsRestartSlotParameters = WebAppsRestartSlotQueryParam &
+  RequestParameters;
 
 export interface WebAppsRestoreFromBackupBlobSlotBodyParam {
   /** Information on restore request . */
@@ -3372,7 +3396,8 @@ export interface WebAppsListUsagesSlotQueryParam {
   queryParameters?: WebAppsListUsagesSlotQueryParamProperties;
 }
 
-export type WebAppsListUsagesSlotParameters = WebAppsListUsagesSlotQueryParam & RequestParameters;
+export type WebAppsListUsagesSlotParameters = WebAppsListUsagesSlotQueryParam &
+  RequestParameters;
 export type WebAppsListVnetConnectionsSlotParameters = RequestParameters;
 export type WebAppsGetVnetConnectionSlotParameters = RequestParameters;
 
@@ -3542,7 +3567,8 @@ export interface WebAppsListUsagesQueryParam {
   queryParameters?: WebAppsListUsagesQueryParamProperties;
 }
 
-export type WebAppsListUsagesParameters = WebAppsListUsagesQueryParam & RequestParameters;
+export type WebAppsListUsagesParameters = WebAppsListUsagesQueryParam &
+  RequestParameters;
 export type WebAppsListVnetConnectionsParameters = RequestParameters;
 export type WebAppsGetVnetConnectionParameters = RequestParameters;
 

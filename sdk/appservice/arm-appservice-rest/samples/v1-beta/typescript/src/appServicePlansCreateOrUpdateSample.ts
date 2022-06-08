@@ -32,12 +32,14 @@ async function createOrUpdateAppServicePlan() {
   };
   const credential = new DefaultAzureCredential();
   const client = WebSiteManagementClient(credential);
-  const result = await client.appServicePlans.createOrUpdate(
-    subscriptionId,
-    resourceGroupName,
-    name,
-    appServicePlan
-  );
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
+      subscriptionId,
+      resourceGroupName,
+      name
+    )
+    .put(appServicePlan);
   console.log(result);
 }
 

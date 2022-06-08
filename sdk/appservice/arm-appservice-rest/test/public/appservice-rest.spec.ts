@@ -33,11 +33,14 @@ describe("Web test", () => {
   });
 
   it("appServicePlans create test", async function () {
-    const initialResponse = await client.appServicePlans.createOrUpdate(
-      subscriptionId,
-      resourceGroup,
-      appservicePlanName,
-      {
+    const initialResponse = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
+        subscriptionId,
+        resourceGroup,
+        appservicePlanName
+      )
+      .put({
         body: {
           location: "eastus",
           sku: {
@@ -50,8 +53,7 @@ describe("Web test", () => {
             isXenon: false,
           },
         },
-      }
-    );
+      });
     const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
     assert.strictEqual(res.status, "200");
@@ -59,11 +61,14 @@ describe("Web test", () => {
   });
 
   it("webApps create test", async function () {
-    const initialResponse = await client.webApps.createOrUpdate(
-      subscriptionId,
-      resourceGroup,
-      name,
-      {
+    const initialResponse = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}",
+        subscriptionId,
+        resourceGroup,
+        name
+      )
+      .put({
         body: {
           location: "eastus",
           properties: {
@@ -89,8 +94,7 @@ describe("Web test", () => {
             httpsOnly: false,
           },
         },
-      }
-    );
+      });
     const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
     assert.strictEqual(res.status, "200");
@@ -98,21 +102,38 @@ describe("Web test", () => {
   });
 
   it("appServicePlans get test", async function () {
-    const res = await client.appServicePlans.get(subscriptionId, resourceGroup, appservicePlanName);
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
+        subscriptionId,
+        resourceGroup,
+        appservicePlanName
+      )
+      .get();
     assert.strictEqual(res.status, "200");
   });
 
   it("webApps get test", async function () {
-    const res = await client.webApps.get(subscriptionId, resourceGroup, name);
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}",
+        subscriptionId,
+        resourceGroup,
+        name
+      )
+      .get();
     assert.strictEqual(res.status, "200");
   });
 
   it.skip("appServicePlans list test", async function () {
     const resArray = new Array();
-    const initialResposne = await client.appServicePlans.listByResourceGroup(
-      subscriptionId,
-      resourceGroup
-    );
+    const initialResposne = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
+        subscriptionId,
+        resourceGroup
+      )
+      .get();
     /**
      *  {
           status: '200',
@@ -130,7 +151,9 @@ describe("Web test", () => {
 
   it("webApps list test", async function () {
     const resArray = new Array();
-    const initialResposne = await client.webApps.list(subscriptionId);
+    const initialResposne = await client
+      .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/sites", subscriptionId)
+      .get();
     const res = paginate(client, initialResposne);
     for await (const item of res) {
       resArray.push(item);
@@ -139,33 +162,49 @@ describe("Web test", () => {
   });
 
   it("webApps update test", async function () {
-    const res = await client.webApps.update(subscriptionId, resourceGroup, name, {
-      body: {
-        properties: {
-          serverFarmId:
-            "/subscriptions/" +
-            subscriptionId +
-            `/resourceGroups/${env.RESOURCE_GROUP}/providers/Microsoft.Web/serverfarms/myappserviceplanxxx`,
-          reserved: false,
-          isXenon: false,
-          hyperV: false,
-          siteConfig: {
-            netFrameworkVersion: "v4.6",
-            localMySqlEnabled: false,
-            http20Enabled: true,
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}",
+        subscriptionId,
+        resourceGroup,
+        name
+      )
+      .patch({
+        body: {
+          properties: {
+            serverFarmId:
+              "/subscriptions/" +
+              subscriptionId +
+              `/resourceGroups/${env.RESOURCE_GROUP}/providers/Microsoft.Web/serverfarms/myappserviceplanxxx`,
+            reserved: false,
+            isXenon: false,
+            hyperV: false,
+            siteConfig: {
+              netFrameworkVersion: "v4.6",
+              localMySqlEnabled: false,
+              http20Enabled: true,
+            },
+            scmSiteAlsoStopped: false,
           },
-          scmSiteAlsoStopped: false,
         },
-      },
-    });
+      });
     assert.strictEqual(res.status, "200");
     assert.isTrue(res.body !== undefined);
   });
 
   it("webApps delete test", async function () {
-    await client.webApps.delete(subscriptionId, resourceGroup, name);
+    await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}",
+        subscriptionId,
+        resourceGroup,
+        name
+      )
+      .delete();
     const resArray = new Array();
-    const initialResposne = await client.webApps.list(subscriptionId);
+    const initialResposne = await client
+      .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/sites", subscriptionId)
+      .get();
     const result = paginate(client, initialResposne);
     for await (const item of result) {
       resArray.push(item);
@@ -174,12 +213,20 @@ describe("Web test", () => {
   });
 
   it("appServicePlans delete test", async function () {
-    await client.appServicePlans.delete(subscriptionId, resourceGroup, appservicePlanName);
+    await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
+        subscriptionId,
+        resourceGroup,
+        appservicePlanName
+      )
+      .delete();
     const resArray = new Array();
-    const initialResposne = await client.appServicePlans.listByResourceGroup(
+    const initialResposne = await client.path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
       subscriptionId,
       resourceGroup
-    );
+    ).get();
     const result = paginate(client, initialResposne);
     for await (const item of result) {
       resArray.push(item);

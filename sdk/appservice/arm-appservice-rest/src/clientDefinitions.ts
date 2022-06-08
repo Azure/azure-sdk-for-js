@@ -653,7 +653,7 @@ import {
   WebAppsCreateOrUpdateVnetConnectionGatewayParameters,
   WebAppsUpdateVnetConnectionGatewayParameters,
   WebAppsListWebJobsParameters,
-  WebAppsGetWebJobParameters,
+  WebAppsGetWebJobParameters
 } from "./parameters";
 import {
   AppServiceCertificateOrdersList200Response,
@@ -2184,6659 +2184,17 @@ import {
   WebAppsListWebJobs200Response,
   WebAppsListWebJobsdefaultResponse,
   WebAppsGetWebJob200Response,
-  WebAppsGetWebJobdefaultResponse,
+  WebAppsGetWebJobdefaultResponse
 } from "./responses";
 import { Client } from "@azure-rest/core-client";
-
-/** Contains operations for AppServiceCertificateOrders operations */
-export interface AppServiceCertificateOrdersOperations {
-  /** List all certificate orders in a subscription. */
-  list(
-    subscriptionId: string,
-    options?: AppServiceCertificateOrdersListParameters
-  ): Promise<
-    AppServiceCertificateOrdersList200Response | AppServiceCertificateOrdersListdefaultResponse
-  >;
-  /** Validate information for a certificate order. */
-  validatePurchaseInformation(
-    subscriptionId: string,
-    options: AppServiceCertificateOrdersValidatePurchaseInformationParameters
-  ): Promise<
-    | AppServiceCertificateOrdersValidatePurchaseInformation204Response
-    | AppServiceCertificateOrdersValidatePurchaseInformationdefaultResponse
-  >;
-  /** Get certificate orders in a resource group. */
-  listByResourceGroup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options?: AppServiceCertificateOrdersListByResourceGroupParameters
-  ): Promise<
-    | AppServiceCertificateOrdersListByResourceGroup200Response
-    | AppServiceCertificateOrdersListByResourceGroupdefaultResponse
-  >;
-  /** Get a certificate order. */
-  get(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options?: AppServiceCertificateOrdersGetParameters
-  ): Promise<
-    AppServiceCertificateOrdersGet200Response | AppServiceCertificateOrdersGetdefaultResponse
-  >;
-  /** Create or update a certificate purchase order. */
-  createOrUpdate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options: AppServiceCertificateOrdersCreateOrUpdateParameters
-  ): Promise<
-    | AppServiceCertificateOrdersCreateOrUpdate200Response
-    | AppServiceCertificateOrdersCreateOrUpdate201Response
-    | AppServiceCertificateOrdersCreateOrUpdatedefaultResponse
-  >;
-  /** Delete an existing certificate order. */
-  delete(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options?: AppServiceCertificateOrdersDeleteParameters
-  ): Promise<
-    | AppServiceCertificateOrdersDelete200Response
-    | AppServiceCertificateOrdersDelete204Response
-    | AppServiceCertificateOrdersDeletedefaultResponse
-  >;
-  /** Create or update a certificate purchase order. */
-  update(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options: AppServiceCertificateOrdersUpdateParameters
-  ): Promise<
-    AppServiceCertificateOrdersUpdate200Response | AppServiceCertificateOrdersUpdatedefaultResponse
-  >;
-  /** List all certificates associated with a certificate order. */
-  listCertificates(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options?: AppServiceCertificateOrdersListCertificatesParameters
-  ): Promise<
-    | AppServiceCertificateOrdersListCertificates200Response
-    | AppServiceCertificateOrdersListCertificatesdefaultResponse
-  >;
-  /** Get the certificate associated with a certificate order. */
-  getCertificate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    name: string,
-    options?: AppServiceCertificateOrdersGetCertificateParameters
-  ): Promise<
-    | AppServiceCertificateOrdersGetCertificate200Response
-    | AppServiceCertificateOrdersGetCertificatedefaultResponse
-  >;
-  /** Creates or updates a certificate and associates with key vault secret. */
-  createOrUpdateCertificate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    name: string,
-    options: AppServiceCertificateOrdersCreateOrUpdateCertificateParameters
-  ): Promise<
-    | AppServiceCertificateOrdersCreateOrUpdateCertificate200Response
-    | AppServiceCertificateOrdersCreateOrUpdateCertificate201Response
-    | AppServiceCertificateOrdersCreateOrUpdateCertificatedefaultResponse
-  >;
-  /** Delete the certificate associated with a certificate order. */
-  deleteCertificate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    name: string,
-    options?: AppServiceCertificateOrdersDeleteCertificateParameters
-  ): Promise<
-    | AppServiceCertificateOrdersDeleteCertificate200Response
-    | AppServiceCertificateOrdersDeleteCertificate204Response
-    | AppServiceCertificateOrdersDeleteCertificatedefaultResponse
-  >;
-  /** Creates or updates a certificate and associates with key vault secret. */
-  updateCertificate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    name: string,
-    options: AppServiceCertificateOrdersUpdateCertificateParameters
-  ): Promise<
-    | AppServiceCertificateOrdersUpdateCertificate200Response
-    | AppServiceCertificateOrdersUpdateCertificatedefaultResponse
-  >;
-  /** Reissue an existing certificate order. */
-  reissue(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options: AppServiceCertificateOrdersReissueParameters
-  ): Promise<
-    | AppServiceCertificateOrdersReissue204Response
-    | AppServiceCertificateOrdersReissuedefaultResponse
-  >;
-  /** Renew an existing certificate order. */
-  renew(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options: AppServiceCertificateOrdersRenewParameters
-  ): Promise<
-    AppServiceCertificateOrdersRenew204Response | AppServiceCertificateOrdersRenewdefaultResponse
-  >;
-  /** Resend certificate email. */
-  resendEmail(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options?: AppServiceCertificateOrdersResendEmailParameters
-  ): Promise<
-    | AppServiceCertificateOrdersResendEmail204Response
-    | AppServiceCertificateOrdersResendEmaildefaultResponse
-  >;
-  /** Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order */
-  resendRequestEmails(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options: AppServiceCertificateOrdersResendRequestEmailsParameters
-  ): Promise<
-    | AppServiceCertificateOrdersResendRequestEmails204Response
-    | AppServiceCertificateOrdersResendRequestEmailsdefaultResponse
-  >;
-  /** This method is used to obtain the site seal information for an issued certificate. A site seal is a graphic that the certificate purchaser can embed on their web site to show their visitors information about their SSL certificate. If a web site visitor clicks on the site seal image, a pop-up page is displayed that contains detailed information about the SSL certificate. The site seal token is used to link the site seal graphic image to the appropriate certificate details pop-up page display when a user clicks on the site seal. The site seal images are expected to be static images and hosted by the reseller, to minimize delays for customer page load times. */
-  retrieveSiteSeal(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options: AppServiceCertificateOrdersRetrieveSiteSealParameters
-  ): Promise<
-    | AppServiceCertificateOrdersRetrieveSiteSeal200Response
-    | AppServiceCertificateOrdersRetrieveSiteSealdefaultResponse
-  >;
-  /** Verify domain ownership for this certificate order. */
-  verifyDomainOwnership(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options?: AppServiceCertificateOrdersVerifyDomainOwnershipParameters
-  ): Promise<
-    | AppServiceCertificateOrdersVerifyDomainOwnership204Response
-    | AppServiceCertificateOrdersVerifyDomainOwnershipdefaultResponse
-  >;
-  /** Retrieve the list of certificate actions. */
-  retrieveCertificateActions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceCertificateOrdersRetrieveCertificateActionsParameters
-  ): Promise<
-    | AppServiceCertificateOrdersRetrieveCertificateActions200Response
-    | AppServiceCertificateOrdersRetrieveCertificateActionsdefaultResponse
-  >;
-  /** Retrieve email history. */
-  retrieveCertificateEmailHistory(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceCertificateOrdersRetrieveCertificateEmailHistoryParameters
-  ): Promise<
-    | AppServiceCertificateOrdersRetrieveCertificateEmailHistory200Response
-    | AppServiceCertificateOrdersRetrieveCertificateEmailHistorydefaultResponse
-  >;
-}
-
-/** Contains operations for CertificateOrdersDiagnostics operations */
-export interface CertificateOrdersDiagnosticsOperations {
-  /** Microsoft.CertificateRegistration to get the list of detectors for this RP. */
-  listAppServiceCertificateOrderDetectorResponse(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options?: CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseParameters
-  ): Promise<
-    | CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponse200Response
-    | CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponsedefaultResponse
-  >;
-  /** Microsoft.CertificateRegistration call to get a detector response from App Lens. */
-  getAppServiceCertificateOrderDetectorResponse(
-    subscriptionId: string,
-    resourceGroupName: string,
-    certificateOrderName: string,
-    detectorName: string,
-    options?: CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseParameters
-  ): Promise<
-    | CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponse200Response
-    | CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponsedefaultResponse
-  >;
-}
-
-/** Contains operations for CertificateRegistrationProvider operations */
-export interface CertificateRegistrationProviderOperations {
-  /** Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider */
-  listOperations(
-    options?: CertificateRegistrationProviderListOperationsParameters
-  ): Promise<
-    | CertificateRegistrationProviderListOperations200Response
-    | CertificateRegistrationProviderListOperationsdefaultResponse
-  >;
-}
-
-/** Contains operations for Domains operations */
-export interface DomainsOperations {
-  /** Check if a domain is available for registration. */
-  checkAvailability(
-    subscriptionId: string,
-    options: DomainsCheckAvailabilityParameters
-  ): Promise<DomainsCheckAvailability200Response | DomainsCheckAvailabilitydefaultResponse>;
-  /** Get all domains in a subscription. */
-  list(
-    subscriptionId: string,
-    options?: DomainsListParameters
-  ): Promise<DomainsList200Response | DomainsListdefaultResponse>;
-  /** Generate a single sign-on request for the domain management portal. */
-  getControlCenterSsoRequest(
-    subscriptionId: string,
-    options?: DomainsGetControlCenterSsoRequestParameters
-  ): Promise<
-    DomainsGetControlCenterSsoRequest200Response | DomainsGetControlCenterSsoRequestdefaultResponse
-  >;
-  /** Get domain name recommendations based on keywords. */
-  listRecommendations(
-    subscriptionId: string,
-    options: DomainsListRecommendationsParameters
-  ): Promise<DomainsListRecommendations200Response | DomainsListRecommendationsdefaultResponse>;
-  /** Get all domains in a resource group. */
-  listByResourceGroup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options?: DomainsListByResourceGroupParameters
-  ): Promise<DomainsListByResourceGroup200Response | DomainsListByResourceGroupdefaultResponse>;
-  /** Get a domain. */
-  get(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    options?: DomainsGetParameters
-  ): Promise<DomainsGet200Response | DomainsGetdefaultResponse>;
-  /** Creates or updates a domain. */
-  createOrUpdate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    options: DomainsCreateOrUpdateParameters
-  ): Promise<
-    | DomainsCreateOrUpdate200Response
-    | DomainsCreateOrUpdate202Response
-    | DomainsCreateOrUpdatedefaultResponse
-  >;
-  /** Delete a domain. */
-  delete(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    options?: DomainsDeleteParameters
-  ): Promise<DomainsDelete200Response | DomainsDelete204Response | DomainsDeletedefaultResponse>;
-  /** Creates or updates a domain. */
-  update(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    options: DomainsUpdateParameters
-  ): Promise<DomainsUpdate200Response | DomainsUpdate202Response | DomainsUpdatedefaultResponse>;
-  /** Lists domain ownership identifiers. */
-  listOwnershipIdentifiers(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    options?: DomainsListOwnershipIdentifiersParameters
-  ): Promise<
-    DomainsListOwnershipIdentifiers200Response | DomainsListOwnershipIdentifiersdefaultResponse
-  >;
-  /** Get ownership identifier for domain */
-  getOwnershipIdentifier(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    name: string,
-    options?: DomainsGetOwnershipIdentifierParameters
-  ): Promise<
-    DomainsGetOwnershipIdentifier200Response | DomainsGetOwnershipIdentifierdefaultResponse
-  >;
-  /** Creates an ownership identifier for a domain or updates identifier details for an existing identifier */
-  createOrUpdateOwnershipIdentifier(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    name: string,
-    options: DomainsCreateOrUpdateOwnershipIdentifierParameters
-  ): Promise<
-    | DomainsCreateOrUpdateOwnershipIdentifier200Response
-    | DomainsCreateOrUpdateOwnershipIdentifierdefaultResponse
-  >;
-  /** Delete ownership identifier for domain */
-  deleteOwnershipIdentifier(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    name: string,
-    options?: DomainsDeleteOwnershipIdentifierParameters
-  ): Promise<
-    | DomainsDeleteOwnershipIdentifier200Response
-    | DomainsDeleteOwnershipIdentifier204Response
-    | DomainsDeleteOwnershipIdentifierdefaultResponse
-  >;
-  /** Creates an ownership identifier for a domain or updates identifier details for an existing identifier */
-  updateOwnershipIdentifier(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    name: string,
-    options: DomainsUpdateOwnershipIdentifierParameters
-  ): Promise<
-    DomainsUpdateOwnershipIdentifier200Response | DomainsUpdateOwnershipIdentifierdefaultResponse
-  >;
-  /** Renew a domain. */
-  renew(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    options?: DomainsRenewParameters
-  ): Promise<
-    | DomainsRenew200Response
-    | DomainsRenew202Response
-    | DomainsRenew204Response
-    | DomainsRenewdefaultResponse
-  >;
-  /** Transfer out domain to another registrar */
-  transferOut(
-    subscriptionId: string,
-    resourceGroupName: string,
-    domainName: string,
-    options?: DomainsTransferOutParameters
-  ): Promise<
-    | DomainsTransferOut200Response
-    | DomainsTransferOut400Response
-    | DomainsTransferOutdefaultResponse
-  >;
-}
-
-/** Contains operations for TopLevelDomains operations */
-export interface TopLevelDomainsOperations {
-  /** Get all top-level domains supported for registration. */
-  list(
-    subscriptionId: string,
-    options?: TopLevelDomainsListParameters
-  ): Promise<TopLevelDomainsList200Response | TopLevelDomainsListdefaultResponse>;
-  /** Get details of a top-level domain. */
-  get(
-    subscriptionId: string,
-    name: string,
-    options?: TopLevelDomainsGetParameters
-  ): Promise<TopLevelDomainsGet200Response | TopLevelDomainsGetdefaultResponse>;
-  /** Gets all legal agreements that user needs to accept before purchasing a domain. */
-  listAgreements(
-    subscriptionId: string,
-    name: string,
-    options: TopLevelDomainsListAgreementsParameters
-  ): Promise<
-    TopLevelDomainsListAgreements200Response | TopLevelDomainsListAgreementsdefaultResponse
-  >;
-}
-
-/** Contains operations for DomainRegistrationProvider operations */
-export interface DomainRegistrationProviderOperations {
-  /** Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider */
-  listOperations(
-    options?: DomainRegistrationProviderListOperationsParameters
-  ): Promise<
-    | DomainRegistrationProviderListOperations200Response
-    | DomainRegistrationProviderListOperationsdefaultResponse
-  >;
-}
-
-/** Contains operations for AppServiceEnvironments operations */
-export interface AppServiceEnvironmentsOperations {
-  /** Get all App Service Environments for a subscription. */
-  list(
-    subscriptionId: string,
-    options?: AppServiceEnvironmentsListParameters
-  ): Promise<AppServiceEnvironmentsList200Response | AppServiceEnvironmentsListdefaultResponse>;
-  /** Get all App Service Environments in a resource group. */
-  listByResourceGroup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options?: AppServiceEnvironmentsListByResourceGroupParameters
-  ): Promise<
-    | AppServiceEnvironmentsListByResourceGroup200Response
-    | AppServiceEnvironmentsListByResourceGroupdefaultResponse
-  >;
-  /** Get the properties of an App Service Environment. */
-  get(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsGetParameters
-  ): Promise<AppServiceEnvironmentsGet200Response | AppServiceEnvironmentsGetdefaultResponse>;
-  /** Create or update an App Service Environment. */
-  createOrUpdate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: AppServiceEnvironmentsCreateOrUpdateParameters
-  ): Promise<
-    | AppServiceEnvironmentsCreateOrUpdate200Response
-    | AppServiceEnvironmentsCreateOrUpdate201Response
-    | AppServiceEnvironmentsCreateOrUpdate202Response
-    | AppServiceEnvironmentsCreateOrUpdatedefaultResponse
-  >;
-  /** Delete an App Service Environment. */
-  delete(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsDeleteParameters
-  ): Promise<
-    | AppServiceEnvironmentsDelete202Response
-    | AppServiceEnvironmentsDelete204Response
-    | AppServiceEnvironmentsDeletedefaultResponse
-  >;
-  /** Create or update an App Service Environment. */
-  update(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: AppServiceEnvironmentsUpdateParameters
-  ): Promise<
-    | AppServiceEnvironmentsUpdate200Response
-    | AppServiceEnvironmentsUpdate201Response
-    | AppServiceEnvironmentsUpdate202Response
-    | AppServiceEnvironmentsUpdatedefaultResponse
-  >;
-  /** Get the used, available, and total worker capacity an App Service Environment. */
-  listCapacities(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListCapacitiesParameters
-  ): Promise<
-    | AppServiceEnvironmentsListCapacities200Response
-    | AppServiceEnvironmentsListCapacitiesdefaultResponse
-  >;
-  /** Get IP addresses assigned to an App Service Environment. */
-  getVipInfo(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsGetVipInfoParameters
-  ): Promise<
-    AppServiceEnvironmentsGetVipInfo200Response | AppServiceEnvironmentsGetVipInfodefaultResponse
-  >;
-  /** Move an App Service Environment to a different VNET. */
-  changeVnet(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: AppServiceEnvironmentsChangeVnetParameters
-  ): Promise<
-    | AppServiceEnvironmentsChangeVnet200Response
-    | AppServiceEnvironmentsChangeVnet202Response
-    | AppServiceEnvironmentsChangeVnetdefaultResponse
-  >;
-  /** Get networking configuration of an App Service Environment */
-  getAseV3NetworkingConfiguration(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsGetAseV3NetworkingConfigurationParameters
-  ): Promise<
-    | AppServiceEnvironmentsGetAseV3NetworkingConfiguration200Response
-    | AppServiceEnvironmentsGetAseV3NetworkingConfigurationdefaultResponse
-  >;
-  /** Update networking configuration of an App Service Environment */
-  updateAseNetworkingConfiguration(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: AppServiceEnvironmentsUpdateAseNetworkingConfigurationParameters
-  ): Promise<
-    | AppServiceEnvironmentsUpdateAseNetworkingConfiguration200Response
-    | AppServiceEnvironmentsUpdateAseNetworkingConfigurationdefaultResponse
-  >;
-  /** Get diagnostic information for an App Service Environment. */
-  listDiagnostics(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListDiagnosticsParameters
-  ): Promise<
-    | AppServiceEnvironmentsListDiagnostics200Response
-    | AppServiceEnvironmentsListDiagnosticsdefaultResponse
-  >;
-  /** Get a diagnostics item for an App Service Environment. */
-  getDiagnosticsItem(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    diagnosticsName: string,
-    options?: AppServiceEnvironmentsGetDiagnosticsItemParameters
-  ): Promise<
-    | AppServiceEnvironmentsGetDiagnosticsItem200Response
-    | AppServiceEnvironmentsGetDiagnosticsItemdefaultResponse
-  >;
-  /** Get the network endpoints of all inbound dependencies of an App Service Environment. */
-  getInboundNetworkDependenciesEndpoints(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsParameters
-  ): Promise<
-    | AppServiceEnvironmentsGetInboundNetworkDependenciesEndpoints200Response
-    | AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsdefaultResponse
-  >;
-  /** Get all multi-role pools. */
-  listMultiRolePools(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListMultiRolePoolsParameters
-  ): Promise<
-    | AppServiceEnvironmentsListMultiRolePools200Response
-    | AppServiceEnvironmentsListMultiRolePoolsdefaultResponse
-  >;
-  /** Get properties of a multi-role pool. */
-  getMultiRolePool(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsGetMultiRolePoolParameters
-  ): Promise<
-    | AppServiceEnvironmentsGetMultiRolePool200Response
-    | AppServiceEnvironmentsGetMultiRolePooldefaultResponse
-  >;
-  /** Create or update a multi-role pool. */
-  createOrUpdateMultiRolePool(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolParameters
-  ): Promise<
-    | AppServiceEnvironmentsCreateOrUpdateMultiRolePool200Response
-    | AppServiceEnvironmentsCreateOrUpdateMultiRolePool202Response
-    | AppServiceEnvironmentsCreateOrUpdateMultiRolePooldefaultResponse
-  >;
-  /** Create or update a multi-role pool. */
-  updateMultiRolePool(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: AppServiceEnvironmentsUpdateMultiRolePoolParameters
-  ): Promise<
-    | AppServiceEnvironmentsUpdateMultiRolePool200Response
-    | AppServiceEnvironmentsUpdateMultiRolePool202Response
-    | AppServiceEnvironmentsUpdateMultiRolePooldefaultResponse
-  >;
-  /** Get metric definitions for a specific instance of a multi-role pool of an App Service Environment. */
-  listMultiRolePoolInstanceMetricDefinitions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instance: string,
-    options?: AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsParameters
-  ): Promise<
-    | AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitions200Response
-    | AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsdefaultResponse
-  >;
-  /** Get metric definitions for a multi-role pool of an App Service Environment. */
-  listMultiRoleMetricDefinitions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListMultiRoleMetricDefinitionsParameters
-  ): Promise<
-    | AppServiceEnvironmentsListMultiRoleMetricDefinitions200Response
-    | AppServiceEnvironmentsListMultiRoleMetricDefinitionsdefaultResponse
-  >;
-  /** Get available SKUs for scaling a multi-role pool. */
-  listMultiRolePoolSkus(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListMultiRolePoolSkusParameters
-  ): Promise<
-    | AppServiceEnvironmentsListMultiRolePoolSkus200Response
-    | AppServiceEnvironmentsListMultiRolePoolSkusdefaultResponse
-  >;
-  /** Get usage metrics for a multi-role pool of an App Service Environment. */
-  listMultiRoleUsages(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListMultiRoleUsagesParameters
-  ): Promise<
-    | AppServiceEnvironmentsListMultiRoleUsages200Response
-    | AppServiceEnvironmentsListMultiRoleUsagesdefaultResponse
-  >;
-  /** List all currently running operations on the App Service Environment. */
-  listOperations(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListOperationsParameters
-  ): Promise<
-    | AppServiceEnvironmentsListOperations200Response
-    | AppServiceEnvironmentsListOperationsdefaultResponse
-  >;
-  /** Get the network endpoints of all outbound dependencies of an App Service Environment. */
-  getOutboundNetworkDependenciesEndpoints(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsParameters
-  ): Promise<
-    | AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpoints200Response
-    | AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsdefaultResponse
-  >;
-  /** Gets the list of private endpoints associated with a hosting environment */
-  getPrivateEndpointConnectionList(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListParameters
-  ): Promise<
-    | AppServiceEnvironmentsGetPrivateEndpointConnectionList200Response
-    | AppServiceEnvironmentsGetPrivateEndpointConnectionListdefaultResponse
-  >;
-  /** Gets a private endpoint connection */
-  getPrivateEndpointConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options?: AppServiceEnvironmentsGetPrivateEndpointConnectionParameters
-  ): Promise<
-    | AppServiceEnvironmentsGetPrivateEndpointConnection200Response
-    | AppServiceEnvironmentsGetPrivateEndpointConnectiondefaultResponse
-  >;
-  /** Approves or rejects a private endpoint connection */
-  approveOrRejectPrivateEndpointConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionParameters
-  ): Promise<
-    | AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection200Response
-    | AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection202Response
-    | AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectiondefaultResponse
-  >;
-  /** Deletes a private endpoint connection */
-  deletePrivateEndpointConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionParameters
-  ): Promise<
-    | AppServiceEnvironmentsDeletePrivateEndpointConnection200Response
-    | AppServiceEnvironmentsDeletePrivateEndpointConnection202Response
-    | AppServiceEnvironmentsDeletePrivateEndpointConnection204Response
-    | AppServiceEnvironmentsDeletePrivateEndpointConnectiondefaultResponse
-  >;
-  /** Gets the private link resources */
-  getPrivateLinkResources(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsGetPrivateLinkResourcesParameters
-  ): Promise<
-    | AppServiceEnvironmentsGetPrivateLinkResources200Response
-    | AppServiceEnvironmentsGetPrivateLinkResourcesdefaultResponse
-  >;
-  /** Reboot all machines in an App Service Environment. */
-  reboot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsRebootParameters
-  ): Promise<AppServiceEnvironmentsReboot202Response | AppServiceEnvironmentsRebootdefaultResponse>;
-  /** Resume an App Service Environment. */
-  resume(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsResumeParameters
-  ): Promise<
-    | AppServiceEnvironmentsResume200Response
-    | AppServiceEnvironmentsResume202Response
-    | AppServiceEnvironmentsResumedefaultResponse
-  >;
-  /** Get all App Service plans in an App Service Environment. */
-  listAppServicePlans(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListAppServicePlansParameters
-  ): Promise<
-    | AppServiceEnvironmentsListAppServicePlans200Response
-    | AppServiceEnvironmentsListAppServicePlansdefaultResponse
-  >;
-  /** Get all apps in an App Service Environment. */
-  listWebApps(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListWebAppsParameters
-  ): Promise<
-    AppServiceEnvironmentsListWebApps200Response | AppServiceEnvironmentsListWebAppsdefaultResponse
-  >;
-  /** Suspend an App Service Environment. */
-  suspend(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsSuspendParameters
-  ): Promise<
-    | AppServiceEnvironmentsSuspend200Response
-    | AppServiceEnvironmentsSuspend202Response
-    | AppServiceEnvironmentsSuspenddefaultResponse
-  >;
-  /** Get global usage metrics of an App Service Environment. */
-  listUsages(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListUsagesParameters
-  ): Promise<
-    AppServiceEnvironmentsListUsages200Response | AppServiceEnvironmentsListUsagesdefaultResponse
-  >;
-  /** Get all worker pools of an App Service Environment. */
-  listWorkerPools(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServiceEnvironmentsListWorkerPoolsParameters
-  ): Promise<
-    | AppServiceEnvironmentsListWorkerPools200Response
-    | AppServiceEnvironmentsListWorkerPoolsdefaultResponse
-  >;
-  /** Get properties of a worker pool. */
-  getWorkerPool(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    workerPoolName: string,
-    options?: AppServiceEnvironmentsGetWorkerPoolParameters
-  ): Promise<
-    | AppServiceEnvironmentsGetWorkerPool200Response
-    | AppServiceEnvironmentsGetWorkerPooldefaultResponse
-  >;
-  /** Create or update a worker pool. */
-  createOrUpdateWorkerPool(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    workerPoolName: string,
-    options: AppServiceEnvironmentsCreateOrUpdateWorkerPoolParameters
-  ): Promise<
-    | AppServiceEnvironmentsCreateOrUpdateWorkerPool200Response
-    | AppServiceEnvironmentsCreateOrUpdateWorkerPool202Response
-    | AppServiceEnvironmentsCreateOrUpdateWorkerPooldefaultResponse
-  >;
-  /** Create or update a worker pool. */
-  updateWorkerPool(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    workerPoolName: string,
-    options: AppServiceEnvironmentsUpdateWorkerPoolParameters
-  ): Promise<
-    | AppServiceEnvironmentsUpdateWorkerPool200Response
-    | AppServiceEnvironmentsUpdateWorkerPool202Response
-    | AppServiceEnvironmentsUpdateWorkerPooldefaultResponse
-  >;
-  /** Get metric definitions for a specific instance of a worker pool of an App Service Environment. */
-  listWorkerPoolInstanceMetricDefinitions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    workerPoolName: string,
-    instance: string,
-    options?: AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsParameters
-  ): Promise<
-    | AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitions200Response
-    | AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsdefaultResponse
-  >;
-  /** Get metric definitions for a worker pool of an App Service Environment. */
-  listWebWorkerMetricDefinitions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    workerPoolName: string,
-    options?: AppServiceEnvironmentsListWebWorkerMetricDefinitionsParameters
-  ): Promise<
-    | AppServiceEnvironmentsListWebWorkerMetricDefinitions200Response
-    | AppServiceEnvironmentsListWebWorkerMetricDefinitionsdefaultResponse
-  >;
-  /** Get available SKUs for scaling a worker pool. */
-  listWorkerPoolSkus(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    workerPoolName: string,
-    options?: AppServiceEnvironmentsListWorkerPoolSkusParameters
-  ): Promise<
-    | AppServiceEnvironmentsListWorkerPoolSkus200Response
-    | AppServiceEnvironmentsListWorkerPoolSkusdefaultResponse
-  >;
-  /** Get usage metrics for a worker pool of an App Service Environment. */
-  listWebWorkerUsages(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    workerPoolName: string,
-    options?: AppServiceEnvironmentsListWebWorkerUsagesParameters
-  ): Promise<
-    | AppServiceEnvironmentsListWebWorkerUsages200Response
-    | AppServiceEnvironmentsListWebWorkerUsagesdefaultResponse
-  >;
-}
-
-/** Contains operations for AppServicePlans operations */
-export interface AppServicePlansOperations {
-  /** Get all App Service plans for a subscription. */
-  list(
-    subscriptionId: string,
-    options?: AppServicePlansListParameters
-  ): Promise<AppServicePlansList200Response | AppServicePlansListdefaultResponse>;
-  /** Get all App Service plans in a resource group. */
-  listByResourceGroup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options?: AppServicePlansListByResourceGroupParameters
-  ): Promise<
-    | AppServicePlansListByResourceGroup200Response
-    | AppServicePlansListByResourceGroupdefaultResponse
-  >;
-  /** Get an App Service plan. */
-  get(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServicePlansGetParameters
-  ): Promise<
-    | AppServicePlansGet200Response
-    | AppServicePlansGet404Response
-    | AppServicePlansGetdefaultResponse
-  >;
-  /** Creates or updates an App Service Plan. */
-  createOrUpdate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: AppServicePlansCreateOrUpdateParameters
-  ): Promise<
-    | AppServicePlansCreateOrUpdate200Response
-    | AppServicePlansCreateOrUpdate202Response
-    | AppServicePlansCreateOrUpdatedefaultResponse
-  >;
-  /** Delete an App Service plan. */
-  delete(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServicePlansDeleteParameters
-  ): Promise<
-    | AppServicePlansDelete200Response
-    | AppServicePlansDelete204Response
-    | AppServicePlansDeletedefaultResponse
-  >;
-  /** Creates or updates an App Service Plan. */
-  update(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: AppServicePlansUpdateParameters
-  ): Promise<
-    | AppServicePlansUpdate200Response
-    | AppServicePlansUpdate202Response
-    | AppServicePlansUpdatedefaultResponse
-  >;
-  /** List all capabilities of an App Service plan. */
-  listCapabilities(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServicePlansListCapabilitiesParameters
-  ): Promise<
-    AppServicePlansListCapabilities200Response | AppServicePlansListCapabilitiesdefaultResponse
-  >;
-  /** Retrieve a Hybrid Connection in use in an App Service plan. */
-  getHybridConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    namespaceName: string,
-    relayName: string,
-    options?: AppServicePlansGetHybridConnectionParameters
-  ): Promise<
-    | AppServicePlansGetHybridConnection200Response
-    | AppServicePlansGetHybridConnectiondefaultResponse
-  >;
-  /** Delete a Hybrid Connection in use in an App Service plan. */
-  deleteHybridConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    namespaceName: string,
-    relayName: string,
-    options?: AppServicePlansDeleteHybridConnectionParameters
-  ): Promise<
-    | AppServicePlansDeleteHybridConnection200Response
-    | AppServicePlansDeleteHybridConnection204Response
-    | AppServicePlansDeleteHybridConnectiondefaultResponse
-  >;
-  /** Get the send key name and value of a Hybrid Connection. */
-  listHybridConnectionKeys(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    namespaceName: string,
-    relayName: string,
-    options?: AppServicePlansListHybridConnectionKeysParameters
-  ): Promise<
-    | AppServicePlansListHybridConnectionKeys200Response
-    | AppServicePlansListHybridConnectionKeysdefaultResponse
-  >;
-  /** Get all apps that use a Hybrid Connection in an App Service Plan. */
-  listWebAppsByHybridConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    namespaceName: string,
-    relayName: string,
-    options?: AppServicePlansListWebAppsByHybridConnectionParameters
-  ): Promise<
-    | AppServicePlansListWebAppsByHybridConnection200Response
-    | AppServicePlansListWebAppsByHybridConnectiondefaultResponse
-  >;
-  /** Get the maximum number of Hybrid Connections allowed in an App Service plan. */
-  getHybridConnectionPlanLimit(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServicePlansGetHybridConnectionPlanLimitParameters
-  ): Promise<
-    | AppServicePlansGetHybridConnectionPlanLimit200Response
-    | AppServicePlansGetHybridConnectionPlanLimitdefaultResponse
-  >;
-  /** Retrieve all Hybrid Connections in use in an App Service plan. */
-  listHybridConnections(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServicePlansListHybridConnectionsParameters
-  ): Promise<
-    | AppServicePlansListHybridConnections200Response
-    | AppServicePlansListHybridConnectionsdefaultResponse
-  >;
-  /** Restart all apps in an App Service plan. */
-  restartWebApps(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServicePlansRestartWebAppsParameters
-  ): Promise<
-    AppServicePlansRestartWebApps204Response | AppServicePlansRestartWebAppsdefaultResponse
-  >;
-  /** Get all apps associated with an App Service plan. */
-  listWebApps(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServicePlansListWebAppsParameters
-  ): Promise<AppServicePlansListWebApps200Response | AppServicePlansListWebAppsdefaultResponse>;
-  /** Gets all selectable SKUs for a given App Service Plan */
-  getServerFarmSkus(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServicePlansGetServerFarmSkusParameters
-  ): Promise<
-    AppServicePlansGetServerFarmSkus200Response | AppServicePlansGetServerFarmSkusdefaultResponse
-  >;
-  /** Gets server farm usage information */
-  listUsages(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServicePlansListUsagesParameters
-  ): Promise<AppServicePlansListUsages200Response | AppServicePlansListUsagesdefaultResponse>;
-  /** Get all Virtual Networks associated with an App Service plan. */
-  listVnets(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: AppServicePlansListVnetsParameters
-  ): Promise<AppServicePlansListVnets200Response | AppServicePlansListVnetsdefaultResponse>;
-  /** Get a Virtual Network associated with an App Service plan. */
-  getVnetFromServerFarm(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    options?: AppServicePlansGetVnetFromServerFarmParameters
-  ): Promise<
-    | AppServicePlansGetVnetFromServerFarm200Response
-    | AppServicePlansGetVnetFromServerFarm404Response
-    | AppServicePlansGetVnetFromServerFarmdefaultResponse
-  >;
-  /** Get a Virtual Network gateway. */
-  getVnetGateway(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    gatewayName: string,
-    options?: AppServicePlansGetVnetGatewayParameters
-  ): Promise<
-    AppServicePlansGetVnetGateway200Response | AppServicePlansGetVnetGatewaydefaultResponse
-  >;
-  /** Update a Virtual Network gateway. */
-  updateVnetGateway(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    gatewayName: string,
-    options: AppServicePlansUpdateVnetGatewayParameters
-  ): Promise<
-    AppServicePlansUpdateVnetGateway200Response | AppServicePlansUpdateVnetGatewaydefaultResponse
-  >;
-  /** Get all routes that are associated with a Virtual Network in an App Service plan. */
-  listRoutesForVnet(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    options?: AppServicePlansListRoutesForVnetParameters
-  ): Promise<
-    AppServicePlansListRoutesForVnet200Response | AppServicePlansListRoutesForVnetdefaultResponse
-  >;
-  /** Get a Virtual Network route in an App Service plan. */
-  getRouteForVnet(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    routeName: string,
-    options?: AppServicePlansGetRouteForVnetParameters
-  ): Promise<
-    | AppServicePlansGetRouteForVnet200Response
-    | AppServicePlansGetRouteForVnet404Response
-    | AppServicePlansGetRouteForVnetdefaultResponse
-  >;
-  /** Create or update a Virtual Network route in an App Service plan. */
-  createOrUpdateVnetRoute(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    routeName: string,
-    options: AppServicePlansCreateOrUpdateVnetRouteParameters
-  ): Promise<
-    | AppServicePlansCreateOrUpdateVnetRoute200Response
-    | AppServicePlansCreateOrUpdateVnetRoute400Response
-    | AppServicePlansCreateOrUpdateVnetRoute404Response
-    | AppServicePlansCreateOrUpdateVnetRoutedefaultResponse
-  >;
-  /** Delete a Virtual Network route in an App Service plan. */
-  deleteVnetRoute(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    routeName: string,
-    options?: AppServicePlansDeleteVnetRouteParameters
-  ): Promise<
-    | AppServicePlansDeleteVnetRoute200Response
-    | AppServicePlansDeleteVnetRoute404Response
-    | AppServicePlansDeleteVnetRoutedefaultResponse
-  >;
-  /** Create or update a Virtual Network route in an App Service plan. */
-  updateVnetRoute(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    routeName: string,
-    options: AppServicePlansUpdateVnetRouteParameters
-  ): Promise<
-    | AppServicePlansUpdateVnetRoute200Response
-    | AppServicePlansUpdateVnetRoute400Response
-    | AppServicePlansUpdateVnetRoute404Response
-    | AppServicePlansUpdateVnetRoutedefaultResponse
-  >;
-  /** Reboot a worker machine in an App Service plan. */
-  rebootWorker(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    workerName: string,
-    options?: AppServicePlansRebootWorkerParameters
-  ): Promise<AppServicePlansRebootWorker204Response | AppServicePlansRebootWorkerdefaultResponse>;
-}
-
-/** Contains operations for Certificates operations */
-export interface CertificatesOperations {
-  /** Get all certificates for a subscription. */
-  list(
-    subscriptionId: string,
-    options?: CertificatesListParameters
-  ): Promise<CertificatesList200Response | CertificatesListdefaultResponse>;
-  /** Get all certificates in a resource group. */
-  listByResourceGroup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options?: CertificatesListByResourceGroupParameters
-  ): Promise<
-    CertificatesListByResourceGroup200Response | CertificatesListByResourceGroupdefaultResponse
-  >;
-  /** Get a certificate. */
-  get(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: CertificatesGetParameters
-  ): Promise<CertificatesGet200Response | CertificatesGetdefaultResponse>;
-  /** Create or update a certificate. */
-  createOrUpdate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: CertificatesCreateOrUpdateParameters
-  ): Promise<CertificatesCreateOrUpdate200Response | CertificatesCreateOrUpdatedefaultResponse>;
-  /** Delete a certificate. */
-  delete(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: CertificatesDeleteParameters
-  ): Promise<
-    | CertificatesDelete200Response
-    | CertificatesDelete204Response
-    | CertificatesDeletedefaultResponse
-  >;
-  /** Create or update a certificate. */
-  update(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: CertificatesUpdateParameters
-  ): Promise<CertificatesUpdate200Response | CertificatesUpdatedefaultResponse>;
-}
-
-/** Contains operations for ContainerApps operations */
-export interface ContainerAppsOperations {
-  /** Get the Container Apps in a given subscription. */
-  listBySubscription(
-    subscriptionId: string,
-    options?: ContainerAppsListBySubscriptionParameters
-  ): Promise<
-    ContainerAppsListBySubscription200Response | ContainerAppsListBySubscriptiondefaultResponse
-  >;
-  /** Get the Container Apps in a given resource group. */
-  listByResourceGroup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupParameters
-  ): Promise<
-    ContainerAppsListByResourceGroup200Response | ContainerAppsListByResourceGroupdefaultResponse
-  >;
-  /** Get the properties of a Container App. */
-  get(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: ContainerAppsGetParameters
-  ): Promise<
-    ContainerAppsGet200Response | ContainerAppsGet404Response | ContainerAppsGetdefaultResponse
-  >;
-  /** Create or update a Container App. */
-  createOrUpdate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: ContainerAppsCreateOrUpdateParameters
-  ): Promise<
-    | ContainerAppsCreateOrUpdate200Response
-    | ContainerAppsCreateOrUpdate201Response
-    | ContainerAppsCreateOrUpdatedefaultResponse
-  >;
-  /** Delete a Container App. */
-  delete(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: ContainerAppsDeleteParameters
-  ): Promise<
-    | ContainerAppsDelete200Response
-    | ContainerAppsDelete202Response
-    | ContainerAppsDelete204Response
-    | ContainerAppsDeletedefaultResponse
-  >;
-  /** List secrets for a container app */
-  listSecrets(
-    subscriptionId: string,
-    name: string,
-    options?: ContainerAppsListSecretsParameters
-  ): Promise<ContainerAppsListSecrets200Response | ContainerAppsListSecretsdefaultResponse>;
-}
-
-/** Contains operations for ContainerAppsRevisions operations */
-export interface ContainerAppsRevisionsOperations {
-  /** Get the Revisions for a given Container App. */
-  listRevisions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsRevisionsListRevisionsParameters
-  ): Promise<
-    | ContainerAppsRevisionsListRevisions200Response
-    | ContainerAppsRevisionsListRevisionsdefaultResponse
-  >;
-  /** Get a revision of a Container App. */
-  getRevision(
-    subscriptionId: string,
-    resourceGroupName: string,
-    containerAppName: string,
-    name: string,
-    options?: ContainerAppsRevisionsGetRevisionParameters
-  ): Promise<
-    ContainerAppsRevisionsGetRevision200Response | ContainerAppsRevisionsGetRevisiondefaultResponse
-  >;
-  /** Activates a revision for a Container App */
-  activateRevision(
-    subscriptionId: string,
-    resourceGroupName: string,
-    containerAppName: string,
-    name: string,
-    options?: ContainerAppsRevisionsActivateRevisionParameters
-  ): Promise<
-    | ContainerAppsRevisionsActivateRevision200Response
-    | ContainerAppsRevisionsActivateRevisiondefaultResponse
-  >;
-  /** Deactivates a revision for a Container App */
-  deactivateRevision(
-    subscriptionId: string,
-    resourceGroupName: string,
-    containerAppName: string,
-    name: string,
-    options?: ContainerAppsRevisionsDeactivateRevisionParameters
-  ): Promise<
-    | ContainerAppsRevisionsDeactivateRevision200Response
-    | ContainerAppsRevisionsDeactivateRevisiondefaultResponse
-  >;
-  /** Restarts a revision for a Container App */
-  restartRevision(
-    subscriptionId: string,
-    resourceGroupName: string,
-    containerAppName: string,
-    name: string,
-    options?: ContainerAppsRevisionsRestartRevisionParameters
-  ): Promise<
-    | ContainerAppsRevisionsRestartRevision200Response
-    | ContainerAppsRevisionsRestartRevisiondefaultResponse
-  >;
-}
-
-/** Contains operations for DeletedWebApps operations */
-export interface DeletedWebAppsOperations {
-  /** Get all deleted apps for a subscription. */
-  list(
-    subscriptionId: string,
-    options?: DeletedWebAppsListParameters
-  ): Promise<DeletedWebAppsList200Response | DeletedWebAppsListdefaultResponse>;
-  /** Get all deleted apps for a subscription at location */
-  listByLocation(
-    subscriptionId: string,
-    location: string,
-    options?: DeletedWebAppsListByLocationParameters
-  ): Promise<DeletedWebAppsListByLocation200Response | DeletedWebAppsListByLocationdefaultResponse>;
-  /** Get deleted app for a subscription at location. */
-  getDeletedWebAppByLocation(
-    subscriptionId: string,
-    location: string,
-    deletedSiteId: string,
-    options?: DeletedWebAppsGetDeletedWebAppByLocationParameters
-  ): Promise<
-    | DeletedWebAppsGetDeletedWebAppByLocation200Response
-    | DeletedWebAppsGetDeletedWebAppByLocationdefaultResponse
-  >;
-}
-
-/** Contains operations for Diagnostics operations */
-export interface DiagnosticsOperations {
-  /** List Hosting Environment Detector Responses */
-  listHostingEnvironmentDetectorResponses(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: DiagnosticsListHostingEnvironmentDetectorResponsesParameters
-  ): Promise<
-    | DiagnosticsListHostingEnvironmentDetectorResponses200Response
-    | DiagnosticsListHostingEnvironmentDetectorResponsesdefaultResponse
-  >;
-  /** Get Hosting Environment Detector Response */
-  getHostingEnvironmentDetectorResponse(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    detectorName: string,
-    options?: DiagnosticsGetHostingEnvironmentDetectorResponseParameters
-  ): Promise<
-    | DiagnosticsGetHostingEnvironmentDetectorResponse200Response
-    | DiagnosticsGetHostingEnvironmentDetectorResponsedefaultResponse
-  >;
-  /** List Site Detector Responses */
-  listSiteDetectorResponses(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    options?: DiagnosticsListSiteDetectorResponsesParameters
-  ): Promise<
-    | DiagnosticsListSiteDetectorResponses200Response
-    | DiagnosticsListSiteDetectorResponsesdefaultResponse
-  >;
-  /** Get site detector response */
-  getSiteDetectorResponse(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    detectorName: string,
-    options?: DiagnosticsGetSiteDetectorResponseParameters
-  ): Promise<
-    | DiagnosticsGetSiteDetectorResponse200Response
-    | DiagnosticsGetSiteDetectorResponsedefaultResponse
-  >;
-  /** Get Diagnostics Categories */
-  listSiteDiagnosticCategories(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    options?: DiagnosticsListSiteDiagnosticCategoriesParameters
-  ): Promise<
-    | DiagnosticsListSiteDiagnosticCategories200Response
-    | DiagnosticsListSiteDiagnosticCategoriesdefaultResponse
-  >;
-  /** Get Diagnostics Category */
-  getSiteDiagnosticCategory(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    diagnosticCategory: string,
-    options?: DiagnosticsGetSiteDiagnosticCategoryParameters
-  ): Promise<
-    | DiagnosticsGetSiteDiagnosticCategory200Response
-    | DiagnosticsGetSiteDiagnosticCategorydefaultResponse
-  >;
-  /** Get Site Analyses */
-  listSiteAnalyses(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    diagnosticCategory: string,
-    options?: DiagnosticsListSiteAnalysesParameters
-  ): Promise<DiagnosticsListSiteAnalyses200Response | DiagnosticsListSiteAnalysesdefaultResponse>;
-  /** Get Site Analysis */
-  getSiteAnalysis(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    diagnosticCategory: string,
-    analysisName: string,
-    options?: DiagnosticsGetSiteAnalysisParameters
-  ): Promise<DiagnosticsGetSiteAnalysis200Response | DiagnosticsGetSiteAnalysisdefaultResponse>;
-  /** Execute Analysis */
-  executeSiteAnalysis(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    diagnosticCategory: string,
-    analysisName: string,
-    options?: DiagnosticsExecuteSiteAnalysisParameters
-  ): Promise<
-    DiagnosticsExecuteSiteAnalysis200Response | DiagnosticsExecuteSiteAnalysisdefaultResponse
-  >;
-  /** Get Detectors */
-  listSiteDetectors(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    diagnosticCategory: string,
-    options?: DiagnosticsListSiteDetectorsParameters
-  ): Promise<DiagnosticsListSiteDetectors200Response | DiagnosticsListSiteDetectorsdefaultResponse>;
-  /** Get Detector */
-  getSiteDetector(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    diagnosticCategory: string,
-    detectorName: string,
-    options?: DiagnosticsGetSiteDetectorParameters
-  ): Promise<DiagnosticsGetSiteDetector200Response | DiagnosticsGetSiteDetectordefaultResponse>;
-  /** Execute Detector */
-  executeSiteDetector(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    diagnosticCategory: string,
-    detectorName: string,
-    options?: DiagnosticsExecuteSiteDetectorParameters
-  ): Promise<
-    DiagnosticsExecuteSiteDetector200Response | DiagnosticsExecuteSiteDetectordefaultResponse
-  >;
-  /** List Site Detector Responses */
-  listSiteDetectorResponsesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    slot: string,
-    options?: DiagnosticsListSiteDetectorResponsesSlotParameters
-  ): Promise<
-    | DiagnosticsListSiteDetectorResponsesSlot200Response
-    | DiagnosticsListSiteDetectorResponsesSlotdefaultResponse
-  >;
-  /** Get site detector response */
-  getSiteDetectorResponseSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    slot: string,
-    detectorName: string,
-    options?: DiagnosticsGetSiteDetectorResponseSlotParameters
-  ): Promise<
-    | DiagnosticsGetSiteDetectorResponseSlot200Response
-    | DiagnosticsGetSiteDetectorResponseSlotdefaultResponse
-  >;
-  /** Get Diagnostics Categories */
-  listSiteDiagnosticCategoriesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    slot: string,
-    options?: DiagnosticsListSiteDiagnosticCategoriesSlotParameters
-  ): Promise<
-    | DiagnosticsListSiteDiagnosticCategoriesSlot200Response
-    | DiagnosticsListSiteDiagnosticCategoriesSlotdefaultResponse
-  >;
-  /** Get Diagnostics Category */
-  getSiteDiagnosticCategorySlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    slot: string,
-    diagnosticCategory: string,
-    options?: DiagnosticsGetSiteDiagnosticCategorySlotParameters
-  ): Promise<
-    | DiagnosticsGetSiteDiagnosticCategorySlot200Response
-    | DiagnosticsGetSiteDiagnosticCategorySlotdefaultResponse
-  >;
-  /** Get Site Analyses */
-  listSiteAnalysesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    slot: string,
-    diagnosticCategory: string,
-    options?: DiagnosticsListSiteAnalysesSlotParameters
-  ): Promise<
-    DiagnosticsListSiteAnalysesSlot200Response | DiagnosticsListSiteAnalysesSlotdefaultResponse
-  >;
-  /** Get Site Analysis */
-  getSiteAnalysisSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    slot: string,
-    diagnosticCategory: string,
-    analysisName: string,
-    options?: DiagnosticsGetSiteAnalysisSlotParameters
-  ): Promise<
-    DiagnosticsGetSiteAnalysisSlot200Response | DiagnosticsGetSiteAnalysisSlotdefaultResponse
-  >;
-  /** Execute Analysis */
-  executeSiteAnalysisSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    slot: string,
-    diagnosticCategory: string,
-    analysisName: string,
-    options?: DiagnosticsExecuteSiteAnalysisSlotParameters
-  ): Promise<
-    | DiagnosticsExecuteSiteAnalysisSlot200Response
-    | DiagnosticsExecuteSiteAnalysisSlotdefaultResponse
-  >;
-  /** Get Detectors */
-  listSiteDetectorsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    slot: string,
-    diagnosticCategory: string,
-    options?: DiagnosticsListSiteDetectorsSlotParameters
-  ): Promise<
-    DiagnosticsListSiteDetectorsSlot200Response | DiagnosticsListSiteDetectorsSlotdefaultResponse
-  >;
-  /** Get Detector */
-  getSiteDetectorSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    slot: string,
-    diagnosticCategory: string,
-    detectorName: string,
-    options?: DiagnosticsGetSiteDetectorSlotParameters
-  ): Promise<
-    DiagnosticsGetSiteDetectorSlot200Response | DiagnosticsGetSiteDetectorSlotdefaultResponse
-  >;
-  /** Execute Detector */
-  executeSiteDetectorSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    slot: string,
-    diagnosticCategory: string,
-    detectorName: string,
-    options?: DiagnosticsExecuteSiteDetectorSlotParameters
-  ): Promise<
-    | DiagnosticsExecuteSiteDetectorSlot200Response
-    | DiagnosticsExecuteSiteDetectorSlotdefaultResponse
-  >;
-}
-
-/** Contains operations for Global operations */
-export interface GlobalOperations {
-  /** Get deleted app for a subscription. */
-  getDeletedWebApp(
-    subscriptionId: string,
-    deletedSiteId: string,
-    options?: GlobalGetDeletedWebAppParameters
-  ): Promise<GlobalGetDeletedWebApp200Response | GlobalGetDeletedWebAppdefaultResponse>;
-  /** Get all deleted apps for a subscription. */
-  getDeletedWebAppSnapshots(
-    subscriptionId: string,
-    deletedSiteId: string,
-    options?: GlobalGetDeletedWebAppSnapshotsParameters
-  ): Promise<
-    GlobalGetDeletedWebAppSnapshots200Response | GlobalGetDeletedWebAppSnapshotsdefaultResponse
-  >;
-  /** Gets an operation in a subscription and given region */
-  getSubscriptionOperationWithAsyncResponse(
-    subscriptionId: string,
-    location: string,
-    operationId: string,
-    options?: GlobalGetSubscriptionOperationWithAsyncResponseParameters
-  ): Promise<
-    | GlobalGetSubscriptionOperationWithAsyncResponse204Response
-    | GlobalGetSubscriptionOperationWithAsyncResponsedefaultResponse
-  >;
-}
-
-/** Contains operations for KubeEnvironments operations */
-export interface KubeEnvironmentsOperations {
-  /** Get all Kubernetes Environments for a subscription. */
-  listBySubscription(
-    subscriptionId: string,
-    options?: KubeEnvironmentsListBySubscriptionParameters
-  ): Promise<
-    | KubeEnvironmentsListBySubscription200Response
-    | KubeEnvironmentsListBySubscriptiondefaultResponse
-  >;
-  /** Get all the Kubernetes Environments in a resource group. */
-  listByResourceGroup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options?: KubeEnvironmentsListByResourceGroupParameters
-  ): Promise<
-    | KubeEnvironmentsListByResourceGroup200Response
-    | KubeEnvironmentsListByResourceGroupdefaultResponse
-  >;
-  /** Get the properties of a Kubernetes Environment. */
-  get(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: KubeEnvironmentsGetParameters
-  ): Promise<KubeEnvironmentsGet200Response | KubeEnvironmentsGetdefaultResponse>;
-  /** Creates or updates a Kubernetes Environment. */
-  createOrUpdate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: KubeEnvironmentsCreateOrUpdateParameters
-  ): Promise<
-    | KubeEnvironmentsCreateOrUpdate200Response
-    | KubeEnvironmentsCreateOrUpdate201Response
-    | KubeEnvironmentsCreateOrUpdatedefaultResponse
-  >;
-  /** Delete a Kubernetes Environment. */
-  delete(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: KubeEnvironmentsDeleteParameters
-  ): Promise<
-    | KubeEnvironmentsDelete200Response
-    | KubeEnvironmentsDelete202Response
-    | KubeEnvironmentsDelete204Response
-    | KubeEnvironmentsDeletedefaultResponse
-  >;
-  /** Creates or updates a Kubernetes Environment. */
-  update(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: KubeEnvironmentsUpdateParameters
-  ): Promise<
-    | KubeEnvironmentsUpdate200Response
-    | KubeEnvironmentsUpdate201Response
-    | KubeEnvironmentsUpdatedefaultResponse
-  >;
-}
-
-/** Contains operations for Provider operations */
-export interface ProviderOperations {
-  /** Get available application frameworks and their versions */
-  getAvailableStacks(
-    options?: ProviderGetAvailableStacksParameters
-  ): Promise<ProviderGetAvailableStacks200Response | ProviderGetAvailableStacksdefaultResponse>;
-  /** Get available Function app frameworks and their versions */
-  getFunctionAppStacks(
-    options?: ProviderGetFunctionAppStacksParameters
-  ): Promise<ProviderGetFunctionAppStacks200Response | ProviderGetFunctionAppStacksdefaultResponse>;
-  /** Get available Function app frameworks and their versions for location */
-  getFunctionAppStacksForLocation(
-    location: string,
-    options?: ProviderGetFunctionAppStacksForLocationParameters
-  ): Promise<
-    | ProviderGetFunctionAppStacksForLocation200Response
-    | ProviderGetFunctionAppStacksForLocationdefaultResponse
-  >;
-  /** Get available Web app frameworks and their versions for location */
-  getWebAppStacksForLocation(
-    location: string,
-    options?: ProviderGetWebAppStacksForLocationParameters
-  ): Promise<
-    | ProviderGetWebAppStacksForLocation200Response
-    | ProviderGetWebAppStacksForLocationdefaultResponse
-  >;
-  /** Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions */
-  listOperations(
-    options?: ProviderListOperationsParameters
-  ): Promise<ProviderListOperations200Response | ProviderListOperationsdefaultResponse>;
-  /** Get available Web app frameworks and their versions */
-  getWebAppStacks(
-    options?: ProviderGetWebAppStacksParameters
-  ): Promise<ProviderGetWebAppStacks200Response | ProviderGetWebAppStacksdefaultResponse>;
-  /** Get available application frameworks and their versions */
-  getAvailableStacksOnPrem(
-    subscriptionId: string,
-    options?: ProviderGetAvailableStacksOnPremParameters
-  ): Promise<
-    ProviderGetAvailableStacksOnPrem200Response | ProviderGetAvailableStacksOnPremdefaultResponse
-  >;
-}
-
-/** Contains operations for Recommendations operations */
-export interface RecommendationsOperations {
-  /** List all recommendations for a subscription. */
-  list(
-    subscriptionId: string,
-    options?: RecommendationsListParameters
-  ): Promise<RecommendationsList200Response | RecommendationsListdefaultResponse>;
-  /** Reset all recommendation opt-out settings for a subscription. */
-  resetAllFilters(
-    subscriptionId: string,
-    options?: RecommendationsResetAllFiltersParameters
-  ): Promise<
-    RecommendationsResetAllFilters204Response | RecommendationsResetAllFiltersdefaultResponse
-  >;
-  /** Disables the specified rule so it will not apply to a subscription in the future. */
-  disableRecommendationForSubscription(
-    subscriptionId: string,
-    name: string,
-    options?: RecommendationsDisableRecommendationForSubscriptionParameters
-  ): Promise<
-    | RecommendationsDisableRecommendationForSubscription200Response
-    | RecommendationsDisableRecommendationForSubscriptiondefaultResponse
-  >;
-  /** Get past recommendations for an app, optionally specified by the time range. */
-  listHistoryForHostingEnvironment(
-    subscriptionId: string,
-    resourceGroupName: string,
-    hostingEnvironmentName: string,
-    options?: RecommendationsListHistoryForHostingEnvironmentParameters
-  ): Promise<
-    | RecommendationsListHistoryForHostingEnvironment200Response
-    | RecommendationsListHistoryForHostingEnvironmentdefaultResponse
-  >;
-  /** Get all recommendations for a hosting environment. */
-  listRecommendedRulesForHostingEnvironment(
-    subscriptionId: string,
-    resourceGroupName: string,
-    hostingEnvironmentName: string,
-    options?: RecommendationsListRecommendedRulesForHostingEnvironmentParameters
-  ): Promise<
-    | RecommendationsListRecommendedRulesForHostingEnvironment200Response
-    | RecommendationsListRecommendedRulesForHostingEnvironmentdefaultResponse
-  >;
-  /** Disable all recommendations for an app. */
-  disableAllForHostingEnvironment(
-    subscriptionId: string,
-    resourceGroupName: string,
-    hostingEnvironmentName: string,
-    options: RecommendationsDisableAllForHostingEnvironmentParameters
-  ): Promise<
-    | RecommendationsDisableAllForHostingEnvironment204Response
-    | RecommendationsDisableAllForHostingEnvironmentdefaultResponse
-  >;
-  /** Reset all recommendation opt-out settings for an app. */
-  resetAllFiltersForHostingEnvironment(
-    subscriptionId: string,
-    resourceGroupName: string,
-    hostingEnvironmentName: string,
-    options: RecommendationsResetAllFiltersForHostingEnvironmentParameters
-  ): Promise<
-    | RecommendationsResetAllFiltersForHostingEnvironment204Response
-    | RecommendationsResetAllFiltersForHostingEnvironmentdefaultResponse
-  >;
-  /** Get a recommendation rule for an app. */
-  getRuleDetailsByHostingEnvironment(
-    subscriptionId: string,
-    resourceGroupName: string,
-    hostingEnvironmentName: string,
-    name: string,
-    options?: RecommendationsGetRuleDetailsByHostingEnvironmentParameters
-  ): Promise<
-    | RecommendationsGetRuleDetailsByHostingEnvironment200Response
-    | RecommendationsGetRuleDetailsByHostingEnvironmentdefaultResponse
-  >;
-  /** Disables the specific rule for a web site permanently. */
-  disableRecommendationForHostingEnvironment(
-    subscriptionId: string,
-    resourceGroupName: string,
-    hostingEnvironmentName: string,
-    name: string,
-    options: RecommendationsDisableRecommendationForHostingEnvironmentParameters
-  ): Promise<
-    | RecommendationsDisableRecommendationForHostingEnvironment200Response
-    | RecommendationsDisableRecommendationForHostingEnvironmentdefaultResponse
-  >;
-  /** Get past recommendations for an app, optionally specified by the time range. */
-  listHistoryForWebApp(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    options?: RecommendationsListHistoryForWebAppParameters
-  ): Promise<
-    | RecommendationsListHistoryForWebApp200Response
-    | RecommendationsListHistoryForWebAppdefaultResponse
-  >;
-  /** Get all recommendations for an app. */
-  listRecommendedRulesForWebApp(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    options?: RecommendationsListRecommendedRulesForWebAppParameters
-  ): Promise<
-    | RecommendationsListRecommendedRulesForWebApp200Response
-    | RecommendationsListRecommendedRulesForWebAppdefaultResponse
-  >;
-  /** Disable all recommendations for an app. */
-  disableAllForWebApp(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    options?: RecommendationsDisableAllForWebAppParameters
-  ): Promise<
-    | RecommendationsDisableAllForWebApp204Response
-    | RecommendationsDisableAllForWebAppdefaultResponse
-  >;
-  /** Reset all recommendation opt-out settings for an app. */
-  resetAllFiltersForWebApp(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    options?: RecommendationsResetAllFiltersForWebAppParameters
-  ): Promise<
-    | RecommendationsResetAllFiltersForWebApp204Response
-    | RecommendationsResetAllFiltersForWebAppdefaultResponse
-  >;
-  /** Get a recommendation rule for an app. */
-  getRuleDetailsByWebApp(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    name: string,
-    options?: RecommendationsGetRuleDetailsByWebAppParameters
-  ): Promise<
-    | RecommendationsGetRuleDetailsByWebApp200Response
-    | RecommendationsGetRuleDetailsByWebAppdefaultResponse
-  >;
-  /** Disables the specific rule for a web site permanently. */
-  disableRecommendationForSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    siteName: string,
-    name: string,
-    options?: RecommendationsDisableRecommendationForSiteParameters
-  ): Promise<
-    | RecommendationsDisableRecommendationForSite200Response
-    | RecommendationsDisableRecommendationForSitedefaultResponse
-  >;
-}
-
-/** Contains operations for ResourceHealthMetadata operations */
-export interface ResourceHealthMetadataOperations {
-  /** List all ResourceHealthMetadata for all sites in the subscription. */
-  list(
-    subscriptionId: string,
-    options?: ResourceHealthMetadataListParameters
-  ): Promise<ResourceHealthMetadataList200Response | ResourceHealthMetadataListdefaultResponse>;
-  /** List all ResourceHealthMetadata for all sites in the resource group in the subscription. */
-  listByResourceGroup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options?: ResourceHealthMetadataListByResourceGroupParameters
-  ): Promise<
-    | ResourceHealthMetadataListByResourceGroup200Response
-    | ResourceHealthMetadataListByResourceGroupdefaultResponse
-  >;
-  /** Gets the category of ResourceHealthMetadata to use for the given site as a collection */
-  listBySite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: ResourceHealthMetadataListBySiteParameters
-  ): Promise<
-    ResourceHealthMetadataListBySite200Response | ResourceHealthMetadataListBySitedefaultResponse
-  >;
-  /** Gets the category of ResourceHealthMetadata to use for the given site */
-  getBySite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: ResourceHealthMetadataGetBySiteParameters
-  ): Promise<
-    ResourceHealthMetadataGetBySite200Response | ResourceHealthMetadataGetBySitedefaultResponse
-  >;
-  /** Gets the category of ResourceHealthMetadata to use for the given site as a collection */
-  listBySiteSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: ResourceHealthMetadataListBySiteSlotParameters
-  ): Promise<
-    | ResourceHealthMetadataListBySiteSlot200Response
-    | ResourceHealthMetadataListBySiteSlotdefaultResponse
-  >;
-  /** Gets the category of ResourceHealthMetadata to use for the given site */
-  getBySiteSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: ResourceHealthMetadataGetBySiteSlotParameters
-  ): Promise<
-    | ResourceHealthMetadataGetBySiteSlot200Response
-    | ResourceHealthMetadataGetBySiteSlotdefaultResponse
-  >;
-}
-
-/** Contains operations for Client operations */
-export interface ClientOperations {
-  /** Gets publishing user */
-  getPublishingUser(
-    options?: GetPublishingUserParameters
-  ): Promise<GetPublishingUser200Response | GetPublishingUserdefaultResponse>;
-  /** Updates publishing user */
-  updatePublishingUser(
-    options: UpdatePublishingUserParameters
-  ): Promise<UpdatePublishingUser200Response | UpdatePublishingUserdefaultResponse>;
-  /** Gets the source controls available for Azure websites. */
-  listSourceControls(
-    options?: ListSourceControlsParameters
-  ): Promise<ListSourceControls200Response | ListSourceControlsdefaultResponse>;
-  /** Gets source control token */
-  getSourceControl(
-    sourceControlType: string,
-    options?: GetSourceControlParameters
-  ): Promise<GetSourceControl200Response | GetSourceControldefaultResponse>;
-  /** Updates source control token */
-  updateSourceControl(
-    sourceControlType: string,
-    options: UpdateSourceControlParameters
-  ): Promise<UpdateSourceControl200Response | UpdateSourceControldefaultResponse>;
-  /** Gets a list of meters for a given location. */
-  listBillingMeters(
-    subscriptionId: string,
-    options?: ListBillingMetersParameters
-  ): Promise<ListBillingMeters200Response | ListBillingMetersdefaultResponse>;
-  /** Check if a resource name is available. */
-  checkNameAvailability(
-    subscriptionId: string,
-    options: CheckNameAvailabilityParameters
-  ): Promise<CheckNameAvailability200Response | CheckNameAvailabilitydefaultResponse>;
-  /** Get custom hostnames under this subscription */
-  listCustomHostNameSites(
-    subscriptionId: string,
-    options?: ListCustomHostNameSitesParameters
-  ): Promise<ListCustomHostNameSites200Response | ListCustomHostNameSitesdefaultResponse>;
-  /** Gets list of available geo regions plus ministamps */
-  getSubscriptionDeploymentLocations(
-    subscriptionId: string,
-    options?: GetSubscriptionDeploymentLocationsParameters
-  ): Promise<
-    | GetSubscriptionDeploymentLocations200Response
-    | GetSubscriptionDeploymentLocationsdefaultResponse
-  >;
-  /** Get a list of available geographical regions. */
-  listGeoRegions(
-    subscriptionId: string,
-    options?: ListGeoRegionsParameters
-  ): Promise<ListGeoRegions200Response | ListGeoRegionsdefaultResponse>;
-  /** List all apps that are assigned to a hostname. */
-  listSiteIdentifiersAssignedToHostName(
-    subscriptionId: string,
-    options: ListSiteIdentifiersAssignedToHostNameParameters
-  ): Promise<
-    | ListSiteIdentifiersAssignedToHostName200Response
-    | ListSiteIdentifiersAssignedToHostNamedefaultResponse
-  >;
-  /** List all premier add-on offers. */
-  listPremierAddOnOffers(
-    subscriptionId: string,
-    options?: ListPremierAddOnOffersParameters
-  ): Promise<ListPremierAddOnOffers200Response | ListPremierAddOnOffersdefaultResponse>;
-  /** List all SKUs. */
-  listSkus(
-    subscriptionId: string,
-    options?: ListSkusParameters
-  ): Promise<ListSkus200Response | ListSkusdefaultResponse>;
-  /** Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules. */
-  verifyHostingEnvironmentVnet(
-    subscriptionId: string,
-    options: VerifyHostingEnvironmentVnetParameters
-  ): Promise<VerifyHostingEnvironmentVnet200Response | VerifyHostingEnvironmentVnetdefaultResponse>;
-  /** Move resources between resource groups. */
-  move(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options: MoveParameters
-  ): Promise<Move204Response | MovedefaultResponse>;
-  /** Validate if a resource can be created. */
-  validate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options: ValidateParameters
-  ): Promise<Validate200Response | ValidatedefaultResponse>;
-  /** Validate whether a resource can be moved. */
-  validateMove(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options: ValidateMoveParameters
-  ): Promise<ValidateMove204Response | ValidateMovedefaultResponse>;
-}
-
-/** Contains operations for StaticSites operations */
-export interface StaticSitesOperations {
-  /** Generates a preview workflow file for the static site */
-  previewWorkflow(
-    subscriptionId: string,
-    location: string,
-    options: StaticSitesPreviewWorkflowParameters
-  ): Promise<StaticSitesPreviewWorkflow200Response | StaticSitesPreviewWorkflowdefaultResponse>;
-  /** Get all Static Sites for a subscription. */
-  list(
-    subscriptionId: string,
-    options?: StaticSitesListParameters
-  ): Promise<StaticSitesList200Response | StaticSitesListdefaultResponse>;
-  /** Gets all static sites in the specified resource group. */
-  getStaticSitesByResourceGroup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options?: StaticSitesGetStaticSitesByResourceGroupParameters
-  ): Promise<
-    | StaticSitesGetStaticSitesByResourceGroup200Response
-    | StaticSitesGetStaticSitesByResourceGroupdefaultResponse
-  >;
-  /** Gets the details of a static site. */
-  getStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesGetStaticSiteParameters
-  ): Promise<StaticSitesGetStaticSite200Response | StaticSitesGetStaticSitedefaultResponse>;
-  /** Creates a new static site in an existing resource group, or updates an existing static site. */
-  createOrUpdateStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: StaticSitesCreateOrUpdateStaticSiteParameters
-  ): Promise<
-    | StaticSitesCreateOrUpdateStaticSite200Response
-    | StaticSitesCreateOrUpdateStaticSite202Response
-    | StaticSitesCreateOrUpdateStaticSitedefaultResponse
-  >;
-  /** Deletes a static site. */
-  deleteStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesDeleteStaticSiteParameters
-  ): Promise<
-    | StaticSitesDeleteStaticSite200Response
-    | StaticSitesDeleteStaticSite202Response
-    | StaticSitesDeleteStaticSitedefaultResponse
-  >;
-  /** Creates a new static site in an existing resource group, or updates an existing static site. */
-  updateStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: StaticSitesUpdateStaticSiteParameters
-  ): Promise<
-    | StaticSitesUpdateStaticSite200Response
-    | StaticSitesUpdateStaticSite202Response
-    | StaticSitesUpdateStaticSitedefaultResponse
-  >;
-  /** Gets the list of users of a static site. */
-  listStaticSiteUsers(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    options?: StaticSitesListStaticSiteUsersParameters
-  ): Promise<
-    StaticSitesListStaticSiteUsers200Response | StaticSitesListStaticSiteUsersdefaultResponse
-  >;
-  /** Deletes the user entry from the static site. */
-  deleteStaticSiteUser(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    userid: string,
-    options?: StaticSitesDeleteStaticSiteUserParameters
-  ): Promise<
-    StaticSitesDeleteStaticSiteUser200Response | StaticSitesDeleteStaticSiteUserdefaultResponse
-  >;
-  /** Updates a user entry with the listed roles */
-  updateStaticSiteUser(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    userid: string,
-    options: StaticSitesUpdateStaticSiteUserParameters
-  ): Promise<
-    StaticSitesUpdateStaticSiteUser200Response | StaticSitesUpdateStaticSiteUserdefaultResponse
-  >;
-  /** Gets all static site builds for a particular static site. */
-  getStaticSiteBuilds(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesGetStaticSiteBuildsParameters
-  ): Promise<
-    StaticSitesGetStaticSiteBuilds200Response | StaticSitesGetStaticSiteBuildsdefaultResponse
-  >;
-  /** Gets the details of a static site build. */
-  getStaticSiteBuild(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: StaticSitesGetStaticSiteBuildParameters
-  ): Promise<
-    StaticSitesGetStaticSiteBuild200Response | StaticSitesGetStaticSiteBuilddefaultResponse
-  >;
-  /** Deletes a static site build. */
-  deleteStaticSiteBuild(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: StaticSitesDeleteStaticSiteBuildParameters
-  ): Promise<
-    | StaticSitesDeleteStaticSiteBuild200Response
-    | StaticSitesDeleteStaticSiteBuild202Response
-    | StaticSitesDeleteStaticSiteBuild204Response
-    | StaticSitesDeleteStaticSiteBuilddefaultResponse
-  >;
-  /** Creates or updates the app settings of a static site build. */
-  createOrUpdateStaticSiteBuildAppSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options: StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsParameters
-  ): Promise<
-    | StaticSitesCreateOrUpdateStaticSiteBuildAppSettings200Response
-    | StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsdefaultResponse
-  >;
-  /** Creates or updates the function app settings of a static site build. */
-  createOrUpdateStaticSiteBuildFunctionAppSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options: StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsParameters
-  ): Promise<
-    | StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings200Response
-    | StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsdefaultResponse
-  >;
-  /** Gets the functions of a particular static site build. */
-  listStaticSiteBuildFunctions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: StaticSitesListStaticSiteBuildFunctionsParameters
-  ): Promise<
-    | StaticSitesListStaticSiteBuildFunctions200Response
-    | StaticSitesListStaticSiteBuildFunctionsdefaultResponse
-  >;
-  /** Gets the application settings of a static site build. */
-  listStaticSiteBuildAppSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: StaticSitesListStaticSiteBuildAppSettingsParameters
-  ): Promise<
-    | StaticSitesListStaticSiteBuildAppSettings200Response
-    | StaticSitesListStaticSiteBuildAppSettingsdefaultResponse
-  >;
-  /** Gets the application settings of a static site build. */
-  listStaticSiteBuildFunctionAppSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: StaticSitesListStaticSiteBuildFunctionAppSettingsParameters
-  ): Promise<
-    | StaticSitesListStaticSiteBuildFunctionAppSettings200Response
-    | StaticSitesListStaticSiteBuildFunctionAppSettingsdefaultResponse
-  >;
-  /** Gets the details of the user provided function apps registered with a static site build */
-  getUserProvidedFunctionAppsForStaticSiteBuild(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildParameters
-  ): Promise<
-    | StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuild200Response
-    | StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuilddefaultResponse
-  >;
-  /** Gets the details of the user provided function app registered with a static site build */
-  getUserProvidedFunctionAppForStaticSiteBuild(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildParameters
-  ): Promise<
-    | StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild200Response
-    | StaticSitesGetUserProvidedFunctionAppForStaticSiteBuilddefaultResponse
-  >;
-  /** Register a user provided function app with a static site build */
-  registerUserProvidedFunctionAppWithStaticSiteBuild(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    options: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildParameters
-  ): Promise<
-    | StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild200Response
-    | StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild202Response
-    | StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuilddefaultResponse
-  >;
-  /** Detach the user provided function app from the static site build */
-  detachUserProvidedFunctionAppFromStaticSiteBuild(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildParameters
-  ): Promise<
-    | StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild200Response
-    | StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild204Response
-    | StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuilddefaultResponse
-  >;
-  /** Deploys zipped content to a specific environment of a static site. */
-  createZipDeploymentForStaticSiteBuild(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options: StaticSitesCreateZipDeploymentForStaticSiteBuildParameters
-  ): Promise<
-    | StaticSitesCreateZipDeploymentForStaticSiteBuild200Response
-    | StaticSitesCreateZipDeploymentForStaticSiteBuild202Response
-    | StaticSitesCreateZipDeploymentForStaticSiteBuilddefaultResponse
-  >;
-  /** Creates or updates the app settings of a static site. */
-  createOrUpdateStaticSiteAppSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: StaticSitesCreateOrUpdateStaticSiteAppSettingsParameters
-  ): Promise<
-    | StaticSitesCreateOrUpdateStaticSiteAppSettings200Response
-    | StaticSitesCreateOrUpdateStaticSiteAppSettingsdefaultResponse
-  >;
-  /** Creates or updates the function app settings of a static site. */
-  createOrUpdateStaticSiteFunctionAppSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsParameters
-  ): Promise<
-    | StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings200Response
-    | StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsdefaultResponse
-  >;
-  /** Creates an invitation link for a user with the role */
-  createUserRolesInvitationLink(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: StaticSitesCreateUserRolesInvitationLinkParameters
-  ): Promise<
-    | StaticSitesCreateUserRolesInvitationLink200Response
-    | StaticSitesCreateUserRolesInvitationLinkdefaultResponse
-  >;
-  /** Gets all static site custom domains for a particular static site. */
-  listStaticSiteCustomDomains(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesListStaticSiteCustomDomainsParameters
-  ): Promise<
-    | StaticSitesListStaticSiteCustomDomains200Response
-    | StaticSitesListStaticSiteCustomDomainsdefaultResponse
-  >;
-  /** Gets an existing custom domain for a particular static site. */
-  getStaticSiteCustomDomain(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    options?: StaticSitesGetStaticSiteCustomDomainParameters
-  ): Promise<
-    | StaticSitesGetStaticSiteCustomDomain200Response
-    | StaticSitesGetStaticSiteCustomDomaindefaultResponse
-  >;
-  /** Creates a new static site custom domain in an existing resource group and static site. */
-  createOrUpdateStaticSiteCustomDomain(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    options: StaticSitesCreateOrUpdateStaticSiteCustomDomainParameters
-  ): Promise<
-    | StaticSitesCreateOrUpdateStaticSiteCustomDomain200Response
-    | StaticSitesCreateOrUpdateStaticSiteCustomDomain202Response
-    | StaticSitesCreateOrUpdateStaticSiteCustomDomaindefaultResponse
-  >;
-  /** Deletes a custom domain. */
-  deleteStaticSiteCustomDomain(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    options?: StaticSitesDeleteStaticSiteCustomDomainParameters
-  ): Promise<
-    | StaticSitesDeleteStaticSiteCustomDomain200Response
-    | StaticSitesDeleteStaticSiteCustomDomain202Response
-    | StaticSitesDeleteStaticSiteCustomDomaindefaultResponse
-  >;
-  /** Validates a particular custom domain can be added to a static site. */
-  validateCustomDomainCanBeAddedToStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    options: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteParameters
-  ): Promise<
-    | StaticSitesValidateCustomDomainCanBeAddedToStaticSite200Response
-    | StaticSitesValidateCustomDomainCanBeAddedToStaticSite202Response
-    | StaticSitesValidateCustomDomainCanBeAddedToStaticSitedefaultResponse
-  >;
-  /** Detaches a static site. */
-  detachStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesDetachStaticSiteParameters
-  ): Promise<
-    | StaticSitesDetachStaticSite200Response
-    | StaticSitesDetachStaticSite202Response
-    | StaticSitesDetachStaticSitedefaultResponse
-  >;
-  /** Gets the functions of a static site. */
-  listStaticSiteFunctions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesListStaticSiteFunctionsParameters
-  ): Promise<
-    | StaticSitesListStaticSiteFunctions200Response
-    | StaticSitesListStaticSiteFunctionsdefaultResponse
-  >;
-  /** Gets the application settings of a static site. */
-  listStaticSiteAppSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesListStaticSiteAppSettingsParameters
-  ): Promise<
-    | StaticSitesListStaticSiteAppSettings200Response
-    | StaticSitesListStaticSiteAppSettingsdefaultResponse
-  >;
-  /** Lists the roles configured for the static site. */
-  listStaticSiteConfiguredRoles(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesListStaticSiteConfiguredRolesParameters
-  ): Promise<
-    | StaticSitesListStaticSiteConfiguredRoles200Response
-    | StaticSitesListStaticSiteConfiguredRolesdefaultResponse
-  >;
-  /** Gets the application settings of a static site. */
-  listStaticSiteFunctionAppSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesListStaticSiteFunctionAppSettingsParameters
-  ): Promise<
-    | StaticSitesListStaticSiteFunctionAppSettings200Response
-    | StaticSitesListStaticSiteFunctionAppSettingsdefaultResponse
-  >;
-  /** Lists the secrets for an existing static site. */
-  listStaticSiteSecrets(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesListStaticSiteSecretsParameters
-  ): Promise<
-    StaticSitesListStaticSiteSecrets200Response | StaticSitesListStaticSiteSecretsdefaultResponse
-  >;
-  /** Gets the list of private endpoint connections associated with a static site */
-  getPrivateEndpointConnectionList(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesGetPrivateEndpointConnectionListParameters
-  ): Promise<
-    | StaticSitesGetPrivateEndpointConnectionList200Response
-    | StaticSitesGetPrivateEndpointConnectionListdefaultResponse
-  >;
-  /** Gets a private endpoint connection */
-  getPrivateEndpointConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options?: StaticSitesGetPrivateEndpointConnectionParameters
-  ): Promise<
-    | StaticSitesGetPrivateEndpointConnection200Response
-    | StaticSitesGetPrivateEndpointConnectiondefaultResponse
-  >;
-  /** Approves or rejects a private endpoint connection */
-  approveOrRejectPrivateEndpointConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options: StaticSitesApproveOrRejectPrivateEndpointConnectionParameters
-  ): Promise<
-    | StaticSitesApproveOrRejectPrivateEndpointConnection200Response
-    | StaticSitesApproveOrRejectPrivateEndpointConnection202Response
-    | StaticSitesApproveOrRejectPrivateEndpointConnectiondefaultResponse
-  >;
-  /** Deletes a private endpoint connection */
-  deletePrivateEndpointConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options?: StaticSitesDeletePrivateEndpointConnectionParameters
-  ): Promise<
-    | StaticSitesDeletePrivateEndpointConnection200Response
-    | StaticSitesDeletePrivateEndpointConnection202Response
-    | StaticSitesDeletePrivateEndpointConnection204Response
-    | StaticSitesDeletePrivateEndpointConnectiondefaultResponse
-  >;
-  /** Gets the private link resources */
-  getPrivateLinkResources(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesGetPrivateLinkResourcesParameters
-  ): Promise<
-    | StaticSitesGetPrivateLinkResources200Response
-    | StaticSitesGetPrivateLinkResourcesdefaultResponse
-  >;
-  /** Resets the api key for an existing static site. */
-  resetStaticSiteApiKey(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: StaticSitesResetStaticSiteApiKeyParameters
-  ): Promise<
-    StaticSitesResetStaticSiteApiKey200Response | StaticSitesResetStaticSiteApiKeydefaultResponse
-  >;
-  /** Gets the details of the user provided function apps registered with a static site */
-  getUserProvidedFunctionAppsForStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteParameters
-  ): Promise<
-    | StaticSitesGetUserProvidedFunctionAppsForStaticSite200Response
-    | StaticSitesGetUserProvidedFunctionAppsForStaticSitedefaultResponse
-  >;
-  /** Gets the details of the user provided function app registered with a static site */
-  getUserProvidedFunctionAppForStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteParameters
-  ): Promise<
-    | StaticSitesGetUserProvidedFunctionAppForStaticSite200Response
-    | StaticSitesGetUserProvidedFunctionAppForStaticSitedefaultResponse
-  >;
-  /** Register a user provided function app with a static site */
-  registerUserProvidedFunctionAppWithStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    options: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteParameters
-  ): Promise<
-    | StaticSitesRegisterUserProvidedFunctionAppWithStaticSite200Response
-    | StaticSitesRegisterUserProvidedFunctionAppWithStaticSite202Response
-    | StaticSitesRegisterUserProvidedFunctionAppWithStaticSitedefaultResponse
-  >;
-  /** Detach the user provided function app from the static site */
-  detachUserProvidedFunctionAppFromStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteParameters
-  ): Promise<
-    | StaticSitesDetachUserProvidedFunctionAppFromStaticSite200Response
-    | StaticSitesDetachUserProvidedFunctionAppFromStaticSite204Response
-    | StaticSitesDetachUserProvidedFunctionAppFromStaticSitedefaultResponse
-  >;
-  /** Deploys zipped content to a static site. */
-  createZipDeploymentForStaticSite(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: StaticSitesCreateZipDeploymentForStaticSiteParameters
-  ): Promise<
-    | StaticSitesCreateZipDeploymentForStaticSite200Response
-    | StaticSitesCreateZipDeploymentForStaticSite202Response
-    | StaticSitesCreateZipDeploymentForStaticSitedefaultResponse
-  >;
-}
-
-/** Contains operations for WebApps operations */
-export interface WebAppsOperations {
-  /** Get all apps for a subscription. */
-  list(
-    subscriptionId: string,
-    options?: WebAppsListParameters
-  ): Promise<WebAppsList200Response | WebAppsListdefaultResponse>;
-  /** Gets all web, mobile, and API apps in the specified resource group. */
-  listByResourceGroup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    options?: WebAppsListByResourceGroupParameters
-  ): Promise<WebAppsListByResourceGroup200Response | WebAppsListByResourceGroupdefaultResponse>;
-  /** Gets the details of a web, mobile, or API app. */
-  get(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetParameters
-  ): Promise<WebAppsGet200Response | WebAppsGet404Response | WebAppsGetdefaultResponse>;
-  /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
-  createOrUpdate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsCreateOrUpdateParameters
-  ): Promise<
-    | WebAppsCreateOrUpdate200Response
-    | WebAppsCreateOrUpdate202Response
-    | WebAppsCreateOrUpdatedefaultResponse
-  >;
-  /** Deletes a web, mobile, or API app, or one of the deployment slots. */
-  delete(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsDeleteParameters
-  ): Promise<
-    | WebAppsDelete200Response
-    | WebAppsDelete204Response
-    | WebAppsDelete404Response
-    | WebAppsDeletedefaultResponse
-  >;
-  /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
-  update(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateParameters
-  ): Promise<WebAppsUpdate200Response | WebAppsUpdate202Response | WebAppsUpdatedefaultResponse>;
-  /** Analyze a custom hostname. */
-  analyzeCustomHostname(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsAnalyzeCustomHostnameParameters
-  ): Promise<WebAppsAnalyzeCustomHostname200Response | WebAppsAnalyzeCustomHostnamedefaultResponse>;
-  /** Applies the configuration settings from the target slot onto the current slot. */
-  applySlotConfigToProduction(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsApplySlotConfigToProductionParameters
-  ): Promise<
-    | WebAppsApplySlotConfigToProduction200Response
-    | WebAppsApplySlotConfigToProductiondefaultResponse
-  >;
-  /** Creates a backup of an app. */
-  backup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsBackupParameters
-  ): Promise<WebAppsBackup200Response | WebAppsBackupdefaultResponse>;
-  /** Gets existing backups of an app. */
-  listBackups(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListBackupsParameters
-  ): Promise<WebAppsListBackups200Response | WebAppsListBackupsdefaultResponse>;
-  /** Gets a backup of an app by its ID. */
-  getBackupStatus(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    backupId: string,
-    options?: WebAppsGetBackupStatusParameters
-  ): Promise<WebAppsGetBackupStatus200Response | WebAppsGetBackupStatusdefaultResponse>;
-  /** Deletes a backup of an app by its ID. */
-  deleteBackup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    backupId: string,
-    options?: WebAppsDeleteBackupParameters
-  ): Promise<
-    | WebAppsDeleteBackup200Response
-    | WebAppsDeleteBackup404Response
-    | WebAppsDeleteBackupdefaultResponse
-  >;
-  /** Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body. */
-  listBackupStatusSecrets(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    backupId: string,
-    options: WebAppsListBackupStatusSecretsParameters
-  ): Promise<
-    WebAppsListBackupStatusSecrets200Response | WebAppsListBackupStatusSecretsdefaultResponse
-  >;
-  /** Restores a specific backup to another app (or deployment slot, if specified). */
-  restore(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    backupId: string,
-    options: WebAppsRestoreParameters
-  ): Promise<WebAppsRestore200Response | WebAppsRestore202Response | WebAppsRestoredefaultResponse>;
-  /** Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site. */
-  listBasicPublishingCredentialsPolicies(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListBasicPublishingCredentialsPoliciesParameters
-  ): Promise<
-    | WebAppsListBasicPublishingCredentialsPolicies200Response
-    | WebAppsListBasicPublishingCredentialsPoliciesdefaultResponse
-  >;
-  /** Returns whether FTP is allowed on the site or not. */
-  getFtpAllowed(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetFtpAllowedParameters
-  ): Promise<WebAppsGetFtpAllowed200Response | WebAppsGetFtpAlloweddefaultResponse>;
-  /** Updates whether FTP is allowed on the site or not. */
-  updateFtpAllowed(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateFtpAllowedParameters
-  ): Promise<WebAppsUpdateFtpAllowed200Response | WebAppsUpdateFtpAlloweddefaultResponse>;
-  /** Returns whether Scm basic auth is allowed on the site or not. */
-  getScmAllowed(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetScmAllowedParameters
-  ): Promise<WebAppsGetScmAllowed200Response | WebAppsGetScmAlloweddefaultResponse>;
-  /** Updates whether user publishing credentials are allowed on the site or not. */
-  updateScmAllowed(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateScmAllowedParameters
-  ): Promise<WebAppsUpdateScmAllowed200Response | WebAppsUpdateScmAlloweddefaultResponse>;
-  /** List the configurations of an app */
-  listConfigurations(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListConfigurationsParameters
-  ): Promise<WebAppsListConfigurations200Response | WebAppsListConfigurationsdefaultResponse>;
-  /** Replaces the application settings of an app. */
-  updateApplicationSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateApplicationSettingsParameters
-  ): Promise<
-    WebAppsUpdateApplicationSettings200Response | WebAppsUpdateApplicationSettingsdefaultResponse
-  >;
-  /** Gets the application settings of an app. */
-  listApplicationSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListApplicationSettingsParameters
-  ): Promise<
-    WebAppsListApplicationSettings200Response | WebAppsListApplicationSettingsdefaultResponse
-  >;
-  /** Updates the Authentication / Authorization settings associated with web app. */
-  updateAuthSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateAuthSettingsParameters
-  ): Promise<WebAppsUpdateAuthSettings200Response | WebAppsUpdateAuthSettingsdefaultResponse>;
-  /** Gets the Authentication/Authorization settings of an app. */
-  getAuthSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetAuthSettingsParameters
-  ): Promise<WebAppsGetAuthSettings200Response | WebAppsGetAuthSettingsdefaultResponse>;
-  /** Gets site's Authentication / Authorization settings for apps via the V2 format */
-  getAuthSettingsV2WithoutSecrets(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetAuthSettingsV2WithoutSecretsParameters
-  ): Promise<
-    | WebAppsGetAuthSettingsV2WithoutSecrets200Response
-    | WebAppsGetAuthSettingsV2WithoutSecretsdefaultResponse
-  >;
-  /** Updates site's Authentication / Authorization settings for apps via the V2 format */
-  updateAuthSettingsV2(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateAuthSettingsV2Parameters
-  ): Promise<WebAppsUpdateAuthSettingsV2200Response | WebAppsUpdateAuthSettingsV2defaultResponse>;
-  /** Gets site's Authentication / Authorization settings for apps via the V2 format */
-  getAuthSettingsV2(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetAuthSettingsV2Parameters
-  ): Promise<WebAppsGetAuthSettingsV2200Response | WebAppsGetAuthSettingsV2defaultResponse>;
-  /** Updates the Azure storage account configurations of an app. */
-  updateAzureStorageAccounts(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateAzureStorageAccountsParameters
-  ): Promise<
-    WebAppsUpdateAzureStorageAccounts200Response | WebAppsUpdateAzureStorageAccountsdefaultResponse
-  >;
-  /** Gets the Azure storage account configurations of an app. */
-  listAzureStorageAccounts(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListAzureStorageAccountsParameters
-  ): Promise<
-    WebAppsListAzureStorageAccounts200Response | WebAppsListAzureStorageAccountsdefaultResponse
-  >;
-  /** Updates the backup configuration of an app. */
-  updateBackupConfiguration(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateBackupConfigurationParameters
-  ): Promise<
-    WebAppsUpdateBackupConfiguration200Response | WebAppsUpdateBackupConfigurationdefaultResponse
-  >;
-  /** Deletes the backup configuration of an app. */
-  deleteBackupConfiguration(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsDeleteBackupConfigurationParameters
-  ): Promise<
-    WebAppsDeleteBackupConfiguration200Response | WebAppsDeleteBackupConfigurationdefaultResponse
-  >;
-  /** Gets the backup configuration of an app. */
-  getBackupConfiguration(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetBackupConfigurationParameters
-  ): Promise<
-    WebAppsGetBackupConfiguration200Response | WebAppsGetBackupConfigurationdefaultResponse
-  >;
-  /** Gets the config reference app settings and status of an app */
-  getAppSettingsKeyVaultReferences(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetAppSettingsKeyVaultReferencesParameters
-  ): Promise<
-    | WebAppsGetAppSettingsKeyVaultReferences200Response
-    | WebAppsGetAppSettingsKeyVaultReferencesdefaultResponse
-  >;
-  /** Gets the config reference and status of an app */
-  getAppSettingKeyVaultReference(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    appSettingKey: string,
-    options?: WebAppsGetAppSettingKeyVaultReferenceParameters
-  ): Promise<
-    | WebAppsGetAppSettingKeyVaultReference200Response
-    | WebAppsGetAppSettingKeyVaultReferencedefaultResponse
-  >;
-  /** Gets the config reference app settings and status of an app */
-  getSiteConnectionStringKeyVaultReferences(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesParameters
-  ): Promise<
-    | WebAppsGetSiteConnectionStringKeyVaultReferences200Response
-    | WebAppsGetSiteConnectionStringKeyVaultReferencesdefaultResponse
-  >;
-  /** Gets the config reference and status of an app */
-  getSiteConnectionStringKeyVaultReference(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    connectionStringKey: string,
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferenceParameters
-  ): Promise<
-    | WebAppsGetSiteConnectionStringKeyVaultReference200Response
-    | WebAppsGetSiteConnectionStringKeyVaultReferencedefaultResponse
-  >;
-  /** Replaces the connection strings of an app. */
-  updateConnectionStrings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateConnectionStringsParameters
-  ): Promise<
-    WebAppsUpdateConnectionStrings200Response | WebAppsUpdateConnectionStringsdefaultResponse
-  >;
-  /** Gets the connection strings of an app. */
-  listConnectionStrings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListConnectionStringsParameters
-  ): Promise<WebAppsListConnectionStrings200Response | WebAppsListConnectionStringsdefaultResponse>;
-  /** Gets the logging configuration of an app. */
-  getDiagnosticLogsConfiguration(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetDiagnosticLogsConfigurationParameters
-  ): Promise<
-    | WebAppsGetDiagnosticLogsConfiguration200Response
-    | WebAppsGetDiagnosticLogsConfigurationdefaultResponse
-  >;
-  /** Updates the logging configuration of an app. */
-  updateDiagnosticLogsConfig(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateDiagnosticLogsConfigParameters
-  ): Promise<
-    WebAppsUpdateDiagnosticLogsConfig200Response | WebAppsUpdateDiagnosticLogsConfigdefaultResponse
-  >;
-  /** Replaces the metadata of an app. */
-  updateMetadata(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateMetadataParameters
-  ): Promise<WebAppsUpdateMetadata200Response | WebAppsUpdateMetadatadefaultResponse>;
-  /** Gets the metadata of an app. */
-  listMetadata(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListMetadataParameters
-  ): Promise<WebAppsListMetadata200Response | WebAppsListMetadatadefaultResponse>;
-  /** Gets the Git/FTP publishing credentials of an app. */
-  listPublishingCredentials(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListPublishingCredentialsParameters
-  ): Promise<
-    WebAppsListPublishingCredentials200Response | WebAppsListPublishingCredentialsdefaultResponse
-  >;
-  /** Updates the Push settings associated with web app. */
-  updateSitePushSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateSitePushSettingsParameters
-  ): Promise<
-    WebAppsUpdateSitePushSettings200Response | WebAppsUpdateSitePushSettingsdefaultResponse
-  >;
-  /** Gets the Push settings associated with web app. */
-  listSitePushSettings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListSitePushSettingsParameters
-  ): Promise<WebAppsListSitePushSettings200Response | WebAppsListSitePushSettingsdefaultResponse>;
-  /** Gets the names of app settings and connection strings that stick to the slot (not swapped). */
-  listSlotConfigurationNames(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListSlotConfigurationNamesParameters
-  ): Promise<
-    WebAppsListSlotConfigurationNames200Response | WebAppsListSlotConfigurationNamesdefaultResponse
-  >;
-  /** Updates the names of application settings and connection string that remain with the slot during swap operation. */
-  updateSlotConfigurationNames(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateSlotConfigurationNamesParameters
-  ): Promise<
-    | WebAppsUpdateSlotConfigurationNames200Response
-    | WebAppsUpdateSlotConfigurationNamesdefaultResponse
-  >;
-  /** Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc. */
-  getConfiguration(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetConfigurationParameters
-  ): Promise<WebAppsGetConfiguration200Response | WebAppsGetConfigurationdefaultResponse>;
-  /** Updates the configuration of an app. */
-  createOrUpdateConfiguration(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsCreateOrUpdateConfigurationParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateConfiguration200Response
-    | WebAppsCreateOrUpdateConfigurationdefaultResponse
-  >;
-  /** Updates the configuration of an app. */
-  updateConfiguration(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateConfigurationParameters
-  ): Promise<WebAppsUpdateConfiguration200Response | WebAppsUpdateConfigurationdefaultResponse>;
-  /** Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot. */
-  listConfigurationSnapshotInfo(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListConfigurationSnapshotInfoParameters
-  ): Promise<
-    | WebAppsListConfigurationSnapshotInfo200Response
-    | WebAppsListConfigurationSnapshotInfodefaultResponse
-  >;
-  /** Gets a snapshot of the configuration of an app at a previous point in time. */
-  getConfigurationSnapshot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    snapshotId: string,
-    options?: WebAppsGetConfigurationSnapshotParameters
-  ): Promise<
-    WebAppsGetConfigurationSnapshot200Response | WebAppsGetConfigurationSnapshotdefaultResponse
-  >;
-  /** Reverts the configuration of an app to a previous snapshot. */
-  recoverSiteConfigurationSnapshot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    snapshotId: string,
-    options?: WebAppsRecoverSiteConfigurationSnapshotParameters
-  ): Promise<
-    | WebAppsRecoverSiteConfigurationSnapshot204Response
-    | WebAppsRecoverSiteConfigurationSnapshotdefaultResponse
-  >;
-  /** Gets the last lines of docker logs for the given site */
-  getWebSiteContainerLogs(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetWebSiteContainerLogsParameters
-  ): Promise<
-    | WebAppsGetWebSiteContainerLogs200Response
-    | WebAppsGetWebSiteContainerLogs204Response
-    | WebAppsGetWebSiteContainerLogsdefaultResponse
-  >;
-  /** Gets the ZIP archived docker log files for the given site */
-  getContainerLogsZip(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetContainerLogsZipParameters
-  ): Promise<
-    | WebAppsGetContainerLogsZip200Response
-    | WebAppsGetContainerLogsZip204Response
-    | WebAppsGetContainerLogsZipdefaultResponse
-  >;
-  /** List continuous web jobs for an app, or a deployment slot. */
-  listContinuousWebJobs(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListContinuousWebJobsParameters
-  ): Promise<WebAppsListContinuousWebJobs200Response | WebAppsListContinuousWebJobsdefaultResponse>;
-  /** Gets a continuous web job by its ID for an app, or a deployment slot. */
-  getContinuousWebJob(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    webJobName: string,
-    options?: WebAppsGetContinuousWebJobParameters
-  ): Promise<
-    | WebAppsGetContinuousWebJob200Response
-    | WebAppsGetContinuousWebJob404Response
-    | WebAppsGetContinuousWebJobdefaultResponse
-  >;
-  /** Delete a continuous web job by its ID for an app, or a deployment slot. */
-  deleteContinuousWebJob(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    webJobName: string,
-    options?: WebAppsDeleteContinuousWebJobParameters
-  ): Promise<
-    | WebAppsDeleteContinuousWebJob200Response
-    | WebAppsDeleteContinuousWebJob204Response
-    | WebAppsDeleteContinuousWebJobdefaultResponse
-  >;
-  /** Start a continuous web job for an app, or a deployment slot. */
-  startContinuousWebJob(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    webJobName: string,
-    options?: WebAppsStartContinuousWebJobParameters
-  ): Promise<
-    | WebAppsStartContinuousWebJob200Response
-    | WebAppsStartContinuousWebJob404Response
-    | WebAppsStartContinuousWebJobdefaultResponse
-  >;
-  /** Stop a continuous web job for an app, or a deployment slot. */
-  stopContinuousWebJob(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    webJobName: string,
-    options?: WebAppsStopContinuousWebJobParameters
-  ): Promise<
-    | WebAppsStopContinuousWebJob200Response
-    | WebAppsStopContinuousWebJob404Response
-    | WebAppsStopContinuousWebJobdefaultResponse
-  >;
-  /** List deployments for an app, or a deployment slot. */
-  listDeployments(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListDeploymentsParameters
-  ): Promise<WebAppsListDeployments200Response | WebAppsListDeploymentsdefaultResponse>;
-  /** Get a deployment by its ID for an app, or a deployment slot. */
-  getDeployment(
-    subscriptionId: string,
-    resourceGroupName: string,
-    id: string,
-    name: string,
-    options?: WebAppsGetDeploymentParameters
-  ): Promise<WebAppsGetDeployment200Response | WebAppsGetDeploymentdefaultResponse>;
-  /** Create a deployment for an app, or a deployment slot. */
-  createDeployment(
-    subscriptionId: string,
-    resourceGroupName: string,
-    id: string,
-    name: string,
-    options: WebAppsCreateDeploymentParameters
-  ): Promise<WebAppsCreateDeployment200Response | WebAppsCreateDeploymentdefaultResponse>;
-  /** Delete a deployment by its ID for an app, or a deployment slot. */
-  deleteDeployment(
-    subscriptionId: string,
-    resourceGroupName: string,
-    id: string,
-    name: string,
-    options?: WebAppsDeleteDeploymentParameters
-  ): Promise<
-    | WebAppsDeleteDeployment200Response
-    | WebAppsDeleteDeployment204Response
-    | WebAppsDeleteDeploymentdefaultResponse
-  >;
-  /** List deployment log for specific deployment for an app, or a deployment slot. */
-  listDeploymentLog(
-    subscriptionId: string,
-    resourceGroupName: string,
-    id: string,
-    name: string,
-    options?: WebAppsListDeploymentLogParameters
-  ): Promise<WebAppsListDeploymentLog200Response | WebAppsListDeploymentLogdefaultResponse>;
-  /** Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
-  discoverBackup(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsDiscoverBackupParameters
-  ): Promise<WebAppsDiscoverBackup200Response | WebAppsDiscoverBackupdefaultResponse>;
-  /** Lists ownership identifiers for domain associated with web app. */
-  listDomainOwnershipIdentifiers(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListDomainOwnershipIdentifiersParameters
-  ): Promise<
-    | WebAppsListDomainOwnershipIdentifiers200Response
-    | WebAppsListDomainOwnershipIdentifiersdefaultResponse
-  >;
-  /** Get domain ownership identifier for web app. */
-  getDomainOwnershipIdentifier(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    domainOwnershipIdentifierName: string,
-    options?: WebAppsGetDomainOwnershipIdentifierParameters
-  ): Promise<
-    | WebAppsGetDomainOwnershipIdentifier200Response
-    | WebAppsGetDomainOwnershipIdentifierdefaultResponse
-  >;
-  /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-  createOrUpdateDomainOwnershipIdentifier(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    domainOwnershipIdentifierName: string,
-    options: WebAppsCreateOrUpdateDomainOwnershipIdentifierParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateDomainOwnershipIdentifier200Response
-    | WebAppsCreateOrUpdateDomainOwnershipIdentifierdefaultResponse
-  >;
-  /** Deletes a domain ownership identifier for a web app. */
-  deleteDomainOwnershipIdentifier(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    domainOwnershipIdentifierName: string,
-    options?: WebAppsDeleteDomainOwnershipIdentifierParameters
-  ): Promise<
-    | WebAppsDeleteDomainOwnershipIdentifier200Response
-    | WebAppsDeleteDomainOwnershipIdentifier204Response
-    | WebAppsDeleteDomainOwnershipIdentifierdefaultResponse
-  >;
-  /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-  updateDomainOwnershipIdentifier(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    domainOwnershipIdentifierName: string,
-    options: WebAppsUpdateDomainOwnershipIdentifierParameters
-  ): Promise<
-    | WebAppsUpdateDomainOwnershipIdentifier200Response
-    | WebAppsUpdateDomainOwnershipIdentifierdefaultResponse
-  >;
-  /** Get the status of the last MSDeploy operation. */
-  getMSDeployStatus(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetMSDeployStatusParameters
-  ): Promise<WebAppsGetMSDeployStatus200Response | WebAppsGetMSDeployStatusdefaultResponse>;
-  /** Invoke the MSDeploy web app extension. */
-  createMSDeployOperation(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsCreateMSDeployOperationParameters
-  ): Promise<
-    | WebAppsCreateMSDeployOperation201Response
-    | WebAppsCreateMSDeployOperation409Response
-    | WebAppsCreateMSDeployOperationdefaultResponse
-  >;
-  /** Get the MSDeploy Log for the last MSDeploy operation. */
-  getMSDeployLog(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetMSDeployLogParameters
-  ): Promise<
-    | WebAppsGetMSDeployLog200Response
-    | WebAppsGetMSDeployLog404Response
-    | WebAppsGetMSDeployLogdefaultResponse
-  >;
-  /** Invoke onedeploy status API /api/deployments and gets the deployment status for the site */
-  getOneDeployStatus(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetOneDeployStatusParameters
-  ): Promise<WebAppsGetOneDeployStatus200Response | WebAppsGetOneDeployStatusdefaultResponse>;
-  /** Invoke the OneDeploy publish web app extension. */
-  createOneDeployOperation(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsCreateOneDeployOperationParameters
-  ): Promise<
-    WebAppsCreateOneDeployOperation200Response | WebAppsCreateOneDeployOperationdefaultResponse
-  >;
-  /** List the functions for a web site, or a deployment slot. */
-  listFunctions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListFunctionsParameters
-  ): Promise<
-    | WebAppsListFunctions200Response
-    | WebAppsListFunctions404Response
-    | WebAppsListFunctionsdefaultResponse
-  >;
-  /** Fetch a short lived token that can be exchanged for a master key. */
-  getFunctionsAdminToken(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetFunctionsAdminTokenParameters
-  ): Promise<
-    WebAppsGetFunctionsAdminToken200Response | WebAppsGetFunctionsAdminTokendefaultResponse
-  >;
-  /** Get function information by its ID for web site, or a deployment slot. */
-  getFunction(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    functionName: string,
-    options?: WebAppsGetFunctionParameters
-  ): Promise<
-    | WebAppsGetFunction200Response
-    | WebAppsGetFunction404Response
-    | WebAppsGetFunctiondefaultResponse
-  >;
-  /** Create function for web site, or a deployment slot. */
-  createFunction(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    functionName: string,
-    options: WebAppsCreateFunctionParameters
-  ): Promise<WebAppsCreateFunction201Response | WebAppsCreateFunctiondefaultResponse>;
-  /** Delete a function for web site, or a deployment slot. */
-  deleteFunction(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    functionName: string,
-    options?: WebAppsDeleteFunctionParameters
-  ): Promise<
-    | WebAppsDeleteFunction204Response
-    | WebAppsDeleteFunction404Response
-    | WebAppsDeleteFunctiondefaultResponse
-  >;
-  /** Add or update a function secret. */
-  createOrUpdateFunctionSecret(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    functionName: string,
-    keyName: string,
-    options: WebAppsCreateOrUpdateFunctionSecretParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateFunctionSecret200Response
-    | WebAppsCreateOrUpdateFunctionSecret201Response
-    | WebAppsCreateOrUpdateFunctionSecretdefaultResponse
-  >;
-  /** Delete a function secret. */
-  deleteFunctionSecret(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    functionName: string,
-    keyName: string,
-    options?: WebAppsDeleteFunctionSecretParameters
-  ): Promise<
-    | WebAppsDeleteFunctionSecret204Response
-    | WebAppsDeleteFunctionSecret404Response
-    | WebAppsDeleteFunctionSecretdefaultResponse
-  >;
-  /** Get function keys for a function in a web site, or a deployment slot. */
-  listFunctionKeys(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    functionName: string,
-    options?: WebAppsListFunctionKeysParameters
-  ): Promise<WebAppsListFunctionKeys200Response | WebAppsListFunctionKeysdefaultResponse>;
-  /** Get function secrets for a function in a web site, or a deployment slot. */
-  listFunctionSecrets(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    functionName: string,
-    options?: WebAppsListFunctionSecretsParameters
-  ): Promise<WebAppsListFunctionSecrets200Response | WebAppsListFunctionSecretsdefaultResponse>;
-  /** Get host secrets for a function app. */
-  listHostKeys(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListHostKeysParameters
-  ): Promise<WebAppsListHostKeys200Response | WebAppsListHostKeysdefaultResponse>;
-  /** This is to allow calling via powershell and ARM template. */
-  listSyncStatus(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListSyncStatusParameters
-  ): Promise<WebAppsListSyncStatus204Response | WebAppsListSyncStatusdefaultResponse>;
-  /** Syncs function trigger metadata to the management database */
-  syncFunctions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsSyncFunctionsParameters
-  ): Promise<WebAppsSyncFunctions204Response | WebAppsSyncFunctionsdefaultResponse>;
-  /** Add or update a host level secret. */
-  createOrUpdateHostSecret(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    keyType: string,
-    keyName: string,
-    options: WebAppsCreateOrUpdateHostSecretParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateHostSecret200Response
-    | WebAppsCreateOrUpdateHostSecret201Response
-    | WebAppsCreateOrUpdateHostSecretdefaultResponse
-  >;
-  /** Delete a host level secret. */
-  deleteHostSecret(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    keyType: string,
-    keyName: string,
-    options?: WebAppsDeleteHostSecretParameters
-  ): Promise<
-    | WebAppsDeleteHostSecret204Response
-    | WebAppsDeleteHostSecret404Response
-    | WebAppsDeleteHostSecretdefaultResponse
-  >;
-  /** Get hostname bindings for an app or a deployment slot. */
-  listHostNameBindings(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListHostNameBindingsParameters
-  ): Promise<WebAppsListHostNameBindings200Response | WebAppsListHostNameBindingsdefaultResponse>;
-  /** Get the named hostname binding for an app (or deployment slot, if specified). */
-  getHostNameBinding(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    hostName: string,
-    options?: WebAppsGetHostNameBindingParameters
-  ): Promise<WebAppsGetHostNameBinding200Response | WebAppsGetHostNameBindingdefaultResponse>;
-  /** Creates a hostname binding for an app. */
-  createOrUpdateHostNameBinding(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    hostName: string,
-    options: WebAppsCreateOrUpdateHostNameBindingParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateHostNameBinding200Response
-    | WebAppsCreateOrUpdateHostNameBindingdefaultResponse
-  >;
-  /** Deletes a hostname binding for an app. */
-  deleteHostNameBinding(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    hostName: string,
-    options?: WebAppsDeleteHostNameBindingParameters
-  ): Promise<
-    | WebAppsDeleteHostNameBinding200Response
-    | WebAppsDeleteHostNameBinding204Response
-    | WebAppsDeleteHostNameBindingdefaultResponse
-  >;
-  /** Retrieves a specific Service Bus Hybrid Connection used by this Web App. */
-  getHybridConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    namespaceName: string,
-    relayName: string,
-    options?: WebAppsGetHybridConnectionParameters
-  ): Promise<WebAppsGetHybridConnection200Response | WebAppsGetHybridConnectiondefaultResponse>;
-  /** Creates a new Hybrid Connection using a Service Bus relay. */
-  createOrUpdateHybridConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    namespaceName: string,
-    relayName: string,
-    options: WebAppsCreateOrUpdateHybridConnectionParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateHybridConnection200Response
-    | WebAppsCreateOrUpdateHybridConnectiondefaultResponse
-  >;
-  /** Removes a Hybrid Connection from this site. */
-  deleteHybridConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    namespaceName: string,
-    relayName: string,
-    options?: WebAppsDeleteHybridConnectionParameters
-  ): Promise<
-    | WebAppsDeleteHybridConnection200Response
-    | WebAppsDeleteHybridConnection404Response
-    | WebAppsDeleteHybridConnectiondefaultResponse
-  >;
-  /** Creates a new Hybrid Connection using a Service Bus relay. */
-  updateHybridConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    namespaceName: string,
-    relayName: string,
-    options: WebAppsUpdateHybridConnectionParameters
-  ): Promise<
-    WebAppsUpdateHybridConnection200Response | WebAppsUpdateHybridConnectiondefaultResponse
-  >;
-  /** Retrieves all Service Bus Hybrid Connections used by this Web App. */
-  listHybridConnections(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListHybridConnectionsParameters
-  ): Promise<WebAppsListHybridConnections200Response | WebAppsListHybridConnectionsdefaultResponse>;
-  /** Gets hybrid connections configured for an app (or deployment slot, if specified). */
-  listRelayServiceConnections(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListRelayServiceConnectionsParameters
-  ): Promise<
-    | WebAppsListRelayServiceConnections200Response
-    | WebAppsListRelayServiceConnectionsdefaultResponse
-  >;
-  /** Gets a hybrid connection configuration by its name. */
-  getRelayServiceConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    entityName: string,
-    options?: WebAppsGetRelayServiceConnectionParameters
-  ): Promise<
-    WebAppsGetRelayServiceConnection200Response | WebAppsGetRelayServiceConnectiondefaultResponse
-  >;
-  /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
-  createOrUpdateRelayServiceConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    entityName: string,
-    options: WebAppsCreateOrUpdateRelayServiceConnectionParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateRelayServiceConnection200Response
-    | WebAppsCreateOrUpdateRelayServiceConnectiondefaultResponse
-  >;
-  /** Deletes a relay service connection by its name. */
-  deleteRelayServiceConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    entityName: string,
-    options?: WebAppsDeleteRelayServiceConnectionParameters
-  ): Promise<
-    | WebAppsDeleteRelayServiceConnection200Response
-    | WebAppsDeleteRelayServiceConnection404Response
-    | WebAppsDeleteRelayServiceConnectiondefaultResponse
-  >;
-  /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
-  updateRelayServiceConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    entityName: string,
-    options: WebAppsUpdateRelayServiceConnectionParameters
-  ): Promise<
-    | WebAppsUpdateRelayServiceConnection200Response
-    | WebAppsUpdateRelayServiceConnectiondefaultResponse
-  >;
-  /** Gets all scale-out instances of an app. */
-  listInstanceIdentifiers(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListInstanceIdentifiersParameters
-  ): Promise<
-    WebAppsListInstanceIdentifiers200Response | WebAppsListInstanceIdentifiersdefaultResponse
-  >;
-  /** Gets all scale-out instances of an app. */
-  getInstanceInfo(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    options?: WebAppsGetInstanceInfoParameters
-  ): Promise<WebAppsGetInstanceInfo200Response | WebAppsGetInstanceInfodefaultResponse>;
-  /** Get the status of the last MSDeploy operation. */
-  getInstanceMsDeployStatus(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    options?: WebAppsGetInstanceMsDeployStatusParameters
-  ): Promise<
-    WebAppsGetInstanceMsDeployStatus200Response | WebAppsGetInstanceMsDeployStatusdefaultResponse
-  >;
-  /** Invoke the MSDeploy web app extension. */
-  createInstanceMSDeployOperation(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    options: WebAppsCreateInstanceMSDeployOperationParameters
-  ): Promise<
-    | WebAppsCreateInstanceMSDeployOperation201Response
-    | WebAppsCreateInstanceMSDeployOperation409Response
-    | WebAppsCreateInstanceMSDeployOperationdefaultResponse
-  >;
-  /** Get the MSDeploy Log for the last MSDeploy operation. */
-  getInstanceMSDeployLog(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    options?: WebAppsGetInstanceMSDeployLogParameters
-  ): Promise<
-    | WebAppsGetInstanceMSDeployLog200Response
-    | WebAppsGetInstanceMSDeployLog404Response
-    | WebAppsGetInstanceMSDeployLogdefaultResponse
-  >;
-  /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
-  listInstanceProcesses(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    options?: WebAppsListInstanceProcessesParameters
-  ): Promise<
-    | WebAppsListInstanceProcesses200Response
-    | WebAppsListInstanceProcesses404Response
-    | WebAppsListInstanceProcessesdefaultResponse
-  >;
-  /** Get process information by its ID for a specific scaled-out instance in a web site. */
-  getInstanceProcess(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    processId: string,
-    options?: WebAppsGetInstanceProcessParameters
-  ): Promise<
-    | WebAppsGetInstanceProcess200Response
-    | WebAppsGetInstanceProcess404Response
-    | WebAppsGetInstanceProcessdefaultResponse
-  >;
-  /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
-  deleteInstanceProcess(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    processId: string,
-    options?: WebAppsDeleteInstanceProcessParameters
-  ): Promise<
-    | WebAppsDeleteInstanceProcess204Response
-    | WebAppsDeleteInstanceProcess404Response
-    | WebAppsDeleteInstanceProcessdefaultResponse
-  >;
-  /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
-  getInstanceProcessDump(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    processId: string,
-    options?: WebAppsGetInstanceProcessDumpParameters
-  ): Promise<
-    | WebAppsGetInstanceProcessDump200Response
-    | WebAppsGetInstanceProcessDump404Response
-    | WebAppsGetInstanceProcessDumpdefaultResponse
-  >;
-  /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
-  listInstanceProcessModules(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    processId: string,
-    options?: WebAppsListInstanceProcessModulesParameters
-  ): Promise<
-    | WebAppsListInstanceProcessModules200Response
-    | WebAppsListInstanceProcessModules404Response
-    | WebAppsListInstanceProcessModulesdefaultResponse
-  >;
-  /** Get process information by its ID for a specific scaled-out instance in a web site. */
-  getInstanceProcessModule(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    processId: string,
-    baseAddress: string,
-    options?: WebAppsGetInstanceProcessModuleParameters
-  ): Promise<
-    | WebAppsGetInstanceProcessModule200Response
-    | WebAppsGetInstanceProcessModule404Response
-    | WebAppsGetInstanceProcessModuledefaultResponse
-  >;
-  /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
-  listInstanceProcessThreads(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    instanceId: string,
-    processId: string,
-    options?: WebAppsListInstanceProcessThreadsParameters
-  ): Promise<
-    | WebAppsListInstanceProcessThreads200Response
-    | WebAppsListInstanceProcessThreads404Response
-    | WebAppsListInstanceProcessThreadsdefaultResponse
-  >;
-  /** Shows whether an app can be cloned to another resource group or subscription. */
-  isCloneable(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsIsCloneableParameters
-  ): Promise<WebAppsIsCloneable200Response | WebAppsIsCloneabledefaultResponse>;
-  /** Gets existing backups of an app. */
-  listSiteBackups(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListSiteBackupsParameters
-  ): Promise<WebAppsListSiteBackups200Response | WebAppsListSiteBackupsdefaultResponse>;
-  /** This is to allow calling via powershell and ARM template. */
-  listSyncFunctionTriggers(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListSyncFunctionTriggersParameters
-  ): Promise<
-    WebAppsListSyncFunctionTriggers200Response | WebAppsListSyncFunctionTriggersdefaultResponse
-  >;
-  /** Restores a web app. */
-  migrateStorage(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsMigrateStorageParameters
-  ): Promise<WebAppsMigrateStorage200Response | WebAppsMigrateStoragedefaultResponse>;
-  /** Migrates a local (in-app) MySql database to a remote MySql database. */
-  migrateMySql(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsMigrateMySqlParameters
-  ): Promise<WebAppsMigrateMySql200Response | WebAppsMigrateMySqldefaultResponse>;
-  /** Returns the status of MySql in app migration, if one is active, and whether or not MySql in app is enabled */
-  getMigrateMySqlStatus(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetMigrateMySqlStatusParameters
-  ): Promise<WebAppsGetMigrateMySqlStatus200Response | WebAppsGetMigrateMySqlStatusdefaultResponse>;
-  /** Gets a Swift Virtual Network connection. */
-  getSwiftVirtualNetworkConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetSwiftVirtualNetworkConnectionParameters
-  ): Promise<
-    | WebAppsGetSwiftVirtualNetworkConnection200Response
-    | WebAppsGetSwiftVirtualNetworkConnectiondefaultResponse
-  >;
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionWithCheck(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheck200Response
-    | WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckdefaultResponse
-  >;
-  /** Deletes a Swift Virtual Network connection from an app (or deployment slot). */
-  deleteSwiftVirtualNetwork(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsDeleteSwiftVirtualNetworkParameters
-  ): Promise<
-    | WebAppsDeleteSwiftVirtualNetwork200Response
-    | WebAppsDeleteSwiftVirtualNetwork404Response
-    | WebAppsDeleteSwiftVirtualNetworkdefaultResponse
-  >;
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   */
-  updateSwiftVirtualNetworkConnectionWithCheck(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckParameters
-  ): Promise<
-    | WebAppsUpdateSwiftVirtualNetworkConnectionWithCheck200Response
-    | WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckdefaultResponse
-  >;
-  /** Gets all network features used by the app (or deployment slot, if specified). */
-  listNetworkFeatures(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    view: string,
-    options?: WebAppsListNetworkFeaturesParameters
-  ): Promise<
-    | WebAppsListNetworkFeatures200Response
-    | WebAppsListNetworkFeatures404Response
-    | WebAppsListNetworkFeaturesdefaultResponse
-  >;
-  /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-  getNetworkTraceOperation(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    operationId: string,
-    options?: WebAppsGetNetworkTraceOperationParameters
-  ): Promise<
-    | WebAppsGetNetworkTraceOperation200Response
-    | WebAppsGetNetworkTraceOperation202Response
-    | WebAppsGetNetworkTraceOperationdefaultResponse
-  >;
-  /** Start capturing network packets for the site (To be deprecated). */
-  startWebSiteNetworkTrace(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsStartWebSiteNetworkTraceParameters
-  ): Promise<
-    WebAppsStartWebSiteNetworkTrace200Response | WebAppsStartWebSiteNetworkTracedefaultResponse
-  >;
-  /** Start capturing network packets for the site. */
-  startWebSiteNetworkTraceOperation(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsStartWebSiteNetworkTraceOperationParameters
-  ): Promise<
-    | WebAppsStartWebSiteNetworkTraceOperation200Response
-    | WebAppsStartWebSiteNetworkTraceOperation202Response
-    | WebAppsStartWebSiteNetworkTraceOperationdefaultResponse
-  >;
-  /** Stop ongoing capturing network packets for the site. */
-  stopWebSiteNetworkTrace(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsStopWebSiteNetworkTraceParameters
-  ): Promise<
-    | WebAppsStopWebSiteNetworkTrace200Response
-    | WebAppsStopWebSiteNetworkTrace204Response
-    | WebAppsStopWebSiteNetworkTracedefaultResponse
-  >;
-  /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-  getNetworkTraces(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    operationId: string,
-    options?: WebAppsGetNetworkTracesParameters
-  ): Promise<WebAppsGetNetworkTraces200Response | WebAppsGetNetworkTracesdefaultResponse>;
-  /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-  getNetworkTraceOperationV2(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    operationId: string,
-    options?: WebAppsGetNetworkTraceOperationV2Parameters
-  ): Promise<
-    | WebAppsGetNetworkTraceOperationV2200Response
-    | WebAppsGetNetworkTraceOperationV2202Response
-    | WebAppsGetNetworkTraceOperationV2defaultResponse
-  >;
-  /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-  getNetworkTracesV2(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    operationId: string,
-    options?: WebAppsGetNetworkTracesV2Parameters
-  ): Promise<WebAppsGetNetworkTracesV2200Response | WebAppsGetNetworkTracesV2defaultResponse>;
-  /** Generates a new publishing password for an app (or deployment slot, if specified). */
-  generateNewSitePublishingPassword(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGenerateNewSitePublishingPasswordParameters
-  ): Promise<
-    | WebAppsGenerateNewSitePublishingPassword200Response
-    | WebAppsGenerateNewSitePublishingPassword204Response
-    | WebAppsGenerateNewSitePublishingPassworddefaultResponse
-  >;
-  /** Gets perfmon counters for web app. */
-  listPerfMonCounters(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListPerfMonCountersParameters
-  ): Promise<WebAppsListPerfMonCounters200Response | WebAppsListPerfMonCountersdefaultResponse>;
-  /** Gets web app's event logs. */
-  getSitePhpErrorLogFlag(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetSitePhpErrorLogFlagParameters
-  ): Promise<
-    WebAppsGetSitePhpErrorLogFlag200Response | WebAppsGetSitePhpErrorLogFlagdefaultResponse
-  >;
-  /** Gets the premier add-ons of an app. */
-  listPremierAddOns(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListPremierAddOnsParameters
-  ): Promise<WebAppsListPremierAddOns200Response | WebAppsListPremierAddOnsdefaultResponse>;
-  /** Gets a named add-on of an app. */
-  getPremierAddOn(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    premierAddOnName: string,
-    options?: WebAppsGetPremierAddOnParameters
-  ): Promise<WebAppsGetPremierAddOn200Response | WebAppsGetPremierAddOndefaultResponse>;
-  /** Updates a named add-on of an app. */
-  addPremierAddOn(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    premierAddOnName: string,
-    options: WebAppsAddPremierAddOnParameters
-  ): Promise<WebAppsAddPremierAddOn200Response | WebAppsAddPremierAddOndefaultResponse>;
-  /** Delete a premier add-on from an app. */
-  deletePremierAddOn(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    premierAddOnName: string,
-    options?: WebAppsDeletePremierAddOnParameters
-  ): Promise<WebAppsDeletePremierAddOn200Response | WebAppsDeletePremierAddOndefaultResponse>;
-  /** Updates a named add-on of an app. */
-  updatePremierAddOn(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    premierAddOnName: string,
-    options: WebAppsUpdatePremierAddOnParameters
-  ): Promise<WebAppsUpdatePremierAddOn200Response | WebAppsUpdatePremierAddOndefaultResponse>;
-  /** Gets data around private site access enablement and authorized Virtual Networks that can access the site. */
-  getPrivateAccess(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetPrivateAccessParameters
-  ): Promise<WebAppsGetPrivateAccess200Response | WebAppsGetPrivateAccessdefaultResponse>;
-  /** Sets data around private site access enablement and authorized Virtual Networks that can access the site. */
-  putPrivateAccessVnet(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsPutPrivateAccessVnetParameters
-  ): Promise<WebAppsPutPrivateAccessVnet200Response | WebAppsPutPrivateAccessVnetdefaultResponse>;
-  /** Gets the list of private endpoint connections associated with a site */
-  getPrivateEndpointConnectionList(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetPrivateEndpointConnectionListParameters
-  ): Promise<
-    | WebAppsGetPrivateEndpointConnectionList200Response
-    | WebAppsGetPrivateEndpointConnectionListdefaultResponse
-  >;
-  /** Gets a private endpoint connection */
-  getPrivateEndpointConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options?: WebAppsGetPrivateEndpointConnectionParameters
-  ): Promise<
-    | WebAppsGetPrivateEndpointConnection200Response
-    | WebAppsGetPrivateEndpointConnectiondefaultResponse
-  >;
-  /** Approves or rejects a private endpoint connection */
-  approveOrRejectPrivateEndpointConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options: WebAppsApproveOrRejectPrivateEndpointConnectionParameters
-  ): Promise<
-    | WebAppsApproveOrRejectPrivateEndpointConnection200Response
-    | WebAppsApproveOrRejectPrivateEndpointConnection202Response
-    | WebAppsApproveOrRejectPrivateEndpointConnectiondefaultResponse
-  >;
-  /** Deletes a private endpoint connection */
-  deletePrivateEndpointConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options?: WebAppsDeletePrivateEndpointConnectionParameters
-  ): Promise<
-    | WebAppsDeletePrivateEndpointConnection200Response
-    | WebAppsDeletePrivateEndpointConnection202Response
-    | WebAppsDeletePrivateEndpointConnection204Response
-    | WebAppsDeletePrivateEndpointConnectiondefaultResponse
-  >;
-  /** Gets the private link resources */
-  getPrivateLinkResources(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetPrivateLinkResourcesParameters
-  ): Promise<
-    WebAppsGetPrivateLinkResources200Response | WebAppsGetPrivateLinkResourcesdefaultResponse
-  >;
-  /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
-  listProcesses(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListProcessesParameters
-  ): Promise<
-    | WebAppsListProcesses200Response
-    | WebAppsListProcesses404Response
-    | WebAppsListProcessesdefaultResponse
-  >;
-  /** Get process information by its ID for a specific scaled-out instance in a web site. */
-  getProcess(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    processId: string,
-    options?: WebAppsGetProcessParameters
-  ): Promise<
-    WebAppsGetProcess200Response | WebAppsGetProcess404Response | WebAppsGetProcessdefaultResponse
-  >;
-  /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
-  deleteProcess(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    processId: string,
-    options?: WebAppsDeleteProcessParameters
-  ): Promise<
-    | WebAppsDeleteProcess204Response
-    | WebAppsDeleteProcess404Response
-    | WebAppsDeleteProcessdefaultResponse
-  >;
-  /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
-  getProcessDump(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    processId: string,
-    options?: WebAppsGetProcessDumpParameters
-  ): Promise<
-    | WebAppsGetProcessDump200Response
-    | WebAppsGetProcessDump404Response
-    | WebAppsGetProcessDumpdefaultResponse
-  >;
-  /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
-  listProcessModules(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    processId: string,
-    options?: WebAppsListProcessModulesParameters
-  ): Promise<
-    | WebAppsListProcessModules200Response
-    | WebAppsListProcessModules404Response
-    | WebAppsListProcessModulesdefaultResponse
-  >;
-  /** Get process information by its ID for a specific scaled-out instance in a web site. */
-  getProcessModule(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    processId: string,
-    baseAddress: string,
-    options?: WebAppsGetProcessModuleParameters
-  ): Promise<
-    | WebAppsGetProcessModule200Response
-    | WebAppsGetProcessModule404Response
-    | WebAppsGetProcessModuledefaultResponse
-  >;
-  /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
-  listProcessThreads(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    processId: string,
-    options?: WebAppsListProcessThreadsParameters
-  ): Promise<
-    | WebAppsListProcessThreads200Response
-    | WebAppsListProcessThreads404Response
-    | WebAppsListProcessThreadsdefaultResponse
-  >;
-  /** Get public certificates for an app or a deployment slot. */
-  listPublicCertificates(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListPublicCertificatesParameters
-  ): Promise<
-    WebAppsListPublicCertificates200Response | WebAppsListPublicCertificatesdefaultResponse
-  >;
-  /** Get the named public certificate for an app (or deployment slot, if specified). */
-  getPublicCertificate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    publicCertificateName: string,
-    options?: WebAppsGetPublicCertificateParameters
-  ): Promise<WebAppsGetPublicCertificate200Response | WebAppsGetPublicCertificatedefaultResponse>;
-  /** Creates a hostname binding for an app. */
-  createOrUpdatePublicCertificate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    publicCertificateName: string,
-    options: WebAppsCreateOrUpdatePublicCertificateParameters
-  ): Promise<
-    | WebAppsCreateOrUpdatePublicCertificate200Response
-    | WebAppsCreateOrUpdatePublicCertificatedefaultResponse
-  >;
-  /** Deletes a hostname binding for an app. */
-  deletePublicCertificate(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    publicCertificateName: string,
-    options?: WebAppsDeletePublicCertificateParameters
-  ): Promise<
-    | WebAppsDeletePublicCertificate200Response
-    | WebAppsDeletePublicCertificate204Response
-    | WebAppsDeletePublicCertificatedefaultResponse
-  >;
-  /** Gets the publishing profile for an app (or deployment slot, if specified). */
-  listPublishingProfileXmlWithSecrets(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsListPublishingProfileXmlWithSecretsParameters
-  ): Promise<
-    | WebAppsListPublishingProfileXmlWithSecrets200Response
-    | WebAppsListPublishingProfileXmlWithSecretsdefaultResponse
-  >;
-  /** Resets the configuration settings of the current slot if they were previously modified by calling the API with POST. */
-  resetProductionSlotConfig(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsResetProductionSlotConfigParameters
-  ): Promise<
-    WebAppsResetProductionSlotConfig200Response | WebAppsResetProductionSlotConfigdefaultResponse
-  >;
-  /** Restarts an app (or deployment slot, if specified). */
-  restart(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsRestartParameters
-  ): Promise<WebAppsRestart200Response | WebAppsRestartdefaultResponse>;
-  /** Restores an app from a backup blob in Azure Storage. */
-  restoreFromBackupBlob(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsRestoreFromBackupBlobParameters
-  ): Promise<
-    | WebAppsRestoreFromBackupBlob200Response
-    | WebAppsRestoreFromBackupBlob202Response
-    | WebAppsRestoreFromBackupBlobdefaultResponse
-  >;
-  /** Restores a deleted web app to this web app. */
-  restoreFromDeletedApp(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsRestoreFromDeletedAppParameters
-  ): Promise<
-    | WebAppsRestoreFromDeletedApp200Response
-    | WebAppsRestoreFromDeletedApp202Response
-    | WebAppsRestoreFromDeletedAppdefaultResponse
-  >;
-  /** Restores a web app from a snapshot. */
-  restoreSnapshot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsRestoreSnapshotParameters
-  ): Promise<
-    | WebAppsRestoreSnapshot200Response
-    | WebAppsRestoreSnapshot202Response
-    | WebAppsRestoreSnapshotdefaultResponse
-  >;
-  /** Get list of siteextensions for a web site, or a deployment slot. */
-  listSiteExtensions(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListSiteExtensionsParameters
-  ): Promise<
-    | WebAppsListSiteExtensions200Response
-    | WebAppsListSiteExtensions404Response
-    | WebAppsListSiteExtensionsdefaultResponse
-  >;
-  /** Get site extension information by its ID for a web site, or a deployment slot. */
-  getSiteExtension(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    siteExtensionId: string,
-    options?: WebAppsGetSiteExtensionParameters
-  ): Promise<
-    | WebAppsGetSiteExtension200Response
-    | WebAppsGetSiteExtension404Response
-    | WebAppsGetSiteExtensiondefaultResponse
-  >;
-  /** Install site extension on a web site, or a deployment slot. */
-  installSiteExtension(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    siteExtensionId: string,
-    options?: WebAppsInstallSiteExtensionParameters
-  ): Promise<
-    | WebAppsInstallSiteExtension200Response
-    | WebAppsInstallSiteExtension201Response
-    | WebAppsInstallSiteExtension429Response
-    | WebAppsInstallSiteExtensiondefaultResponse
-  >;
-  /** Remove a site extension from a web site, or a deployment slot. */
-  deleteSiteExtension(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    siteExtensionId: string,
-    options?: WebAppsDeleteSiteExtensionParameters
-  ): Promise<
-    | WebAppsDeleteSiteExtension204Response
-    | WebAppsDeleteSiteExtension404Response
-    | WebAppsDeleteSiteExtensiondefaultResponse
-  >;
-  /** Gets an app's deployment slots. */
-  listSlots(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListSlotsParameters
-  ): Promise<WebAppsListSlots200Response | WebAppsListSlotsdefaultResponse>;
-  /** Gets the details of a web, mobile, or API app. */
-  getSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetSlotParameters
-  ): Promise<WebAppsGetSlot200Response | WebAppsGetSlot404Response | WebAppsGetSlotdefaultResponse>;
-  /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
-  createOrUpdateSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsCreateOrUpdateSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateSlot200Response
-    | WebAppsCreateOrUpdateSlot202Response
-    | WebAppsCreateOrUpdateSlotdefaultResponse
-  >;
-  /** Deletes a web, mobile, or API app, or one of the deployment slots. */
-  deleteSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsDeleteSlotParameters
-  ): Promise<
-    | WebAppsDeleteSlot200Response
-    | WebAppsDeleteSlot204Response
-    | WebAppsDeleteSlot404Response
-    | WebAppsDeleteSlotdefaultResponse
-  >;
-  /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
-  updateSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateSlotParameters
-  ): Promise<
-    WebAppsUpdateSlot200Response | WebAppsUpdateSlot202Response | WebAppsUpdateSlotdefaultResponse
-  >;
-  /** Analyze a custom hostname. */
-  analyzeCustomHostnameSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsAnalyzeCustomHostnameSlotParameters
-  ): Promise<
-    WebAppsAnalyzeCustomHostnameSlot200Response | WebAppsAnalyzeCustomHostnameSlotdefaultResponse
-  >;
-  /** Applies the configuration settings from the target slot onto the current slot. */
-  applySlotConfigurationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsApplySlotConfigurationSlotParameters
-  ): Promise<
-    WebAppsApplySlotConfigurationSlot200Response | WebAppsApplySlotConfigurationSlotdefaultResponse
-  >;
-  /** Creates a backup of an app. */
-  backupSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsBackupSlotParameters
-  ): Promise<WebAppsBackupSlot200Response | WebAppsBackupSlotdefaultResponse>;
-  /** Gets existing backups of an app. */
-  listBackupsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListBackupsSlotParameters
-  ): Promise<WebAppsListBackupsSlot200Response | WebAppsListBackupsSlotdefaultResponse>;
-  /** Gets a backup of an app by its ID. */
-  getBackupStatusSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    backupId: string,
-    options?: WebAppsGetBackupStatusSlotParameters
-  ): Promise<WebAppsGetBackupStatusSlot200Response | WebAppsGetBackupStatusSlotdefaultResponse>;
-  /** Deletes a backup of an app by its ID. */
-  deleteBackupSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    backupId: string,
-    options?: WebAppsDeleteBackupSlotParameters
-  ): Promise<
-    | WebAppsDeleteBackupSlot200Response
-    | WebAppsDeleteBackupSlot404Response
-    | WebAppsDeleteBackupSlotdefaultResponse
-  >;
-  /** Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body. */
-  listBackupStatusSecretsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    backupId: string,
-    options: WebAppsListBackupStatusSecretsSlotParameters
-  ): Promise<
-    | WebAppsListBackupStatusSecretsSlot200Response
-    | WebAppsListBackupStatusSecretsSlotdefaultResponse
-  >;
-  /** Restores a specific backup to another app (or deployment slot, if specified). */
-  restoreSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    backupId: string,
-    options: WebAppsRestoreSlotParameters
-  ): Promise<
-    | WebAppsRestoreSlot200Response
-    | WebAppsRestoreSlot202Response
-    | WebAppsRestoreSlotdefaultResponse
-  >;
-  /** Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site. */
-  listBasicPublishingCredentialsPoliciesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListBasicPublishingCredentialsPoliciesSlotParameters
-  ): Promise<
-    | WebAppsListBasicPublishingCredentialsPoliciesSlot200Response
-    | WebAppsListBasicPublishingCredentialsPoliciesSlotdefaultResponse
-  >;
-  /** Returns whether FTP is allowed on the site or not. */
-  getFtpAllowedSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetFtpAllowedSlotParameters
-  ): Promise<WebAppsGetFtpAllowedSlot200Response | WebAppsGetFtpAllowedSlotdefaultResponse>;
-  /** Updates whether FTP is allowed on the site or not. */
-  updateFtpAllowedSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateFtpAllowedSlotParameters
-  ): Promise<WebAppsUpdateFtpAllowedSlot200Response | WebAppsUpdateFtpAllowedSlotdefaultResponse>;
-  /** Returns whether Scm basic auth is allowed on the site or not. */
-  getScmAllowedSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetScmAllowedSlotParameters
-  ): Promise<WebAppsGetScmAllowedSlot200Response | WebAppsGetScmAllowedSlotdefaultResponse>;
-  /** Updates whether user publishing credentials are allowed on the site or not. */
-  updateScmAllowedSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateScmAllowedSlotParameters
-  ): Promise<WebAppsUpdateScmAllowedSlot200Response | WebAppsUpdateScmAllowedSlotdefaultResponse>;
-  /** List the configurations of an app */
-  listConfigurationsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListConfigurationsSlotParameters
-  ): Promise<
-    WebAppsListConfigurationsSlot200Response | WebAppsListConfigurationsSlotdefaultResponse
-  >;
-  /** Replaces the application settings of an app. */
-  updateApplicationSettingsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateApplicationSettingsSlotParameters
-  ): Promise<
-    | WebAppsUpdateApplicationSettingsSlot200Response
-    | WebAppsUpdateApplicationSettingsSlotdefaultResponse
-  >;
-  /** Gets the application settings of an app. */
-  listApplicationSettingsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListApplicationSettingsSlotParameters
-  ): Promise<
-    | WebAppsListApplicationSettingsSlot200Response
-    | WebAppsListApplicationSettingsSlotdefaultResponse
-  >;
-  /** Updates the Authentication / Authorization settings associated with web app. */
-  updateAuthSettingsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateAuthSettingsSlotParameters
-  ): Promise<
-    WebAppsUpdateAuthSettingsSlot200Response | WebAppsUpdateAuthSettingsSlotdefaultResponse
-  >;
-  /** Gets the Authentication/Authorization settings of an app. */
-  getAuthSettingsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetAuthSettingsSlotParameters
-  ): Promise<WebAppsGetAuthSettingsSlot200Response | WebAppsGetAuthSettingsSlotdefaultResponse>;
-  /** Gets site's Authentication / Authorization settings for apps via the V2 format */
-  getAuthSettingsV2WithoutSecretsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotParameters
-  ): Promise<
-    | WebAppsGetAuthSettingsV2WithoutSecretsSlot200Response
-    | WebAppsGetAuthSettingsV2WithoutSecretsSlotdefaultResponse
-  >;
-  /** Updates site's Authentication / Authorization settings for apps via the V2 format */
-  updateAuthSettingsV2Slot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateAuthSettingsV2SlotParameters
-  ): Promise<
-    WebAppsUpdateAuthSettingsV2Slot200Response | WebAppsUpdateAuthSettingsV2SlotdefaultResponse
-  >;
-  /** Gets site's Authentication / Authorization settings for apps via the V2 format */
-  getAuthSettingsV2Slot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetAuthSettingsV2SlotParameters
-  ): Promise<WebAppsGetAuthSettingsV2Slot200Response | WebAppsGetAuthSettingsV2SlotdefaultResponse>;
-  /** Updates the Azure storage account configurations of an app. */
-  updateAzureStorageAccountsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateAzureStorageAccountsSlotParameters
-  ): Promise<
-    | WebAppsUpdateAzureStorageAccountsSlot200Response
-    | WebAppsUpdateAzureStorageAccountsSlotdefaultResponse
-  >;
-  /** Gets the Azure storage account configurations of an app. */
-  listAzureStorageAccountsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListAzureStorageAccountsSlotParameters
-  ): Promise<
-    | WebAppsListAzureStorageAccountsSlot200Response
-    | WebAppsListAzureStorageAccountsSlotdefaultResponse
-  >;
-  /** Updates the backup configuration of an app. */
-  updateBackupConfigurationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateBackupConfigurationSlotParameters
-  ): Promise<
-    | WebAppsUpdateBackupConfigurationSlot200Response
-    | WebAppsUpdateBackupConfigurationSlotdefaultResponse
-  >;
-  /** Deletes the backup configuration of an app. */
-  deleteBackupConfigurationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsDeleteBackupConfigurationSlotParameters
-  ): Promise<
-    | WebAppsDeleteBackupConfigurationSlot200Response
-    | WebAppsDeleteBackupConfigurationSlotdefaultResponse
-  >;
-  /** Gets the backup configuration of an app. */
-  getBackupConfigurationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetBackupConfigurationSlotParameters
-  ): Promise<
-    WebAppsGetBackupConfigurationSlot200Response | WebAppsGetBackupConfigurationSlotdefaultResponse
-  >;
-  /** Gets the config reference app settings and status of an app */
-  getAppSettingsKeyVaultReferencesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetAppSettingsKeyVaultReferencesSlotParameters
-  ): Promise<
-    | WebAppsGetAppSettingsKeyVaultReferencesSlot200Response
-    | WebAppsGetAppSettingsKeyVaultReferencesSlotdefaultResponse
-  >;
-  /** Gets the config reference and status of an app */
-  getAppSettingKeyVaultReferenceSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    appSettingKey: string,
-    options?: WebAppsGetAppSettingKeyVaultReferenceSlotParameters
-  ): Promise<
-    | WebAppsGetAppSettingKeyVaultReferenceSlot200Response
-    | WebAppsGetAppSettingKeyVaultReferenceSlotdefaultResponse
-  >;
-  /** Gets the config reference app settings and status of an app */
-  getSiteConnectionStringKeyVaultReferencesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotParameters
-  ): Promise<
-    | WebAppsGetSiteConnectionStringKeyVaultReferencesSlot200Response
-    | WebAppsGetSiteConnectionStringKeyVaultReferencesSlotdefaultResponse
-  >;
-  /** Gets the config reference and status of an app */
-  getSiteConnectionStringKeyVaultReferenceSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    connectionStringKey: string,
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferenceSlotParameters
-  ): Promise<
-    | WebAppsGetSiteConnectionStringKeyVaultReferenceSlot200Response
-    | WebAppsGetSiteConnectionStringKeyVaultReferenceSlotdefaultResponse
-  >;
-  /** Replaces the connection strings of an app. */
-  updateConnectionStringsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateConnectionStringsSlotParameters
-  ): Promise<
-    | WebAppsUpdateConnectionStringsSlot200Response
-    | WebAppsUpdateConnectionStringsSlotdefaultResponse
-  >;
-  /** Gets the connection strings of an app. */
-  listConnectionStringsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListConnectionStringsSlotParameters
-  ): Promise<
-    WebAppsListConnectionStringsSlot200Response | WebAppsListConnectionStringsSlotdefaultResponse
-  >;
-  /** Gets the logging configuration of an app. */
-  getDiagnosticLogsConfigurationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetDiagnosticLogsConfigurationSlotParameters
-  ): Promise<
-    | WebAppsGetDiagnosticLogsConfigurationSlot200Response
-    | WebAppsGetDiagnosticLogsConfigurationSlotdefaultResponse
-  >;
-  /** Updates the logging configuration of an app. */
-  updateDiagnosticLogsConfigSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateDiagnosticLogsConfigSlotParameters
-  ): Promise<
-    | WebAppsUpdateDiagnosticLogsConfigSlot200Response
-    | WebAppsUpdateDiagnosticLogsConfigSlotdefaultResponse
-  >;
-  /** Replaces the metadata of an app. */
-  updateMetadataSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateMetadataSlotParameters
-  ): Promise<WebAppsUpdateMetadataSlot200Response | WebAppsUpdateMetadataSlotdefaultResponse>;
-  /** Gets the metadata of an app. */
-  listMetadataSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListMetadataSlotParameters
-  ): Promise<WebAppsListMetadataSlot200Response | WebAppsListMetadataSlotdefaultResponse>;
-  /** Gets the Git/FTP publishing credentials of an app. */
-  listPublishingCredentialsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListPublishingCredentialsSlotParameters
-  ): Promise<
-    | WebAppsListPublishingCredentialsSlot200Response
-    | WebAppsListPublishingCredentialsSlotdefaultResponse
-  >;
-  /** Updates the Push settings associated with web app. */
-  updateSitePushSettingsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateSitePushSettingsSlotParameters
-  ): Promise<
-    WebAppsUpdateSitePushSettingsSlot200Response | WebAppsUpdateSitePushSettingsSlotdefaultResponse
-  >;
-  /** Gets the Push settings associated with web app. */
-  listSitePushSettingsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListSitePushSettingsSlotParameters
-  ): Promise<
-    WebAppsListSitePushSettingsSlot200Response | WebAppsListSitePushSettingsSlotdefaultResponse
-  >;
-  /** Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc. */
-  getConfigurationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetConfigurationSlotParameters
-  ): Promise<WebAppsGetConfigurationSlot200Response | WebAppsGetConfigurationSlotdefaultResponse>;
-  /** Updates the configuration of an app. */
-  createOrUpdateConfigurationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsCreateOrUpdateConfigurationSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateConfigurationSlot200Response
-    | WebAppsCreateOrUpdateConfigurationSlotdefaultResponse
-  >;
-  /** Updates the configuration of an app. */
-  updateConfigurationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateConfigurationSlotParameters
-  ): Promise<
-    WebAppsUpdateConfigurationSlot200Response | WebAppsUpdateConfigurationSlotdefaultResponse
-  >;
-  /** Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot. */
-  listConfigurationSnapshotInfoSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListConfigurationSnapshotInfoSlotParameters
-  ): Promise<
-    | WebAppsListConfigurationSnapshotInfoSlot200Response
-    | WebAppsListConfigurationSnapshotInfoSlotdefaultResponse
-  >;
-  /** Gets a snapshot of the configuration of an app at a previous point in time. */
-  getConfigurationSnapshotSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    snapshotId: string,
-    options?: WebAppsGetConfigurationSnapshotSlotParameters
-  ): Promise<
-    | WebAppsGetConfigurationSnapshotSlot200Response
-    | WebAppsGetConfigurationSnapshotSlotdefaultResponse
-  >;
-  /** Reverts the configuration of an app to a previous snapshot. */
-  recoverSiteConfigurationSnapshotSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    snapshotId: string,
-    options?: WebAppsRecoverSiteConfigurationSnapshotSlotParameters
-  ): Promise<
-    | WebAppsRecoverSiteConfigurationSnapshotSlot204Response
-    | WebAppsRecoverSiteConfigurationSnapshotSlotdefaultResponse
-  >;
-  /** Gets the last lines of docker logs for the given site */
-  getWebSiteContainerLogsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetWebSiteContainerLogsSlotParameters
-  ): Promise<
-    | WebAppsGetWebSiteContainerLogsSlot200Response
-    | WebAppsGetWebSiteContainerLogsSlot204Response
-    | WebAppsGetWebSiteContainerLogsSlotdefaultResponse
-  >;
-  /** Gets the ZIP archived docker log files for the given site */
-  getContainerLogsZipSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetContainerLogsZipSlotParameters
-  ): Promise<
-    | WebAppsGetContainerLogsZipSlot200Response
-    | WebAppsGetContainerLogsZipSlot204Response
-    | WebAppsGetContainerLogsZipSlotdefaultResponse
-  >;
-  /** List continuous web jobs for an app, or a deployment slot. */
-  listContinuousWebJobsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListContinuousWebJobsSlotParameters
-  ): Promise<
-    WebAppsListContinuousWebJobsSlot200Response | WebAppsListContinuousWebJobsSlotdefaultResponse
-  >;
-  /** Gets a continuous web job by its ID for an app, or a deployment slot. */
-  getContinuousWebJobSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    webJobName: string,
-    options?: WebAppsGetContinuousWebJobSlotParameters
-  ): Promise<
-    | WebAppsGetContinuousWebJobSlot200Response
-    | WebAppsGetContinuousWebJobSlot404Response
-    | WebAppsGetContinuousWebJobSlotdefaultResponse
-  >;
-  /** Delete a continuous web job by its ID for an app, or a deployment slot. */
-  deleteContinuousWebJobSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    webJobName: string,
-    options?: WebAppsDeleteContinuousWebJobSlotParameters
-  ): Promise<
-    | WebAppsDeleteContinuousWebJobSlot200Response
-    | WebAppsDeleteContinuousWebJobSlot204Response
-    | WebAppsDeleteContinuousWebJobSlotdefaultResponse
-  >;
-  /** Start a continuous web job for an app, or a deployment slot. */
-  startContinuousWebJobSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    webJobName: string,
-    options?: WebAppsStartContinuousWebJobSlotParameters
-  ): Promise<
-    | WebAppsStartContinuousWebJobSlot200Response
-    | WebAppsStartContinuousWebJobSlot404Response
-    | WebAppsStartContinuousWebJobSlotdefaultResponse
-  >;
-  /** Stop a continuous web job for an app, or a deployment slot. */
-  stopContinuousWebJobSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    webJobName: string,
-    options?: WebAppsStopContinuousWebJobSlotParameters
-  ): Promise<
-    | WebAppsStopContinuousWebJobSlot200Response
-    | WebAppsStopContinuousWebJobSlot404Response
-    | WebAppsStopContinuousWebJobSlotdefaultResponse
-  >;
-  /** List deployments for an app, or a deployment slot. */
-  listDeploymentsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListDeploymentsSlotParameters
-  ): Promise<WebAppsListDeploymentsSlot200Response | WebAppsListDeploymentsSlotdefaultResponse>;
-  /** Get a deployment by its ID for an app, or a deployment slot. */
-  getDeploymentSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    id: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetDeploymentSlotParameters
-  ): Promise<WebAppsGetDeploymentSlot200Response | WebAppsGetDeploymentSlotdefaultResponse>;
-  /** Create a deployment for an app, or a deployment slot. */
-  createDeploymentSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    id: string,
-    name: string,
-    slot: string,
-    options: WebAppsCreateDeploymentSlotParameters
-  ): Promise<WebAppsCreateDeploymentSlot200Response | WebAppsCreateDeploymentSlotdefaultResponse>;
-  /** Delete a deployment by its ID for an app, or a deployment slot. */
-  deleteDeploymentSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    id: string,
-    name: string,
-    slot: string,
-    options?: WebAppsDeleteDeploymentSlotParameters
-  ): Promise<
-    | WebAppsDeleteDeploymentSlot200Response
-    | WebAppsDeleteDeploymentSlot204Response
-    | WebAppsDeleteDeploymentSlotdefaultResponse
-  >;
-  /** List deployment log for specific deployment for an app, or a deployment slot. */
-  listDeploymentLogSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    id: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListDeploymentLogSlotParameters
-  ): Promise<WebAppsListDeploymentLogSlot200Response | WebAppsListDeploymentLogSlotdefaultResponse>;
-  /** Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
-  discoverBackupSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsDiscoverBackupSlotParameters
-  ): Promise<WebAppsDiscoverBackupSlot200Response | WebAppsDiscoverBackupSlotdefaultResponse>;
-  /** Lists ownership identifiers for domain associated with web app. */
-  listDomainOwnershipIdentifiersSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListDomainOwnershipIdentifiersSlotParameters
-  ): Promise<
-    | WebAppsListDomainOwnershipIdentifiersSlot200Response
-    | WebAppsListDomainOwnershipIdentifiersSlotdefaultResponse
-  >;
-  /** Get domain ownership identifier for web app. */
-  getDomainOwnershipIdentifierSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    domainOwnershipIdentifierName: string,
-    options?: WebAppsGetDomainOwnershipIdentifierSlotParameters
-  ): Promise<
-    | WebAppsGetDomainOwnershipIdentifierSlot200Response
-    | WebAppsGetDomainOwnershipIdentifierSlotdefaultResponse
-  >;
-  /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-  createOrUpdateDomainOwnershipIdentifierSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    domainOwnershipIdentifierName: string,
-    options: WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateDomainOwnershipIdentifierSlot200Response
-    | WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotdefaultResponse
-  >;
-  /** Deletes a domain ownership identifier for a web app. */
-  deleteDomainOwnershipIdentifierSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    domainOwnershipIdentifierName: string,
-    options?: WebAppsDeleteDomainOwnershipIdentifierSlotParameters
-  ): Promise<
-    | WebAppsDeleteDomainOwnershipIdentifierSlot200Response
-    | WebAppsDeleteDomainOwnershipIdentifierSlot204Response
-    | WebAppsDeleteDomainOwnershipIdentifierSlotdefaultResponse
-  >;
-  /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-  updateDomainOwnershipIdentifierSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    domainOwnershipIdentifierName: string,
-    options: WebAppsUpdateDomainOwnershipIdentifierSlotParameters
-  ): Promise<
-    | WebAppsUpdateDomainOwnershipIdentifierSlot200Response
-    | WebAppsUpdateDomainOwnershipIdentifierSlotdefaultResponse
-  >;
-  /** Get the status of the last MSDeploy operation. */
-  getMSDeployStatusSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetMSDeployStatusSlotParameters
-  ): Promise<WebAppsGetMSDeployStatusSlot200Response | WebAppsGetMSDeployStatusSlotdefaultResponse>;
-  /** Invoke the MSDeploy web app extension. */
-  createMSDeployOperationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsCreateMSDeployOperationSlotParameters
-  ): Promise<
-    | WebAppsCreateMSDeployOperationSlot201Response
-    | WebAppsCreateMSDeployOperationSlot409Response
-    | WebAppsCreateMSDeployOperationSlotdefaultResponse
-  >;
-  /** Get the MSDeploy Log for the last MSDeploy operation. */
-  getMSDeployLogSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetMSDeployLogSlotParameters
-  ): Promise<
-    | WebAppsGetMSDeployLogSlot200Response
-    | WebAppsGetMSDeployLogSlot404Response
-    | WebAppsGetMSDeployLogSlotdefaultResponse
-  >;
-  /** List the functions for a web site, or a deployment slot. */
-  listInstanceFunctionsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListInstanceFunctionsSlotParameters
-  ): Promise<
-    | WebAppsListInstanceFunctionsSlot200Response
-    | WebAppsListInstanceFunctionsSlot404Response
-    | WebAppsListInstanceFunctionsSlotdefaultResponse
-  >;
-  /** Fetch a short lived token that can be exchanged for a master key. */
-  getFunctionsAdminTokenSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetFunctionsAdminTokenSlotParameters
-  ): Promise<
-    WebAppsGetFunctionsAdminTokenSlot200Response | WebAppsGetFunctionsAdminTokenSlotdefaultResponse
-  >;
-  /** Get function information by its ID for web site, or a deployment slot. */
-  getInstanceFunctionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    functionName: string,
-    options?: WebAppsGetInstanceFunctionSlotParameters
-  ): Promise<
-    | WebAppsGetInstanceFunctionSlot200Response
-    | WebAppsGetInstanceFunctionSlot404Response
-    | WebAppsGetInstanceFunctionSlotdefaultResponse
-  >;
-  /** Create function for web site, or a deployment slot. */
-  createInstanceFunctionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    functionName: string,
-    options: WebAppsCreateInstanceFunctionSlotParameters
-  ): Promise<
-    WebAppsCreateInstanceFunctionSlot201Response | WebAppsCreateInstanceFunctionSlotdefaultResponse
-  >;
-  /** Delete a function for web site, or a deployment slot. */
-  deleteInstanceFunctionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    functionName: string,
-    options?: WebAppsDeleteInstanceFunctionSlotParameters
-  ): Promise<
-    | WebAppsDeleteInstanceFunctionSlot204Response
-    | WebAppsDeleteInstanceFunctionSlot404Response
-    | WebAppsDeleteInstanceFunctionSlotdefaultResponse
-  >;
-  /** Add or update a function secret. */
-  createOrUpdateFunctionSecretSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    functionName: string,
-    keyName: string,
-    options: WebAppsCreateOrUpdateFunctionSecretSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateFunctionSecretSlot200Response
-    | WebAppsCreateOrUpdateFunctionSecretSlot201Response
-    | WebAppsCreateOrUpdateFunctionSecretSlotdefaultResponse
-  >;
-  /** Delete a function secret. */
-  deleteFunctionSecretSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    functionName: string,
-    keyName: string,
-    options?: WebAppsDeleteFunctionSecretSlotParameters
-  ): Promise<
-    | WebAppsDeleteFunctionSecretSlot204Response
-    | WebAppsDeleteFunctionSecretSlot404Response
-    | WebAppsDeleteFunctionSecretSlotdefaultResponse
-  >;
-  /** Get function keys for a function in a web site, or a deployment slot. */
-  listFunctionKeysSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    functionName: string,
-    options?: WebAppsListFunctionKeysSlotParameters
-  ): Promise<WebAppsListFunctionKeysSlot200Response | WebAppsListFunctionKeysSlotdefaultResponse>;
-  /** Get function secrets for a function in a web site, or a deployment slot. */
-  listFunctionSecretsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    functionName: string,
-    options?: WebAppsListFunctionSecretsSlotParameters
-  ): Promise<
-    WebAppsListFunctionSecretsSlot200Response | WebAppsListFunctionSecretsSlotdefaultResponse
-  >;
-  /** Get host secrets for a function app. */
-  listHostKeysSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListHostKeysSlotParameters
-  ): Promise<WebAppsListHostKeysSlot200Response | WebAppsListHostKeysSlotdefaultResponse>;
-  /** This is to allow calling via powershell and ARM template. */
-  listSyncStatusSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListSyncStatusSlotParameters
-  ): Promise<WebAppsListSyncStatusSlot204Response | WebAppsListSyncStatusSlotdefaultResponse>;
-  /** Syncs function trigger metadata to the management database */
-  syncFunctionsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsSyncFunctionsSlotParameters
-  ): Promise<WebAppsSyncFunctionsSlot204Response | WebAppsSyncFunctionsSlotdefaultResponse>;
-  /** Add or update a host level secret. */
-  createOrUpdateHostSecretSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    keyType: string,
-    keyName: string,
-    options: WebAppsCreateOrUpdateHostSecretSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateHostSecretSlot200Response
-    | WebAppsCreateOrUpdateHostSecretSlot201Response
-    | WebAppsCreateOrUpdateHostSecretSlotdefaultResponse
-  >;
-  /** Delete a host level secret. */
-  deleteHostSecretSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    keyType: string,
-    keyName: string,
-    options?: WebAppsDeleteHostSecretSlotParameters
-  ): Promise<
-    | WebAppsDeleteHostSecretSlot204Response
-    | WebAppsDeleteHostSecretSlot404Response
-    | WebAppsDeleteHostSecretSlotdefaultResponse
-  >;
-  /** Get hostname bindings for an app or a deployment slot. */
-  listHostNameBindingsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListHostNameBindingsSlotParameters
-  ): Promise<
-    WebAppsListHostNameBindingsSlot200Response | WebAppsListHostNameBindingsSlotdefaultResponse
-  >;
-  /** Get the named hostname binding for an app (or deployment slot, if specified). */
-  getHostNameBindingSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    hostName: string,
-    options?: WebAppsGetHostNameBindingSlotParameters
-  ): Promise<
-    WebAppsGetHostNameBindingSlot200Response | WebAppsGetHostNameBindingSlotdefaultResponse
-  >;
-  /** Creates a hostname binding for an app. */
-  createOrUpdateHostNameBindingSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    hostName: string,
-    options: WebAppsCreateOrUpdateHostNameBindingSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateHostNameBindingSlot200Response
-    | WebAppsCreateOrUpdateHostNameBindingSlotdefaultResponse
-  >;
-  /** Deletes a hostname binding for an app. */
-  deleteHostNameBindingSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    hostName: string,
-    options?: WebAppsDeleteHostNameBindingSlotParameters
-  ): Promise<
-    | WebAppsDeleteHostNameBindingSlot200Response
-    | WebAppsDeleteHostNameBindingSlot204Response
-    | WebAppsDeleteHostNameBindingSlotdefaultResponse
-  >;
-  /** Retrieves a specific Service Bus Hybrid Connection used by this Web App. */
-  getHybridConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    namespaceName: string,
-    relayName: string,
-    options?: WebAppsGetHybridConnectionSlotParameters
-  ): Promise<
-    WebAppsGetHybridConnectionSlot200Response | WebAppsGetHybridConnectionSlotdefaultResponse
-  >;
-  /** Creates a new Hybrid Connection using a Service Bus relay. */
-  createOrUpdateHybridConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    namespaceName: string,
-    relayName: string,
-    options: WebAppsCreateOrUpdateHybridConnectionSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateHybridConnectionSlot200Response
-    | WebAppsCreateOrUpdateHybridConnectionSlotdefaultResponse
-  >;
-  /** Removes a Hybrid Connection from this site. */
-  deleteHybridConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    namespaceName: string,
-    relayName: string,
-    options?: WebAppsDeleteHybridConnectionSlotParameters
-  ): Promise<
-    | WebAppsDeleteHybridConnectionSlot200Response
-    | WebAppsDeleteHybridConnectionSlot404Response
-    | WebAppsDeleteHybridConnectionSlotdefaultResponse
-  >;
-  /** Creates a new Hybrid Connection using a Service Bus relay. */
-  updateHybridConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    namespaceName: string,
-    relayName: string,
-    options: WebAppsUpdateHybridConnectionSlotParameters
-  ): Promise<
-    WebAppsUpdateHybridConnectionSlot200Response | WebAppsUpdateHybridConnectionSlotdefaultResponse
-  >;
-  /** Retrieves all Service Bus Hybrid Connections used by this Web App. */
-  listHybridConnectionsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListHybridConnectionsSlotParameters
-  ): Promise<
-    WebAppsListHybridConnectionsSlot200Response | WebAppsListHybridConnectionsSlotdefaultResponse
-  >;
-  /** Gets hybrid connections configured for an app (or deployment slot, if specified). */
-  listRelayServiceConnectionsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListRelayServiceConnectionsSlotParameters
-  ): Promise<
-    | WebAppsListRelayServiceConnectionsSlot200Response
-    | WebAppsListRelayServiceConnectionsSlotdefaultResponse
-  >;
-  /** Gets a hybrid connection configuration by its name. */
-  getRelayServiceConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    entityName: string,
-    options?: WebAppsGetRelayServiceConnectionSlotParameters
-  ): Promise<
-    | WebAppsGetRelayServiceConnectionSlot200Response
-    | WebAppsGetRelayServiceConnectionSlotdefaultResponse
-  >;
-  /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
-  createOrUpdateRelayServiceConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    entityName: string,
-    options: WebAppsCreateOrUpdateRelayServiceConnectionSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateRelayServiceConnectionSlot200Response
-    | WebAppsCreateOrUpdateRelayServiceConnectionSlotdefaultResponse
-  >;
-  /** Deletes a relay service connection by its name. */
-  deleteRelayServiceConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    entityName: string,
-    options?: WebAppsDeleteRelayServiceConnectionSlotParameters
-  ): Promise<
-    | WebAppsDeleteRelayServiceConnectionSlot200Response
-    | WebAppsDeleteRelayServiceConnectionSlot404Response
-    | WebAppsDeleteRelayServiceConnectionSlotdefaultResponse
-  >;
-  /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
-  updateRelayServiceConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    entityName: string,
-    options: WebAppsUpdateRelayServiceConnectionSlotParameters
-  ): Promise<
-    | WebAppsUpdateRelayServiceConnectionSlot200Response
-    | WebAppsUpdateRelayServiceConnectionSlotdefaultResponse
-  >;
-  /** Gets all scale-out instances of an app. */
-  listInstanceIdentifiersSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListInstanceIdentifiersSlotParameters
-  ): Promise<
-    | WebAppsListInstanceIdentifiersSlot200Response
-    | WebAppsListInstanceIdentifiersSlotdefaultResponse
-  >;
-  /** Gets all scale-out instances of an app. */
-  getInstanceInfoSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    options?: WebAppsGetInstanceInfoSlotParameters
-  ): Promise<WebAppsGetInstanceInfoSlot200Response | WebAppsGetInstanceInfoSlotdefaultResponse>;
-  /** Get the status of the last MSDeploy operation. */
-  getInstanceMsDeployStatusSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    options?: WebAppsGetInstanceMsDeployStatusSlotParameters
-  ): Promise<
-    | WebAppsGetInstanceMsDeployStatusSlot200Response
-    | WebAppsGetInstanceMsDeployStatusSlotdefaultResponse
-  >;
-  /** Invoke the MSDeploy web app extension. */
-  createInstanceMSDeployOperationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    options: WebAppsCreateInstanceMSDeployOperationSlotParameters
-  ): Promise<
-    | WebAppsCreateInstanceMSDeployOperationSlot201Response
-    | WebAppsCreateInstanceMSDeployOperationSlot409Response
-    | WebAppsCreateInstanceMSDeployOperationSlotdefaultResponse
-  >;
-  /** Get the MSDeploy Log for the last MSDeploy operation. */
-  getInstanceMSDeployLogSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    options?: WebAppsGetInstanceMSDeployLogSlotParameters
-  ): Promise<
-    | WebAppsGetInstanceMSDeployLogSlot200Response
-    | WebAppsGetInstanceMSDeployLogSlot404Response
-    | WebAppsGetInstanceMSDeployLogSlotdefaultResponse
-  >;
-  /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
-  listInstanceProcessesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    options?: WebAppsListInstanceProcessesSlotParameters
-  ): Promise<
-    | WebAppsListInstanceProcessesSlot200Response
-    | WebAppsListInstanceProcessesSlot404Response
-    | WebAppsListInstanceProcessesSlotdefaultResponse
-  >;
-  /** Get process information by its ID for a specific scaled-out instance in a web site. */
-  getInstanceProcessSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    processId: string,
-    options?: WebAppsGetInstanceProcessSlotParameters
-  ): Promise<
-    | WebAppsGetInstanceProcessSlot200Response
-    | WebAppsGetInstanceProcessSlot404Response
-    | WebAppsGetInstanceProcessSlotdefaultResponse
-  >;
-  /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
-  deleteInstanceProcessSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    processId: string,
-    options?: WebAppsDeleteInstanceProcessSlotParameters
-  ): Promise<
-    | WebAppsDeleteInstanceProcessSlot204Response
-    | WebAppsDeleteInstanceProcessSlot404Response
-    | WebAppsDeleteInstanceProcessSlotdefaultResponse
-  >;
-  /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
-  getInstanceProcessDumpSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    processId: string,
-    options?: WebAppsGetInstanceProcessDumpSlotParameters
-  ): Promise<
-    | WebAppsGetInstanceProcessDumpSlot200Response
-    | WebAppsGetInstanceProcessDumpSlot404Response
-    | WebAppsGetInstanceProcessDumpSlotdefaultResponse
-  >;
-  /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
-  listInstanceProcessModulesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    processId: string,
-    options?: WebAppsListInstanceProcessModulesSlotParameters
-  ): Promise<
-    | WebAppsListInstanceProcessModulesSlot200Response
-    | WebAppsListInstanceProcessModulesSlot404Response
-    | WebAppsListInstanceProcessModulesSlotdefaultResponse
-  >;
-  /** Get process information by its ID for a specific scaled-out instance in a web site. */
-  getInstanceProcessModuleSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    processId: string,
-    baseAddress: string,
-    options?: WebAppsGetInstanceProcessModuleSlotParameters
-  ): Promise<
-    | WebAppsGetInstanceProcessModuleSlot200Response
-    | WebAppsGetInstanceProcessModuleSlot404Response
-    | WebAppsGetInstanceProcessModuleSlotdefaultResponse
-  >;
-  /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
-  listInstanceProcessThreadsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    instanceId: string,
-    processId: string,
-    options?: WebAppsListInstanceProcessThreadsSlotParameters
-  ): Promise<
-    | WebAppsListInstanceProcessThreadsSlot200Response
-    | WebAppsListInstanceProcessThreadsSlot404Response
-    | WebAppsListInstanceProcessThreadsSlotdefaultResponse
-  >;
-  /** Shows whether an app can be cloned to another resource group or subscription. */
-  isCloneableSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsIsCloneableSlotParameters
-  ): Promise<WebAppsIsCloneableSlot200Response | WebAppsIsCloneableSlotdefaultResponse>;
-  /** Gets existing backups of an app. */
-  listSiteBackupsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListSiteBackupsSlotParameters
-  ): Promise<WebAppsListSiteBackupsSlot200Response | WebAppsListSiteBackupsSlotdefaultResponse>;
-  /** This is to allow calling via powershell and ARM template. */
-  listSyncFunctionTriggersSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListSyncFunctionTriggersSlotParameters
-  ): Promise<
-    | WebAppsListSyncFunctionTriggersSlot200Response
-    | WebAppsListSyncFunctionTriggersSlotdefaultResponse
-  >;
-  /** Returns the status of MySql in app migration, if one is active, and whether or not MySql in app is enabled */
-  getMigrateMySqlStatusSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetMigrateMySqlStatusSlotParameters
-  ): Promise<
-    WebAppsGetMigrateMySqlStatusSlot200Response | WebAppsGetMigrateMySqlStatusSlotdefaultResponse
-  >;
-  /** Gets a Swift Virtual Network connection. */
-  getSwiftVirtualNetworkConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetSwiftVirtualNetworkConnectionSlotParameters
-  ): Promise<
-    | WebAppsGetSwiftVirtualNetworkConnectionSlot200Response
-    | WebAppsGetSwiftVirtualNetworkConnectionSlotdefaultResponse
-  >;
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot200Response
-    | WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotdefaultResponse
-  >;
-  /** Deletes a Swift Virtual Network connection from an app (or deployment slot). */
-  deleteSwiftVirtualNetworkSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsDeleteSwiftVirtualNetworkSlotParameters
-  ): Promise<
-    | WebAppsDeleteSwiftVirtualNetworkSlot200Response
-    | WebAppsDeleteSwiftVirtualNetworkSlot404Response
-    | WebAppsDeleteSwiftVirtualNetworkSlotdefaultResponse
-  >;
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   */
-  updateSwiftVirtualNetworkConnectionWithCheckSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotParameters
-  ): Promise<
-    | WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlot200Response
-    | WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotdefaultResponse
-  >;
-  /** Gets all network features used by the app (or deployment slot, if specified). */
-  listNetworkFeaturesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    view: string,
-    options?: WebAppsListNetworkFeaturesSlotParameters
-  ): Promise<
-    | WebAppsListNetworkFeaturesSlot200Response
-    | WebAppsListNetworkFeaturesSlot404Response
-    | WebAppsListNetworkFeaturesSlotdefaultResponse
-  >;
-  /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-  getNetworkTraceOperationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    operationId: string,
-    options?: WebAppsGetNetworkTraceOperationSlotParameters
-  ): Promise<
-    | WebAppsGetNetworkTraceOperationSlot200Response
-    | WebAppsGetNetworkTraceOperationSlot202Response
-    | WebAppsGetNetworkTraceOperationSlotdefaultResponse
-  >;
-  /** Start capturing network packets for the site (To be deprecated). */
-  startWebSiteNetworkTraceSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsStartWebSiteNetworkTraceSlotParameters
-  ): Promise<
-    | WebAppsStartWebSiteNetworkTraceSlot200Response
-    | WebAppsStartWebSiteNetworkTraceSlotdefaultResponse
-  >;
-  /** Start capturing network packets for the site. */
-  startWebSiteNetworkTraceOperationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsStartWebSiteNetworkTraceOperationSlotParameters
-  ): Promise<
-    | WebAppsStartWebSiteNetworkTraceOperationSlot200Response
-    | WebAppsStartWebSiteNetworkTraceOperationSlot202Response
-    | WebAppsStartWebSiteNetworkTraceOperationSlotdefaultResponse
-  >;
-  /** Stop ongoing capturing network packets for the site. */
-  stopWebSiteNetworkTraceSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsStopWebSiteNetworkTraceSlotParameters
-  ): Promise<
-    | WebAppsStopWebSiteNetworkTraceSlot200Response
-    | WebAppsStopWebSiteNetworkTraceSlot204Response
-    | WebAppsStopWebSiteNetworkTraceSlotdefaultResponse
-  >;
-  /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-  getNetworkTracesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    operationId: string,
-    options?: WebAppsGetNetworkTracesSlotParameters
-  ): Promise<WebAppsGetNetworkTracesSlot200Response | WebAppsGetNetworkTracesSlotdefaultResponse>;
-  /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-  getNetworkTraceOperationSlotV2(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    operationId: string,
-    options?: WebAppsGetNetworkTraceOperationSlotV2Parameters
-  ): Promise<
-    | WebAppsGetNetworkTraceOperationSlotV2200Response
-    | WebAppsGetNetworkTraceOperationSlotV2202Response
-    | WebAppsGetNetworkTraceOperationSlotV2defaultResponse
-  >;
-  /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-  getNetworkTracesSlotV2(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    operationId: string,
-    options?: WebAppsGetNetworkTracesSlotV2Parameters
-  ): Promise<
-    WebAppsGetNetworkTracesSlotV2200Response | WebAppsGetNetworkTracesSlotV2defaultResponse
-  >;
-  /** Generates a new publishing password for an app (or deployment slot, if specified). */
-  generateNewSitePublishingPasswordSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGenerateNewSitePublishingPasswordSlotParameters
-  ): Promise<
-    | WebAppsGenerateNewSitePublishingPasswordSlot200Response
-    | WebAppsGenerateNewSitePublishingPasswordSlot204Response
-    | WebAppsGenerateNewSitePublishingPasswordSlotdefaultResponse
-  >;
-  /** Gets perfmon counters for web app. */
-  listPerfMonCountersSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListPerfMonCountersSlotParameters
-  ): Promise<
-    WebAppsListPerfMonCountersSlot200Response | WebAppsListPerfMonCountersSlotdefaultResponse
-  >;
-  /** Gets web app's event logs. */
-  getSitePhpErrorLogFlagSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetSitePhpErrorLogFlagSlotParameters
-  ): Promise<
-    WebAppsGetSitePhpErrorLogFlagSlot200Response | WebAppsGetSitePhpErrorLogFlagSlotdefaultResponse
-  >;
-  /** Gets the premier add-ons of an app. */
-  listPremierAddOnsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListPremierAddOnsSlotParameters
-  ): Promise<WebAppsListPremierAddOnsSlot200Response | WebAppsListPremierAddOnsSlotdefaultResponse>;
-  /** Gets a named add-on of an app. */
-  getPremierAddOnSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    premierAddOnName: string,
-    options?: WebAppsGetPremierAddOnSlotParameters
-  ): Promise<WebAppsGetPremierAddOnSlot200Response | WebAppsGetPremierAddOnSlotdefaultResponse>;
-  /** Updates a named add-on of an app. */
-  addPremierAddOnSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    premierAddOnName: string,
-    options: WebAppsAddPremierAddOnSlotParameters
-  ): Promise<WebAppsAddPremierAddOnSlot200Response | WebAppsAddPremierAddOnSlotdefaultResponse>;
-  /** Delete a premier add-on from an app. */
-  deletePremierAddOnSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    premierAddOnName: string,
-    options?: WebAppsDeletePremierAddOnSlotParameters
-  ): Promise<
-    WebAppsDeletePremierAddOnSlot200Response | WebAppsDeletePremierAddOnSlotdefaultResponse
-  >;
-  /** Updates a named add-on of an app. */
-  updatePremierAddOnSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    premierAddOnName: string,
-    options: WebAppsUpdatePremierAddOnSlotParameters
-  ): Promise<
-    WebAppsUpdatePremierAddOnSlot200Response | WebAppsUpdatePremierAddOnSlotdefaultResponse
-  >;
-  /** Gets data around private site access enablement and authorized Virtual Networks that can access the site. */
-  getPrivateAccessSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetPrivateAccessSlotParameters
-  ): Promise<WebAppsGetPrivateAccessSlot200Response | WebAppsGetPrivateAccessSlotdefaultResponse>;
-  /** Sets data around private site access enablement and authorized Virtual Networks that can access the site. */
-  putPrivateAccessVnetSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsPutPrivateAccessVnetSlotParameters
-  ): Promise<
-    WebAppsPutPrivateAccessVnetSlot200Response | WebAppsPutPrivateAccessVnetSlotdefaultResponse
-  >;
-  /** Gets the list of private endpoint connections associated with a site */
-  getPrivateEndpointConnectionListSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetPrivateEndpointConnectionListSlotParameters
-  ): Promise<
-    | WebAppsGetPrivateEndpointConnectionListSlot200Response
-    | WebAppsGetPrivateEndpointConnectionListSlotdefaultResponse
-  >;
-  /** Gets a private endpoint connection */
-  getPrivateEndpointConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    privateEndpointConnectionName: string,
-    options?: WebAppsGetPrivateEndpointConnectionSlotParameters
-  ): Promise<
-    | WebAppsGetPrivateEndpointConnectionSlot200Response
-    | WebAppsGetPrivateEndpointConnectionSlotdefaultResponse
-  >;
-  /** Approves or rejects a private endpoint connection */
-  approveOrRejectPrivateEndpointConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    privateEndpointConnectionName: string,
-    options: WebAppsApproveOrRejectPrivateEndpointConnectionSlotParameters
-  ): Promise<
-    | WebAppsApproveOrRejectPrivateEndpointConnectionSlot200Response
-    | WebAppsApproveOrRejectPrivateEndpointConnectionSlot202Response
-    | WebAppsApproveOrRejectPrivateEndpointConnectionSlotdefaultResponse
-  >;
-  /** Deletes a private endpoint connection */
-  deletePrivateEndpointConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    privateEndpointConnectionName: string,
-    options?: WebAppsDeletePrivateEndpointConnectionSlotParameters
-  ): Promise<
-    | WebAppsDeletePrivateEndpointConnectionSlot200Response
-    | WebAppsDeletePrivateEndpointConnectionSlot202Response
-    | WebAppsDeletePrivateEndpointConnectionSlot204Response
-    | WebAppsDeletePrivateEndpointConnectionSlotdefaultResponse
-  >;
-  /** Gets the private link resources */
-  getPrivateLinkResourcesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetPrivateLinkResourcesSlotParameters
-  ): Promise<
-    | WebAppsGetPrivateLinkResourcesSlot200Response
-    | WebAppsGetPrivateLinkResourcesSlotdefaultResponse
-  >;
-  /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
-  listProcessesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListProcessesSlotParameters
-  ): Promise<
-    | WebAppsListProcessesSlot200Response
-    | WebAppsListProcessesSlot404Response
-    | WebAppsListProcessesSlotdefaultResponse
-  >;
-  /** Get process information by its ID for a specific scaled-out instance in a web site. */
-  getProcessSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    processId: string,
-    options?: WebAppsGetProcessSlotParameters
-  ): Promise<
-    | WebAppsGetProcessSlot200Response
-    | WebAppsGetProcessSlot404Response
-    | WebAppsGetProcessSlotdefaultResponse
-  >;
-  /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
-  deleteProcessSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    processId: string,
-    options?: WebAppsDeleteProcessSlotParameters
-  ): Promise<
-    | WebAppsDeleteProcessSlot204Response
-    | WebAppsDeleteProcessSlot404Response
-    | WebAppsDeleteProcessSlotdefaultResponse
-  >;
-  /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
-  getProcessDumpSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    processId: string,
-    options?: WebAppsGetProcessDumpSlotParameters
-  ): Promise<
-    | WebAppsGetProcessDumpSlot200Response
-    | WebAppsGetProcessDumpSlot404Response
-    | WebAppsGetProcessDumpSlotdefaultResponse
-  >;
-  /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
-  listProcessModulesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    processId: string,
-    options?: WebAppsListProcessModulesSlotParameters
-  ): Promise<
-    | WebAppsListProcessModulesSlot200Response
-    | WebAppsListProcessModulesSlot404Response
-    | WebAppsListProcessModulesSlotdefaultResponse
-  >;
-  /** Get process information by its ID for a specific scaled-out instance in a web site. */
-  getProcessModuleSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    processId: string,
-    baseAddress: string,
-    options?: WebAppsGetProcessModuleSlotParameters
-  ): Promise<
-    | WebAppsGetProcessModuleSlot200Response
-    | WebAppsGetProcessModuleSlot404Response
-    | WebAppsGetProcessModuleSlotdefaultResponse
-  >;
-  /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
-  listProcessThreadsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    processId: string,
-    options?: WebAppsListProcessThreadsSlotParameters
-  ): Promise<
-    | WebAppsListProcessThreadsSlot200Response
-    | WebAppsListProcessThreadsSlot404Response
-    | WebAppsListProcessThreadsSlotdefaultResponse
-  >;
-  /** Get public certificates for an app or a deployment slot. */
-  listPublicCertificatesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListPublicCertificatesSlotParameters
-  ): Promise<
-    WebAppsListPublicCertificatesSlot200Response | WebAppsListPublicCertificatesSlotdefaultResponse
-  >;
-  /** Get the named public certificate for an app (or deployment slot, if specified). */
-  getPublicCertificateSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    publicCertificateName: string,
-    options?: WebAppsGetPublicCertificateSlotParameters
-  ): Promise<
-    WebAppsGetPublicCertificateSlot200Response | WebAppsGetPublicCertificateSlotdefaultResponse
-  >;
-  /** Creates a hostname binding for an app. */
-  createOrUpdatePublicCertificateSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    publicCertificateName: string,
-    options: WebAppsCreateOrUpdatePublicCertificateSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdatePublicCertificateSlot200Response
-    | WebAppsCreateOrUpdatePublicCertificateSlotdefaultResponse
-  >;
-  /** Deletes a hostname binding for an app. */
-  deletePublicCertificateSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    publicCertificateName: string,
-    options?: WebAppsDeletePublicCertificateSlotParameters
-  ): Promise<
-    | WebAppsDeletePublicCertificateSlot200Response
-    | WebAppsDeletePublicCertificateSlot204Response
-    | WebAppsDeletePublicCertificateSlotdefaultResponse
-  >;
-  /** Gets the publishing profile for an app (or deployment slot, if specified). */
-  listPublishingProfileXmlWithSecretsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsListPublishingProfileXmlWithSecretsSlotParameters
-  ): Promise<
-    | WebAppsListPublishingProfileXmlWithSecretsSlot200Response
-    | WebAppsListPublishingProfileXmlWithSecretsSlotdefaultResponse
-  >;
-  /** Resets the configuration settings of the current slot if they were previously modified by calling the API with POST. */
-  resetSlotConfigurationSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsResetSlotConfigurationSlotParameters
-  ): Promise<
-    WebAppsResetSlotConfigurationSlot200Response | WebAppsResetSlotConfigurationSlotdefaultResponse
-  >;
-  /** Restarts an app (or deployment slot, if specified). */
-  restartSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsRestartSlotParameters
-  ): Promise<WebAppsRestartSlot200Response | WebAppsRestartSlotdefaultResponse>;
-  /** Restores an app from a backup blob in Azure Storage. */
-  restoreFromBackupBlobSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsRestoreFromBackupBlobSlotParameters
-  ): Promise<
-    | WebAppsRestoreFromBackupBlobSlot200Response
-    | WebAppsRestoreFromBackupBlobSlot202Response
-    | WebAppsRestoreFromBackupBlobSlotdefaultResponse
-  >;
-  /** Restores a deleted web app to this web app. */
-  restoreFromDeletedAppSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsRestoreFromDeletedAppSlotParameters
-  ): Promise<
-    | WebAppsRestoreFromDeletedAppSlot200Response
-    | WebAppsRestoreFromDeletedAppSlot202Response
-    | WebAppsRestoreFromDeletedAppSlotdefaultResponse
-  >;
-  /** Restores a web app from a snapshot. */
-  restoreSnapshotSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsRestoreSnapshotSlotParameters
-  ): Promise<
-    | WebAppsRestoreSnapshotSlot200Response
-    | WebAppsRestoreSnapshotSlot202Response
-    | WebAppsRestoreSnapshotSlotdefaultResponse
-  >;
-  /** Get list of siteextensions for a web site, or a deployment slot. */
-  listSiteExtensionsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListSiteExtensionsSlotParameters
-  ): Promise<
-    | WebAppsListSiteExtensionsSlot200Response
-    | WebAppsListSiteExtensionsSlot404Response
-    | WebAppsListSiteExtensionsSlotdefaultResponse
-  >;
-  /** Get site extension information by its ID for a web site, or a deployment slot. */
-  getSiteExtensionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    siteExtensionId: string,
-    options?: WebAppsGetSiteExtensionSlotParameters
-  ): Promise<
-    | WebAppsGetSiteExtensionSlot200Response
-    | WebAppsGetSiteExtensionSlot404Response
-    | WebAppsGetSiteExtensionSlotdefaultResponse
-  >;
-  /** Install site extension on a web site, or a deployment slot. */
-  installSiteExtensionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    siteExtensionId: string,
-    options?: WebAppsInstallSiteExtensionSlotParameters
-  ): Promise<
-    | WebAppsInstallSiteExtensionSlot200Response
-    | WebAppsInstallSiteExtensionSlot201Response
-    | WebAppsInstallSiteExtensionSlot429Response
-    | WebAppsInstallSiteExtensionSlotdefaultResponse
-  >;
-  /** Remove a site extension from a web site, or a deployment slot. */
-  deleteSiteExtensionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    siteExtensionId: string,
-    options?: WebAppsDeleteSiteExtensionSlotParameters
-  ): Promise<
-    | WebAppsDeleteSiteExtensionSlot204Response
-    | WebAppsDeleteSiteExtensionSlot404Response
-    | WebAppsDeleteSiteExtensionSlotdefaultResponse
-  >;
-  /** Get the difference in configuration settings between two web app slots. */
-  listSlotDifferencesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsListSlotDifferencesSlotParameters
-  ): Promise<
-    WebAppsListSlotDifferencesSlot200Response | WebAppsListSlotDifferencesSlotdefaultResponse
-  >;
-  /** Swaps two deployment slots of an app. */
-  swapSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsSwapSlotParameters
-  ): Promise<
-    WebAppsSwapSlot200Response | WebAppsSwapSlot202Response | WebAppsSwapSlotdefaultResponse
-  >;
-  /** Returns all Snapshots to the user. */
-  listSnapshotsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListSnapshotsSlotParameters
-  ): Promise<WebAppsListSnapshotsSlot200Response | WebAppsListSnapshotsSlotdefaultResponse>;
-  /** Returns all Snapshots to the user from DRSecondary endpoint. */
-  listSnapshotsFromDRSecondarySlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListSnapshotsFromDRSecondarySlotParameters
-  ): Promise<
-    | WebAppsListSnapshotsFromDRSecondarySlot200Response
-    | WebAppsListSnapshotsFromDRSecondarySlotdefaultResponse
-  >;
-  /** Gets the source control configuration of an app. */
-  getSourceControlSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsGetSourceControlSlotParameters
-  ): Promise<
-    | WebAppsGetSourceControlSlot200Response
-    | WebAppsGetSourceControlSlot201Response
-    | WebAppsGetSourceControlSlot202Response
-    | WebAppsGetSourceControlSlotdefaultResponse
-  >;
-  /** Updates the source control configuration of an app. */
-  createOrUpdateSourceControlSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsCreateOrUpdateSourceControlSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateSourceControlSlot200Response
-    | WebAppsCreateOrUpdateSourceControlSlot201Response
-    | WebAppsCreateOrUpdateSourceControlSlot202Response
-    | WebAppsCreateOrUpdateSourceControlSlotdefaultResponse
-  >;
-  /** Deletes the source control configuration of an app. */
-  deleteSourceControlSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsDeleteSourceControlSlotParameters
-  ): Promise<
-    | WebAppsDeleteSourceControlSlot200Response
-    | WebAppsDeleteSourceControlSlot202Response
-    | WebAppsDeleteSourceControlSlot404Response
-    | WebAppsDeleteSourceControlSlotdefaultResponse
-  >;
-  /** Updates the source control configuration of an app. */
-  updateSourceControlSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options: WebAppsUpdateSourceControlSlotParameters
-  ): Promise<
-    | WebAppsUpdateSourceControlSlot200Response
-    | WebAppsUpdateSourceControlSlot201Response
-    | WebAppsUpdateSourceControlSlot202Response
-    | WebAppsUpdateSourceControlSlotdefaultResponse
-  >;
-  /** Starts an app (or deployment slot, if specified). */
-  startSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsStartSlotParameters
-  ): Promise<WebAppsStartSlot200Response | WebAppsStartSlotdefaultResponse>;
-  /** Start capturing network packets for the site. */
-  startNetworkTraceSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsStartNetworkTraceSlotParameters
-  ): Promise<
-    | WebAppsStartNetworkTraceSlot200Response
-    | WebAppsStartNetworkTraceSlot202Response
-    | WebAppsStartNetworkTraceSlotdefaultResponse
-  >;
-  /** Stops an app (or deployment slot, if specified). */
-  stopSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsStopSlotParameters
-  ): Promise<WebAppsStopSlot200Response | WebAppsStopSlotdefaultResponse>;
-  /** Stop ongoing capturing network packets for the site. */
-  stopNetworkTraceSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsStopNetworkTraceSlotParameters
-  ): Promise<
-    | WebAppsStopNetworkTraceSlot200Response
-    | WebAppsStopNetworkTraceSlot204Response
-    | WebAppsStopNetworkTraceSlotdefaultResponse
-  >;
-  /** Sync web app repository. */
-  syncRepositorySlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsSyncRepositorySlotParameters
-  ): Promise<WebAppsSyncRepositorySlot200Response | WebAppsSyncRepositorySlotdefaultResponse>;
-  /** Syncs function trigger metadata to the management database */
-  syncFunctionTriggersSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsSyncFunctionTriggersSlotParameters
-  ): Promise<
-    WebAppsSyncFunctionTriggersSlot204Response | WebAppsSyncFunctionTriggersSlotdefaultResponse
-  >;
-  /** List triggered web jobs for an app, or a deployment slot. */
-  listTriggeredWebJobsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListTriggeredWebJobsSlotParameters
-  ): Promise<
-    WebAppsListTriggeredWebJobsSlot200Response | WebAppsListTriggeredWebJobsSlotdefaultResponse
-  >;
-  /** Gets a triggered web job by its ID for an app, or a deployment slot. */
-  getTriggeredWebJobSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    webJobName: string,
-    options?: WebAppsGetTriggeredWebJobSlotParameters
-  ): Promise<
-    | WebAppsGetTriggeredWebJobSlot200Response
-    | WebAppsGetTriggeredWebJobSlot404Response
-    | WebAppsGetTriggeredWebJobSlotdefaultResponse
-  >;
-  /** Delete a triggered web job by its ID for an app, or a deployment slot. */
-  deleteTriggeredWebJobSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    webJobName: string,
-    options?: WebAppsDeleteTriggeredWebJobSlotParameters
-  ): Promise<
-    | WebAppsDeleteTriggeredWebJobSlot200Response
-    | WebAppsDeleteTriggeredWebJobSlot204Response
-    | WebAppsDeleteTriggeredWebJobSlotdefaultResponse
-  >;
-  /** List a triggered web job's history for an app, or a deployment slot. */
-  listTriggeredWebJobHistorySlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    webJobName: string,
-    options?: WebAppsListTriggeredWebJobHistorySlotParameters
-  ): Promise<
-    | WebAppsListTriggeredWebJobHistorySlot200Response
-    | WebAppsListTriggeredWebJobHistorySlot404Response
-    | WebAppsListTriggeredWebJobHistorySlotdefaultResponse
-  >;
-  /** Gets a triggered web job's history by its ID for an app, , or a deployment slot. */
-  getTriggeredWebJobHistorySlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    id: string,
-    name: string,
-    slot: string,
-    webJobName: string,
-    options?: WebAppsGetTriggeredWebJobHistorySlotParameters
-  ): Promise<
-    | WebAppsGetTriggeredWebJobHistorySlot200Response
-    | WebAppsGetTriggeredWebJobHistorySlot404Response
-    | WebAppsGetTriggeredWebJobHistorySlotdefaultResponse
-  >;
-  /** Run a triggered web job for an app, or a deployment slot. */
-  runTriggeredWebJobSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    webJobName: string,
-    options?: WebAppsRunTriggeredWebJobSlotParameters
-  ): Promise<
-    | WebAppsRunTriggeredWebJobSlot200Response
-    | WebAppsRunTriggeredWebJobSlot404Response
-    | WebAppsRunTriggeredWebJobSlotdefaultResponse
-  >;
-  /** Gets the quota usage information of an app (or deployment slot, if specified). */
-  listUsagesSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListUsagesSlotParameters
-  ): Promise<WebAppsListUsagesSlot200Response | WebAppsListUsagesSlotdefaultResponse>;
-  /** Gets the virtual networks the app (or deployment slot) is connected to. */
-  listVnetConnectionsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListVnetConnectionsSlotParameters
-  ): Promise<
-    WebAppsListVnetConnectionsSlot200Response | WebAppsListVnetConnectionsSlotdefaultResponse
-  >;
-  /** Gets a virtual network the app (or deployment slot) is connected to by name. */
-  getVnetConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    vnetName: string,
-    options?: WebAppsGetVnetConnectionSlotParameters
-  ): Promise<WebAppsGetVnetConnectionSlot200Response | WebAppsGetVnetConnectionSlotdefaultResponse>;
-  /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
-  createOrUpdateVnetConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    vnetName: string,
-    options: WebAppsCreateOrUpdateVnetConnectionSlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateVnetConnectionSlot200Response
-    | WebAppsCreateOrUpdateVnetConnectionSlotdefaultResponse
-  >;
-  /** Deletes a connection from an app (or deployment slot to a named virtual network. */
-  deleteVnetConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    vnetName: string,
-    options?: WebAppsDeleteVnetConnectionSlotParameters
-  ): Promise<
-    | WebAppsDeleteVnetConnectionSlot200Response
-    | WebAppsDeleteVnetConnectionSlot404Response
-    | WebAppsDeleteVnetConnectionSlotdefaultResponse
-  >;
-  /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
-  updateVnetConnectionSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    vnetName: string,
-    options: WebAppsUpdateVnetConnectionSlotParameters
-  ): Promise<
-    WebAppsUpdateVnetConnectionSlot200Response | WebAppsUpdateVnetConnectionSlotdefaultResponse
-  >;
-  /** Gets an app's Virtual Network gateway. */
-  getVnetConnectionGatewaySlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    vnetName: string,
-    gatewayName: string,
-    options?: WebAppsGetVnetConnectionGatewaySlotParameters
-  ): Promise<
-    | WebAppsGetVnetConnectionGatewaySlot200Response
-    | WebAppsGetVnetConnectionGatewaySlot404Response
-    | WebAppsGetVnetConnectionGatewaySlotdefaultResponse
-  >;
-  /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
-  createOrUpdateVnetConnectionGatewaySlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    vnetName: string,
-    gatewayName: string,
-    options: WebAppsCreateOrUpdateVnetConnectionGatewaySlotParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateVnetConnectionGatewaySlot200Response
-    | WebAppsCreateOrUpdateVnetConnectionGatewaySlotdefaultResponse
-  >;
-  /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
-  updateVnetConnectionGatewaySlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    vnetName: string,
-    gatewayName: string,
-    options: WebAppsUpdateVnetConnectionGatewaySlotParameters
-  ): Promise<
-    | WebAppsUpdateVnetConnectionGatewaySlot200Response
-    | WebAppsUpdateVnetConnectionGatewaySlotdefaultResponse
-  >;
-  /** List webjobs for an app, or a deployment slot. */
-  listWebJobsSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    options?: WebAppsListWebJobsSlotParameters
-  ): Promise<WebAppsListWebJobsSlot200Response | WebAppsListWebJobsSlotdefaultResponse>;
-  /** Get webjob information for an app, or a deployment slot. */
-  getWebJobSlot(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    slot: string,
-    webJobName: string,
-    options?: WebAppsGetWebJobSlotParameters
-  ): Promise<WebAppsGetWebJobSlot200Response | WebAppsGetWebJobSlotdefaultResponse>;
-  /** Get the difference in configuration settings between two web app slots. */
-  listSlotDifferencesFromProduction(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsListSlotDifferencesFromProductionParameters
-  ): Promise<
-    | WebAppsListSlotDifferencesFromProduction200Response
-    | WebAppsListSlotDifferencesFromProductiondefaultResponse
-  >;
-  /** Swaps two deployment slots of an app. */
-  swapSlotWithProduction(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsSwapSlotWithProductionParameters
-  ): Promise<
-    | WebAppsSwapSlotWithProduction200Response
-    | WebAppsSwapSlotWithProduction202Response
-    | WebAppsSwapSlotWithProductiondefaultResponse
-  >;
-  /** Returns all Snapshots to the user. */
-  listSnapshots(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListSnapshotsParameters
-  ): Promise<WebAppsListSnapshots200Response | WebAppsListSnapshotsdefaultResponse>;
-  /** Returns all Snapshots to the user from DRSecondary endpoint. */
-  listSnapshotsFromDRSecondary(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListSnapshotsFromDRSecondaryParameters
-  ): Promise<
-    | WebAppsListSnapshotsFromDRSecondary200Response
-    | WebAppsListSnapshotsFromDRSecondarydefaultResponse
-  >;
-  /** Gets the source control configuration of an app. */
-  getSourceControl(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsGetSourceControlParameters
-  ): Promise<
-    | WebAppsGetSourceControl200Response
-    | WebAppsGetSourceControl201Response
-    | WebAppsGetSourceControl202Response
-    | WebAppsGetSourceControldefaultResponse
-  >;
-  /** Updates the source control configuration of an app. */
-  createOrUpdateSourceControl(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsCreateOrUpdateSourceControlParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateSourceControl200Response
-    | WebAppsCreateOrUpdateSourceControl201Response
-    | WebAppsCreateOrUpdateSourceControl202Response
-    | WebAppsCreateOrUpdateSourceControldefaultResponse
-  >;
-  /** Deletes the source control configuration of an app. */
-  deleteSourceControl(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsDeleteSourceControlParameters
-  ): Promise<
-    | WebAppsDeleteSourceControl200Response
-    | WebAppsDeleteSourceControl202Response
-    | WebAppsDeleteSourceControl404Response
-    | WebAppsDeleteSourceControldefaultResponse
-  >;
-  /** Updates the source control configuration of an app. */
-  updateSourceControl(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options: WebAppsUpdateSourceControlParameters
-  ): Promise<
-    | WebAppsUpdateSourceControl200Response
-    | WebAppsUpdateSourceControl201Response
-    | WebAppsUpdateSourceControl202Response
-    | WebAppsUpdateSourceControldefaultResponse
-  >;
-  /** Starts an app (or deployment slot, if specified). */
-  start(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsStartParameters
-  ): Promise<WebAppsStart200Response | WebAppsStartdefaultResponse>;
-  /** Start capturing network packets for the site. */
-  startNetworkTrace(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsStartNetworkTraceParameters
-  ): Promise<
-    | WebAppsStartNetworkTrace200Response
-    | WebAppsStartNetworkTrace202Response
-    | WebAppsStartNetworkTracedefaultResponse
-  >;
-  /** Stops an app (or deployment slot, if specified). */
-  stop(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsStopParameters
-  ): Promise<WebAppsStop200Response | WebAppsStopdefaultResponse>;
-  /** Stop ongoing capturing network packets for the site. */
-  stopNetworkTrace(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsStopNetworkTraceParameters
-  ): Promise<
-    | WebAppsStopNetworkTrace200Response
-    | WebAppsStopNetworkTrace204Response
-    | WebAppsStopNetworkTracedefaultResponse
-  >;
-  /** Sync web app repository. */
-  syncRepository(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsSyncRepositoryParameters
-  ): Promise<WebAppsSyncRepository200Response | WebAppsSyncRepositorydefaultResponse>;
-  /** Syncs function trigger metadata to the management database */
-  syncFunctionTriggers(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsSyncFunctionTriggersParameters
-  ): Promise<WebAppsSyncFunctionTriggers204Response | WebAppsSyncFunctionTriggersdefaultResponse>;
-  /** List triggered web jobs for an app, or a deployment slot. */
-  listTriggeredWebJobs(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListTriggeredWebJobsParameters
-  ): Promise<WebAppsListTriggeredWebJobs200Response | WebAppsListTriggeredWebJobsdefaultResponse>;
-  /** Gets a triggered web job by its ID for an app, or a deployment slot. */
-  getTriggeredWebJob(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    webJobName: string,
-    options?: WebAppsGetTriggeredWebJobParameters
-  ): Promise<
-    | WebAppsGetTriggeredWebJob200Response
-    | WebAppsGetTriggeredWebJob404Response
-    | WebAppsGetTriggeredWebJobdefaultResponse
-  >;
-  /** Delete a triggered web job by its ID for an app, or a deployment slot. */
-  deleteTriggeredWebJob(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    webJobName: string,
-    options?: WebAppsDeleteTriggeredWebJobParameters
-  ): Promise<
-    | WebAppsDeleteTriggeredWebJob200Response
-    | WebAppsDeleteTriggeredWebJob204Response
-    | WebAppsDeleteTriggeredWebJobdefaultResponse
-  >;
-  /** List a triggered web job's history for an app, or a deployment slot. */
-  listTriggeredWebJobHistory(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    webJobName: string,
-    options?: WebAppsListTriggeredWebJobHistoryParameters
-  ): Promise<
-    | WebAppsListTriggeredWebJobHistory200Response
-    | WebAppsListTriggeredWebJobHistory404Response
-    | WebAppsListTriggeredWebJobHistorydefaultResponse
-  >;
-  /** Gets a triggered web job's history by its ID for an app, , or a deployment slot. */
-  getTriggeredWebJobHistory(
-    subscriptionId: string,
-    resourceGroupName: string,
-    id: string,
-    name: string,
-    webJobName: string,
-    options?: WebAppsGetTriggeredWebJobHistoryParameters
-  ): Promise<
-    | WebAppsGetTriggeredWebJobHistory200Response
-    | WebAppsGetTriggeredWebJobHistory404Response
-    | WebAppsGetTriggeredWebJobHistorydefaultResponse
-  >;
-  /** Run a triggered web job for an app, or a deployment slot. */
-  runTriggeredWebJob(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    webJobName: string,
-    options?: WebAppsRunTriggeredWebJobParameters
-  ): Promise<
-    | WebAppsRunTriggeredWebJob200Response
-    | WebAppsRunTriggeredWebJob404Response
-    | WebAppsRunTriggeredWebJobdefaultResponse
-  >;
-  /** Gets the quota usage information of an app (or deployment slot, if specified). */
-  listUsages(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListUsagesParameters
-  ): Promise<WebAppsListUsages200Response | WebAppsListUsagesdefaultResponse>;
-  /** Gets the virtual networks the app (or deployment slot) is connected to. */
-  listVnetConnections(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListVnetConnectionsParameters
-  ): Promise<WebAppsListVnetConnections200Response | WebAppsListVnetConnectionsdefaultResponse>;
-  /** Gets a virtual network the app (or deployment slot) is connected to by name. */
-  getVnetConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    options?: WebAppsGetVnetConnectionParameters
-  ): Promise<WebAppsGetVnetConnection200Response | WebAppsGetVnetConnectiondefaultResponse>;
-  /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
-  createOrUpdateVnetConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    options: WebAppsCreateOrUpdateVnetConnectionParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateVnetConnection200Response
-    | WebAppsCreateOrUpdateVnetConnectiondefaultResponse
-  >;
-  /** Deletes a connection from an app (or deployment slot to a named virtual network. */
-  deleteVnetConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    options?: WebAppsDeleteVnetConnectionParameters
-  ): Promise<
-    | WebAppsDeleteVnetConnection200Response
-    | WebAppsDeleteVnetConnection404Response
-    | WebAppsDeleteVnetConnectiondefaultResponse
-  >;
-  /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
-  updateVnetConnection(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    options: WebAppsUpdateVnetConnectionParameters
-  ): Promise<WebAppsUpdateVnetConnection200Response | WebAppsUpdateVnetConnectiondefaultResponse>;
-  /** Gets an app's Virtual Network gateway. */
-  getVnetConnectionGateway(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    gatewayName: string,
-    options?: WebAppsGetVnetConnectionGatewayParameters
-  ): Promise<
-    | WebAppsGetVnetConnectionGateway200Response
-    | WebAppsGetVnetConnectionGateway404Response
-    | WebAppsGetVnetConnectionGatewaydefaultResponse
-  >;
-  /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
-  createOrUpdateVnetConnectionGateway(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    gatewayName: string,
-    options: WebAppsCreateOrUpdateVnetConnectionGatewayParameters
-  ): Promise<
-    | WebAppsCreateOrUpdateVnetConnectionGateway200Response
-    | WebAppsCreateOrUpdateVnetConnectionGatewaydefaultResponse
-  >;
-  /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
-  updateVnetConnectionGateway(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    vnetName: string,
-    gatewayName: string,
-    options: WebAppsUpdateVnetConnectionGatewayParameters
-  ): Promise<
-    | WebAppsUpdateVnetConnectionGateway200Response
-    | WebAppsUpdateVnetConnectionGatewaydefaultResponse
-  >;
-  /** List webjobs for an app, or a deployment slot. */
-  listWebJobs(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsListWebJobsParameters
-  ): Promise<WebAppsListWebJobs200Response | WebAppsListWebJobsdefaultResponse>;
-  /** Get webjob information for an app, or a deployment slot. */
-  getWebJob(
-    subscriptionId: string,
-    resourceGroupName: string,
-    name: string,
-    webJobName: string,
-    options?: WebAppsGetWebJobParameters
-  ): Promise<WebAppsGetWebJob200Response | WebAppsGetWebJobdefaultResponse>;
-}
 
 export interface AppServiceCertificateOrdersList {
   /** List all certificate orders in a subscription. */
   get(
     options?: AppServiceCertificateOrdersListParameters
   ): Promise<
-    AppServiceCertificateOrdersList200Response | AppServiceCertificateOrdersListdefaultResponse
+    | AppServiceCertificateOrdersList200Response
+    | AppServiceCertificateOrdersListdefaultResponse
   >;
 }
 
@@ -8865,7 +2223,8 @@ export interface AppServiceCertificateOrdersGet {
   get(
     options?: AppServiceCertificateOrdersGetParameters
   ): Promise<
-    AppServiceCertificateOrdersGet200Response | AppServiceCertificateOrdersGetdefaultResponse
+    | AppServiceCertificateOrdersGet200Response
+    | AppServiceCertificateOrdersGetdefaultResponse
   >;
   /** Create or update a certificate purchase order. */
   put(
@@ -8887,7 +2246,8 @@ export interface AppServiceCertificateOrdersGet {
   patch(
     options: AppServiceCertificateOrdersUpdateParameters
   ): Promise<
-    AppServiceCertificateOrdersUpdate200Response | AppServiceCertificateOrdersUpdatedefaultResponse
+    | AppServiceCertificateOrdersUpdate200Response
+    | AppServiceCertificateOrdersUpdatedefaultResponse
   >;
 }
 
@@ -8949,7 +2309,8 @@ export interface AppServiceCertificateOrdersRenew {
   post(
     options: AppServiceCertificateOrdersRenewParameters
   ): Promise<
-    AppServiceCertificateOrdersRenew204Response | AppServiceCertificateOrdersRenewdefaultResponse
+    | AppServiceCertificateOrdersRenew204Response
+    | AppServiceCertificateOrdersRenewdefaultResponse
   >;
 }
 
@@ -9047,7 +2408,10 @@ export interface DomainsCheckAvailability {
   /** Check if a domain is available for registration. */
   post(
     options: DomainsCheckAvailabilityParameters
-  ): Promise<DomainsCheckAvailability200Response | DomainsCheckAvailabilitydefaultResponse>;
+  ): Promise<
+    | DomainsCheckAvailability200Response
+    | DomainsCheckAvailabilitydefaultResponse
+  >;
 }
 
 export interface DomainsList {
@@ -9062,7 +2426,8 @@ export interface DomainsGetControlCenterSsoRequest {
   post(
     options?: DomainsGetControlCenterSsoRequestParameters
   ): Promise<
-    DomainsGetControlCenterSsoRequest200Response | DomainsGetControlCenterSsoRequestdefaultResponse
+    | DomainsGetControlCenterSsoRequest200Response
+    | DomainsGetControlCenterSsoRequestdefaultResponse
   >;
 }
 
@@ -9070,19 +2435,27 @@ export interface DomainsListRecommendations {
   /** Get domain name recommendations based on keywords. */
   post(
     options: DomainsListRecommendationsParameters
-  ): Promise<DomainsListRecommendations200Response | DomainsListRecommendationsdefaultResponse>;
+  ): Promise<
+    | DomainsListRecommendations200Response
+    | DomainsListRecommendationsdefaultResponse
+  >;
 }
 
 export interface DomainsListByResourceGroup {
   /** Get all domains in a resource group. */
   get(
     options?: DomainsListByResourceGroupParameters
-  ): Promise<DomainsListByResourceGroup200Response | DomainsListByResourceGroupdefaultResponse>;
+  ): Promise<
+    | DomainsListByResourceGroup200Response
+    | DomainsListByResourceGroupdefaultResponse
+  >;
 }
 
 export interface DomainsGet {
   /** Get a domain. */
-  get(options?: DomainsGetParameters): Promise<DomainsGet200Response | DomainsGetdefaultResponse>;
+  get(
+    options?: DomainsGetParameters
+  ): Promise<DomainsGet200Response | DomainsGetdefaultResponse>;
   /** Creates or updates a domain. */
   put(
     options: DomainsCreateOrUpdateParameters
@@ -9094,11 +2467,19 @@ export interface DomainsGet {
   /** Delete a domain. */
   delete(
     options?: DomainsDeleteParameters
-  ): Promise<DomainsDelete200Response | DomainsDelete204Response | DomainsDeletedefaultResponse>;
+  ): Promise<
+    | DomainsDelete200Response
+    | DomainsDelete204Response
+    | DomainsDeletedefaultResponse
+  >;
   /** Creates or updates a domain. */
   patch(
     options: DomainsUpdateParameters
-  ): Promise<DomainsUpdate200Response | DomainsUpdate202Response | DomainsUpdatedefaultResponse>;
+  ): Promise<
+    | DomainsUpdate200Response
+    | DomainsUpdate202Response
+    | DomainsUpdatedefaultResponse
+  >;
 }
 
 export interface DomainsListOwnershipIdentifiers {
@@ -9106,7 +2487,8 @@ export interface DomainsListOwnershipIdentifiers {
   get(
     options?: DomainsListOwnershipIdentifiersParameters
   ): Promise<
-    DomainsListOwnershipIdentifiers200Response | DomainsListOwnershipIdentifiersdefaultResponse
+    | DomainsListOwnershipIdentifiers200Response
+    | DomainsListOwnershipIdentifiersdefaultResponse
   >;
 }
 
@@ -9115,7 +2497,8 @@ export interface DomainsGetOwnershipIdentifier {
   get(
     options?: DomainsGetOwnershipIdentifierParameters
   ): Promise<
-    DomainsGetOwnershipIdentifier200Response | DomainsGetOwnershipIdentifierdefaultResponse
+    | DomainsGetOwnershipIdentifier200Response
+    | DomainsGetOwnershipIdentifierdefaultResponse
   >;
   /** Creates an ownership identifier for a domain or updates identifier details for an existing identifier */
   put(
@@ -9136,7 +2519,8 @@ export interface DomainsGetOwnershipIdentifier {
   patch(
     options: DomainsUpdateOwnershipIdentifierParameters
   ): Promise<
-    DomainsUpdateOwnershipIdentifier200Response | DomainsUpdateOwnershipIdentifierdefaultResponse
+    | DomainsUpdateOwnershipIdentifier200Response
+    | DomainsUpdateOwnershipIdentifierdefaultResponse
   >;
 }
 
@@ -9167,7 +2551,9 @@ export interface TopLevelDomainsList {
   /** Get all top-level domains supported for registration. */
   get(
     options?: TopLevelDomainsListParameters
-  ): Promise<TopLevelDomainsList200Response | TopLevelDomainsListdefaultResponse>;
+  ): Promise<
+    TopLevelDomainsList200Response | TopLevelDomainsListdefaultResponse
+  >;
 }
 
 export interface TopLevelDomainsGet {
@@ -9182,7 +2568,8 @@ export interface TopLevelDomainsListAgreements {
   post(
     options: TopLevelDomainsListAgreementsParameters
   ): Promise<
-    TopLevelDomainsListAgreements200Response | TopLevelDomainsListAgreementsdefaultResponse
+    | TopLevelDomainsListAgreements200Response
+    | TopLevelDomainsListAgreementsdefaultResponse
   >;
 }
 
@@ -9200,7 +2587,10 @@ export interface AppServiceEnvironmentsList {
   /** Get all App Service Environments for a subscription. */
   get(
     options?: AppServiceEnvironmentsListParameters
-  ): Promise<AppServiceEnvironmentsList200Response | AppServiceEnvironmentsListdefaultResponse>;
+  ): Promise<
+    | AppServiceEnvironmentsList200Response
+    | AppServiceEnvironmentsListdefaultResponse
+  >;
 }
 
 export interface AppServiceEnvironmentsListByResourceGroup {
@@ -9217,7 +2607,10 @@ export interface AppServiceEnvironmentsGet {
   /** Get the properties of an App Service Environment. */
   get(
     options?: AppServiceEnvironmentsGetParameters
-  ): Promise<AppServiceEnvironmentsGet200Response | AppServiceEnvironmentsGetdefaultResponse>;
+  ): Promise<
+    | AppServiceEnvironmentsGet200Response
+    | AppServiceEnvironmentsGetdefaultResponse
+  >;
   /** Create or update an App Service Environment. */
   put(
     options: AppServiceEnvironmentsCreateOrUpdateParameters
@@ -9261,7 +2654,8 @@ export interface AppServiceEnvironmentsGetVipInfo {
   get(
     options?: AppServiceEnvironmentsGetVipInfoParameters
   ): Promise<
-    AppServiceEnvironmentsGetVipInfo200Response | AppServiceEnvironmentsGetVipInfodefaultResponse
+    | AppServiceEnvironmentsGetVipInfo200Response
+    | AppServiceEnvironmentsGetVipInfodefaultResponse
   >;
 }
 
@@ -9470,7 +2864,10 @@ export interface AppServiceEnvironmentsReboot {
   /** Reboot all machines in an App Service Environment. */
   post(
     options?: AppServiceEnvironmentsRebootParameters
-  ): Promise<AppServiceEnvironmentsReboot202Response | AppServiceEnvironmentsRebootdefaultResponse>;
+  ): Promise<
+    | AppServiceEnvironmentsReboot202Response
+    | AppServiceEnvironmentsRebootdefaultResponse
+  >;
 }
 
 export interface AppServiceEnvironmentsResume {
@@ -9499,7 +2896,8 @@ export interface AppServiceEnvironmentsListWebApps {
   get(
     options?: AppServiceEnvironmentsListWebAppsParameters
   ): Promise<
-    AppServiceEnvironmentsListWebApps200Response | AppServiceEnvironmentsListWebAppsdefaultResponse
+    | AppServiceEnvironmentsListWebApps200Response
+    | AppServiceEnvironmentsListWebAppsdefaultResponse
   >;
 }
 
@@ -9519,7 +2917,8 @@ export interface AppServiceEnvironmentsListUsages {
   get(
     options?: AppServiceEnvironmentsListUsagesParameters
   ): Promise<
-    AppServiceEnvironmentsListUsages200Response | AppServiceEnvironmentsListUsagesdefaultResponse
+    | AppServiceEnvironmentsListUsages200Response
+    | AppServiceEnvironmentsListUsagesdefaultResponse
   >;
 }
 
@@ -9603,7 +3002,9 @@ export interface AppServicePlansList {
   /** Get all App Service plans for a subscription. */
   get(
     options?: AppServicePlansListParameters
-  ): Promise<AppServicePlansList200Response | AppServicePlansListdefaultResponse>;
+  ): Promise<
+    AppServicePlansList200Response | AppServicePlansListdefaultResponse
+  >;
 }
 
 export interface AppServicePlansListByResourceGroup {
@@ -9656,7 +3057,8 @@ export interface AppServicePlansListCapabilities {
   get(
     options?: AppServicePlansListCapabilitiesParameters
   ): Promise<
-    AppServicePlansListCapabilities200Response | AppServicePlansListCapabilitiesdefaultResponse
+    | AppServicePlansListCapabilities200Response
+    | AppServicePlansListCapabilitiesdefaultResponse
   >;
 }
 
@@ -9723,7 +3125,8 @@ export interface AppServicePlansRestartWebApps {
   post(
     options?: AppServicePlansRestartWebAppsParameters
   ): Promise<
-    AppServicePlansRestartWebApps204Response | AppServicePlansRestartWebAppsdefaultResponse
+    | AppServicePlansRestartWebApps204Response
+    | AppServicePlansRestartWebAppsdefaultResponse
   >;
 }
 
@@ -9731,7 +3134,10 @@ export interface AppServicePlansListWebApps {
   /** Get all apps associated with an App Service plan. */
   get(
     options?: AppServicePlansListWebAppsParameters
-  ): Promise<AppServicePlansListWebApps200Response | AppServicePlansListWebAppsdefaultResponse>;
+  ): Promise<
+    | AppServicePlansListWebApps200Response
+    | AppServicePlansListWebAppsdefaultResponse
+  >;
 }
 
 export interface AppServicePlansGetServerFarmSkus {
@@ -9739,7 +3145,8 @@ export interface AppServicePlansGetServerFarmSkus {
   get(
     options?: AppServicePlansGetServerFarmSkusParameters
   ): Promise<
-    AppServicePlansGetServerFarmSkus200Response | AppServicePlansGetServerFarmSkusdefaultResponse
+    | AppServicePlansGetServerFarmSkus200Response
+    | AppServicePlansGetServerFarmSkusdefaultResponse
   >;
 }
 
@@ -9747,14 +3154,20 @@ export interface AppServicePlansListUsages {
   /** Gets server farm usage information */
   get(
     options?: AppServicePlansListUsagesParameters
-  ): Promise<AppServicePlansListUsages200Response | AppServicePlansListUsagesdefaultResponse>;
+  ): Promise<
+    | AppServicePlansListUsages200Response
+    | AppServicePlansListUsagesdefaultResponse
+  >;
 }
 
 export interface AppServicePlansListVnets {
   /** Get all Virtual Networks associated with an App Service plan. */
   get(
     options?: AppServicePlansListVnetsParameters
-  ): Promise<AppServicePlansListVnets200Response | AppServicePlansListVnetsdefaultResponse>;
+  ): Promise<
+    | AppServicePlansListVnets200Response
+    | AppServicePlansListVnetsdefaultResponse
+  >;
 }
 
 export interface AppServicePlansGetVnetFromServerFarm {
@@ -9773,13 +3186,15 @@ export interface AppServicePlansGetVnetGateway {
   get(
     options?: AppServicePlansGetVnetGatewayParameters
   ): Promise<
-    AppServicePlansGetVnetGateway200Response | AppServicePlansGetVnetGatewaydefaultResponse
+    | AppServicePlansGetVnetGateway200Response
+    | AppServicePlansGetVnetGatewaydefaultResponse
   >;
   /** Update a Virtual Network gateway. */
   put(
     options: AppServicePlansUpdateVnetGatewayParameters
   ): Promise<
-    AppServicePlansUpdateVnetGateway200Response | AppServicePlansUpdateVnetGatewaydefaultResponse
+    | AppServicePlansUpdateVnetGateway200Response
+    | AppServicePlansUpdateVnetGatewaydefaultResponse
   >;
 }
 
@@ -9788,7 +3203,8 @@ export interface AppServicePlansListRoutesForVnet {
   get(
     options?: AppServicePlansListRoutesForVnetParameters
   ): Promise<
-    AppServicePlansListRoutesForVnet200Response | AppServicePlansListRoutesForVnetdefaultResponse
+    | AppServicePlansListRoutesForVnet200Response
+    | AppServicePlansListRoutesForVnetdefaultResponse
   >;
 }
 
@@ -9833,7 +3249,10 @@ export interface AppServicePlansRebootWorker {
   /** Reboot a worker machine in an App Service plan. */
   post(
     options?: AppServicePlansRebootWorkerParameters
-  ): Promise<AppServicePlansRebootWorker204Response | AppServicePlansRebootWorkerdefaultResponse>;
+  ): Promise<
+    | AppServicePlansRebootWorker204Response
+    | AppServicePlansRebootWorkerdefaultResponse
+  >;
 }
 
 export interface CertificatesList {
@@ -9848,7 +3267,8 @@ export interface CertificatesListByResourceGroup {
   get(
     options?: CertificatesListByResourceGroupParameters
   ): Promise<
-    CertificatesListByResourceGroup200Response | CertificatesListByResourceGroupdefaultResponse
+    | CertificatesListByResourceGroup200Response
+    | CertificatesListByResourceGroupdefaultResponse
   >;
 }
 
@@ -9860,7 +3280,10 @@ export interface CertificatesGet {
   /** Create or update a certificate. */
   put(
     options: CertificatesCreateOrUpdateParameters
-  ): Promise<CertificatesCreateOrUpdate200Response | CertificatesCreateOrUpdatedefaultResponse>;
+  ): Promise<
+    | CertificatesCreateOrUpdate200Response
+    | CertificatesCreateOrUpdatedefaultResponse
+  >;
   /** Delete a certificate. */
   delete(
     options?: CertificatesDeleteParameters
@@ -9880,7 +3303,8 @@ export interface ContainerAppsListBySubscription {
   get(
     options?: ContainerAppsListBySubscriptionParameters
   ): Promise<
-    ContainerAppsListBySubscription200Response | ContainerAppsListBySubscriptiondefaultResponse
+    | ContainerAppsListBySubscription200Response
+    | ContainerAppsListBySubscriptiondefaultResponse
   >;
 }
 
@@ -9889,7 +3313,8 @@ export interface ContainerAppsListByResourceGroup {
   get(
     options?: ContainerAppsListByResourceGroupParameters
   ): Promise<
-    ContainerAppsListByResourceGroup200Response | ContainerAppsListByResourceGroupdefaultResponse
+    | ContainerAppsListByResourceGroup200Response
+    | ContainerAppsListByResourceGroupdefaultResponse
   >;
 }
 
@@ -9898,7 +3323,9 @@ export interface ContainerAppsGet {
   get(
     options?: ContainerAppsGetParameters
   ): Promise<
-    ContainerAppsGet200Response | ContainerAppsGet404Response | ContainerAppsGetdefaultResponse
+    | ContainerAppsGet200Response
+    | ContainerAppsGet404Response
+    | ContainerAppsGetdefaultResponse
   >;
   /** Create or update a Container App. */
   put(
@@ -9923,7 +3350,10 @@ export interface ContainerAppsListSecrets {
   /** List secrets for a container app */
   post(
     options?: ContainerAppsListSecretsParameters
-  ): Promise<ContainerAppsListSecrets200Response | ContainerAppsListSecretsdefaultResponse>;
+  ): Promise<
+    | ContainerAppsListSecrets200Response
+    | ContainerAppsListSecretsdefaultResponse
+  >;
 }
 
 export interface ContainerAppsRevisionsListRevisions {
@@ -9941,7 +3371,8 @@ export interface ContainerAppsRevisionsGetRevision {
   get(
     options?: ContainerAppsRevisionsGetRevisionParameters
   ): Promise<
-    ContainerAppsRevisionsGetRevision200Response | ContainerAppsRevisionsGetRevisiondefaultResponse
+    | ContainerAppsRevisionsGetRevision200Response
+    | ContainerAppsRevisionsGetRevisiondefaultResponse
   >;
 }
 
@@ -9986,7 +3417,10 @@ export interface DeletedWebAppsListByLocation {
   /** Get all deleted apps for a subscription at location */
   get(
     options?: DeletedWebAppsListByLocationParameters
-  ): Promise<DeletedWebAppsListByLocation200Response | DeletedWebAppsListByLocationdefaultResponse>;
+  ): Promise<
+    | DeletedWebAppsListByLocation200Response
+    | DeletedWebAppsListByLocationdefaultResponse
+  >;
 }
 
 export interface DeletedWebAppsGetDeletedWebAppByLocation {
@@ -10063,14 +3497,20 @@ export interface DiagnosticsListSiteAnalyses {
   /** Get Site Analyses */
   get(
     options?: DiagnosticsListSiteAnalysesParameters
-  ): Promise<DiagnosticsListSiteAnalyses200Response | DiagnosticsListSiteAnalysesdefaultResponse>;
+  ): Promise<
+    | DiagnosticsListSiteAnalyses200Response
+    | DiagnosticsListSiteAnalysesdefaultResponse
+  >;
 }
 
 export interface DiagnosticsGetSiteAnalysis {
   /** Get Site Analysis */
   get(
     options?: DiagnosticsGetSiteAnalysisParameters
-  ): Promise<DiagnosticsGetSiteAnalysis200Response | DiagnosticsGetSiteAnalysisdefaultResponse>;
+  ): Promise<
+    | DiagnosticsGetSiteAnalysis200Response
+    | DiagnosticsGetSiteAnalysisdefaultResponse
+  >;
 }
 
 export interface DiagnosticsExecuteSiteAnalysis {
@@ -10078,7 +3518,8 @@ export interface DiagnosticsExecuteSiteAnalysis {
   post(
     options?: DiagnosticsExecuteSiteAnalysisParameters
   ): Promise<
-    DiagnosticsExecuteSiteAnalysis200Response | DiagnosticsExecuteSiteAnalysisdefaultResponse
+    | DiagnosticsExecuteSiteAnalysis200Response
+    | DiagnosticsExecuteSiteAnalysisdefaultResponse
   >;
 }
 
@@ -10086,14 +3527,20 @@ export interface DiagnosticsListSiteDetectors {
   /** Get Detectors */
   get(
     options?: DiagnosticsListSiteDetectorsParameters
-  ): Promise<DiagnosticsListSiteDetectors200Response | DiagnosticsListSiteDetectorsdefaultResponse>;
+  ): Promise<
+    | DiagnosticsListSiteDetectors200Response
+    | DiagnosticsListSiteDetectorsdefaultResponse
+  >;
 }
 
 export interface DiagnosticsGetSiteDetector {
   /** Get Detector */
   get(
     options?: DiagnosticsGetSiteDetectorParameters
-  ): Promise<DiagnosticsGetSiteDetector200Response | DiagnosticsGetSiteDetectordefaultResponse>;
+  ): Promise<
+    | DiagnosticsGetSiteDetector200Response
+    | DiagnosticsGetSiteDetectordefaultResponse
+  >;
 }
 
 export interface DiagnosticsExecuteSiteDetector {
@@ -10101,7 +3548,8 @@ export interface DiagnosticsExecuteSiteDetector {
   post(
     options?: DiagnosticsExecuteSiteDetectorParameters
   ): Promise<
-    DiagnosticsExecuteSiteDetector200Response | DiagnosticsExecuteSiteDetectordefaultResponse
+    | DiagnosticsExecuteSiteDetector200Response
+    | DiagnosticsExecuteSiteDetectordefaultResponse
   >;
 }
 
@@ -10150,7 +3598,8 @@ export interface DiagnosticsListSiteAnalysesSlot {
   get(
     options?: DiagnosticsListSiteAnalysesSlotParameters
   ): Promise<
-    DiagnosticsListSiteAnalysesSlot200Response | DiagnosticsListSiteAnalysesSlotdefaultResponse
+    | DiagnosticsListSiteAnalysesSlot200Response
+    | DiagnosticsListSiteAnalysesSlotdefaultResponse
   >;
 }
 
@@ -10159,7 +3608,8 @@ export interface DiagnosticsGetSiteAnalysisSlot {
   get(
     options?: DiagnosticsGetSiteAnalysisSlotParameters
   ): Promise<
-    DiagnosticsGetSiteAnalysisSlot200Response | DiagnosticsGetSiteAnalysisSlotdefaultResponse
+    | DiagnosticsGetSiteAnalysisSlot200Response
+    | DiagnosticsGetSiteAnalysisSlotdefaultResponse
   >;
 }
 
@@ -10178,7 +3628,8 @@ export interface DiagnosticsListSiteDetectorsSlot {
   get(
     options?: DiagnosticsListSiteDetectorsSlotParameters
   ): Promise<
-    DiagnosticsListSiteDetectorsSlot200Response | DiagnosticsListSiteDetectorsSlotdefaultResponse
+    | DiagnosticsListSiteDetectorsSlot200Response
+    | DiagnosticsListSiteDetectorsSlotdefaultResponse
   >;
 }
 
@@ -10187,7 +3638,8 @@ export interface DiagnosticsGetSiteDetectorSlot {
   get(
     options?: DiagnosticsGetSiteDetectorSlotParameters
   ): Promise<
-    DiagnosticsGetSiteDetectorSlot200Response | DiagnosticsGetSiteDetectorSlotdefaultResponse
+    | DiagnosticsGetSiteDetectorSlot200Response
+    | DiagnosticsGetSiteDetectorSlotdefaultResponse
   >;
 }
 
@@ -10205,7 +3657,9 @@ export interface GlobalGetDeletedWebApp {
   /** Get deleted app for a subscription. */
   get(
     options?: GlobalGetDeletedWebAppParameters
-  ): Promise<GlobalGetDeletedWebApp200Response | GlobalGetDeletedWebAppdefaultResponse>;
+  ): Promise<
+    GlobalGetDeletedWebApp200Response | GlobalGetDeletedWebAppdefaultResponse
+  >;
 }
 
 export interface GlobalGetDeletedWebAppSnapshots {
@@ -10213,7 +3667,8 @@ export interface GlobalGetDeletedWebAppSnapshots {
   get(
     options?: GlobalGetDeletedWebAppSnapshotsParameters
   ): Promise<
-    GlobalGetDeletedWebAppSnapshots200Response | GlobalGetDeletedWebAppSnapshotsdefaultResponse
+    | GlobalGetDeletedWebAppSnapshots200Response
+    | GlobalGetDeletedWebAppSnapshotsdefaultResponse
   >;
 }
 
@@ -10251,7 +3706,9 @@ export interface KubeEnvironmentsGet {
   /** Get the properties of a Kubernetes Environment. */
   get(
     options?: KubeEnvironmentsGetParameters
-  ): Promise<KubeEnvironmentsGet200Response | KubeEnvironmentsGetdefaultResponse>;
+  ): Promise<
+    KubeEnvironmentsGet200Response | KubeEnvironmentsGetdefaultResponse
+  >;
   /** Creates or updates a Kubernetes Environment. */
   put(
     options: KubeEnvironmentsCreateOrUpdateParameters
@@ -10283,14 +3740,20 @@ export interface ProviderGetAvailableStacks {
   /** Get available application frameworks and their versions */
   get(
     options?: ProviderGetAvailableStacksParameters
-  ): Promise<ProviderGetAvailableStacks200Response | ProviderGetAvailableStacksdefaultResponse>;
+  ): Promise<
+    | ProviderGetAvailableStacks200Response
+    | ProviderGetAvailableStacksdefaultResponse
+  >;
 }
 
 export interface ProviderGetFunctionAppStacks {
   /** Get available Function app frameworks and their versions */
   get(
     options?: ProviderGetFunctionAppStacksParameters
-  ): Promise<ProviderGetFunctionAppStacks200Response | ProviderGetFunctionAppStacksdefaultResponse>;
+  ): Promise<
+    | ProviderGetFunctionAppStacks200Response
+    | ProviderGetFunctionAppStacksdefaultResponse
+  >;
 }
 
 export interface ProviderGetFunctionAppStacksForLocation {
@@ -10317,14 +3780,18 @@ export interface ProviderListOperations {
   /** Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions */
   get(
     options?: ProviderListOperationsParameters
-  ): Promise<ProviderListOperations200Response | ProviderListOperationsdefaultResponse>;
+  ): Promise<
+    ProviderListOperations200Response | ProviderListOperationsdefaultResponse
+  >;
 }
 
 export interface ProviderGetWebAppStacks {
   /** Get available Web app frameworks and their versions */
   get(
     options?: ProviderGetWebAppStacksParameters
-  ): Promise<ProviderGetWebAppStacks200Response | ProviderGetWebAppStacksdefaultResponse>;
+  ): Promise<
+    ProviderGetWebAppStacks200Response | ProviderGetWebAppStacksdefaultResponse
+  >;
 }
 
 export interface ProviderGetAvailableStacksOnPrem {
@@ -10332,7 +3799,8 @@ export interface ProviderGetAvailableStacksOnPrem {
   get(
     options?: ProviderGetAvailableStacksOnPremParameters
   ): Promise<
-    ProviderGetAvailableStacksOnPrem200Response | ProviderGetAvailableStacksOnPremdefaultResponse
+    | ProviderGetAvailableStacksOnPrem200Response
+    | ProviderGetAvailableStacksOnPremdefaultResponse
   >;
 }
 
@@ -10340,7 +3808,9 @@ export interface RecommendationsList {
   /** List all recommendations for a subscription. */
   get(
     options?: RecommendationsListParameters
-  ): Promise<RecommendationsList200Response | RecommendationsListdefaultResponse>;
+  ): Promise<
+    RecommendationsList200Response | RecommendationsListdefaultResponse
+  >;
 }
 
 export interface RecommendationsResetAllFilters {
@@ -10348,7 +3818,8 @@ export interface RecommendationsResetAllFilters {
   post(
     options?: RecommendationsResetAllFiltersParameters
   ): Promise<
-    RecommendationsResetAllFilters204Response | RecommendationsResetAllFiltersdefaultResponse
+    | RecommendationsResetAllFilters204Response
+    | RecommendationsResetAllFiltersdefaultResponse
   >;
 }
 
@@ -10486,7 +3957,10 @@ export interface ResourceHealthMetadataList {
   /** List all ResourceHealthMetadata for all sites in the subscription. */
   get(
     options?: ResourceHealthMetadataListParameters
-  ): Promise<ResourceHealthMetadataList200Response | ResourceHealthMetadataListdefaultResponse>;
+  ): Promise<
+    | ResourceHealthMetadataList200Response
+    | ResourceHealthMetadataListdefaultResponse
+  >;
 }
 
 export interface ResourceHealthMetadataListByResourceGroup {
@@ -10504,7 +3978,8 @@ export interface ResourceHealthMetadataListBySite {
   get(
     options?: ResourceHealthMetadataListBySiteParameters
   ): Promise<
-    ResourceHealthMetadataListBySite200Response | ResourceHealthMetadataListBySitedefaultResponse
+    | ResourceHealthMetadataListBySite200Response
+    | ResourceHealthMetadataListBySitedefaultResponse
   >;
 }
 
@@ -10513,7 +3988,8 @@ export interface ResourceHealthMetadataGetBySite {
   get(
     options?: ResourceHealthMetadataGetBySiteParameters
   ): Promise<
-    ResourceHealthMetadataGetBySite200Response | ResourceHealthMetadataGetBySitedefaultResponse
+    | ResourceHealthMetadataGetBySite200Response
+    | ResourceHealthMetadataGetBySitedefaultResponse
   >;
 }
 
@@ -10545,7 +4021,9 @@ export interface GetPublishingUser {
   /** Updates publishing user */
   put(
     options: UpdatePublishingUserParameters
-  ): Promise<UpdatePublishingUser200Response | UpdatePublishingUserdefaultResponse>;
+  ): Promise<
+    UpdatePublishingUser200Response | UpdatePublishingUserdefaultResponse
+  >;
 }
 
 export interface ListSourceControls {
@@ -10563,7 +4041,9 @@ export interface GetSourceControl {
   /** Updates source control token */
   put(
     options: UpdateSourceControlParameters
-  ): Promise<UpdateSourceControl200Response | UpdateSourceControldefaultResponse>;
+  ): Promise<
+    UpdateSourceControl200Response | UpdateSourceControldefaultResponse
+  >;
 }
 
 export interface ListBillingMeters {
@@ -10577,14 +4057,18 @@ export interface CheckNameAvailability {
   /** Check if a resource name is available. */
   post(
     options: CheckNameAvailabilityParameters
-  ): Promise<CheckNameAvailability200Response | CheckNameAvailabilitydefaultResponse>;
+  ): Promise<
+    CheckNameAvailability200Response | CheckNameAvailabilitydefaultResponse
+  >;
 }
 
 export interface ListCustomHostNameSites {
   /** Get custom hostnames under this subscription */
   get(
     options?: ListCustomHostNameSitesParameters
-  ): Promise<ListCustomHostNameSites200Response | ListCustomHostNameSitesdefaultResponse>;
+  ): Promise<
+    ListCustomHostNameSites200Response | ListCustomHostNameSitesdefaultResponse
+  >;
 }
 
 export interface GetSubscriptionDeploymentLocations {
@@ -10618,19 +4102,26 @@ export interface ListPremierAddOnOffers {
   /** List all premier add-on offers. */
   get(
     options?: ListPremierAddOnOffersParameters
-  ): Promise<ListPremierAddOnOffers200Response | ListPremierAddOnOffersdefaultResponse>;
+  ): Promise<
+    ListPremierAddOnOffers200Response | ListPremierAddOnOffersdefaultResponse
+  >;
 }
 
 export interface ListSkus {
   /** List all SKUs. */
-  get(options?: ListSkusParameters): Promise<ListSkus200Response | ListSkusdefaultResponse>;
+  get(
+    options?: ListSkusParameters
+  ): Promise<ListSkus200Response | ListSkusdefaultResponse>;
 }
 
 export interface VerifyHostingEnvironmentVnet {
   /** Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules. */
   post(
     options: VerifyHostingEnvironmentVnetParameters
-  ): Promise<VerifyHostingEnvironmentVnet200Response | VerifyHostingEnvironmentVnetdefaultResponse>;
+  ): Promise<
+    | VerifyHostingEnvironmentVnet200Response
+    | VerifyHostingEnvironmentVnetdefaultResponse
+  >;
 }
 
 export interface Move {
@@ -10640,7 +4131,9 @@ export interface Move {
 
 export interface Validate {
   /** Validate if a resource can be created. */
-  post(options: ValidateParameters): Promise<Validate200Response | ValidatedefaultResponse>;
+  post(
+    options: ValidateParameters
+  ): Promise<Validate200Response | ValidatedefaultResponse>;
 }
 
 export interface ValidateMove {
@@ -10654,7 +4147,10 @@ export interface StaticSitesPreviewWorkflow {
   /** Generates a preview workflow file for the static site */
   post(
     options: StaticSitesPreviewWorkflowParameters
-  ): Promise<StaticSitesPreviewWorkflow200Response | StaticSitesPreviewWorkflowdefaultResponse>;
+  ): Promise<
+    | StaticSitesPreviewWorkflow200Response
+    | StaticSitesPreviewWorkflowdefaultResponse
+  >;
 }
 
 export interface StaticSitesList {
@@ -10678,7 +4174,10 @@ export interface StaticSitesGetStaticSite {
   /** Gets the details of a static site. */
   get(
     options?: StaticSitesGetStaticSiteParameters
-  ): Promise<StaticSitesGetStaticSite200Response | StaticSitesGetStaticSitedefaultResponse>;
+  ): Promise<
+    | StaticSitesGetStaticSite200Response
+    | StaticSitesGetStaticSitedefaultResponse
+  >;
   /** Creates a new static site in an existing resource group, or updates an existing static site. */
   put(
     options: StaticSitesCreateOrUpdateStaticSiteParameters
@@ -10710,7 +4209,8 @@ export interface StaticSitesListStaticSiteUsers {
   post(
     options?: StaticSitesListStaticSiteUsersParameters
   ): Promise<
-    StaticSitesListStaticSiteUsers200Response | StaticSitesListStaticSiteUsersdefaultResponse
+    | StaticSitesListStaticSiteUsers200Response
+    | StaticSitesListStaticSiteUsersdefaultResponse
   >;
 }
 
@@ -10719,13 +4219,15 @@ export interface StaticSitesDeleteStaticSiteUser {
   delete(
     options?: StaticSitesDeleteStaticSiteUserParameters
   ): Promise<
-    StaticSitesDeleteStaticSiteUser200Response | StaticSitesDeleteStaticSiteUserdefaultResponse
+    | StaticSitesDeleteStaticSiteUser200Response
+    | StaticSitesDeleteStaticSiteUserdefaultResponse
   >;
   /** Updates a user entry with the listed roles */
   patch(
     options: StaticSitesUpdateStaticSiteUserParameters
   ): Promise<
-    StaticSitesUpdateStaticSiteUser200Response | StaticSitesUpdateStaticSiteUserdefaultResponse
+    | StaticSitesUpdateStaticSiteUser200Response
+    | StaticSitesUpdateStaticSiteUserdefaultResponse
   >;
 }
 
@@ -10734,7 +4236,8 @@ export interface StaticSitesGetStaticSiteBuilds {
   get(
     options?: StaticSitesGetStaticSiteBuildsParameters
   ): Promise<
-    StaticSitesGetStaticSiteBuilds200Response | StaticSitesGetStaticSiteBuildsdefaultResponse
+    | StaticSitesGetStaticSiteBuilds200Response
+    | StaticSitesGetStaticSiteBuildsdefaultResponse
   >;
 }
 
@@ -10743,7 +4246,8 @@ export interface StaticSitesGetStaticSiteBuild {
   get(
     options?: StaticSitesGetStaticSiteBuildParameters
   ): Promise<
-    StaticSitesGetStaticSiteBuild200Response | StaticSitesGetStaticSiteBuilddefaultResponse
+    | StaticSitesGetStaticSiteBuild200Response
+    | StaticSitesGetStaticSiteBuilddefaultResponse
   >;
   /** Deletes a static site build. */
   delete(
@@ -10986,7 +4490,8 @@ export interface StaticSitesListStaticSiteSecrets {
   post(
     options?: StaticSitesListStaticSiteSecretsParameters
   ): Promise<
-    StaticSitesListStaticSiteSecrets200Response | StaticSitesListStaticSiteSecretsdefaultResponse
+    | StaticSitesListStaticSiteSecrets200Response
+    | StaticSitesListStaticSiteSecretsdefaultResponse
   >;
 }
 
@@ -11042,7 +4547,8 @@ export interface StaticSitesResetStaticSiteApiKey {
   post(
     options: StaticSitesResetStaticSiteApiKeyParameters
   ): Promise<
-    StaticSitesResetStaticSiteApiKey200Response | StaticSitesResetStaticSiteApiKeydefaultResponse
+    | StaticSitesResetStaticSiteApiKey200Response
+    | StaticSitesResetStaticSiteApiKeydefaultResponse
   >;
 }
 
@@ -11104,14 +4610,19 @@ export interface WebAppsListByResourceGroup {
   /** Gets all web, mobile, and API apps in the specified resource group. */
   get(
     options?: WebAppsListByResourceGroupParameters
-  ): Promise<WebAppsListByResourceGroup200Response | WebAppsListByResourceGroupdefaultResponse>;
+  ): Promise<
+    | WebAppsListByResourceGroup200Response
+    | WebAppsListByResourceGroupdefaultResponse
+  >;
 }
 
 export interface WebAppsGet {
   /** Gets the details of a web, mobile, or API app. */
   get(
     options?: WebAppsGetParameters
-  ): Promise<WebAppsGet200Response | WebAppsGet404Response | WebAppsGetdefaultResponse>;
+  ): Promise<
+    WebAppsGet200Response | WebAppsGet404Response | WebAppsGetdefaultResponse
+  >;
   /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
   put(
     options: WebAppsCreateOrUpdateParameters
@@ -11132,14 +4643,21 @@ export interface WebAppsGet {
   /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
   patch(
     options: WebAppsUpdateParameters
-  ): Promise<WebAppsUpdate200Response | WebAppsUpdate202Response | WebAppsUpdatedefaultResponse>;
+  ): Promise<
+    | WebAppsUpdate200Response
+    | WebAppsUpdate202Response
+    | WebAppsUpdatedefaultResponse
+  >;
 }
 
 export interface WebAppsAnalyzeCustomHostname {
   /** Analyze a custom hostname. */
   get(
     options?: WebAppsAnalyzeCustomHostnameParameters
-  ): Promise<WebAppsAnalyzeCustomHostname200Response | WebAppsAnalyzeCustomHostnamedefaultResponse>;
+  ): Promise<
+    | WebAppsAnalyzeCustomHostname200Response
+    | WebAppsAnalyzeCustomHostnamedefaultResponse
+  >;
 }
 
 export interface WebAppsApplySlotConfigToProduction {
@@ -11170,7 +4688,9 @@ export interface WebAppsGetBackupStatus {
   /** Gets a backup of an app by its ID. */
   get(
     options?: WebAppsGetBackupStatusParameters
-  ): Promise<WebAppsGetBackupStatus200Response | WebAppsGetBackupStatusdefaultResponse>;
+  ): Promise<
+    WebAppsGetBackupStatus200Response | WebAppsGetBackupStatusdefaultResponse
+  >;
   /** Deletes a backup of an app by its ID. */
   delete(
     options?: WebAppsDeleteBackupParameters
@@ -11186,7 +4706,8 @@ export interface WebAppsListBackupStatusSecrets {
   post(
     options: WebAppsListBackupStatusSecretsParameters
   ): Promise<
-    WebAppsListBackupStatusSecrets200Response | WebAppsListBackupStatusSecretsdefaultResponse
+    | WebAppsListBackupStatusSecrets200Response
+    | WebAppsListBackupStatusSecretsdefaultResponse
   >;
 }
 
@@ -11194,7 +4715,11 @@ export interface WebAppsRestore {
   /** Restores a specific backup to another app (or deployment slot, if specified). */
   post(
     options: WebAppsRestoreParameters
-  ): Promise<WebAppsRestore200Response | WebAppsRestore202Response | WebAppsRestoredefaultResponse>;
+  ): Promise<
+    | WebAppsRestore200Response
+    | WebAppsRestore202Response
+    | WebAppsRestoredefaultResponse
+  >;
 }
 
 export interface WebAppsListBasicPublishingCredentialsPolicies {
@@ -11211,29 +4736,40 @@ export interface WebAppsGetFtpAllowed {
   /** Returns whether FTP is allowed on the site or not. */
   get(
     options?: WebAppsGetFtpAllowedParameters
-  ): Promise<WebAppsGetFtpAllowed200Response | WebAppsGetFtpAlloweddefaultResponse>;
+  ): Promise<
+    WebAppsGetFtpAllowed200Response | WebAppsGetFtpAlloweddefaultResponse
+  >;
   /** Updates whether FTP is allowed on the site or not. */
   put(
     options: WebAppsUpdateFtpAllowedParameters
-  ): Promise<WebAppsUpdateFtpAllowed200Response | WebAppsUpdateFtpAlloweddefaultResponse>;
+  ): Promise<
+    WebAppsUpdateFtpAllowed200Response | WebAppsUpdateFtpAlloweddefaultResponse
+  >;
 }
 
 export interface WebAppsGetScmAllowed {
   /** Returns whether Scm basic auth is allowed on the site or not. */
   get(
     options?: WebAppsGetScmAllowedParameters
-  ): Promise<WebAppsGetScmAllowed200Response | WebAppsGetScmAlloweddefaultResponse>;
+  ): Promise<
+    WebAppsGetScmAllowed200Response | WebAppsGetScmAlloweddefaultResponse
+  >;
   /** Updates whether user publishing credentials are allowed on the site or not. */
   put(
     options: WebAppsUpdateScmAllowedParameters
-  ): Promise<WebAppsUpdateScmAllowed200Response | WebAppsUpdateScmAlloweddefaultResponse>;
+  ): Promise<
+    WebAppsUpdateScmAllowed200Response | WebAppsUpdateScmAlloweddefaultResponse
+  >;
 }
 
 export interface WebAppsListConfigurations {
   /** List the configurations of an app */
   get(
     options?: WebAppsListConfigurationsParameters
-  ): Promise<WebAppsListConfigurations200Response | WebAppsListConfigurationsdefaultResponse>;
+  ): Promise<
+    | WebAppsListConfigurations200Response
+    | WebAppsListConfigurationsdefaultResponse
+  >;
 }
 
 export interface WebAppsUpdateApplicationSettings {
@@ -11241,7 +4777,8 @@ export interface WebAppsUpdateApplicationSettings {
   put(
     options: WebAppsUpdateApplicationSettingsParameters
   ): Promise<
-    WebAppsUpdateApplicationSettings200Response | WebAppsUpdateApplicationSettingsdefaultResponse
+    | WebAppsUpdateApplicationSettings200Response
+    | WebAppsUpdateApplicationSettingsdefaultResponse
   >;
 }
 
@@ -11250,7 +4787,8 @@ export interface WebAppsListApplicationSettings {
   post(
     options?: WebAppsListApplicationSettingsParameters
   ): Promise<
-    WebAppsListApplicationSettings200Response | WebAppsListApplicationSettingsdefaultResponse
+    | WebAppsListApplicationSettings200Response
+    | WebAppsListApplicationSettingsdefaultResponse
   >;
 }
 
@@ -11258,14 +4796,19 @@ export interface WebAppsUpdateAuthSettings {
   /** Updates the Authentication / Authorization settings associated with web app. */
   put(
     options: WebAppsUpdateAuthSettingsParameters
-  ): Promise<WebAppsUpdateAuthSettings200Response | WebAppsUpdateAuthSettingsdefaultResponse>;
+  ): Promise<
+    | WebAppsUpdateAuthSettings200Response
+    | WebAppsUpdateAuthSettingsdefaultResponse
+  >;
 }
 
 export interface WebAppsGetAuthSettings {
   /** Gets the Authentication/Authorization settings of an app. */
   post(
     options?: WebAppsGetAuthSettingsParameters
-  ): Promise<WebAppsGetAuthSettings200Response | WebAppsGetAuthSettingsdefaultResponse>;
+  ): Promise<
+    WebAppsGetAuthSettings200Response | WebAppsGetAuthSettingsdefaultResponse
+  >;
 }
 
 export interface WebAppsGetAuthSettingsV2WithoutSecrets {
@@ -11279,14 +4822,20 @@ export interface WebAppsGetAuthSettingsV2WithoutSecrets {
   /** Updates site's Authentication / Authorization settings for apps via the V2 format */
   put(
     options: WebAppsUpdateAuthSettingsV2Parameters
-  ): Promise<WebAppsUpdateAuthSettingsV2200Response | WebAppsUpdateAuthSettingsV2defaultResponse>;
+  ): Promise<
+    | WebAppsUpdateAuthSettingsV2200Response
+    | WebAppsUpdateAuthSettingsV2defaultResponse
+  >;
 }
 
 export interface WebAppsGetAuthSettingsV2 {
   /** Gets site's Authentication / Authorization settings for apps via the V2 format */
   get(
     options?: WebAppsGetAuthSettingsV2Parameters
-  ): Promise<WebAppsGetAuthSettingsV2200Response | WebAppsGetAuthSettingsV2defaultResponse>;
+  ): Promise<
+    | WebAppsGetAuthSettingsV2200Response
+    | WebAppsGetAuthSettingsV2defaultResponse
+  >;
 }
 
 export interface WebAppsUpdateAzureStorageAccounts {
@@ -11294,7 +4843,8 @@ export interface WebAppsUpdateAzureStorageAccounts {
   put(
     options: WebAppsUpdateAzureStorageAccountsParameters
   ): Promise<
-    WebAppsUpdateAzureStorageAccounts200Response | WebAppsUpdateAzureStorageAccountsdefaultResponse
+    | WebAppsUpdateAzureStorageAccounts200Response
+    | WebAppsUpdateAzureStorageAccountsdefaultResponse
   >;
 }
 
@@ -11303,7 +4853,8 @@ export interface WebAppsListAzureStorageAccounts {
   post(
     options?: WebAppsListAzureStorageAccountsParameters
   ): Promise<
-    WebAppsListAzureStorageAccounts200Response | WebAppsListAzureStorageAccountsdefaultResponse
+    | WebAppsListAzureStorageAccounts200Response
+    | WebAppsListAzureStorageAccountsdefaultResponse
   >;
 }
 
@@ -11312,13 +4863,15 @@ export interface WebAppsUpdateBackupConfiguration {
   put(
     options: WebAppsUpdateBackupConfigurationParameters
   ): Promise<
-    WebAppsUpdateBackupConfiguration200Response | WebAppsUpdateBackupConfigurationdefaultResponse
+    | WebAppsUpdateBackupConfiguration200Response
+    | WebAppsUpdateBackupConfigurationdefaultResponse
   >;
   /** Deletes the backup configuration of an app. */
   delete(
     options?: WebAppsDeleteBackupConfigurationParameters
   ): Promise<
-    WebAppsDeleteBackupConfiguration200Response | WebAppsDeleteBackupConfigurationdefaultResponse
+    | WebAppsDeleteBackupConfiguration200Response
+    | WebAppsDeleteBackupConfigurationdefaultResponse
   >;
 }
 
@@ -11327,7 +4880,8 @@ export interface WebAppsGetBackupConfiguration {
   post(
     options?: WebAppsGetBackupConfigurationParameters
   ): Promise<
-    WebAppsGetBackupConfiguration200Response | WebAppsGetBackupConfigurationdefaultResponse
+    | WebAppsGetBackupConfiguration200Response
+    | WebAppsGetBackupConfigurationdefaultResponse
   >;
 }
 
@@ -11376,7 +4930,8 @@ export interface WebAppsUpdateConnectionStrings {
   put(
     options: WebAppsUpdateConnectionStringsParameters
   ): Promise<
-    WebAppsUpdateConnectionStrings200Response | WebAppsUpdateConnectionStringsdefaultResponse
+    | WebAppsUpdateConnectionStrings200Response
+    | WebAppsUpdateConnectionStringsdefaultResponse
   >;
 }
 
@@ -11384,7 +4939,10 @@ export interface WebAppsListConnectionStrings {
   /** Gets the connection strings of an app. */
   post(
     options?: WebAppsListConnectionStringsParameters
-  ): Promise<WebAppsListConnectionStrings200Response | WebAppsListConnectionStringsdefaultResponse>;
+  ): Promise<
+    | WebAppsListConnectionStrings200Response
+    | WebAppsListConnectionStringsdefaultResponse
+  >;
 }
 
 export interface WebAppsGetDiagnosticLogsConfiguration {
@@ -11399,7 +4957,8 @@ export interface WebAppsGetDiagnosticLogsConfiguration {
   put(
     options: WebAppsUpdateDiagnosticLogsConfigParameters
   ): Promise<
-    WebAppsUpdateDiagnosticLogsConfig200Response | WebAppsUpdateDiagnosticLogsConfigdefaultResponse
+    | WebAppsUpdateDiagnosticLogsConfig200Response
+    | WebAppsUpdateDiagnosticLogsConfigdefaultResponse
   >;
 }
 
@@ -11407,14 +4966,18 @@ export interface WebAppsUpdateMetadata {
   /** Replaces the metadata of an app. */
   put(
     options: WebAppsUpdateMetadataParameters
-  ): Promise<WebAppsUpdateMetadata200Response | WebAppsUpdateMetadatadefaultResponse>;
+  ): Promise<
+    WebAppsUpdateMetadata200Response | WebAppsUpdateMetadatadefaultResponse
+  >;
 }
 
 export interface WebAppsListMetadata {
   /** Gets the metadata of an app. */
   post(
     options?: WebAppsListMetadataParameters
-  ): Promise<WebAppsListMetadata200Response | WebAppsListMetadatadefaultResponse>;
+  ): Promise<
+    WebAppsListMetadata200Response | WebAppsListMetadatadefaultResponse
+  >;
 }
 
 export interface WebAppsListPublishingCredentials {
@@ -11422,7 +4985,8 @@ export interface WebAppsListPublishingCredentials {
   post(
     options?: WebAppsListPublishingCredentialsParameters
   ): Promise<
-    WebAppsListPublishingCredentials200Response | WebAppsListPublishingCredentialsdefaultResponse
+    | WebAppsListPublishingCredentials200Response
+    | WebAppsListPublishingCredentialsdefaultResponse
   >;
 }
 
@@ -11431,7 +4995,8 @@ export interface WebAppsUpdateSitePushSettings {
   put(
     options: WebAppsUpdateSitePushSettingsParameters
   ): Promise<
-    WebAppsUpdateSitePushSettings200Response | WebAppsUpdateSitePushSettingsdefaultResponse
+    | WebAppsUpdateSitePushSettings200Response
+    | WebAppsUpdateSitePushSettingsdefaultResponse
   >;
 }
 
@@ -11439,7 +5004,10 @@ export interface WebAppsListSitePushSettings {
   /** Gets the Push settings associated with web app. */
   post(
     options?: WebAppsListSitePushSettingsParameters
-  ): Promise<WebAppsListSitePushSettings200Response | WebAppsListSitePushSettingsdefaultResponse>;
+  ): Promise<
+    | WebAppsListSitePushSettings200Response
+    | WebAppsListSitePushSettingsdefaultResponse
+  >;
 }
 
 export interface WebAppsListSlotConfigurationNames {
@@ -11447,7 +5015,8 @@ export interface WebAppsListSlotConfigurationNames {
   get(
     options?: WebAppsListSlotConfigurationNamesParameters
   ): Promise<
-    WebAppsListSlotConfigurationNames200Response | WebAppsListSlotConfigurationNamesdefaultResponse
+    | WebAppsListSlotConfigurationNames200Response
+    | WebAppsListSlotConfigurationNamesdefaultResponse
   >;
   /** Updates the names of application settings and connection string that remain with the slot during swap operation. */
   put(
@@ -11462,7 +5031,9 @@ export interface WebAppsGetConfiguration {
   /** Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc. */
   get(
     options?: WebAppsGetConfigurationParameters
-  ): Promise<WebAppsGetConfiguration200Response | WebAppsGetConfigurationdefaultResponse>;
+  ): Promise<
+    WebAppsGetConfiguration200Response | WebAppsGetConfigurationdefaultResponse
+  >;
   /** Updates the configuration of an app. */
   put(
     options: WebAppsCreateOrUpdateConfigurationParameters
@@ -11473,7 +5044,10 @@ export interface WebAppsGetConfiguration {
   /** Updates the configuration of an app. */
   patch(
     options: WebAppsUpdateConfigurationParameters
-  ): Promise<WebAppsUpdateConfiguration200Response | WebAppsUpdateConfigurationdefaultResponse>;
+  ): Promise<
+    | WebAppsUpdateConfiguration200Response
+    | WebAppsUpdateConfigurationdefaultResponse
+  >;
 }
 
 export interface WebAppsListConfigurationSnapshotInfo {
@@ -11491,7 +5065,8 @@ export interface WebAppsGetConfigurationSnapshot {
   get(
     options?: WebAppsGetConfigurationSnapshotParameters
   ): Promise<
-    WebAppsGetConfigurationSnapshot200Response | WebAppsGetConfigurationSnapshotdefaultResponse
+    | WebAppsGetConfigurationSnapshot200Response
+    | WebAppsGetConfigurationSnapshotdefaultResponse
   >;
 }
 
@@ -11531,7 +5106,10 @@ export interface WebAppsListContinuousWebJobs {
   /** List continuous web jobs for an app, or a deployment slot. */
   get(
     options?: WebAppsListContinuousWebJobsParameters
-  ): Promise<WebAppsListContinuousWebJobs200Response | WebAppsListContinuousWebJobsdefaultResponse>;
+  ): Promise<
+    | WebAppsListContinuousWebJobs200Response
+    | WebAppsListContinuousWebJobsdefaultResponse
+  >;
 }
 
 export interface WebAppsGetContinuousWebJob {
@@ -11579,18 +5157,24 @@ export interface WebAppsListDeployments {
   /** List deployments for an app, or a deployment slot. */
   get(
     options?: WebAppsListDeploymentsParameters
-  ): Promise<WebAppsListDeployments200Response | WebAppsListDeploymentsdefaultResponse>;
+  ): Promise<
+    WebAppsListDeployments200Response | WebAppsListDeploymentsdefaultResponse
+  >;
 }
 
 export interface WebAppsGetDeployment {
   /** Get a deployment by its ID for an app, or a deployment slot. */
   get(
     options?: WebAppsGetDeploymentParameters
-  ): Promise<WebAppsGetDeployment200Response | WebAppsGetDeploymentdefaultResponse>;
+  ): Promise<
+    WebAppsGetDeployment200Response | WebAppsGetDeploymentdefaultResponse
+  >;
   /** Create a deployment for an app, or a deployment slot. */
   put(
     options: WebAppsCreateDeploymentParameters
-  ): Promise<WebAppsCreateDeployment200Response | WebAppsCreateDeploymentdefaultResponse>;
+  ): Promise<
+    WebAppsCreateDeployment200Response | WebAppsCreateDeploymentdefaultResponse
+  >;
   /** Delete a deployment by its ID for an app, or a deployment slot. */
   delete(
     options?: WebAppsDeleteDeploymentParameters
@@ -11605,14 +5189,19 @@ export interface WebAppsListDeploymentLog {
   /** List deployment log for specific deployment for an app, or a deployment slot. */
   get(
     options?: WebAppsListDeploymentLogParameters
-  ): Promise<WebAppsListDeploymentLog200Response | WebAppsListDeploymentLogdefaultResponse>;
+  ): Promise<
+    | WebAppsListDeploymentLog200Response
+    | WebAppsListDeploymentLogdefaultResponse
+  >;
 }
 
 export interface WebAppsDiscoverBackup {
   /** Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
   post(
     options: WebAppsDiscoverBackupParameters
-  ): Promise<WebAppsDiscoverBackup200Response | WebAppsDiscoverBackupdefaultResponse>;
+  ): Promise<
+    WebAppsDiscoverBackup200Response | WebAppsDiscoverBackupdefaultResponse
+  >;
 }
 
 export interface WebAppsListDomainOwnershipIdentifiers {
@@ -11661,7 +5250,10 @@ export interface WebAppsGetMSDeployStatus {
   /** Get the status of the last MSDeploy operation. */
   get(
     options?: WebAppsGetMSDeployStatusParameters
-  ): Promise<WebAppsGetMSDeployStatus200Response | WebAppsGetMSDeployStatusdefaultResponse>;
+  ): Promise<
+    | WebAppsGetMSDeployStatus200Response
+    | WebAppsGetMSDeployStatusdefaultResponse
+  >;
   /** Invoke the MSDeploy web app extension. */
   put(
     options: WebAppsCreateMSDeployOperationParameters
@@ -11687,12 +5279,16 @@ export interface WebAppsGetOneDeployStatus {
   /** Invoke onedeploy status API /api/deployments and gets the deployment status for the site */
   get(
     options?: WebAppsGetOneDeployStatusParameters
-  ): Promise<WebAppsGetOneDeployStatus200Response | WebAppsGetOneDeployStatusdefaultResponse>;
+  ): Promise<
+    | WebAppsGetOneDeployStatus200Response
+    | WebAppsGetOneDeployStatusdefaultResponse
+  >;
   /** Invoke the OneDeploy publish web app extension. */
   put(
     options?: WebAppsCreateOneDeployOperationParameters
   ): Promise<
-    WebAppsCreateOneDeployOperation200Response | WebAppsCreateOneDeployOperationdefaultResponse
+    | WebAppsCreateOneDeployOperation200Response
+    | WebAppsCreateOneDeployOperationdefaultResponse
   >;
 }
 
@@ -11712,7 +5308,8 @@ export interface WebAppsGetFunctionsAdminToken {
   get(
     options?: WebAppsGetFunctionsAdminTokenParameters
   ): Promise<
-    WebAppsGetFunctionsAdminToken200Response | WebAppsGetFunctionsAdminTokendefaultResponse
+    | WebAppsGetFunctionsAdminToken200Response
+    | WebAppsGetFunctionsAdminTokendefaultResponse
   >;
 }
 
@@ -11728,7 +5325,9 @@ export interface WebAppsGetFunction {
   /** Create function for web site, or a deployment slot. */
   put(
     options: WebAppsCreateFunctionParameters
-  ): Promise<WebAppsCreateFunction201Response | WebAppsCreateFunctiondefaultResponse>;
+  ): Promise<
+    WebAppsCreateFunction201Response | WebAppsCreateFunctiondefaultResponse
+  >;
   /** Delete a function for web site, or a deployment slot. */
   delete(
     options?: WebAppsDeleteFunctionParameters
@@ -11762,35 +5361,46 @@ export interface WebAppsListFunctionKeys {
   /** Get function keys for a function in a web site, or a deployment slot. */
   post(
     options?: WebAppsListFunctionKeysParameters
-  ): Promise<WebAppsListFunctionKeys200Response | WebAppsListFunctionKeysdefaultResponse>;
+  ): Promise<
+    WebAppsListFunctionKeys200Response | WebAppsListFunctionKeysdefaultResponse
+  >;
 }
 
 export interface WebAppsListFunctionSecrets {
   /** Get function secrets for a function in a web site, or a deployment slot. */
   post(
     options?: WebAppsListFunctionSecretsParameters
-  ): Promise<WebAppsListFunctionSecrets200Response | WebAppsListFunctionSecretsdefaultResponse>;
+  ): Promise<
+    | WebAppsListFunctionSecrets200Response
+    | WebAppsListFunctionSecretsdefaultResponse
+  >;
 }
 
 export interface WebAppsListHostKeys {
   /** Get host secrets for a function app. */
   post(
     options?: WebAppsListHostKeysParameters
-  ): Promise<WebAppsListHostKeys200Response | WebAppsListHostKeysdefaultResponse>;
+  ): Promise<
+    WebAppsListHostKeys200Response | WebAppsListHostKeysdefaultResponse
+  >;
 }
 
 export interface WebAppsListSyncStatus {
   /** This is to allow calling via powershell and ARM template. */
   post(
     options?: WebAppsListSyncStatusParameters
-  ): Promise<WebAppsListSyncStatus204Response | WebAppsListSyncStatusdefaultResponse>;
+  ): Promise<
+    WebAppsListSyncStatus204Response | WebAppsListSyncStatusdefaultResponse
+  >;
 }
 
 export interface WebAppsSyncFunctions {
   /** Syncs function trigger metadata to the management database */
   post(
     options?: WebAppsSyncFunctionsParameters
-  ): Promise<WebAppsSyncFunctions204Response | WebAppsSyncFunctionsdefaultResponse>;
+  ): Promise<
+    WebAppsSyncFunctions204Response | WebAppsSyncFunctionsdefaultResponse
+  >;
 }
 
 export interface WebAppsCreateOrUpdateHostSecret {
@@ -11816,14 +5426,20 @@ export interface WebAppsListHostNameBindings {
   /** Get hostname bindings for an app or a deployment slot. */
   get(
     options?: WebAppsListHostNameBindingsParameters
-  ): Promise<WebAppsListHostNameBindings200Response | WebAppsListHostNameBindingsdefaultResponse>;
+  ): Promise<
+    | WebAppsListHostNameBindings200Response
+    | WebAppsListHostNameBindingsdefaultResponse
+  >;
 }
 
 export interface WebAppsGetHostNameBinding {
   /** Get the named hostname binding for an app (or deployment slot, if specified). */
   get(
     options?: WebAppsGetHostNameBindingParameters
-  ): Promise<WebAppsGetHostNameBinding200Response | WebAppsGetHostNameBindingdefaultResponse>;
+  ): Promise<
+    | WebAppsGetHostNameBinding200Response
+    | WebAppsGetHostNameBindingdefaultResponse
+  >;
   /** Creates a hostname binding for an app. */
   put(
     options: WebAppsCreateOrUpdateHostNameBindingParameters
@@ -11845,7 +5461,10 @@ export interface WebAppsGetHybridConnection {
   /** Retrieves a specific Service Bus Hybrid Connection used by this Web App. */
   get(
     options?: WebAppsGetHybridConnectionParameters
-  ): Promise<WebAppsGetHybridConnection200Response | WebAppsGetHybridConnectiondefaultResponse>;
+  ): Promise<
+    | WebAppsGetHybridConnection200Response
+    | WebAppsGetHybridConnectiondefaultResponse
+  >;
   /** Creates a new Hybrid Connection using a Service Bus relay. */
   put(
     options: WebAppsCreateOrUpdateHybridConnectionParameters
@@ -11865,7 +5484,8 @@ export interface WebAppsGetHybridConnection {
   patch(
     options: WebAppsUpdateHybridConnectionParameters
   ): Promise<
-    WebAppsUpdateHybridConnection200Response | WebAppsUpdateHybridConnectiondefaultResponse
+    | WebAppsUpdateHybridConnection200Response
+    | WebAppsUpdateHybridConnectiondefaultResponse
   >;
 }
 
@@ -11873,7 +5493,10 @@ export interface WebAppsListHybridConnections {
   /** Retrieves all Service Bus Hybrid Connections used by this Web App. */
   get(
     options?: WebAppsListHybridConnectionsParameters
-  ): Promise<WebAppsListHybridConnections200Response | WebAppsListHybridConnectionsdefaultResponse>;
+  ): Promise<
+    | WebAppsListHybridConnections200Response
+    | WebAppsListHybridConnectionsdefaultResponse
+  >;
 }
 
 export interface WebAppsListRelayServiceConnections {
@@ -11891,7 +5514,8 @@ export interface WebAppsGetRelayServiceConnection {
   get(
     options?: WebAppsGetRelayServiceConnectionParameters
   ): Promise<
-    WebAppsGetRelayServiceConnection200Response | WebAppsGetRelayServiceConnectiondefaultResponse
+    | WebAppsGetRelayServiceConnection200Response
+    | WebAppsGetRelayServiceConnectiondefaultResponse
   >;
   /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
   put(
@@ -11922,7 +5546,8 @@ export interface WebAppsListInstanceIdentifiers {
   get(
     options?: WebAppsListInstanceIdentifiersParameters
   ): Promise<
-    WebAppsListInstanceIdentifiers200Response | WebAppsListInstanceIdentifiersdefaultResponse
+    | WebAppsListInstanceIdentifiers200Response
+    | WebAppsListInstanceIdentifiersdefaultResponse
   >;
 }
 
@@ -11930,7 +5555,9 @@ export interface WebAppsGetInstanceInfo {
   /** Gets all scale-out instances of an app. */
   get(
     options?: WebAppsGetInstanceInfoParameters
-  ): Promise<WebAppsGetInstanceInfo200Response | WebAppsGetInstanceInfodefaultResponse>;
+  ): Promise<
+    WebAppsGetInstanceInfo200Response | WebAppsGetInstanceInfodefaultResponse
+  >;
 }
 
 export interface WebAppsGetInstanceMsDeployStatus {
@@ -11938,7 +5565,8 @@ export interface WebAppsGetInstanceMsDeployStatus {
   get(
     options?: WebAppsGetInstanceMsDeployStatusParameters
   ): Promise<
-    WebAppsGetInstanceMsDeployStatus200Response | WebAppsGetInstanceMsDeployStatusdefaultResponse
+    | WebAppsGetInstanceMsDeployStatus200Response
+    | WebAppsGetInstanceMsDeployStatusdefaultResponse
   >;
   /** Invoke the MSDeploy web app extension. */
   put(
@@ -12046,7 +5674,9 @@ export interface WebAppsListSiteBackups {
   /** Gets existing backups of an app. */
   post(
     options?: WebAppsListSiteBackupsParameters
-  ): Promise<WebAppsListSiteBackups200Response | WebAppsListSiteBackupsdefaultResponse>;
+  ): Promise<
+    WebAppsListSiteBackups200Response | WebAppsListSiteBackupsdefaultResponse
+  >;
 }
 
 export interface WebAppsListSyncFunctionTriggers {
@@ -12054,7 +5684,8 @@ export interface WebAppsListSyncFunctionTriggers {
   post(
     options?: WebAppsListSyncFunctionTriggersParameters
   ): Promise<
-    WebAppsListSyncFunctionTriggers200Response | WebAppsListSyncFunctionTriggersdefaultResponse
+    | WebAppsListSyncFunctionTriggers200Response
+    | WebAppsListSyncFunctionTriggersdefaultResponse
   >;
 }
 
@@ -12062,21 +5693,28 @@ export interface WebAppsMigrateStorage {
   /** Restores a web app. */
   put(
     options: WebAppsMigrateStorageParameters
-  ): Promise<WebAppsMigrateStorage200Response | WebAppsMigrateStoragedefaultResponse>;
+  ): Promise<
+    WebAppsMigrateStorage200Response | WebAppsMigrateStoragedefaultResponse
+  >;
 }
 
 export interface WebAppsMigrateMySql {
   /** Migrates a local (in-app) MySql database to a remote MySql database. */
   post(
     options: WebAppsMigrateMySqlParameters
-  ): Promise<WebAppsMigrateMySql200Response | WebAppsMigrateMySqldefaultResponse>;
+  ): Promise<
+    WebAppsMigrateMySql200Response | WebAppsMigrateMySqldefaultResponse
+  >;
 }
 
 export interface WebAppsGetMigrateMySqlStatus {
   /** Returns the status of MySql in app migration, if one is active, and whether or not MySql in app is enabled */
   get(
     options?: WebAppsGetMigrateMySqlStatusParameters
-  ): Promise<WebAppsGetMigrateMySqlStatus200Response | WebAppsGetMigrateMySqlStatusdefaultResponse>;
+  ): Promise<
+    | WebAppsGetMigrateMySqlStatus200Response
+    | WebAppsGetMigrateMySqlStatusdefaultResponse
+  >;
 }
 
 export interface WebAppsGetSwiftVirtualNetworkConnection {
@@ -12144,7 +5782,8 @@ export interface WebAppsStartWebSiteNetworkTrace {
   post(
     options?: WebAppsStartWebSiteNetworkTraceParameters
   ): Promise<
-    WebAppsStartWebSiteNetworkTrace200Response | WebAppsStartWebSiteNetworkTracedefaultResponse
+    | WebAppsStartWebSiteNetworkTrace200Response
+    | WebAppsStartWebSiteNetworkTracedefaultResponse
   >;
 }
 
@@ -12174,7 +5813,9 @@ export interface WebAppsGetNetworkTraces {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
     options?: WebAppsGetNetworkTracesParameters
-  ): Promise<WebAppsGetNetworkTraces200Response | WebAppsGetNetworkTracesdefaultResponse>;
+  ): Promise<
+    WebAppsGetNetworkTraces200Response | WebAppsGetNetworkTracesdefaultResponse
+  >;
 }
 
 export interface WebAppsGetNetworkTraceOperationV2 {
@@ -12192,7 +5833,10 @@ export interface WebAppsGetNetworkTracesV2 {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
     options?: WebAppsGetNetworkTracesV2Parameters
-  ): Promise<WebAppsGetNetworkTracesV2200Response | WebAppsGetNetworkTracesV2defaultResponse>;
+  ): Promise<
+    | WebAppsGetNetworkTracesV2200Response
+    | WebAppsGetNetworkTracesV2defaultResponse
+  >;
 }
 
 export interface WebAppsGenerateNewSitePublishingPassword {
@@ -12210,7 +5854,10 @@ export interface WebAppsListPerfMonCounters {
   /** Gets perfmon counters for web app. */
   get(
     options?: WebAppsListPerfMonCountersParameters
-  ): Promise<WebAppsListPerfMonCounters200Response | WebAppsListPerfMonCountersdefaultResponse>;
+  ): Promise<
+    | WebAppsListPerfMonCounters200Response
+    | WebAppsListPerfMonCountersdefaultResponse
+  >;
 }
 
 export interface WebAppsGetSitePhpErrorLogFlag {
@@ -12218,7 +5865,8 @@ export interface WebAppsGetSitePhpErrorLogFlag {
   get(
     options?: WebAppsGetSitePhpErrorLogFlagParameters
   ): Promise<
-    WebAppsGetSitePhpErrorLogFlag200Response | WebAppsGetSitePhpErrorLogFlagdefaultResponse
+    | WebAppsGetSitePhpErrorLogFlag200Response
+    | WebAppsGetSitePhpErrorLogFlagdefaultResponse
   >;
 }
 
@@ -12226,37 +5874,55 @@ export interface WebAppsListPremierAddOns {
   /** Gets the premier add-ons of an app. */
   get(
     options?: WebAppsListPremierAddOnsParameters
-  ): Promise<WebAppsListPremierAddOns200Response | WebAppsListPremierAddOnsdefaultResponse>;
+  ): Promise<
+    | WebAppsListPremierAddOns200Response
+    | WebAppsListPremierAddOnsdefaultResponse
+  >;
 }
 
 export interface WebAppsGetPremierAddOn {
   /** Gets a named add-on of an app. */
   get(
     options?: WebAppsGetPremierAddOnParameters
-  ): Promise<WebAppsGetPremierAddOn200Response | WebAppsGetPremierAddOndefaultResponse>;
+  ): Promise<
+    WebAppsGetPremierAddOn200Response | WebAppsGetPremierAddOndefaultResponse
+  >;
   /** Updates a named add-on of an app. */
   put(
     options: WebAppsAddPremierAddOnParameters
-  ): Promise<WebAppsAddPremierAddOn200Response | WebAppsAddPremierAddOndefaultResponse>;
+  ): Promise<
+    WebAppsAddPremierAddOn200Response | WebAppsAddPremierAddOndefaultResponse
+  >;
   /** Delete a premier add-on from an app. */
   delete(
     options?: WebAppsDeletePremierAddOnParameters
-  ): Promise<WebAppsDeletePremierAddOn200Response | WebAppsDeletePremierAddOndefaultResponse>;
+  ): Promise<
+    | WebAppsDeletePremierAddOn200Response
+    | WebAppsDeletePremierAddOndefaultResponse
+  >;
   /** Updates a named add-on of an app. */
   patch(
     options: WebAppsUpdatePremierAddOnParameters
-  ): Promise<WebAppsUpdatePremierAddOn200Response | WebAppsUpdatePremierAddOndefaultResponse>;
+  ): Promise<
+    | WebAppsUpdatePremierAddOn200Response
+    | WebAppsUpdatePremierAddOndefaultResponse
+  >;
 }
 
 export interface WebAppsGetPrivateAccess {
   /** Gets data around private site access enablement and authorized Virtual Networks that can access the site. */
   get(
     options?: WebAppsGetPrivateAccessParameters
-  ): Promise<WebAppsGetPrivateAccess200Response | WebAppsGetPrivateAccessdefaultResponse>;
+  ): Promise<
+    WebAppsGetPrivateAccess200Response | WebAppsGetPrivateAccessdefaultResponse
+  >;
   /** Sets data around private site access enablement and authorized Virtual Networks that can access the site. */
   put(
     options: WebAppsPutPrivateAccessVnetParameters
-  ): Promise<WebAppsPutPrivateAccessVnet200Response | WebAppsPutPrivateAccessVnetdefaultResponse>;
+  ): Promise<
+    | WebAppsPutPrivateAccessVnet200Response
+    | WebAppsPutPrivateAccessVnetdefaultResponse
+  >;
 }
 
 export interface WebAppsGetPrivateEndpointConnectionList {
@@ -12301,7 +5967,8 @@ export interface WebAppsGetPrivateLinkResources {
   get(
     options?: WebAppsGetPrivateLinkResourcesParameters
   ): Promise<
-    WebAppsGetPrivateLinkResources200Response | WebAppsGetPrivateLinkResourcesdefaultResponse
+    | WebAppsGetPrivateLinkResources200Response
+    | WebAppsGetPrivateLinkResourcesdefaultResponse
   >;
 }
 
@@ -12321,7 +5988,9 @@ export interface WebAppsGetProcess {
   get(
     options?: WebAppsGetProcessParameters
   ): Promise<
-    WebAppsGetProcess200Response | WebAppsGetProcess404Response | WebAppsGetProcessdefaultResponse
+    | WebAppsGetProcess200Response
+    | WebAppsGetProcess404Response
+    | WebAppsGetProcessdefaultResponse
   >;
   /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
   delete(
@@ -12382,7 +6051,8 @@ export interface WebAppsListPublicCertificates {
   get(
     options?: WebAppsListPublicCertificatesParameters
   ): Promise<
-    WebAppsListPublicCertificates200Response | WebAppsListPublicCertificatesdefaultResponse
+    | WebAppsListPublicCertificates200Response
+    | WebAppsListPublicCertificatesdefaultResponse
   >;
 }
 
@@ -12390,7 +6060,10 @@ export interface WebAppsGetPublicCertificate {
   /** Get the named public certificate for an app (or deployment slot, if specified). */
   get(
     options?: WebAppsGetPublicCertificateParameters
-  ): Promise<WebAppsGetPublicCertificate200Response | WebAppsGetPublicCertificatedefaultResponse>;
+  ): Promise<
+    | WebAppsGetPublicCertificate200Response
+    | WebAppsGetPublicCertificatedefaultResponse
+  >;
   /** Creates a hostname binding for an app. */
   put(
     options: WebAppsCreateOrUpdatePublicCertificateParameters
@@ -12423,7 +6096,8 @@ export interface WebAppsResetProductionSlotConfig {
   post(
     options?: WebAppsResetProductionSlotConfigParameters
   ): Promise<
-    WebAppsResetProductionSlotConfig200Response | WebAppsResetProductionSlotConfigdefaultResponse
+    | WebAppsResetProductionSlotConfig200Response
+    | WebAppsResetProductionSlotConfigdefaultResponse
   >;
 }
 
@@ -12517,7 +6191,11 @@ export interface WebAppsGetSlot {
   /** Gets the details of a web, mobile, or API app. */
   get(
     options?: WebAppsGetSlotParameters
-  ): Promise<WebAppsGetSlot200Response | WebAppsGetSlot404Response | WebAppsGetSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetSlot200Response
+    | WebAppsGetSlot404Response
+    | WebAppsGetSlotdefaultResponse
+  >;
   /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
   put(
     options: WebAppsCreateOrUpdateSlotParameters
@@ -12539,7 +6217,9 @@ export interface WebAppsGetSlot {
   patch(
     options: WebAppsUpdateSlotParameters
   ): Promise<
-    WebAppsUpdateSlot200Response | WebAppsUpdateSlot202Response | WebAppsUpdateSlotdefaultResponse
+    | WebAppsUpdateSlot200Response
+    | WebAppsUpdateSlot202Response
+    | WebAppsUpdateSlotdefaultResponse
   >;
 }
 
@@ -12548,7 +6228,8 @@ export interface WebAppsAnalyzeCustomHostnameSlot {
   get(
     options?: WebAppsAnalyzeCustomHostnameSlotParameters
   ): Promise<
-    WebAppsAnalyzeCustomHostnameSlot200Response | WebAppsAnalyzeCustomHostnameSlotdefaultResponse
+    | WebAppsAnalyzeCustomHostnameSlot200Response
+    | WebAppsAnalyzeCustomHostnameSlotdefaultResponse
   >;
 }
 
@@ -12557,7 +6238,8 @@ export interface WebAppsApplySlotConfigurationSlot {
   post(
     options: WebAppsApplySlotConfigurationSlotParameters
   ): Promise<
-    WebAppsApplySlotConfigurationSlot200Response | WebAppsApplySlotConfigurationSlotdefaultResponse
+    | WebAppsApplySlotConfigurationSlot200Response
+    | WebAppsApplySlotConfigurationSlotdefaultResponse
   >;
 }
 
@@ -12572,14 +6254,19 @@ export interface WebAppsListBackupsSlot {
   /** Gets existing backups of an app. */
   get(
     options?: WebAppsListBackupsSlotParameters
-  ): Promise<WebAppsListBackupsSlot200Response | WebAppsListBackupsSlotdefaultResponse>;
+  ): Promise<
+    WebAppsListBackupsSlot200Response | WebAppsListBackupsSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsGetBackupStatusSlot {
   /** Gets a backup of an app by its ID. */
   get(
     options?: WebAppsGetBackupStatusSlotParameters
-  ): Promise<WebAppsGetBackupStatusSlot200Response | WebAppsGetBackupStatusSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetBackupStatusSlot200Response
+    | WebAppsGetBackupStatusSlotdefaultResponse
+  >;
   /** Deletes a backup of an app by its ID. */
   delete(
     options?: WebAppsDeleteBackupSlotParameters
@@ -12625,22 +6312,34 @@ export interface WebAppsGetFtpAllowedSlot {
   /** Returns whether FTP is allowed on the site or not. */
   get(
     options?: WebAppsGetFtpAllowedSlotParameters
-  ): Promise<WebAppsGetFtpAllowedSlot200Response | WebAppsGetFtpAllowedSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetFtpAllowedSlot200Response
+    | WebAppsGetFtpAllowedSlotdefaultResponse
+  >;
   /** Updates whether FTP is allowed on the site or not. */
   put(
     options: WebAppsUpdateFtpAllowedSlotParameters
-  ): Promise<WebAppsUpdateFtpAllowedSlot200Response | WebAppsUpdateFtpAllowedSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsUpdateFtpAllowedSlot200Response
+    | WebAppsUpdateFtpAllowedSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsGetScmAllowedSlot {
   /** Returns whether Scm basic auth is allowed on the site or not. */
   get(
     options?: WebAppsGetScmAllowedSlotParameters
-  ): Promise<WebAppsGetScmAllowedSlot200Response | WebAppsGetScmAllowedSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetScmAllowedSlot200Response
+    | WebAppsGetScmAllowedSlotdefaultResponse
+  >;
   /** Updates whether user publishing credentials are allowed on the site or not. */
   put(
     options: WebAppsUpdateScmAllowedSlotParameters
-  ): Promise<WebAppsUpdateScmAllowedSlot200Response | WebAppsUpdateScmAllowedSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsUpdateScmAllowedSlot200Response
+    | WebAppsUpdateScmAllowedSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListConfigurationsSlot {
@@ -12648,7 +6347,8 @@ export interface WebAppsListConfigurationsSlot {
   get(
     options?: WebAppsListConfigurationsSlotParameters
   ): Promise<
-    WebAppsListConfigurationsSlot200Response | WebAppsListConfigurationsSlotdefaultResponse
+    | WebAppsListConfigurationsSlot200Response
+    | WebAppsListConfigurationsSlotdefaultResponse
   >;
 }
 
@@ -12677,7 +6377,8 @@ export interface WebAppsUpdateAuthSettingsSlot {
   put(
     options: WebAppsUpdateAuthSettingsSlotParameters
   ): Promise<
-    WebAppsUpdateAuthSettingsSlot200Response | WebAppsUpdateAuthSettingsSlotdefaultResponse
+    | WebAppsUpdateAuthSettingsSlot200Response
+    | WebAppsUpdateAuthSettingsSlotdefaultResponse
   >;
 }
 
@@ -12685,7 +6386,10 @@ export interface WebAppsGetAuthSettingsSlot {
   /** Gets the Authentication/Authorization settings of an app. */
   post(
     options?: WebAppsGetAuthSettingsSlotParameters
-  ): Promise<WebAppsGetAuthSettingsSlot200Response | WebAppsGetAuthSettingsSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetAuthSettingsSlot200Response
+    | WebAppsGetAuthSettingsSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsGetAuthSettingsV2WithoutSecretsSlot {
@@ -12700,7 +6404,8 @@ export interface WebAppsGetAuthSettingsV2WithoutSecretsSlot {
   put(
     options: WebAppsUpdateAuthSettingsV2SlotParameters
   ): Promise<
-    WebAppsUpdateAuthSettingsV2Slot200Response | WebAppsUpdateAuthSettingsV2SlotdefaultResponse
+    | WebAppsUpdateAuthSettingsV2Slot200Response
+    | WebAppsUpdateAuthSettingsV2SlotdefaultResponse
   >;
 }
 
@@ -12708,7 +6413,10 @@ export interface WebAppsGetAuthSettingsV2Slot {
   /** Gets site's Authentication / Authorization settings for apps via the V2 format */
   get(
     options?: WebAppsGetAuthSettingsV2SlotParameters
-  ): Promise<WebAppsGetAuthSettingsV2Slot200Response | WebAppsGetAuthSettingsV2SlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetAuthSettingsV2Slot200Response
+    | WebAppsGetAuthSettingsV2SlotdefaultResponse
+  >;
 }
 
 export interface WebAppsUpdateAzureStorageAccountsSlot {
@@ -12753,7 +6461,8 @@ export interface WebAppsGetBackupConfigurationSlot {
   post(
     options?: WebAppsGetBackupConfigurationSlotParameters
   ): Promise<
-    WebAppsGetBackupConfigurationSlot200Response | WebAppsGetBackupConfigurationSlotdefaultResponse
+    | WebAppsGetBackupConfigurationSlot200Response
+    | WebAppsGetBackupConfigurationSlotdefaultResponse
   >;
 }
 
@@ -12812,7 +6521,8 @@ export interface WebAppsListConnectionStringsSlot {
   post(
     options?: WebAppsListConnectionStringsSlotParameters
   ): Promise<
-    WebAppsListConnectionStringsSlot200Response | WebAppsListConnectionStringsSlotdefaultResponse
+    | WebAppsListConnectionStringsSlot200Response
+    | WebAppsListConnectionStringsSlotdefaultResponse
   >;
 }
 
@@ -12837,14 +6547,19 @@ export interface WebAppsUpdateMetadataSlot {
   /** Replaces the metadata of an app. */
   put(
     options: WebAppsUpdateMetadataSlotParameters
-  ): Promise<WebAppsUpdateMetadataSlot200Response | WebAppsUpdateMetadataSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsUpdateMetadataSlot200Response
+    | WebAppsUpdateMetadataSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListMetadataSlot {
   /** Gets the metadata of an app. */
   post(
     options?: WebAppsListMetadataSlotParameters
-  ): Promise<WebAppsListMetadataSlot200Response | WebAppsListMetadataSlotdefaultResponse>;
+  ): Promise<
+    WebAppsListMetadataSlot200Response | WebAppsListMetadataSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListPublishingCredentialsSlot {
@@ -12862,7 +6577,8 @@ export interface WebAppsUpdateSitePushSettingsSlot {
   put(
     options: WebAppsUpdateSitePushSettingsSlotParameters
   ): Promise<
-    WebAppsUpdateSitePushSettingsSlot200Response | WebAppsUpdateSitePushSettingsSlotdefaultResponse
+    | WebAppsUpdateSitePushSettingsSlot200Response
+    | WebAppsUpdateSitePushSettingsSlotdefaultResponse
   >;
 }
 
@@ -12871,7 +6587,8 @@ export interface WebAppsListSitePushSettingsSlot {
   post(
     options?: WebAppsListSitePushSettingsSlotParameters
   ): Promise<
-    WebAppsListSitePushSettingsSlot200Response | WebAppsListSitePushSettingsSlotdefaultResponse
+    | WebAppsListSitePushSettingsSlot200Response
+    | WebAppsListSitePushSettingsSlotdefaultResponse
   >;
 }
 
@@ -12879,7 +6596,10 @@ export interface WebAppsGetConfigurationSlot {
   /** Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc. */
   get(
     options?: WebAppsGetConfigurationSlotParameters
-  ): Promise<WebAppsGetConfigurationSlot200Response | WebAppsGetConfigurationSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetConfigurationSlot200Response
+    | WebAppsGetConfigurationSlotdefaultResponse
+  >;
   /** Updates the configuration of an app. */
   put(
     options: WebAppsCreateOrUpdateConfigurationSlotParameters
@@ -12891,7 +6611,8 @@ export interface WebAppsGetConfigurationSlot {
   patch(
     options: WebAppsUpdateConfigurationSlotParameters
   ): Promise<
-    WebAppsUpdateConfigurationSlot200Response | WebAppsUpdateConfigurationSlotdefaultResponse
+    | WebAppsUpdateConfigurationSlot200Response
+    | WebAppsUpdateConfigurationSlotdefaultResponse
   >;
 }
 
@@ -12952,7 +6673,8 @@ export interface WebAppsListContinuousWebJobsSlot {
   get(
     options?: WebAppsListContinuousWebJobsSlotParameters
   ): Promise<
-    WebAppsListContinuousWebJobsSlot200Response | WebAppsListContinuousWebJobsSlotdefaultResponse
+    | WebAppsListContinuousWebJobsSlot200Response
+    | WebAppsListContinuousWebJobsSlotdefaultResponse
   >;
 }
 
@@ -13001,18 +6723,27 @@ export interface WebAppsListDeploymentsSlot {
   /** List deployments for an app, or a deployment slot. */
   get(
     options?: WebAppsListDeploymentsSlotParameters
-  ): Promise<WebAppsListDeploymentsSlot200Response | WebAppsListDeploymentsSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsListDeploymentsSlot200Response
+    | WebAppsListDeploymentsSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsGetDeploymentSlot {
   /** Get a deployment by its ID for an app, or a deployment slot. */
   get(
     options?: WebAppsGetDeploymentSlotParameters
-  ): Promise<WebAppsGetDeploymentSlot200Response | WebAppsGetDeploymentSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetDeploymentSlot200Response
+    | WebAppsGetDeploymentSlotdefaultResponse
+  >;
   /** Create a deployment for an app, or a deployment slot. */
   put(
     options: WebAppsCreateDeploymentSlotParameters
-  ): Promise<WebAppsCreateDeploymentSlot200Response | WebAppsCreateDeploymentSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsCreateDeploymentSlot200Response
+    | WebAppsCreateDeploymentSlotdefaultResponse
+  >;
   /** Delete a deployment by its ID for an app, or a deployment slot. */
   delete(
     options?: WebAppsDeleteDeploymentSlotParameters
@@ -13027,14 +6758,20 @@ export interface WebAppsListDeploymentLogSlot {
   /** List deployment log for specific deployment for an app, or a deployment slot. */
   get(
     options?: WebAppsListDeploymentLogSlotParameters
-  ): Promise<WebAppsListDeploymentLogSlot200Response | WebAppsListDeploymentLogSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsListDeploymentLogSlot200Response
+    | WebAppsListDeploymentLogSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsDiscoverBackupSlot {
   /** Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
   post(
     options: WebAppsDiscoverBackupSlotParameters
-  ): Promise<WebAppsDiscoverBackupSlot200Response | WebAppsDiscoverBackupSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsDiscoverBackupSlot200Response
+    | WebAppsDiscoverBackupSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListDomainOwnershipIdentifiersSlot {
@@ -13083,7 +6820,10 @@ export interface WebAppsGetMSDeployStatusSlot {
   /** Get the status of the last MSDeploy operation. */
   get(
     options?: WebAppsGetMSDeployStatusSlotParameters
-  ): Promise<WebAppsGetMSDeployStatusSlot200Response | WebAppsGetMSDeployStatusSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetMSDeployStatusSlot200Response
+    | WebAppsGetMSDeployStatusSlotdefaultResponse
+  >;
   /** Invoke the MSDeploy web app extension. */
   put(
     options: WebAppsCreateMSDeployOperationSlotParameters
@@ -13121,7 +6861,8 @@ export interface WebAppsGetFunctionsAdminTokenSlot {
   get(
     options?: WebAppsGetFunctionsAdminTokenSlotParameters
   ): Promise<
-    WebAppsGetFunctionsAdminTokenSlot200Response | WebAppsGetFunctionsAdminTokenSlotdefaultResponse
+    | WebAppsGetFunctionsAdminTokenSlot200Response
+    | WebAppsGetFunctionsAdminTokenSlotdefaultResponse
   >;
 }
 
@@ -13138,7 +6879,8 @@ export interface WebAppsGetInstanceFunctionSlot {
   put(
     options: WebAppsCreateInstanceFunctionSlotParameters
   ): Promise<
-    WebAppsCreateInstanceFunctionSlot201Response | WebAppsCreateInstanceFunctionSlotdefaultResponse
+    | WebAppsCreateInstanceFunctionSlot201Response
+    | WebAppsCreateInstanceFunctionSlotdefaultResponse
   >;
   /** Delete a function for web site, or a deployment slot. */
   delete(
@@ -13173,7 +6915,10 @@ export interface WebAppsListFunctionKeysSlot {
   /** Get function keys for a function in a web site, or a deployment slot. */
   post(
     options?: WebAppsListFunctionKeysSlotParameters
-  ): Promise<WebAppsListFunctionKeysSlot200Response | WebAppsListFunctionKeysSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsListFunctionKeysSlot200Response
+    | WebAppsListFunctionKeysSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListFunctionSecretsSlot {
@@ -13181,7 +6926,8 @@ export interface WebAppsListFunctionSecretsSlot {
   post(
     options?: WebAppsListFunctionSecretsSlotParameters
   ): Promise<
-    WebAppsListFunctionSecretsSlot200Response | WebAppsListFunctionSecretsSlotdefaultResponse
+    | WebAppsListFunctionSecretsSlot200Response
+    | WebAppsListFunctionSecretsSlotdefaultResponse
   >;
 }
 
@@ -13189,21 +6935,29 @@ export interface WebAppsListHostKeysSlot {
   /** Get host secrets for a function app. */
   post(
     options?: WebAppsListHostKeysSlotParameters
-  ): Promise<WebAppsListHostKeysSlot200Response | WebAppsListHostKeysSlotdefaultResponse>;
+  ): Promise<
+    WebAppsListHostKeysSlot200Response | WebAppsListHostKeysSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListSyncStatusSlot {
   /** This is to allow calling via powershell and ARM template. */
   post(
     options?: WebAppsListSyncStatusSlotParameters
-  ): Promise<WebAppsListSyncStatusSlot204Response | WebAppsListSyncStatusSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsListSyncStatusSlot204Response
+    | WebAppsListSyncStatusSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsSyncFunctionsSlot {
   /** Syncs function trigger metadata to the management database */
   post(
     options?: WebAppsSyncFunctionsSlotParameters
-  ): Promise<WebAppsSyncFunctionsSlot204Response | WebAppsSyncFunctionsSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsSyncFunctionsSlot204Response
+    | WebAppsSyncFunctionsSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsCreateOrUpdateHostSecretSlot {
@@ -13230,7 +6984,8 @@ export interface WebAppsListHostNameBindingsSlot {
   get(
     options?: WebAppsListHostNameBindingsSlotParameters
   ): Promise<
-    WebAppsListHostNameBindingsSlot200Response | WebAppsListHostNameBindingsSlotdefaultResponse
+    | WebAppsListHostNameBindingsSlot200Response
+    | WebAppsListHostNameBindingsSlotdefaultResponse
   >;
 }
 
@@ -13239,7 +6994,8 @@ export interface WebAppsGetHostNameBindingSlot {
   get(
     options?: WebAppsGetHostNameBindingSlotParameters
   ): Promise<
-    WebAppsGetHostNameBindingSlot200Response | WebAppsGetHostNameBindingSlotdefaultResponse
+    | WebAppsGetHostNameBindingSlot200Response
+    | WebAppsGetHostNameBindingSlotdefaultResponse
   >;
   /** Creates a hostname binding for an app. */
   put(
@@ -13263,7 +7019,8 @@ export interface WebAppsGetHybridConnectionSlot {
   get(
     options?: WebAppsGetHybridConnectionSlotParameters
   ): Promise<
-    WebAppsGetHybridConnectionSlot200Response | WebAppsGetHybridConnectionSlotdefaultResponse
+    | WebAppsGetHybridConnectionSlot200Response
+    | WebAppsGetHybridConnectionSlotdefaultResponse
   >;
   /** Creates a new Hybrid Connection using a Service Bus relay. */
   put(
@@ -13284,7 +7041,8 @@ export interface WebAppsGetHybridConnectionSlot {
   patch(
     options: WebAppsUpdateHybridConnectionSlotParameters
   ): Promise<
-    WebAppsUpdateHybridConnectionSlot200Response | WebAppsUpdateHybridConnectionSlotdefaultResponse
+    | WebAppsUpdateHybridConnectionSlot200Response
+    | WebAppsUpdateHybridConnectionSlotdefaultResponse
   >;
 }
 
@@ -13293,7 +7051,8 @@ export interface WebAppsListHybridConnectionsSlot {
   get(
     options?: WebAppsListHybridConnectionsSlotParameters
   ): Promise<
-    WebAppsListHybridConnectionsSlot200Response | WebAppsListHybridConnectionsSlotdefaultResponse
+    | WebAppsListHybridConnectionsSlot200Response
+    | WebAppsListHybridConnectionsSlotdefaultResponse
   >;
 }
 
@@ -13353,7 +7112,10 @@ export interface WebAppsGetInstanceInfoSlot {
   /** Gets all scale-out instances of an app. */
   get(
     options?: WebAppsGetInstanceInfoSlotParameters
-  ): Promise<WebAppsGetInstanceInfoSlot200Response | WebAppsGetInstanceInfoSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetInstanceInfoSlot200Response
+    | WebAppsGetInstanceInfoSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsGetInstanceMsDeployStatusSlot {
@@ -13463,14 +7225,19 @@ export interface WebAppsIsCloneableSlot {
   /** Shows whether an app can be cloned to another resource group or subscription. */
   post(
     options?: WebAppsIsCloneableSlotParameters
-  ): Promise<WebAppsIsCloneableSlot200Response | WebAppsIsCloneableSlotdefaultResponse>;
+  ): Promise<
+    WebAppsIsCloneableSlot200Response | WebAppsIsCloneableSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListSiteBackupsSlot {
   /** Gets existing backups of an app. */
   post(
     options?: WebAppsListSiteBackupsSlotParameters
-  ): Promise<WebAppsListSiteBackupsSlot200Response | WebAppsListSiteBackupsSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsListSiteBackupsSlot200Response
+    | WebAppsListSiteBackupsSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListSyncFunctionTriggersSlot {
@@ -13488,7 +7255,8 @@ export interface WebAppsGetMigrateMySqlStatusSlot {
   get(
     options?: WebAppsGetMigrateMySqlStatusSlotParameters
   ): Promise<
-    WebAppsGetMigrateMySqlStatusSlot200Response | WebAppsGetMigrateMySqlStatusSlotdefaultResponse
+    | WebAppsGetMigrateMySqlStatusSlot200Response
+    | WebAppsGetMigrateMySqlStatusSlotdefaultResponse
   >;
 }
 
@@ -13588,7 +7356,10 @@ export interface WebAppsGetNetworkTracesSlot {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
     options?: WebAppsGetNetworkTracesSlotParameters
-  ): Promise<WebAppsGetNetworkTracesSlot200Response | WebAppsGetNetworkTracesSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetNetworkTracesSlot200Response
+    | WebAppsGetNetworkTracesSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsGetNetworkTraceOperationSlotV2 {
@@ -13607,7 +7378,8 @@ export interface WebAppsGetNetworkTracesSlotV2 {
   get(
     options?: WebAppsGetNetworkTracesSlotV2Parameters
   ): Promise<
-    WebAppsGetNetworkTracesSlotV2200Response | WebAppsGetNetworkTracesSlotV2defaultResponse
+    | WebAppsGetNetworkTracesSlotV2200Response
+    | WebAppsGetNetworkTracesSlotV2defaultResponse
   >;
 }
 
@@ -13627,7 +7399,8 @@ export interface WebAppsListPerfMonCountersSlot {
   get(
     options?: WebAppsListPerfMonCountersSlotParameters
   ): Promise<
-    WebAppsListPerfMonCountersSlot200Response | WebAppsListPerfMonCountersSlotdefaultResponse
+    | WebAppsListPerfMonCountersSlot200Response
+    | WebAppsListPerfMonCountersSlotdefaultResponse
   >;
 }
 
@@ -13636,7 +7409,8 @@ export interface WebAppsGetSitePhpErrorLogFlagSlot {
   get(
     options?: WebAppsGetSitePhpErrorLogFlagSlotParameters
   ): Promise<
-    WebAppsGetSitePhpErrorLogFlagSlot200Response | WebAppsGetSitePhpErrorLogFlagSlotdefaultResponse
+    | WebAppsGetSitePhpErrorLogFlagSlot200Response
+    | WebAppsGetSitePhpErrorLogFlagSlotdefaultResponse
   >;
 }
 
@@ -13644,29 +7418,40 @@ export interface WebAppsListPremierAddOnsSlot {
   /** Gets the premier add-ons of an app. */
   get(
     options?: WebAppsListPremierAddOnsSlotParameters
-  ): Promise<WebAppsListPremierAddOnsSlot200Response | WebAppsListPremierAddOnsSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsListPremierAddOnsSlot200Response
+    | WebAppsListPremierAddOnsSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsGetPremierAddOnSlot {
   /** Gets a named add-on of an app. */
   get(
     options?: WebAppsGetPremierAddOnSlotParameters
-  ): Promise<WebAppsGetPremierAddOnSlot200Response | WebAppsGetPremierAddOnSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetPremierAddOnSlot200Response
+    | WebAppsGetPremierAddOnSlotdefaultResponse
+  >;
   /** Updates a named add-on of an app. */
   put(
     options: WebAppsAddPremierAddOnSlotParameters
-  ): Promise<WebAppsAddPremierAddOnSlot200Response | WebAppsAddPremierAddOnSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsAddPremierAddOnSlot200Response
+    | WebAppsAddPremierAddOnSlotdefaultResponse
+  >;
   /** Delete a premier add-on from an app. */
   delete(
     options?: WebAppsDeletePremierAddOnSlotParameters
   ): Promise<
-    WebAppsDeletePremierAddOnSlot200Response | WebAppsDeletePremierAddOnSlotdefaultResponse
+    | WebAppsDeletePremierAddOnSlot200Response
+    | WebAppsDeletePremierAddOnSlotdefaultResponse
   >;
   /** Updates a named add-on of an app. */
   patch(
     options: WebAppsUpdatePremierAddOnSlotParameters
   ): Promise<
-    WebAppsUpdatePremierAddOnSlot200Response | WebAppsUpdatePremierAddOnSlotdefaultResponse
+    | WebAppsUpdatePremierAddOnSlot200Response
+    | WebAppsUpdatePremierAddOnSlotdefaultResponse
   >;
 }
 
@@ -13674,12 +7459,16 @@ export interface WebAppsGetPrivateAccessSlot {
   /** Gets data around private site access enablement and authorized Virtual Networks that can access the site. */
   get(
     options?: WebAppsGetPrivateAccessSlotParameters
-  ): Promise<WebAppsGetPrivateAccessSlot200Response | WebAppsGetPrivateAccessSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetPrivateAccessSlot200Response
+    | WebAppsGetPrivateAccessSlotdefaultResponse
+  >;
   /** Sets data around private site access enablement and authorized Virtual Networks that can access the site. */
   put(
     options: WebAppsPutPrivateAccessVnetSlotParameters
   ): Promise<
-    WebAppsPutPrivateAccessVnetSlot200Response | WebAppsPutPrivateAccessVnetSlotdefaultResponse
+    | WebAppsPutPrivateAccessVnetSlot200Response
+    | WebAppsPutPrivateAccessVnetSlotdefaultResponse
   >;
 }
 
@@ -13809,7 +7598,8 @@ export interface WebAppsListPublicCertificatesSlot {
   get(
     options?: WebAppsListPublicCertificatesSlotParameters
   ): Promise<
-    WebAppsListPublicCertificatesSlot200Response | WebAppsListPublicCertificatesSlotdefaultResponse
+    | WebAppsListPublicCertificatesSlot200Response
+    | WebAppsListPublicCertificatesSlotdefaultResponse
   >;
 }
 
@@ -13818,7 +7608,8 @@ export interface WebAppsGetPublicCertificateSlot {
   get(
     options?: WebAppsGetPublicCertificateSlotParameters
   ): Promise<
-    WebAppsGetPublicCertificateSlot200Response | WebAppsGetPublicCertificateSlotdefaultResponse
+    | WebAppsGetPublicCertificateSlot200Response
+    | WebAppsGetPublicCertificateSlotdefaultResponse
   >;
   /** Creates a hostname binding for an app. */
   put(
@@ -13852,7 +7643,8 @@ export interface WebAppsResetSlotConfigurationSlot {
   post(
     options?: WebAppsResetSlotConfigurationSlotParameters
   ): Promise<
-    WebAppsResetSlotConfigurationSlot200Response | WebAppsResetSlotConfigurationSlotdefaultResponse
+    | WebAppsResetSlotConfigurationSlot200Response
+    | WebAppsResetSlotConfigurationSlotdefaultResponse
   >;
 }
 
@@ -13940,7 +7732,8 @@ export interface WebAppsListSlotDifferencesSlot {
   post(
     options: WebAppsListSlotDifferencesSlotParameters
   ): Promise<
-    WebAppsListSlotDifferencesSlot200Response | WebAppsListSlotDifferencesSlotdefaultResponse
+    | WebAppsListSlotDifferencesSlot200Response
+    | WebAppsListSlotDifferencesSlotdefaultResponse
   >;
 }
 
@@ -13949,7 +7742,9 @@ export interface WebAppsSwapSlot {
   post(
     options: WebAppsSwapSlotParameters
   ): Promise<
-    WebAppsSwapSlot200Response | WebAppsSwapSlot202Response | WebAppsSwapSlotdefaultResponse
+    | WebAppsSwapSlot200Response
+    | WebAppsSwapSlot202Response
+    | WebAppsSwapSlotdefaultResponse
   >;
 }
 
@@ -13957,7 +7752,10 @@ export interface WebAppsListSnapshotsSlot {
   /** Returns all Snapshots to the user. */
   get(
     options?: WebAppsListSnapshotsSlotParameters
-  ): Promise<WebAppsListSnapshotsSlot200Response | WebAppsListSnapshotsSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsListSnapshotsSlot200Response
+    | WebAppsListSnapshotsSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListSnapshotsFromDRSecondarySlot {
@@ -14049,7 +7847,10 @@ export interface WebAppsSyncRepositorySlot {
   /** Sync web app repository. */
   post(
     options?: WebAppsSyncRepositorySlotParameters
-  ): Promise<WebAppsSyncRepositorySlot200Response | WebAppsSyncRepositorySlotdefaultResponse>;
+  ): Promise<
+    | WebAppsSyncRepositorySlot200Response
+    | WebAppsSyncRepositorySlotdefaultResponse
+  >;
 }
 
 export interface WebAppsSyncFunctionTriggersSlot {
@@ -14057,7 +7858,8 @@ export interface WebAppsSyncFunctionTriggersSlot {
   post(
     options?: WebAppsSyncFunctionTriggersSlotParameters
   ): Promise<
-    WebAppsSyncFunctionTriggersSlot204Response | WebAppsSyncFunctionTriggersSlotdefaultResponse
+    | WebAppsSyncFunctionTriggersSlot204Response
+    | WebAppsSyncFunctionTriggersSlotdefaultResponse
   >;
 }
 
@@ -14066,7 +7868,8 @@ export interface WebAppsListTriggeredWebJobsSlot {
   get(
     options?: WebAppsListTriggeredWebJobsSlotParameters
   ): Promise<
-    WebAppsListTriggeredWebJobsSlot200Response | WebAppsListTriggeredWebJobsSlotdefaultResponse
+    | WebAppsListTriggeredWebJobsSlot200Response
+    | WebAppsListTriggeredWebJobsSlotdefaultResponse
   >;
 }
 
@@ -14126,7 +7929,9 @@ export interface WebAppsListUsagesSlot {
   /** Gets the quota usage information of an app (or deployment slot, if specified). */
   get(
     options?: WebAppsListUsagesSlotParameters
-  ): Promise<WebAppsListUsagesSlot200Response | WebAppsListUsagesSlotdefaultResponse>;
+  ): Promise<
+    WebAppsListUsagesSlot200Response | WebAppsListUsagesSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListVnetConnectionsSlot {
@@ -14134,7 +7939,8 @@ export interface WebAppsListVnetConnectionsSlot {
   get(
     options?: WebAppsListVnetConnectionsSlotParameters
   ): Promise<
-    WebAppsListVnetConnectionsSlot200Response | WebAppsListVnetConnectionsSlotdefaultResponse
+    | WebAppsListVnetConnectionsSlot200Response
+    | WebAppsListVnetConnectionsSlotdefaultResponse
   >;
 }
 
@@ -14142,7 +7948,10 @@ export interface WebAppsGetVnetConnectionSlot {
   /** Gets a virtual network the app (or deployment slot) is connected to by name. */
   get(
     options?: WebAppsGetVnetConnectionSlotParameters
-  ): Promise<WebAppsGetVnetConnectionSlot200Response | WebAppsGetVnetConnectionSlotdefaultResponse>;
+  ): Promise<
+    | WebAppsGetVnetConnectionSlot200Response
+    | WebAppsGetVnetConnectionSlotdefaultResponse
+  >;
   /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
   put(
     options: WebAppsCreateOrUpdateVnetConnectionSlotParameters
@@ -14162,7 +7971,8 @@ export interface WebAppsGetVnetConnectionSlot {
   patch(
     options: WebAppsUpdateVnetConnectionSlotParameters
   ): Promise<
-    WebAppsUpdateVnetConnectionSlot200Response | WebAppsUpdateVnetConnectionSlotdefaultResponse
+    | WebAppsUpdateVnetConnectionSlot200Response
+    | WebAppsUpdateVnetConnectionSlotdefaultResponse
   >;
 }
 
@@ -14195,14 +8005,18 @@ export interface WebAppsListWebJobsSlot {
   /** List webjobs for an app, or a deployment slot. */
   get(
     options?: WebAppsListWebJobsSlotParameters
-  ): Promise<WebAppsListWebJobsSlot200Response | WebAppsListWebJobsSlotdefaultResponse>;
+  ): Promise<
+    WebAppsListWebJobsSlot200Response | WebAppsListWebJobsSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsGetWebJobSlot {
   /** Get webjob information for an app, or a deployment slot. */
   get(
     options?: WebAppsGetWebJobSlotParameters
-  ): Promise<WebAppsGetWebJobSlot200Response | WebAppsGetWebJobSlotdefaultResponse>;
+  ): Promise<
+    WebAppsGetWebJobSlot200Response | WebAppsGetWebJobSlotdefaultResponse
+  >;
 }
 
 export interface WebAppsListSlotDifferencesFromProduction {
@@ -14230,7 +8044,9 @@ export interface WebAppsListSnapshots {
   /** Returns all Snapshots to the user. */
   get(
     options?: WebAppsListSnapshotsParameters
-  ): Promise<WebAppsListSnapshots200Response | WebAppsListSnapshotsdefaultResponse>;
+  ): Promise<
+    WebAppsListSnapshots200Response | WebAppsListSnapshotsdefaultResponse
+  >;
 }
 
 export interface WebAppsListSnapshotsFromDRSecondary {
@@ -14322,21 +8138,29 @@ export interface WebAppsSyncRepository {
   /** Sync web app repository. */
   post(
     options?: WebAppsSyncRepositoryParameters
-  ): Promise<WebAppsSyncRepository200Response | WebAppsSyncRepositorydefaultResponse>;
+  ): Promise<
+    WebAppsSyncRepository200Response | WebAppsSyncRepositorydefaultResponse
+  >;
 }
 
 export interface WebAppsSyncFunctionTriggers {
   /** Syncs function trigger metadata to the management database */
   post(
     options?: WebAppsSyncFunctionTriggersParameters
-  ): Promise<WebAppsSyncFunctionTriggers204Response | WebAppsSyncFunctionTriggersdefaultResponse>;
+  ): Promise<
+    | WebAppsSyncFunctionTriggers204Response
+    | WebAppsSyncFunctionTriggersdefaultResponse
+  >;
 }
 
 export interface WebAppsListTriggeredWebJobs {
   /** List triggered web jobs for an app, or a deployment slot. */
   get(
     options?: WebAppsListTriggeredWebJobsParameters
-  ): Promise<WebAppsListTriggeredWebJobs200Response | WebAppsListTriggeredWebJobsdefaultResponse>;
+  ): Promise<
+    | WebAppsListTriggeredWebJobs200Response
+    | WebAppsListTriggeredWebJobsdefaultResponse
+  >;
 }
 
 export interface WebAppsGetTriggeredWebJob {
@@ -14402,14 +8226,20 @@ export interface WebAppsListVnetConnections {
   /** Gets the virtual networks the app (or deployment slot) is connected to. */
   get(
     options?: WebAppsListVnetConnectionsParameters
-  ): Promise<WebAppsListVnetConnections200Response | WebAppsListVnetConnectionsdefaultResponse>;
+  ): Promise<
+    | WebAppsListVnetConnections200Response
+    | WebAppsListVnetConnectionsdefaultResponse
+  >;
 }
 
 export interface WebAppsGetVnetConnection {
   /** Gets a virtual network the app (or deployment slot) is connected to by name. */
   get(
     options?: WebAppsGetVnetConnectionParameters
-  ): Promise<WebAppsGetVnetConnection200Response | WebAppsGetVnetConnectiondefaultResponse>;
+  ): Promise<
+    | WebAppsGetVnetConnection200Response
+    | WebAppsGetVnetConnectiondefaultResponse
+  >;
   /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
   put(
     options: WebAppsCreateOrUpdateVnetConnectionParameters
@@ -14428,7 +8258,10 @@ export interface WebAppsGetVnetConnection {
   /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
   patch(
     options: WebAppsUpdateVnetConnectionParameters
-  ): Promise<WebAppsUpdateVnetConnection200Response | WebAppsUpdateVnetConnectiondefaultResponse>;
+  ): Promise<
+    | WebAppsUpdateVnetConnection200Response
+    | WebAppsUpdateVnetConnectiondefaultResponse
+  >;
 }
 
 export interface WebAppsGetVnetConnectionGateway {
@@ -15373,9 +9206,13 @@ export interface Routes {
     name: string
   ): KubeEnvironmentsGet;
   /** Resource for '/providers/Microsoft.Web/availableStacks' has methods for the following verbs: get */
-  (path: "/providers/Microsoft.Web/availableStacks"): ProviderGetAvailableStacks;
+  (
+    path: "/providers/Microsoft.Web/availableStacks"
+  ): ProviderGetAvailableStacks;
   /** Resource for '/providers/Microsoft.Web/functionAppStacks' has methods for the following verbs: get */
-  (path: "/providers/Microsoft.Web/functionAppStacks"): ProviderGetFunctionAppStacks;
+  (
+    path: "/providers/Microsoft.Web/functionAppStacks"
+  ): ProviderGetFunctionAppStacks;
   /** Resource for '/providers/Microsoft.Web/locations/\{location\}/functionAppStacks' has methods for the following verbs: get */
   (
     path: "/providers/Microsoft.Web/locations/{location}/functionAppStacks",
@@ -18116,24 +11953,4 @@ export interface Routes {
 
 export type WebSiteManagementClient = Client & {
   path: Routes;
-  appServiceCertificateOrders: AppServiceCertificateOrdersOperations;
-  certificateOrdersDiagnostics: CertificateOrdersDiagnosticsOperations;
-  certificateRegistrationProvider: CertificateRegistrationProviderOperations;
-  domains: DomainsOperations;
-  topLevelDomains: TopLevelDomainsOperations;
-  domainRegistrationProvider: DomainRegistrationProviderOperations;
-  appServiceEnvironments: AppServiceEnvironmentsOperations;
-  appServicePlans: AppServicePlansOperations;
-  certificates: CertificatesOperations;
-  containerApps: ContainerAppsOperations;
-  containerAppsRevisions: ContainerAppsRevisionsOperations;
-  deletedWebApps: DeletedWebAppsOperations;
-  diagnostics: DiagnosticsOperations;
-  global: GlobalOperations;
-  kubeEnvironments: KubeEnvironmentsOperations;
-  provider: ProviderOperations;
-  recommendations: RecommendationsOperations;
-  resourceHealthMetadata: ResourceHealthMetadataOperations;
-  staticSites: StaticSitesOperations;
-  webApps: WebAppsOperations;
-} & ClientOperations;
+};

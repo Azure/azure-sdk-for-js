@@ -26,12 +26,14 @@ async function patchServicePlan() {
   const appServicePlan: AppServicePlansUpdateParameters = { body: { kind: "app" } };
   const credential = new DefaultAzureCredential();
   const client = WebSiteManagementClient(credential);
-  const result = await client.appServicePlans.update(
-    subscriptionId,
-    resourceGroupName,
-    name,
-    appServicePlan
-  );
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
+      subscriptionId,
+      resourceGroupName,
+      name
+    )
+    .patch(appServicePlan);
   console.log(result);
 }
 

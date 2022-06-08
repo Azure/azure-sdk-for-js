@@ -25,11 +25,18 @@ export interface AppServiceCertificateOrderPropertiesOutput {
   /** Certificate key size. */
   keySize?: number;
   /** Certificate product type. */
-  productType: "StandardDomainValidatedSsl" | "StandardDomainValidatedWildCardSsl";
+  productType:
+    | "StandardDomainValidatedSsl"
+    | "StandardDomainValidatedWildCardSsl";
   /** <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>. */
   autoRenew?: boolean;
   /** Status of certificate order. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
+  provisioningState?:
+    | "Succeeded"
+    | "Failed"
+    | "Canceled"
+    | "InProgress"
+    | "Deleting";
   /** Current order status. */
   status?:
     | "Pendingissuance"
@@ -159,7 +166,8 @@ export interface DefaultErrorResponseErrorDetailsItemOutput {
   target?: string;
 }
 
-export interface AppServiceCertificateOrderPatchResourceOutput extends ProxyOnlyResourceOutput {
+export interface AppServiceCertificateOrderPatchResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** AppServiceCertificateOrderPatchResource resource specific properties */
   properties?: AppServiceCertificateOrderPatchResourcePropertiesOutput;
 }
@@ -176,11 +184,18 @@ export interface AppServiceCertificateOrderPatchResourcePropertiesOutput {
   /** Certificate key size. */
   keySize?: number;
   /** Certificate product type. */
-  productType: "StandardDomainValidatedSsl" | "StandardDomainValidatedWildCardSsl";
+  productType:
+    | "StandardDomainValidatedSsl"
+    | "StandardDomainValidatedWildCardSsl";
   /** <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>. */
   autoRenew?: boolean;
   /** Status of certificate order. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
+  provisioningState?:
+    | "Succeeded"
+    | "Failed"
+    | "Canceled"
+    | "InProgress"
+    | "Deleting";
   /** Current order status. */
   status?:
     | "Pendingissuance"
@@ -244,12 +259,14 @@ export interface AppServiceCertificateResourceOutput extends ResourceOutput {
   properties?: AppServiceCertificateOutput;
 }
 
-export interface AppServiceCertificatePatchResourceOutput extends ProxyOnlyResourceOutput {
+export interface AppServiceCertificatePatchResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** Core resource properties */
   properties?: AppServiceCertificateOutput;
 }
 
-export interface ReissueCertificateOrderRequestOutput extends ProxyOnlyResourceOutput {
+export interface ReissueCertificateOrderRequestOutput
+  extends ProxyOnlyResourceOutput {
   /** ReissueCertificateOrderRequest resource specific properties */
   properties?: ReissueCertificateOrderRequestPropertiesOutput;
 }
@@ -265,7 +282,8 @@ export interface ReissueCertificateOrderRequestPropertiesOutput {
   isPrivateKeyExternal?: boolean;
 }
 
-export interface RenewCertificateOrderRequestOutput extends ProxyOnlyResourceOutput {
+export interface RenewCertificateOrderRequestOutput
+  extends ProxyOnlyResourceOutput {
   /** RenewCertificateOrderRequest resource specific properties */
   properties?: RenewCertificateOrderRequestPropertiesOutput;
 }
@@ -608,7 +626,12 @@ export interface DomainPropertiesOutput {
     | "Updated"
     | "JsonConverterFailed";
   /** Domain provisioning state. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
+  provisioningState?:
+    | "Succeeded"
+    | "Failed"
+    | "Canceled"
+    | "InProgress"
+    | "Deleting";
   /** Name servers. */
   nameServers?: Array<string>;
   /** <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>. */
@@ -759,7 +782,12 @@ export interface DomainPatchResourcePropertiesOutput {
     | "Updated"
     | "JsonConverterFailed";
   /** Domain provisioning state. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
+  provisioningState?:
+    | "Succeeded"
+    | "Failed"
+    | "Canceled"
+    | "InProgress"
+    | "Deleting";
   /** Name servers. */
   nameServers?: Array<string>;
   /** <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>. */
@@ -803,7 +831,8 @@ export interface DomainOwnershipIdentifierCollectionOutput {
   nextLink?: string;
 }
 
-export interface DomainOwnershipIdentifierOutput extends ProxyOnlyResourceOutput {
+export interface DomainOwnershipIdentifierOutput
+  extends ProxyOnlyResourceOutput {
   /** DomainOwnershipIdentifier resource specific properties */
   properties?: DomainOwnershipIdentifierPropertiesOutput;
 }
@@ -862,7 +891,12 @@ export interface AppServiceEnvironmentResourceOutput extends ResourceOutput {
 
 export interface AppServiceEnvironmentOutput {
   /** Provisioning state of the App Service Environment. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
+  provisioningState?:
+    | "Succeeded"
+    | "Failed"
+    | "Canceled"
+    | "InProgress"
+    | "Deleting";
   /** Current status of the App Service Environment. */
   status?: "Preparing" | "Ready" | "Scaling" | "Deleting";
   /** Description of the Virtual Network. */
@@ -916,7 +950,8 @@ export interface NameValuePairOutput {
   value?: string;
 }
 
-export interface AppServiceEnvironmentPatchResourceOutput extends ProxyOnlyResourceOutput {
+export interface AppServiceEnvironmentPatchResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** Core resource properties */
   properties?: AppServiceEnvironmentOutput;
 }
@@ -1109,7 +1144,12 @@ export interface SitePropertiesOutput {
    */
   httpsOnly?: boolean;
   /** Site redundancy mode */
-  redundancyMode?: "None" | "Manual" | "Failover" | "ActiveActive" | "GeoRedundant";
+  redundancyMode?:
+    | "None"
+    | "Manual"
+    | "Failover"
+    | "ActiveActive"
+    | "GeoRedundant";
   /**
    * Specifies an operation id if this site has a pending operation.
    *
@@ -1661,7 +1701,11 @@ export interface SlotSwapStatusOutput {
 
 export interface ManagedServiceIdentityOutput {
   /** Type of managed service identity. */
-  type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+  type?:
+    | "SystemAssigned"
+    | "UserAssigned"
+    | "SystemAssigned, UserAssigned"
+    | "None";
   /** Tenant of managed service identity. */
   tenantId?: string;
   /** Principal Id of managed service identity. */
@@ -1684,7 +1728,8 @@ export interface ExtendedLocationOutput {
   type?: string;
 }
 
-export interface AseV3NetworkingConfigurationOutput extends ProxyOnlyResourceOutput {
+export interface AseV3NetworkingConfigurationOutput
+  extends ProxyOnlyResourceOutput {
   /** AseV3NetworkingConfiguration resource specific properties */
   properties?: AseV3NetworkingConfigurationPropertiesOutput;
 }
@@ -1796,7 +1841,8 @@ export interface ResourceMetricDefinitionCollectionOutput {
   nextLink?: string;
 }
 
-export interface ResourceMetricDefinitionOutput extends ProxyOnlyResourceOutput {
+export interface ResourceMetricDefinitionOutput
+  extends ProxyOnlyResourceOutput {
   /** ResourceMetricDefinition resource specific properties */
   properties?: ResourceMetricDefinitionPropertiesOutput;
 }
@@ -1949,7 +1995,8 @@ export interface PrivateEndpointConnectionCollectionOutput {
   nextLink?: string;
 }
 
-export interface RemotePrivateEndpointConnectionARMResourceOutput extends ProxyOnlyResourceOutput {
+export interface RemotePrivateEndpointConnectionARMResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** RemotePrivateEndpointConnectionARMResource resource specific properties */
   properties?: RemotePrivateEndpointConnectionARMResourcePropertiesOutput;
 }
@@ -2069,7 +2116,12 @@ export interface AppServicePlanPropertiesOutput {
   /** Scaling worker size ID. */
   targetWorkerSizeId?: number;
   /** Provisioning state of the App Service Plan. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
+  provisioningState?:
+    | "Succeeded"
+    | "Failed"
+    | "Canceled"
+    | "InProgress"
+    | "Deleting";
   /** Specification for the Kubernetes Environment to use for the App Service plan. */
   kubeEnvironmentProfile?: KubeEnvironmentProfileOutput;
   /**
@@ -2115,7 +2167,8 @@ export interface LocalizableStringOutput {
   localizedValue?: string;
 }
 
-export interface AppServicePlanPatchResourceOutput extends ProxyOnlyResourceOutput {
+export interface AppServicePlanPatchResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** AppServicePlanPatchResource resource specific properties */
   properties?: AppServicePlanPatchResourcePropertiesOutput;
 }
@@ -2163,7 +2216,12 @@ export interface AppServicePlanPatchResourcePropertiesOutput {
   /** Scaling worker size ID. */
   targetWorkerSizeId?: number;
   /** Provisioning state of the App Service Plan. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
+  provisioningState?:
+    | "Succeeded"
+    | "Failed"
+    | "Canceled"
+    | "InProgress"
+    | "Deleting";
   /** Specification for the Kubernetes Environment to use for the App Service plan. */
   kubeEnvironmentProfile?: KubeEnvironmentProfileOutput;
   /**
@@ -2372,7 +2430,8 @@ export interface CertificatePropertiesOutput {
   domainValidationMethod?: string;
 }
 
-export interface CertificatePatchResourceOutput extends ProxyOnlyResourceOutput {
+export interface CertificatePatchResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** CertificatePatchResource resource specific properties */
   properties?: CertificatePatchResourcePropertiesOutput;
 }
@@ -2922,12 +2981,14 @@ export interface DiagnosticDetectorCollectionOutput {
   nextLink?: string;
 }
 
-export interface DetectorDefinitionResourceOutput extends ProxyOnlyResourceOutput {
+export interface DetectorDefinitionResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** Core resource properties */
   properties?: DetectorDefinitionOutput;
 }
 
-export interface DiagnosticDetectorResponseOutput extends ProxyOnlyResourceOutput {
+export interface DiagnosticDetectorResponseOutput
+  extends ProxyOnlyResourceOutput {
   /** DiagnosticDetectorResponse resource specific properties */
   properties?: DiagnosticDetectorResponsePropertiesOutput;
 }
@@ -3054,7 +3115,8 @@ export interface ContainerAppsConfigurationOutput {
   dockerBridgeCidr?: string;
 }
 
-export interface KubeEnvironmentPatchResourceOutput extends ProxyOnlyResourceOutput {
+export interface KubeEnvironmentPatchResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** KubeEnvironmentPatchResource resource specific properties */
   properties?: KubeEnvironmentPatchResourcePropertiesOutput;
 }
@@ -3104,7 +3166,8 @@ export interface ApplicationStackCollectionOutput {
   nextLink?: string;
 }
 
-export interface ApplicationStackResourceOutput extends ProxyOnlyResourceOutput {
+export interface ApplicationStackResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** Core resource properties */
   properties?: ApplicationStackOutput;
 }
@@ -3637,7 +3700,9 @@ export interface DeploymentLocationsOutput {
   /** Available App Service Environments with full descriptions of the environments. */
   hostingEnvironments?: Array<AppServiceEnvironmentOutput>;
   /** Available App Service Environments with basic information. */
-  hostingEnvironmentDeploymentInfos?: Array<HostingEnvironmentDeploymentInfoOutput>;
+  hostingEnvironmentDeploymentInfos?: Array<
+    HostingEnvironmentDeploymentInfoOutput
+  >;
 }
 
 export interface GeoRegionOutput extends ProxyOnlyResourceOutput {
@@ -3699,7 +3764,13 @@ export interface PremierAddOnOfferPropertiesOutput {
   /** Premier add on offer Quota. */
   quota?: number;
   /** App Service plans this offer is restricted to. */
-  webHostingPlanRestrictions?: "None" | "Free" | "Shared" | "Basic" | "Standard" | "Premium";
+  webHostingPlanRestrictions?:
+    | "None"
+    | "Free"
+    | "Shared"
+    | "Basic"
+    | "Standard"
+    | "Premium";
   /** Privacy policy URL. */
   privacyPolicyUrl?: string;
   /** Legal terms URL. */
@@ -3750,7 +3821,8 @@ export interface VnetParametersPropertiesOutput {
   subnetResourceId?: string;
 }
 
-export interface VnetValidationFailureDetailsOutput extends ProxyOnlyResourceOutput {
+export interface VnetValidationFailureDetailsOutput
+  extends ProxyOnlyResourceOutput {
   /** VnetValidationFailureDetails resource specific properties */
   properties?: VnetValidationFailureDetailsPropertiesOutput;
 }
@@ -3766,7 +3838,8 @@ export interface VnetValidationFailureDetailsPropertiesOutput {
   warnings?: Array<VnetValidationTestFailureOutput>;
 }
 
-export interface VnetValidationTestFailureOutput extends ProxyOnlyResourceOutput {
+export interface VnetValidationTestFailureOutput
+  extends ProxyOnlyResourceOutput {
   /** VnetValidationTestFailure resource specific properties */
   properties?: VnetValidationTestFailurePropertiesOutput;
 }
@@ -3792,7 +3865,8 @@ export interface ValidateResponseErrorOutput {
   message?: string;
 }
 
-export interface StaticSitesWorkflowPreviewRequestOutput extends ProxyOnlyResourceOutput {
+export interface StaticSitesWorkflowPreviewRequestOutput
+  extends ProxyOnlyResourceOutput {
   /** StaticSitesWorkflowPreviewRequest resource specific properties */
   properties?: StaticSitesWorkflowPreviewRequestPropertiesOutput;
 }
@@ -3825,7 +3899,8 @@ export interface StaticSiteBuildPropertiesOutput {
   githubActionSecretNameOverride?: string;
 }
 
-export interface StaticSitesWorkflowPreviewOutput extends ProxyOnlyResourceOutput {
+export interface StaticSitesWorkflowPreviewOutput
+  extends ProxyOnlyResourceOutput {
   /** StaticSitesWorkflowPreview resource specific properties */
   properties?: StaticSitesWorkflowPreviewPropertiesOutput;
 }
@@ -3867,7 +3942,9 @@ export interface StaticSiteOutput {
   /** Build properties to configure on the repository. */
   buildProperties?: StaticSiteBuildPropertiesOutput;
   /** Private endpoint connections */
-  privateEndpointConnections?: Array<ResponseMessageEnvelopeRemotePrivateEndpointConnectionOutput>;
+  privateEndpointConnections?: Array<
+    ResponseMessageEnvelopeRemotePrivateEndpointConnectionOutput
+  >;
   /** State indicating whether staging environments are allowed or not allowed for a static web app. */
   stagingEnvironmentPolicy?: "Enabled" | "Disabled";
   /** <code>false</code> if config file is locked for this static web app; otherwise, <code>true</code>. */
@@ -3930,7 +4007,8 @@ export interface ArmPlanOutput {
   version?: string;
 }
 
-export interface RemotePrivateEndpointConnectionOutput extends ProxyOnlyResourceOutput {
+export interface RemotePrivateEndpointConnectionOutput
+  extends ProxyOnlyResourceOutput {
   /** RemotePrivateEndpointConnection resource specific properties */
   properties?: RemotePrivateEndpointConnectionPropertiesOutput;
 }
@@ -3958,7 +4036,8 @@ export interface StaticSiteTemplateOptionsOutput {
   isPrivate?: boolean;
 }
 
-export interface StaticSiteUserProvidedFunctionAppOutput extends ProxyOnlyResourceOutput {
+export interface StaticSiteUserProvidedFunctionAppOutput
+  extends ProxyOnlyResourceOutput {
   /** StaticSiteUserProvidedFunctionApp resource specific properties */
   properties?: StaticSiteUserProvidedFunctionAppPropertiesOutput;
 }
@@ -3984,7 +4063,8 @@ export interface StaticSiteUserCollectionOutput {
   nextLink?: string;
 }
 
-export interface StaticSiteUserARMResourceOutput extends ProxyOnlyResourceOutput {
+export interface StaticSiteUserARMResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** StaticSiteUserARMResource resource specific properties */
   properties?: StaticSiteUserARMResourcePropertiesOutput;
 }
@@ -4007,7 +4087,8 @@ export interface StaticSiteBuildCollectionOutput {
   nextLink?: string;
 }
 
-export interface StaticSiteBuildARMResourceOutput extends ProxyOnlyResourceOutput {
+export interface StaticSiteBuildARMResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** StaticSiteBuildARMResource resource specific properties */
   properties?: StaticSiteBuildARMResourcePropertiesOutput;
 }
@@ -4050,7 +4131,8 @@ export interface StaticSiteFunctionOverviewCollectionOutput {
   nextLink?: string;
 }
 
-export interface StaticSiteFunctionOverviewARMResourceOutput extends ProxyOnlyResourceOutput {
+export interface StaticSiteFunctionOverviewARMResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** StaticSiteFunctionOverviewARMResource resource specific properties */
   properties?: StaticSiteFunctionOverviewARMResourcePropertiesOutput;
 }
@@ -4084,7 +4166,8 @@ export interface StaticSiteUserProvidedFunctionAppARMResourcePropertiesOutput {
   createdOn?: string;
 }
 
-export interface StaticSiteZipDeploymentARMResourceOutput extends ProxyOnlyResourceOutput {
+export interface StaticSiteZipDeploymentARMResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** Core resource properties */
   properties?: StaticSiteZipDeploymentOutput;
 }
@@ -4102,7 +4185,8 @@ export interface StaticSiteZipDeploymentOutput {
   functionLanguage?: string;
 }
 
-export interface StaticSiteUserInvitationRequestResourceOutput extends ProxyOnlyResourceOutput {
+export interface StaticSiteUserInvitationRequestResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** StaticSiteUserInvitationRequestResource resource specific properties */
   properties?: StaticSiteUserInvitationRequestResourcePropertiesOutput;
 }
@@ -4120,7 +4204,8 @@ export interface StaticSiteUserInvitationRequestResourcePropertiesOutput {
   numHoursToExpiration?: number;
 }
 
-export interface StaticSiteUserInvitationResponseResourceOutput extends ProxyOnlyResourceOutput {
+export interface StaticSiteUserInvitationResponseResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** StaticSiteUserInvitationResponseResource resource specific properties */
   properties?: StaticSiteUserInvitationResponseResourcePropertiesOutput;
 }
@@ -4139,7 +4224,8 @@ export interface StaticSiteCustomDomainOverviewCollectionOutput {
   nextLink?: string;
 }
 
-export interface StaticSiteCustomDomainOverviewARMResourceOutput extends ProxyOnlyResourceOutput {
+export interface StaticSiteCustomDomainOverviewARMResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** StaticSiteCustomDomainOverviewARMResource resource specific properties */
   properties?: StaticSiteCustomDomainOverviewARMResourcePropertiesOutput;
 }
@@ -4150,7 +4236,13 @@ export interface StaticSiteCustomDomainOverviewARMResourcePropertiesOutput {
   /** The date and time on which the custom domain was created for the static site. */
   createdOn?: string;
   /** The status of the custom domain */
-  status?: "RetrievingValidationToken" | "Validating" | "Adding" | "Ready" | "Failed" | "Deleting";
+  status?:
+    | "RetrievingValidationToken"
+    | "Validating"
+    | "Adding"
+    | "Ready"
+    | "Failed"
+    | "Deleting";
   /** The TXT record validation token */
   validationToken?: string;
   errorMessage?: string;
@@ -4172,7 +4264,8 @@ export interface StringListOutput extends ProxyOnlyResourceOutput {
   properties?: Array<string>;
 }
 
-export interface StaticSiteResetPropertiesARMResourceOutput extends ProxyOnlyResourceOutput {
+export interface StaticSiteResetPropertiesARMResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** StaticSiteResetPropertiesARMResource resource specific properties */
   properties?: StaticSiteResetPropertiesARMResourcePropertiesOutput;
 }
@@ -4282,7 +4375,12 @@ export interface SitePatchResourcePropertiesOutput {
    */
   httpsOnly?: boolean;
   /** Site redundancy mode */
-  redundancyMode?: "None" | "Manual" | "Failover" | "ActiveActive" | "GeoRedundant";
+  redundancyMode?:
+    | "None"
+    | "Manual"
+    | "Failover"
+    | "ActiveActive"
+    | "GeoRedundant";
   /**
    * Specifies an operation id if this site has a pending operation.
    *
@@ -4300,7 +4398,8 @@ export interface SitePatchResourcePropertiesOutput {
   virtualNetworkSubnetId?: string;
 }
 
-export interface CustomHostnameAnalysisResultOutput extends ProxyOnlyResourceOutput {
+export interface CustomHostnameAnalysisResultOutput
+  extends ProxyOnlyResourceOutput {
   /** CustomHostnameAnalysisResult resource specific properties */
   properties?: CustomHostnameAnalysisResultPropertiesOutput;
 }
@@ -4469,7 +4568,8 @@ export interface PublishingCredentialsPoliciesCollectionOutput {
   nextLink?: string;
 }
 
-export interface CsmPublishingCredentialsPoliciesEntityOutput extends ProxyOnlyResourceOutput {
+export interface CsmPublishingCredentialsPoliciesEntityOutput
+  extends ProxyOnlyResourceOutput {
   /** CsmPublishingCredentialsPoliciesEntity resource specific properties */
   properties?: CsmPublishingCredentialsPoliciesEntityPropertiesOutput;
 }
@@ -4770,7 +4870,10 @@ export interface IdentityProvidersOutput {
    * The map of the name of the alias of each custom Open ID Connect provider to the
    * configuration settings of the custom Open ID Connect provider.
    */
-  customOpenIdConnectProviders?: Record<string, CustomOpenIdConnectProviderOutput>;
+  customOpenIdConnectProviders?: Record<
+    string,
+    CustomOpenIdConnectProviderOutput
+  >;
 }
 
 export interface AzureActiveDirectoryOutput {
@@ -5112,7 +5215,8 @@ export interface ForwardProxyOutput {
   customProtoHeaderName?: string;
 }
 
-export interface AzureStoragePropertyDictionaryResourceOutput extends ProxyOnlyResourceOutput {
+export interface AzureStoragePropertyDictionaryResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** Azure storage accounts. */
   properties?: Record<string, AzureStorageInfoValueOutput>;
 }
@@ -5153,7 +5257,8 @@ export interface ApiKVReferencePropertiesOutput {
   activeVersion?: string;
 }
 
-export interface ConnectionStringDictionaryOutput extends ProxyOnlyResourceOutput {
+export interface ConnectionStringDictionaryOutput
+  extends ProxyOnlyResourceOutput {
   /** Connection strings. */
   properties?: Record<string, ConnStringValueTypePairOutput>;
 }
@@ -5289,7 +5394,8 @@ export interface SiteConfigurationSnapshotInfoCollectionOutput {
   nextLink?: string;
 }
 
-export interface SiteConfigurationSnapshotInfoOutput extends ProxyOnlyResourceOutput {
+export interface SiteConfigurationSnapshotInfoOutput
+  extends ProxyOnlyResourceOutput {
   /** SiteConfigurationSnapshotInfo resource specific properties */
   properties?: SiteConfigurationSnapshotInfoPropertiesOutput;
 }
@@ -5315,7 +5421,12 @@ export interface ContinuousWebJobOutput extends ProxyOnlyResourceOutput {
 
 export interface ContinuousWebJobPropertiesOutput {
   /** Job status. */
-  status?: "Initializing" | "Starting" | "Running" | "PendingRestart" | "Stopped";
+  status?:
+    | "Initializing"
+    | "Starting"
+    | "Running"
+    | "PendingRestart"
+    | "Stopped";
   /** Detailed status. */
   detailed_status?: string;
   /** Log URL. */
@@ -5378,7 +5489,12 @@ export interface MSDeployStatusPropertiesOutput {
   /** Username of deployer */
   deployer?: string;
   /** Provisioning state */
-  provisioningState?: "accepted" | "running" | "succeeded" | "failed" | "canceled";
+  provisioningState?:
+    | "accepted"
+    | "running"
+    | "succeeded"
+    | "failed"
+    | "canceled";
   /** Start time of deploy operation */
   startTime?: string;
   /** End time of deploy operation */
@@ -5533,7 +5649,8 @@ export interface HostNameBindingPropertiesOutput {
   virtualIP?: string;
 }
 
-export interface RelayServiceConnectionEntityOutput extends ProxyOnlyResourceOutput {
+export interface RelayServiceConnectionEntityOutput
+  extends ProxyOnlyResourceOutput {
   /** RelayServiceConnectionEntity resource specific properties */
   properties?: RelayServiceConnectionEntityPropertiesOutput;
 }
@@ -5822,7 +5939,8 @@ export interface StorageMigrationOptionsPropertiesOutput {
   blockWriteAccessToSite?: boolean;
 }
 
-export interface StorageMigrationResponseOutput extends ProxyOnlyResourceOutput {
+export interface StorageMigrationResponseOutput
+  extends ProxyOnlyResourceOutput {
   /** StorageMigrationResponse resource specific properties */
   properties?: StorageMigrationResponsePropertiesOutput;
 }
@@ -5851,7 +5969,12 @@ export interface MigrateMySqlStatusOutput extends ProxyOnlyResourceOutput {
 
 export interface MigrateMySqlStatusPropertiesOutput {
   /** Status of the migration task. */
-  migrationOperationStatus?: "InProgress" | "Failed" | "Succeeded" | "TimedOut" | "Created";
+  migrationOperationStatus?:
+    | "InProgress"
+    | "Failed"
+    | "Succeeded"
+    | "TimedOut"
+    | "Created";
   /** Operation ID for the migration task. */
   operationId?: string;
   /** True if the web app has in app MySql enabled */
@@ -5967,7 +6090,8 @@ export interface PremierAddOnPropertiesOutput {
   marketplaceOffer?: string;
 }
 
-export interface PremierAddOnPatchResourceOutput extends ProxyOnlyResourceOutput {
+export interface PremierAddOnPatchResourceOutput
+  extends ProxyOnlyResourceOutput {
   /** PremierAddOnPatchResource resource specific properties */
   properties?: PremierAddOnPatchResourcePropertiesOutput;
 }
@@ -6040,7 +6164,8 @@ export interface PublicCertificatePropertiesOutput {
   thumbprint?: string;
 }
 
-export interface DeletedAppRestoreRequestOutput extends ProxyOnlyResourceOutput {
+export interface DeletedAppRestoreRequestOutput
+  extends ProxyOnlyResourceOutput {
   /** DeletedAppRestoreRequest resource specific properties */
   properties?: DeletedAppRestoreRequestPropertiesOutput;
 }

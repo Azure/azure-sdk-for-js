@@ -39,7 +39,6 @@ input-file:
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/078b90617e5e08137d0395963bd4119f4561a910/specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/WebApps.json
 package-version: 1.0.0
 rest-level-client: true
-rlc-shortcut: true
 add-credentials: true
 credential-scopes: "https://management.azure.com/.default"
 use-extension:

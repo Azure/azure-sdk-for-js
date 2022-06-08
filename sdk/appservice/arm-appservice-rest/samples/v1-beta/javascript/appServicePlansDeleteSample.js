@@ -23,7 +23,14 @@ async function deleteAppServicePlan() {
   const name = "testsf6141";
   const credential = new DefaultAzureCredential();
   const client = WebSiteManagementClient(credential);
-  const result = await client.appServicePlans.delete(subscriptionId, resourceGroupName, name);
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
+      subscriptionId,
+      resourceGroupName,
+      name
+    )
+    .delete();
   console.log(result);
 }
 
