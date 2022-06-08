@@ -29,7 +29,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [advanced/listingEntities.ts][advanced_listingentities]                                   | Demonstrates how the ServiceBusAdministrationClient can be used to list the entities of a service bus namespace                                                |
 | [advanced/sessionState.ts][advanced_sessionstate]                                         | Demonstrates usage of SessionState.                                                                                                                            |
 | [advanced/movingMessagesToDLQ.ts][advanced_movingmessagestodlq]                           | Demonstrates scenarios as to how a Service Bus message can be explicitly moved to the DLQ                                                                      |
-| [advanced/processMessageFromDLQ.ts][advanced_processmessagefromdlq]                       | Demonstrates retrieving a message from a dead letter queue, editing it and sending it back to the main queue                                                   |
+| [exceedMaxDeliveryCount.ts][exceedmaxdeliverycount]                 | Demonstrates exceeding the max delivery count, then processing the messages sent to the dead letter queue                                                      |
 
 ## Prerequisites
 
@@ -99,6 +99,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [advanced_sessionstate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/advanced/sessionState.ts
 [advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/advanced/movingMessagesToDLQ.ts
 [advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/advanced/processMessageFromDLQ.ts
+[exceedmaxdeliverycount]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/exceedMaxDeliveryCount.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureservicebus]: https://docs.microsoft.com/azure/service-bus-messaging

@@ -30,8 +30,8 @@
     "integration-test:browser": "npm run build:test:browser && cross-env TEST_MODE=live karma start --single-run",
     "integration-test:node": "npm run build:test:node && nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
     "test:node": "npm run clean && npm run build:test:node && npm run unit-test:node",
     "test:browser": "npm run clean && npm run build:test:browser && npm run unit-test:browser",
@@ -66,7 +66,7 @@
   "dependencies": {
     "@azure/core-http": "^2.0.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.13",
+    "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },
@@ -84,7 +84,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -118,7 +118,7 @@
         "prefix": "packageVersion"
       },
       {
-        "path": "src/digitalTwinsClient.ts",
+        "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
       },
       {

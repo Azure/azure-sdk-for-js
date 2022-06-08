@@ -69,34 +69,113 @@ describe("ServiceBusClient live tests", () => {
         ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue)
         : sbClientWithRelaxedEndPoint.createReceiver(entities.topic!, entities.subscription!);
 
-      // Send and receive messages
-      const testMessages = entities.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      await sender.sendMessages(testMessages);
-      await testPeekMsgsLength(receiver, 1);
+      try {
+        // Send and receive messages
+        const testMessages = entities.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+        await sender.sendMessages(testMessages);
+        await testPeekMsgsLength(receiver, 1);
 
-      const msgs = await receiver.receiveMessages(1);
+        const msgs = await receiver.receiveMessages(1);
 
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs.length, 1, "Unexpected number of messages");
-      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-      should.equal(
-        msgs[0].messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
-      should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-      await receiver.completeMessage(msgs[0]);
+        should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+        should.equal(msgs.length, 1, "Unexpected number of messages");
+        should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+        should.equal(
+          msgs[0].messageId,
+          testMessages.messageId,
+          "MessageId is different than expected"
+        );
+        should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+        await receiver.completeMessage(msgs[0]);
 
-      await testPeekMsgsLength(receiver, 0);
-
-      // Clean up
-      await sbClient.test.after();
-      await sender.close();
-      await receiver.close();
-      await sbClientWithRelaxedEndPoint.close();
+        await testPeekMsgsLength(receiver, 0);
+      } finally {
+        // Clean up
+        await sbClient.test.after();
+        await sender.close();
+        await receiver.close();
+        await sbClientWithRelaxedEndPoint.close();
+      }
     });
+
+    it.skip(
+      noSessionTestClientType + ":can omit message body when peeking",
+      async function (): Promise<void> {
+        // Create a test client to get the entity types
+        const sbClient = createServiceBusClientForTests();
+        const entities = await sbClient.test.createTestEntities(noSessionTestClientType);
+        await sbClient.close();
+
+        // Create a sb client, sender, receiver with relaxed endpoint
+        const sbClientWithRelaxedEndPoint = new ServiceBusClient(
+          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+        );
+        const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
+        const receiver = entities.queue
+          ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue)
+          : sbClientWithRelaxedEndPoint.createReceiver(entities.topic!, entities.subscription!);
+        try {
+          // Send and receive messages
+          const testMessages = entities.usesSessions
+            ? TestMessage.getSessionSample()
+            : TestMessage.getSample();
+          await sender.sendMessages(testMessages);
+
+          let peekedMsgs = await receiver.peekMessages(2, {
+            omitMessageBody: true,
+            fromSequenceNumber: Long.ZERO,
+          });
+          should.equal(peekedMsgs.length, 1, "expecting one peeked message 1");
+          should.not.exist(peekedMsgs[0].body);
+          should.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
+            "expecting deliveryAnnotations"
+          );
+          const omittedSize = Number(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"]
+          );
+          should.equal(omittedSize > 0, true);
+
+          peekedMsgs = await receiver.peekMessages(2, {
+            omitMessageBody: false,
+            fromSequenceNumber: Long.ZERO,
+          });
+          should.equal(peekedMsgs.length, 1, "expecting one peeked message 2");
+          should.exist(peekedMsgs[0].body);
+          should.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
+            "expecting deliveryAnnotations"
+          );
+          should.not.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"],
+            "Not expecting omitted-message-body-size"
+          );
+
+          peekedMsgs = await receiver.peekMessages(2, { fromSequenceNumber: Long.ZERO });
+          should.equal(peekedMsgs.length, 1, "expecting one peeked message 3");
+          should.exist(peekedMsgs[0].body);
+          should.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
+            "expecting deliveryAnnotations"
+          );
+          should.not.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"],
+            "Not expecting omitted-message-body-size"
+          );
+
+          await receiver.receiveMessages(2);
+          await testPeekMsgsLength(receiver, 0);
+        } finally {
+          // Clean up
+          await sbClient.test.after();
+          await sender.close();
+          await receiver.close();
+          await sbClientWithRelaxedEndPoint.close();
+        }
+      }
+    );
   });
 
   describe("Errors with non existing Namespace", function (): void {

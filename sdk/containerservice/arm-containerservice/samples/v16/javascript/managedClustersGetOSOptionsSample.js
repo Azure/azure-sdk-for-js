@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets supported OS options in the specified subscription.
  *
  * @summary Gets supported OS options in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-03-01/examples/ContainerServiceGetOSOptions.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/ContainerServiceGetOSOptions.json
  */
 async function getContainerServiceOSOptions() {
   const subscriptionId = "subid1";

@@ -1,0 +1,402 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-04-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "440",
+        "Content-Type": "application/json",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "2f692974-9371-4826-a160-4a87591bef56",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
+              "language": "en"
+            },
+            {
+              "id": "1",
+              "text": "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "kind": "PiiEntityRecognition",
+            "parameters": {
+              "modelVersion": "latest",
+              "domain": "phi"
+            }
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "9ff269e9-eab3-4b79-a126-3095e526f7a8",
+        "Content-Length": "0",
+        "Date": "Fri, 06 May 2022 20:06:19 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/6ca2ccdf-6a0d-4fd9-a816-1e45ee1ac80f?api-version=2022-04-01-preview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "268"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/6ca2ccdf-6a0d-4fd9-a816-1e45ee1ac80f?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "c76dc8e9-f8b6-41b1-ab7c-1bd4b0f09173",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "247ec185-9418-4005-aad3-a0507fef6b4b",
+        "Content-Length": "282",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:06:19 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8"
+      },
+      "ResponseBody": {
+        "jobId": "6ca2ccdf-6a0d-4fd9-a816-1e45ee1ac80f",
+        "lastUpdateDateTime": "2022-05-06T20:06:20Z",
+        "createdDateTime": "2022-05-06T20:06:20Z",
+        "expirationDateTime": "2022-05-07T20:06:20Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/6ca2ccdf-6a0d-4fd9-a816-1e45ee1ac80f?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "c4ac8265-733e-454f-a9dd-31cbfebca467",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "9c089eef-25f6-4800-bef1-27afa75bdf15",
+        "Content-Length": "282",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:06:19 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8"
+      },
+      "ResponseBody": {
+        "jobId": "6ca2ccdf-6a0d-4fd9-a816-1e45ee1ac80f",
+        "lastUpdateDateTime": "2022-05-06T20:06:20Z",
+        "createdDateTime": "2022-05-06T20:06:20Z",
+        "expirationDateTime": "2022-05-07T20:06:20Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/6ca2ccdf-6a0d-4fd9-a816-1e45ee1ac80f?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "8f01028b-ba18-4fe6-ba7c-1b238d95888b",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "2dc7f93f-cd6e-4ceb-84af-c25b0a6b53c3",
+        "Content-Length": "1495",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:06:21 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "38"
+      },
+      "ResponseBody": {
+        "jobId": "6ca2ccdf-6a0d-4fd9-a816-1e45ee1ac80f",
+        "lastUpdateDateTime": "2022-05-06T20:06:22Z",
+        "createdDateTime": "2022-05-06T20:06:20Z",
+        "expirationDateTime": "2022-05-07T20:06:20Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "PiiEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:06:22.4243028Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "My SSN is *********** and your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.",
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "859-98-0987",
+                        "category": "USSocialSecurityNumber",
+                        "offset": 10,
+                        "length": 11,
+                        "confidenceScore": 0.65
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "PhoneNumber",
+                        "offset": 44,
+                        "length": 9,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "ABARoutingNumber",
+                        "offset": 44,
+                        "length": 9,
+                        "confidenceScore": 0.75
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "NZSocialWelfareNumber",
+                        "offset": 44,
+                        "length": 9,
+                        "confidenceScore": 0.65
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.",
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "111000025",
+                        "category": "PhoneNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "ABARoutingNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.75
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "NZSocialWelfareNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.65
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/6ca2ccdf-6a0d-4fd9-a816-1e45ee1ac80f?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "2f7427d1-bce2-4d50-99bd-5def70ea53fd",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "988dd739-e26b-4b7a-baca-e603193f2819",
+        "Content-Length": "1495",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:06:22 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "47"
+      },
+      "ResponseBody": {
+        "jobId": "6ca2ccdf-6a0d-4fd9-a816-1e45ee1ac80f",
+        "lastUpdateDateTime": "2022-05-06T20:06:22Z",
+        "createdDateTime": "2022-05-06T20:06:20Z",
+        "expirationDateTime": "2022-05-07T20:06:20Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "PiiEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:06:22.4243028Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "My SSN is *********** and your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.",
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "859-98-0987",
+                        "category": "USSocialSecurityNumber",
+                        "offset": 10,
+                        "length": 11,
+                        "confidenceScore": 0.65
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "PhoneNumber",
+                        "offset": 44,
+                        "length": 9,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "ABARoutingNumber",
+                        "offset": 44,
+                        "length": 9,
+                        "confidenceScore": 0.75
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "NZSocialWelfareNumber",
+                        "offset": 44,
+                        "length": 9,
+                        "confidenceScore": 0.65
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.",
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "111000025",
+                        "category": "PhoneNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "ABARoutingNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.75
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "NZSocialWelfareNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.65
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

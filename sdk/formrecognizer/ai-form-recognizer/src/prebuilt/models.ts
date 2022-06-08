@@ -6,9 +6,14 @@ import { Document } from "../generated";
 import { DocumentField, toDocumentField } from "../models/fields";
 import { isAcronymic, uncapitalize } from "../util";
 import { BusinessCard, BusinessCardSchema } from "./modelSchemas/businessCard";
+import {
+  HealthInsuranceCardUs,
+  HealthInsuranceCardUsSchema,
+} from "./modelSchemas/healthInsuranceCard";
 import { IdentityDocument, IdentityDocumentSchema } from "./modelSchemas/idDocument";
 import { Invoice, InvoiceSchema } from "./modelSchemas/invoice";
 import { Receipt, ReceiptSchema } from "./modelSchemas/receipt";
+import { VaccinationCard, VaccinationCardSchema } from "./modelSchemas/vaccinationCard";
 import { TaxUsW2, TaxUsW2Schema } from "./modelSchemas/w2";
 import { ArrayFieldSchema, FieldSchema, ModelSchema, ReifyPrebuiltSchema } from "./schema";
 
@@ -108,7 +113,11 @@ function createModelFromSchema<Schema extends ModelSchema>(
         );
       }
       for (const [fieldName, fieldSchema] of Object.entries(model.fieldSchema)) {
-        if (document.fields[fieldName] !== undefined && document.fields[fieldName] !== null) {
+        if (
+          document.fields &&
+          document.fields[fieldName] !== undefined &&
+          document.fields[fieldName] !== null
+        ) {
           result[isAcronymic(fieldName) ? fieldName : uncapitalize(fieldName)] = extractField(
             fieldName,
             fieldSchema,
@@ -138,6 +147,11 @@ export function getMapper<M extends DocumentModel<unknown>>(
 }
 
 /**
+ * **Deprecation Warning**: This object, along with all of its fields, is deprecated and will be replaced prior to a
+ * stable release of `@azure/ai-form-recognizer` 4.0.0. Please see
+ * [the deprecation notice](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/README.md#prebuiltmodels-deprecation)
+ * in the README for more information.
+ *
  * Prebuilt models with well-known document types and corresponding field schemas.
  *
  * These prebuilt `DocumentModel` objects can be used with the `beginAnalyzeDocuments` method to extract documents with
@@ -162,15 +176,42 @@ export function getMapper<M extends DocumentModel<unknown>>(
  *
  * console.log("The type of this receipt is:", receipt.fields.receiptType?.value)
  * ```
+ *
+ * @deprecated will be removed and replaced with auto-generated code in the next stable version
  */
 export const PrebuiltModels = {
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   BusinessCard: createModelFromSchema(BusinessCardSchema) as DocumentModel<BusinessCard>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   IdentityDocument: createModelFromSchema(
     IdentityDocumentSchema
   ) as DocumentModel<IdentityDocument>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   Invoice: createModelFromSchema(InvoiceSchema) as DocumentModel<Invoice>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   Receipt: createModelFromSchema(ReceiptSchema) as DocumentModel<Receipt>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   TaxUsW2: createModelFromSchema(TaxUsW2Schema) as DocumentModel<TaxUsW2>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
+  VaccinationCard: createModelFromSchema(VaccinationCardSchema) as DocumentModel<VaccinationCard>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
+  HealthInsuranceCardUs: createModelFromSchema(
+    HealthInsuranceCardUsSchema
+  ) as DocumentModel<HealthInsuranceCardUs>,
 };
 
 // PrebuiltModels is defined `as const` so this assignment checks to make sure it has the appropriate type, and

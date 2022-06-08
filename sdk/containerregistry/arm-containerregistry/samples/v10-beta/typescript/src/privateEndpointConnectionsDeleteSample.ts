@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the container registry.
  *
  * @summary Deletes the specified private endpoint connection associated with the container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/PrivateEndpointConnectionDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/PrivateEndpointConnectionDelete.json
  */
 async function privateEndpointConnectionDelete() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

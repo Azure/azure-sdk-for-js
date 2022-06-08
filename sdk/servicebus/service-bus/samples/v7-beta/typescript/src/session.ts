@@ -120,7 +120,7 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
 
       await receiver.close();
       break;
-    } catch (err: any) {
+    } catch (err) {
       // `err` was already logged part of `processError` above.
       await receiver.close();
     }

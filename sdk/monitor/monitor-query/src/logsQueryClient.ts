@@ -56,7 +56,7 @@ export class LogsQueryClient {
     // host.
     let scope;
     if (options?.endpoint) {
-      scope = `${options?.endpoint}./default`;
+      scope = `${options?.endpoint}/.default`;
     }
     const credentialOptions = {
       credentialScopes: scope,

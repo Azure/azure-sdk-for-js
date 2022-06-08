@@ -1,0 +1,190 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-04-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "1345",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "3a1dacbe-6bf7-49cc-8cc7-82a8f42d2831",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "1",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "3",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "4",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "5",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "6",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "7",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "8",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "9",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "10",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "11",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "12",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "13",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "14",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "15",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "16",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "17",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "18",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "19",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "20",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "21",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "22",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "23",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "24",
+              "text": "random text",
+              "language": "en"
+            },
+            {
+              "id": "25",
+              "text": "random text",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "kind": "Healthcare",
+            "parameters": {}
+          }
+        ]
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "apim-request-id": "294b5a9e-d572-48d4-9df3-0f1053afdb60",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:11:20 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "4"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidRequest",
+          "message": "Invalid Document in request.",
+          "innererror": {
+            "code": "InvalidDocumentBatch",
+            "message": "Batch request contains too many records. Max 25 records are permitted."
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

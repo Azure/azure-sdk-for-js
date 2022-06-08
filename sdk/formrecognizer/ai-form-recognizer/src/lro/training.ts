@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { OperationOptions } from "@azure/core-client";
 import { FormRecognizerError } from "../error";
 import { GetOperationResponse, ModelInfo, OperationStatus } from "../generated";
