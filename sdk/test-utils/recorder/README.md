@@ -201,7 +201,7 @@ const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions
 
   _Note: If your client relies on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
 
-Once the recorder has been instantiated, you must start the recorder using the `recorder.start()` method with the appropriate recorder options.
+Recording can start using the `recorder.start()` method.
 
 ```js
 await recorder.start(/** recorderOptions go here **/);
