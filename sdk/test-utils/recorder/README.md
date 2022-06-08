@@ -26,7 +26,11 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
   - [Installing the package](#installing-the-package)
   - [Configuring your project](#configuring-your-project)
   - [TEST_MODE](#test_mode)
-  - [Using the `Recorder`](#using-the-recorder)
+- [Using the `Recorder`](#using-the-recorder)
+  - [Recorder#variable()](#recordervariable)
+  - [Environment Variables](#environment-variables)
+  - [`@azure-tools/test-credential` package and the NoOpCredential](#azure-toolstest-credential-package-and-the-noopcredential)
+  - [karma.conf - for the browser tests](#karmaconf---for-the-browser-tests)
 - [Examples](#examples)
   - [How to record](#how-to-record)
   - [How to playback](#how-to-playback)
@@ -167,7 +171,7 @@ Interactions with the test-proxy tool vary based on what the `TEST_MODE` environ
 | `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service                                                            |
 | `live`     | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer                                                          |
 
-### Using the `Recorder`
+## Using the `Recorder`
 
 Inside a mocha test (either in the `beforeEach` or in the test body itself), you will need to instantiate the `Recorder` as below to leverage its functionalities.
 
@@ -207,7 +211,7 @@ await recorder.stop();
 
 _Note: Instantiating, starting, and stopping the recorder all have no effect in the `live` mode (`TEST_MODE=live`). In `live` mode, the redirection to the test-proxy tool doesn't happen and the requests are sent to the services as usual._
 
-#### Recorder#variable()
+### Recorder#variable()
 
 To handle the dynamic/generated values for testing that are created as part of the tests, to make sure the requests in the `playback` mode match the ones in the `record` mode, you can leverage the `Recorder#variable` function.
 
@@ -234,9 +238,7 @@ recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`
 
 - In live mode, no recordings are saved, just returns the provided value.
 
-### Beyond `Recorder`
-
-#### Environment variables
+### Environment variables
 
 `@azure-tools/test-recorder` exports `env` which loads the environment variables from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via karma in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
 
@@ -246,7 +248,7 @@ recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`
   The function `assertEnvironmentVariable("NAME_OF_THE_VARIABLE")` either returns the value or throws an error saying the variable is not defined in your environment.
   (This function comes handy when your function args expect a non-undefined value but the environment variable may not be defined in the runtime.)
 
-#### `@azure-tools/test-credential` package and the NoOpCredential
+### `@azure-tools/test-credential` package and the NoOpCredential
 
 We do not record the AAD traffic since it is typically noise that is not needed for testing the SDK(unless we are testing the `@azure/identity` package directly which uses the `@azure-tools/test-recorder` differently to record the tests).
 
@@ -265,7 +267,7 @@ new MyServiceClient(<endpoint>, credential);
 
 Since AAD traffic is not recorded by the new recorder, there are no AAD credentials to remove from the recording using a sanitizer.
 
-#### karma.conf - for the browser tests
+### karma.conf - for the browser tests
 
 When running browser tests, the recorder relies on an environment variable to determine where to save the recordings. Add this snippet to your `karma.conf.js`:
 
@@ -469,6 +471,8 @@ it("test-title", function (this: Mocha.Context) {
 A common issue while running integration tests is that, sometimes two individuals or machines might try to run the same set of tests against the same resource.
 
 This is not directly related to the `@azure-tools/test-recorder` package, but if you're getting into issues because of concurrent conflicting requests, we strongly suggest using randomly generated strings as prefixes or suffixes for the resources you create.
+
+Refer to [Recorder#variable()](#recordervariable) section to handle the dynamic/generated values for testing that are created as part of the tests, to make sure the requests in the `playback` mode match the ones in the `record` mode.
 
 Since new resources are likely to get accumulated because some tests would crash or fail for any reason, make sure you delete the resources that are not cleared.
 
