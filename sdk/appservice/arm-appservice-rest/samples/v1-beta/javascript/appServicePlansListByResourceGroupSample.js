@@ -20,7 +20,7 @@ async function listAppServicePlansByResourceGroup() {
   const resourceGroupName = "testrg123";
   const credential = new DefaultAzureCredential();
   const client = WebSiteManagementClient(credential);
-  const resArray = [];
+  const result = [];
   const initialResposne = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
@@ -30,9 +30,9 @@ async function listAppServicePlansByResourceGroup() {
     .get();
   const res = paginate(client, initialResposne);
   for await (let item of res) {
-    resArray.push(item);
+    result.push(item);
   }
-  console.log(resArray);
+  console.log(result);
 }
 
 listAppServicePlansByResourceGroup().catch(console.error);

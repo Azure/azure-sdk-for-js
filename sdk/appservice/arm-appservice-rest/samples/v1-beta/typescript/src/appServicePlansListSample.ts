@@ -18,15 +18,15 @@ async function listAppServicePlans() {
   const subscriptionId = process.env.SUBSCRIPTION_ID as string;
   const credential = new DefaultAzureCredential();
   const client = WebSiteManagementClient(credential);
-  const resArray = [];
+  const result = [];
   const initialResposne = await client
     .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms", subscriptionId)
     .get();
   const res = paginate(client, initialResposne);
   for await (let item of res) {
-    resArray.push(item);
+    result.push(item);
   }
-  console.log(resArray);
+  console.log(result);
 }
 
 listAppServicePlans().catch(console.error);

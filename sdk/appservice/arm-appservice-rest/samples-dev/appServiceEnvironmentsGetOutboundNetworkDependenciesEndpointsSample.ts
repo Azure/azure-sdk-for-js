@@ -20,7 +20,7 @@ async function getOutboundNetworkDependenciesEndpoints() {
   const name = "SampleAse";
   const credential = new DefaultAzureCredential();
   const client = WebSiteManagementClient(credential);
-  const resArray = [];
+  const result = [];
   const initialResposne = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/outboundNetworkDependenciesEndpoints",
@@ -31,9 +31,9 @@ async function getOutboundNetworkDependenciesEndpoints() {
     .get();
   const res = paginate(client, initialResposne);
   for await (let item of res) {
-    resArray.push(item);
+    result.push(item);
   }
-  console.log(resArray);
+  console.log(result);
 }
 
 getOutboundNetworkDependenciesEndpoints().catch(console.error);
