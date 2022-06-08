@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Updates a scope map with the specified parameters.
  *
  * @summary Updates a scope map with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/ScopeMapUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ScopeMapUpdate.json
  */
 async function scopeMapUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

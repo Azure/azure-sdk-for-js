@@ -583,8 +583,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -603,11 +603,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.expand1, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -629,8 +629,8 @@ const getInstanceViewOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -649,11 +649,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.expand1, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -675,8 +675,8 @@ const restartOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -699,8 +699,8 @@ const reimageOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -723,8 +723,8 @@ const rebuildOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -744,8 +744,8 @@ const getRemoteDesktopFileOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -763,12 +763,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.expand1, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],

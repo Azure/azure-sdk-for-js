@@ -20,6 +20,10 @@ export type ImageTemplateCustomizerUnion =
   | ImageTemplateWindowsUpdateCustomizer
   | ImageTemplatePowerShellCustomizer
   | ImageTemplateFileCustomizer;
+export type ImageTemplateInVMValidatorUnion =
+  | ImageTemplateInVMValidator
+  | ImageTemplateShellValidator
+  | ImageTemplatePowerShellValidator;
 export type ImageTemplateDistributorUnion =
   | ImageTemplateDistributor
   | ImageTemplateManagedImageDistributor
@@ -45,6 +49,24 @@ export interface ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Shell" | "WindowsRestart" | "WindowsUpdate" | "PowerShell" | "File";
   /** Friendly Name to provide context on what this customization step does */
+  name?: string;
+}
+
+/** Configuration options and list of validations to be performed on the resulting image. */
+export interface ImageTemplatePropertiesValidate {
+  /** If validation fails and this field is set to false, output image(s) will not be distributed. This is the default behavior. If validation fails and this field is set to true, output image(s) will still be distributed. Please use this option with caution as it may result in bad images being distributed for use. In either case (true or false), the end to end image run will be reported as having failed in case of a validation failure. [Note: This field has no effect if validation succeeds.] */
+  continueDistributeOnFailure?: boolean;
+  /** If this field is set to true, the image specified in the 'source' section will directly be validated. No separate build will be run to generate and then validate a customized image. */
+  sourceValidationOnly?: boolean;
+  /** List of validations to be performed. */
+  inVMValidations?: ImageTemplateInVMValidatorUnion[];
+}
+
+/** Describes a unit of in-VM validation of image */
+export interface ImageTemplateInVMValidator {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Shell" | "PowerShell";
+  /** Friendly Name to provide context on what this validation step does */
   name?: string;
 }
 
@@ -80,15 +102,15 @@ export interface ImageTemplateLastRunStatus {
   message?: string;
 }
 
-/** Describes the virtual machine used to build, customize and capture images */
+/** Describes the virtual machines used to build and validate images */
 export interface ImageTemplateVmProfile {
-  /** Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D2ds_v4). */
+  /** Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D1_v2 for Gen1 images and Standard_D2ds_v4 for Gen2 images). */
   vmSize?: string;
   /** Size of the OS disk in GB. Omit or specify 0 to use Azure's default OS disk size. */
   osDiskSizeGB?: number;
-  /** Optional array of resource IDs of user assigned managed identities to be configured on the build VM. This may include the identity of the image template. */
+  /** Optional array of resource IDs of user assigned managed identities to be configured on the build VM and validation VM. This may include the identity of the image template. */
   userAssignedIdentities?: string[];
-  /** Optional configuration of the virtual network to use to deploy the build virtual machine in. Omit if no specific virtual network needs to be used. */
+  /** Optional configuration of the virtual network to use to deploy the build VM and validation VM in. Omit if no specific virtual network needs to be used. */
   vnetConfig?: VirtualNetworkConfig;
 }
 
@@ -96,7 +118,7 @@ export interface ImageTemplateVmProfile {
 export interface VirtualNetworkConfig {
   /** Resource id of a pre-existing subnet. */
   subnetId?: string;
-  /** Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D1_v2 for Gen1 images and Standard_D2ds_v4 for Gen2 images). */
+  /** Size of the proxy virtual machine used to pass traffic to the build VM and validation VM. Omit or specify empty string to use the default (Standard_A1_v2). */
   proxyVmSize?: string;
 }
 
@@ -123,22 +145,6 @@ export interface ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassig
   readonly clientId?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -156,6 +162,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** An error response from the Azure VM Image Builder service. */
@@ -190,22 +217,6 @@ export interface RunOutputCollection {
   value?: RunOutput[];
   /** The continuation token. */
   nextLink?: string;
-}
-
-/** The Sub Resource model definition. */
-export interface SubResource {
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** Resource name */
-  name: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
 }
 
 /** Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results. */
@@ -273,7 +284,7 @@ export type ImageTemplatePlatformImageSource = ImageTemplateSource & {
   planInfo?: PlatformImagePurchasePlan;
 };
 
-/** Describes an image source that is a managed image in customer subscription. */
+/** Describes an image source that is a managed image in customer subscription. This image must reside in the same subscription and region as the Image Builder template. */
 export type ImageTemplateManagedImageSource = ImageTemplateSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ManagedImage";
@@ -355,6 +366,36 @@ export type ImageTemplateFileCustomizer = ImageTemplateCustomizer & {
   destination?: string;
 };
 
+/** Runs the specified shell script during the validation phase (Linux). Corresponds to Packer shell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
+export type ImageTemplateShellValidator = ImageTemplateInVMValidator & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Shell";
+  /** URI of the shell script to be run for validation. It can be a github link, Azure Storage URI, etc */
+  scriptUri?: string;
+  /** SHA256 checksum of the shell script provided in the scriptUri field */
+  sha256Checksum?: string;
+  /** Array of shell commands to execute */
+  inline?: string[];
+};
+
+/** Runs the specified PowerShell script during the validation phase (Windows). Corresponds to Packer powershell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
+export type ImageTemplatePowerShellValidator = ImageTemplateInVMValidator & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PowerShell";
+  /** URI of the PowerShell script to be run for validation. It can be a github link, Azure Storage URI, etc */
+  scriptUri?: string;
+  /** SHA256 checksum of the power shell script provided in the scriptUri field above */
+  sha256Checksum?: string;
+  /** Array of PowerShell commands to execute */
+  inline?: string[];
+  /** If specified, the PowerShell script will be run with elevated privileges */
+  runElevated?: boolean;
+  /** If specified, the PowerShell script will be run with elevated privileges using the Local System user. Can only be true when the runElevated field above is set to true. */
+  runAsSystem?: boolean;
+  /** Valid exit codes for the PowerShell script. [Default: 0] */
+  validExitCodes?: number[];
+};
+
 /** Distribute as a Managed Disk Image. */
 export type ImageTemplateManagedImageDistributor = ImageTemplateDistributor & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -393,32 +434,19 @@ export type TrackedResource = Resource & {
   location: string;
 };
 
-/** Represents an output that was created by running an image template. */
-export type RunOutput = SubResource & {
-  /** The resource id of the artifact. */
-  artifactId?: string;
-  /** The location URI of the artifact. */
-  artifactUri?: string;
-  /**
-   * Provisioning state of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource;
 
 /** Image template is an ARM resource managed by Microsoft.VirtualMachineImages provider */
 export type ImageTemplate = TrackedResource & {
   /** The identity of the image template, if configured. */
   identity: ImageTemplateIdentity;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Specifies the properties used to describe the source image. */
   source?: ImageTemplateSourceUnion;
   /** Specifies the properties used to describe the customization steps of the image, like Image source etc */
   customize?: ImageTemplateCustomizerUnion[];
+  /** Configuration options and list of validations to be performed on the resulting image. */
+  validate?: ImageTemplatePropertiesValidate;
   /** The distribution targets where the image output needs to go to. */
   distribute?: ImageTemplateDistributorUnion[];
   /**
@@ -436,10 +464,30 @@ export type ImageTemplate = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastRunStatus?: ImageTemplateLastRunStatus;
-  /** Maximum duration to wait while building the image template. Omit or specify 0 to use the default (4 hours). */
+  /** Maximum duration to wait while building the image template (includes all customizations, validations, and distributions). Omit or specify 0 to use the default (4 hours). */
   buildTimeoutInMinutes?: number;
   /** Describes how virtual machine is set up to build images */
   vmProfile?: ImageTemplateVmProfile;
+  /** The staging resource group id in the same subscription as the image template that will be used to build the image. If this field is empty, a resource group with a random name will be created. If the resource group specified in this field doesn't exist, it will be created with the same name. If the resource group specified exists, it must be empty and in the same region as the image template. The resource group created will be deleted during template deletion if this field is empty or the resource group specified doesn't exist, but if the resource group specified exists the resources created in the resource group will be deleted during template deletion and the resource group itself will remain. */
+  stagingResourceGroup?: string;
+  /**
+   * The staging resource group id in the same subscription as the image template that will be used to build the image. This read-only field differs from 'stagingResourceGroup' only if the value specified in the 'stagingResourceGroup' field is empty.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exactStagingResourceGroup?: string;
+};
+
+/** Represents an output that was created by running an image template. */
+export type RunOutput = ProxyResource & {
+  /** The resource id of the artifact. */
+  artifactId?: string;
+  /** The location URI of the artifact. */
+  artifactUri?: string;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 };
 
 /** Known values of {@link ProvisioningErrorCode} that the service accepts. */
@@ -451,8 +499,12 @@ export enum KnownProvisioningErrorCode {
   BadCustomizerType = "BadCustomizerType",
   UnsupportedCustomizerType = "UnsupportedCustomizerType",
   NoCustomizerScript = "NoCustomizerScript",
+  BadValidatorType = "BadValidatorType",
+  UnsupportedValidatorType = "UnsupportedValidatorType",
+  NoValidatorScript = "NoValidatorScript",
   BadDistributeType = "BadDistributeType",
   BadSharedImageDistribute = "BadSharedImageDistribute",
+  BadStagingResourceGroup = "BadStagingResourceGroup",
   ServerError = "ServerError",
   Other = "Other"
 }
@@ -469,8 +521,12 @@ export enum KnownProvisioningErrorCode {
  * **BadCustomizerType** \
  * **UnsupportedCustomizerType** \
  * **NoCustomizerScript** \
+ * **BadValidatorType** \
+ * **UnsupportedValidatorType** \
+ * **NoValidatorScript** \
  * **BadDistributeType** \
  * **BadSharedImageDistribute** \
+ * **BadStagingResourceGroup** \
  * **ServerError** \
  * **Other**
  */
@@ -531,6 +587,7 @@ export type RunSubState =
   | "Queued"
   | "Building"
   | "Customizing"
+  | "Validating"
   | "Distributing";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "UserAssigned" | "None";
