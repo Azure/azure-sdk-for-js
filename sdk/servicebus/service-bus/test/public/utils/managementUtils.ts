@@ -147,7 +147,9 @@ export async function recreateTopic(
 export async function recreateSubscription(
   topicName: string,
   subscriptionName: string,
-  parameters?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">
+  parameters?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName"> & {
+    deleteFirst?: boolean;
+  }
 ): Promise<void> {
   getManagementClient();
   /*
@@ -160,6 +162,10 @@ export async function recreateSubscription(
     await client.createSubscription(topicName, subscriptionName, parameters);
   };
 
+  const deleteSubscriptionOperation = async (): Promise<void> => {
+    await client.deleteSubscription(topicName, subscriptionName);
+  };
+
   const checkIfSubscriptionExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getSubscription(topicName, subscriptionName);
@@ -168,6 +174,14 @@ export async function recreateSubscription(
     }
     return true;
   };
+
+  if (parameters?.deleteFirst) {
+    await retry(
+      deleteSubscriptionOperation,
+      async () => !(await checkIfSubscriptionExistsOperation()),
+      `Delete subscription "${subscriptionName}"`
+    );
+  }
 
   await retry(
     createSubscriptionOperation,

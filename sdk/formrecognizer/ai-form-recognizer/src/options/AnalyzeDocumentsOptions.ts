@@ -3,8 +3,8 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
-  AnalyzedDocument,
   AnalyzeResult,
+  AnalyzedDocument,
   DocumentAnalysisPollOperationState,
 } from "../lro/analyze";
 import { PollerOptions } from "./PollerOptions";
