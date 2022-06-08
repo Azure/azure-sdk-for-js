@@ -3,12 +3,12 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
-  MetricValue,
-  ResultType,
-  MetricUnit,
-  MetricClass,
   AggregationType,
+  MetricClass,
+  MetricUnit,
+  MetricValue,
   NamespaceClassification,
+  ResultType,
 } from "..";
 import { QueryTimeInterval } from "./timeInterval";
 

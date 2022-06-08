@@ -8,23 +8,23 @@ import { tracingClient } from "./tracing";
 import {
   ListMetricDefinitionsOptions,
   ListMetricNamespacesOptions,
-  MetricsQueryOptions,
-  MetricsQueryResult,
   MetricDefinition,
   MetricNamespace,
+  MetricsQueryOptions,
+  MetricsQueryResult,
 } from "./models/publicMetricsModels";
 
 import {
-  KnownApiVersion201801 as MetricsApiVersion,
   MonitorManagementClient as GeneratedMetricsClient,
+  KnownApiVersion201801 as MetricsApiVersion,
 } from "./generated/metrics/src";
 import {
-  KnownApiVersion201801 as MetricDefinitionsApiVersion,
   MonitorManagementClient as GeneratedMetricsDefinitionsClient,
+  KnownApiVersion201801 as MetricDefinitionsApiVersion,
 } from "./generated/metricsdefinitions/src";
 import {
-  KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
   MonitorManagementClient as GeneratedMetricsNamespacesClient,
+  KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
 } from "./generated/metricsnamespaces/src";
 import {
   convertRequestForMetrics,
@@ -133,8 +133,8 @@ export class MetricsQueryClient {
     const segmentResponse = await tracingClient.withSpan(
       "MetricsQueryClient.listSegmentOfMetricDefinitions",
       options,
-      async (updatedOptions) =>
-        await this._definitionsClient.metricDefinitions.list(
+      (updatedOptions) =>
+        this._definitionsClient.metricDefinitions.list(
           resourceUri,
           convertRequestOptionsForMetricsDefinitions(updatedOptions)
         )
@@ -226,8 +226,10 @@ export class MetricsQueryClient {
     const segmentResponse = await tracingClient.withSpan(
       "MetricsQueryClient.listSegmentOfMetricNamespaces",
       options,
-      async (updatedOptions) =>
-        await this._namespacesClient.metricNamespaces.list(resourceUri, updatedOptions)
+       (updatedOptions) => {
+        this._namespacesClient.metricNamespaces.list(resourceUri, updatedOptions)
+      }
+        
     );
     yield convertResponseForMetricNamespaces(segmentResponse.value);
   }

@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  BatchRequest as GeneratedBatchRequest,
   BatchQueryRequest as GeneratedBatchQueryRequest,
-  QueryBatchResponse as GeneratedQueryBatchResponse,
   BatchQueryResponse as GeneratedBatchQueryResponse,
-  QueryBody,
-  Table as GeneratedTable,
   BatchQueryResults as GeneratedBatchQueryResults,
+  BatchRequest as GeneratedBatchRequest,
   ErrorInfo as GeneratedErrorInfo,
+  QueryBatchResponse as GeneratedQueryBatchResponse,
+  Table as GeneratedTable,
+  QueryBody,
 } from "../generated/logquery/src";
 
 import {
@@ -20,28 +20,28 @@ import {
 } from "../generated/metrics/src";
 
 import {
-  MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
   MetricDefinition as GeneratedMetricDefinition,
+  MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
 } from "../generated/metricsdefinitions/src";
 
 import { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
 import { formatPreferHeader } from "./util";
 
 import {
-  QueryBatch,
   ListMetricDefinitionsOptions,
-  LogsTable,
   LogsQueryBatchResult,
+  LogsTable,
   MetricsQueryOptions,
   MetricsQueryResult,
+  QueryBatch,
 } from "../../src";
 import {
-  MetricNamespace,
   Metric,
+  MetricAvailability,
   MetricDefinition,
+  MetricNamespace,
   TimeSeriesElement,
   createMetricsQueryResult,
-  MetricAvailability,
 } from "../models/publicMetricsModels";
 import { FullOperationResponse } from "@azure/core-client";
 import {

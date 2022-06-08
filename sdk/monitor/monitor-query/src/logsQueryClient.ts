@@ -5,14 +5,14 @@ import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
 import { TokenCredential } from "@azure/core-auth";
 
 import {
-  QueryBatch,
   LogsQueryBatchOptions,
   LogsQueryBatchResult,
   LogsQueryOptions,
+  LogsQueryPartialResult,
   LogsQueryResult,
   LogsQueryResultStatus,
   LogsQuerySuccessfulResult,
-  LogsQueryPartialResult,
+  QueryBatch,
 } from "./models/publicLogsModels";
 
 import {
