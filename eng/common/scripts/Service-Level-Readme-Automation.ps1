@@ -38,50 +38,25 @@ param(
 )
 . $PSScriptRoot/common.ps1
 . $PSScriptRoot/Helpers/Metadata-Helpers.ps1
+. $PSScriptRoot/Helpers/Package-Helpers.ps1
 
 Set-StrictMode -Version 3
-
-function GetPackageKey($pkg) {
-  $pkgKey = $pkg.Package
-  $groupId = $null
-
-  if ($pkg.PSObject.Members.Name -contains "GroupId") {
-    $groupId = $pkg.GroupId
-  }
-
-  if ($groupId) {
-    $pkgKey = "${groupId}:${pkgKey}"
-  }
-
-  return $pkgKey
-}
-
-function GetPackageLookup($packageList) {
-  $packageLookup = @{}
-
-  foreach ($pkg in $packageList) {
-    $pkgKey = GetPackageKey $pkg
-
-    # We want to prefer updating non-hidden packages but if there is only
-    # a hidden entry then we will return that
-    if (!$packageLookup.ContainsKey($pkgKey) -or $packageLookup[$pkgKey].Hide -eq "true") {
-      $packageLookup[$pkgKey] = $pkg
-    }
-    else {
-      # Warn if there are more then one non-hidden package
-      if ($pkg.Hide -ne "true") {
-        Write-Host "Found more than one package entry for $($pkg.Package) selecting the first non-hidden one."
-      }
-    }
-  }
-
-  return $packageLookup
-}
 
 function create-metadata-table($readmeFolder, $readmeName, $moniker, $msService, $clientTableLink, $mgmtTableLink, $serviceName)
 {
   $readmePath = Join-Path $readmeFolder -ChildPath $readmeName
-  $null = New-Item -Path $readmePath -Force
+  $content = ""  
+  if (Test-Path (Join-Path $readmeFolder -ChildPath $clientTableLink)) {
+    $content = "## Client packages - $moniker`r`n"
+    $content += "[!INCLUDE [client-packages]($clientTableLink)]`r`n"
+  }
+  if (Test-Path (Join-Path $readmeFolder -ChildPath $mgmtTableLink)) {
+    $content = "## Management packages - $moniker`r`n"
+    $content += "[!INCLUDE [mgmt-packages]($mgmtTableLink)]`r`n"
+  }
+  if ($content) {
+    $null = New-Item -Path $readmePath -Force
+  }
   $lang = $LanguageDisplayName
   $langTitle = "Azure $serviceName SDK for $lang"
   $header = GenerateDocsMsMetadata -language $lang -langTitle $langTitle -serviceName $serviceName `
@@ -92,16 +67,7 @@ function create-metadata-table($readmeFolder, $readmeName, $moniker, $msService,
   # Add tables, seperate client and mgmt.
   $readmeHeader = "# $langTitle - $moniker"
   Add-Content -Path $readmePath -Value $readmeHeader
-  if (Test-Path (Join-Path $readmeFolder -ChildPath $clientTableLink)) {
-    $clientTable = "## Client packages - $moniker`r`n"
-    $clientTable += "[!INCLUDE [client-packages]($clientTableLink)]`r`n"
-    Add-Content -Path $readmePath -Value $clientTable
-  }
-  if (Test-Path (Join-Path $readmeFolder -ChildPath $mgmtTableLink)) {
-    $mgmtTable = "## Management packages - $moniker`r`n"
-    $mgmtTable += "[!INCLUDE [mgmt-packages]($mgmtTableLink)]`r`n"
-    Add-Content -Path $readmePath -Value $mgmtTable -NoNewline
-  }
+  Add-Content -Path $readmePath -Value $content
 }
 
 function CompareAndValidateMetadata ($original, $updated) {
@@ -109,16 +75,11 @@ function CompareAndValidateMetadata ($original, $updated) {
   $updatedTable = ConvertFrom-StringData -StringData $updated -Delimiter ":"
   foreach ($key in $originalTable.Keys) {
     if (!($updatedTable.ContainsKey($key))) {
-      Write-Warning "New metadata missed the entry: $key"
+      Write-Warning "New metadata missed the entry: $key. Adding back."
+      $updatedTable[$key] = $originalTable[$key]
     }
-    if ($updatedTable[$key] -ne $originalTable[$key]) {
-      Write-Warning "Will update metadata from old value $($originalTable[$key]) to new value $($updatedTable[$key])"
-    }
-    $updatedTable.Remove($key)
   }
-  foreach ($key in $updatedTable.Keys) {
-    Write-Host "Will update new entry $key with value $updatedTable[$key]"
-  }
+  return updated
 }
 
 # Update the metadata table.
@@ -135,8 +96,8 @@ function update-metadata-table($readmeFolder, $readmeName, $serviceName, $msServ
     -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
     -msService $msService
   $null = $metadataString -match "---`n*(?<metadata>(.*`n)*)---"
-  CompareAndValidateMetadata -original $orignalMetadata -updated $Matches["metadata"]
-  Set-Content -Path $readmePath -Value "$metadataString`n$restContent" -NoNewline
+  $mergedMetadata = CompareAndmergeMetadata -original $orignalMetadata -updated $Matches["metadata"]
+  Set-Content -Path $readmePath -Value "$mergedMetadata`n$restContent" -NoNewline
 }
 
 function generate-markdown-table($readmeFolder, $readmeName, $packageInfo, $moniker) {
@@ -182,10 +143,12 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInf
   if ($clientPackageInfo) {
     generate-markdown-table -readmeFolder $readmeFolder -readmeName "$clientIndexReadme" -packageInfo $clientPackageInfo -moniker $moniker
   }
-  $mgmtPackageInfo = $packageInfos.Where({ 'mgmt' -eq $_.Type }) | Sort-Object -Property Package
-  if ($mgmtPackageInfo) {
-    generate-markdown-table -readmeFolder $readmeFolder -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
-  }
+  # TODO: we currently do not have the right decision on how we display mgmt packages. Will track the mgmt work in issue. 
+  # https://github.com/Azure/azure-sdk-tools/issues/3422
+  # $mgmtPackageInfo = $packageInfos.Where({ 'mgmt' -eq $_.Type }) | Sort-Object -Property Package
+  # if ($mgmtPackageInfo) {
+  #   generate-markdown-table -readmeFolder $readmeFolder -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
+  # }
   if (!(Test-Path (Join-Path $readmeFolder -ChildPath $serviceReadme))) {
     create-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -moniker $moniker -msService $msService `
       -clientTableLink $clientIndexReadme -mgmtTableLink $mgmtIndexReadme `
