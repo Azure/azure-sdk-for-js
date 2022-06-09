@@ -95,7 +95,7 @@ Familiarity with the Ioredis and Azure Identity client libraries is assumed. If 
 
 ##### Migration Guidance
 When migrating your existing your application code, you need to replace the password input with Azure Active Directory Token.
-Integrate the logic in your application code to fetch an AAD Access Token via Identity SDK as shown below and replace the password configuring/retrieving logic in your application code.
+Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace the password configuring/retrieving logic in your application code.
 
 **Note:** The below sample uses `ClientSecretCredential` from our [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) SDK, the credential can be replaced with any of the other `TokenCredential` implementations offered by our [Azure Identity]((https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) SDK.
 
