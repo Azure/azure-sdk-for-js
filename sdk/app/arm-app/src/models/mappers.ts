@@ -3001,8 +3001,8 @@ export const ContainerApp: coreClient.CompositeMapper = {
           className: "Template"
         }
       },
-      outboundIPAddresses: {
-        serializedName: "properties.outboundIPAddresses",
+      outboundIpAddresses: {
+        serializedName: "properties.outboundIpAddresses",
         readOnly: true,
         type: {
           name: "Sequence",

@@ -1162,7 +1162,7 @@ export type ContainerApp = TrackedResource & {
    * Outbound IP Addresses for container app.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly outboundIPAddresses?: string[];
+  readonly outboundIpAddresses?: string[];
 };
 
 /** An environment for hosting container apps */
