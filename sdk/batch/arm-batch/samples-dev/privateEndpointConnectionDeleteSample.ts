@@ -12,25 +12,25 @@ import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Lists all of the private link resources in the specified account.
+ * This sample demonstrates how to Deletes the specified private endpoint connection.
  *
- * @summary Lists all of the private link resources in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PrivateLinkResourcesList.json
+ * @summary Deletes the specified private endpoint connection.
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PrivateEndpointConnectionDelete.json
  */
-async function listPrivateLinkResource() {
+async function privateEndpointConnectionDelete() {
   const subscriptionId = "subid";
   const resourceGroupName = "default-azurebatch-japaneast";
   const accountName = "sampleacct";
+  const privateEndpointConnectionName =
+    "testprivateEndpointConnection5testprivateEndpointConnection5.24d6b4b5-e65c-4330-bbe9-3a290d62f8e0";
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.privateLinkResourceOperations.listByBatchAccount(
+  const result = await client.privateEndpointConnectionOperations.beginDeleteAndWait(
     resourceGroupName,
-    accountName
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    accountName,
+    privateEndpointConnectionName
+  );
+  console.log(result);
 }
 
-listPrivateLinkResource().catch(console.error);
+privateEndpointConnectionDelete().catch(console.error);

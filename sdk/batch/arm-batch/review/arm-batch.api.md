@@ -216,10 +216,12 @@ export interface AzureFileShareConfiguration {
 export type BatchAccount = Resource & {
     identity?: BatchAccountIdentity;
     readonly accountEndpoint?: string;
+    readonly nodeManagementEndpoint?: string;
     readonly provisioningState?: ProvisioningState;
     readonly poolAllocationMode?: PoolAllocationMode;
     readonly keyVaultReference?: KeyVaultReference;
-    readonly publicNetworkAccess?: PublicNetworkAccessType;
+    publicNetworkAccess?: PublicNetworkAccessType;
+    networkProfile?: NetworkProfile;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly autoStorage?: AutoStorageProperties;
     readonly encryption?: EncryptionProperties;
@@ -252,6 +254,7 @@ export interface BatchAccountCreateParameters {
     identity?: BatchAccountIdentity;
     keyVaultReference?: KeyVaultReference;
     location: string;
+    networkProfile?: NetworkProfile;
     poolAllocationMode?: PoolAllocationMode;
     publicNetworkAccess?: PublicNetworkAccessType;
     tags?: {
@@ -418,6 +421,8 @@ export interface BatchAccountUpdateParameters {
     autoStorage?: AutoStorageBaseProperties;
     encryption?: EncryptionProperties;
     identity?: BatchAccountIdentity;
+    networkProfile?: NetworkProfile;
+    publicNetworkAccess?: PublicNetworkAccessType;
     tags?: {
         [propertyName: string]: string;
     };
@@ -766,6 +771,15 @@ export interface EncryptionProperties {
 }
 
 // @public
+export type EndpointAccessDefaultAction = "Allow" | "Deny";
+
+// @public
+export interface EndpointAccessProfile {
+    defaultAction: EndpointAccessDefaultAction;
+    ipRules?: IPRule[];
+}
+
+// @public
 export interface EndpointDependency {
     readonly description?: string;
     readonly domainName?: string;
@@ -818,6 +832,12 @@ export type InterNodeCommunicationState = "Enabled" | "Disabled";
 
 // @public
 export type IPAddressProvisioningType = "BatchManaged" | "UserManaged" | "NoPublicIPAddresses";
+
+// @public
+export interface IPRule {
+    action: "Allow";
+    value: string;
+}
 
 // @public
 export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
@@ -961,6 +981,12 @@ export interface NetworkConfiguration {
     endpointConfiguration?: PoolEndpointConfiguration;
     publicIPAddressConfiguration?: PublicIPAddressConfiguration;
     subnetId?: string;
+}
+
+// @public
+export interface NetworkProfile {
+    accountAccess?: EndpointAccessProfile;
+    nodeManagementAccess?: EndpointAccessProfile;
 }
 
 // @public
@@ -1210,9 +1236,25 @@ export interface PrivateEndpoint {
 // @public
 export type PrivateEndpointConnection = ProxyResource & {
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-    privateEndpoint?: PrivateEndpoint;
+    readonly privateEndpoint?: PrivateEndpoint;
+    readonly groupIds?: string[];
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
 };
+
+// @public
+export interface PrivateEndpointConnectionDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
 
 // @public
 export interface PrivateEndpointConnectionGetOptionalParams extends coreClient.OperationOptions {
@@ -1239,6 +1281,8 @@ export type PrivateEndpointConnectionListByBatchAccountResponse = ListPrivateEnd
 
 // @public
 export interface PrivateEndpointConnectionOperations {
+    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionDeleteResponse>, PrivateEndpointConnectionDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PrivateEndpointConnectionDeleteResponse>;
     beginUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionUpdateResponse>, PrivateEndpointConnectionUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<PrivateEndpointConnectionUpdateResponse>;
     get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionGetResponse>;
@@ -1246,7 +1290,7 @@ export interface PrivateEndpointConnectionOperations {
 }
 
 // @public
-export type PrivateEndpointConnectionProvisioningState = "Succeeded" | "Updating" | "Failed";
+export type PrivateEndpointConnectionProvisioningState = "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed" | "Cancelled";
 
 // @public
 export interface PrivateEndpointConnectionUpdateHeaders {

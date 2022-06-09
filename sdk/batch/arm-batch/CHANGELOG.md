@@ -1,15 +1,25 @@
 # Release History
+    
+## 7.2.0 (2022-06-09)
+    
+**Features**
 
-## 7.1.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation PrivateEndpointConnectionOperations.beginDelete
+  - Added operation PrivateEndpointConnectionOperations.beginDeleteAndWait
+  - Added Interface EndpointAccessProfile
+  - Added Interface IPRule
+  - Added Interface NetworkProfile
+  - Added Interface PrivateEndpointConnectionDeleteHeaders
+  - Added Interface PrivateEndpointConnectionDeleteOptionalParams
+  - Added Type Alias EndpointAccessDefaultAction
+  - Added Type Alias PrivateEndpointConnectionDeleteResponse
+  - Interface BatchAccountCreateParameters has a new optional parameter networkProfile
+  - Interface BatchAccountUpdateParameters has a new optional parameter networkProfile
+  - Interface BatchAccountUpdateParameters has a new optional parameter publicNetworkAccess
+  - Type Alias BatchAccount has a new parameter nodeManagementEndpoint
+  - Type Alias BatchAccount has a new parameter networkProfile
+  - Type Alias PrivateEndpointConnection has a new parameter groupIds
+    
 ## 7.1.1 (2022-04-11)
 
 **features**
