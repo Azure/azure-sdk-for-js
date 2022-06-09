@@ -68,7 +68,7 @@ From this point forward, we'll assume that you're developing (perhaps contributi
 
 ```bash
 cd sdk/tables/data-tables
-```
+rush add -p @azure-tools/test-recorder@^2.0.0 --dev
 
 If you are using `@azure/identity` in your tests, also install `"@azure-tools/test-credential"` package.
 
