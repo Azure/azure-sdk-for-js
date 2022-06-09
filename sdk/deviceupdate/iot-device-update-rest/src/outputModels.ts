@@ -370,12 +370,7 @@ export interface DeploymentStatusOutput {
   /** The group identity */
   groupId: string;
   /** The state of the deployment. */
-  deploymentState:
-    | "Active"
-    | "ActiveWithSubgroupFailures"
-    | "Failed"
-    | "Inactive"
-    | "Canceled";
+  deploymentState: "Active" | "ActiveWithSubgroupFailures" | "Failed" | "Inactive" | "Canceled";
   /** The error details of the Failed state.  This is not present if the deployment state is not Failed. */
   error?: ErrorModelOutput;
   /** The collection of device class subgroup status objects */

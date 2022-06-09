@@ -9,15 +9,16 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "core-rest-pipeline/1.8.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "4b28d1c6-de50-4ece-8da5-4b31552a0185"
+        "x-ms-client-request-id": "a6c66475-4a5e-4454-a3a9-6538a92ccf7a"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "1271",
+        "Content-Length": "1161",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Jun 2022 21:56:51 GMT",
-        "traceparent": "00-de0134588721d70e0518034e31c1783f-8aa4626e5562eba5-00"
+        "Date": "Thu, 09 Jun 2022 22:51:42 GMT",
+        "mise-correlation-id": "f1db5480-8744-4df4-bc8a-bade5fdc4958",
+        "traceparent": "00-1532bf144b90ad032f7e1c7305e73b7f-329c6568e8ba16fc-00"
       },
       "ResponseBody": {
         "value": [
@@ -64,27 +65,20 @@
             "deviceId": "dpokluda-test",
             "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
             "groupId": "dpokluda-test",
-            "installedUpdate": {
-              "updateId": {
-                "provider": "fabrikam",
-                "name": "vacuum",
-                "version": "2022.131.655.39"
-              }
-            },
             "onLatestUpdate": false,
             "lastAttemptedUpdate": {
               "updateId": {
                 "provider": "fabrikam",
                 "name": "vacuum",
-                "version": "2022.131.655.39"
+                "version": "2022.608.554.1"
               }
             },
-            "deploymentStatus": "Succeeded",
-            "lastDeploymentId": "test0201031705",
+            "deploymentStatus": "Failed",
+            "lastDeploymentId": "test0609070108",
             "lastInstallResult": {
-              "resultCode": 700,
-              "extendedResultCode": 0,
-              "resultDetails": "apply success"
+              "resultCode": 0,
+              "extendedResultCode": 805306371,
+              "resultDetails": ""
             }
           }
         ]

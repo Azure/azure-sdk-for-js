@@ -16,17 +16,18 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "427d4aea-572e-47fc-bb01-8f19eb0f9555",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "836627f1-d61d-4b55-a70b-cd17c6ba9203",
         "x-ms-useragent": "core-rest-pipeline/1.8.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "1271",
+        "Content-Length": "1161",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Jun 2022 21:57:03 GMT",
-        "traceparent": "00-e98b7485803af1a25455696146badd6b-7a09c5c03bda132a-00"
+        "Date": "Thu, 09 Jun 2022 22:52:02 GMT",
+        "mise-correlation-id": "384fd2e0-102a-4fa2-bb80-8560328a1305",
+        "traceparent": "00-fe76e396f95dfefc9213898bae1da1c4-d67a2fb4082b97bd-00"
       },
       "ResponseBody": {
         "value": [
@@ -73,27 +74,20 @@
             "deviceId": "dpokluda-test",
             "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
             "groupId": "dpokluda-test",
-            "installedUpdate": {
-              "updateId": {
-                "provider": "fabrikam",
-                "name": "vacuum",
-                "version": "2022.131.655.39"
-              }
-            },
             "onLatestUpdate": false,
             "lastAttemptedUpdate": {
               "updateId": {
                 "provider": "fabrikam",
                 "name": "vacuum",
-                "version": "2022.131.655.39"
+                "version": "2022.608.554.1"
               }
             },
-            "deploymentStatus": "Succeeded",
-            "lastDeploymentId": "test0201031705",
+            "deploymentStatus": "Failed",
+            "lastDeploymentId": "test0609070108",
             "lastInstallResult": {
-              "resultCode": 700,
-              "extendedResultCode": 0,
-              "resultDetails": "apply success"
+              "resultCode": 0,
+              "extendedResultCode": 805306371,
+              "resultDetails": ""
             }
           }
         ]

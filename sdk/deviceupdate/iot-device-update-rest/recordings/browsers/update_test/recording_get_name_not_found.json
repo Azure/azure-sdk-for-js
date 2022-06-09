@@ -16,8 +16,8 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "daf75787-2dfc-4e4d-8c20-d068872fff90",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "6e1baa1d-873b-44ae-8914-e9c886b279b6",
         "x-ms-useragent": "core-rest-pipeline/1.8.1 OS/Win32"
       },
       "RequestBody": null,
@@ -25,14 +25,15 @@
       "ResponseHeaders": {
         "Content-Length": "161",
         "Content-Type": "application/problem\u002Bjson; charset=utf-8",
-        "Date": "Tue, 07 Jun 2022 21:57:05 GMT",
-        "traceparent": "00-856bd45a56a0acf2ef6d33cc91ce25ce-23b6a0e3c7a0ce5d-00"
+        "Date": "Thu, 09 Jun 2022 22:52:05 GMT",
+        "mise-correlation-id": "046f7e12-f316-4bd9-bce1-c5f3a3873f88",
+        "traceparent": "00-aa21fad186420b4ae43cb0677e5acbcc-f2287d2cd966e2e6-00"
       },
       "ResponseBody": {
         "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
         "title": "Not Found",
         "status": 404,
-        "traceId": "00-856bd45a56a0acf2ef6d33cc91ce25ce-75ff46352dd11742-00"
+        "traceId": "00-aa21fad186420b4ae43cb0677e5acbcc-3e8692cfdab03448-00"
       }
     }
   ],

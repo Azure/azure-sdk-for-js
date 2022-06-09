@@ -9,21 +9,22 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "core-rest-pipeline/1.8.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "e250979a-d662-4aa6-bac4-0dda23b47148"
+        "x-ms-client-request-id": "afe11b5a-30d3-4082-9236-ba662eeac222"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "Content-Length": "161",
         "Content-Type": "application/problem\u002Bjson; charset=utf-8",
-        "Date": "Tue, 07 Jun 2022 21:56:53 GMT",
-        "traceparent": "00-90ba28b895b2ef6fc6a4e85a4f8ffb5b-1294841d879dcadb-00"
+        "Date": "Thu, 09 Jun 2022 22:51:48 GMT",
+        "mise-correlation-id": "19e74952-1c91-4d14-95a7-404d3ccd6863",
+        "traceparent": "00-df0f0024811b227c45220c222f3be77a-277467040d085a3c-00"
       },
       "ResponseBody": {
         "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
         "title": "Not Found",
         "status": 404,
-        "traceId": "00-90ba28b895b2ef6fc6a4e85a4f8ffb5b-64fecec6a654ef47-00"
+        "traceId": "00-df0f0024811b227c45220c222f3be77a-10b7dd2463f76d48-00"
       }
     }
   ],
