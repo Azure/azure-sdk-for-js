@@ -1,264 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/groups/foo?api-version=2021-10-01",
-      "RequestMethod": "HEAD",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "1347675f-4447-4ecd-b2ed-bd0b61f62cba"
-      },
-      "RequestBody": null,
-      "StatusCode": 404,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Content-Length": "119",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-error-code": "Warning.Group.NotExisted"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/users/foo?api-version=2021-10-01",
-      "RequestMethod": "HEAD",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "992cbcbc-fd62-4b3b-aae6-c6765375830f"
-      },
-      "RequestBody": null,
-      "StatusCode": 404,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Content-Length": "120",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-error-code": "Warning.User.NotExisted"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/users/foo/groups?api-version=2021-10-01",
-      "RequestMethod": "DELETE",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "9f71c6c8-5e28-4d9b-bc2c-239712b9f582"
-      },
-      "RequestBody": null,
-      "StatusCode": 204,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/connections/xxxx?api-version=2021-10-01",
-      "RequestMethod": "DELETE",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "c0704248-9409-4b69-a607-834652c6fda3"
-      },
-      "RequestBody": null,
-      "StatusCode": 204,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/:send?api-version=2021-10-01",
-      "RequestMethod": "POST",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Content-Length": "5",
-        "Content-Type": "text/plain",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "b74f8d73-33a1-4d7e-9242-31dded7e5069"
-      },
-      "RequestBody": "hello",
-      "StatusCode": 202,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Content-Length": "0",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/users/xxxx/:closeConnections?api-version=2021-10-01",
-      "RequestMethod": "POST",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Content-Length": "0",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "54c76a01-e2d1-44af-929a-644a85ee90ae"
-      },
-      "RequestBody": null,
-      "StatusCode": 204,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/:closeConnections?api-version=2021-10-01",
-      "RequestMethod": "POST",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Content-Length": "0",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "e31d042b-f444-4a93-b9e8-a31916ffe037"
-      },
-      "RequestBody": null,
-      "StatusCode": 204,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/connections/xxxx/:send?api-version=2021-10-01",
-      "RequestMethod": "POST",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Content-Length": "5",
-        "Content-Type": "text/plain",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "62854387-5658-43dc-84ec-8fa6521cbefb"
-      },
-      "RequestBody": "hello",
-      "StatusCode": 202,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Content-Length": "0",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/users/brian/:send?api-version=2021-10-01",
-      "RequestMethod": "POST",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Content-Length": "5",
-        "Content-Type": "text/plain",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "a59cab1f-9e8a-4ec4-bb95-fce5345b078a"
-      },
-      "RequestBody": "hello",
-      "StatusCode": 202,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Content-Length": "0",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/connections/xxxx?api-version=2021-10-01",
-      "RequestMethod": "HEAD",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "7ef525e1-d070-4e93-adb7-6ad314813c8c"
-      },
-      "RequestBody": null,
-      "StatusCode": 404,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Content-Length": "139",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-error-code": "Warning.Connection.NotExisted"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/permissions/joinLeaveGroup/connections/xxxx?api-version=2021-10-01",
-      "RequestMethod": "DELETE",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "13c261a6-8078-4571-b51f-fa57af0d7050"
-      },
-      "RequestBody": null,
-      "StatusCode": 400,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
-        "Connection": "keep-alive",
-        "Content-Length": "177",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-error-code": "Error.BadRequest"
-      },
-      "ResponseBody": {
-        "code": "Error.BadRequest",
-        "message": "Invalid group name. Valid group name should be in between 1 and 1024 characters long.",
-        "target": "Request",
-        "details": null,
-        "innererror": null
-      }
-    },
-    {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/permissions/joinLeaveGroup/connections/xxxx?api-version=2021-10-01\u0026targetName=x",
+      "RequestUri": "https://endpoint/api/hubs/simplechat/permissions/joinLeaveGroup/connections/xxxx?api-version=2021-10-01\u0026targetName=x",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
@@ -266,8 +9,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "f97e7d80-c90c-475c-907f-46dd00a58946"
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "eb9c2428-23b3-498d-91b2-63e233372f76"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -276,7 +19,7 @@
         "Connection": "keep-alive",
         "Content-Length": "136",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "x-ms-error-code": "Info.Connection.NotExisted"
       },
@@ -289,14 +32,195 @@
       }
     },
     {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/permissions/joinLeaveGroup/connections/xxxx?api-version=2021-10-01\u0026targetName=x",
+      "RequestUri": "https://endpoint/api/hubs/simplechat/users/foo/groups?api-version=2021-10-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "746e230e-af01-4c13-9dda-24d485ea7d46"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01",
+        "Connection": "keep-alive",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/users/xxxx/:closeConnections?api-version=2021-10-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "ac001173-f0c1-4bca-bc54-7cec33277e52"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01",
+        "Connection": "keep-alive",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/connections/xxxx?api-version=2021-10-01",
       "RequestMethod": "HEAD",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "7216ddfe-e2c5-4ee1-9f08-bb436afe61ff"
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "cf1ec930-aa58-462f-8db0-b7769514638b"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01",
+        "Connection": "keep-alive",
+        "Content-Length": "139",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-error-code": "Warning.Connection.NotExisted"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/connections/xxxx?api-version=2021-10-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "48f6b763-a2c1-4df0-9548-8fb586cc0c17"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01",
+        "Connection": "keep-alive",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/users/brian/:send?api-version=2021-10-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "5",
+        "Content-Type": "text/plain",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "42b4fe3b-e9d5-4cbe-92cf-16438f24b35f"
+      },
+      "RequestBody": "hello",
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/:send?api-version=2021-10-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "5",
+        "Content-Type": "text/plain",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4973d461-de71-45cb-b48b-3cea4bc72c53"
+      },
+      "RequestBody": "hello",
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/connections/xxxx/:send?api-version=2021-10-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "5",
+        "Content-Type": "text/plain",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "034ee100-a1cf-4461-b0e8-d2086dc479e8"
+      },
+      "RequestBody": "hello",
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/:closeConnections?api-version=2021-10-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "5f71f815-2c57-4dec-b659-113c9398201c"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01",
+        "Connection": "keep-alive",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/permissions/joinLeaveGroup/connections/xxxx?api-version=2021-10-01\u0026targetName=x",
+      "RequestMethod": "HEAD",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f1d0cd9c-f995-4fbb-bbf6-1ee520a03141"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -305,9 +229,55 @@
         "Connection": "keep-alive",
         "Content-Length": "136",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Apr 2022 18:47:08 GMT",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "x-ms-error-code": "Info.Connection.NotExisted"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/users/foo?api-version=2021-10-01",
+      "RequestMethod": "HEAD",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "b12af0bd-ee69-49ae-9f12-11001160413a"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01",
+        "Connection": "keep-alive",
+        "Content-Length": "120",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-error-code": "Warning.User.NotExisted"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/groups/foo?api-version=2021-10-01",
+      "RequestMethod": "HEAD",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e86df79e-c0fa-4aec-b004-31ea1711c3f4"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01",
+        "Connection": "keep-alive",
+        "Content-Length": "119",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 13 May 2022 21:53:55 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-error-code": "Warning.Group.NotExisted"
       },
       "ResponseBody": null
     }

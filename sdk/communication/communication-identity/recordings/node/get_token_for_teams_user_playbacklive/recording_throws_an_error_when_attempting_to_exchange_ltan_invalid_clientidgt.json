@@ -1,0 +1,47 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2022-06-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "62",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "t/05IQcU7YCz8KHbRO5Tzhg9oNti3ftHGmbpGojgrsI=",
+        "x-ms-date": "Wed, 18 May 2022 11:19:31 GMT"
+      },
+      "RequestBody": {
+        "token": "sanitized",
+        "appId": "sanitized",
+        "userId": "sanitized"
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-31-preview, 2022-06-01",
+        "Content-Type": "application/json",
+        "Date": "Wed, 18 May 2022 11:19:30 GMT",
+        "MS-CV": "hqu4722yDUWK5kWm0F\u002BhrA.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0Q9aEYgAAAADS\u002BuvfxBqfTrlCXOaZXDF9TFRTRURHRTEyMTgAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "sanitized",
+        "X-Processing-Time": "34ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ValidationError",
+          "message": "Provided AppId has invalid format.",
+          "target": "appId"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

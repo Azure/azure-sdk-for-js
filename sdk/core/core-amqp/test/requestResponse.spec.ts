@@ -604,7 +604,7 @@ describe("RequestResponseLink", function () {
 
     beforeEach(() => {
       clearTimeoutCalledCount = 0;
-      _global.clearTimeout = (tid) => {
+      _global.clearTimeout = (tid: any) => {
         clearTimeoutCalledCount++;
         return originalClearTimeout(tid);
       };

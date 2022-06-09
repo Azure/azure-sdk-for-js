@@ -7,7 +7,6 @@
  */
 
 import { assert } from "chai";
-import { CurrencyValue } from "../../src/generated";
 
 import { AnalyzedDocument } from "../../src/lro/analyze";
 import {
@@ -42,6 +41,7 @@ export type FieldSpec =
   | FieldSpec[]
   | string
   | number
+  | boolean
   | Date
   | undefined
   | ((field: DocumentField) => void);
@@ -63,11 +63,11 @@ function validateSpec(spec: FieldSpec, field: DocumentField | undefined) {
     assert.strictEqual((field as DocumentValueField<unknown>)?.value, spec as undefined);
   } else if (typeof spec === "function") {
     return spec(field);
-  } else if (typeof spec === "string" || typeof spec === "number") {
+  } else if (typeof spec === "string" || typeof spec === "number" || typeof spec === "boolean") {
     if (field.kind === "date") {
       assert.strictEqual(field.value?.toISOString(), spec as string);
     } else {
-      assert.strictEqual((field as DocumentValueField<string | number>).value, spec);
+      assert.strictEqual((field as DocumentValueField<string | number | boolean>).value, spec);
     }
   } else if (spec instanceof Date) {
     assert.strictEqual(field.kind, "date");
@@ -81,8 +81,8 @@ function validateSpec(spec: FieldSpec, field: DocumentField | undefined) {
       validateSpec(fieldSpec, fieldValue);
     }
   } else {
-    if (field.kind === "currency") {
-      assert.deepStrictEqual(field.value, spec as unknown as CurrencyValue);
+    if (field.kind === "currency" || field.kind === "address") {
+      assert.deepStrictEqual(field.value, spec as unknown);
     } else {
       assert.strictEqual(field.kind, "object");
       validateObjectSpec(spec, (field as DocumentObjectField).properties);
@@ -125,6 +125,7 @@ function createSpecForField(field: DocumentField | undefined): FieldSpec {
         {} as { [k: string]: FieldSpec }
       );
     case "currency":
+    case "address":
       return field.value as FieldSpec;
     default:
       return field.value;

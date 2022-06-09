@@ -1,6 +1,6 @@
 # Release History
 
-## 1.8.2 (Unreleased)
+## 1.9.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.9.0 (2022-06-03)
+
+### Features Added
+
+- Add TLS policy in `createPipelineFromOptions`. [#21949](https://github.com/Azure/azure-sdk-for-js/pull/21949)
 
 ## 1.8.1 (2022-05-05)
 

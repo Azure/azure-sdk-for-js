@@ -3195,7 +3195,12 @@ export type DomainTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionF
 
 /** Optional parameters. */
 export interface DomainTopicEventSubscriptionsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
 
 /** Contains response data for the list operation. */
 export type DomainTopicEventSubscriptionsListResponse = EventSubscriptionsListResult;
@@ -3206,6 +3211,18 @@ export interface DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParam
 
 /** Contains response data for the getDeliveryAttributes operation. */
 export type DomainTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+
+/** Optional parameters. */
+export interface DomainTopicEventSubscriptionsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type DomainTopicEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface TopicEventSubscriptionsGetOptionalParams
@@ -3256,7 +3273,12 @@ export type TopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl
 
 /** Optional parameters. */
 export interface TopicEventSubscriptionsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
 
 /** Contains response data for the list operation. */
 export type TopicEventSubscriptionsListResponse = EventSubscriptionsListResult;
@@ -3267,6 +3289,18 @@ export interface TopicEventSubscriptionsGetDeliveryAttributesOptionalParams
 
 /** Contains response data for the getDeliveryAttributes operation. */
 export type TopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+
+/** Optional parameters. */
+export interface TopicEventSubscriptionsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type TopicEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface DomainEventSubscriptionsGetOptionalParams
@@ -3317,7 +3351,12 @@ export type DomainEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUr
 
 /** Optional parameters. */
 export interface DomainEventSubscriptionsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
 
 /** Contains response data for the list operation. */
 export type DomainEventSubscriptionsListResponse = EventSubscriptionsListResult;
@@ -3328,6 +3367,18 @@ export interface DomainEventSubscriptionsGetDeliveryAttributesOptionalParams
 
 /** Contains response data for the getDeliveryAttributes operation. */
 export type DomainEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+
+/** Optional parameters. */
+export interface DomainEventSubscriptionsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type DomainEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface SystemTopicEventSubscriptionsGetOptionalParams

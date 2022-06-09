@@ -15,7 +15,14 @@ import {
   ArcSettingsGetResponse,
   ArcSettingsCreateOptionalParams,
   ArcSettingsCreateResponse,
-  ArcSettingsDeleteOptionalParams
+  ArcSettingsPatch,
+  ArcSettingsUpdateOptionalParams,
+  ArcSettingsUpdateResponse,
+  ArcSettingsDeleteOptionalParams,
+  ArcSettingsGeneratePasswordOptionalParams,
+  ArcSettingsGeneratePasswordResponse,
+  ArcSettingsCreateIdentityOptionalParams,
+  ArcSettingsCreateIdentityResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,6 +68,21 @@ export interface ArcSettings {
     options?: ArcSettingsCreateOptionalParams
   ): Promise<ArcSettingsCreateResponse>;
   /**
+   * Update ArcSettings for HCI cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param arcSetting ArcSettings parameters that needs to be updated
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    arcSetting: ArcSettingsPatch,
+    options?: ArcSettingsUpdateOptionalParams
+  ): Promise<ArcSettingsUpdateResponse>;
+  /**
    * Delete ArcSetting resource details of HCI Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
@@ -86,4 +108,48 @@ export interface ArcSettings {
     arcSettingName: string,
     options?: ArcSettingsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Generate password for arc settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  generatePassword(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsGeneratePasswordOptionalParams
+  ): Promise<ArcSettingsGeneratePasswordResponse>;
+  /**
+   * Create Aad identity for arc settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  beginCreateIdentity(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsCreateIdentityOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ArcSettingsCreateIdentityResponse>,
+      ArcSettingsCreateIdentityResponse
+    >
+  >;
+  /**
+   * Create Aad identity for arc settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  beginCreateIdentityAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsCreateIdentityOptionalParams
+  ): Promise<ArcSettingsCreateIdentityResponse>;
 }
