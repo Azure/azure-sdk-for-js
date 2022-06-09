@@ -1,15 +1,105 @@
 # Release History
+    
+## 17.0.0-beta.1 (2022-06-08)
+    
+**Features**
 
-## 16.1.1 (Unreleased)
+  - Added operation group ManagedClusterSnapshots
+  - Added operation group TrustedAccessRoleBindings
+  - Added operation group TrustedAccessRoles
+  - Added operation ManagedClusters.beginRotateServiceAccountSigningKeys
+  - Added operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait
+  - Added Interface AzureKeyVaultKms
+  - Added Interface ManagedClusterIngressProfile
+  - Added Interface ManagedClusterIngressProfileWebAppRouting
+  - Added Interface ManagedClusterOidcIssuerProfile
+  - Added Interface ManagedClusterPropertiesForSnapshot
+  - Added Interface ManagedClusterSecurityProfileDefender
+  - Added Interface ManagedClusterSecurityProfileDefenderSecurityMonitoring
+  - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
+  - Added Interface ManagedClusterSnapshotListResult
+  - Added Interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
+  - Added Interface ManagedClusterSnapshotsDeleteOptionalParams
+  - Added Interface ManagedClusterSnapshotsGetOptionalParams
+  - Added Interface ManagedClusterSnapshotsListByResourceGroupNextOptionalParams
+  - Added Interface ManagedClusterSnapshotsListByResourceGroupOptionalParams
+  - Added Interface ManagedClusterSnapshotsListNextOptionalParams
+  - Added Interface ManagedClusterSnapshotsListOptionalParams
+  - Added Interface ManagedClusterSnapshotsUpdateTagsOptionalParams
+  - Added Interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  - Added Interface ManagedClusterStorageProfileBlobCSIDriver
+  - Added Interface ManagedClusterWorkloadAutoScalerProfile
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
+  - Added Interface NetworkProfileForSnapshot
+  - Added Interface TrustedAccessRole
+  - Added Interface TrustedAccessRoleBindingListResult
+  - Added Interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+  - Added Interface TrustedAccessRoleBindingsDeleteOptionalParams
+  - Added Interface TrustedAccessRoleBindingsGetOptionalParams
+  - Added Interface TrustedAccessRoleBindingsListNextOptionalParams
+  - Added Interface TrustedAccessRoleBindingsListOptionalParams
+  - Added Interface TrustedAccessRoleListResult
+  - Added Interface TrustedAccessRoleRule
+  - Added Interface TrustedAccessRolesListNextOptionalParams
+  - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias KeyVaultNetworkAccessTypes
+  - Added Type Alias ManagedClusterSnapshot
+  - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
+  - Added Type Alias ManagedClusterSnapshotsGetResponse
+  - Added Type Alias ManagedClusterSnapshotsListByResourceGroupNextResponse
+  - Added Type Alias ManagedClusterSnapshotsListByResourceGroupResponse
+  - Added Type Alias ManagedClusterSnapshotsListNextResponse
+  - Added Type Alias ManagedClusterSnapshotsListResponse
+  - Added Type Alias ManagedClusterSnapshotsUpdateTagsResponse
+  - Added Type Alias NetworkPluginMode
+  - Added Type Alias TrustedAccessRoleBinding
+  - Added Type Alias TrustedAccessRoleBindingProvisioningState
+  - Added Type Alias TrustedAccessRoleBindingsCreateOrUpdateResponse
+  - Added Type Alias TrustedAccessRoleBindingsGetResponse
+  - Added Type Alias TrustedAccessRoleBindingsListNextResponse
+  - Added Type Alias TrustedAccessRoleBindingsListResponse
+  - Added Type Alias TrustedAccessRolesListNextResponse
+  - Added Type Alias TrustedAccessRolesListResponse
+  - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter hostGroupID
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
+  - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter enableVnetIntegration
+  - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId
+  - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
+  - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface ManagedClusterSecurityProfile has a new optional parameter azureKeyVaultKms
+  - Interface ManagedClusterSecurityProfile has a new optional parameter defender
+  - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
+  - Interface ManagedClusterStorageProfile has a new optional parameter blobCSIDriver
+  - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
+  - Class ContainerServiceClient has a new parameter managedClusterSnapshots
+  - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
+  - Class ContainerServiceClient has a new parameter trustedAccessRoles
+  - Type Alias AgentPool has a new parameter messageOfTheDay
+  - Type Alias AgentPool has a new parameter enableCustomCATrust
+  - Type Alias AgentPool has a new parameter capacityReservationGroupID
+  - Type Alias AgentPool has a new parameter hostGroupID
+  - Type Alias ManagedCluster has a new parameter creationData
+  - Type Alias ManagedCluster has a new parameter oidcIssuerProfile
+  - Type Alias ManagedCluster has a new parameter enableNamespaceResources
+  - Type Alias ManagedCluster has a new parameter ingressProfile
+  - Type Alias ManagedCluster has a new parameter workloadAutoScalerProfile
+  - Added Enum KnownKeyVaultNetworkAccessTypes
+  - Added Enum KnownNetworkPluginMode
+  - Added Enum KnownTrustedAccessRoleBindingProvisioningState
+  - Enum KnownNetworkPlugin has a new value None
+  - Enum KnownOssku has a new value Windows2019
+  - Enum KnownOssku has a new value Windows2022
+  - Enum KnownSnapshotType has a new value ManagedCluster
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ManagedClusterSecurityProfile no longer has parameter azureDefender
+    
+    
 ## 16.1.0 (2022-05-23)
     
 **Features**
