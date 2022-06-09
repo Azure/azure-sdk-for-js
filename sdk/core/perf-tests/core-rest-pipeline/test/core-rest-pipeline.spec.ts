@@ -22,7 +22,7 @@ export class CoreRestPipelineTest extends BaseHttpTest {
     await super.globalSetup();
     this.request = createPipelineRequest({
       url: this.url,
-      allowInsecureConnection: true
+      allowInsecureConnection: new URL(this.url).protocol !== "https:"
     });
   }
 

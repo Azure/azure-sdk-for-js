@@ -4,7 +4,7 @@
     "outDir": "./dist-esm",
     "module": "CommonJS",
     "target": "ESNext",
-    "lib": ["ESNext"]
+    "lib": ["ESNext", "DOM"]
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
