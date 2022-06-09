@@ -24,6 +24,18 @@ import {
   EntitySetClassificationsParameters,
   EntityGetEntitiesByUniqueAttributesParameters,
   EntityGetHeaderParameters,
+  EntityDeleteBusinessMetadataParameters,
+  EntityAddOrUpdateBusinessMetadataParameters,
+  EntityDeleteBusinessMetadataAttributesParameters,
+  EntityAddOrUpdateBusinessMetadataAttributesParameters,
+  EntityGetSampleBusinessMetadataTemplateParameters,
+  EntityImportBusinessMetadataParameters,
+  EntityDeleteLabelsParameters,
+  EntitySetLabelsParameters,
+  EntityAddLabelParameters,
+  EntityDeleteLabelsByUniqueAttributeParameters,
+  EntitySetLabelsByUniqueAttributeParameters,
+  EntityAddLabelsByUniqueAttributeParameters,
   GlossaryListGlossariesParameters,
   GlossaryCreateGlossaryParameters,
   GlossaryCreateGlossaryCategoriesParameters,
@@ -65,10 +77,13 @@ import {
   DiscoveryAutoCompleteParameters,
   LineageGetLineageGraphParameters,
   LineageNextPageLineageParameters,
+  LineageGetLineageByUniqueAttributeParameters,
   RelationshipCreateParameters,
   RelationshipUpdateParameters,
   RelationshipGetParameters,
   RelationshipDeleteParameters,
+  TypesGetBusinessMetadataDefByGuidParameters,
+  TypesGetBusinessMetadataDefByNameParameters,
   TypesGetClassificationDefByGuidParameters,
   TypesGetClassificationDefByNameParameters,
   TypesGetEntityDefinitionByGuidParameters,
@@ -138,6 +153,21 @@ import {
   EntityGetEntitiesByUniqueAttributesdefaultResponse,
   EntityGetHeader200Response,
   EntityGetHeaderdefaultResponse,
+  EntityDeleteBusinessMetadata204Response,
+  EntityAddOrUpdateBusinessMetadata204Response,
+  EntityDeleteBusinessMetadataAttributes204Response,
+  EntityAddOrUpdateBusinessMetadataAttributes204Response,
+  EntityGetSampleBusinessMetadataTemplate200Response,
+  EntityGetSampleBusinessMetadataTemplate400Response,
+  EntityImportBusinessMetadata200Response,
+  EntityImportBusinessMetadata400Response,
+  EntityImportBusinessMetadata409Response,
+  EntityDeleteLabels204Response,
+  EntitySetLabels204Response,
+  EntityAddLabel204Response,
+  EntityDeleteLabelsByUniqueAttribute204Response,
+  EntitySetLabelsByUniqueAttribute204Response,
+  EntityAddLabelsByUniqueAttribute204Response,
   GlossaryListGlossaries200Response,
   GlossaryListGlossariesdefaultResponse,
   GlossaryCreateGlossary200Response,
@@ -220,6 +250,9 @@ import {
   LineageGetLineageGraphdefaultResponse,
   LineageNextPageLineage200Response,
   LineageNextPageLineagedefaultResponse,
+  LineageGetLineageByUniqueAttribute200Response,
+  LineageGetLineageByUniqueAttribute400Response,
+  LineageGetLineageByUniqueAttribute404Response,
   RelationshipCreate200Response,
   RelationshipCreatedefaultResponse,
   RelationshipUpdate200Response,
@@ -228,6 +261,10 @@ import {
   RelationshipGetdefaultResponse,
   RelationshipDelete204Response,
   RelationshipDeletedefaultResponse,
+  TypesGetBusinessMetadataDefByGuid200Response,
+  TypesGetBusinessMetadataDefByGuid404Response,
+  TypesGetBusinessMetadataDefByName200Response,
+  TypesGetBusinessMetadataDefByName404Response,
   TypesGetClassificationDefByGuid200Response,
   TypesGetClassificationDefByGuiddefaultResponse,
   TypesGetClassificationDefByName200Response,
@@ -467,6 +504,73 @@ export interface EntityGetHeader {
   get(
     options?: EntityGetHeaderParameters
   ): Promise<EntityGetHeader200Response | EntityGetHeaderdefaultResponse>;
+}
+
+export interface EntityDeleteBusinessMetadata {
+  /** Remove business metadata from an entity. */
+  delete(
+    options?: EntityDeleteBusinessMetadataParameters
+  ): Promise<EntityDeleteBusinessMetadata204Response>;
+  /** Add business metadata to an entity. */
+  post(
+    options?: EntityAddOrUpdateBusinessMetadataParameters
+  ): Promise<EntityAddOrUpdateBusinessMetadata204Response>;
+}
+
+export interface EntityDeleteBusinessMetadataAttributes {
+  /** Delete business metadata attributes from an entity. */
+  delete(
+    options?: EntityDeleteBusinessMetadataAttributesParameters
+  ): Promise<EntityDeleteBusinessMetadataAttributes204Response>;
+  /** Add or update business metadata attributes */
+  post(
+    options?: EntityAddOrUpdateBusinessMetadataAttributesParameters
+  ): Promise<EntityAddOrUpdateBusinessMetadataAttributes204Response>;
+}
+
+export interface EntityGetSampleBusinessMetadataTemplate {
+  /** Get the sample Template for uploading/creating bulk BusinessMetaData */
+  get(
+    options?: EntityGetSampleBusinessMetadataTemplateParameters
+  ): Promise<
+    | EntityGetSampleBusinessMetadataTemplate200Response
+    | EntityGetSampleBusinessMetadataTemplate400Response
+  >;
+}
+
+export interface EntityImportBusinessMetadata {
+  /** Upload the file for creating Business Metadata in BULK */
+  post(
+    options?: EntityImportBusinessMetadataParameters
+  ): Promise<
+    | EntityImportBusinessMetadata200Response
+    | EntityImportBusinessMetadata400Response
+    | EntityImportBusinessMetadata409Response
+  >;
+}
+
+export interface EntityDeleteLabels {
+  /** delete given labels to a given entity */
+  delete(options?: EntityDeleteLabelsParameters): Promise<EntityDeleteLabels204Response>;
+  /** Set labels to a given entity */
+  post(options?: EntitySetLabelsParameters): Promise<EntitySetLabels204Response>;
+  /** add given labels to a given entity */
+  put(options?: EntityAddLabelParameters): Promise<EntityAddLabel204Response>;
+}
+
+export interface EntityDeleteLabelsByUniqueAttribute {
+  /** Delete given labels to a given entity identified by its type and unique attributes, if labels is null/empty, no labels will be removed. If any labels in labels set are non-existing labels, they will be ignored, only existing labels will be removed. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: DELETE /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+  delete(
+    options?: EntityDeleteLabelsByUniqueAttributeParameters
+  ): Promise<EntityDeleteLabelsByUniqueAttribute204Response>;
+  /** Set labels to a given entity identified by its type and unique attributes, if labels is null/empty, existing labels will all be removed. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: POST /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+  post(
+    options?: EntitySetLabelsByUniqueAttributeParameters
+  ): Promise<EntitySetLabelsByUniqueAttribute204Response>;
+  /** Add given labels to a given entity identified by its type and unique attributes, if labels is null/empty, no labels will be added. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: PUT /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+  put(
+    options?: EntityAddLabelsByUniqueAttributeParameters
+  ): Promise<EntityAddLabelsByUniqueAttribute204Response>;
 }
 
 export interface GlossaryListGlossaries {
@@ -771,6 +875,25 @@ export interface LineageNextPageLineage {
   ): Promise<LineageNextPageLineage200Response | LineageNextPageLineagedefaultResponse>;
 }
 
+export interface LineageGetLineageByUniqueAttribute {
+  /**
+   * Returns lineage info about entity.
+   *
+   * In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format
+   *
+   * attr:[attrName]=[attrValue]
+   *
+   * NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName
+   */
+  get(
+    options: LineageGetLineageByUniqueAttributeParameters
+  ): Promise<
+    | LineageGetLineageByUniqueAttribute200Response
+    | LineageGetLineageByUniqueAttribute400Response
+    | LineageGetLineageByUniqueAttribute404Response
+  >;
+}
+
 export interface RelationshipCreate {
   /** Create a new relationship between entities. */
   post(
@@ -791,6 +914,24 @@ export interface RelationshipGet {
   delete(
     options?: RelationshipDeleteParameters
   ): Promise<RelationshipDelete204Response | RelationshipDeletedefaultResponse>;
+}
+
+export interface TypesGetBusinessMetadataDefByGuid {
+  /** Get the businessMetadata definition for the given guid */
+  get(
+    options?: TypesGetBusinessMetadataDefByGuidParameters
+  ): Promise<
+    TypesGetBusinessMetadataDefByGuid200Response | TypesGetBusinessMetadataDefByGuid404Response
+  >;
+}
+
+export interface TypesGetBusinessMetadataDefByName {
+  /** Get the businessMetadata definition by it's name (unique) */
+  get(
+    options?: TypesGetBusinessMetadataDefByNameParameters
+  ): Promise<
+    TypesGetBusinessMetadataDefByName200Response | TypesGetBusinessMetadataDefByName404Response
+  >;
 }
 
 export interface TypesGetClassificationDefByGuid {
@@ -977,121 +1118,122 @@ export interface CollectionMoveEntitiesToCollection {
 }
 
 export interface Routes {
-  /** Resource for '/atlas/v2/entity' has methods for the following verbs: post */
-  (path: "/atlas/v2/entity"): EntityCreateOrUpdate;
-  /** Resource for '/atlas/v2/entity/bulk' has methods for the following verbs: get, post, delete */
-  (path: "/atlas/v2/entity/bulk"): EntityListByGuids;
-  /** Resource for '/atlas/v2/entity/bulk/classification' has methods for the following verbs: post */
-  (path: "/atlas/v2/entity/bulk/classification"): EntityAddClassification;
-  /** Resource for '/atlas/v2/entity/guid/\{guid\}' has methods for the following verbs: get, put, delete */
-  (path: "/atlas/v2/entity/guid/{guid}", guid: string): EntityGetByGuid;
-  /** Resource for '/atlas/v2/entity/guid/\{guid\}/classification/\{classificationName\}' has methods for the following verbs: get, delete */
+  /** Resource for '/entity' has methods for the following verbs: post */
+  (path: "/entity"): EntityCreateOrUpdate;
+  /** Resource for '/entity/bulk' has methods for the following verbs: get, post, delete */
+  (path: "/entity/bulk"): EntityListByGuids;
+  /** Resource for '/entity/bulk/classification' has methods for the following verbs: post */
+  (path: "/entity/bulk/classification"): EntityAddClassification;
+  /** Resource for '/entity/guid/\{guid\}' has methods for the following verbs: get, put, delete */
+  (path: "/entity/guid/{guid}", guid: string): EntityGetByGuid;
+  /** Resource for '/entity/guid/\{guid\}/classification/\{classificationName\}' has methods for the following verbs: get, delete */
   (
-    path: "/atlas/v2/entity/guid/{guid}/classification/{classificationName}",
+    path: "/entity/guid/{guid}/classification/{classificationName}",
     guid: string,
     classificationName: string
   ): EntityGetClassification;
-  /** Resource for '/atlas/v2/entity/guid/\{guid\}/classifications' has methods for the following verbs: get, post, put */
-  (path: "/atlas/v2/entity/guid/{guid}/classifications", guid: string): EntityGetClassifications;
-  /** Resource for '/atlas/v2/entity/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get, put, delete */
+  /** Resource for '/entity/guid/\{guid\}/classifications' has methods for the following verbs: get, post, put */
+  (path: "/entity/guid/{guid}/classifications", guid: string): EntityGetClassifications;
+  /** Resource for '/entity/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get, put, delete */
+  (path: "/entity/uniqueAttribute/type/{typeName}", typeName: string): EntityGetByUniqueAttributes;
+  /** Resource for '/entity/uniqueAttribute/type/\{typeName\}/classification/\{classificationName\}' has methods for the following verbs: delete */
   (
-    path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}",
-    typeName: string
-  ): EntityGetByUniqueAttributes;
-  /** Resource for '/atlas/v2/entity/uniqueAttribute/type/\{typeName\}/classification/\{classificationName\}' has methods for the following verbs: delete */
-  (
-    path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classification/{classificationName}",
+    path: "/entity/uniqueAttribute/type/{typeName}/classification/{classificationName}",
     typeName: string,
     classificationName: string
   ): EntityDeleteClassificationByUniqueAttribute;
-  /** Resource for '/atlas/v2/entity/uniqueAttribute/type/\{typeName\}/classifications' has methods for the following verbs: post, put */
+  /** Resource for '/entity/uniqueAttribute/type/\{typeName\}/classifications' has methods for the following verbs: post, put */
   (
-    path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications",
+    path: "/entity/uniqueAttribute/type/{typeName}/classifications",
     typeName: string
   ): EntityAddClassificationsByUniqueAttribute;
-  /** Resource for '/atlas/v2/entity/bulk/setClassifications' has methods for the following verbs: post */
-  (path: "/atlas/v2/entity/bulk/setClassifications"): EntitySetClassifications;
-  /** Resource for '/atlas/v2/entity/bulk/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get */
+  /** Resource for '/entity/bulk/setClassifications' has methods for the following verbs: post */
+  (path: "/entity/bulk/setClassifications"): EntitySetClassifications;
+  /** Resource for '/entity/bulk/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get */
   (
-    path: "/atlas/v2/entity/bulk/uniqueAttribute/type/{typeName}",
+    path: "/entity/bulk/uniqueAttribute/type/{typeName}",
     typeName: string
   ): EntityGetEntitiesByUniqueAttributes;
-  /** Resource for '/atlas/v2/entity/guid/\{guid\}/header' has methods for the following verbs: get */
-  (path: "/atlas/v2/entity/guid/{guid}/header", guid: string): EntityGetHeader;
-  /** Resource for '/atlas/v2/glossary' has methods for the following verbs: get, post */
-  (path: "/atlas/v2/glossary"): GlossaryListGlossaries;
-  /** Resource for '/atlas/v2/glossary/categories' has methods for the following verbs: post */
-  (path: "/atlas/v2/glossary/categories"): GlossaryCreateGlossaryCategories;
-  /** Resource for '/atlas/v2/glossary/category' has methods for the following verbs: post */
-  (path: "/atlas/v2/glossary/category"): GlossaryCreateGlossaryCategory;
-  /** Resource for '/atlas/v2/glossary/category/\{categoryGuid\}' has methods for the following verbs: get, put, delete */
+  /** Resource for '/entity/guid/\{guid\}/header' has methods for the following verbs: get */
+  (path: "/entity/guid/{guid}/header", guid: string): EntityGetHeader;
+  /** Resource for '/entity/guid/\{guid\}/businessmetadata' has methods for the following verbs: delete, post */
+  (path: "/entity/guid/{guid}/businessmetadata", guid: string): EntityDeleteBusinessMetadata;
+  /** Resource for '/entity/guid/\{guid\}/businessmetadata/\{bmName\}' has methods for the following verbs: delete, post */
   (
-    path: "/atlas/v2/glossary/category/{categoryGuid}",
-    categoryGuid: string
-  ): GlossaryGetGlossaryCategory;
-  /** Resource for '/atlas/v2/glossary/category/\{categoryGuid\}/partial' has methods for the following verbs: put */
+    path: "/entity/guid/{guid}/businessmetadata/{bmName}",
+    guid: string,
+    bmName: string
+  ): EntityDeleteBusinessMetadataAttributes;
+  /** Resource for '/entity/businessmetadata/import/template' has methods for the following verbs: get */
+  (path: "/entity/businessmetadata/import/template"): EntityGetSampleBusinessMetadataTemplate;
+  /** Resource for '/entity/businessmetadata/import' has methods for the following verbs: post */
+  (path: "/entity/businessmetadata/import"): EntityImportBusinessMetadata;
+  /** Resource for '/entity/guid/\{guid\}/labels' has methods for the following verbs: delete, post, put */
+  (path: "/entity/guid/{guid}/labels", guid: string): EntityDeleteLabels;
+  /** Resource for '/entity/uniqueAttribute/type/\{typeName\}/labels' has methods for the following verbs: delete, post, put */
   (
-    path: "/atlas/v2/glossary/category/{categoryGuid}/partial",
+    path: "/entity/uniqueAttribute/type/{typeName}/labels",
+    typeName: string
+  ): EntityDeleteLabelsByUniqueAttribute;
+  /** Resource for '/glossary' has methods for the following verbs: get, post */
+  (path: "/glossary"): GlossaryListGlossaries;
+  /** Resource for '/glossary/categories' has methods for the following verbs: post */
+  (path: "/glossary/categories"): GlossaryCreateGlossaryCategories;
+  /** Resource for '/glossary/category' has methods for the following verbs: post */
+  (path: "/glossary/category"): GlossaryCreateGlossaryCategory;
+  /** Resource for '/glossary/category/\{categoryGuid\}' has methods for the following verbs: get, put, delete */
+  (path: "/glossary/category/{categoryGuid}", categoryGuid: string): GlossaryGetGlossaryCategory;
+  /** Resource for '/glossary/category/\{categoryGuid\}/partial' has methods for the following verbs: put */
+  (
+    path: "/glossary/category/{categoryGuid}/partial",
     categoryGuid: string
   ): GlossaryPartialUpdateGlossaryCategory;
-  /** Resource for '/atlas/v2/glossary/category/\{categoryGuid\}/related' has methods for the following verbs: get */
+  /** Resource for '/glossary/category/\{categoryGuid\}/related' has methods for the following verbs: get */
   (
-    path: "/atlas/v2/glossary/category/{categoryGuid}/related",
+    path: "/glossary/category/{categoryGuid}/related",
     categoryGuid: string
   ): GlossaryListRelatedCategories;
-  /** Resource for '/atlas/v2/glossary/category/\{categoryGuid\}/terms' has methods for the following verbs: get */
+  /** Resource for '/glossary/category/\{categoryGuid\}/terms' has methods for the following verbs: get */
   (
-    path: "/atlas/v2/glossary/category/{categoryGuid}/terms",
+    path: "/glossary/category/{categoryGuid}/terms",
     categoryGuid: string
   ): GlossaryListCategoryTerms;
-  /** Resource for '/atlas/v2/glossary/term' has methods for the following verbs: post */
-  (path: "/atlas/v2/glossary/term"): GlossaryCreateGlossaryTerm;
-  /** Resource for '/atlas/v2/glossary/term/\{termGuid\}' has methods for the following verbs: get, put, delete */
-  (path: "/atlas/v2/glossary/term/{termGuid}", termGuid: string): GlossaryGetGlossaryTerm;
-  /** Resource for '/atlas/v2/glossary/term/\{termGuid\}/partial' has methods for the following verbs: put */
+  /** Resource for '/glossary/term' has methods for the following verbs: post */
+  (path: "/glossary/term"): GlossaryCreateGlossaryTerm;
+  /** Resource for '/glossary/term/\{termGuid\}' has methods for the following verbs: get, put, delete */
+  (path: "/glossary/term/{termGuid}", termGuid: string): GlossaryGetGlossaryTerm;
+  /** Resource for '/glossary/term/\{termGuid\}/partial' has methods for the following verbs: put */
+  (path: "/glossary/term/{termGuid}/partial", termGuid: string): GlossaryPartialUpdateGlossaryTerm;
+  /** Resource for '/glossary/terms' has methods for the following verbs: post */
+  (path: "/glossary/terms"): GlossaryCreateGlossaryTerms;
+  /** Resource for '/glossary/terms/\{termGuid\}/assignedEntities' has methods for the following verbs: get, post, put, delete */
   (
-    path: "/atlas/v2/glossary/term/{termGuid}/partial",
-    termGuid: string
-  ): GlossaryPartialUpdateGlossaryTerm;
-  /** Resource for '/atlas/v2/glossary/terms' has methods for the following verbs: post */
-  (path: "/atlas/v2/glossary/terms"): GlossaryCreateGlossaryTerms;
-  /** Resource for '/atlas/v2/glossary/terms/\{termGuid\}/assignedEntities' has methods for the following verbs: get, post, put, delete */
-  (
-    path: "/atlas/v2/glossary/terms/{termGuid}/assignedEntities",
+    path: "/glossary/terms/{termGuid}/assignedEntities",
     termGuid: string
   ): GlossaryGetEntitiesAssignedWithTerm;
-  /** Resource for '/atlas/v2/glossary/terms/\{termGuid\}/related' has methods for the following verbs: get */
-  (path: "/atlas/v2/glossary/terms/{termGuid}/related", termGuid: string): GlossaryListRelatedTerms;
-  /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}' has methods for the following verbs: get, put, delete */
-  (path: "/atlas/v2/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryGetGlossary;
-  /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}/categories' has methods for the following verbs: get */
+  /** Resource for '/glossary/terms/\{termGuid\}/related' has methods for the following verbs: get */
+  (path: "/glossary/terms/{termGuid}/related", termGuid: string): GlossaryListRelatedTerms;
+  /** Resource for '/glossary/\{glossaryGuid\}' has methods for the following verbs: get, put, delete */
+  (path: "/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryGetGlossary;
+  /** Resource for '/glossary/\{glossaryGuid\}/categories' has methods for the following verbs: get */
   (
-    path: "/atlas/v2/glossary/{glossaryGuid}/categories",
+    path: "/glossary/{glossaryGuid}/categories",
     glossaryGuid: string
   ): GlossaryListGlossaryCategories;
-  /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}/categories/headers' has methods for the following verbs: get */
+  /** Resource for '/glossary/\{glossaryGuid\}/categories/headers' has methods for the following verbs: get */
   (
-    path: "/atlas/v2/glossary/{glossaryGuid}/categories/headers",
+    path: "/glossary/{glossaryGuid}/categories/headers",
     glossaryGuid: string
   ): GlossaryListGlossaryCategoriesHeaders;
-  /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}/detailed' has methods for the following verbs: get */
+  /** Resource for '/glossary/\{glossaryGuid\}/detailed' has methods for the following verbs: get */
+  (path: "/glossary/{glossaryGuid}/detailed", glossaryGuid: string): GlossaryGetDetailedGlossary;
+  /** Resource for '/glossary/\{glossaryGuid\}/partial' has methods for the following verbs: put */
+  (path: "/glossary/{glossaryGuid}/partial", glossaryGuid: string): GlossaryPartialUpdateGlossary;
+  /** Resource for '/glossary/\{glossaryGuid\}/terms' has methods for the following verbs: get */
+  (path: "/glossary/{glossaryGuid}/terms", glossaryGuid: string): GlossaryListGlossaryTerms;
+  /** Resource for '/glossary/\{glossaryGuid\}/terms/headers' has methods for the following verbs: get */
   (
-    path: "/atlas/v2/glossary/{glossaryGuid}/detailed",
-    glossaryGuid: string
-  ): GlossaryGetDetailedGlossary;
-  /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}/partial' has methods for the following verbs: put */
-  (
-    path: "/atlas/v2/glossary/{glossaryGuid}/partial",
-    glossaryGuid: string
-  ): GlossaryPartialUpdateGlossary;
-  /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}/terms' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/glossary/{glossaryGuid}/terms",
-    glossaryGuid: string
-  ): GlossaryListGlossaryTerms;
-  /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}/terms/headers' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/glossary/{glossaryGuid}/terms/headers",
+    path: "/glossary/{glossaryGuid}/terms/headers",
     glossaryGuid: string
   ): GlossaryListGlossaryTermHeaders;
   /** Resource for '/glossary/\{glossaryGuid\}/terms/import' has methods for the following verbs: post */
@@ -1127,54 +1269,51 @@ export interface Routes {
   (path: "/browse"): DiscoveryBrowse;
   /** Resource for '/search/autocomplete' has methods for the following verbs: post */
   (path: "/search/autocomplete"): DiscoveryAutoComplete;
-  /** Resource for '/atlas/v2/lineage/\{guid\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/lineage/{guid}", guid: string): LineageGetLineageGraph;
+  /** Resource for '/lineage/\{guid\}' has methods for the following verbs: get */
+  (path: "/lineage/{guid}", guid: string): LineageGetLineageGraph;
   /** Resource for '/lineage/\{guid\}/next/' has methods for the following verbs: get */
   (path: "/lineage/{guid}/next/", guid: string): LineageNextPageLineage;
-  /** Resource for '/atlas/v2/relationship' has methods for the following verbs: post, put */
-  (path: "/atlas/v2/relationship"): RelationshipCreate;
-  /** Resource for '/atlas/v2/relationship/guid/\{guid\}' has methods for the following verbs: get, delete */
-  (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipGet;
-  /** Resource for '/atlas/v2/types/classificationdef/guid/\{guid\}' has methods for the following verbs: get */
+  /** Resource for '/lineage/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get */
   (
-    path: "/atlas/v2/types/classificationdef/guid/{guid}",
-    guid: string
-  ): TypesGetClassificationDefByGuid;
-  /** Resource for '/atlas/v2/types/classificationdef/name/\{name\}' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/types/classificationdef/name/{name}",
-    name: string
-  ): TypesGetClassificationDefByName;
-  /** Resource for '/atlas/v2/types/entitydef/guid/\{guid\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/entitydef/guid/{guid}", guid: string): TypesGetEntityDefinitionByGuid;
-  /** Resource for '/atlas/v2/types/entitydef/name/\{name\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/entitydef/name/{name}", name: string): TypesGetEntityDefinitionByName;
-  /** Resource for '/atlas/v2/types/enumdef/guid/\{guid\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/enumdef/guid/{guid}", guid: string): TypesGetEnumDefByGuid;
-  /** Resource for '/atlas/v2/types/enumdef/name/\{name\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/enumdef/name/{name}", name: string): TypesGetEnumDefByName;
-  /** Resource for '/atlas/v2/types/relationshipdef/guid/\{guid\}' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/types/relationshipdef/guid/{guid}",
-    guid: string
-  ): TypesGetRelationshipDefByGuid;
-  /** Resource for '/atlas/v2/types/relationshipdef/name/\{name\}' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/types/relationshipdef/name/{name}",
-    name: string
-  ): TypesGetRelationshipDefByName;
-  /** Resource for '/atlas/v2/types/structdef/guid/\{guid\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/structdef/guid/{guid}", guid: string): TypesGetStructDefByGuid;
-  /** Resource for '/atlas/v2/types/structdef/name/\{name\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/structdef/name/{name}", name: string): TypesGetStructDefByName;
-  /** Resource for '/atlas/v2/types/typedef/guid/\{guid\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/typedef/guid/{guid}", guid: string): TypesGetTypeDefinitionByGuid;
-  /** Resource for '/atlas/v2/types/typedef/name/\{name\}' has methods for the following verbs: get, delete */
-  (path: "/atlas/v2/types/typedef/name/{name}", name: string): TypesGetTypeDefinitionByName;
-  /** Resource for '/atlas/v2/types/typedefs' has methods for the following verbs: get, post, put, delete */
-  (path: "/atlas/v2/types/typedefs"): TypesGetAllTypeDefinitions;
-  /** Resource for '/atlas/v2/types/typedefs/headers' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/typedefs/headers"): TypesListTypeDefinitionHeaders;
+    path: "/lineage/uniqueAttribute/type/{typeName}",
+    typeName: string
+  ): LineageGetLineageByUniqueAttribute;
+  /** Resource for '/relationship' has methods for the following verbs: post, put */
+  (path: "/relationship"): RelationshipCreate;
+  /** Resource for '/relationship/guid/\{guid\}' has methods for the following verbs: get, delete */
+  (path: "/relationship/guid/{guid}", guid: string): RelationshipGet;
+  /** Resource for '/types/businessmetadatadef/guid/\{guid\}' has methods for the following verbs: get */
+  (path: "/types/businessmetadatadef/guid/{guid}", guid: string): TypesGetBusinessMetadataDefByGuid;
+  /** Resource for '/types/businessmetadatadef/name/\{name\}' has methods for the following verbs: get */
+  (path: "/types/businessmetadatadef/name/{name}", name: string): TypesGetBusinessMetadataDefByName;
+  /** Resource for '/types/classificationdef/guid/\{guid\}' has methods for the following verbs: get */
+  (path: "/types/classificationdef/guid/{guid}", guid: string): TypesGetClassificationDefByGuid;
+  /** Resource for '/types/classificationdef/name/\{name\}' has methods for the following verbs: get */
+  (path: "/types/classificationdef/name/{name}", name: string): TypesGetClassificationDefByName;
+  /** Resource for '/types/entitydef/guid/\{guid\}' has methods for the following verbs: get */
+  (path: "/types/entitydef/guid/{guid}", guid: string): TypesGetEntityDefinitionByGuid;
+  /** Resource for '/types/entitydef/name/\{name\}' has methods for the following verbs: get */
+  (path: "/types/entitydef/name/{name}", name: string): TypesGetEntityDefinitionByName;
+  /** Resource for '/types/enumdef/guid/\{guid\}' has methods for the following verbs: get */
+  (path: "/types/enumdef/guid/{guid}", guid: string): TypesGetEnumDefByGuid;
+  /** Resource for '/types/enumdef/name/\{name\}' has methods for the following verbs: get */
+  (path: "/types/enumdef/name/{name}", name: string): TypesGetEnumDefByName;
+  /** Resource for '/types/relationshipdef/guid/\{guid\}' has methods for the following verbs: get */
+  (path: "/types/relationshipdef/guid/{guid}", guid: string): TypesGetRelationshipDefByGuid;
+  /** Resource for '/types/relationshipdef/name/\{name\}' has methods for the following verbs: get */
+  (path: "/types/relationshipdef/name/{name}", name: string): TypesGetRelationshipDefByName;
+  /** Resource for '/types/structdef/guid/\{guid\}' has methods for the following verbs: get */
+  (path: "/types/structdef/guid/{guid}", guid: string): TypesGetStructDefByGuid;
+  /** Resource for '/types/structdef/name/\{name\}' has methods for the following verbs: get */
+  (path: "/types/structdef/name/{name}", name: string): TypesGetStructDefByName;
+  /** Resource for '/types/typedef/guid/\{guid\}' has methods for the following verbs: get */
+  (path: "/types/typedef/guid/{guid}", guid: string): TypesGetTypeDefinitionByGuid;
+  /** Resource for '/types/typedef/name/\{name\}' has methods for the following verbs: get, delete */
+  (path: "/types/typedef/name/{name}", name: string): TypesGetTypeDefinitionByName;
+  /** Resource for '/types/typedefs' has methods for the following verbs: get, post, put, delete */
+  (path: "/types/typedefs"): TypesGetAllTypeDefinitions;
+  /** Resource for '/types/typedefs/headers' has methods for the following verbs: get */
+  (path: "/types/typedefs/headers"): TypesListTypeDefinitionHeaders;
   /** Resource for '/types/termtemplatedef/guid/\{guid\}' has methods for the following verbs: get */
   (path: "/types/termtemplatedef/guid/{guid}", guid: string): TypesGetTermTemplateDefByGuid;
   /** Resource for '/types/termtemplatedef/name/\{name\}' has methods for the following verbs: get */
