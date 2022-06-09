@@ -182,7 +182,6 @@ specifiers:
   '@rush-temp/arm-vmwarecloudsimple': file:./projects/arm-vmwarecloudsimple.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:./projects/arm-webservices.tgz
-  '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
@@ -467,7 +466,6 @@ dependencies:
   '@rush-temp/arm-vmwarecloudsimple': file:projects/arm-vmwarecloudsimple.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:projects/arm-webservices.tgz
-  '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
@@ -10183,7 +10181,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice.tgz:
-    resolution: {integrity: sha512-zvxLY91bzuLk7bwE2b1VRTcCP6B7NN3lQeFxosJHvW/KAyD/kXhyZ8bBgv+qbVJ53xqq2gdJXOHDLwO/kMVLUg==, tarball: file:projects/arm-containerservice.tgz}
+    resolution: {integrity: sha512-zUVqYE5GgGe48USIYOqK0b1XXJBVXIdOk/q7iH9Bj+3NWt1eZOm9OmETqcpp2PYgW3lICdt7FZfqPF33RC2FNQ==, tarball: file:projects/arm-containerservice.tgz}
     name: '@rush-temp/arm-containerservice'
     version: 0.0.0
     dependencies:
@@ -10195,6 +10193,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10207,7 +10207,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -14129,35 +14128,6 @@ packages:
   file:projects/arm-webservices.tgz:
     resolution: {integrity: sha512-RsSie1xQc5AR7xpDEmgDg7ZsomVEp1KqtwtxhOMQEt3L5mUH0cxdMBsoJA9mzvdEOoQHpzK5lt3QYCLVu7+5cw==, tarball: file:projects/arm-webservices.tgz}
     name: '@rush-temp/arm-webservices'
-    version: 0.0.0
-    dependencies:
-      '@azure-tools/test-recorder': 1.0.2
-      '@azure/core-lro': 2.2.4
-      '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.73.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.73.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.73.0
-      tslib: 2.4.0
-      typescript: 4.2.4
-      uglify-js: 3.15.5
-    transitivePeerDependencies:
-      - '@types/node'
-      - debug
-      - encoding
-      - supports-color
-    dev: false
-
-  file:projects/arm-workloads.tgz:
-    resolution: {integrity: sha512-nW/LmSVwvwzQyu2AcXmF8sQhrNoVb8xd4IZbzq813D3vqYE/EWPQ4go8BpF3L1Iui/o73Vv0jGnvStIrRHZGcg==, tarball: file:projects/arm-workloads.tgz}
-    name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
