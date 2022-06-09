@@ -74,10 +74,10 @@ export class Recorder {
       }
       if (this.testContext instanceof MochaTest) {
         this.sessionFile = sessionFilePath(this.testContext);
-        logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
       } else {
         this.sessionFile = this.testContext.filePath;
       }
+      logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
       this.httpClient = createDefaultHttpClient();
     }
     this.variables = {};
