@@ -14,11 +14,10 @@
 const {
   DocumentModelAdministrationClient,
   AzureKeyCredential,
+  DocumentModelBuildMode,
 } = require("@azure/ai-form-recognizer");
 
-const dotenv = require("dotenv");
-const { DocumentModelBuildMode } = require("../src/options/BuildModelOptions");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
