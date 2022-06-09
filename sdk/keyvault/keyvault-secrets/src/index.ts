@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { CommonClientOptions } from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
 import { TokenCredential } from "@azure/core-auth";
 
@@ -56,7 +56,7 @@ export {
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
   GetSecretOptions,
-  CommonClientOptions,
+  ExtendedCommonClientOptions,
   GetDeletedSecretOptions,
   PurgeDeletedSecretOptions,
   BackupSecretOptions,

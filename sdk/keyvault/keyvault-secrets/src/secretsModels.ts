@@ -3,6 +3,7 @@
 
 import * as coreClient from "@azure/core-client";
 import { DeletionRecoveryLevel } from "./generated/models";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
 /**
  * The latest supported KeyVault service API version
@@ -12,7 +13,7 @@ export const LATEST_API_VERSION = "7.3";
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
  */
-export interface SecretClientOptions extends coreClient.CommonClientOptions {
+export interface SecretClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */

@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** The secret set parameters. */
 export interface SecretSetParameters {
@@ -395,7 +396,7 @@ export type GetDeletedSecretsNextResponse = DeletedSecretListResult;
 
 /** Optional parameters. */
 export interface KeyVaultClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }
