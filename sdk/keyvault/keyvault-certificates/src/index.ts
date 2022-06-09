@@ -5,7 +5,8 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
@@ -193,7 +194,7 @@ export {
   ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
-  CommonClientOptions,
+  ExtendedCommonClientOptions,
   PurgeDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
   SetContactsOptions,
@@ -238,13 +239,13 @@ export class CertificateClient {
    * Creates an instance of CertificateClient.
    * @param vaultUrl - the base URL to the vault.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
-   * @param ClientOptions - Pipeline options used to configure Key Vault API requests.
+   * @param clientOptions - Pipeline options used to configure Key Vault API requests.
    *                          Omit this parameter to use the default pipeline configuration.
    */
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
-    ClientOptions: CertificateClientOptions = {}
+    clientOptions: CertificateClientOptions = {}
   ) {
     this.vaultUrl = vaultUrl;
 
@@ -255,7 +256,7 @@ export class CertificateClient {
     });
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
-      ...ClientOptions,
+      ...clientOptions,
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [
@@ -267,7 +268,7 @@ export class CertificateClient {
     };
 
     this.client = new KeyVaultClient(
-      ClientOptions.serviceVersion || LATEST_API_VERSION,
+      clientOptions.serviceVersion || LATEST_API_VERSION,
       internalClientPipelineOptions
     );
     this.client.pipeline.addPolicy(authPolicy);

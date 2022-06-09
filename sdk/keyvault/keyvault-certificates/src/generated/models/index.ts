@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** The certificate list result. */
 export interface CertificateListResult {
@@ -919,7 +920,7 @@ export type GetDeletedCertificatesNextResponse = DeletedCertificateListResult;
 
 /** Optional parameters. */
 export interface KeyVaultClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
@@ -78,7 +79,7 @@ import {
 } from "./models";
 
 /** @internal */
-export class KeyVaultClient extends coreClient.ServiceClient {
+export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
   apiVersion: ApiVersion73;
 
   /**
