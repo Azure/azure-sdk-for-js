@@ -108,7 +108,7 @@ function GenerateDocsMsMetadata($language, $langTitle = "", $serviceName, $tenan
     return
   }
   elseif ($TenantId -and $ClientId -and $ClientSecret) {
-    $msauthor = GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author
+    $msauthor = ""#GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author
   }
   # Default value
   if (!$msauthor) {
