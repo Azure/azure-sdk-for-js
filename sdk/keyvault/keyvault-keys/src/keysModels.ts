@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as coreClient from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
 import {
   DeletionRecoveryLevel,
@@ -22,7 +23,7 @@ export const LATEST_API_VERSION = "7.3";
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
  */
-export interface KeyClientOptions extends coreClient.CommonClientOptions {
+export interface KeyClientOptions extends ExtendedCommonClientOptions {
   /**
    * The version of the KeyVault's service API to make calls against.
    */

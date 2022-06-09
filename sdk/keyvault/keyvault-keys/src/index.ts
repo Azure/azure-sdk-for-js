@@ -3,7 +3,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { CommonClientOptions } from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
 import { TokenCredential } from "@azure/core-auth";
 
@@ -174,7 +174,7 @@ export {
   PagedAsyncIterableIterator,
   KeyVaultKeyIdentifier,
   parseKeyVaultKeyIdentifier,
-  CommonClientOptions,
+  ExtendedCommonClientOptions,
   PollOperationState,
   PollerLike,
   PurgeDeletedKeyOptions,

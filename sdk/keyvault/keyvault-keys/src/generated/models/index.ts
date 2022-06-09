@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** The key create parameters. */
 export interface KeyCreateParameters {
@@ -922,7 +923,7 @@ export type GetDeletedKeysNextResponse = DeletedKeyListResult;
 
 /** Optional parameters. */
 export interface KeyVaultClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

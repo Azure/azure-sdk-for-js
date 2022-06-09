@@ -7,6 +7,7 @@ package-name: "@azure/keyvault-keys"
 azure-arm: false
 generate-metadata: false
 add-credentials: false
+core-http-compat-mode: true
 use-core-v2: true
 license-header: MICROSOFT_MIT_NO_VERSION
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e2ef44b87405b412403ccb005bfb3975411adf60/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.3/keys.json
