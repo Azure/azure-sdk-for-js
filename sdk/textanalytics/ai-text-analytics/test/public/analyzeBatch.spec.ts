@@ -915,7 +915,12 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await poller.pollUntilDone();
         });
 
-        it("cancel", async function () {
+        /**
+         * Cancellation causes subsequent GET requests to get 500 internal server
+         * error responses.
+         * TODO unskip after the service deploy a fix.
+         */
+        it.skip("cancel", async function () {
           const docs = [
             "Patient does not suffer from high blood pressure.",
             "Prescribed 100mg ibuprofen, taken twice daily.",
@@ -946,11 +951,15 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.fail(`Operation has finished processing before requested to be cancelled`);
           }
           await originalPoller.cancelOperation();
-          assert.isTrue(originalPoller.getOperationState().isCancelled);
           await assert.isRejected(originalPoller.pollUntilDone(), /Poller cancelled/);
+          assert.isTrue(originalPoller.getOperationState().isCancelled);
         });
 
-        // TODO unskip after the service fixes the 500 response for subsequent GET requests.
+        /**
+         * Cancellation causes subsequent GET requests to get 500 internal server
+         * error responses.
+         * TODO unskip after the service deploy a fix.
+         */
         it.skip("cancel after progress", async function () {
           const docs = [
             "Patient does not suffer from high blood pressure.",
