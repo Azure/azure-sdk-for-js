@@ -1122,12 +1122,6 @@ export interface SubProtectionPolicy {
   schedulePolicy?: SchedulePolicyUnion;
   /** Retention policy with the details on backup copy retention ranges. */
   retentionPolicy?: RetentionPolicyUnion;
-  /**
-   * Tiering policy to automatically move RPs to another tier.
-   * Key is Target Tier, defined in RecoveryPointTierType enum.
-   * Tiering policy specifies the criteria to move RP to the target tier.
-   */
-  tieringPolicy?: { [propertyName: string]: TieringPolicy };
 }
 
 /** Base class for backup schedule. */
@@ -1146,40 +1140,10 @@ export interface RetentionPolicy {
   retentionPolicyType: "LongTermRetentionPolicy" | "SimpleRetentionPolicy";
 }
 
-/**
- * Tiering Policy for a target tier.
- * If the policy is not specified for a given target tier, service retains the existing configured tiering policy for that tier
- */
-export interface TieringPolicy {
-  /**
-   * Tiering Mode to control automatic tiering of recovery points. Supported values are:
-   * 1. TierRecommended: Tier all recovery points recommended to be tiered
-   * 2. TierAfter: Tier all recovery points after a fixed period, as specified in duration + durationType below.
-   * 3. DoNotTier: Do not tier any recovery points
-   */
-  tieringMode?: TieringMode;
-  /**
-   * Number of days/weeks/months/years to retain backups in current tier before tiering.
-   * Used only if TieringMode is set to TierAfter
-   */
-  duration?: number;
-  /**
-   * Retention duration type: days/weeks/months/years
-   * Used only if TieringMode is set to TierAfter
-   */
-  durationType?: RetentionDurationType;
-}
-
 /** Additional information on Azure IaaS VM specific backup item. */
 export interface AzureIaaSVMProtectedItemExtendedInfo {
-  /** The oldest backup copy available for this backup item across all tiers. */
+  /** The oldest backup copy available for this backup item. */
   oldestRecoveryPoint?: Date;
-  /** The oldest backup copy available for this backup item in vault tier */
-  oldestRecoveryPointInVault?: Date;
-  /** The oldest backup copy available for this backup item in archive tier */
-  oldestRecoveryPointInArchive?: Date;
-  /** The latest backup copy available for this backup item in archive tier */
-  newestRecoveryPointInArchive?: Date;
   /** Number of backup copies available for this backup item. */
   recoveryPointCount?: number;
   /** Specifies if backup policy associated with the backup item is inconsistent. */
@@ -1309,14 +1273,8 @@ export interface AzureStorageJobTaskDetails {
 
 /** Additional information on Azure Workload for SQL specific backup item. */
 export interface AzureVmWorkloadProtectedItemExtendedInfo {
-  /** The oldest backup copy available for this backup item across all tiers. */
+  /** The oldest backup copy available for this backup item. */
   oldestRecoveryPoint?: Date;
-  /** The oldest backup copy available for this backup item in vault tier */
-  oldestRecoveryPointInVault?: Date;
-  /** The oldest backup copy available for this backup item in archive tier */
-  oldestRecoveryPointInArchive?: Date;
-  /** The latest backup copy available for this backup item in archive tier */
-  newestRecoveryPointInArchive?: Date;
   /** Number of backup copies available for this backup item. */
   recoveryPointCount?: number;
   /** Indicates consistency of policy object and policy applied to this backup item. */
@@ -2720,12 +2678,6 @@ export type AzureIaaSVMProtectionPolicy = ProtectionPolicy & {
   schedulePolicy?: SchedulePolicyUnion;
   /** Retention policy with the details on backup copy retention ranges. */
   retentionPolicy?: RetentionPolicyUnion;
-  /**
-   * Tiering policy to automatically move RPs to another tier
-   * Key is Target Tier, defined in RecoveryPointTierType enum.
-   * Tiering policy specifies the criteria to move RP to the target tier.
-   */
-  tieringPolicy?: { [propertyName: string]: TieringPolicy };
   /** Instant RP retention policy range in days */
   instantRpRetentionRangeInDays?: number;
   /** TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time". */
@@ -4289,48 +4241,6 @@ export enum KnownPolicyType {
  */
 export type PolicyType = string;
 
-/** Known values of {@link TieringMode} that the service accepts. */
-export enum KnownTieringMode {
-  Invalid = "Invalid",
-  TierRecommended = "TierRecommended",
-  TierAfter = "TierAfter",
-  DoNotTier = "DoNotTier"
-}
-
-/**
- * Defines values for TieringMode. \
- * {@link KnownTieringMode} can be used interchangeably with TieringMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **TierRecommended** \
- * **TierAfter** \
- * **DoNotTier**
- */
-export type TieringMode = string;
-
-/** Known values of {@link RetentionDurationType} that the service accepts. */
-export enum KnownRetentionDurationType {
-  Invalid = "Invalid",
-  Days = "Days",
-  Weeks = "Weeks",
-  Months = "Months",
-  Years = "Years"
-}
-
-/**
- * Defines values for RetentionDurationType. \
- * {@link KnownRetentionDurationType} can be used interchangeably with RetentionDurationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **Days** \
- * **Weeks** \
- * **Months** \
- * **Years**
- */
-export type RetentionDurationType = string;
-
 /** Known values of {@link HealthStatus} that the service accepts. */
 export enum KnownHealthStatus {
   Passed = "Passed",
@@ -4536,6 +4446,28 @@ export enum KnownRestorePointQueryType {
  * **Incremental**
  */
 export type RestorePointQueryType = string;
+
+/** Known values of {@link RetentionDurationType} that the service accepts. */
+export enum KnownRetentionDurationType {
+  Invalid = "Invalid",
+  Days = "Days",
+  Weeks = "Weeks",
+  Months = "Months",
+  Years = "Years"
+}
+
+/**
+ * Defines values for RetentionDurationType. \
+ * {@link KnownRetentionDurationType} can be used interchangeably with RetentionDurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Days** \
+ * **Weeks** \
+ * **Months** \
+ * **Years**
+ */
+export type RetentionDurationType = string;
 
 /** Known values of {@link JobStatus} that the service accepts. */
 export enum KnownJobStatus {

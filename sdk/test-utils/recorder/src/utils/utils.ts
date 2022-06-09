@@ -317,7 +317,7 @@ export function getTestMode(): TestMode {
   if (isPlaybackMode()) {
     return "playback";
   }
-  return env.TEST_MODE as "record" | "live";
+  return env.TEST_MODE?.toLowerCase() as "record" | "live";
 }
 
 /** Make a lazy value that can be deferred and only computed once. */
@@ -327,11 +327,11 @@ export const once = <T>(make: () => T): (() => T) => {
 };
 
 export function isRecordMode() {
-  return env.TEST_MODE === "record";
+  return env.TEST_MODE?.toLowerCase() === "record";
 }
 
 export function isLiveMode() {
-  return env.TEST_MODE === "live";
+  return env.TEST_MODE?.toLowerCase() === "live";
 }
 
 export function isPlaybackMode() {

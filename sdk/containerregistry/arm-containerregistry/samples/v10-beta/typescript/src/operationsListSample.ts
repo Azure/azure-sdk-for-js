@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all of the available Azure Container Registry REST API operations.
  *
  * @summary Lists all of the available Azure Container Registry REST API operations.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/OperationList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/OperationList.json
  */
 async function operationList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

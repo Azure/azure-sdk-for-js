@@ -46,13 +46,20 @@ export interface CommunicationIdentityOperations {
     options?: CommunicationIdentityRevokeAccessTokensOptionalParams
   ): Promise<void>;
   /**
-   * Exchange an AAD access token of a Teams user for a new Communication Identity access token with a
-   * matching expiration time.
-   * @param token AAD access token of a Teams User to acquire a new Communication Identity access token.
+   * Exchange an Azure Active Directory (Azure AD) access token of a Teams user for a new Communication
+   * Identity access token with a matching expiration time.
+   * @param token Azure AD access token of a Teams User to acquire a new Communication Identity access
+   *              token.
+   * @param appId Client ID of an Azure AD application to be verified against the appid claim in the
+   *              Azure AD access token.
+   * @param userId Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the
+   *               Azure AD access token.
    * @param options The options parameters.
    */
   exchangeTeamsUserAccessToken(
     token: string,
+    appId: string,
+    userId: string,
     options?: CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams
   ): Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse>;
   /**

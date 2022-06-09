@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * This sample program uses extracts a summary from an article
+ * This sample program extracts a summary of two sentences at max from an article
  *
- * @summary detects healthcare entities in a piece of text and creates an FHIR representation
+ * @summary extracts a summary from an article
  * @azsdk-weight 50
  */
 

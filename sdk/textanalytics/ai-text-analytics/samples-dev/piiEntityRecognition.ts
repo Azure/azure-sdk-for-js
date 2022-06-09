@@ -15,8 +15,8 @@
 import {
   TextAnalysisClient,
   AzureKeyCredential,
-  KnownPiiDomain,
-  KnownPiiCategory,
+  KnownPiiEntityDomain,
+  KnownPiiEntityCategory,
 } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
@@ -35,8 +35,11 @@ export async function main() {
   const documents = ["My phone number is 555-5555"];
 
   const [result] = await client.analyze("PiiEntityRecognition", documents, "en", {
-    domainFilter: KnownPiiDomain.Phi,
-    categoriesFilter: [KnownPiiCategory.PhoneNumber, KnownPiiCategory.USSocialSecurityNumber],
+    domainFilter: KnownPiiEntityDomain.Phi,
+    categoriesFilter: [
+      KnownPiiEntityCategory.PhoneNumber,
+      KnownPiiEntityCategory.USSocialSecurityNumber,
+    ],
   });
 
   if (!result.error) {

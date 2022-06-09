@@ -6,7 +6,7 @@
 ################
 
 # Git Hub integration and bot rules
-/.github/ @AlexGhiondea @jsquire
+/.github/ @jsquire
 
 ###########
 # SDK
@@ -28,7 +28,7 @@
 /sdk/core/core-client-rest/ @xirzec @joheredi @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @jeremymeng @maorleger @joheredi
+/sdk/core/core-tracing/ @xirzec @jeremymeng @joheredi
 
 # Service teams
 # PRLabel: %App Configuration
@@ -50,13 +50,13 @@
 /sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @lucasrsant @RoyHerrod @danielav7
 
 # PRLabel: %Communication - Network Traversal
-/sdk/communication/communication-network-traversal/ @AriZavala2
+/sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
 
 # PRLabel: %Communication - SMS
-/sdk/communication/communication-sms/ @DimaKolomiiets
+/sdk/communication/communication-sms/ @petrsvihlik
 
 # PRLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @guilhermeluizsp @rtrevino89 @danielav7
+/sdk/communication/communication-short-codes/ @guilhermeluizsp @danielav7
 
 # PRLabel: %Communication - Common
 /sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
@@ -83,7 +83,7 @@
 /sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @sadasant @witemple-msft @schaabs
+/sdk/identity/ @KarishmaGhiya @witemple-msft @schaabs
 
 # PRLabel: %Iot
 /sdk/iot/ @YoDaMa @xirzec

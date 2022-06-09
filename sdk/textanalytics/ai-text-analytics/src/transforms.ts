@@ -285,7 +285,7 @@ function appendReadableErrorMessage(currentMessage: string, innerMessage: string
  * parses incoming errors from the service/
  * @param error - the incoming error
  */
-export function transformError(errorResponse: unknown): any {
+function transformError(errorResponse: unknown): any {
   const strongErrorResponse = errorResponse as {
     response: {
       parsedBody?: ErrorResponse;
@@ -317,6 +317,14 @@ export function transformError(errorResponse: unknown): any {
     code,
     statusCode: strongErrorResponse.statusCode,
   });
+}
+
+export async function throwError<T>(p: Promise<T>): Promise<T> {
+  try {
+    return await p;
+  } catch (e: unknown) {
+    throw transformError(e);
+  }
 }
 
 function toHealthcareResult(
