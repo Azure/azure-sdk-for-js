@@ -51,7 +51,7 @@ import {
   DeviceManagementGetLogCollectionOperationParameters,
   DeviceManagementListLogCollectionOperationsParameters,
   DeviceManagementGetLogCollectionOperationDetailedStatusParameters,
-  DeviceManagementListDeviceHealthParameters
+  DeviceManagementListDeviceHealthParameters,
 } from "./parameters";
 import {
   DeviceUpdateListUpdates200Response,
@@ -157,7 +157,7 @@ import {
   DeviceManagementGetLogCollectionOperationDetailedStatus200Response,
   DeviceManagementGetLogCollectionOperationDetailedStatusdefaultResponse,
   DeviceManagementListDeviceHealth200Response,
-  DeviceManagementListDeviceHealthdefaultResponse
+  DeviceManagementListDeviceHealthdefaultResponse,
 } from "./responses";
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
@@ -166,19 +166,14 @@ export interface DeviceUpdateListUpdates {
   /** Get a list of all updates that have been imported to Device Update for IoT Hub. */
   get(
     options?: DeviceUpdateListUpdatesParameters
-  ): Promise<
-    DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse
-  >;
+  ): Promise<DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse>;
 }
 
 export interface DeviceUpdateImportUpdate {
   /** Import new update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
   post(
     options: DeviceUpdateImportUpdateParameters
-  ): Promise<
-    | DeviceUpdateImportUpdate202Response
-    | DeviceUpdateImportUpdatedefaultResponse
-  >;
+  ): Promise<DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse>;
 }
 
 export interface DeviceUpdateGetUpdate {
@@ -193,48 +188,35 @@ export interface DeviceUpdateGetUpdate {
   /** Delete a specific update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
   delete(
     options?: DeviceUpdateDeleteUpdateParameters
-  ): Promise<
-    | DeviceUpdateDeleteUpdate202Response
-    | DeviceUpdateDeleteUpdatedefaultResponse
-  >;
+  ): Promise<DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse>;
 }
 
 export interface DeviceUpdateListProviders {
   /** Get a list of all update providers that have been imported to Device Update for IoT Hub. */
   get(
     options?: DeviceUpdateListProvidersParameters
-  ): Promise<
-    | DeviceUpdateListProviders200Response
-    | DeviceUpdateListProvidersdefaultResponse
-  >;
+  ): Promise<DeviceUpdateListProviders200Response | DeviceUpdateListProvidersdefaultResponse>;
 }
 
 export interface DeviceUpdateListNames {
   /** Get a list of all update names that match the specified provider. */
   get(
     options?: DeviceUpdateListNamesParameters
-  ): Promise<
-    DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse
-  >;
+  ): Promise<DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse>;
 }
 
 export interface DeviceUpdateListVersions {
   /** Get a list of all update versions that match the specified provider and name. */
   get(
     options?: DeviceUpdateListVersionsParameters
-  ): Promise<
-    | DeviceUpdateListVersions200Response
-    | DeviceUpdateListVersionsdefaultResponse
-  >;
+  ): Promise<DeviceUpdateListVersions200Response | DeviceUpdateListVersionsdefaultResponse>;
 }
 
 export interface DeviceUpdateListFiles {
   /** Get a list of all update file identifiers for the specified version. */
   get(
     options?: DeviceUpdateListFilesParameters
-  ): Promise<
-    DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse
-  >;
+  ): Promise<DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse>;
 }
 
 export interface DeviceUpdateGetFile {
@@ -252,10 +234,7 @@ export interface DeviceUpdateListOperations {
   /** Get a list of all import update operations. Completed operations are kept for 7 days before auto-deleted. Delete operations are not returned by this API version. */
   get(
     options?: DeviceUpdateListOperationsParameters
-  ): Promise<
-    | DeviceUpdateListOperations200Response
-    | DeviceUpdateListOperationsdefaultResponse
-  >;
+  ): Promise<DeviceUpdateListOperations200Response | DeviceUpdateListOperationsdefaultResponse>;
 }
 
 export interface DeviceUpdateGetOperation {
@@ -274,8 +253,7 @@ export interface DeviceManagementListDeviceClasses {
   get(
     options?: DeviceManagementListDeviceClassesParameters
   ): Promise<
-    | DeviceManagementListDeviceClasses200Response
-    | DeviceManagementListDeviceClassesdefaultResponse
+    DeviceManagementListDeviceClasses200Response | DeviceManagementListDeviceClassesdefaultResponse
   >;
 }
 
@@ -284,22 +262,19 @@ export interface DeviceManagementGetDeviceClass {
   get(
     options?: DeviceManagementGetDeviceClassParameters
   ): Promise<
-    | DeviceManagementGetDeviceClass200Response
-    | DeviceManagementGetDeviceClassdefaultResponse
+    DeviceManagementGetDeviceClass200Response | DeviceManagementGetDeviceClassdefaultResponse
   >;
   /** Update device class details. */
   patch(
     options: DeviceManagementUpdateDeviceClassParameters
   ): Promise<
-    | DeviceManagementUpdateDeviceClass200Response
-    | DeviceManagementUpdateDeviceClassdefaultResponse
+    DeviceManagementUpdateDeviceClass200Response | DeviceManagementUpdateDeviceClassdefaultResponse
   >;
   /** Deletes a device class. */
   delete(
     options?: DeviceManagementDeleteDeviceClassParameters
   ): Promise<
-    | DeviceManagementDeleteDeviceClass204Response
-    | DeviceManagementDeleteDeviceClassdefaultResponse
+    DeviceManagementDeleteDeviceClass204Response | DeviceManagementDeleteDeviceClassdefaultResponse
   >;
 }
 
@@ -317,10 +292,7 @@ export interface DeviceManagementListDevices {
   /** Gets a list of devices connected to Device Update for IoT Hub. */
   get(
     options?: DeviceManagementListDevicesParameters
-  ): Promise<
-    | DeviceManagementListDevices200Response
-    | DeviceManagementListDevicesdefaultResponse
-  >;
+  ): Promise<DeviceManagementListDevices200Response | DeviceManagementListDevicesdefaultResponse>;
 }
 
 export interface DeviceManagementImportDevices {
@@ -328,8 +300,7 @@ export interface DeviceManagementImportDevices {
   post(
     options: DeviceManagementImportDevicesParameters
   ): Promise<
-    | DeviceManagementImportDevices202Response
-    | DeviceManagementImportDevicesdefaultResponse
+    DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse
   >;
 }
 
@@ -337,10 +308,7 @@ export interface DeviceManagementGetDevice {
   /** Gets the device properties and latest deployment status for a device connected to Device Update for IoT Hub. */
   get(
     options?: DeviceManagementGetDeviceParameters
-  ): Promise<
-    | DeviceManagementGetDevice200Response
-    | DeviceManagementGetDevicedefaultResponse
-  >;
+  ): Promise<DeviceManagementGetDevice200Response | DeviceManagementGetDevicedefaultResponse>;
 }
 
 export interface DeviceManagementGetDeviceModule {
@@ -348,8 +316,7 @@ export interface DeviceManagementGetDeviceModule {
   get(
     options?: DeviceManagementGetDeviceModuleParameters
   ): Promise<
-    | DeviceManagementGetDeviceModule200Response
-    | DeviceManagementGetDeviceModuledefaultResponse
+    DeviceManagementGetDeviceModule200Response | DeviceManagementGetDeviceModuledefaultResponse
   >;
 }
 
@@ -367,27 +334,18 @@ export interface DeviceManagementListGroups {
   /** Gets a list of all device groups.  The $default group will always be returned first. */
   get(
     options?: DeviceManagementListGroupsParameters
-  ): Promise<
-    | DeviceManagementListGroups200Response
-    | DeviceManagementListGroupsdefaultResponse
-  >;
+  ): Promise<DeviceManagementListGroups200Response | DeviceManagementListGroupsdefaultResponse>;
 }
 
 export interface DeviceManagementGetGroup {
   /** Gets the device group properties. */
   get(
     options?: DeviceManagementGetGroupParameters
-  ): Promise<
-    | DeviceManagementGetGroup200Response
-    | DeviceManagementGetGroupdefaultResponse
-  >;
+  ): Promise<DeviceManagementGetGroup200Response | DeviceManagementGetGroupdefaultResponse>;
   /** Deletes a device group. */
   delete(
     options?: DeviceManagementDeleteGroupParameters
-  ): Promise<
-    | DeviceManagementDeleteGroup204Response
-    | DeviceManagementDeleteGroupdefaultResponse
-  >;
+  ): Promise<DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupdefaultResponse>;
 }
 
 export interface DeviceManagementGetGroupUpdateCompliance {
@@ -425,8 +383,7 @@ export interface DeviceManagementGetDeployment {
   get(
     options?: DeviceManagementGetDeploymentParameters
   ): Promise<
-    | DeviceManagementGetDeployment200Response
-    | DeviceManagementGetDeploymentdefaultResponse
+    DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentdefaultResponse
   >;
   /** Creates or updates a deployment. */
   put(
@@ -439,8 +396,7 @@ export interface DeviceManagementGetDeployment {
   delete(
     options?: DeviceManagementDeleteDeploymentParameters
   ): Promise<
-    | DeviceManagementDeleteDeployment204Response
-    | DeviceManagementDeleteDeploymentdefaultResponse
+    DeviceManagementDeleteDeployment204Response | DeviceManagementDeleteDeploymentdefaultResponse
   >;
 }
 
@@ -533,8 +489,7 @@ export interface DeviceManagementStopDeployment {
   post(
     options?: DeviceManagementStopDeploymentParameters
   ): Promise<
-    | DeviceManagementStopDeployment200Response
-    | DeviceManagementStopDeploymentdefaultResponse
+    DeviceManagementStopDeployment200Response | DeviceManagementStopDeploymentdefaultResponse
   >;
 }
 
@@ -543,8 +498,7 @@ export interface DeviceManagementRetryDeployment {
   post(
     options?: DeviceManagementRetryDeploymentParameters
   ): Promise<
-    | DeviceManagementRetryDeployment200Response
-    | DeviceManagementRetryDeploymentdefaultResponse
+    DeviceManagementRetryDeployment200Response | DeviceManagementRetryDeploymentdefaultResponse
   >;
 }
 
@@ -584,8 +538,7 @@ export interface DeviceManagementListOperations {
   get(
     options?: DeviceManagementListOperationsParameters
   ): Promise<
-    | DeviceManagementListOperations200Response
-    | DeviceManagementListOperationsdefaultResponse
+    DeviceManagementListOperations200Response | DeviceManagementListOperationsdefaultResponse
   >;
 }
 
@@ -593,10 +546,7 @@ export interface DeviceManagementCollectLogs {
   /** Start the device diagnostics log collection operation on specified devices. */
   put(
     options: DeviceManagementCollectLogsParameters
-  ): Promise<
-    | DeviceManagementCollectLogs201Response
-    | DeviceManagementCollectLogsdefaultResponse
-  >;
+  ): Promise<DeviceManagementCollectLogs201Response | DeviceManagementCollectLogsdefaultResponse>;
   /** Get the device diagnostics log collection operation */
   get(
     options?: DeviceManagementGetLogCollectionOperationParameters
@@ -631,22 +581,15 @@ export interface DeviceManagementListDeviceHealth {
   get(
     options: DeviceManagementListDeviceHealthParameters
   ): Promise<
-    | DeviceManagementListDeviceHealth200Response
-    | DeviceManagementListDeviceHealthdefaultResponse
+    DeviceManagementListDeviceHealth200Response | DeviceManagementListDeviceHealthdefaultResponse
   >;
 }
 
 export interface Routes {
   /** Resource for '/deviceUpdate/\{instanceId\}/updates' has methods for the following verbs: get */
-  (
-    path: "/deviceUpdate/{instanceId}/updates",
-    instanceId: string
-  ): DeviceUpdateListUpdates;
+  (path: "/deviceUpdate/{instanceId}/updates", instanceId: string): DeviceUpdateListUpdates;
   /** Resource for '/deviceUpdate/\{instanceId\}/updates:import' has methods for the following verbs: post */
-  (
-    path: "/deviceUpdate/{instanceId}/updates:import",
-    instanceId: string
-  ): DeviceUpdateImportUpdate;
+  (path: "/deviceUpdate/{instanceId}/updates:import", instanceId: string): DeviceUpdateImportUpdate;
   /** Resource for '/deviceUpdate/\{instanceId\}/updates/providers/\{provider\}/names/\{name\}/versions/\{version\}' has methods for the following verbs: get, delete */
   (
     path: "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
@@ -912,8 +855,8 @@ export default function DeviceUpdate(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://api.adu.microsoft.com/.default"]
-    }
+      scopes: ["https://api.adu.microsoft.com/.default"],
+    },
   };
 
   return getClient(baseUrl, credentials, options) as DeviceUpdateRestClient;

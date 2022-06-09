@@ -20,7 +20,7 @@ describe("device and deployment test", () => {
     await recorder.stop();
   });
 
-  // const group = "dpokluda-test"
+  const group = "dpokluda-test";
 
   it("list devices", async function () {
     const response = await client
@@ -37,39 +37,39 @@ describe("device and deployment test", () => {
     const response = await client
       .path("/deviceUpdate/{instanceId}/management/devices/{deviceId}", "sdkinstance", "foo")
       .get();
-      assert.equal(response.status, "404");
+    assert.equal(response.status, "404");
   });
 
+  it("list groups", async function () {
+    const response = await client
+      .path("/deviceUpdate/{instanceId}/management/groups", "sdkinstance")
+      .get();
+    if (response.status !== "200") {
+      assert.fail(
+        `GET "/deviceUpdate/sdkInstance/management/groups" failed with ${response.status}`
+      );
+    }
+  });
 
-  // it("list groups", async function () {
-  //   const response = await client
-  //     .path("/deviceUpdate/{instanceId}/management/groups", "sdkinstance")
-  //     .get();
-  //   if (response.status !== "200") {
-  //     assert.fail(
-  //       `GET "/deviceUpdate/sdkInstance/management/groups" failed with ${response.status}`
-  //     );
-  //   }
-  // });
-
-  // it("get group", async function () {
-  //   const response = await client
-  //     .path("/deviceUpdate/{instanceId}/management/groups/{groupId}", "sdkinstance", group)
-  //     .get();
-  //   if (response.status !== "200") {
-  //     assert.fail(
-  //       `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum" failed with ${response.status}`
-  //     );
-  //   }
-  // });
+  it("get group", async function () {
+    const response = await client
+      .path("/deviceUpdate/{instanceId}/management/groups/{groupId}", "sdkinstance", group)
+      .get();
+    if (response.status !== "200") {
+      assert.fail(
+        `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum" failed with ${response.status}`
+      );
+    }
+  });
 
   it("get group not found", async function () {
-      const response = await client
+    const response = await client
       .path("/deviceUpdate/{instanceId}/management/groups/{groupId}", "sdkinstance", "foo")
       .get();
-      assert.equal(response.status, "404");
+    assert.equal(response.status, "404");
   });
 
+  // Temporary disabled because the service doesn't properly handle this method yet
   // it("list device classes", async function () {
   //   const response = await client
   //     .path("/deviceUpdate/{instanceId}/management/deviceClasses", "sdkinstance")
@@ -83,11 +83,16 @@ describe("device and deployment test", () => {
 
   it("get device class not found", async function () {
     const response = await client
-    .path("/deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}", "sdkinstance", "foo")
-    .get();
+      .path(
+        "/deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}",
+        "sdkinstance",
+        "foo"
+      )
+      .get();
     assert.equal(response.status, "404");
   });
 
+  // Temporary disabled because the service doesn't properly handle this method yet
   // it("list best updates for group", async function () {
   //   const response = await client
   //     .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates", "sdkinstance", group)
@@ -100,12 +105,17 @@ describe("device and deployment test", () => {
   // });
 
   it("list best updates for group not found", async function () {
-      const response = await client
-      .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates", "sdkinstance", "foo")
+    const response = await client
+      .path(
+        "/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates",
+        "sdkinstance",
+        "foo"
+      )
       .get();
-      assert.equal(response.status, "404");
+    assert.equal(response.status, "404");
   });
 
+  // Temporary disabled because the service doesn't properly handle this method yet
   // it("list deployments for group", async function () {
   //   const response = await client
   //     .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments", "sdkinstance", group)
@@ -118,9 +128,13 @@ describe("device and deployment test", () => {
   // });
 
   it("list deployments for group not found", async function () {
-      const response = await client
-      .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments", "sdkinstance", "foo")
+    const response = await client
+      .path(
+        "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments",
+        "sdkinstance",
+        "foo"
+      )
       .get();
-      assert.equal(response.status, "404");
+    assert.equal(response.status, "404");
   });
 }).timeout(600000);

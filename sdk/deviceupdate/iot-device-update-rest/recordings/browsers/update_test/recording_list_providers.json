@@ -16,8 +16,8 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "6fe660e8-b5f8-4618-921a-1a754084f9e9",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "5f039c41-66ab-4d0c-9e26-7d4deb122a1a",
         "x-ms-useragent": "core-rest-pipeline/1.8.1 OS/Win32"
       },
       "RequestBody": null,
@@ -25,8 +25,9 @@
       "ResponseHeaders": {
         "Content-Length": "22",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Jun 2022 21:57:05 GMT",
-        "traceparent": "00-d0d544ca52c71d22c4b0f685aef1b1d2-24b60ebd663e6f3a-00"
+        "Date": "Thu, 09 Jun 2022 22:52:04 GMT",
+        "mise-correlation-id": "4c845873-b506-4ac7-ba1c-db9b4cec2b1c",
+        "traceparent": "00-55404eb2f6b5d52ffd261cd675b5eccf-3dcd542d63d71e3f-00"
       },
       "ResponseBody": {
         "value": [

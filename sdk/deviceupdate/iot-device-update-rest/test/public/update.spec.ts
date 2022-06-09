@@ -37,7 +37,11 @@ describe("update test", () => {
 
   it("list names", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", "sdkinstance", provider)
+      .path(
+        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names",
+        "sdkinstance",
+        provider
+      )
       .get();
     if (response.status !== "200") {
       assert.fail(
@@ -55,7 +59,12 @@ describe("update test", () => {
 
   it("list versions", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions", "sdkinstance", provider, name)
+      .path(
+        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
+        "sdkinstance",
+        provider,
+        name
+      )
       .get();
     if (response.status !== "200") {
       assert.fail(
@@ -65,15 +74,26 @@ describe("update test", () => {
   });
 
   it("get version not found", async function () {
-      const response = await client
-      .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions", "sdkinstance", "foo", "bar")
+    const response = await client
+      .path(
+        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
+        "sdkinstance",
+        "foo",
+        "bar"
+      )
       .get();
-      assert.equal(response.status, "404");
-    });
+    assert.equal(response.status, "404");
+  });
 
   it("get update", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}", "sdkinstance", provider, name, version)
+      .path(
+        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
+        "sdkinstance",
+        provider,
+        name,
+        version
+      )
       .get();
     if (response.status !== "200") {
       assert.fail(
@@ -83,16 +103,27 @@ describe("update test", () => {
   });
 
   it("get update not found", async function () {
-      const response = await client
-      .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}", "sdkinstance", "foo", "bar", "1.2")
+    const response = await client
+      .path(
+        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
+        "sdkinstance",
+        "foo",
+        "bar",
+        "1.2"
+      )
       .get();
-      assert.equal(response.status, "404");
-    });
-
+    assert.equal(response.status, "404");
+  });
 
   it("list files", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files", "sdkinstance", provider, name, version)
+      .path(
+        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files",
+        "sdkinstance",
+        provider,
+        name,
+        version
+      )
       .get();
     if (response.status !== "200") {
       assert.fail(
@@ -102,9 +133,15 @@ describe("update test", () => {
   });
 
   it("list files not found", async function () {
-      const response = await client
-      .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files", "sdkinstance", "foo", "bar", "1.2")
+    const response = await client
+      .path(
+        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files",
+        "sdkinstance",
+        "foo",
+        "bar",
+        "1.2"
+      )
       .get();
-      assert.equal(response.status, "404");
-    });
+    assert.equal(response.status, "404");
+  });
 }).timeout(600000);
