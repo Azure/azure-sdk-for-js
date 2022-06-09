@@ -7,8 +7,8 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AzureLogger } from '@azure/logger';
-import { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
+import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
@@ -62,8 +62,6 @@ export interface BeginDeleteKeyOptions extends KeyPollerOptions {
 // @public
 export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {
 }
-
-export { CommonClientOptions }
 
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
@@ -173,6 +171,8 @@ export interface EncryptResult {
     result: Uint8Array;
 }
 
+export { ExtendedCommonClientOptions }
+
 // @public
 export interface GetCryptographyClientOptions {
     keyVersion?: string;
@@ -259,7 +259,7 @@ export class KeyClient {
 }
 
 // @public
-export interface KeyClientOptions extends coreClient.CommonClientOptions {
+export interface KeyClientOptions extends ExtendedCommonClientOptions {
     serviceVersion?: string;
 }
 

@@ -7,8 +7,8 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AzureLogger } from '@azure/logger';
-import { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
+import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
@@ -53,7 +53,7 @@ export type CancelCertificateOperationOptions = coreClient.OperationOptions;
 
 // @public
 export class CertificateClient {
-    constructor(vaultUrl: string, credential: TokenCredential, ClientOptions?: CertificateClientOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, clientOptions?: CertificateClientOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
     beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<CreateCertificateState, KeyVaultCertificateWithPolicy>>;
     beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<DeleteCertificateState, DeletedCertificate>>;
@@ -85,7 +85,7 @@ export class CertificateClient {
 }
 
 // @public
-export interface CertificateClientOptions extends coreClient.CommonClientOptions {
+export interface CertificateClientOptions extends ExtendedCommonClientOptions {
     serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
 }
 
@@ -202,8 +202,6 @@ export type CertificateTags = {
     [propertyName: string]: string;
 };
 
-export { CommonClientOptions }
-
 // @public
 export interface CoreSubjectAlternativeNames {
     dnsNames?: string[];
@@ -261,6 +259,8 @@ export interface ErrorModel {
     readonly innerError?: ErrorModel;
     readonly message?: string;
 }
+
+export { ExtendedCommonClientOptions }
 
 // @public
 export type GetCertificateOperationOptions = CertificatePollerOptions;

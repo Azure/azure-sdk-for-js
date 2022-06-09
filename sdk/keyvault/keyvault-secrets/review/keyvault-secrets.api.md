@@ -7,8 +7,8 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AzureLogger } from '@azure/logger';
-import { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
+import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
@@ -27,8 +27,6 @@ export interface BeginDeleteSecretOptions extends SecretPollerOptions {
 export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {
 }
 
-export { CommonClientOptions }
-
 // @public
 export interface DeletedSecret {
     deletedOn?: Date;
@@ -45,6 +43,8 @@ export interface DeletedSecret {
 
 // @public
 export type DeletionRecoveryLevel = string;
+
+export { ExtendedCommonClientOptions }
 
 // @public
 export interface GetDeletedSecretOptions extends coreClient.OperationOptions {
@@ -134,7 +134,7 @@ export class SecretClient {
 }
 
 // @public
-export interface SecretClientOptions extends coreClient.CommonClientOptions {
+export interface SecretClientOptions extends ExtendedCommonClientOptions {
     serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
 }
 
