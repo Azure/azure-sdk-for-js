@@ -121,21 +121,21 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Data POST-ed to the nameAvailability action */
-export interface NameAvailabilityParameters {
-  /** The resource type. Should be always "Microsoft.Communication/CommunicationServices". */
-  type: string;
-  /** The CommunicationService name to validate. e.g."my-CommunicationService-name-here" */
-  name: string;
+/** The check availability request body. */
+export interface CheckNameAvailabilityRequest {
+  /** The name of the resource for which availability needs to be checked. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
 }
 
-/** Result of the request to check name availability. It contains a flag and possible reason of failure. */
-export interface NameAvailability {
-  /** Indicates whether the name is available or not. */
+/** The check availability result. */
+export interface CheckNameAvailabilityResponse {
+  /** Indicates if the resource name is available. */
   nameAvailable?: boolean;
-  /** The reason of the availability. Required if name is not available. */
-  reason?: string;
-  /** The message of the operation. */
+  /** The reason why the given name is not available. */
+  reason?: CheckNameAvailabilityReason;
+  /** Detailed reason why the given name is available. */
   message?: string;
 }
 
@@ -164,22 +164,6 @@ export interface CommunicationServiceResourceList {
   nextLink?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -197,12 +181,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
-/** An ARM resource with its own location (not a global or an inherited location). */
-export interface LocationResource {
-  /** The Azure location where the CommunicationService is running. */
-  location?: string;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** An ARM resource with that can accept tags */
@@ -229,54 +228,282 @@ export interface RegenerateKeyParameters {
   keyType?: KeyType;
 }
 
-/** A class representing a CommunicationService resource. */
-export type CommunicationServiceResource = Resource &
-  LocationResource &
-  TaggedResource & {
-    /**
-     * Metadata pertaining to creation and last modification of the resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly systemData?: SystemData;
-    /**
-     * Provisioning state of the resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly provisioningState?: ProvisioningState;
-    /**
-     * FQDN of the CommunicationService instance.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly hostName?: string;
-    /** The location where the communication service stores its data at rest. */
-    dataLocation?: string;
-    /**
-     * Resource ID of an Azure Notification Hub linked to this resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly notificationHubId?: string;
-    /**
-     * Version of the CommunicationService resource. Probably you need the same or higher version of client SDKs.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly version?: string;
-    /**
-     * The immutable resource Id of the communication service.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly immutableResourceId?: string;
-  };
+/** List of VerificationStatusRecord */
+export interface DomainPropertiesVerificationStates {
+  /** A class that represents a VerificationStatus record. */
+  domain?: VerificationStatusRecord;
+  /** A class that represents a VerificationStatus record. */
+  spf?: VerificationStatusRecord;
+  /** A class that represents a VerificationStatus record. */
+  dkim?: VerificationStatusRecord;
+  /** A class that represents a VerificationStatus record. */
+  dkim2?: VerificationStatusRecord;
+  /** A class that represents a VerificationStatus record. */
+  dmarc?: VerificationStatusRecord;
+}
 
-/** Defines headers for CommunicationService_createOrUpdate operation. */
-export interface CommunicationServiceCreateOrUpdateHeaders {
+/** A class that represents a VerificationStatus record. */
+export interface VerificationStatusRecord {
+  /**
+   * Status of the verification operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: VerificationStatus;
+  /**
+   * Error code. This property will only be present if the status is UnableToVerify.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCode?: string;
+}
+
+/** List of DnsRecord */
+export interface DomainPropertiesVerificationRecords {
+  /** A class that represents a VerificationStatus record. */
+  domain?: DnsRecord;
+  /** A class that represents a VerificationStatus record. */
+  spf?: DnsRecord;
+  /** A class that represents a VerificationStatus record. */
+  dkim?: DnsRecord;
+  /** A class that represents a VerificationStatus record. */
+  dkim2?: DnsRecord;
+  /** A class that represents a VerificationStatus record. */
+  dmarc?: DnsRecord;
+}
+
+/** A class that represents a VerificationStatus record. */
+export interface DnsRecord {
+  /**
+   * Type of the DNS record. Example: TXT
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Name of the DNS record.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Value of the DNS record.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+  /**
+   * Represents an expiry time in seconds to represent how long this entry can be cached by the resolver, default = 3600sec.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ttl?: number;
+}
+
+/** Object that includes an array of Domains resource and a possible link for next set. */
+export interface DomainResourceList {
+  /** List of Domains resource */
+  value?: DomainResource[];
+  /**
+   * The URL the client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Input parameter for verification APIs */
+export interface VerificationParameter {
+  /** Type of verification. */
+  verificationType: VerificationType;
+}
+
+/** Object that includes an array of EmailServices and a possible link for next set. */
+export interface EmailServiceResourceList {
+  /** List of EmailService */
+  value?: EmailServiceResource[];
+  /**
+   * The URL the client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Data POST-ed to the nameAvailability action */
+export type NameAvailabilityParameters = CheckNameAvailabilityRequest;
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+};
+
+/** A class representing update parameters for CommunicationService resource. */
+export type CommunicationServiceResourceUpdate = TaggedResource & {
+  /** List of email Domain resource Ids. */
+  linkedDomains?: string[];
+};
+
+/** A class that describes the PATCH request parameters of a Domains resource. */
+export type UpdateDomainRequestParameters = TaggedResource & {
+  /** Collection of valid sender usernames. This is a key-value pair where key=username and value=display name. */
+  validSenderUsernames?: { [propertyName: string]: string };
+  /** Describes whether user engagement tracking is enabled or disabled. */
+  userEngagementTracking?: UserEngagementTracking;
+};
+
+/** A class representing update parameters for EmailService resource. */
+export type EmailServiceResourceUpdate = TaggedResource;
+
+/** A class representing a CommunicationService resource. */
+export type CommunicationServiceResource = TrackedResource & {
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: CommunicationServicesProvisioningState;
+  /**
+   * FQDN of the CommunicationService instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /** The location where the communication service stores its data at rest. */
+  dataLocation?: string;
+  /**
+   * Resource ID of an Azure Notification Hub linked to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly notificationHubId?: string;
+  /**
+   * Version of the CommunicationService resource. Probably you need the same or higher version of client SDKs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * The immutable resource Id of the communication service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly immutableResourceId?: string;
+  /** List of email Domain resource Ids. */
+  linkedDomains?: string[];
+};
+
+/** A class representing a Domains resource. */
+export type DomainResource = TrackedResource & {
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: DomainsProvisioningState;
+  /**
+   * The location where the Domains resource data is stored at rest.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataLocation?: string;
+  /**
+   * P2 sender domain that is displayed to the email recipients [RFC 5322].
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fromSenderDomain?: string;
+  /**
+   * P1 sender domain that is present on the email envelope [RFC 5321].
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mailFromSenderDomain?: string;
+  /** Describes how a Domains resource is being managed. */
+  domainManagement?: DomainManagement;
+  /**
+   * List of VerificationStatusRecord
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly verificationStates?: DomainPropertiesVerificationStates;
+  /**
+   * List of DnsRecord
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly verificationRecords?: DomainPropertiesVerificationRecords;
+  /** Collection of valid sender usernames. This is a key-value pair where key=username and value=display name. */
+  validSenderUsernames?: { [propertyName: string]: string };
+  /** Describes whether user engagement tracking is enabled or disabled. */
+  userEngagementTracking?: UserEngagementTracking;
+};
+
+/** A class representing an EmailService resource. */
+export type EmailServiceResource = TrackedResource & {
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: EmailServicesProvisioningState;
+  /** The location where the email service stores its data at rest. */
+  dataLocation?: string;
+};
+
+/** Defines headers for CommunicationServices_update operation. */
+export interface CommunicationServicesUpdateHeaders {
   /** URL to query for status of the operation. */
   azureAsyncOperation?: string;
 }
 
-/** Defines headers for CommunicationService_delete operation. */
-export interface CommunicationServiceDeleteHeaders {
+/** Defines headers for CommunicationServices_createOrUpdate operation. */
+export interface CommunicationServicesCreateOrUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for CommunicationServices_delete operation. */
+export interface CommunicationServicesDeleteHeaders {
   /** URL to query for status of the operation. */
   location?: string;
+}
+
+/** Defines headers for CommunicationServices_regenerateKey operation. */
+export interface CommunicationServicesRegenerateKeyHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Domains_createOrUpdate operation. */
+export interface DomainsCreateOrUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Domains_delete operation. */
+export interface DomainsDeleteHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
+/** Defines headers for Domains_update operation. */
+export interface DomainsUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Domains_initiateVerification operation. */
+export interface DomainsInitiateVerificationHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
+/** Defines headers for Domains_cancelVerification operation. */
+export interface DomainsCancelVerificationHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
+/** Defines headers for EmailServices_createOrUpdate operation. */
+export interface EmailServicesCreateOrUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for EmailServices_delete operation. */
+export interface EmailServicesDeleteHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
+/** Defines headers for EmailServices_update operation. */
+export interface EmailServicesUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -311,8 +538,24 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
+/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
+export enum KnownCheckNameAvailabilityReason {
+  Invalid = "Invalid",
+  AlreadyExists = "AlreadyExists"
+}
+
+/**
+ * Defines values for CheckNameAvailabilityReason. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **AlreadyExists**
+ */
+export type CheckNameAvailabilityReason = string;
+
+/** Known values of {@link CommunicationServicesProvisioningState} that the service accepts. */
+export enum KnownCommunicationServicesProvisioningState {
   Unknown = "Unknown",
   Succeeded = "Succeeded",
   Failed = "Failed",
@@ -325,8 +568,8 @@ export enum KnownProvisioningState {
 }
 
 /**
- * Defines values for ProvisioningState. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ * Defines values for CommunicationServicesProvisioningState. \
+ * {@link KnownCommunicationServicesProvisioningState} can be used interchangeably with CommunicationServicesProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Unknown** \
@@ -339,7 +582,7 @@ export enum KnownProvisioningState {
  * **Deleting** \
  * **Moving**
  */
-export type ProvisioningState = string;
+export type CommunicationServicesProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -360,6 +603,146 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link DomainsProvisioningState} that the service accepts. */
+export enum KnownDomainsProvisioningState {
+  Unknown = "Unknown",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  Running = "Running",
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Moving = "Moving"
+}
+
+/**
+ * Defines values for DomainsProvisioningState. \
+ * {@link KnownDomainsProvisioningState} can be used interchangeably with DomainsProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Running** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Moving**
+ */
+export type DomainsProvisioningState = string;
+
+/** Known values of {@link DomainManagement} that the service accepts. */
+export enum KnownDomainManagement {
+  AzureManaged = "AzureManaged",
+  CustomerManaged = "CustomerManaged",
+  CustomerManagedInExchangeOnline = "CustomerManagedInExchangeOnline"
+}
+
+/**
+ * Defines values for DomainManagement. \
+ * {@link KnownDomainManagement} can be used interchangeably with DomainManagement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureManaged** \
+ * **CustomerManaged** \
+ * **CustomerManagedInExchangeOnline**
+ */
+export type DomainManagement = string;
+
+/** Known values of {@link VerificationStatus} that the service accepts. */
+export enum KnownVerificationStatus {
+  NotStarted = "NotStarted",
+  VerificationRequested = "VerificationRequested",
+  VerificationInProgress = "VerificationInProgress",
+  VerificationFailed = "VerificationFailed",
+  Verified = "Verified",
+  CancellationRequested = "CancellationRequested"
+}
+
+/**
+ * Defines values for VerificationStatus. \
+ * {@link KnownVerificationStatus} can be used interchangeably with VerificationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted** \
+ * **VerificationRequested** \
+ * **VerificationInProgress** \
+ * **VerificationFailed** \
+ * **Verified** \
+ * **CancellationRequested**
+ */
+export type VerificationStatus = string;
+
+/** Known values of {@link UserEngagementTracking} that the service accepts. */
+export enum KnownUserEngagementTracking {
+  Disabled = "Disabled",
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for UserEngagementTracking. \
+ * {@link KnownUserEngagementTracking} can be used interchangeably with UserEngagementTracking,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type UserEngagementTracking = string;
+
+/** Known values of {@link VerificationType} that the service accepts. */
+export enum KnownVerificationType {
+  Domain = "Domain",
+  SPF = "SPF",
+  Dkim = "DKIM",
+  Dkim2 = "DKIM2",
+  Dmarc = "DMARC"
+}
+
+/**
+ * Defines values for VerificationType. \
+ * {@link KnownVerificationType} can be used interchangeably with VerificationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Domain** \
+ * **SPF** \
+ * **DKIM** \
+ * **DKIM2** \
+ * **DMARC**
+ */
+export type VerificationType = string;
+
+/** Known values of {@link EmailServicesProvisioningState} that the service accepts. */
+export enum KnownEmailServicesProvisioningState {
+  Unknown = "Unknown",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  Running = "Running",
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Moving = "Moving"
+}
+
+/**
+ * Defines values for EmailServicesProvisioningState. \
+ * {@link KnownEmailServicesProvisioningState} can be used interchangeably with EmailServicesProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Running** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Moving**
+ */
+export type EmailServicesProvisioningState = string;
 /** Defines values for KeyType. */
 export type KeyType = "Primary" | "Secondary";
 
@@ -378,61 +761,58 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface CommunicationServiceCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameters supplied to the operation. */
-  nameAvailabilityParameters?: NameAvailabilityParameters;
-}
+export interface CommunicationServicesCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type CommunicationServiceCheckNameAvailabilityResponse = NameAvailability;
+export type CommunicationServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
-export interface CommunicationServiceLinkNotificationHubOptionalParams
+export interface CommunicationServicesLinkNotificationHubOptionalParams
   extends coreClient.OperationOptions {
   /** Parameters supplied to the operation. */
   linkNotificationHubParameters?: LinkNotificationHubParameters;
 }
 
 /** Contains response data for the linkNotificationHub operation. */
-export type CommunicationServiceLinkNotificationHubResponse = LinkedNotificationHub;
+export type CommunicationServicesLinkNotificationHubResponse = LinkedNotificationHub;
 
 /** Optional parameters. */
-export interface CommunicationServiceListBySubscriptionOptionalParams
+export interface CommunicationServicesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type CommunicationServiceListBySubscriptionResponse = CommunicationServiceResourceList;
+export type CommunicationServicesListBySubscriptionResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
-export interface CommunicationServiceListByResourceGroupOptionalParams
+export interface CommunicationServicesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type CommunicationServiceListByResourceGroupResponse = CommunicationServiceResourceList;
+export type CommunicationServicesListByResourceGroupResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
-export interface CommunicationServiceUpdateOptionalParams
+export interface CommunicationServicesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameters for the update operation */
-  parameters?: CommunicationServiceResource;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
-export type CommunicationServiceUpdateResponse = CommunicationServiceResource;
+export type CommunicationServicesUpdateResponse = CommunicationServiceResource;
 
 /** Optional parameters. */
-export interface CommunicationServiceGetOptionalParams
+export interface CommunicationServicesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type CommunicationServiceGetResponse = CommunicationServiceResource;
+export type CommunicationServicesGetResponse = CommunicationServiceResource;
 
 /** Optional parameters. */
-export interface CommunicationServiceCreateOrUpdateOptionalParams
+export interface CommunicationServicesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameters for the create or update operation */
-  parameters?: CommunicationServiceResource;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -440,10 +820,10 @@ export interface CommunicationServiceCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CommunicationServiceCreateOrUpdateResponse = CommunicationServiceResource;
+export type CommunicationServicesCreateOrUpdateResponse = CommunicationServiceResource;
 
 /** Optional parameters. */
-export interface CommunicationServiceDeleteOptionalParams
+export interface CommunicationServicesDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -452,32 +832,192 @@ export interface CommunicationServiceDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface CommunicationServiceListKeysOptionalParams
+export interface CommunicationServicesListKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
-export type CommunicationServiceListKeysResponse = CommunicationServiceKeys;
+export type CommunicationServicesListKeysResponse = CommunicationServiceKeys;
 
 /** Optional parameters. */
-export interface CommunicationServiceRegenerateKeyOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommunicationServicesRegenerateKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the regenerateKey operation. */
-export type CommunicationServiceRegenerateKeyResponse = CommunicationServiceKeys;
+export type CommunicationServicesRegenerateKeyResponse = CommunicationServiceKeys;
 
 /** Optional parameters. */
-export interface CommunicationServiceListBySubscriptionNextOptionalParams
+export interface CommunicationServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type CommunicationServiceListBySubscriptionNextResponse = CommunicationServiceResourceList;
+export type CommunicationServicesListBySubscriptionNextResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
-export interface CommunicationServiceListByResourceGroupNextOptionalParams
+export interface CommunicationServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type CommunicationServiceListByResourceGroupNextResponse = CommunicationServiceResourceList;
+export type CommunicationServicesListByResourceGroupNextResponse = CommunicationServiceResourceList;
+
+/** Optional parameters. */
+export interface DomainsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DomainsGetResponse = DomainResource;
+
+/** Optional parameters. */
+export interface DomainsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DomainsCreateOrUpdateResponse = DomainResource;
+
+/** Optional parameters. */
+export interface DomainsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DomainsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type DomainsUpdateResponse = DomainResource;
+
+/** Optional parameters. */
+export interface DomainsListByEmailServiceResourceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEmailServiceResource operation. */
+export type DomainsListByEmailServiceResourceResponse = DomainResourceList;
+
+/** Optional parameters. */
+export interface DomainsInitiateVerificationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the initiateVerification operation. */
+export type DomainsInitiateVerificationResponse = DomainsInitiateVerificationHeaders;
+
+/** Optional parameters. */
+export interface DomainsCancelVerificationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the cancelVerification operation. */
+export type DomainsCancelVerificationResponse = DomainsCancelVerificationHeaders;
+
+/** Optional parameters. */
+export interface DomainsListByEmailServiceResourceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEmailServiceResourceNext operation. */
+export type DomainsListByEmailServiceResourceNextResponse = DomainResourceList;
+
+/** Optional parameters. */
+export interface EmailServicesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EmailServicesGetResponse = EmailServiceResource;
+
+/** Optional parameters. */
+export interface EmailServicesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EmailServicesCreateOrUpdateResponse = EmailServiceResource;
+
+/** Optional parameters. */
+export interface EmailServicesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface EmailServicesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type EmailServicesUpdateResponse = EmailServiceResource;
+
+/** Optional parameters. */
+export interface EmailServicesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type EmailServicesListBySubscriptionResponse = EmailServiceResourceList;
+
+/** Optional parameters. */
+export interface EmailServicesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type EmailServicesListByResourceGroupResponse = EmailServiceResourceList;
+
+/** Optional parameters. */
+export interface EmailServicesListVerifiedExchangeOnlineDomainsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listVerifiedExchangeOnlineDomains operation. */
+export type EmailServicesListVerifiedExchangeOnlineDomainsResponse = {
+  /** The parsed response body. */
+  body: string[];
+};
+
+/** Optional parameters. */
+export interface EmailServicesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type EmailServicesListBySubscriptionNextResponse = EmailServiceResourceList;
+
+/** Optional parameters. */
+export interface EmailServicesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type EmailServicesListByResourceGroupNextResponse = EmailServiceResourceList;
 
 /** Optional parameters. */
 export interface CommunicationServiceManagementClientOptionalParams

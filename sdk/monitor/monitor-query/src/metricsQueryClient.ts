@@ -3,27 +3,29 @@
 import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CommonClientOptions } from "@azure/core-client";
+import { tracingClient } from "./tracing";
 
 import {
   ListMetricDefinitionsOptions,
   ListMetricNamespacesOptions,
-  MetricsQueryOptions,
-  MetricsQueryResult,
   MetricDefinition,
   MetricNamespace,
+  MetricsQueryOptions,
+  MetricsQueryResult,
 } from "./models/publicMetricsModels";
 
 import {
-  KnownApiVersion201801 as MetricsApiVersion,
   MonitorManagementClient as GeneratedMetricsClient,
+  KnownApiVersion201801 as MetricsApiVersion,
 } from "./generated/metrics/src";
 import {
-  KnownApiVersion201801 as MetricDefinitionsApiVersion,
   MonitorManagementClient as GeneratedMetricsDefinitionsClient,
+  KnownApiVersion201801 as MetricDefinitionsApiVersion,
 } from "./generated/metricsdefinitions/src";
 import {
-  KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
   MonitorManagementClient as GeneratedMetricsNamespacesClient,
+  KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
+  MetricNamespacesListOptionalParams,
 } from "./generated/metricsnamespaces/src";
 import {
   convertRequestForMetrics,
@@ -59,7 +61,7 @@ export class MetricsQueryClient {
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
     let scope;
     if (options?.endpoint) {
-      scope = `${options?.endpoint}./default`;
+      scope = `${options?.endpoint}/.default`;
     }
     const credentialOptions = {
       credentialScopes: scope,
@@ -106,14 +108,20 @@ export class MetricsQueryClient {
   async queryResource(
     resourceUri: string,
     metricNames: string[],
-    options?: MetricsQueryOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options: MetricsQueryOptions = {} // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ): Promise<MetricsQueryResult> {
-    const response = await this._metricsClient.metrics.list(
-      resourceUri,
-      convertRequestForMetrics(metricNames, options)
-    );
+    return tracingClient.withSpan(
+      "MetricsQueryClient.queryResource",
+      options,
+      async (updatedOptions) => {
+        const response = await this._metricsClient.metrics.list(
+          resourceUri,
+          convertRequestForMetrics(metricNames, updatedOptions)
+        );
 
-    return convertResponseForMetrics(response);
+        return convertResponseForMetrics(response);
+      }
+    );
   }
 
   /**
@@ -123,9 +131,14 @@ export class MetricsQueryClient {
     resourceUri: string,
     options: ListMetricDefinitionsOptions = {}
   ): AsyncIterableIterator<Array<MetricDefinition>> {
-    const segmentResponse = await this._definitionsClient.metricDefinitions.list(
-      resourceUri,
-      convertRequestOptionsForMetricsDefinitions(options)
+    const segmentResponse = await tracingClient.withSpan(
+      "MetricsQueryClient.listSegmentOfMetricDefinitions",
+      options,
+      async (updatedOptions) =>
+        this._definitionsClient.metricDefinitions.list(
+          resourceUri,
+          convertRequestOptionsForMetricsDefinitions(updatedOptions)
+        )
     );
     yield convertResponseForMetricsDefinitions(segmentResponse.value);
   }
@@ -211,9 +224,11 @@ export class MetricsQueryClient {
     resourceUri: string,
     options: ListMetricNamespacesOptions = {}
   ): AsyncIterableIterator<Array<MetricNamespace>> {
-    const segmentResponse = await this._namespacesClient.metricNamespaces.list(
-      resourceUri,
-      options
+    const segmentResponse = await tracingClient.withSpan(
+      "MetricsQueryClient.listSegmentOfMetricNamespaces",
+      options,
+      async (updatedOptions: MetricNamespacesListOptionalParams | undefined) =>
+        this._namespacesClient.metricNamespaces.list(resourceUri, updatedOptions)
     );
     yield convertResponseForMetricNamespaces(segmentResponse.value);
   }

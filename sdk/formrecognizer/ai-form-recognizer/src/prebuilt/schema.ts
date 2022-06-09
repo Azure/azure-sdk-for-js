@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  DocumentAddressField,
   DocumentArrayField,
   DocumentCountryRegionField,
   DocumentCurrencyField,
@@ -109,7 +110,9 @@ export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<
  * beneath a property named `properties` as in ordinary "object" fields).
  * @hidden
  */
-export interface WellKnownObjectFieldSchema<Type extends "currency" = "currency"> {
+export interface WellKnownObjectFieldSchema<
+  Type extends "currency" | "address" = "currency" | "address"
+> {
   /** Field type: an immediate object such as "currency". */
   readonly type: Type;
 }
@@ -176,6 +179,7 @@ export type ReifyFieldSchema<Schema extends Readonly<FieldSchema>> =
     : Schema extends WellKnownObjectFieldSchema<infer Type>
     ? {
         currency: DocumentCurrencyField;
+        address: DocumentAddressField;
       }[Type]
     : Schema extends ObjectFieldSchema<infer Properties>
     ? DocumentObjectField<{

@@ -1,61 +1,67 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
+import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import {
   Recorder,
-  RecorderEnvironmentSetup,
+  RecorderStartOptions,
+  assertEnvironmentVariable,
   env,
-  isLiveMode,
   isPlaybackMode,
-  record,
 } from "@azure-tools/test-recorder";
-import { ShortCodesClient, ShortCodesClientOptions } from "../../../src";
+import { Context } from "mocha";
+import { ShortCodesClient } from "../../../src";
+import { isNode } from "@azure/test-utils";
 import { parseConnectionString } from "@azure/communication-common";
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 if (isNode) {
   dotenv.config();
 }
-
-const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 export interface RecordedClient<T> {
   client: T;
   recorder: Recorder;
 }
 
-const replaceableVariables: { [k: string]: string } = {
+const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^/'",}]*)/, "$1endpoint"),
-    (recording: string): string =>
-      recording.replace(
-        /[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi,
-        "00000000-0000-0000-0000-000000000000"
-      ),
-  ],
-  queryParametersToSkip: [],
+export const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback,
+  sanitizerOptions: {
+    connectionStringSanitizers: [
+      {
+        actualConnString: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING,
+        fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
+      },
+    ],
+    generalSanitizers: [
+      {
+        regex: true,
+        target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
+        value: "00000000-0000-0000-0000-000000000000",
+      },
+    ],
+  },
 };
 
-export function createRecordedClient(context: Context): RecordedClient<ShortCodesClient> {
-  const recorder = record(context, environmentSetup);
+export async function createRecordedClient(
+  context: Context
+): Promise<RecordedClient<ShortCodesClient>> {
+  const recorder = new Recorder(context.currentTest);
+  await recorder.start(recorderOptions);
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new ShortCodesClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-      httpClient,
-    } as ShortCodesClientOptions),
+    client: new ShortCodesClient(
+      assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
+      recorder.configureClientOptions({})
+    ),
     recorder,
   };
 }
@@ -70,22 +76,23 @@ export function createMockToken(): {
   };
 }
 
-export function createRecordedClientWithToken(
+export async function createRecordedClientWithToken(
   context: Context
-): RecordedClient<ShortCodesClient> | undefined {
-  const recorder = record(context, environmentSetup);
+): Promise<RecordedClient<ShortCodesClient> | undefined> {
+  const recorder = new Recorder(context.currentTest);
+  await recorder.start(recorderOptions);
+
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
   ).endpoint;
+
   if (isPlaybackMode()) {
     credential = createMockToken();
 
     // casting is a workaround to enable min-max testing
     return {
-      client: new ShortCodesClient(endpoint, credential, {
-        httpClient,
-      } as ShortCodesClientOptions),
+      client: new ShortCodesClient(endpoint, credential, recorder.configureClientOptions({})),
       recorder,
     };
   }
@@ -94,17 +101,15 @@ export function createRecordedClientWithToken(
     credential = new DefaultAzureCredential();
   } else {
     credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
+      assertEnvironmentVariable("AZURE_TENANT_ID"),
+      assertEnvironmentVariable("AZURE_CLIENT_ID"),
+      assertEnvironmentVariable("AZURE_CLIENT_SECRET")
     );
   }
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new ShortCodesClient(endpoint, credential, {
-      httpClient,
-    } as ShortCodesClientOptions),
+    client: new ShortCodesClient(endpoint, credential, recorder.configureClientOptions({})),
     recorder,
   };
 }

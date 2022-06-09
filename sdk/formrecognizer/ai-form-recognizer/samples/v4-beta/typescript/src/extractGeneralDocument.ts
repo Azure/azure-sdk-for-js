@@ -26,7 +26,7 @@ async function main() {
 
   // General Document extraction produces all data from the Layout operation as well as the additional key-value pairs
   // (associations between elements, such as labeled elements), and document entities.
-  const { keyValuePairs, entities } = await poller.pollUntilDone();
+  const { keyValuePairs } = await poller.pollUntilDone();
 
   if (keyValuePairs.length <= 0) {
     console.log("No key-value pairs were extracted from the document.");
@@ -35,19 +35,6 @@ async function main() {
     for (const { key, value, confidence } of keyValuePairs) {
       console.log("- Key  :", `"${key.content}"`);
       console.log("  Value:", `"${(value && value.content) || "<undefined>"}" (${confidence})`);
-    }
-  }
-
-  if (entities.length <= 0) {
-    console.log("No entities were extracted from the document.");
-  } else {
-    console.log("Entities:");
-    for (const entity of entities) {
-      console.log(
-        `- "${entity.content}" ${entity.category} - ${entity.subCategory || "<none>"} (${
-          entity.confidence
-        })`
-      );
     }
   }
 }

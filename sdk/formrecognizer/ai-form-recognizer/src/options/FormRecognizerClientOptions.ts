@@ -7,7 +7,8 @@ import { GeneratedClientOptionalParams } from "../generated";
 /**
  * Valid values of the Form Recognizer service REST API version.
  */
-export type FormRecognizerApiVersion = "2022-01-30-preview";
+export type FormRecognizerApiVersion =
+  typeof FormRecognizerApiVersion[keyof typeof FormRecognizerApiVersion];
 
 /**
  * Supported and common values of FormRecognizerApiVersion.
@@ -20,7 +21,7 @@ export const FormRecognizerApiVersion = {
    * If using a beta package version, this will be identical to the latest preview version. Otherwise, it will be
    * identical to the latest stable version.
    */
-  Latest: "2022-01-30-preview",
+  Latest: "2022-06-30-preview",
   // TODO (GA): Add a `Stable` version selector that picks the latest GA version, even in beta packages, and an exact
   // version entry for the GA version.
 } as const;
@@ -65,7 +66,7 @@ export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
    * not supported by this client. To use API version 2.1, please use version 3 of the Azure Form Recognizer SDK for
    * JavaScript (\@azure/ai-form-recognizer\@^3.2.0).
    *
-   * Default: FormRecognizerApiVersion.Latest ("2021-09-30-preview")
+   * Default: FormRecognizerApiVersion.Latest ("2022-06-30-preview")
    */
   apiVersion?: FormRecognizerApiVersion;
 }

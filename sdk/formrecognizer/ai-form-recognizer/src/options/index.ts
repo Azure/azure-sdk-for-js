@@ -10,11 +10,11 @@ import {
 import { CopyModelOptions } from "./CopyModelOptions";
 import { DeleteModelOptions } from "./DeleteModelOptions";
 import {
+  DocumentAnalysisClientOptions,
+  DocumentModelAdministrationClientOptions,
   FormRecognizerApiVersion,
   FormRecognizerCommonClientOptions,
   StringIndexType,
-  DocumentAnalysisClientOptions,
-  DocumentModelAdministrationClientOptions,
 } from "./FormRecognizerClientOptions";
 import { GetCopyAuthorizationOptions } from "./GetCopyAuthorizationOptions";
 import { GetInfoOptions } from "./GetInfoOptions";
