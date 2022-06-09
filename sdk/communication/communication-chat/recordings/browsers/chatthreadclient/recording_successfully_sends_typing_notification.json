@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AsGfC1p7_xma4fP7m2-tcS2pt9gpte6sdXThKfUNLYFQ1%40thread.v2/typing?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3A5t6BZZhMhTG9yN54rMiVcs-kny91gVXsRP9Arl693UI1%40thread.v2/typing?api-version=2021-09-07",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,25 +19,23 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/101.0.4950.0 Safari/537.36",
-        "x-ms-client-request-id": "d21c5816-847c-45ff-a17a-6fc4416d4aa5",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "0b803f58-9db6-4665-a080-d1dc25c44d17",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.2 OS/MacIntel"
       },
       "RequestBody": {},
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
         "api-supported-versions": "2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-        "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Mon, 02 May 2022 22:48:58 GMT",
-        "MS-CV": "Z8fM1rcSHUmzhFBgNDg4sQ.0",
+        "Date": "Thu, 26 May 2022 07:59:52 GMT",
+        "MS-CV": "l4ouldD2WEmSxVjAKa2b2Q.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20220502T224858Z-1kdy40ce594zxd7ayzepxvrcq0000000052000000002q92z",
+        "X-Azure-Ref": "0eDOPYgAAAABJgB/XNTEjQ5c3JSYvfzR0UFJHMDFFREdFMDYwOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "150ms"
+        "X-Processing-Time": "129ms"
       },
       "ResponseBody": null
     }

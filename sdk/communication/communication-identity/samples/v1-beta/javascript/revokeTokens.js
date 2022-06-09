@@ -2,24 +2,22 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Issue a new user token.
+ * @summary Revoke user tokens.
  */
 
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 async function main() {
-  console.log("\n== Issue Token Sample ==\n");
+  console.log("\n== Revoke Token sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
-  const scopes = ["chat"];
 
   // Create user
   console.log("Creating User");
@@ -27,17 +25,32 @@ async function main() {
   const user = await client.createUser();
 
   console.log(`Created user with id: ${user.communicationUserId}`);
-  console.log("Issuing Token");
 
-  // Issue token and get token from response
-  const { token } = await client.getToken(user, scopes);
+  console.log("Issuing Tokens");
 
-  console.log(`Issued token: ${token}`);
+  // Issue tokens
+  const { token: token1 } = await client.getToken(user, ["chat"]);
+  const { token: token2 } = await client.getToken(user, ["voip"]);
+  const { token: token3 } = await client.getToken(user, ["voip"]);
+
+  console.log("Issued tokens:");
+  console.log(token1);
+  console.log(token2);
+  console.log(token3);
+
+  // Revoke tokens
+  console.log("Revoking Tokens");
+
+  await client.revokeTokens(user);
+
+  console.log("Tokens Revoked");
 }
 
 main().catch((error) => {
-  console.error("Encountered an error while issuing token: ");
+  console.error("Encountered an error while issuing/refreshing token: ");
   console.error("Request: \n", error.request);
   console.error("\nResponse: \n", error.response);
   console.error(error);
 });
+
+module.exports = { main };

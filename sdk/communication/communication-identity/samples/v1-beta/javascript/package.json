@@ -1,14 +1,10 @@
 {
-  "name": "@azure-samples/communication-identity-ts",
+  "name": "@azure-samples/communication-identity-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Communication Services - Identity client library samples for TypeScript",
+  "description": "Azure Communication Services - Identity client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=12.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -29,10 +25,6 @@
   "dependencies": {
     "@azure/communication-identity": "next",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
-  },
-  "devDependencies": {
-    "typescript": "~4.4.0",
-    "rimraf": "latest"
+    "@azure/msal-node": "^1.3.0"
   }
 }
