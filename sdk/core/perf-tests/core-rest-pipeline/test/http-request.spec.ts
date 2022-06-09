@@ -6,15 +6,15 @@ import * as https from "https";
 import { BaseHttpTest } from "./baseHttpTest";
 
 export class HttpRequestTest extends BaseHttpTest {
-  static httpAgent = new http.Agent({ keepAlive: true});
-  static httpsAgent = new https.Agent({ keepAlive: true});
+  static httpAgent = new http.Agent({ keepAlive: true });
+  static httpsAgent = new https.Agent({ keepAlive: true });
 
-  agent: http.Agent;
-  requestOptions: http.RequestOptions;
-  isInsecure: boolean;
+  agent!: http.Agent;
+  requestOptions!: http.RequestOptions;
+  isInsecure!: boolean;
 
-  constructor() {
-    super();
+  async globalSetup(): Promise<void> {
+    await super.globalSetup();
     this.isInsecure = new URL(this.url).protocol !== "https:";
     this.agent = this.isInsecure ? HttpRequestTest.httpAgent : HttpRequestTest.httpsAgent;
     this.requestOptions = {
@@ -35,7 +35,7 @@ export class HttpRequestTest extends BaseHttpTest {
   streamToText(stream: NodeJS.ReadableStream): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       const buffer: Buffer[] = [];
-  
+
       stream.on("data", (chunk) => {
         if (Buffer.isBuffer(chunk)) {
           buffer.push(chunk);

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 
-import fetch from "node-fetch";
+import node_fetch from "node-fetch";
 import https from "https";
 import { BaseHttpTest } from "./baseHttpTest";
 
@@ -14,7 +14,7 @@ export class NodeFetchTest extends BaseHttpTest {
   }
 
   async run(): Promise<void> {
-    const response = await fetch(this.url, { agent: this.agent, });
+    const response = await node_fetch(this.url, { agent: this.agent, });
     console.log(response.body);
   }
 }

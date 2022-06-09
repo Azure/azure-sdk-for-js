@@ -9,7 +9,9 @@
 - `bearerTokenAuthenticationPolicy` test for the `challengeCallbacks`, for simple `WWW-Authenticate` challenges.
   - `npm run perf-test:node -- BearerTokenAuthenticationPolicyChallengeTest --warmup 1 --iterations 1 --parallel 5`
 - Comparing various HTTP clients...
-  - `npm run perf-test:node -- FetchTest --warmup 1 --iterations 1 --parallel 5` [ 1572.2 ops/sec ]
-  - `npm run perf-test:node -- CoreRestPipelineTest --warmup 1 --iterations 1 --parallel 5` [ 4163.02 ops/sec]
-  - `npm run perf-test:node -- CoreHTTPTest --warmup 1 --iterations 1 --parallel 5` [ 993.29 ops/sec]
+  - `npm run perf-test:node -- FetchTest --warmup 1 --iterations 1 --parallel 5` [ 6,722.64 ops/sec ]
+  - `npm run perf-test:node -- UndiciRequestTest --warmup 1 --iterations 1 --parallel 5` [ 19,682.55 ops/sec ]
+  - `npm run perf-test:node -- CoreRestPipelineTest --warmup 1 --iterations 1 --parallel 5` [ 17,519.69 ops/sec]
+  - `npm run perf-test:node -- CoreHTTPTest --warmup 1 --iterations 1 --parallel 5` [ 4,498.91 ops/sec]
+  - `npm run perf-test:node -- HttpRequestTest --warmup 1 --iterations 1 --parallel 5` [ 19,486.69 ops/sec]
     [ -- number ops/sec -- ] are from a codespaces instance

@@ -12,10 +12,14 @@ import { BaseHttpTest } from "./baseHttpTest";
 
 export class CoreRestPipelineTest extends BaseHttpTest {
   client: HttpClient;
-  request: PipelineRequest;
+  request!: PipelineRequest;
   constructor() {
     super();
     this.client = createDefaultHttpClient();
+  }
+
+  async globalSetup() {
+    await super.globalSetup();
     this.request = createPipelineRequest({
       url: this.url,
       allowInsecureConnection: true

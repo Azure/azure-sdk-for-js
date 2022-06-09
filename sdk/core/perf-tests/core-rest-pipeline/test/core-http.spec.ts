@@ -6,10 +6,14 @@ import { BaseHttpTest } from "./baseHttpTest";
 
 export class CoreHTTPTest extends BaseHttpTest {
   client: ServiceClient;
-  webResource: WebResource;
+  webResource!: WebResource;
   constructor() {
     super();
     this.client = new ServiceClient();
+  }
+
+  async globalSetup(): Promise<void> {
+    await super.globalSetup();
     this.webResource = new WebResource(
       this.url,
       undefined,

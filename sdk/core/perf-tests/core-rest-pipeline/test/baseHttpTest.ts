@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import express from "express";
-import { port, TEST_SERVER_URL } from "./utils/serverUrl";
 import { PerfOptionDictionary, PerfTest } from "@azure/test-utils-perf";
 import { Server } from "http";
+import { AddressInfo } from "net";
 
 let app: express.Application;
 let server: Server;
@@ -14,7 +14,7 @@ export interface BaseHttpTestOptions {
 }
 
 export abstract class BaseHttpTest extends PerfTest<BaseHttpTestOptions> {
-  url: string;
+  url!: string;
 
   options: PerfOptionDictionary<BaseHttpTestOptions> = {
     url: {
@@ -24,33 +24,29 @@ export abstract class BaseHttpTest extends PerfTest<BaseHttpTestOptions> {
     },
   };
 
-  constructor() {
-    super();
+  async globalSetup() {
     if (this.parsedOptions.url.value) {
       this.url = this.parsedOptions.url.value;
     }
     else {
-      // Use test server if URL is not specified on the command-line
-      this.url = TEST_SERVER_URL;
-    }
-  }
-
-  async globalSetup() {
-    if (this.url == TEST_SERVER_URL) {
+      //   Use test server if URL is not specified on the command-line
+      //   this.url = TEST_SERVER_URL;
       app = express();
 
       app.get("/", (_, res) => {
         res.send("Hello world!");
       });
 
-      server = app.listen(port, () => {
-        console.log(`server started at ${TEST_SERVER_URL}`);
+      server = app.listen(0, () => {
+        console.log('Listening on port:', (server.address() as AddressInfo).port);
       });
+
+      this.url = `http://localhost:${(server.address() as AddressInfo).port}`;
     }
   }
 
   async globalCleanup() {
-    if (this.url == TEST_SERVER_URL) {
+    if (!this.parsedOptions.url.value) { // URL is not specified on the command-line, means we created the test server
       server.close(function () { console.log('Closing :)'); });
     }
   }
