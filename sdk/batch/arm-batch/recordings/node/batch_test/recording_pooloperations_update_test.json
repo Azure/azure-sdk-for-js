@@ -1,0 +1,92 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/pools/mypoolxxx?api-version=2022-06-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "85",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-batch/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b309fe1d-f79a-426c-bc1a-994c61c882b2"
+      },
+      "RequestBody": {
+        "properties": {
+          "scaleSettings": {
+            "autoScale": {
+              "formula": "$TargetDedicatedNodes=34"
+            }
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Jun 2022 07:04:53 GMT",
+        "ETag": "W/\u00220x8DA49E65A4C81F5\u0022",
+        "Expires": "-1",
+        "Last-Modified": "Thu, 09 Jun 2022 07:04:53 GMT",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "45a11638-3f1a-434f-82db-e19efdb7eca7",
+        "x-ms-ratelimit-remaining-subscription-writes": "1192",
+        "x-ms-request-id": "c6a41522-0572-40b0-95a2-f9c50f3e0e19",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220609T070453Z:45a11638-3f1a-434f-82db-e19efdb7eca7"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/pools/mypoolxxx",
+        "name": "mypoolxxx",
+        "type": "Microsoft.Batch/batchAccounts/pools",
+        "etag": "W/\u00220x8DA49E65A4C81F5\u0022",
+        "properties": {
+          "lastModified": "2022-06-09T07:04:53.2615669Z",
+          "creationTime": "2022-06-09T07:04:48.6925084Z",
+          "provisioningState": "Succeeded",
+          "provisioningStateTransitionTime": "2022-06-09T07:04:48.6925084Z",
+          "allocationState": "Resizing",
+          "allocationStateTransitionTime": "2022-06-09T07:04:53.2615669Z",
+          "vmSize": "STANDARD_D4",
+          "interNodeCommunication": "Disabled",
+          "taskSlotsPerNode": 1,
+          "taskSchedulingPolicy": {
+            "nodeFillType": "Spread"
+          },
+          "deploymentConfiguration": {
+            "cloudServiceConfiguration": {
+              "osFamily": "5",
+              "osVersion": "*"
+            }
+          },
+          "scaleSettings": {
+            "autoScale": {
+              "formula": "$TargetDedicatedNodes=34",
+              "evaluationInterval": "PT15M"
+            }
+          },
+          "resizeOperationStatus": {
+            "targetDedicatedNodes": 34,
+            "nodeDeallocationOption": "Requeue",
+            "resizeTimeout": "PT15M",
+            "startTime": "2022-06-09T07:04:53.2615669Z"
+          },
+          "currentDedicatedNodes": 0,
+          "currentLowPriorityNodes": 0,
+          "autoScaleRun": {
+            "evaluationTime": "2022-06-09T07:04:53.2615669Z",
+            "results": "$TargetDedicatedNodes=34;$TargetLowPriorityNodes=0;$NodeDeallocationOption=requeue"
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
