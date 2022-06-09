@@ -232,8 +232,6 @@ describe("RuleManager tests", () => {
       assert.equal(result.value.length, 1, "Expecting one rule in third page");
       assert.equal(result.value[0].name, sqlRuleName);
       result = await iterator.next();
-      assert.equal(result.value.length, 0, "Not expecting any result in last page");
-      result = await iterator.next();
       assert.equal(result.value, undefined, "Not expecting any more pages");
     });
 
@@ -273,8 +271,6 @@ describe("RuleManager tests", () => {
       const iterator = ruleManager.listRules().byPage();
       let result = await iterator.next();
       assert.equal(result.value.length, 3, "Expecting one rule in first page");
-      result = await iterator.next();
-      assert.equal(result.value.length, 0, "Not expecting any result in last page");
       result = await iterator.next();
       assert.equal(result.value, undefined, "Not expecting any more pages");
     });
