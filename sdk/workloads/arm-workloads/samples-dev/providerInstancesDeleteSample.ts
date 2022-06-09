@@ -12,9 +12,9 @@ import { WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Deletes a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Deletes a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Deletes a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Deletes a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/ProviderInstances_Delete.json
  */
 async function deletesASapMonitorProvider() {

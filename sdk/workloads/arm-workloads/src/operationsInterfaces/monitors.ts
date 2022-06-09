@@ -18,7 +18,7 @@ import {
   MonitorsCreateResponse,
   MonitorsDeleteOptionalParams,
   MonitorsDeleteResponse,
-  Tags,
+  UpdateMonitorRequest,
   MonitorsUpdateOptionalParams,
   MonitorsUpdateResponse
 } from "../models";
@@ -58,7 +58,7 @@ export interface Monitors {
    * Creates a SAP monitor for the specified subscription, resource group, and resource name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
-   * @param monitorParameter Request body representing a SAP Monitor
+   * @param monitorParameter Request body representing a SAP monitor
    * @param options The options parameters.
    */
   beginCreate(
@@ -76,7 +76,7 @@ export interface Monitors {
    * Creates a SAP monitor for the specified subscription, resource group, and resource name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
-   * @param monitorParameter Request body representing a SAP Monitor
+   * @param monitorParameter Request body representing a SAP monitor
    * @param options The options parameters.
    */
   beginCreateAndWait(
@@ -86,7 +86,7 @@ export interface Monitors {
     options?: MonitorsCreateOptionalParams
   ): Promise<MonitorsCreateResponse>;
   /**
-   * Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
+   * Deletes a SAP monitor with the specified subscription, resource group, and SAP monitor name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
    * @param options The options parameters.
@@ -102,7 +102,7 @@ export interface Monitors {
     >
   >;
   /**
-   * Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
+   * Deletes a SAP monitor with the specified subscription, resource group, and SAP monitor name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
    * @param options The options parameters.
@@ -113,17 +113,17 @@ export interface Monitors {
     options?: MonitorsDeleteOptionalParams
   ): Promise<MonitorsDeleteResponse>;
   /**
-   * Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor
-   * name.
+   * Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP
+   * monitor name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
-   * @param tagsParameter Request body that only contains the new Tags field
+   * @param body The Update SAP workload monitor request body.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     monitorName: string,
-    tagsParameter: Tags,
+    body: UpdateMonitorRequest,
     options?: MonitorsUpdateOptionalParams
   ): Promise<MonitorsUpdateResponse>;
 }

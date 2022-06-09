@@ -12,9 +12,9 @@ import { WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
+ * This sample demonstrates how to Deletes a SAP monitor with the specified subscription, resource group, and SAP monitor name.
  *
- * @summary Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
+ * @summary Deletes a SAP monitor with the specified subscription, resource group, and SAP monitor name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/monitors_Delete.json
  */
 async function deletesASapMonitor() {

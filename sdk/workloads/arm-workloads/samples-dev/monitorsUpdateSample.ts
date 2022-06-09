@@ -8,26 +8,26 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Tags, WorkloadsClient } from "@azure/arm-workloads";
+import { UpdateMonitorRequest, WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
+ * This sample demonstrates how to Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP monitor name.
  *
- * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
+ * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP monitor name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/monitors_PatchTags_Delete.json
  */
 async function deleteTagsFieldOfASapMonitor() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const monitorName = "mySapMonitor";
-  const tagsParameter: Tags = { tags: {} };
+  const body: UpdateMonitorRequest = { identity: { type: "None" }, tags: {} };
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.monitors.update(
     resourceGroupName,
     monitorName,
-    tagsParameter
+    body
   );
   console.log(result);
 }
@@ -35,22 +35,25 @@ async function deleteTagsFieldOfASapMonitor() {
 deleteTagsFieldOfASapMonitor().catch(console.error);
 
 /**
- * This sample demonstrates how to Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
+ * This sample demonstrates how to Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP monitor name.
  *
- * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
+ * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP monitor name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/monitors_PatchTags.json
  */
 async function updateTagsFieldOfASapMonitor() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const monitorName = "mySapMonitor";
-  const tagsParameter: Tags = { tags: { testkey: "testvalue" } };
+  const body: UpdateMonitorRequest = {
+    identity: { type: "None" },
+    tags: { testkey: "testvalue" }
+  };
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.monitors.update(
     resourceGroupName,
     monitorName,
-    tagsParameter
+    body
   );
   console.log(result);
 }

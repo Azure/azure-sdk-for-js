@@ -28,7 +28,7 @@ import {
   MonitorsCreateResponse,
   MonitorsDeleteOptionalParams,
   MonitorsDeleteResponse,
-  Tags,
+  UpdateMonitorRequest,
   MonitorsUpdateOptionalParams,
   MonitorsUpdateResponse,
   MonitorsListNextResponse,
@@ -191,7 +191,7 @@ export class MonitorsImpl implements Monitors {
    * Creates a SAP monitor for the specified subscription, resource group, and resource name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
-   * @param monitorParameter Request body representing a SAP Monitor
+   * @param monitorParameter Request body representing a SAP monitor
    * @param options The options parameters.
    */
   async beginCreate(
@@ -262,7 +262,7 @@ export class MonitorsImpl implements Monitors {
    * Creates a SAP monitor for the specified subscription, resource group, and resource name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
-   * @param monitorParameter Request body representing a SAP Monitor
+   * @param monitorParameter Request body representing a SAP monitor
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -281,7 +281,7 @@ export class MonitorsImpl implements Monitors {
   }
 
   /**
-   * Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
+   * Deletes a SAP monitor with the specified subscription, resource group, and SAP monitor name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
    * @param options The options parameters.
@@ -349,7 +349,7 @@ export class MonitorsImpl implements Monitors {
   }
 
   /**
-   * Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
+   * Deletes a SAP monitor with the specified subscription, resource group, and SAP monitor name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
    * @param options The options parameters.
@@ -368,21 +368,21 @@ export class MonitorsImpl implements Monitors {
   }
 
   /**
-   * Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor
-   * name.
+   * Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP
+   * monitor name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
-   * @param tagsParameter Request body that only contains the new Tags field
+   * @param body The Update SAP workload monitor request body.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     monitorName: string,
-    tagsParameter: Tags,
+    body: UpdateMonitorRequest,
     options?: MonitorsUpdateOptionalParams
   ): Promise<MonitorsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, tagsParameter, options },
+      { resourceGroupName, monitorName, body, options },
       updateOperationSpec
     );
   }
@@ -558,7 +558,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.tagsParameter,
+  requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -584,8 +584,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -604,9 +604,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

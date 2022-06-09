@@ -12,9 +12,9 @@ import { ProviderInstance, WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/Db2ProviderInstances_Create.json
  */
 async function createADb2Provider() {
@@ -48,9 +48,9 @@ async function createADb2Provider() {
 createADb2Provider().catch(console.error);
 
 /**
- * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/MsSqlServerProviderInstance_Create.json
  */
 async function createAMSSqlServerProvider() {
@@ -83,9 +83,9 @@ async function createAMSSqlServerProvider() {
 createAMSSqlServerProvider().catch(console.error);
 
 /**
- * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/PrometheusOSProviderInstances_Create.json
  */
 async function createAOSProvider() {
@@ -113,9 +113,9 @@ async function createAOSProvider() {
 createAOSProvider().catch(console.error);
 
 /**
- * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Create.json
  */
 async function createAPrometheusHaClusterProvider() {
@@ -146,9 +146,9 @@ async function createAPrometheusHaClusterProvider() {
 createAPrometheusHaClusterProvider().catch(console.error);
 
 /**
- * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/ProviderInstances_Create.json
  */
 async function createASapMonitorHanaProvider() {
@@ -185,9 +185,9 @@ async function createASapMonitorHanaProvider() {
 createASapMonitorHanaProvider().catch(console.error);
 
 /**
- * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Creates a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/NetWeaverProviderInstances_Create.json
  */
 async function createASapMonitorNetWeaverProvider() {

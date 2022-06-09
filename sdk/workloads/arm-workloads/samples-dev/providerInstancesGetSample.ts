@@ -12,9 +12,9 @@ import { WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/Db2ProviderInstances_Get.json
  */
 async function getPropertiesOfADb2Provider() {
@@ -35,9 +35,9 @@ async function getPropertiesOfADb2Provider() {
 getPropertiesOfADb2Provider().catch(console.error);
 
 /**
- * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/MsSqlServerProviderInstance_Get.json
  */
 async function getPropertiesOfAMSSqlServerProvider() {
@@ -58,9 +58,9 @@ async function getPropertiesOfAMSSqlServerProvider() {
 getPropertiesOfAMSSqlServerProvider().catch(console.error);
 
 /**
- * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/PrometheusOSProviderInstances_Get.json
  */
 async function getPropertiesOfAOSProvider() {
@@ -81,9 +81,9 @@ async function getPropertiesOfAOSProvider() {
 getPropertiesOfAOSProvider().catch(console.error);
 
 /**
- * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Get.json
  */
 async function getPropertiesOfAPrometheusHaClusterProvider() {
@@ -104,9 +104,9 @@ async function getPropertiesOfAPrometheusHaClusterProvider() {
 getPropertiesOfAPrometheusHaClusterProvider().catch(console.error);
 
 /**
- * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/ProviderInstances_Get.json
  */
 async function getPropertiesOfASapMonitorHanaProvider() {
@@ -127,9 +127,9 @@ async function getPropertiesOfASapMonitorHanaProvider() {
 getPropertiesOfASapMonitorHanaProvider().catch(console.error);
 
 /**
- * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
- * @summary Gets properties of a provider instance for the specified subscription, resource group, Monitor name, and resource name.
+ * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/NetWeaverProviderInstances_Get.json
  */
 async function getPropertiesOfASapMonitorNetWeaverProvider() {

@@ -35,8 +35,8 @@ export interface ProviderInstances {
     options?: ProviderInstancesListOptionalParams
   ): PagedAsyncIterableIterator<ProviderInstance>;
   /**
-   * Gets properties of a provider instance for the specified subscription, resource group, Monitor name,
-   * and resource name.
+   * Gets properties of a provider instance for the specified subscription, resource group, SAP monitor
+   * name, and resource name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -49,7 +49,7 @@ export interface ProviderInstances {
     options?: ProviderInstancesGetOptionalParams
   ): Promise<ProviderInstancesGetResponse>;
   /**
-   * Creates a provider instance for the specified subscription, resource group, Monitor name, and
+   * Creates a provider instance for the specified subscription, resource group, SAP monitor name, and
    * resource name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
@@ -70,7 +70,7 @@ export interface ProviderInstances {
     >
   >;
   /**
-   * Creates a provider instance for the specified subscription, resource group, Monitor name, and
+   * Creates a provider instance for the specified subscription, resource group, SAP monitor name, and
    * resource name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
@@ -86,7 +86,7 @@ export interface ProviderInstances {
     options?: ProviderInstancesCreateOptionalParams
   ): Promise<ProviderInstancesCreateResponse>;
   /**
-   * Deletes a provider instance for the specified subscription, resource group, Monitor name, and
+   * Deletes a provider instance for the specified subscription, resource group, SAP monitor name, and
    * resource name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
@@ -105,7 +105,7 @@ export interface ProviderInstances {
     >
   >;
   /**
-   * Deletes a provider instance for the specified subscription, resource group, Monitor name, and
+   * Deletes a provider instance for the specified subscription, resource group, SAP monitor name, and
    * resource name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the SAP monitor resource.
