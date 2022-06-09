@@ -6,6 +6,13 @@ import { FetchTest } from "./fetch.spec";
 import { HttpRequestTest } from "./http-request.spec";
 import { UndiciRequestTest } from "./undici-request.spec";
 
-const perfProgram = createPerfProgram(BearerTokenAuthenticationPolicyChallengeTest, CoreHTTPTest, CoreRestPipelineTest, FetchTest, HttpRequestTest, UndiciRequestTest);
+const perfProgram = createPerfProgram(
+  BearerTokenAuthenticationPolicyChallengeTest,
+  CoreHTTPTest,
+  CoreRestPipelineTest,
+  FetchTest,
+  HttpRequestTest,
+  UndiciRequestTest
+);
 
 perfProgram.run();

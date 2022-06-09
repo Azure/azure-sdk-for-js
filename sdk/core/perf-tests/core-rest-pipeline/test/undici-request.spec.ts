@@ -5,7 +5,6 @@ import { BaseHttpTest } from "./baseHttpTest";
 import { request } from "undici";
 
 export class UndiciRequestTest extends BaseHttpTest {
-
   constructor() {
     super();
   }

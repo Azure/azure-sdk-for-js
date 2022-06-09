@@ -18,13 +18,15 @@ export class HttpRequestTest extends BaseHttpTest {
     this.isInsecure = new URL(this.url).protocol !== "https:";
     this.agent = this.isInsecure ? HttpRequestTest.httpAgent : HttpRequestTest.httpsAgent;
     this.requestOptions = {
-      agent: this.agent
+      agent: this.agent,
     };
   }
 
   async run(): Promise<void> {
     const res = await new Promise<http.IncomingMessage>((resolve, reject) => {
-      const req = this.isInsecure ? http.request(this.url, this.requestOptions, resolve) : https.request(this.url, this.requestOptions, resolve);
+      const req = this.isInsecure
+        ? http.request(this.url, this.requestOptions, resolve)
+        : https.request(this.url, this.requestOptions, resolve);
       req.once("error", (err: Error) => reject(err));
       req.end();
     });

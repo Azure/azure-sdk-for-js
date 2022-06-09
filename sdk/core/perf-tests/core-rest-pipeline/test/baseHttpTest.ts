@@ -27,8 +27,7 @@ export abstract class BaseHttpTest extends PerfTest<BaseHttpTestOptions> {
   async globalSetup() {
     if (this.parsedOptions.url.value) {
       this.url = this.parsedOptions.url.value;
-    }
-    else {
+    } else {
       //   Use test server if URL is not specified on the command-line
       //   this.url = TEST_SERVER_URL;
       app = express();
@@ -38,7 +37,7 @@ export abstract class BaseHttpTest extends PerfTest<BaseHttpTestOptions> {
       });
 
       server = app.listen(0, () => {
-        console.log('Listening on port:', (server.address() as AddressInfo).port);
+        console.log("Listening on port:", (server.address() as AddressInfo).port);
       });
 
       this.url = `http://localhost:${(server.address() as AddressInfo).port}`;
@@ -46,8 +45,11 @@ export abstract class BaseHttpTest extends PerfTest<BaseHttpTestOptions> {
   }
 
   async globalCleanup() {
-    if (!this.parsedOptions.url.value) { // URL is not specified on the command-line, means we created the test server
-      server.close(function () { console.log('Closing :)'); });
+    if (!this.parsedOptions.url.value) {
+      // URL is not specified on the command-line, means we created the test server
+      server.close(function () {
+        console.log("Closing :)");
+      });
     }
   }
 }

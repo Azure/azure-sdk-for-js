@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-
 import {
   createDefaultHttpClient,
   HttpClient,
@@ -22,7 +21,7 @@ export class CoreRestPipelineTest extends BaseHttpTest {
     await super.globalSetup();
     this.request = createPipelineRequest({
       url: this.url,
-      allowInsecureConnection: new URL(this.url).protocol !== "https:"
+      allowInsecureConnection: new URL(this.url).protocol !== "https:",
     });
   }
 
