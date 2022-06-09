@@ -105,7 +105,6 @@ function GenerateDocsMsMetadata($language, $langTitle = "", $serviceName, $tenan
   $msauthor = ""
   if (!$author) {
     LogError "Cannot fetch the author from CODEOWNER file."
-    return
   }
   elseif ($TenantId -and $ClientId -and $ClientSecret) {
     $msauthor = GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author
@@ -115,8 +114,6 @@ function GenerateDocsMsMetadata($language, $langTitle = "", $serviceName, $tenan
     LogError "No ms.author found for $author. "
     $msauthor = $author
   }
-  # $author = "sima-zhu"
-  # $msauthor = "sizhu"
   $date = Get-Date -Format "MM/dd/yyyy"
   $header = @"
 ---
