@@ -11,7 +11,7 @@
         "Content-Length": "37",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-batch/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "2daf2d21-d10b-485b-a5c2-6629cf787a90"
+        "x-ms-client-request-id": "5499a944-d656-499d-80fe-f8eec720a22a"
       },
       "RequestBody": {
         "properties": {
@@ -23,26 +23,26 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Jun 2022 07:04:31 GMT",
-        "ETag": "W/\u00220x8DA49E64DE41722\u0022",
+        "Date": "Thu, 09 Jun 2022 08:17:52 GMT",
+        "ETag": "W/\u00220x8DA49F08D0DA258\u0022",
         "Expires": "-1",
-        "Last-Modified": "Thu, 09 Jun 2022 07:04:32 GMT",
+        "Last-Modified": "Thu, 09 Jun 2022 08:17:53 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a9c3ada5-a93c-47f7-8019-d70bbc112fd0",
+        "x-ms-correlation-request-id": "72cc5665-c53c-448c-b2b9-47d48777ed15",
         "x-ms-ratelimit-remaining-subscription-writes": "1196",
-        "x-ms-request-id": "8710ee41-bb00-49f4-9cf2-d5e8c08e6647",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220609T070432Z:a9c3ada5-a93c-47f7-8019-d70bbc112fd0"
+        "x-ms-request-id": "485fbb87-856c-4be6-910a-3119694c4b8a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220609T081753Z:72cc5665-c53c-448c-b2b9-47d48777ed15"
       },
       "ResponseBody": {
         "type": "Microsoft.Batch/batchAccounts/applications",
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/applications/myapplicationxxx",
         "name": "myapplicationxxx",
-        "etag": "W/\u00220x8DA49E64DE41722\u0022",
+        "etag": "W/\u00220x8DA49F08D0DA258\u0022",
         "properties": {
           "allowUpdates": false
         }

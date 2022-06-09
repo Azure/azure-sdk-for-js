@@ -11,7 +11,7 @@
         "Content-Length": "170",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-batch/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "863bdb2a-a0e9-4856-b838-420fdffb1c44"
+        "x-ms-client-request-id": "578313c6-44a4-4bc9-9873-47729967a15c"
       },
       "RequestBody": {
         "properties": {
@@ -33,33 +33,33 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Jun 2022 07:04:48 GMT",
-        "ETag": "W/\u00220x8DA49E65793531C\u0022",
+        "Date": "Thu, 09 Jun 2022 08:18:09 GMT",
+        "ETag": "W/\u00220x8DA49F09681543F\u0022",
         "Expires": "-1",
-        "Last-Modified": "Thu, 09 Jun 2022 07:04:48 GMT",
+        "Last-Modified": "Thu, 09 Jun 2022 08:18:09 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "8c34201e-8fe3-4f7e-8d91-1266cc4d9899",
+        "x-ms-correlation-request-id": "0393d4cc-f609-40de-9895-7e422d6c9fe0",
         "x-ms-ratelimit-remaining-subscription-writes": "1193",
-        "x-ms-request-id": "b127d86e-c692-414e-9f59-06650ccf94db",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220609T070448Z:8c34201e-8fe3-4f7e-8d91-1266cc4d9899"
+        "x-ms-request-id": "7fbfb148-400b-4cc7-bcd3-e5bf993ca1a2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220609T081809Z:0393d4cc-f609-40de-9895-7e422d6c9fe0"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/pools/mypoolxxx",
         "name": "mypoolxxx",
         "type": "Microsoft.Batch/batchAccounts/pools",
-        "etag": "W/\u00220x8DA49E65793531C\u0022",
+        "etag": "W/\u00220x8DA49F09681543F\u0022",
         "properties": {
-          "lastModified": "2022-06-09T07:04:48.6925084Z",
-          "creationTime": "2022-06-09T07:04:48.6925084Z",
+          "lastModified": "2022-06-09T08:18:09.2383295Z",
+          "creationTime": "2022-06-09T08:18:09.2383295Z",
           "provisioningState": "Succeeded",
-          "provisioningStateTransitionTime": "2022-06-09T07:04:48.6925084Z",
+          "provisioningStateTransitionTime": "2022-06-09T08:18:09.2383295Z",
           "allocationState": "Resizing",
-          "allocationStateTransitionTime": "2022-06-09T07:04:48.6925084Z",
+          "allocationStateTransitionTime": "2022-06-09T08:18:09.2383295Z",
           "vmSize": "STANDARD_D4",
           "interNodeCommunication": "Disabled",
           "taskSlotsPerNode": 1,
@@ -83,7 +83,7 @@
             "targetDedicatedNodes": 3,
             "nodeDeallocationOption": "Requeue",
             "resizeTimeout": "PT15M",
-            "startTime": "2022-06-09T07:04:48.6925084Z"
+            "startTime": "2022-06-09T08:18:09.2383295Z"
           },
           "currentDedicatedNodes": 0,
           "currentLowPriorityNodes": 0

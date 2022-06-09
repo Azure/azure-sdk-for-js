@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-batch/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "9a44873e-a630-4692-bfb0-0fc8ec35cafa"
+        "x-ms-client-request-id": "21744d77-b12c-4995-bb57-0f4628134b37"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Jun 2022 07:04:50 GMT",
+        "Date": "Thu, 09 Jun 2022 08:18:11 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "2e226a54-d57e-4c9e-baa8-2a82c0a5db50",
-        "x-ms-ratelimit-remaining-subscription-reads": "11978",
-        "x-ms-request-id": "1b6e926d-1712-4f87-99bf-f13cd11ca683",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220609T070451Z:2e226a54-d57e-4c9e-baa8-2a82c0a5db50"
+        "x-ms-correlation-request-id": "84c833a7-c6c5-4345-bfcd-54b98d407c87",
+        "x-ms-ratelimit-remaining-subscription-reads": "11986",
+        "x-ms-request-id": "2624db33-4c3c-46ab-9b31-3747d7e7547a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220609T081811Z:84c833a7-c6c5-4345-bfcd-54b98d407c87"
       },
       "ResponseBody": {
         "value": [
@@ -36,14 +36,14 @@
             "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/pools/mypoolxxx",
             "name": "mypoolxxx",
             "type": "Microsoft.Batch/batchAccounts/pools",
-            "etag": "W/\u00220x8DA49E65793531C\u0022",
+            "etag": "W/\u00220x8DA49F09681543F\u0022",
             "properties": {
-              "lastModified": "2022-06-09T07:04:48.6925084Z",
-              "creationTime": "2022-06-09T07:04:48.6925084Z",
+              "lastModified": "2022-06-09T08:18:09.2383295Z",
+              "creationTime": "2022-06-09T08:18:09.2383295Z",
               "provisioningState": "Succeeded",
-              "provisioningStateTransitionTime": "2022-06-09T07:04:48.6925084Z",
+              "provisioningStateTransitionTime": "2022-06-09T08:18:09.2383295Z",
               "allocationState": "Steady",
-              "allocationStateTransitionTime": "2022-06-09T07:04:49.892528Z",
+              "allocationStateTransitionTime": "2022-06-09T08:18:10.4613442Z",
               "vmSize": "STANDARD_D4",
               "interNodeCommunication": "Disabled",
               "taskSlotsPerNode": 1,
@@ -67,7 +67,7 @@
                 "targetDedicatedNodes": 3,
                 "nodeDeallocationOption": "Requeue",
                 "resizeTimeout": "PT15M",
-                "startTime": "2022-06-09T07:04:48.6925084Z",
+                "startTime": "2022-06-09T08:18:09.2383295Z",
                 "errors": [
                   {
                     "code": "AccountCoreQuotaReached",

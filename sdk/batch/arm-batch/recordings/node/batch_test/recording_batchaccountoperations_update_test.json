@@ -11,7 +11,7 @@
         "Content-Length": "42",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-batch/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "fa706ca0-e9cc-4aca-94a3-66eb0e45eb73"
+        "x-ms-client-request-id": "e44dcff4-053a-4bd9-bdf8-c5cb41a41d52"
       },
       "RequestBody": {
         "tags": {
@@ -24,20 +24,20 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Jun 2022 07:04:29 GMT",
-        "ETag": "\u00220x8DA49E64B8B5B9D\u0022",
+        "Date": "Thu, 09 Jun 2022 08:17:50 GMT",
+        "ETag": "\u00220x8DA49F08AE3B831\u0022",
         "Expires": "-1",
-        "Last-Modified": "Thu, 09 Jun 2022 07:04:28 GMT",
+        "Last-Modified": "Thu, 09 Jun 2022 08:17:49 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "2b923ea2-01f4-43fa-8cae-d5b0ac78f3be",
+        "x-ms-correlation-request-id": "5a48a163-8353-445d-adf8-fa8c376069ec",
         "x-ms-ratelimit-remaining-subscription-writes": "1197",
-        "x-ms-request-id": "48db8e4e-061b-4dd5-a75a-ca372dff01a0",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220609T070430Z:2b923ea2-01f4-43fa-8cae-d5b0ac78f3be"
+        "x-ms-request-id": "36c12c77-b7a4-4554-bb05-2157391b636a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220609T081751Z:5a48a163-8353-445d-adf8-fa8c376069ec"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx",
@@ -284,7 +284,7 @@
           "activeJobAndJobScheduleQuota": 300,
           "autoStorage": {
             "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountxxx",
-            "lastKeySync": "2022-06-09T07:04:04.8688058Z",
+            "lastKeySync": "2022-06-09T08:17:25.4446604Z",
             "authenticationMode": "StorageKeys"
           },
           "poolAllocationMode": "BatchService",
