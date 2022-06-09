@@ -58,17 +58,12 @@ We're about to go through how to set up your project to use the `@azure-tools/te
 
 ### Installing the package
 
-To install the `@azure-tools/test-recorder` package, you can use the following command.
-
-```bash
-rush add -p @azure-tools/test-recorder@^2.0.0 --dev
-```
-
-From this point forward, we'll assume that you're developing (perhaps contributing!) to one of the azure-sdk-for-js's libraries. So, your next step is to change directory to the path relevant to your project. Let's say you want to add the `@azure-tools/test-recorder` package to `@azure/data-tables` (it already uses test-recorder, but bear with us), you'll be doing the following:
+From this point forward, we'll assume that you're developing (perhaps contributing!) to one of the azure-sdk-for-js's libraries. So, your next step is to change directory to the path relevant to your project. Let's say you want to add the `@azure-tools/test-recorder` package to `@azure/data-tables` (it already uses test-recorder, but bear with us), you'll be doing the following to install the package:
 
 ```bash
 cd sdk/tables/data-tables
 rush add -p @azure-tools/test-recorder@^2.0.0 --dev
+```
 
 If you are using `@azure/identity` in your tests, also install `"@azure-tools/test-credential"` package.
 
