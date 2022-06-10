@@ -265,7 +265,7 @@ export type ContainerApp = TrackedResource & {
     readonly customDomainVerificationId?: string;
     configuration?: Configuration;
     template?: Template;
-    readonly outboundIPAddresses?: string[];
+    readonly outboundIpAddresses?: string[];
 };
 
 // @public
