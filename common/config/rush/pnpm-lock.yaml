@@ -6338,6 +6338,11 @@ packages:
       xml: 1.0.1
     dev: false
 
+  /mocha-testdata/1.2.0:
+    resolution: {integrity: sha512-mBxVCUbfyhWRT/QFgEfBtmeQ2I7LYKnBWuTVYKAUoZois8wYUm6EUTUhPxAYa4LOh/SaK0neRSdevH62Ov6N8w==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+    dev: false
+
   /mocha/7.2.0:
     resolution: {integrity: sha512-O9CIypScywTVpNaRrCAgoUnJgozpIofjKUYmJhiCIJMiuYnLI6otcb1/kpW9/n/tJODHGZ7i8aLQoDVsMtOKQQ==}
     engines: {node: '>= 8.10.0'}
@@ -8070,11 +8075,11 @@ packages:
     dev: false
 
   /text-table/0.2.0:
-    resolution: {integrity: sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=}
+    resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: false
 
   /through/2.3.8:
-    resolution: {integrity: sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=}
+    resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
     dev: false
 
   /through2/2.0.5:
@@ -8085,7 +8090,7 @@ packages:
     dev: false
 
   /timsort/0.3.0:
-    resolution: {integrity: sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=}
+    resolution: {integrity: sha512-qsdtZH+vMoCARQtyod4imc2nIJwg9Cc7lPRrw9CzF8ZKR0khdr8+2nX80PBhET3tcyTtJDxAffGh2rXH4tyU8A==}
     dev: false
 
   /tmp/0.2.1:
@@ -8096,7 +8101,7 @@ packages:
     dev: false
 
   /to-fast-properties/2.0.0:
-    resolution: {integrity: sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=}
+    resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}
     engines: {node: '>=4'}
     dev: false
 
@@ -8131,11 +8136,11 @@ packages:
     dev: false
 
   /tr46/0.0.3:
-    resolution: {integrity: sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=}
+    resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
     dev: false
 
   /tr46/1.0.1:
-    resolution: {integrity: sha1-qLE/1r/SSJUZZ0zN5VujaTtwbQk=}
+    resolution: {integrity: sha512-dTpowEjclQ7Kgx5SdBkqRzVhERQXov8/l9Ft9dVM9fmg0W0KQSVaXX9T4i6twCPNtYiZM53lpSSUAwJbFPOHxA==}
     dependencies:
       punycode: 2.1.1
     dev: false
@@ -9930,7 +9935,7 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-cy/sz6LZHNFKUpQHpQvO+leBdH/OQUdnmTxb9oAuDx9WBTK2yp8iY00dedL1URDIvs/Yh8it0PD6ShadU3Hv1A==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-+rgw1vZTIZQPHNzWdMpnA1ZO0TlAgTdwT2647znNFKTTCmsw6ICbp4MASOVQcQO+C1UfXxkt26IFva2o9YmI6Q==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
@@ -9942,6 +9947,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
       '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.1
+      '@types/chai': 4.3.0
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -9954,7 +9961,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -12354,7 +12360,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-BBZ5WFO7O1Hq5xDlg/BOt5NED+XaQ2sT6BMjsgRGHC8DJxIMf7gJiQheNHu5tLpJsSIGJO6aq9ivVIfJp1kKwg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-vXkak2yhwc1QmVoEEWjh0Bi25aiUafb+9stnek+S5vQ62N/HRoe+al6xxFvwpi5Jy5IiT96lndp2hp2Abpf95w==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -12366,6 +12372,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
       '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.1
+      '@types/chai': 4.3.0
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12378,7 +12386,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -14475,13 +14482,14 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-3fOhyHS+X35+S5si6+zvVuungFgozWP8wAXzO5ymkakRRygiWTupZhTtbXV/pAgzpF7NR0ebs2FychtNEuF4pQ==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-3OqgUr1+nfeHDovjXwdjG84DU1tzTXuhssdt4diRjWTfgX4TO4HGZ8nvJOK9jF8x/0LAi094OZNYvoimQfxoRA==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.2.4
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
+      '@azure/msal-node': 1.7.0
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
@@ -14506,6 +14514,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      mocha-testdata: 1.2.0
       nyc: 15.1.0
       prettier: 2.6.1
       rimraf: 3.0.2
