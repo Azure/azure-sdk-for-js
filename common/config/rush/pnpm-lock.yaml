@@ -9299,7 +9299,7 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-ip+JMBYpzpvzMzf4W4323jjmfLZbkRLJV3xFlGeAQUk0hFvvpWcwQl7pxoNJfZ5KU0nfdcCAJoV2JtUs8cakyw==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-d1v3GSFLrk3aQYM98Ek7kaYPYgUtuRp8pmNZEaRkX69Mz19DdeP/0YpMf/kyAMENDni8yuRekxZ/Z3f7qeStIQ==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
@@ -9311,6 +9311,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -9323,7 +9325,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -9661,7 +9662,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-H8MM/3ckZZ3A4eif7kTm9xcR7iAdOh5HLlm7b4/NJvJoTyWtJfm/vqovDj4dZyDihkVoNFd3+vdBz+zoAEYWgw==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-9S8Kptuxs+UJY0bKcvnTyEc5ZjkpZww0H9sqSx+/la8Clq0HAYvePybFfYDihtHrZfTb3aiF10dJsNe3gtqcPg==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:

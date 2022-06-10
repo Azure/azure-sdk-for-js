@@ -8,12 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  KeyValue,
-  KeyValuesCreateOrUpdateOptionalParams,
-  AppConfigurationManagementClient
-} from "@azure/arm-appconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Creates a key-value.
@@ -26,16 +22,13 @@ async function keyValuesCreateOrUpdate() {
   const resourceGroupName = "myResourceGroup";
   const configStoreName = "contoso";
   const keyValueName = "myKey$myLabel";
-  const keyValueParameters: KeyValue = {
+  const keyValueParameters = {
     tags: { tag1: "tagValue1", tag2: "tagValue2" },
-    value: "myValue"
+    value: "myValue",
   };
-  const options: KeyValuesCreateOrUpdateOptionalParams = { keyValueParameters };
+  const options = { keyValueParameters };
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.keyValues.createOrUpdate(
     resourceGroupName,
     configStoreName,

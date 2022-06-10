@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Deletes a private endpoint connection.
@@ -23,10 +23,7 @@ async function privateEndpointConnectionsDelete() {
   const configStoreName = "contoso";
   const privateEndpointConnectionName = "myConnection";
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     configStoreName,
