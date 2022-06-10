@@ -4,11 +4,11 @@
 import {
   BrowserPushChannel,
   InstallationPatch,
-  InstallationType,
-  NotificationHubMessageType,
+  Installation,
+  NotificationHubMessage,
   NotificationHubResponse,
   NotificationHubsClientOptions,
-  PushHandleType,
+  PushHandle,
   SendOperationOptions,
 } from "./models";
 import {
@@ -100,7 +100,7 @@ export class NotificationHubsClient extends ServiceClient {
   public getInstallation(
     installationId: string,
     options: OperationOptions = {}
-  ): Promise<InstallationType> {
+  ): Promise<Installation> {
     return tracingClient.withSpan(
       "NotificationHubsClient-getInstallation",
       options,
@@ -118,7 +118,7 @@ export class NotificationHubsClient extends ServiceClient {
           throw new Error(`getInstallation failed with ${response.status}`);
         }
 
-        const installation = JSON.parse(response.bodyAsText!) as InstallationType;
+        const installation = JSON.parse(response.bodyAsText!) as Installation;
         return installation;
       }
     );
@@ -131,7 +131,7 @@ export class NotificationHubsClient extends ServiceClient {
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   public upsertInstallation(
-    installation: InstallationType,
+    installation: Installation,
     options: OperationOptions = {}
   ): Promise<NotificationHubResponse> {
     return tracingClient.withSpan(
@@ -231,8 +231,8 @@ export class NotificationHubsClient extends ServiceClient {
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   public sendDirectNotification(
-    pushHandle: PushHandleType,
-    message: NotificationHubMessageType,
+    pushHandle: PushHandle,
+    message: NotificationHubMessage,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubResponse> {
     return this.sendNotificationImpl(
@@ -255,7 +255,7 @@ export class NotificationHubsClient extends ServiceClient {
    */
   public sendNotification(
     tags: string[] | string,
-    message: NotificationHubMessageType,
+    message: NotificationHubMessage,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubResponse> {
     return this.sendNotificationImpl(
@@ -281,7 +281,7 @@ export class NotificationHubsClient extends ServiceClient {
   public scheduleNotification(
     scheduledTime: Date,
     tags: string[] | string,
-    message: NotificationHubMessageType,
+    message: NotificationHubMessage,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubResponse> {
     return this.sendNotificationImpl(
@@ -295,9 +295,9 @@ export class NotificationHubsClient extends ServiceClient {
   }
 
   private sendNotificationImpl(
-    message: NotificationHubMessageType,
+    message: NotificationHubMessage,
     method: string,
-    pushHandle?: PushHandleType,
+    pushHandle?: PushHandle,
     tags?: string | string[],
     scheduledTime?: Date,
     options: SendOperationOptions = {}

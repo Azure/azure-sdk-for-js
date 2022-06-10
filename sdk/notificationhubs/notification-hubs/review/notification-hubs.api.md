@@ -41,7 +41,7 @@ export interface BaiduMessage extends JSONNotificationMessage {
 }
 
 // @public
-export interface BrowserInstallation extends Installation {
+export interface BrowserInstallation extends InstallationCommon {
     platform: "browser";
     pushChannel: BrowserPushChannel;
 }
@@ -59,7 +59,7 @@ export interface BrowserPushChannel {
 }
 
 // @public
-export interface DeviceTokenInstallation extends Installation {
+export interface DeviceTokenInstallation extends InstallationCommon {
     pushChannel: string;
 }
 
@@ -74,7 +74,10 @@ export interface FirebaseLegacyMessage extends JSONNotificationMessage {
 }
 
 // @public
-export interface Installation {
+export type Installation = AppleInstallation | ADMInstallation | BaiduInstallation | BrowserInstallation | FirebaseLegacyInstallation | WindowsInstallation;
+
+// @public
+export interface InstallationCommon {
     readonly expirationTime: string;
     installationId: string;
     readonly lastUpdate: string;
@@ -86,7 +89,7 @@ export interface Installation {
 
 // @public
 export interface InstallationPatch {
-    op: JSONPatchType;
+    op: JSONPatchOperation;
     path: string;
     value?: string;
 }
@@ -100,26 +103,23 @@ export interface InstallationTemplate {
 }
 
 // @public
-export type InstallationType = AppleInstallation | ADMInstallation | BaiduInstallation | BrowserInstallation | FirebaseLegacyInstallation | WindowsInstallation;
-
-// @public
-export interface JSONNotificationMessage extends NotificationHubMessage {
+export interface JSONNotificationMessage extends NotificationHubMessageCommon {
     contentType: "application/json;charset=utf-8";
 }
 
 // @public
-export type JSONPatchType = "add" | "remove" | "replace";
+export type JSONPatchOperation = "add" | "remove" | "replace";
 
 // @public
-export interface NotificationHubMessage {
+export type NotificationHubMessage = AppleMessage | ADMMessage | BaiduMessage | BrowserMessage | FirebaseLegacyMessage | WindowsMessage | TemplateMessage;
+
+// @public
+export interface NotificationHubMessageCommon {
     body: string;
     contentType: string;
     headers: Record<string, string>;
     platform: string;
 }
-
-// @public
-export type NotificationHubMessageType = AppleMessage | ADMMessage | BaiduMessage | BrowserMessage | FirebaseLegacyMessage | WindowsMessage | TemplateMessage;
 
 // @public
 export interface NotificationHubResponse {
@@ -133,12 +133,12 @@ export class NotificationHubsClient extends ServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
     deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
     getFeedbackContainerURL(options?: OperationOptions): Promise<URL>;
-    getInstallation(installationId: string, options?: OperationOptions): Promise<InstallationType>;
+    getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
     patchInstallation(installationId: string, installationPatches: InstallationPatch[], options?: OperationOptions): Promise<NotificationHubResponse>;
-    scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessageType, options?: SendOperationOptions): Promise<NotificationHubResponse>;
-    sendDirectNotification(pushHandle: PushHandleType, message: NotificationHubMessageType, options?: SendOperationOptions): Promise<NotificationHubResponse>;
-    sendNotification(tags: string[] | string, message: NotificationHubMessageType, options?: SendOperationOptions): Promise<NotificationHubResponse>;
-    upsertInstallation(installation: InstallationType, options?: OperationOptions): Promise<NotificationHubResponse>;
+    scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
+    sendDirectNotification(pushHandle: PushHandle, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
+    sendNotification(tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
+    upsertInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubResponse>;
 }
 
 // @public
@@ -146,7 +146,7 @@ export interface NotificationHubsClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type PushHandleType = BrowserPushChannel | string;
+export type PushHandle = BrowserPushChannel | string;
 
 // @public
 export interface SendOperationOptions extends OperationOptions {
@@ -167,7 +167,7 @@ export interface WindowsInstallation extends DeviceTokenInstallation {
 }
 
 // @public
-export interface WindowsMessage extends NotificationHubMessage {
+export interface WindowsMessage extends NotificationHubMessageCommon {
     contentType: WindowsContentType;
     platform: "wns";
 }

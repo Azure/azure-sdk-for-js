@@ -31,7 +31,7 @@ export interface NotificationHubResponse {
 /**
  * Represents an installation for a device for Notification Hubs.
  */
-export interface Installation {
+export interface InstallationCommon {
   /**
    * The ID for the installation.
    */
@@ -71,7 +71,7 @@ export interface Installation {
 /**
  * Represents an installation with a string based device token.
  */
-export interface DeviceTokenInstallation extends Installation {
+export interface DeviceTokenInstallation extends InstallationCommon {
   /**
    * The push channel for a device.
    */
@@ -151,7 +151,7 @@ export interface BrowserPushChannel {
 /**
  * Represents a Browser/Web Push based installation.
  */
-export interface BrowserInstallation extends Installation {
+export interface BrowserInstallation extends InstallationCommon {
 
   /**
    * The push channel for the Web Push API.
@@ -167,7 +167,7 @@ export interface BrowserInstallation extends Installation {
 /**
  * Represents the types of installations available in Notification Hubs.
  */
-export type InstallationType =
+export type Installation =
   | AppleInstallation
   | ADMInstallation
   | BaiduInstallation
@@ -203,7 +203,7 @@ export interface InstallationTemplate {
 /**
  * Represents the JSON Patch types of add, remove and replace.
  */
-export type JSONPatchType = "add" | "remove" | "replace";
+export type JSONPatchOperation = "add" | "remove" | "replace";
 
 /**
  * Represents a patch operation for the installation.
@@ -212,7 +212,7 @@ export interface InstallationPatch {
   /**
    * The patch operation.
    */
-  op: JSONPatchType;
+  op: JSONPatchOperation;
 
   /**
    * The path for the patch operation.
@@ -228,7 +228,7 @@ export interface InstallationPatch {
 /**
  * Represents a notification hub message.
  */
-export interface NotificationHubMessage {
+export interface NotificationHubMessageCommon {
   /**
    * The body for the push notification.
    */
@@ -253,7 +253,7 @@ export interface NotificationHubMessage {
 /**
  * Represents a JSON notification hub message.
  */
-export interface JSONNotificationMessage extends NotificationHubMessage {
+export interface JSONNotificationMessage extends NotificationHubMessageCommon {
   /**
    * The content type for the push notification.
    */
@@ -323,7 +323,7 @@ export interface TemplateMessage extends JSONNotificationMessage {
 /**
  * Represents a Windows Notification Services (WNS) push notification message.
  */
-export interface WindowsMessage extends NotificationHubMessage {
+export interface WindowsMessage extends NotificationHubMessageCommon {
   /**
    * The platform for the push notification.
    */
@@ -343,7 +343,7 @@ export type WindowsContentType = "application/xml" | "application/octet-stream";
 /**
  * Represents the possible push notification messages types.
  */
-export type NotificationHubMessageType =
+export type NotificationHubMessage =
   | AppleMessage
   | ADMMessage
   | BaiduMessage
@@ -365,4 +365,4 @@ export interface SendOperationOptions extends OperationOptions {
 /**
  * Represents the types of push channels available for Notification Hubs.
  */
-export type PushHandleType = BrowserPushChannel | string;
+export type PushHandle = BrowserPushChannel | string;
