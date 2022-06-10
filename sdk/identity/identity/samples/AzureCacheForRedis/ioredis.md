@@ -18,7 +18,7 @@ Add the following dependencies to *package.json*:
     "ioredis": "^5.0.4"
 ```
 
-#### Authenticate with AAD ioredis Hello World
+#### Authenticate with Azure AD: Hello World
 
 This sample is intended to assist in authenticating with AAD via ioredis client library. It focuses on displaying the logic required to fetch an AAD access token and to use it as password when setting up the ioredis instance.
 
