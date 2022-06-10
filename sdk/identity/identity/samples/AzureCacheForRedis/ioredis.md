@@ -40,7 +40,7 @@ dotenv.config();
 
 
 async function main(){
-// Construct a Token Credential from Identity SDK, e.g. ClientSecretCredential / Client CertificateCredential / ManagedIdentityCredential etc.
+// Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
 const credential = new ClientSecretCredential(process.env.AZURE_TENANT_ID, process.env.AZURE_CLIENT_ID,process.env.AZURE_CLIENT_SECRET);
 try{
 
