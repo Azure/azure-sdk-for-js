@@ -5,7 +5,6 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
-import { SendLogsOptions, SendLogsResult } from "./models";
 
 /**
  * Options for Montior Logs Ingestion Client
@@ -78,6 +77,7 @@ export class LogsIngestionClient {
         let noOfChunks = 1;
         let count = 0;
         let failedLogsIndex = [];
+        //let promiseArray = [];
         while (count < noOfChunks) {
           try {
             await this._dataClient.dataCollectionRule.ingest(ruleId, streamName, logs, {
