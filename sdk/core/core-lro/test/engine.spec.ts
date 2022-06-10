@@ -2123,5 +2123,37 @@ describe("Lro Engine", function () {
       assert.isTrue(run);
       assert.isUndefined(poller.getOperationState().isCancelled);
     });
+
+    it("cancelled poller gives access to partial results", async () => {
+      const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
+      const poller = createPoller({
+        routes: [
+          {
+            method: "POST",
+            path: `/LROPostDoubleHeadersFinalAzureHeaderGetDefault`,
+            status: 202,
+            body: "",
+            headers: {
+              "Operation-Location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ "status": "running"}`,
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ "status": "canceled", "results": [1,2] }`,
+          },
+        ],
+      });
+      await assertError(poller.pollUntilDone(), { messagePattern: /Poller cancelled/ });
+      const result = poller.getResult();
+      assert.deepEqual(result!.results, [1, 2]);
+    });
   });
 });
