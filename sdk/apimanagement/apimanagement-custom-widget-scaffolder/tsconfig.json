@@ -4,12 +4,6 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types"
   },
-  "exclude": [
-    "./src/templates/**"
-  ],
-  "include": [
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "samples-dev/**/*.ts"
-  ]
+  "exclude": ["./src/templates/**"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

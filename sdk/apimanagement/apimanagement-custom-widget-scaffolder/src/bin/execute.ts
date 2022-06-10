@@ -1,4 +1,7 @@
-#!/bin/env node
+#!/usr/bin/env node
+
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   prefixUrlProtocol,

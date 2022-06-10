@@ -1,5 +1,5 @@
 {
-  "name": "@azure/apimanagement-widget-scaffolder",
+  "name": "@azure/apimanagement-custom-widget-scaffolder",
   "private": true,
   "version": "1.0.0-beta.1",
   "author": "Microsoft Corporation",

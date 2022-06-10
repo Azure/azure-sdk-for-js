@@ -49,20 +49,19 @@ const executable = (options = {}) => {
 
 function copyTemplates() {
   return {
-    name: 'copy-templates',
+    name: "copy-templates",
     generateBundle() {
       const from = path.join("src", "templates");
       const to = path.join("bin");
       fs.mkdirSync("bin");
-      const log = msg => console.log('\x1b[36m%s\x1b[0m', msg)
-      log(`copy templates: ${from} → ${to}`)
+      const log = (msg) => console.log("\x1b[36m%s\x1b[0m", msg);
+      log(`copy templates: ${from} → ${to}`);
       copyFolderRecursiveSync(from, to);
-    }
-  }
+    },
+  };
 }
 
 function copyFileSync(source, target) {
-
   var targetFile = target;
 
   // If target is a directory, a new file with the same name will be created
@@ -111,9 +110,8 @@ const config = {
     nodeResolve({
       preferBuiltins: true,
     }),
-    copyTemplates()
+    copyTemplates(),
   ],
 };
-
 
 export default config;
