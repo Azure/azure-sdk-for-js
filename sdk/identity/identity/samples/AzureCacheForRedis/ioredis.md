@@ -47,7 +47,7 @@ try{
   // Fetch an AAD token to be used for authentication. This token will be used as the password.
   let accessToken = await credential.getToken("https://*.cacheinfra.windows.net:10225/appid/.default");
 
-// Option 1:Create Ioredis client and connect to the Azure Cache for Redis over the non-TLS port using the access token as password.
+// Option 1: Create ioredis client and connect to the Azure Cache for Redis over the non-TLS port using the access token as password.
 //   const redis = new Redis({
 //     port:6379,
 //     host: process.env.REDIS_HOSTNAME,
