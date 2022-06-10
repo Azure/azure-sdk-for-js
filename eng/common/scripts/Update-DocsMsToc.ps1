@@ -45,7 +45,7 @@ Install-ModuleIfNotInstalled "powershell-yaml" "0.4.1" | Import-Module
 
 Set-StrictMode -Version 3
 
-function GetClientPackageNode($clientPackage) {
+function GetPackageNode($clientPackage) {
   $packageInfo = &$GetDocsMsTocDataFn `
     -packageMetadata $clientPackage `
     -docRepoLocation $DocRepoLocation
@@ -181,22 +181,25 @@ foreach ($service in $serviceNameList) {
   $clientPackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service -and ('client' -eq $_.Type) })
   $clientPackages = $clientPackages | Sort-Object -Property Package
   foreach ($clientPackage in $clientPackages) {
-    $packageItems += GetClientPackageNode -clientPackage $clientPackage
+    $packageItems += GetPackageNode -clientPackage $clientPackage
   }
 
   # All management packages go under a single `Management` header in the ToC
   $mgmtPackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service -and ('mgmt' -eq $_.Type) })
   $mgmtPackages = $mgmtPackages | Sort-Object -Property Package
-  if ($mgmtPackages) {
-    $children = &$GetDocsMsTocChildrenForManagementPackagesFn `
-      -packageMetadata $mgmtPackages `
-      -docRepoLocation $DocRepoLocation
-
+  $serviceReadmeBaseName = $service.ToLower().Replace(' ', '-').Replace('/', '-')
+  $mgmtItems = @()
+  foreach ($pkg in $mgmtPackages) {
+    # $children = &$GetDocsMsTocChildrenForManagementPackagesFn `
+    #   -packageMetadata $mgmtPackages `
+    #   -docRepoLocation $DocRepoLocation
+    $mgmtItems += GetPackageNode -clientPackage $pkg
+  }
+  if ($mgmtItems) {
     $packageItems += [PSCustomObject]@{
       name     = 'Management'
-      # There could be multiple packages, ensure this is treated as an array
-      # even if it is a single package
-      children = @($children)
+      href     = "~/docs-ref-services/{moniker}/$serviceReadmeBaseName.md"
+      items    = $mgmtItems
     }
   }
 
@@ -207,7 +210,6 @@ foreach ($service in $serviceNameList) {
     }
   }
 
-  $serviceReadmeBaseName = $service.ToLower().Replace(' ', '-').Replace('/', '-')
   $serviceTocEntry = [PSCustomObject]@{
     name            = $service;
     href            = "~/docs-ref-services/{moniker}/$serviceReadmeBaseName.md"
@@ -266,12 +268,12 @@ if ($otherPackages) {
 
       if ($null -ne $currentNode) {
         $otherPackage.DisplayName = $segments[$segments.Count - 1]
-        $currentNode.Add((GetClientPackageNode $otherPackage))
+        $currentNode.Add((GetPackageNode $otherPackage))
       }
 
     }
     else {
-      $otherPackageItems.Add((GetClientPackageNode $otherPackage))
+      $otherPackageItems.Add((GetPackageNode $otherPackage))
     }
   }
 }
