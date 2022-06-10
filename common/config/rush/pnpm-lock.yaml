@@ -12264,7 +12264,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-BBZ5WFO7O1Hq5xDlg/BOt5NED+XaQ2sT6BMjsgRGHC8DJxIMf7gJiQheNHu5tLpJsSIGJO6aq9ivVIfJp1kKwg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-vXkak2yhwc1QmVoEEWjh0Bi25aiUafb+9stnek+S5vQ62N/HRoe+al6xxFvwpi5Jy5IiT96lndp2hp2Abpf95w==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -12276,6 +12276,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12288,7 +12290,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
