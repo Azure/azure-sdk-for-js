@@ -1,5 +1,5 @@
 {
-  "name": "@azure-tools/apimanagement-custom-widget-scaffolder",
+  "name": "@azure/apimanagement-widget-scaffolder",
   "private": true,
   "version": "1.0.0-beta.1",
   "author": "Microsoft Corporation",
@@ -14,7 +14,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "bin": {
-    "create-apimanagement-widget": "launch.js"
+    "create-apimanagement-widget": "bin/execute.js"
   },
   "engines": {
     "node": ">=12.0.0"
@@ -27,7 +27,13 @@
     "developer-portal"
   ],
   "sideEffects": false,
-  "files": ["src", "dist/", "dist-esm/src/", "types/latest/", "README.md", "LICENSE"],
+  "files": [
+    "dist/",
+    "bin/",
+    "dist-esm/src/",
+    "types/letest/apimanagement-custom-widget-scaffolder.d.ts",
+    "LICENSE"
+  ],
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/latest/apimanagement-custom-widget-scaffolder.d.ts",
@@ -36,7 +42,8 @@
     "build:browser": "tsc -p . && dev-tool run bundle --browser-test=false",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:test": "echo Skipped.",
-    "build": "npm run clean && tsc && api-extractor run --local && dev-tool run bundle --browser-test=false",
+    "bundle:bin": "rollup -c rollup.config.bin.js",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && npm run bundle:bin && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/templates/**\" \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -91,6 +98,8 @@
     "chalk": "^4.1.2",
     "inquirer": "^8.2.4",
     "yargs": "^17.0.1",
-    "yargs-parser": "^21.0.1"
+    "yargs-parser": "^21.0.1",
+    "rollup": "~2.75.5",
+    "@rollup/plugin-node-resolve": "~13.3.0"
   }
 }
