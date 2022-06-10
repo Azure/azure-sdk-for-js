@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AsGfC1p7_xma4fP7m2-tcS2pt9gpte6sdXThKfUNLYFQ1%40thread.v2/participants?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3A5t6BZZhMhTG9yN54rMiVcs-kny91gVXsRP9Arl693UI1%40thread.v2/participants?api-version=2021-09-07",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,9 +17,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/101.0.4950.0 Safari/537.36",
-        "x-ms-client-request-id": "68785a4f-3419-43b0-94aa-8c9dda31d77a",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "0d5b3a9d-4d11-4fb2-ad34-dd0712d9d619",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.2 OS/MacIntel"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -27,41 +27,40 @@
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 02 May 2022 22:49:01 GMT",
-        "MS-CV": "yMTvONg8gk\u002BZav2VCWAouA.0",
+        "Date": "Thu, 26 May 2022 07:59:56 GMT",
+        "MS-CV": "wpeDtm/4j0Kg2TYEXpRuFQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20220502T224901Z-1kdy40ce594zxd7ayzepxvrcq0000000052000000002q9ta",
+        "X-Azure-Ref": "0fDOPYgAAAABnkHBqw6TFQ5NDagHWPzkdUFJHMDFFREdFMDYwOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "94ms"
+        "X-Processing-Time": "136ms"
       },
       "ResponseBody": {
         "value": [
           {
             "communicationIdentifier": {
-              "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-f203-570c-113a0d00b7dc",
+              "rawId": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-a365-83fe-08482200b65a",
               "communicationUser": {
-                "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-f203-570c-113a0d00b7dc"
+                "id": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-a365-83fe-08482200b65a"
               }
             },
             "shareHistoryTime": "1970-01-01T00:00:00Z"
           },
           {
             "communicationIdentifier": {
-              "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-f36f-570c-113a0d00b7de",
+              "rawId": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-a45e-83fe-08482200b65c",
               "communicationUser": {
-                "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-f36f-570c-113a0d00b7de"
+                "id": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-a45e-83fe-08482200b65c"
               }
             },
             "shareHistoryTime": "1970-01-01T00:00:00Z"
           },
           {
             "communicationIdentifier": {
-              "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d8-06b8-570c-113a0d00b7e0",
+              "rawId": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-bf6a-83fe-08482200b65f",
               "communicationUser": {
-                "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d8-06b8-570c-113a0d00b7e0"
+                "id": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-bf6a-83fe-08482200b65f"
               }
             },
             "shareHistoryTime": "1970-01-01T00:00:00Z"

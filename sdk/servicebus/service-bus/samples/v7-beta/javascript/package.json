@@ -1,5 +1,5 @@
 {
-  "name": "azure-service-bus-samples-js-beta",
+  "name": "@azure-samples/service-bus-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Service Bus client library samples for JavaScript (Beta)",
@@ -27,6 +27,7 @@
   "dependencies": {
     "@azure/service-bus": "next",
     "dotenv": "latest",
+    "ws": "^8.0.0",
     "https-proxy-agent": "^5.0.0",
     "@azure/identity": "^2.0.1",
     "@azure/abort-controller": "^1.0.0"
