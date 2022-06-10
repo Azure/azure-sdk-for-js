@@ -163,8 +163,7 @@ export interface ErrorResponseOutput {
   errorMessage?: string;
 }
 
-export interface AtlasEntitiesWithExtInfoOutput
-  extends AtlasEntityExtInfoOutput {
+export interface AtlasEntitiesWithExtInfoOutput extends AtlasEntityExtInfoOutput {
   /** An array of entities. */
   entities?: Array<AtlasEntityOutput>;
 }
@@ -247,8 +246,7 @@ export interface AtlasRelatedTermHeaderOutput {
   termGuid?: string;
 }
 
-export interface AtlasGlossaryBaseObjectOutput
-  extends AtlasBaseModelObjectOutput {
+export interface AtlasGlossaryBaseObjectOutput extends AtlasBaseModelObjectOutput {
   /** An array of classifications. */
   classifications?: Array<AtlasClassificationOutput>;
   /** The long version description. */
@@ -268,8 +266,7 @@ export interface AtlasBaseModelObjectOutput {
   guid?: string;
 }
 
-export interface AtlasGlossaryCategoryOutput
-  extends AtlasGlossaryBaseObjectOutput {
+export interface AtlasGlossaryCategoryOutput extends AtlasGlossaryBaseObjectOutput {
   /** The glossary header with basic information. */
   anchor?: AtlasGlossaryHeaderOutput;
   /** An array of children categories. */
@@ -849,8 +846,7 @@ export interface AtlasEntityDefOutput extends AtlasStructDefOutput {
   relationshipAttributeDefs?: Array<AtlasRelationshipAttributeDefOutput>;
 }
 
-export interface AtlasRelationshipAttributeDefOutput
-  extends AtlasAttributeDefOutput {
+export interface AtlasRelationshipAttributeDefOutput extends AtlasAttributeDefOutput {
   /** Determines if it is a legacy attribute. */
   isLegacyAttribute?: boolean;
   /** The name of the relationship type. */
@@ -915,9 +911,7 @@ export interface AtlasRelationshipEndDefOutput {
   type?: string;
 }
 
-export interface AtlasTypeDefOutput
-  extends AtlasBaseTypeDefOutput,
-    AtlasExtraTypeDefOutput {}
+export interface AtlasTypeDefOutput extends AtlasBaseTypeDefOutput, AtlasExtraTypeDefOutput {}
 
 export interface AtlasExtraTypeDefOutput {
   /**
