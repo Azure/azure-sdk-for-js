@@ -55,7 +55,7 @@ try{
 //     password: accessToken.token
 //   });
 
-// Option 2: Create Ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
+// Option 2: Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   const redis = new Redis({
     username:process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
