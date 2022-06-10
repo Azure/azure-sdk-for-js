@@ -9,7 +9,10 @@
 
 ### Ioredis Library
 
-#### Dependency Requirements Ioredis
+#### Dependency Requirements ioredis
+
+Add the following dependencies to *package.json*:
+
 ```
     "@azure/identity":"^2.0.4",
     "ioredis": "^5.0.4"
