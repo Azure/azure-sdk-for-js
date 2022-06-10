@@ -1,5 +1,10 @@
 # Release History
 
+## 2.0.5 (2022-06-22)
+
+### Bugs Fixed
+
+- Fixed a bug in `InteractiveBrowserCredential` for Mac OS where the [app was not getting closed](https://github.com/Azure/azure-sdk-for-js/issues/21726) after the authorization succeeded.
 ## 2.0.4 (2022-02-18)
 
 ### Bugs Fixed
