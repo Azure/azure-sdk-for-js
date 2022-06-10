@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Stop yielding empty page when listing rules using RuleManager.
+
 ## 7.6.0-beta.4 (2022-06-07)
 
 ### Features Added
