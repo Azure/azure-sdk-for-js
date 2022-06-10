@@ -36,12 +36,12 @@ import {
   LogAnalyticsImpl,
   VirtualMachineRunCommandsImpl,
   VirtualMachineScaleSetVMRunCommandsImpl,
-  ResourceSkusImpl,
   DisksImpl,
-  SnapshotsImpl,
-  DiskEncryptionSetsImpl,
   DiskAccessesImpl,
+  DiskEncryptionSetsImpl,
   DiskRestorePointOperationsImpl,
+  SnapshotsImpl,
+  ResourceSkusImpl,
   GalleriesImpl,
   GalleryImagesImpl,
   GalleryImageVersionsImpl,
@@ -87,12 +87,12 @@ import {
   LogAnalytics,
   VirtualMachineRunCommands,
   VirtualMachineScaleSetVMRunCommands,
-  ResourceSkus,
   Disks,
-  Snapshots,
-  DiskEncryptionSets,
   DiskAccesses,
+  DiskEncryptionSets,
   DiskRestorePointOperations,
+  Snapshots,
+  ResourceSkus,
   Galleries,
   GalleryImages,
   GalleryImageVersions,
@@ -145,7 +145,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-compute/18.0.1`;
+    const packageDetails = `azsdk-js-arm-compute/19.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -230,12 +230,12 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.virtualMachineScaleSetVMRunCommands = new VirtualMachineScaleSetVMRunCommandsImpl(
       this
     );
-    this.resourceSkus = new ResourceSkusImpl(this);
     this.disks = new DisksImpl(this);
-    this.snapshots = new SnapshotsImpl(this);
-    this.diskEncryptionSets = new DiskEncryptionSetsImpl(this);
     this.diskAccesses = new DiskAccessesImpl(this);
+    this.diskEncryptionSets = new DiskEncryptionSetsImpl(this);
     this.diskRestorePointOperations = new DiskRestorePointOperationsImpl(this);
+    this.snapshots = new SnapshotsImpl(this);
+    this.resourceSkus = new ResourceSkusImpl(this);
     this.galleries = new GalleriesImpl(this);
     this.galleryImages = new GalleryImagesImpl(this);
     this.galleryImageVersions = new GalleryImageVersionsImpl(this);
@@ -285,12 +285,12 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   logAnalytics: LogAnalytics;
   virtualMachineRunCommands: VirtualMachineRunCommands;
   virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommands;
-  resourceSkus: ResourceSkus;
   disks: Disks;
-  snapshots: Snapshots;
-  diskEncryptionSets: DiskEncryptionSets;
   diskAccesses: DiskAccesses;
+  diskEncryptionSets: DiskEncryptionSets;
   diskRestorePointOperations: DiskRestorePointOperations;
+  snapshots: Snapshots;
+  resourceSkus: ResourceSkus;
   galleries: Galleries;
   galleryImages: GalleryImages;
   galleryImageVersions: GalleryImageVersions;

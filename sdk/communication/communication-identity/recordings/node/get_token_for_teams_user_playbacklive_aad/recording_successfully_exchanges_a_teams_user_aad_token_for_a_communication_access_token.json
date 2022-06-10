@@ -1,38 +1,40 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2021-10-31-preview",
+      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2022-06-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "21",
+        "Content-Length": "62",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 Node/v12.22.10 OS/(x64-Windows_NT-10.0.22000)",
+        "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
-        "token": "sanitized"
+        "token": "sanitized",
+        "appId": "sanitized",
+        "userId": "sanitized"
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-31-preview1, 2021-10-31-preview, 2022-06-01",
+        "api-supported-versions": "2021-10-31-preview, 2022-06-01",
         "Content-Length": "69",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 14 Mar 2022 08:16:18 GMT",
-        "MS-CV": "gih2b78lQkSw/qV3Mm0N1w.0",
+        "Date": "Wed, 18 May 2022 11:19:22 GMT",
+        "MS-CV": "7mtG70p\u002BikyRBYyhsPkHeQ.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "00/kuYgAAAACZHhANIQtESLCIctob4U97UFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0OtaEYgAAAABW7LQQFXp5QaGIIPrXP1ZWTFRTRURHRTEyMTgAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "457ms"
+        "X-Processing-Time": "348ms"
       },
       "ResponseBody": {
         "token": "sanitized",
-        "expiresOn": "2022-03-14T09:40:34.5512479\u002B00:00"
+        "expiresOn": "2022-05-18T12:25:52.2191784\u002B00:00"
       }
     }
   ],

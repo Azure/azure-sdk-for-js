@@ -190,11 +190,11 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
     do {
       const rules = await this.getRules({
         skip: Number(marker),
-        maxCount: options.maxPageSize,
+        maxCount: options.maxPageSize ?? 100,
         ...options,
       });
-      yield rules;
       if (rules.length > 0) {
+        yield rules;
         marker = String(Number(marker ?? 0) + rules.length);
       } else {
         break;

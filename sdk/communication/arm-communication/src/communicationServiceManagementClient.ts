@@ -7,9 +7,25 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, CommunicationServiceImpl } from "./operations";
-import { Operations, CommunicationService } from "./operationsInterfaces";
+import {
+  OperationsImpl,
+  CommunicationServicesImpl,
+  DomainsImpl,
+  EmailServicesImpl
+} from "./operations";
+import {
+  Operations,
+  CommunicationServices,
+  Domains,
+  EmailServices
+} from "./operationsInterfaces";
 import { CommunicationServiceManagementClientOptionalParams } from "./models";
 
 export class CommunicationServiceManagementClient extends coreClient.ServiceClient {
@@ -44,7 +60,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-communication/3.0.2`;
+    const packageDetails = `azsdk-js-arm-communication/4.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -63,16 +79,72 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-08-20";
+    this.apiVersion = options.apiVersion || "2021-10-01-preview";
     this.operations = new OperationsImpl(this);
-    this.communicationService = new CommunicationServiceImpl(this);
+    this.communicationServices = new CommunicationServicesImpl(this);
+    this.domains = new DomainsImpl(this);
+    this.emailServices = new EmailServicesImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return item.replace(/(?<==).*$/, apiVersion);
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   operations: Operations;
-  communicationService: CommunicationService;
+  communicationServices: CommunicationServices;
+  domains: Domains;
+  emailServices: EmailServices;
 }

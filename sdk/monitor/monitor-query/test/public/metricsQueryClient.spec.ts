@@ -7,10 +7,10 @@ import { getYieldedValue } from "@azure/test-utils";
 import { Durations, MetricsQueryClient } from "../../src";
 
 import {
+  RecorderAndMetricsClient,
   createRecorderAndMetricsClient,
   getMetricsArmResourceId,
   loggerForTest,
-  RecorderAndMetricsClient,
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 describe("MetricsClient live tests", function () {
