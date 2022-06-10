@@ -96,7 +96,7 @@ This sample is intended to assist in authenticating with AAD via ioredis. It foc
 When migrating your existing your application code, replace the password input with Azure AD token.
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace the password configuring/retrieving logic in your application code.
 
-**Note:** The below sample uses `ClientSecretCredential` from our [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) SDK, the credential can be replaced with any of the other `TokenCredential` implementations offered by our [Azure Identity]((https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) SDK.
+**Note:** The below sample uses `ClientSecretCredential` from our [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library. The credential can be replaced with any of the other Azure Identity library `TokenCredential` implementations.
 
 ```ts
 import Redis from "ioredis";
