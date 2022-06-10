@@ -367,14 +367,14 @@ export const once = <T>(make: () => T): (() => T) => {
 };
 
 /**
- *  Returns true if TEST_MODE="record", else false.
+ *  Returns true if TEST_MODE="record"(case-insensitive), else false.
  */
 export function isRecordMode(): boolean {
   return env.TEST_MODE?.toLowerCase() === "record";
 }
 
 /**
- *  Returns true if TEST_MODE="live", else false.
+ *  Returns true if TEST_MODE="live"(case-insensitive), else false.
  */
 export function isLiveMode() {
   return env.TEST_MODE?.toLowerCase() === "live";
