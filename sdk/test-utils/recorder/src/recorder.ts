@@ -40,6 +40,7 @@ import { AdditionalPolicyConfig } from "@azure/core-client";
 import { logger } from "./log";
 import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
+import { env } from "./utils/env";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -53,7 +54,7 @@ import { isNode } from "@azure/core-util";
  * Other than configuring your clients, use `start`, `stop`, `addSanitizers` methods to use the recorder.
  */
 export class Recorder {
-  private static url = "http://localhost:5000";
+  private static url = `http://localhost:${env.TEST_PROXY_HTTP_PORT ?? 5000}`;
   public recordingId?: string;
   private stateManager = new RecordingStateManager();
   private httpClient?: HttpClient;

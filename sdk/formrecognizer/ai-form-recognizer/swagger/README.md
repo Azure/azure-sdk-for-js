@@ -17,7 +17,7 @@ input-file: ./FormRecognizer.json
 override-client-name: GeneratedClient
 add-credentials: false
 typescript: true
-package-version: "4.0.0-beta.4"
+package-version: "4.0.0-beta.5"
 ```
 
 ## Customizations for Track 2 Generator

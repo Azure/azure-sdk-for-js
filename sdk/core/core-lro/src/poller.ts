@@ -32,8 +32,8 @@ export class PollerStoppedError extends Error {
 }
 
 /**
- * When a poller is cancelled through the `cancelOperation` method,
- * the poller will be rejected with an instance of the PollerCancelledError.
+ * When the operation is cancelled, the poller will be rejected with an instance
+ * of the PollerCancelledError.
  */
 export class PollerCancelledError extends Error {
   constructor(message: string) {
@@ -315,7 +315,13 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
           abortSignal: options.abortSignal,
           fireProgress: this.fireProgress.bind(this),
         });
-        if (this.isDone() && this.resolve) {
+        if (this.operation.state.isCancelled) {
+          this.stopped = true;
+          if (this.reject) {
+            this.reject(new PollerCancelledError("Poller cancelled"));
+          }
+          throw new Error(`The long-running operation has been canceled.`);
+        } else if (this.isDone() && this.resolve) {
           // If the poller has finished polling, this means we now have a result.
           // However, it can be the case that TResult is instantiated to void, so
           // we are not expecting a result anyway. To assert that we might not
@@ -348,14 +354,10 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * Invokes the underlying operation's cancel method, and rejects the
-   * pollUntilDone promise.
+   * Invokes the underlying operation's cancel method.
    */
   private async cancelOnce(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     this.operation = await this.operation.cancel(options);
-    if (this.reject) {
-      this.reject(new PollerCancelledError("Poller cancelled"));
-    }
   }
 
   /**
@@ -437,9 +439,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * @param options - Optional properties passed to the operation's update method.
    */
   public cancelOperation(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
-    if (!this.stopped) {
-      this.stopped = true;
-    }
     if (!this.cancelPromise) {
       this.cancelPromise = this.cancelOnce(options);
     } else if (options.abortSignal) {
