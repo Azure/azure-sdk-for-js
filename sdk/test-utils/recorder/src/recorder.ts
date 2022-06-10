@@ -56,6 +56,10 @@ import { env } from "./utils/env";
  */
 export class Recorder {
   private static url = `http://localhost:${env.TEST_PROXY_HTTP_PORT ?? 5000}`;
+
+  /**
+   * The recoding id identifies the recording, set by the test-proxy server when the start call is made.
+   */
   public recordingId?: string;
   private stateManager = new RecordingStateManager();
   private httpClient?: HttpClient;
@@ -191,6 +195,11 @@ export class Recorder {
     }
   }
 
+  /**
+   * A transform extends functionality of the test-proxy by applying to responses just before they are returned during playback mode.
+   *
+   * Example: ApiVersionTransform, HeaderTransform, etc.
+   */
   async addTransform(transform: Transform): Promise<void> {
     if (
       isPlaybackMode() &&
@@ -329,6 +338,9 @@ export class Recorder {
     }
   }
 
+  /**
+   * Prints all the available transforms in a html document rendered as a string.
+   */
   async transformsInfo(): Promise<string | null | undefined> {
     if (isLiveMode()) {
       throw new RecorderError("Cannot call transformsInfo in live mode");

@@ -112,6 +112,11 @@ export interface StringSanitizer {
   value: string;
 }
 
+/**
+ * Either RegexSanitizer or StringSanitizer.
+ *
+ * If "regex" is defined, it becomes a RegexSanitizer.
+ */
 export type FindReplaceSanitizer = RegexSanitizer | StringSanitizer;
 
 export function isStringSanitizer(sanitizer: FindReplaceSanitizer): sanitizer is StringSanitizer {
@@ -129,7 +134,7 @@ export function isStringSanitizer(sanitizer: FindReplaceSanitizer): sanitizer is
  *
  * If the body is NOT a JSON object, this sanitizer will NOT be applied.
  */
-type BodyKeySanitizer = {
+export type BodyKeySanitizer = {
   regex?: string;
 
   value?: string;
@@ -150,11 +155,25 @@ type BodyKeySanitizer = {
  * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
  */
 export interface HeaderSanitizer {
+  /**
+   * The name of the header we're operating against.
+   */
   key: string;
-
+  /**
+   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
+   */
   regex?: boolean;
+  /**
+   *  A target string. This could contain special regex characters like "?()+*" but they will be treated as a literal.
+   */
   target?: string;
+  /**
+   * The substitution or whole new header value, depending on "regex" setting.
+   */
   value?: string;
+  /**
+   * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
+   */
   groupForReplace?: string;
 }
 
@@ -174,14 +193,35 @@ export interface ConnectionStringSanitizer {
    */
   fakeConnString: string;
 }
-
+/**
+ * Used to sanitize "session" variables.
+ * A "session" variable is one that is returned as a result of Response A, then used as INPUT of Response B.
+ * The value inserted defaults to a new guid if one is not provided.
+ *
+ * This sanitizer applies at the session level, and looks at the HEADERS of the request/response pairs.
+ */
 export interface ContinuationSanitizer {
+  /**
+   * The name of the header whos value will be replaced from response -> next request.
+   */
   key: string;
+  /**
+   * The method by which the value of the targeted key will be replaced. Currently only supports generating a new guid for the value replacement..
+   */
   method?: string;
+  /**
+   * Do we need multiple pairs replaced? Or do we want to stop after the first set.
+   */
   resetAfterFirst: boolean;
 }
 
+/**
+ * A simple sanitizer that should be used to clean out one or multiple headers by their key. As could be determined by the description, this sanitizer only applies to the request/response headers.
+ */
 export interface RemoveHeaderSanitizer {
+  /**
+   * Should look like "Location, Transfer-Encoding" or something along those lines!
+   */
   headersForRemoval: string[];
 }
 
@@ -326,14 +366,23 @@ export const once = <T>(make: () => T): (() => T) => {
   return () => (value = value ?? make());
 };
 
-export function isRecordMode() {
+/**
+ *  Returns true if TEST_MODE="record", else false.
+ */
+export function isRecordMode(): boolean {
   return env.TEST_MODE?.toLowerCase() === "record";
 }
 
+/**
+ *  Returns true if TEST_MODE="live", else false.
+ */
 export function isLiveMode() {
   return env.TEST_MODE?.toLowerCase() === "live";
 }
 
+/**
+ *  Returns true if TEST_MODE is not "live" or "record".
+ */
 export function isPlaybackMode() {
   return !isRecordMode() && !isLiveMode();
 }
@@ -363,21 +412,21 @@ export function assertEnvironmentVariable(variable: string): string {
 
 /**
  * Test context needed to generate the recordings.
- * 
+ *
  * (This interface is not meant for the tests with mocha in the `azure-sdk-for-js` repository.)
  */
-export interface TestContext { 
+export interface TestContext {
   /**
    * Based on the test mode, this path for the recording file is used to either read the recording or generate the recording.
-   * Expects you're running the test-proxy tool using the `docker run` command. More info on [the-docker-run-command](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#with-the-docker-run-command) 
+   * Expects you're running the test-proxy tool using the `docker run` command. More info on [the-docker-run-command](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#with-the-docker-run-command)
    * The relative path of the recording file from the host's volume mapping.
-   * 
-   * Example: 
-   * 
+   *
+   * Example:
+   *
    *  If you want the recording to be at `/root/workspaces/projects/abc/recordings/abcd.json`
    *  and the name of the volume(host) passed to the `docker run` command to run the test-proxy tool is `/root/workspaces/`,
-   *  
+   *
    *  then the relative path should be `/projects/abc/recordings/abcd.json`.
    */
-  filePath: string 
-};
+  filePath: string;
+}

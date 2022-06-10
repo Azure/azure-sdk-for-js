@@ -6,20 +6,43 @@ import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
 import { logger } from "./log";
 
-interface ApplyCondition {
+/**
+ * A condition that dictates when the transform applies to a request/response pair.
+ *
+ * This translates to an object that looks like '{ "uriRegex": "when this regex matches, apply the transform" }'. Defaults to "apply always."
+ */
+export interface ApplyCondition {
+  /**
+   * If provided, applies the sanitizer only when this regex matches.
+   */
   uriRegex: string;
 }
 
-type TransformType<TType extends string, TParams = undefined> = {
+/**
+ * Template type for the various transforms.. HeaderTransform, ApiVersionTransform, etc.
+ */
+export type TransformType<TType extends string, TParams = undefined> = {
   type: TType;
   applyCondition?: ApplyCondition;
 } & (TParams extends undefined ? unknown : { params: TParams });
 
-interface HeaderTransformParams {
+/**
+ * Sets a header in a response.
+ */
+export interface HeaderTransformParams {
+  /**
+   * The header key for the header.
+   */
   key: string;
+  /**
+   * The value for the header.
+   */
   value: string;
 }
 
+/**
+ * A transform extends functionality of the test-proxy by applying to responses just before they are returned during playback mode.
+ */
 export type Transform =
   | TransformType<"ApiVersionTransform">
   | TransformType<"ClientIdTransform">

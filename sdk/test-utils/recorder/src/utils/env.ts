@@ -6,4 +6,10 @@ import * as dotenv from "dotenv";
 // Initialize the environment
 dotenv.config();
 
+/**
+ * Get the environment variables with env.
+ *
+ * Example:
+ *   env["NAME_OF_THE_ENVIRONMENT_VARIABLE"]
+ */
 export const env = process.env as Record<string, string | undefined>;
