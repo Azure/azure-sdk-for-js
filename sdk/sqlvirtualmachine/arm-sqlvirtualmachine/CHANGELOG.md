@@ -1,6 +1,6 @@
 # Release History
     
-## 5.0.0-beta.5 (2022-06-09)
+## 5.0.0-beta.5 (2022-06-10)
 
 The package of @azure/arm-sqlvirtualmachine is using our next generation design principles since version 5.0.0-beta.5, which contains breaking changes.
 
