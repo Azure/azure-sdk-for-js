@@ -146,9 +146,9 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInf
   # TODO: we currently do not have the right decision on how we display mgmt packages. Will track the mgmt work in issue. 
   # https://github.com/Azure/azure-sdk-tools/issues/3422
   # $mgmtPackageInfo = $packageInfos.Where({ 'mgmt' -eq $_.Type }) | Sort-Object -Property Package
-  # if ($mgmtPackageInfo) {
-  #   generate-markdown-table -readmeFolder $readmeFolder -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
-  # }
+  if ($mgmtPackageInfo) {
+    generate-markdown-table -readmeFolder $readmeFolder -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
+  }
   if (!(Test-Path (Join-Path $readmeFolder -ChildPath $serviceReadme))) {
     create-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -moniker $moniker -msService $msService `
       -clientTableLink $clientIndexReadme -mgmtTableLink $mgmtIndexReadme `
