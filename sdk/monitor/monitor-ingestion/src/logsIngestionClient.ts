@@ -67,8 +67,8 @@ export class LogsIngestionClient {
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
-    options?: SendLogsOptions
-  ): Promise<SendLogsResult> {
+    options?: uploadOptions
+  ): Promise<uploadResult> {
     //yet-to-be-implemented
     if (options?.maxConcurrency && options?.maxConcurrency > 1) {
       throw ("Concurrency yet to be implemeted");
@@ -90,17 +90,17 @@ export class LogsIngestionClient {
           }
           count++;
         }
-        let sendLogsResult: SendLogsResult = {
+        let uploadResult: uploadResult = {
           failedLogsIndex: [],
-          sendLogsStatus: "Success"
+          uploadStatus: "Success"
         }
         if (failedLogsIndex.length === 0) {
-          return sendLogsResult;
+          return uploadResult;
         }
         else if (failedLogsIndex.length < noOfChunks && failedLogsIndex.length > 0) {
 
-          sendLogsResult = { failedLogsIndex: failedLogsIndex, sendLogsStatus: "PartialFailure" };
-          return sendLogsResult;
+          uploadResult = { failedLogsIndex: failedLogsIndex, uploadStatus: "PartialFailure" };
+          return uploadResult;
         }
         else
           throw Error("All logs failed for the ingestion");
