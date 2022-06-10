@@ -5,7 +5,7 @@
 - [Ioredis Library](#ioredis-library)
     - [Dependency Requirements](#dependency-requirements-ioredis)
     - [Authenticate with AAD - Hello World](#authenticate-with-aad-ioredis-hello-world)
-    - [Authenticate with AAD - Handle Re-Authentication](#authenticate-with-aad-handle-re-authentication)
+    - [Authenticate with AAD - Handle Reauthentication](#authenticate-with-aad-handle-reauthentication)
 
 ### Ioredis Library
 
