@@ -1,4 +1,4 @@
-# Azure WebSiteManagement client library for JavaScript
+# Azure WebSitemManagement REST client library for JavaScript
 
 App Service Client
 
