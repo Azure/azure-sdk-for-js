@@ -361,4 +361,23 @@ export function assertEnvironmentVariable(variable: string): string {
   return value;
 }
 
-export type TestContext = { filePath: string };
+/**
+ * Test context needed to generate the recordings.
+ * 
+ * (This interface is not meant for the tests with mocha in the `azure-sdk-for-js` repository.)
+ */
+export interface TestContext { 
+  /**
+   * Based on the test mode, this path for the recording file is used to either read the recording or generate the recording.
+   * Expects you're running the test-proxy tool using the `docker run` command. More info on [the-docker-run-command](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#with-the-docker-run-command) 
+   * The relative path of the recording file from the host's volume mapping.
+   * 
+   * Example: 
+   * 
+   *  If you want the recording to be at `/root/workspaces/projects/abc/recordings/abcd.json`
+   *  and the name of the volume(host) passed to the `docker run` command to run the test-proxy tool is `/root/workspaces/`,
+   *  
+   *  then the relative path should be `/projects/abc/recordings/abcd.json`.
+   */
+  filePath: string 
+};
