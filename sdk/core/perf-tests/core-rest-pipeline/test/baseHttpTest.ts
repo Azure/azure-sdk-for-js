@@ -29,7 +29,6 @@ export abstract class BaseHttpTest extends PerfTest<BaseHttpTestOptions> {
       this.url = this.parsedOptions.url.value;
     } else {
       //   Use test server if URL is not specified on the command-line
-      //   this.url = TEST_SERVER_URL;
       app = express();
 
       app.get("/", (_, res) => {
@@ -46,10 +45,8 @@ export abstract class BaseHttpTest extends PerfTest<BaseHttpTestOptions> {
 
   async globalCleanup() {
     if (!this.parsedOptions.url.value) {
-      // URL is not specified on the command-line, means we created the test server
-      server.close(function () {
-        console.log("Closing :)");
-      });
+      // URL is not specified on the command-line, means we created the test server, closing that now
+      server.close();
     }
   }
 }

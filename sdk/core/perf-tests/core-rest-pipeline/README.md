@@ -4,7 +4,6 @@
 2. Copy the `sample.env` file and name it as `.env`.
 3. Populate the `.env` file with your Azure Credentials.
 4. Refer to the [rate limits](https://docs.microsoft.com/azure/active-directory/enterprise-users/directory-service-limits-restrictions) and then run the tests as follows:
-5. `rushx build` to compile the TS tests to JS.
 
 - `bearerTokenAuthenticationPolicy` test for the `challengeCallbacks`, for simple `WWW-Authenticate` challenges.
   - `npm run perf-test:node -- BearerTokenAuthenticationPolicyChallengeTest --warmup 1 --iterations 1 --parallel 5`
