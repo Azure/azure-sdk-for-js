@@ -88,7 +88,7 @@ main().catch((err) => {
 ```
 
 #### Authenticate with AAD Handle Re Authentication
-This sample is intended to assist in authenticating with AAD via Ioredis client library. It focuses on displaying the logic required to fetch an AAD Access token and to use it as password when setting up the Ioredis instance. It further shows how to recreate and authenticate the Ioredis instance when its connection is broken in Error/Exception scenarios.
+This sample is intended to assist in authenticating with AAD via ioredis. It focuses on displaying the logic required to fetch an AAD access token and to use it as password when setting up the ioredis instance. It further shows how to recreate and authenticate the ioredis instance when its connection is broken in error/exception scenarios.
 
 Familiarity with the Ioredis and Azure Identity client libraries is assumed. If you're new to the Azure Identity library for Javascript, see the docs for [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) and [ioredis](https://github.com/luin/ioredis) rather than this guide.
 
