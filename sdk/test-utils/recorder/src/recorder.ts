@@ -216,8 +216,9 @@ export class Recorder {
     logger.info(`[Recorder#start] Starting the recorder in ${getTestMode()} mode`);
     this.stateManager.state = "started";
     if (this.recordingId === undefined) {
-      const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.start
-        }`;
+      const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
+        paths.start
+      }`;
       const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
@@ -272,8 +273,9 @@ export class Recorder {
     this.stateManager.state = "stopped";
     if (this.recordingId !== undefined) {
       logger.info("[Recorder#stop] Stopping recording", this.recordingId);
-      const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.stop
-        }`;
+      const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
+        paths.stop
+      }`;
       const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
 
