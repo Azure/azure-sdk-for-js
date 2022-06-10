@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CheckNameAvailabilityParameters,
-  AppConfigurationManagementClient
-} from "@azure/arm-appconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Checks whether the configuration store name is available for use.
@@ -23,15 +20,12 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function configurationStoresCheckNameAvailable() {
   const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const location = "westus";
-  const checkNameAvailabilityParameters: CheckNameAvailabilityParameters = {
+  const checkNameAvailabilityParameters = {
     name: "contoso",
-    type: "Microsoft.AppConfiguration/configurationStores"
+    type: "Microsoft.AppConfiguration/configurationStores",
   };
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.operations.regionalCheckNameAvailability(
     location,
     checkNameAvailabilityParameters
@@ -50,15 +44,12 @@ configurationStoresCheckNameAvailable().catch(console.error);
 async function configurationStoresCheckNameNotAvailable() {
   const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const location = "westus";
-  const checkNameAvailabilityParameters: CheckNameAvailabilityParameters = {
+  const checkNameAvailabilityParameters = {
     name: "contoso",
-    type: "Microsoft.AppConfiguration/configurationStores"
+    type: "Microsoft.AppConfiguration/configurationStores",
   };
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.operations.regionalCheckNameAvailability(
     location,
     checkNameAvailabilityParameters

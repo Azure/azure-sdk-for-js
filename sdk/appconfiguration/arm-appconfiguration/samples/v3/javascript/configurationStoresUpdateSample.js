@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ConfigurationStoreUpdateParameters,
-  AppConfigurationManagementClient
-} from "@azure/arm-appconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Updates a configuration store with the specified parameters.
@@ -24,15 +21,12 @@ async function configurationStoresUpdate() {
   const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const resourceGroupName = "myResourceGroup";
   const configStoreName = "contoso";
-  const configStoreUpdateParameters: ConfigurationStoreUpdateParameters = {
+  const configStoreUpdateParameters = {
     sku: { name: "Standard" },
-    tags: { category: "Marketing" }
+    tags: { category: "Marketing" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.configurationStores.beginUpdateAndWait(
     resourceGroupName,
     configStoreName,
@@ -53,15 +47,12 @@ async function configurationStoresUpdateDisableLocalAuth() {
   const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const resourceGroupName = "myResourceGroup";
   const configStoreName = "contoso";
-  const configStoreUpdateParameters: ConfigurationStoreUpdateParameters = {
+  const configStoreUpdateParameters = {
     disableLocalAuth: true,
-    sku: { name: "Standard" }
+    sku: { name: "Standard" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.configurationStores.beginUpdateAndWait(
     resourceGroupName,
     configStoreName,
@@ -82,21 +73,19 @@ async function configurationStoresUpdateWithIdentity() {
   const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const resourceGroupName = "myResourceGroup";
   const configStoreName = "contoso";
-  const configStoreUpdateParameters: ConfigurationStoreUpdateParameters = {
+  const configStoreUpdateParameters = {
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/c80fb759C9654c6a91109b2b2d038882/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2": {}
-      }
+        "/subscriptions/c80fb759C9654c6a91109b2b2d038882/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2":
+          {},
+      },
     },
     sku: { name: "Standard" },
-    tags: { category: "Marketing" }
+    tags: { category: "Marketing" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.configurationStores.beginUpdateAndWait(
     resourceGroupName,
     configStoreName,

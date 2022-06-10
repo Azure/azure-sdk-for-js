@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Gets the properties of the specified key-value.
@@ -23,15 +23,8 @@ async function keyValuesGet() {
   const configStoreName = "contoso";
   const keyValueName = "myKey$myLabel";
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.keyValues.get(
-    resourceGroupName,
-    configStoreName,
-    keyValueName
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
+  const result = await client.keyValues.get(resourceGroupName, configStoreName, keyValueName);
   console.log(result);
 }
 

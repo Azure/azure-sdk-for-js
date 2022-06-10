@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Gets the properties of the specified configuration store.
@@ -22,14 +22,8 @@ async function configurationStoresGet() {
   const resourceGroupName = "myResourceGroup";
   const configStoreName = "contoso";
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.configurationStores.get(
-    resourceGroupName,
-    configStoreName
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
+  const result = await client.configurationStores.get(resourceGroupName, configStoreName);
   console.log(result);
 }
 
