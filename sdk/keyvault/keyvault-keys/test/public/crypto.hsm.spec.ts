@@ -35,7 +35,6 @@ onVersions({ minVer: "7.2" }).describe(
       if (!authentication.hsmClient) {
         // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
         // This is only necessary while Managed HSM is in preview.
-        await recorder.stop();
         this.skip();
       }
 

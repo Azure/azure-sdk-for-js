@@ -35,7 +35,7 @@ export interface RestoreKeyBackupPollOperationState extends PollOperationState<K
    */
   backup: Uint8Array;
   /**
-   * Options for the core-http requests.
+   * Options for the core-client requests.
    */
   requestOptions?: OperationOptions;
   /**

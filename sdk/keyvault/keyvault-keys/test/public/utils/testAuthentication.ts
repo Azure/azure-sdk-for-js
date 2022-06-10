@@ -27,24 +27,24 @@ export const envSetupForPlayback = {
 export async function authenticate(version: string, recorder: Recorder): Promise<any> {
   const keySuffix = uniqueString();
 
-  const KeyVaultUriName = assertEnvironmentVariable("KEYVAULT_URI").match("https://(.*.net)/")![1];
-  const ReplacedKeyVaultUriName = replaceableVariables.KEYVAULT_URI.match("https://(.*.net)/")![1];
+  const keyVaultUriName = assertEnvironmentVariable("KEYVAULT_URI").match("https://(.*.net)/")![1];
+  const replacedKeyVaultUriName = replaceableVariables.KEYVAULT_URI.match("https://(.*.net)/")![1];
 
-  let AttestationUri: string;
-  let ReplacedAttestationUri: string;
+  let attestationUri: string;
+  let replacedAttestationUri: string;
 
   if (isNode) {
-    AttestationUri = Buffer.from(
+    attestationUri = Buffer.from(
       assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"),
       "base64"
     ).toString();
-    ReplacedAttestationUri = Buffer.from(
+    replacedAttestationUri = Buffer.from(
       replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI,
       "base64"
     ).toString();
   } else {
-    AttestationUri = btoa(assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"));
-    ReplacedAttestationUri = btoa(replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI);
+    attestationUri = btoa(assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"));
+    replacedAttestationUri = btoa(replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI);
   }
 
   await recorder.addSanitizers({
@@ -54,24 +54,12 @@ export async function authenticate(version: string, recorder: Recorder): Promise
         value: "",
       },
       {
-        target: AttestationUri,
-        value: ReplacedAttestationUri,
+        target: attestationUri,
+        value: replacedAttestationUri,
       },
       {
-        target: env.KEYVAULT_URI!,
-        value: replaceableVariables.KEYVAULT_URI,
-      },
-      {
-        target: env.AZURE_MANAGEDHSM_URI!,
-        value: replaceableVariables.AZURE_MANAGEDHSM_URI,
-      },
-      {
-        target: env.AZURE_KEYVAULT_ATTESTATION_URI!,
-        value: replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI,
-      },
-      {
-        target: KeyVaultUriName,
-        value: ReplacedKeyVaultUriName,
+        target: keyVaultUriName,
+        value: replacedKeyVaultUriName,
       },
     ],
   });

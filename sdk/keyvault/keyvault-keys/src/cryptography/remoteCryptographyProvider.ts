@@ -365,8 +365,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
  */
 function getOrInitializeClient(
   credential: TokenCredential,
-  options: CryptographyClientOptions & { generatedClient?: KeyVaultClient },
-  _keyId?: string
+  options: CryptographyClientOptions & { generatedClient?: KeyVaultClient }
 ): KeyVaultClient {
   if (options.generatedClient) {
     return options.generatedClient;

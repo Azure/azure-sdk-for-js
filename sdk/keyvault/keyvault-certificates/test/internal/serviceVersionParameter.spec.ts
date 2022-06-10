@@ -12,7 +12,6 @@ import {
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
-import { env } from "@azure-tools/test-recorder";
 
 describe("The Certificates client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyvaultname.vault.azure.net`;
@@ -38,11 +37,7 @@ describe("The Certificates client should set the serviceVersion", () => {
     sandbox = createSandbox();
     spy = sandbox.spy(mockHttpClient, "sendRequest");
 
-    credential = await new ClientSecretCredential(
-      env.AZURE_TENANT_ID || "tenant",
-      env.AZURE_CLIENT_ID || "client",
-      env.AZURE_CLIENT_SECRET || "secret"
-    );
+    credential = new ClientSecretCredential("tenant", "client", "secret");
   });
 
   afterEach(() => {

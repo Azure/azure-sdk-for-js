@@ -227,8 +227,6 @@ describe("The LROs properly throw on unexpected errors", () => {
 
         let error: Error | null = null;
 
-        console.log();
-
         try {
           await poller.pollUntilDone();
         } catch (e: any) {
