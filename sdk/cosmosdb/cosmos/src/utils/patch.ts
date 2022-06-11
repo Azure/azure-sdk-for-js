@@ -9,6 +9,7 @@ export const PatchOperationType = {
   remove: "remove",
   set: "set",
   incr: "incr",
+  move: "move"
 } as const;
 
 export type ExistingKeyOperation = {
