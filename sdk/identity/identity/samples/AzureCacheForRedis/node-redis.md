@@ -110,7 +110,7 @@ async function main(){
     // Construct a Token Credential from Azure Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
     const credential = new ClientCertificateCredential(process.env.AZURE_TENANT_ID, process.env.AZURE_CLIENT_ID,process.env.CLIENT_CERTIFICATE_PATH);
 
-    // Create Node-redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
+    // Create node-redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
     let redisClient = createClient({
                 username: process.env.REDIS_SERVICE_PRINCIPAL_NAME, 
                 password: (await returnPassword(credential)).token, 
