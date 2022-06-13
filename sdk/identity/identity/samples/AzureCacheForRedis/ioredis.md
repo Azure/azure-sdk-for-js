@@ -3,7 +3,7 @@
 ### Table of contents
 
 - [ioredis library](#ioredis-library)
-    - [Dependency Requirements](#dependency-requirements-ioredis)
+    - [Dependency requirements](#dependency-requirements-ioredis)
     - [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-ioredis-hello-world)
     - [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
 
