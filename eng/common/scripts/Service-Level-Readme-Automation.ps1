@@ -187,6 +187,8 @@ foreach($moniker in $monikers) {
     if ($metadataEntry.Package -and $metadataEntry.Hide -ne 'true') {
       $pkgKey = GetPackageKey $metadataEntry
       if($onboardedPackages.ContainsKey($pkgKey)) {
+        Write-Host "Here is the package json: "
+        Write-Host "$($onboardedPackages[$pkgKey])"
         if ($onboardedPackages[$pkgKey] -and $onboardedPackages[$pkgKey].DirectoryPath) {
           Add-Member -InputObject $metadataEntry `
           -MemberType NoteProperty `
