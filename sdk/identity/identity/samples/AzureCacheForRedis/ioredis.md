@@ -21,7 +21,7 @@ Add the following dependencies to *package.json*:
 
 #### Authenticate with Azure AD: Hello World
 
-This sample is intended to assist in authenticating with AAD via ioredis client library. It focuses on displaying the logic required to fetch an AAD access token and to use it as password when setting up the ioredis instance.
+This sample is intended to assist in authenticating with Azure AD via the ioredis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance.
 
 Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
 
