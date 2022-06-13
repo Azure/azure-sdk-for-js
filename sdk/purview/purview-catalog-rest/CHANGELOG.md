@@ -6,8 +6,6 @@
 
 - Support Atlas 2.2 APIs
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Add missing query parameter `includeTermHierarchy` for update term API
