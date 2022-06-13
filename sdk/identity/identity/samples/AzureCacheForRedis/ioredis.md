@@ -36,7 +36,7 @@ Integrate the logic in your application code to fetch an Azure AD access token v
 ```ts
 import Redis from "ioredis";
 import * as dotenv from "dotenv";
-import {ClientSecretCredential} from "@azure/identity";
+import { ClientSecretCredential } from "@azure/identity";
 dotenv.config();
 
 async function main(){
