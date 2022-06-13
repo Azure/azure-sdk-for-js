@@ -43,8 +43,7 @@ async function main(){
 // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
 const credential = new ClientSecretCredential(process.env.AZURE_TENANT_ID, process.env.AZURE_CLIENT_ID,process.env.AZURE_CLIENT_SECRET);
 try{
-
-  // Fetch an AAD token to be used for authentication. This token will be used as the password.
+  // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
   let accessToken = await credential.getToken("https://*.cacheinfra.windows.net:10225/appid/.default");
 
 // Option 1: Create ioredis client and connect to the Azure Cache for Redis over the non-TLS port using the access token as password.
