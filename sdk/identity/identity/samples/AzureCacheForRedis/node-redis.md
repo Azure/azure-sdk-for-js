@@ -1,4 +1,4 @@
-## Azure Cache For Redis AAD With Node-Redis Client Library
+## Azure Cache for Redis: Azure AD with node-redis client library
 
 ### Table of contents
 
