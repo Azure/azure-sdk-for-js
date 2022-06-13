@@ -75,7 +75,7 @@ try{
  }
 // Fetch value of your key in the Azure Redis Cache.
 console.log("redis key:", await redis.get("Az:mykey"));
-// Close the Ioredis Client Connection
+// Close the ioredis client connection
 redis.disconnect();
 }
 catch(e){
