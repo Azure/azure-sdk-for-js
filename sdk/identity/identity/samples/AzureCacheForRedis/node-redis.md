@@ -131,7 +131,7 @@ async function main(){
             break;
         }
         catch(e){
-            console.log("error during redis get",e.toString());
+            console.log("error during redis get", e.toString());
             if((await returnPassword(credential)).expiresOnTimestamp <= Date.now()){
                 const redisClient = createClient({
                     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME, 
