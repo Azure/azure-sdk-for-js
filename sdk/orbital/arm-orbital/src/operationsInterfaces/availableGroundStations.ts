@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AvailableGroundStation,
-  Enum6,
+  CapabilityParameter,
   AvailableGroundStationsListByCapabilityOptionalParams,
   AvailableGroundStationsGetOptionalParams,
   AvailableGroundStationsGetResponse
@@ -24,7 +24,7 @@ export interface AvailableGroundStations {
    * @param options The options parameters.
    */
   listByCapability(
-    capability: Enum6,
+    capability: CapabilityParameter,
     options?: AvailableGroundStationsListByCapabilityOptionalParams
   ): PagedAsyncIterableIterator<AvailableGroundStation>;
   /**

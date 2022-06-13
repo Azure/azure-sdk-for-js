@@ -16,7 +16,7 @@ import { PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
 import { ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
-import { readableSpanToEnvelope } from "../utils/spanUtils";
+import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
@@ -76,7 +76,37 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     }
   }
 
-  private async exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
+  /**
+   * Export OpenTelemetry spans.
+   * @param spans - Spans to export.
+   * @param resultCallback - Result callback.
+   */
+  async export(
+    spans: ReadableSpan[],
+    resultCallback: (result: ExportResult) => void
+  ): Promise<void> {
+    diag.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
+
+    let envelopes: Envelope[] = [];
+    spans.forEach((span) => {
+      envelopes.push(readableSpanToEnvelope(span, this._options.instrumentationKey));
+      let spanEventEnvelopes = spanEventsToEnvelopes(span, this._options.instrumentationKey);
+      if (spanEventEnvelopes.length > 0) {
+        envelopes.push(...spanEventEnvelopes);
+      }
+    });
+    resultCallback(await this._exportEnvelopes(envelopes));
+  }
+
+  /**
+   * Shutdown AzureMonitorTraceExporter.
+   */
+  async shutdown(): Promise<void> {
+    diag.info("Azure Monitor Trace Exporter shutting down");
+    return this._sender.shutdown();
+  }
+
+  private async _exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
     try {
@@ -138,7 +168,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
               // Update sender URL
               this._sender.handlePermanentRedirect(location);
               // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
-              return this.exportEnvelopes(envelopes);
+              return this._exportEnvelopes(envelopes);
             }
           }
         } else {
@@ -161,30 +191,6 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       );
       return { code: ExportResultCode.FAILED, error: restError };
     }
-  }
-
-  /**
-   * Export OpenTelemetry spans.
-   * @param spans - Spans to export.
-   * @param resultCallback - Result callback.
-   */
-  async export(
-    spans: ReadableSpan[],
-    resultCallback: (result: ExportResult) => void
-  ): Promise<void> {
-    diag.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
-    const envelopes = spans.map((span) =>
-      readableSpanToEnvelope(span, this._options.instrumentationKey)
-    );
-    resultCallback(await this.exportEnvelopes(envelopes));
-  }
-
-  /**
-   * Shutdown AzureMonitorTraceExporter.
-   */
-  async shutdown(): Promise<void> {
-    diag.info("Azure Monitor Trace Exporter shutting down");
-    return this._sender.shutdown();
   }
 
   private async _sendFirstPersistedFile(): Promise<void> {

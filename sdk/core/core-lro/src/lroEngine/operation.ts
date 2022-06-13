@@ -128,12 +128,6 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
 
   async cancel(): Promise<PollOperation<TState, TResult>> {
     await this.cancelOp?.(this.state);
-    /**
-     * When `cancelOperation` is called, polling stops so it is important that
-     * `isCancelled` is set now because the polling logic will not be able to
-     * set it itself because it will not fire.
-     */
-    this.state.isCancelled = true;
     return this;
   }
 
