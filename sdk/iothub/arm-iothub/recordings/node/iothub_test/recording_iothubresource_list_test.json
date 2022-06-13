@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-iothub/6.1.3 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "0cd24081-0541-4cfd-8bf6-5b0bc61fb869"
+        "User-Agent": "azsdk-js-arm-iothub/6.1.4 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "25c9cf65-8f31-4504-ae50-fb4ab6870128"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Jun 2022 08:10:09 GMT",
+        "Date": "Mon, 13 Jun 2022 08:57:11 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "49b88389-681f-4424-ac4c-d346af0a3fcb",
-        "x-ms-ratelimit-remaining-subscription-reads": "11941",
-        "x-ms-request-id": "49b88389-681f-4424-ac4c-d346af0a3fcb",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220613T081010Z:49b88389-681f-4424-ac4c-d346af0a3fcb"
+        "x-ms-correlation-request-id": "ac7f1029-70d4-4710-87f1-3b6668e4be7c",
+        "x-ms-ratelimit-remaining-subscription-reads": "11946",
+        "x-ms-request-id": "ac7f1029-70d4-4710-87f1-3b6668e4be7c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220613T085712Z:ac7f1029-70d4-4710-87f1-3b6668e4be7c"
       },
       "ResponseBody": {
         "value": [
@@ -42,7 +42,7 @@
             },
             "subscriptionid": "azure_subscription_id",
             "resourcegroup": "myjstest",
-            "etag": "AAAADGqv5ts=",
+            "etag": "AAAADGqweLg=",
             "properties": {
               "locations": [
                 {
@@ -78,7 +78,7 @@
                     "1"
                   ],
                   "path": "myiothubxxxxyyyjjrr",
-                  "endpoint": "sb://iothub-ns-myiothubxx-19765276-26aa1b191e.servicebus.windows.net/"
+                  "endpoint": "sb://iothub-ns-myiothubxx-19765995-096b3644a1.servicebus.windows.net/"
                 }
               },
               "routing": {
@@ -137,7 +137,7 @@
               "type": "None"
             },
             "systemData": {
-              "createdAt": "2022-06-13T08:07:54.3966667Z"
+              "createdAt": "2022-06-13T08:55:09.0466667Z"
             }
           }
         ]
