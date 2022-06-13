@@ -127,15 +127,15 @@ export class NotificationHubsClient extends ServiceClient {
   /**
    * Creates or overwrites an installation to a Notification Hub.
    * @param installation - The installation to create or overwrite.
-   * @param options - Configuration options for the upsert installation operation.
+   * @param options - Configuration options for the create or update installation operation.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
-  public upsertInstallation(
+  public createOrUpdateInstallation(
     installation: Installation,
     options: OperationOptions = {}
   ): Promise<NotificationHubResponse> {
     return tracingClient.withSpan(
-      "NotificationHubsClient-upsertInstallation",
+      "NotificationHubsClient-createOrUpdateInstallation",
       options,
       async (updatedOptions) => {
         const endpoint = this.getBaseURL();
@@ -150,7 +150,7 @@ export class NotificationHubsClient extends ServiceClient {
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
           // TODO: throw special errors
-          throw new Error(`upsertInstallation failed with ${response.status}`);
+          throw new Error(`createOrUpdateInstallation failed with ${response.status}`);
         }
 
         return this.parseNotificationResponse(response);
@@ -186,7 +186,7 @@ export class NotificationHubsClient extends ServiceClient {
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
           // TODO: throw special errors
-          throw new Error(`upsertInstallation failed with ${response.status}`);
+          throw new Error(`patchInstallation failed with ${response.status}`);
         }
 
         return this.parseNotificationResponse(response);
@@ -200,7 +200,7 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The options for getting the push notification feedback container URL.
    * @returns The URL of the Azure Storage Container containing the feedback data.
    */
-  public getFeedbackContainerURL(options: OperationOptions = {}): Promise<URL> {
+  public getFeedbackContainerURL(options: OperationOptions = {}): Promise<string> {
     return tracingClient.withSpan(
       "NotificationHubsClient-getFeedbackContainerURL",
       options,
@@ -214,10 +214,10 @@ export class NotificationHubsClient extends ServiceClient {
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
           // TODO: throw special errors
-          throw new Error(`upsertInstallation failed with ${response.status}`);
+          throw new Error(`getFeedbackContainerURL failed with ${response.status}`);
         }
 
-        return new URL(response.bodyAsText!);
+        return response.bodyAsText!;
       }
     );
   }
@@ -363,7 +363,7 @@ export class NotificationHubsClient extends ServiceClient {
         const response = await this.sendRequest(request);
         if (response.status !== 201) {
           // TODO: throw special errors
-          throw new Error(`upsertInstallation failed with ${response.status}`);
+          throw new Error(`${method} failed with ${response.status}`);
         }
 
         return this.parseNotificationResponse(response);
