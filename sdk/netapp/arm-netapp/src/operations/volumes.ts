@@ -18,6 +18,8 @@ import {
   Volume,
   VolumesListNextOptionalParams,
   VolumesListOptionalParams,
+  Replication,
+  VolumesListReplicationsOptionalParams,
   VolumesListResponse,
   VolumesGetOptionalParams,
   VolumesGetResponse,
@@ -33,7 +35,6 @@ import {
   VolumesBreakReplicationOptionalParams,
   VolumesReplicationStatusOptionalParams,
   VolumesReplicationStatusResponse,
-  VolumesListReplicationsOptionalParams,
   VolumesListReplicationsResponse,
   VolumesResyncReplicationOptionalParams,
   VolumesDeleteReplicationOptionalParams,
@@ -135,6 +136,82 @@ export class VolumesImpl implements Volumes {
       resourceGroupName,
       accountName,
       poolName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List all replications for a specified volume
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  public listReplications(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListReplicationsOptionalParams
+  ): PagedAsyncIterableIterator<Replication> {
+    const iter = this.listReplicationsPagingAll(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listReplicationsPagingPage(
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listReplicationsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListReplicationsOptionalParams
+  ): AsyncIterableIterator<Replication[]> {
+    let result = await this._listReplications(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listReplicationsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListReplicationsOptionalParams
+  ): AsyncIterableIterator<Replication> {
+    for await (const page of this.listReplicationsPagingPage(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
       options
     )) {
       yield* page;
@@ -789,7 +866,7 @@ export class VolumesImpl implements Volumes {
    * @param volumeName The name of the volume
    * @param options The options parameters.
    */
-  listReplications(
+  private _listReplications(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
