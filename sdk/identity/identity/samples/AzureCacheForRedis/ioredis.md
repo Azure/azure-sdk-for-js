@@ -14,8 +14,9 @@
 Add the following dependencies to *package.json*:
 
 ```
-    "@azure/identity":"^2.0.4",
-    "ioredis": "^5.0.4"
+"dependencies": {
+  "@azure/identity":"^2.0.4",
+  "ioredis": "^5.0.4",
 ```
 
 #### Authenticate with Azure AD: Hello World
