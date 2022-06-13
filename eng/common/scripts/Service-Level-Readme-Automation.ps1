@@ -60,10 +60,11 @@ function create-metadata-table($readmeFolder, $readmeName, $moniker, $msService,
   $null = New-Item -Path $readmePath -Force
   $lang = $LanguageDisplayName
   $langTitle = "Azure $serviceName SDK for $lang"
-  $header = GenerateDocsMsMetadata -language $lang -langTitle $langTitle -serviceName $serviceName `
+  # Generate the front-matter for docs needs
+  $metadataString = GenerateDocsMsMetadata -language $lang -langTitle $langTitle -serviceName $serviceName `
     -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
     -msService $msService
-  Add-Content -Path $readmePath -Value $header
+  Add-Content -Path $readmePath -Value $metadataString
 
   # Add tables, seperate client and mgmt.
   $readmeHeader = "# $langTitle - $moniker"
@@ -71,7 +72,7 @@ function create-metadata-table($readmeFolder, $readmeName, $moniker, $msService,
   Add-Content -Path $readmePath -Value $content
 }
 
-function CompareAndMergeMetadata ($original, $updated) {
+function compare-and-merge-metadata ($original, $updated) {
   $originalTable = ConvertFrom-StringData -StringData $original -Delimiter ":"
   $updatedTable = ConvertFrom-StringData -StringData $updated -Delimiter ":"
   foreach ($key in $originalTable.Keys) {
@@ -96,7 +97,7 @@ function update-metadata-table($readmeFolder, $readmeName, $serviceName, $msServ
     -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
     -msService $msService
   $null = $metadataString -match "---`n*(?<metadata>(.*`n)*)---"
-  $mergedMetadata = CompareAndMergeMetadata -original $orignalMetadata -updated $Matches["metadata"]
+  $mergedMetadata = compare-and-merge-metadata -original $orignalMetadata -updated $Matches["metadata"]
   Set-Content -Path $readmePath -Value "---`n$mergedMetadata---`n$restContent" -NoNewline
 }
 
@@ -187,8 +188,6 @@ foreach($moniker in $monikers) {
     if ($metadataEntry.Package -and $metadataEntry.Hide -ne 'true') {
       $pkgKey = GetPackageKey $metadataEntry
       if($onboardedPackages.ContainsKey($pkgKey)) {
-        Write-Host "Here is the package json: "
-        Write-Host "$($onboardedPackages[$pkgKey])"
         if ($onboardedPackages[$pkgKey] -and $onboardedPackages[$pkgKey].DirectoryPath) {
           Add-Member -InputObject $metadataEntry `
           -MemberType NoteProperty `

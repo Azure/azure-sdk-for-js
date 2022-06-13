@@ -41,6 +41,8 @@ function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $mon
     
     $jsStylePkgName = $packageName.Replace("@", "").Replace("/", "-")
     $jsonFile = "$DocRepoLocation/matadata/$moniker/$jsStylePkgName.json"
+    Write-Host "jsonFile"
+    Write-Host (Test-Path $jsonFile)
     if (Test-Path $jsonFile) {
       Write-Host "The package $packageName has metadata"
       $onboardedPackages[$packageName] = ConvertFrom-Json (Get-Content -Path $jsonFile)
