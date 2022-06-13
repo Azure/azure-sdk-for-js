@@ -28,6 +28,9 @@ import {
   RehydratePriority,
   BlobImmutabilityPolicyMode,
   BlobTag,
+  PageRange,
+  ClearRange,
+  BlobPropertiesInternal,
 } from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 import {
@@ -42,6 +45,8 @@ import {
   BlobItemInternal as BlobItemInternalModel,
   ListBlobsHierarchySegmentResponseModel,
   BlobPrefix as BlobPrefixModel,
+  PageBlobGetPageRangesDiffResponseModel,
+  PageRangeInfo,
 } from "../generatedModels";
 
 /**
@@ -581,7 +586,7 @@ export function getAccountNameFromUrl(url: string): string {
       accountName = "";
     }
     return accountName;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error("Unable to extract accountName with provided information.");
   }
 }
@@ -863,95 +868,270 @@ function ParseBlobName(blobNameInXML: any): BlobName {
   }
 }
 
-function ParseBlobItem(blobInXML: any): BlobItemInternal {
-  const blobPropertiesInXML = blobInXML["Properties"];
-  const blobProperties = {
-    createdOn: new Date(blobPropertiesInXML["Creation-Time"] as string),
-    lastModified: new Date(blobPropertiesInXML["Last-Modified"] as string),
-    etag: blobPropertiesInXML["Etag"] as string,
-    contentLength:
-      blobPropertiesInXML["Content-Length"] === undefined
-        ? undefined
-        : parseFloat(blobPropertiesInXML["Content-Length"] as string),
-    contentType: blobPropertiesInXML["Content-Type"] as string,
-    contentEncoding: blobPropertiesInXML["Content-Encoding"] as string,
-    contentLanguage: blobPropertiesInXML["Content-Language"] as string,
-    contentMD5: decodeBase64String(blobPropertiesInXML["Content-MD5"] as string),
-    contentDisposition: blobPropertiesInXML["Content-Disposition"] as string,
-    cacheControl: blobPropertiesInXML["Cache-Control"] as string,
-    blobSequenceNumber:
-      blobPropertiesInXML["x-ms-blob-sequence-number"] === undefined
-        ? undefined
-        : parseFloat(blobPropertiesInXML["x-ms-blob-sequence-number"] as string),
-    blobType: blobPropertiesInXML["BlobType"] as BlobType,
-    leaseStatus: blobPropertiesInXML["LeaseStatus"] as LeaseStatusType,
-    leaseState: blobPropertiesInXML["LeaseState"] as LeaseStateType,
-    leaseDuration: blobPropertiesInXML["LeaseDuration"] as LeaseDurationType,
-    copyId: blobPropertiesInXML["CopyId"] as string,
-    copyStatus: blobPropertiesInXML["CopyStatus"] as CopyStatusType,
-    copySource: blobPropertiesInXML["CopySource"] as string,
-    copyProgress: blobPropertiesInXML["CopyProgress"] as string,
-    copyCompletedOn:
-      blobPropertiesInXML["CopyCompletionTime"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["CopyCompletionTime"] as string),
-    copyStatusDescription: blobPropertiesInXML["CopyStatusDescription"] as string,
-    serverEncrypted: ParseBoolean(blobPropertiesInXML["ServerEncrypted"]),
-    incrementalCopy: ParseBoolean(blobPropertiesInXML["IncrementalCopy"]),
-    destinationSnapshot: blobPropertiesInXML["DestinationSnapshot"] as string,
-    deletedOn:
-      blobPropertiesInXML["DeletedTime"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["DeletedTime"] as string),
-    remainingRetentionDays:
-      blobPropertiesInXML["RemainingRetentionDays"] === undefined
-        ? undefined
-        : parseFloat(blobPropertiesInXML["RemainingRetentionDays"] as string),
-    accessTier: blobPropertiesInXML["AccessTier"] as AccessTier,
-    accessTierInferred: ParseBoolean(blobPropertiesInXML["AccessTierInferred"]),
-    archiveStatus: blobPropertiesInXML["ArchiveStatus"] as ArchiveStatus,
-    customerProvidedKeySha256: blobPropertiesInXML["CustomerProvidedKeySha256"] as string,
-    encryptionScope: blobPropertiesInXML["EncryptionScope"] as string,
-    accessTierChangedOn:
-      blobPropertiesInXML["AccessTierChangeTime"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["AccessTierChangeTime"] as string),
-    tagCount:
-      blobPropertiesInXML["TagCount"] === undefined
-        ? undefined
-        : parseFloat(blobPropertiesInXML["TagCount"] as string),
-    expiresOn:
-      blobPropertiesInXML["Expiry-Time"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["Expiry-Time"] as string),
-    isSealed: ParseBoolean(blobPropertiesInXML["Sealed"]),
-    rehydratePriority: blobPropertiesInXML["RehydratePriority"] as RehydratePriority,
-    lastAccessedOn:
-      blobPropertiesInXML["LastAccessTime"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["LastAccessTime"] as string),
-    immutabilityPolicyExpiresOn:
-      blobPropertiesInXML["ImmutabilityPolicyUntilDate"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["ImmutabilityPolicyUntilDate"] as string),
-    immutabilityPolicyMode: blobPropertiesInXML[
-      "ImmutabilityPolicyMode"
-    ] as BlobImmutabilityPolicyMode,
-    legalHold: ParseBoolean(blobPropertiesInXML["LegalHold"]),
-  };
+function ParseBlobProperties(blobPropertiesInXML: any): BlobPropertiesInternal {
+  const blobProperties = blobPropertiesInXML;
+  if (blobPropertiesInXML["Creation-Time"]) {
+    blobProperties.createdOn = new Date(blobPropertiesInXML["Creation-Time"] as string);
+    delete blobProperties["Creation-Time"];
+  }
 
-  return {
-    name: ParseBlobName(blobInXML["Name"]),
-    deleted: ParseBoolean(blobInXML["Deleted"])!,
-    snapshot: blobInXML["Snapshot"] as string,
-    versionId: blobInXML["VersionId"] as string,
-    isCurrentVersion: ParseBoolean(blobInXML["IsCurrentVersion"]),
-    properties: blobProperties,
-    metadata: blobInXML["Metadata"],
-    blobTags: ParseBlobTags(blobInXML["Tags"]),
-    objectReplicationMetadata: blobInXML["OrMetadata"],
-    hasVersionsOnly: ParseBoolean(blobInXML["HasVersionsOnly"]),
-  };
+  if (blobPropertiesInXML["Last-Modified"]) {
+    blobProperties.lastModified = new Date(blobPropertiesInXML["Last-Modified"] as string);
+    delete blobProperties["Last-Modified"];
+  }
+
+  if (blobPropertiesInXML["Etag"]) {
+    blobProperties.etag = blobPropertiesInXML["Etag"] as string;
+    delete blobProperties["Etag"];
+  }
+
+  if (blobPropertiesInXML["Content-Length"]) {
+    blobProperties.contentLength = parseFloat(blobPropertiesInXML["Content-Length"] as string);
+    delete blobProperties["Content-Length"];
+  }
+
+  if (blobPropertiesInXML["Content-Type"]) {
+    blobProperties.contentType = blobPropertiesInXML["Content-Type"] as string;
+    delete blobProperties["Content-Type"];
+  }
+
+  if (blobPropertiesInXML["Content-Encoding"]) {
+    blobProperties.contentEncoding = blobPropertiesInXML["Content-Encoding"] as string;
+    delete blobProperties["Content-Encoding"];
+  }
+
+  if (blobPropertiesInXML["Content-Language"]) {
+    blobProperties.contentLanguage = blobPropertiesInXML["Content-Language"] as string;
+    delete blobProperties["Content-Language"];
+  }
+
+  if (blobPropertiesInXML["Content-MD5"]) {
+    blobProperties.contentMD5 = decodeBase64String(blobPropertiesInXML["Content-MD5"] as string);
+    delete blobProperties["Content-MD5"];
+  }
+
+  if (blobPropertiesInXML["Content-Disposition"]) {
+    blobProperties.contentDisposition = blobPropertiesInXML["Content-Disposition"] as string;
+    delete blobProperties["Content-Disposition"];
+  }
+
+  if (blobPropertiesInXML["Cache-Control"]) {
+    blobProperties.cacheControl = blobPropertiesInXML["Cache-Control"] as string;
+    delete blobProperties["Cache-Control"];
+  }
+
+  if (blobPropertiesInXML["x-ms-blob-sequence-number"]) {
+    blobProperties.blobSequenceNumber = parseFloat(
+      blobPropertiesInXML["x-ms-blob-sequence-number"] as string
+    );
+    delete blobProperties["x-ms-blob-sequence-number"];
+  }
+
+  if (blobPropertiesInXML["BlobType"]) {
+    blobProperties.blobType = blobPropertiesInXML["BlobType"] as BlobType;
+    delete blobProperties["BlobType"];
+  }
+
+  if (blobPropertiesInXML["LeaseStatus"]) {
+    blobProperties.leaseStatus = blobPropertiesInXML["LeaseStatus"] as LeaseStatusType;
+    delete blobProperties["LeaseStatus"];
+  }
+
+  if (blobPropertiesInXML["LeaseState"]) {
+    blobProperties.leaseState = blobPropertiesInXML["LeaseState"] as LeaseStateType;
+    delete blobProperties["LeaseState"];
+  }
+
+  if (blobPropertiesInXML["LeaseDuration"]) {
+    blobProperties.leaseDuration = blobPropertiesInXML["LeaseDuration"] as LeaseDurationType;
+    delete blobProperties["LeaseDuration"];
+  }
+
+  if (blobPropertiesInXML["CopyId"]) {
+    blobProperties.copyId = blobPropertiesInXML["CopyId"] as string;
+    delete blobProperties["CopyId"];
+  }
+
+  if (blobPropertiesInXML["CopyStatus"]) {
+    blobProperties.copyStatus = blobPropertiesInXML["CopyStatus"] as CopyStatusType;
+    delete blobProperties["CopyStatus"];
+  }
+
+  if (blobPropertiesInXML["CopySource"]) {
+    blobProperties.copySource = blobPropertiesInXML["CopySource"] as string;
+    delete blobProperties["CopySource"];
+  }
+
+  if (blobPropertiesInXML["CopyProgress"]) {
+    blobProperties.copyProgress = blobPropertiesInXML["CopyProgress"] as string;
+    delete blobProperties["CopyProgress"];
+  }
+
+  if (blobPropertiesInXML["CopyCompletionTime"]) {
+    blobProperties.copyCompletedOn = new Date(blobPropertiesInXML["CopyCompletionTime"] as string);
+    delete blobProperties["CopyCompletionTime"];
+  }
+
+  if (blobPropertiesInXML["CopyStatusDescription"]) {
+    blobProperties.copyStatusDescription = blobPropertiesInXML["CopyStatusDescription"] as string;
+    delete blobProperties["CopyStatusDescription"];
+  }
+
+  if (blobPropertiesInXML["ServerEncrypted"]) {
+    blobProperties.serverEncrypted = ParseBoolean(blobPropertiesInXML["ServerEncrypted"]);
+    delete blobProperties["ServerEncrypted"];
+  }
+
+  if (blobPropertiesInXML["IncrementalCopy"]) {
+    blobProperties.incrementalCopy = ParseBoolean(blobPropertiesInXML["IncrementalCopy"]);
+    delete blobProperties["IncrementalCopy"];
+  }
+
+  if (blobPropertiesInXML["DestinationSnapshot"]) {
+    blobProperties.destinationSnapshot = blobPropertiesInXML["DestinationSnapshot"] as string;
+    delete blobProperties["DestinationSnapshot"];
+  }
+
+  if (blobPropertiesInXML["DeletedTime"]) {
+    blobProperties.deletedOn = new Date(blobPropertiesInXML["DeletedTime"] as string);
+    delete blobProperties["DeletedTime"];
+  }
+
+  if (blobPropertiesInXML["RemainingRetentionDays"]) {
+    blobProperties.remainingRetentionDays = parseFloat(
+      blobPropertiesInXML["RemainingRetentionDays"] as string
+    );
+    delete blobProperties["RemainingRetentionDays"];
+  }
+
+  if (blobPropertiesInXML["AccessTier"]) {
+    blobProperties.accessTier = blobPropertiesInXML["AccessTier"] as AccessTier;
+    delete blobProperties["AccessTier"];
+  }
+
+  if (blobPropertiesInXML["AccessTierInferred"]) {
+    blobProperties.accessTierInferred = ParseBoolean(blobPropertiesInXML["AccessTierInferred"]);
+    delete blobProperties["AccessTierInferred"];
+  }
+
+  if (blobPropertiesInXML["ArchiveStatus"]) {
+    blobProperties.archiveStatus = blobPropertiesInXML["ArchiveStatus"] as ArchiveStatus;
+    delete blobProperties["ArchiveStatus"];
+  }
+
+  if (blobPropertiesInXML["CustomerProvidedKeySha256"]) {
+    blobProperties.customerProvidedKeySha256 = blobPropertiesInXML[
+      "CustomerProvidedKeySha256"
+    ] as string;
+    delete blobProperties["CustomerProvidedKeySha256"];
+  }
+
+  if (blobPropertiesInXML["EncryptionScope"]) {
+    blobProperties.encryptionScope = blobPropertiesInXML["EncryptionScope"] as string;
+    delete blobProperties["EncryptionScope"];
+  }
+
+  if (blobPropertiesInXML["AccessTierChangeTime"]) {
+    blobProperties.accessTierChangedOn = new Date(
+      blobPropertiesInXML["AccessTierChangeTime"] as string
+    );
+    delete blobProperties["AccessTierChangeTime"];
+  }
+
+  if (blobPropertiesInXML["TagCount"]) {
+    blobProperties.tagCount = parseFloat(blobPropertiesInXML["TagCount"] as string);
+    delete blobProperties["TagCount"];
+  }
+
+  if (blobPropertiesInXML["Expiry-Time"]) {
+    blobProperties.expiresOn = new Date(blobPropertiesInXML["Expiry-Time"] as string);
+    delete blobProperties["Expiry-Time"];
+  }
+
+  if (blobPropertiesInXML["Sealed"]) {
+    blobProperties.isSealed = ParseBoolean(blobPropertiesInXML["Sealed"]);
+    delete blobProperties["Sealed"];
+  }
+
+  if (blobPropertiesInXML["RehydratePriority"]) {
+    blobProperties.rehydratePriority = blobPropertiesInXML[
+      "RehydratePriority"
+    ] as RehydratePriority;
+    delete blobProperties["RehydratePriority"];
+  }
+
+  if (blobPropertiesInXML["LastAccessTime"]) {
+    blobProperties.lastAccessedOn = new Date(blobPropertiesInXML["LastAccessTime"] as string);
+    delete blobProperties["LastAccessTime"];
+  }
+
+  if (blobPropertiesInXML["ImmutabilityPolicyUntilDate"]) {
+    blobProperties.immutabilityPolicyExpiresOn = new Date(
+      blobPropertiesInXML["ImmutabilityPolicyUntilDate"] as string
+    );
+    delete blobProperties["ImmutabilityPolicyUntilDate"];
+  }
+
+  if (blobPropertiesInXML["ImmutabilityPolicyMode"]) {
+    blobProperties.immutabilityPolicyMode = blobPropertiesInXML[
+      "ImmutabilityPolicyMode"
+    ] as BlobImmutabilityPolicyMode;
+    delete blobProperties["ImmutabilityPolicyMode"];
+  }
+
+  if (blobPropertiesInXML["LegalHold"]) {
+    blobProperties.legalHold = ParseBoolean(blobPropertiesInXML["LegalHold"]);
+    delete blobProperties["LegalHold"];
+  }
+
+  return blobProperties;
+}
+
+function ParseBlobItem(blobInXML: any): BlobItemInternal {
+  const blobItem = blobInXML;
+  blobItem.properties = ParseBlobProperties(blobInXML["Properties"]);
+  delete blobItem["Properties"];
+
+  blobItem.name = ParseBlobName(blobInXML["Name"]);
+  delete blobItem["Name"];
+  blobItem.deleted = ParseBoolean(blobInXML["Deleted"])!;
+  delete blobItem["Deleted"];
+
+  if (blobInXML["Snapshot"]) {
+    blobItem.snapshot = blobInXML["Snapshot"] as string;
+    delete blobItem["Snapshot"];
+  }
+
+  if (blobInXML["VersionId"]) {
+    blobItem.versionId = blobInXML["VersionId"] as string;
+    delete blobItem["VersionId"];
+  }
+
+  if (blobInXML["IsCurrentVersion"]) {
+    blobItem.isCurrentVersion = ParseBoolean(blobInXML["IsCurrentVersion"]);
+    delete blobItem["IsCurrentVersion"];
+  }
+
+  if (blobInXML["Metadata"]) {
+    blobItem.metadata = blobInXML["Metadata"];
+    delete blobItem["Metadata"];
+  }
+
+  if (blobInXML["Tags"]) {
+    blobItem.blobTags = ParseBlobTags(blobInXML["Tags"]);
+    delete blobItem["Tags"];
+  }
+
+  if (blobInXML["OrMetadata"]) {
+    blobItem.objectReplicationMetadata = blobInXML["OrMetadata"];
+    delete blobItem["OrMetadata"];
+  }
+
+  if (blobInXML["HasVersionsOnly"]) {
+    blobItem.hasVersionsOnly = ParseBoolean(blobInXML["HasVersionsOnly"]);
+    delete blobItem["HasVersionsOnly"];
+  }
+  return blobItem;
 }
 
 function ParseBlobPrefix(blobPrefixInXML: any): BlobPrefix {
@@ -1014,4 +1194,51 @@ export function ProcessBlobPrefixes(blobPrefixesInXML: any[]): BlobPrefix[] {
   }
 
   return blobPrefixes;
+}
+
+export function* ExtractPageRangeInfoItems(
+  getPageRangesSegment: PageBlobGetPageRangesDiffResponseModel
+): IterableIterator<PageRangeInfo> {
+  let pageRange: PageRange[] = [];
+  let clearRange: ClearRange[] = [];
+
+  if (getPageRangesSegment.pageRange) pageRange = getPageRangesSegment.pageRange;
+  if (getPageRangesSegment.clearRange) clearRange = getPageRangesSegment.clearRange;
+
+  let pageRangeIndex = 0;
+  let clearRangeIndex = 0;
+
+  while (pageRangeIndex < pageRange.length && clearRangeIndex < clearRange.length) {
+    if (pageRange[pageRangeIndex].start < clearRange[clearRangeIndex].start) {
+      yield {
+        start: pageRange[pageRangeIndex].start,
+        end: pageRange[pageRangeIndex].end,
+        isClear: false,
+      };
+      ++pageRangeIndex;
+    } else {
+      yield {
+        start: clearRange[clearRangeIndex].start,
+        end: clearRange[clearRangeIndex].end,
+        isClear: true,
+      };
+      ++clearRangeIndex;
+    }
+  }
+
+  for (; pageRangeIndex < pageRange.length; ++pageRangeIndex) {
+    yield {
+      start: pageRange[pageRangeIndex].start,
+      end: pageRange[pageRangeIndex].end,
+      isClear: false,
+    };
+  }
+
+  for (; clearRangeIndex < clearRange.length; ++clearRangeIndex) {
+    yield {
+      start: clearRange[clearRangeIndex].start,
+      end: clearRange[clearRangeIndex].end,
+      isClear: true,
+    };
+  }
 }

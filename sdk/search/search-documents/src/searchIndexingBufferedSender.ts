@@ -163,7 +163,7 @@ export class SearchIndexingBufferedSender<T> {
         documents,
       });
       return this.internalFlush(false, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -195,7 +195,7 @@ export class SearchIndexingBufferedSender<T> {
         documents,
       });
       return this.internalFlush(false, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -227,7 +227,7 @@ export class SearchIndexingBufferedSender<T> {
         documents,
       });
       return this.internalFlush(false, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -259,7 +259,7 @@ export class SearchIndexingBufferedSender<T> {
         documents,
       });
       return this.internalFlush(false, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -283,7 +283,7 @@ export class SearchIndexingBufferedSender<T> {
       if (this.batchObject.actions.length > 0) {
         return this.internalFlush(true, updatedOptions);
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -429,7 +429,7 @@ export class SearchIndexingBufferedSender<T> {
       );
       // raise success event
       this.emitter.emit("batchSucceeded", result);
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode && e.statusCode === 413 && actionsToSend.length > 1) {
         // Cut the payload size to half
         const splitActionsArray = [

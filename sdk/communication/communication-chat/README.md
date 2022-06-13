@@ -131,10 +131,9 @@ const sendMessageRequest =
 {
   content: 'Hello Geeta! Can you share the deck for the conference?'
 };
-const sendMessageOptions =
-{
-  senderDisplayName : 'Jack',
-  type: 'text'
+const sendMessageOptions:SendMessageOptions = {
+  senderDisplayName: "Jack",
+  type: "text"
 };
 const sendChatMessageResult = await chatThreadClient.sendMessage(sendMessageRequest, sendMessageOptions);
 const messageId = sendChatMessageResult.id;
@@ -193,6 +192,25 @@ Similar to above, you can also remove users from a thread. In order to remove, y
 ```JavaScript
 
 await chatThreadClient.removeParticipant({ communicationUserId: '<MEMBER_ID>' });
+
+```
+
+### Subscribe to connection status of real time notifications
+Subscription to events `realTimeNotificationConnected` and `realTimeNotificationDisconnected` allows you to know when the connection to the call server is active.
+
+```JavaScript
+
+// subscribe to realTimeNotificationConnected event
+chatClient.on('realTimeNotificationConnected', () => {
+  console.log("Real time notification is now connected!");
+  // your code here
+});
+
+// subscribe to realTimeNotificationDisconnected event
+chatClient.on('realTimeNotificationDisconnected', () => {
+  console.log("Real time notification is now disconnected!");
+  // your code here
+});
 
 ```
 

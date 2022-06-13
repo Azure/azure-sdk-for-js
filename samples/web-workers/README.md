@@ -30,7 +30,7 @@ To avoid complexity in this sample, we will be using a [SAS Connection String][s
 
 To quickly create the needed resources in Azure and to receive the necessary environment variables for them, you can deploy our sample template by clicking:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsamples%2Fweb-workers%2arm-template.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmain%2Fsamples%2Fweb-workers%2Farm-template.json)
 
 Once the deployment completes, head over to the "outputs" tab and copy the outputs to a local file - you'll need them in the next step.
 

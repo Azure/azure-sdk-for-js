@@ -3,8 +3,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
-import { parseConnectionString } from "../src/credential/connectionString";
 import { parseClientArguments } from "../src/credential/clientArguments";
+import { parseConnectionString } from "../src/credential/connectionString";
 
 const mockCredential = new AzureKeyCredential("secret");
 const host = "https://contoso.communicationservices.azure.com";

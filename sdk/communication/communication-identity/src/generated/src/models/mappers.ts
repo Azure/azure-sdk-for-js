@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const CommunicationIdentityCreateRequest: coreHttp.CompositeMapper = {
+export const CommunicationIdentityCreateRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationIdentityCreateRequest",
@@ -17,14 +17,18 @@ export const CommunicationIdentityCreateRequest: coreHttp.CompositeMapper = {
         serializedName: "createTokenWithScopes",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
   }
 };
 
-export const CommunicationIdentityAccessTokenResult: coreHttp.CompositeMapper = {
+export const CommunicationIdentityAccessTokenResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationIdentityAccessTokenResult",
@@ -47,7 +51,7 @@ export const CommunicationIdentityAccessTokenResult: coreHttp.CompositeMapper = 
   }
 };
 
-export const CommunicationIdentity: coreHttp.CompositeMapper = {
+export const CommunicationIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationIdentity",
@@ -63,7 +67,7 @@ export const CommunicationIdentity: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationIdentityAccessToken: coreHttp.CompositeMapper = {
+export const CommunicationIdentityAccessToken: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationIdentityAccessToken",
@@ -86,7 +90,7 @@ export const CommunicationIdentityAccessToken: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
+export const CommunicationErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationErrorResponse",
@@ -102,7 +106,7 @@ export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationError: coreHttp.CompositeMapper = {
+export const CommunicationError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationError",
@@ -134,7 +138,10 @@ export const CommunicationError: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "CommunicationError" }
+            type: {
+              name: "Composite",
+              className: "CommunicationError"
+            }
           }
         }
       },
@@ -149,13 +156,27 @@ export const CommunicationError: coreHttp.CompositeMapper = {
   }
 };
 
-export const TeamsUserAccessTokenRequest: coreHttp.CompositeMapper = {
+export const TeamsUserExchangeTokenRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TeamsUserAccessTokenRequest",
+    className: "TeamsUserExchangeTokenRequest",
     modelProperties: {
       token: {
         serializedName: "token",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      appId: {
+        serializedName: "appId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userId: {
+        serializedName: "userId",
         required: true,
         type: {
           name: "String"
@@ -165,7 +186,7 @@ export const TeamsUserAccessTokenRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationIdentityAccessTokenRequest: coreHttp.CompositeMapper = {
+export const CommunicationIdentityAccessTokenRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationIdentityAccessTokenRequest",
@@ -175,7 +196,11 @@ export const CommunicationIdentityAccessTokenRequest: coreHttp.CompositeMapper =
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

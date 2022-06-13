@@ -1,0 +1,15 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@id": "dtmi:test:doubleArray;1",
+  "@type": "Array",
+  "elementSchema": "double",
+  "displayName": {
+    "en": "Value array",
+    "es": "Matriz de valores"
+  },
+  "description": {
+    "en": "this is an array of values",
+    "es": "esta es una matriz de valores"
+  },
+  "comment": "Each value is a double"
+}

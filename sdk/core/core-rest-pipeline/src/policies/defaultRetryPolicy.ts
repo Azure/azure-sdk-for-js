@@ -6,8 +6,7 @@ import { PipelinePolicy } from "../pipeline";
 import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
 import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
-
-const DEFAULT_RETRY_POLICY_COUNT = 10;
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 /**
  * Name of the {@link defaultRetryPolicy}

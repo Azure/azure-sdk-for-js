@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
 import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
-import { createRecordedClient } from "./utils/recordedClient";
 import {
   assertEditableFieldsAreEqual,
   doesProgramBriefExist,
   getTestUSProgramBrief,
 } from "./utils/testUSProgramBrief";
+import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
+import { createRecordedClient } from "./utils/recordedClient";
 
 describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function () {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(function (this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
+  beforeEach(async function (this: Context) {
+    ({ client, recorder } = await createRecordedClient(this));
   });
 
   afterEach(async function (this: Context) {
@@ -56,11 +56,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     // create program brief by calling upsert
     const submitResult = await client.upsertUSProgramBrief(uspb.id, createRequest);
     assert.isOk(submitResult, "Failed to create program brief");
-    assert.equal(
-      uspb.id,
-      submitResult._response.parsedBody["id"],
-      "Program brief creation returned the wrong Id"
-    );
+    assert.equal(uspb.id, submitResult.id, "Program brief creation returned the wrong Id");
 
     // get program brief, verify it was created correctly
     let getRes = await client.getUSProgramBrief(uspb.id);
@@ -75,11 +71,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
     const updateResult = await client.upsertUSProgramBrief(uspb.id, updateRequest);
     assert.isOk(updateResult, "Update program brief failed");
-    assert.equal(
-      uspb.id,
-      updateResult._response.parsedBody["id"],
-      "Update program brief returned the wrong Id"
-    );
+    assert.equal(uspb.id, updateResult.id, "Update program brief returned the wrong Id");
 
     // get program brief, verify it was updated correctly
     getRes = await client.getUSProgramBrief(uspb.id);
@@ -105,5 +97,5 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       await doesProgramBriefExist(client, uspb.id),
       "Delete program brief was unsuccessful, program brief is still returned"
     );
-  }).timeout(15000);
+  }).timeout(35000);
 });

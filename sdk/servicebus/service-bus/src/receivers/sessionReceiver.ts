@@ -37,7 +37,6 @@ import {
   ErrorNameConditionMapper,
 } from "@azure/core-amqp";
 import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
-import "@azure/core-asynciterator-polyfill";
 import { AmqpError } from "rhea-promise";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
@@ -311,12 +310,18 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
             options.fromSequenceNumber,
             maxMessageCount,
             this.sessionId,
+            options.omitMessageBody,
             managementRequestOptions
           );
       } else {
         return this._context
           .getManagementClient(this.entityPath)
-          .peekMessagesBySession(this.sessionId, maxMessageCount, managementRequestOptions);
+          .peekMessagesBySession(
+            this.sessionId,
+            maxMessageCount,
+            options.omitMessageBody,
+            managementRequestOptions
+          );
       }
     };
 
@@ -485,7 +490,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
     try {
       this._messageSession.subscribe(onMessage, onError, options);
-    } catch (err) {
+    } catch (err: any) {
       onError({
         error: err,
         errorSource: "receive",
@@ -510,7 +515,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   async abandonMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
@@ -526,7 +531,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   async deferMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
@@ -542,7 +547,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   async deadLetterMessage(
     message: ServiceBusReceivedMessage,
-    options?: DeadLetterOptions & { [key: string]: any }
+    options?: DeadLetterOptions & { [key: string]: number | boolean | string | Date | null }
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
@@ -557,7 +562,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   async close(): Promise<void> {
     try {
       await this._messageSession.close();
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(
         err,
         "%s An error occurred while closing the SessionReceiver for session %s",

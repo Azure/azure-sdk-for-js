@@ -1,5 +1,26 @@
 # Release History
 
+## 1.2.0-alpha.20220517.1 (2022-05-17)
+
+- Added support for the API version `2022-06-01-preview`
+- Added `operatorId`, `operatorName` and `phoneNumberSource` properties to the `PurchasedPhoneNumber` model.
+
+## 1.2.0-beta.3 (2022-04-06)
+
+### Features Added
+
+- Added environment variable `AZURE_USERAGENT_OVERRIDE` that overrides the HTTP header `x-ms-useragent` during tests
+
+### Other Changes
+
+- Update minimum version of dependency "@azure/core-client" to "1.5.0", which allows adding additional policies to the rest pipeline after initialization.
+
+## 1.2.0-beta.2 (2022-03-10)
+
+### Features Added
+
+- Upgraded the package to use the Azure Core V2, bringing several improvements to the package's HTTP pipeline architecture.
+
 ## 1.2.0-beta.1 (2022-01-24)
 
 - Users can now purchase United Kingdom (GB) toll free and geographic phone numbers for PSTN Calling

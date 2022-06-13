@@ -2,9 +2,12 @@
 
 These sample programs show how to use the JavaScript client libraries for Azure Schema Registry in some common scenarios.
 
-| **File Name**                                           | **Description**                                                                                                      |
-| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| [schemaRegistryAvroSample.js][schemaregistryavrosample] | Demonstrates the use of SchemaRegistryAvroSerializer to serialize and deserialize using schema from Schema Registry. |
+| **File Name**                                                                 | **Description**                                                                                                                                                                                     |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [schemaRegistryAvroSample.js][schemaregistryavrosample]                       | Demonstrates the use of AvroSerializer to create messages with avro-serialized payload using schema from Schema Registry.                                                                           |
+| [withEventHubsBufferedProducerClient.js][witheventhubsbufferedproducerclient] | Demonstrates the use of AvroSerializer to create messages with avro-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Buffered Producer Client. |
+| [withEventHubsConsumerClient.js][witheventhubsconsumerclient]                 | Demonstrates the use of AvroSerializer to deserialize messages with avro-serialized payload received from the Event Hub Consumer Client.                                                            |
+| [withEventHubsProducerClient.js][witheventhubsproducerclient]                 | Demonstrates the use of AvroSerializer to create messages with avro-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Producer Client.          |
 
 ## Prerequisites
 
@@ -47,6 +50,9 @@ npx cross-env SCHEMA_REGISTRY_ENDPOINT="<schema registry endpoint>" SCHEMA_REGIS
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [schemaregistryavrosample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-avro/samples/v1/javascript/schemaRegistryAvroSample.js
+[witheventhubsbufferedproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-avro/samples/v1/javascript/withEventHubsBufferedProducerClient.js
+[witheventhubsconsumerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-avro/samples/v1/javascript/withEventHubsConsumerClient.js
+[witheventhubsproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-avro/samples/v1/javascript/withEventHubsProducerClient.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/schema-registry-avro
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureschemaregistryresource]: https://aka.ms/schemaregistry

@@ -923,8 +923,8 @@ export interface WorkbookErrorDefinition {
 
 /** The parameters that can be provided when updating workbook properties properties. */
 export interface WorkbookUpdateParameters {
-  /** The kind of workbook. Choices are user and shared. */
-  kind?: SharedTypeKind;
+  /** The kind of workbook. Only valid value is shared. */
+  kind?: WorkbookUpdateSharedTypeKind;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The user-defined name (display name) of the workbook. */
@@ -1232,7 +1232,7 @@ export type MyWorkbook = MyWorkbookResource & {
 };
 
 /** Identity used for BYOS */
-export type WorkbookResourceIdentity = ManagedServiceIdentity & {};
+export type WorkbookResourceIdentity = ManagedServiceIdentity;
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
@@ -1243,7 +1243,7 @@ export type TrackedResource = Resource & {
 };
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 /** An Application Insights component definition. */
 export type ApplicationInsightsComponent = ComponentsResource & {
@@ -1340,8 +1340,8 @@ export type ApplicationInsightsComponent = ComponentsResource & {
 export type WorkbookResource = TrackedResource & {
   /** Identity used for BYOS */
   identity?: WorkbookResourceIdentity;
-  /** The kind of workbook. Choices are user and shared. */
-  kind?: Kind;
+  /** The kind of workbook. Only valid value is shared. */
+  kind?: WorkbookSharedTypeKind;
   /** Resource etag */
   etag?: string;
 };
@@ -1352,7 +1352,7 @@ export type ComponentLinkedStorageAccounts = ProxyResource & {
   linkedStorageAccount?: string;
 };
 
-/** An Application Insights workbook definition. */
+/** A workbook definition. */
 export type Workbook = WorkbookResource & {
   /**
    * Metadata pertaining to creation and last modification of the resource.
@@ -1586,21 +1586,33 @@ export enum KnownManagedServiceIdentityType {
  */
 export type ManagedServiceIdentityType = string;
 
-/** Known values of {@link SharedTypeKind} that the service accepts. */
-export enum KnownSharedTypeKind {
-  User = "user",
+/** Known values of {@link WorkbookSharedTypeKind} that the service accepts. */
+export enum KnownWorkbookSharedTypeKind {
   Shared = "shared"
 }
 
 /**
- * Defines values for SharedTypeKind. \
- * {@link KnownSharedTypeKind} can be used interchangeably with SharedTypeKind,
+ * Defines values for WorkbookSharedTypeKind. \
+ * {@link KnownWorkbookSharedTypeKind} can be used interchangeably with WorkbookSharedTypeKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
  * **shared**
  */
-export type SharedTypeKind = string;
+export type WorkbookSharedTypeKind = string;
+
+/** Known values of {@link WorkbookUpdateSharedTypeKind} that the service accepts. */
+export enum KnownWorkbookUpdateSharedTypeKind {
+  Shared = "shared"
+}
+
+/**
+ * Defines values for WorkbookUpdateSharedTypeKind. \
+ * {@link KnownWorkbookUpdateSharedTypeKind} can be used interchangeably with WorkbookUpdateSharedTypeKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **shared**
+ */
+export type WorkbookUpdateSharedTypeKind = string;
 
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
@@ -2204,7 +2216,10 @@ export type WorkbooksListByResourceGroupResponse = WorkbooksListResult;
 
 /** Optional parameters. */
 export interface WorkbooksGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
+  canFetchContent?: boolean;
+}
 
 /** Contains response data for the get operation. */
 export type WorkbooksGetResponse = Workbook;

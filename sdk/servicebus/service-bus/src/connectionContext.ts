@@ -563,7 +563,7 @@ export namespace ConnectionContext {
       const originalConnectionId = connectionContext.connectionId;
       try {
         await cleanConnectionContext();
-      } catch (err) {
+      } catch (err: any) {
         logger.logError(
           err,
           `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting`
@@ -640,7 +640,7 @@ export namespace ConnectionContext {
       await context.connection.close();
       context.wasConnectionCloseCalled = true;
       logger.verbose(`[${logPrefix} Permanently closed the amqp connection on the client.`);
-    } catch (err) {
+    } catch (err: any) {
       const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
       logger.logError(err, `${logPrefix} An error occurred while closing the connection`);
       throw errObj;

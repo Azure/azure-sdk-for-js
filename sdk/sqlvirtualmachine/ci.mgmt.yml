@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/sqlvirtualmachine/ci.mgmt.yml
-      - sdk/sqlvirtualmachine/arm-sqlvirtualmachine/
+      - sdk/sqlvirtualmachine/arm-sqlvirtualmachine
 pr:
   branches:
     include:
@@ -22,8 +22,7 @@ pr:
   paths:
     include:
       - sdk/sqlvirtualmachine/ci.mgmt.yml
-      - sdk/sqlvirtualmachine/arm-sqlvirtualmachine/
-
+      - sdk/sqlvirtualmachine/arm-sqlvirtualmachine
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

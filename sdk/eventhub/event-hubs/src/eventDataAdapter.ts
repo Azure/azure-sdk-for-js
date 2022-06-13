@@ -10,11 +10,11 @@ import { EventData } from "./eventData";
  *
  * @hidden
  */
-export interface MessageWithMetadata {
+export interface MessageContent {
   /**
    * The message's binary data
    */
-  body: Uint8Array;
+  data: Uint8Array;
   /**
    * The message's content type
    */
@@ -33,11 +33,11 @@ export interface MessageAdapter<MessageT> {
   /**
    * defines how to create a message from a payload and a content type
    */
-  produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+  produce: (MessageContent: MessageContent) => MessageT;
   /**
    * defines how to access the payload and the content type of a message
    */
-  consumeMessage: (message: MessageT) => MessageWithMetadata;
+  consume: (message: MessageT) => MessageContent;
 }
 
 // This type should always be equivalent to Omit<Omit<EventData, "body">, "contentType">
@@ -79,23 +79,27 @@ export function createEventDataAdapter(
   params: EventDataAdapterParameters = {}
 ): MessageAdapter<EventData> {
   return {
-    produceMessage: ({ body, contentType }: MessageWithMetadata) => {
+    produce: ({ data: body, contentType }: MessageContent) => {
       return {
         ...params,
         body,
         contentType,
       };
     },
-    consumeMessage: (message: EventData): MessageWithMetadata => {
+    consume: (message: EventData): MessageContent => {
       const { body, contentType } = message;
-      if (body === undefined || !(body instanceof Uint8Array)) {
-        throw new Error("Expected the body field to be defined and have a Uint8Array");
+      if (body === undefined) {
+        throw new Error("Expected the body field to be defined");
       }
       if (contentType === undefined) {
         throw new Error("Expected the contentType field to be defined");
       }
       return {
-        body,
+        /**
+         * If the raw response was parsed as JSON, we need to convert it to a Uint8Array,
+         * otherwise, leave the payload as is.
+         */
+        data: typeof body === "object" ? Uint8Array.from(Object.values(body)) : body,
         contentType,
       };
     },

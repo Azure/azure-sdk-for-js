@@ -13,7 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ArtifactsClientContext } from "../artifactsClientContext";
+import { ArtifactsClient } from "../artifactsClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -35,13 +35,13 @@ import {
 /** Class containing SparkConfigurationOperations operations. */
 export class SparkConfigurationOperationsImpl
   implements SparkConfigurationOperations {
-  private readonly client: ArtifactsClientContext;
+  private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class SparkConfigurationOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: ArtifactsClientContext) {
+  constructor(client: ArtifactsClient) {
     this.client = client;
   }
 
@@ -109,7 +109,7 @@ export class SparkConfigurationOperationsImpl
         getSparkConfigurationsByWorkspaceOperationSpec
       );
       return result as SparkConfigurationGetSparkConfigurationsByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -149,7 +149,7 @@ export class SparkConfigurationOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as SparkConfigurationCreateOrUpdateSparkConfigurationResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -197,10 +197,12 @@ export class SparkConfigurationOperationsImpl
       { sparkConfigurationName, sparkConfiguration, options },
       createOrUpdateSparkConfigurationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -241,7 +243,7 @@ export class SparkConfigurationOperationsImpl
         getSparkConfigurationOperationSpec
       );
       return result as SparkConfigurationGetSparkConfigurationResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -272,7 +274,7 @@ export class SparkConfigurationOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -320,10 +322,12 @@ export class SparkConfigurationOperationsImpl
       { sparkConfigurationName, options },
       deleteSparkConfigurationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -364,7 +368,7 @@ export class SparkConfigurationOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -412,10 +416,12 @@ export class SparkConfigurationOperationsImpl
       { sparkConfigurationName, request, options },
       renameSparkConfigurationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -457,7 +463,7 @@ export class SparkConfigurationOperationsImpl
         getSparkConfigurationsByWorkspaceNextOperationSpec
       );
       return result as SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -482,7 +488,7 @@ const getSparkConfigurationsByWorkspaceOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -508,7 +514,7 @@ const createOrUpdateSparkConfigurationOperationSpec: coreClient.OperationSpec = 
     }
   },
   requestBody: Parameters.sparkConfiguration,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [
     Parameters.accept,
@@ -530,7 +536,7 @@ const getSparkConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -547,7 +553,7 @@ const deleteSparkConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept],
   serializer
@@ -565,7 +571,7 @@ const renameSparkConfigurationOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -582,7 +588,7 @@ const getSparkConfigurationsByWorkspaceNextOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

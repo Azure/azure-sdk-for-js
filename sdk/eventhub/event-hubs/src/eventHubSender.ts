@@ -22,11 +22,9 @@ import {
   translate,
 } from "@azure/core-amqp";
 import {
-  commitIdempotentSequenceNumbers,
   EventData,
   EventDataInternal,
   populateIdempotentMessageAnnotations,
-  rollbackIdempotentSequenceNumbers,
   toRheaMessage,
 } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
@@ -233,7 +231,7 @@ export class EventHubSender extends LinkEntity {
         this._deleteFromCache();
         await this._closeLink(senderLink);
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg = `[${this._context.connectionId}] An error occurred while closing sender ${this.name}: ${err?.name}: ${err?.message}`;
       logger.warning(msg);
       logErrorStackTrace(err);
@@ -343,7 +341,7 @@ export class EventHubSender extends LinkEntity {
       );
       if (this._isIdempotentProducer && this._hasPendingSend) {
         throw new Error(
-          `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentPartitions" is set to true.`
+          `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentRetries" is set to true.`
         );
       }
 
@@ -373,7 +371,7 @@ export class EventHubSender extends LinkEntity {
         }
       }
       return;
-    } catch (err) {
+    } catch (err: any) {
       rollbackIdempotentSequenceNumbers(events);
       logger.warning(
         `An error occurred while sending the batch message ${err?.name}: ${err?.message}`
@@ -549,7 +547,7 @@ export class EventHubSender extends LinkEntity {
           this.name,
           delivery.id
         );
-      } catch (err) {
+      } catch (err: any) {
         const error = err.innerError || err;
         const translatedError = translateError(error);
         throw translatedError;
@@ -566,7 +564,7 @@ export class EventHubSender extends LinkEntity {
 
     try {
       await retry<void>(config);
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translate(err);
       logger.warning(
         "[%s] Sender '%s', An error occurred while sending the message %s",
@@ -620,7 +618,7 @@ export class EventHubSender extends LinkEntity {
 
     try {
       return await retry<AwaitableSender>(config);
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translate(err);
       logger.warning(
         "[%s] An error occurred while creating the sender %s: %s",
@@ -686,7 +684,7 @@ export class EventHubSender extends LinkEntity {
         );
         return this._sender;
       }
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translate(err);
       logger.warning(
         "[%s] An error occurred while creating the sender %s: %s",
@@ -840,5 +838,40 @@ export function transformEventsForSend(
 
     // Finally encode the envelope (batch message).
     return message.encode(batchMessage);
+  }
+}
+
+/**
+ * Commits the pending publish sequence number events.
+ * EventDataBatch exposes this as `startingPublishSequenceNumber`,
+ * EventData not in a batch exposes this as `publishedSequenceNumber`.
+ */
+function commitIdempotentSequenceNumbers(
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
+): void {
+  if (isEventDataBatch(events)) {
+    (events as EventDataBatchImpl)._commitPublish();
+  } else {
+    // For each event, set the `publishedSequenceNumber` equal to the sequence number
+    // we set when we attempted to send the events to the service.
+    for (const event of events) {
+      event._publishedSequenceNumber = event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+      delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+    }
+  }
+}
+
+/**
+ * Rolls back any pending publish sequence number in the events.
+ */
+function rollbackIdempotentSequenceNumbers(
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
+): void {
+  if (isEventDataBatch(events)) {
+    /* No action required. */
+  } else {
+    for (const event of events) {
+      delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+    }
   }
 }

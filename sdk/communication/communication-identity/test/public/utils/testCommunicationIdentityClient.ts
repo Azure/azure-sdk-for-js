@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
   CommunicationAccessToken,
   CommunicationIdentityClient,
@@ -11,12 +9,14 @@ import {
   TokenScope,
 } from "../../../src";
 import {
-  getTokenHttpClient,
-  createUserHttpClient,
-  revokeTokensHttpClient,
   createUserAndTokenHttpClient,
+  createUserHttpClient,
   getTokenForTeamsUserHttpClient,
+  getTokenHttpClient,
+  revokeTokensHttpClient,
 } from "./mockHttpClients";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { OperationOptions } from "@azure/core-client";
 
 export class TestCommunicationIdentityClient {
   private connectionString: string = "endpoint=https://contoso.spool.azure.local;accesskey=banana";
@@ -67,12 +67,17 @@ export class TestCommunicationIdentityClient {
 
   public async getTokenForTeamsUserTest(
     teamsToken: string,
-    options: OperationOptions = {}
+    clientId: string,
+    userObjectId: string
   ): Promise<CommunicationAccessToken> {
     // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {
       httpClient: getTokenForTeamsUserHttpClient,
     } as CommunicationIdentityClientOptions);
-    return client.getTokenForTeamsUser(teamsToken, options as any);
+    return client.getTokenForTeamsUser({
+      teamsUserAadToken: teamsToken,
+      clientId: clientId,
+      userObjectId: userObjectId,
+    });
   }
 }

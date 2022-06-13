@@ -119,11 +119,11 @@ export class EventHubBufferedProducerClient {
 
 // @public
 export interface EventHubBufferedProducerClientOptions extends EventHubClientOptions {
-    enableIdempotentPartitions?: boolean;
+    enableIdempotentRetries?: boolean;
     maxEventBufferLengthPerPartition?: number;
     maxWaitTimeInMs?: number;
-    onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
-    onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => Promise<void>;
+    onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => void;
+    onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => void;
 }
 
 // @public
@@ -234,14 +234,14 @@ export const logger: AzureLogger;
 
 // @public
 export interface MessageAdapter<MessageT> {
-    consumeMessage: (message: MessageT) => MessageWithMetadata;
-    produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+    consume: (message: MessageT) => MessageContent;
+    produce: (MessageContent: MessageContent) => MessageT;
 }
 
 // @public
-export interface MessageWithMetadata {
-    body: Uint8Array;
+export interface MessageContent {
     contentType: string;
+    data: Uint8Array;
 }
 
 export { MessagingError }

@@ -3,12 +3,12 @@
 
 import { assert } from "chai";
 import {
-  createEmptyPipeline,
-  PipelinePolicy,
   HttpClient,
-  createPipelineRequest,
+  PipelinePolicy,
+  createEmptyPipeline,
   createHttpHeaders,
   createPipelineFromOptions,
+  createPipelineRequest,
 } from "../src";
 
 describe("HttpsPipeline", function () {

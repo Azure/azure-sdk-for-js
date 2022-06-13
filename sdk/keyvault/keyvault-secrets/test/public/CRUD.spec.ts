@@ -3,8 +3,7 @@
 
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { SecretClient } from "../../src";
@@ -76,18 +75,12 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("cannot create a secret with an empty name", async function () {
     const secretName = "";
-    let error;
     try {
       await client.setSecret(secretName, secretValue);
-      throw Error("Expecting an error but not catching one.");
+      assert.fail("Expected an error");
     } catch (e) {
-      error = e;
+      // Ignore expected error
     }
-    assert.equal(
-      error.message,
-      `"secretName" with value "" should satisfy the constraint "Pattern": /^[0-9a-zA-Z-]+$/.`,
-      "Unexpected error while running setSecret with an empty string as the name."
-    );
   });
 
   it("can set a secret with Empty Value", async function (this: Context) {
@@ -238,7 +231,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     try {
       await client.getSecret(secretName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "SecretNotFound");
@@ -273,7 +266,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     try {
       await client.getSecret(secretName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         assert.equal(e.code, "SecretNotFound");
       } else {
@@ -307,7 +300,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     try {
       await client.beginDeleteSecret(secretName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "SecretNotFound");
@@ -349,20 +342,38 @@ describe("Secret client - create, read, update and delete operations", () => {
       const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
       await deletePoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "SecretNotFound");
     assert.equal(error.statusCode, 404);
   });
 
-  it("supports tracing", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await supportsTracing(
-      (tracingOptions) => client.setSecret(secretName, "value", { tracingOptions }),
-      ["Azure.KeyVault.Secrets.SecretClient.setSecret"]
+  it("traces through the various operations", async () => {
+    const secretName = recorder.getUniqueName("secrettrace");
+
+    await assert.supportsTracing(
+      async (options) => {
+        const secret = await client.setSecret(secretName, "someValue", options);
+        await client.getSecret(secretName, options);
+        await client.updateSecretProperties(secretName, secret.properties.version!, options);
+        await client.backupSecret(secretName, options);
+        const poller = await client.beginDeleteSecret(secretName, {
+          ...options,
+          ...testPollerProperties,
+        });
+        await poller.pollUntilDone();
+        await client.purgeDeletedSecret(secretName, options);
+      },
+      [
+        "SecretClient.setSecret",
+        "SecretClient.getSecret",
+        "SecretClient.updateSecretProperties",
+        "SecretClient.backupSecret",
+        "DeleteSecretPoller.deleteSecret",
+        "DeleteSecretPoller.getDeletedSecret",
+        "SecretClient.purgeDeletedSecret",
+      ]
     );
   });
 });

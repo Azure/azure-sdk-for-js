@@ -369,14 +369,14 @@ describe("LeaseClient from Directory", () => {
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await leaseClient.breakLease(5);
+    await leaseClient.breakLease(15);
 
     const result2 = await directoryClient.getProperties();
     assert.ok(!result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
-    await delay(5 * 1000);
+    await delay(15 * 1000);
 
     const result3 = await directoryClient.getProperties();
     assert.ok(!result3.leaseDuration);

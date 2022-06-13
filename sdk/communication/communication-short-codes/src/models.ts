@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { ShortCodesGetShortCodesOptionalParams } from ".";
 
 /**
@@ -54,4 +54,12 @@ export {
   MessageExampleSequence,
   MessageExample,
   MessageDirection,
+  ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
+  ShortCodesDeleteUSProgramBriefAttachmentOptionalParams,
+  ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
+  ShortCodesGetUSProgramBriefAttachmentOptionalParams,
+  ProgramBriefAttachment,
+  AttachmentType,
+  FileType,
+  ProgramBriefAttachmentSummary,
 } from "./generated/src/models/";

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-http";
-import { assert } from "chai";
-import { USProgramBrief } from "../../../src";
+import { RestError } from "@azure/core-rest-pipeline";
 import { ShortCodesClient } from "../../../src";
+import { USProgramBrief } from "../../../src";
+import { assert } from "chai";
 
 export function getTestUSProgramBrief(): USProgramBrief {
   const testUSProgramBrief: USProgramBrief = {
@@ -116,7 +116,7 @@ export async function doesProgramBriefExist(
     } else {
       return false;
     }
-  } catch (e) {
+  } catch (e: any) {
     const error = e as RestError;
     if (error.statusCode === 404) {
       return false;

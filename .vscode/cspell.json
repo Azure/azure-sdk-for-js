@@ -40,12 +40,14 @@
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
-    "sdk/synapse/synapse-spark/review/*.md",
+    "sdk/synapse/synapse-spark/review/*.md"
   ],
   "words": [
     "adfs",
     "agrifood",
     "AMQP",
+    "Brcpf",
+    "BRCPF",
     "centralus",
     "CONTOSO",
     "deps",
@@ -53,12 +55,20 @@
     "devdeps",
     "DTDL",
     "dtmi",
+    "dtmis",
     "eastus",
     "ECONNRESET",
     "Eloqua",
+    "Esdni",
+    "ESDNI",
     "etags",
+    "Eugps",
+    "EUGPS",
+    "Fhir",
     "Guids",
     "Hana",
+    "Idrg",
+    "IDRG",
     "IMDS",
     "Kubernetes",
     "kusto",
@@ -76,6 +86,8 @@
     "ODATA",
     "Odbc",
     "perfstress",
+    "Plregon",
+    "PLREGON",
     "pnpm",
     "prettierrc",
     "pwsh",
@@ -103,6 +115,8 @@
     "usgovarizona",
     "usgovtexas",
     "usgovvirginia",
+    "Usuk",
+    "USUK",
     "Vertica",
     "westus"
   ],
@@ -212,7 +226,12 @@
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
       "words": [
-        "WDLABCD"
+        "WDLABCD",
+        "presentationml",
+        "spreadsheetml",
+        "wordprocessingml",
+        "heif",
+        "copays"
       ]
     },
     {
@@ -236,6 +255,13 @@
       "filename": "sdk/communication/communication-common/review/**/*.md",
       "words": [
         "gcch"
+      ]
+    },
+    {
+      "filename": "sdk/communication/communication-email/review/**/*.md",
+      "words": [
+        "rpmsg",
+        "xlsb"
       ]
     },
     {

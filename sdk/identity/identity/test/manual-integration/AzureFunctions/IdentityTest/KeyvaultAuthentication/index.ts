@@ -21,7 +21,7 @@ const httpTrigger: AzureFunction = async function (
       // status: 200, /* Defaults to 200 */
       body: "Successfully authenticated with keyvault",
     };
-  } catch (error) {
+  } catch (error: any) {
     context.res = {
       status: 500,
       body: error.message,

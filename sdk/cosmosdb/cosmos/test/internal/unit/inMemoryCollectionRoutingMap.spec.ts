@@ -184,7 +184,7 @@ describe("InMemoryCollectionRoutingMap Tests", function () {
         try {
           createCompleteRoutingMap(partitionRangeWithInfo);
           assert.fail("must throw exception");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(e.message, "Ranges overlap");
         }
       });

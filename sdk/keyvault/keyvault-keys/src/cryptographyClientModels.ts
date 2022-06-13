@@ -4,12 +4,12 @@
 import { CryptographyOptions, KeyVaultKey } from "./keysModels";
 
 import {
+  JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
   JsonWebKey,
   JsonWebKeyCurveName as KeyCurveName,
   KnownJsonWebKeyCurveName as KnownKeyCurveNames,
-  JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
-  JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
   KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms,
+  JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
 } from "./generated/models";
 
 export {

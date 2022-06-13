@@ -1,5 +1,5 @@
 {
-  "name": "azure-data-tables-samples-js",
+  "name": "@azure-samples/data-tables-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Data Tables client library samples for JavaScript",

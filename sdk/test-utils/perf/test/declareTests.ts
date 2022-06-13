@@ -4,12 +4,14 @@
 import { NoOp } from "./noop.spec";
 import { OptionsTest } from "./options.spec";
 import { SetupCleanupTest } from "./setupCleanup.spec";
-import { Delay500ms } from "./delay.spec";
 import { Exception } from "./exception.spec";
 import { PerfPolicyTest } from "./perfPolicy.spec";
 import { SleepTest } from "./sleep.spec";
 import { NodeFetchTest } from "./nodeFetch.spec";
-
+import { MockReceiverTest } from "./batch/mockReceiverTest.spec";
+import { MockEventReceiverTest } from "./event/mockEventReceiverTest.spec";
+import { MockEventHubConsumerClientTest } from "./event/mockEventHubConsumerClientTest.spec";
+import { LogTest } from "./log.spec";
 import { PerfTestConstructor } from "../src";
 
 type NormalizedTestDefinition = { testClass: PerfTestConstructor; options?: string };
@@ -23,7 +25,6 @@ type TestDefinition = PerfTestConstructor | NormalizedTestDefinition;
 const tests: TestDefinition[] = [
   NoOp,
   SetupCleanupTest,
-  Delay500ms,
   Exception,
   SleepTest,
   NodeFetchTest,
@@ -35,6 +36,10 @@ const tests: TestDefinition[] = [
     testClass: PerfPolicyTest,
     options: "--url http://bing.com/",
   },
+  MockReceiverTest,
+  MockEventReceiverTest,
+  MockEventHubConsumerClientTest,
+  LogTest,
 ];
 
 // Normalize everything in the array above for export.

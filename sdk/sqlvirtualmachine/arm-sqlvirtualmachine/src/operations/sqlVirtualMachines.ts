@@ -24,6 +24,7 @@ import {
   SqlVirtualMachinesListByResourceGroupOptionalParams,
   SqlVirtualMachinesListBySqlVmGroupResponse,
   SqlVirtualMachinesListResponse,
+  SqlVirtualMachinesRedeployOptionalParams,
   SqlVirtualMachinesGetOptionalParams,
   SqlVirtualMachinesGetResponse,
   SqlVirtualMachinesCreateOrUpdateOptionalParams,
@@ -33,6 +34,7 @@ import {
   SqlVirtualMachinesUpdateOptionalParams,
   SqlVirtualMachinesUpdateResponse,
   SqlVirtualMachinesListByResourceGroupResponse,
+  SqlVirtualMachinesStartAssessmentOptionalParams,
   SqlVirtualMachinesListBySqlVmGroupNextResponse,
   SqlVirtualMachinesListNextResponse,
   SqlVirtualMachinesListByResourceGroupNextResponse
@@ -248,6 +250,90 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
   }
 
   /**
+   * Uninstalls and reinstalls the SQL Iaas Extension.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  async beginRedeploy(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesRedeployOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, sqlVirtualMachineName, options },
+      redeployOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Uninstalls and reinstalls the SQL Iaas Extension.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  async beginRedeployAndWait(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesRedeployOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginRedeploy(
+      resourceGroupName,
+      sqlVirtualMachineName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Gets a SQL virtual machine.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
@@ -328,10 +414,12 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       { resourceGroupName, sqlVirtualMachineName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -413,10 +501,12 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       { resourceGroupName, sqlVirtualMachineName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -502,10 +592,12 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       { resourceGroupName, sqlVirtualMachineName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -545,6 +637,90 @@ export class SqlVirtualMachinesImpl implements SqlVirtualMachines {
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
     );
+  }
+
+  /**
+   * Starts Assessment on SQL virtual machine.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  async beginStartAssessment(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesStartAssessmentOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, sqlVirtualMachineName, options },
+      startAssessmentOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts Assessment on SQL virtual machine.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  async beginStartAssessmentAndWait(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesStartAssessmentOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginStartAssessment(
+      resourceGroupName,
+      sqlVirtualMachineName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -638,6 +814,20 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const redeployOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/redeploy",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.sqlVirtualMachineName
+  ],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}",
@@ -648,7 +838,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -751,6 +941,20 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const startAssessmentOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/startAssessment",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.sqlVirtualMachineName
+  ],
   serializer
 };
 const listBySqlVmGroupNextOperationSpec: coreClient.OperationSpec = {

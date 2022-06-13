@@ -13,6 +13,7 @@ import {
   WatchlistsGetOptionalParams,
   WatchlistsGetResponse,
   WatchlistsDeleteOptionalParams,
+  WatchlistsDeleteResponse,
   WatchlistsCreateOrUpdateOptionalParams,
   WatchlistsCreateOrUpdateResponse
 } from "../models";
@@ -56,11 +57,14 @@ export interface Watchlists {
     workspaceName: string,
     watchlistAlias: string,
     options?: WatchlistsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<WatchlistsDeleteResponse>;
   /**
-   * Creates or updates a watchlist and its watchlist items (bulk creation, e.g. through text/csv content
-   * type). To create a Watchlist and its items, we should call this endpoint with rawContent and
-   * contentType properties.
+   * Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content
+   * type). To create a Watchlist and its Items, we should call this endpoint with either rawContent or a
+   * valid SAR URI and contentType properties. The rawContent is mainly used for small watchlist (content
+   * size below 3.8 MB). The SAS URI enables the creation of large watchlist, where the content size can
+   * go up to 500 MB. The status of processing such large file can be polled through the URL returned in
+   * Azure-AsyncOperation header.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param watchlistAlias Watchlist Alias

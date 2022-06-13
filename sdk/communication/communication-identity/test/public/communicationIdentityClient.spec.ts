@@ -5,26 +5,26 @@ import {
   CommunicationUserIdentifier,
   isCommunicationUserIdentifier,
 } from "@azure/communication-common";
-import { assert } from "chai";
-import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { CommunicationIdentityClient } from "../../src";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient";
+import { CommunicationIdentityClient } from "../../src";
 import { Context } from "mocha";
+import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
-matrix([[true, false]], async function (useAad) {
+matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
-    beforeEach(function (this: Context) {
+    beforeEach(async function (this: Context) {
       if (useAad) {
-        ({ client, recorder } = createRecordedCommunicationIdentityClientWithToken(this));
+        ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(this));
       } else {
-        ({ client, recorder } = createRecordedCommunicationIdentityClient(this));
+        ({ client, recorder } = await createRecordedCommunicationIdentityClient(this));
       }
     });
 
@@ -88,7 +88,7 @@ matrix([[true, false]], async function (useAad) {
           const user: CommunicationUserIdentifier = await client.createUser();
           await client.getToken(user, []);
           assert.fail("Should have thrown an error");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(e.statusCode, 400);
           assert.equal(e.message, "Invalid scopes - Scopes field is required.");
         }
@@ -98,7 +98,7 @@ matrix([[true, false]], async function (useAad) {
         try {
           await client.getToken(fakeUser, ["chat", "voip"]);
           assert.fail("Should have thrown an error");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(e.statusCode, 401);
         }
       });
@@ -107,7 +107,7 @@ matrix([[true, false]], async function (useAad) {
         try {
           await client.revokeTokens(fakeUser);
           assert.fail("Should have thrown an error");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(e.statusCode, 401);
         }
       });
@@ -116,7 +116,7 @@ matrix([[true, false]], async function (useAad) {
         try {
           await client.deleteUser(fakeUser);
           assert.fail("Should have thrown an error");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(e.statusCode, 401);
         }
       });

@@ -198,7 +198,7 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
         );
         state.isCompleted = true;
       }
-    } catch (err) {
+    } catch (err: any) {
       state.error = err;
       state.isCompleted = true;
     }

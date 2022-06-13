@@ -21,7 +21,9 @@ import {
   AgentPool as AgentPoolMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateLinkResource as PrivateLinkResourceMapper,
-  Snapshot as SnapshotMapper
+  Snapshot as SnapshotMapper,
+  ManagedClusterSnapshot as ManagedClusterSnapshotMapper,
+  TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -51,7 +53,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01",
+    defaultValue: "2022-05-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -63,6 +65,9 @@ export const apiVersion: OperationQueryParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
@@ -74,6 +79,9 @@ export const subscriptionId: OperationURLParameter = {
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "location",
     required: true,
     type: {
@@ -96,6 +104,7 @@ export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
+      MaxLength: 90,
       MinLength: 1
     },
     serializedName: "resourceGroupName",
@@ -145,6 +154,16 @@ export const serverFqdn: OperationQueryParameter = {
   }
 };
 
+export const format: OperationQueryParameter = {
+  parameterPath: ["options", "format"],
+  mapper: {
+    serializedName: "format",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -165,6 +184,16 @@ export const parameters: OperationParameter = {
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: TagsObjectMapper
+};
+
+export const ignorePodDisruptionBudget: OperationQueryParameter = {
+  parameterPath: ["options", "ignorePodDisruptionBudget"],
+  mapper: {
+    serializedName: "ignore-pod-disruption-budget",
+    type: {
+      name: "Boolean"
+    }
+  }
 };
 
 export const parameters2: OperationParameter = {
@@ -261,4 +290,29 @@ export const parameters7: OperationParameter = {
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: SnapshotMapper
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ManagedClusterSnapshotMapper
+};
+
+export const trustedAccessRoleBindingName: OperationURLParameter = {
+  parameterPath: "trustedAccessRoleBindingName",
+  mapper: {
+    constraints: {
+      MaxLength: 36,
+      MinLength: 1
+    },
+    serializedName: "trustedAccessRoleBindingName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const trustedAccessRoleBinding: OperationParameter = {
+  parameterPath: "trustedAccessRoleBinding",
+  mapper: TrustedAccessRoleBindingMapper
 };

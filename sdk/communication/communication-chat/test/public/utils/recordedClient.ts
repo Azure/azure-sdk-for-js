@@ -4,15 +4,15 @@
 import { Test } from "mocha";
 
 import {
-  assertEnvironmentVariable,
-  env,
   Recorder,
   RecorderStartOptions,
+  assertEnvironmentVariable,
+  env,
 } from "@azure-tools/test-recorder";
 import { ChatClient } from "../../../src";
 import {
-  CommunicationUserIdentifier,
   AzureCommunicationTokenCredential,
+  CommunicationUserIdentifier,
   parseClientArguments,
 } from "@azure/communication-common";
 import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
@@ -44,7 +44,7 @@ export const recorderOptions: RecorderStartOptions = {
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserToken> {
   const identityClient = new CommunicationIdentityClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-    recorder.configureClientOptionsCoreV1({})
+    recorder.configureClientOptions({})
   );
   return identityClient.createUserAndToken(["chat"]);
 }

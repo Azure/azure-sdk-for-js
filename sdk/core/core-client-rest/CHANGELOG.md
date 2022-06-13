@@ -1,18 +1,23 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
+## 1.0.0-beta.10 (2022-06-07)
+
+### Fixes
+
+- Fix to avoid skip `JSON.stringify` when the body is already a string. [20753](https://github.com/Azure/azure-sdk-for-js/pull/20753)
+
+### Other Changes
+
+- Create new pipeline using @azure/core-rest-pipeline's `createPipelineFromOptions`, instead of a custom pipeline. [#21949](https://github.com/Azure/azure-sdk-for-js/pull/21949)
+- Fix URL encoding for query parameters. [#20972](https://github.com/Azure/azure-sdk-for-js/pull/20972)
+
+## 1.0.0-beta.9 (2022-04-07)
 
 ### Features Added
 
 - Handle Binary and FormData content. [#18753](https://github.com/Azure/azure-sdk-for-js/pull/18753)
 - Support custom base url with path parameters. [#19463](https://github.com/Azure/azure-sdk-for-js/pull/19463)
 - Added new `ClientOptions` member `additionalPolicies` to allow passing custom pipeline policies to client constructors. [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.8 (2021-11-04)
 

@@ -228,11 +228,13 @@ export class QuotaImpl implements Quota {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "original-uri"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -352,11 +354,13 @@ export class QuotaImpl implements Quota {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "original-uri"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -470,16 +474,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     201: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     202: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     204: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     default: {
       bodyMapper: Mappers.ExceptionResponse
@@ -504,16 +508,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     201: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     202: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     204: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     default: {
       bodyMapper: Mappers.ExceptionResponse

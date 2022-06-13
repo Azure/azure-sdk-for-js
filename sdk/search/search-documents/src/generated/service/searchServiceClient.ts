@@ -7,32 +7,37 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 import {
   DataSourcesImpl,
   IndexersImpl,
   SkillsetsImpl,
   SynonymMapsImpl,
-  IndexesImpl
+  IndexesImpl,
+  AliasesImpl
 } from "./operations";
 import {
   DataSources,
   Indexers,
   Skillsets,
   SynonymMaps,
-  Indexes
+  Indexes,
+  Aliases
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { SearchServiceClientContext } from "./searchServiceClientContext";
 import {
-  SearchServiceClientOptionalParams,
   ApiVersion20210430Preview,
-  SearchServiceClientGetServiceStatisticsOptionalParams,
-  SearchServiceClientGetServiceStatisticsResponse
+  SearchServiceClientOptionalParams,
+  GetServiceStatisticsOptionalParams,
+  GetServiceStatisticsResponse
 } from "./models";
 
 /** @internal */
-export class SearchServiceClient extends SearchServiceClientContext {
+export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
+  endpoint: string;
+  apiVersion: ApiVersion20210430Preview;
+
   /**
    * Initializes a new instance of the SearchServiceClient class.
    * @param endpoint The endpoint URL of the search service.
@@ -44,12 +49,45 @@ export class SearchServiceClient extends SearchServiceClientContext {
     apiVersion: ApiVersion20210430Preview,
     options?: SearchServiceClientOptionalParams
   ) {
-    super(endpoint, apiVersion, options);
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+    if (apiVersion === undefined) {
+      throw new Error("'apiVersion' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: SearchServiceClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-search-documents/11.3.0-beta.8`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.endpoint = endpoint;
+    this.apiVersion = apiVersion;
     this.dataSources = new DataSourcesImpl(this);
     this.indexers = new IndexersImpl(this);
     this.skillsets = new SkillsetsImpl(this);
     this.synonymMaps = new SynonymMapsImpl(this);
     this.indexes = new IndexesImpl(this);
+    this.aliases = new AliasesImpl(this);
   }
 
   /**
@@ -57,8 +95,8 @@ export class SearchServiceClient extends SearchServiceClientContext {
    * @param options The options parameters.
    */
   getServiceStatistics(
-    options?: SearchServiceClientGetServiceStatisticsOptionalParams
-  ): Promise<SearchServiceClientGetServiceStatisticsResponse> {
+    options?: GetServiceStatisticsOptionalParams
+  ): Promise<GetServiceStatisticsResponse> {
     return this.sendOperationRequest(
       { options },
       getServiceStatisticsOperationSpec
@@ -70,6 +108,7 @@ export class SearchServiceClient extends SearchServiceClientContext {
   skillsets: Skillsets;
   synonymMaps: SynonymMaps;
   indexes: Indexes;
+  aliases: Aliases;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

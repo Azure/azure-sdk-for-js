@@ -12,7 +12,7 @@
       "ubuntu-20.04": {
         "OSVmImage": "MMSUbuntu20.04",
         "Pool": "azsdk-pool-mms-ubuntu-2004-general",
-        "AZURE_TEST_AGENT": "ubuntu_2004_node14",
+        "AZURE_TEST_AGENT": "UBUNTU_2004_NODE14",
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
       },
       "macOS-10.15": {
@@ -38,7 +38,7 @@
           "TestType": "node",
           "TestResultsFiles": "**/test-results.xml",
           "PublishCodeCoverage": "true",
-          "AZURE_TEST_AGENT": "windows_2019_node12",
+          "AZURE_TEST_AGENT": "WINDOWS_2019_NODE12",
           "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
         },
         "sample": {
@@ -49,7 +49,7 @@
         "browser": {
           "TestType": "browser",
           "TestResultsFiles": "**/test-results.browser.xml",
-          "AZURE_TEST_AGENT": "windows_2019_browser",
+          "AZURE_TEST_AGENT": "WINDOWS_2019_BROWSER",
           "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
         }
       },

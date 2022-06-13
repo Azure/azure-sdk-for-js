@@ -1,5 +1,5 @@
 {
-  "name": "azure-cosmos-samples-js",
+  "name": "@azure-samples/cosmos-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Cosmos DB client library samples for JavaScript",

@@ -17,8 +17,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-doc-internal-private-member", rule, {
@@ -61,7 +61,7 @@ ruleTester.run("ts-doc-internal-private-member", rule, {
                 private method1(): any;
 
               }`,
-      filename: "src/test.ts"
+      filename: "src/test.ts",
     },
     // all internal
     {
@@ -106,74 +106,102 @@ ruleTester.run("ts-doc-internal-private-member", rule, {
                  */
                  method1(): any;
               }`,
-      filename: "src/test.ts"
-    }
+      filename: "src/test.ts",
+    },
   ],
   invalid: [
     {
       code: `
-             /**
-              * Class documentation
-              */
-              class ExampleClass {
-                /**
-                 * Class Property
-                 * @internal
-                 */
-                private x = 0;
+/**
+ * Class documentation
+ */
+class ExampleClass {
+  /**
+   * Property Definition
+   * @internal
+   */
+  private x = 0;
 
-                /**
-                 * Property Signature
-                 * @internal
-                 */
-                private y: number;
+  /**
+   * Property Signature
+   * @internal
+   */
+  private y: number;
 
-                /**
-                 * Index signature
-                 * @internal
-                 */
-                private [s: string]: boolean | ((s: string) => boolean);
+  /**
+   * Method Definition
+   * @internal
+   */
+  private testMethod() { }
 
-                /**
-                 * Parameter Property
-                 * @internal
-                 */
-                private testMethod(private x: number, private y: number) {}
+  /**
+   * Method Definition
+   * @internal
+   */
+  private get getter(): number { return 0 }
 
-                /**
-                 * Method Definition
-                 * @internal
-                 */
-                private get getter(): number { return 0 }
+  /**
+   * Method Signature
+   * @internal
+   */
+  private method1(): any;
 
-                /**
-                 * Method Signature
-                 * @internal
-                 */
-                private method1(): any;
 
-              }`,
+  /**
+   * constructor
+   * @internal
+   */
+  constructor(
+    /**
+     * param x
+     * @internal
+     */
+    private param_x: number,
+    /**
+     * param y
+     * @internal
+     */
+    private param_y: number) { }
+}
+`,
       filename: "src/test.ts",
       errors: [
         {
-          message: "private class members should not include an @internal tag"
+          message: "private class members should not include an @internal tag",
+          line: 10,
+          column: 3,
         },
         {
-          message: "private class members should not include an @internal tag"
+          message: "private class members should not include an @internal tag",
+          line: 16,
+          column: 3,
         },
         {
-          message: "private class members should not include an @internal tag"
+          message: "private class members should not include an @internal tag",
+          line: 22,
+          column: 3,
         },
         {
-          message: "private class members should not include an @internal tag"
+          message: "private class members should not include an @internal tag",
+          line: 28,
+          column: 3,
         },
         {
-          message: "private class members should not include an @internal tag"
+          message: "private class members should not include an @internal tag",
+          line: 34,
+          column: 3,
         },
         {
-          message: "private class members should not include an @internal tag"
-        }
-      ]
-    }
-  ]
+          message: "private class members should not include an @internal tag",
+          line: 46,
+          column: 5,
+        },
+        {
+          message: "private class members should not include an @internal tag",
+          line: 51,
+          column: 5,
+        },
+      ],
+    },
+  ],
 });

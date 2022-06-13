@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-servicefabricmesh-samples-ts-beta",
+  "name": "@azure-samples/arm-servicefabricmesh-ts-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript (Beta)",

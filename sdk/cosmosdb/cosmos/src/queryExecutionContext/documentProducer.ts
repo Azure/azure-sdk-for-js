@@ -183,7 +183,7 @@ export class DocumentProducer {
       }
 
       return { result: resources, headers: headerResponse };
-    } catch (err) {
+    } catch (err: any) {
       // TODO: any error
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
         // Split just happend
@@ -234,7 +234,7 @@ export class DocumentProducer {
         case FetchResultType.Result:
           return { result: fetchResult.feedResponse, headers };
       }
-    } catch (err) {
+    } catch (err: any) {
       this._updateStates(err, err.item === undefined);
       throw err;
     }

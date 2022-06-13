@@ -5,16 +5,18 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
-import {
-  CertificateClient,
-  DefaultCertificatePolicy,
-  UpdateCertificateOptions,
-  CertificatePolicy,
-} from "@azure/keyvault-certificates";
-import { DefaultAzureCredential } from "@azure/identity";
-
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+
+import {
+  CertificateClient,
+  CertificatePolicy,
+  DefaultCertificatePolicy,
+  UpdateCertificateOptions,
+} from "@azure/keyvault-certificates";
+
+import { DefaultAzureCredential } from "@azure/identity";
+
 dotenv.config();
 
 export async function main(): Promise<void> {
@@ -30,7 +32,7 @@ export async function main(): Promise<void> {
 
   // Create unique certificate name
   const uniqueString = new Date().getTime();
-  const certificateName = `cert${uniqueString}`;
+  const certificateName = `hello-world-${uniqueString}`;
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(

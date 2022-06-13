@@ -1,78 +1,78 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/rng",
-   "query": {
-    "api-version": "7.3-preview"
-   },
-   "requestBody": "",
-   "status": 401,
-   "response": "",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "0",
-    "content-security-policy": "default-src 'self'",
-    "content-type": "application/json; charset=utf-8",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
-    "x-content-type-options": "nosniff",
-    "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "5bb21dfc-d529-11eb-b1e5-0022484f830d",
-    "x-ms-server-latency": "1"
-   }
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://azure_managedhsm.managedhsm.azure.net/rng",
+      "query": {
+        "api-version": "7.3"
+      },
+      "requestBody": "",
+      "status": 401,
+      "response": "",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "0",
+        "content-security-policy": "default-src 'self'",
+        "content-type": "application/json; charset=utf-8",
+        "strict-transport-security": "max-age=31536000; includeSubDomains",
+        "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-ms-request-id": "5bb21dfc-d529-11eb-b1e5-0022484f830d",
+        "x-ms-server-latency": "1"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "query": {},
+      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+      "status": 200,
+      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+      "responseHeaders": {
+        "cache-control": "no-store, no-cache",
+        "content-length": "1322",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Thu, 24 Jun 2021 20:18:36 GMT",
+        "expires": "-1",
+        "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+        "pragma": "no-cache",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+        "strict-transport-security": "max-age=31536000; includeSubDomains",
+        "x-content-type-options": "nosniff",
+        "x-ms-ests-server": "2.1.11829.9 - NCUS ProdSlices",
+        "x-ms-request-id": "adab7405-6419-4772-80ae-95d6aefa3400"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://azure_managedhsm.managedhsm.azure.net/rng",
+      "query": {
+        "api-version": "7.3"
+      },
+      "requestBody": "{\"count\":10}",
+      "status": 200,
+      "response": "{\"value\":\"dPmLJcOQkvSsQg\"}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "26",
+        "content-security-policy": "default-src 'self'",
+        "content-type": "application/json; charset=utf-8",
+        "strict-transport-security": "max-age=31536000; includeSubDomains",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "eastus2",
+        "x-ms-request-id": "5bf524ee-d529-11eb-b1e5-0022484f830d",
+        "x-ms-server-latency": "0"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
   },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1322",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 24 Jun 2021 20:18:36 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - NCUS ProdSlices",
-    "x-ms-request-id": "adab7405-6419-4772-80ae-95d6aefa3400"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/rng",
-   "query": {
-    "api-version": "7.3-preview"
-   },
-   "requestBody": "{\"count\":10}",
-   "status": 200,
-   "response": "{\"value\":\"dPmLJcOQkvSsQg\"}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "26",
-    "content-security-policy": "default-src 'self'",
-    "content-type": "application/json; charset=utf-8",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-frame-options": "SAMEORIGIN",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;",
-    "x-ms-keyvault-region": "eastus2",
-    "x-ms-request-id": "5bf524ee-d529-11eb-b1e5-0022484f830d",
-    "x-ms-server-latency": "0"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "2b5e9907f8b658d41d8f28ec0c247ea9"
+  "hash": "2b5e9907f8b658d41d8f28ec0c247ea9"
 }

@@ -1,12 +1,11 @@
 {
   "name": "@azure/dtdl-parser",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Digital Twins Model Parser client library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
     "./dist-esm/src/utils/getFilenames.js": "./dist-esm/src/utils/getFilenames.browser.js",
     "./dist-esm/src/utils/getTestcase.js": "./dist-esm/src/utils/getTestcase.browser.js"
   },
@@ -66,7 +65,8 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.2.0",
+    "@azure/iot-modelsrepository": "^1.0.0-beta.1"
   },
   "devDependencies": {
     "@azure/core-util": "^1.0.0-beta.1",
@@ -86,7 +86,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -102,7 +102,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
-    "nyc": "^14.0.0",
+    "nyc": "^15.0.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "rollup": "^2.60.2",
@@ -111,7 +111,6 @@
     "rollup-plugin-visualizer": "^5.5.2",
     "sinon": "^9.0.2",
     "ts-node": "^9.0.0",
-    "typedoc": "0.15.2",
     "typescript": "~4.2.0",
     "util": "^0.12.1"
   },
@@ -129,6 +128,24 @@
       "azure"
     ],
     "requiredResources": {},
+    "extraFiles": {
+      "./samples-dev/ArrayV2.json": [
+        "typescript/ArrayV2.json",
+        "javascript/ArrayV2.json"
+      ],
+      "./samples-dev/InterfaceContentsEmbeddedV2.json": [
+        "typescript/InterfaceContentsEmbeddedV2.json",
+        "javascript/InterfaceContentsEmbeddedV2.json"
+      ],
+      "./samples-dev/InterfaceExtendsOnlyV2.json": [
+        "typescript/InterfaceExtendsOnlyV2.json",
+        "javascript/InterfaceExtendsOnlyV2.json"
+      ],
+      "./samples-dev/RelationshipTargetDtmiV2.json": [
+        "typescript/RelationshipTargetDtmiV2.json",
+        "javascript/RelationshipTargetDtmiV2.json"
+      ]
+    },
     "apiRefLink": "https://docs.microsoft.com/javascript/api/"
   },
   "//metadata": {

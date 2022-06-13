@@ -3,8 +3,8 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { PassThrough } from "stream";
-import { IncomingMessage, ClientRequest, IncomingHttpHeaders } from "http";
+import { PassThrough, Writable } from "stream";
+import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import * as https from "https";
 import * as http from "http";
 import { AbortController } from "@azure/abort-controller";
@@ -92,7 +92,7 @@ describe("NodeHttpClient", function () {
     try {
       await promise;
       assert.fail("Expected await to throw");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
     }
   });
@@ -127,7 +127,7 @@ describe("NodeHttpClient", function () {
     try {
       await promise;
       assert.fail("Expected await to throw");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
     }
   });
@@ -174,7 +174,7 @@ describe("NodeHttpClient", function () {
     try {
       await promise;
       assert.fail("Expected await to throw");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
     }
   });
@@ -233,7 +233,7 @@ describe("NodeHttpClient", function () {
     try {
       await promise;
       assert.fail("Expected await to throw");
-    } catch (e) {
+    } catch (e: any) {
       assert.match(e.message, /^Cannot connect/, "Error should refuse connection");
     }
   });
@@ -344,6 +344,56 @@ describe("NodeHttpClient", function () {
     assert.strictEqual(response.status, 200);
   });
 
+  it("should handle NodeJS.ReadableStream bodies correctly", async function () {
+    const requestText = "testing resettable stream";
+    const client = createDefaultHttpClient();
+    let bodySent = false;
+    const writable = new Writable({
+      write: (chunk, _, next) => {
+        bodySent = true;
+        assert.equal(chunk.toString(), requestText, "Unexpected body");
+        next();
+      },
+    });
+    stubbedHttpsRequest.returns(writable);
+
+    const stream = new PassThrough();
+    stream.write(requestText);
+    stream.end();
+    const body = stream;
+    const request = createPipelineRequest({ url: "https://example.com", body });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
+    await promise;
+    assert.isTrue(bodySent, "body should have been piped to request");
+  });
+
+  it("should handle () => NodeJS.ReadableStream bodies correctly", async function () {
+    const requestText = "testing resettable stream";
+    const client = createDefaultHttpClient();
+    let bodySent = false;
+    const writable = new Writable({
+      write: (chunk, _, next) => {
+        bodySent = true;
+        assert.equal(chunk.toString(), requestText, "Unexpected body");
+        next();
+      },
+    });
+    stubbedHttpsRequest.returns(writable);
+
+    const body = () => {
+      const stream = new PassThrough();
+      stream.write(requestText);
+      stream.end();
+      return stream;
+    };
+    const request = createPipelineRequest({ url: "https://example.com", body });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
+    await promise;
+    assert.isTrue(bodySent, "body should have been piped to request");
+  });
+
   it("should return an AbortError when aborted while reading the HTTP response", async function () {
     clock.restore();
     const client = createDefaultHttpClient();
@@ -376,7 +426,7 @@ describe("NodeHttpClient", function () {
     try {
       await promise;
       assert.fail("Expected await to throw");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
     }
   });

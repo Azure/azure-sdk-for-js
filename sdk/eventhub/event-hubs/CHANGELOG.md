@@ -1,12 +1,43 @@
 # Release History
 
-## 5.8.0-beta.2 (Unreleased)
+## 5.8.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 5.8.0 (2022-05-10)
+
+### Breaking Changes
+
+- The `enableIdempotentPartitions` flag has been renamed to `enableIdempotentRetries`
+
+## 5.8.0-beta.3 (2022-04-05)
+
+### Breaking Changes
+- `MessageWithMetadata` has been renamed to `MessageContent`.
+- `MessageContent`'s `body` has been renamed to `data`.
+- `MessageAdapter`'s `consumeMessage` and `produceMessage` have been renamed to `consume` and `produce`.
+
+### Bugs Fixed
+- The Uint8Array payload was being stringified first before it gets sent which caused the receiver to treat it as an object instead of a Uint8Array. This is now fixed and Uint8Array is being treated the same as a Buffer.
+- The hashing algorithm used to map partition keys to IDs in the buffered producer is no longer sensitive to the endianness of the local machine [Issue #21190](https://github.com/Azure/azure-sdk-for-js/issues/21190).
+
+### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0). There are no changes from the previous beta; however, please see below for changes from the previous minor version:
+  - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
+  - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
+
+## 5.8.0-beta.2 (2022-03-11)
+
+### Bugs Fixed
+
+- `createEventDataAdapter` is updated so that `consumeMessage` returns the original binary payload instead of the Buffer representation of it.
 
 ### Other Changes
 

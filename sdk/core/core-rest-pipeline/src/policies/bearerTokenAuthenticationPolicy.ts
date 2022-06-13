@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AzureLogger } from "@azure/logger";
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { createTokenCycler } from "../util/tokenCycler";
 
@@ -185,7 +185,7 @@ export function bearerTokenAuthenticationPolicy(
       let error: Error | undefined;
       try {
         response = await next(request);
-      } catch (err) {
+      } catch (err: any) {
         error = err;
         response = err.response;
       }

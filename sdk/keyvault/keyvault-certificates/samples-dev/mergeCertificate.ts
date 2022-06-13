@@ -5,14 +5,14 @@
  * @summary Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
  */
 
-import * as fs from "fs";
 import * as childProcess from "child_process";
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+import * as fs from "fs";
 
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
@@ -27,7 +27,7 @@ export async function main(): Promise<void> {
   const client = new CertificateClient(url, credential);
 
   const uniqueString = new Date().getTime();
-  const certificateName = `cert${uniqueString}`;
+  const certificateName = `merge-${uniqueString}`;
 
   // Creating a certificate with an Unknown issuer.
   await client.beginCreateCertificate(certificateName, {

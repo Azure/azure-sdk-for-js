@@ -7,7 +7,7 @@ import {
   InstrumentationConfig,
 } from "@opentelemetry/instrumentation";
 import { OpenTelemetryInstrumenter } from "./instrumenter";
-import { SDK_VERSION } from "./constants";
+import { SDK_VERSION } from "./configuration";
 import { useInstrumenter } from "@azure/core-tracing";
 
 /**
@@ -46,7 +46,7 @@ class AzureSdkInstrumentation extends InstrumentationBase {
 /**
  * Enables Azure SDK Instrumentation using OpenTelemetry for Azure SDK client libraries.
  *
- * When registerd, any Azure data plane package will begin emitting tracing spans for internal calls
+ * When registered, any Azure data plane package will begin emitting tracing spans for internal calls
  * as well as network calls
  *
  * Example usage:

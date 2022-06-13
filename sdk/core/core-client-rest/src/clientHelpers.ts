@@ -2,27 +2,17 @@
 // Licensed under the MIT license.
 
 import {
-  createEmptyPipeline,
-  bearerTokenAuthenticationPolicy,
-  Pipeline,
-  createDefaultHttpClient,
   HttpClient,
-  proxyPolicy,
-  decompressResponsePolicy,
-  formDataPolicy,
-  userAgentPolicy,
-  setClientRequestIdPolicy,
-  throttlingRetryPolicy,
-  systemErrorRetryPolicy,
-  exponentialRetryPolicy,
-  redirectPolicy,
-  logPolicy,
+  Pipeline,
+  bearerTokenAuthenticationPolicy,
+  createDefaultHttpClient,
+  createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+
 import { ClientOptions } from "./common";
-import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy";
 import { apiVersionPolicy } from "./apiVersionPolicy";
+import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy";
 
 let cachedHttpClient: HttpClient | undefined;
 
@@ -34,21 +24,7 @@ export function createDefaultPipeline(
   credential?: TokenCredential | KeyCredential,
   options: ClientOptions = {}
 ): Pipeline {
-  const pipeline = createEmptyPipeline();
-
-  if (isNode) {
-    pipeline.addPolicy(proxyPolicy(options.proxyOptions));
-    pipeline.addPolicy(decompressResponsePolicy());
-  }
-
-  pipeline.addPolicy(formDataPolicy());
-  pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
-  pipeline.addPolicy(setClientRequestIdPolicy());
-  pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
-  pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
-  pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
-  pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
-  pipeline.addPolicy(logPolicy(), { afterPhase: "Retry" });
+  const pipeline = createPipelineFromOptions(options);
 
   pipeline.addPolicy(apiVersionPolicy(options));
 

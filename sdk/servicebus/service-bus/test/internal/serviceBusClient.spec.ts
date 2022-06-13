@@ -17,7 +17,8 @@ import {
 } from "../../src";
 import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
-import { EnvVarNames, getEnvVars, isNode } from "../public/utils/envVarUtils";
+import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
+import { isNode } from "@azure/core-util";
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
 import {
   createServiceBusClientForTests,
@@ -68,34 +69,113 @@ describe("ServiceBusClient live tests", () => {
         ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue)
         : sbClientWithRelaxedEndPoint.createReceiver(entities.topic!, entities.subscription!);
 
-      // Send and receive messages
-      const testMessages = entities.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      await sender.sendMessages(testMessages);
-      await testPeekMsgsLength(receiver, 1);
+      try {
+        // Send and receive messages
+        const testMessages = entities.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+        await sender.sendMessages(testMessages);
+        await testPeekMsgsLength(receiver, 1);
 
-      const msgs = await receiver.receiveMessages(1);
+        const msgs = await receiver.receiveMessages(1);
 
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs.length, 1, "Unexpected number of messages");
-      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-      should.equal(
-        msgs[0].messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
-      should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-      await receiver.completeMessage(msgs[0]);
+        should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+        should.equal(msgs.length, 1, "Unexpected number of messages");
+        should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+        should.equal(
+          msgs[0].messageId,
+          testMessages.messageId,
+          "MessageId is different than expected"
+        );
+        should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+        await receiver.completeMessage(msgs[0]);
 
-      await testPeekMsgsLength(receiver, 0);
-
-      // Clean up
-      await sbClient.test.after();
-      await sender.close();
-      await receiver.close();
-      await sbClientWithRelaxedEndPoint.close();
+        await testPeekMsgsLength(receiver, 0);
+      } finally {
+        // Clean up
+        await sbClient.test.after();
+        await sender.close();
+        await receiver.close();
+        await sbClientWithRelaxedEndPoint.close();
+      }
     });
+
+    it.skip(
+      noSessionTestClientType + ":can omit message body when peeking",
+      async function (): Promise<void> {
+        // Create a test client to get the entity types
+        const sbClient = createServiceBusClientForTests();
+        const entities = await sbClient.test.createTestEntities(noSessionTestClientType);
+        await sbClient.close();
+
+        // Create a sb client, sender, receiver with relaxed endpoint
+        const sbClientWithRelaxedEndPoint = new ServiceBusClient(
+          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+        );
+        const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
+        const receiver = entities.queue
+          ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue)
+          : sbClientWithRelaxedEndPoint.createReceiver(entities.topic!, entities.subscription!);
+        try {
+          // Send and receive messages
+          const testMessages = entities.usesSessions
+            ? TestMessage.getSessionSample()
+            : TestMessage.getSample();
+          await sender.sendMessages(testMessages);
+
+          let peekedMsgs = await receiver.peekMessages(2, {
+            omitMessageBody: true,
+            fromSequenceNumber: Long.ZERO,
+          });
+          should.equal(peekedMsgs.length, 1, "expecting one peeked message 1");
+          should.not.exist(peekedMsgs[0].body);
+          should.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
+            "expecting deliveryAnnotations"
+          );
+          const omittedSize = Number(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"]
+          );
+          should.equal(omittedSize > 0, true);
+
+          peekedMsgs = await receiver.peekMessages(2, {
+            omitMessageBody: false,
+            fromSequenceNumber: Long.ZERO,
+          });
+          should.equal(peekedMsgs.length, 1, "expecting one peeked message 2");
+          should.exist(peekedMsgs[0].body);
+          should.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
+            "expecting deliveryAnnotations"
+          );
+          should.not.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"],
+            "Not expecting omitted-message-body-size"
+          );
+
+          peekedMsgs = await receiver.peekMessages(2, { fromSequenceNumber: Long.ZERO });
+          should.equal(peekedMsgs.length, 1, "expecting one peeked message 3");
+          should.exist(peekedMsgs[0].body);
+          should.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
+            "expecting deliveryAnnotations"
+          );
+          should.not.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"],
+            "Not expecting omitted-message-body-size"
+          );
+
+          await receiver.receiveMessages(2);
+          await testPeekMsgsLength(receiver, 0);
+        } finally {
+          // Clean up
+          await sbClient.test.after();
+          await sender.close();
+          await receiver.close();
+          await sbClientWithRelaxedEndPoint.close();
+        }
+      }
+    );
   });
 
   describe("Errors with non existing Namespace", function (): void {
@@ -406,7 +486,7 @@ describe("ServiceBusClient live tests", () => {
     it("throws error for invalid tokenCredentials", async function (): Promise<void> {
       try {
         new ServiceBusClient(serviceBusEndpoint, [] as any);
-      } catch (err) {
+      } catch (err: any) {
         errorWasThrown = true;
         should.equal(
           err.message,
@@ -421,7 +501,7 @@ describe("ServiceBusClient live tests", () => {
     it("throws error for undefined tokenCredentials", async function (): Promise<void> {
       try {
         new ServiceBusClient(serviceBusEndpoint, undefined as any);
-      } catch (err) {
+      } catch (err: any) {
         errorWasThrown = true;
         should.equal(
           err.message,
@@ -437,7 +517,7 @@ describe("ServiceBusClient live tests", () => {
       it("throws error for invalid host name", async function (): Promise<void> {
         try {
           new ServiceBusClient(123 as any, getDefaultTokenCredential());
-        } catch (error) {
+        } catch (error: any) {
           errorWasThrown = true;
           should.equal(
             error.message,
@@ -561,7 +641,7 @@ describe("ServiceBusClient live tests", () => {
           default:
             break;
         }
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
 
@@ -629,7 +709,7 @@ describe("ServiceBusClient live tests", () => {
       let errorNewSender: string = "";
       try {
         sbClient.createSender(entityName.queue ?? entityName.topic!);
-      } catch (err) {
+      } catch (err: any) {
         errorNewSender = err.message;
       }
       should.equal(
@@ -665,7 +745,7 @@ describe("ServiceBusClient live tests", () => {
             console.log(e);
           },
         });
-      } catch (err) {
+      } catch (err: any) {
         errorReceiveStream = err.message;
       }
       should.equal(
@@ -702,7 +782,7 @@ describe("ServiceBusClient live tests", () => {
       let errorNewReceiver: string = "";
       try {
         receiver = await sbClient.test.createPeekLockReceiver(entityName);
-      } catch (err) {
+      } catch (err: any) {
         errorNewReceiver = err.message;
       }
       should.equal(

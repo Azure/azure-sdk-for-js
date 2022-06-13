@@ -36,6 +36,36 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       );
     });
 
+    it("redirect (redirect location has host)", async function (this: Mocha.Context) {
+      await recorder.start({ envSetupForPlayback: {} });
+
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: `/redirectWithHost`, method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("redirect (redirect location is relative)", async function (this: Mocha.Context) {
+      await recorder.start({ envSetupForPlayback: {} });
+
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: `/redirectWithoutHost`, method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("retry", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: "/reset_retry", method: "GET" },
+        undefined
+      );
+      await makeRequestAndVerifyResponse(client, { path: "/retry", method: "GET" }, { val: "abc" });
+    });
+
     it("sample_response with random string in path", async () => {
       await recorder.start({ envSetupForPlayback: {} });
 
@@ -224,6 +254,88 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
     });
 
     // Transforms
+
+    describe("Transforms", () => {
+      it("ApiVersionTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({ type: "ApiVersionTransform" });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [
+              { headerName: "Content-Type", value: "text/plain" },
+              { headerName: "api-version", value: "myapiversion" },
+            ],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "api-version": "myapiversion" } : {}
+        );
+      });
+
+      it("ClientIdTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({ type: "ClientIdTransform" });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [
+              { headerName: "Content-Type", value: "text/plain" },
+              { headerName: "x-ms-client-id", value: "myclientid" },
+            ],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "x-ms-client-id": "myclientid" } : {}
+        );
+      });
+
+      it("HeaderTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({
+          type: "HeaderTransform",
+          params: { key: "x-test-header", value: "test-value" },
+        });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "x-test-header": "test-value" } : {}
+        );
+      });
+
+      it("StorageRequestIdTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({ type: "StorageRequestIdTransform" });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [
+              { headerName: "Content-Type", value: "text/plain" },
+              { headerName: "x-ms-client-request-id", value: "requestid" },
+            ],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "x-ms-client-request-id": "requestid" } : {}
+        );
+      });
+    });
 
     describe("Other methods", () => {
       it("transformsInfo()", async () => {

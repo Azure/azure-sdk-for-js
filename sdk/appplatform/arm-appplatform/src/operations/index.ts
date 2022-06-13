@@ -8,10 +8,15 @@
 
 export * from "./services";
 export * from "./configServers";
+export * from "./configurationServices";
+export * from "./serviceRegistries";
+export * from "./buildServiceOperations";
+export * from "./buildpackBinding";
+export * from "./buildServiceBuilder";
+export * from "./buildServiceAgentPool";
 export * from "./monitoringSettings";
 export * from "./apps";
 export * from "./bindings";
-export * from "./storages";
 export * from "./certificates";
 export * from "./customDomains";
 export * from "./deployments";

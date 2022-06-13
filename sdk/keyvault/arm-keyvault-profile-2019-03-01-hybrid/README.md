@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK for KeyVaultManagementClient.
 
+> Please note, this package is deprecated and not functional as it uses an older version of the Javascript SDK generator. As of April 2022, you can instead use [@azure/arm-keyvault-profile-2020-09-01-hybrid](https://www.npmjs.com/package/@azure/arm-keyvault-profile-2020-09-01-hybrid).
+
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)

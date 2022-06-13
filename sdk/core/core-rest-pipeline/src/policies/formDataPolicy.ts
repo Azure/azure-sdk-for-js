@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import FormData from "form-data";
-import { PipelineResponse, PipelineRequest, SendRequest, FormDataMap } from "../interfaces";
+import { FormDataMap, PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
 /**
@@ -78,7 +78,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       });
     });
     request.headers.set("Content-Length", contentLength);
-  } catch (e) {
+  } catch (e: any) {
     // ignore setting the length if this fails
   }
 }

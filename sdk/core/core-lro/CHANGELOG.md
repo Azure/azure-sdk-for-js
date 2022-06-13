@@ -1,14 +1,20 @@
 # Release History
 
-## 2.2.4 (Unreleased)
+## 2.3.0-beta.1 (2022-05-18)
 
 ### Features Added
 
-### Breaking Changes
+- `lroEngine` now supports cancellation of the long-running operation.
+
+### Other Changes
+
+- Removed the unused dependency `@azure/core-tracing`.
+
+## 2.2.4 (2022-03-07)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix polling so that resources created in a different URL will be retrieved once polling is done. [PR #20656](https://github.com/Azure/azure-sdk-for-js/pull/20656)
 
 ## 2.2.3 (2022-01-06)
 

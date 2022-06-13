@@ -1,0 +1,7926 @@
+[
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssuesOnlyResponder",
+      "version": "1.0",
+      "config": {
+        "taskName": "Add needs triage label to new issues",
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "opened"
+              }
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "isPartOfProject",
+                  "parameters": {}
+                }
+              ]
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "isAssignedToSomeone",
+                  "parameters": {}
+                }
+              ]
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "isLabeled",
+                  "parameters": {}
+                }
+              ]
+            }
+          ]
+        },
+        "actions": [
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "needs-triage"
+            }
+          }
+        ],
+        "eventType": "issue",
+        "eventNames": [
+          "issues",
+          "project_card"
+        ]
+      },
+      "disabled": false
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssueCommentResponder",
+      "version": "1.0",
+      "config": {
+        "taskName": "Replace needs author feedback label with needs attention label when the author comments on an issue",
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "created"
+              }
+            },
+            {
+              "name": "isActivitySender",
+              "parameters": {
+                "user": {
+                  "type": "author"
+                }
+              }
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "needs-author-feedback"
+              }
+            },
+            {
+              "name": "isOpen",
+              "parameters": {}
+            }
+          ]
+        },
+        "actions": [
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "needs-team-attention"
+            }
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "needs-author-feedback"
+            }
+          }
+        ],
+        "eventType": "issue",
+        "eventNames": [
+          "issue_comment"
+        ]
+      },
+      "disabled": false
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssuesOnlyResponder",
+      "version": "1.0",
+      "config": {
+        "taskName": "Remove no recent activity label from issues",
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "isAction",
+                  "parameters": {
+                    "action": "closed"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "no-recent-activity"
+              }
+            }
+          ]
+        },
+        "actions": [
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          }
+        ],
+        "eventType": "issue",
+        "eventNames": [
+          "issues",
+          "project_card"
+        ]
+      },
+      "disabled": false
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssueCommentResponder",
+      "version": "1.0",
+      "config": {
+        "taskName": "Remove no recent activity label when an issue is commented on",
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "no-recent-activity"
+              }
+            }
+          ]
+        },
+        "actions": [
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          }
+        ],
+        "eventType": "issue",
+        "eventNames": [
+          "issue_comment"
+        ]
+      },
+      "disabled": false
+    },
+    {
+      "taskType": "scheduled",
+      "capabilityId": "ScheduledSearch",
+      "subCapability": "ScheduledSearch",
+      "version": "1.1",
+      "config": {
+        "taskName": "Close stale issues",
+        "frequency": [
+          {
+            "weekDay": 0,
+            "hours": [
+              1
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 1,
+            "hours": [
+              1
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 2,
+            "hours": [
+              1
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 3,
+            "hours": [
+              1
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 4,
+            "hours": [
+              1
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 5,
+            "hours": [
+              1
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 6,
+            "hours": [
+              1
+            ],
+            "timezoneOffset": -7
+          }
+        ],
+        "searchTerms": [
+          {
+            "name": "isIssue",
+            "parameters": {}
+          },
+          {
+            "name": "isOpen",
+            "parameters": {}
+          },
+          {
+            "name": "hasLabel",
+            "parameters": {
+              "label": "needs-author-feedback"
+            }
+          },
+          {
+            "name": "hasLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          },
+          {
+            "name": "noActivitySince",
+            "parameters": {
+              "days": 14
+            }
+          }
+        ],
+        "actions": [
+          {
+            "name": "closeIssue",
+            "parameters": {}
+          }
+        ]
+      },
+      "disabled": false
+    },
+    {
+      "taskType": "scheduled",
+      "capabilityId": "ScheduledSearch",
+      "subCapability": "ScheduledSearch",
+      "version": "1.1",
+      "config": {
+        "taskName": "Add no recent activity label to issues",
+        "frequency": [
+          {
+            "weekDay": 0,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 1,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 2,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 3,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 4,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 5,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 6,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -7
+          }
+        ],
+        "searchTerms": [
+          {
+            "name": "isIssue",
+            "parameters": {}
+          },
+          {
+            "name": "isOpen",
+            "parameters": {}
+          },
+          {
+            "name": "hasLabel",
+            "parameters": {
+              "label": "needs-author-feedback"
+            }
+          },
+          {
+            "name": "noActivitySince",
+            "parameters": {
+              "days": 7
+            }
+          },
+          {
+            "name": "noLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          },
+          {
+            "name": "addReply",
+            "parameters": {
+              "comment": "Hi, we're sending this friendly reminder because we haven't heard back from you in a while. We need more information about this issue to help address it. Please be sure to give us your input within the next **7 days**. If we don't hear back from you within **14 days** of this comment the issue will be automatically closed. Thank you!"
+            }
+          }
+        ]
+      },
+      "disabled": false
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssuesOnlyResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "labeled"
+              }
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "needs-triage"
+              }
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "labelAdded",
+                  "parameters": {
+                    "label": "needs-triage"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issues",
+          "project_card"
+        ],
+        "taskName": "Remove needs-triage label on issues once they are labeled",
+        "actions": [
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "needs-triage"
+            }
+          }
+        ]
+      },
+      "disabled": false
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssuesOnlyResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "opened"
+              }
+            },
+            {
+              "operator": "and",
+              "operands": [
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasPermissions",
+                      "parameters": {
+                        "association": "MEMBER",
+                        "permissions": "write"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasAssociation",
+                      "parameters": {
+                        "association": "MEMBER"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasAssociation",
+                      "parameters": {
+                        "association": "COLLABORATOR"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasPermissions",
+                      "parameters": {
+                        "permissions": "admin"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "isActivitySender",
+                      "parameters": {
+                        "user": "openapi-sdkautomation[bot]"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issues",
+          "project_card"
+        ],
+        "taskName": "Add customer-reported label to issues coming from non-collaborators",
+        "actions": [
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "customer-reported"
+            }
+          },
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "question"
+            }
+          }
+        ]
+      },
+      "disabled": false
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssueCommentResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "isOpen",
+                  "parameters": {}
+                }
+              ]
+            },
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "created"
+              }
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "no-recent-activity"
+              }
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "needs-author-feedback"
+              }
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "noActivitySince",
+                  "parameters": {
+                    "days": 7
+                  }
+                }
+              ]
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "isCloseAndComment",
+                  "parameters": {}
+                }
+              ]
+            },
+            {
+              "name": "isActivitySender",
+              "parameters": {
+                "user": {
+                  "type": "author"
+                }
+              }
+            },
+            {
+              "name": "activitySenderHasPermissions",
+              "parameters": {
+                "permissions": "none"
+              }
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issue_comment"
+        ],
+        "taskName": "For issues closed due to inactivity, re-open an issue if issue author posts a reply within 7 days.",
+        "actions": [
+          {
+            "name": "reopenIssue",
+            "parameters": {}
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "needs-author-feedback"
+            }
+          },
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "needs-team-attention"
+            }
+          }
+        ]
+      },
+      "disabled": false
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssueCommentResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "created"
+              }
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "isOpen",
+                  "parameters": {}
+                }
+              ]
+            },
+            {
+              "name": "activitySenderHasPermissions",
+              "parameters": {
+                "permissions": "none"
+              }
+            },
+            {
+              "name": "noActivitySince",
+              "parameters": {
+                "days": 7
+              }
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "isCloseAndComment",
+                  "parameters": {}
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issue_comment"
+        ],
+        "taskName": "For issues closed with no activity over 7 days, ask non-contributor to consider opening a new issue instead.",
+        "actions": [
+          {
+            "name": "addReply",
+            "parameters": {
+              "comment": "Thank you for your interest in this issue! Because it has been closed for a period of time, we strongly advise that you open a new issue linking to this to ensure better visibility of your comment. "
+            }
+          }
+        ]
+      },
+      "disabled": false
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssuesOnlyResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isOpen",
+              "parameters": {}
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "customer-reported"
+              }
+            },
+            {
+              "name": "labelRemoved",
+              "parameters": {
+                "label": "Service Attention"
+              }
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issues",
+          "project_card"
+        ],
+        "taskName": "Add label after \"Service Attention\" is removed",
+        "actions": [
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "needs-team-triage"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "PrAutoLabel",
+      "subCapability": "Path",
+      "version": "1.0",
+      "config": {
+        "configs": [
+          {
+            "label": "Azure.Core",
+            "pathFilter": [
+              "sdk/core/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Azure.Core",
+            "pathFilter": [
+              "sdk/core/core-amqp/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Azure.Core",
+            "pathFilter": [
+              "sdk/core/core-auth/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Azure.Core",
+            "pathFilter": [
+              "sdk/core/core-client-rest/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Azure.Core",
+            "pathFilter": [
+              "sdk/core/core-tracing/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "App Configuration",
+            "pathFilter": [
+              "sdk/appconfiguration/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Attestation",
+            "pathFilter": [
+              "sdk/attestation/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Batch",
+            "pathFilter": [
+              "sdk/batch/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Communication",
+            "pathFilter": [
+              "sdk/communication/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Communication - Chat",
+            "pathFilter": [
+              "/sdk/communication/communication-chat/"
+            ]
+          },
+          {
+            "label": "Communication - Common",
+            "pathFilter": [
+              "/sdk/communication/communication-common/"
+            ]
+          },
+          {
+            "label": "Communication - Identity",
+            "pathFilter": [
+              "/sdk/communication/communication-identity/"
+            ]
+          },
+          {
+            "label": "Communication - Network Traversal",
+            "pathFilter": [
+              "/sdk/communication/communication-network-traversal/"
+            ]
+          },
+          {
+            "label": "Communication - Phone Numbers",
+            "pathFilter": [
+              "/sdk/communication/communication-phone-numbers/"
+            ]
+          },
+          {
+            "label": "Communication - Short Codes",
+            "pathFilter": [
+              "/sdk/communication/communication-short-codes/"
+            ]
+          },
+          {
+            "label": "Communication - SMS",
+            "pathFilter": [
+              "/sdk/communication/communication-sms/"
+            ]
+          },
+          {
+            "label": "Communication - Resource Manager",
+            "pathFilter": [
+              "/sdk/communication/arm-communication/"
+            ]
+          },
+          {
+            "label": "Container Registry",
+            "pathFilter": [
+              "sdk/containerregistry/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Cosmos",
+            "pathFilter": [
+              "sdk/cosmosdb/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Digital Twins",
+            "pathFilter": [
+              "sdk/digitaltwins/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Event Grid",
+            "pathFilter": [
+              "sdk/eventgrid/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Event Hubs",
+            "pathFilter": [
+              "sdk/eventhub/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Azure.Identity",
+            "pathFilter": [
+              "sdk/identity/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Iot",
+            "pathFilter": [
+              "sdk/iot/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "KeyVault",
+            "pathFilter": [
+              "sdk/keyvault/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Service Bus",
+            "pathFilter": [
+              "sdk/servicebus/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Storage",
+            "pathFilter": [
+              "sdk/storage/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Synapse",
+            "pathFilter": [
+              "sdk/synapse/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Tables",
+            "pathFilter": [
+              "sdk/tables/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Purview",
+            "pathFilter": [
+              "sdk/purview/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "AgriFood",
+            "pathFilter": [
+              "sdk/agrifood/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Confidential Ledger",
+            "pathFilter": [
+              "sdk/confidentialledger/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Cognitive - Translator",
+            "pathFilter": [
+              "sdk/documenttranslator/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "WebPubSub",
+            "pathFilter": [
+              "sdk/web-pubsub/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "EngSys",
+            "pathFilter": [
+              "sdk/template/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Cognitive - Text Analytics",
+            "pathFilter": [
+              "sdk/textanalytics/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Schema Registry",
+            "pathFilter": [
+              "sdk/schemaregistry/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Cognitive - Form Recognizer",
+            "pathFilter": [
+              "sdk/formrecognizer/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Cognitive - Metrics Advisor",
+            "pathFilter": [
+              "sdk/metricsadvisor/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Search",
+            "pathFilter": [
+              "sdk/search/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mixed Reality",
+            "pathFilter": [
+              "sdk/mixedreality/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Remote Rendering",
+            "pathFilter": [
+              "sdk/remoterendering/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/advisor/arm-advisor"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/analysisservices/arm-analysisservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/apimanagement/arm-apimanagement"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/appconfiguration/arm-appconfiguration"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/applicationinsights/arm-appinsights"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/appplatform/arm-appplatform"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/appservice/arm-appservice"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/appservice/arm-appservice-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/appservice/arm-appservice-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/attestation/arm-attestation"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/authorization/arm-authorization"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/authorization/arm-authorization-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/authorization/arm-authorization-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/automation/arm-automation"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/avs/arm-avs"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/azurestack/arm-azurestack"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/azurestackhci/arm-azurestackhci"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/batch/arm-batch"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/batchai/arm-batchai"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/billing/arm-billing"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/botservice/arm-botservice"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/cdn/arm-cdn"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/changeanalysis/arm-changeanalysis"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/cognitiveservices/arm-cognitiveservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/commerce/arm-commerce"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/commerce/arm-commerce-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/communication/arm-communication"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/compute/arm-compute"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/compute/arm-compute-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/compute/arm-compute-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/confluent/arm-confluent"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/consumption/arm-consumption"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/containerinstance/arm-containerinstance"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/containerregistry/arm-containerregistry"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/containerservice/arm-containerservice"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/cosmosdb/arm-cosmosdb"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/customer-insights/arm-customerinsights"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/databox/arm-databox"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/databoxedge/arm-databoxedge"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/databricks/arm-databricks"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/datacatalog/arm-datacatalog"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/datafactory/arm-datafactory"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/datalake-analytics/arm-datalake-analytics"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/datamigration/arm-datamigration"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/deploymentmanager/arm-deploymentmanager"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/deviceprovisioningservices/arm-deviceprovisioningservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/devspaces/arm-devspaces"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/devtestlabs/arm-devtestlabs"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/digitaltwins/arm-digitaltwins"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/dns/arm-dns"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/dns/arm-dns-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/dns/arm-dns-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/domainservices/arm-domainservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/edgegateway/arm-edgegateway"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/eventgrid/arm-eventgrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/eventhub/arm-eventhub"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/features/arm-features"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/frontdoor/arm-frontdoor"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/hanaonazure/arm-hanaonazure"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/hdinsight/arm-hdinsight"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/healthbot/arm-healthbot"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/healthcareapis/arm-healthcareapis"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/hybridcompute/arm-hybridcompute"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/hybridkubernetes/arm-hybridkubernetes"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/iotcentral/arm-iotcentral"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/iothub/arm-iothub"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/iothub/arm-iothub-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/iotspaces/arm-iotspaces"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/keyvault/arm-keyvault"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/keyvault/arm-keyvault-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/kubernetesconfiguration/arm-kubernetesconfiguration"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/kusto/arm-kusto"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/labservices/arm-labservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/links/arm-links"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/locks/arm-locks"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/locks/arm-locks-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/locks/arm-locks-profile-hybrid-2019-03-01"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/logic/arm-logic"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearning/arm-commitmentplans"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearning/arm-webservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearning/arm-workspaces"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearningcompute/arm-machinelearningcompute"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearningexperimentation/arm-machinelearningexperimentation"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearningservices/arm-machinelearningservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/managedapplications/arm-managedapplications"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/managementgroups/arm-managementgroups"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/managementpartner/arm-managementpartner"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/maps/arm-maps"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/mariadb/arm-mariadb"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/marketplaceordering/arm-marketplaceordering"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/mediaservices/arm-mediaservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/migrate/arm-migrate"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/mixedreality/arm-mixedreality"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/monitor/arm-monitor"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/monitor/arm-monitor-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/monitor/arm-monitor-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/msi/arm-msi"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/mysql/arm-mysql"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/netapp/arm-netapp"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/network/arm-network"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/network/arm-network-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/network/arm-network-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/notificationhubs/arm-notificationhubs"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/operationalinsights/arm-operationalinsights"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/operationsmanagement/arm-operations"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/peering/arm-peering"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/policy/arm-policy"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/policy/arm-policy-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/policy/arm-policy-profile-hybrid-2019-03-01"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/policyinsights/arm-policyinsights"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/postgresql/arm-postgresql"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/postgresql/arm-postgresql-flexible"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/powerbidedicated/arm-powerbidedicated"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/powerbiembedded/arm-powerbiembedded"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/privatedns/arm-privatedns"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/recoveryservices/arm-recoveryservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/recoveryservicesbackup/arm-recoveryservicesbackup"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/redis/arm-rediscache"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/redisenterprise/arm-redisenterprisecache"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/relay/arm-relay"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/reservations/arm-reservations"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resourcegraph/arm-resourcegraph"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resourcehealth/arm-resourcehealth"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resourcemover/arm-resourcemover"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resources/arm-resources"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resources/arm-resources-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resources/arm-resources-profile-hybrid-2019-03-01"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/search/arm-search"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/security/arm-security"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/serialconsole/arm-serialconsole"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/service-map/arm-servicemap"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/servicebus/arm-servicebus"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/servicefabric/arm-servicefabric"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/servicefabricmesh/arm-servicefabricmesh"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/signalr/arm-signalr"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/sql/arm-sql"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/sqlvirtualmachine/arm-sqlvirtualmachine"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storage/arm-storage"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storage/arm-storage-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storage/arm-storage-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storagecache/arm-storagecache"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storageimportexport/arm-storageimportexport"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storagesync/arm-storagesync"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storsimple1200series/arm-storsimple1200series"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storsimple8000series/arm-storsimple8000series"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/streamanalytics/arm-streamanalytics"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/subscription/arm-subscriptions"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/subscription/arm-subscriptions-profile-hybrid-2019-03-01"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/support/arm-support"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/synapse/arm-synapse"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/timeseriesinsights/arm-timeseriesinsights"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/trafficmanager/arm-trafficmanager"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/visualstudio/arm-visualstudio"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/vmwarecloudsimple/arm-vmwarecloudsimple"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resources-subscriptions/arm-resources-subscriptions"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/templatespecs/arm-templatespecs"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Monitor",
+            "pathFilter": [
+              "sdk/monitor/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "dev-tool",
+            "pathFilter": [
+              "common/tools/dev-tool/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "eslint plugin",
+            "pathFilter": [
+              "common/tools/eslint-plugin-azure-sdk/"
+            ],
+            "exclude": [
+              ""
+            ]
+          }
+        ],
+        "taskName": "Auto PR based on folder paths "
+      }
+    },
+    {
+      "taskType": "scheduled",
+      "capabilityId": "ScheduledSearch",
+      "subCapability": "ScheduledSearch",
+      "version": "1.1",
+      "config": {
+        "frequency": [
+          {
+            "weekDay": 0,
+            "hours": [
+              1,
+              4,
+              7,
+              10,
+              13,
+              16,
+              19,
+              22
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 1,
+            "hours": [
+              1,
+              4,
+              7,
+              10,
+              13,
+              16,
+              19,
+              22
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 2,
+            "hours": [
+              1,
+              4,
+              7,
+              10,
+              13,
+              16,
+              19,
+              22
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 3,
+            "hours": [
+              1,
+              4,
+              7,
+              10,
+              13,
+              16,
+              19,
+              22
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 4,
+            "hours": [
+              1,
+              4,
+              7,
+              10,
+              13,
+              16,
+              19,
+              22
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 5,
+            "hours": [
+              1,
+              4,
+              7,
+              10,
+              13,
+              16,
+              19,
+              22
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 6,
+            "hours": [
+              1,
+              4,
+              7,
+              10,
+              13,
+              16,
+              19,
+              22
+            ],
+            "timezoneOffset": -7
+          }
+        ],
+        "searchTerms": [
+          {
+            "name": "isOpen",
+            "parameters": {}
+          },
+          {
+            "name": "hasLabel",
+            "parameters": {
+              "label": "MySQL"
+            }
+          },
+          {
+            "name": "hasLabel",
+            "parameters": {
+              "label": "Service Attention"
+            }
+          },
+          {
+            "name": "noAssignees",
+            "parameters": {}
+          }
+        ],
+        "taskName": "Assign service attention issues to mentionees for MySQL (requested by service team)",
+        "actions": [
+          {
+            "name": "assignToGitHubUserGroup",
+            "parameters": {
+              "groupId": "5f074aea4200c210c870e0f4"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "scheduled",
+      "capabilityId": "ScheduledSearch",
+      "subCapability": "ScheduledSearch",
+      "version": "1.1",
+      "config": {
+        "frequency": [
+          {
+            "weekDay": 0,
+            "hours": [
+              2,
+              5,
+              8,
+              11,
+              14,
+              17,
+              20,
+              23
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 1,
+            "hours": [
+              2,
+              5,
+              8,
+              11,
+              14,
+              17,
+              20,
+              23
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 2,
+            "hours": [
+              2,
+              5,
+              8,
+              11,
+              14,
+              17,
+              20,
+              23
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 3,
+            "hours": [
+              2,
+              5,
+              8,
+              11,
+              14,
+              17,
+              20,
+              23
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 4,
+            "hours": [
+              2,
+              5,
+              8,
+              11,
+              14,
+              17,
+              20,
+              23
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 5,
+            "hours": [
+              2,
+              5,
+              8,
+              11,
+              14,
+              17,
+              20,
+              23
+            ],
+            "timezoneOffset": -7
+          },
+          {
+            "weekDay": 6,
+            "hours": [
+              2,
+              5,
+              8,
+              11,
+              14,
+              17,
+              20,
+              23
+            ],
+            "timezoneOffset": -7
+          }
+        ],
+        "searchTerms": [
+          {
+            "name": "isOpen",
+            "parameters": {}
+          },
+          {
+            "name": "hasLabel",
+            "parameters": {
+              "label": "MariaDB"
+            }
+          },
+          {
+            "name": "hasLabel",
+            "parameters": {
+              "label": "Service Attention"
+            }
+          },
+          {
+            "name": "noAssignees",
+            "parameters": {}
+          }
+        ],
+        "taskName": "Assign service attention issues to mentionees for MariaDB (requested by service team)",
+        "actions": [
+          {
+            "name": "assignToGitHubUserGroup",
+            "parameters": {
+              "groupId": "5f074aea4200c210c870e0f4"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssuesOnlyResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "labeled"
+              }
+            },
+            {
+              "name": "labelAdded",
+              "parameters": {
+                "label": "needs-author-feedback"
+              }
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issues",
+          "project_card"
+        ],
+        "taskName": "Remove needs* labels when needs-author-feedback label is added",
+        "actions": [
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "needs-team-attention"
+            }
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "needs-triage"
+            }
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "needs-team-triage"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "scheduledAndTrigger",
+      "capabilityId": "IssueRouting",
+      "subCapability": "@Mention",
+      "version": "1.0",
+      "config": {
+        "labelsAndMentions": [
+          {
+            "labels": [
+              "Service Attention",
+              "AAD"
+            ],
+            "mentionees": [
+              "adamedx"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "AKS"
+            ],
+            "mentionees": [
+              "Azure/aks-pm"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Alerts Management"
+            ],
+            "mentionees": [
+              "liadtal",
+              "yairgil"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ARM"
+            ],
+            "mentionees": [
+              "armleads-azure"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ARM - Templates"
+            ],
+            "mentionees": [
+              "armleads-azure"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ARM - Tags"
+            ],
+            "mentionees": [
+              "armleads-azure"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ARM - Core"
+            ],
+            "mentionees": [
+              "armleads-azure"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ARM - Managed Applications"
+            ],
+            "mentionees": [
+              "armleads-azure"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ARM - Service Catalog"
+            ],
+            "mentionees": [
+              "armleads-azure"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ARM - RBAC"
+            ],
+            "mentionees": [
+              "armleads-azure"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Advisor"
+            ],
+            "mentionees": [
+              "mojayara",
+              "Prasanna-Padmanabhan"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Analysis Services"
+            ],
+            "mentionees": [
+              "athipp",
+              "taiwu",
+              "minghan"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "API Management"
+            ],
+            "mentionees": [
+              "miaojiang"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Application Insights"
+            ],
+            "mentionees": [
+              "azmonapplicationinsights"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "App Services"
+            ],
+            "mentionees": [
+              "antcp",
+              "AzureAppServiceCLI"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "App Configuration"
+            ],
+            "mentionees": [
+              "shenmuxiaosen",
+              "avanigupta"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ARO"
+            ],
+            "mentionees": [
+              "mjudeikis",
+              "jim-minter",
+              "julienstroheker",
+              "amanohar"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Attestation"
+            ],
+            "mentionees": [
+              "anilba06"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Authorization"
+            ],
+            "mentionees": [
+              "darshanhs90",
+              "AshishGargMicrosoft"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Automation"
+            ],
+            "mentionees": [
+              "zjalexander"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "AVS"
+            ],
+            "mentionees": [
+              "divka78",
+              "amitchat",
+              "aishu"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Azure Stack"
+            ],
+            "mentionees": [
+              "sijuman",
+              "sarathys",
+              "bganapa",
+              "rakku-ms"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Batch"
+            ],
+            "mentionees": [
+              "mksuni",
+              "bgklein",
+              "mscurrell",
+              "dpwatrous",
+              "gingi",
+              "paterasMSFT",
+              "cRui861"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "BatchAI"
+            ],
+            "mentionees": [
+              "matthchr"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Billing"
+            ],
+            "mentionees": [
+              "cabbpt"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Blueprint"
+            ],
+            "mentionees": [
+              "alex-frankel",
+              "filizt"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Bot Service"
+            ],
+            "mentionees": [
+              "sgellock"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cloud Shell"
+            ],
+            "mentionees": [
+              "maertendMSFT"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Text Analytics"
+            ],
+            "mentionees": [
+              "assafi"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Form Recognizer"
+            ],
+            "mentionees": [
+              "ctstone",
+              "anrothMSFT"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Anomaly Detector"
+            ],
+            "mentionees": [
+              "yingqunpku",
+              "bowgong"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Custom Vision"
+            ],
+            "mentionees": [
+              "areddish",
+              "tburns10"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Computer Vision"
+            ],
+            "mentionees": [
+              "ryogok",
+              "TFR258",
+              "tburns10"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Face"
+            ],
+            "mentionees": [
+              "JinyuID",
+              "dipidoo",
+              "SteveMSFT"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - QnA Maker"
+            ],
+            "mentionees": [
+              "bingisbestest",
+              "nerajput1607"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Translator"
+            ],
+            "mentionees": [
+              "swmachan"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Speech"
+            ],
+            "mentionees": [
+              "robch",
+              "oscholz"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - LUIS"
+            ],
+            "mentionees": [
+              "cahann",
+              "kayousef"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Content Moderator"
+            ],
+            "mentionees": [
+              "swiftarrow11"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Personalizer"
+            ],
+            "mentionees": [
+              "dwaijam"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Immersive Reader"
+            ],
+            "mentionees": [
+              "metanMSFT"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Ink Recognizer"
+            ],
+            "mentionees": [
+              "olduroja"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Bing"
+            ],
+            "mentionees": [
+              "jaggerbodas-ms",
+              "arwong"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cognitive - Mgmt"
+            ],
+            "mentionees": [
+              "yangyuan"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Commerce"
+            ],
+            "mentionees": [
+              "ms-premp",
+              "qiaozha"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Compute"
+            ],
+            "mentionees": [
+              "Drewm3",
+              "avirishuv",
+              "vaibhav-agar",
+              "amjads1"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Compute - Extensions"
+            ],
+            "mentionees": [
+              "Drewm3",
+              "amjads1"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Compute - Images"
+            ],
+            "mentionees": [
+              "Drewm3",
+              "vaibhav-agar"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Compute - Managed Disks"
+            ],
+            "mentionees": [
+              "Drewm3",
+              "vaibhav-agar"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Compute - RDFE"
+            ],
+            "mentionees": [
+              "Drewm3",
+              "avirishuv"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Compute - VM"
+            ],
+            "mentionees": [
+              "Drewm3",
+              "avirishuv"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Compute - VMSS"
+            ],
+            "mentionees": [
+              "Drewm3",
+              "avirishuv"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Connected Kubernetes"
+            ],
+            "mentionees": [
+              "akashkeshari"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Container Instances"
+            ],
+            "mentionees": [
+              "macolso"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Container Registry"
+            ],
+            "mentionees": [
+              "toddysm",
+              "northtyphoon"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Container Service"
+            ],
+            "mentionees": [
+              "qike-ms",
+              "jwilder",
+              "thomas1206",
+              "seanmck"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cosmos"
+            ],
+            "mentionees": [
+              "simorenoh",
+              "sajeetharan"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Customer Insights"
+            ],
+            "mentionees": [
+              "shefymk"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Custom Providers"
+            ],
+            "mentionees": [
+              "manoharp",
+              "MSEvanhi"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "CycleCloud"
+            ],
+            "mentionees": [
+              "adriankjohnson"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Data Bricks"
+            ],
+            "mentionees": [
+              "arindamc"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "DataBox"
+            ],
+            "mentionees": [
+              "tmvishwajit",
+              "matdickson",
+              "manuaery",
+              "madhurinms"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "DataBox Edge"
+            ],
+            "mentionees": [
+              "a-t-mason",
+              "ganzee",
+              "manuaery"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Data Catalog"
+            ],
+            "mentionees": [
+              "ingave"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Data Factory"
+            ],
+            "mentionees": [
+              "Jingshu923",
+              "zhangyd2015",
+              "Frey-Wang"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Data Lake"
+            ],
+            "mentionees": [
+              "sumantmehtams"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Data Lake Storage Gen1"
+            ],
+            "mentionees": [
+              "sumantmehtams"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Data Lake Storage Gen2"
+            ],
+            "mentionees": [
+              "sumantmehtams"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Data Lake Analytics"
+            ],
+            "mentionees": [
+              "idear1203"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Data Lake Store"
+            ],
+            "mentionees": [
+              "sumantmehtams"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Data Migration"
+            ],
+            "mentionees": [
+              "radjaram",
+              "kavitham10"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Data Share"
+            ],
+            "mentionees": [
+              "raedJarrar",
+              "jifems"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "DevOps"
+            ],
+            "mentionees": [
+              "narula0781",
+              "ashishonce",
+              "romil07"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Dev Spaces"
+            ],
+            "mentionees": [
+              "yuzorMa",
+              "johnsta",
+              "greenie-msft"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Devtestlab"
+            ],
+            "mentionees": [
+              "Tanmayeekamath"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Device Provisioning Service"
+            ],
+            "mentionees": [
+              "nberdy"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Digital Twins"
+            ],
+            "mentionees": [
+              "sjohngallardo",
+              "YoDaMa",
+              "olivakar",
+              "sjiherzig",
+              "Satya-Kolluri"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Event Grid"
+            ],
+            "mentionees": [
+              "jfggdl"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Event Hubs"
+            ],
+            "mentionees": [
+              "kasun04",
+              "saglodha"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Functions"
+            ],
+            "mentionees": [
+              "ahmedelnably",
+              "fabiocav"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Graph.Microsoft"
+            ],
+            "mentionees": [
+              "dkershaw10",
+              "baywet"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Guest Configuration"
+            ],
+            "mentionees": [
+              "mgreenegit",
+              "vivlingaiah"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "HDInsight"
+            ],
+            "mentionees": [
+              "aim-for-better",
+              "idear1203",
+              "deshriva"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "HPC Cache"
+            ],
+            "mentionees": [
+              "romahamu",
+              "omzevall"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Import Export"
+            ],
+            "mentionees": [
+              "madhurinms"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "KeyVault"
+            ],
+            "mentionees": [
+              "RandalliLama",
+              "schaabs",
+              "jlichwa"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Kubernetes Configuration"
+            ],
+            "mentionees": [
+              "NarayanThiru"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Azure Data Explorer"
+            ],
+            "mentionees": [
+              "ilayrn",
+              "orhasban"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Lab Services"
+            ],
+            "mentionees": [
+              "Tanmayeekamath"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Logic App"
+            ],
+            "mentionees": [
+              "Azure/azure-logicapps-team"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "LOUIS"
+            ],
+            "mentionees": [
+              "minamnmik"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Managed Identity"
+            ],
+            "mentionees": [
+              "varunkch"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Machine Learning"
+            ],
+            "mentionees": [
+              "azureml-github"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Machine Learning Compute"
+            ],
+            "mentionees": [
+              "azureml-github"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Machine Learning Experimentation"
+            ],
+            "mentionees": [
+              "aashishb"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Managed Services"
+            ],
+            "mentionees": [
+              "Lighthouse-Azure"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "MariaDB"
+            ],
+            "mentionees": [
+              "ambhatna",
+              "savjani"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Marketplace Ordering"
+            ],
+            "mentionees": [
+              "prbansa"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Media Services"
+            ],
+            "mentionees": [
+              "akucer"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Migrate"
+            ],
+            "mentionees": [
+              "shijojoy"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Mobile Engagement"
+            ],
+            "mentionees": [
+              "kpiteira"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Monitor"
+            ],
+            "mentionees": [
+              "SameergMS",
+              "dadunl"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Monitor - Autoscale"
+            ],
+            "mentionees": [
+              "AzMonEssential"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Monitor - ActivityLogs"
+            ],
+            "mentionees": [
+              "AzMonEssential"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Monitor - Metrics"
+            ],
+            "mentionees": [
+              "AzMonEssential"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Monitor - Diagnostic Settings"
+            ],
+            "mentionees": [
+              "AzMonEssential"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Monitor - Alerts"
+            ],
+            "mentionees": [
+              "AzmonAlerts"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Monitor - ActionGroups"
+            ],
+            "mentionees": [
+              "AzmonActionG"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Monitor - LogAnalytics"
+            ],
+            "mentionees": [
+              "AzmonLogA"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Monitor - ApplicationInsights"
+            ],
+            "mentionees": [
+              "azmonapplicationinsights"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "MySQL"
+            ],
+            "mentionees": [
+              "ambhatna",
+              "savjani"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network"
+            ],
+            "mentionees": [
+              "aznetsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Application Gateway"
+            ],
+            "mentionees": [
+              "appgwsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - CDN"
+            ],
+            "mentionees": [
+              "cdnfdsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - DDOS Protection"
+            ],
+            "mentionees": [
+              "ddossuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - ExpressRoute"
+            ],
+            "mentionees": [
+              "exrsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Firewall"
+            ],
+            "mentionees": [
+              "fwsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Front Door"
+            ],
+            "mentionees": [
+              "cdnfdsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Load Balancer"
+            ],
+            "mentionees": [
+              "slbsupportgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Virtual Network NAT"
+            ],
+            "mentionees": [
+              "vnetsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Network Watcher"
+            ],
+            "mentionees": [
+              "netwatchsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - DNS"
+            ],
+            "mentionees": [
+              "dnssuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Traffic Manager"
+            ],
+            "mentionees": [
+              "tmsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - VPN Gateway"
+            ],
+            "mentionees": [
+              "vpngwsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Notification Hub"
+            ],
+            "mentionees": [
+              "tjsomasundaram"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Operational Insights"
+            ],
+            "mentionees": [
+              "AzmonLogA"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Policy"
+            ],
+            "mentionees": [
+              "aperezcloud",
+              "kenieva"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Policy Insights"
+            ],
+            "mentionees": [
+              "kenieva"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "PostgreSQL"
+            ],
+            "mentionees": [
+              "sunilagarwal",
+              "lfittl-msft",
+              "sr-msft",
+              "niklarin"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Recovery Services Backup"
+            ],
+            "mentionees": [
+              "pvrk",
+              "adityabalaji-msft"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Recovery Services Site-Recovery"
+            ],
+            "mentionees": [
+              "Sharmistha-Rai"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Redis Cache"
+            ],
+            "mentionees": [
+              "yegu-ms"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Relay"
+            ],
+            "mentionees": [
+              "jfggdl"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Reservations"
+            ],
+            "mentionees": [
+              "Rkapso"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Resource Authorization"
+            ],
+            "mentionees": [
+              "darshanhs90",
+              "AshishGargMicrosoft"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Resource Graph"
+            ],
+            "mentionees": [
+              "chiragg4u"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Resource Health"
+            ],
+            "mentionees": [
+              "stephbaron"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Scheduler"
+            ],
+            "mentionees": [
+              "derek1ee"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Search"
+            ],
+            "mentionees": [
+              "brjohnstmsft",
+              "bleroy",
+              "tjacobhi",
+              "markheff",
+              "miwelsh"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Security"
+            ],
+            "mentionees": [
+              "chlahav"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Service Bus"
+            ],
+            "mentionees": [
+              "saglodha",
+              "EldertGrootenboer"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Service Fabric"
+            ],
+            "mentionees": [
+              "QingChenmsft",
+              "vaishnavk",
+              "juhacket"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Schema Registry"
+            ],
+            "mentionees": [
+              "arerlend",
+              "alzimmermsft"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "SignalR"
+            ],
+            "mentionees": [
+              "sffamily",
+              "chenkennt"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "SQL"
+            ],
+            "mentionees": [
+              "azureSQLGitHub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "SQL - VM"
+            ],
+            "mentionees": [
+              "azureSQLGitHub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "SQL - Backup & Restore"
+            ],
+            "mentionees": [
+              "azureSQLGitHub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "SQL - Data Security"
+            ],
+            "mentionees": [
+              "azureSQLGitHub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "SQL - Elastic Jobs"
+            ],
+            "mentionees": [
+              "azureSQLGitHub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "SQL - Managed Instance"
+            ],
+            "mentionees": [
+              "azureSQLGitHub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "SQL - Replication & Failover"
+            ],
+            "mentionees": [
+              "azureSQLGitHub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Storage"
+            ],
+            "mentionees": [
+              "xgithubtriage"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Storsimple"
+            ],
+            "mentionees": [
+              "anoobbacker",
+              "ganzee",
+              "manuaery",
+              "patelkunal"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Stream Analytics"
+            ],
+            "mentionees": [
+              "atpham256"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Subscription"
+            ],
+            "mentionees": [
+              "anuragdalmia",
+              "shilpigautam",
+              "ramaganesan-rg"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Support"
+            ],
+            "mentionees": [
+              "shahbj79",
+              "mit2nil",
+              "aygoya",
+              "ganganarayanan"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Synapse"
+            ],
+            "mentionees": [
+              "wonner",
+              "zesluo"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Tables"
+            ],
+            "mentionees": [
+              "klaaslanghout"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "TimeseriesInsights"
+            ],
+            "mentionees": [
+              "Shipra1Mishra"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "vFXT"
+            ],
+            "mentionees": [
+              "zhusijia26"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Web Apps"
+            ],
+            "mentionees": [
+              "AzureAppServiceCLI",
+              "antcp"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Virtual Network"
+            ],
+            "mentionees": [
+              "vnetsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Virtual WAN"
+            ],
+            "mentionees": [
+              "vwansuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Network Virtual Appliance"
+            ],
+            "mentionees": [
+              "nvasuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Bastion"
+            ],
+            "mentionees": [
+              "bastionsuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Azure.Spring - Cosmos"
+            ],
+            "mentionees": [
+              "kushagraThapar"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Network - Private Link"
+            ],
+            "mentionees": [
+              "privlinksuppgithub"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Azure Arc enabled servers"
+            ],
+            "mentionees": [
+              "rpsqrd",
+              "edyoung"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "SecurityInsights"
+            ],
+            "mentionees": [
+              "amirkeren"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "IoT/CLI"
+            ],
+            "mentionees": [
+              "Azure/azure-iot-cli-triage"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Communication"
+            ],
+            "mentionees": [
+              "acsdevx-msft"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-AutoML"
+            ],
+            "mentionees": [
+              "Aniththa"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Hyperdrive"
+            ],
+            "mentionees": [
+              "Aniththa"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Compute"
+            ],
+            "mentionees": [
+              "nishankgu"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Core UI"
+            ],
+            "mentionees": [
+              "abeomor"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Data4ML"
+            ],
+            "mentionees": [
+              "SturgeonMi"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Designer"
+            ],
+            "mentionees": [
+              "alainli0928"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Data Labeling"
+            ],
+            "mentionees": [
+              "kvijaykannan"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Inference"
+            ],
+            "mentionees": [
+              "shivanissambare"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-MLOps"
+            ],
+            "mentionees": [
+              "lostmygithubaccount"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Pipelines"
+            ],
+            "mentionees": [
+              "shbijlan"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Responsible AI"
+            ],
+            "mentionees": [
+              "minthigpen"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Reinforcement Learning"
+            ],
+            "mentionees": [
+              "keijik"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Training"
+            ],
+            "mentionees": [
+              "lostmygithubaccount"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "ML-Workspace Management"
+            ],
+            "mentionees": [
+              "rastala"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cost Management - Budget"
+            ],
+            "mentionees": [
+              "ccmaxpcrew"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Consumption - Budget"
+            ],
+            "mentionees": [
+              "ccmaxpcrew"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cost Management - Query"
+            ],
+            "mentionees": [
+              "ccmixpdevs"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Consumption - Query"
+            ],
+            "mentionees": [
+              "ccmixpdevs"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cost Management - Billing"
+            ],
+            "mentionees": [
+              "ccmbpxpcrew"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Consumption - Billing"
+            ],
+            "mentionees": [
+              "ccmbpxpcrew"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cost Management - UsageDetailsAndExport"
+            ],
+            "mentionees": [
+              "TiagoCrewGitHubIssues"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Consumption - UsageDetailsAndExport"
+            ],
+            "mentionees": [
+              "TiagoCrewGitHubIssues"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Cost Management - RIandShowBack"
+            ],
+            "mentionees": [
+              "ccmshowbackdevs"
+            ]
+          },
+          {
+            "labels": [
+              "Service Attention",
+              "Consumption - RIandShowBack"
+            ],
+            "mentionees": [
+              "ccmshowbackdevs"
+            ]
+          },
+          {
+            "labels": [
+              "Monitor - Exporter",
+              "Service Attention"
+            ],
+            "mentionees": [
+              "@cijothomas",
+              "@reyang",
+              "@rajkumar-rangaraj",
+              "@TimothyMothra",
+              "@vishweshbankwar",
+              "@ramthi"
+            ]
+          }
+        ],
+        "replyTemplate": "Thanks for the feedback! We are routing this to the appropriate team for follow-up. cc ${mentionees}.",
+        "taskName": "Triage issues to the service team"
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "AutoMerge",
+      "subCapability": "AutoMerge",
+      "version": "1.0",
+      "config": {
+        "taskName": "Auto merge pull requests",
+        "label": "auto-merge",
+        "allowAutoMergeInstructionsWithoutLabel": false,
+        "mergeType": "squash",
+        "deleteBranches": true,
+        "removeLabelOnPush": true,
+        "requireAllStatuses": true,
+        "requireSpecificCheckRuns": false,
+        "usePrDescriptionAsCommitMessage": true
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "PullRequestResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "opened"
+              }
+            },
+            {
+              "operator": "and",
+              "operands": [
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasPermissions",
+                      "parameters": {
+                        "permissions": "write"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasAssociation",
+                      "parameters": {
+                        "association": "MEMBER"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasAssociation",
+                      "parameters": {
+                        "association": "COLLABORATOR"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasPermissions",
+                      "parameters": {
+                        "permissions": "admin"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "isActivitySender",
+                      "parameters": {
+                        "user": "openapi-sdkautomation[bot]"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "pull_request",
+        "eventNames": [
+          "pull_request",
+          "issues",
+          "project_card"
+        ],
+        "taskName": "Add customer-reported label to PRs from customers ",
+        "actions": [
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "customer-reported"
+            }
+          },
+          {
+            "name": "addReply",
+            "parameters": {
+              "comment": "Thank you for your contribution ${issueAuthor}! We will review the pull request and get back to you soon."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssuesOnlyResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "labeled"
+              }
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "hasLabel",
+                  "parameters": {
+                    "label": "needs-triage"
+                  }
+                }
+              ]
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "hasLabel",
+                  "parameters": {
+                    "label": "needs-team-triage"
+                  }
+                }
+              ]
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "hasLabel",
+                  "parameters": {
+                    "label": "needs-author-feedback"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "customer-reported"
+              }
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "isInMilestone",
+                  "parameters": {}
+                }
+              ]
+            },
+            {
+              "name": "isOpen",
+              "parameters": {}
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "hasLabel",
+                  "parameters": {
+                    "label": "issue-addressed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issues",
+          "project_card"
+        ],
+        "taskName": "Ensure 'needs-team-attention' label is assigned to issues not in a milestone",
+        "actions": [
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "needs-team-attention"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "PullRequestResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isOpen",
+              "parameters": {}
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "auto-merge"
+              }
+            },
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "synchronize"
+              }
+            },
+            {
+              "operator": "and",
+              "operands": [
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasPermissions",
+                      "parameters": {
+                        "permissions": "admin"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasPermissions",
+                      "parameters": {
+                        "permissions": "write"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "pull_request",
+        "eventNames": [
+          "pull_request",
+          "issues",
+          "project_card"
+        ],
+        "taskName": "[Auto Merge] Reset Approvals on Untrusted Changes",
+        "actions": [
+          {
+            "name": "dismissApprovalPullRequest",
+            "parameters": {
+              "dismissAction": "dismissAll",
+              "comment": "Hi @{issueAuthor}.  We've noticed that new changes have been pushed to this pull request.  Because it is set to automatically merge, we've reset the approvals to allow the opportunity to review the updates."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssuesOnlyResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "labelAdded",
+              "parameters": {
+                "label": "issue-addressed"
+              }
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issues",
+          "project_card"
+        ],
+        "taskName": "[Resolve Workflow] Issue Addressed Label Applied",
+        "actions": [
+          {
+            "name": "addReply",
+            "parameters": {
+              "comment": "Hi @${issueAuthor}.  Thank you for opening this issue and giving us the opportunity to assist.  We believe that this has been addressed.  If you feel that further discussion is needed, please add a comment with the text “`/unresolve`” to remove the “issue-addressed” label and continue the conversation."
+            }
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "needs-triage"
+            }
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "needs-team-triage"
+            }
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "needs-team-attention"
+            }
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "needs-author-feedback"
+            }
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "scheduled",
+      "capabilityId": "ScheduledSearch",
+      "subCapability": "ScheduledSearch",
+      "version": "1.1",
+      "config": {
+        "frequency": [
+          {
+            "weekDay": 0,
+            "hours": [
+              0,
+              6,
+              12,
+              18
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 1,
+            "hours": [
+              0,
+              6,
+              12,
+              18
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 2,
+            "hours": [
+              0,
+              6,
+              12,
+              18
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 3,
+            "hours": [
+              0,
+              6,
+              12,
+              18
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 4,
+            "hours": [
+              0,
+              6,
+              12,
+              18
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 5,
+            "hours": [
+              0,
+              6,
+              12,
+              18
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 6,
+            "hours": [
+              0,
+              6,
+              12,
+              18
+            ],
+            "timezoneOffset": -4
+          }
+        ],
+        "searchTerms": [
+          {
+            "name": "isIssue",
+            "parameters": {}
+          },
+          {
+            "name": "isOpen",
+            "parameters": {}
+          },
+          {
+            "name": "hasLabel",
+            "parameters": {
+              "label": "issue-addressed"
+            }
+          },
+          {
+            "name": "noActivitySince",
+            "parameters": {
+              "days": 7
+            }
+          }
+        ],
+        "taskName": "[Resolve Workflow] Close Addressed Issues",
+        "actions": [
+          {
+            "name": "addReply",
+            "parameters": {
+              "comment": "Hi @${issueAuthor}, since you haven’t asked that we “`/unresolve`” the issue, we’ll close this out. If you believe further discussion is needed, please add a comment “`/unresolve`” to reopen the issue."
+            }
+          },
+          {
+            "name": "closeIssue",
+            "parameters": {}
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssueCommentResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "issue-addressed"
+              }
+            },
+            {
+              "name": "commentContains",
+              "parameters": {
+                "commentPattern": "/unresolve"
+              }
+            },
+            {
+              "operator": "or",
+              "operands": [
+                {
+                  "name": "isActivitySender",
+                  "parameters": {
+                    "user": {
+                      "type": "author"
+                    }
+                  }
+                },
+                {
+                  "name": "activitySenderHasPermissions",
+                  "parameters": {
+                    "permissions": "admin"
+                  }
+                },
+                {
+                  "name": "activitySenderHasPermissions",
+                  "parameters": {
+                    "permissions": "write"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issue_comment"
+        ],
+        "taskName": "[Resolve Workflow] Unresolve Command by Author",
+        "actions": [
+          {
+            "name": "reopenIssue",
+            "parameters": {}
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "issue-addressed"
+            }
+          },
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "needs-team-attention"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssueCommentResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "issue-addressed"
+              }
+            },
+            {
+              "name": "commentContains",
+              "parameters": {
+                "commentPattern": "/unresolve"
+              }
+            },
+            {
+              "operator": "and",
+              "operands": [
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "isActivitySender",
+                      "parameters": {
+                        "user": {
+                          "type": "author"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasPermissions",
+                      "parameters": {
+                        "permissions": "admin"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "activitySenderHasPermissions",
+                      "parameters": {
+                        "permissions": "write"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issue_comment"
+        ],
+        "taskName": "[Resolve Workflow] Unresolve Command Without Permissions",
+        "actions": [
+          {
+            "name": "addReply",
+            "parameters": {
+              "comment": "Hi ${contextualAuthor}, only the original author of the issue can ask that it be unresolved.  Please open a new issue with your scenario and details if you would like to discuss this topic with the team."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "IssuesOnlyResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isOpen",
+              "parameters": {}
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "issue-addressed"
+              }
+            },
+            {
+              "operator": "or",
+              "operands": [
+                {
+                  "name": "labelAdded",
+                  "parameters": {
+                    "label": "needs-team-attention"
+                  }
+                },
+                {
+                  "name": "labelAdded",
+                  "parameters": {
+                    "label": "needs-author-feedback"
+                  }
+                },
+                {
+                  "name": "labelAdded",
+                  "parameters": {
+                    "label": "Service Attention"
+                  }
+                },
+                {
+                  "name": "labelAdded",
+                  "parameters": {
+                    "label": "needs-triage"
+                  }
+                },
+                {
+                  "name": "labelAdded",
+                  "parameters": {
+                    "label": "needs-team-triage"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "issue",
+        "eventNames": [
+          "issues",
+          "project_card"
+        ],
+        "taskName": "[Resolve Workflow] Unresolve on WIP Labels",
+        "actions": [
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "issue-addressed"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "PrAutoLabel",
+      "subCapability": "Path",
+      "version": "1.0",
+      "config": {
+        "configs": [
+          {
+            "label": "Azure.Core",
+            "pathFilter": [
+              "sdk/core/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Azure.Core",
+            "pathFilter": [
+              "sdk/core/core-amqp/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Azure.Core",
+            "pathFilter": [
+              "sdk/core/core-auth/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Azure.Core",
+            "pathFilter": [
+              "sdk/core/core-client-rest/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Azure.Core",
+            "pathFilter": [
+              "sdk/core/core-tracing/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "App Configuration",
+            "pathFilter": [
+              "sdk/appconfiguration/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Attestation",
+            "pathFilter": [
+              "sdk/attestation/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Batch",
+            "pathFilter": [
+              "sdk/batch/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Communication",
+            "pathFilter": [
+              "sdk/communication/communication-identity/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Container Registry",
+            "pathFilter": [
+              "sdk/containerregistry/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Cosmos",
+            "pathFilter": [
+              "sdk/cosmosdb/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Digital Twins",
+            "pathFilter": [
+              "sdk/digitaltwins/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Event Grid",
+            "pathFilter": [
+              "sdk/eventgrid/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Event Hubs",
+            "pathFilter": [
+              "sdk/eventhub/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Azure.Identity",
+            "pathFilter": [
+              "sdk/identity/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Iot",
+            "pathFilter": [
+              "sdk/iot/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "KeyVault",
+            "pathFilter": [
+              "sdk/keyvault/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Service Bus",
+            "pathFilter": [
+              "sdk/servicebus/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Storage",
+            "pathFilter": [
+              "sdk/storage/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Synapse",
+            "pathFilter": [
+              "sdk/synapse/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Tables",
+            "pathFilter": [
+              "sdk/tables/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Purview",
+            "pathFilter": [
+              "sdk/purview/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "AgriFood",
+            "pathFilter": [
+              "sdk/agrifood/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Confidential Ledger",
+            "pathFilter": [
+              "sdk/confidentialledger/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Cognitive - Translator",
+            "pathFilter": [
+              "sdk/documenttranslator/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "WebPubSub",
+            "pathFilter": [
+              "sdk/web-pubsub/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "EngSys",
+            "pathFilter": [
+              "sdk/template/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Cognitive - Text Analytics",
+            "pathFilter": [
+              "sdk/textanalytics/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Schema Registry",
+            "pathFilter": [
+              "sdk/schemaregistry/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Cognitive - Form Recognizer",
+            "pathFilter": [
+              "sdk/formrecognizer/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Cognitive - Metrics Advisor",
+            "pathFilter": [
+              "sdk/metricsadvisor/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Search",
+            "pathFilter": [
+              "sdk/search/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mixed Reality",
+            "pathFilter": [
+              "sdk/mixedreality/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Remote Rendering",
+            "pathFilter": [
+              "sdk/remoterendering/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/advisor/arm-advisor"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/analysisservices/arm-analysisservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/apimanagement/arm-apimanagement"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/appconfiguration/arm-appconfiguration"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/applicationinsights/arm-appinsights"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/appplatform/arm-appplatform"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/appservice/arm-appservice"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/appservice/arm-appservice-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/appservice/arm-appservice-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/attestation/arm-attestation"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/authorization/arm-authorization"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/authorization/arm-authorization-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/authorization/arm-authorization-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/automation/arm-automation"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/avs/arm-avs"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/azurestack/arm-azurestack"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/azurestackhci/arm-azurestackhci"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/batch/arm-batch"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/batchai/arm-batchai"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/billing/arm-billing"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/botservice/arm-botservice"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/cdn/arm-cdn"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/changeanalysis/arm-changeanalysis"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/cognitiveservices/arm-cognitiveservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/commerce/arm-commerce"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/commerce/arm-commerce-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/communication/arm-communication"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/compute/arm-compute"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/compute/arm-compute-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/compute/arm-compute-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/confluent/arm-confluent"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/consumption/arm-consumption"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/containerinstance/arm-containerinstance"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/containerregistry/arm-containerregistry"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/containerservice/arm-containerservice"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/cosmosdb/arm-cosmosdb"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/customer-insights/arm-customerinsights"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/databox/arm-databox"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/databoxedge/arm-databoxedge"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/databricks/arm-databricks"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/datacatalog/arm-datacatalog"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/datafactory/arm-datafactory"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/datalake-analytics/arm-datalake-analytics"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/datamigration/arm-datamigration"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/deploymentmanager/arm-deploymentmanager"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/deviceprovisioningservices/arm-deviceprovisioningservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/devspaces/arm-devspaces"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/devtestlabs/arm-devtestlabs"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/digitaltwins/arm-digitaltwins"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/dns/arm-dns"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/dns/arm-dns-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/dns/arm-dns-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/domainservices/arm-domainservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/edgegateway/arm-edgegateway"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/eventgrid/arm-eventgrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/eventhub/arm-eventhub"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/features/arm-features"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/frontdoor/arm-frontdoor"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/hanaonazure/arm-hanaonazure"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/hdinsight/arm-hdinsight"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/healthbot/arm-healthbot"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/healthcareapis/arm-healthcareapis"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/hybridcompute/arm-hybridcompute"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/hybridkubernetes/arm-hybridkubernetes"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/iotcentral/arm-iotcentral"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/iothub/arm-iothub"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/iothub/arm-iothub-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/iotspaces/arm-iotspaces"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/keyvault/arm-keyvault"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/keyvault/arm-keyvault-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/kubernetesconfiguration/arm-kubernetesconfiguration"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/kusto/arm-kusto"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/labservices/arm-labservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/links/arm-links"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/locks/arm-locks"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/locks/arm-locks-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/locks/arm-locks-profile-hybrid-2019-03-01"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/logic/arm-logic"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearning/arm-commitmentplans"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearning/arm-webservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearning/arm-workspaces"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearningcompute/arm-machinelearningcompute"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearningexperimentation/arm-machinelearningexperimentation"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/machinelearningservices/arm-machinelearningservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/managedapplications/arm-managedapplications"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/managementgroups/arm-managementgroups"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/managementpartner/arm-managementpartner"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/maps/arm-maps"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/mariadb/arm-mariadb"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/marketplaceordering/arm-marketplaceordering"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/mediaservices/arm-mediaservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/migrate/arm-migrate"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/mixedreality/arm-mixedreality"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/monitor/arm-monitor"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/monitor/arm-monitor-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/monitor/arm-monitor-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/msi/arm-msi"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/mysql/arm-mysql"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/netapp/arm-netapp"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/network/arm-network"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/network/arm-network-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/network/arm-network-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/notificationhubs/arm-notificationhubs"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/operationalinsights/arm-operationalinsights"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/operationsmanagement/arm-operations"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/peering/arm-peering"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/policy/arm-policy"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/policy/arm-policy-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/policy/arm-policy-profile-hybrid-2019-03-01"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/policyinsights/arm-policyinsights"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/postgresql/arm-postgresql"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/postgresql/arm-postgresql-flexible"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/powerbidedicated/arm-powerbidedicated"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/powerbiembedded/arm-powerbiembedded"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/privatedns/arm-privatedns"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/recoveryservices/arm-recoveryservices"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/recoveryservicesbackup/arm-recoveryservicesbackup"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/redis/arm-rediscache"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/redisenterprise/arm-redisenterprisecache"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/relay/arm-relay"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/reservations/arm-reservations"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resourcegraph/arm-resourcegraph"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resourcehealth/arm-resourcehealth"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resourcemover/arm-resourcemover"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resources/arm-resources"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resources/arm-resources-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resources/arm-resources-profile-hybrid-2019-03-01"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/search/arm-search"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/security/arm-security"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/serialconsole/arm-serialconsole"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/service-map/arm-servicemap"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/servicebus/arm-servicebus"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/servicefabric/arm-servicefabric"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/servicefabricmesh/arm-servicefabricmesh"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/signalr/arm-signalr"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/sql/arm-sql"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/sqlvirtualmachine/arm-sqlvirtualmachine"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storage/arm-storage"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storage/arm-storage-profile-2019-03-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storage/arm-storage-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storagecache/arm-storagecache"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storageimportexport/arm-storageimportexport"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storagesync/arm-storagesync"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storsimple1200series/arm-storsimple1200series"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/storsimple8000series/arm-storsimple8000series"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/streamanalytics/arm-streamanalytics"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/subscription/arm-subscriptions"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/subscription/arm-subscriptions-profile-hybrid-2019-03-01"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/support/arm-support"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/synapse/arm-synapse"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/timeseriesinsights/arm-timeseriesinsights"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/trafficmanager/arm-trafficmanager"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/visualstudio/arm-visualstudio"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/vmwarecloudsimple/arm-vmwarecloudsimple"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/resources-subscriptions/arm-resources-subscriptions"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/templatespecs/arm-templatespecs"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Monitor",
+            "pathFilter": [
+              "sdk/monitor/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "dev-tool",
+            "pathFilter": [
+              "common/tools/dev-tool/"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "eslint plugin",
+            "pathFilter": [
+              "common/tools/eslint-plugin-azure-sdk/"
+            ],
+            "exclude": [
+              ""
+            ]
+          }
+        ],
+        "taskName": "Auto PR based on folder paths "
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "PullRequestResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "opened"
+              }
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "hasLabel",
+                  "parameters": {
+                    "label": "Impact++"
+                  }
+                }
+              ]
+            },
+            {
+              "operator": "or",
+              "operands": [
+                {
+                  "name": "isActivitySender",
+                  "parameters": {
+                    "user": "emilychang9"
+                  }
+                },
+                {
+                  "name": "isActivitySender",
+                  "parameters": {
+                    "user": "DaisyCisneros"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "pull_request",
+        "eventNames": [
+          "pull_request",
+          "issues",
+          "project_card"
+        ],
+        "taskName": "[Short Term Event] Impact++ Contribution",
+        "actions": [
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "Impact++"
+            }
+          },
+          {
+            "name": "addReply",
+            "parameters": {
+              "comment": "Thank you for your contribution, ${issueAuthor}!"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "PullRequestResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "opened"
+              }
+            },
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "hasLabel",
+                  "parameters": {
+                    "label": "Impact++"
+                  }
+                }
+              ]
+            },
+            {
+              "operator": "or",
+              "operands": [
+                {
+                  "name": "isActivitySender",
+                  "parameters": {
+                    "user": "emilychang9"
+                  }
+                },
+                {
+                  "name": "isActivitySender",
+                  "parameters": {
+                    "user": "DaisyCisneros"
+                  }
+                },
+                {
+                  "name": "isActivitySender",
+                  "parameters": {
+                    "user": "WeiJun428"
+                  }
+                },
+                {
+                  "name": "isActivitySender",
+                  "parameters": {
+                    "user": "hamsa-s"
+                  }
+                },
+                {
+                  "name": "isActivitySender",
+                  "parameters": {
+                    "user": "bzhang0"
+                  }
+                },
+                {
+                  "name": "isActivitySender",
+                  "parameters": {
+                    "user": "bbrusniak"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "pull_request",
+        "eventNames": [
+          "pull_request",
+          "issues",
+          "project_card"
+        ],
+        "taskName": "[Short Term Event] Impact++ Contribution",
+        "actions": [
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "Impact++"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "PullRequestResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "no-recent-activity"
+              }
+            },
+            {
+              "name": "isOpen",
+              "parameters": {}
+            },
+            {
+              "operator": "or",
+              "operands": [
+                {
+                  "name": "isAction",
+                  "parameters": {
+                    "action": "merged"
+                  }
+                },
+                {
+                  "name": "isAction",
+                  "parameters": {
+                    "action": "synchronize"
+                  }
+                },
+                {
+                  "name": "isAction",
+                  "parameters": {
+                    "action": "review_requested"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "pull_request",
+        "eventNames": [
+          "pull_request",
+          "issues",
+          "project_card"
+        ],
+        "taskName": "[Stale Pull Requests] Remove Stale PR Designation on Activity",
+        "actions": [
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "PullRequestReviewResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "no-recent-activity"
+              }
+            },
+            {
+              "name": "isOpen",
+              "parameters": {}
+            }
+          ]
+        },
+        "eventType": "pull_request",
+        "eventNames": [
+          "pull_request_review"
+        ],
+        "taskName": "[Stale Pull Requests] Remove Stale PR Designation on on Review",
+        "actions": [
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "PullRequestCommentResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "name": "isAction",
+              "parameters": {
+                "action": "created"
+              }
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "no-recent-activity"
+              }
+            },
+            {
+              "name": "isOpen",
+              "parameters": {}
+            },
+            {
+              "operator": "and",
+              "operands": [
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "commentContains",
+                      "parameters": {
+                        "commentPattern": "What is Check Enforcer?"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operator": "not",
+                  "operands": [
+                    {
+                      "name": "commentContains",
+                      "parameters": {
+                        "commentPattern": "Since there hasn't been recent engagement, this is being closed out."
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "pull_request",
+        "eventNames": [
+          "issue_comment"
+        ],
+        "taskName": "[Stale Pull Requests] Remove Stale PR Designation on on Comment",
+        "actions": [
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "scheduled",
+      "capabilityId": "ScheduledSearch",
+      "subCapability": "ScheduledSearch",
+      "version": "1.1",
+      "config": {
+        "frequency": [
+          {
+            "weekDay": 0,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 1,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 2,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 3,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 4,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 5,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -4
+          },
+          {
+            "weekDay": 6,
+            "hours": [
+              1,
+              7,
+              13,
+              19
+            ],
+            "timezoneOffset": -4
+          }
+        ],
+        "searchTerms": [
+          {
+            "name": "isOpen",
+            "parameters": {}
+          },
+          {
+            "name": "hasLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          },
+          {
+            "name": "isPr",
+            "parameters": {}
+          },
+          {
+            "name": "noActivitySince",
+            "parameters": {
+              "days": 7
+            }
+          }
+        ],
+        "taskName": "[Stale Pull Requests] Scheduled Close for Stale PRs",
+        "actions": [
+          {
+            "name": "closeIssue",
+            "parameters": {}
+          },
+          {
+            "name": "addReply",
+            "parameters": {
+              "comment": "Hi @${issueAuthor}.  Thank you for your contribution.  Since there hasn't been recent engagement, we're going to close this out.  Feel free to respond with a comment containing \"/reopen\" if you'd like to continue working on these changes.  Please be sure to use the command to reopen or remove the \"no-recent-activity\" label; otherwise, this is likely to be closed again with the next cleanup pass.  "
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "trigger",
+      "capabilityId": "IssueResponder",
+      "subCapability": "PullRequestCommentResponder",
+      "version": "1.0",
+      "config": {
+        "conditions": {
+          "operator": "and",
+          "operands": [
+            {
+              "operator": "not",
+              "operands": [
+                {
+                  "name": "isOpen",
+                  "parameters": {}
+                }
+              ]
+            },
+            {
+              "name": "commentContains",
+              "parameters": {
+                "commentPattern": "/reopen"
+              }
+            },
+            {
+              "name": "hasLabel",
+              "parameters": {
+                "label": "no-recent-activity"
+              }
+            },
+            {
+              "operator": "or",
+              "operands": [
+                {
+                  "name": "isActivitySender",
+                  "parameters": {
+                    "user": {
+                      "type": "author"
+                    }
+                  }
+                },
+                {
+                  "name": "activitySenderHasPermissions",
+                  "parameters": {
+                    "permissions": "admin"
+                  }
+                },
+                {
+                  "name": "activitySenderHasPermissions",
+                  "parameters": {
+                    "permissions": "write"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "eventType": "pull_request",
+        "eventNames": [
+          "issue_comment"
+        ],
+        "taskName": "[Stale Pull Requests] Reopen Command",
+        "actions": [
+          {
+            "name": "reopenIssue",
+            "parameters": {}
+          },
+          {
+            "name": "removeLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "taskType": "scheduled",
+      "capabilityId": "ScheduledSearch",
+      "subCapability": "ScheduledSearch",
+      "version": "1.1",
+      "config": {
+        "frequency": [
+          {
+            "weekDay": 5,
+            "hours": [
+              5
+            ],
+            "timezoneOffset": -5
+          }
+        ],
+        "searchTerms": [
+          {
+            "name": "isOpen",
+            "parameters": {}
+          },
+          {
+            "name": "noLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          },
+          {
+            "name": "noActivitySince",
+            "parameters": {
+              "days": 60
+            }
+          },
+          {
+            "name": "isPr",
+            "parameters": {}
+          }
+        ],
+        "taskName": "[Stale Pull Requests] Scheduled Marking of Stale PRs",
+        "actions": [
+          {
+            "name": "addLabel",
+            "parameters": {
+              "label": "no-recent-activity"
+            }
+          },
+          {
+            "name": "addReply",
+            "parameters": {
+              "comment": "Hi @${issueAuthor}.  Thank you for your interest in helping to improve the Azure SDK experience and for your contribution.  We've noticed that there hasn't been recent engagement on this pull request.  If this is still an active work stream, please let us know by pushing some changes or leaving a comment.  Otherwise, we'll close this out in 7 days."
+            }
+          }
+        ]
+      }
+    },
+    {
+        "taskType": "trigger",
+        "capabilityId": "IssueResponder",
+        "subCapability": "IssuesOnlyResponder",
+        "version": "1.0",
+        "config": {
+          "conditions": {
+            "operator": "and",
+            "operands": [
+              {
+                "name": "isOpen",
+                "parameters": {}
+              },
+              {
+                "name": "labelAdded",
+                "parameters": {
+                  "label": "CXP Attention"
+                }
+              },
+              {
+                "operator": "not",
+                "operands": [
+                  {
+                    "name": "hasLabel",
+                    "parameters": {
+                      "label": "Service Attention"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "eventType": "issue",
+          "eventNames": [
+            "issues",
+            "project_card"
+          ],
+          "taskName": "[CXP Pilot] CXP Attention Responder",
+          "actions": [
+            {
+              "name": "addReply",
+              "parameters": {
+                "comment": "Thank you for your feedback.  This has been routed to the support team for assistance."
+              }
+            }
+          ]
+        }
+      }
+  ]

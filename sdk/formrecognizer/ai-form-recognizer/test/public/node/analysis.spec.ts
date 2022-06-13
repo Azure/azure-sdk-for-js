@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { matrix } from "@azure/test-utils";
 import { assert } from "chai";
 import fs from "fs";
@@ -15,7 +15,7 @@ import {
   ModelInfo,
   PrebuiltModels,
 } from "../../../src";
-import { DocumentDateField, DocumentSelectionMarkField } from "../../../src/models/fields";
+import { DocumentSelectionMarkField } from "../../../src/models/fields";
 import {
   createRecorder,
   getRandomNumber,
@@ -39,7 +39,7 @@ function assertDefined(value: unknown, message?: string): asserts value {
   return assert.ok(value, message);
 }
 
-matrix([[true, false]] as const, async (useAad) => {
+matrix([[/* true, */ false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] analysis (Node)`, () => {
     const ASSET_PATH = path.resolve(path.join(process.cwd(), "assets"));
     let client: DocumentAnalysisClient;
@@ -82,8 +82,17 @@ matrix([[true, false]] as const, async (useAad) => {
         const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginExtractLayout(stream, testPollingOptions);
-        const { pages } = await poller.pollUntilDone();
+        const poller = await client.beginAnalyzeDocument(
+          "prebuilt-layout",
+          stream,
+          testPollingOptions
+        );
+        const { pages, paragraphs } = await poller.pollUntilDone();
+
+        assert.ok(
+          paragraphs && paragraphs.length > 0,
+          `Expected non-empty paragraphs but got ${paragraphs}.`
+        );
 
         assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
       });
@@ -99,7 +108,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(tables);
         const [table] = tables;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
       });
 
@@ -114,7 +123,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(tables);
         const [table] = tables;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
       });
 
@@ -129,7 +138,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(tables);
         const [table] = tables;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
       });
 
@@ -143,7 +152,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(tables);
         const [table] = tables;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
       });
 
@@ -190,7 +199,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid language.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -220,7 +229,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid pages.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -228,6 +237,30 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     describe("custom forms", () => {
+      const validator = createValidator({
+        customerName: "Microsoft",
+        invoiceId: "34278587",
+        invoiceDate: "2017-06-18T00:00:00.000Z",
+        dueDate: "2017-06-24T00:00:00.000Z",
+        vendorName: "Contoso",
+        vendorAddress: "1 Redmond way Suite\n6000 Redmond, WA\n99243",
+        customerAddress: "1020 Enterprise Way\nSunnayvale, CA 87659",
+        customerAddressRecipient: "Microsoft",
+        invoiceTotal: {
+          amount: 56651.49,
+          currencySymbol: "$",
+        },
+        items: [
+          {
+            amount: {
+              amount: 56651.49,
+              currencySymbol: "$",
+            },
+            date: "2017-06-18T00:00:00.000Z",
+            productCode: "34278587",
+          },
+        ],
+      });
       let _model: ModelInfo;
       let modelName: string;
 
@@ -290,10 +323,53 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(page.pageNumber, 1);
         assert.isNotEmpty(page.selectionMarks);
       });
+
+      it("png file stream", async () => {
+        const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginAnalyzeDocument(
+          PrebuiltModels.Invoice,
+          stream,
+          testPollingOptions
+        );
+
+        const {
+          documents,
+          documents: [receipt],
+        } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+
+        assert.equal(receipt.docType, "invoice");
+
+        validator(receipt as AnalyzedDocument);
+      });
     });
 
     describe("receipts", () => {
       it("png file stream", async () => {
+        const validator = createValidator({
+          merchantName: "Contoso",
+          merchantPhoneNumber: "+19876543210",
+          merchantAddress: "123 Main Street\nRedmond, WA 98052",
+          total: 2516.28,
+          transactionDate: "2019-06-10T00:00:00.000Z",
+          transactionTime: "13:59:00",
+          subtotal: 2297.97,
+          items: [
+            {
+              totalPrice: 1998,
+              description: "Surface Pro 6",
+              quantity: 2,
+            },
+            {
+              totalPrice: 299.97,
+              description: "Surface Pen",
+              quantity: 3,
+            },
+          ],
+        });
         const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
         const stream = fs.createReadStream(filePath);
 
@@ -306,22 +382,38 @@ matrix([[true, false]] as const, async (useAad) => {
           documents,
           documents: [receiptNaive],
         } = await poller.pollUntilDone();
-
         assert.isNotEmpty(documents);
+
         assert.equal(receiptNaive.docType, "receipt.retailMeal");
 
-        const receipt = receiptNaive as Extract<
-          typeof receiptNaive,
-          { docType: "receipt.retailMeal" }
-        >;
-
-        assert.ok(receipt.fields.total, "Expecting valid 'Total' field");
-        assert.equal(receipt.fields.total?.kind, "number");
-
-        assert.equal(receipt.fields.total?.value, 1203.39);
+        validator(receiptNaive as AnalyzedDocument);
       });
 
       it("jpeg file stream", async () => {
+        const validator = createValidator({
+          // locale: "en-US",
+          merchantName: "Contoso",
+          merchantPhoneNumber: "+19876543210",
+          merchantAddress: "123 Main Street\nRedmond, WA 98052",
+          total: 14.5,
+          transactionDate: "2019-06-10T00:00:00.000Z",
+          transactionTime: "13:59:00",
+          subtotal: 11.7,
+          // TODO: model regression
+          // tip: 1.63,
+          items: [
+            {
+              totalPrice: 2.2,
+              description: "Cappuccino",
+              quantity: 1,
+            },
+            {
+              totalPrice: 9.5,
+              description: "BACON & EGGS\nSunny-side-up",
+              quantity: 1,
+            },
+          ],
+        });
         const filePath = path.join(ASSET_PATH, "receipt", "contoso-allinone.jpg");
         const stream = fs.createReadStream(filePath);
 
@@ -337,9 +429,35 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(documents);
         assert.equal(receipt.docType, "receipt.retailMeal");
+
+        validator(receipt as AnalyzedDocument);
       });
 
       it("url", async () => {
+        const validator = createValidator({
+          locale: undefined, // "en-US",
+          merchantName: "Contoso",
+          merchantPhoneNumber: "+19876543210",
+          merchantAddress: "123 Main Street\nRedmond, WA 98052",
+          total: 14.5,
+          transactionDate: "2019-06-10T00:00:00.000Z",
+          transactionTime: "13:59:00",
+          subtotal: 11.7,
+          // TODO: model regression
+          // tip: 1.63,
+          items: [
+            {
+              totalPrice: 2.2,
+              description: "Cappuccino",
+              quantity: 1,
+            },
+            {
+              totalPrice: 9.5,
+              description: "BACON & EGGS\nSunny-side-up",
+              quantity: 1,
+            },
+          ],
+        });
         const url = makeTestUrl("/contoso-allinone.jpg");
 
         const poller = await client.beginAnalyzeDocument(
@@ -354,9 +472,50 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(documents);
         assert.equal(receipt.docType, "receipt.retailMeal");
+        validator(receipt as AnalyzedDocument);
       });
 
       it("multi-page receipt with blank page", async () => {
+        const validator = createValidator({
+          // TODO: model regression
+          // locale: "en-US",
+          merchantName: "Bilbo Baggins",
+          merchantPhoneNumber: "+15555555555",
+          merchantAddress: "567 Main St.\nRedmond, WA",
+          total: 430,
+          subtotal: 300,
+          tip: 100,
+          items: [
+            {
+              totalPrice: 10.99,
+              quantity: 1,
+            },
+            {
+              totalPrice: 14.67,
+              quantity: 2,
+            },
+            {
+              totalPrice: 15.66,
+              quantity: 4,
+            },
+            {
+              totalPrice: 12,
+              quantity: 1,
+            },
+            {
+              totalPrice: 10,
+              quantity: 4,
+            },
+            {
+              quantity: 6,
+              price: 12,
+            },
+            {
+              totalPrice: 22,
+              quantity: 8,
+            },
+          ],
+        });
         const filePath = path.join(ASSET_PATH, "receipt", "multipage_invoice1.pdf");
         const stream = fs.createReadStream(filePath);
 
@@ -372,6 +531,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(documents);
         assert.equal(receipt.docType, "receipt.retailMeal");
+        validator(receipt as AnalyzedDocument);
       });
 
       it("specifying locale", async () => {
@@ -397,7 +557,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -405,19 +565,23 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     describe("business cards", () => {
-      const expectedArrayFieldValues = {
-        jobTitles: "Senior Researcher",
-        departments: "Cloud & Al Department",
-        emails: "avery.smith@contoso.com",
-        websites: "https://www.contoso.com/",
-        // TODO: service bug causes phone numbers not to be normalized
-        // Faxes: "+44 (0) 20 6789 2345",
-        // WorkPhones: "+44 (0) 20 9876 5432",
-        // MobilePhones: "+44 (0) 7911 123456",
-        addresses: "2 Kingdom Street Paddington, London, W2 6BD",
-        companyNames: "Contoso",
-      } as const;
-
+      const validator = createValidator({
+        contactNames: [
+          {
+            firstName: "Avery",
+            lastName: "Smith",
+          },
+        ],
+        companyNames: ["Contoso"],
+        jobTitles: ["Senior Researcher"],
+        departments: ["Cloud & Al Department"],
+        addresses: ["2 Kingdom Street\nPaddington, London, W2 6BD"],
+        workPhones: ["+10209875432"],
+        mobilePhones: ["+10791112345"],
+        faxes: ["+10207892345"],
+        emails: ["avery.smith@contoso.com"],
+        websites: ["https://www.contoso.com/"],
+      });
       it("jpg file stream", async () => {
         const filePath = path.join(ASSET_PATH, "businessCard", "business-card-english.jpg");
         const stream = fs.createReadStream(filePath);
@@ -438,22 +602,10 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assertDefined(contactNames);
 
-        assert.equal(contactNames.kind, "array");
-        assert.equal(contactNames.values.length, 1);
+        assert.isNotEmpty(documents);
+        assert.equal(businessCard.docType, "businessCard");
 
-        const nameItem = contactNames.values[0];
-        assert.equal(nameItem.properties.firstName?.value, "Avery");
-        assert.equal(nameItem.properties.lastName?.value, "Smith");
-
-        for (const [fieldName, expectedValue] of Object.entries(expectedArrayFieldValues) as [
-          keyof typeof expectedArrayFieldValues,
-          string
-        ][]) {
-          const field = businessCard.fields[fieldName];
-          assert.isNotEmpty(field?.values);
-          const value = field?.values[0].value;
-          assert.equal(value, expectedValue);
-        }
+        validator(businessCard as AnalyzedDocument);
       });
 
       it("url", async () => {
@@ -470,27 +622,9 @@ matrix([[true, false]] as const, async (useAad) => {
         } = await poller.pollUntilDone();
 
         assert.isNotEmpty(documents);
+        assert.equal(businessCard.docType, "businessCard");
 
-        const contactNames = businessCard.fields.contactNames;
-
-        assertDefined(contactNames);
-
-        assert.equal(contactNames.kind, "array");
-        assert.equal(contactNames.values.length, 1);
-
-        const nameItem = contactNames.values[0];
-        assert.equal(nameItem.properties.firstName?.value, "Avery");
-        assert.equal(nameItem.properties.lastName?.value, "Smith");
-
-        for (const [fieldName, expectedValue] of Object.entries(expectedArrayFieldValues) as [
-          keyof typeof expectedArrayFieldValues,
-          string
-        ][]) {
-          const field = businessCard.fields[fieldName];
-          assert.isNotEmpty(field?.values);
-          const value = field?.values[0].value;
-          assert.equal(value, expectedValue);
-        }
+        validator(businessCard as AnalyzedDocument);
       });
 
       it("specifying locale", async () => {
@@ -502,7 +636,28 @@ matrix([[true, false]] as const, async (useAad) => {
           ...testPollingOptions,
         });
 
-        await poller.pollUntilDone();
+        const {
+          documents: _,
+          documents: [businessCard],
+        } = await poller.pollUntilDone();
+        const validatorOverride = createValidator({
+          contactNames: [
+            {
+              firstName: "Avery",
+              lastName: "Smith",
+            },
+          ],
+          companyNames: ["Contoso"],
+          jobTitles: ["Senior Researcher"],
+          departments: ["Cloud & Al Department"],
+          addresses: ["2 Kingdom Street\nPaddington, London, W2 6BD"],
+          workPhones: ["+912098765432"],
+          mobilePhones: ["+917911123456"],
+          faxes: ["+912067892345"],
+          emails: ["avery.smith@contoso.com"],
+          websites: ["https://www.contoso.com/"],
+        });
+        validatorOverride(businessCard as AnalyzedDocument);
       });
 
       it("invalid locale throws", async () => {
@@ -516,7 +671,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -524,21 +679,30 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     describe("invoices", () => {
-      const expectedFieldValues = {
-        vendorName: "Contoso",
-        vendorAddress: "1 Redmond way Suite 6000 Redmond, WA 99243",
-        customerAddressRecipient: "Microsoft",
-        customerAddress: "1020 Enterprise Way Sunnayvale, CA 87659",
+      const validator = createValidator({
         customerName: "Microsoft",
         invoiceId: "34278587",
-        // TODO: model regression
-        // InvoiceTotal: 56651.49
-      } as const;
-
-      const expectedDateValues = {
-        invoiceDate: new Date("June 18, 2017 00:00:00+0000"),
-        dueDate: new Date("June 24, 2017 00:00:00+0000"),
-      } as const;
+        invoiceDate: "2017-06-18T00:00:00.000Z",
+        dueDate: "2017-06-24T00:00:00.000Z",
+        vendorName: "Contoso",
+        vendorAddress: "1 Redmond way Suite\n6000 Redmond, WA\n99243",
+        customerAddress: "1020 Enterprise Way\nSunnayvale, CA 87659",
+        customerAddressRecipient: "Microsoft",
+        invoiceTotal: {
+          amount: 56651.49,
+          currencySymbol: "$",
+        },
+        items: [
+          {
+            amount: {
+              amount: 56651.49,
+              currencySymbol: "$",
+            },
+            date: "2017-06-18T00:00:00.000Z",
+            productCode: "34278587",
+          },
+        ],
+      });
 
       it("pdf file stream", async () => {
         const filePath = path.join(ASSET_PATH, "invoice", "Invoice_1.pdf");
@@ -560,26 +724,10 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages);
         assert.isNotEmpty(tables);
         const [table] = tables!;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
-        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues) as [
-          keyof typeof expectedFieldValues,
-          string
-        ][]) {
-          const field = invoice.fields[fieldName];
-          assert.equal(field?.value, expectedValue);
-        }
-
-        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues) as [
-          keyof typeof expectedDateValues,
-          Date
-        ][]) {
-          const { value: date } = invoice.fields[fieldName] as DocumentDateField;
-          assert.equal(date?.getDate(), expectedDate.getDate());
-          assert.equal(date?.getMonth(), expectedDate.getMonth());
-          assert.equal(date?.getFullYear(), expectedDate.getFullYear());
-        }
+        validator(invoice as AnalyzedDocument);
       });
 
       it("url", async () => {
@@ -601,26 +749,10 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages);
         assert.isNotEmpty(tables);
         const [table] = tables!;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
-        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues) as [
-          keyof typeof expectedFieldValues,
-          string
-        ][]) {
-          const field = invoice.fields[fieldName];
-          assert.equal(field?.value, expectedValue);
-        }
-
-        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues) as [
-          keyof typeof expectedDateValues,
-          Date
-        ][]) {
-          const { value: date } = invoice.fields[fieldName] as DocumentDateField;
-          assert.equal(date?.getDate(), expectedDate.getDate());
-          assert.equal(date?.getMonth(), expectedDate.getMonth());
-          assert.equal(date?.getFullYear(), expectedDate.getFullYear());
-        }
+        validator(invoice as AnalyzedDocument);
       });
 
       it("invalid locale throws", async () => {
@@ -634,7 +766,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -642,23 +774,23 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     describe("identityDocuments", () => {
-      const expectedFieldValues = {
-        firstName: "LIAM R.",
-        lastName: "TALBOT",
-        documentNumber: "WDLABCD456DG",
-        sex: "M",
-        address: "123 STREET ADDRESS YOUR CITY WA 99999-1234",
+      const validator = createValidator({
         countryRegion: "USA",
-        region: "Washington",
-      } as const;
+        region: "West Virginia",
+        documentNumber: "034568",
+        firstName: "CHRIS",
+        lastName: "SMITH",
+        address: "Main Street , Charleston,\nWV 456789",
+        dateOfBirth: "1988-03-23T00:00:00.000Z",
+        dateOfExpiration: "2026-03-23T00:00:00.000Z",
+        sex: "M",
+        endorsements: "NONE",
+        restrictions: "NONE",
+        vehicleClassifications: "A",
+      });
 
-      const expectedDateValues = {
-        dateOfBirth: new Date("January 6, 1958 00:00:00+0000"),
-        dateOfExpiration: new Date("August 12, 2020 00:00:00+0000"),
-      } as const;
-
-      it("jpg file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "identityDocument", "license.jpg");
+      it("png file stream", async () => {
+        const filePath = path.join(ASSET_PATH, "identityDocument", "license.png");
         const stream = fs.createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
@@ -666,44 +798,35 @@ matrix([[true, false]] as const, async (useAad) => {
           stream,
           testPollingOptions
         );
+
         const {
           documents,
-          documents: [idDocumentNaive],
-          pages,
+          documents: [receipt],
         } = await poller.pollUntilDone();
 
         assert.isNotEmpty(documents);
 
-        assert.equal(idDocumentNaive.docType, "idDocument.driverLicense");
+        assert.equal(receipt.docType, "idDocument.driverLicense");
 
-        const idDocument = idDocumentNaive as Extract<
-          IdentityDocument,
-          { docType: "idDocument.driverLicense" }
-        >;
-
-        assert.isNotEmpty(pages);
-
-        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues) as [
-          keyof typeof expectedFieldValues,
-          string
-        ][]) {
-          const field = idDocument.fields[fieldName];
-          assert.equal(field?.value, expectedValue);
-        }
-
-        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues) as [
-          keyof typeof expectedDateValues,
-          Date
-        ][]) {
-          const { value: date } = idDocument.fields[fieldName] as DocumentDateField;
-          assert.equal(date?.getDate(), expectedDate.getDate());
-          assert.equal(date?.getMonth(), expectedDate.getMonth());
-          assert.equal(date?.getFullYear(), expectedDate.getFullYear());
-        }
+        validator(receipt as AnalyzedDocument);
       });
 
       it("url", async () => {
         const url = makeTestUrl("/license.jpg");
+
+        const validatorOverride = createValidator({
+          countryRegion: "USA",
+          region: "Washington",
+          documentNumber: "WDLABCD456DG",
+          firstName: "LIAM R.",
+          lastName: "TALBOT",
+          address: "123 STREET ADDRESS\nYOUR CITY WA 99999-1234",
+          dateOfBirth: "1958-01-06T00:00:00.000Z",
+          dateOfExpiration: "2020-08-12T00:00:00.000Z",
+          sex: "M",
+          endorsements: "L",
+          restrictions: "E",
+        });
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.IdentityDocument,
@@ -727,27 +850,13 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(pages);
 
-        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues) as [
-          keyof typeof expectedFieldValues,
-          string
-        ][]) {
-          const field = idDocument.fields[fieldName];
-          assert.equal(field?.value, expectedValue);
-        }
+        assert.equal(idDocument.docType, "idDocument.driverLicense");
 
-        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues) as [
-          keyof typeof expectedDateValues,
-          Date
-        ][]) {
-          const { value: date } = idDocument.fields[fieldName] as DocumentDateField;
-          assert.equal(date?.getDate(), expectedDate.getDate());
-          assert.equal(date?.getMonth(), expectedDate.getMonth());
-          assert.equal(date?.getFullYear(), expectedDate.getFullYear());
-        }
+        validatorOverride(idDocument as AnalyzedDocument);
       });
 
       it("invalid locale throws", async () => {
-        const url = makeTestUrl("/license.jpg");
+        const url = makeTestUrl("/license.png");
 
         try {
           const poller = await client.beginAnalyzeDocument(PrebuiltModels.IdentityDocument, url, {
@@ -757,7 +866,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -770,17 +879,28 @@ matrix([[true, false]] as const, async (useAad) => {
         taxYear: "2018",
         w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
         employee: {
-          name: "BONNIE F HERNANDEZ",
-          address: "96541 MOLLY HOLLOW STREET APT.124 KATHRYNMOUTH, NE",
-          zipCode: "98631-5293",
           socialSecurityNumber: "986-62-1002",
+          name: "BONNIE F HERNANDEZ",
+          address: {
+            houseNumber: "96541",
+            road: "molly hollow street",
+            city: "kathrynmouth",
+            state: "ne",
+            postalCode: "98631-5293",
+            streetAddress: "96541 molly hollow street",
+          },
         },
         controlNumber: "000086242",
         employer: {
           idNumber: "48-1069918",
           name: "BLUE BEACON USA, LP",
-          address: "PO BOX 856 SALINA, KS",
-          zipCode: "67402-0856",
+          address: {
+            poBox: "po box 856",
+            city: "salina",
+            state: "ks",
+            postalCode: "67402-0856",
+            streetAddress: "po box 856",
+          },
         },
         wagesTipsAndOtherCompensation: 37160.56,
         federalIncomeTaxWithheld: 3894.54,
@@ -810,6 +930,7 @@ matrix([[true, false]] as const, async (useAad) => {
             amount: 123.3,
           },
         ],
+        isRetirementPlan: "true",
         other: "DISINS 170.85",
         stateTaxInfos: [
           {
@@ -825,16 +946,17 @@ matrix([[true, false]] as const, async (useAad) => {
           {
             localWagesTipsEtc: 37160.56,
             localIncomeTax: 51,
-            localityName: "Cmberland Vly/Mddl",
+            localityName: "Cmberland Vly/ Mddl",
           },
           {
             localWagesTipsEtc: 37160.56,
             localIncomeTax: 594.54,
-            localityName: "|E.Pennsboro/E.Pnns",
+            localityName: "E.Pennsboro/E.Pnns",
           },
         ],
       });
-      it("png file stream", async () => {
+
+      it("png file stream", async function (this: Mocha.Context) {
         const filePath = path.join(ASSET_PATH, "w2", "gold_simple_w2.png");
         const stream = fs.createReadStream(filePath);
 
@@ -854,6 +976,102 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(w2Naive.docType, "tax.us.w2");
 
         validator(w2Naive as AnalyzedDocument);
+      });
+    });
+
+    describe("healthInsuranceCard - US", function () {
+      const validator = createValidator({
+        insurer: "PREMERA",
+        member: {
+          name: "ANGEL BROWN",
+          employer: "Microsoft",
+        },
+        dependents: [
+          {
+            name: "Coinsurance Max",
+          },
+        ],
+        idNumber: {
+          number: "123456789",
+        },
+        groupNumber: "1000000",
+        prescriptionInfo: {
+          rxBIN: "987654",
+          rxGrp: "BCAAXYZ",
+        },
+        copays: [
+          {
+            benefit: "deductible",
+            amount: "$1,500",
+          },
+          {
+            benefit: "coinsurancemax",
+            amount: "$1,000",
+          },
+        ],
+        plan: {
+          name: "PPO",
+        },
+      });
+
+      it("png file stream", async function (this: Mocha.Context) {
+        const filePath = path.join(ASSET_PATH, "healthInsuranceCard", "insurance.png");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginAnalyzeDocument(
+          PrebuiltModels.HealthInsuranceCardUs,
+          stream,
+          testPollingOptions
+        );
+
+        const {
+          documents,
+          documents: [healthInsuranceCard],
+        } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+
+        validator(healthInsuranceCard as AnalyzedDocument);
+      });
+    });
+
+    describe("vaccinationCard", function () {
+      const validator = createValidator({
+        cardHolderInfo: {
+          firstName: "Angel",
+        },
+        vaccines: [
+          {
+            manufacturer: "Pfizer",
+            // TODO: date format incorrect
+            // dateAdministered: "2021-11-10T05:00:00.000Z",
+          },
+          {
+            manufacturer: "Pfizer",
+            // TODO: date format incorrect
+            // dateAdministered: "2021-12-04T05:00:00.000Z",
+          },
+        ],
+      });
+
+      it("jpg file stream", async function (this: Mocha.Context) {
+        const filePath = path.join(ASSET_PATH, "vaccinationCard", "vaccination.jpg");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginAnalyzeDocument(
+          PrebuiltModels.VaccinationCard,
+          stream,
+          testPollingOptions
+        );
+
+        const {
+          documents,
+          documents: [vaccinationCard],
+        } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+
+        validator(vaccinationCard as AnalyzedDocument);
       });
     });
   }).timeout(60000);

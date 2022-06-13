@@ -99,7 +99,7 @@ describe("AbortSignal", () => {
           abortSignal,
         });
         assert.fail("AbortError should be thrown when the signal is already in an aborted state");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
 
         // we aborted in the sync part of the abort check so these event listeners are never set up
@@ -144,7 +144,7 @@ describe("AbortSignal", () => {
           abortSignal: createAbortSignalForTest(false),
         });
         assert.fail("Sender should have thrown in the async portion of the abort handling");
-      } catch (err) {
+      } catch (err: any) {
         // in this case init() does get called - we abort through a timer.
         assert.isTrue(initWasCalled);
 
@@ -200,7 +200,7 @@ describe("AbortSignal", () => {
       try {
         await sender.open(undefined, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -215,7 +215,7 @@ describe("AbortSignal", () => {
       try {
         await sender.open(undefined, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -243,7 +243,7 @@ describe("AbortSignal", () => {
       try {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -271,7 +271,7 @@ describe("AbortSignal", () => {
       try {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -292,7 +292,7 @@ describe("AbortSignal", () => {
       try {
         await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -316,7 +316,7 @@ describe("AbortSignal", () => {
       try {
         await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -341,7 +341,7 @@ describe("AbortSignal", () => {
       try {
         await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }

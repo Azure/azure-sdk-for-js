@@ -10,7 +10,8 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   StorageTargetFlushOptionalParams,
   StorageTargetSuspendOptionalParams,
-  StorageTargetResumeOptionalParams
+  StorageTargetResumeOptionalParams,
+  StorageTargetInvalidateOptionalParams
 } from "../models";
 
 /** Interface representing a StorageTargetOperations. */
@@ -100,5 +101,35 @@ export interface StorageTargetOperations {
     cacheName: string,
     storageTargetName: string,
     options?: StorageTargetResumeOptionalParams
+  ): Promise<void>;
+  /**
+   * Invalidate all cached data for a storage target. Cached files are discarded and fetched from the
+   * back end on the next request.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
+   * @param options The options parameters.
+   */
+  beginInvalidate(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: StorageTargetInvalidateOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Invalidate all cached data for a storage target. Cached files are discarded and fetched from the
+   * back end on the next request.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
+   * @param options The options parameters.
+   */
+  beginInvalidateAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: StorageTargetInvalidateOptionalParams
   ): Promise<void>;
 }

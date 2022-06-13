@@ -4,17 +4,16 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  proxyPolicy,
-  createPipelineRequest,
-  SendRequest,
   ProxySettings,
+  SendRequest,
+  createPipelineRequest,
   getDefaultProxySettings,
-  createHttpHeaders,
+  proxyPolicy,
 } from "../../src";
 import {
+  getProxyAgentOptions,
   globalNoProxyList,
   loadNoProxy,
-  getProxyAgentOptions,
 } from "../../src/policies/proxyPolicy";
 
 describe("proxyPolicy (node)", function () {
@@ -182,7 +181,10 @@ describe("proxyPolicy (node)", function () {
       username: "user",
       password: "pass",
     };
-    const options = getProxyAgentOptions(proxySettings, createHttpHeaders());
+    const options = getProxyAgentOptions(
+      proxySettings,
+      createPipelineRequest({ url: "https://example.org" })
+    );
     assert.strictEqual(options.auth, "user:pass");
   });
 
@@ -192,7 +194,10 @@ describe("proxyPolicy (node)", function () {
       port: 8080,
       username: "user",
     };
-    const options = getProxyAgentOptions(proxySettings, createHttpHeaders());
+    const options = getProxyAgentOptions(
+      proxySettings,
+      createPipelineRequest({ url: "https://example.org" })
+    );
     assert.strictEqual(options.auth, "user");
   });
 

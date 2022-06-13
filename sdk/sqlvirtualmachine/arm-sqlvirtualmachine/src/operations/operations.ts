@@ -34,7 +34,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available SQL Rest API operations.
+   * Lists all of the available SQL Virtual Machine Rest API operations.
    * @param options The options parameters.
    */
   public list(
@@ -76,7 +76,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available SQL Rest API operations.
+   * Lists all of the available SQL Virtual Machine Rest API operations.
    * @param options The options parameters.
    */
   private _list(

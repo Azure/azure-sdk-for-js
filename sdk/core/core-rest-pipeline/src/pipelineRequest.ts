@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineRequest,
-  TransferProgressEvent,
-  RequestBodyType,
-  HttpMethods,
-  HttpHeaders,
   FormDataMap,
+  HttpHeaders,
+  HttpMethods,
+  PipelineRequest,
   ProxySettings,
+  RequestBodyType,
+  TransferProgressEvent,
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";

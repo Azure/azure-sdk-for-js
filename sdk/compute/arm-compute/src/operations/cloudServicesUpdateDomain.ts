@@ -169,10 +169,12 @@ export class CloudServicesUpdateDomainImpl
       { resourceGroupName, cloudServiceName, updateDomain, options },
       walkUpdateDomainOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -277,8 +279,8 @@ const walkUpdateDomainOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.updateDomain
   ],
@@ -301,8 +303,8 @@ const getUpdateDomainOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.updateDomain
   ],
@@ -324,8 +326,8 @@ const listUpdateDomainsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -345,9 +347,9 @@ const listUpdateDomainsNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],

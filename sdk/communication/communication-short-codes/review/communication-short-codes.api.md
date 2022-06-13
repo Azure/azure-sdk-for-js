@@ -6,13 +6,15 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import * as coreHttp from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type AttachmentType = "callToAction" | "termsOfService" | "privacyPolicy" | "other";
 
 // @public
 export type BillingFrequency = "monthly" | "once";
@@ -42,6 +44,9 @@ export interface CustomerCareInformation {
 // @public
 export interface DeleteUSProgramBriefOptions extends OperationOptions {
 }
+
+// @public
+export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 
 // @public
 export interface GetUSProgramBriefOptions extends OperationOptions {
@@ -97,6 +102,23 @@ export type MessageProtocol = "sms" | "mms";
 export type NumberType = "shortCode" | "alphaId";
 
 // @public
+export interface ProgramBriefAttachment {
+    fileContent?: string;
+    fileName?: string;
+    fileSize?: number;
+    fileType?: FileType;
+    id: string;
+    type?: AttachmentType;
+}
+
+// @public
+export interface ProgramBriefAttachmentSummary {
+    friendlyName?: string;
+    id?: string;
+    type?: AttachmentType;
+}
+
+// @public
 export type ProgramBriefStatus = "submitted" | "approved" | "submitNewVanityNumbers" | "updateProgramBrief" | "draft" | "denied";
 
 // @public (undocumented)
@@ -149,31 +171,62 @@ export class ShortCodesClient {
     constructor(endpoint: string, credential: KeyCredential, options?: ShortCodesClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: ShortCodesClientOptions);
     // (undocumented)
-    deleteUSProgramBrief(programBriefId: string, options?: DeleteUSProgramBriefOptions): Promise<RestResponse>;
+    createOrReplaceUSProgramBriefAttachment(programBriefId: string, attachmentId: string, options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams): Promise<USProgramBrief>;
+    // (undocumented)
+    deleteUSProgramBrief(programBriefId: string, options?: DeleteUSProgramBriefOptions): Promise<void>;
+    // (undocumented)
+    deleteUSProgramBriefAttachment(programBriefId: string, attachmentId: string, options?: ShortCodesDeleteUSProgramBriefAttachmentOptionalParams): Promise<void>;
     // (undocumented)
     getUSProgramBrief(programBriefId: string, options?: GetUSProgramBriefOptions): Promise<USProgramBrief>;
     // (undocumented)
+    getUSProgramBriefAttachment(programBriefId: string, attachmentId: string, options?: ShortCodesGetUSProgramBriefAttachmentOptionalParams): Promise<ProgramBriefAttachment>;
+    // (undocumented)
     listShortCodes(options?: ListShortCodesOptions): PagedAsyncIterableIterator<ShortCode>;
+    // (undocumented)
+    listUSProgramBriefAttachments(programBriefId: string, options?: ShortCodesGetUSProgramBriefAttachmentsOptionalParams): PagedAsyncIterableIterator<ProgramBriefAttachment>;
     // (undocumented)
     listUSProgramBriefs(options?: ListUSProgramBriefsOptions): PagedAsyncIterableIterator<USProgramBrief>;
     // (undocumented)
-    submitUSProgramBrief(programBriefId: string, options?: SubmitUSProgramBriefOptions): Promise<RestResponse>;
+    submitUSProgramBrief(programBriefId: string, options?: SubmitUSProgramBriefOptions): Promise<USProgramBrief>;
     // (undocumented)
-    upsertUSProgramBrief(programBriefId: string, options?: ShortCodesUpsertUSProgramBriefOptionalParams): Promise<RestResponse>;
+    upsertUSProgramBrief(programBriefId: string, options?: ShortCodesUpsertUSProgramBriefOptionalParams): Promise<USProgramBrief>;
 }
 
 // @public
-export interface ShortCodesClientOptions extends PipelineOptions {
+export interface ShortCodesClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface ShortCodesGetShortCodesOptionalParams extends coreHttp.OperationOptions {
+export interface ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams extends coreClient.OperationOptions {
+    fileContent?: string;
+    fileName?: string;
+    fileSize?: number;
+    fileType?: FileType;
+    type?: AttachmentType;
+}
+
+// @public
+export interface ShortCodesDeleteUSProgramBriefAttachmentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ShortCodesGetShortCodesOptionalParams extends coreClient.OperationOptions {
     skip?: number;
     top?: number;
 }
 
 // @public
-export interface ShortCodesUpsertUSProgramBriefOptionalParams extends coreHttp.OperationOptions {
+export interface ShortCodesGetUSProgramBriefAttachmentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ShortCodesGetUSProgramBriefAttachmentsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface ShortCodesUpsertUSProgramBriefOptionalParams extends coreClient.OperationOptions {
     body?: USProgramBrief;
 }
 
@@ -199,6 +252,7 @@ export interface UseCase {
 
 // @public
 export interface USProgramBrief {
+    attachments?: ProgramBriefAttachmentSummary[];
     // (undocumented)
     companyInformation?: CompanyInformation;
     costs?: ShortCodeCost[];

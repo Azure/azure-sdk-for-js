@@ -34,7 +34,7 @@
     "lint:fix": "eslint package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json src test --ext .ts -f html -o storage-blob-perf-test-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
-    "perf-test:node": "ts-node test/index.spec.ts",
+    "perf-test:node": "npm run build && node dist-esm/index.spec.js",
     "setup": "node ../../../../common/tools/perf-tests-track-1-setup.js",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",

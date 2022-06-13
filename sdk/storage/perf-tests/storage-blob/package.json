@@ -10,7 +10,7 @@
   "dependencies": {
     "@azure/core-http": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
-    "@azure/storage-blob": "^12.9.0-beta.1",
+    "@azure/storage-blob": "^12.10.0-beta.1",
     "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^8.2.0",
     "uuid": "^8.3.0"
@@ -19,7 +19,7 @@
     "@types/uuid": "^8.0.0",
     "@types/node": "^12.0.0",
     "@types/node-fetch": "^2.5.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "node-fetch": "^2.6.6",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
@@ -29,7 +29,7 @@
   },
   "private": true,
   "scripts": {
-    "perf-test:node": "ts-node test/index.spec.ts",
+    "perf-test:node": "npm run build && node dist-esm/index.spec.js",
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",

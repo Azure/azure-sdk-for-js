@@ -95,13 +95,13 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
     username: `${SharedAccessKeyName}@sas.root.${iotHubName}`,
     port: 5671,
     reconnect: false,
-    password: token
+    password: token,
   });
   await connection.open();
 
   // Create the receiver that will trigger a redirect error.
   const receiver = await connection.createReceiver({
-    source: { address: `amqps://${HostName}/messages/events/$management` }
+    source: { address: `amqps://${HostName}/messages/events/$management` },
   });
 
   return new Promise((resolve, reject) => {
@@ -147,7 +147,7 @@ export async function main() {
       },
       processError: async (err, context) => {
         console.log(`Error on partition "${context.partitionId}" : ${err}`);
-      }
+      },
     },
     { startPosition: earliestEventPosition }
   );

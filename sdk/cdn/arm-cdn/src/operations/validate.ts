@@ -62,7 +62,7 @@ const secretOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.validateSecretInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

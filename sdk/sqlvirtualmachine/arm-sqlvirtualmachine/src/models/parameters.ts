@@ -76,6 +76,16 @@ export const availabilityGroupListenerName: OperationURLParameter = {
   }
 };
 
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -90,7 +100,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2017-03-01-preview",
+    defaultValue: "2021-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -143,16 +153,6 @@ export const sqlVirtualMachineName: OperationURLParameter = {
   mapper: {
     serializedName: "sqlVirtualMachineName",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
     type: {
       name: "String"
     }

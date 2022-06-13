@@ -7,7 +7,7 @@ The identity library is used for managing users and tokens for Azure Communicati
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the[Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
+- An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
 
 ### Installing
 
@@ -123,12 +123,16 @@ Use the `deleteUser` method to delete a user.
 await client.deleteUser(user);
 ```
 
-### Exchanging AAD access token of a Teams User for a Communication access token
+### Exchanging Azure AD access token of a Teams User for a Communication access token
 
-Use `getTokenForTeamsUser` method to exchange an AAD access token of a Teams user for a new `CommunicationAccessToken` with a matching expiration time.
+Use `getTokenForTeamsUser` method to exchange an Azure AD access token of a Teams user for a new `CommunicationAccessToken` with a matching expiration time.
 
 ```typescript
-await client.getTokenForTeamsUser('<aad-access-token-of-a-teams-user>');
+await client.getTokenForTeamsUser({
+  teamsUserAadToken: "<aad-access-token-of-a-teams-user>",
+  clientId: "<cliend-id-of-an-aad-application>",
+  userObjectId: "<aad-object-id-of-a-teams-user>",
+});
 ```
 
 ## Troubleshooting

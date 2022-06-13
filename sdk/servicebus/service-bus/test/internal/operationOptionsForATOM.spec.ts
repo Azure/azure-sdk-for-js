@@ -8,11 +8,12 @@ import * as dotenv from "dotenv";
 import { ServiceBusAdministrationClient } from "../../src";
 import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
 import { AbortController } from "@azure/abort-controller";
-import { WebResource } from "@azure/core-http";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
-import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
+import { SpanGraph } from "@azure/test-utils";
 import { setSpan, context } from "@azure/core-tracing";
+import { setTracerForTest } from "../public/utils/misc";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -35,9 +36,8 @@ describe("Operation Options", () => {
       try {
         await func();
         assert.fail();
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
-        assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
       }
     }
 
@@ -208,21 +208,20 @@ describe("Operation Options", () => {
           requestOptions: { timeout: 1 },
         });
         assert.fail();
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
-        assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
       }
     });
   });
 
   describe("RequestOptions custom headers", () => {
     it("requestOptions.customHeaders should be populated", async () => {
-      const webResource = new WebResource(
-        `https://${(serviceBusAtomManagementClient as any).endpoint}/`
-      );
+      const request = createPipelineRequest({
+        url: `https://${(serviceBusAtomManagementClient as any).endpoint}/`,
+      });
       await executeAtomXmlOperation(
         serviceBusAtomManagementClient,
-        webResource,
+        request,
         new NamespaceResourceSerializer(),
         {
           requestOptions: {
@@ -231,7 +230,7 @@ describe("Operation Options", () => {
         }
       );
       assert.equal(
-        webResource.headers.get("state"),
+        request.headers.get("state"),
         "WA",
         "Custom header from the requestOptions is not populated as expected."
       );
@@ -240,44 +239,50 @@ describe("Operation Options", () => {
 
   describe("Tracing", () => {
     it("getNamespaceProperties with tracing", async () => {
-      const tracer = new TestTracer();
-      setTracer(tracer);
-      const rootSpan = tracer.startSpan("root");
-      await serviceBusAtomManagementClient.getNamespaceProperties({
-        tracingOptions: { tracingContext: setSpan(context.active(), rootSpan) },
-      });
-      rootSpan.end();
+      const { tracer, resetTracer } = setTracerForTest();
+      try {
+        const rootSpan = tracer.startSpan("root");
+        await serviceBusAtomManagementClient.getNamespaceProperties({
+          tracingOptions: { tracingContext: setSpan(context.active(), rootSpan) },
+        });
+        rootSpan.end();
 
-      const rootSpans = tracer.getRootSpans();
-      assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-      assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+        const rootSpans = tracer.getRootSpans();
+        assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+        assert.strictEqual(
+          rootSpan,
+          rootSpans[0],
+          "The root span should match what was passed in."
+        );
 
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
-              {
-                name: "Azure.ServiceBus.ServiceBusAdministrationClient-getNamespaceProperties",
-                children: [
-                  {
-                    children: [
-                      {
-                        children: [],
-                        name: "HTTP GET",
-                      },
-                    ],
-                    name: "Azure.ServiceBus.ServiceBusAdministrationClient-getResource",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
+        const expectedGraph: SpanGraph = {
+          roots: [
+            {
+              name: rootSpan.name,
+              children: [
+                {
+                  name: "Azure.ServiceBus.ServiceBusAdministrationClient-getNamespaceProperties",
+                  children: [
+                    {
+                      children: [],
+                      name: "Azure.ServiceBus.ServiceBusAdministrationClient-getResource",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
 
-      assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-      assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+        assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
+        assert.strictEqual(
+          tracer.getActiveSpans().length,
+          0,
+          "All spans should have had end called"
+        );
+      } finally {
+        resetTracer();
+      }
     });
   });
 });

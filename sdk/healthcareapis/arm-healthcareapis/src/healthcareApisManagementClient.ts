@@ -7,20 +7,37 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ServicesImpl,
-  OperationsImpl,
-  OperationResultsImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  WorkspacesImpl,
+  DicomServicesImpl,
+  IotConnectorsImpl,
+  FhirDestinationsImpl,
+  IotConnectorFhirDestinationImpl,
+  FhirServicesImpl,
+  WorkspacePrivateEndpointConnectionsImpl,
+  WorkspacePrivateLinkResourcesImpl,
+  OperationsImpl,
+  OperationResultsImpl
 } from "./operations";
 import {
   Services,
-  Operations,
-  OperationResults,
   PrivateEndpointConnections,
-  PrivateLinkResources
+  PrivateLinkResources,
+  Workspaces,
+  DicomServices,
+  IotConnectors,
+  FhirDestinations,
+  IotConnectorFhirDestination,
+  FhirServices,
+  WorkspacePrivateEndpointConnections,
+  WorkspacePrivateLinkResources,
+  Operations,
+  OperationResults
 } from "./operationsInterfaces";
 import { HealthcareApisManagementClientOptionalParams } from "./models";
 
@@ -56,7 +73,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-healthcareapis/2.0.0`;
+    const packageDetails = `azsdk-js-arm-healthcareapis/2.1.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -71,25 +88,71 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-01-11";
+    this.apiVersion = options.apiVersion || "2021-11-01";
     this.services = new ServicesImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.operationResults = new OperationResultsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.workspaces = new WorkspacesImpl(this);
+    this.dicomServices = new DicomServicesImpl(this);
+    this.iotConnectors = new IotConnectorsImpl(this);
+    this.fhirDestinations = new FhirDestinationsImpl(this);
+    this.iotConnectorFhirDestination = new IotConnectorFhirDestinationImpl(
+      this
+    );
+    this.fhirServices = new FhirServicesImpl(this);
+    this.workspacePrivateEndpointConnections = new WorkspacePrivateEndpointConnectionsImpl(
+      this
+    );
+    this.workspacePrivateLinkResources = new WorkspacePrivateLinkResourcesImpl(
+      this
+    );
+    this.operations = new OperationsImpl(this);
+    this.operationResults = new OperationResultsImpl(this);
   }
 
   services: Services;
-  operations: Operations;
-  operationResults: OperationResults;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  workspaces: Workspaces;
+  dicomServices: DicomServices;
+  iotConnectors: IotConnectors;
+  fhirDestinations: FhirDestinations;
+  iotConnectorFhirDestination: IotConnectorFhirDestination;
+  fhirServices: FhirServices;
+  workspacePrivateEndpointConnections: WorkspacePrivateEndpointConnections;
+  workspacePrivateLinkResources: WorkspacePrivateLinkResources;
+  operations: Operations;
+  operationResults: OperationResults;
 }

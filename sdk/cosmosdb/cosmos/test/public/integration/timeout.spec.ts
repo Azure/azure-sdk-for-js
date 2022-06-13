@@ -56,7 +56,7 @@ describe("Timeout", function () {
 
       // Create an item using client
       await createItem(container);
-    } catch (e) {
+    } catch (e: any) {
       assert.equal(e.code, "TimeoutError");
     }
   });
