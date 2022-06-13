@@ -92,7 +92,7 @@ Integrate the logic in your application code to fetch an AAD Access Token via Id
 ```ts
 import Redis from "node-redis";
 import * as dotenv from "dotenv";
-import {ClientCertificateCredential, TokenCredential} from "@azure/identity";
+import { ClientCertificateCredential, TokenCredential } from "@azure/identity";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {  
