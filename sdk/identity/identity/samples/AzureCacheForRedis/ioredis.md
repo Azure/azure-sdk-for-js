@@ -39,7 +39,6 @@ import * as dotenv from "dotenv";
 import {ClientSecretCredential} from "@azure/identity";
 dotenv.config();
 
-
 async function main(){
 // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
 const credential = new ClientSecretCredential(process.env.AZURE_TENANT_ID, process.env.AZURE_CLIENT_ID,process.env.AZURE_CLIENT_SECRET);
