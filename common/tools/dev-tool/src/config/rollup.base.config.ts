@@ -70,9 +70,8 @@ export type WarningInhibitor = (warning: RollupWarning) => boolean;
 
 function matchesPathSegments(str: string | undefined, segments: string[]): boolean {
   return (
-    str?.includes(segments.join(path.sep)) ||
-    // on Windows in powershell, path.sep is "\\" but reported warnings use "/"
-    str?.includes(segments.join("/"))
+    // Reported warnings use "/"
+    str?.includes(segments.join("/")) ?? false
   );
 }
 
