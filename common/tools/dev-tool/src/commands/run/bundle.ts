@@ -72,7 +72,7 @@ export default leafCommand(commandInfo, async (options) => {
       const bundle = await rollup.rollup(baseConfig);
 
       await bundle.write({
-        file: "dist/index.js",
+        file: "dist/index.cjs",
         format: "cjs",
         sourcemap: true,
         exports: "named",

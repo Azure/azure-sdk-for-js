@@ -3,8 +3,13 @@
   "version": "1.9.1",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
+  "type": "module",
+  "export": {
+    "require": "dist/index.cjs",
+    "import": "dist-esm/src/index.js"
+  },
   "browser": {
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.browser.js",
     "./dist-esm/src/policies/decompressResponsePolicy.js": "./dist-esm/src/policies/decompressResponsePolicy.browser.js",
@@ -14,7 +19,7 @@
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
   "react-native": {
-    "./dist/index.js": "./dist-esm/src/index.js",
+    "./dist/index.cjs": "./dist-esm/src/index.js",
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.native.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js"
   },
