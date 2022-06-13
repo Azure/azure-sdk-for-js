@@ -13,11 +13,14 @@ Our recorder tool package `@azure-tools/test-recorder` attempts to provide an an
 
 **Note: In case you're depending on `@azure-tools/test-recorder@1.x.y` and want to migrate your tests to version 2, follow the [migration guide to recorder v2 from v1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md)**
 
-This library provides interfaces and helper methods to equip the SDKs in the `azure-sdk-for-js` repo with the recording and playback capabilities for the tests, it targets HTTP requests in both Node.js and the Browsers.
+By leveraging the unified out-of-process test proxy server, this library gives the recording and playback capabilities by providing interfaces and helper methods to
 
-`@azure-tools/test-recorder`, as part of the Test Utils available in this repository, it is supposed to be added only as a devDependency and should be used only for the tests of an sdk.
+- equip the SDKs(tests spcifically) in the `azure-sdk-for-js` repo, it targets HTTP requests in both Node.js and the Browsers.
+- attempt allowing developers depending on the Azure SDKs(published to npm) for JS/TS to test the (Azure SDK) clients in their applications with minimal live Azure resources.
 
-This tool helps to record and playback the tests in the JS repo by leveraging the unified out-of-process test proxy server.
+`@azure-tools/test-recorder`, as part of the Test Utils available in the `azure-sdk-for-js` repository
+
+- If it is being used inside the `azure-sdk-for-js` repo, it is supposed to be added only as a devDependency and should be used only for the tests of an sdk.
 
 ## Index
 
@@ -46,7 +49,9 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
 
 ## Key concepts
 
-- To **record** means to intercept any HTTP request, store it in a file, then store the response received from the live resource that was originally targeted. We leverage the unified out-of-process test proxy server that is built for this use case. The output files are stored in `recordings/node/*` and in `recordings/browsers/*`, which are relative to the root of the project you're working on.
+- To **record** means to intercept any HTTP request, store it in a file, then store the response received from the live resource that was originally targeted. We leverage the unified out-of-process test proxy server that is built for this use case.
+  - If being used inside the `azure-sdk-for-js` repo for SDK tests, the output files are stored in `recordings/node/*` and in `recordings/browsers/*`, which are relative to the root of the project you're working on.
+  - Else, based on the file path that you provide, the recording files are generated (Examples below. #TODO )
 - To **playback** means to intercept any HTTP request and to respond it with the stored response of a previously recorded matching request.
 - **Sensitive information** means content that should not be shared publicly. Content like passwords, unique identifiers or personal information should be cleaned up from the recordings. Some functionality is provided to fix this problem. You can read more at [securing sensitive data](#securing-sensitive-data).
 
@@ -54,7 +59,9 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
 
 We're about to go through how to set up your project to use the `@azure-tools/test-recorder` package.
 
-**_Note: If you're new to this repository, follow the [ContributingGuide.md](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn how to setup/build the repo and to create/test an SDK in the [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repository._**
+**_Note: If you're new to the `azure-sdk-for-js` repository, follow the [ContributingGuide.md](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn how to setup/build the repo and to create/test an SDK in the [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repository._**
+
+If you're testing (Azure SDK) clients outside of the `azure-sdk-for-js` repository, 
 
 ### Installing the package
 
@@ -151,7 +158,7 @@ Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-j
 
 #### Prerequisites
 
-- [Docker](https://docker.com/) is required, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. 
+- [Docker](https://docker.com/) is required, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it.
 
 Check [docker.com/get-started](https://www.docker.com/get-started/) to download and install docker desktop on your machine.
 
