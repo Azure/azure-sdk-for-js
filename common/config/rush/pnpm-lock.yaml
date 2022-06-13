@@ -18,6 +18,7 @@ specifiers:
   '@rush-temp/arm-appinsights': file:./projects/arm-appinsights.tgz
   '@rush-temp/arm-appplatform': file:./projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
+  '@rush-temp/arm-appservice-1': file:./projects/arm-appservice-1.tgz
   '@rush-temp/arm-appservice-profile-2020-09-01-hybrid': file:./projects/arm-appservice-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-attestation': file:./projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
@@ -302,6 +303,7 @@ dependencies:
   '@rush-temp/arm-appinsights': file:projects/arm-appinsights.tgz
   '@rush-temp/arm-appplatform': file:projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
+  '@rush-temp/arm-appservice-1': file:projects/arm-appservice-1.tgz
   '@rush-temp/arm-appservice-profile-2020-09-01-hybrid': file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-attestation': file:projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
@@ -8951,7 +8953,7 @@ packages:
     dev: false
 
   /wordwrap/1.0.0:
-    resolution: {integrity: sha1-J1hIEIkUVqQXHI0CJkQa3pDLyus=}
+    resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
     dev: false
 
   /wrap-ansi/5.1.0:
@@ -9078,7 +9080,7 @@ packages:
     dev: false
 
   /yallist/2.1.2:
-    resolution: {integrity: sha1-HBH5IY8HYImkfdUS+TxmmaaoHVI=}
+    resolution: {integrity: sha512-ncTzHV7NvsQZkYe1DW7cbDLm0YpzHmZF5r/iyP3ZnQtMiJ+pjzisCiMNI+Sj+xQF5pXhSHxSB3uDbsBTzY/c2A==}
     dev: false
 
   /yallist/4.0.0:
@@ -9824,6 +9826,35 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-appservice-1.tgz:
+    resolution: {integrity: sha512-7UmsOp4bdGal/3Fe594OSCIfBrfgbWf1Oa8M2+2AFVwhKPZePrqlrqhFd/EciwbITEJds1QesFZsw4I6tzOtbA==, tarball: file:projects/arm-appservice-1.tgz}
+    name: '@rush-temp/arm-appservice-1'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-lro': 2.2.4
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.73.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.73.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.73.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz:
     resolution: {integrity: sha512-c5rzS6K3Lfc3qcEyBP0TSYAgEm9ochUvFUXtSLhld6Gt+wPsKZYO1Plvo5MCOBFUgSgxvbViWmUgrsSRnAaVxQ==, tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-appservice-profile-2020-09-01-hybrid'
@@ -9854,7 +9885,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice.tgz:
-    resolution: {integrity: sha512-1j8xRFFBQUXS+uw3hAc3iMXmpNA21qVtIBvkVqwdzyInd51HeEyUFWxX1Et9GGVpstwlCMb5kDz+NDW5tVLNgw==, tarball: file:projects/arm-appservice.tgz}
+    resolution: {integrity: sha512-wn/IDQiaoOjhOP47ctjW2aC9bBYHqrWoURHflJ6Esmm/h2uiW2aTyjHaVzl6jIkW+M+0ZqkItaIBQu6EBg4Cyw==, tarball: file:projects/arm-appservice.tgz}
     name: '@rush-temp/arm-appservice'
     version: 0.0.0
     dependencies:
@@ -9900,10 +9931,10 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
-      - '@types/node'
+      - bufferutil
       - debug
-      - encoding
       - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/arm-attestation.tgz:
@@ -10267,7 +10298,7 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-cy/sz6LZHNFKUpQHpQvO+leBdH/OQUdnmTxb9oAuDx9WBTK2yp8iY00dedL1URDIvs/Yh8it0PD6ShadU3Hv1A==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-+rgw1vZTIZQPHNzWdMpnA1ZO0TlAgTdwT2647znNFKTTCmsw6ICbp4MASOVQcQO+C1UfXxkt26IFva2o9YmI6Q==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
@@ -10293,7 +10324,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -12694,7 +12724,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-BBZ5WFO7O1Hq5xDlg/BOt5NED+XaQ2sT6BMjsgRGHC8DJxIMf7gJiQheNHu5tLpJsSIGJO6aq9ivVIfJp1kKwg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-vXkak2yhwc1QmVoEEWjh0Bi25aiUafb+9stnek+S5vQ62N/HRoe+al6xxFvwpi5Jy5IiT96lndp2hp2Abpf95w==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -12720,7 +12750,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
