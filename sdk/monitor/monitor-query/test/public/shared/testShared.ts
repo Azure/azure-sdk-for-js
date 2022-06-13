@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 import { createTestCredential } from "@azure-tools/test-credential";
 import {
-  env,
   Recorder,
   RecorderStartOptions,
   assertEnvironmentVariable,
+  env,
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { createClientLogger } from "@azure/logger";
-import { LogsTable, LogsQueryClient, MetricsQueryClient } from "../../../src";
+import { LogsQueryClient, LogsTable, MetricsQueryClient } from "../../../src";
 import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
 

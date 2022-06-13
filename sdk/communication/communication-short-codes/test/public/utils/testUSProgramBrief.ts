@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { RestError } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
-import { USProgramBrief } from "../../../src";
 import { ShortCodesClient } from "../../../src";
+import { USProgramBrief } from "../../../src";
+import { assert } from "chai";
 
 export function getTestUSProgramBrief(): USProgramBrief {
   const testUSProgramBrief: USProgramBrief = {

@@ -106,10 +106,10 @@ export type NumberType = "shortCode" | "alphaId";
 
 // @public
 export interface ProgramBriefAttachment {
-    fileContent: string;
-    fileName: string;
+    fileContent?: string;
+    fileName?: string;
     fileSize?: number;
-    fileType: FileType;
+    fileType?: FileType;
     id: string;
     type: AttachmentType;
 }
@@ -199,7 +199,11 @@ export interface ShortCodesClientOptions extends CommonClientOptions {
 
 // @public
 export interface ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams extends coreClient.OperationOptions {
+    fileContent?: string;
+    fileName?: string;
     fileSize?: number;
+    fileType?: FileType;
+    type?: AttachmentType;
 }
 
 // @public

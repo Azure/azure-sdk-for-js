@@ -283,7 +283,7 @@ export interface ProgramBriefAttachment {
    * The name of the file being attached
    * e.g. 'myFile01'
    */
-  fileName: string;
+  fileName?: string;
   /** File size in bytes. */
   fileSize?: number;
   /**
@@ -384,18 +384,18 @@ export type ShortCodesUpsertUSProgramBriefResponse = USProgramBrief;
 
 /** Optional parameters. */
 export interface ShortCodesDeleteUSProgramBriefOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface ShortCodesGetUSProgramBriefOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getUSProgramBrief operation. */
 export type ShortCodesGetUSProgramBriefResponse = USProgramBrief;
 
 /** Optional parameters. */
 export interface ShortCodesSubmitUSProgramBriefOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the submitUSProgramBrief operation. */
 export type ShortCodesSubmitUSProgramBriefResponse = USProgramBrief;
@@ -415,6 +415,16 @@ export type ShortCodesGetUSProgramBriefsResponse = USProgramBriefs;
 /** Optional parameters. */
 export interface ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
   extends coreClient.OperationOptions {
+  /**
+   * Attachment type describing the purpose of the attachment
+   * e.g. 'callToAction', 'termsOfService'
+   */
+  type?: AttachmentType;
+  /**
+   * A friendly name to refer to the attachment
+   * e.g. 'myFile01'
+   */
+  fileName?: string;
   /** File size in bytes. */
   fileSize?: number;
 }
@@ -424,14 +434,14 @@ export type ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse = ProgramB
 
 /** Optional parameters. */
 export interface ShortCodesGetUSProgramBriefAttachmentOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getUSProgramBriefAttachment operation. */
 export type ShortCodesGetUSProgramBriefAttachmentResponse = ProgramBriefAttachment;
 
 /** Optional parameters. */
 export interface ShortCodesDeleteUSProgramBriefAttachmentOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface ShortCodesGetUSProgramBriefAttachmentsOptionalParams

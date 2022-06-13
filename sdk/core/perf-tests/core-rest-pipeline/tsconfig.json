@@ -1,10 +1,10 @@
 {
   "extends": "../../../../tsconfig.package",
   "compilerOptions": {
+    "outDir": "./dist-esm",
     "module": "CommonJS",
-    "target": "ES2015",
-    "lib": ["ES6", "ESNext.AsyncIterable"],
-    "noEmit": true
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"]
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],

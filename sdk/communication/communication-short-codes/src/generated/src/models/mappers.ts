@@ -772,7 +772,6 @@ export const ProgramBriefAttachment: coreClient.CompositeMapper = {
       },
       fileName: {
         serializedName: "fileName",
-        required: true,
         type: {
           name: "String"
         }

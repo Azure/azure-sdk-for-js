@@ -1125,7 +1125,7 @@
           }
         },
         "fileName": {
-          "description": "The name of the file being attached\r\ne.g. 'myFile01'",
+          "description": "A friendly name to refer to the attachment\r\ne.g. 'myFile01'",
           "type": "string"
         },
         "fileSize": {
