@@ -9,7 +9,7 @@
 
 ### ioredis library
 
-#### Dependency Requirements ioredis
+#### Dependency requirements: ioredis
 
 Add the following dependencies to *package.json*:
 
