@@ -1,4 +1,4 @@
-## Azure Cache for Redis AAD with ioredis client library
+## Azure Cache for Redis: Azure AD with ioredis client library
 
 ### Table of contents
 
