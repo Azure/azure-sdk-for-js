@@ -9,7 +9,6 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/arm-appservice)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/arm-appservice)
-- [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
 
