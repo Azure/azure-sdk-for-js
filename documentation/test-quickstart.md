@@ -1,6 +1,6 @@
 # Javascript Codegen Quick Start for Test
 
-This page is to help you write and run tests quickly for Javascript Codegen SDK including high-level and rest-level clients. We firstly introduce some key concepts, then show how to run and add test cases.
+This page is to help you write and run tests quickly for Javascript Codegen SDK including high-level and rest-level clients. We firstly show how to run in `record` and `playback` mode and then guide on how to add test cases.
 
 # Table of contents
 
@@ -8,10 +8,6 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
 - [Prerequisites](#prerequisites)
 - [How to run test](#how-to-run-test)
   - [Key concepts](#key-concepts)
-    - [Record](#record)
-    - [Playback](#playback)
-    - [Sensitive information](#sensitive-information)
-    - [TEST_MODE](#test_mode)
   - [Code structure](#code-structure)
   - [Run tests in record mode](#run-tests-in-record-mode)
   - [Run tests in playback mode](#run-tests-in-playback-mode)
@@ -47,29 +43,7 @@ This section describes how to run the SDK tests. If you want to run the tests of
 
 ## Key concepts
 
-Before we dig into the details let's get a glimpse of key concepts which we'll touch upon on during running tests.
-
-### Record
-
-To **record** means to intercept any HTTP request, store it in a file, then store the response received from the live resource that was originally targeted. We leverage the unified out-of-process test proxy server that is built for this use case. The output files are stored in `recordings/node/*` and in `recordings/browser/*`, which are relative to the root of the project you're working on.
-
-### Playback
-
-To **playback** means to intercept any HTTP request and to respond it with the stored response of a previously recorded matching request.
-
-### Sensitive information
-
-**Sensitive information** means content that should not be shared publicly. Content like passwords, unique identifiers or personal information should be cleaned up from the recordings. Some functionality is provided to fix this problem.
-
-### TEST_MODE
-
-The Azure SDK test framework uses the [`test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md) library to record tests. By using recorder with your clients, the requests are redirected to the test-proxy tool to either save them or replay them.
-Interactions with the test-proxy tool vary based on what the `TEST_MODE` environment is.
-|TEST_MODE |What? |
-| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `record` | Stores network requests with the help of test-proxy tool in a plain text file in the folder `recordings` at the root of your repository (example: root of the `sdk/purview/purview-catalog-rest` project) |
-| `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service |  
-| `live` | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer |
+If you have no concepts of `recording`, `playback` or `[TEST_MODE](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#test_mode)` we'll highly recommand you to read this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#key-concepts). We'll touch upon these concepts in below content.
 
 ## Code structure
 
@@ -269,8 +243,9 @@ describe("My test", () => {
     await recorder.stop();
   });
 
-  // Step 3: Add your test cases
+  // Step 1: Create your test case
   it("Should create a glossary", async () => {
+    // Step 3: Add your test cases
     const glossary = await client.path("/atlas/v2/glossary").post({
       body: {
         name: glossaryName,
