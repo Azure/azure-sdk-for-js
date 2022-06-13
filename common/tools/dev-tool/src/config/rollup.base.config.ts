@@ -72,7 +72,7 @@ function matchesPathSegments(str: string | undefined, segments: string[]): boole
   return (
     str?.includes(segments.join(path.sep)) ||
     // on Windows in powershell, path.sep is "\\" but reported warnings use "/"
-    str?.includes(segments.join("/")) === true
+    str?.includes(segments.join("/"))
   );
 }
 
