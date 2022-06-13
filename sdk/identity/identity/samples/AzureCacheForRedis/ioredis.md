@@ -137,7 +137,7 @@ async function main(){
             await redis.set("Az:mykey", "value123"); // Returns a promise which resolves to "OK" when the command succeeds.
             // Fetch value of your key in the Azure Redis Cache.
             console.log("redis key:", await redis.get("Az:mykey"));
-            // Close the Ioredis Client Connection
+            // Close the ioredis client connection
             redis.disconnect();
             break;
         }
