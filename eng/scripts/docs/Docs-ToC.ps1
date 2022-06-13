@@ -38,7 +38,15 @@ function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $mon
       # Package has an '@' symbol deliminting the end of the package name
       $packageName = $packageName.Substring(0, $packageName.LastIndexOf('@'))
     }
-    $onboardedPackages[$packageName] = $null
+    
+    $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
+    $jsonFile = "$DocRepoLocation/matadata/$moniker/$jsStylePkgName.json"
+    if (Test-Path $jsonFile) {
+      $onboardedPackages[$packageName] = ConvertFrom-Json (Get-Content -Path $jsonFile)
+    }
+    else{
+      $onboardedPackages[$packageName] = $null
+    }
   }
 
   return $onboardedPackages
