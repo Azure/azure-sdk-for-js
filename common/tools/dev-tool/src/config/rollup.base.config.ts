@@ -69,10 +69,8 @@ export function sourcemapsExtra() {
 export type WarningInhibitor = (warning: RollupWarning) => boolean;
 
 function matchesPathSegments(str: string | undefined, segments: string[]): boolean {
-  return (
-    // Reported warnings use "/"
-    str?.includes(segments.join("/")) ?? false
-  );
+  // Reported warnings use "/"
+  return str?.includes(segments.join("/")) ?? false;
 }
 
 function ignoreNiseSinonEval(warning: RollupWarning): boolean {
