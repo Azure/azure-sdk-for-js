@@ -4,8 +4,8 @@
 
 - [ioredis library](#ioredis-library)
     - [Dependency Requirements](#dependency-requirements-ioredis)
-    - [Authenticate with AAD - Hello World](#authenticate-with-aad-ioredis-hello-world)
-    - [Authenticate with AAD - Handle Reauthentication](#authenticate-with-aad-handle-reauthentication)
+    - [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-ioredis-hello-world)
+    - [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
 
 ### ioredis library
 
