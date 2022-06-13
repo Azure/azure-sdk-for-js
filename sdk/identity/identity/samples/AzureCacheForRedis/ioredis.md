@@ -88,7 +88,6 @@ main().catch((err) => {
   console.log("error message: ", err.message);
   console.log("error stack: ", err.stack);
 });
-
 ```
 
 #### Authenticate with Azure AD: Handle Reauthentication
