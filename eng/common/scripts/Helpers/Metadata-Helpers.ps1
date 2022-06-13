@@ -102,18 +102,20 @@ function GenerateDocsMsMetadata($language, $langTitle = "", $serviceName, $tenan
   # Github url for source code: e.g. https://github.com/Azure/azure-sdk-for-js
   $serviceBaseName = $serviceName.ToLower().Replace(' ', '').Replace('/', '-')
   $author = GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
-  $msauthor = ""
-  if (!$author) {
-    LogError "Cannot fetch the author from CODEOWNER file."
-  }
-  elseif ($TenantId -and $ClientId -and $ClientSecret) {
-    $msauthor = GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author
-  }
-  # Default value
-  if (!$msauthor) {
-    LogError "No ms.author found for $author. "
-    $msauthor = $author
-  }
+  # $msauthor = ""
+  # if (!$author) {
+  #   LogError "Cannot fetch the author from CODEOWNER file."
+  # }
+  # elseif ($TenantId -and $ClientId -and $ClientSecret) {
+  #   $msauthor = GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author
+  # }
+  # # Default value
+  # if (!$msauthor) {
+  #   LogError "No ms.author found for $author. "
+  #   $msauthor = $author
+  # }
+  $author = "sima-zhu"
+  $msauthor = "sizhu"
   $date = Get-Date -Format "MM/dd/yyyy"
   $header = @"
 ---
