@@ -1,236 +1,135 @@
-<#
-.SYNOPSIS
-The script is to generate service level readme if it is missing. 
-For exist ones, we do 2 things here:
-1. Generate the client but not import to the existing service level readme.
-2. Update the metadata of service level readme
-
-.DESCRIPTION
-Given a doc repo location, and the credential for fetching the ms.author. 
-Generate missing service level readme and updating metadata of the existing ones.
-
-.PARAMETER DocRepoLocation
-Location of the documentation repo. This repo may be sparsely checked out
-depending on the requirements for the domain
-
-.PARAMETER TenantId
-The aad tenant id/object id for ms.author.
-
-.PARAMETER ClientId
-The add client id/application id for ms.author.
-
-.PARAMETER ClientSecret
-The client secret of add app for ms.author.
-#>
-
-param(
-  [Parameter(Mandatory = $true)]
-  [string] $DocRepoLocation,
-
-  [Parameter(Mandatory = $false)]
-  [string]$TenantId,
-
-  [Parameter(Mandatory = $false)]
-  [string]$ClientId,
-
-  [Parameter(Mandatory = $false)]
-  [string]$ClientSecret
-)
-. $PSScriptRoot/common.ps1
-. $PSScriptRoot/Helpers/Metadata-Helpers.ps1
-. $PSScriptRoot/Helpers/Package-Helpers.ps1
-
-Set-StrictMode -Version 3
-
-function create-metadata-table($readmeFolder, $readmeName, $moniker, $msService, $clientTableLink, $mgmtTableLink, $serviceName)
+function Generate-AadToken ($TenantId, $ClientId, $ClientSecret)
 {
-  $readmePath = Join-Path $readmeFolder -ChildPath $readmeName
-  $content = ""  
-  if (Test-Path (Join-Path $readmeFolder -ChildPath $clientTableLink)) {
-    $content = "## Client packages - $moniker`r`n"
-    $content += "[!INCLUDE [client-packages]($clientTableLink)]`r`n"
-  }
-  if (Test-Path (Join-Path $readmeFolder -ChildPath $mgmtTableLink)) {
-    $content = "## Management packages - $moniker`r`n"
-    $content += "[!INCLUDE [mgmt-packages]($mgmtTableLink)]`r`n"
-  }
-  if (!$content) {
-    return
-  }
-  $null = New-Item -Path $readmePath -Force
-  $lang = $LanguageDisplayName
-  $langTitle = "Azure $serviceName SDK for $lang"
-  # Generate the front-matter for docs needs
-  $metadataString = GenerateDocsMsMetadata -language $lang -langTitle $langTitle -serviceName $serviceName `
-    -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
-    -msService $msService
-  Add-Content -Path $readmePath -Value $metadataString
+    $LoginAPIBaseURI = "https://login.microsoftonline.com/$TenantId/oauth2/token"
 
-  # Add tables, seperate client and mgmt.
-  $readmeHeader = "# $langTitle - $moniker"
-  Add-Content -Path $readmePath -Value $readmeHeader
-  Add-Content -Path $readmePath -Value $content
-}
-
-function compare-and-merge-metadata ($original, $updated) {
-  $originalTable = ConvertFrom-StringData -StringData $original -Delimiter ":"
-  $updatedTable = ConvertFrom-StringData -StringData $updated -Delimiter ":"
-  foreach ($key in $originalTable.Keys) {
-    if (!($updatedTable.ContainsKey($key))) {
-      Write-Warning "New metadata missed the entry: $key. Adding back."
-      $updated += "$key`: $($originalTable[$key])`r`n"
+    $headers = @{
+        "content-type" = "application/x-www-form-urlencoded"
     }
-  }
-  return $updated
+
+    $body = @{
+        "grant_type" = "client_credentials"
+        "client_id" = $ClientId
+        "client_secret" = $ClientSecret
+        "resource" = "api://repos.opensource.microsoft.com/audience/7e04aa67"
+    }
+    Write-Host "Generating aad token..."
+    $resp = Invoke-RestMethod $LoginAPIBaseURI -Method 'POST' -Headers $headers -Body $body
+    return $resp.access_token
 }
 
-# Update the metadata table.
-function update-metadata-table($readmeFolder, $readmeName, $serviceName, $msService)
+function GetMsAliasFromGithub ([string]$TenantId, [string]$ClientId, [string]$ClientSecret, [string]$GithubUser)
 {
-  $readmePath = Join-Path $readmeFolder -ChildPath $readmeName
-  $readmeContent = Get-Content -Path $readmePath -Raw
-  $null = $readmeContent -match "---`n*(?<metadata>(.*`n)*)---`n*(?<content>(.*`n)*)"
-  $restContent = $Matches["content"]
-  $lang = $LanguageDisplayName
-  $orignalMetadata = $Matches["metadata"]
-  $metadataString = GenerateDocsMsMetadata -language $lang -serviceName $serviceName `
-    -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
-    -msService $msService
-  $null = $metadataString -match "---`n*(?<metadata>(.*`n)*)---"
-  $mergedMetadata = compare-and-merge-metadata -original $orignalMetadata -updated $Matches["metadata"]
-  Set-Content -Path $readmePath -Value "---`n$mergedMetadata---`n$restContent" -NoNewline
+    # API documentation (out of date): https://github.com/microsoft/opensource-management-portal/blob/main/docs/api.md
+    $OpensourceAPIBaseURI = "https://repos.opensource.microsoft.com/api/people/links/github/$GithubUser"
+
+    $Headers = @{
+        "Content-Type" = "application/json"
+        "api-version" = "2019-10-01"
+    }
+
+    try {
+        $opsAuthToken = Generate-AadToken -TenantId $TenantId -ClientId $ClientId -ClientSecret $ClientSecret
+        $Headers["Authorization"] = "Bearer $opsAuthToken"
+        Write-Host "Fetching aad identity for github user: $GithubUser"
+        $resp = Invoke-RestMethod $OpensourceAPIBaseURI -Method 'GET' -Headers $Headers -MaximumRetryCount 3
+    } catch {
+        Write-Warning $_
+        return $null
+    }
+
+    $resp | Write-Verbose
+
+    if ($resp.aad) {
+        Write-Host "Fetched aad identity $($resp.aad.alias) for github user $GithubUser. "
+        return $resp.aad.alias
+    }
+    Write-Warning "Failed to retrieve the aad identity from given github user: $GithubName"
+    return $null
 }
 
-function generate-markdown-table($readmeFolder, $readmeName, $packageInfo, $moniker) {
-  $tableHeader = "| Reference | Package | Source |`r`n|---|---|---|`r`n" 
-  $tableContent = ""
-  # Here is the table, the versioned value will
-  foreach ($pkg in $packageInfo) {
-    $repositoryLink = $RepositoryUri
-    $packageLevelReadme = ""
-    if (Test-Path "Function:$GetPackageLevelReadmeFn") {
-      $packageLevelReadme = &$GetPackageLevelReadmeFn -packageMetadata $pkg
+function GetAllGithubUsers ([string]$TenantId, [string]$ClientId, [string]$ClientSecret)
+{
+    # API documentation (out of date): https://github.com/microsoft/opensource-management-portal/blob/main/docs/api.md
+    $OpensourceAPIBaseURI = "https://repos.opensource.microsoft.com/api/people/links"
+
+    $Headers = @{
+        "Content-Type" = "application/json"
+        "api-version" = "2019-10-01"
     }
-    
-    $referenceLink = "[$($pkg.DisplayName)]($packageLevelReadme-readme.md)"
-    if (!(Test-Path (Join-Path $readmeFolder -ChildPath "$packageLevelReadme-readme.md"))) {
-      $referenceLink = $pkg.DisplayName
+
+    try {
+        $opsAuthToken = Generate-AadToken -TenantId $TenantId -ClientId $ClientId -ClientSecret $ClientSecret
+        $Headers["Authorization"] = "Bearer $opsAuthToken"
+        Write-Host "Fetching all github alias links"
+        $resp = Invoke-RestMethod $OpensourceAPIBaseURI -Method 'GET' -Headers $Headers -MaximumRetryCount 3
+    } catch {
+        Write-Warning $_
+        return $null
     }
-    $githubLink = $GithubUri
-    if ($pkg.PSObject.Members.Name -contains "DirectoryPath") {
-      $githubLink = "$GithubUri/blob/main/$($pkg.DirectoryPath)"
-    }
-    $line = "|$referenceLink|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
-    $tableContent += $line
-  }
-  $readmePath = Join-Path $readmeFolder -ChildPath $readmeName
-  if($tableContent) {
-    $null = New-Item -Path $readmePath -ItemType File -Force
-    Add-Content -Path $readmePath -Value $tableHeader -NoNewline
-    Add-Content -Path $readmePath -Value $tableContent -NoNewline
-  }
+
+    return $resp
 }
 
-function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInfos, $serviceName, $moniker) {
-  # Add ability to override
-  # Fetch the service readme name
-  $msService = GetDocsMsService -packageInfo $packageInfos[0] -serviceName $serviceName
-
-  $readmeFolder = "$DocRepoLocation/$pathPrefix/$moniker/"
-  $serviceReadme = "$readmeBaseName.md"
-  $clientIndexReadme  = "$readmeBaseName-client-index.md"
-  $mgmtIndexReadme  = "$readmeBaseName-mgmt-index.md"
-  $clientPackageInfo = $packageInfos.Where({ 'client' -eq $_.Type }) | Sort-Object -Property Package
-  if ($clientPackageInfo) {
-    generate-markdown-table -readmeFolder $readmeFolder -readmeName "$clientIndexReadme" -packageInfo $clientPackageInfo -moniker $moniker
-  }
-  # TODO: we currently do not have the right decision on how we display mgmt packages. Will track the mgmt work in issue. 
-  # https://github.com/Azure/azure-sdk-tools/issues/3422
-  # $mgmtPackageInfo = $packageInfos.Where({ 'mgmt' -eq $_.Type }) | Sort-Object -Property Package
-  # if ($mgmtPackageInfo) {
-  #   generate-markdown-table -readmeFolder $readmeFolder -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
-  # }
-  if (!(Test-Path (Join-Path $readmeFolder -ChildPath $serviceReadme))) {
-    create-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -moniker $moniker -msService $msService `
-      -clientTableLink $clientIndexReadme -mgmtTableLink $mgmtIndexReadme `
-      -serviceName $serviceName
-  }
-  else {
-    update-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -serviceName $serviceName -msService $msService
-  }
+function GetPrimaryCodeOwner ([string]$TargetDirectory)
+{
+    $codeOwnerArray = &"$PSScriptRoot/../get-codeowners.ps1" -TargetDirectory $TargetDirectory
+    if ($codeOwnerArray) {
+        Write-Host "Code Owners are $codeOwnerArray."
+        return $codeOwnerArray[0]
+    }
+    Write-Warning "No code owner found in $TargetDirectory."
+    return $null
 }
 
-$fullMetadata = Get-CSVMetadata
-$monikers = @("latest", "preview")
-foreach($moniker in $monikers) {
-  # The onboarded packages return is key-value pair, which key is the package index, and value is the package info from {metadata}.json
-  # E.g. 
-  # Key as: @azure/storage-blob
-  # Value as: 
-  # {
-  #   "Name": "@azure/storage-blob",
-  #   "Version": "12.10.0-beta.1",
-  #   "DevVersion": null,
-  #   "DirectoryPath": "sdk/storage/storage-blob",
-  #   "ServiceDirectory": "storage",
-  #   "ReadMePath": "sdk/storage/storage-blob/README.md",
-  #   "ChangeLogPath": "sdk/storage/storage-blob/CHANGELOG.md",
-  #   "Group": null,
-  #   "SdkType": "client",
-  #   "IsNewSdk": true,
-  #   "ArtifactName": "azure-storage-blob",
-  #   "ReleaseStatus": "2022-04-19"
-  # }
-  $onboardedPackages = &$GetOnboardedDocsMsPackagesForMonikerFn `
-    -DocRepoLocation $DocRepoLocation -moniker $moniker
-  $csvMetadata = @()
-  foreach($metadataEntry in $fullMetadata) {
-    if ($metadataEntry.Package -and $metadataEntry.Hide -ne 'true') {
-      $pkgKey = GetPackageKey $metadataEntry
-      if($onboardedPackages.ContainsKey($pkgKey)) {
-        if ($onboardedPackages[$pkgKey] -and $onboardedPackages[$pkgKey].DirectoryPath) {
-          if (!($metadataEntry.PSObject.Members.Name -contains "DirectoryPath")) {
-            Add-Member -InputObject $metadataEntry `
-              -MemberType NoteProperty `
-              -Name DirectoryPath `
-              -Value $onboardedPackages[$pkgKey].DirectoryPath
-          }
-        }
-        $csvMetadata += $metadataEntry
-      }
-    }
+function GetDocsMsService($packageInfo, $serviceName) 
+{
+  $service = $serviceName.ToLower().Replace(' ', '').Replace('/', '-')
+  if ($packageInfo.MSDocService) {
+    # Use MSDocService in csv metadata to override the service directory    
+    # TODO: Use taxonomy for service name -- https://github.com/Azure/azure-sdk-tools/issues/1442
+    $service = $packageInfo.MSDocService
   }
-  $packagesForService = @{}
-  $allPackages = GetPackageLookup $csvMetadata
-  foreach ($metadataKey in $allPackages.Keys) {
-    $metadataEntry = $allPackages[$metadataKey]
-    if (!$metadataEntry.ServiceName) {
-      LogWarning "Empty ServiceName for package `"$metadataKey`". Skipping."
-      continue
-    }
-    $packagesForService[$metadataKey] = $metadataEntry
+  Write-Host "The service of package: $service"
+  return $service
+}
+
+function GenerateDocsMsMetadata($language, $langTitle = "", $serviceName, $tenantId, $clientId, $clientSecret, $msService) 
+{
+  if (!$langTitle) {
+    $langTitle = "Azure $serviceName SDK for $language"
   }
-  $services = @{}
-  foreach ($package in $packagesForService.Values) {
-    if ($package.ServiceName -eq 'Other') {
-      # Skip packages under the service category "Other". Those will be handled
-      # later
-      continue
-    }
-    if (!$services.ContainsKey($package.ServiceName)) {
-      $services[$package.ServiceName] = $true
-    }
+  $langDescription = "Reference for Azure $serviceName SDK for $language"
+  # Github url for source code: e.g. https://github.com/Azure/azure-sdk-for-js
+  $serviceBaseName = $serviceName.ToLower().Replace(' ', '').Replace('/', '-')
+  $author = GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
+  $msauthor = ""
+  if (!$author) {
+    LogError "Cannot fetch the author from CODEOWNER file."
   }
-  foreach ($service in $services.Keys) {
-    Write-Host "Building service: $service"
-    
-    $servicePackages = $packagesForService.Values.Where({ $_.ServiceName -eq $service })
-  
-  
-    $serviceReadmeBaseName = ServiceLevelReadmeNameStyle -serviceName $service
-    $hrefPrefix = "docs-ref-services"
-  
-    generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
-      -packageInfos $servicePackages -serviceName $service -moniker $moniker
+  elseif ($TenantId -and $ClientId -and $ClientSecret) {
+    $msauthor = GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author
   }
+  # Default value
+  if (!$msauthor) {
+    LogError "No ms.author found for $author. "
+    $msauthor = $author
+  }
+  $date = Get-Date -Format "MM/dd/yyyy"
+  $header = @"
+---
+title: $langTitle
+description: $langDescription
+author: $author
+ms.author: $msauthor
+ms.date: $date
+ms.topic: reference
+ms.devlang: $language
+ms.service: $msService
+---
+"@
+  return $header
+}
+
+function ServiceLevelReadmeNameStyle($serviceName) {
+  return $serviceName.ToLower().Replace(' ', '-').Replace('/', '-')
 }
