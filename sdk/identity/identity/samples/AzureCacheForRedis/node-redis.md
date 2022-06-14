@@ -40,7 +40,7 @@ async function main(){
     try{
         // Fetch an AAD token to be used for authentication. This token will be used as the password.
         let accessToken = await credential.getToken("https://*.cacheinfra.windows.net:10225/appid/.default")
-        console.log("access Token",accessToken);
+        console.log("access Token", accessToken);
 
         //Option 1 - Create redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
         const client = createClient({
