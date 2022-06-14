@@ -35,7 +35,7 @@ import {ClientCertificateCredential} from "@azure/identity";
 dotenv.config();
 
 async function main(){
-// Construct a Token Credential from Identity SDK, e.g. ClientSecretCredential / Client CertificateCredential / ManagedIdentityCredential etc.
+// Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
     const credential = new ClientCertificateCredential(process.env.AZURE_TENANT_ID, process.env.AZURE_CLIENT_ID,process.env.CLIENT_CERTIFICATE_PATH)
     try{
         // Fetch an AAD token to be used for authentication. This token will be used as the password.
