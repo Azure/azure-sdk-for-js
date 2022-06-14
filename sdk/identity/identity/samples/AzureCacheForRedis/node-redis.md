@@ -98,8 +98,7 @@ dotenv.config();
 async function returnPassword(credential: TokenCredential) {  
     try{
         // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-        let accessToken = await credential.getToken("https://*.cacheinfra.windows.net:10225/appid/.default");
-        return accessToken;
+        return credential.getToken("https://*.cacheinfra.windows.net:10225/appid/.default");
     }
     catch(e){
         throw("error during getToken -",e);
