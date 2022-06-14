@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.3 (2022-06-09)
+## 1.0.3 (2022-06-15)
 
 ### Bugs Fixed
 - Fix issue https://github.com/Azure/azure-sdk-for-js/issues/22134 that hub name should be case insensitive
