@@ -16,14 +16,15 @@
 ```
 
 
-#### Authenticate with AAD node-redis Hello World
-This sample is intended to assist in authenticating with AAD via node-redis client library. It focuses on displaying the logic required to fetch an AAD Access token and to use it as password when setting up the node-redis instance.
+#### Authenticate with Azure AD: node-redis hello world
 
-Familiarity with the Node-redis and Azure Identity client libraries is assumed. If you're new to the Azure Identity library for Javascript, see the docs for [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) and [node-redis](https://github.com/redis/node-redis) rather than this guide.
+This sample is intended to assist in authenticating with Azure AD via the node-redis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as password when setting up the node-redis instance.
 
-##### Migration Guidance
-When migrating your existing your application code, you need to replace the password input with Azure Active Directory Token.
-Integrate the logic in your application code to fetch an AAD Access Token via Identity SDK as shown below and replace it with the password configuring/retrieving logic in your application code.
+Familiarity with the node-redis and Azure Identity client libraries is assumed. If you're new to the Azure Identity library for Javascript, see the docs for [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) and [node-redis](https://github.com/redis/node-redis) rather than this guide.
+
+##### Migration guidance
+
+When migrating your existing application code, replace the password input with the Azure AD token. Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code.
 
 **Note:** The below sample uses `ClientCertificateCredential` from the [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library. The credential can be replaced with any of the other Azure Identity library `TokenCredential` implementations.
 
