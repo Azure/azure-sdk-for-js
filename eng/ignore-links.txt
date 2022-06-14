@@ -30,3 +30,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-confidentialledger
 https://docs.microsoft.com/javascript/api/@azure/arm-confidentialledger?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-deviceupdate?view=azure-node-preview
 https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview
+https://docs.microsoft.com/javascript/api/@azure-rest/arm-appservice
