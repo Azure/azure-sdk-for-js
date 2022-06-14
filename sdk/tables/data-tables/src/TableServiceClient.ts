@@ -37,10 +37,12 @@ import { GeneratedClient } from "./generated/generatedClient";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TableItemResultPage } from "./models";
+import { apiVersionPolicy } from "./utils/apiVersionPolicy";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { handleTableAlreadyExists } from "./utils/errorHelpers";
 import { isCredential } from "./utils/isCredential";
 import { logger } from "./logger";
+import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils";
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { tracingClient } from "./utils/tracing";
@@ -175,7 +177,6 @@ export class TableServiceClient {
           stringifyXML,
         },
       },
-      ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE }),
     };
     const client = new GeneratedClient(this.url, internalPipelineOptions);
     client.pipeline.addPolicy(tablesSecondaryEndpointPolicy);
@@ -184,6 +185,14 @@ export class TableServiceClient {
       client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
     } else if (isSASCredential(credential)) {
       client.pipeline.addPolicy(tablesSASTokenPolicy(credential));
+    }
+
+    if (isTokenCredential(credential)) {
+      setTokenChallengeAuthenticationPolicy(client.pipeline, credential, STORAGE_SCOPE);
+    }
+
+    if (options?.version) {
+      client.pipeline.addPolicy(apiVersionPolicy(options.version));
     }
 
     this.pipeline = client.pipeline;
@@ -240,7 +249,7 @@ export class TableServiceClient {
       async (updatedOptions) => {
         try {
           await this.table.create({ name }, updatedOptions);
-        } catch (e) {
+        } catch (e: any) {
           handleTableAlreadyExists(e, { ...updatedOptions, logger, tableName: name });
         }
       }
@@ -259,7 +268,7 @@ export class TableServiceClient {
       async (updatedOptions) => {
         try {
           await this.table.delete(name, updatedOptions);
-        } catch (e) {
+        } catch (e: any) {
           if (e.statusCode === 404) {
             logger.info("TableServiceClient.deleteTable: Table doesn't exist");
           } else {

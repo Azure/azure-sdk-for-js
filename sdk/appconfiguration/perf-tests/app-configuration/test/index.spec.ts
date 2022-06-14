@@ -1,8 +1,6 @@
-import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
+import { createPerfProgram } from "@azure/test-utils-perf";
 import { ListSettingsTest } from "./listSettings.spec";
 
-console.log("=== Starting the perf test ===");
-
-const perfProgram = new PerfProgram(selectPerfTest([ListSettingsTest]));
+const perfProgram = createPerfProgram(ListSettingsTest);
 
 perfProgram.run();

@@ -15,7 +15,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = ["This document is written in English."];
@@ -31,7 +31,7 @@ export async function main() {
      * the latest generaly availability version of the model. When not specified,
      * latest will be assumed. Model versions are date based, e.g "2021-06-01".
      * See the documentation for a list of all model versions:
-     * https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/how-to-call#specify-the-ner-model
+     * https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/how-to-call#specify-the-ner-model
      */
     modelVersion: "latest"
   });
@@ -50,7 +50,7 @@ export async function main() {
            * the latest generaly availability version of the model. When not specified,
            * latest will be assumed. Model versions are date based, e.g "2021-06-01".
            * See the documentation for a list of all model versions:
-           * https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/how-to-call#specify-the-ner-model
+           * https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/how-to-call#specify-the-ner-model
            */
           modelVersion: "latest"
         }

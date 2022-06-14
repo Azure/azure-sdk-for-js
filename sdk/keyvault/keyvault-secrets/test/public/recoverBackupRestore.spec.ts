@@ -4,7 +4,7 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
-import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 
 import { SecretClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
@@ -74,7 +74,7 @@ describe("Secret client - restore secrets and recover backups", () => {
       );
       await recoverPoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "SecretNotFound");
@@ -126,7 +126,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     try {
       await client.backupSecret(secretName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "SecretNotFound");
@@ -169,7 +169,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     try {
       await client.restoreSecretBackup(backup);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(

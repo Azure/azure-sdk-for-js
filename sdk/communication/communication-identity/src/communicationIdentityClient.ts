@@ -5,6 +5,7 @@ import {
   CommunicationAccessToken,
   CommunicationIdentityClientOptions,
   CommunicationUserToken,
+  GetTokenForTeamsUserOptions,
   TokenScope,
 } from "./models";
 import {
@@ -112,7 +113,7 @@ export class CommunicationIdentityClient {
         scopes,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -139,7 +140,7 @@ export class CommunicationIdentityClient {
         user.communicationUserId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -162,7 +163,7 @@ export class CommunicationIdentityClient {
       return {
         communicationUserId: result.identity.id,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -196,7 +197,7 @@ export class CommunicationIdentityClient {
         ...accessToken!,
         user: { communicationUserId: identity.id },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -223,7 +224,7 @@ export class CommunicationIdentityClient {
         user.communicationUserId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -235,25 +236,26 @@ export class CommunicationIdentityClient {
   }
 
   /**
-   * Exchanges an AAD access token of a Teams user for a new Communication Identity access token with a matching expiration time.
+   * Exchanges an Azure AD access token of a Teams user for a new Communication Identity access token with a matching expiration time.
    *
-   * @param teamsToken - AAD access token of a Teams user.
-   * @param options - Additional options for the request.
+   * @param options - Options used to exchange an Azure AD access token of a Teams user for a new Communication Identity access token.
    */
   public async getTokenForTeamsUser(
-    teamsUserAadToken: string,
-    options: OperationOptions = {}
+    options: GetTokenForTeamsUserOptions
   ): Promise<CommunicationAccessToken> {
     const { span, updatedOptions } = createSpan(
       "CommunicationIdentity-getTokenForTeamsUser",
       options
     );
+    const { teamsUserAadToken, clientId, userObjectId } = options;
     try {
       return await this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
         teamsUserAadToken,
+        clientId,
+        userObjectId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

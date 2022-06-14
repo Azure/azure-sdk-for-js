@@ -1,14 +1,14 @@
 # Release History
 
-## 2.2.5 (Unreleased)
+## 2.3.0-beta.1 (2022-05-18)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- `lroEngine` now supports cancellation of the long-running operation.
 
 ### Other Changes
+
+- Removed the unused dependency `@azure/core-tracing`.
 
 ## 2.2.4 (2022-03-07)
 

@@ -26,12 +26,12 @@ async function createsOrUpdatesAWatchlistItem() {
   const watchlistItem: WatchlistItem = {
     etag: "0300bf09-0000-0000-0000-5c37296e0000",
     itemsKeyValue: {
-      "Business tier": "10.0.2.0/24",
-      "Data tier": "10.0.2.0/24",
-      "Gateway subnet": "10.0.255.224/27",
-      "Private DMZ in": "10.0.0.0/27",
-      "Public DMZ out": "10.0.0.96/27",
-      "Web Tier": "10.0.1.0/24"
+      businessTier: "10.0.2.0/24",
+      dataTier: "10.0.2.0/24",
+      gatewaySubnet: "10.0.255.224/27",
+      privateDmzIn: "10.0.0.0/27",
+      publicDmzOut: "10.0.0.96/27",
+      webTier: "10.0.1.0/24"
     }
   };
   const credential = new DefaultAzureCredential();

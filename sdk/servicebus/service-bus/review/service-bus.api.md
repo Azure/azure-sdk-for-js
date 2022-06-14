@@ -207,6 +207,8 @@ export function parseServiceBusConnectionString(connectionString: string): Servi
 // @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long_2;
+    // @beta
+    omitMessageBody?: boolean;
 }
 
 // @public
@@ -331,12 +333,14 @@ export class ServiceBusClient {
     close(): Promise<void>;
     createReceiver(queueName: string, options?: ServiceBusReceiverOptions): ServiceBusReceiver;
     createReceiver(topicName: string, subscriptionName: string, options?: ServiceBusReceiverOptions): ServiceBusReceiver;
+    createRuleManager(topicName: string, subscriptionName: string): ServiceBusRuleManager;
     createSender(queueOrTopicName: string): ServiceBusSender;
     fullyQualifiedNamespace: string;
 }
 
 // @public
 export interface ServiceBusClientOptions {
+    customEndpointAddress?: string;
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
     webSocketOptions?: WebSocketOptions;
@@ -497,6 +501,13 @@ export interface ServiceBusReceiverOptions {
     receiveMode?: "peekLock" | "receiveAndDelete";
     skipParsingBodyAsJson?: boolean;
     subQueueType?: "deadLetter" | "transferDeadLetter";
+}
+
+// @public
+export interface ServiceBusRuleManager {
+    createRule(ruleName: string, filter: SqlRuleFilter | CorrelationRuleFilter, ruleAction?: SqlRuleAction, options?: OperationOptionsBase): Promise<void>;
+    deleteRule(ruleName: string, options?: OperationOptionsBase): Promise<void>;
+    listRules(options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties>;
 }
 
 // @public

@@ -29,7 +29,7 @@ export interface LogsQueryOptions extends OperationOptions {
   /**
    * Results will also include statistics about the query.
    */
-  includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
+  includeQueryStatistics?: boolean;
 
   /**
    * Results will also include visualization information, in JSON format.
@@ -139,7 +139,7 @@ export interface QueryBatch {
   /**
    * Results will also include statistics about the query.
    */
-  includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
+  includeQueryStatistics?: boolean;
 
   /**
    * Results will also include visualization information, in JSON format.

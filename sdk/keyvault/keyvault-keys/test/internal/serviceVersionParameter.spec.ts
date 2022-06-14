@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
+import { SinonSandbox, SinonSpy, createSandbox } from "sinon";
 import { KeyClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/keysModels";
-import { HttpClient, HttpOperationResponse, WebResourceLike, HttpHeaders } from "@azure/core-http";
+import { HttpClient, HttpHeaders, HttpOperationResponse, WebResourceLike } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure-tools/test-recorder";
 import { versionsToTest } from "@azure/test-utils";

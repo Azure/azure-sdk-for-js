@@ -3,9 +3,8 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
-import { createSpan } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 import { CredentialUnavailableError } from "../errors";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
@@ -63,7 +62,7 @@ export const cliCredentialInternals = {
             resolve({ stdout: stdout, stderr: stderr, error });
           }
         );
-      } catch (err) {
+      } catch (err: any) {
         reject(err);
       }
     });
@@ -103,7 +102,7 @@ export class AzureCliCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     const tenantId = processMultiTenantRequest(this.tenantId, options);
     if (tenantId) {
@@ -115,52 +114,53 @@ export class AzureCliCredential implements TokenCredential {
     ensureValidScope(scope, logger);
     const resource = getScopeResource(scope);
 
-    let responseData = "";
-
-    const { span } = createSpan(`${this.constructor.name}.getToken`, options);
-
-    try {
-      const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);
-      if (obj.stderr) {
-        const isLoginError = obj.stderr.match("(.*)az login(.*)");
+    return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
+      try {
+        const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);
+        const specificScope = obj.stderr?.match("(.*)az login --scope(.*)");
+        const isLoginError = obj.stderr?.match("(.*)az login(.*)") && !specificScope;
         const isNotInstallError =
-          obj.stderr.match("az:(.*)not found") || obj.stderr.startsWith("'az' is not recognized");
+          obj.stderr?.match("az:(.*)not found") || obj.stderr?.startsWith("'az' is not recognized");
+
         if (isNotInstallError) {
           const error = new CredentialUnavailableError(
-            "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+            "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
-        } else if (isLoginError) {
+        }
+        if (isLoginError) {
           const error = new CredentialUnavailableError(
             "Please run 'az login' from a command prompt to authenticate before using this credential."
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
         }
-        const error = new CredentialUnavailableError(obj.stderr);
+        try {
+          const responseData = obj.stdout;
+          const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
+          logger.getToken.info(formatSuccess(scopes));
+          const returnValue = {
+            token: response.accessToken,
+            expiresOnTimestamp: new Date(response.expiresOn).getTime(),
+          };
+          return returnValue;
+        } catch (e: any) {
+          if (obj.stderr) {
+            throw new CredentialUnavailableError(obj.stderr);
+          }
+          throw e;
+        }
+      } catch (err: any) {
+        const error =
+          err.name === "CredentialUnavailableError"
+            ? err
+            : new Error(
+                (err as Error).message || "Unknown error while trying to retrieve the access token"
+              );
         logger.getToken.info(formatError(scopes, error));
         throw error;
-      } else {
-        responseData = obj.stdout;
-        const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
-        logger.getToken.info(formatSuccess(scopes));
-        const returnValue = {
-          token: response.accessToken,
-          expiresOnTimestamp: new Date(response.expiresOn).getTime(),
-        };
-        return returnValue;
       }
-    } catch (err) {
-      const error = new Error(
-        (err as Error).message || "Unknown error while trying to retrieve the access token"
-      );
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
-      });
-      logger.getToken.info(formatError(scopes, error));
-      throw error;
-    }
+    });
   }
 }

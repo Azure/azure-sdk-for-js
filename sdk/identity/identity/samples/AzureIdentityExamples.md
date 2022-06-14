@@ -300,7 +300,7 @@ Apart from user name and password, this credential requires you to know the tena
 
 ```ts
 /**
- *  Authenticate with a client certificate.
+ *  Authenticate with a username and password.
  */
 function withUsernamePasswordCredential() {
   let credential = new UsernamePasswordCredential(

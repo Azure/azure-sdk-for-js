@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
+import {
+  createHttpHeaders,
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
 
 export class MockHttpClient implements HttpClient {
   constructor(private _phoneNumber: string) {}
 
-  async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+  async sendRequest(httpRequest: PipelineRequest): Promise<PipelineResponse> {
     return {
       status: 202,
-      headers: new HttpHeaders(),
+      headers: createHttpHeaders(),
       request: httpRequest,
-      parsedBody: {
+      bodyAsText: JSON.stringify({
         value: [
           {
             to: this._phoneNumber,
@@ -22,7 +27,7 @@ export class MockHttpClient implements HttpClient {
             successful: true,
           },
         ],
-      },
+      }),
     };
   }
 }

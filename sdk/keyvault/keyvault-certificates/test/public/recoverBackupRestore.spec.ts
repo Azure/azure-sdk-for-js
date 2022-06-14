@@ -72,7 +72,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     try {
       await client.beginRecoverDeletedCertificate(certificateName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "CertificateNotFound");
@@ -129,7 +129,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     try {
       await client.restoreCertificateBackup(backup);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(

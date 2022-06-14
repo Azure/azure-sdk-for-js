@@ -94,7 +94,7 @@ export class LazyLoadingBlobStream extends Readable {
         }
       );
       this.offset += this.lastDownloadBytes;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -142,7 +142,7 @@ export class LazyLoadingBlobStream extends Readable {
       if (count < size) {
         this.push(null);
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

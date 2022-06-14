@@ -79,7 +79,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         let retrievalError: boolean = false;
         try {
           await indexClient.getSynonymMap("garbxyz");
-        } catch (ex) {
+        } catch (ex: any) {
           retrievalError = true;
         }
         assert.isTrue(retrievalError);
@@ -156,7 +156,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         let retrievalError: boolean = false;
         try {
           await indexClient.getIndex("garbxyz");
-        } catch (ex) {
+        } catch (ex: any) {
           retrievalError = true;
         }
         assert.isTrue(retrievalError);

@@ -5,14 +5,14 @@ import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
 import { TokenCredential } from "@azure/core-auth";
 
 import {
-  QueryBatch,
   LogsQueryBatchOptions,
   LogsQueryBatchResult,
   LogsQueryOptions,
+  LogsQueryPartialResult,
   LogsQueryResult,
   LogsQueryResultStatus,
   LogsQuerySuccessfulResult,
-  LogsQueryPartialResult,
+  QueryBatch,
 } from "./models/publicLogsModels";
 
 import {
@@ -26,6 +26,7 @@ import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@a
 import { QueryTimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
 import { SDK_VERSION } from "./constants";
+import { tracingClient } from "./tracing";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
@@ -56,7 +57,7 @@ export class LogsQueryClient {
     // host.
     let scope;
     if (options?.endpoint) {
-      scope = `${options?.endpoint}./default`;
+      scope = `${options?.endpoint}/.default`;
     }
     const credentialOptions = {
       credentialScopes: scope,
@@ -93,61 +94,67 @@ export class LogsQueryClient {
     query: string,
     timespan: QueryTimeInterval,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: LogsQueryOptions
+    options: LogsQueryOptions = {}
   ): Promise<LogsQueryResult> {
     let timeInterval: string = "";
-    if (timespan) {
-      timeInterval = convertTimespanToInterval(timespan);
-    }
-    const { flatResponse, rawResponse } = await getRawResponse(
-      (paramOptions) =>
-        this._logAnalytics.query.execute(
-          workspaceId,
+    return tracingClient.withSpan(
+      "LogsQueryClient.queryWorkspace",
+      options,
+      async (updatedOptions) => {
+        if (timespan) {
+          timeInterval = convertTimespanToInterval(timespan);
+        }
+        const { flatResponse, rawResponse } = await getRawResponse(
+          (paramOptions) =>
+            this._logAnalytics.query.execute(
+              workspaceId,
+              {
+                query,
+                timespan: timeInterval,
+                workspaces: options?.additionalWorkspaces,
+              },
+              paramOptions
+            ),
           {
-            query,
-            timespan: timeInterval,
-            workspaces: options?.additionalWorkspaces,
-          },
-          paramOptions
-        ),
-      {
-        ...options,
-        requestOptions: {
-          customHeaders: {
-            ...formatPreferHeader(options),
-          },
-        },
+            ...updatedOptions,
+            requestOptions: {
+              customHeaders: {
+                ...formatPreferHeader(options),
+              },
+            },
+          }
+        );
+
+        const parsedBody = JSON.parse(rawResponse.bodyAsText!);
+        flatResponse.tables = parsedBody.tables;
+
+        const res = {
+          tables: flatResponse.tables.map(convertGeneratedTable),
+          statistics: flatResponse.statistics,
+          visualization: flatResponse.render,
+        };
+
+        if (!flatResponse.error) {
+          // if there is no error field, it is success
+          const result: LogsQuerySuccessfulResult = {
+            tables: res.tables,
+            statistics: res.statistics,
+            visualization: res.visualization,
+            status: LogsQueryResultStatus.Success,
+          };
+          return result;
+        } else {
+          const result: LogsQueryPartialResult = {
+            partialTables: res.tables,
+            status: LogsQueryResultStatus.PartialFailure,
+            partialError: mapError(flatResponse.error),
+            statistics: res.statistics,
+            visualization: res.visualization,
+          };
+          return result;
+        }
       }
     );
-
-    const parsedBody = JSON.parse(rawResponse.bodyAsText!);
-    flatResponse.tables = parsedBody.tables;
-
-    const res = {
-      tables: flatResponse.tables.map(convertGeneratedTable),
-      statistics: flatResponse.statistics,
-      visualization: flatResponse.render,
-    };
-
-    if (!flatResponse.error) {
-      // if there is no error field, it is success
-      const result: LogsQuerySuccessfulResult = {
-        tables: res.tables,
-        statistics: res.statistics,
-        visualization: res.visualization,
-        status: LogsQueryResultStatus.Success,
-      };
-      return result;
-    } else {
-      const result: LogsQueryPartialResult = {
-        partialTables: res.tables,
-        status: LogsQueryResultStatus.PartialFailure,
-        partialError: mapError(flatResponse.error),
-        statistics: res.statistics,
-        visualization: res.visualization,
-      };
-      return result;
-    }
   }
 
   /**
@@ -158,15 +165,17 @@ export class LogsQueryClient {
    */
   async queryBatch(
     batch: QueryBatch[],
-    options?: LogsQueryBatchOptions
+    options: LogsQueryBatchOptions = {}
   ): Promise<LogsQueryBatchResult> {
-    const generatedRequest = convertRequestForQueryBatch(batch);
-    const { flatResponse, rawResponse } = await getRawResponse(
-      (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
-      options || {}
-    );
-    const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
-    return result;
+    return tracingClient.withSpan("LogsQueryClient.queryBatch", options, async (updatedOptions) => {
+      const generatedRequest = convertRequestForQueryBatch(batch);
+      const { flatResponse, rawResponse } = await getRawResponse(
+        (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
+        updatedOptions || {}
+      );
+      const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
+      return result;
+    });
   }
 }
 

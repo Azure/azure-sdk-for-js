@@ -3028,6 +3028,18 @@ export enum KnownProviderName {
 }
 
 // @public
+export enum KnownProvisioningState {
+    // (undocumented)
+    Canceled = "Canceled",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    InProgress = "InProgress",
+    // (undocumented)
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownRegistryHive {
     HkeyA = "HKEY_A",
     HkeyClassesRoot = "HKEY_CLASSES_ROOT",
@@ -4032,6 +4044,9 @@ export type PropertyConditionProperties = AutomationRuleCondition & {
 
 // @public
 export type ProviderName = string;
+
+// @public
+export type ProvisioningState = string;
 
 // @public
 export interface QueryBasedAlertRuleTemplateProperties {
@@ -5132,9 +5147,11 @@ export type Watchlist = ResourceWithEtag & {
     tenantId?: string;
     numberOfLinesToSkip?: number;
     rawContent?: string;
+    sasUri?: string;
     itemsSearchKey?: string;
     contentType?: string;
     uploadStatus?: string;
+    readonly provisioningState?: ProvisioningState;
 };
 
 // @public
@@ -5147,8 +5164,12 @@ export type WatchlistItem = ResourceWithEtag & {
     updated?: Date;
     createdBy?: UserInfo;
     updatedBy?: UserInfo;
-    itemsKeyValue?: Record<string, unknown>;
-    entityMapping?: Record<string, unknown>;
+    itemsKeyValue?: {
+        [propertyName: string]: any;
+    };
+    entityMapping?: {
+        [propertyName: string]: any;
+    };
 };
 
 // @public

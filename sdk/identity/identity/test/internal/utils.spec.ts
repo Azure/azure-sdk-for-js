@@ -22,7 +22,7 @@ describe("Identity utilities", function () {
         processMultiTenantRequest("adfs", {
           tenantId: "get-token-options-tenant-id",
         });
-      } catch (e) {
+      } catch (e: any) {
         error = e;
       }
       assert.ok(

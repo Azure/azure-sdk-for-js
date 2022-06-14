@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create a new App or update an exiting App.
  *
  * @summary Create a new App or update an exiting App.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-03-01-preview/examples/Apps_CreateOrUpdate.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2022-04-01/examples/Apps_CreateOrUpdate.json
  */
 async function appsCreateOrUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -27,46 +27,13 @@ async function appsCreateOrUpdate() {
   const appName = "myapp";
   const appResource: AppResource = {
     identity: {
-      type: "SystemAssigned,UserAssigned",
+      type: "SystemAssigned",
       principalId: undefined,
-      tenantId: undefined,
-      userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourceGroups/samplegroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1": {
-          clientId: undefined,
-          principalId: undefined
-        },
-        "/subscriptions/00000000000000000000000000000000/resourceGroups/samplegroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/id2": {
-          clientId: undefined,
-          principalId: undefined
-        }
-      }
+      tenantId: undefined
     },
     location: "eastus",
     properties: {
-      addonConfigs: {
-        applicationConfigurationService: {
-          resourceId: {
-            id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/myacs"
-          }
-            
-        },
-        serviceRegistry: {
-          resourceId: {
-            id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/serviceRegistries/myServiceRegistry"
-          }      
-        }
-      },
-      customPersistentDisks: [
-        {
-          customPersistentDiskProperties: {
-            type: "AzureFileVolume",
-            mountOptions: ["uid=0", "gid=0", "dir_mode=0777", "file_mode=0777"],
-            mountPath: "/mypath1/mypath2",
-            shareName: "myFileShare"
-          },
-          storageId: "myASCStorageID"
-        }
-      ],
+      addonConfigs: {},
       enableEndToEndTLS: false,
       fqdn: "myapp.mydomain.com",
       httpsOnly: false,

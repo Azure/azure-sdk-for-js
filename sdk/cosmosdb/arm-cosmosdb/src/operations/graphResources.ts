@@ -205,10 +205,12 @@ export class GraphResourcesImpl implements GraphResources {
       },
       createUpdateGraphOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -293,10 +295,12 @@ export class GraphResourcesImpl implements GraphResources {
       { resourceGroupName, accountName, graphName, options },
       deleteGraphResourceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

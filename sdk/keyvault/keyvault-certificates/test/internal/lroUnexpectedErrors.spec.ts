@@ -82,7 +82,7 @@ describe("The LROs properly throw on unexpected errors", () => {
         let error: Error | null = null;
         try {
           await poller.pollUntilDone();
-        } catch (e) {
+        } catch (e: any) {
           error = e;
         }
 
@@ -176,7 +176,7 @@ describe("The LROs properly throw on unexpected errors", () => {
         let error: Error | null = null;
         try {
           await poller.pollUntilDone();
-        } catch (e) {
+        } catch (e: any) {
           error = e;
         }
 

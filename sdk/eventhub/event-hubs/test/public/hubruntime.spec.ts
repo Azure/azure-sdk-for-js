@@ -139,7 +139,7 @@ testWithServiceTypes((serviceVersion) => {
             const client = clientMap.get(clientType)!;
             await client.getPartitionProperties(undefined as any);
             throw new Error("Test failure");
-          } catch (err) {
+          } catch (err: any) {
             (err as any).name.should.equal("TypeError");
             (err as any).message.should.equal(
               `getPartitionProperties called without required argument "partitionId"`
@@ -172,7 +172,7 @@ testWithServiceTypes((serviceVersion) => {
             const client = clientMap.get(clientType)!;
             await client.getPartitionProperties("boo");
             throw new Error("Test failure");
-          } catch (err) {
+          } catch (err: any) {
             should.exist(err);
             should.equal((err as MessagingError).code, "ArgumentOutOfRangeError");
           }

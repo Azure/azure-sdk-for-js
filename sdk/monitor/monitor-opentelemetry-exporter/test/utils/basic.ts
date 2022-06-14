@@ -65,6 +65,15 @@ export class BasicScenario implements Scenario {
       ctx
     );
     child1.setStatus({ code: SpanStatusCode.OK });
+    child2.recordException({
+      code: "TestExceptionCode",
+      message: "TestExceptionMessage",
+      name: "TestExceptionName",
+      stack: "TestExceptionStack",
+    });
+    let eventAttributes: any = {};
+    eventAttributes["SomeAttribute"] = "Test";
+    child2.addEvent("TestEvent", eventAttributes);
     child1.end(100);
     await delay(0);
     child2.setStatus({ code: SpanStatusCode.OK });
@@ -84,6 +93,7 @@ export class BasicScenario implements Scenario {
   expectation: Expectation[] = [
     {
       ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Request",
       data: {
         baseType: "RequestData",
         baseData: {
@@ -99,6 +109,7 @@ export class BasicScenario implements Scenario {
       },
       children: [
         {
+          name: "Microsoft.ApplicationInsights.RemoteDependency",
           ...COMMON_ENVELOPE_PARAMS,
           data: {
             baseType: "RemoteDependencyData",
@@ -116,6 +127,7 @@ export class BasicScenario implements Scenario {
           children: [],
         },
         {
+          name: "Microsoft.ApplicationInsights.RemoteDependency",
           ...COMMON_ENVELOPE_PARAMS,
           data: {
             baseType: "RemoteDependencyData",
@@ -128,6 +140,40 @@ export class BasicScenario implements Scenario {
               properties: {
                 numbers: "1234",
               },
+            } as any,
+          },
+          children: [],
+        },
+        {
+          name: "Microsoft.ApplicationInsights.Message",
+          ...COMMON_ENVELOPE_PARAMS,
+          data: {
+            baseType: "MessageData",
+            baseData: {
+              version: 2,
+              message: "TestEvent",
+              properties: {
+                SomeAttribute: "Test",
+              },
+            } as any,
+          },
+          children: [],
+        },
+        {
+          name: "Microsoft.ApplicationInsights.Exception",
+          ...COMMON_ENVELOPE_PARAMS,
+          data: {
+            baseType: "ExceptionData",
+            baseData: {
+              version: 2,
+              exceptions: [
+                {
+                  typeName: "TestExceptionCode",
+                  message: "TestExceptionMessage",
+                  stack: "TestExceptionStack",
+                  hasFullStack: true,
+                },
+              ],
             } as any,
           },
           children: [],

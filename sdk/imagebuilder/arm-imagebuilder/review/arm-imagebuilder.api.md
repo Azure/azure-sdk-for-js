@@ -57,15 +57,17 @@ export interface ImageBuilderClientOptionalParams extends coreClient.ServiceClie
 // @public
 export type ImageTemplate = TrackedResource & {
     identity: ImageTemplateIdentity;
-    readonly systemData?: SystemData;
     source?: ImageTemplateSourceUnion;
     customize?: ImageTemplateCustomizerUnion[];
+    validate?: ImageTemplatePropertiesValidate;
     distribute?: ImageTemplateDistributorUnion[];
     readonly provisioningState?: ProvisioningState;
     readonly provisioningError?: ProvisioningError;
     readonly lastRunStatus?: ImageTemplateLastRunStatus;
     buildTimeoutInMinutes?: number;
     vmProfile?: ImageTemplateVmProfile;
+    stagingResourceGroup?: string;
+    readonly exactStagingResourceGroup?: string;
 };
 
 // @public
@@ -104,6 +106,15 @@ export interface ImageTemplateIdentity {
         [propertyName: string]: ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassignedidentitiesAdditionalproperties;
     };
 }
+
+// @public
+export interface ImageTemplateInVMValidator {
+    name?: string;
+    type: "Shell" | "PowerShell";
+}
+
+// @public (undocumented)
+export type ImageTemplateInVMValidatorUnion = ImageTemplateInVMValidator | ImageTemplateShellValidator | ImageTemplatePowerShellValidator;
 
 // @public
 export interface ImageTemplateLastRunStatus {
@@ -156,6 +167,24 @@ export type ImageTemplatePowerShellCustomizer = ImageTemplateCustomizer & {
 };
 
 // @public
+export type ImageTemplatePowerShellValidator = ImageTemplateInVMValidator & {
+    type: "PowerShell";
+    scriptUri?: string;
+    sha256Checksum?: string;
+    inline?: string[];
+    runElevated?: boolean;
+    runAsSystem?: boolean;
+    validExitCodes?: number[];
+};
+
+// @public
+export interface ImageTemplatePropertiesValidate {
+    continueDistributeOnFailure?: boolean;
+    inVMValidations?: ImageTemplateInVMValidatorUnion[];
+    sourceValidationOnly?: boolean;
+}
+
+// @public
 export type ImageTemplateRestartCustomizer = ImageTemplateCustomizer & {
     type: "WindowsRestart";
     restartCommand?: string;
@@ -180,6 +209,14 @@ export type ImageTemplateSharedImageVersionSource = ImageTemplateSource & {
 
 // @public
 export type ImageTemplateShellCustomizer = ImageTemplateCustomizer & {
+    type: "Shell";
+    scriptUri?: string;
+    sha256Checksum?: string;
+    inline?: string[];
+};
+
+// @public
+export type ImageTemplateShellValidator = ImageTemplateInVMValidator & {
     type: "Shell";
     scriptUri?: string;
     sha256Checksum?: string;
@@ -252,13 +289,21 @@ export enum KnownProvisioningErrorCode {
     // (undocumented)
     BadSourceType = "BadSourceType",
     // (undocumented)
+    BadStagingResourceGroup = "BadStagingResourceGroup",
+    // (undocumented)
+    BadValidatorType = "BadValidatorType",
+    // (undocumented)
     NoCustomizerScript = "NoCustomizerScript",
+    // (undocumented)
+    NoValidatorScript = "NoValidatorScript",
     // (undocumented)
     Other = "Other",
     // (undocumented)
     ServerError = "ServerError",
     // (undocumented)
-    UnsupportedCustomizerType = "UnsupportedCustomizerType"
+    UnsupportedCustomizerType = "UnsupportedCustomizerType",
+    // (undocumented)
+    UnsupportedValidatorType = "UnsupportedValidatorType"
 }
 
 // @public
@@ -331,9 +376,13 @@ export type ProvisioningErrorCode = string;
 export type ProvisioningState = "Creating" | "Updating" | "Succeeded" | "Failed" | "Deleting";
 
 // @public
+export type ProxyResource = Resource;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -341,7 +390,7 @@ export interface Resource {
 export type ResourceIdentityType = "UserAssigned" | "None";
 
 // @public
-export type RunOutput = SubResource & {
+export type RunOutput = ProxyResource & {
     artifactId?: string;
     artifactUri?: string;
     readonly provisioningState?: ProvisioningState;
@@ -357,17 +406,10 @@ export interface RunOutputCollection {
 export type RunState = "Running" | "Canceling" | "Succeeded" | "PartiallySucceeded" | "Failed" | "Canceled";
 
 // @public
-export type RunSubState = "Queued" | "Building" | "Customizing" | "Distributing";
+export type RunSubState = "Queued" | "Building" | "Customizing" | "Validating" | "Distributing";
 
 // @public
 export type SharedImageStorageAccountType = string;
-
-// @public
-export interface SubResource {
-    readonly id?: string;
-    name: string;
-    readonly type?: string;
-}
 
 // @public
 export interface SystemData {

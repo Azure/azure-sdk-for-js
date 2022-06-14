@@ -35,6 +35,8 @@ function assertIsValidSchemaProperties(
 ): asserts schemaProperties {
   assert.isNotEmpty(schemaProperties.id);
   assert.equal(schemaProperties.format, expectedSerializationType);
+  assert.isNotEmpty(schemaProperties.groupName);
+  assert.isNotEmpty(schemaProperties.name);
 }
 
 function assertIsValidSchema(schema: Schema, expectedSerializationType = "Avro"): asserts schema {
@@ -52,7 +54,7 @@ async function isRejected<T>(
 ): Promise<void> {
   try {
     await promise;
-  } catch (e) {
+  } catch (e: any) {
     const { messagePattern, errorCode, statusCode } = expectations;
     if (messagePattern !== undefined) {
       assert.match(e.message, messagePattern);

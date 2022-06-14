@@ -292,7 +292,7 @@ describe("QueueClient message methods", () => {
         messageTimeToLive: 30,
         visibilityTimeout: 30,
       });
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error);
@@ -300,7 +300,7 @@ describe("QueueClient message methods", () => {
     let errorPeek;
     try {
       await queueClient.peekMessages({ numberOfMessages: 100 });
-    } catch (err) {
+    } catch (err: any) {
       errorPeek = err;
     }
     assert.ok(errorPeek);
@@ -329,7 +329,7 @@ describe("QueueClient message methods", () => {
     let error;
     try {
       await queueClient.sendMessage(newMessageContent, {});
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error);
@@ -370,7 +370,7 @@ describe("QueueClient message methods", () => {
     try {
       new QueueClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for queueName parameter",
         error.message,

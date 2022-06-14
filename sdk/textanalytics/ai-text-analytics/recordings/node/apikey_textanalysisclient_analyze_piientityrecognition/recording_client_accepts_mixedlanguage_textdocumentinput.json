@@ -1,0 +1,129 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "694",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "ae3536fa-57b6-4d4f-beae-ad0254da870a"
+      },
+      "RequestBody": {
+        "kind": "PiiEntityRecognition",
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+              "language": "en"
+            },
+            {
+              "id": "3",
+              "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+              "language": "en"
+            },
+            {
+              "id": "4",
+              "text": "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
+              "language": "es"
+            },
+            {
+              "id": "5",
+              "text": "La carretera estaba atascada. Hab\u00EDa mucho tr\u00E1fico el d\u00EDa de ayer.",
+              "language": "es"
+            }
+          ]
+        },
+        "parameters": {}
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "9b405bf6-1e5e-4fca-ab28-0471c670d40c",
+        "Content-Length": "1142",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5,CognitiveServices.TextAnalytics.TextRecords=5",
+        "Date": "Fri, 06 May 2022 20:17:32 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "45"
+      },
+      "ResponseBody": {
+        "kind": "PiiEntityRecognitionResults",
+        "results": {
+          "documents": [
+            {
+              "redactedText": "I had a wonderful trip to Seattle ********* and even visited the Space Needle 2 times!",
+              "id": "1",
+              "entities": [
+                {
+                  "text": "last week",
+                  "category": "DateTime",
+                  "subcategory": "DateRange",
+                  "offset": 34,
+                  "length": 9,
+                  "confidenceScore": 0.8
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "redactedText": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+              "id": "2",
+              "entities": [],
+              "warnings": []
+            },
+            {
+              "redactedText": "I went to see a movie on ******** and it was perfectly average, nothing more or less than I expected.",
+              "id": "3",
+              "entities": [
+                {
+                  "text": "Saturday",
+                  "category": "DateTime",
+                  "subcategory": "Date",
+                  "offset": 25,
+                  "length": 8,
+                  "confidenceScore": 0.8
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "redactedText": "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
+              "id": "4",
+              "entities": [],
+              "warnings": []
+            },
+            {
+              "redactedText": "La carretera estaba atascada. Hab\u00EDa mucho tr\u00E1fico el d\u00EDa de ****.",
+              "id": "5",
+              "entities": [
+                {
+                  "text": "ayer",
+                  "category": "DateTime",
+                  "subcategory": "Date",
+                  "offset": 60,
+                  "length": 4,
+                  "confidenceScore": 0.8
+                }
+              ],
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2021-01-15"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

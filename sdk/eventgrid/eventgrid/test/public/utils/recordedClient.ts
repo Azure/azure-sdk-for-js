@@ -11,6 +11,8 @@ import {
 
 import { EventGridPublisherClient, InputSchema } from "../../../src";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { AdditionalPolicyConfig } from "@azure/core-client";
+import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
 
 export interface RecordedClient<T extends InputSchema> {
   client: EventGridPublisherClient<T>;
@@ -26,6 +28,16 @@ const envSetupForPlayback: { [k: string]: string } = {
   EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT: "https://endpoint/api/events",
 };
 
+/**
+ * In some tests the endpoints appear without the /api/events suffix
+ * so make sure to sanitize them in this case as well (it doesn't get
+ * covered automatically by envSetupForPlayback).
+ */
+const suffixlessEndpointSanitizer = (endpointEnv: string): FindReplaceSanitizer => ({
+  target: removeApiEventsSuffix(assertEnvironmentVariable(endpointEnv)),
+  value: "https://endpoint",
+});
+
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
 };
@@ -35,18 +47,31 @@ export async function createRecordedClient<T extends InputSchema>(
   endpointEnv: string,
   eventSchema: T,
   apiKeyEnv: string,
-  removeApiEventsSuffixBool: boolean = false
+  options: {
+    removeApiEventsSuffixBool?: boolean;
+    additionalPolicies?: AdditionalPolicyConfig[];
+  } = {}
 ): Promise<RecordedClient<T>> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderOptions);
+  await recorder.addSanitizers({
+    generalSanitizers: [
+      suffixlessEndpointSanitizer("EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT"),
+      suffixlessEndpointSanitizer("EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT"),
+      suffixlessEndpointSanitizer("EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT"),
+    ],
+  });
+
   return {
     client: new EventGridPublisherClient(
-      removeApiEventsSuffixBool
+      options.removeApiEventsSuffixBool
         ? removeApiEventsSuffix(assertEnvironmentVariable(endpointEnv))
         : assertEnvironmentVariable(endpointEnv),
       eventSchema,
       new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({
+        additionalPolicies: options.additionalPolicies,
+      })
     ),
     recorder,
   };

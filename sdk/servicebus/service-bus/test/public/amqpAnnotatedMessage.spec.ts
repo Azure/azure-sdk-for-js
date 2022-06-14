@@ -3,6 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
+import chaiExclude from "chai-exclude";
 import { testPeekMsgsLength, addServiceBusClientForLiveTesting } from "../public/utils/testutils2";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { v4 as generateUuid } from "uuid";
@@ -10,6 +11,7 @@ import { TestClientType } from "./utils/testUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
+chai.use(chaiExclude);
 const assert = chai.assert;
 
 [
@@ -71,31 +73,41 @@ const assert = chai.assert;
         should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
         should.equal(msgs.length, 1, "Unexpected number of messages");
         should.equal(msgs[0].body, testMessage.body, "Unexpected body on the received message");
+        const rawAmqpMessage = msgs[0]._rawAmqpMessage;
         should.equal(
-          msgs[0]._rawAmqpMessage.messageAnnotations!["propMsgAnnotate"],
+          rawAmqpMessage.messageAnnotations!["propMsgAnnotate"],
           testMessage.messageAnnotations!["propMsgAnnotate"],
           "Unexpected messageAnnotations on the received message"
         );
-        assert.deepEqualExcluding(
-          msgs[0]._rawAmqpMessage,
-          testMessage,
-          ["deliveryAnnotations", "body", "messageAnnotations", "header", "properties"],
-          "Unexpected on the AmqpAnnotatedMessage"
+        should.equal(
+          rawAmqpMessage.bodyType,
+          testMessage.bodyType,
+          "Unexpected bodyType on the AmqpAnnotatedMessage"
+        );
+        assert.deepEqual(
+          rawAmqpMessage.applicationProperties,
+          testMessage.applicationProperties,
+          "Unexpected applicationProperties on the AmqpAnnotatedMessage"
+        );
+        assert.deepEqual(
+          rawAmqpMessage.footer,
+          testMessage.footer,
+          "Unexpected footer on the AmqpAnnotatedMessage"
         );
         assert.deepEqualExcluding(
-          msgs[0]._rawAmqpMessage.header!,
+          rawAmqpMessage.header!,
           testMessage.header!,
           ["deliveryCount"],
           "Unexpected header on the AmqpAnnotatedMessage"
         );
         assert.deepEqualExcluding(
-          msgs[0]._rawAmqpMessage.properties!,
+          rawAmqpMessage.properties!,
           testMessage.properties!,
           ["creationTime", "absoluteExpiryTime", "groupId"],
           "Unexpected properties on the AmqpAnnotatedMessage"
         );
         assert.equal(
-          msgs[0]._rawAmqpMessage.properties!.groupId,
+          rawAmqpMessage.properties!.groupId,
           testMessage.properties!.groupId,
           "Unexpected session-id on the AmqpAnnotatedMessage"
         );

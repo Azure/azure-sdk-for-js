@@ -11,7 +11,15 @@ export {
   ExtendedServiceClientOptions,
   ExtendedCommonClientOptions,
   ExtendedClientOptions,
+  CompatResponse,
 } from "./extendedClient";
 export { KeepAliveOptions } from "./policies/keepAliveOptions";
 export { RedirectOptions } from "./policies/redirectOptions";
 export { disbaleKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy";
+export {
+  WebResourceLike,
+  HttpHeadersLike,
+  RawHttpHeaders,
+  HttpHeader,
+  TransferProgressEvent,
+} from "./util";

@@ -70,8 +70,8 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 Use the below code snippet to create a `CheckpointStore`. You will need to provide the connection string to your storage account.
 
 ```javascript
-import { ContainerClient } from "@azure/storage-blob",
-import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob"
+const { ContainerClient } = require("@azure/storage-blob");
+const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
 
 const containerClient = new ContainerClient("storage-connection-string", "container-name");
 

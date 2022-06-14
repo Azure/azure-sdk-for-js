@@ -73,12 +73,14 @@ function createMockedTestRegistry(): SchemaRegistry {
         properties: {
           id: newId(),
           format: schema.format,
-        },
+          groupName: schema.groupName,
+          name: schema.name,
+        } as any,
       };
       mapByContent.set(result.definition, result);
       mapById.set(result.properties.id, result);
     }
-    return result!.properties;
+    return result.properties;
 
     function newId(): string {
       if (idCounter >= testSchemaIds.length) {
@@ -104,7 +106,7 @@ function createMockedTestRegistry(): SchemaRegistry {
   async function getSchema(id: string, _options?: GetSchemaOptions): Promise<Schema> {
     const storedSchema = mapById.get(id);
     if (!storedSchema) {
-      throw new Error(`Schema does not exist: ${JSON.stringify(id)}`);
+      throw new Error(`Schema id ${id} does not exist`);
     }
     return storedSchema;
   }

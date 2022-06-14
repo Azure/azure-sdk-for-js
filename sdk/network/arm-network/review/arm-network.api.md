@@ -43,10 +43,13 @@ export type ApplicationGateway = Resource & {
     probes?: ApplicationGatewayProbe[];
     backendAddressPools?: ApplicationGatewayBackendAddressPool[];
     backendHttpSettingsCollection?: ApplicationGatewayBackendHttpSettings[];
+    backendSettingsCollection?: ApplicationGatewayBackendSettings[];
     httpListeners?: ApplicationGatewayHttpListener[];
+    listeners?: ApplicationGatewayListener[];
     sslProfiles?: ApplicationGatewaySslProfile[];
     urlPathMaps?: ApplicationGatewayUrlPathMap[];
     requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
+    routingRules?: ApplicationGatewayRoutingRule[];
     rewriteRuleSets?: ApplicationGatewayRewriteRuleSet[];
     redirectConfigurations?: ApplicationGatewayRedirectConfiguration[];
     webApplicationFirewallConfiguration?: ApplicationGatewayWebApplicationFirewallConfiguration;
@@ -170,6 +173,21 @@ export type ApplicationGatewayBackendHttpSettings = SubResource & {
 };
 
 // @public
+export type ApplicationGatewayBackendSettings = SubResource & {
+    name?: string;
+    readonly etag?: string;
+    readonly type?: string;
+    port?: number;
+    protocol?: ApplicationGatewayProtocol;
+    timeout?: number;
+    probe?: SubResource;
+    trustedRootCertificates?: SubResource[];
+    hostName?: string;
+    pickHostNameFromBackendAddress?: boolean;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
 export interface ApplicationGatewayClientAuthConfiguration {
     verifyClientCertIssuerDN?: boolean;
 }
@@ -287,6 +305,19 @@ export type ApplicationGatewayIPConfiguration = SubResource & {
     readonly etag?: string;
     readonly type?: string;
     subnet?: SubResource;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export type ApplicationGatewayListener = SubResource & {
+    name?: string;
+    readonly etag?: string;
+    readonly type?: string;
+    frontendIPConfiguration?: SubResource;
+    frontendPort?: SubResource;
+    protocol?: ApplicationGatewayProtocol;
+    sslCertificate?: SubResource;
+    sslProfile?: SubResource;
     readonly provisioningState?: ProvisioningState;
 };
 
@@ -479,6 +510,7 @@ export type ApplicationGatewayProbe = SubResource & {
     timeout?: number;
     unhealthyThreshold?: number;
     pickHostNameFromBackendHttpSettings?: boolean;
+    pickHostNameFromBackendSettings?: boolean;
     minServers?: number;
     match?: ApplicationGatewayProbeHealthResponseMatch;
     readonly provisioningState?: ProvisioningState;
@@ -560,6 +592,18 @@ export type ApplicationGatewayRewriteRuleSet = SubResource & {
     name?: string;
     readonly etag?: string;
     rewriteRules?: ApplicationGatewayRewriteRule[];
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export type ApplicationGatewayRoutingRule = SubResource & {
+    name?: string;
+    readonly etag?: string;
+    readonly type?: string;
+    ruleType?: ApplicationGatewayRequestRoutingRuleType;
+    backendAddressPool?: SubResource;
+    backendSettings?: SubResource;
+    listener?: SubResource;
     readonly provisioningState?: ProvisioningState;
 };
 
@@ -1532,6 +1576,7 @@ export type BackendAddressPool = SubResource & {
     readonly outboundRules?: SubResource[];
     readonly inboundNatRules?: SubResource[];
     readonly provisioningState?: ProvisioningState;
+    drainPeriodInSeconds?: number;
 };
 
 // @public
@@ -1821,6 +1866,52 @@ export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserass
     readonly clientId?: string;
     readonly principalId?: string;
 }
+
+// @public
+export interface ConfigurationPolicyGroups {
+    beginCreateOrUpdate(resourceGroupName: string, vpnServerConfigurationName: string, configurationPolicyGroupName: string, vpnServerConfigurationPolicyGroupParameters: VpnServerConfigurationPolicyGroup, options?: ConfigurationPolicyGroupsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ConfigurationPolicyGroupsCreateOrUpdateResponse>, ConfigurationPolicyGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, vpnServerConfigurationName: string, configurationPolicyGroupName: string, vpnServerConfigurationPolicyGroupParameters: VpnServerConfigurationPolicyGroup, options?: ConfigurationPolicyGroupsCreateOrUpdateOptionalParams): Promise<ConfigurationPolicyGroupsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, vpnServerConfigurationName: string, configurationPolicyGroupName: string, options?: ConfigurationPolicyGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, vpnServerConfigurationName: string, configurationPolicyGroupName: string, options?: ConfigurationPolicyGroupsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, vpnServerConfigurationName: string, configurationPolicyGroupName: string, options?: ConfigurationPolicyGroupsGetOptionalParams): Promise<ConfigurationPolicyGroupsGetResponse>;
+    listByVpnServerConfiguration(resourceGroupName: string, vpnServerConfigurationName: string, options?: ConfigurationPolicyGroupsListByVpnServerConfigurationOptionalParams): PagedAsyncIterableIterator<VpnServerConfigurationPolicyGroup>;
+}
+
+// @public
+export interface ConfigurationPolicyGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConfigurationPolicyGroupsCreateOrUpdateResponse = VpnServerConfigurationPolicyGroup;
+
+// @public
+export interface ConfigurationPolicyGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConfigurationPolicyGroupsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationPolicyGroupsGetResponse = VpnServerConfigurationPolicyGroup;
+
+// @public
+export interface ConfigurationPolicyGroupsListByVpnServerConfigurationNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationPolicyGroupsListByVpnServerConfigurationNextResponse = ListVpnServerConfigurationPolicyGroupsResult;
+
+// @public
+export interface ConfigurationPolicyGroupsListByVpnServerConfigurationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationPolicyGroupsListByVpnServerConfigurationResponse = ListVpnServerConfigurationPolicyGroupsResult;
 
 // @public
 export interface ConnectionMonitor {
@@ -2738,15 +2829,6 @@ export interface EndpointServicesListResult {
 export type EndpointType = string;
 
 // @public
-export type Enum69 = number;
-
-// @public
-export type Enum70 = number;
-
-// @public
-export type Enum71 = number;
-
-// @public
 export interface ErrorDetails {
     code?: string;
     message?: string;
@@ -2823,6 +2905,7 @@ export type ExpressRouteCircuit = Resource & {
     readonly provisioningState?: ProvisioningState;
     gatewayManagerEtag?: string;
     globalReachEnabled?: boolean;
+    authorizationKey?: string;
 };
 
 // @public
@@ -3515,7 +3598,7 @@ export type ExpressRouteCrossConnectionsUpdateTagsResponse = ExpressRouteCrossCo
 export type ExpressRouteGateway = Resource & {
     readonly etag?: string;
     autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfiguration;
-    readonly expressRouteConnections?: ExpressRouteConnection[];
+    expressRouteConnections?: ExpressRouteConnection[];
     readonly provisioningState?: ProvisioningState;
     virtualHub?: VirtualHubId;
 };
@@ -3683,6 +3766,72 @@ export type ExpressRoutePort = Resource & {
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
 };
+
+// @public
+export type ExpressRoutePortAuthorization = SubResource & {
+    name?: string;
+    readonly etag?: string;
+    readonly type?: string;
+    readonly authorizationKey?: string;
+    readonly authorizationUseStatus?: ExpressRoutePortAuthorizationUseStatus;
+    readonly circuitResourceUri?: string;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface ExpressRoutePortAuthorizationListResult {
+    nextLink?: string;
+    value?: ExpressRoutePortAuthorization[];
+}
+
+// @public
+export interface ExpressRoutePortAuthorizations {
+    beginCreateOrUpdate(resourceGroupName: string, expressRoutePortName: string, authorizationName: string, authorizationParameters: ExpressRoutePortAuthorization, options?: ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ExpressRoutePortAuthorizationsCreateOrUpdateResponse>, ExpressRoutePortAuthorizationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, expressRoutePortName: string, authorizationName: string, authorizationParameters: ExpressRoutePortAuthorization, options?: ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams): Promise<ExpressRoutePortAuthorizationsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, expressRoutePortName: string, authorizationName: string, options?: ExpressRoutePortAuthorizationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, expressRoutePortName: string, authorizationName: string, options?: ExpressRoutePortAuthorizationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, expressRoutePortName: string, authorizationName: string, options?: ExpressRoutePortAuthorizationsGetOptionalParams): Promise<ExpressRoutePortAuthorizationsGetResponse>;
+    list(resourceGroupName: string, expressRoutePortName: string, options?: ExpressRoutePortAuthorizationsListOptionalParams): PagedAsyncIterableIterator<ExpressRoutePortAuthorization>;
+}
+
+// @public
+export interface ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExpressRoutePortAuthorizationsCreateOrUpdateResponse = ExpressRoutePortAuthorization;
+
+// @public
+export interface ExpressRoutePortAuthorizationsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExpressRoutePortAuthorizationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExpressRoutePortAuthorizationsGetResponse = ExpressRoutePortAuthorization;
+
+// @public
+export interface ExpressRoutePortAuthorizationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExpressRoutePortAuthorizationsListNextResponse = ExpressRoutePortAuthorizationListResult;
+
+// @public
+export interface ExpressRoutePortAuthorizationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExpressRoutePortAuthorizationsListResponse = ExpressRoutePortAuthorizationListResult;
+
+// @public
+export type ExpressRoutePortAuthorizationUseStatus = string;
 
 // @public
 export interface ExpressRoutePortListResult {
@@ -3879,6 +4028,7 @@ export interface FirewallPolicies {
     get(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesGetOptionalParams): Promise<FirewallPoliciesGetResponse>;
     list(resourceGroupName: string, options?: FirewallPoliciesListOptionalParams): PagedAsyncIterableIterator<FirewallPolicy>;
     listAll(options?: FirewallPoliciesListAllOptionalParams): PagedAsyncIterableIterator<FirewallPolicy>;
+    updateTags(resourceGroupName: string, firewallPolicyName: string, parameters: TagsObject, options?: FirewallPoliciesUpdateTagsOptionalParams): Promise<FirewallPoliciesUpdateTagsResponse>;
 }
 
 // @public
@@ -3933,6 +4083,13 @@ export interface FirewallPoliciesListOptionalParams extends coreClient.Operation
 export type FirewallPoliciesListResponse = FirewallPolicyListResult;
 
 // @public
+export interface FirewallPoliciesUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPoliciesUpdateTagsResponse = FirewallPolicy;
+
+// @public
 export type FirewallPolicy = Resource & {
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
@@ -3975,9 +4132,21 @@ export interface FirewallPolicyFilterRuleCollectionAction {
 export type FirewallPolicyFilterRuleCollectionActionType = string;
 
 // @public
+export type FirewallPolicyIdpsQuerySortOrder = string;
+
+// @public
+export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
+
+// @public
+export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
+
+// @public
 export interface FirewallPolicyIdpsSignatures {
     list(resourceGroupName: string, firewallPolicyName: string, parameters: IdpsQueryObject, options?: FirewallPolicyIdpsSignaturesListOptionalParams): Promise<FirewallPolicyIdpsSignaturesListResponse>;
 }
+
+// @public
+export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 
 // @public
 export interface FirewallPolicyIdpsSignaturesFilterValues {
@@ -4062,6 +4231,7 @@ export interface FirewallPolicyIntrusionDetectionBypassTrafficSpecifications {
 // @public
 export interface FirewallPolicyIntrusionDetectionConfiguration {
     bypassTrafficSettings?: FirewallPolicyIntrusionDetectionBypassTrafficSpecifications[];
+    privateRanges?: string[];
     signatureOverrides?: FirewallPolicyIntrusionDetectionSignatureSpecification[];
 }
 
@@ -4357,6 +4527,12 @@ export type FrontendIPConfiguration = SubResource & {
 };
 
 // @public
+export interface GatewayCustomBgpIpAddressIpConfiguration {
+    customBgpIpAddress: string;
+    ipConfigurationId: string;
+}
+
+// @public
 export interface GatewayLoadBalancerTunnelInterface {
     identifier?: number;
     port?: number;
@@ -4567,6 +4743,9 @@ export interface HubRouteTablesListOptionalParams extends coreClient.OperationOp
 
 // @public
 export type HubRouteTablesListResponse = ListHubRouteTablesResult;
+
+// @public
+export type HubRoutingPreference = string;
 
 // @public
 export type HubVirtualNetworkConnection = SubResource & {
@@ -5112,7 +5291,11 @@ export enum KnownApplicationGatewayProtocol {
     // (undocumented)
     Http = "Http",
     // (undocumented)
-    Https = "Https"
+    Https = "Https",
+    // (undocumented)
+    Tcp = "Tcp",
+    // (undocumented)
+    Tls = "Tls"
 }
 
 // @public
@@ -5598,36 +5781,6 @@ export enum KnownEndpointType {
 }
 
 // @public
-export enum KnownEnum69 {
-    // (undocumented)
-    One = 1,
-    // (undocumented)
-    Two = 2,
-    // (undocumented)
-    Zero = 0
-}
-
-// @public
-export enum KnownEnum70 {
-    // (undocumented)
-    One = 1,
-    // (undocumented)
-    Three = 3,
-    // (undocumented)
-    Two = 2
-}
-
-// @public
-export enum KnownEnum71 {
-    // (undocumented)
-    One = 1,
-    // (undocumented)
-    Two = 2,
-    // (undocumented)
-    Zero = 0
-}
-
-// @public
 export enum KnownEvaluationState {
     // (undocumented)
     Completed = "Completed",
@@ -5732,6 +5885,14 @@ export enum KnownExpressRoutePeeringType {
 }
 
 // @public
+export enum KnownExpressRoutePortAuthorizationUseStatus {
+    // (undocumented)
+    Available = "Available",
+    // (undocumented)
+    InUse = "InUse"
+}
+
+// @public
 export enum KnownExpressRoutePortsEncapsulation {
     // (undocumented)
     Dot1Q = "Dot1Q",
@@ -5751,6 +5912,14 @@ export enum KnownFirewallPolicyFilterRuleCollectionActionType {
     Allow = "Allow",
     // (undocumented)
     Deny = "Deny"
+}
+
+// @public
+export enum KnownFirewallPolicyIdpsQuerySortOrder {
+    // (undocumented)
+    Ascending = "Ascending",
+    // (undocumented)
+    Descending = "Descending"
 }
 
 // @public
@@ -5879,6 +6048,16 @@ export enum KnownHubBgpConnectionStatus {
     NotConnected = "NotConnected",
     // (undocumented)
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownHubRoutingPreference {
+    // (undocumented)
+    ASPath = "ASPath",
+    // (undocumented)
+    ExpressRoute = "ExpressRoute",
+    // (undocumented)
+    VpnGateway = "VpnGateway"
 }
 
 // @public
@@ -6028,6 +6207,18 @@ export enum KnownIssueType {
 }
 
 // @public
+export enum KnownLoadBalancerBackendAddressAdminState {
+    // (undocumented)
+    Down = "Down",
+    // (undocumented)
+    Drain = "Drain",
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    Up = "Up"
+}
+
+// @public
 export enum KnownLoadBalancerOutboundRuleProtocol {
     // (undocumented)
     All = "All",
@@ -6075,6 +6266,16 @@ export enum KnownManagedRuleEnabledState {
 export enum KnownNatGatewaySkuName {
     // (undocumented)
     Standard = "Standard"
+}
+
+// @public
+export enum KnownNetworkInterfaceAuxiliaryMode {
+    // (undocumented)
+    Floating = "Floating",
+    // (undocumented)
+    MaxConnections = "MaxConnections",
+    // (undocumented)
+    None = "None"
 }
 
 // @public
@@ -6135,14 +6336,6 @@ export enum KnownOfficeTrafficCategory {
     Optimize = "Optimize",
     // (undocumented)
     OptimizeAndAllow = "OptimizeAndAllow"
-}
-
-// @public
-export enum KnownOrderByOrder {
-    // (undocumented)
-    Ascending = "Ascending",
-    // (undocumented)
-    Descending = "Descending"
 }
 
 // @public
@@ -6792,6 +6985,16 @@ export enum KnownVpnNatRuleType {
 }
 
 // @public
+export enum KnownVpnPolicyMemberAttributeType {
+    // (undocumented)
+    AADGroupId = "AADGroupId",
+    // (undocumented)
+    CertificateGroupId = "CertificateGroupId",
+    // (undocumented)
+    RadiusAzureGroupId = "RadiusAzureGroupId"
+}
+
+// @public
 export enum KnownVpnType {
     // (undocumented)
     PolicyBased = "PolicyBased",
@@ -6990,6 +7193,12 @@ export interface ListVpnGatewaysResult {
 }
 
 // @public
+export interface ListVpnServerConfigurationPolicyGroupsResult {
+    nextLink?: string;
+    value?: VpnServerConfigurationPolicyGroup[];
+}
+
+// @public
 export interface ListVpnServerConfigurationsResult {
     nextLink?: string;
     value?: VpnServerConfiguration[];
@@ -7031,6 +7240,7 @@ export type LoadBalancer = Resource & {
 
 // @public
 export interface LoadBalancerBackendAddress {
+    adminState?: LoadBalancerBackendAddressAdminState;
     readonly inboundNatRulesPortMapping?: NatRulePortMapping[];
     ipAddress?: string;
     loadBalancerFrontendIPConfiguration?: SubResource;
@@ -7039,6 +7249,9 @@ export interface LoadBalancerBackendAddress {
     subnet?: SubResource;
     virtualNetwork?: SubResource;
 }
+
+// @public
+export type LoadBalancerBackendAddressAdminState = string;
 
 // @public
 export interface LoadBalancerBackendAddressPoolListResult {
@@ -7766,6 +7979,7 @@ export type NetworkInterface = Resource & {
     nicType?: NetworkInterfaceNicType;
     privateLinkService?: PrivateLinkService;
     migrationPhase?: NetworkInterfaceMigrationPhase;
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
 };
 
 // @public
@@ -7773,6 +7987,9 @@ export interface NetworkInterfaceAssociation {
     readonly id?: string;
     securityRules?: SecurityRule[];
 }
+
+// @public
+export type NetworkInterfaceAuxiliaryMode = string;
 
 // @public
 export interface NetworkInterfaceDnsSettings {
@@ -8144,6 +8361,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NetworkManagementClientOptionalParams);
     // (undocumented)
+    apiVersion: string;
+    // (undocumented)
     applicationGatewayPrivateEndpointConnections: ApplicationGatewayPrivateEndpointConnections;
     // (undocumented)
     applicationGatewayPrivateLinkResources: ApplicationGatewayPrivateLinkResources;
@@ -8177,6 +8396,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     bgpServiceCommunities: BgpServiceCommunities;
     checkDnsNameAvailability(location: string, domainNameLabel: string, options?: CheckDnsNameAvailabilityOptionalParams): Promise<CheckDnsNameAvailabilityResponse>;
     // (undocumented)
+    configurationPolicyGroups: ConfigurationPolicyGroups;
+    // (undocumented)
     connectionMonitors: ConnectionMonitors;
     // (undocumented)
     customIPPrefixes: CustomIPPrefixes;
@@ -8206,6 +8427,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     expressRouteGateways: ExpressRouteGateways;
     // (undocumented)
     expressRouteLinks: ExpressRouteLinks;
+    // (undocumented)
+    expressRoutePortAuthorizations: ExpressRoutePortAuthorizations;
     // (undocumented)
     expressRoutePorts: ExpressRoutePorts;
     // (undocumented)
@@ -8384,6 +8607,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
 // @public
 export interface NetworkManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -8988,11 +9212,8 @@ export type OperationsListResponse = OperationListResult;
 // @public
 export interface OrderBy {
     field?: string;
-    order?: OrderByOrder;
+    order?: FirewallPolicyIdpsQuerySortOrder;
 }
-
-// @public
-export type OrderByOrder = string;
 
 // @public
 export type Origin = string;
@@ -9035,6 +9256,8 @@ export type P2SConnectionConfiguration = SubResource & {
     vpnClientAddressPool?: AddressSpace;
     routingConfiguration?: RoutingConfiguration;
     enableInternetSecurity?: boolean;
+    readonly configurationPolicyGroupAssociations?: SubResource[];
+    readonly previousConfigurationPolicyGroupAssociations?: VpnServerConfigurationPolicyGroup[];
     readonly provisioningState?: ProvisioningState;
 };
 
@@ -11200,13 +11423,13 @@ export interface SignaturesOverridesProperties {
 export interface SingleQueryResult {
     description?: string;
     destinationPorts?: string[];
-    direction?: Enum71;
+    direction?: FirewallPolicyIdpsSignatureDirection;
     group?: string;
     inheritedFromParentPolicy?: boolean;
     lastUpdated?: string;
-    mode?: Enum69;
+    mode?: FirewallPolicyIdpsSignatureMode;
     protocol?: string;
-    severity?: Enum70;
+    severity?: FirewallPolicyIdpsSignatureSeverity;
     signatureId?: number;
     sourcePorts?: string[];
 }
@@ -11632,6 +11855,7 @@ export type VirtualHub = Resource & {
     virtualRouterIps?: string[];
     allowBranchToBranchTraffic?: boolean;
     preferredRoutingGateway?: PreferredRoutingGateway;
+    hubRoutingPreference?: HubRoutingPreference;
 };
 
 // @public
@@ -12009,6 +12233,7 @@ export type VirtualNetworkGatewayConnection = Resource & {
     readonly ingressBytesTransferred?: number;
     peer?: SubResource;
     enableBgp?: boolean;
+    gatewayCustomBgpIpAddresses?: GatewayCustomBgpIpAddressIpConfiguration[];
     useLocalAzureIpAddress?: boolean;
     usePolicyBasedTrafficSelectors?: boolean;
     ipsecPolicies?: IpsecPolicy[];
@@ -12036,6 +12261,7 @@ export type VirtualNetworkGatewayConnectionListEntity = Resource & {
     readonly ingressBytesTransferred?: number;
     peer?: SubResource;
     enableBgp?: boolean;
+    gatewayCustomBgpIpAddresses?: GatewayCustomBgpIpAddressIpConfiguration[];
     usePolicyBasedTrafficSelectors?: boolean;
     ipsecPolicies?: IpsecPolicy[];
     trafficSelectorPolicies?: TrafficSelectorPolicy[];
@@ -13542,6 +13768,9 @@ export interface VpnPacketCaptureStopParameters {
 }
 
 // @public
+export type VpnPolicyMemberAttributeType = string;
+
+// @public
 export interface VpnProfileResponse {
     profileUrl?: string;
 }
@@ -13575,8 +13804,28 @@ export type VpnServerConfiguration = Resource & {
     aadAuthenticationParameters?: AadAuthenticationParameters;
     readonly provisioningState?: string;
     readonly p2SVpnGateways?: P2SVpnGateway[];
+    configurationPolicyGroups?: VpnServerConfigurationPolicyGroup[];
     readonly etagPropertiesEtag?: string;
 };
+
+// @public
+export type VpnServerConfigurationPolicyGroup = SubResource & {
+    readonly etag?: string;
+    name?: string;
+    readonly type?: string;
+    isDefault?: boolean;
+    priority?: number;
+    policyMembers?: VpnServerConfigurationPolicyGroupMember[];
+    readonly p2SConnectionConfigurations?: SubResource[];
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface VpnServerConfigurationPolicyGroupMember {
+    attributeType?: VpnPolicyMemberAttributeType;
+    attributeValue?: string;
+    name?: string;
+}
 
 // @public
 export interface VpnServerConfigurations {
@@ -13726,6 +13975,7 @@ export type VpnSiteLinkConnection = SubResource & {
     connectionBandwidth?: number;
     sharedKey?: string;
     enableBgp?: boolean;
+    vpnGatewayCustomBgpAddresses?: GatewayCustomBgpIpAddressIpConfiguration[];
     usePolicyBasedTrafficSelectors?: boolean;
     ipsecPolicies?: IpsecPolicy[];
     enableRateLimiting?: boolean;

@@ -137,7 +137,9 @@ export type SqlRuleAction = {
  */
 export interface SqlRuleFilter {
   /**
-   * SQL expression to use in the rule filter.
+   * SQL expression to use in the rule filter. It is evaluated against the messages'
+   * user-defined properties and system properties. All system properties will be prefixed with
+   * `sys.` in the condition expression.
    * Defaults to creating a true filter if none specified
    */
   sqlExpression: string;

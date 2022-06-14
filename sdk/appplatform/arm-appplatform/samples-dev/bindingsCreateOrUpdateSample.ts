@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create a new Binding or update an exiting Binding.
  *
  * @summary Create a new Binding or update an exiting Binding.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-03-01-preview/examples/Bindings_CreateOrUpdate.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2022-04-01/examples/Bindings_CreateOrUpdate.json
  */
 async function bindingsCreateOrUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -28,14 +28,7 @@ async function bindingsCreateOrUpdate() {
   const bindingName = "mybinding";
   const bindingResource: BindingResource = {
     properties: {
-      bindingParameters: {
-        apiType: {
-          name: "SQL"
-        }, 
-        databaseName: {
-          name: "db1"
-        }
-      },
+      bindingParameters: {},
       createdAt: undefined,
       generatedProperties: undefined,
       key: "xxxx",

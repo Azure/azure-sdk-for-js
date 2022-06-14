@@ -1,12 +1,13 @@
 {
   "name": "@azure/core-util",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.1",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/isNode.js": "./dist-esm/src/isNode.browser.js"
+    "./dist-esm/src/isNode.js": "./dist-esm/src/isNode.browser.js",
+    "./dist-esm/src/sha256.js": "./dist-esm/src/sha256.browser.js"
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js"
@@ -29,7 +30,7 @@
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -72,7 +73,7 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -81,7 +82,7 @@
     "chai": "^4.2.0",
     "downlevel-dts": "^0.8.0",
     "cross-env": "^7.0.2",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -99,7 +100,7 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "util": "^0.12.1"
   }
 }

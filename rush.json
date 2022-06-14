@@ -407,6 +407,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-email",
+      "projectFolder": "sdk/communication/communication-email",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-identity",
       "projectFolder": "sdk/communication/communication-identity",
       "versionPolicyName": "client"
@@ -447,11 +452,6 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-asynciterator-polyfill",
-      "projectFolder": "sdk/core/core-asynciterator-polyfill",
-      "versionPolicyName": "core"
-    },
-    {
       "packageName": "@azure/core-auth",
       "projectFolder": "sdk/core/core-auth",
       "versionPolicyName": "core"
@@ -459,11 +459,6 @@
     {
       "packageName": "@azure/core-client",
       "projectFolder": "sdk/core/core-client",
-      "versionPolicyName": "core"
-    },
-    {
-      "packageName": "@azure/core-crypto",
-      "projectFolder": "sdk/core/core-crypto",
       "versionPolicyName": "core"
     },
     {
@@ -590,6 +585,11 @@
       "packageName": "@azure/logger",
       "projectFolder": "sdk/core/logger",
       "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/notification-hubs",
+      "projectFolder": "sdk/notificationhubs/notification-hubs",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/opentelemetry-instrumentation-azure-sdk",
@@ -925,6 +925,11 @@
       "packageName": "@azure/arm-appservice",
       "projectFolder": "sdk/appservice/arm-appservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/arm-appservice",
+      "projectFolder": "sdk/appservice/arm-appservice-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-resources-subscriptions",
@@ -1679,6 +1684,61 @@
     {
       "packageName": "@azure/arm-hardwaresecuritymodules",
       "projectFolder": "sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dashboard",
+      "projectFolder": "sdk/dashboard/arm-dashboard",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azureadexternalidentities",
+      "projectFolder": "sdk/azureadexternalidentities/arm-azureadexternalidentities",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-scvmm",
+      "projectFolder": "sdk/scvmm/arm-scvmm",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicelinker",
+      "projectFolder": "sdk/servicelinker/arm-servicelinker",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-changes",
+      "projectFolder": "sdk/changes/arm-changes",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dynatrace",
+      "projectFolder": "sdk/dynatrace/arm-dynatrace",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-education",
+      "projectFolder": "sdk/education/arm-education",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearning",
+      "projectFolder": "sdk/machinelearning/arm-machinelearning",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appcontainers",
+      "projectFolder": "sdk/appcontainers/arm-appcontainers",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-deviceupdate",
+      "projectFolder": "sdk/deviceupdate/arm-deviceupdate",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-confidentialledger",
+      "projectFolder": "sdk/confidentialledger/arm-confidentialledger",
       "versionPolicyName": "management"
     }
   ]

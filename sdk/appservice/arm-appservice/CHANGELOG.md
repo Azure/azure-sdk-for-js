@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.1 (Unreleased)
+## 12.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,17 @@
 
 ### Other Changes
 
+## 12.0.0 (2022-04-07)
+    
+**Features**
+
+  - Added operation group Global_2
+
+**Breaking Changes**
+
+  - Removed operation group Global
+    
+    
 ## 11.0.0 (2022-01-10)
     
 **Features**

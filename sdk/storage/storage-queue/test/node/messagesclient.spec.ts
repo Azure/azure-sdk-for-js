@@ -95,7 +95,7 @@ describe("QueueClient message methods, Node.js only", () => {
     let error;
     try {
       await queueClient.sendMessage(newMessageContent, {});
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error);

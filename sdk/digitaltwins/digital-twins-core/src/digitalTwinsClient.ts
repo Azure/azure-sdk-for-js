@@ -52,11 +52,9 @@ import {
   QueryQueryTwinsResponse,
   QuerySpecification,
 } from "./generated/models";
-import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { tracingClient } from "./tracing";
 import { logger } from "./logger";
-
-export const SDK_VERSION: string = "1.1.0";
+import { SDK_VERSION } from "./constants";
 
 export interface DigitalTwinsClientOptions extends PipelineOptions {
   /**
@@ -140,18 +138,13 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetByIdResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getDigitalTwin", options);
-    try {
-      return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.getDigitalTwin",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -168,19 +161,14 @@ export class DigitalTwinsClient {
     digitalTwinJson: string,
     options: DigitalTwinsAddOptionalParams = {}
   ): Promise<DigitalTwinsAddResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-upsertDigitalTwin", options);
-    try {
-      const payload = JSON.parse(digitalTwinJson);
-      return this.client.digitalTwins.add(digitalTwinId, payload, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.upsertDigitalTwin",
+      options,
+      async (updatedOptions) => {
+        const payload = JSON.parse(digitalTwinJson);
+        return this.client.digitalTwins.add(digitalTwinId, payload, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -200,18 +188,13 @@ export class DigitalTwinsClient {
     jsonPatch: any,
     options: DigitalTwinsUpdateOptionalParams = {}
   ): Promise<DigitalTwinsUpdateResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateDigitalTwin", options);
-    try {
-      return this.client.digitalTwins.update(digitalTwinId, jsonPatch, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.updateDigitalTwin",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.update(digitalTwinId, jsonPatch, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -226,18 +209,13 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: DigitalTwinsDeleteOptionalParams = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteDigitalTwin", options);
-    try {
-      return this.client.digitalTwins.delete(digitalTwinId, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.deleteDigitalTwin",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.delete(digitalTwinId, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -253,18 +231,13 @@ export class DigitalTwinsClient {
     componentName: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetComponentResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getComponent", options);
-    try {
-      return this.client.digitalTwins.getComponent(digitalTwinId, componentName, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.getComponent",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.getComponent(digitalTwinId, componentName, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -284,23 +257,18 @@ export class DigitalTwinsClient {
     jsonPatch: any[],
     options: DigitalTwinsUpdateComponentOptionalParams = {}
   ): Promise<DigitalTwinsUpdateComponentResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateComponent", options);
-    try {
-      return this.client.digitalTwins.updateComponent(
-        digitalTwinId,
-        componentName,
-        jsonPatch,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.updateComponent",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.updateComponent(
+          digitalTwinId,
+          componentName,
+          jsonPatch,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -316,22 +284,17 @@ export class DigitalTwinsClient {
     relationshipId: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetRelationshipByIdResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getRelationship", options);
-    try {
-      return this.client.digitalTwins.getRelationshipById(
-        digitalTwinId,
-        relationshipId,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.getRelationship",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.getRelationshipById(
+          digitalTwinId,
+          relationshipId,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -350,23 +313,18 @@ export class DigitalTwinsClient {
     relationship: any,
     options: DigitalTwinsAddRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-upsertRelationship", options);
-    try {
-      return this.client.digitalTwins.addRelationship(
-        digitalTwinId,
-        relationshipId,
-        relationship,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.upsertRelationship",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.addRelationship(
+          digitalTwinId,
+          relationshipId,
+          relationship,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -384,23 +342,18 @@ export class DigitalTwinsClient {
     jsonPatch: any[],
     options: DigitalTwinsUpdateRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateRelationship", options);
-    try {
-      return this.client.digitalTwins.updateRelationship(
-        digitalTwinId,
-        relationshipId,
-        jsonPatch,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.updateRelationship",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.updateRelationship(
+          digitalTwinId,
+          relationshipId,
+          jsonPatch,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -417,22 +370,17 @@ export class DigitalTwinsClient {
     relationshipId: string,
     options: DigitalTwinsDeleteRelationshipOptionalParams = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteRelationship", options);
-    try {
-      return this.client.digitalTwins.deleteRelationship(
-        digitalTwinId,
-        relationshipId,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.deleteRelationship",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.deleteRelationship(
+          digitalTwinId,
+          relationshipId,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -496,29 +444,18 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-listRelationships", options);
-    try {
-      const iter = this.listRelationshipsAll(digitalTwinId, updatedOptions);
+    const iter = this.listRelationshipsAll(digitalTwinId, options);
 
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: (settings: PageSettings = {}) =>
-          this.listRelationshipsPage(digitalTwinId, updatedOptions, settings),
-      };
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) =>
+        this.listRelationshipsPage(digitalTwinId, options, settings),
+    };
   }
 
   /**
@@ -583,32 +520,18 @@ export class DigitalTwinsClient {
     IncomingRelationship,
     DigitalTwinsListIncomingRelationshipsResponse
   > {
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-listIncomingRelationships",
-      options
-    );
-    try {
-      const iter = this.listIncomingRelationshipsAll(digitalTwinId, updatedOptions);
+    const iter = this.listIncomingRelationshipsAll(digitalTwinId, options);
 
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: (settings: PageSettings = {}) =>
-          this.listIncomingRelationshipsPage(digitalTwinId, updatedOptions, settings),
-      };
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) =>
+        this.listIncomingRelationshipsPage(digitalTwinId, options, settings),
+    };
   }
 
   /**
@@ -633,26 +556,19 @@ export class DigitalTwinsClient {
     if (!messageId) {
       messageId = generateUuid();
     }
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-publishTelemetry",
-      digitalTwinsSendTelemetryOptionalParams
+
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.publishTelemetry",
+      digitalTwinsSendTelemetryOptionalParams,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.sendTelemetry(
+          digitalTwinId,
+          messageId,
+          payload,
+          updatedOptions
+        );
+      }
     );
-    try {
-      return this.client.digitalTwins.sendTelemetry(
-        digitalTwinId,
-        messageId,
-        payload,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -678,27 +594,20 @@ export class DigitalTwinsClient {
     if (!messageId) {
       messageId = generateUuid();
     }
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-publishComponentTelemetry",
-      digitalTwinsSendComponentTelemetryOptionalParams
+
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.publishComponentTelemetry",
+      digitalTwinsSendComponentTelemetryOptionalParams,
+      async (updatedOptions) => {
+        return this.client.digitalTwins.sendComponentTelemetry(
+          digitalTwinId,
+          componentName,
+          payload,
+          messageId,
+          updatedOptions
+        );
+      }
     );
-    try {
-      return this.client.digitalTwins.sendComponentTelemetry(
-        digitalTwinId,
-        componentName,
-        payload,
-        messageId,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -716,21 +625,14 @@ export class DigitalTwinsClient {
   ): Promise<DigitalTwinModelsGetByIdResponse> {
     const digitalTwinModelsGetByIdOptionalParams: DigitalTwinModelsGetByIdOptionalParams = options;
     digitalTwinModelsGetByIdOptionalParams.includeModelDefinition = includeModelDefinition;
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-getModel",
-      digitalTwinModelsGetByIdOptionalParams
+
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.getModel",
+      digitalTwinModelsGetByIdOptionalParams,
+      async (updatedOptions) => {
+        return this.client.digitalTwinModels.getById(modelId, updatedOptions);
+      }
     );
-    try {
-      return this.client.digitalTwinModels.getById(modelId, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -800,32 +702,19 @@ export class DigitalTwinsClient {
       dependenciesFor: dependeciesFor,
       includeModelDefinition: includeModelDefinition,
     };
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-listModels",
-      digitalTwinModelsListOptionalParams
-    );
-    try {
-      const iter = this.getModelsAll(updatedOptions);
 
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: (settings: PageSettings = {}) =>
-          this.getModelsPage(digitalTwinModelsListOptionalParams, settings),
-      };
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    const iter = this.getModelsAll(digitalTwinModelsListOptionalParams);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) =>
+        this.getModelsPage(digitalTwinModelsListOptionalParams, settings),
+    };
   }
 
   /**
@@ -841,21 +730,14 @@ export class DigitalTwinsClient {
   ): Promise<DigitalTwinModelsAddResponse> {
     const digitalTwinModelsAddOptionalParams: DigitalTwinModelsAddOptionalParams = options;
     digitalTwinModelsAddOptionalParams.models = dtdlModels;
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-createModels",
-      digitalTwinModelsAddOptionalParams
+
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.createModels",
+      digitalTwinModelsAddOptionalParams,
+      async (updatedOptions) => {
+        return this.client.digitalTwinModels.add(updatedOptions);
+      }
     );
-    try {
-      return this.client.digitalTwinModels.add(updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -873,18 +755,13 @@ export class DigitalTwinsClient {
   public decommissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
     const jsonPatch = [{ op: "replace", path: "/decommissioned", value: true }];
 
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-decommissionModel", options);
-    try {
-      return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.decommissionModel",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -900,18 +777,13 @@ export class DigitalTwinsClient {
    * @returns The http response.
    */
   public deleteModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteModel", options);
-    try {
-      return this.client.digitalTwinModels.delete(modelId, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.deleteModel",
+      options,
+      async (updatedOptions) => {
+        return this.client.digitalTwinModels.delete(modelId, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -925,18 +797,13 @@ export class DigitalTwinsClient {
     eventRouteId: string,
     options: OperationOptions = {}
   ): Promise<EventRoutesGetByIdResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getEventRoute", options);
-    try {
-      return this.client.eventRoutes.getById(eventRouteId, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.getEventRoute",
+      options,
+      async (updatedOptions) => {
+        return this.client.eventRoutes.getById(eventRouteId, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -1001,32 +868,18 @@ export class DigitalTwinsClient {
       maxItemsPerPage: resultsPerPage,
     };
 
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-listEventRoutes",
-      eventRoutesListOptionalParams
-    );
-    try {
-      const iter = this.getEventRoutesAll(updatedOptions);
+    const iter = this.getEventRoutesAll(eventRoutesListOptionalParams);
 
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: (settings: PageSettings = {}) =>
-          this.getEventRoutesPage(eventRoutesListOptionalParams, settings),
-      };
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) =>
+        this.getEventRoutesPage(eventRoutesListOptionalParams, settings),
+    };
   }
 
   /**
@@ -1050,21 +903,14 @@ export class DigitalTwinsClient {
       filter: filter,
     };
     eventRoutesAddOptionalParams.eventRoute = eventRoute;
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-upsertEventRoute",
-      eventRoutesAddOptionalParams
+
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.upsertEventRoute",
+      eventRoutesAddOptionalParams,
+      async (updatedOptions) => {
+        return this.client.eventRoutes.add(eventRouteId, updatedOptions);
+      }
     );
-    try {
-      return this.client.eventRoutes.add(eventRouteId, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -1078,18 +924,13 @@ export class DigitalTwinsClient {
     eventRouteId: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteEventRoute", options);
-    try {
-      return this.client.eventRoutes.delete(eventRouteId, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DigitalTwinsClient.deleteEventRoute",
+      options,
+      async (updatedOptions) => {
+        return this.client.eventRoutes.delete(eventRouteId, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -1163,31 +1004,17 @@ export class DigitalTwinsClient {
       maxItemsPerPage: resultsPerPage,
     };
 
-    const { span, updatedOptions } = createSpan(
-      "DigitalTwinsClient-queryTwins",
-      queryQueryTwinsOptionalParams
-    );
-    try {
-      const iter = this.queryTwinsAll(query, updatedOptions);
+    const iter = this.queryTwinsAll(query, queryQueryTwinsOptionalParams);
 
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: (settings: PageSettings = {}) =>
-          this.queryTwinsPage(query, queryQueryTwinsOptionalParams, settings),
-      };
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) =>
+        this.queryTwinsPage(query, queryQueryTwinsOptionalParams, settings),
+    };
   }
 }

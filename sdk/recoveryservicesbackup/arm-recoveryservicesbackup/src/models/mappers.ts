@@ -7625,7 +7625,7 @@ export const DpmContainer: coreClient.CompositeMapper = {
 };
 
 export const IaaSVMContainer: coreClient.CompositeMapper = {
-  serializedName: "IaaSVMContainer",
+  serializedName: "IaasVMContainer",
   type: {
     name: "Composite",
     className: "IaaSVMContainer",
@@ -9141,7 +9141,7 @@ export let discriminators = {
   "ProtectableContainer.StorageContainer": AzureStorageProtectableContainer,
   "ProtectableContainer.VMAppContainer": AzureVMAppContainerProtectableContainer,
   "ProtectionContainer.DPMContainer": DpmContainer,
-  "ProtectionContainer.IaaSVMContainer": IaaSVMContainer,
+  "ProtectionContainer.IaasVMContainer": IaaSVMContainer,
   "ProtectionContainer.AzureWorkloadContainer": AzureWorkloadContainer,
   "ProtectionContainer.AzureSqlContainer": AzureSqlContainer,
   "ProtectionContainer.StorageContainer": AzureStorageContainer,

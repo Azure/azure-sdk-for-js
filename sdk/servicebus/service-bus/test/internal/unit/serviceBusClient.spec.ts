@@ -227,7 +227,7 @@ describe("serviceBusClient unit tests", () => {
         const client = new ServiceBusClient(connectionString);
         client.createReceiver("my-queue");
         throw new Error("Receiver should not have been created successfully.");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, entityPathMisMatchError);
       }
     });
@@ -237,7 +237,7 @@ describe("serviceBusClient unit tests", () => {
         const client = new ServiceBusClient(connectionString);
         client.createReceiver("my-topic", "my-subscription");
         throw new Error("Receiver should not have been created successfully.");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, entityPathMisMatchError);
       }
     });
@@ -247,7 +247,7 @@ describe("serviceBusClient unit tests", () => {
         const client = new ServiceBusClient(connectionString);
         await client.acceptSession("my-queue", "session-id");
         throw new Error("Receiver should not have been created successfully.");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, entityPathMisMatchError);
       }
     });
@@ -257,7 +257,7 @@ describe("serviceBusClient unit tests", () => {
         const client = new ServiceBusClient(connectionString);
         await client.acceptNextSession("my-queue");
         throw new Error("Receiver should not have been created successfully.");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, entityPathMisMatchError);
       }
     });
@@ -267,7 +267,7 @@ describe("serviceBusClient unit tests", () => {
         const client = new ServiceBusClient(connectionString);
         await client.acceptSession("my-topic", "my-subscription");
         throw new Error("Receiver should not have been created successfully.");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, entityPathMisMatchError);
       }
     });
@@ -277,7 +277,7 @@ describe("serviceBusClient unit tests", () => {
         const client = new ServiceBusClient(connectionString);
         await client.acceptNextSession("my-topic", "my-subscription");
         throw new Error("Receiver should not have been created successfully.");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, entityPathMisMatchError);
       }
     });
@@ -287,7 +287,7 @@ describe("serviceBusClient unit tests", () => {
         const client = new ServiceBusClient(connectionString);
         client.createSender("my-queue");
         throw new Error("Sender should not have been created successfully.");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, entityPathMisMatchError);
       }
     });

@@ -12,10 +12,13 @@
  * @azsdk-weight 60
  */
 
-import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import {
+  DocumentModelAdministrationClient,
+  AzureKeyCredential,
+  DocumentModelBuildMode,
+} from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";
-import { DocumentModelBuildMode } from "../src/options/BuildModelOptions";
 dotenv.config();
 
 export async function main() {

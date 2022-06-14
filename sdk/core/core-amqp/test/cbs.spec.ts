@@ -6,6 +6,7 @@ import { AbortController } from "@azure/abort-controller";
 import { Connection } from "rhea-promise";
 import { assert } from "chai";
 import { createConnectionStub } from "./utils/createConnectionStub";
+import { isError } from "@azure/core-util";
 import { stub } from "sinon";
 
 describe("CbsClient", function () {
@@ -24,7 +25,8 @@ describe("CbsClient", function () {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.equal(err.name, "AbortError");
+        assert.ok(isError(err));
+        assert.equal((err as Error).name, "AbortError");
       }
     });
 
@@ -55,7 +57,8 @@ describe("CbsClient", function () {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.equal(err.name, "AbortError");
+        assert.ok(isError(err));
+        assert.equal((err as Error).name, "AbortError");
       }
     });
 
@@ -75,7 +78,8 @@ describe("CbsClient", function () {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.equal(err.name, "AbortError");
+        assert.ok(isError(err));
+        assert.equal((err as Error).name, "AbortError");
       }
     });
   });
@@ -89,8 +93,9 @@ describe("CbsClient", function () {
         await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas);
         throw new Error(TEST_FAILURE);
       } catch (err) {
+        assert.ok(isError(err));
         assert.equal(
-          err.message,
+          (err as Error).message,
           "Attempted to negotiate a claim but the CBS link does not exist."
         );
       }
@@ -113,7 +118,8 @@ describe("CbsClient", function () {
           });
           throw new Error(TEST_FAILURE);
         } catch (err) {
-          assert.equal(err.name, "AbortError");
+          assert.ok(isError(err));
+          assert.equal((err as Error).name, "AbortError");
         }
       });
 
@@ -135,7 +141,8 @@ describe("CbsClient", function () {
           });
           throw new Error(TEST_FAILURE);
         } catch (err) {
-          assert.equal(err.name, "AbortError");
+          assert.ok(isError(err));
+          assert.equal((err as Error).name, "AbortError");
         }
       });
     });
