@@ -11,8 +11,9 @@
 
 #### Dependency Requirements Node-redis
 ```
-    "@azure/identity":"^2.0.4",
-    "redis": "^4.1.0"
+"dependencies": {
+    "@azure/identity": "^2.0.4",
+    "redis": "^4.1.0",
 ```
 
 #### Authenticate with Azure AD: node-redis hello world
