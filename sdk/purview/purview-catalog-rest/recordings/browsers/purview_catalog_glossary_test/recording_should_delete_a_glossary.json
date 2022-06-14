@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://metamodeldemo02.purview.azure.com/catalog/api/atlas/v2/entity/guid/0259a6f2-8d41-4ef8-aee8-1e2bd9d596cd?api-version=2022-03-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/atlas/v2/entity/guid/0259a6f2-8d41-4ef8-aee8-1e2bd9d596cd?api-version=2022-03-01-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",

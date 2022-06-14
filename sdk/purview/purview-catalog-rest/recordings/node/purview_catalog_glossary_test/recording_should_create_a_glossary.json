@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://metamodeldemo02.purview.azure.com/catalog/api/atlas/v2/glossary?api-version=2022-03-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/atlas/v2/glossary?api-version=2022-03-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",

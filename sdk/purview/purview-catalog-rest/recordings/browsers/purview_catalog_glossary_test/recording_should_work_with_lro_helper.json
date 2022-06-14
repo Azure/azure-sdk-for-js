@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://metamodeldemo02.purview.azure.com/catalog/api/glossary/name/jsLROTesting-2/terms/import?api-version=2022-03-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/name/jsLROTesting-2/terms/import?api-version=2022-03-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -33,7 +33,7 @@
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Date": "Tue, 14 Jun 2022 09:59:27 GMT",
         "Expires": "0",
-        "Location": "https://metamodeldemo02.purview.azure.com/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
@@ -47,7 +47,7 @@
       "ResponseBody": "eyJpZCI6IjEzOWZhYTViLTkzOWQtNDdmNi1hMzZhLWU3MjI1NDQ1NjdiZSIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1OToyNy43MzkrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1OToyNy43MzkrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiItMSJ9LCJlcnJvciI6eyJlcnJvckNvZGUiOjAsImVycm9yTWVzc2FnZSI6IiJ9fQ=="
     },
     {
-      "RequestUri": "https://metamodeldemo02.purview.azure.com/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be?api-version=2022-03-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be?api-version=2022-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -77,7 +77,7 @@
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Date": "Tue, 14 Jun 2022 09:59:28 GMT",
         "Expires": "0",
-        "Location": "https://metamodeldemo02.purview.azure.com/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
@@ -91,7 +91,7 @@
       "ResponseBody": "eyJpZCI6IjEzOWZhYTViLTkzOWQtNDdmNi1hMzZhLWU3MjI1NDQ1NjdiZSIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1OToyNy43MzkrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNi0xNFQwOTo1OToyNy44OTQrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiItMSJ9LCJlcnJvciI6eyJlcnJvckNvZGUiOjAsImVycm9yTWVzc2FnZSI6IiJ9fQ=="
     },
     {
-      "RequestUri": "https://metamodeldemo02.purview.azure.com/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be?api-version=2022-03-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be?api-version=2022-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -121,7 +121,7 @@
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Date": "Tue, 14 Jun 2022 09:59:33 GMT",
         "Expires": "0",
-        "Location": "https://metamodeldemo02.purview.azure.com/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/139faa5b-939d-47f6-a36a-e722544567be",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
