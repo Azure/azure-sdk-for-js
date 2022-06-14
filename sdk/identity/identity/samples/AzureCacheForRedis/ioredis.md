@@ -19,7 +19,7 @@ Add the following dependencies to *package.json*:
   "ioredis": "^5.0.4",
 ```
 
-#### Authenticate with Azure AD: Hello World
+#### Authenticate with Azure AD
 
 This sample is intended to assist in authenticating with Azure AD via the ioredis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance.
 
@@ -35,53 +35,46 @@ Integrate the logic in your application code to fetch an Azure AD access token v
 
 ```ts
 import Redis from "ioredis";
-import * as dotenv from "dotenv";
 import { ClientSecretCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main(){
-// Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
-const credential = new ClientSecretCredential(process.env.AZURE_TENANT_ID, process.env.AZURE_CLIENT_ID,process.env.AZURE_CLIENT_SECRET);
-try{
+async function main() {
+  // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
+  const credential = new ClientSecretCredential(
+    process.env.AZURE_TENANT_ID,
+    process.env.AZURE_CLIENT_ID,
+    process.env.AZURE_CLIENT_SECRET
+  );
   // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-  let accessToken = await credential.getToken("https://*.cacheinfra.windows.net:10225/appid/.default");
+  let accessToken = await credential.getToken(
+    "https://*.cacheinfra.windows.net:10225/appid/.default"
+  );
 
-// Option 1: Create ioredis client and connect to the Azure Cache for Redis over the non-TLS port using the access token as password.
-//   const redis = new Redis({
-//     port:6379,
-//     host: process.env.REDIS_HOSTNAME,
-//     username:process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-//     password: accessToken.token
-//   });
+  // Option 1: Create ioredis client and connect to the Azure Cache for Redis over the non-TLS port using the access token as password.
+  //   const redis = new Redis({
+  //     port:6379,
+  //     host: process.env.REDIS_HOSTNAME,
+  //     username:process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+  //     password: accessToken.token
+  //   });
 
-// Option 2: Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
+  // Option 2: Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   const redis = new Redis({
-    username:process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+    username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
-    tls:{
+    tls: {
       host: process.env.REDIS_HOSTNAME,
-      port: 6380
-    }
+      port: 6380,
+    },
   });
 
-try{
- // Set a value against your key in the Azure Redis Cache.
+  // Set a value against your key in the Azure Redis Cache.
   await redis.set("Az:mykey", "value123"); // Returns a promise which resolves to "OK" when the command succeeds.
- }             
- catch(e){
-   console.log("error while redis set");
-   console.log(e);
- }
-// Fetch value of your key in the Azure Redis Cache.
-console.log("redis key:", await redis.get("Az:mykey"));
-// Close the ioredis client connection
-redis.disconnect();
-}
-catch(e){
-  console.log("error during get token -");
-  console.log(e);
-}
-
+  // Fetch value of your key in the Azure Redis Cache.
+  console.log("redis key:", await redis.get("Az:mykey"));
+  // Close the ioredis client connection
+  redis.disconnect();
 }
 main().catch((err) => {
   console.log("error code: ", err.code);
@@ -102,59 +95,64 @@ Integrate the logic in your application code to fetch an Azure AD access token v
 
 ```ts
 import Redis from "ioredis";
-import * as dotenv from "dotenv";
 import { ClientSecretCredential, TokenCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
 dotenv.config();
 
-async function returnPassword(credential: TokenCredential) {  
-    try{
-        // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-        let accessToken = await credential.getToken("https://*.cacheinfra.windows.net:10225/appid/.default");
-        return accessToken;
-    }
-    catch(e){
-        throw("error during getToken -",e);
-    }
+async function returnPassword(credential: TokenCredential) {
+  try {
+    // Fetch an AAD token to be used for authentication. This token will be used as the password.
+    let accessToken = await credential.getToken(
+      "https://*.cacheinfra.windows.net:10225/appid/.default"
+    );
+    return accessToken;
+  } catch (e) {
+    throw e;
+  }
 }
 
-async function main(){
-    // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
-    const credential = new ClientSecretCredential(process.env.AZURE_TENANT_ID, process.env.AZURE_CLIENT_ID,process.env.AZURE_CLIENT_SECRET);
+async function main() {
+  // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
+  const credential = new ClientSecretCredential(
+    process.env.AZURE_TENANT_ID,
+    process.env.AZURE_CLIENT_ID,
+    process.env.AZURE_CLIENT_SECRET
+  );
+  let accessTokenObject = await returnPassword(credential);
+  // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
+  let redis = new Redis({
+    username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+    password: accessTokenObject.token,
+    tls: {
+      host: process.env.REDIS_HOSTNAME,
+      port: 6380,
+    },
+  });
 
-    // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
-    const redis = new Redis({
-        username:process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-        password: (await returnPassword(credential)).token,
-        tls:{
-                host: process.env.REDIS_HOSTNAME,
-                port: 6380
-            }
-    });
-
-    for(let i = 0; i < 3;i++){
-        try{
-            // Set a value against your key in the Azure Redis Cache.
-            await redis.set("Az:mykey", "value123"); // Returns a promise which resolves to "OK" when the command succeeds.
-            // Fetch value of your key in the Azure Redis Cache.
-            console.log("redis key:", await redis.get("Az:mykey"));
-            // Close the ioredis client connection
-            redis.disconnect();
-            break;
-        }
-        catch(e){
-            console.log("error during redis get", e.toString());
-            if((await returnPassword(credential)).expiresOnTimestamp <= Date.now()){
-                redis = new Redis({
-                    username:process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-                    password: (await returnPassword(credential)).token,
-                    tls:{
-                            host: process.env.REDIS_HOSTNAME,
-                            port: 6380
-                        }
-                });
-            }
-        }
+  for (let i = 0; i < 3; i++) {
+    try {
+      // Set a value against your key in the Azure Redis Cache.
+      await redis.set("Az:mykey", "value123"); // Returns a promise which resolves to "OK" when the command succeeds.
+      // Fetch value of your key in the Azure Redis Cache.
+      console.log("redis key:", await redis.get("Az:mykey"));
+      // Close the Ioredis Client Connection
+      redis.disconnect();
+      break;
+    } catch (e) {
+      console.log("error during redis get", e.toString());
+      if (accessTokenObject.expiresOnTimestamp <= Date.now()) {
+        accessTokenObject = await returnPassword(credential);
+        redis = new Redis({
+          username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+          password: accessTokenObject.token,
+          tls: {
+            host: process.env.REDIS_HOSTNAME,
+            port: 6380,
+          },
+        });
+      }
     }
+  }
 }
 main().catch((err) => {
   console.log("error code: ", err.code);
