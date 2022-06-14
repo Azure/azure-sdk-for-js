@@ -11,8 +11,9 @@ import { AbortController } from "@azure/abort-controller";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
-import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
+import { SpanGraph } from "@azure/test-utils";
 import { setSpan, context } from "@azure/core-tracing";
+import { setTracerForTest } from "../public/utils/misc";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -238,39 +239,50 @@ describe("Operation Options", () => {
 
   describe("Tracing", () => {
     it("getNamespaceProperties with tracing", async () => {
-      const tracer = new TestTracer();
-      setTracer(tracer);
-      const rootSpan = tracer.startSpan("root");
-      await serviceBusAtomManagementClient.getNamespaceProperties({
-        tracingOptions: { tracingContext: setSpan(context.active(), rootSpan) },
-      });
-      rootSpan.end();
+      const { tracer, resetTracer } = setTracerForTest();
+      try {
+        const rootSpan = tracer.startSpan("root");
+        await serviceBusAtomManagementClient.getNamespaceProperties({
+          tracingOptions: { tracingContext: setSpan(context.active(), rootSpan) },
+        });
+        rootSpan.end();
 
-      const rootSpans = tracer.getRootSpans();
-      assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-      assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+        const rootSpans = tracer.getRootSpans();
+        assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+        assert.strictEqual(
+          rootSpan,
+          rootSpans[0],
+          "The root span should match what was passed in."
+        );
 
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
-              {
-                name: "Azure.ServiceBus.ServiceBusAdministrationClient-getNamespaceProperties",
-                children: [
-                  {
-                    children: [],
-                    name: "Azure.ServiceBus.ServiceBusAdministrationClient-getResource",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
+        const expectedGraph: SpanGraph = {
+          roots: [
+            {
+              name: rootSpan.name,
+              children: [
+                {
+                  name: "Azure.ServiceBus.ServiceBusAdministrationClient-getNamespaceProperties",
+                  children: [
+                    {
+                      children: [],
+                      name: "Azure.ServiceBus.ServiceBusAdministrationClient-getResource",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
 
-      assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-      assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+        assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
+        assert.strictEqual(
+          tracer.getActiveSpans().length,
+          0,
+          "All spans should have had end called"
+        );
+      } finally {
+        resetTracer();
+      }
     });
   });
 });

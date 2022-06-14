@@ -523,8 +523,8 @@ const createOrReplaceUSProgramBriefAttachmentOperationSpec: coreClient.Operation
   requestBody: {
     parameterPath: {
       id: ["id"],
-      typeParam: ["options", "typeParam"],
-      friendlyName: ["options", "friendlyName"],
+      type: ["options", "type"],
+      fileName: ["options", "fileName"],
       fileSize: ["options", "fileSize"],
       fileType: ["options", "fileType"],
       fileContent: ["options", "fileContent"]

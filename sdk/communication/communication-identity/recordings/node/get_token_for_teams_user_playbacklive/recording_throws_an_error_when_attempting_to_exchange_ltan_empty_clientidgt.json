@@ -1,0 +1,46 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2022-06-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "62",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "GOstAoi1vzQXx8BIrrCVl\u002BAWWPNdzSwQdk6PGOCpVzI=",
+        "x-ms-date": "Wed, 18 May 2022 11:19:31 GMT"
+      },
+      "RequestBody": {
+        "token": "sanitized",
+        "appId": "sanitized",
+        "userId": "sanitized"
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Wed, 18 May 2022 11:19:30 GMT",
+        "MS-CV": "VKDL8/boh02W2oS0qpzO7w.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0Q9aEYgAAAADUi7tZaHU\u002BRLdDePdwmhRJTFRTRURHRTEyMTgAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "sanitized",
+        "X-Processing-Time": "33ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ValidationError",
+          "message": "AppId: The AppId field is required.",
+          "target": "AppId"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -429,7 +429,7 @@ describe("Lro Engine", function () {
           ],
         }),
         {
-          messagePattern: /The long-running operation has been canceled./,
+          messagePattern: /Poller cancelled/,
         }
       );
     });
@@ -702,7 +702,7 @@ describe("Lro Engine", function () {
               ],
             }),
             {
-              messagePattern: /The long-running operation has been canceled./,
+              messagePattern: /Poller cancelled/,
             }
           );
         });
@@ -1064,7 +1064,7 @@ describe("Lro Engine", function () {
               ],
             }),
             {
-              messagePattern: /The long-running operation has been canceled./,
+              messagePattern: /Poller cancelled/,
             }
           );
         });
@@ -1279,7 +1279,7 @@ describe("Lro Engine", function () {
               ],
             }),
             {
-              messagePattern: /The long-running operation has been canceled./,
+              messagePattern: /Poller cancelled/,
             }
           );
         });
@@ -2052,13 +2052,13 @@ describe("Lro Engine", function () {
             method: "GET",
             path: pollingPath,
             status: 200,
-            body: `{ "status": "succeeded"}`,
+            body: `{ "status": "running"}`,
           },
           {
             method: "GET",
-            path: resourceLocationPath,
+            path: pollingPath,
             status: 200,
-            body: `{ "id": "100", "name": "foo" }`,
+            body: `{ "status": "canceled" }`,
           },
         ],
         cancel: async () => {
@@ -2070,6 +2070,15 @@ describe("Lro Engine", function () {
       assert.isUndefined(poller.getOperationState().isCancelled);
       await poller.cancelOperation();
       assert.isTrue(run);
+      assert.isUndefined(poller.getOperationState().isCancelled);
+      await Promise.all([
+        assertError(poller.pollUntilDone(), {
+          messagePattern: /Poller cancelled/,
+        }),
+        assertError(poller.poll(), {
+          messagePattern: /The long-running operation has been canceled./,
+        }),
+      ]);
       assert.isTrue(poller.getOperationState().isCancelled);
     });
 
@@ -2113,55 +2122,6 @@ describe("Lro Engine", function () {
       await assert.isRejected(poller.cancelOperation());
       assert.isTrue(run);
       assert.isUndefined(poller.getOperationState().isCancelled);
-    });
-
-    it("calling cancelOperation stops polling", async () => {
-      const resourceLocationPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/location";
-      const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
-      let run = false;
-      let count = 0;
-      const poller = createPoller({
-        routes: [
-          {
-            method: "POST",
-            path: `/LROPostDoubleHeadersFinalAzureHeaderGetDefault`,
-            status: 202,
-            body: "",
-            headers: {
-              Location: resourceLocationPath,
-              "Operation-Location": pollingPath,
-            },
-          },
-          {
-            method: "GET",
-            path: pollingPath,
-            status: 200,
-            body: `{ "status": "succeeded"}`,
-          },
-          {
-            method: "GET",
-            path: resourceLocationPath,
-            status: 200,
-            body: `{ "id": "100", "name": "foo" }`,
-          },
-        ],
-        cancel: async () => {
-          run = true;
-        },
-      });
-      poller.onProgress(() => {
-        ++count;
-      });
-      assert.equal(count, 0);
-      await poller.poll();
-      assert.equal(count, 1);
-      await poller.cancelOperation();
-      assert.isTrue(run);
-      await poller.poll();
-      assert.equal(count, 1);
-      await poller.poll();
-      assert.equal(count, 1);
-      await assert.isRejected(poller.pollUntilDone(), /Poller cancelled/);
     });
   });
 });
