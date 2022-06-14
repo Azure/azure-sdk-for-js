@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-05-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,9 +18,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "2910f6c5-352f-43d6-9aef-fa4ec7cfd206",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "f771af29-02a6-4799-9534-e2f2711a161f",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "kind": "KeyPhraseExtraction",
@@ -62,14 +62,14 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "b3b506a0-c70f-4af2-ab5d-07bc177667bd",
+        "apim-request-id": "00addf68-97cb-47da-8372-8a7da6b7f5cc",
         "Content-Length": "524",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
-        "Date": "Fri, 06 May 2022 20:18:50 GMT",
+        "Date": "Tue, 14 Jun 2022 00:29:49 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "18"
+        "x-envoy-upstream-service-time": "16"
       },
       "ResponseBody": {
         "kind": "KeyPhraseExtractionResults",

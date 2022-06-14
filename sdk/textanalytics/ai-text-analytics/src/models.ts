@@ -14,7 +14,6 @@ import {
   EntityDataSource,
   EntityLinkingAction,
   EntityRecognitionAction,
-  ExtractiveSummarizationAction,
   HealthcareAction,
   HealthcareAssertion,
   HealthcareEntityCategory,
@@ -29,7 +28,6 @@ import {
   SentenceSentimentLabel,
   SentimentAnalysisAction,
   SentimentConfidenceScores,
-  SummarySentence,
   TargetConfidenceScores,
   TextDocumentBatchStatistics,
   TextDocumentStatistics,
@@ -118,7 +116,6 @@ export const AnalyzeBatchActionNames = {
   KeyPhraseExtraction: "KeyPhraseExtraction",
   EntityLinking: "EntityLinking",
   Healthcare: "Healthcare",
-  ExtractiveSummarization: "ExtractiveSummarization",
   CustomEntityRecognition: "CustomEntityRecognition",
   CustomSingleLabelClassification: "CustomSingleLabelClassification",
   CustomMultiLabelClassification: "CustomMultiLabelClassification",
@@ -140,14 +137,6 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
   SentimentAnalysis: SentimentAnalysisAction;
   LanguageDetection: LanguageDetectionAction;
 }[ActionName];
-
-/**
- * Known values of the {@link HealthcareAction.fhirVersion} parameter.
- */
-export enum KnownFhirVersion {
-  /** 4.0.1 */
-  "4.0.1" = "4.0.1",
-}
 
 /**
  * The type of results of every action in ${@link AnalyzeActionNames}.
@@ -551,11 +540,6 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
    * Relations between healthcare entities.
    */
   readonly entityRelations: HealthcareEntityRelation[];
-  /**
-   * JSON bundle containing a FHIR compatible object for consumption in other
-   * Healthcare tools. For additional information see {@link https://www.hl7.org/fhir/overview.html}.
-   */
-  readonly fhirBundle?: Record<string, any>;
 }
 
 /**
@@ -567,29 +551,6 @@ export type HealthcareErrorResult = TextAnalysisErrorResult;
  * The result of the healthcare operation on a single document.
  */
 export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
-
-/**
- * The result of the extract summary operation on a single document.
- */
-export type SummarizationExtractionResult =
-  | SummarizationExtractionSuccessResult
-  | SummarizationExtractionErrorResult;
-
-/**
- * The result of the summarization extraction action on a single document,
- * containing a collection of the summary identified in that document.
- */
-export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
-  /**
-   * A list of sentences composing a summary of the input document.
-   */
-  readonly sentences: SummarySentence[];
-}
-
-/**
- * An error result from the extract summary operation on a single document.
- */
-export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
 
 /**
  * The result of the custom recognize entities operation on a single document.
@@ -615,17 +576,17 @@ export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSucces
 export type CustomEntityRecognitionErrorResult = TextAnalysisErrorResult;
 
 /**
- * The result of the custom classify document single category operation on a single document.
+ * The result of the custom classify document operation on a single document.
  */
-export type CustomSingleLabelClassificationResult =
-  | CustomSingleLabelClassificationSuccessResult
-  | CustomSingleLabelClassificationErrorResult;
+export type CustomLabelClassificationResult =
+  | CustomLabelClassificationSuccessResult
+  | CustomLabelClassificationErrorResult;
 
 /**
- * The result of the custom classify document single category operation on a single document,
+ * The result of the custom classify document operation on a single document,
  * containing the result of the classification.
  */
-export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+export interface CustomLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
   /**
    * The collection of classifications in the input document.
    */
@@ -635,30 +596,7 @@ export interface CustomSingleLabelClassificationSuccessResult extends TextAnalys
 /**
  * An error result from the custom classify document single category operation on a single document.
  */
-export type CustomSingleLabelClassificationErrorResult = TextAnalysisErrorResult;
-
-/**
- * The result of the custom classify document multi categories operation on a multi document.
- */
-export type CustomMultiLabelClassificationResult =
-  | CustomMultiLabelClassificationSuccessResult
-  | CustomMultiLabelClassificationErrorResult;
-
-/**
- * The result of the custom classify document multi categories operation on a multi document,
- * containing the result of the classification.
- */
-export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
-  /**
-   * The collection of classifications in the input document.
-   */
-  readonly classifications: ClassificationCategory[];
-}
-
-/**
- * An error result from the custom classify document multi category operation on a multi document.
- */
-export type CustomMultiLabelClassificationErrorResult = TextAnalysisErrorResult;
+export type CustomLabelClassificationErrorResult = TextAnalysisErrorResult;
 
 /**
  * Options common to all batch actions.
@@ -716,16 +654,6 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
   kind: "Healthcare";
 }
 
-/** Options for an extractive summarization batch action. */
-export interface ExtractiveSummarizationBatchAction
-  extends AnalyzeBatchActionCommon,
-    ExtractiveSummarizationAction {
-  /**
-   * The kind of the action.
-   */
-  kind: "ExtractiveSummarization";
-}
-
 /** Options for a sentiment analysis batch action. */
 export interface SentimentAnalysisBatchAction
   extends AnalyzeBatchActionCommon,
@@ -775,7 +703,6 @@ export type AnalyzeBatchAction =
   | KeyPhraseExtractionBatchAction
   | PiiEntityRecognitionBatchAction
   | HealthcareBatchAction
-  | ExtractiveSummarizationBatchAction
   | SentimentAnalysisBatchAction
   | CustomEntityRecognitionBatchAction
   | CustomSingleLabelClassificationBatchAction
@@ -904,12 +831,6 @@ export type HealthcareBatchResult = ActionMetadata &
   BatchActionResult<HealthcareResult, "Healthcare">;
 
 /**
- * The result of an extractive summarization batch action.
- */
-export type ExtractiveSummarizationBatchResult = ActionMetadata &
-  BatchActionResult<SummarizationExtractionResult, "ExtractiveSummarization">;
-
-/**
  * The result of a custom entity recognition batch action.
  */
 export type CustomEntityRecognitionBatchResult = CustomActionMetadata &
@@ -919,13 +840,13 @@ export type CustomEntityRecognitionBatchResult = CustomActionMetadata &
  * The result of a custom single-label classification batch action.
  */
 export type CustomSingleLabelClassificationBatchResult = CustomActionMetadata &
-  BatchActionResult<CustomSingleLabelClassificationResult, "CustomSingleLabelClassification">;
+  BatchActionResult<CustomLabelClassificationResult, "CustomSingleLabelClassification">;
 
 /**
  * The result of a custom multi-label classification batch action.
  */
 export type CustomMultiLabelClassificationBatchResult = CustomActionMetadata &
-  BatchActionResult<CustomMultiLabelClassificationResult, "CustomMultiLabelClassification">;
+  BatchActionResult<CustomLabelClassificationResult, "CustomMultiLabelClassification">;
 /**
  * Results of a batch of actions.
  */
@@ -936,7 +857,6 @@ export type AnalyzeBatchResult =
   | PiiEntityRecognitionBatchResult
   | SentimentAnalysisBatchResult
   | HealthcareBatchResult
-  | ExtractiveSummarizationBatchResult
   | CustomEntityRecognitionBatchResult
   | CustomSingleLabelClassificationBatchResult
   | CustomMultiLabelClassificationBatchResult;

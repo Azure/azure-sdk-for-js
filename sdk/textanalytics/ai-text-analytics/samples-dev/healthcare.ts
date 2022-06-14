@@ -13,7 +13,6 @@
 import {
   AnalyzeBatchAction,
   AzureKeyCredential,
-  KnownFhirVersion,
   TextAnalysisClient,
 } from "@azure/ai-text-analytics";
 
@@ -38,7 +37,6 @@ export async function main() {
   const actions: AnalyzeBatchAction[] = [
     {
       kind: "Healthcare",
-      fhirVersion: KnownFhirVersion["4.0.1"],
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -87,9 +85,6 @@ export async function main() {
             console.log(`\t\t\t- "${role.entity.text}" with the role ${role.name}`);
           }
         }
-      }
-      if (result.fhirBundle) {
-        console.log(`FHIR object: ${JSON.stringify(result.fhirBundle, undefined, 2)}`);
       }
     }
   }

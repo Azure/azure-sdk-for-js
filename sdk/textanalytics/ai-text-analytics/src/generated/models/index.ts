@@ -34,7 +34,6 @@ export type AnalyzeBatchActionUnion =
   | EntitiesLROTask
   | EntityLinkingLROTask
   | PiiLROTask
-  | ExtractiveSummarizationLROTask
   | KeyPhraseLROTask;
 export type AnalyzeTextLROResultUnion =
   | AnalyzeTextLROResult
@@ -44,7 +43,6 @@ export type AnalyzeTextLROResultUnion =
   | CustomMultiLabelClassificationLROResult
   | EntityLinkingLROResult
   | PiiEntityRecognitionLROResult
-  | ExtractiveSummarizationLROResult
   | HealthcareLROResult
   | SentimentLROResult
   | KeyPhraseExtractionLROResult;
@@ -433,18 +431,6 @@ export interface Match {
   length: number;
 }
 
-/** A sentence that is part of the extracted summary. */
-export interface SummarySentence {
-  /** The extracted sentence text. */
-  text: string;
-  /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
-  rankScore: number;
-  /** The sentence offset from the start of the document, based on the value of the parameter StringIndexType. */
-  offset: number;
-  /** The length of the sentence. */
-  length: number;
-}
-
 /** Information about the language of a document as identified by the Language service. */
 export interface DetectedLanguage {
   /** Long name of a detected language (e.g. English, French). */
@@ -457,15 +443,6 @@ export interface DetectedLanguage {
 
 export interface Pagination {
   nextLink?: string;
-}
-
-export interface JobMetadata {
-  displayName?: string;
-  createdDateTime: Date;
-  expirationDateTime?: Date;
-  jobId: string;
-  lastUpdateDateTime: Date;
-  status: State;
 }
 
 export interface JobErrors {
@@ -607,11 +584,6 @@ export type PiiResult = PreBuiltResult & {
   documents: PiiResultDocumentsItem[];
 };
 
-export type ExtractiveSummarizationResult = PreBuiltResult & {
-  /** Response by document */
-  documents: ExtractiveSummarizationResultDocumentsItem[];
-};
-
 export type KeyPhraseResult = PreBuiltResult & {
   /** Response by document */
   documents: KeyPhraseResultDocumentsItem[];
@@ -627,14 +599,9 @@ export type CustomEntitiesResult = CustomResult & {
   documents: CustomEntitiesResultDocumentsItem[];
 };
 
-export type CustomSingleLabelClassificationResult = CustomResult & {
+export type CustomLabelClassificationResult = CustomResult & {
   /** Response by document */
-  documents: CustomSingleLabelClassificationResultDocumentsItem[];
-};
-
-export type CustomMultiLabelClassificationResult = CustomResult & {
-  /** Response by document */
-  documents: CustomMultiLabelClassificationResultDocumentsItem[];
+  documents: CustomLabelClassificationResultDocumentsItem[];
 };
 
 export type EntitiesDocumentResult = DocumentResult & {
@@ -642,13 +609,8 @@ export type EntitiesDocumentResult = DocumentResult & {
   entities: Entity[];
 };
 
-export type SingleClassificationDocumentResult = DocumentResult & {
-  /** A classification result from a custom classify document single category action */
-  classification: ClassificationCategory;
-};
-
-export type MultiClassificationDocumentResult = DocumentResult & {
-  classifications: ClassificationCategory[];
+export type ClassificationDocumentResult = DocumentResult & {
+  class: ClassificationCategory[];
 };
 
 export type HealthcareEntitiesDocumentResult = DocumentResult & {
@@ -656,8 +618,6 @@ export type HealthcareEntitiesDocumentResult = DocumentResult & {
   entities: HealthcareEntity[];
   /** Healthcare entity relations. */
   relations: HealthcareRelation[];
-  /** JSON bundle containing a FHIR compatible object for consumption in other Healthcare tools. For additional information see https://www.hl7.org/fhir/overview.html. */
-  fhirBundle?: { [propertyName: string]: any };
 };
 
 export type SentimentDocumentResult = DocumentResult & {
@@ -679,11 +639,6 @@ export type PiiEntitiesDocumentResult = DocumentResult & {
   redactedText: string;
   /** Recognized entities in the document. */
   entities: Entity[];
-};
-
-export type ExtractedSummaryDocumentResult = DocumentResult & {
-  /** A ranked list of sentences representing the extracted summary. */
-  sentences: SummarySentence[];
 };
 
 export type KeyPhrasesDocumentResult = DocumentResult & {
@@ -743,12 +698,6 @@ export type PiiLROTask = AnalyzeBatchAction & {
   parameters?: PiiEntityRecognitionAction;
 };
 
-/** An object representing the task definition for an Extractive Summarization task. */
-export type ExtractiveSummarizationLROTask = AnalyzeBatchAction & {
-  /** Supported parameters for an Extractive Summarization task. */
-  parameters?: ExtractiveSummarizationAction;
-};
-
 /** An object representing the task definition for a Key Phrase Extraction task. */
 export type KeyPhraseLROTask = AnalyzeBatchAction & {
   /** Options for a key phrase recognition action. */
@@ -764,11 +713,11 @@ export type CustomEntityRecognitionLROResult = AnalyzeTextLROResult & {
 };
 
 export type CustomSingleLabelClassificationLROResult = AnalyzeTextLROResult & {
-  results: CustomSingleLabelClassificationResult;
+  results: CustomLabelClassificationResult;
 };
 
 export type CustomMultiLabelClassificationLROResult = AnalyzeTextLROResult & {
-  results: CustomMultiLabelClassificationResult;
+  results: CustomLabelClassificationResult;
 };
 
 export type EntityLinkingLROResult = AnalyzeTextLROResult & {
@@ -777,10 +726,6 @@ export type EntityLinkingLROResult = AnalyzeTextLROResult & {
 
 export type PiiEntityRecognitionLROResult = AnalyzeTextLROResult & {
   results: PiiResult;
-};
-
-export type ExtractiveSummarizationLROResult = AnalyzeTextLROResult & {
-  results: ExtractiveSummarizationResult;
 };
 
 export type HealthcareLROResult = AnalyzeTextLROResult & {
@@ -853,21 +798,6 @@ export type SentimentAnalysisAction = ActionPrebuilt & {
 
 /** Supported parameters for a Healthcare task. */
 export type HealthcareAction = ActionPrebuilt & {
-  /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
-  fhirVersion?: FhirVersion;
-  /**
-   * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
-   *
-   * The default is the JavaScript's default which is "Utf16CodeUnit".
-   */
-  stringIndexType?: StringIndexType;
-};
-
-/** Supported parameters for an Extractive Summarization task. */
-export type ExtractiveSummarizationAction = ActionPrebuilt & {
-  maxSentenceCount?: number;
-  /** The sorting criteria to use for the results of Extractive Summarization. */
-  orderBy?: ExtractiveSummarizationOrderingCriteria;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -896,9 +826,7 @@ export type CustomEntitiesResultDocumentsItem = EntitiesDocumentResult;
 
 export type EntitiesResultDocumentsItem = EntitiesDocumentResult;
 
-export type CustomSingleLabelClassificationResultDocumentsItem = SingleClassificationDocumentResult;
-
-export type CustomMultiLabelClassificationResultDocumentsItem = MultiClassificationDocumentResult;
+export type CustomLabelClassificationResultDocumentsItem = ClassificationDocumentResult;
 
 export type HealthcareResultDocumentsItem = HealthcareEntitiesDocumentResult;
 
@@ -907,8 +835,6 @@ export type SentimentResponseDocumentsItem = SentimentDocumentResult;
 export type EntityLinkingResultDocumentsItem = LinkedEntitiesDocumentResult;
 
 export type PiiResultDocumentsItem = PiiEntitiesDocumentResult;
-
-export type ExtractiveSummarizationResultDocumentsItem = ExtractedSummaryDocumentResult;
 
 export type KeyPhraseResultDocumentsItem = KeyPhrasesDocumentResult;
 
@@ -985,7 +911,11 @@ export enum KnownErrorCode {
   AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
   AzureCognitiveSearchIndexLimitReached = "AzureCognitiveSearchIndexLimitReached",
   InternalServerError = "InternalServerError",
-  ServiceUnavailable = "ServiceUnavailable"
+  ServiceUnavailable = "ServiceUnavailable",
+  Timeout = "Timeout",
+  QuotaExceeded = "QuotaExceeded",
+  Conflict = "Conflict",
+  Warning = "Warning"
 }
 
 /**
@@ -1006,7 +936,11 @@ export enum KnownErrorCode {
  * **AzureCognitiveSearchThrottling** \
  * **AzureCognitiveSearchIndexLimitReached** \
  * **InternalServerError** \
- * **ServiceUnavailable**
+ * **ServiceUnavailable** \
+ * **Timeout** \
+ * **QuotaExceeded** \
+ * **Conflict** \
+ * **Warning**
  */
 export type ErrorCode = string;
 
@@ -1058,7 +992,6 @@ export enum KnownAnalyzeTextLROTaskKind {
   KeyPhraseExtraction = "KeyPhraseExtraction",
   EntityLinking = "EntityLinking",
   Healthcare = "Healthcare",
-  ExtractiveSummarization = "ExtractiveSummarization",
   CustomEntityRecognition = "CustomEntityRecognition",
   CustomSingleLabelClassification = "CustomSingleLabelClassification",
   CustomMultiLabelClassification = "CustomMultiLabelClassification"
@@ -1075,12 +1008,37 @@ export enum KnownAnalyzeTextLROTaskKind {
  * **KeyPhraseExtraction** \
  * **EntityLinking** \
  * **Healthcare** \
- * **ExtractiveSummarization** \
  * **CustomEntityRecognition** \
  * **CustomSingleLabelClassification** \
  * **CustomMultiLabelClassification**
  */
 export type AnalyzeTextLROTaskKind = string;
+
+/** Known values of {@link OperationStatus} that the service accepts. */
+export enum KnownOperationStatus {
+  NotStarted = "notStarted",
+  Running = "running",
+  Succeeded = "succeeded",
+  PartiallyCompleted = "partiallyCompleted",
+  Failed = "failed",
+  Cancelled = "cancelled",
+  Cancelling = "cancelling"
+}
+
+/**
+ * Defines values for OperationStatus. \
+ * {@link KnownOperationStatus} can be used interchangeably with OperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **notStarted** \
+ * **running** \
+ * **succeeded** \
+ * **partiallyCompleted** \
+ * **failed** \
+ * **cancelled** \
+ * **cancelling**
+ */
+export type OperationStatus = string;
 
 /** Known values of {@link AnalyzeTextLROResultsKind} that the service accepts. */
 export enum KnownAnalyzeTextLROResultsKind {
@@ -1090,7 +1048,6 @@ export enum KnownAnalyzeTextLROResultsKind {
   KeyPhraseExtractionLROResults = "KeyPhraseExtractionLROResults",
   EntityLinkingLROResults = "EntityLinkingLROResults",
   HealthcareLROResults = "HealthcareLROResults",
-  ExtractiveSummarizationLROResults = "ExtractiveSummarizationLROResults",
   CustomEntityRecognitionLROResults = "CustomEntityRecognitionLROResults",
   CustomSingleLabelClassificationLROResults = "CustomSingleLabelClassificationLROResults",
   CustomMultiLabelClassificationLROResults = "CustomMultiLabelClassificationLROResults"
@@ -1107,12 +1064,35 @@ export enum KnownAnalyzeTextLROResultsKind {
  * **KeyPhraseExtractionLROResults** \
  * **EntityLinkingLROResults** \
  * **HealthcareLROResults** \
- * **ExtractiveSummarizationLROResults** \
  * **CustomEntityRecognitionLROResults** \
  * **CustomSingleLabelClassificationLROResults** \
  * **CustomMultiLabelClassificationLROResults**
  */
 export type AnalyzeTextLROResultsKind = string;
+
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  NotStarted = "notStarted",
+  Running = "running",
+  Succeeded = "succeeded",
+  Failed = "failed",
+  Cancelled = "cancelled",
+  Cancelling = "cancelling"
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **notStarted** \
+ * **running** \
+ * **succeeded** \
+ * **failed** \
+ * **cancelled** \
+ * **cancelling**
+ */
+export type State = string;
 
 /** Known values of {@link StringIndexType} that the service accepts. */
 export enum KnownStringIndexType {
@@ -1527,20 +1507,6 @@ export enum KnownWarningCode {
  */
 export type WarningCode = string;
 
-/** Known values of {@link FhirVersion} that the service accepts. */
-export enum KnownFhirVersion {
-  Four01 = "4.0.1"
-}
-
-/**
- * Defines values for FhirVersion. \
- * {@link KnownFhirVersion} can be used interchangeably with FhirVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **4.0.1**
- */
-export type FhirVersion = string;
-
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {
   BodyStructure = "BODY_STRUCTURE",
@@ -1658,42 +1624,6 @@ export enum KnownRelationType {
  * **ValueOfExamination**
  */
 export type RelationType = string;
-
-/** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
-export enum KnownExtractiveSummarizationOrderingCriteria {
-  /** Indicates that results should be sorted in order of appearance in the text. */
-  Offset = "Offset",
-  /** Indicates that results should be sorted in order of importance (i.e. rank score) according to the model. */
-  Rank = "Rank"
-}
-
-/**
- * Defines values for ExtractiveSummarizationOrderingCriteria. \
- * {@link KnownExtractiveSummarizationOrderingCriteria} can be used interchangeably with ExtractiveSummarizationOrderingCriteria,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Offset**: Indicates that results should be sorted in order of appearance in the text. \
- * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
- */
-export type ExtractiveSummarizationOrderingCriteria = string;
-/** Defines values for OperationStatus. */
-export type OperationStatus =
-  | "notStarted"
-  | "running"
-  | "succeeded"
-  | "partiallySucceeded"
-  | "failed"
-  | "cancelled"
-  | "cancelling";
-/** Defines values for State. */
-export type State =
-  | "notStarted"
-  | "running"
-  | "succeeded"
-  | "partiallySucceeded"
-  | "failed"
-  | "cancelled"
-  | "cancelling";
 /** Defines values for EntityConditionality. */
 export type EntityConditionality = "hypothetical" | "conditional";
 /** Defines values for EntityCertainty. */
