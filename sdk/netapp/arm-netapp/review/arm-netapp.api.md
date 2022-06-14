@@ -1796,7 +1796,7 @@ export interface Volumes {
     beginUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumePatch, options?: VolumesUpdateOptionalParams): Promise<VolumesUpdateResponse>;
     get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesGetOptionalParams): Promise<VolumesGetResponse>;
     list(resourceGroupName: string, accountName: string, poolName: string, options?: VolumesListOptionalParams): PagedAsyncIterableIterator<Volume>;
-    listReplications(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListReplicationsOptionalParams): Promise<VolumesListReplicationsResponse>;
+    listReplications(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListReplicationsOptionalParams): PagedAsyncIterableIterator<Replication>;
     replicationStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesReplicationStatusOptionalParams): Promise<VolumesReplicationStatusResponse>;
 }
 
