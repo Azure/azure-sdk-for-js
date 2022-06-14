@@ -9,7 +9,10 @@
 
 ### node-redis library
 
-#### Dependency Requirements Node-redis
+#### Dependency requirements: node-redis
+
+Add the following dependencies to *package.json*:
+
 ```
 "dependencies": {
     "@azure/identity": "^2.0.4",
