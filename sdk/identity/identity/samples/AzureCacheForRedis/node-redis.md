@@ -15,7 +15,6 @@
     "redis": "^4.1.0"
 ```
 
-
 #### Authenticate with Azure AD: node-redis hello world
 
 This sample is intended to assist in authenticating with Azure AD via the node-redis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as password when setting up the node-redis instance.
