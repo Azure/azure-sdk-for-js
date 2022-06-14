@@ -18,10 +18,7 @@
       }
     },
     "NodeTestVersion": [
-      "12.x",
-      "14.x",
-      "16.x",
-      "17.x"
+=      "14.16.0"
     ],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
