@@ -31,7 +31,7 @@ Integrate the logic in your application code to fetch an AAD Access Token via Id
 ```ts
 import { createClient } from 'redis';
 import * as dotenv from "dotenv";
-import {ClientCertificateCredential} from "@azure/identity";
+import { ClientCertificateCredential } from "@azure/identity";
 dotenv.config();
 
 async function main(){
