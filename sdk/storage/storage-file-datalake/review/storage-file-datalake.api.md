@@ -518,6 +518,7 @@ export interface FileAppendOptions extends CommonOptions {
     // (undocumented)
     conditions?: LeaseAccessConditions;
     customerProvidedKey?: CpkInfo;
+    flush?: boolean;
     // (undocumented)
     onProgress?: (progress: TransferProgressEvent) => void;
     // (undocumented)

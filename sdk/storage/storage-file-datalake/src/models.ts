@@ -1190,6 +1190,10 @@ export interface FileAppendOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * If file should be flushed after the append
+   */
+  flush?: boolean;
 }
 
 export interface FileFlushOptions extends CommonOptions {

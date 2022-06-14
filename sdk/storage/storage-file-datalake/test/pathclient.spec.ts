@@ -792,6 +792,31 @@ describe("DataLakePathClient", () => {
     );
   });
 
+  it.only("append with flush should work", async () => {
+    const body = "HelloWorld";
+
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+
+    await tempFileClient.create();
+
+    await tempFileClient.append(body, 0, body.length, {
+      transactionalContentMD5: new Uint8Array([]),
+    });
+    await tempFileClient.append(body, body.length, body.length, {
+      transactionalContentMD5: new Uint8Array([]),
+    });
+    await tempFileClient.append(body, body.length * 2, body.length, {
+      transactionalContentMD5: new Uint8Array([]),
+      flush: true,
+    });
+
+    const properties = await tempFileClient.getProperties();
+    assert.deepStrictEqual(properties.contentLength, body.length * 3);
+
+    await tempFileClient.delete();
+  });
+
   it("append & flush should work", async () => {
     const body = "HelloWorld";
 

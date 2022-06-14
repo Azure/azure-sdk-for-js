@@ -664,7 +664,8 @@ const appendDataOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.position,
-    Parameters.action5
+    Parameters.action5,
+    Parameters.flush
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
