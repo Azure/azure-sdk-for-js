@@ -32,16 +32,30 @@ interface MetaSegments {
 
 export class ChangeFeedFactory {
   private readonly segmentFactory: SegmentFactory;
+  private readonly maxTransferSize?: number;
 
-  constructor();
+  constructor(maxTransferSize?: number);
   constructor(segmentFactory: SegmentFactory);
-  constructor(segmentFactory?: SegmentFactory) {
+  constructor(segmentFactoryOrMaxTransferSize?: SegmentFactory | number) {
+    let segmentFactory: SegmentFactory | undefined;
+    if (segmentFactoryOrMaxTransferSize) {
+      if (Number.isFinite(segmentFactoryOrMaxTransferSize)) {
+        this.maxTransferSize = segmentFactoryOrMaxTransferSize as number;
+      } else if (segmentFactoryOrMaxTransferSize instanceof SegmentFactory) {
+        segmentFactory = segmentFactoryOrMaxTransferSize as SegmentFactory;
+      }
+    }
+
     if (segmentFactory) {
       this.segmentFactory = segmentFactory;
     } else {
       this.segmentFactory = new SegmentFactory(
         new ShardFactory(
-          new ChunkFactory(new AvroReaderFactory(), new LazyLoadingBlobStreamFactory())
+          new ChunkFactory(
+            new AvroReaderFactory(),
+            new LazyLoadingBlobStreamFactory(),
+            this.maxTransferSize
+          )
         )
       );
     }
@@ -96,10 +110,19 @@ export class ChangeFeedFactory {
 
       // Get last consumable.
       const blobClient = containerClient.getBlobClient(CHANGE_FEED_META_SEGMENT_PATH);
-      const blobDownloadRes = await blobClient.download(undefined, undefined, {
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      let blobDownloadRes;
+      try {
+        blobDownloadRes = await blobClient.download(undefined, undefined, {
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        });
+      } catch (err: any) {
+        if (err.statusCode === 404) {
+          return new ChangeFeed();
+        } else {
+          throw err;
+        }
+      }
       const lastConsumable = new Date(
         (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable
       );
