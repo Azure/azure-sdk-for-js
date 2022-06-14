@@ -246,7 +246,7 @@ export class MsalOpenBrowser extends MsalNode {
     try {
       // A new instance on macOS only which allows it to not hang, does not fix the issue on linux
       await interactiveBrowserMockable.open(response, { wait: true, newInstance: true });
-    } catch (e:any) {
+    } catch (e: any) {
       throw new CredentialUnavailableError(
         `InteractiveBrowserCredential: Could not open a browser window. Error: ${e.message}`
       );
