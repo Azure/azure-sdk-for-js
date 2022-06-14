@@ -3,12 +3,15 @@
 
 import { PipelineOptions } from "@azure/core-http";
 import {
-  DistributionPolicy,
-  ExceptionPolicy,
-  JobQueue,
+  JobRouterReclassifyJobActionOptionalParams, JobRouterUnassignJobActionOptionalParams,
+  JobRouterUpsertClassificationPolicyOptionalParams,
+  JobRouterUpsertDistributionPolicyOptionalParams,
+  JobRouterUpsertExceptionPolicyOptionalParams,
+  JobRouterUpsertJobOptionalParams,
+  JobRouterUpsertQueueOptionalParams,
+  JobRouterUpsertWorkerOptionalParams,
   JobStateSelector,
   RouterJob,
-  RouterWorker,
   WorkerStateSelector
 } from "../generated/src";
 import * as coreHttp from "@azure/core-http";
@@ -20,6 +23,16 @@ export interface RouterClientOptions extends PipelineOptions {
   /** The headers to be set on requests **/
   headers?: { [propertyName: string]: any };
 }
+
+/**
+ * Options to create a classification policy.
+ */
+export interface CreateClassificationPolicyOptions extends JobRouterUpsertClassificationPolicyOptionalParams {}
+
+/**
+ * Options to update a classification policy.
+ */
+export interface UpdateClassificationPolicyOptions extends JobRouterUpsertClassificationPolicyOptionalParams {}
 
 /**
  * Options to get a classification policy.
@@ -42,21 +55,18 @@ export interface ListClassificationPoliciesOptions extends coreHttp.OperationOpt
 /**
  * Options to create a distribution policy.
  */
-export interface CreateDistributionPolicyOptions extends coreHttp.OperationOptions {}
+export interface CreateDistributionPolicyOptions extends JobRouterUpsertDistributionPolicyOptionalParams {}
 
 /**
  * Options to update a distribution policy.
  */
-export interface UpdateDistributionPolicyOptions extends coreHttp.OperationOptions {
-  /** Model of distribution policy properties to be patched. See also: https://datatracker.ietf.org/doc/html/rfc7386 */
-  patch?: DistributionPolicy;
-}
+export interface UpdateDistributionPolicyOptions extends JobRouterUpsertDistributionPolicyOptionalParams {}
+
 
 /**
  * Options to get a distribution policy.
  */
 export interface GetDistributionPolicyOptions extends coreHttp.OperationOptions {}
-
 
 /**
  * Options to delete a distribution policy.
@@ -74,14 +84,12 @@ export interface ListDistributionPoliciesOptions extends coreHttp.OperationOptio
 /**
  * Options to create a exception policy.
  */
-export interface CreateExceptionPolicyOptions extends coreHttp.OperationOptions {}
+export interface CreateExceptionPolicyOptions extends JobRouterUpsertExceptionPolicyOptionalParams {}
+
 /**
  * Options to update a exception policy.
  */
-export interface UpdateExceptionPolicyOptions extends coreHttp.OperationOptions {
-  /** Model of exception policy to be updated */
-  patch?: ExceptionPolicy;
-}
+export interface UpdateExceptionPolicyOptions extends JobRouterUpsertExceptionPolicyOptionalParams {}
 
 /**
  * Options to get a exception policy.
@@ -92,7 +100,6 @@ export interface GetExceptionPolicyOptions extends coreHttp.OperationOptions {}
  * Options to delete a exception policy.
  */
 export interface DeleteExceptionPolicyOptions extends coreHttp.OperationOptions {}
-
 
 /**
  * Options to get exception policies.
@@ -105,17 +112,22 @@ export interface ListExceptionPoliciesOptions extends coreHttp.OperationOptions 
 /**
  * Options to create a job.
  */
-export interface CreateJobOptions extends coreHttp.OperationOptions {}
+export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {}
 
 /**
  * Options to update a job.
  */
-export interface UpdateJobOptions extends coreHttp.OperationOptions {
-  /** Request model for patching a job */
-  patch?: RouterJob;
-  /** If set to true, will force classification. Defaults to false. */
-  forceClassification?: boolean;
-}
+export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {}
+
+/**
+ * Options to reclassify a job.
+ */
+export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams {}
+
+/**
+ * Options to unassign a job.
+ */
+export interface UnassignJobOptions extends JobRouterUnassignJobActionOptionalParams {}
 
 /**
  * Options to update or insert a job's labels.
@@ -137,15 +149,6 @@ export interface UpdateJobClassificationOptions extends coreHttp.OperationOption
   forceClassification?: boolean;
 }
 
-/**
- * Options to create a classification policy.
- */
-export interface CreateClassificationPolicyOptions extends coreHttp.OperationOptions {}
-
-/**
- * Options to update a classification policy.
- */
-export interface UpdateClassificationPolicyOptions extends coreHttp.OperationOptions {}
 
 /**
  * Options to get a job's position details.
@@ -225,15 +228,23 @@ export interface DeleteJobOptions extends coreHttp.OperationOptions {}
 /**
  * Options to create a worker.
  */
-export interface CreateWorkerOptions extends coreHttp.OperationOptions {}
+export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {}
 
 /**
  * Options to update a worker.
  */
-export interface UpdateWorkerOptions extends coreHttp.OperationOptions {
-  /** Model of worker properties to be patched. See also: https://datatracker.ietf.org/doc/html/rfc7386 */
-  patch?: RouterWorker;
-}
+export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {}
+
+/**
+ * Options to update a worker.
+ */
+export interface RegisterWorkerOptions extends JobRouterUpsertWorkerOptionalParams {}
+
+/**
+ * Options to update a worker.
+ */
+export interface DeregisterWorkerOptions extends JobRouterUpsertWorkerOptionalParams {}
+
 
 /**
  * Options to get a worker.
@@ -267,15 +278,12 @@ export interface DeleteWorkerOptions extends coreHttp.OperationOptions {}
 /**
  * Options to create a queue.
  */
-export interface CreateQueueOptions extends coreHttp.OperationOptions {}
+export interface CreateQueueOptions extends JobRouterUpsertQueueOptionalParams {}
 
 /**
  * Options to update a queue.
  */
-export interface UpdateQueueOptions extends coreHttp.OperationOptions {
-  /** Model of queue properties to be patched. See also: https://datatracker.ietf.org/doc/html/rfc7386 */
-  patch?: JobQueue;
-}
+export interface UpdateQueueOptions extends JobRouterUpsertQueueOptionalParams {}
 
 /**
  * Options to get a queue.

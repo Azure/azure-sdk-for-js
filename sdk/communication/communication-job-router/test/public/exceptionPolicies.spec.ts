@@ -1,0 +1,94 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
+import { RouterClient } from "../../src";
+import { Context } from "mocha";
+import { exceptionPolicyRequest } from "./utils/testData";
+import { createRecordedRouterClientWithConnectionString } from "../internal/utils/mockClient";
+
+
+
+describe("RouterClient", function() {
+  let recorder: Recorder;
+  let client: RouterClient;
+
+  describe("Exception Policy Operations", function() {
+    beforeEach(function(this: Context) {
+      ({ client, recorder } = createRecordedRouterClientWithConnectionString(this));
+    });
+
+    afterEach(async function(this: Context) {
+      if (!this.currentTest?.isPending() && recorder) {
+
+      }
+    });
+
+    // exception policy actions
+    it("should successfully create a exception policy", async function() {
+      
+      const request = exceptionPolicyRequest;
+      
+      const result = await client.createExceptionPolicy(request.id!, { patch: request });
+
+      assert.isDefined(result);
+      assert.isDefined(result?.id);
+      assert.equal(result.name, request.name);
+    }).timeout(8000);
+
+    // it("should successfully update a exception policy", async function() {
+    //   var exceptionPolicy: ExceptionPolicy = await client.createExceptionPolicy(
+    //     exceptionPolicyRequest,
+    //     {}
+    //   );
+    //   exceptionPolicy.name = "some new name"
+    //   const result = await client.updateExceptionPolicy(exceptionPolicy, {});
+    //
+    //   assert.isDefined(result);
+    //   assert.isDefined(result?.id);
+    //   assert.equal(result.name, exceptionPolicy.name);
+    // }).timeout(8000);
+    //
+    // it("should successfully get a exception policy", async function() {
+    //   const exceptionPolicy: ExceptionPolicy = await client.createExceptionPolicy(
+    //     exceptionPolicyRequest,
+    //     {}
+    //   );
+    //
+    //   const result = await client.getExceptionPolicy(exceptionPolicy.id!, {});
+    //
+    //   assert.equal(result.id, exceptionPolicyRequest.id);
+    //   assert.equal(result.name, exceptionPolicyRequest.name);
+    //   assert.deepEqual(result.queueSelectors, exceptionPolicyRequest.queueSelectors);
+    //   assert.deepEqual(result.prioritizationRule, exceptionPolicyRequest.prioritizationRule);
+    // }).timeout(8000);
+    //
+    // it("should successfully list exception policies", async function() {
+    //   await client.createExceptionPolicy(exceptionPolicyRequest, {});
+    //   await client.createExceptionPolicy(exceptionPolicyRequest, {});
+    //
+    //   const result = await client.listExceptionPolicies({
+    //     maxpagesize: 1
+    //   });
+    //
+    //   assert.isNotNull(result.next());
+    //   assert.isNotNull(result.next());
+    // }).timeout(8000);
+    //
+    // it("should successfully delete a exception policy", async function() {
+    //   const exceptionPolicy: ExceptionPolicy = await client.createExceptionPolicy(
+    //     exceptionPolicyRequest,
+    //     {}
+    //   );
+    //   const request = {
+    //     name: "some new name"
+    //   };
+    //   const result = await client.deleteExceptionPolicy(exceptionPolicy.id!, {});
+    //   // const result = await client.getExceptionPolicy(exceptionPolicy.id!, {});
+    //
+    //   assert.isDefined(result);
+    //   assert.equal(result.name, request.name);
+    // }).timeout(8000);
+  });
+});

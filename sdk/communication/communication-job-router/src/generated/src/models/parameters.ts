@@ -26,7 +26,7 @@ import {
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
-    defaultValue: "application/json",
+    defaultValue: "application/merge-patch+json",
     isConstant: true,
     serializedName: "Content-Type",
     type: {
@@ -35,8 +35,8 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const classificationPolicy: OperationParameter = {
-  parameterPath: "classificationPolicy",
+export const patch: OperationParameter = {
+  parameterPath: ["options", "patch"],
   mapper: ClassificationPolicyMapper
 };
 
@@ -64,20 +64,11 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const repeatabilityRequestId: OperationParameter = {
-  parameterPath: ["options", "repeatabilityRequestId"],
+export const id: OperationURLParameter = {
+  parameterPath: "id",
   mapper: {
-    serializedName: "repeatability-request-id",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const repeatabilityFirstSent: OperationParameter = {
-  parameterPath: ["options", "repeatabilityFirstSent"],
-  mapper: {
-    serializedName: "repeatability-first-sent",
+    serializedName: "id",
+    required: true,
     type: {
       name: "String"
     }
@@ -107,10 +98,36 @@ export const maxpagesize: OperationQueryParameter = {
   }
 };
 
+export const patch1: OperationParameter = {
+  parameterPath: ["options", "patch"],
+  mapper: DistributionPolicyMapper
+};
+
+export const patch2: OperationParameter = {
+  parameterPath: ["options", "patch"],
+  mapper: ExceptionPolicyMapper
+};
+
+export const patch3: OperationParameter = {
+  parameterPath: ["options", "patch"],
+  mapper: RouterJobMapper
+};
+
+export const jobId: OperationURLParameter = {
+  parameterPath: "jobId",
+  mapper: {
+    serializedName: "jobId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType1: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
-    defaultValue: "application/merge-patch+json",
+    defaultValue: "application/json",
     isConstant: true,
     serializedName: "Content-Type",
     type: {
@@ -119,101 +136,12 @@ export const contentType1: OperationParameter = {
   }
 };
 
-export const patch: OperationParameter = {
-  parameterPath: "patch",
-  mapper: ClassificationPolicyMapper
-};
-
-export const id: OperationURLParameter = {
-  parameterPath: "id",
+export const reclassifyJobRequest: OperationParameter = {
+  parameterPath: ["options", "reclassifyJobRequest"],
   mapper: {
-    serializedName: "id",
-    required: true,
+    serializedName: "reclassifyJobRequest",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const distributionPolicy: OperationParameter = {
-  parameterPath: "distributionPolicy",
-  mapper: DistributionPolicyMapper
-};
-
-export const patch1: OperationParameter = {
-  parameterPath: ["options", "patch"],
-  mapper: DistributionPolicyMapper
-};
-
-export const exceptionPolicy: OperationParameter = {
-  parameterPath: "exceptionPolicy",
-  mapper: ExceptionPolicyMapper
-};
-
-export const patch2: OperationParameter = {
-  parameterPath: ["options", "patch"],
-  mapper: ExceptionPolicyMapper
-};
-
-export const routerJob: OperationParameter = {
-  parameterPath: "routerJob",
-  mapper: RouterJobMapper
-};
-
-export const status: OperationQueryParameter = {
-  parameterPath: ["options", "status"],
-  mapper: {
-    defaultValue: "all",
-    serializedName: "status",
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "all",
-        "pendingClassification",
-        "queued",
-        "assigned",
-        "completed",
-        "closed",
-        "cancelled",
-        "classificationFailed",
-        "active"
-      ]
-    }
-  }
-};
-
-export const queueId: OperationQueryParameter = {
-  parameterPath: ["options", "queueId"],
-  mapper: {
-    serializedName: "queueId",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const channelId: OperationQueryParameter = {
-  parameterPath: ["options", "channelId"],
-  mapper: {
-    serializedName: "channelId",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const patch3: OperationParameter = {
-  parameterPath: ["options", "patch"],
-  mapper: RouterJobMapper
-};
-
-export const forceClassification: OperationQueryParameter = {
-  parameterPath: ["options", "forceClassification"],
-  mapper: {
-    defaultValue: false,
-    serializedName: "forceClassification",
-    type: {
-      name: "Boolean"
+      name: "any"
     }
   }
 };
@@ -258,10 +186,52 @@ export const note2: OperationParameter = {
   mapper: CloseJobRequestMapper
 };
 
-export const offerId: OperationURLParameter = {
-  parameterPath: "offerId",
+export const status: OperationQueryParameter = {
+  parameterPath: ["options", "status"],
   mapper: {
-    serializedName: "offerId",
+    defaultValue: "all",
+    serializedName: "status",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "all",
+        "pendingClassification",
+        "queued",
+        "assigned",
+        "completed",
+        "closed",
+        "cancelled",
+        "classificationFailed",
+        "active"
+      ]
+    }
+  }
+};
+
+export const queueId: OperationQueryParameter = {
+  parameterPath: ["options", "queueId"],
+  mapper: {
+    serializedName: "queueId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const channelId: OperationQueryParameter = {
+  parameterPath: ["options", "channelId"],
+  mapper: {
+    serializedName: "channelId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const assignmentId2: OperationURLParameter = {
+  parameterPath: "assignmentId",
+  mapper: {
+    serializedName: "assignmentId",
     required: true,
     type: {
       name: "String"
@@ -280,9 +250,15 @@ export const workerId: OperationURLParameter = {
   }
 };
 
-export const jobQueue: OperationParameter = {
-  parameterPath: "jobQueue",
-  mapper: JobQueueMapper
+export const offerId: OperationURLParameter = {
+  parameterPath: "offerId",
+  mapper: {
+    serializedName: "offerId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const patch4: OperationParameter = {
@@ -290,8 +266,19 @@ export const patch4: OperationParameter = {
   mapper: JobQueueMapper
 };
 
-export const routerWorker: OperationParameter = {
-  parameterPath: "routerWorker",
+export const queueId1: OperationURLParameter = {
+  parameterPath: "queueId",
+  mapper: {
+    serializedName: "queueId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const patch5: OperationParameter = {
+  parameterPath: ["options", "patch"],
   mapper: RouterWorkerMapper
 };
 
@@ -315,11 +302,6 @@ export const hasCapacity: OperationQueryParameter = {
       name: "Boolean"
     }
   }
-};
-
-export const patch5: OperationParameter = {
-  parameterPath: ["options", "patch"],
-  mapper: RouterWorkerMapper
 };
 
 export const nextLink: OperationURLParameter = {

@@ -65,6 +65,5 @@ export {
   JobExceptionTrigger,
   QueueLengthExceptionTrigger,
   WaitTimeExceptionTrigger,
-  ScoringRuleParameterSelector,
-
+  ScoringRuleParameterSelector
 } from "../generated/src/models";
