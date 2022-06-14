@@ -58,7 +58,7 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 // @public
-export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | ExtractiveSummarizationBatchAction | SentimentAnalysisBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
+export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | SentimentAnalysisBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
 
 // @public
 export interface AnalyzeBatchActionCommon {
@@ -76,7 +76,6 @@ export const AnalyzeBatchActionNames: {
     readonly KeyPhraseExtraction: "KeyPhraseExtraction";
     readonly EntityLinking: "EntityLinking";
     readonly Healthcare: "Healthcare";
-    readonly ExtractiveSummarization: "ExtractiveSummarization";
     readonly CustomEntityRecognition: "CustomEntityRecognition";
     readonly CustomSingleLabelClassification: "CustomSingleLabelClassification";
     readonly CustomMultiLabelClassification: "CustomMultiLabelClassification";
@@ -103,7 +102,7 @@ export interface AnalyzeBatchOperationState extends PollOperationState<PagedAnal
 export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
 
 // @public
-export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | ExtractiveSummarizationBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
+export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
 
 // @public
 export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
@@ -326,29 +325,7 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
-export type ExtractiveSummarizationAction = ActionPrebuilt & {
-    maxSentenceCount?: number;
-    orderBy?: ExtractiveSummarizationOrderingCriteria;
-    stringIndexType?: StringIndexType;
-};
-
-// @public
-export interface ExtractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, ExtractiveSummarizationAction {
-    kind: "ExtractiveSummarization";
-}
-
-// @public
-export type ExtractiveSummarizationBatchResult = ActionMetadata & BatchActionResult<SummarizationExtractionResult, "ExtractiveSummarization">;
-
-// @public
-export type ExtractiveSummarizationOrderingCriteria = string;
-
-// @public
-export type FhirVersion = string;
-
-// @public
 export type HealthcareAction = ActionPrebuilt & {
-    fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
 };
 
@@ -403,7 +380,6 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: HealthcareEntity[];
     readonly entityRelations: HealthcareEntityRelation[];
-    readonly fhirBundle?: Record<string, any>;
 }
 
 // @public
@@ -439,6 +415,8 @@ export enum KnownErrorCode {
     // (undocumented)
     AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
     // (undocumented)
+    Conflict = "Conflict",
+    // (undocumented)
     Forbidden = "Forbidden",
     // (undocumented)
     InternalServerError = "InternalServerError",
@@ -453,22 +431,73 @@ export enum KnownErrorCode {
     // (undocumented)
     ProjectNotFound = "ProjectNotFound",
     // (undocumented)
+    QuotaExceeded = "QuotaExceeded",
+    // (undocumented)
     ServiceUnavailable = "ServiceUnavailable",
+    // (undocumented)
+    Timeout = "Timeout",
     // (undocumented)
     TooManyRequests = "TooManyRequests",
     // (undocumented)
-    Unauthorized = "Unauthorized"
+    Unauthorized = "Unauthorized",
+    // (undocumented)
+    Warning = "Warning"
 }
 
 // @public
-export enum KnownExtractiveSummarizationOrderingCriteria {
-    Offset = "Offset",
-    Rank = "Rank"
-}
-
-// @public
-export enum KnownFhirVersion {
-    "4.0.1" = "4.0.1"
+export enum KnownHealthcareEntityCategory {
+    // (undocumented)
+    AdministrativeEvent = "ADMINISTRATIVE_EVENT",
+    // (undocumented)
+    AGE = "AGE",
+    // (undocumented)
+    BodyStructure = "BODY_STRUCTURE",
+    // (undocumented)
+    CareEnvironment = "CARE_ENVIRONMENT",
+    // (undocumented)
+    ConditionQualifier = "CONDITION_QUALIFIER",
+    // (undocumented)
+    Date = "DATE",
+    // (undocumented)
+    Diagnosis = "DIAGNOSIS",
+    // (undocumented)
+    Direction = "DIRECTION",
+    // (undocumented)
+    Dosage = "DOSAGE",
+    // (undocumented)
+    ExaminationName = "EXAMINATION_NAME",
+    // (undocumented)
+    FamilyRelation = "FAMILY_RELATION",
+    // (undocumented)
+    Frequency = "FREQUENCY",
+    // (undocumented)
+    Gender = "GENDER",
+    // (undocumented)
+    GeneORProtein = "GENE_OR_PROTEIN",
+    // (undocumented)
+    HealthcareProfession = "HEALTHCARE_PROFESSION",
+    // (undocumented)
+    MeasurementUnit = "MEASUREMENT_UNIT",
+    // (undocumented)
+    MeasurementValue = "MEASUREMENT_VALUE",
+    // (undocumented)
+    MedicationClass = "MEDICATION_CLASS",
+    // (undocumented)
+    MedicationForm = "MEDICATION_FORM",
+    // (undocumented)
+    MedicationName = "MEDICATION_NAME",
+    // (undocumented)
+    MedicationRoute = "MEDICATION_ROUTE",
+    // (undocumented)
+    RelationalOperator = "RELATIONAL_OPERATOR",
+    // (undocumented)
+    SymptomORSign = "SYMPTOM_OR_SIGN",
+    // (undocumented)
+    Time = "TIME",
+    // (undocumented)
+    TreatmentName = "TREATMENT_NAME",
+    // (undocumented)
+    Variant = "VARIANT"
 }
 
 // @public
@@ -501,6 +530,24 @@ export enum KnownInnerErrorCode {
     ModelVersionIncorrect = "ModelVersionIncorrect",
     // (undocumented)
     UnsupportedLanguageCode = "UnsupportedLanguageCode"
+}
+
+// @public
+export enum KnownOperationStatus {
+    // (undocumented)
+    Cancelled = "cancelled",
+    // (undocumented)
+    Cancelling = "cancelling",
+    // (undocumented)
+    Failed = "failed",
+    // (undocumented)
+    NotStarted = "notStarted",
+    // (undocumented)
+    PartiallyCompleted = "partiallyCompleted",
+    // (undocumented)
+    Running = "running",
+    // (undocumented)
+    Succeeded = "succeeded"
 }
 
 // @public
@@ -860,6 +907,52 @@ export enum KnownPiiEntityDomain {
 }
 
 // @public
+export enum KnownRelationType {
+    // (undocumented)
+    Abbreviation = "Abbreviation",
+    // (undocumented)
+    DirectionOfBodyStructure = "DirectionOfBodyStructure",
+    // (undocumented)
+    DirectionOfCondition = "DirectionOfCondition",
+    // (undocumented)
+    DirectionOfExamination = "DirectionOfExamination",
+    // (undocumented)
+    DirectionOfTreatment = "DirectionOfTreatment",
+    // (undocumented)
+    DosageOfMedication = "DosageOfMedication",
+    // (undocumented)
+    FormOfMedication = "FormOfMedication",
+    // (undocumented)
+    FrequencyOfMedication = "FrequencyOfMedication",
+    // (undocumented)
+    FrequencyOfTreatment = "FrequencyOfTreatment",
+    // (undocumented)
+    QualifierOfCondition = "QualifierOfCondition",
+    // (undocumented)
+    RelationOfExamination = "RelationOfExamination",
+    // (undocumented)
+    RouteOfMedication = "RouteOfMedication",
+    // (undocumented)
+    TimeOfCondition = "TimeOfCondition",
+    // (undocumented)
+    TimeOfEvent = "TimeOfEvent",
+    // (undocumented)
+    TimeOfExamination = "TimeOfExamination",
+    // (undocumented)
+    TimeOfMedication = "TimeOfMedication",
+    // (undocumented)
+    TimeOfTreatment = "TimeOfTreatment",
+    // (undocumented)
+    UnitOfCondition = "UnitOfCondition",
+    // (undocumented)
+    UnitOfExamination = "UnitOfExamination",
+    // (undocumented)
+    ValueOfCondition = "ValueOfCondition",
+    // (undocumented)
+    ValueOfExamination = "ValueOfExamination"
+}
+
+// @public
 export enum KnownStringIndexType {
     TextElementsV8 = "TextElements_v8",
     UnicodeCodePoint = "UnicodeCodePoint",
@@ -893,6 +986,10 @@ export const KnownTextAnalysisErrorCode: {
     AzureCognitiveSearchIndexLimitReached: KnownErrorCode.AzureCognitiveSearchIndexLimitReached;
     InternalServerError: KnownErrorCode.InternalServerError;
     ServiceUnavailable: KnownErrorCode.ServiceUnavailable;
+    Timeout: KnownErrorCode.Timeout;
+    QuotaExceeded: KnownErrorCode.QuotaExceeded;
+    Conflict: KnownErrorCode.Conflict;
+    Warning: KnownErrorCode.Warning;
 };
 
 // @public
@@ -936,7 +1033,7 @@ export interface Match {
 }
 
 // @public
-export type OperationStatus = "notStarted" | "running" | "succeeded" | "partiallySucceeded" | "failed" | "cancelled" | "cancelling";
+export type OperationStatus = string;
 
 // @public
 export interface Opinion {
@@ -1040,25 +1137,6 @@ export interface SentimentConfidenceScores {
 
 // @public
 export type StringIndexType = string;
-
-// @public
-export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
-
-// @public
-export type SummarizationExtractionResult = SummarizationExtractionSuccessResult | SummarizationExtractionErrorResult;
-
-// @public
-export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
-    readonly sentences: SummarySentence[];
-}
-
-// @public
-export interface SummarySentence {
-    length: number;
-    offset: number;
-    rankScore: number;
-    text: string;
-}
 
 // @public
 export interface TargetConfidenceScores {

@@ -1937,7 +1937,7 @@ export const expectation21: AnalyzeBatchResult[] = [
           {
             code: "DocumentTruncated",
             message:
-              "Document is large and must be split to be processed; relations across splits may not be caught by the model",
+              "Document is greater than 5120 chars; relations across splits of 5120 chars may be skipped by the model",
           },
         ],
       },
@@ -2136,7 +2136,7 @@ export const expectation24: AnalyzeBatchResult[] = [
   },
 ];
 
-export const expectation25: AnalyzeBatchResult[] = [
+export const expectation25 = [
   {
     kind: "Healthcare",
     results: [
@@ -3890,7 +3890,7 @@ export const expectation26: AnalyzeBatchResult[] = [
   },
 ];
 
-export const expectation27: AnalyzeBatchResult[] = [
+export const expectation27 = [
   {
     kind: "ExtractiveSummarization",
     results: [
@@ -3948,7 +3948,7 @@ export const expectation27: AnalyzeBatchResult[] = [
   },
 ];
 
-export const expectation28: AnalyzeBatchResult[] = [
+export const expectation28 = [
   {
     kind: "ExtractiveSummarization",
     results: [
@@ -3994,7 +3994,7 @@ export const expectation28: AnalyzeBatchResult[] = [
   },
 ];
 
-export const expectation29: AnalyzeBatchResult[] = [
+export const expectation29 = [
   {
     kind: "ExtractiveSummarization",
     results: [

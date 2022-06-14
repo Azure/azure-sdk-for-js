@@ -3,8 +3,6 @@
 
 import {
   AnalyzeBatchActionNames,
-  KnownExtractiveSummarizationOrderingCriteria,
-  KnownFhirVersion,
   KnownPiiEntityCategory,
   KnownPiiEntityDomain,
   KnownStringIndexType,
@@ -34,11 +32,7 @@ import {
   expectation22,
   expectation23,
   expectation24,
-  expectation25,
   expectation26,
-  expectation27,
-  expectation28,
-  expectation29,
   expectation3,
   expectation4,
   expectation5,
@@ -47,7 +41,6 @@ import {
   expectation8,
   expectation9,
 } from "./expectations";
-import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 import { getDocsFromState } from "../../src/lro";
 
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
@@ -261,83 +254,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionResults(await poller.pollUntilDone(), expectation20);
-          });
-
-          it("healthcare with fhir", async function () {
-            const docs = [
-              "Patient does not suffer from high blood pressure.",
-              "Prescribed 100mg ibuprofen, taken twice daily.",
-              "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                  fhirVersion: KnownFhirVersion["4.0.1"],
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionResults(await poller.pollUntilDone(), expectation25, {
-              excludedAdditionalProps: ["reference", "id", "fullUrl", "value", "date"],
-            });
-          });
-
-          it("extractive summarization", async function () {
-            const docs = [windows365ArticlePart1, windows365ArticlePart2];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionResults(await poller.pollUntilDone(), expectation27);
-          });
-
-          it("extractive summarization with maxSentenceCount", async function () {
-            const docs = [windows365ArticlePart1, windows365ArticlePart2];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
-                  maxSentenceCount: 2,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionResults(await poller.pollUntilDone(), expectation28);
-          });
-
-          it("extractive summarization with orderBy", async function () {
-            const docs = [windows365ArticlePart1, windows365ArticlePart2];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
-                  orderBy: KnownExtractiveSummarizationOrderingCriteria.Rank,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionResults(await poller.pollUntilDone(), expectation29);
           });
         });
 

@@ -1,14 +1,14 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-05-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-US",
         "Connection": "keep-alive",
-        "Content-Length": "740",
+        "Content-Length": "739",
         "Content-Type": "application/json",
         "ocp-apim-subscription-key": "api_key",
         "Referer": "http://localhost:9876/",
@@ -18,9 +18,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "abc2d223-5358-467a-aa91-12660c198f23",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "14d0e22a-f66e-409f-b21b-b405aefad8ca",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "analysisInput": {
@@ -74,18 +74,18 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "a77779c9-8b03-4780-9f39-5f97c3d5fff2",
+        "apim-request-id": "5ce89c29-76a8-454d-898f-66eaa932b66c",
         "Content-Length": "0",
-        "Date": "Fri, 06 May 2022 20:06:22 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/e505a2da-2537-4808-87a3-5ff6aa098761?api-version=2022-04-01-preview",
+        "Date": "Tue, 14 Jun 2022 00:30:23 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/daf23e7e-fc25-4a7b-b2b7-353dd320d99f?api-version=2022-05-01",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "259"
+        "x-envoy-upstream-service-time": "236"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e505a2da-2537-4808-87a3-5ff6aa098761?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/daf23e7e-fc25-4a7b-b2b7-353dd320d99f?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -100,26 +100,26 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "38e39bae-b1d8-420c-9136-f9b2f9ad504f",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "7013e9a1-0299-4a7d-b0f5-3ef099000474",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "77de2bf4-484e-4dfb-9f89-4956b1b2bffe",
-        "Content-Length": "282",
+        "apim-request-id": "fe7e7940-bf48-4642-a082-bcee94803cf7",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:06:22 GMT",
+        "Date": "Tue, 14 Jun 2022 00:30:23 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "8"
       },
       "ResponseBody": {
-        "jobId": "e505a2da-2537-4808-87a3-5ff6aa098761",
-        "lastUpdateDateTime": "2022-05-06T20:06:23Z",
-        "createdDateTime": "2022-05-06T20:06:23Z",
-        "expirationDateTime": "2022-05-07T20:06:23Z",
+        "jobId": "daf23e7e-fc25-4a7b-b2b7-353dd320d99f",
+        "lastUpdatedDateTime": "2022-06-14T00:30:24Z",
+        "createdDateTime": "2022-06-14T00:30:24Z",
+        "expirationDateTime": "2022-06-15T00:30:24Z",
         "status": "notStarted",
         "errors": [],
         "tasks": {
@@ -132,7 +132,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e505a2da-2537-4808-87a3-5ff6aa098761?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/daf23e7e-fc25-4a7b-b2b7-353dd320d99f?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -147,74 +147,27 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "5a568550-6008-45c1-a421-7bf4bb127c59",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "b4cd940b-1aa7-43c7-8898-93aa2836bdb1",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "a002c25d-dd3f-4e16-b74e-60b301802387",
-        "Content-Length": "279",
+        "apim-request-id": "22e7225e-9c39-4750-959d-5025d2e2460a",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:06:22 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7"
-      },
-      "ResponseBody": {
-        "jobId": "e505a2da-2537-4808-87a3-5ff6aa098761",
-        "lastUpdateDateTime": "2022-05-06T20:06:23Z",
-        "createdDateTime": "2022-05-06T20:06:23Z",
-        "expirationDateTime": "2022-05-07T20:06:23Z",
-        "status": "running",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e505a2da-2537-4808-87a3-5ff6aa098761?api-version=2022-04-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "api_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "950e8fcf-927e-437a-9756-9de16a70c6ad",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "4d30cb27-6e8c-4fbd-9c64-b3fb5cd2467a",
-        "Content-Length": "279",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:06:24 GMT",
+        "Date": "Tue, 14 Jun 2022 00:30:23 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "8"
       },
       "ResponseBody": {
-        "jobId": "e505a2da-2537-4808-87a3-5ff6aa098761",
-        "lastUpdateDateTime": "2022-05-06T20:06:23Z",
-        "createdDateTime": "2022-05-06T20:06:23Z",
-        "expirationDateTime": "2022-05-07T20:06:23Z",
-        "status": "running",
+        "jobId": "daf23e7e-fc25-4a7b-b2b7-353dd320d99f",
+        "lastUpdatedDateTime": "2022-06-14T00:30:24Z",
+        "createdDateTime": "2022-06-14T00:30:24Z",
+        "expirationDateTime": "2022-06-15T00:30:24Z",
+        "status": "notStarted",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -226,7 +179,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e505a2da-2537-4808-87a3-5ff6aa098761?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/daf23e7e-fc25-4a7b-b2b7-353dd320d99f?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -241,26 +194,26 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "2b05204e-a91f-4ddc-99fe-d9c87da8f51c",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "3b3fbf41-c5ed-4ffd-9d23-3b1003686f72",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "08702f1e-6241-4456-88af-a54c17507fae",
-        "Content-Length": "279",
+        "apim-request-id": "0cc8eb7d-cef4-4ac6-8736-7e12ca20b439",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:06:26 GMT",
+        "Date": "Tue, 14 Jun 2022 00:30:26 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7"
+        "x-envoy-upstream-service-time": "8"
       },
       "ResponseBody": {
-        "jobId": "e505a2da-2537-4808-87a3-5ff6aa098761",
-        "lastUpdateDateTime": "2022-05-06T20:06:23Z",
-        "createdDateTime": "2022-05-06T20:06:23Z",
-        "expirationDateTime": "2022-05-07T20:06:23Z",
+        "jobId": "daf23e7e-fc25-4a7b-b2b7-353dd320d99f",
+        "lastUpdatedDateTime": "2022-06-14T00:30:24Z",
+        "createdDateTime": "2022-06-14T00:30:24Z",
+        "expirationDateTime": "2022-06-15T00:30:24Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -273,7 +226,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e505a2da-2537-4808-87a3-5ff6aa098761?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/daf23e7e-fc25-4a7b-b2b7-353dd320d99f?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -288,73 +241,26 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "cb5426e3-0ed2-4d6d-bc5d-9755abddc5a9",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "22e99788-35f4-43b2-b59b-487b782e3e01",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "ddc4c170-9d51-474c-b31f-951e3c36404d",
-        "Content-Length": "279",
+        "apim-request-id": "96cc8d4d-5e96-433d-b203-000e20daed11",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:06:29 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7"
-      },
-      "ResponseBody": {
-        "jobId": "e505a2da-2537-4808-87a3-5ff6aa098761",
-        "lastUpdateDateTime": "2022-05-06T20:06:23Z",
-        "createdDateTime": "2022-05-06T20:06:23Z",
-        "expirationDateTime": "2022-05-07T20:06:23Z",
-        "status": "running",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e505a2da-2537-4808-87a3-5ff6aa098761?api-version=2022-04-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "api_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "ba2d7eca-a854-4a9f-bf51-157568456c17",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "2a318f7a-8417-4e8f-9a73-e3dff00d4eb6",
-        "Content-Length": "279",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:06:31 GMT",
+        "Date": "Tue, 14 Jun 2022 00:30:28 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "9"
       },
       "ResponseBody": {
-        "jobId": "e505a2da-2537-4808-87a3-5ff6aa098761",
-        "lastUpdateDateTime": "2022-05-06T20:06:23Z",
-        "createdDateTime": "2022-05-06T20:06:23Z",
-        "expirationDateTime": "2022-05-07T20:06:23Z",
+        "jobId": "daf23e7e-fc25-4a7b-b2b7-353dd320d99f",
+        "lastUpdatedDateTime": "2022-06-14T00:30:24Z",
+        "createdDateTime": "2022-06-14T00:30:24Z",
+        "expirationDateTime": "2022-06-15T00:30:24Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -367,7 +273,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e505a2da-2537-4808-87a3-5ff6aa098761?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/daf23e7e-fc25-4a7b-b2b7-353dd320d99f?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -382,26 +288,73 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "2f43c65d-4607-4254-8a99-4d0e33c5b868",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "138f6fef-a474-47c1-938d-3d1142be9c90",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "2d6d8bcf-1bc4-48c8-810e-df873df0add5",
-        "Content-Length": "8334",
+        "apim-request-id": "62504623-6f45-4c5f-b7af-17ffaaa0f1fe",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:06:33 GMT",
+        "Date": "Tue, 14 Jun 2022 00:30:31 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "98"
+        "x-envoy-upstream-service-time": "8"
       },
       "ResponseBody": {
-        "jobId": "e505a2da-2537-4808-87a3-5ff6aa098761",
-        "lastUpdateDateTime": "2022-05-06T20:06:31Z",
-        "createdDateTime": "2022-05-06T20:06:23Z",
-        "expirationDateTime": "2022-05-07T20:06:23Z",
+        "jobId": "daf23e7e-fc25-4a7b-b2b7-353dd320d99f",
+        "lastUpdatedDateTime": "2022-06-14T00:30:24Z",
+        "createdDateTime": "2022-06-14T00:30:24Z",
+        "expirationDateTime": "2022-06-15T00:30:24Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/daf23e7e-fc25-4a7b-b2b7-353dd320d99f?api-version=2022-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "0ebbbf62-ea3c-4db8-82e1-c206476bf394",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "5f5d7ecc-684d-4faa-8e95-32e26498c110",
+        "Content-Length": "8335",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 14 Jun 2022 00:30:33 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "94"
+      },
+      "ResponseBody": {
+        "jobId": "daf23e7e-fc25-4a7b-b2b7-353dd320d99f",
+        "lastUpdatedDateTime": "2022-06-14T00:30:33Z",
+        "createdDateTime": "2022-06-14T00:30:24Z",
+        "expirationDateTime": "2022-06-15T00:30:24Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -412,7 +365,7 @@
           "items": [
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:06:31.7140009Z",
+              "lastUpdateDateTime": "2022-06-14T00:30:33.3691342Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1050,7 +1003,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e505a2da-2537-4808-87a3-5ff6aa098761?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/daf23e7e-fc25-4a7b-b2b7-353dd320d99f?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1065,26 +1018,26 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "5b67d861-9592-4266-abc5-1f4c17e70dd7",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "e37c7c1b-884f-4a08-8372-f00869c45e24",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "91f4a7e5-2123-44b9-9c24-abe7942e5a07",
-        "Content-Length": "8334",
+        "apim-request-id": "17baefe3-9a80-484c-bd9a-0b96522a3cbe",
+        "Content-Length": "8335",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:06:33 GMT",
+        "Date": "Tue, 14 Jun 2022 00:30:34 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "97"
+        "x-envoy-upstream-service-time": "91"
       },
       "ResponseBody": {
-        "jobId": "e505a2da-2537-4808-87a3-5ff6aa098761",
-        "lastUpdateDateTime": "2022-05-06T20:06:31Z",
-        "createdDateTime": "2022-05-06T20:06:23Z",
-        "expirationDateTime": "2022-05-07T20:06:23Z",
+        "jobId": "daf23e7e-fc25-4a7b-b2b7-353dd320d99f",
+        "lastUpdatedDateTime": "2022-06-14T00:30:33Z",
+        "createdDateTime": "2022-06-14T00:30:24Z",
+        "expirationDateTime": "2022-06-15T00:30:24Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -1095,7 +1048,7 @@
           "items": [
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:06:31.7140009Z",
+              "lastUpdateDateTime": "2022-06-14T00:30:33.3691342Z",
               "status": "succeeded",
               "results": {
                 "documents": [

@@ -38,8 +38,7 @@ import {
   EntityRecognitionLROResult,
   ErrorModel,
   ErrorResponse,
-  ExtractiveSummarizationLROResult,
-  CustomSingleLabelClassificationResult as GeneratedCustomSingleLabelClassificationResult,
+  CustomLabelClassificationResult as GeneratedCustomLabelClassificationResult,
   EntityLinkingResult as GeneratedEntityLinkingResult,
   EntitiesResult as GeneratedEntityRecognitionResult,
   HealthcareEntity as GeneratedHealthcareEntity,
@@ -64,7 +63,7 @@ import {
   SentenceTarget,
   SentimentLROResult,
   SentimentTaskResult,
-  SingleClassificationDocumentResult,
+  ClassificationDocumentResult,
   TargetRelation,
   TextDocumentInput,
 } from "./generated";
@@ -367,17 +366,17 @@ function toHealthcareResult(
   );
 }
 
-function toCustomSingleLabelClassificationResult(
+function toCustomLabelClassificationResult(
   documents: TextDocumentInput[],
-  results: GeneratedCustomSingleLabelClassificationResult
+  results: GeneratedCustomLabelClassificationResult
 ): CustomSingleLabelClassificationResult[] {
   return transformDocumentResults<
-    SingleClassificationDocumentResult,
+    ClassificationDocumentResult,
     CustomSingleLabelClassificationSuccessResult
   >(documents, results, {
-    processSuccess: ({ classification, ...rest }) => {
+    processSuccess: ({ class: classifications, ...rest }) => {
       return {
-        classifications: [classification],
+        classifications,
         ...rest,
       };
     },
@@ -484,7 +483,7 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomSingleLabelClassification",
-          results: toCustomSingleLabelClassificationResult(documents, results),
+          results: toCustomLabelClassificationResult(documents, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -497,24 +496,12 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomMultiLabelClassification",
-          results: transformDocumentResults(documents, results),
+          results: toCustomLabelClassificationResult(documents, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
           deploymentName,
           projectName,
-        };
-      }
-      case "ExtractiveSummarizationLROResults": {
-        const { results } = actionData as ExtractiveSummarizationLROResult;
-        const { modelVersion, statistics } = results;
-        return {
-          kind: "ExtractiveSummarization",
-          results: transformDocumentResults(documents, results),
-          completedOn,
-          ...(actionName ? { actionName } : {}),
-          ...(statistics ? { statistics } : {}),
-          modelVersion,
         };
       }
       default: {
