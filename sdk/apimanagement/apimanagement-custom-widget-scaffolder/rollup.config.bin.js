@@ -53,7 +53,7 @@ function copyTemplates() {
     generateBundle() {
       const from = path.join("src", "templates");
       const to = path.join("bin");
-      fs.mkdirSync("bin");
+      fs.mkdirSync("bin", {recursive: true});
       const log = (msg) => console.log("\x1b[36m%s\x1b[0m", msg);
       log(`copy templates: ${from} → ${to}`);
       copyFolderRecursiveSync(from, to);
