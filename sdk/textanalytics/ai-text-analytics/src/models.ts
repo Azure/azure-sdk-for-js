@@ -576,17 +576,17 @@ export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSucces
 export type CustomEntityRecognitionErrorResult = TextAnalysisErrorResult;
 
 /**
- * The result of the custom classify document single category operation on a single document.
+ * The result of the custom classify document operation on a single document.
  */
-export type CustomSingleLabelClassificationResult =
-  | CustomSingleLabelClassificationSuccessResult
-  | CustomSingleLabelClassificationErrorResult;
+export type CustomLabelClassificationResult =
+  | CustomLabelClassificationSuccessResult
+  | CustomLabelClassificationErrorResult;
 
 /**
- * The result of the custom classify document single category operation on a single document,
+ * The result of the custom classify document operation on a single document,
  * containing the result of the classification.
  */
-export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+export interface CustomLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
   /**
    * The collection of classifications in the input document.
    */
@@ -596,30 +596,7 @@ export interface CustomSingleLabelClassificationSuccessResult extends TextAnalys
 /**
  * An error result from the custom classify document single category operation on a single document.
  */
-export type CustomSingleLabelClassificationErrorResult = TextAnalysisErrorResult;
-
-/**
- * The result of the custom classify document multi categories operation on a multi document.
- */
-export type CustomMultiLabelClassificationResult =
-  | CustomMultiLabelClassificationSuccessResult
-  | CustomMultiLabelClassificationErrorResult;
-
-/**
- * The result of the custom classify document multi categories operation on a multi document,
- * containing the result of the classification.
- */
-export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
-  /**
-   * The collection of classifications in the input document.
-   */
-  readonly classifications: ClassificationCategory[];
-}
-
-/**
- * An error result from the custom classify document multi category operation on a multi document.
- */
-export type CustomMultiLabelClassificationErrorResult = TextAnalysisErrorResult;
+export type CustomLabelClassificationErrorResult = TextAnalysisErrorResult;
 
 /**
  * Options common to all batch actions.
@@ -863,13 +840,13 @@ export type CustomEntityRecognitionBatchResult = CustomActionMetadata &
  * The result of a custom single-label classification batch action.
  */
 export type CustomSingleLabelClassificationBatchResult = CustomActionMetadata &
-  BatchActionResult<CustomSingleLabelClassificationResult, "CustomSingleLabelClassification">;
+  BatchActionResult<CustomLabelClassificationResult, "CustomSingleLabelClassification">;
 
 /**
  * The result of a custom multi-label classification batch action.
  */
 export type CustomMultiLabelClassificationBatchResult = CustomActionMetadata &
-  BatchActionResult<CustomMultiLabelClassificationResult, "CustomMultiLabelClassification">;
+  BatchActionResult<CustomLabelClassificationResult, "CustomMultiLabelClassification">;
 /**
  * Results of a batch of actions.
  */

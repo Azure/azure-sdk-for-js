@@ -5,8 +5,8 @@ import {
   AnalyzeActionName,
   AnalyzeBatchResult,
   AnalyzeResult,
-  CustomSingleLabelClassificationResult,
-  CustomSingleLabelClassificationSuccessResult,
+  CustomLabelClassificationResult,
+  CustomLabelClassificationSuccessResult,
   EntityLinkingResult,
   EntityRecognitionResult,
   HealthcareEntity,
@@ -28,6 +28,7 @@ import {
   AnalyzeResponse,
   AnalyzeTextLROResultUnion,
   AssessmentSentiment,
+  ClassificationDocumentResult,
   CustomEntityRecognitionLROResult,
   CustomMultiLabelClassificationLROResult,
   CustomSingleLabelClassificationLROResult,
@@ -63,7 +64,6 @@ import {
   SentenceTarget,
   SentimentLROResult,
   SentimentTaskResult,
-  ClassificationDocumentResult,
   TargetRelation,
   TextDocumentInput,
 } from "./generated";
@@ -369,10 +369,10 @@ function toHealthcareResult(
 function toCustomLabelClassificationResult(
   documents: TextDocumentInput[],
   results: GeneratedCustomLabelClassificationResult
-): CustomSingleLabelClassificationResult[] {
+): CustomLabelClassificationResult[] {
   return transformDocumentResults<
     ClassificationDocumentResult,
-    CustomSingleLabelClassificationSuccessResult
+    CustomLabelClassificationSuccessResult
   >(documents, results, {
     processSuccess: ({ class: classifications, ...rest }) => {
       return {

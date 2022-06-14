@@ -192,6 +192,17 @@ export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSucces
 }
 
 // @public
+export type CustomLabelClassificationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type CustomLabelClassificationResult = CustomLabelClassificationSuccessResult | CustomLabelClassificationErrorResult;
+
+// @public
+export interface CustomLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+    readonly classifications: ClassificationCategory[];
+}
+
+// @public
 export type CustomMultiLabelClassificationAction = ActionCustom;
 
 // @public
@@ -200,18 +211,7 @@ export interface CustomMultiLabelClassificationBatchAction extends AnalyzeBatchA
 }
 
 // @public
-export type CustomMultiLabelClassificationBatchResult = CustomActionMetadata & BatchActionResult<CustomMultiLabelClassificationResult, "CustomMultiLabelClassification">;
-
-// @public
-export type CustomMultiLabelClassificationErrorResult = TextAnalysisErrorResult;
-
-// @public
-export type CustomMultiLabelClassificationResult = CustomMultiLabelClassificationSuccessResult | CustomMultiLabelClassificationErrorResult;
-
-// @public
-export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
-    readonly classifications: ClassificationCategory[];
-}
+export type CustomMultiLabelClassificationBatchResult = CustomActionMetadata & BatchActionResult<CustomLabelClassificationResult, "CustomMultiLabelClassification">;
 
 // @public
 export type CustomSingleLabelClassificationAction = ActionCustom;
@@ -222,18 +222,7 @@ export interface CustomSingleLabelClassificationBatchAction extends AnalyzeBatch
 }
 
 // @public
-export type CustomSingleLabelClassificationBatchResult = CustomActionMetadata & BatchActionResult<CustomSingleLabelClassificationResult, "CustomSingleLabelClassification">;
-
-// @public
-export type CustomSingleLabelClassificationErrorResult = TextAnalysisErrorResult;
-
-// @public
-export type CustomSingleLabelClassificationResult = CustomSingleLabelClassificationSuccessResult | CustomSingleLabelClassificationErrorResult;
-
-// @public
-export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
-    readonly classifications: ClassificationCategory[];
-}
+export type CustomSingleLabelClassificationBatchResult = CustomActionMetadata & BatchActionResult<CustomLabelClassificationResult, "CustomSingleLabelClassification">;
 
 // @public
 export interface DetectedLanguage {
