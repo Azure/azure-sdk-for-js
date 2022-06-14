@@ -7,7 +7,7 @@
     - [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-node-redis-hello-world)
     - [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
 
-### Node-redis Library
+### node-redis library
 
 #### Dependency Requirements Node-redis
 ```
