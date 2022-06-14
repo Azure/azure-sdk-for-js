@@ -2715,7 +2715,7 @@ packages:
     dev: false
     optional: true
 
-  /@typescript-eslint/eslint-plugin/5.27.1_a0ecd561b39999afb0fdd83d85456a38:
+  /@typescript-eslint/eslint-plugin/5.27.1_c49c541f20453d344a7be88792358adf:
     resolution: {integrity: sha512-6dM5NKT57ZduNnJfpY81Phe9nc9wolnMCnknb1im6brWi1RYv84nbMS3olJa27B6+irUVV1X/Wb+Am0FjJdGFw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -2726,10 +2726,10 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.27.1_eslint@8.15.0+typescript@4.2.4
+      '@typescript-eslint/parser': 5.27.1_eslint@8.16.0+typescript@4.2.4
       '@typescript-eslint/scope-manager': 5.27.1
-      '@typescript-eslint/type-utils': 5.27.1_eslint@8.15.0+typescript@4.2.4
-      '@typescript-eslint/utils': 5.27.1_eslint@8.15.0+typescript@4.2.4
+      '@typescript-eslint/type-utils': 5.27.1_eslint@8.16.0+typescript@4.2.4
+      '@typescript-eslint/utils': 5.27.1_eslint@8.16.0+typescript@4.2.4
       debug: 4.3.4
       eslint: 8.16.0
       functional-red-black-tree: 1.0.1
@@ -2742,20 +2742,20 @@ packages:
       - supports-color
     dev: false
 
-  /@typescript-eslint/experimental-utils/5.27.1_eslint@8.15.0+typescript@4.2.4:
+  /@typescript-eslint/experimental-utils/5.27.1_eslint@8.16.0+typescript@4.2.4:
     resolution: {integrity: sha512-Vd8uewIixGP93sEnmTRIH6jHZYRQRkGPDPpapACMvitJKX8335VHNyqKTE+mZ+m3E2c5VznTZfSsSsS5IF7vUA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      '@typescript-eslint/utils': 5.27.1_eslint@8.15.0+typescript@4.2.4
-      eslint: 8.15.0
+      '@typescript-eslint/utils': 5.27.1_eslint@8.16.0+typescript@4.2.4
+      eslint: 8.16.0
     transitivePeerDependencies:
       - supports-color
       - typescript
     dev: false
 
-  /@typescript-eslint/parser/5.27.1_eslint@8.15.0+typescript@4.2.4:
+  /@typescript-eslint/parser/5.27.1_eslint@8.16.0+typescript@4.2.4:
     resolution: {integrity: sha512-7Va2ZOkHi5NP+AZwb5ReLgNF6nWLGTeUJfxdkVUAPPSaAdbWNnFZzLZ4EGGmmiCTg+AwlbE1KyUYTBglosSLHQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -2783,7 +2783,7 @@ packages:
       '@typescript-eslint/visitor-keys': 5.27.1
     dev: false
 
-  /@typescript-eslint/type-utils/5.27.1_eslint@8.15.0+typescript@4.2.4:
+  /@typescript-eslint/type-utils/5.27.1_eslint@8.16.0+typescript@4.2.4:
     resolution: {integrity: sha512-+UC1vVUWaDHRnC2cQrCJ4QtVjpjjCgjNFpg8b03nERmkHv9JV9X5M19D7UFMd+/G7T/sgFwX2pGmWK38rqyvXw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -2793,7 +2793,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/utils': 5.27.1_eslint@8.15.0+typescript@4.2.4
+      '@typescript-eslint/utils': 5.27.1_eslint@8.16.0+typescript@4.2.4
       debug: 4.3.4
       eslint: 8.16.0
       tsutils: 3.21.0_typescript@4.2.4
@@ -2828,7 +2828,7 @@ packages:
       - supports-color
     dev: false
 
-  /@typescript-eslint/utils/5.27.1_eslint@8.15.0+typescript@4.2.4:
+  /@typescript-eslint/utils/5.27.1_eslint@8.16.0+typescript@4.2.4:
     resolution: {integrity: sha512-mZ9WEn1ZLDaVrhRaYgzbkXBkTPghPFsup8zDbbsYTxC5OmqrFE7skkKS/sraVsLP3TcT3Ki5CSyEFBRkLH/H/w==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -2838,7 +2838,7 @@ packages:
       '@typescript-eslint/scope-manager': 5.27.1
       '@typescript-eslint/types': 5.27.1
       '@typescript-eslint/typescript-estree': 5.27.1_typescript@4.2.4
-      eslint: 8.15.0
+      eslint: 8.16.0
       eslint-scope: 5.1.1
       eslint-utils: 3.0.0_eslint@8.16.0
     transitivePeerDependencies:
@@ -3946,7 +3946,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220602
+      typescript: 4.8.0-dev.20220613
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8739,8 +8739,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220602:
-    resolution: {integrity: sha512-1T4oqo8KYojf6edCkymgrNS7Rnmou3o02jhI3cT5zLQx7WeVqwFii9hTZ0E39oYOVnRKSoDDeQw9hPdX/3SOVA==}
+  /typescript/4.8.0-dev.20220613:
+    resolution: {integrity: sha512-ta8iz+W6b2pCdB+6FDq1rCPoxgEWE/8jxqm0T1Mbxj8HeW19qb2Q+z/3hmKj1z1I7iczOmr0hbPzL4mC0OIndw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9436,7 +9436,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 8.15.0
+      eslint: 8.16.0
       esm: 3.2.25
       karma: 6.3.20
       karma-chrome-launcher: 3.1.1
@@ -13900,7 +13900,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabricmesh.tgz:
-    resolution: {integrity: sha512-zeWEn3quYFpKpAvlBBYD0e6o6PFslttCoUnLN+P4yC6DS36E6jW6JcZE6DkB0l1FsvBjlhrT+PymPhxIifs4BA==, tarball: file:projects/arm-servicefabricmesh.tgz}
+    resolution: {integrity: sha512-A6dYqcEPimeuDRVTXfL900sD/P8ZwpIosliy34ULsPO/qsGjN9jn1raajuV7yASIOMZE+6q6sqVVm2kM26LYDQ==, tarball: file:projects/arm-servicefabricmesh.tgz}
     name: '@rush-temp/arm-servicefabricmesh'
     version: 0.0.0
     dependencies:
@@ -13911,6 +13911,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13923,7 +13925,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -15958,9 +15959,9 @@ packages:
       '@types/json-schema': 7.0.11
       '@types/mocha': 7.0.2
       '@types/node': 12.20.52
-      '@typescript-eslint/eslint-plugin': 5.27.1_a0ecd561b39999afb0fdd83d85456a38
-      '@typescript-eslint/experimental-utils': 5.27.1_eslint@8.15.0+typescript@4.2.4
-      '@typescript-eslint/parser': 5.27.1_eslint@8.15.0+typescript@4.2.4
+      '@typescript-eslint/eslint-plugin': 5.27.1_c49c541f20453d344a7be88792358adf
+      '@typescript-eslint/experimental-utils': 5.27.1_eslint@8.16.0+typescript@4.2.4
+      '@typescript-eslint/parser': 5.27.1_eslint@8.16.0+typescript@4.2.4
       '@typescript-eslint/typescript-estree': 5.27.1_typescript@4.2.4
       chai: 4.3.6
       eslint: 8.16.0
@@ -16791,8 +16792,8 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.52
       dotenv: 8.6.0
-      eslint: 8.15.0
-      eslint-plugin-node: 11.1.0_eslint@8.15.0
+      eslint: 8.16.0
+      eslint-plugin-node: 11.1.0_eslint@8.16.0
       execa: 6.1.0
       mocha: 7.2.0
       nock: 12.0.3
@@ -16862,7 +16863,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-7vCX+hpMPIbi0tLNQ7UBtlCQPoICcKIL2cmstnLJV0o2lC6Sy3Sa5VwIseO3FB8/gMehSxEKhoiixnoaW9QVHA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-l7wvaGkO1tvkE1ChgkOesu7I4gfL5/5pWwZr9pTMR/vcstVQlxGyjencFdvUnoXDNB5RShWmisSeb4BDvUMWFg==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
