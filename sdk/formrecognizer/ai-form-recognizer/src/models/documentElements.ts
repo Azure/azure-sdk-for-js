@@ -87,10 +87,6 @@ export interface DocumentTable {
   columnCount: number;
   /** Cells contained within the table. */
   cells: DocumentTableCell[];
-  /** Caption associated with the table. */
-  caption?: DocumentCaption;
-  /** Footnotes associated with the table. */
-  footnotes?: DocumentFootnote[];
   /** Bounding regions covering the table. */
   boundingRegions?: BoundingRegion[];
   /** Location of the table in the reading order concatenated content. */

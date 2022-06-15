@@ -43,3 +43,18 @@ directive:
         $.modelAsString = false
       }    
 ```
+
+### Fix the "type" property from the Program Brief Attachment model. It was being generated as "typeParam" and not being serialized correctly when sending the request.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.ProgramBriefAttachment.properties.type
+    transform: >
+      $["x-ms-client-name"] = "type_param_attachment";
+
+modelerfour:
+  naming:
+    override:
+      "type_param_attachment": $DO_NOT_NORMALIZE$type
+```

@@ -83,7 +83,7 @@
 /sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @sadasant @witemple-msft @schaabs
+/sdk/identity/ @KarishmaGhiya @witemple-msft @schaabs
 
 # PRLabel: %Iot
 /sdk/iot/ @YoDaMa @xirzec

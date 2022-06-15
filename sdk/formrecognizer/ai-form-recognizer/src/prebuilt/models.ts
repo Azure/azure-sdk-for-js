@@ -147,6 +147,11 @@ export function getMapper<M extends DocumentModel<unknown>>(
 }
 
 /**
+ * **Deprecation Warning**: This object, along with all of its fields, is deprecated and will be replaced prior to a
+ * stable release of `@azure/ai-form-recognizer` 4.0.0. Please see
+ * [the deprecation notice](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/README.md#prebuiltmodels-deprecation)
+ * in the README for more information.
+ *
  * Prebuilt models with well-known document types and corresponding field schemas.
  *
  * These prebuilt `DocumentModel` objects can be used with the `beginAnalyzeDocuments` method to extract documents with
