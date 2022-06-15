@@ -47,7 +47,10 @@ describe("Test user authentications", () => {
   it("should authenticate using a certificate", async function () {
     // need to pass another certificate in
     // other certificate is a string
-    const ledgerClient = ConfidentialLedger(env.ENDPOINT, env.TLS_CERTIFICATE);
+
+    // the other cert goes in the options
+
+    const ledgerClient = ConfidentialLedger(env.ENDPOINT, env.TLS_CERTIFICATE, {tlsOptions: {pfx: env.CERTIFICATE}});
     assert.isDefined(ledgerClient);
     const result = await ledgerClient.path("/app/governance/constitution").get();
 
