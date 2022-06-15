@@ -1,0 +1,42 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/storageaccountzzzxxx/blobServices/default/containers/mycontainerxxx?api-version=2021-09-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "2",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-storage/17.2.2 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "7e7fef4d-28cb-4ed6-b0d5-6aba3387ffc0"
+      },
+      "RequestBody": {},
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "272",
+        "Content-Type": "application/json",
+        "Date": "Wed, 15 Jun 2022 07:49:01 GMT",
+        "ETag": "\u00220x8DA4EA38385B537\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d975b112-d03f-4c2f-8afc-dc651237c9ee",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "24bd9e11-1b01-46a6-a50d-bc8b1f82f194",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220615T074902Z:d975b112-d03f-4c2f-8afc-dc651237c9ee"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/storageaccountzzzxxx/blobServices/default/containers/mycontainerxxx",
+        "name": "mycontainerxxx",
+        "type": "Microsoft.Storage/storageAccounts/blobServices/containers"
+      }
+    }
+  ],
+  "Variables": {}
+}

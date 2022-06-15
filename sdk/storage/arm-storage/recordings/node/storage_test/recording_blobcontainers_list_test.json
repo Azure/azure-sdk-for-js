@@ -1,0 +1,61 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/storageaccountzzzxxx/blobServices/default/containers?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-storage/17.2.2 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "f6452936-0f80-4d89-a71d-2c13e63b114f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Wed, 15 Jun 2022 07:49:05 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "8405a9f8-3e89-44e2-b179-aa0f3e78d1b4",
+        "x-ms-ratelimit-remaining-subscription-reads": "11993",
+        "x-ms-request-id": "33cd189e-78d3-4c9a-83eb-6b29ca283712",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220615T074906Z:8405a9f8-3e89-44e2-b179-aa0f3e78d1b4"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/storageaccountzzzxxx/blobServices/default/containers/mycontainerxxx",
+            "name": "mycontainerxxx",
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "etag": "\u00220x8DA4EA38385B537\u0022",
+            "properties": {
+              "immutableStorageWithVersioning": {
+                "enabled": false
+              },
+              "deleted": false,
+              "remainingRetentionDays": 0,
+              "defaultEncryptionScope": "$account-encryption-key",
+              "denyEncryptionScopeOverride": false,
+              "publicAccess": "None",
+              "leaseStatus": "Unlocked",
+              "leaseState": "Available",
+              "lastModifiedTime": "2022-06-15T07:49:01.0000000Z",
+              "hasImmutabilityPolicy": false,
+              "hasLegalHold": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
