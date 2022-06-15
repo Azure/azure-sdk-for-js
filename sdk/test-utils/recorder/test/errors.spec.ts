@@ -5,6 +5,7 @@ import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 import { expect } from "chai";
 import { Recorder } from "../src/recorder";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { encodeBase64 } from "../src/utils/encoding";
 
 describe("State Manager", function () {
   it("throws error if started twice", function () {
@@ -44,11 +45,16 @@ describe("handleTestProxyErrors", function () {
   it("x-request-mismatch header", function () {
     const headers = createHttpHeaders();
     headers.set("x-request-mismatch", true);
-    headers.set("x-request-mismatch-error", btoa("this is a mismatch error"));
-    recorder["handleTestProxyErrors"]({
-      request: createPipelineRequest({ url: "abcd" }),
-      status: 401,
-      headers,
-    });
+    headers.set("x-request-mismatch-error", encodeBase64("this is a mismatch error"));
+    try {
+      recorder["handleTestProxyErrors"]({
+        request: createPipelineRequest({ url: "abcd" }),
+        status: 401,
+        headers,
+      });
+    } catch (error) {
+      expect((error as RecorderError).name).to.equal("RecorderError");
+      expect((error as RecorderError).message).to.equal("this is a mismatch error");
+    }
   });
 });
