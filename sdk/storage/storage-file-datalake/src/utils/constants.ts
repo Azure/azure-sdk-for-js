@@ -204,6 +204,7 @@ export const ToBlobEndpointHostMappings = [
   ["dfs.core.cloudapi.de", "blob.core.cloudapi.de"],
   ["dfs.core.microsoft.scloud", "blob.core.microsoft.scloud"],
   ["dfs.core.eaglex.ic.gov", "blob.core.eaglex.ic.gov"],
+  ["dfs.storage.azure.net", "blob.storage.azure.net"],
 ];
 
 // Mapping pairs to transform url from blob endpoint to dfs endpoint
@@ -216,6 +217,7 @@ export const ToDfsEndpointHostMappings = [
   ["blob.core.cloudapi.de", "dfs.core.cloudapi.de"],
   ["blob.core.microsoft.scloud", "dfs.core.microsoft.scloud"],
   ["blob.core.eaglex.ic.gov", "dfs.core.eaglex.ic.gov"],
+  ["blob.storage.azure.net", "dfs.storage.azure.net"],
 ];
 
 export const ETagAny = "*";
