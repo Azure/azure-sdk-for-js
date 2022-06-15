@@ -12650,7 +12650,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-e2WNl1zeUScu9yLVIjkX2JdVtGCSKS93CD3JhFkOMXqdTx2E/0g0JDtjAzzCKMxQKtbZaDr5Hwi5MfnX3Jvh0Q==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-GuBquUl4vQ180i1KDxFWTv5UU5Kieo5p0mLaAzYsbHTHxSdWHWBLD0Ur2Arzygu4K/oYQtEUNOOkt17MbKwSsg==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -12662,6 +12662,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12674,7 +12676,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
