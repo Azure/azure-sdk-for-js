@@ -2057,7 +2057,7 @@ export interface ProtocolSettings {
 export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded";
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 // @public
 export type PublicAccess = "Container" | "Blob" | "None";
