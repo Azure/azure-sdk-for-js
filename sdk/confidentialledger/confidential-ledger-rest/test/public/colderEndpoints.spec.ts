@@ -61,7 +61,7 @@ describe("Colder endpoints", () => {
       assert.fail(`GET "/app/enclaveQuotes" failed with ${result.status}`);
     }
 
-    const memberResponse = result;
+    const memberResponse = result as GetEnclaveQuotes200Response;
 
     assert.typeOf(memberResponse.body.currentNodeId, "string");
 

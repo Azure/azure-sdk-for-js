@@ -54,7 +54,7 @@ describe("Post transaction", () => {
       assert.fail(`GET "/app/transactions/{transactionId}/status" failed with ${result.status}`);
     }
     const statusResponse = status as GetTransactionStatus200Response;
-    assert(statusResponse.body.state == "Pending" || statusResponse.body.state == "Committed");
+    assert.isTrue(assert(statusResponse.body.state === "Pending" || statusResponse.body.state === "Committed"));
     assert.equal(statusResponse.body.transactionId, transactionId);
 
     const transactionResponse = await client

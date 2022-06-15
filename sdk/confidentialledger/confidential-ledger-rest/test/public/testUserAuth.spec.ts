@@ -33,7 +33,7 @@ describe("Test user authentications", () => {
     const credential = new DefaultAzureCredential();
     // use let instead of var
     const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, credential);
-    assert(ledgerClient);
+    assert.isDefined(ledgerClient);
 
     const result = await ledgerClient.path("/app/governance/constitution").get();
 
@@ -48,16 +48,8 @@ describe("Test user authentications", () => {
     // need to pass another certificate in
     // other certificate is a string
     const ledgerClient = ConfidentialLedger(env.ENDPOINT, env.TLS_CERTIFICATE);
-    // assert(ledgerClient);
-
-    console.log("Ledger client:");
-    console.log(ledgerClient);
-    console.log(ledgerClient.path);
-    console.log(ledgerClient.pathUnchecked);
-
+    assert.isDefined(ledgerClient);
     const result = await ledgerClient.path("/app/governance/constitution").get();
-
-    console.log(result);
 
     if (result.status !== "200") {
       assert.fail(
