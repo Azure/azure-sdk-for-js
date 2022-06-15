@@ -1,8 +1,8 @@
 {
-  "commit": "d90729bbada2b4f784f2737ab4b4e39693a7aab8",
-  "readme": "specification\\iothub\\resource-manager\\readme.md",
-  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\work\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\iothub\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-alpha.19.20220408.1 --generate-sample=true",
+  "commit": "c6b48ac6b32da8f18d9228a1f565880b02c5191d",
+  "readme": "specification/iothub/resource-manager/readme.md",
+  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\iothub\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-beta.20 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.2.6",
-  "use": "@autorest/typescript@6.0.0-alpha.19.20220408.1"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.3.0",
+  "use": "@autorest/typescript@6.0.0-beta.20"
 }

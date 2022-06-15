@@ -8817,7 +8817,7 @@ packages:
     dev: false
 
   /unpipe/1.0.0:
-    resolution: {integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=}
+    resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
     engines: {node: '>= 0.8'}
     dev: false
 
@@ -11905,7 +11905,7 @@ packages:
     dev: false
 
   file:projects/arm-iothub.tgz:
-    resolution: {integrity: sha512-FDvIsSZO0VsdHbXZYLFbq6gYvapMT56g4wM/+J3OpAoDq0ta9FLjk3jH8f6pYDUQTgyhRS+KVUoL7OhZx1wYyg==, tarball: file:projects/arm-iothub.tgz}
+    resolution: {integrity: sha512-uM0b5XAHhAdHx27Ant+Cdp/Pb32fWoXePQw3pjMATv/WblYhiFTpGUDddNiS7sC75s3kFvG3ncb9I0fW0ot2Hw==, tarball: file:projects/arm-iothub.tgz}
     name: '@rush-temp/arm-iothub'
     version: 0.0.0
     dependencies:
@@ -11917,6 +11917,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11929,7 +11931,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
