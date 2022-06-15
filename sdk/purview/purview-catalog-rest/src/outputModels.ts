@@ -7,16 +7,24 @@ export interface AtlasEntityWithExtInfoOutput extends AtlasEntityExtInfoOutput {
 }
 
 export interface AtlasEntityOutput extends AtlasStructOutput {
+  /** Business Attributes */
+  businessAttributes?: Record<string, Record<string, unknown>>;
   /** An array of classifications. */
   classifications?: Array<AtlasClassificationOutput>;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
   createdBy?: string;
+  /** Custom Attribute */
+  customAttributes?: Record<string, string>;
   /** The GUID of the entity. */
   guid?: string;
   /** The home ID of the entity. */
   homeId?: string;
+  /** Whether it is a shell entity */
+  isIncomplete?: boolean;
+  /** labels */
+  labels?: Array<string>;
   /** An array of term assignment headers indicating the meanings of the entity. */
   meanings?: Array<AtlasTermAssignmentHeaderOutput>;
   /** Used to record the provenance of an instance of an entity or relationship. */
@@ -134,6 +142,10 @@ export interface AtlasEntityHeaderOutput extends AtlasStructOutput {
   displayText?: string;
   /** The GUID of the record. */
   guid?: string;
+  /** Whether it is a shell entity */
+  isIncomplete?: boolean;
+  /** labels */
+  labels?: Array<string>;
   /** An array of meanings. */
   meaningNames?: Array<string>;
   /** An array of term assignment headers. */
@@ -171,6 +183,24 @@ export interface PListOutput {
   startIndex?: number;
   /** The total count of items. */
   totalCount?: number;
+}
+
+export interface BulkImportResponseOutput {
+  /** failed importInfoList */
+  failedImportInfoList?: Array<ImportInfoOutput>;
+  /** successful importInfoList */
+  successImportInfoList?: Array<ImportInfoOutput>;
+}
+
+export interface ImportInfoOutput {
+  /** childObjectName */
+  childObjectName?: string;
+  /** importStatus */
+  importStatus?: "SUCCESS" | "FAILED";
+  /** parentObjectName */
+  parentObjectName?: string;
+  /** remarks */
+  remarks?: string;
 }
 
 export interface AtlasGlossaryOutput extends AtlasGlossaryBaseObjectOutput {
@@ -629,25 +659,7 @@ export interface AtlasRelationshipWithExtInfoOutput {
   relationship?: AtlasRelationshipOutput;
 }
 
-export interface AtlasClassificationDefOutput extends AtlasStructDefOutput {
-  /**
-   * Specifying a list of entityType names in the classificationDef, ensures that classifications can
-   * only be applied to those entityTypes.
-   * <ul>
-   * <li>Any subtypes of the entity types inherit the restriction</li>
-   * <li>Any classificationDef subtypes inherit the parents entityTypes restrictions</li>
-   * <li>Any classificationDef subtypes can further restrict the parents entityTypes restrictions by specifying a subset of the entityTypes</li>
-   * <li>An empty entityTypes list when there are no parent restrictions means there are no restrictions</li>
-   * <li>An empty entityTypes list when there are parent restrictions means that the subtype picks up the parents restrictions</li>
-   * <li>If a list of entityTypes are supplied, where one inherits from another, this will be rejected. This should encourage cleaner classificationsDefs</li>
-   * </ul>
-   */
-  entityTypes?: Array<string>;
-  /** An array of sub types. */
-  subTypes?: Array<string>;
-  /** An array of super types. */
-  superTypes?: Array<string>;
-}
+export interface AtlasBusinessMetadataDefOutput extends AtlasStructDefOutput {}
 
 export interface AtlasStructDefOutput extends AtlasBaseTypeDefOutput {
   /** An array of attribute definitions. */
@@ -805,6 +817,26 @@ export interface TimeZoneOutput {
   rawOffset?: number;
 }
 
+export interface AtlasClassificationDefOutput extends AtlasStructDefOutput {
+  /**
+   * Specifying a list of entityType names in the classificationDef, ensures that classifications can
+   * only be applied to those entityTypes.
+   * <ul>
+   * <li>Any subtypes of the entity types inherit the restriction</li>
+   * <li>Any classificationDef subtypes inherit the parents entityTypes restrictions</li>
+   * <li>Any classificationDef subtypes can further restrict the parents entityTypes restrictions by specifying a subset of the entityTypes</li>
+   * <li>An empty entityTypes list when there are no parent restrictions means there are no restrictions</li>
+   * <li>An empty entityTypes list when there are parent restrictions means that the subtype picks up the parents restrictions</li>
+   * <li>If a list of entityTypes are supplied, where one inherits from another, this will be rejected. This should encourage cleaner classificationsDefs</li>
+   * </ul>
+   */
+  entityTypes?: Array<string>;
+  /** An array of sub types. */
+  subTypes?: Array<string>;
+  /** An array of super types. */
+  superTypes?: Array<string>;
+}
+
 export interface AtlasEntityDefOutput extends AtlasStructDefOutput {
   /** An array of sub types. */
   subTypes?: Array<string>;
@@ -934,6 +966,8 @@ export interface AtlasExtraTypeDefOutput {
 }
 
 export interface AtlasTypesDefOutput {
+  /** businessMetadataDefs */
+  businessMetadataDefs?: Array<AtlasBusinessMetadataDefOutput>;
   /** An array of classification definitions. */
   classificationDefs?: Array<AtlasClassificationDefOutput>;
   /** An array of entity definitions. */

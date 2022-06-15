@@ -92,7 +92,7 @@
     "@azure/logger": "^1.0.0",
     "form-data": "^4.0.0",
     "tslib": "^2.2.0",
-    "http-proxy-agent": "^4.0.1",
+    "http-proxy-agent": "^5.0.0",
     "https-proxy-agent": "^5.0.0",
     "uuid": "^8.3.0"
   },
