@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "types/maps-search.d.ts"
+    "publicTrimmedFilePath": "./types/maps-search.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
@@ -20,11 +20,15 @@
       }
     },
     "extractorMessageReporting": {
+      "ae-forgotten-export": {
+        "logLevel": "error",
+        "addToApiReportFile": false
+      },
       "ae-missing-release-tag": {
         "logLevel": "none"
       },
       "ae-unresolved-link": {
-        "logLevel": "none"
+        "logLevel": "error"
       }
     }
   }

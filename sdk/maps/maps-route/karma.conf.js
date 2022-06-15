@@ -8,10 +8,10 @@ const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
   isSoftRecordMode,
-  isRecordMode
+  isRecordMode,
 } = require("@azure-tools/test-recorder");
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -29,15 +29,16 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
+      "karma-sourcemap-loader",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
-      "karma-json-preprocessor"
+      "karma-json-preprocessor",
     ],
 
     // list of files / patterns to load in the browser
     files: [
       "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
@@ -46,20 +47,23 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env"],
-      "recordings/browsers/**/*.json": ["json"]
+      "**/*.js": ["sourcemap", "env"],
+      "recordings/browsers/**/*.json": ["json"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       //"dist-test/index.browser.js": ["coverage"]
     },
 
+    // inject following environment values into browser testing with window.__env__
+    // environment values MUST be exported or set with same console running "karma start"
+    // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "TEST_MODE",
       "MAPS_SUBSCRIPTION_KEY",
       "MAPS_CLIENT_ID",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
+      "AZURE_TENANT_ID",
     ],
 
     // test results reporter to use
@@ -70,7 +74,12 @@ module.exports = function(config) {
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" },
+      ],
     },
 
     junitReporter: {
@@ -80,12 +89,12 @@ module.exports = function(config) {
       useBrowserName: false, // add browser name to report and classes names
       nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
       classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
-      properties: {} // key value pair of properties to add to the <properties> section of the report
+      properties: {}, // key value pair of properties to add to the <properties> section of the report
     },
 
     jsonToFileReporter: {
       filter: jsonRecordingFilterFunction,
-      outputPath: "."
+      outputPath: ".",
     },
 
     // web server port
@@ -101,14 +110,16 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
-    // --no-sandbox allows our tests to run in Linux without having to change the system.
-    // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
-    browsers: ["ChromeHeadlessNoSandbox"],
+    // start these browsers
+    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
+    browsers: ["HeadlessChrome"],
+
     customLaunchers: {
-      ChromeHeadlessNoSandbox: {
+      HeadlessChrome: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox", "--disable-web-security"]
-      }
+        flags: ["--no-sandbox", "--disable-web-security"],
+      },
     },
 
     // Continuous Integration mode
@@ -123,15 +134,15 @@ module.exports = function(config) {
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
-      terminal: !isRecordMode()
+      terminal: !isRecordMode(),
     },
 
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000"
-      }
-    }
+        timeout: "600000",
+      },
+    },
   });
 };
