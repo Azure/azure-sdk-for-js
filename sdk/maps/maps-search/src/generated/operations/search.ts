@@ -79,8 +79,7 @@ export class SearchImpl implements Search {
    * **Get Polygon**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Get Polygon service allows you to request the geometry data such as a city or country  outline
    * for a set of entities, previously retrieved from an Online Search request in GeoJSON format. The
@@ -111,8 +110,7 @@ export class SearchImpl implements Search {
   /**
    * **Free Form Search**
    *
-   * **Applies to**: S0 and S1 pricing tiers.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The basic default API is Free Form Search which handles the most fuzzy of inputs handling any
    * combination of address or POI tokens. This search API is the canonical 'single line search'. The
@@ -146,8 +144,7 @@ export class SearchImpl implements Search {
   /**
    * **Get POI by Name**
    *
-   * **Applies to**: S0 and S1 pricing tiers.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * Points of Interest (POI) Search allows you to request POI results by name.  Search supports
    * additional query parameters such as language and filtering results by area of interest driven by
@@ -172,8 +169,7 @@ export class SearchImpl implements Search {
   /**
    * **Nearby Search**
    *
-   * **Applies to**: S0 and S1 pricing tiers.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * If you have a use case for only retrieving POI results around a specific location, the nearby search
    * method may be the right choice. This endpoint will only return POI results, and does not take in a
@@ -198,8 +194,7 @@ export class SearchImpl implements Search {
   /**
    * **Get POI by Category**
    *
-   * **Applies to**: S0 and S1 pricing tiers.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * Points of Interest (POI) Category Search allows you to request POI results from given category.
    * Search allows to query POIs from one category at a time.  Endpoint will only return POI results
@@ -227,8 +222,7 @@ export class SearchImpl implements Search {
   /**
    * **Get POI Category Tree**
    *
-   * **Applies to**: S0 and S1 pricing tiers.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * POI Category API provides a full list of supported Points of Interest (POI) categories and
    * subcategories together with their translations and synonyms. The returned content can be used to
@@ -250,8 +244,7 @@ export class SearchImpl implements Search {
   /**
    * **Address Geocoding**
    *
-   * **Applies to**: S0 and S1 pricing tiers.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * In many cases, the complete search service might be too much, for instance if you are only
    * interested in traditional geocoding. Search can also be accessed for address look up exclusively.
@@ -279,8 +272,7 @@ export class SearchImpl implements Search {
   /**
    * **Reverse Geocode to an Address**
    *
-   * **Applies to**: S0 and S1 pricing tiers.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * There may be times when you need to translate a  coordinate (example: 37.786505, -122.3862) into a
    * human understandable street address. Most often  this is needed in tracking applications where you
@@ -305,8 +297,7 @@ export class SearchImpl implements Search {
   /**
    * **Reverse Geocode to a Cross Street**
    *
-   * **Applies to**: S0 and S1 pricing tiers.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * There may be times when you need to translate a  coordinate (example: 37.786505, -122.3862) into a
    * human understandable cross street. Most often this  is needed in tracking applications where you
@@ -332,8 +323,7 @@ export class SearchImpl implements Search {
   /**
    * **Structured Address Geocoding**
    *
-   * **Applies to**: S0 and S1 pricing tiers.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * Azure Address Geocoding can also be accessed for  structured address look up exclusively. The
    * geocoding search index will be queried for everything above the  street level data. No POIs will be
@@ -357,7 +347,7 @@ export class SearchImpl implements Search {
   }
 
   /**
-   * **Applies to**: S0 and S1 pricing tiers.
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Geometry endpoint allows you to perform a free form search inside a single geometry or
    * many of them. The search results that fall inside the geometry/geometries will be
@@ -404,8 +394,7 @@ export class SearchImpl implements Search {
   }
 
   /**
-   * **Applies to**: S0 and S1 pricing tiers.
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Along Route endpoint allows you to perform a fuzzy search for POIs along a specified
    * route. This search is constrained by specifying the `maxDetourTime` limiting measure.<br><br>To send
@@ -442,9 +431,7 @@ export class SearchImpl implements Search {
    * **Search Fuzzy Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Fuzzy
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchfuzzy) using just a single API call.
@@ -648,9 +635,7 @@ export class SearchImpl implements Search {
    * **Search Fuzzy Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Fuzzy
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchfuzzy) using just a single API call.
@@ -904,9 +889,7 @@ export class SearchImpl implements Search {
    * **Search Fuzzy Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Fuzzy
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchfuzzy) using just a single API call.
@@ -1112,9 +1095,7 @@ export class SearchImpl implements Search {
    * **Search Fuzzy Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Fuzzy
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchfuzzy) using just a single API call.
@@ -1365,9 +1346,7 @@ export class SearchImpl implements Search {
    * **Search Fuzzy Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Fuzzy
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchfuzzy) using just a single API call.
@@ -1566,9 +1545,7 @@ export class SearchImpl implements Search {
    * **Search Address Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Address
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddress) using just a single API call.
@@ -1763,9 +1740,7 @@ export class SearchImpl implements Search {
    * **Search Address Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Address
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddress) using just a single API call.
@@ -2010,9 +1985,7 @@ export class SearchImpl implements Search {
    * **Search Address Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Address
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddress) using just a single API call.
@@ -2209,9 +2182,7 @@ export class SearchImpl implements Search {
    * **Search Address Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Address
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddress) using just a single API call.
@@ -2453,9 +2424,7 @@ export class SearchImpl implements Search {
    * **Search Address Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Address
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddress) using just a single API call.
@@ -2645,9 +2614,7 @@ export class SearchImpl implements Search {
    * **Search Address Reverse Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Address Reverse
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddressreverse) using just a single
@@ -2846,9 +2813,7 @@ export class SearchImpl implements Search {
    * **Search Address Reverse Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Address Reverse
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddressreverse) using just a single
@@ -3097,9 +3062,7 @@ export class SearchImpl implements Search {
    * **Search Address Reverse Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Address Reverse
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddressreverse) using just a single
@@ -3300,9 +3263,7 @@ export class SearchImpl implements Search {
    * **Search Address Reverse Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Address Reverse
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddressreverse) using just a single
@@ -3548,9 +3509,7 @@ export class SearchImpl implements Search {
    * **Search Address Reverse Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
-   *
-   *
+   * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Search Address Batch API sends batches of queries to [Search Address Reverse
    * API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddressreverse) using just a single
