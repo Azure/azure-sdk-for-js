@@ -19,7 +19,7 @@ describe("Post transaction", () => {
   let contentBody: string;
 
   beforeEach(async function (this: Context) {
-    contentBody = (Math.random() + 1).toString(36).substring(7);
+    contentBody = "typescript post test";
     recorder = createRecorder(this);
     client = await createClient();
   });
