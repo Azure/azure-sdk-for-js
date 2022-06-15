@@ -8,32 +8,26 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
+  RecorderStartOptions,
   delay,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { ComputeManagementClient } from "../src/computeManagementClient";
-import { NetworkManagementClient,VirtualNetwork,Subnet,NetworkInterface } from "@azure/arm-network";
+import { NetworkManagementClient, VirtualNetwork, Subnet, NetworkInterface } from "@azure/arm-network";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
@@ -53,17 +47,14 @@ describe("Compute test", () => {
   let interface_name: string;
   let virtual_machine_name: string;
 
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new ComputeManagementClient(credential, subscriptionId);
-    network_client = new NetworkManagementClient(credential,subscriptionId);
+    const credential = createTestCredential();
+    client = new ComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroupName = "myjstest";
     availabilitySetName = "availabilitySets123";
@@ -73,7 +64,7 @@ describe("Compute test", () => {
     virtual_machine_name = "virtualmachinex";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -137,49 +128,49 @@ describe("Compute test", () => {
     );
   }
 
-  it("availabilitySets create test", async function() {
+  it("availabilitySets create test", async function () {
     const res = await client.availabilitySets.createOrUpdate(resourceGroupName, availabilitySetName, {
       platformFaultDomainCount: 2,
       platformUpdateDomainCount: 20,
       location: location,
     })
-    assert.equal(res.name,availabilitySetName);
+    assert.equal(res.name, availabilitySetName);
   });
 
-  it("availabilitySets update test", async function() {
+  it("availabilitySets update test", async function () {
     const res = await client.availabilitySets.update(resourceGroupName, availabilitySetName, {
       platformFaultDomainCount: 2,
       platformUpdateDomainCount: 20
     })
-    assert.equal(res.type,"Microsoft.Compute/availabilitySets");
+    assert.equal(res.type, "Microsoft.Compute/availabilitySets");
   });
 
-  it("availabilitySets get test", async function() {
+  it("availabilitySets get test", async function () {
     const res = await client.availabilitySets.get(resourceGroupName, availabilitySetName);
-    assert.equal(res.name,availabilitySetName);
+    assert.equal(res.name, availabilitySetName);
   });
 
-  it("availabilitySets list test", async function() {
+  it("availabilitySets list test", async function () {
     const resArray = new Array();
     for await (const item of client.availabilitySets.list(resourceGroupName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("availabilitySets delete test", async function() {
-    const res = await client.availabilitySets.delete(resourceGroupName,availabilitySetName);
+  it("availabilitySets delete test", async function () {
+    const res = await client.availabilitySets.delete(resourceGroupName, availabilitySetName);
     const resArray = new Array();
     for await (const item of client.availabilitySets.list(resourceGroupName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 
-  it("virtualMachines create test", async function() {
+  it("virtualMachines create test", async function () {
     await createVirtualNetwork();
     await createNetworkInterface(resourceGroupName, location, interface_name);
-    const res = await client.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName,virtual_machine_name,{
+    const res = await client.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtual_machine_name, {
       location: location,
       hardwareProfile: {
         vmSize: "Standard_D2_v2",
@@ -236,23 +227,23 @@ describe("Compute test", () => {
         ],
       }
     }, testPollingOptions);
-    assert.equal(res.name,virtual_machine_name);
+    assert.equal(res.name, virtual_machine_name);
   });
 
-  it("virtualMachines get test", async function() {
+  it("virtualMachines get test", async function () {
     const res = await client.virtualMachines.get(resourceGroupName, virtual_machine_name);
-    assert.equal(res.name,virtual_machine_name);
+    assert.equal(res.name, virtual_machine_name);
   });
 
-  it("virtualMachines list test", async function() {
+  it("virtualMachines list test", async function () {
     const resArray = new Array();
     for await (const item of client.virtualMachines.list(resourceGroupName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("virtualMachines update test", async function() {
+  it("virtualMachines update test", async function () {
     const res = await client.virtualMachines.beginUpdateAndWait(resourceGroupName, virtual_machine_name, {
       networkProfile: {
         networkInterfaces: [
@@ -270,15 +261,18 @@ describe("Compute test", () => {
         ],
       }
     }, testPollingOptions)
-    assert.equal(res.type,"Microsoft.Compute/virtualMachines");
+    assert.equal(res.type, "Microsoft.Compute/virtualMachines");
   });
 
-  it("virtualMachines delete test", async function() {
-    const res = await client.virtualMachines.beginDeleteAndWait(resourceGroupName,virtual_machine_name,testPollingOptions);
+  it("virtualMachines delete test", async function () {
+    const res = await client.virtualMachines.beginDeleteAndWait(resourceGroupName, virtual_machine_name, testPollingOptions);
     const resArray = new Array();
     for await (const item of client.virtualMachines.list(resourceGroupName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
+    await network_client.networkInterfaces.beginDeleteAndWait(resourceGroupName, interface_name);
+    await network_client.subnets.beginDeleteAndWait(resourceGroupName, network_name, subnet_name);
+    await network_client.virtualNetworks.beginDeleteAndWait(resourceGroupName, network_name);
   });
 });

@@ -1137,7 +1137,7 @@
             "modelAsString": true
           }
         },
-        "friendlyName": {
+        "fileName": {
           "description": "A friendly name to refer to the attachment\r\ne.g. 'myFile01'",
           "type": "string"
         },

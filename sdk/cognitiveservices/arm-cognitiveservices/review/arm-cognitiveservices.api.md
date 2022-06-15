@@ -669,7 +669,9 @@ export enum KnownDeploymentProvisioningState {
 // @public
 export enum KnownDeploymentScaleType {
     // (undocumented)
-    Manual = "Manual"
+    Manual = "Manual",
+    // (undocumented)
+    Standard = "Standard"
 }
 
 // @public
@@ -986,7 +988,7 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 // @public
 export type PublicNetworkAccess = string;

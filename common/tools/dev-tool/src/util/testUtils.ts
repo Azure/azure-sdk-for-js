@@ -15,7 +15,7 @@ async function shouldRunProxyTool(): Promise<boolean> {
       // No need to run a new one if it is already active
       // Especially, CI uses this path
       log.info(
-        `Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:5000 & https://localhost:5001.\n`
+        `Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000} & https://localhost:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}.\n`
       );
     }
     return !isActive;

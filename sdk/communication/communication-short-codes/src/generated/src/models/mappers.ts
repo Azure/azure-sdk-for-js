@@ -763,8 +763,8 @@ export const ProgramBriefAttachment: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      friendlyName: {
-        serializedName: "friendlyName",
+      fileName: {
+        serializedName: "fileName",
         type: {
           name: "String"
         }
