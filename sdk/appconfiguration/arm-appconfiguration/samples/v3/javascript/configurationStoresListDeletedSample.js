@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Gets information about the deleted configuration stores in a subscription.
@@ -20,10 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function deletedConfigurationStoresList() {
   const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.configurationStores.listDeleted()) {
     resArray.push(item);

@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Lists the key-values for a given configuration store.
@@ -22,10 +22,7 @@ async function keyValuesListByConfigurationStore() {
   const resourceGroupName = "myResourceGroup";
   const configStoreName = "contoso";
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.keyValues.listByConfigurationStore(
     resourceGroupName,

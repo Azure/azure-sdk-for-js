@@ -8265,7 +8265,7 @@ packages:
     dev: false
 
   /strip-json-comments/2.0.1:
-    resolution: {integrity: sha1-PFMZQukIwml8DsNEhYwobHygpgo=}
+    resolution: {integrity: sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -9750,7 +9750,7 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-ip+JMBYpzpvzMzf4W4323jjmfLZbkRLJV3xFlGeAQUk0hFvvpWcwQl7pxoNJfZ5KU0nfdcCAJoV2JtUs8cakyw==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-d1v3GSFLrk3aQYM98Ek7kaYPYgUtuRp8pmNZEaRkX69Mz19DdeP/0YpMf/kyAMENDni8yuRekxZ/Z3f7qeStIQ==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
@@ -9762,6 +9762,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -9774,7 +9776,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
