@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AsGfC1p7_xma4fP7m2-tcS2pt9gpte6sdXThKfUNLYFQ1%40thread.v2/messages?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3A5t6BZZhMhTG9yN54rMiVcs-kny91gVXsRP9Arl693UI1%40thread.v2/messages?api-version=2021-09-07",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,9 +19,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/101.0.4950.0 Safari/537.36",
-        "x-ms-client-request-id": "a946b21e-de98-4012-b58a-0262b668d719",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "46bfad64-9595-476b-965d-6357dc8d36f0",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.2 OS/MacIntel"
       },
       "RequestBody": {
         "content": "content",
@@ -34,19 +34,18 @@
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 02 May 2022 22:48:58 GMT",
-        "Location": "https://endpoint/chat/threads/19%3AsGfC1p7_xma4fP7m2-tcS2pt9gpte6sdXThKfUNLYFQ1@thread.v2/messages/1651531732983",
-        "MS-CV": "afBl20lDuk6YFj66ZFzIAw.0",
+        "Date": "Thu, 26 May 2022 07:59:52 GMT",
+        "Location": "https://endpoint/chat/threads/19%3A5t6BZZhMhTG9yN54rMiVcs-kny91gVXsRP9Arl693UI1@thread.v2/messages/1653551992406",
+        "MS-CV": "r1OV9PIcYE\u002BWNrxDU/T5Wg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20220502T224857Z-1kdy40ce594zxd7ayzepxvrcq0000000052000000002q90g",
+        "X-Azure-Ref": "0eDOPYgAAAAC\u002BTQJ6EIJoS5HzRwLYnFRSUFJHMDFFREdFMDYwOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "191ms"
+        "X-Processing-Time": "147ms"
       },
       "ResponseBody": {
-        "id": "1651531732983"
+        "id": "1653551992406"
       }
     }
   ],

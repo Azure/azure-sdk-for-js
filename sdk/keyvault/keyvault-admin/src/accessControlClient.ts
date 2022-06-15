@@ -18,8 +18,8 @@ import {
   ListRoleDefinitionsPageSettings,
   SetRoleDefinitionOptions,
 } from "./accessControlModels";
-import { LATEST_API_VERSION, authenticationScopes } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
+import { LATEST_API_VERSION } from "./constants";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
 import { TokenCredential } from "@azure/core-auth";
@@ -89,7 +89,9 @@ export class KeyVaultAccessControlClient {
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: authenticationScopes,
+        // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
+        // returned by the challenge, so pass an empty array as a placeholder.
+        scopes: [],
         challengeCallbacks: createChallengeCallbacks(),
       })
     );

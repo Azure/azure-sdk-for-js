@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic rest level client library for the Azure Purview Catalog service.",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "keywords": [
     "node",
     "azure",
