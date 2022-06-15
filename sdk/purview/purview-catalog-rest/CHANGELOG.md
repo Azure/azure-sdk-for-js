@@ -1,14 +1,15 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2022-06-02)
 
 ### Features Added
 
-### Breaking Changes
+- Support Atlas 2.2 APIs
 
 ### Bugs Fixed
 
-### Other Changes
+- Add missing query parameter `includeTermHierarchy` for update term API
+- Add missing query parameter `excludeRelationshipTypes` for get term API
 
 ## 1.0.0-beta.4 (2022-04-07)
 

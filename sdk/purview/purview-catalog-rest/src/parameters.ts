@@ -307,6 +307,215 @@ export type EntityGetEntitiesByUniqueAttributesParameters =
   EntityGetEntitiesByUniqueAttributesQueryParam & RequestParameters;
 export type EntityGetHeaderParameters = RequestParameters;
 
+export interface EntityDeleteBusinessMetadataBodyParam {
+  /** BusinessMetadata */
+  body?: Record<string, Record<string, unknown>>;
+}
+
+export interface EntityDeleteBusinessMetadataMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type EntityDeleteBusinessMetadataParameters = EntityDeleteBusinessMetadataMediaTypesParam &
+  EntityDeleteBusinessMetadataBodyParam &
+  RequestParameters;
+
+export interface EntityAddOrUpdateBusinessMetadataBodyParam {
+  /** Business Metadata */
+  body?: Record<string, Record<string, unknown>>;
+}
+
+export interface EntityAddOrUpdateBusinessMetadataQueryParamProperties {
+  /** Whether to overwrite the existing business metadata on the entity or not, default is false. */
+  isOverwrite?: boolean;
+}
+
+export interface EntityAddOrUpdateBusinessMetadataQueryParam {
+  queryParameters?: EntityAddOrUpdateBusinessMetadataQueryParamProperties;
+}
+
+export interface EntityAddOrUpdateBusinessMetadataMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type EntityAddOrUpdateBusinessMetadataParameters =
+  EntityAddOrUpdateBusinessMetadataQueryParam &
+    EntityAddOrUpdateBusinessMetadataMediaTypesParam &
+    EntityAddOrUpdateBusinessMetadataBodyParam &
+    RequestParameters;
+
+export interface EntityDeleteBusinessMetadataAttributesBodyParam {
+  /** BusinessMetadataAttributes */
+  body?: Record<string, Record<string, unknown>>;
+}
+
+export interface EntityDeleteBusinessMetadataAttributesMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type EntityDeleteBusinessMetadataAttributesParameters =
+  EntityDeleteBusinessMetadataAttributesMediaTypesParam &
+    EntityDeleteBusinessMetadataAttributesBodyParam &
+    RequestParameters;
+
+export interface EntityAddOrUpdateBusinessMetadataAttributesBodyParam {
+  /** BusinessMetadataAttributes */
+  body?: Record<string, Record<string, unknown>>;
+}
+
+export interface EntityAddOrUpdateBusinessMetadataAttributesMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type EntityAddOrUpdateBusinessMetadataAttributesParameters =
+  EntityAddOrUpdateBusinessMetadataAttributesMediaTypesParam &
+    EntityAddOrUpdateBusinessMetadataAttributesBodyParam &
+    RequestParameters;
+export type EntityGetSampleBusinessMetadataTemplateParameters = RequestParameters;
+
+export interface EntityImportBusinessMetadataBodyParam {
+  body?: EntityImportBusinessMetadataFormBody;
+}
+
+export interface EntityImportBusinessMetadataFormBody {
+  /**
+   * InputStream of file
+   *
+   * Value may contain any sequence of octets
+   */
+  uploadedInputStream?: string | Uint8Array;
+}
+
+export interface EntityImportBusinessMetadataMediaTypesParam {
+  /** Request content type */
+  contentType?: "multipart/form-data";
+}
+
+export type EntityImportBusinessMetadataParameters = EntityImportBusinessMetadataMediaTypesParam &
+  EntityImportBusinessMetadataBodyParam &
+  RequestParameters;
+
+export interface EntityDeleteLabelsBodyParam {
+  /** set of labels to be deleted */
+  body?: Array<string>;
+}
+
+export interface EntityDeleteLabelsMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type EntityDeleteLabelsParameters = EntityDeleteLabelsMediaTypesParam &
+  EntityDeleteLabelsBodyParam &
+  RequestParameters;
+
+export interface EntitySetLabelsBodyParam {
+  /** set of labels to be set to the entity */
+  body?: Array<string>;
+}
+
+export interface EntitySetLabelsMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type EntitySetLabelsParameters = EntitySetLabelsMediaTypesParam &
+  EntitySetLabelsBodyParam &
+  RequestParameters;
+
+export interface EntityAddLabelBodyParam {
+  /** set of labels to be added */
+  body?: Array<string>;
+}
+
+export interface EntityAddLabelMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type EntityAddLabelParameters = EntityAddLabelMediaTypesParam &
+  EntityAddLabelBodyParam &
+  RequestParameters;
+
+export interface EntityDeleteLabelsByUniqueAttributeBodyParam {
+  /** set of labels to be deleted */
+  body?: Array<string>;
+}
+
+export interface EntityDeleteLabelsByUniqueAttributeQueryParamProperties {
+  /** The qualified name of the entity */
+  "attr:qualifiedName"?: string;
+}
+
+export interface EntityDeleteLabelsByUniqueAttributeQueryParam {
+  queryParameters?: EntityDeleteLabelsByUniqueAttributeQueryParamProperties;
+}
+
+export interface EntityDeleteLabelsByUniqueAttributeMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type EntityDeleteLabelsByUniqueAttributeParameters =
+  EntityDeleteLabelsByUniqueAttributeQueryParam &
+    EntityDeleteLabelsByUniqueAttributeMediaTypesParam &
+    EntityDeleteLabelsByUniqueAttributeBodyParam &
+    RequestParameters;
+
+export interface EntitySetLabelsByUniqueAttributeBodyParam {
+  /** set of labels to be set */
+  body?: Array<string>;
+}
+
+export interface EntitySetLabelsByUniqueAttributeQueryParamProperties {
+  /** The qualified name of the entity */
+  "attr:qualifiedName"?: string;
+}
+
+export interface EntitySetLabelsByUniqueAttributeQueryParam {
+  queryParameters?: EntitySetLabelsByUniqueAttributeQueryParamProperties;
+}
+
+export interface EntitySetLabelsByUniqueAttributeMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type EntitySetLabelsByUniqueAttributeParameters =
+  EntitySetLabelsByUniqueAttributeQueryParam &
+    EntitySetLabelsByUniqueAttributeMediaTypesParam &
+    EntitySetLabelsByUniqueAttributeBodyParam &
+    RequestParameters;
+
+export interface EntityAddLabelsByUniqueAttributeBodyParam {
+  /** set of labels to be added */
+  body?: Array<string>;
+}
+
+export interface EntityAddLabelsByUniqueAttributeQueryParamProperties {
+  /** The qualified name of the entity */
+  "attr:qualifiedName"?: string;
+}
+
+export interface EntityAddLabelsByUniqueAttributeQueryParam {
+  queryParameters?: EntityAddLabelsByUniqueAttributeQueryParamProperties;
+}
+
+export interface EntityAddLabelsByUniqueAttributeMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type EntityAddLabelsByUniqueAttributeParameters =
+  EntityAddLabelsByUniqueAttributeQueryParam &
+    EntityAddLabelsByUniqueAttributeMediaTypesParam &
+    EntityAddLabelsByUniqueAttributeBodyParam &
+    RequestParameters;
+
 export interface GlossaryListGlossariesQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
@@ -468,6 +677,8 @@ export type GlossaryCreateGlossaryTermParameters = GlossaryCreateGlossaryTermQue
 export interface GlossaryGetGlossaryTermQueryParamProperties {
   /** Whether include term hierarchy */
   includeTermHierarchy?: boolean;
+  /** An array of relationship types which need to be excluded. */
+  excludeRelationshipTypes?: Array<string>;
 }
 
 export interface GlossaryGetGlossaryTermQueryParam {
@@ -482,12 +693,22 @@ export interface GlossaryUpdateGlossaryTermBodyParam {
   body: AtlasGlossaryTerm;
 }
 
+export interface GlossaryUpdateGlossaryTermQueryParamProperties {
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
+}
+
+export interface GlossaryUpdateGlossaryTermQueryParam {
+  queryParameters?: GlossaryUpdateGlossaryTermQueryParamProperties;
+}
+
 export interface GlossaryUpdateGlossaryTermMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type GlossaryUpdateGlossaryTermParameters = GlossaryUpdateGlossaryTermMediaTypesParam &
+export type GlossaryUpdateGlossaryTermParameters = GlossaryUpdateGlossaryTermQueryParam &
+  GlossaryUpdateGlossaryTermMediaTypesParam &
   GlossaryUpdateGlossaryTermBodyParam &
   RequestParameters;
 export type GlossaryDeleteGlossaryTermParameters = RequestParameters;
@@ -935,6 +1156,26 @@ export interface LineageNextPageLineageQueryParam {
 
 export type LineageNextPageLineageParameters = LineageNextPageLineageQueryParam & RequestParameters;
 
+export interface LineageGetLineageByUniqueAttributeQueryParamProperties {
+  /** The number of hops for lineage. */
+  depth?: number;
+  /** The number of max expanding width in lineage. */
+  width?: number;
+  /** The direction of the lineage, which could be INPUT, OUTPUT or BOTH. */
+  direction: "BOTH" | "INPUT" | "OUTPUT";
+  /** True to include the parent chain in the response. */
+  includeParent?: boolean;
+  /** True to include derived lineage in the response */
+  getDerivedLineage?: boolean;
+}
+
+export interface LineageGetLineageByUniqueAttributeQueryParam {
+  queryParameters: LineageGetLineageByUniqueAttributeQueryParamProperties;
+}
+
+export type LineageGetLineageByUniqueAttributeParameters =
+  LineageGetLineageByUniqueAttributeQueryParam & RequestParameters;
+
 export interface RelationshipCreateBodyParam {
   /** The AtlasRelationship object containing the information for the relationship to be created. */
   body: AtlasRelationship;
@@ -974,6 +1215,8 @@ export interface RelationshipGetQueryParam {
 
 export type RelationshipGetParameters = RelationshipGetQueryParam & RequestParameters;
 export type RelationshipDeleteParameters = RequestParameters;
+export type TypesGetBusinessMetadataDefByGuidParameters = RequestParameters;
+export type TypesGetBusinessMetadataDefByNameParameters = RequestParameters;
 export type TypesGetClassificationDefByGuidParameters = RequestParameters;
 export type TypesGetClassificationDefByNameParameters = RequestParameters;
 export type TypesGetEntityDefinitionByGuidParameters = RequestParameters;
