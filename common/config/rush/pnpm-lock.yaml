@@ -2366,6 +2366,11 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
+  /@tootallnate/once/2.0.0:
+    resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
+    engines: {node: '>= 10'}
+    dev: false
+
   /@tsconfig/node10/1.0.8:
     resolution: {integrity: sha512-6XFfSQmMgq0CFLY1MslA/CPUfhIL919M1rMsa5lP2P097N2Wd1sSX0tx1u4olM16fLNhtHZpRhedZJphNJqmZg==}
     dev: false
@@ -5217,6 +5222,17 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       '@tootallnate/once': 1.1.2
+      agent-base: 6.0.2
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /http-proxy-agent/5.0.0:
+    resolution: {integrity: sha512-n2hY8YdoRE1i7r6M0w9DIw5GgZN0G25P8zLCRQ8rjXtTU3vsNFBI/vWK/UIeE6g5MUUz6avwAPXmL6Fy9D/90w==}
+    engines: {node: '>= 6'}
+    dependencies:
+      '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
       debug: 4.3.4
     transitivePeerDependencies:
@@ -8249,7 +8265,7 @@ packages:
     dev: false
 
   /strip-json-comments/2.0.1:
-    resolution: {integrity: sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==}
+    resolution: {integrity: sha1-PFMZQukIwml8DsNEhYwobHygpgo=}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -9734,7 +9750,7 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-d1v3GSFLrk3aQYM98Ek7kaYPYgUtuRp8pmNZEaRkX69Mz19DdeP/0YpMf/kyAMENDni8yuRekxZ/Z3f7qeStIQ==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-ip+JMBYpzpvzMzf4W4323jjmfLZbkRLJV3xFlGeAQUk0hFvvpWcwQl7pxoNJfZ5KU0nfdcCAJoV2JtUs8cakyw==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
@@ -9746,8 +9762,6 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
-      '@types/chai': 4.3.1
-      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -9760,6 +9774,7 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
+      - encoding
       - supports-color
     dev: false
 
@@ -11890,7 +11905,7 @@ packages:
     dev: false
 
   file:projects/arm-iothub.tgz:
-    resolution: {integrity: sha512-FDvIsSZO0VsdHbXZYLFbq6gYvapMT56g4wM/+J3OpAoDq0ta9FLjk3jH8f6pYDUQTgyhRS+KVUoL7OhZx1wYyg==, tarball: file:projects/arm-iothub.tgz}
+    resolution: {integrity: sha512-uM0b5XAHhAdHx27Ant+Cdp/Pb32fWoXePQw3pjMATv/WblYhiFTpGUDddNiS7sC75s3kFvG3ncb9I0fW0ot2Hw==, tarball: file:projects/arm-iothub.tgz}
     name: '@rush-temp/arm-iothub'
     version: 0.0.0
     dependencies:
@@ -11902,6 +11917,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11914,7 +11931,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -15533,7 +15549,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-gAhuQv+v7hUvEP9lgg82rxsOCOj2tWklSVEIkVVsb1/Jd5eBeZt1xT8YGvgoLWbL+V9vKBdY/XckFB/0U8laJA==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-IKe9R1HsE+DfwW/XeET5QryxhZhKTG0jKFe7nalx8fLRXvE0ZLSgFTekOXWlb0AdWid2fQ4QnK+kJc1hJWcrhw==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -15551,7 +15567,7 @@ packages:
       downlevel-dts: 0.8.0
       eslint: 8.16.0
       form-data: 4.0.0
-      http-proxy-agent: 4.0.1
+      http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
       inherits: 2.0.4
       karma: 6.3.20
@@ -16776,7 +16792,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-RwubiEOWlLwpYC8M2Gs7KtRc4FvjhUF/jflX+a6vtnJwYAdUD/EeiygNm7qg17KbQ5R4wsqybD77kxT3W9kYdQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-Li21AfPI1II1VSwYOH4n6MimkxtEetAi5Q/X8RS+PDdlZAiMAGCAab10YyxyGOYWsHpKKR74Sv8FRpJy7NQcFQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -16794,7 +16810,7 @@ packages:
       dotenv: 8.6.0
       eslint: 8.16.0
       eslint-plugin-node: 11.1.0_eslint@8.16.0
-      execa: 6.1.0
+      execa: 5.1.1
       mocha: 7.2.0
       nock: 12.0.3
       nyc: 15.1.0

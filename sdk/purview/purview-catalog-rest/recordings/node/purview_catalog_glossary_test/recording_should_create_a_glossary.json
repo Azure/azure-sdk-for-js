@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/catalog/api/atlas/v2/glossary?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/atlas/v2/glossary?api-version=2022-03-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "160",
         "Content-Type": "application/json; charset=UTF-8",
-        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "d3336149-905e-4976-8e00-26163e92a1b4"
+        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.8.1 Node/v14.15.4 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "fd9b1c48-85ee-40ec-90ce-c9e9d5b9a299"
       },
       "RequestBody": {
         "name": "jsLROTesting-2",
@@ -29,7 +29,7 @@
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 19 Apr 2022 07:33:42 GMT",
+        "Date": "Tue, 14 Jun 2022 09:57:34 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "AzurePurview",
@@ -37,12 +37,12 @@
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "5daab81f-e096-44c6-8983-eecaddba5d95",
-        "x-ms-request-id": "d3336149-905e-4976-8e00-26163e92a1b4",
+        "x-ms-correlation-request-id": "2a748681-12c4-4618-9d17-20be37fd7a53",
+        "x-ms-request-id": "fd9b1c48-85ee-40ec-90ce-c9e9d5b9a299",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
-        "guid": "5fb8514d-9cb8-4d5f-b4ea-056c727bbfd1",
+        "guid": "72af96f2-ee2e-477d-8690-d920fa689d75",
         "qualifiedName": "jsLROTesting-2",
         "name": "jsLROTesting-2",
         "shortDescription": "Example Short Description",

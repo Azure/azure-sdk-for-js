@@ -34,6 +34,7 @@ type ChallengeState =
     }
   | {
       status: "complete";
+      scopes: string[];
     };
 
 /**
@@ -64,7 +65,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
   }
 
   async function authorizeRequest(options: AuthorizeRequestOptions) {
-    const { scopes, request } = options;
+    const { request } = options;
     const requestOptions: GetTokenOptions = requestToOptions(request);
 
     switch (challengeState.status) {
@@ -78,7 +79,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
       case "started":
         break; // Retry, we should not overwrite the original body
       case "complete": {
-        const token = await options.getAccessToken(scopes, requestOptions);
+        const token = await options.getAccessToken(challengeState.scopes, requestOptions);
         if (token) {
           request.headers.set("authorization", `Bearer ${token.token}`);
         }
@@ -91,7 +92,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
   async function authorizeRequestOnChallenge(
     options: AuthorizeRequestOnChallengeOptions
   ): Promise<boolean> {
-    const { scopes, request, response } = options;
+    const { request, response } = options;
 
     if (request.body === null && challengeState.status === "started") {
       // Reset the original body before doing anything else.
@@ -106,12 +107,20 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
     if (!challenge) {
       throw new Error("Missing challenge.");
     }
-    const parsedChallenge: ParsedWWWAuthenticate = parseWWWAuthenticate(challenge) || [];
+    const parsedChallenge: ParsedWWWAuthenticate = parseWWWAuthenticate(challenge) || {};
 
-    const accessToken = await options.getAccessToken(
-      parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
-      { ...getTokenOptions, tenantId: parsedChallenge.tenantId }
-    );
+    const scope = parsedChallenge.resource
+      ? parsedChallenge.resource + "/.default"
+      : parsedChallenge.scope;
+
+    if (!scope) {
+      throw new Error("Missing scope.");
+    }
+
+    const accessToken = await options.getAccessToken([scope], {
+      ...getTokenOptions,
+      tenantId: parsedChallenge.tenantId,
+    });
 
     if (!accessToken) {
       return false;
@@ -121,6 +130,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
 
     challengeState = {
       status: "complete",
+      scopes: [scope],
     };
 
     return true;
