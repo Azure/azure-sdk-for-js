@@ -14061,7 +14061,7 @@ packages:
     dev: false
 
   file:projects/arm-sqlvirtualmachine.tgz:
-    resolution: {integrity: sha512-rsVtRhpocluSXNkBSr04HuUIuqLIRGZvCs3NIju7030AMxU1kQG/PQKLW9pkKU1H4jmonLEh/AYosaE7w/v4mQ==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
+    resolution: {integrity: sha512-dcVmjVBg4MOqCUqakwh3BqLKm/O5194lkijLyuyoV5NU0MtFATcJQvQ5XUS57civyCGPi/PRbD3jWit1uaO44g==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
     name: '@rush-temp/arm-sqlvirtualmachine'
     version: 0.0.0
     dependencies:
@@ -14073,6 +14073,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14085,7 +14087,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
