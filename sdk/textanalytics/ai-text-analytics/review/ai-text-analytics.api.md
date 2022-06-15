@@ -19,10 +19,12 @@ export interface ActionCommon {
 }
 
 // @public
-export type ActionCustom = ActionCommon & {
-    projectName: string;
+export interface ActionCustom extends ActionCommon {
+    // (undocumented)
     deploymentName: string;
-};
+    // (undocumented)
+    projectName: string;
+}
 
 // @public
 export interface ActionMetadata {
@@ -30,9 +32,9 @@ export interface ActionMetadata {
 }
 
 // @public
-export type ActionPrebuilt = ActionCommon & {
+export interface ActionPrebuilt extends ActionCommon {
     modelVersion?: string;
-};
+}
 
 // @public
 export type AnalyzeActionName = keyof typeof AnalyzeActionNames;
@@ -169,9 +171,9 @@ export interface CustomActionMetadata {
 }
 
 // @public
-export type CustomEntityRecognitionAction = ActionCustom & {
+export interface CustomEntityRecognitionAction extends ActionCustom {
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface CustomEntityRecognitionBatchAction extends AnalyzeBatchActionCommon, CustomEntityRecognitionAction {
@@ -193,7 +195,8 @@ export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSucces
 }
 
 // @public
-export type CustomMultiLabelClassificationAction = ActionCustom;
+export interface CustomMultiLabelClassificationAction extends ActionCustom {
+}
 
 // @public
 export interface CustomMultiLabelClassificationBatchAction extends AnalyzeBatchActionCommon, CustomMultiLabelClassificationAction {
@@ -215,7 +218,8 @@ export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysi
 }
 
 // @public
-export type CustomSingleLabelClassificationAction = ActionCustom;
+export interface CustomSingleLabelClassificationAction extends ActionCustom {
+}
 
 // @public
 export interface CustomSingleLabelClassificationBatchAction extends AnalyzeBatchActionCommon, CustomSingleLabelClassificationAction {
@@ -278,9 +282,9 @@ export interface EntityDataSource {
 }
 
 // @public
-export type EntityLinkingAction = ActionPrebuilt & {
+export interface EntityLinkingAction extends ActionPrebuilt {
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface EntityLinkingBatchAction extends AnalyzeBatchActionCommon, EntityLinkingAction {
@@ -302,9 +306,9 @@ export interface EntityLinkingSuccessResult extends TextAnalysisSuccessResult {
 }
 
 // @public
-export type EntityRecognitionAction = ActionPrebuilt & {
+export interface EntityRecognitionAction extends ActionPrebuilt {
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface EntityRecognitionBatchAction extends AnalyzeBatchActionCommon, EntityRecognitionAction {
@@ -326,11 +330,12 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
-export type ExtractiveSummarizationAction = ActionPrebuilt & {
+export interface ExtractiveSummarizationAction extends ActionPrebuilt {
+    // (undocumented)
     maxSentenceCount?: number;
     orderBy?: ExtractiveSummarizationOrderingCriteria;
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface ExtractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, ExtractiveSummarizationAction {
@@ -347,10 +352,10 @@ export type ExtractiveSummarizationOrderingCriteria = string;
 export type FhirVersion = string;
 
 // @public
-export type HealthcareAction = ActionPrebuilt & {
+export interface HealthcareAction extends ActionPrebuilt {
     fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface HealthcareAssertion {
@@ -407,7 +412,8 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
 }
 
 // @public
-export type KeyPhraseExtractionAction = ActionPrebuilt;
+export interface KeyPhraseExtractionAction extends ActionPrebuilt {
+}
 
 // @public
 export interface KeyPhraseExtractionBatchAction extends AnalyzeBatchActionCommon, KeyPhraseExtractionAction {
@@ -896,7 +902,8 @@ export const KnownTextAnalysisErrorCode: {
 };
 
 // @public
-export type LanguageDetectionAction = ActionPrebuilt;
+export interface LanguageDetectionAction extends ActionPrebuilt {
+}
 
 // @public
 export type LanguageDetectionErrorResult = TextAnalysisErrorResult;
@@ -954,11 +961,11 @@ export type PiiEntityCategory = string;
 export type PiiEntityDomain = string;
 
 // @public
-export type PiiEntityRecognitionAction = ActionPrebuilt & {
-    domainFilter?: PiiEntityDomain;
+export interface PiiEntityRecognitionAction extends ActionPrebuilt {
     categoriesFilter?: PiiEntityCategory[];
+    domainFilter?: PiiEntityDomain;
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface PiiEntityRecognitionBatchAction extends AnalyzeBatchActionCommon, PiiEntityRecognitionAction {
@@ -1002,10 +1009,10 @@ export interface SentenceSentiment {
 export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 
 // @public
-export type SentimentAnalysisAction = ActionPrebuilt & {
+export interface SentimentAnalysisAction extends ActionPrebuilt {
     includeOpinionMining?: boolean;
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface SentimentAnalysisBatchAction extends AnalyzeBatchActionCommon, SentimentAnalysisAction {
