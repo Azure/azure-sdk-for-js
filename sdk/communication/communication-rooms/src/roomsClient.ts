@@ -36,7 +36,7 @@ import { generateUuid } from "./models/uuid";
 const isRoomClientOptions = (options: any): options is RoomsClientOptions =>
   !!options && !isKeyCredential(options);
 
-export class roomsClient {
+export class RoomsClient {
   private readonly client: RoomsApiClient;
 
   constructor(connectionString: string, options?: RoomsClientOptions);
@@ -259,7 +259,7 @@ export class roomsClient {
       const result = await this.client.rooms.removeParticipants(
         roomId,
         {
-          participants: options.participants?.map((participant) =>
+          participants: options.participants?.map((participant: any) =>
             mapToRoomParticipantRestModel(participant)),
         },
         updatedOptions
