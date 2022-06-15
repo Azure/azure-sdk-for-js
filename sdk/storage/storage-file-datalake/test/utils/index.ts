@@ -170,6 +170,17 @@ export function getAlternateDataLakeServiceClient(): DataLakeServiceClient {
   return getGenericDataLakeServiceClient("SECONDARY_", "-secondary");
 }
 
+export function getEncryptionScope(): string {
+  const encryptionScopeEnvVar = "ENCRYPTION_SCOPE";
+  const encryptionScope = process.env[encryptionScopeEnvVar];
+
+  if (!encryptionScope) {
+    throw new Error(`${encryptionScopeEnvVar}  environment variables not specified.`);
+  }
+
+  return encryptionScope;
+}
+
 /**
  * Read body from downloading operation methods to string.
  * Works in both Node.js and browsers.

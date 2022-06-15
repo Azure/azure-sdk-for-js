@@ -194,6 +194,12 @@ export class DataLakeFileSystemClient extends StorageClient {
         ...options,
         access: toContainerPublicAccessType(options.access),
         tracingOptions: updatedOptions.tracingOptions,
+        containerEncryptionScope: options.fileSystemEncryptionScope
+          ? {
+              defaultEncryptionScope: options.fileSystemEncryptionScope.defaultEncryptionScope,
+              preventEncryptionScopeOverride: true,
+            }
+          : undefined,
       });
     } catch (e: any) {
       span.setStatus({
@@ -225,6 +231,12 @@ export class DataLakeFileSystemClient extends StorageClient {
       return await this.blobContainerClient.createIfNotExists({
         ...options,
         access: toContainerPublicAccessType(options.access),
+        containerEncryptionScope: options.fileSystemEncryptionScope
+          ? {
+              defaultEncryptionScope: options.fileSystemEncryptionScope.defaultEncryptionScope,
+              preventEncryptionScopeOverride: true,
+            }
+          : undefined,
         tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e: any) {

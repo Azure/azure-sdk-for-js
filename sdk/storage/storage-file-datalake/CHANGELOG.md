@@ -1,14 +1,13 @@
 # Release History
 
-## 12.10.1 (Unreleased)
+## 12.11.0-beta.1 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added support for service version 2021-10-04.
+- Added support for flush parameter to DataLakeFileClient.append().
+- Added support for encryption scopes.
+- Added support for encryption scope SAS.
 
 ## 12.10.0 (2022-07-08)
 

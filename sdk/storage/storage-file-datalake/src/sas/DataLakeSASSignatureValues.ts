@@ -109,6 +109,11 @@ export interface DataLakeSASSignatureValues {
   identifier?: string;
 
   /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
+
+  /**
    * Optional. The cache-control header for the SAS.
    */
   cacheControl?: string;
@@ -885,7 +890,7 @@ function generateBlobSASQueryParameters20201206(
     version,
     resource,
     dataLakeSASSignatureValues.snapshotTime,
-    "", // reserve for encryption scope
+    dataLakeSASSignatureValues.encryptionScope ? dataLakeSASSignatureValues.encryptionScope : "",
     dataLakeSASSignatureValues.cacheControl ? dataLakeSASSignatureValues.cacheControl : "",
     dataLakeSASSignatureValues.contentDisposition
       ? dataLakeSASSignatureValues.contentDisposition
@@ -915,7 +920,11 @@ function generateBlobSASQueryParameters20201206(
     dataLakeSASSignatureValues.contentLanguage,
     dataLakeSASSignatureValues.contentType,
     undefined,
-    dataLakeSASSignatureValues.directoryDepth
+    dataLakeSASSignatureValues.directoryDepth,
+    undefined,
+    undefined,
+    undefined,
+    dataLakeSASSignatureValues.encryptionScope
   );
 }
 
@@ -1015,7 +1024,7 @@ function generateBlobSASQueryParametersUDK20201206(
     version,
     resource,
     dataLakeSASSignatureValues.snapshotTime,
-    "", // reserve for encryption scope
+    dataLakeSASSignatureValues.encryptionScope,
     dataLakeSASSignatureValues.cacheControl,
     dataLakeSASSignatureValues.contentDisposition,
     dataLakeSASSignatureValues.contentEncoding,
@@ -1046,7 +1055,8 @@ function generateBlobSASQueryParametersUDK20201206(
     dataLakeSASSignatureValues.directoryDepth,
     dataLakeSASSignatureValues.preauthorizedAgentObjectId,
     dataLakeSASSignatureValues.agentObjectId,
-    dataLakeSASSignatureValues.correlationId
+    dataLakeSASSignatureValues.correlationId,
+    dataLakeSASSignatureValues.encryptionScope
   );
 }
 

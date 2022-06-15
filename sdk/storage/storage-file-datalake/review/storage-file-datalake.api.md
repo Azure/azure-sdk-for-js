@@ -118,6 +118,7 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
+    encryptionScope?: string;
     expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
@@ -238,6 +239,7 @@ export interface CommonGenerateSasUrlOptions {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -416,6 +418,7 @@ export interface DataLakeSASSignatureValues {
     contentType?: string;
     correlationId?: string;
     directoryDepth?: number;
+    encryptionScope?: string;
     expiresOn?: Date;
     fileSystemName: string;
     identifier?: string;
@@ -781,6 +784,7 @@ export interface FileSystemCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     access?: PublicAccessType;
+    fileSystemEncryptionScope?: FileSystemEncryptionScope;
     // (undocumented)
     metadata?: Metadata;
 }
@@ -823,6 +827,11 @@ export type FileSystemDeleteResponse = FileSystemDeleteHeaders & {
         parsedHeaders: FileSystemDeleteHeaders;
     };
 };
+
+// @public
+export interface FileSystemEncryptionScope {
+    defaultEncryptionScope?: string;
+}
 
 // @public
 export interface FileSystemExistsOptions extends CommonOptions {
@@ -877,6 +886,7 @@ export interface FileSystemGetPropertiesHeaders {
     clientRequestId?: string;
     // (undocumented)
     date?: Date;
+    defaultEncryptionScope?: string;
     // (undocumented)
     etag?: string;
     // (undocumented)
@@ -972,6 +982,8 @@ export type FileSystemListPathsResponse = PathList & FileSystemListPathsHeaders 
 
 // @public (undocumented)
 export interface FileSystemProperties {
+    // (undocumented)
+    defaultEncryptionScope?: string;
     // (undocumented)
     deletedOn?: Date;
     // (undocumented)
@@ -1222,6 +1234,7 @@ export interface Path {
     // (undocumented)
     contentLength?: number;
     createdOn?: Date;
+    encryptionScope?: string;
     // (undocumented)
     etag?: string;
     expiresOn?: Date;
@@ -1524,6 +1537,7 @@ export interface PathGetPropertiesHeaders {
     destinationSnapshot?: string;
     // (undocumented)
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     etag?: string;
     expiresOn?: Date;
@@ -1918,7 +1932,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly agentObjectId?: string;
     readonly cacheControl?: string;
@@ -1928,6 +1942,7 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly correlationId?: string;
     readonly directoryDepth?: number;
+    readonly encryptionScope?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
@@ -1953,6 +1968,7 @@ export interface SASQueryParametersOptions {
     contentType?: string;
     correlationId?: string;
     directoryDepth?: number;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -1968,6 +1984,7 @@ export interface SASQueryParametersOptions {
 
 // @public
 export interface ServiceGenerateAccountSasUrlOptions {
+    encryptionScope?: string;
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
     startsOn?: Date;
