@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.3 (Unreleased)
+## 3.0.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -10,9 +10,9 @@
 
 ### Other Changes
 
-## 3.0.0-beta.2 (2022-05-01)
+## 3.0.0-beta.3 (2022-06-15)
 
-The package of @azure/arm-servicefabricmesh is using our next generation design principles since version 3.0.0-beta.2, which contains breaking changes.
+The package of @azure/arm-servicefabricmesh is using our next generation design principles since version 3.0.0-beta.3, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 

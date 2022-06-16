@@ -115,7 +115,7 @@ export function isCanceled<TResult, TState extends PollOperationState<TResult>>(
   const { state, status } = operation;
   if (["canceled", "cancelled"].includes(status)) {
     state.isCancelled = true;
-    throw new Error(`The long-running operation has been canceled.`);
+    return true;
   }
   return false;
 }

@@ -15,8 +15,3 @@ export const LATEST_API_VERSION = "7.3";
  * Supported API versions
  */
 export type SUPPORTED_API_VERSIONS = "7.2" | "7.3";
-
-/**
- * Authentication scopes
- */
-export const authenticationScopes = ["https://managedhsm.azure.net/.default"];

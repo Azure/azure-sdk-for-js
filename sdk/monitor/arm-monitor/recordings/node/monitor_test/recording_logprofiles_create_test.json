@@ -1,0 +1,114 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Insights/logprofiles?api-version=2016-03-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "24e8472b-5c31-4c4f-af75-78414569e4be"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 14 Jun 2022 07:44:22 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5cb5bf6d-f9b0-475b-8145-5dcb5cb51ba1",
+        "x-ms-ratelimit-remaining-subscription-reads": "11973",
+        "x-ms-request-id": "f6866077-8cc8-4e84-831f-dde8750c7d37",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220614T074422Z:5cb5bf6d-f9b0-475b-8145-5dcb5cb51ba1"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Insights/logprofiles/mylogProfilexxx?api-version=2016-03-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "284",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "3f07d34a-8218-417c-81ab-d5f32b5d5100"
+      },
+      "RequestBody": {
+        "location": "",
+        "properties": {
+          "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "locations": [
+            "global"
+          ],
+          "categories": [
+            "Write",
+            "Delete",
+            "Action"
+          ],
+          "retentionPolicy": {
+            "enabled": true,
+            "days": 3
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 14 Jun 2022 07:44:25 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d7e23efa-1acd-4f6c-973b-cdc122848325",
+        "x-ms-ratelimit-remaining-subscription-writes": "1194",
+        "x-ms-request-id": "4b990925-00a3-4835-b9b6-d50a48208347",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220614T074425Z:d7e23efa-1acd-4f6c-973b-cdc122848325"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/microsoft.insights/logprofiles/mylogProfilexxx",
+        "type": null,
+        "name": "mylogProfilexxx",
+        "location": "",
+        "kind": null,
+        "tags": null,
+        "properties": {
+          "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "serviceBusRuleId": null,
+          "locations": [
+            "global"
+          ],
+          "categories": [
+            "Write",
+            "Delete",
+            "Action"
+          ],
+          "retentionPolicy": {
+            "enabled": true,
+            "days": 3
+          }
+        },
+        "identity": null
+      }
+    }
+  ],
+  "Variables": {}
+}

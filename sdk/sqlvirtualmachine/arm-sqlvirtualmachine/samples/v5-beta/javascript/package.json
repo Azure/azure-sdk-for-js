@@ -1,0 +1,32 @@
+{
+  "name": "@azure-samples/arm-sqlvirtualmachine-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": " client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/sqlvirtualmachine/arm-sqlvirtualmachine"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/sqlvirtualmachine/arm-sqlvirtualmachine",
+  "dependencies": {
+    "@azure/arm-sqlvirtualmachine": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^2.0.1"
+  }
+}
