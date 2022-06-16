@@ -112,7 +112,6 @@ export const promptDeployConfig = (partial: Partial<TDeployConfig>): Promise<TDe
         name: "apiVersion",
         type: "input",
         message: "apiVersion override (optional):",
-        validate: validateDeployConfig.apiVersion,
       },
     ],
     partial

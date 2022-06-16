@@ -7,7 +7,7 @@ import { TConfigs } from "../scaffolding";
 import { hideBin } from "yargs/helpers";
 import yargsParser from "yargs-parser";
 
-export const argvToPartialConfig = <TConfig extends TConfigs>(
+export const extractConfigFromArgs = <TConfig extends TConfigs>(
   argv: yargsParser.Arguments,
   validateConfig: TValidate<TConfig>,
   red: (msg: string) => void
@@ -34,19 +34,15 @@ export const argvToPartialConfig = <TConfig extends TConfigs>(
   return { configPartial, missing };
 };
 
-export const buildGetConfig: (
-  gray: (msg: string) => void,
-  red: (msg: string) => void
-) => <TConfig extends TConfigs>(
-  promptForConfig: (partial: Partial<TConfig>) => Promise<TConfig>,
-  validateConfig: TValidate<TConfig>
-) => Promise<TConfig> = (gray: (msg: string) => void, red: (msg: string) => void) => {
+export type TLog = (msg: string) => void
+
+export const buildGetConfig = (gray: TLog, red: TLog) => {
   const argv = yargsParser(hideBin(process.argv));
   return async <TConfig extends TConfigs>(
     promptForConfig: (partial: Partial<TConfig>) => Promise<TConfig>,
     validateConfig: TValidate<TConfig>
   ) => {
-    const { configPartial, missing } = argvToPartialConfig(argv, validateConfig, red);
+    const { configPartial, missing } = extractConfigFromArgs(argv, validateConfig, red);
 
     if (missing || !Object.values(configPartial).length) {
       return promptForConfig(configPartial);

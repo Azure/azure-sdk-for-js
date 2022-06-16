@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export function generateProject(widgetConfig: TCustomWidgetBaseConfig, deployConfig: TDeployConfig, miscConfig?: TMiscConfig): Promise<void>;
+export function generateProject(widgetConfig: TCustomWidgetCommonConfig, deployConfig: TDeployConfig, miscConfig?: TMiscConfig): Promise<void>;
 
 // @public
 export const OVERRIDE_DEFAULT_PORT = 3000;
@@ -14,7 +14,7 @@ export const OVERRIDE_DEFAULT_PORT = 3000;
 export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
 
 // @public
-export interface TCustomWidgetBaseConfig {
+export interface TCustomWidgetCommonConfig {
     displayName: string;
     iconUrl?: string;
     tech: TScaffoldTech;
