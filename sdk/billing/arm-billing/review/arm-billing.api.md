@@ -57,6 +57,7 @@ export type Agreement = Resource & {
     readonly agreementLink?: string;
     readonly category?: Category;
     readonly acceptanceMode?: AcceptanceMode;
+    readonly billingProfileInfo?: BillingProfileInfo;
     readonly effectiveDate?: Date;
     readonly expirationDate?: Date;
     participants?: Participants[];
@@ -441,8 +442,16 @@ export interface BillingProfileCreationRequest {
 }
 
 // @public
+export interface BillingProfileInfo {
+    billingProfileDisplayName?: string;
+    billingProfileId?: string;
+    indirectRelationshipOrganizationName?: string;
+}
+
+// @public
 export interface BillingProfileListResult {
     readonly nextLink?: string;
+    readonly totalCount?: number;
     readonly value?: BillingProfile[];
 }
 
@@ -1855,6 +1864,18 @@ export interface OperationListResult {
 // @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationsErrorDetails {
+    readonly code?: string;
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface OperationsErrorResponse {
+    error?: OperationsErrorDetails;
 }
 
 // @public

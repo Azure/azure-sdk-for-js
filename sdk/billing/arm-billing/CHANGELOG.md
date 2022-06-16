@@ -1,15 +1,15 @@
 # Release History
+    
+## 4.1.0-beta.1 (2022-06-16)
+    
+**Features**
 
-## 4.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface BillingProfileInfo
+  - Added Interface OperationsErrorDetails
+  - Added Interface OperationsErrorResponse
+  - Interface BillingProfileListResult has a new optional parameter totalCount
+  - Type Alias Agreement has a new parameter billingProfileInfo
+    
 ## 4.0.1 (2022-04-11)
 
   - Bug fix
