@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for service version 2021-08-06.
+
 ### Breaking Changes
 
 ### Bugs Fixed

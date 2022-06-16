@@ -329,6 +329,22 @@ export class DataLakePathClient extends StorageClient {
     const { span, updatedOptions } = createSpan("DataLakePathClient-create", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      let expiryOptions: FileExpiryMode | undefined;
+      let expiresOn: string | undefined;
+      if (options.expiresOn) {
+        if (Number.isFinite(options.expiresOn)) {
+          expiryOptions = "RelativeToNow";
+          expiresOn = Math.round(options.expiresOn! as number).toString();
+        } else {
+          if (options.expiresOn instanceof Date) {
+            expiryOptions = "Absolute";
+            expiresOn = options.expiresOn.toUTCString();
+          } else {
+            throw new Error(`Value for expiresOn is invalid.`);
+          }
+        }
+      }
+
       return await this.pathContext.create({
         ...options,
         resource: resourceType,
@@ -336,6 +352,9 @@ export class DataLakePathClient extends StorageClient {
         modifiedAccessConditions: options.conditions,
         properties: toProperties(options.metadata),
         cpkInfo: options.customerProvidedKey,
+        acl: options.acl ? toAclString(options.acl) : undefined,
+        expiryOptions: expiryOptions,
+        expiresOn: expiresOn,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e: any) {
