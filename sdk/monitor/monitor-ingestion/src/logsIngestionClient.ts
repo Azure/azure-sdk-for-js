@@ -31,12 +31,8 @@ export class LogsIngestionClient {
  * @param options - Options for the MonitorIngestionClient.
  */
   constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions) {
-    let scope;
-    if (endpoint) {
-      scope = `${endpoint}/.default`;
-    }
     const credentialOptions = {
-      credentialScopes: scope,
+      credentialScopes: defaultIngestionScope,
     };
     this.endpoint = endpoint;
     const packageDetails = `azsdk-js-monitor-ingestion/${SDK_VERSION}`;
