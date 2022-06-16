@@ -66,48 +66,88 @@ export class LogsIngestionClient {
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
-    options?: uploadOptions
-  ): Promise<uploadResult> {
-    //yet-to-be-implemented
-    if (options?.maxConcurrency && options?.maxConcurrency > 1) {
-      throw ("Concurrency yet to be implemeted");
-    }
-    else {
-      try {
-        let noOfChunks = 1;
-        let count = 0;
-        let failedLogsIndex = [];
-        //let promiseArray = [];
-        while (count < noOfChunks) {
+    options?: UploadOptions
+  ): Promise<UploadResult> {
+    try {
+      let chunkArray: any[] = []
+      // split logs into 1MB chunks
+      chunkArray = this.splitDataToChunks(logs)
+      let noOfChunks = chunkArray.length;
+      let count = 0;
+      let failedLogsIndex = [];
+      let concurrency = 1;
+      if (options?.maxConcurrency && options?.maxConcurrency > 1) {
+        concurrency = options?.maxConcurrency;
+      }
+      let errors: any[] = [];
+      while (count < noOfChunks) {
+        if (concurrency === 1) {
           try {
-            await this._dataClient.dataCollectionRule.ingest(ruleId, streamName, logs, {
+            await this._dataClient.dataCollectionRule.ingest(ruleId, streamName, chunkArray[count], {
               contentEncoding: "gzip"
             });
           }
           catch (e) {
-            //this will eventullay be the actual index ranges in the chunk
-            failedLogsIndex.push(count);
+            //this will indicate the actual indices in the logs array that failed
+            console.dir(chunkArray[count]);
+            console.log(count);
+            console.dir(logs);
+            let index = logs.indexOf(chunkArray[count][0]);
+            console.log("index = ", index);
+            failedLogsIndex.push(index);
+            errors.push(e);
           }
           count++;
         }
-        let uploadResult: uploadResult = {
-          failedLogsIndex: [],
-          uploadStatus: "Success"
+        else {
+          count++;
         }
-        if (failedLogsIndex.length === 0) {
-          return uploadResult;
-        }
-        else if (failedLogsIndex.length < noOfChunks && failedLogsIndex.length > 0) {
-
-          uploadResult = { failedLogsIndex: failedLogsIndex, uploadStatus: "PartialFailure" };
-          return uploadResult;
-        }
-        else
-          throw Error("All logs failed for the ingestion");
       }
-      catch (e) {
-        throw e;
+      let uploadResult: UploadResult = {
+        failedLogsIndex: [],
+        uploadStatus: "Success"
+      }
+      if (failedLogsIndex.length === 0) {
+        return uploadResult;
+      }
+      else if (failedLogsIndex.length < noOfChunks && failedLogsIndex.length > 0) {
+        uploadResult = { failedLogsIndex: failedLogsIndex, uploadStatus: "PartialFailure" };
+        return uploadResult;
+      }
+      else
+        throw Error(`All logs failed for ingestion - ${errors.toString()}`);
+    }
+    catch (e) {
+      throw e;
+    }
+  }
+
+  splitDataToChunks(logs: Record<string, unknown>[]): any[] {
+    let chunk: any[] = [];
+    let chunkArray: any[] = [];
+    let size = 0
+    const maxBytes = 1000000;
+    for (const element of logs) {
+      const elementSize = JSON.stringify(element).length * 4;
+
+      if (size + elementSize < maxBytes) {
+        chunk.push(element);
+        size += elementSize;
+      } else {
+        console.log("Sending chunk...");
+        console.log(chunk);
+        chunkArray.push(chunk);
+        chunk = [element];
+        size = 0;
       }
     }
+
+    if (chunk.length) {
+      console.log("Sending chunk...");
+      console.log(chunk);
+      chunkArray.push(chunk);
+    }
+
+    return chunkArray;
   }
 }
