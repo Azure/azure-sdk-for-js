@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreAuth from "@azure/core-auth";
 import { GeneratedDataCollectionClientOptionalParams } from "./models";
 
 /** @internal */
@@ -16,14 +17,19 @@ export class GeneratedDataCollectionClientContext extends coreClient.ServiceClie
 
   /**
    * Initializes a new instance of the GeneratedDataCollectionClientContext class.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint The Data Collection Endpoint for the Data Collection Rule, for example
    *                 https://dce-name.eastus-2.ingest.monitor.azure.com.
    * @param options The parameter options
    */
   constructor(
+    credentials: coreAuth.TokenCredential,
     endpoint: string,
     options?: GeneratedDataCollectionClientOptionalParams
   ) {
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
@@ -33,7 +39,8 @@ export class GeneratedDataCollectionClientContext extends coreClient.ServiceClie
       options = {};
     }
     const defaults: GeneratedDataCollectionClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
     };
 
     const packageDetails = `azsdk-js-data-collection/1.0.0-beta.1`;

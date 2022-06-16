@@ -9,4 +9,3 @@
 export * from "./models";
 export { GeneratedDataCollectionClient } from "./generatedDataCollectionClient";
 export { GeneratedDataCollectionClientContext } from "./generatedDataCollectionClientContext";
-export * from "./operationsInterfaces";

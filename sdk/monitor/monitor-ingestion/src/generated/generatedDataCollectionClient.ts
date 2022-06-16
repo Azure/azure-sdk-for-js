@@ -6,26 +6,74 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataCollectionRuleImpl } from "./operations";
-import { DataCollectionRule } from "./operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as coreAuth from "@azure/core-auth";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
 import { GeneratedDataCollectionClientContext } from "./generatedDataCollectionClientContext";
-import { GeneratedDataCollectionClientOptionalParams } from "./models";
+import {
+  GeneratedDataCollectionClientOptionalParams,
+  UploadOptionalParams
+} from "./models";
 
 /** @internal */
 export class GeneratedDataCollectionClient extends GeneratedDataCollectionClientContext {
   /**
    * Initializes a new instance of the GeneratedDataCollectionClient class.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint The Data Collection Endpoint for the Data Collection Rule, for example
    *                 https://dce-name.eastus-2.ingest.monitor.azure.com.
    * @param options The parameter options
    */
   constructor(
+    credentials: coreAuth.TokenCredential,
     endpoint: string,
     options?: GeneratedDataCollectionClientOptionalParams
   ) {
-    super(endpoint, options);
-    this.dataCollectionRule = new DataCollectionRuleImpl(this);
+    super(credentials, endpoint, options);
   }
 
-  dataCollectionRule: DataCollectionRule;
+  /**
+   * See error response code and error response message for more detail.
+   * @param ruleId The immutable Id of the Data Collection Rule resource.
+   * @param stream The streamDeclaration name as defined in the Data Collection Rule.
+   * @param body An array of objects matching the schema defined by the provided stream.
+   * @param options The options parameters.
+   */
+  upload(
+    ruleId: string,
+    stream: string,
+    body: Record<string, unknown>[],
+    options?: UploadOptionalParams
+  ): Promise<void> {
+    return this.sendOperationRequest(
+      { ruleId, stream, body, options },
+      uploadOperationSpec
+    );
+  }
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const uploadOperationSpec: coreClient.OperationSpec = {
+  path: "/dataCollectionRules/{ruleId}/streams/{stream}",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.GeneratedDataCollectionClientUploadExceptionHeaders
+    }
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.ruleId, Parameters.stream],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.contentEncoding,
+    Parameters.xMsClientRequestId
+  ],
+  mediaType: "json",
+  serializer
+};

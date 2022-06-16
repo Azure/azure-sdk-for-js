@@ -57,15 +57,14 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Defines headers for DataCollectionRule_ingest operation. */
-export interface DataCollectionRuleIngestExceptionHeaders {
+/** Defines headers for GeneratedDataCollectionClient_upload operation. */
+export interface GeneratedDataCollectionClientUploadExceptionHeaders {
   /** A value that indicates the ingestion service error code. */
   xMsErrorCode?: string;
 }
 
 /** Optional parameters. */
-export interface DataCollectionRuleIngestOptionalParams
-  extends coreClient.OperationOptions {
+export interface UploadOptionalParams extends coreClient.OperationOptions {
   /** gzip */
   contentEncoding?: string;
   /** Client request Id */
