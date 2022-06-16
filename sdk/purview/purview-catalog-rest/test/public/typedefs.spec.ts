@@ -21,11 +21,11 @@ describe("purview catalog tepedefs test", () => {
   });
 
   it("should list all available typedefs sources", async () => {
-    const result = await client.path("/atlas/v2/types/typedefs").get();
+    const result = await client.path("/types/typedefs").get();
 
     // console.dir(result);
     if (result.status !== "200") {
-      assert.fail(`GET "/atlas/v2/types/typedefs" failed with ${result.status}`);
+      assert.fail(`GET "/types/typedefs" failed with ${result.status}`);
     }
 
     assert.isDefined(result.body.entityDefs?.length);

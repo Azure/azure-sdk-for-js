@@ -24,7 +24,7 @@ describe("purview catalog glossary test", () => {
   });
 
   it("Should create a glossary", async () => {
-    const glossary = await client.path("/atlas/v2/glossary").post({
+    const glossary = await client.path("/glossary").post({
       body: {
         name: glossaryName,
         shortDescription: "Example Short Description",
@@ -79,7 +79,7 @@ describe("purview catalog glossary test", () => {
   });
 
   it("Should delete a glossary", async () => {
-    const glossary = await client.path("/atlas/v2/entity/guid/{guid}", glossaryGuid).delete();
+    const glossary = await client.path("/entity/guid/{guid}", glossaryGuid).delete();
     console.log("deleted glossary: ", glossary);
 
     assert.strictEqual(glossary.status, "200");

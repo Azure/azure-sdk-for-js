@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/catalog/api/atlas/v2/glossary?api-version=2022-03-01-preview",
+      "RequestUri": "https://metamodeldemo02.purview.azure.com/atlas/v2/catalog/api/glossary?api-version=2022-03-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "160",
         "Content-Type": "application/json; charset=UTF-8",
-        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.8.1 Node/v14.15.4 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "fd9b1c48-85ee-40ec-90ce-c9e9d5b9a299"
+        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.6 core-rest-pipeline/1.8.1 Node/v12.22.9 OS/(x64-Darwin-21.5.0)",
+        "x-ms-client-request-id": "744e433c-0c79-4072-8183-e464b3f300af"
       },
       "RequestBody": {
         "name": "jsLROTesting-2",
@@ -20,37 +20,14 @@
         "language": "en",
         "usage": "Example Glossary"
       },
-      "StatusCode": 200,
+      "StatusCode": 404,
       "ResponseHeaders": {
-        "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts",
-        "Access-Control-Allow-Methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
-        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
-        "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 09:57:34 GMT",
-        "Expires": "0",
-        "Pragma": "no-cache",
-        "Server": "AzurePurview",
+        "Date": "Wed, 15 Jun 2022 08:32:20 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "2a748681-12c4-4618-9d17-20be37fd7a53",
-        "x-ms-request-id": "fd9b1c48-85ee-40ec-90ce-c9e9d5b9a299",
-        "X-XSS-Protection": "1; mode=block"
+        "x-ms-correlation-request-id": "6d6b84fb-cf9a-4746-a8bd-529922c13e64"
       },
-      "ResponseBody": {
-        "guid": "72af96f2-ee2e-477d-8690-d920fa689d75",
-        "qualifiedName": "jsLROTesting-2",
-        "name": "jsLROTesting-2",
-        "shortDescription": "Example Short Description",
-        "longDescription": "Example Long Description",
-        "lastModifiedTS": "1",
-        "language": "en",
-        "usage": "Example Glossary"
-      }
+      "ResponseBody": "eyJlcnJvciI6eyJjb2RlIjoiUmVzb3VyY2VOb3RGb3VuZCIsIm1lc3NhZ2UiOiJSZXNvdXJjZSBub3QgZm91bmQifX0="
     }
   ],
   "Variables": {}

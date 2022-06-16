@@ -30,6 +30,7 @@ export async function createClient(
 
   return PurviewCatalog(
     env.ENDPOINT ?? "",
+    'v2',
     credential,
     recorder.configureClientOptions({
       options,

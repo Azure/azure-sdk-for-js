@@ -946,7 +946,7 @@ export interface ContactSearchResultValueOutput {
 }
 
 // @public (undocumented)
-function createClient(Endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewCatalogClient;
+function createClient(Endpoint: string, serviceVersion: ServiceVersion, credentials: TokenCredential, options?: ClientOptions): PurviewCatalogClient;
 export default createClient;
 
 // @public (undocumented)
@@ -3781,44 +3781,44 @@ export interface ResourceLinkOutput {
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/atlas/v2/entity"): EntityCreateOrUpdate;
-    (path: "/atlas/v2/entity/bulk"): EntityListByGuids;
-    (path: "/atlas/v2/entity/bulk/classification"): EntityAddClassification;
-    (path: "/atlas/v2/entity/guid/{guid}", guid: string): EntityGetByGuid;
-    (path: "/atlas/v2/entity/guid/{guid}/classification/{classificationName}", guid: string, classificationName: string): EntityGetClassification;
-    (path: "/atlas/v2/entity/guid/{guid}/classifications", guid: string): EntityGetClassifications;
-    (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}", typeName: string): EntityGetByUniqueAttributes;
-    (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classification/{classificationName}", typeName: string, classificationName: string): EntityDeleteClassificationByUniqueAttribute;
-    (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications", typeName: string): EntityAddClassificationsByUniqueAttribute;
-    (path: "/atlas/v2/entity/bulk/setClassifications"): EntitySetClassifications;
-    (path: "/atlas/v2/entity/bulk/uniqueAttribute/type/{typeName}", typeName: string): EntityGetEntitiesByUniqueAttributes;
-    (path: "/atlas/v2/entity/guid/{guid}/header", guid: string): EntityGetHeader;
-    (path: "/atlas/v2/entity/guid/{guid}/businessmetadata", guid: string): EntityDeleteBusinessMetadata;
-    (path: "/atlas/v2/entity/guid/{guid}/businessmetadata/{bmName}", guid: string, bmName: string): EntityDeleteBusinessMetadataAttributes;
-    (path: "/atlas/v2/entity/businessmetadata/import/template"): EntityGetSampleBusinessMetadataTemplate;
-    (path: "/atlas/v2/entity/businessmetadata/import"): EntityImportBusinessMetadata;
-    (path: "/atlas/v2/entity/guid/{guid}/labels", guid: string): EntityDeleteLabels;
-    (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/labels", typeName: string): EntityDeleteLabelsByUniqueAttribute;
-    (path: "/atlas/v2/glossary"): GlossaryListGlossaries;
-    (path: "/atlas/v2/glossary/categories"): GlossaryCreateGlossaryCategories;
-    (path: "/atlas/v2/glossary/category"): GlossaryCreateGlossaryCategory;
-    (path: "/atlas/v2/glossary/category/{categoryGuid}", categoryGuid: string): GlossaryGetGlossaryCategory;
-    (path: "/atlas/v2/glossary/category/{categoryGuid}/partial", categoryGuid: string): GlossaryPartialUpdateGlossaryCategory;
-    (path: "/atlas/v2/glossary/category/{categoryGuid}/related", categoryGuid: string): GlossaryListRelatedCategories;
-    (path: "/atlas/v2/glossary/category/{categoryGuid}/terms", categoryGuid: string): GlossaryListCategoryTerms;
-    (path: "/atlas/v2/glossary/term"): GlossaryCreateGlossaryTerm;
-    (path: "/atlas/v2/glossary/term/{termGuid}", termGuid: string): GlossaryGetGlossaryTerm;
-    (path: "/atlas/v2/glossary/term/{termGuid}/partial", termGuid: string): GlossaryPartialUpdateGlossaryTerm;
-    (path: "/atlas/v2/glossary/terms"): GlossaryCreateGlossaryTerms;
-    (path: "/atlas/v2/glossary/terms/{termGuid}/assignedEntities", termGuid: string): GlossaryGetEntitiesAssignedWithTerm;
-    (path: "/atlas/v2/glossary/terms/{termGuid}/related", termGuid: string): GlossaryListRelatedTerms;
-    (path: "/atlas/v2/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryGetGlossary;
-    (path: "/atlas/v2/glossary/{glossaryGuid}/categories", glossaryGuid: string): GlossaryListGlossaryCategories;
-    (path: "/atlas/v2/glossary/{glossaryGuid}/categories/headers", glossaryGuid: string): GlossaryListGlossaryCategoriesHeaders;
-    (path: "/atlas/v2/glossary/{glossaryGuid}/detailed", glossaryGuid: string): GlossaryGetDetailedGlossary;
-    (path: "/atlas/v2/glossary/{glossaryGuid}/partial", glossaryGuid: string): GlossaryPartialUpdateGlossary;
-    (path: "/atlas/v2/glossary/{glossaryGuid}/terms", glossaryGuid: string): GlossaryListGlossaryTerms;
-    (path: "/atlas/v2/glossary/{glossaryGuid}/terms/headers", glossaryGuid: string): GlossaryListGlossaryTermHeaders;
+    (path: "/entity"): EntityCreateOrUpdate;
+    (path: "/entity/bulk"): EntityListByGuids;
+    (path: "/entity/bulk/classification"): EntityAddClassification;
+    (path: "/entity/guid/{guid}", guid: string): EntityGetByGuid;
+    (path: "/entity/guid/{guid}/classification/{classificationName}", guid: string, classificationName: string): EntityGetClassification;
+    (path: "/entity/guid/{guid}/classifications", guid: string): EntityGetClassifications;
+    (path: "/entity/uniqueAttribute/type/{typeName}", typeName: string): EntityGetByUniqueAttributes;
+    (path: "/entity/uniqueAttribute/type/{typeName}/classification/{classificationName}", typeName: string, classificationName: string): EntityDeleteClassificationByUniqueAttribute;
+    (path: "/entity/uniqueAttribute/type/{typeName}/classifications", typeName: string): EntityAddClassificationsByUniqueAttribute;
+    (path: "/entity/bulk/setClassifications"): EntitySetClassifications;
+    (path: "/entity/bulk/uniqueAttribute/type/{typeName}", typeName: string): EntityGetEntitiesByUniqueAttributes;
+    (path: "/entity/guid/{guid}/header", guid: string): EntityGetHeader;
+    (path: "/entity/guid/{guid}/businessmetadata", guid: string): EntityDeleteBusinessMetadata;
+    (path: "/entity/guid/{guid}/businessmetadata/{bmName}", guid: string, bmName: string): EntityDeleteBusinessMetadataAttributes;
+    (path: "/entity/businessmetadata/import/template"): EntityGetSampleBusinessMetadataTemplate;
+    (path: "/entity/businessmetadata/import"): EntityImportBusinessMetadata;
+    (path: "/entity/guid/{guid}/labels", guid: string): EntityDeleteLabels;
+    (path: "/entity/uniqueAttribute/type/{typeName}/labels", typeName: string): EntityDeleteLabelsByUniqueAttribute;
+    (path: "/glossary"): GlossaryListGlossaries;
+    (path: "/glossary/categories"): GlossaryCreateGlossaryCategories;
+    (path: "/glossary/category"): GlossaryCreateGlossaryCategory;
+    (path: "/glossary/category/{categoryGuid}", categoryGuid: string): GlossaryGetGlossaryCategory;
+    (path: "/glossary/category/{categoryGuid}/partial", categoryGuid: string): GlossaryPartialUpdateGlossaryCategory;
+    (path: "/glossary/category/{categoryGuid}/related", categoryGuid: string): GlossaryListRelatedCategories;
+    (path: "/glossary/category/{categoryGuid}/terms", categoryGuid: string): GlossaryListCategoryTerms;
+    (path: "/glossary/term"): GlossaryCreateGlossaryTerm;
+    (path: "/glossary/term/{termGuid}", termGuid: string): GlossaryGetGlossaryTerm;
+    (path: "/glossary/term/{termGuid}/partial", termGuid: string): GlossaryPartialUpdateGlossaryTerm;
+    (path: "/glossary/terms"): GlossaryCreateGlossaryTerms;
+    (path: "/glossary/terms/{termGuid}/assignedEntities", termGuid: string): GlossaryGetEntitiesAssignedWithTerm;
+    (path: "/glossary/terms/{termGuid}/related", termGuid: string): GlossaryListRelatedTerms;
+    (path: "/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryGetGlossary;
+    (path: "/glossary/{glossaryGuid}/categories", glossaryGuid: string): GlossaryListGlossaryCategories;
+    (path: "/glossary/{glossaryGuid}/categories/headers", glossaryGuid: string): GlossaryListGlossaryCategoriesHeaders;
+    (path: "/glossary/{glossaryGuid}/detailed", glossaryGuid: string): GlossaryGetDetailedGlossary;
+    (path: "/glossary/{glossaryGuid}/partial", glossaryGuid: string): GlossaryPartialUpdateGlossary;
+    (path: "/glossary/{glossaryGuid}/terms", glossaryGuid: string): GlossaryListGlossaryTerms;
+    (path: "/glossary/{glossaryGuid}/terms/headers", glossaryGuid: string): GlossaryListGlossaryTermHeaders;
     (path: "/glossary/{glossaryGuid}/terms/import", glossaryGuid: string): GlossaryImportGlossaryTermsViaCsv;
     (path: "/glossary/name/{glossaryName}/terms/import", glossaryName: string): GlossaryImportGlossaryTermsViaCsvByGlossaryName;
     (path: "/glossary/terms/import/{operationGuid}", operationGuid: string): GlossaryGetImportCsvOperationStatus;
@@ -3828,27 +3828,27 @@ export interface Routes {
     (path: "/search/suggest"): DiscoverySuggest;
     (path: "/browse"): DiscoveryBrowse;
     (path: "/search/autocomplete"): DiscoveryAutoComplete;
-    (path: "/atlas/v2/lineage/{guid}", guid: string): LineageGetLineageGraph;
+    (path: "/lineage/{guid}", guid: string): LineageGetLineageGraph;
     (path: "/lineage/{guid}/next/", guid: string): LineageNextPageLineage;
-    (path: "/atlas/v2/lineage/uniqueAttribute/type/{typeName}", typeName: string): LineageGetLineageByUniqueAttribute;
-    (path: "/atlas/v2/relationship"): RelationshipCreate;
-    (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipGet;
-    (path: "/atlas/v2/types/businessmetadatadef/guid/{guid}", guid: string): TypesGetBusinessMetadataDefByGuid;
-    (path: "/atlas/v2/types/businessmetadatadef/name/{name}", name: string): TypesGetBusinessMetadataDefByName;
-    (path: "/atlas/v2/types/classificationdef/guid/{guid}", guid: string): TypesGetClassificationDefByGuid;
-    (path: "/atlas/v2/types/classificationdef/name/{name}", name: string): TypesGetClassificationDefByName;
-    (path: "/atlas/v2/types/entitydef/guid/{guid}", guid: string): TypesGetEntityDefinitionByGuid;
-    (path: "/atlas/v2/types/entitydef/name/{name}", name: string): TypesGetEntityDefinitionByName;
-    (path: "/atlas/v2/types/enumdef/guid/{guid}", guid: string): TypesGetEnumDefByGuid;
-    (path: "/atlas/v2/types/enumdef/name/{name}", name: string): TypesGetEnumDefByName;
-    (path: "/atlas/v2/types/relationshipdef/guid/{guid}", guid: string): TypesGetRelationshipDefByGuid;
-    (path: "/atlas/v2/types/relationshipdef/name/{name}", name: string): TypesGetRelationshipDefByName;
-    (path: "/atlas/v2/types/structdef/guid/{guid}", guid: string): TypesGetStructDefByGuid;
-    (path: "/atlas/v2/types/structdef/name/{name}", name: string): TypesGetStructDefByName;
-    (path: "/atlas/v2/types/typedef/guid/{guid}", guid: string): TypesGetTypeDefinitionByGuid;
-    (path: "/atlas/v2/types/typedef/name/{name}", name: string): TypesGetTypeDefinitionByName;
-    (path: "/atlas/v2/types/typedefs"): TypesGetAllTypeDefinitions;
-    (path: "/atlas/v2/types/typedefs/headers"): TypesListTypeDefinitionHeaders;
+    (path: "/lineage/uniqueAttribute/type/{typeName}", typeName: string): LineageGetLineageByUniqueAttribute;
+    (path: "/relationship"): RelationshipCreate;
+    (path: "/relationship/guid/{guid}", guid: string): RelationshipGet;
+    (path: "/types/businessmetadatadef/guid/{guid}", guid: string): TypesGetBusinessMetadataDefByGuid;
+    (path: "/types/businessmetadatadef/name/{name}", name: string): TypesGetBusinessMetadataDefByName;
+    (path: "/types/classificationdef/guid/{guid}", guid: string): TypesGetClassificationDefByGuid;
+    (path: "/types/classificationdef/name/{name}", name: string): TypesGetClassificationDefByName;
+    (path: "/types/entitydef/guid/{guid}", guid: string): TypesGetEntityDefinitionByGuid;
+    (path: "/types/entitydef/name/{name}", name: string): TypesGetEntityDefinitionByName;
+    (path: "/types/enumdef/guid/{guid}", guid: string): TypesGetEnumDefByGuid;
+    (path: "/types/enumdef/name/{name}", name: string): TypesGetEnumDefByName;
+    (path: "/types/relationshipdef/guid/{guid}", guid: string): TypesGetRelationshipDefByGuid;
+    (path: "/types/relationshipdef/name/{name}", name: string): TypesGetRelationshipDefByName;
+    (path: "/types/structdef/guid/{guid}", guid: string): TypesGetStructDefByGuid;
+    (path: "/types/structdef/name/{name}", name: string): TypesGetStructDefByName;
+    (path: "/types/typedef/guid/{guid}", guid: string): TypesGetTypeDefinitionByGuid;
+    (path: "/types/typedef/name/{name}", name: string): TypesGetTypeDefinitionByName;
+    (path: "/types/typedefs"): TypesGetAllTypeDefinitions;
+    (path: "/types/typedefs/headers"): TypesListTypeDefinitionHeaders;
     (path: "/types/termtemplatedef/guid/{guid}", guid: string): TypesGetTermTemplateDefByGuid;
     (path: "/types/termtemplatedef/name/{name}", name: string): TypesGetTermTemplateDefByName;
     (path: "/collections/{collection}/entity", collection: string): CollectionCreateOrUpdate;
@@ -3945,6 +3945,9 @@ export interface SearchResultValueOutput {
     qualifiedName?: string;
     term?: Array<TermSearchResultValueOutput>;
 }
+
+// @public (undocumented)
+export type ServiceVersion = "v2";
 
 // @public (undocumented)
 export interface SuggestRequest {

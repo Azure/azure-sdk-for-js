@@ -18,9 +18,9 @@ const endpoint = process.env["ENDPOINT"] || "";
 
 async function main() {
   console.log("== List entity typedefs sample ==");
-  const client = PurviewCatalog(endpoint, new DefaultAzureCredential());
+  const client = PurviewCatalog(endpoint, 'v2', new DefaultAzureCredential());
 
-  const dataSources = await client.path("/atlas/v2/types/typedefs").get();
+  const dataSources = await client.path("/types/typedefs").get();
 
   if (dataSources.status !== "200") {
     throw dataSources;
