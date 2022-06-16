@@ -1,15 +1,14 @@
 # Release History
+    
+## 5.1.0 (2022-06-16)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Policies.beginUpdate
+  - Added operation Policies.beginUpdateAndWait
+  - Added Interface PoliciesUpdateOptionalParams
+  - Added Type Alias PoliciesUpdateResponse
+    
 ## 5.0.1 (2022-04-26)
 
 **Features**

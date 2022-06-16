@@ -12,17 +12,18 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  Profile as ProfileMapper,
-  ProfileUpdateModel as ProfileUpdateModelMapper,
-  Experiment as ExperimentMapper,
-  ExperimentUpdateModel as ExperimentUpdateModelMapper,
+  WebApplicationFirewallPolicy as WebApplicationFirewallPolicyMapper,
+  TagsObject as TagsObjectMapper,
   CheckNameAvailabilityInput as CheckNameAvailabilityInputMapper,
   FrontDoor as FrontDoorMapper,
   ValidateCustomDomainInput as ValidateCustomDomainInputMapper,
   CustomHttpsConfiguration as CustomHttpsConfigurationMapper,
   PurgeParameters as PurgeParametersMapper,
   RulesEngine as RulesEngineMapper,
-  WebApplicationFirewallPolicy as WebApplicationFirewallPolicyMapper
+  Profile as ProfileMapper,
+  ProfileUpdateModel as ProfileUpdateModelMapper,
+  Experiment as ExperimentMapper,
+  ExperimentUpdateModel as ExperimentUpdateModelMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -49,29 +50,6 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2019-11-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -88,13 +66,36 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const profileName: OperationURLParameter = {
-  parameterPath: "profileName",
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-05-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const policyName: OperationURLParameter = {
+  parameterPath: "policyName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\(\\)\\.]*[^\\.]$")
+      MaxLength: 128
     },
-    serializedName: "profileName",
+    serializedName: "policyName",
     required: true,
     type: {
       name: "String"
@@ -116,12 +117,12 @@ export const contentType: OperationParameter = {
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ProfileMapper
+  mapper: WebApplicationFirewallPolicyMapper
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ProfileUpdateModelMapper
+  mapper: TagsObjectMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -134,115 +135,6 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
-};
-
-export const experimentName: OperationURLParameter = {
-  parameterPath: "experimentName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\(\\)\\.]*[^\\.]$")
-    },
-    serializedName: "experimentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ExperimentMapper
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ExperimentUpdateModelMapper
-};
-
-export const endDateTimeUTC: OperationQueryParameter = {
-  parameterPath: ["options", "endDateTimeUTC"],
-  mapper: {
-    serializedName: "endDateTimeUTC",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const country: OperationQueryParameter = {
-  parameterPath: ["options", "country"],
-  mapper: {
-    serializedName: "country",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const aggregationInterval: OperationQueryParameter = {
-  parameterPath: "aggregationInterval",
-  mapper: {
-    serializedName: "aggregationInterval",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const startDateTimeUTC: OperationQueryParameter = {
-  parameterPath: "startDateTimeUTC",
-  mapper: {
-    serializedName: "startDateTimeUTC",
-    required: true,
-    type: {
-      name: "DateTime"
-    }
-  }
-};
-
-export const endDateTimeUTC1: OperationQueryParameter = {
-  parameterPath: "endDateTimeUTC",
-  mapper: {
-    serializedName: "endDateTimeUTC",
-    required: true,
-    type: {
-      name: "DateTime"
-    }
-  }
-};
-
-export const aggregationInterval1: OperationQueryParameter = {
-  parameterPath: "aggregationInterval",
-  mapper: {
-    serializedName: "aggregationInterval",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const timeseriesType: OperationQueryParameter = {
-  parameterPath: "timeseriesType",
-  mapper: {
-    serializedName: "timeseriesType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const endpoint: OperationQueryParameter = {
-  parameterPath: ["options", "endpoint"],
-  mapper: {
-    serializedName: "endpoint",
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const checkFrontDoorNameAvailabilityInput: OperationParameter = {
@@ -338,7 +230,7 @@ export const rulesEngineParameters: OperationParameter = {
 export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-11-01",
+    defaultValue: "2019-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -347,13 +239,37 @@ export const apiVersion2: OperationQueryParameter = {
   }
 };
 
-export const policyName: OperationURLParameter = {
-  parameterPath: "policyName",
+export const profileName: OperationURLParameter = {
+  parameterPath: "profileName",
   mapper: {
     constraints: {
-      MaxLength: 128
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\(\\)\\.]*[^\\.]$")
     },
-    serializedName: "policyName",
+    serializedName: "profileName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ProfileMapper
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ProfileUpdateModelMapper
+};
+
+export const experimentName: OperationURLParameter = {
+  parameterPath: "experimentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\(\\)\\.]*[^\\.]$")
+    },
+    serializedName: "experimentName",
     required: true,
     type: {
       name: "String"
@@ -363,5 +279,95 @@ export const policyName: OperationURLParameter = {
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: WebApplicationFirewallPolicyMapper
+  mapper: ExperimentMapper
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ExperimentUpdateModelMapper
+};
+
+export const endDateTimeUTC: OperationQueryParameter = {
+  parameterPath: ["options", "endDateTimeUTC"],
+  mapper: {
+    serializedName: "endDateTimeUTC",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const country: OperationQueryParameter = {
+  parameterPath: ["options", "country"],
+  mapper: {
+    serializedName: "country",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const aggregationInterval: OperationQueryParameter = {
+  parameterPath: "aggregationInterval",
+  mapper: {
+    serializedName: "aggregationInterval",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const startDateTimeUTC: OperationQueryParameter = {
+  parameterPath: "startDateTimeUTC",
+  mapper: {
+    serializedName: "startDateTimeUTC",
+    required: true,
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const endDateTimeUTC1: OperationQueryParameter = {
+  parameterPath: "endDateTimeUTC",
+  mapper: {
+    serializedName: "endDateTimeUTC",
+    required: true,
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const aggregationInterval1: OperationQueryParameter = {
+  parameterPath: "aggregationInterval",
+  mapper: {
+    serializedName: "aggregationInterval",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const timeseriesType: OperationQueryParameter = {
+  parameterPath: "timeseriesType",
+  mapper: {
+    serializedName: "timeseriesType",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const endpoint: OperationQueryParameter = {
+  parameterPath: ["options", "endpoint"],
+  mapper: {
+    serializedName: "endpoint",
+    type: {
+      name: "String"
+    }
+  }
 };

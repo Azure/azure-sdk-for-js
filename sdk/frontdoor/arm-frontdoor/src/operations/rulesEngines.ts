@@ -378,8 +378,8 @@ const listByFrontDoorOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.frontDoorName
   ],
   headerParameters: [Parameters.accept],
@@ -400,8 +400,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.frontDoorName,
     Parameters.rulesEngineName
   ],
@@ -433,8 +433,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.frontDoorName,
     Parameters.rulesEngineName
   ],
@@ -458,8 +458,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.frontDoorName,
     Parameters.rulesEngineName
   ],
@@ -480,8 +480,8 @@ const listByFrontDoorNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.frontDoorName
   ],

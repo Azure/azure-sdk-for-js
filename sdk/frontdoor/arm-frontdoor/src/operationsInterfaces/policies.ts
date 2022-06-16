@@ -15,6 +15,9 @@ import {
   PoliciesGetResponse,
   PoliciesCreateOrUpdateOptionalParams,
   PoliciesCreateOrUpdateResponse,
+  TagsObject,
+  PoliciesUpdateOptionalParams,
+  PoliciesUpdateResponse,
   PoliciesDeleteOptionalParams
 } from "../models";
 
@@ -72,6 +75,39 @@ export interface Policies {
     parameters: WebApplicationFirewallPolicy,
     options?: PoliciesCreateOrUpdateOptionalParams
   ): Promise<PoliciesCreateOrUpdateResponse>;
+  /**
+   * Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified
+   * subscription and resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
+   * @param parameters FrontdoorWebApplicationFirewallPolicy parameters to be patched.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    policyName: string,
+    parameters: TagsObject,
+    options?: PoliciesUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PoliciesUpdateResponse>,
+      PoliciesUpdateResponse
+    >
+  >;
+  /**
+   * Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified
+   * subscription and resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
+   * @param parameters FrontdoorWebApplicationFirewallPolicy parameters to be patched.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    policyName: string,
+    parameters: TagsObject,
+    options?: PoliciesUpdateOptionalParams
+  ): Promise<PoliciesUpdateResponse>;
   /**
    * Deletes Policy
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
