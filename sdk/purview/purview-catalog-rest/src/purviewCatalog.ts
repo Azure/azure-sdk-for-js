@@ -12,7 +12,7 @@ export default function createClient(
   credentials: TokenCredential,
   options: ClientOptions = {}
 ): PurviewCatalogClient {
-  const baseUrl = options.baseUrl ?? `${Endpoint}/atlas/${serviceVersion}/catalog/api`;
+  const baseUrl = options.baseUrl ?? `${Endpoint}/catalog/api/atlas/${serviceVersion}`;
   options.apiVersion = options.apiVersion ?? "2022-03-01-preview";
   options = {
     ...options,

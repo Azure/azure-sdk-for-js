@@ -11,14 +11,14 @@
         "Content-Length": "173",
         "contentType": "multipart/form-data",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.6 core-rest-pipeline/1.8.1 Node/v12.22.9 OS/(x64-Darwin-21.5.0)",
-        "x-ms-client-request-id": "8346db0b-369d-4487-8338-f50fa030329c"
+        "x-ms-client-request-id": "2f5c372c-35ff-419a-a66e-24687818b396"
       },
-      "RequestBody": "LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTg1Nzc3NzUwMzI2NzE4Njk5NDE4OTIyNQ0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpyYW5kb20gY29udGVudA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTg1Nzc3NzUwMzI2NzE4Njk5NDE4OTIyNS0tDQo=",
+      "RequestBody": "LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTI5MTY1NzEzNDQwMDE3MDYzMjAxMTYzNg0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpyYW5kb20gY29udGVudA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTI5MTY1NzEzNDQwMDE3MDYzMjAxMTYzNi0tDQo=",
       "StatusCode": 404,
       "ResponseHeaders": {
-        "Date": "Wed, 15 Jun 2022 08:32:21 GMT",
+        "Date": "Thu, 16 Jun 2022 06:24:25 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-correlation-request-id": "b57830c5-c6e5-4b36-b5a4-7328ea4c44c9"
+        "x-ms-correlation-request-id": "92a928fc-d337-4cc6-b402-e38ac38240a0"
       },
       "ResponseBody": "eyJlcnJvciI6eyJjb2RlIjoiUmVzb3VyY2VOb3RGb3VuZCIsIm1lc3NhZ2UiOiJSZXNvdXJjZSBub3QgZm91bmQifX0="
     }

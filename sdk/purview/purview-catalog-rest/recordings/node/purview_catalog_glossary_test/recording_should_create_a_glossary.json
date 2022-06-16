@@ -11,7 +11,7 @@
         "Content-Length": "160",
         "Content-Type": "application/json; charset=UTF-8",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.6 core-rest-pipeline/1.8.1 Node/v12.22.9 OS/(x64-Darwin-21.5.0)",
-        "x-ms-client-request-id": "744e433c-0c79-4072-8183-e464b3f300af"
+        "x-ms-client-request-id": "4550a31f-0de1-486a-9e05-7767f358cf44"
       },
       "RequestBody": {
         "name": "jsLROTesting-2",
@@ -22,10 +22,10 @@
       },
       "StatusCode": 404,
       "ResponseHeaders": {
-        "Date": "Wed, 15 Jun 2022 08:32:20 GMT",
+        "Date": "Thu, 16 Jun 2022 06:24:24 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "6d6b84fb-cf9a-4746-a8bd-529922c13e64"
+        "x-ms-correlation-request-id": "fc9d76aa-6a46-4a6d-8dbf-3e0a9b442646"
       },
       "ResponseBody": "eyJlcnJvciI6eyJjb2RlIjoiUmVzb3VyY2VOb3RGb3VuZCIsIm1lc3NhZ2UiOiJSZXNvdXJjZSBub3QgZm91bmQifX0="
     }

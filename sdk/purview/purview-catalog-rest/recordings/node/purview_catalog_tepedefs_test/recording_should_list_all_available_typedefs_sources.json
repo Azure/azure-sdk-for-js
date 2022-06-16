@@ -9,15 +9,15 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.6 core-rest-pipeline/1.8.1 Node/v12.22.9 OS/(x64-Darwin-21.5.0)",
-        "x-ms-client-request-id": "3c021976-0b2e-4797-a35a-467daa1d5258"
+        "x-ms-client-request-id": "79ed140c-8ee0-4e40-8cbc-dde0c857db83"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
-        "Date": "Wed, 15 Jun 2022 08:32:23 GMT",
+        "Date": "Thu, 16 Jun 2022 06:24:27 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "525404fc-b777-4464-86d4-aa52917370cb"
+        "x-ms-correlation-request-id": "89e3ecb0-dbb3-4292-a086-da8c0b1675f1"
       },
       "ResponseBody": "eyJlcnJvciI6eyJjb2RlIjoiUmVzb3VyY2VOb3RGb3VuZCIsIm1lc3NhZ2UiOiJSZXNvdXJjZSBub3QgZm91bmQifX0="
     }
