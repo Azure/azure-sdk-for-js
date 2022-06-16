@@ -21,6 +21,12 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
     apiVersion?: string;
 }
 
+// @public (undocumented)
+export interface UploadLogsError {
+    failedLogs: Record<string, unknown>[];
+    responseError: Error;
+}
+
 // @public
 export interface UploadOptions {
     maxConcurrency?: number;
@@ -28,7 +34,7 @@ export interface UploadOptions {
 
 // @public
 export interface UploadResult {
-    failedLogsIndex: Array<number>;
+    errors: Array<UploadLogsError>;
     uploadStatus: UploadStatus;
 }
 

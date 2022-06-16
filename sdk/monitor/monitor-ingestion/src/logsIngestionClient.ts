@@ -5,6 +5,8 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
+import { UploadOptions, UploadResult } from "./models";
+import { GZippingPolicy } from "./gZippingPolicy";
 
 /**
  * Options for Montior Logs Ingestion Client
@@ -47,6 +49,7 @@ export class LogsIngestionClient {
         userAgentPrefix,
       },
     })
+    this._dataClient.pipeline.addPolicy(GZippingPolicy);
   }
 
   /**
@@ -68,44 +71,35 @@ export class LogsIngestionClient {
       chunkArray = this.splitDataToChunks(logs)
       let noOfChunks = chunkArray.length;
       let count = 0;
-      let failedLogsIndex = [];
+      let failedLogs = [];
       let concurrency = 1;
       if (options?.maxConcurrency && options?.maxConcurrency > 1) {
         concurrency = options?.maxConcurrency;
       }
+      console.log("concurrency =", concurrency);
       let errors: any[] = [];
       while (count < noOfChunks) {
-        if (concurrency === 1) {
-          try {
-            await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
-              contentEncoding: "gzip"
-            });
-          }
-          catch (e) {
-            //this will indicate the actual indices in the logs array that failed
-            console.dir(chunkArray[count]);
-            console.log(count);
-            console.dir(logs);
-            let index = logs.indexOf(chunkArray[count][0]);
-            console.log("index = ", index);
-            failedLogsIndex.push(index);
-            errors.push(e);
-          }
-          count++;
+        try {
+          await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
+            contentEncoding: "gzip"
+          });
         }
-        else {
-          count++;
+        catch (e) {
+          failedLogs.push(chunkArray[count]);
+          errors.push(e);
         }
+        count++;
+
       }
       let uploadResult: UploadResult = {
-        failedLogsIndex: [],
+        errors: [],
         uploadStatus: "Success"
       }
-      if (failedLogsIndex.length === 0) {
+      if (failedLogs.length === 0) {
         return uploadResult;
       }
-      else if (failedLogsIndex.length < noOfChunks && failedLogsIndex.length > 0) {
-        uploadResult = { failedLogsIndex: failedLogsIndex, uploadStatus: "PartialFailure" };
+      else if (failedLogs.length < noOfChunks && failedLogs.length > 0) {
+        uploadResult = { errors: failedLogs, uploadStatus: "PartialFailure" };
         return uploadResult;
       }
       else

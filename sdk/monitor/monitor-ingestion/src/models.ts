@@ -16,14 +16,26 @@ export interface SendLogsOptions {
  */
 export interface SendLogsResult {
   /**
-   * List of indices for failed logs
+   * List of errors of type {@link UploadLogsError} for failed logs
    */
-  failedLogsIndex: Array<number>;
+  errors: Array<UploadLogsError>;
   /**
    * Status of sendLogs operation. Either Success or Partial Failure. Error will be thrown in case all logs fail.
    */
   sendLogsStatus: SendLogsStatus;
 }
+
+export interface UploadLogsError {
+  /**
+   * List of failed logs
+   */
+  failedLogs: Record<string, unknown>[];
+  /**
+   * Error for failed logs
+   */
+  responseError: Error;
+};
+
 /**
  * Enum representing whether all or few logs succeeded
  */
