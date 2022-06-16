@@ -49,7 +49,7 @@ describe("KustoManagementClient", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new KustoManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    resourceGroup = "marytest";
+    resourceGroup = "myjstest";
     clusterName_1 = "mytestclustername5";
     clusterName_2 = "mytestclustername6";
     clusterParameters = {
@@ -67,7 +67,7 @@ describe("KustoManagementClient", () => {
   afterEach(async function () {
     await recorder.stop();
   });
-
+/*
   //kusto_client.clusters.beginCreateOrUpdateAndWait
   it("could create clusters", async function () {
     let res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_1, clusterParameters, testPollingOptions);
@@ -103,6 +103,7 @@ describe("KustoManagementClient", () => {
     assert.strictEqual(res.name, clusterName_2);
     assert.ok(res.tags);
   });
+*/  
 
   //kusto_client.clusters.beginDeleteAndWait
   it("could delete clusters", async () => {
@@ -111,4 +112,5 @@ describe("KustoManagementClient", () => {
     res = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_2, testPollingOptions);
     assert.strictEqual(res?.body?.status, "Succeeded");
   });
+
 });

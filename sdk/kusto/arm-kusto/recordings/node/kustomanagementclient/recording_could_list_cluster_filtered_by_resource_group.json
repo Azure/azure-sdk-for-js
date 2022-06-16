@@ -1,0 +1,132 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/clusters?api-version=2022-02-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-kusto/7.1.2 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "5aec2aaf-78d4-44d1-9bab-ea9a8dda48fd"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 16 Jun 2022 07:07:18 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4413ff13-3788-4b8d-85eb-3b5c940bcf56",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "297",
+        "x-ms-request-id": "9c08ecfe-6462-4763-80ae-2a2d0e15a171",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220616T070719Z:4413ff13-3788-4b8d-85eb-3b5c940bcf56"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/Clusters/mytestclustername5",
+            "name": "mytestclustername5",
+            "type": "Microsoft.Kusto/Clusters",
+            "etag": "\u00222022-06-16T06:59:27.4729085Z\u0022",
+            "location": "West Europe",
+            "sku": {
+              "name": "Standard_L8s_v2",
+              "tier": "Standard",
+              "capacity": 2
+            },
+            "tags": {},
+            "properties": {
+              "state": "Running",
+              "stateReason": null,
+              "uri": "https://mytestclustername5.westeurope.kusto.windows.net",
+              "dataIngestionUri": "https://ingest-mytestclustername5.westeurope.kusto.windows.net",
+              "trustedExternalTenants": [],
+              "virtualNetworkConfiguration": null,
+              "optimizedAutoscale": null,
+              "enableDiskEncryption": false,
+              "enableStreamingIngest": false,
+              "keyVaultProperties": null,
+              "languageExtensions": {
+                "value": []
+              },
+              "enablePurge": null,
+              "enableDoubleEncryption": false,
+              "engineType": "V3",
+              "acceptedAudiences": [],
+              "restrictOutboundNetworkAccess": "Disabled",
+              "allowedFqdnList": [],
+              "publicNetworkAccess": "Enabled",
+              "allowedIpRangeList": [],
+              "enableAutoStop": true,
+              "publicIPType": "IPv4",
+              "virtualClusterGraduationProperties": null,
+              "privateEndpointConnections": [],
+              "provisioningState": "Succeeded"
+            },
+            "identity": {
+              "principalId": "dd067276-104d-4933-b7f2-81e4f6677a30",
+              "tenantId": "88888888-8888-8888-8888-888888888888",
+              "type": "SystemAssigned"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/Clusters/mytestclustername6",
+            "name": "mytestclustername6",
+            "type": "Microsoft.Kusto/Clusters",
+            "etag": "\u00222022-06-16T07:07:10.1192180Z\u0022",
+            "location": "West Europe",
+            "sku": {
+              "name": "Standard_L8s_v2",
+              "tier": "Standard",
+              "capacity": 2
+            },
+            "tags": {},
+            "properties": {
+              "state": "Running",
+              "stateReason": null,
+              "uri": "https://mytestclustername6.westeurope.kusto.windows.net",
+              "dataIngestionUri": "https://ingest-mytestclustername6.westeurope.kusto.windows.net",
+              "trustedExternalTenants": [],
+              "virtualNetworkConfiguration": null,
+              "optimizedAutoscale": null,
+              "enableDiskEncryption": false,
+              "enableStreamingIngest": false,
+              "keyVaultProperties": null,
+              "languageExtensions": {
+                "value": []
+              },
+              "enablePurge": null,
+              "enableDoubleEncryption": false,
+              "engineType": "V3",
+              "acceptedAudiences": [],
+              "restrictOutboundNetworkAccess": "Disabled",
+              "allowedFqdnList": [],
+              "publicNetworkAccess": "Enabled",
+              "allowedIpRangeList": [],
+              "enableAutoStop": true,
+              "publicIPType": "IPv4",
+              "virtualClusterGraduationProperties": null,
+              "privateEndpointConnections": [],
+              "provisioningState": "Succeeded"
+            },
+            "identity": {
+              "principalId": "f0377a66-c0d5-43e8-b9d0-3330e252b4c8",
+              "tenantId": "88888888-8888-8888-8888-888888888888",
+              "type": "SystemAssigned"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
