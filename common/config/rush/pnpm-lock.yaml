@@ -3966,7 +3966,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220614
+      typescript: 4.8.0-dev.20220615
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8770,8 +8770,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220614:
-    resolution: {integrity: sha512-pZVLT8Li6ZCYmyv6F+xEJ+nZ947uRE7el5OloggrPZdhjDJpBBBn/CK5YCgnXcmZFgwO6WMbco1GwfsR23CsxA==}
+  /typescript/4.8.0-dev.20220615:
+    resolution: {integrity: sha512-Is/gGrlFdQdT4GA/FEz4tMnDy78lNVxCxtZule9Xv5LRSwLgbgLwJQBMqpLWXd/KJO6u66F2EFmfXU1g3MCVZA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13937,7 +13937,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabricmesh.tgz:
-    resolution: {integrity: sha512-zeWEn3quYFpKpAvlBBYD0e6o6PFslttCoUnLN+P4yC6DS36E6jW6JcZE6DkB0l1FsvBjlhrT+PymPhxIifs4BA==, tarball: file:projects/arm-servicefabricmesh.tgz}
+    resolution: {integrity: sha512-A6dYqcEPimeuDRVTXfL900sD/P8ZwpIosliy34ULsPO/qsGjN9jn1raajuV7yASIOMZE+6q6sqVVm2kM26LYDQ==, tarball: file:projects/arm-servicefabricmesh.tgz}
     name: '@rush-temp/arm-servicefabricmesh'
     version: 0.0.0
     dependencies:
@@ -13948,6 +13948,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13960,7 +13962,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
