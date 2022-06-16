@@ -869,6 +869,7 @@ export interface HealthcareAction extends ActionPrebuilt {
 
 /** Supported parameters for an Extractive Summarization task. */
 export interface ExtractiveSummarizationAction extends ActionPrebuilt {
+  /** The max number of sentences to be part of the summary. */
   maxSentenceCount?: number;
   /** The sorting criteria to use for the results of Extractive Summarization. */
   orderBy?: ExtractiveSummarizationOrderingCriteria;

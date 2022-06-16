@@ -331,7 +331,6 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
 
 // @public
 export interface ExtractiveSummarizationAction extends ActionPrebuilt {
-    // (undocumented)
     maxSentenceCount?: number;
     orderBy?: ExtractiveSummarizationOrderingCriteria;
     stringIndexType?: StringIndexType;
