@@ -40,10 +40,9 @@ export class LogsIngestionClient {
       options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
         ? `${options?.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
-    this._dataClient = new GeneratedDataCollectionClient(this.endpoint, {
+    this._dataClient = new GeneratedDataCollectionClient(tokenCredential, this.endpoint, {
       ...options,
       credentialScopes: credentialOptions?.credentialScopes ?? defaultIngestionScope,
-      credential: tokenCredential,
       userAgentOptions: {
         userAgentPrefix,
       },
@@ -78,7 +77,7 @@ export class LogsIngestionClient {
       while (count < noOfChunks) {
         if (concurrency === 1) {
           try {
-            await this._dataClient.dataCollectionRule.ingest(ruleId, streamName, chunkArray[count], {
+            await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
               contentEncoding: "gzip"
             });
           }
