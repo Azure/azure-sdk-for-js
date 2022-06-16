@@ -13,7 +13,7 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
   /** Api Version */
   apiVersion?: string;
 }
-const defaultIngestionScope = "https://monitor.azure.com/.default";
+const defaultIngestionScope = "https://monitor.azure.com//.default";
 
 /**
  * Client for Monitor Logs Ingestion
@@ -46,7 +46,6 @@ export class LogsIngestionClient {
         : `${packageDetails}`;
     this._dataClient = new GeneratedDataCollectionClient(this.endpoint, {
       ...options,
-      endpoint: this.endpoint,
       credentialScopes: credentialOptions?.credentialScopes ?? defaultIngestionScope,
       credential: tokenCredential,
       userAgentOptions: {
