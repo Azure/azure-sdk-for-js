@@ -3966,7 +3966,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220614
+      typescript: 4.8.0-dev.20220615
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8770,8 +8770,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220614:
-    resolution: {integrity: sha512-pZVLT8Li6ZCYmyv6F+xEJ+nZ947uRE7el5OloggrPZdhjDJpBBBn/CK5YCgnXcmZFgwO6WMbco1GwfsR23CsxA==}
+  /typescript/4.8.0-dev.20220615:
+    resolution: {integrity: sha512-Is/gGrlFdQdT4GA/FEz4tMnDy78lNVxCxtZule9Xv5LRSwLgbgLwJQBMqpLWXd/KJO6u66F2EFmfXU1g3MCVZA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10181,7 +10181,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-Eo0NSUOsIeMYtZGY+GHuzsQ6lkQqwDd1n7LbAdtbjCofBgz5nJPl+0jXeKrZvLQeZGqUu39EYY6Gfd0azJJqcw==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-LvE4IB+8S2yApNzDmF3e4pXQQPlKqbDn7Vvcp/HtiZRLJ0KHF8tNWBYNWnB/lwSQpkJ0tIhCn0CI6oAZloTCPg==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -11515,7 +11515,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-JhfeZ9CjQo1jCgvdEQS8oIS6H35p90+0UtkCvEpV+U0IsoNchvP9V7vhHslkAu8n6MHF4mRwUYvzY6lnysOnNw==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-TEU6eEePdVwBcI96LqAvInvs3uXVWIx0qS3QMZkIJGWQr4/x4unXWO2iJV5sWjUzogQ9ZblQ5iakFJNEZZKnvw==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -12040,7 +12040,7 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-jMKc/9ka8SwrE1oKitRDA2gBqeB7uOEPKlrYAPtCdcb7lDjCLJ0Z1WXIEomK+QEG2KbKZifDat/USsJqqFRtqA==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-gAXR53ukV66DEyKfHHYeKIbiIMnj0Pv6f9lh3WrYQtvJwlASW7tG1tJJ7tyTn4MRFjz1gXYUzKDpqyKuruClYA==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
@@ -12052,6 +12052,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12064,7 +12066,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -12667,7 +12668,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-CystISN8pkI/7eK2rfdfy/1cfkwVrrviDYJRrY0vXrUJopnsM6wbVprW4pgCFLFp86vGhPl3GksEnIS78tb2bg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-GuBquUl4vQ180i1KDxFWTv5UU5Kieo5p0mLaAzYsbHTHxSdWHWBLD0Ur2Arzygu4K/oYQtEUNOOkt17MbKwSsg==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
