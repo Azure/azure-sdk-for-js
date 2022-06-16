@@ -40,6 +40,7 @@ describe("Post transaction", () => {
       .path("/app/transactions")
       .post(ledgerEntry)) as PostLedgerEntry200Response;
 
+
     if (result.status !== "200") {
       assert.fail(`GET "/app/transactions" failed with ${result.status}`);
     }
@@ -54,7 +55,8 @@ describe("Post transaction", () => {
       assert.fail(`GET "/app/transactions/{transactionId}/status" failed with ${result.status}`);
     }
     const statusResponse = status as GetTransactionStatus200Response;
-    assert.isTrue(assert(statusResponse.body.state === "Pending" || statusResponse.body.state === "Committed"));
+    
+    assert(statusResponse.body.state === "Pending" || statusResponse.body.state === "Committed");
     assert.equal(statusResponse.body.transactionId, transactionId);
 
     const transactionResponse = await client

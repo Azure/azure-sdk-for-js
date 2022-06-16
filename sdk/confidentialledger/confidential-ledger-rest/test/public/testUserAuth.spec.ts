@@ -50,11 +50,10 @@ describe("Test user authentications", () => {
 
     // the other cert goes in the options
     const {ledgerTlsCertificate} = await getLedgerIdentity(env.LEDGER_IDENTITY, env.IDENTITY_SERVICE_URL);
-    const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, env.CERTIFICATE);
+    const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, {credentials: env.CERTIFICATE});
     assert.isDefined(ledgerClient);
     const result = await ledgerClient.path("/app/governance/constitution").get();
-
-    console.log(result)
+    console.log(result);
 
     if (result.status !== "200") {
       assert.fail(
