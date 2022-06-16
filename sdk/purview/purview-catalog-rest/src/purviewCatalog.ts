@@ -3,7 +3,7 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
-import { ServiceVersion } from "./parameters"
+import { ServiceVersion } from "./parameters";
 import { PurviewCatalogClient } from "./clientDefinitions";
 
 export default function createClient(
@@ -12,14 +12,13 @@ export default function createClient(
   credentials: TokenCredential,
   options: ClientOptions = {}
 ): PurviewCatalogClient {
-  const baseUrl =
-    options.baseUrl ?? `${Endpoint}/atlas/${serviceVersion}/catalog/api`;
+  const baseUrl = options.baseUrl ?? `${Endpoint}/atlas/${serviceVersion}/catalog/api`;
   options.apiVersion = options.apiVersion ?? "2022-03-01-preview";
   options = {
     ...options,
     credentials: {
-      scopes: ["https://purview.azure.net/.default"]
-    }
+      scopes: ["https://purview.azure.net/.default"],
+    },
   };
 
   const userAgentInfo = `azsdk-js-purview-catalog-rest/1.0.0-beta.6`;
@@ -30,15 +29,11 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as PurviewCatalogClient;
+  const client = getClient(baseUrl, credentials, options) as PurviewCatalogClient;
 
   return client;
 }
