@@ -10,5 +10,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.Data.Tables",
   packageName: "@azure/data-tables",
-  packageVersion: "13.1.2",
+  packageVersion: "13.1.3",
 });
