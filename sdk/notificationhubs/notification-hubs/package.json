@@ -33,8 +33,8 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
     "lint": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js",
@@ -43,7 +43,7 @@
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "npm run integration-test:browser",
-    "unit-test:node": "npm run integration-test:node",
+    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register --timeout 1200000 --full-trace --exclude \"test/**/browser/*.spec.ts\" \"test/internal/unit/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -80,8 +80,10 @@
     "@types/mocha": "^9.1.1",
     "@types/node": "^12.0.0",
     "chai": "^4.3.6",
+    "cross-env": "^7.0.3",
     "downlevel-dts": "^0.10.0",
     "eslint": "^8.16.0",
+    "esm": "^3.2.25",
     "karma": "^6.4.0",
     "karma-chrome-launcher": "^3.1.1",
     "karma-coverage": "^2.2.0",
@@ -95,8 +97,10 @@
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.2",
+    "nyc": "^15.1.0",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
+    "ts-node": "^10.8.1",
     "typescript": "^4.7.2"
   },
   "dependencies": {

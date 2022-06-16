@@ -93,7 +93,7 @@ export function getFloatOrUndefined(value: any): number | undefined {
     return undefined;
   }
   const result = parseFloat(value.toString());
-  return isNaN(result) ? undefined : result;
+  return Number.isNaN(result) ? undefined : result;
 }
 
 /**
@@ -116,19 +116,22 @@ export function getDate(value: string, nameOfProperty: string): Date {
  * or undefined if not passed in.
  */
 export function getDateOrUndefined(value: any): Date | undefined {
-  if (!isDefined(value)) {
+  const stringValue = getStringOrUndefined(value);
+  if (stringValue === undefined) {
     return undefined;
   }
-  return new Date(value.toString());
+  const result = new Date(stringValue.toString());
+  return Number.isNaN(+result) ? undefined : result;
 }
 
 /**
  * @internal
  * Helper utility to parse tags from a comma separated string.
  */
-export function getTagsOrUndefined(value?: string): string[] | undefined {
-  if (!isDefined(value)) {
+export function getTagsOrUndefined(value?: any): string[] | undefined {
+  const result = getStringOrUndefined(value);
+  if (result === undefined) {
     return undefined;
   }
-  return value.split(",");
+  return result.split(",");
 }
