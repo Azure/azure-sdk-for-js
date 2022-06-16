@@ -1,5 +1,15 @@
 # Release History
 
+## 17.2.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 17.2.1 (2022-06-15)
 
 **Features**
