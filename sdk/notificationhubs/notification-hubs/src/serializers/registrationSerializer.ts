@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { 
+  getDateOrUndefined, 
+  getString, 
+  getStringOrUndefined, 
+  getTagsOrUndefined, 
+  isDefined,
+} from "../utils/xmlUtils";
+
 /**
  * Represents a registration description.
  */
@@ -49,15 +57,15 @@ export interface TemplateRegistrationDescription {
 /**
  * Represents the description of the Amazon Device Messaging (ADM) registration.
  */
-export interface ADMRegistrationDescription extends RegistrationDescription {
+export interface AdmRegistrationDescription extends RegistrationDescription {
   /**
    * The Amazon Device Messaging registration identifier.
    */
   admRegistrationId: string;
 }
 
-export interface ADMTemplateRegistrationDescription
-  extends ADMRegistrationDescription,
+export interface AdmTemplateRegistrationDescription
+  extends AdmRegistrationDescription,
     TemplateRegistrationDescription {}
 
 /**
@@ -79,7 +87,7 @@ export interface AppleTemplateRegistrationDescription
   /**
    * The expiry date.
    */
-  expiryDate?: string;
+  expiry?: Date;
 
   /**
    * The notification priority.
@@ -177,5 +185,181 @@ export interface WindowsTemplateRegistrationDescription
   /**
    * The WNS headers.
    */
-  wnsHeaders?: string[];
+  wnsHeaders?: Record<string, string>;
+}
+
+function getHeadersOrUndefined(value?: { Header: string, Value: string }[]): Record<string, string> | undefined {
+  if (!isDefined(value)) {
+    return undefined;
+  }
+
+  const headerObj: Record<string, string> = {};
+  for (const { Header, Value } of value) {
+    headerObj[Header] = Value;
+  }
+
+  return headerObj;
+}
+
+function createRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): RegistrationDescription {
+  let pushVariables: Record<string, string> | undefined;
+  const unparsed = getStringOrUndefined(rawRegistrationDescription["PushVariables"])
+  if (unparsed) {
+    pushVariables = JSON.parse(unparsed) as Record<string, string>;
+  }
+
+  return {
+    registrationId: getString(rawRegistrationDescription["RegistrationId"], "registrationId"),
+    expirationTime: getDateOrUndefined(rawRegistrationDescription["ExpirationTime"]),
+    eTag: getStringOrUndefined(rawRegistrationDescription["ETag"]),
+    tags: getTagsOrUndefined(rawRegistrationDescription["Tags"]),
+    pushVariables: pushVariables,
+  };
+}
+
+function createTemplateRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): TemplateRegistrationDescription {
+  return {
+    bodyTemplate: getString(rawRegistrationDescription["BodyTemplate"], "bodyTemplate"),
+    templateName: getString(rawRegistrationDescription["TemplateName"], "templateName"),
+    ...createRegistrationDescription(rawRegistrationDescription)
+  };
+}
+
+/**
+ * @internal
+ * Creates an ADM registration description from incoming XML property bag.
+ */
+export function createAdmRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): AdmRegistrationDescription {
+  return {
+    admRegistrationId: getString(rawRegistrationDescription["AdmRegistrationId"], "admRegistrationId"),
+    ...createRegistrationDescription(rawRegistrationDescription),
+  };
+}
+
+/**
+ * @internal
+ * Creates an ADM template registration description from incoming XML property bag.
+ */
+export function createAdmTemplateRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): AdmTemplateRegistrationDescription {
+  return {
+    ...createAdmRegistrationDescription(rawRegistrationDescription),
+    ...createTemplateRegistrationDescription(rawRegistrationDescription),
+  }
+}
+
+/**
+ * @internal
+ * Creates an Apple registration description from incoming XML property bag.
+ */
+export function createAppleRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): AppleRegistrationDescription {
+  return {
+    deviceToken: getString(rawRegistrationDescription["DeviceToken"], "deviceToken"),
+    ...createRegistrationDescription(rawRegistrationDescription),
+  };
+}
+
+/**
+ * @internal
+ * Creates an Apple template registration description from incoming XML property bag.
+ */
+export function createAppleTemplateRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): AppleTemplateRegistrationDescription {
+  return {
+    expiry: getDateOrUndefined(rawRegistrationDescription["Expiry"]),
+    priority: getStringOrUndefined(rawRegistrationDescription["Priority"]),
+    apnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["ApnsHeaders"]?.["ApnsHeader"]),
+    ...createAppleRegistrationDescription(rawRegistrationDescription),
+    ...createTemplateRegistrationDescription(rawRegistrationDescription),
+  }
+}
+
+/**
+ * @internal
+ * Creates a Baidu registration description from incoming XML property bag.
+ */
+export function createBaiduRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): BaiduRegistrationDescription {
+  return {
+    baiduChannelId: getString(rawRegistrationDescription["BaiduChannelId"], "baiduChannelId"),
+    baiduUserId: getString(rawRegistrationDescription["BaiduUserId"], "baiduUserId"),
+    ...createRegistrationDescription(rawRegistrationDescription),
+  };
+}
+
+/**
+ * @internal
+ * Creates a Baidu template registration description from incoming XML property bag.
+ */
+export function createBaiduTemplateRegistration(
+  rawRegistrationDescription: Record<string, any>
+): BaiduTemplateRegistrationDescription {
+  return {
+    ...createBaiduRegistrationDescription(rawRegistrationDescription),
+    ...createTemplateRegistrationDescription(rawRegistrationDescription),
+  }
+}
+
+/**
+ * @internal
+ * Creates an FCM registration description from incoming XML property bag.
+ */
+export function createFirebaseLegacyRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): FirebaseLegacyRegistrationDescription {
+  return {
+    fcmLegacyRegistrationId: getString(rawRegistrationDescription["GcmRegistrationId"], "fcmLegacyRegistrationId"),
+    ...createRegistrationDescription(rawRegistrationDescription),
+  }
+}
+
+/**
+ * @internal
+ * Creates an FCM template registration description from incoming XML property bag.
+ */
+export function createFirebaseLegacyTemplateRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): FirebaseLegacyTemplateRegistrationDescription {
+  return {
+    ...createFirebaseLegacyRegistrationDescription(rawRegistrationDescription),
+    ...createTemplateRegistrationDescription(rawRegistrationDescription),
+  };
+}
+
+/**
+ * @internal
+ * Creates a Windows registration description from incoming XML property bag.
+ */
+export function createWindowsRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): WindowsRegistrationDescription {
+  return {
+    channelUri: new URL(getString(rawRegistrationDescription["ChannelUri"], "channelUri")),
+    ...createRegistrationDescription(rawRegistrationDescription),
+  };
+}
+
+/**
+ * @internal
+ * Creates a Windows template registration description from incoming XML property bag.
+ */
+export function createWindowsTemplateRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): WindowsTemplateRegistrationDescription {
+  return {
+    wnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["WnsHeaders"]?.["WnsHeader"]),
+    ...createWindowsRegistrationDescription(rawRegistrationDescription),
+    ...createTemplateRegistrationDescription(rawRegistrationDescription),
+  }
 }
