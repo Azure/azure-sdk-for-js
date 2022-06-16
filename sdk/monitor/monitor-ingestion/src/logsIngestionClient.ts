@@ -27,12 +27,16 @@ export class LogsIngestionClient {
   endpoint: string;
   private _dataClient: GeneratedDataCollectionClient;
   /**
- * Construct a MonitorIngestionClient that can be used to query logs using the Log Analytics Query language.
- *
- * @param tokenCredential - A token credential.
- * @param options - Options for the MonitorIngestionClient.
- */
-  constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions) {
+   * Construct a MonitorIngestionClient that can be used to query logs using the Log Analytics Query language.
+   *
+   * @param tokenCredential - A token credential.
+   * @param options - Options for the MonitorIngestionClient.
+   */
+  constructor(
+    endpoint: string,
+    tokenCredential: TokenCredential,
+    options?: LogsIngestionClientOptions
+  ) {
     const credentialOptions = {
       credentialScopes: defaultIngestionScope,
     };
@@ -48,72 +52,63 @@ export class LogsIngestionClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-    })
+    });
     this._dataClient.pipeline.addPolicy(GZippingPolicy);
   }
 
   /**
- * See error response code and error response message for more detail.
- * @param ruleId The immutable Id of the Data Collection Rule resource.
- * @param streamName The streamDeclaration name as defined in the Data Collection Rule.
- * @param logs An array of objects matching the schema defined by the provided stream.
- * @param options The options parameters.
- */
+   * See error response code and error response message for more detail.
+   * @param ruleId - The immutable Id of the Data Collection Rule resource.
+   * @param streamName - The streamDeclaration name as defined in the Data Collection Rule.
+   * @param logs - An array of objects matching the schema defined by the provided stream.
+   * @param options - The options parameters.
+   */
   async upload(
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
     options?: UploadOptions
   ): Promise<UploadResult> {
-    try {
-      let chunkArray: any[] = []
-      // split logs into 1MB chunks
-      chunkArray = this.splitDataToChunks(logs)
-      let noOfChunks = chunkArray.length;
-      let count = 0;
-      let failedLogs = [];
-      let concurrency = 1;
-      if (options?.maxConcurrency && options?.maxConcurrency > 1) {
-        concurrency = options?.maxConcurrency;
-      }
-      console.log("concurrency =", concurrency);
-      let errors: any[] = [];
-      while (count < noOfChunks) {
-        try {
-          await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
-            contentEncoding: "gzip"
-          });
-        }
-        catch (e) {
-          failedLogs.push(chunkArray[count]);
-          errors.push(e);
-        }
-        count++;
-
-      }
-      let uploadResult: UploadResult = {
-        errors: [],
-        uploadStatus: "Success"
-      }
-      if (failedLogs.length === 0) {
-        return uploadResult;
-      }
-      else if (failedLogs.length < noOfChunks && failedLogs.length > 0) {
-        uploadResult = { errors: failedLogs, uploadStatus: "PartialFailure" };
-        return uploadResult;
-      }
-      else
-        throw Error(`All logs failed for ingestion - ${errors.toString()}`);
+    // split logs into 1MB chunks
+    const chunkArray: any[] = this.splitDataToChunks(logs);
+    const noOfChunks = chunkArray.length;
+    let count = 0;
+    const failedLogs = [];
+    let concurrency = 1;
+    if (options?.maxConcurrency && options?.maxConcurrency > 1) {
+      concurrency = options?.maxConcurrency;
     }
-    catch (e) {
-      throw e;
+    console.log("concurrency =", concurrency);
+    const errors: any[] = [];
+    while (count < noOfChunks) {
+      try {
+        await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
+          contentEncoding: "gzip",
+        });
+      } catch (e) {
+        failedLogs.push(chunkArray[count]);
+        errors.push(e);
+      }
+      count++;
+    }
+    let uploadResult: UploadResult = {
+      errors: [],
+      uploadStatus: "Success",
+    };
+    if (failedLogs.length === 0) {
+      return uploadResult;
+    } else if (failedLogs.length < noOfChunks && failedLogs.length > 0) {
+      uploadResult = { errors: failedLogs, uploadStatus: "PartialFailure" };
+      return uploadResult;
+    } else {
+      throw Error(`All logs failed for ingestion - ${errors.toString()}`);
     }
   }
 
   splitDataToChunks(logs: Record<string, unknown>[]): any[] {
     let chunk: any[] = [];
-    let chunkArray: any[] = [];
-    let size = 0
+    const chunkArray: any[] = [];
+    let size = 0;
     const maxBytes = 1000000;
     for (const element of logs) {
       const elementSize = JSON.stringify(element).length * 4;

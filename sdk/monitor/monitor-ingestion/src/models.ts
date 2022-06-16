@@ -34,14 +34,13 @@ export interface UploadLogsError {
    * Error for failed logs
    */
   responseError: Error;
-};
+}
 
 /**
  * Enum representing whether all or few logs succeeded
  */
-export type SendLogsStatus  = 
+export type UploadStatus =
   /** Represents Partial Failure scenario where partial logs have failed for processing and the list of indices is returned for the logs failed */
-"PartialFailure" |
+  | "PartialFailure"
   /** Represents Success scenario where all logs have succeeded and no index is returned */
-  "Success";
-
+  | "Success";
