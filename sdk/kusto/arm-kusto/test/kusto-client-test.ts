@@ -67,7 +67,7 @@ describe("KustoManagementClient", () => {
   afterEach(async function () {
     await recorder.stop();
   });
-/*
+
   //kusto_client.clusters.beginCreateOrUpdateAndWait
   it("could create clusters", async function () {
     let res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_1, clusterParameters, testPollingOptions);
@@ -102,8 +102,7 @@ describe("KustoManagementClient", () => {
     const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName_2, updateParams, testPollingOptions);
     assert.strictEqual(res.name, clusterName_2);
     assert.ok(res.tags);
-  });
-*/  
+  }); 
 
   //kusto_client.clusters.beginDeleteAndWait
   it("could delete clusters", async () => {
