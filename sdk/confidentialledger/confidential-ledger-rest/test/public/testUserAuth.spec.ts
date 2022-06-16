@@ -49,10 +49,12 @@ describe("Test user authentications", () => {
     // other certificate is a string
 
     // the other cert goes in the options
-
-    const ledgerClient = ConfidentialLedger(env.ENDPOINT, env.TLS_CERTIFICATE, {tlsOptions: {pfx: env.CERTIFICATE}});
+    const {ledgerTlsCertificate} = await getLedgerIdentity(env.LEDGER_IDENTITY, env.IDENTITY_SERVICE_URL);
+    const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, env.CERTIFICATE);
     assert.isDefined(ledgerClient);
     const result = await ledgerClient.path("/app/governance/constitution").get();
+
+    console.log(result)
 
     if (result.status !== "200") {
       assert.fail(
