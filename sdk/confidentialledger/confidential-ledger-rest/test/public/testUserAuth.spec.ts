@@ -37,6 +37,8 @@ describe("Test user authentications", () => {
 
     const result = await ledgerClient.path("/app/governance/constitution").get();
 
+    console.log(result);
+
     if (result.status !== "200") {
       assert.fail(
         `GET "/app/governance/constitution" failed with ${result.status} for ledger authenticated with AAD.`
@@ -62,3 +64,12 @@ describe("Test user authentications", () => {
     }
   });
 });
+
+// pipeline creates a ledger with an AAD user attached
+// the AAD user is already there
+// the AAD user adds the cert-based user as an admin
+
+// TODO:
+// create a ledger through the portal
+// add an AAD user and cert-based user in a script
+// then the test looks for both of these
