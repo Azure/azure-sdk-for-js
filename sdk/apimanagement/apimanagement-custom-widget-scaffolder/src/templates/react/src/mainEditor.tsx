@@ -4,10 +4,13 @@ import ReactDOM from "react-dom"
 import "./styles/shared.css"
 import "./styles/editor.css"
 import Editor from "./editor"
+import {EditorDataProvider} from "./Providers"
 
 ReactDOM.render(
   <StrictMode>
-    <Editor />
+    <EditorDataProvider>
+      <Editor />
+    </EditorDataProvider>
   </StrictMode>,
-  document.getElementById("root"),
+  document.getElementById("root")
 )

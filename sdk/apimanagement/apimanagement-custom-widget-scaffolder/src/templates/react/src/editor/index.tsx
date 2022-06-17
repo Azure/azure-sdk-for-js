@@ -1,9 +1,9 @@
 import {useEditorValues, useOnChange} from "../hooks"
-import {TValues, valuesDefault} from "../values"
+import {TValues} from "../values"
 
 function InputField({valueKey}: {valueKey: keyof TValues}) {
-  const values = useEditorValues(valuesDefault)
-  const onChange = useOnChange(valuesDefault)
+  const values = useEditorValues()
+  const onChange = useOnChange()
 
   return (
     <div className="form-group">

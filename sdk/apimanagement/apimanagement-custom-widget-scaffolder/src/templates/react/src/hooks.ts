@@ -1,22 +1,14 @@
-import {useCallback, useMemo} from "react"
-import {
-  getEditorData,
-  getEditorValues,
-  onChangeWithOrigin,
-  TEditorData,
-  TOnChange,
-  TValuesBase,
-} from "@azure/apimanagement-custom-widget-tools"
+import {useCallback, useContext} from "react"
+import {onChangeWithOrigin, TOnChange} from "@azure/apimanagement-custom-widget-tools"
 
-export function useEditorData<TValues extends TValuesBase>(valuesDefault: TValues): TEditorData<TValues> {
-  return useMemo(() => getEditorData(valuesDefault), [valuesDefault])
-}
+import {TValues} from "./values"
+import {EditorDataContext, SecretsContext} from "./Providers"
 
-export function useEditorValues<TValues extends TValuesBase>(valuesDefault: TValues): TValues {
-  return useMemo(() => getEditorValues(valuesDefault), [valuesDefault])
-}
+export const useEditorData = () => useContext(EditorDataContext)
+export const useEditorValues = () => useContext(EditorDataContext).values
+export const useSecrets = () => useContext(SecretsContext)
 
-export function useOnChange<TValues extends TValuesBase>(valuesDefault: TValues): TOnChange<TValues> {
-  const {origin, instanceId} = useEditorData<TValues>(valuesDefault)
-  return useCallback(values => onChangeWithOrigin(origin, instanceId, values), [origin])
+export function useOnChange(): TOnChange<TValues> {
+  const {origin, instanceId} = useEditorData()
+  return useCallback(values => onChangeWithOrigin(origin, instanceId, values), [origin, instanceId])
 }
