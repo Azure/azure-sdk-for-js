@@ -1,14 +1,11 @@
 # Release History
 
-## 12.9.1 (Unreleased)
+## 12.10.0-beta.1 (2022-06-17)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added support for service version 2021-08-06.
+- Added ability to set permission, umask, owner, group, ACL, lease, and expiry time on DataLakeFileClient.create() and .createIfNotExists(), DataLakeDirectoryClient.create() and .createIfNotExists(), and DataLakePathClient.create() and .createIfNotExists().
 
 ## 12.9.0 (2022-05-12)
 
