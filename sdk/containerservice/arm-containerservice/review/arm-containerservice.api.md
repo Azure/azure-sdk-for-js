@@ -31,7 +31,7 @@ export type AgentPool = SubResource & {
     typePropertiesType?: AgentPoolType;
     mode?: AgentPoolMode;
     orchestratorVersion?: string;
-    currentOrchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     readonly nodeImageVersion?: string;
     upgradeSettings?: AgentPoolUpgradeSettings;
     readonly provisioningState?: string;
@@ -191,6 +191,8 @@ export interface AgentPoolUpgradeSettings {
 export interface AzureKeyVaultKms {
     enabled?: boolean;
     keyId?: string;
+    keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
+    keyVaultResourceId?: string;
 }
 
 // @public
@@ -372,6 +374,9 @@ export type GPUInstanceProfile = string;
 
 // @public
 export type IpFamily = string;
+
+// @public
+export type KeyVaultNetworkAccessTypes = string;
 
 // @public
 export enum KnownAgentPoolMode {
@@ -818,6 +823,14 @@ export enum KnownIpFamily {
 }
 
 // @public
+export enum KnownKeyVaultNetworkAccessTypes {
+    // (undocumented)
+    Private = "Private",
+    // (undocumented)
+    Public = "Public"
+}
+
+// @public
 export enum KnownKubeletDiskType {
     OS = "OS",
     Temporary = "Temporary"
@@ -1134,6 +1147,7 @@ export type ManagedCluster = TrackedResource & {
     storageProfile?: ManagedClusterStorageProfile;
     ingressProfile?: ManagedClusterIngressProfile;
     publicNetworkAccess?: PublicNetworkAccess;
+    workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 };
 
 // @public
@@ -1162,7 +1176,7 @@ export interface ManagedClusterAddonProfile {
 }
 
 // @public
-export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity & {};
+export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity;
 
 // @public
 export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfileProperties & {
@@ -1175,7 +1189,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
-    currentOrchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
     enableCustomCATrust?: boolean;
     enableEncryptionAtHost?: boolean;
@@ -1462,15 +1476,20 @@ export interface ManagedClustersDeleteOptionalParams extends coreClient.Operatio
 
 // @public
 export interface ManagedClusterSecurityProfile {
-    azureDefender?: ManagedClusterSecurityProfileAzureDefender;
     azureKeyVaultKms?: AzureKeyVaultKms;
+    defender?: ManagedClusterSecurityProfileDefender;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
 
 // @public
-export interface ManagedClusterSecurityProfileAzureDefender {
-    enabled?: boolean;
+export interface ManagedClusterSecurityProfileDefender {
     logAnalyticsWorkspaceResourceId?: string;
+    securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoring;
+}
+
+// @public
+export interface ManagedClusterSecurityProfileDefenderSecurityMonitoring {
+    enabled?: boolean;
 }
 
 // @public
@@ -1722,9 +1741,15 @@ export interface ManagedClustersStopOptionalParams extends coreClient.OperationO
 
 // @public
 export interface ManagedClusterStorageProfile {
+    blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
     diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
     fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
     snapshotController?: ManagedClusterStorageProfileSnapshotController;
+}
+
+// @public
+export interface ManagedClusterStorageProfileBlobCSIDriver {
+    enabled?: boolean;
 }
 
 // @public
@@ -1768,6 +1793,16 @@ export interface ManagedClusterWindowsProfile {
     enableCSIProxy?: boolean;
     gmsaProfile?: WindowsGmsaProfile;
     licenseType?: LicenseType;
+}
+
+// @public
+export interface ManagedClusterWorkloadAutoScalerProfile {
+    keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+}
+
+// @public
+export interface ManagedClusterWorkloadAutoScalerProfileKeda {
+    enabled: boolean;
 }
 
 // @public (undocumented)

@@ -210,8 +210,11 @@ export interface ManagedClusterAgentPoolProfileProperties {
   mode?: AgentPoolMode;
   /** Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same <major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
   orchestratorVersion?: string;
-  /** If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used. */
-  currentOrchestratorVersion?: string;
+  /**
+   * If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentOrchestratorVersion?: string;
   /**
    * The version of node image
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -734,20 +737,26 @@ export interface ManagedClusterHttpProxyConfig {
 
 /** Security profile for the container service cluster. */
 export interface ManagedClusterSecurityProfile {
-  /** Azure Defender settings for the security profile. */
-  azureDefender?: ManagedClusterSecurityProfileAzureDefender;
+  /** Microsoft Defender settings for the security profile. */
+  defender?: ManagedClusterSecurityProfileDefender;
   /** Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile. */
   azureKeyVaultKms?: AzureKeyVaultKms;
   /** [Workload Identity](https://azure.github.io/azure-workload-identity/docs/) settings for the security profile. */
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
 
-/** Azure Defender settings for the security profile. */
-export interface ManagedClusterSecurityProfileAzureDefender {
-  /** Whether to enable Azure Defender */
-  enabled?: boolean;
-  /** Resource ID of the Log Analytics workspace to be associated with Azure Defender.  When Azure Defender is enabled, this field is required and must be a valid workspace resource ID. When Azure Defender is disabled, leave the field empty. */
+/** Microsoft Defender settings for the security profile. */
+export interface ManagedClusterSecurityProfileDefender {
+  /** Resource ID of the Log Analytics workspace to be associated with Microsoft Defender. When Microsoft Defender is enabled, this field is required and must be a valid workspace resource ID. When Microsoft Defender is disabled, leave the field empty. */
   logAnalyticsWorkspaceResourceId?: string;
+  /** Microsoft Defender threat detection for Cloud settings for the security profile. */
+  securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoring;
+}
+
+/** Microsoft Defender settings for the security profile threat detection. */
+export interface ManagedClusterSecurityProfileDefenderSecurityMonitoring {
+  /** Whether to enable Defender threat detection */
+  enabled?: boolean;
 }
 
 /** Azure Key Vault key management service settings for the security profile. */
@@ -756,6 +765,10 @@ export interface AzureKeyVaultKms {
   enabled?: boolean;
   /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
   keyId?: string;
+  /** Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`. */
+  keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
+  /** Resource ID of key vault. When keyVaultNetworkAccess is `Private`, this field is required and must be a valid resource ID. When keyVaultNetworkAccess is `Public`, leave the field empty. */
+  keyVaultResourceId?: string;
 }
 
 /** Workload Identity settings for the security profile. */
@@ -772,6 +785,8 @@ export interface ManagedClusterStorageProfile {
   fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
   /** Snapshot Controller settings for the storage profile. */
   snapshotController?: ManagedClusterStorageProfileSnapshotController;
+  /** AzureBlob CSI Driver settings for the storage profile. */
+  blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
 }
 
 /** AzureDisk CSI Driver settings for the storage profile. */
@@ -794,6 +809,12 @@ export interface ManagedClusterStorageProfileSnapshotController {
   enabled?: boolean;
 }
 
+/** AzureBlob CSI Driver settings for the storage profile. */
+export interface ManagedClusterStorageProfileBlobCSIDriver {
+  /** Whether to enable AzureBlob CSI Driver. The default value is false. */
+  enabled?: boolean;
+}
+
 /** Ingress profile for the container service cluster. */
 export interface ManagedClusterIngressProfile {
   /** Web App Routing settings for the ingress profile. */
@@ -806,6 +827,18 @@ export interface ManagedClusterIngressProfileWebAppRouting {
   enabled?: boolean;
   /** Resource ID of the DNS Zone to be associated with the web app. Used only when Web App Routing is enabled. */
   dnsZoneResourceId?: string;
+}
+
+/** Workload Auto-scaler profile for the container service cluster. */
+export interface ManagedClusterWorkloadAutoScalerProfile {
+  /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
+  keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+}
+
+/** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
+export interface ManagedClusterWorkloadAutoScalerProfileKeda {
+  /** Whether to enable KEDA. */
+  enabled: boolean;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -1353,7 +1386,7 @@ export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfilePrope
 };
 
 /** Information of user assigned identity used by this add-on. */
-export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity & {};
+export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity;
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
@@ -1429,8 +1462,11 @@ export type AgentPool = SubResource & {
   mode?: AgentPoolMode;
   /** Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same <major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
   orchestratorVersion?: string;
-  /** If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used. */
-  currentOrchestratorVersion?: string;
+  /**
+   * If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentOrchestratorVersion?: string;
   /**
    * The version of node image
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1588,6 +1624,8 @@ export type ManagedCluster = TrackedResource & {
   ingressProfile?: ManagedClusterIngressProfile;
   /** Allow or deny public network access for AKS */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Workload Auto-scaler profile for the container service cluster. */
+  workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 };
 
 /** Managed cluster Access Profile. */
@@ -2139,6 +2177,22 @@ export enum KnownExpander {
  * **random**: Used when you don't have a particular need for the node groups to scale differently.
  */
 export type Expander = string;
+
+/** Known values of {@link KeyVaultNetworkAccessTypes} that the service accepts. */
+export enum KnownKeyVaultNetworkAccessTypes {
+  Public = "Public",
+  Private = "Private"
+}
+
+/**
+ * Defines values for KeyVaultNetworkAccessTypes. \
+ * {@link KnownKeyVaultNetworkAccessTypes} can be used interchangeably with KeyVaultNetworkAccessTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Public** \
+ * **Private**
+ */
+export type KeyVaultNetworkAccessTypes = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {

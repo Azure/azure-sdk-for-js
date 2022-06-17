@@ -12,6 +12,7 @@
     "build:browser": "echo skipped",
     "build:test": "echo skipped",
     "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
+    "build:samples": "dev-tool samples publish --force",
     "build": "npm run build:node && npm run build:browser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -34,9 +35,7 @@
     "report": "nyc report --reporter=json",
     "test-opentelemetry-versions": "node test-opentelemetry-versions.mjs 2>&1",
     "prepare": "npm run build",
-    "pack": "npm pack 2>&1",
-    "build:samples": "echo Obsolete.",
-    "execute:samples": "dev-tool samples run samples-dev"
+    "pack": "npm pack 2>&1"
   },
   "engines": {
     "node": ">=12.0.0"

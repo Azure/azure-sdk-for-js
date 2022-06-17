@@ -24,6 +24,7 @@ export interface SanitizerOptions {
 
 const RedactedString = "REDACTED";
 
+// Make sure this list is up-to-date with the one under core/logger/Readme#Keyconcepts
 const defaultAllowedHeaderNames = [
   "x-ms-client-request-id",
   "x-ms-return-client-request-id",

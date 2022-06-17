@@ -472,354 +472,358 @@ export interface JobErrors {
   errors?: ErrorModel[];
 }
 
-export type AnalyzeTextEntityLinkingInput = AnalyzeAction & {
+export interface AnalyzeTextEntityLinkingInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "EntityLinking";
   analysisInput?: MultiLanguageAnalysisInput;
   /** Options for an entity linking action. */
   parameters?: EntityLinkingAction;
-};
+}
 
-export type AnalyzeTextEntityRecognitionInput = AnalyzeAction & {
+export interface AnalyzeTextEntityRecognitionInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "EntityRecognition";
   analysisInput?: MultiLanguageAnalysisInput;
   /** Options for an entity recognition action. */
   parameters?: EntityRecognitionAction;
-};
+}
 
-export type AnalyzeTextKeyPhraseExtractionInput = AnalyzeAction & {
+export interface AnalyzeTextKeyPhraseExtractionInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "KeyPhraseExtraction";
   analysisInput?: MultiLanguageAnalysisInput;
   /** Options for a key phrase recognition action. */
   parameters?: KeyPhraseExtractionAction;
-};
+}
 
-export type AnalyzeTextPiiEntitiesRecognitionInput = AnalyzeAction & {
+export interface AnalyzeTextPiiEntitiesRecognitionInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "PiiEntityRecognition";
   analysisInput?: MultiLanguageAnalysisInput;
   /** Options for a Pii entity recognition action. */
   parameters?: PiiEntityRecognitionAction;
-};
+}
 
-export type AnalyzeTextLanguageDetectionInput = AnalyzeAction & {
+export interface AnalyzeTextLanguageDetectionInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "LanguageDetection";
   analysisInput?: LanguageDetectionAnalysisInput;
   /** Options for a language detection action. */
   parameters?: LanguageDetectionAction;
-};
+}
 
-export type AnalyzeTextSentimentAnalysisInput = AnalyzeAction & {
+export interface AnalyzeTextSentimentAnalysisInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "SentimentAnalysis";
   analysisInput?: MultiLanguageAnalysisInput;
   /** Options for a sentiment analysis action. */
   parameters?: SentimentAnalysisAction;
-};
+}
 
-export type SentimentTaskResult = AnalyzeTextTaskResult & {
+export interface SentimentTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "SentimentAnalysisResults";
   results: SentimentResponse;
-};
+}
 
-export type EntitiesTaskResult = AnalyzeTextTaskResult & {
+export interface EntitiesTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "EntityRecognitionResults";
   results: EntitiesResult;
-};
+}
 
-export type EntityLinkingTaskResult = AnalyzeTextTaskResult & {
+export interface EntityLinkingTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "EntityLinkingResults";
   results: EntityLinkingResult;
-};
+}
 
-export type PiiTaskResult = AnalyzeTextTaskResult & {
+export interface PiiTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "PiiEntityRecognitionResults";
   results: PiiResult;
-};
+}
 
-export type KeyPhraseTaskResult = AnalyzeTextTaskResult & {
+export interface KeyPhraseTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "KeyPhraseExtractionResults";
   results: KeyPhraseResult;
-};
+}
 
-export type LanguageDetectionTaskResult = AnalyzeTextTaskResult & {
+export interface LanguageDetectionTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "LanguageDetectionResults";
   results: LanguageDetectionResult;
-};
+}
 
-export type AnalyzeBatchAction = BatchActionState & {
+export interface AnalyzeBatchAction extends BatchActionState {
   /** Enumeration of supported long-running Text Analysis tasks. */
   kind: AnalyzeTextLROTaskKind;
-};
+}
 
-export type AnalyzeTextLROResult = TaskState &
-  BatchActionState & {
-    /** Enumeration of supported Text Analysis long-running operation task results. */
-    kind: AnalyzeTextLROResultsKind;
-  };
+export interface AnalyzeTextLROResult extends TaskState, BatchActionState {
+  /** Enumeration of supported Text Analysis long-running operation task results. */
+  kind: AnalyzeTextLROResultsKind;
+}
 
-export type AnalyzeTextJobState = JobState &
-  TasksState &
-  AnalyzeTextJobStatistics;
+export interface AnalyzeTextJobState
+  extends JobState,
+    TasksState,
+    AnalyzeTextJobStatistics {}
 
 /** Configuration common to all actions that use prebuilt models. */
-export type ActionPrebuilt = ActionCommon & {
+export interface ActionPrebuilt extends ActionCommon {
   /** The version of the model to be used by the action. */
   modelVersion?: string;
-};
+}
 
 /** Parameters object for a text analysis task using custom models. */
-export type ActionCustom = ActionCommon & {
+export interface ActionCustom extends ActionCommon {
   projectName: string;
   deploymentName: string;
-};
+}
 
-export type HealthcareResult = PreBuiltResult & {
+export interface HealthcareResult extends PreBuiltResult {
   documents: HealthcareResultDocumentsItem[];
-};
+}
 
-export type SentimentResponse = PreBuiltResult & {
+export interface SentimentResponse extends PreBuiltResult {
   /** Sentiment analysis per document. */
   documents: SentimentResponseDocumentsItem[];
-};
+}
 
-export type EntitiesResult = PreBuiltResult & {
+export interface EntitiesResult extends PreBuiltResult {
   /** Response by document */
   documents: EntitiesResultDocumentsItem[];
-};
+}
 
-export type EntityLinkingResult = PreBuiltResult & {
+export interface EntityLinkingResult extends PreBuiltResult {
   /** Response by document */
   documents: EntityLinkingResultDocumentsItem[];
-};
+}
 
-export type PiiResult = PreBuiltResult & {
+export interface PiiResult extends PreBuiltResult {
   /** Response by document */
   documents: PiiResultDocumentsItem[];
-};
+}
 
-export type ExtractiveSummarizationResult = PreBuiltResult & {
+export interface ExtractiveSummarizationResult extends PreBuiltResult {
   /** Response by document */
   documents: ExtractiveSummarizationResultDocumentsItem[];
-};
+}
 
-export type KeyPhraseResult = PreBuiltResult & {
+export interface KeyPhraseResult extends PreBuiltResult {
   /** Response by document */
   documents: KeyPhraseResultDocumentsItem[];
-};
+}
 
-export type LanguageDetectionResult = PreBuiltResult & {
+export interface LanguageDetectionResult extends PreBuiltResult {
   /** Response by document */
   documents: LanguageDetectionDocumentResult[];
-};
+}
 
-export type CustomEntitiesResult = CustomResult & {
+export interface CustomEntitiesResult extends CustomResult {
   /** Response by document */
   documents: CustomEntitiesResultDocumentsItem[];
-};
+}
 
-export type CustomSingleLabelClassificationResult = CustomResult & {
+export interface CustomSingleLabelClassificationResult extends CustomResult {
   /** Response by document */
   documents: CustomSingleLabelClassificationResultDocumentsItem[];
-};
+}
 
-export type CustomMultiLabelClassificationResult = CustomResult & {
+export interface CustomMultiLabelClassificationResult extends CustomResult {
   /** Response by document */
   documents: CustomMultiLabelClassificationResultDocumentsItem[];
-};
+}
 
-export type EntitiesDocumentResult = DocumentResult & {
+export interface EntitiesDocumentResult extends DocumentResult {
   /** Recognized entities in the document. */
   entities: Entity[];
-};
+}
 
-export type SingleClassificationDocumentResult = DocumentResult & {
+export interface SingleClassificationDocumentResult extends DocumentResult {
   /** A classification result from a custom classify document single category action */
   classification: ClassificationCategory;
-};
+}
 
-export type MultiClassificationDocumentResult = DocumentResult & {
+export interface MultiClassificationDocumentResult extends DocumentResult {
   classifications: ClassificationCategory[];
-};
+}
 
-export type HealthcareEntitiesDocumentResult = DocumentResult & {
+export interface HealthcareEntitiesDocumentResult extends DocumentResult {
   /** Healthcare entities. */
   entities: HealthcareEntity[];
   /** Healthcare entity relations. */
   relations: HealthcareRelation[];
   /** JSON bundle containing a FHIR compatible object for consumption in other Healthcare tools. For additional information see https://www.hl7.org/fhir/overview.html. */
   fhirBundle?: { [propertyName: string]: any };
-};
+}
 
-export type SentimentDocumentResult = DocumentResult & {
+export interface SentimentDocumentResult extends DocumentResult {
   /** Predicted sentiment for document (Negative, Neutral, Positive, or Mixed). */
   sentiment: DocumentSentimentLabel;
   /** Document level sentiment confidence scores between 0 and 1 for each sentiment class. */
   confidenceScores: SentimentConfidenceScores;
   /** Sentence level sentiment analysis. */
   sentences: SentenceSentiment[];
-};
+}
 
-export type LinkedEntitiesDocumentResult = DocumentResult & {
+export interface LinkedEntitiesDocumentResult extends DocumentResult {
   /** Recognized well known entities in the document. */
   entities: LinkedEntity[];
-};
+}
 
-export type PiiEntitiesDocumentResult = DocumentResult & {
+export interface PiiEntitiesDocumentResult extends DocumentResult {
   /** Returns redacted text. */
   redactedText: string;
   /** Recognized entities in the document. */
   entities: Entity[];
-};
+}
 
-export type ExtractedSummaryDocumentResult = DocumentResult & {
+export interface ExtractedSummaryDocumentResult extends DocumentResult {
   /** A ranked list of sentences representing the extracted summary. */
   sentences: SummarySentence[];
-};
+}
 
-export type KeyPhrasesDocumentResult = DocumentResult & {
+export interface KeyPhrasesDocumentResult extends DocumentResult {
   /** A list of representative words or phrases. The number of key phrases returned is proportional to the number of words in the input document. */
   keyPhrases: string[];
-};
+}
 
-export type LanguageDetectionDocumentResult = DocumentResult & {
+export interface LanguageDetectionDocumentResult extends DocumentResult {
   /** Detected Language. */
   detectedLanguage: DetectedLanguage;
-};
+}
 
 /** Use custom models to ease the process of information extraction from unstructured documents like contracts or financial documents */
-export type CustomEntitiesLROTask = AnalyzeBatchAction & {
+export interface CustomEntitiesLROTask extends AnalyzeBatchAction {
   /** Supported parameters for a Custom Entities task. */
   parameters?: CustomEntityRecognitionAction;
-};
+}
 
 /** Use custom models to classify text into single label taxonomy */
-export type CustomSingleLabelClassificationLROTask = AnalyzeBatchAction & {
+export interface CustomSingleLabelClassificationLROTask
+  extends AnalyzeBatchAction {
   /** Options for a single-label classification custom action */
   parameters?: CustomSingleLabelClassificationAction;
-};
+}
 
 /** Use custom models to classify text into multi label taxonomy */
-export type CustomMultiLabelClassificationLROTask = AnalyzeBatchAction & {
+export interface CustomMultiLabelClassificationLROTask
+  extends AnalyzeBatchAction {
   /** Options for a multi-label classification custom action */
   parameters?: CustomMultiLabelClassificationAction;
-};
+}
 
-export type HealthcareLROTask = AnalyzeBatchAction & {
+export interface HealthcareLROTask extends AnalyzeBatchAction {
   /** Supported parameters for a Healthcare task. */
   parameters?: HealthcareAction;
-};
+}
 
 /** An object representing the task definition for a Sentiment Analysis task. */
-export type SentimentAnalysisLROTask = AnalyzeBatchAction & {
+export interface SentimentAnalysisLROTask extends AnalyzeBatchAction {
   /** Options for a sentiment analysis action. */
   parameters?: SentimentAnalysisAction;
-};
+}
 
 /** An object representing the task definition for an Entities Recognition task. */
-export type EntitiesLROTask = AnalyzeBatchAction & {
+export interface EntitiesLROTask extends AnalyzeBatchAction {
   /** Options for an entity recognition action. */
   parameters?: EntityRecognitionAction;
-};
+}
 
 /** An object representing the task definition for an Entity Linking task. */
-export type EntityLinkingLROTask = AnalyzeBatchAction & {
+export interface EntityLinkingLROTask extends AnalyzeBatchAction {
   /** Options for an entity linking action. */
   parameters?: EntityLinkingAction;
-};
+}
 
 /** An object representing the task definition for a PII Entities Recognition task. */
-export type PiiLROTask = AnalyzeBatchAction & {
+export interface PiiLROTask extends AnalyzeBatchAction {
   /** Options for a Pii entity recognition action. */
   parameters?: PiiEntityRecognitionAction;
-};
+}
 
 /** An object representing the task definition for an Extractive Summarization task. */
-export type ExtractiveSummarizationLROTask = AnalyzeBatchAction & {
+export interface ExtractiveSummarizationLROTask extends AnalyzeBatchAction {
   /** Supported parameters for an Extractive Summarization task. */
   parameters?: ExtractiveSummarizationAction;
-};
+}
 
 /** An object representing the task definition for a Key Phrase Extraction task. */
-export type KeyPhraseLROTask = AnalyzeBatchAction & {
+export interface KeyPhraseLROTask extends AnalyzeBatchAction {
   /** Options for a key phrase recognition action. */
   parameters?: KeyPhraseExtractionAction;
-};
+}
 
-export type EntityRecognitionLROResult = AnalyzeTextLROResult & {
+export interface EntityRecognitionLROResult extends AnalyzeTextLROResult {
   results: EntitiesResult;
-};
+}
 
-export type CustomEntityRecognitionLROResult = AnalyzeTextLROResult & {
+export interface CustomEntityRecognitionLROResult extends AnalyzeTextLROResult {
   results: CustomEntitiesResult;
-};
+}
 
-export type CustomSingleLabelClassificationLROResult = AnalyzeTextLROResult & {
+export interface CustomSingleLabelClassificationLROResult
+  extends AnalyzeTextLROResult {
   results: CustomSingleLabelClassificationResult;
-};
+}
 
-export type CustomMultiLabelClassificationLROResult = AnalyzeTextLROResult & {
+export interface CustomMultiLabelClassificationLROResult
+  extends AnalyzeTextLROResult {
   results: CustomMultiLabelClassificationResult;
-};
+}
 
-export type EntityLinkingLROResult = AnalyzeTextLROResult & {
+export interface EntityLinkingLROResult extends AnalyzeTextLROResult {
   results: EntityLinkingResult;
-};
+}
 
-export type PiiEntityRecognitionLROResult = AnalyzeTextLROResult & {
+export interface PiiEntityRecognitionLROResult extends AnalyzeTextLROResult {
   results: PiiResult;
-};
+}
 
-export type ExtractiveSummarizationLROResult = AnalyzeTextLROResult & {
+export interface ExtractiveSummarizationLROResult extends AnalyzeTextLROResult {
   results: ExtractiveSummarizationResult;
-};
+}
 
-export type HealthcareLROResult = AnalyzeTextLROResult & {
+export interface HealthcareLROResult extends AnalyzeTextLROResult {
   results: HealthcareResult;
-};
+}
 
-export type SentimentLROResult = AnalyzeTextLROResult & {
+export interface SentimentLROResult extends AnalyzeTextLROResult {
   results: SentimentResponse;
-};
+}
 
-export type KeyPhraseExtractionLROResult = AnalyzeTextLROResult & {
+export interface KeyPhraseExtractionLROResult extends AnalyzeTextLROResult {
   results: KeyPhraseResult;
-};
+}
 
 /** Options for an entity linking action. */
-export type EntityLinkingAction = ActionPrebuilt & {
+export interface EntityLinkingAction extends ActionPrebuilt {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Options for an entity recognition action. */
-export type EntityRecognitionAction = ActionPrebuilt & {
+export interface EntityRecognitionAction extends ActionPrebuilt {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Options for a key phrase recognition action. */
-export type KeyPhraseExtractionAction = ActionPrebuilt;
+export interface KeyPhraseExtractionAction extends ActionPrebuilt {}
 
 /** Options for a Pii entity recognition action. */
-export type PiiEntityRecognitionAction = ActionPrebuilt & {
+export interface PiiEntityRecognitionAction extends ActionPrebuilt {
   /**
    * Filters entities to ones only included in the specified domain (e.g., if set to `Phi`, only entities in the Protected Healthcare Information domain will be returned). For a list of possible domains, see {@link PiiDomain}.
    *
@@ -834,13 +838,13 @@ export type PiiEntityRecognitionAction = ActionPrebuilt & {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Options for a language detection action. */
-export type LanguageDetectionAction = ActionPrebuilt;
+export interface LanguageDetectionAction extends ActionPrebuilt {}
 
 /** Options for a sentiment analysis action. */
-export type SentimentAnalysisAction = ActionPrebuilt & {
+export interface SentimentAnalysisAction extends ActionPrebuilt {
   /** Enables performing opinion mining on the input documents, a more  granular analysis around the aspects of a product or service (also known as aspect-based sentiment analysis). If set to true, {@link SentenceSentiment.opinions} will contain the results of this analysis. See {@link https://docs.microsoft.com/azure/cognitive-services/language-service/sentiment-opinion-mining/overview#opinion-mining the service documentation} for more information. */
   includeOpinionMining?: boolean;
   /**
@@ -849,10 +853,10 @@ export type SentimentAnalysisAction = ActionPrebuilt & {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Supported parameters for a Healthcare task. */
-export type HealthcareAction = ActionPrebuilt & {
+export interface HealthcareAction extends ActionPrebuilt {
   /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
   fhirVersion?: FhirVersion;
   /**
@@ -861,10 +865,11 @@ export type HealthcareAction = ActionPrebuilt & {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Supported parameters for an Extractive Summarization task. */
-export type ExtractiveSummarizationAction = ActionPrebuilt & {
+export interface ExtractiveSummarizationAction extends ActionPrebuilt {
+  /** The max number of sentences to be part of the summary. */
   maxSentenceCount?: number;
   /** The sorting criteria to use for the results of Extractive Summarization. */
   orderBy?: ExtractiveSummarizationOrderingCriteria;
@@ -874,43 +879,51 @@ export type ExtractiveSummarizationAction = ActionPrebuilt & {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Supported parameters for a Custom Entities task. */
-export type CustomEntityRecognitionAction = ActionCustom & {
+export interface CustomEntityRecognitionAction extends ActionCustom {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Options for a single-label classification custom action */
-export type CustomSingleLabelClassificationAction = ActionCustom;
+export interface CustomSingleLabelClassificationAction extends ActionCustom {}
 
 /** Options for a multi-label classification custom action */
-export type CustomMultiLabelClassificationAction = ActionCustom;
+export interface CustomMultiLabelClassificationAction extends ActionCustom {}
 
-export type CustomEntitiesResultDocumentsItem = EntitiesDocumentResult;
+export interface CustomEntitiesResultDocumentsItem
+  extends EntitiesDocumentResult {}
 
-export type EntitiesResultDocumentsItem = EntitiesDocumentResult;
+export interface EntitiesResultDocumentsItem extends EntitiesDocumentResult {}
 
-export type CustomSingleLabelClassificationResultDocumentsItem = SingleClassificationDocumentResult;
+export interface CustomSingleLabelClassificationResultDocumentsItem
+  extends SingleClassificationDocumentResult {}
 
-export type CustomMultiLabelClassificationResultDocumentsItem = MultiClassificationDocumentResult;
+export interface CustomMultiLabelClassificationResultDocumentsItem
+  extends MultiClassificationDocumentResult {}
 
-export type HealthcareResultDocumentsItem = HealthcareEntitiesDocumentResult;
+export interface HealthcareResultDocumentsItem
+  extends HealthcareEntitiesDocumentResult {}
 
-export type SentimentResponseDocumentsItem = SentimentDocumentResult;
+export interface SentimentResponseDocumentsItem
+  extends SentimentDocumentResult {}
 
-export type EntityLinkingResultDocumentsItem = LinkedEntitiesDocumentResult;
+export interface EntityLinkingResultDocumentsItem
+  extends LinkedEntitiesDocumentResult {}
 
-export type PiiResultDocumentsItem = PiiEntitiesDocumentResult;
+export interface PiiResultDocumentsItem extends PiiEntitiesDocumentResult {}
 
-export type ExtractiveSummarizationResultDocumentsItem = ExtractedSummaryDocumentResult;
+export interface ExtractiveSummarizationResultDocumentsItem
+  extends ExtractedSummaryDocumentResult {}
 
-export type KeyPhraseResultDocumentsItem = KeyPhrasesDocumentResult;
+export interface KeyPhraseResultDocumentsItem
+  extends KeyPhrasesDocumentResult {}
 
 /** Defines headers for AnalyzeText_submitJob operation. */
 export interface AnalyzeTextSubmitJobHeaders {

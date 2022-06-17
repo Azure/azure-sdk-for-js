@@ -156,13 +156,27 @@ export const CommunicationError: coreClient.CompositeMapper = {
   }
 };
 
-export const TeamsUserAccessTokenRequest: coreClient.CompositeMapper = {
+export const TeamsUserExchangeTokenRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TeamsUserAccessTokenRequest",
+    className: "TeamsUserExchangeTokenRequest",
     modelProperties: {
       token: {
         serializedName: "token",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      appId: {
+        serializedName: "appId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userId: {
+        serializedName: "userId",
         required: true,
         type: {
           name: "String"

@@ -1471,18 +1471,6 @@ export const NetworkRuleSet: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      virtualNetworkRules: {
-        serializedName: "virtualNetworkRules",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualNetworkRule"
-            }
-          }
-        }
-      },
       ipRules: {
         serializedName: "ipRules",
         type: {
@@ -1499,34 +1487,13 @@ export const NetworkRuleSet: coreClient.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkRule: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualNetworkRule",
-    modelProperties: {
-      action: {
-        serializedName: "action",
-        type: {
-          name: "String"
-        }
-      },
-      virtualNetworkResourceId: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const IPRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IPRule",
     modelProperties: {
       action: {
+        defaultValue: "Allow",
         serializedName: "action",
         type: {
           name: "String"
@@ -1574,6 +1541,20 @@ export const Policies: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ExportPolicy"
+        }
+      },
+      azureADAuthenticationAsArmPolicy: {
+        serializedName: "azureADAuthenticationAsArmPolicy",
+        type: {
+          name: "Composite",
+          className: "AzureADAuthenticationAsArmPolicy"
+        }
+      },
+      softDeletePolicy: {
+        serializedName: "softDeletePolicy",
+        type: {
+          name: "Composite",
+          className: "SoftDeletePolicy"
         }
       }
     }
@@ -1653,6 +1634,51 @@ export const ExportPolicy: coreClient.CompositeMapper = {
     modelProperties: {
       status: {
         defaultValue: "enabled",
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureADAuthenticationAsArmPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureADAuthenticationAsArmPolicy",
+    modelProperties: {
+      status: {
+        defaultValue: "enabled",
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SoftDeletePolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SoftDeletePolicy",
+    modelProperties: {
+      retentionDays: {
+        defaultValue: 7,
+        serializedName: "retentionDays",
+        type: {
+          name: "Number"
+        }
+      },
+      lastUpdatedTime: {
+        serializedName: "lastUpdatedTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      status: {
         serializedName: "status",
         type: {
           name: "String"
@@ -4072,6 +4098,44 @@ export const BaseImageTriggerUpdateParameters: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageAccountProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageAccountProperties",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PackageType: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PackageType",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      endpoint: {
+        serializedName: "endpoint",
+        readOnly: true,
         type: {
           name: "String"
         }

@@ -1,0 +1,74 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Logic/workflows/myworkflowxxx/providers/Microsoft.Insights/diagnosticSettings/mydiagnosticxxxx?api-version=2017-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "3376a692-cf44-40a3-8631-382c132a6d12"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 14 Jun 2022 07:44:15 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "9a9048bd-bb0d-4786-91b6-42ed84306d51",
+        "x-ms-ratelimit-remaining-subscription-reads": "11975",
+        "x-ms-request-id": "b2934181-bebd-45e6-89df-0e5d0057c7f7",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220614T074415Z:9a9048bd-bb0d-4786-91b6-42ed84306d51"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.logic/workflows/myworkflowxxx/providers/microsoft.insights/diagnosticSettings/mydiagnosticxxxx",
+        "type": "Microsoft.Insights/diagnosticSettings",
+        "name": "mydiagnosticxxxx",
+        "location": null,
+        "kind": null,
+        "tags": null,
+        "properties": {
+          "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "serviceBusRuleId": null,
+          "workspaceId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myworkspacexxx",
+          "eventHubAuthorizationRuleId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/authorizationRules/myauthorizationRulexxx",
+          "eventHubName": "myeventhubxxx",
+          "metrics": [
+            {
+              "category": "AllMetrics",
+              "enabled": false,
+              "retentionPolicy": {
+                "enabled": false,
+                "days": 0
+              }
+            }
+          ],
+          "logs": [
+            {
+              "category": "WorkflowRuntime",
+              "categoryGroup": null,
+              "enabled": true,
+              "retentionPolicy": {
+                "enabled": false,
+                "days": 0
+              }
+            }
+          ],
+          "logAnalyticsDestinationType": null
+        },
+        "identity": null
+      }
+    }
+  ],
+  "Variables": {}
+}

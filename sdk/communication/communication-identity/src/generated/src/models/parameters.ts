@@ -13,7 +13,7 @@ import {
 } from "@azure/core-client";
 import {
   CommunicationIdentityCreateRequest as CommunicationIdentityCreateRequestMapper,
-  TeamsUserAccessTokenRequest as TeamsUserAccessTokenRequestMapper,
+  TeamsUserExchangeTokenRequest as TeamsUserExchangeTokenRequestMapper,
   CommunicationIdentityAccessTokenRequest as CommunicationIdentityAccessTokenRequestMapper
 } from "../models/mappers";
 
@@ -61,7 +61,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-31-preview",
+    defaultValue: "2022-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -83,7 +83,17 @@ export const id: OperationURLParameter = {
 
 export const token: OperationParameter = {
   parameterPath: "token",
-  mapper: TeamsUserAccessTokenRequestMapper
+  mapper: TeamsUserExchangeTokenRequestMapper
+};
+
+export const appId: OperationParameter = {
+  parameterPath: "appId",
+  mapper: TeamsUserExchangeTokenRequestMapper
+};
+
+export const userId: OperationParameter = {
+  parameterPath: "userId",
+  mapper: TeamsUserExchangeTokenRequestMapper
 };
 
 export const scopes: OperationParameter = {

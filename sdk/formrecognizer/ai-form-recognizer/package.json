@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Form Recognizer service.",
-  "version": "4.0.0-beta.4",
+  "version": "4.0.0-beta.5",
   "keywords": [
     "node",
     "azure",
@@ -63,11 +63,12 @@
     "execute:samples": "dev-tool samples run samples-dev/",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "autorest --typescript swagger/README.md",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 1200000 --exclude 'dist-esm/**/browser/*.spec.js' \"dist-esm/test/**/*.spec.js\" \"dist-esm/test/**/node/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run build:test && npm run unit-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node",
@@ -107,6 +108,7 @@
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^8.0.0",
+    "esm": "^3.2.18",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -157,9 +159,9 @@
         "typescript/assets/forms/selection_mark_form.pdf",
         "javascript/assets/forms/selection_mark_form.pdf"
       ],
-      "./assets/identityDocument/license.jpg": [
-        "typescript/assets/identityDocument/license.jpg",
-        "javascript/assets/identityDocument/license.jpg"
+      "./assets/identityDocument/license.png": [
+        "typescript/assets/identityDocument/license.png",
+        "javascript/assets/identityDocument/license.png"
       ],
       "./assets/invoice/sample_invoice.jpg": [
         "typescript/assets/invoice/sample_invoice.jpg",
@@ -168,6 +170,10 @@
       "./assets/receipt/contoso-allinone.jpg": [
         "typescript/assets/receipt/contoso-allinone.jpg",
         "javascript/assets/receipt/contoso-allinone.jpg"
+      ],
+      "./assets/w2/w2-single.png": [
+        "typescript/assets/w2/w2-single.png",
+        "javascript/assets/w2/w2-single.png"
       ]
     }
   }

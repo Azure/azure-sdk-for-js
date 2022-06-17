@@ -25,6 +25,9 @@ class SerializerImpl implements Serializer {
     public readonly isXML: boolean = false
   ) {}
 
+  /**
+   * @deprecated Removing the constraints validation on client side.
+   */
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
     const failValidation = (
       constraintName: keyof MapperConstraints,
@@ -154,8 +157,6 @@ class SerializerImpl implements Serializer {
     if (object === undefined || object === null) {
       payload = object;
     } else {
-      // Validate Constraints if any
-      this.validateConstraints(mapper, object, objectName);
       if (mapperType.match(/^any$/i) !== null) {
         payload = object;
       } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/i) !== null) {

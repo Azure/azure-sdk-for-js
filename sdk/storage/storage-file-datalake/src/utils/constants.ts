@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.9.1";
-export const SERVICE_VERSION: string = "2021-06-08";
+export const SDK_VERSION: string = "12.10.0-beta.2";
+export const SERVICE_VERSION: string = "2021-08-06";
 
 export const KB: number = 1024;
 export const MB: number = KB * 1024;
@@ -204,6 +204,7 @@ export const ToBlobEndpointHostMappings = [
   ["dfs.core.cloudapi.de", "blob.core.cloudapi.de"],
   ["dfs.core.microsoft.scloud", "blob.core.microsoft.scloud"],
   ["dfs.core.eaglex.ic.gov", "blob.core.eaglex.ic.gov"],
+  ["dfs.storage.azure.net", "blob.storage.azure.net"],
 ];
 
 // Mapping pairs to transform url from blob endpoint to dfs endpoint
@@ -216,6 +217,7 @@ export const ToDfsEndpointHostMappings = [
   ["blob.core.cloudapi.de", "dfs.core.cloudapi.de"],
   ["blob.core.microsoft.scloud", "dfs.core.microsoft.scloud"],
   ["blob.core.eaglex.ic.gov", "dfs.core.eaglex.ic.gov"],
+  ["blob.storage.azure.net", "dfs.storage.azure.net"],
 ];
 
 export const ETagAny = "*";

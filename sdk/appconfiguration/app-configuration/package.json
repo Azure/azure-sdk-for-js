@@ -49,8 +49,8 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/swagger.md",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run build:test && cross-env TEST_MODE=live karma start --single-run",
@@ -93,6 +93,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/eventgrid": "4.9.0",
     "@azure/identity": "^2.0.1",
     "@azure/keyvault-secrets": "^4.2.0",
     "@azure-tools/test-recorder": "^1.0.0",
@@ -141,7 +142,8 @@
       "Azure App Configuration account": "https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store"
     },
     "skip": [
-      "secretReference.js"
+      "secretReference.js",
+      "updateSyncTokenSample.js"
     ]
   }
 }
