@@ -25,6 +25,8 @@ typescript: true
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
 
+## General customizations
+
 ### Rename analyze-text to Analyze and analyze-test/jobs to AnalyzeBatch
 
 ```yaml
@@ -37,39 +39,10 @@ directive:
     transform: $.operationId = "AnalyzeBatch";
 ```
 
-### Rename JobState
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.JobState
-    transform: $.properties.createdDateTime["x-ms-client-name"] = "createdOn";
-  - from: swagger-document
-    where: $.definitions.JobState
-    transform: $.properties.expirationDateTime["x-ms-client-name"] = "expiresOn";
-  - from: swagger-document
-    where: $.definitions.JobState
-    transform: $.properties.jobId["x-ms-client-name"] = "operationId";
-  - from: swagger-document
-    where: $.definitions.JobState
-    transform: $.properties.lastUpdateDateTime["x-ms-client-name"] = "lastModifiedOn";
-  - from: swagger-document
-    where: $.definitions.JobState
-    transform: $.properties.status["x-ms-enum"].name = "OperationStatus";
-```
-
 ### Task renames
 
 ```yaml
 directive:
-  - from: swagger-document
-    where: $.definitions.AnalyzeTextTask
-    transform:
-      $["x-ms-client-name"] = "AnalyzeAction";
-  - from: swagger-document
-    where: $.definitions.AnalyzeTextLROTask
-    transform:
-      $["x-ms-client-name"] = "AnalyzeBatchAction";
   - from: swagger-document
     where: $.definitions.TaskParameters
     transform:
@@ -94,34 +67,27 @@ directive:
     where: $.definitions.ActionCustom
     transform:
       $.description = "Configuration common to all actions that use custom models.";
-      $.properties.projectName.description = "The project name for the model to be used by the action.";
-      $.properties.deploymentName.description = "The deployment name for the model to be used by the action.";
   - from: swagger-document
     where: $.definitions.EntityLinkingTaskParameters
     transform:
-      $["x-ms-client-name"] = "EntityLinkingAction";
       $.description = "Options for an entity linking action.";
   - from: swagger-document
     where: $.definitions.EntitiesTaskParameters
     transform:
-      $["x-ms-client-name"] = "EntityRecognitionAction";
       $.description = "Options for an entity recognition action.";
   - from: swagger-document
     where: $.definitions.SentimentAnalysisTaskParameters
     transform:
-      $["x-ms-client-name"] = "SentimentAnalysisAction";
       $.properties.opinionMining.description = "Enables performing opinion mining on the input documents, a more  granular analysis around the aspects of a product or service (also known as aspect-based sentiment analysis). If set to true, {@link SentenceSentiment.opinions} will contain the results of this analysis. See {@link https://docs.microsoft.com/azure/cognitive-services/language-service/sentiment-opinion-mining/overview#opinion-mining the service documentation} for more information.";
       $.properties.opinionMining["x-ms-client-name"] = "includeOpinionMining";
       $.description = "Options for a sentiment analysis action.";
   - from: swagger-document
     where: $.definitions.KeyPhraseTaskParameters
     transform:
-      $["x-ms-client-name"] = "KeyPhraseExtractionAction";
       $.description = "Options for a key phrase recognition action.";
   - from: swagger-document
     where: $.definitions.PiiTaskParameters
     transform:
-      $["x-ms-client-name"] = "PiiEntityRecognitionAction";
       $.properties.domain.description = "Filters entities to ones only included in the specified domain (e.g., if set to `Phi`, only entities in the Protected Healthcare Information domain will be returned). For a list of possible domains, see {@link PiiDomain}.\n\nSee {@link https://aka.ms/tanerpii the service documentation} for more information.";
       $.properties.domain["x-ms-client-name"] = "domainFilter";
       $.properties.piiCategories.description = "Filters entities to ones only included in the specified array of categories. For a list of possible categories, see {@link KnownPiiCategory}";
@@ -130,48 +96,27 @@ directive:
   - from: swagger-document
     where: $.definitions.LanguageDetectionTaskParameters
     transform:
-      $["x-ms-client-name"] = "LanguageDetectionAction";
       $.description = "Options for a language detection action.";
-  - from: swagger-document
-    where: $.definitions.HealthcareTaskParameters
-    transform:
-      $["x-ms-client-name"] = "HealthcareAction";
   - from: swagger-document
     where: $.definitions.ExtractiveSummarizationTaskParameters
     transform:
-      $["x-ms-client-name"] = "ExtractiveSummarizationAction";
       $.properties.sentenceCount.description = "The max number of sentences to be part of the summary.";
       $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
       $.properties.sortBy["x-ms-client-name"] = "orderBy";
   - from: swagger-document
-    where: $.definitions.ExtractiveSummarizationSortingCriteria
-    transform:
-      $["x-ms-enum"].name = "ExtractiveSummarizationOrderingCriteria";
-  - from: swagger-document
-    where: $.definitions.CustomEntitiesTaskParameters
-    transform:
-      $["x-ms-client-name"] = "CustomEntityRecognitionAction";
-  - from: swagger-document
     where: $.definitions.CustomSingleLabelClassificationTaskParameters
     transform:
-      $["x-ms-client-name"] = "CustomSingleLabelClassificationAction";
       $.description = "Options for a single-label classification custom action";
   - from: swagger-document
     where: $.definitions.CustomMultiLabelClassificationTaskParameters
     transform:
-      $["x-ms-client-name"] = "CustomMultiLabelClassificationAction";
       $.description = "Options for a multi-label classification custom action";
   - from: swagger-document
     where: $.definitions.TaskIdentifier
     transform:
-      $["x-ms-client-name"] = "BatchActionState";
       $.description = "The State of a batched action";
       $.properties.taskName.description = "The name of the action";
       $.properties.taskName["x-ms-client-name"] = "actionName";
-  - from: swagger-document
-    where: $.definitions..properties.stringIndexType
-    transform: >
-      $.description = "Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.\n\nThe default is the JavaScript's default which is \"Utf16CodeUnit\".";
 ```
 
 ### Rename HealthcareEntityLink => EntityDataSource
@@ -254,15 +199,6 @@ directive:
     transform:
       $["x-ms-client-name"] = "ClassificationCategory";
       $.description = "A classification result from a custom classify document single category action";
-```
-
-### Set Utf16CodeUnit as the default for StringIndexType because this is what JavaScript uses
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.StringIndexType
-    transform: $.default = "Utf16CodeUnit";
 ```
 
 ### Rename plurals in DocumentStatistics
@@ -498,20 +434,6 @@ directive:
 ```
 
 
-### Disable LRO
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["paths"][*]
-    transform: >
-      for (var op of Object.values($)) {
-          if (op["x-ms-long-running-operation"]) {
-              delete op["x-ms-long-running-operation"];
-          }
-      }
-```
-
 ### Enhance documentation strings for some exported swagger types
 
 ```yaml
@@ -549,4 +471,121 @@ directive:
   - from: swagger-document    
     where: $.definitions.HealthcareAssertion
     transform: $.description = "An object that describes metadata about the healthcare entity such as whether it is hypothetical or conditional.";
+```
+
+## JS customizations
+
+### Task renames
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeTextTask
+    transform:
+      $["x-ms-client-name"] = "AnalyzeAction";
+  - from: swagger-document
+    where: $.definitions.AnalyzeTextLROTask
+    transform:
+      $["x-ms-client-name"] = "AnalyzeBatchAction";
+  - from: swagger-document
+    where: $.definitions.EntityLinkingTaskParameters
+    transform:
+      $["x-ms-client-name"] = "EntityLinkingAction";
+  - from: swagger-document
+    where: $.definitions.EntitiesTaskParameters
+    transform:
+      $["x-ms-client-name"] = "EntityRecognitionAction";
+  - from: swagger-document
+    where: $.definitions.SentimentAnalysisTaskParameters
+    transform:
+      $["x-ms-client-name"] = "SentimentAnalysisAction";
+  - from: swagger-document
+    where: $.definitions.KeyPhraseTaskParameters
+    transform:
+      $["x-ms-client-name"] = "KeyPhraseExtractionAction";
+  - from: swagger-document
+    where: $.definitions.PiiTaskParameters
+    transform:
+      $["x-ms-client-name"] = "PiiEntityRecognitionAction";
+  - from: swagger-document
+    where: $.definitions.LanguageDetectionTaskParameters
+    transform:
+      $["x-ms-client-name"] = "LanguageDetectionAction";
+  - from: swagger-document
+    where: $.definitions.HealthcareTaskParameters
+    transform:
+      $["x-ms-client-name"] = "HealthcareAction";
+  - from: swagger-document
+    where: $.definitions.ExtractiveSummarizationTaskParameters
+    transform:
+      $["x-ms-client-name"] = "ExtractiveSummarizationAction";
+  - from: swagger-document
+    where: $.definitions.ExtractiveSummarizationSortingCriteria
+    transform:
+      $["x-ms-enum"].name = "ExtractiveSummarizationOrderingCriteria";
+  - from: swagger-document
+    where: $.definitions.CustomEntitiesTaskParameters
+    transform:
+      $["x-ms-client-name"] = "CustomEntityRecognitionAction";
+  - from: swagger-document
+    where: $.definitions.CustomSingleLabelClassificationTaskParameters
+    transform:
+      $["x-ms-client-name"] = "CustomSingleLabelClassificationAction";
+  - from: swagger-document
+    where: $.definitions.CustomMultiLabelClassificationTaskParameters
+    transform:
+      $["x-ms-client-name"] = "CustomMultiLabelClassificationAction";
+  - from: swagger-document
+    where: $.definitions.TaskIdentifier
+    transform:
+      $["x-ms-client-name"] = "BatchActionState";
+  - from: swagger-document
+    where: $.definitions..properties.stringIndexType
+    transform: >
+      $.description = "Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.\n\nThe default is the JavaScript's default which is \"Utf16CodeUnit\".";
+```
+
+### Rename JobState
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.JobState
+    transform: $.properties.createdDateTime["x-ms-client-name"] = "createdOn";
+  - from: swagger-document
+    where: $.definitions.JobState
+    transform: $.properties.expirationDateTime["x-ms-client-name"] = "expiresOn";
+  - from: swagger-document
+    where: $.definitions.JobState
+    transform: $.properties.jobId["x-ms-client-name"] = "operationId";
+  - from: swagger-document
+    where: $.definitions.JobState
+    transform: $.properties.lastUpdateDateTime["x-ms-client-name"] = "lastModifiedOn";
+  - from: swagger-document
+    where: $.definitions.JobState
+    transform: $.properties.status["x-ms-enum"].name = "OperationStatus";
+```
+
+### Set Utf16CodeUnit as the default for StringIndexType because this is what JavaScript uses
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StringIndexType
+    transform: $.default = "Utf16CodeUnit";
+```
+
+
+### Disable LRO
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["paths"][*]
+    transform: >
+      for (var op of Object.values($)) {
+          if (op["x-ms-long-running-operation"]) {
+              delete op["x-ms-long-running-operation"];
+          }
+      }
 ```
