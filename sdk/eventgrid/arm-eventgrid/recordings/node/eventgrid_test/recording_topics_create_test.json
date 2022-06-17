@@ -1,0 +1,44 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventGrid/topics/mytopicxxx?api-version=2022-06-15",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "38",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-eventgrid/14.0.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "57dda67c-c21a-4e4f-aa02-b97abde322f6"
+      },
+      "RequestBody": {
+        "location": "eastus2",
+        "properties": {}
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "975",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 17 Jun 2022 07:48:09 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6a7ef841-4a02-4d43-95d8-9c9d8a191eaa",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "6a7ef841-4a02-4d43-95d8-9c9d8a191eaa",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220617T074809Z:6a7ef841-4a02-4d43-95d8-9c9d8a191eaa"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NoRegisteredProviderFound",
+          "message": "No registered resource provider found for location \u0027eastus2\u0027 and API version \u00272022-06-15\u0027 for type \u0027topics\u0027. The supported api-versions are \u00272017-06-15-preview, 2017-09-15-preview, 2018-01-01, 2018-05-01-preview, 2018-09-15-preview, 2019-01-01, 2019-02-01-preview, 2019-06-01, 2020-01-01-preview, 2020-04-01-preview, 2020-06-01, 2020-10-15-preview, 2021-06-01-preview, 2021-12-01, 2021-10-15-preview\u0027. The supported locations are \u0027westus2, eastus, westus, centralus, eastus2, westcentralus, australiaeast, australiasoutheast, australiacentral, japaneast, japanwest, westeurope, northeurope, southeastasia, eastasia, northcentralus, southcentralus, brazilsouth, canadacentral, canadaeast, centralindia, southindia, westindia, francecentral, ukwest, uksouth, koreacentral, koreasouth, southafricanorth, uaenorth, switzerlandnorth, germanywestcentral, westus3, jioindiawest, jioindiacentral, swedencentral, norwayeast\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventGrid/domains/mydomainxxx?api-version=2022-06-15",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-eventgrid/14.0.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "82342141-446b-4ec8-b8aa-7c86c22fa9e3"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "219",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 17 Jun 2022 07:48:16 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "dff42bfb-21e9-4e3b-abd8-2392a7976d27",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "dff42bfb-21e9-4e3b-abd8-2392a7976d27",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220617T074817Z:dff42bfb-21e9-4e3b-abd8-2392a7976d27"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ResourceNotFound",
+          "message": "The Resource \u0027Microsoft.EventGrid/domains/mydomainxxx\u0027 under resource group \u0027myjstest\u0027 was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

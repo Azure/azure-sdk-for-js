@@ -11489,7 +11489,7 @@ packages:
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-0vEf7jW0UiW2yE+nRLujQUdyDxSobbhULSwYRnAgLVMN/h9xmFeQcb8IG9Ds2G4IqbDnca+uYLyy9BVFvzTMlg==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-alpH7wCWMMSGvgSOvwTyTBUV9p/Px/YwCEM1diiFME6JjAdRGFtrRZCWuYnKG1libZYHmHYGmsvBt9sLHO3pZQ==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
@@ -11501,6 +11501,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11513,7 +11515,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 

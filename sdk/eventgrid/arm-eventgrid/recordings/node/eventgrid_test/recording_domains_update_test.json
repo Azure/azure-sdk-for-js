@@ -1,0 +1,47 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventGrid/domains/mydomainxxx?api-version=2022-06-15",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "42",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-eventgrid/14.0.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b7cc54e1-df32-4dd1-a3bd-7263500e81b9"
+      },
+      "RequestBody": {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "265",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 17 Jun 2022 07:48:16 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b46f8cc3-3e0c-4c26-ae79-ce29f71f4f95",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "b46f8cc3-3e0c-4c26-ae79-ce29f71f4f95",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220617T074816Z:b46f8cc3-3e0c-4c26-ae79-ce29f71f4f95"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "PatchResourceNotFound",
+          "target": "mydomainxxx",
+          "message": "The resource \u0027/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventGrid/domains/mydomainxxx\u0027 was not found when evaluating policies for a PATCH operation."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

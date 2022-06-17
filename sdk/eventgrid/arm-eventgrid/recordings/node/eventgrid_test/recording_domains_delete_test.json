@@ -1,0 +1,65 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventGrid/domains/mydomainxxx?api-version=2022-06-15",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-eventgrid/14.0.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "9c0d53c9-7958-4642-869d-445fbae976fc"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Date": "Fri, 17 Jun 2022 07:48:18 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "dd074127-59ef-4544-ab03-e132e990cf1e",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14998",
+        "x-ms-request-id": "dd074127-59ef-4544-ab03-e132e990cf1e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220617T074819Z:dd074127-59ef-4544-ab03-e132e990cf1e"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventGrid/domains?api-version=2022-06-15",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-eventgrid/14.0.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "91a4ade6-f9c9-40f0-bdcf-d2933a2ee3e1"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "447",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 17 Jun 2022 07:48:18 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "63fe118b-c362-4fdb-ac7d-35ebf09a37c5",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "63fe118b-c362-4fdb-ac7d-35ebf09a37c5",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220617T074819Z:63fe118b-c362-4fdb-ac7d-35ebf09a37c5"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027domains\u0027 could not be found in the namespace \u0027Microsoft.EventGrid\u0027 for api version \u00272022-06-15\u0027. The supported api-versions are \u00272018-09-15-preview,2019-02-01-preview,2019-06-01,2020-01-01-preview,2020-04-01-preview,2020-06-01,2020-10-15-preview,2021-06-01-preview,2021-12-01,2021-10-15-preview,2017-06-15-preview,2017-09-15-preview,2018-01-01,2018-05-01-preview,2019-01-01\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
