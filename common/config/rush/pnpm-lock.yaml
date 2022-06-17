@@ -12072,7 +12072,7 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-jMKc/9ka8SwrE1oKitRDA2gBqeB7uOEPKlrYAPtCdcb7lDjCLJ0Z1WXIEomK+QEG2KbKZifDat/USsJqqFRtqA==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-gAXR53ukV66DEyKfHHYeKIbiIMnj0Pv6f9lh3WrYQtvJwlASW7tG1tJJ7tyTn4MRFjz1gXYUzKDpqyKuruClYA==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
@@ -12084,6 +12084,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12096,7 +12098,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
