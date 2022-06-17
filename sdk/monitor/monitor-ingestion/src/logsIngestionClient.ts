@@ -7,6 +7,10 @@ import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
 import { UploadOptions, UploadResult } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
+import * as pLimit from "p-limit";
+import { rejects } from "assert";
+import { resolve } from "dns";
+import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
 
 /**
  * Options for Montior Logs Ingestion Client
@@ -73,35 +77,67 @@ export class LogsIngestionClient {
     const chunkArray: any[] = this.splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
     let count = 0;
-    const failedLogs = [];
     let concurrency = 1;
     if (options?.maxConcurrency && options?.maxConcurrency > 1) {
       concurrency = options?.maxConcurrency;
     }
     console.log("concurrency =", concurrency);
-    const errors: any[] = [];
+    // while (count < noOfChunks) {
+    //   try {
+    //     await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
+    //       contentEncoding: "gzip",
+    //     });
+    //   } catch (e) {
+    //     failedLogs.push(chunkArray[count]);
+    //     errors.push(e);
+    //   }
+    //   count++;
+    // }
+
+    let plimitPromises = [];
+    const limit = pLimit(concurrency);
     while (count < noOfChunks) {
-      try {
-        await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
-          contentEncoding: "gzip",
-        });
-      } catch (e) {
-        failedLogs.push(chunkArray[count]);
-        errors.push(e);
-      }
+      const promise = limit(
+        () =>
+          new Promise<void>(async (res, rej) => {
+            let uploadProcess = this._dataClient.upload(ruleId, streamName, chunkArray[count], {
+              contentEncoding: "gzip",
+            });
+            uploadProcess.catch((e) => {
+              rej(`{"error": ${e}, "log": ${count}}`);
+            });
+            uploadProcess.then(() => {
+              res();
+            })
+          })
+      );
+      plimitPromises.push(promise);
       count++;
     }
     let uploadResult: UploadResult = {
       errors: [],
       uploadStatus: "Success",
     };
-    if (failedLogs.length === 0) {
+    try {
+      const results = await Promise.all(plimitPromises);
+      for (let item of results) {
+        console.dir(item);
+        if (item) {
+          let x = JSON.parse(item);
+          uploadResult.errors.push({ responseError: x.error, failedLogs: chunkArray[x.log] });
+        }
+      }
+    } catch (ex) {
+      console.log("ERROR", ex);
+    }
+
+    if (uploadResult.errors.length === 0) {
       return uploadResult;
-    } else if (failedLogs.length < noOfChunks && failedLogs.length > 0) {
-      uploadResult = { errors: failedLogs, uploadStatus: "PartialFailure" };
+    } else if (uploadResult.errors.length < noOfChunks && uploadResult.errors.length > 0) {
+      uploadResult.uploadStatus = "PartialFailure";
       return uploadResult;
     } else {
-      throw Error(`All logs failed for ingestion - ${errors.toString()}`);
+      throw Error(`All logs failed for ingestion - ${uploadResult.errors.toString()}`);
     }
   }
 
