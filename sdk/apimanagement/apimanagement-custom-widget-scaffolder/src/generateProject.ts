@@ -48,7 +48,7 @@ export async function generateProject(
       fileData = mustache.render(fileData, {
         name,
         displayName: widgetConfig.displayName,
-        config: JSON.stringify(widgetConfig, null, "\t"),
+        config: JSON.stringify({ ...widgetConfig, name }, null, "\t"),
         configDeploy: JSON.stringify(deployConfig, null, "\t"),
         serverSettings: JSON.stringify(serverSettings, null, "\t"),
       });
