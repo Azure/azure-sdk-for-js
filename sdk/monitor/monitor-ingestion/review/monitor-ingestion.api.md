@@ -12,8 +12,8 @@ export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
     endpoint: string;
     // (undocumented)
-    splitDataToChunks(logs: Record<string, unknown>[]): any[];
-    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: UploadOptions): Promise<UploadResult>;
+    splitDataToChunks(logs: Record<string, any>[]): any[];
+    upload(ruleId: string, streamName: string, logs: Record<string, any>[], options?: UploadOptions): Promise<UploadResult>;
 }
 
 // @public
@@ -41,8 +41,8 @@ export interface UploadResult {
 // @public
 export type UploadStatus =
 /** Represents Partial Failure scenario where partial logs have failed for processing and the list of indices is returned for the logs failed */
-"PartialFailure" |
+"PartialFailure"
 /** Represents Success scenario where all logs have succeeded and no index is returned */
-"Success";
+| "Success";
 
 ```

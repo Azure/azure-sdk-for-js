@@ -4,7 +4,7 @@
 /**
  * Options for send logs operation
  */
-export interface SendLogsOptions {
+export interface UploadOptions {
   /**
    * Concurrency of parallel requests. Must be greater than or equal to 0.
    */
@@ -12,17 +12,17 @@ export interface SendLogsOptions {
 }
 
 /**
- * Result type for send logs operation
+ * Result type for upload operation
  */
-export interface SendLogsResult {
+export interface UploadResult {
   /**
    * List of errors of type {@link UploadLogsError} for failed logs
    */
   errors: Array<UploadLogsError>;
   /**
-   * Status of sendLogs operation. Either Success or Partial Failure. Error will be thrown in case all logs fail.
+   * Status of upload operation. Either Success or Partial Failure. Error will be thrown in case all logs fail.
    */
-  sendLogsStatus: SendLogsStatus;
+  uploadStatus: UploadStatus;
 }
 
 export interface UploadLogsError {

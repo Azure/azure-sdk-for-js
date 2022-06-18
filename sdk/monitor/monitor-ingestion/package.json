@@ -89,7 +89,8 @@
     "@azure/core-rest-pipeline": "^1.4.0",
     "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.2.0",
+    "p-limit":"^4.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

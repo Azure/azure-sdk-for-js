@@ -16,11 +16,37 @@ describe("LogsIngestionClient live tests", function () {
     const result = await client.upload(
       process.env.IMMUTABLE_ID || "immutable-id",
       "Custom-MyTableRawData",
-      [
-        { x: "data1", y: "value1" },
-        { x: "data2", y: "value2" },
-      ]
+      getObjects(2)
     );
     console.log(result);
   });
+
+
+  it("divides huge data into chunks", async()=> {
+    const result = await client.upload(
+      process.env.IMMUTABLE_ID || "immutable-id",
+      "Custom-MyTableRawData",
+      getObjects(100000)
+    );
+    console.log(result);
+  })
 });
+
+export function getObjects(logsCount: Number): LogData[] {
+  let logs: LogData[] = [];
+
+  for (let i = 0; i < logsCount; i++) {
+      const logData: LogData = {
+        time: new Date("2022-01-01T00:00:00+07:00"),
+        extendedColumn: `test-${i}`,
+        additionalContext: "additional logs context"
+      }
+      logs.push(logData);
+  }
+  return logs;
+}
+export interface LogData {
+   time: Date;
+   extendedColumn: string;
+   additionalContext: string;
+}

@@ -5,12 +5,9 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
-import { UploadOptions, UploadResult } from "./models";
+import { UploadLogsError, UploadOptions, UploadResult } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
-import * as pLimit from "p-limit";
-import { rejects } from "assert";
-import { resolve } from "dns";
-import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
+// import * as pLimit from "p-limit";
 
 /**
  * Options for Montior Logs Ingestion Client
@@ -57,6 +54,7 @@ export class LogsIngestionClient {
         userAgentPrefix,
       },
     });
+    // adding gziping policy bcz this is a simgle method client which needs gzipping
     this._dataClient.pipeline.addPolicy(GZippingPolicy);
   }
 
@@ -70,10 +68,12 @@ export class LogsIngestionClient {
   async upload(
     ruleId: string,
     streamName: string,
-    logs: Record<string, unknown>[],
+    logs: Record<string, any>[],
     options?: UploadOptions
   ): Promise<UploadResult> {
     // split logs into 1MB chunks
+    // do we need to worry about memory issues when loading data for 100GB ??
+    // JS max allocation is 1 or 2GB
     const chunkArray: any[] = this.splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
     let count = 0;
@@ -82,54 +82,60 @@ export class LogsIngestionClient {
       concurrency = options?.maxConcurrency;
     }
     console.log("concurrency =", concurrency);
-    // while (count < noOfChunks) {
-    //   try {
-    //     await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
-    //       contentEncoding: "gzip",
-    //     });
-    //   } catch (e) {
-    //     failedLogs.push(chunkArray[count]);
-    //     errors.push(e);
-    //   }
-    //   count++;
-    // }
 
-    let plimitPromises = [];
-    const limit = pLimit(concurrency);
-    while (count < noOfChunks) {
-      const promise = limit(
-        () =>
-          new Promise<void>(async (res, rej) => {
-            let uploadProcess = this._dataClient.upload(ruleId, streamName, chunkArray[count], {
-              contentEncoding: "gzip",
-            });
-            uploadProcess.catch((e) => {
-              rej(`{"error": ${e}, "log": ${count}}`);
-            });
-            uploadProcess.then(() => {
-              res();
-            })
-          })
-      );
-      plimitPromises.push(promise);
-      count++;
-    }
     let uploadResult: UploadResult = {
       errors: [],
       uploadStatus: "Success",
     };
-    try {
-      const results = await Promise.all(plimitPromises);
-      for (let item of results) {
-        console.dir(item);
-        if (item) {
-          let x = JSON.parse(item);
-          uploadResult.errors.push({ responseError: x.error, failedLogs: chunkArray[x.log] });
-        }
+
+    let uploadLogsError: UploadLogsError[] = [];
+    while (count < noOfChunks) {
+      try {
+        await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
+          contentEncoding: "gzip",
+        });
+      } catch (e: any) {
+        uploadLogsError.push({ failedLogs: chunkArray[count], responseError: e })
       }
-    } catch (ex) {
-      console.log("ERROR", ex);
+      count++;
     }
+    uploadResult.errors = uploadLogsError;
+
+    //    let plimitPromises = [];
+    //    const limit = pLimit.default(concurrency);
+    //    let errorsArray: Record<string, any>[] = [];
+    //    let promiseCount = 0;
+    //    while (count < noOfChunks) {
+    //      const promise = limit(
+    //        async (): Promise<void> => {
+    //          //you can check the count for promises
+    //          promiseCount++;
+    //          console.log("promise count", promiseCount);
+    //          try{
+    //             await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
+    //              contentEncoding: "gzip",
+    //            });
+    //          }
+    //          catch(e){
+    //            errorsArray.push({"error": e, "log": count})
+    //          }
+    //           //decrement count of promises);
+    //           promiseCount--;
+    //           console.log("promiseCount after decrement", promiseCount);
+    //        });
+    //      
+    //      plimitPromises.push(promise);
+    //      count++;
+    //    }
+    //
+    //    try {
+    //      await Promise.all(plimitPromises);
+    //      for(let errorsObj of errorsArray){
+    //        uploadResult.errors.push({responseError: errorsObj.error, failedLogs: chunkArray[errorsObj.log] })
+    //      }
+    //    } catch (ex) {
+    //      console.log("ERROR", ex);
+    //    }
 
     if (uploadResult.errors.length === 0) {
       return uploadResult;
@@ -141,7 +147,7 @@ export class LogsIngestionClient {
     }
   }
 
-  splitDataToChunks(logs: Record<string, unknown>[]): any[] {
+  splitDataToChunks(logs: Record<string, any>[]): any[] {
     let chunk: any[] = [];
     const chunkArray: any[] = [];
     let size = 0;
