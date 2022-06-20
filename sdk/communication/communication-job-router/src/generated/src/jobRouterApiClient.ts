@@ -16,7 +16,7 @@ const packageVersion = "1.0.0-beta.1";
 
 export class JobRouterApiClient extends coreHttp.ServiceClient {
   endpoint: string;
-  apiVersion?: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the JobRouterApiClient class.

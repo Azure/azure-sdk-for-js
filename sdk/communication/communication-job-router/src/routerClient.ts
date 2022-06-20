@@ -32,7 +32,6 @@ import {
   CloseJobOptions,
   DeleteClassificationPolicyOptions,
   GetJobPositionOptions,
-  CreateClassificationPolicyOptions,
   CreateExceptionPolicyOptions,
   UpdateExceptionPolicyOptions,
   UpdateClassificationPolicyOptions,
@@ -45,7 +44,11 @@ import {
   UpdateWorkerOptions,
   CreateWorkerOptions,
   UpdateJobOptions,
-  UpdateJobClassificationOptions
+  CreateClassificationPolicyOptions,
+  ReclassifyJobOptions,
+  RegisterWorkerOptions,
+  DeregisterWorkerOptions,
+  UnassignJobOptions
 } from "./models/options";
 import {
   ClassificationPolicy,
@@ -58,8 +61,6 @@ import {
   RouterJob,
   RouterWorker,
   JobStateSelector,
-  WorkerStateSelector,
-  WorkerSelector,
   JobRouterCancelJobActionResponse,
   JobRouterCompleteJobActionResponse,
   JobRouterCloseJobActionResponse,
@@ -165,30 +166,27 @@ export class RouterClient {
   /**
    * Creates a classification policy.
    * Returns classification policy with the id of the created classification policy.
-   * @param request - Request for creating a classification policy.
+   * @param classificationPolicyId - Id of the classification policy.
    * @param options - Operation options.
    */
   public async createClassificationPolicy(
-    request: ClassificationPolicy,
+    classificationPolicyId: string,
     options: CreateClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
-    return this.client.jobRouter.createClassificationPolicy(request, options);
+    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, options);
   }
 
   /**
    * Updates a classification policy.
    * Returns classification policy with the id of the updated classification policy.
-   * @param updatedModel - The updating classification policy model.
+   * @param classificationPolicyId - Id of the classification policy.
    * @param options - Operation options.
    */
   public async updateClassificationPolicy(
-    updatedModel: ClassificationPolicy,
+    classificationPolicyId: string,
     options: UpdateClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
-    if (!updatedModel.id) {
-      throw new Error("Updated model must contain id");
-    }
-    return this.client.jobRouter.updateClassificationPolicy(updatedModel.id, updatedModel, options);
+    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, options);
   }
 
   /**
@@ -230,32 +228,27 @@ export class RouterClient {
   /**
    * Creates a distribution policy.
    * Returns distribution policy with the id of the created distribution policy.
-   * @param request - Request for creating a distribution policy.
+   * @param distributionPolicyId - The id of the distribution policy to create.
    * @param options - Operation options.
    */
   public async createDistributionPolicy(
-    request: DistributionPolicy,
+    distributionPolicyId: string,
     options: CreateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return this.client.jobRouter.createDistributionPolicy(request, options);
+    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, options);
   }
 
   /**
    * Updates a distribution policy.
    * Returns distribution policy with the id of the updated distribution policy.
-   * @param updatedModel - The updating distribution policy model.
+   * @param distributionPolicyId - The id of the distribution policy to update.
    * @param options - Operation options.
    */
   public async updateDistributionPolicy(
-    updatedModel: DistributionPolicy,
+    distributionPolicyId: string,
     options: UpdateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    options.patch = updatedModel;
-    if (!updatedModel.id) {
-      throw new Error("Updated model must contain id");
-    }
-
-    return this.client.jobRouter.updateDistributionPolicy(updatedModel.id, options);
+    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, options);
   }
 
   /**
@@ -297,32 +290,27 @@ export class RouterClient {
   /**
    * Creates a exception policy.
    * Returns exception policy with the id of the created exception policy.
-   * @param request - Request for creating a exception policy.
+   * @param exceptionPolicyId - The id of the exception policy to create.
    * @param options - Operation options.
    */
   public async createExceptionPolicy(
-    request: ExceptionPolicy,
+    exceptionPolicyId: string,
     options: CreateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return this.client.jobRouter.createExceptionPolicy(request, options);
+    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, options);
   }
 
   /**
    * Updates a exception policy.
    * Returns exception policy with the id of the updated exception policy.
-   * @param updatedModel - The updating exception policy.
+   * @param exceptionPolicyId - The id of the exception policy to update.
    * @param options - Operation options.
    */
   public async updateExceptionPolicy(
-    updatedModel: ExceptionPolicy,
+    exceptionPolicyId: string,
     options: UpdateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    options.patch = updatedModel;
-    if (!updatedModel.id) {
-      throw new Error("Updated model must contain id");
-    }
-
-    return this.client.jobRouter.updateExceptionPolicy(updatedModel.id, options);
+    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, options);
   }
 
   /**
@@ -364,11 +352,26 @@ export class RouterClient {
   /**
    * Creates a job.
    * Returns job with the id of the created job.
-   * @param request - Request for creating a job.
+   * @param jobId - The job to be create
    * @param options - Operation options.
    */
-  public async createJob(request: RouterJob, options: CreateJobOptions = {}): Promise<RouterJob> {
-    return this.client.jobRouter.createJob(request, options);
+  public async createJob(
+    jobId: string,
+    options: CreateJobOptions = {}
+  ): Promise<RouterJob> {
+    return this.client.jobRouter.upsertJob(jobId, options);
+  }
+
+  /**
+   * Update a job by Id.
+   * @param jobId - The job to be updated
+   * @param options -  Operation options.
+   */
+  public async updateJob(
+    jobId: string,
+    options: UpdateJobOptions = {}
+  ): Promise<RouterJob> {
+    return this.client.jobRouter.upsertJob(jobId, options);
   }
 
   /**
@@ -379,29 +382,6 @@ export class RouterClient {
    */
   public async getJob(jobId: string, options: GetJobOptions = {}): Promise<RouterJob> {
     return this.client.jobRouter.getJob(jobId, options);
-  }
-
-  /**
-   * Update a job by Id.
-   * @param job - The job to be updated
-   * @param forceClassification - If forcing classification after update
-   * @param options -  Operation options.
-   */
-  public async updateJob(
-    job: RouterJob,
-    forceClassification?: boolean,
-    options: UpdateJobOptions = {}
-  ): Promise<RouterJob> {
-    if (!job.id) {
-      throw new Error("Updated model must contain id");
-    }
-
-    if (forceClassification) {
-      options.forceClassification = forceClassification;
-    }
-    options.patch = job;
-
-    return this.client.jobRouter.updateJob(job.id, options);
   }
 
   /**
@@ -437,7 +417,10 @@ export class RouterClient {
    * @param jobId - The ID of the job to cancel.
    * @param options - Operation options.
    */
-  public async cancelJob(jobId: string, options: CancelJobOptions = {}): Promise<JobRouterCancelJobActionResponse> {
+  public async cancelJob(
+    jobId: string,
+    options: CancelJobOptions = {}
+  ): Promise<JobRouterCancelJobActionResponse> {
     return this.client.jobRouter.cancelJobAction(jobId, options);
   }
 
@@ -457,61 +440,29 @@ export class RouterClient {
 
   /**
    * Updates an existing job by Id and forcing it to be reclassified.
-   * @param updatedModel - The update job model.
+   * @param jobId - The ID of the job to reclassify.
    * @param options -  Operation options.
    */
   public async reclassifyJob(
-    updatedModel: RouterJob,
-    options: UpdateJobOptions = {}
-  ): Promise<RouterJob> {
-    if (!updatedModel.id) {
-      throw new Error("Updated model must contain id");
-    }
-
-    options.patch = updatedModel;
-    options.forceClassification = true;
-    return this.client.jobRouter.updateJob(updatedModel.id, options);
+    jobId: string,
+    options: ReclassifyJobOptions = {}
+  ): Promise<RestResponse> {
+    return this.client.jobRouter.reclassifyJobAction(jobId, options);
   }
 
   /**
-   * Updates an existing job's queueId, priority, requiredAbilities and labels.
-   * @param job - the job to be updated
-   * @param queueId - (Optional) If specified, update to the new queue id
-   * @param priority - (Optional) If specified, update to the new priority
-   * @param requestedWorkerSelectors - (Optional) If specified, update to the new requested worker selectors
-   * @param labels - (Optional) If specified, update to the new labels
+   * Unassign a job.
+   * @param jobId - The ID of the job to unassign.
+   * @param assignmentId - The assignment within which the job is to be unassigned.
    * @param options -  Operation options.
    */
-  public async updateJobClassification(
-    job: RouterJob,
-    queueId?: string,
-    priority?: number,
-    requestedWorkerSelectors?: WorkerSelector[],
-    labels?: { [propertyName: string]: any },
-    options: UpdateJobClassificationOptions = {}
-  ): Promise<RouterJob> {
-    if (!job.id) {
-      throw new Error("Updated model must contain id");
-    }
+  public async unassignJob(
+    jobId: string,
+    assignmentId: string,
+    options: UnassignJobOptions = {}
+  ): Promise<RestResponse> {
 
-    if (queueId) {
-      job.queueId = queueId;
-    }
-
-    if (priority) {
-      job.priority = priority;
-    }
-
-    if (requestedWorkerSelectors) {
-      job.requestedWorkerSelectors = requestedWorkerSelectors;
-    }
-
-    if (labels) {
-      job.labels = labels;
-    }
-
-    options.patch = job;
-    return this.client.jobRouter.updateJob(job.id, options);
+    return this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
   }
 
   /**
@@ -570,29 +521,26 @@ export class RouterClient {
   /**
    * Creates a queue.
    * Returns queue with the id of the created queue.
-   * @param request - Request for creating a queue.
+   * @param queueId - The ID of the queue to create.
    * @param options - Operation options.
    */
-  public async createQueue(request: JobQueue, options: CreateQueueOptions = {}): Promise<JobQueue> {
-    return this.client.jobRouter.createQueue(request, options);
+  public async createQueue(
+    queueId: string,
+    options: CreateQueueOptions = {}): Promise<JobQueue> {
+    return this.client.jobRouter.upsertQueue(queueId, options);
   }
 
   /**
    * Updates a queue.
    * Returns queue with the id of the created queue.
-   * @param updatedModel - The updating queue.
+   * @param queueId - The ID of the queue to update.
    * @param options - Operation options.
    */
   public async updateQueue(
-    updatedModel: JobQueue,
+    queueId: string,
     options: UpdateQueueOptions = {}
   ): Promise<JobQueue> {
-    options.patch = updatedModel;
-    if (!updatedModel.id) {
-      throw new Error("Updated model must contain id");
-    }
-
-    return this.client.jobRouter.updateQueue(updatedModel.id, options);
+    return this.client.jobRouter.upsertQueue(queueId, options);
   }
 
   /**
@@ -629,82 +577,66 @@ export class RouterClient {
   /**
    * Creates a worker.
    * Returns worker with the id of the registered worker.
-   * @param request - Request for creating a worker.
+   * @param workerId - The ID of the worker to create.
    * @param options - Operation options.
    */
   public async createWorker(
-    request: RouterWorker,
+    workerId: string,
     options: CreateWorkerOptions = {}
   ): Promise<RouterWorker> {
-    return this.client.jobRouter.createWorker(request, options);
+    return this.client.jobRouter.upsertWorker(workerId, options);
   }
 
   /**
    * Updates a worker.
-   * @param updatedModel - The updating queue.
+   * @param workerId - The ID of the worker to update.
    * @param options - Operation options.
    */
   public async updateWorker(
-    updatedModel: RouterWorker,
+    workerId: string,
     options: UpdateWorkerOptions = {}
   ): Promise<RouterWorker> {
-    if (!updatedModel.id) {
-      throw new Error("Updated model must contain id");
-    }
-
-    options.patch = updatedModel;
-    return this.client.jobRouter.updateWorker(updatedModel.id, options);
+    return this.client.jobRouter.upsertWorker(workerId, options);
   }
 
   /**
    * Registers a worker.
    * Returns worker with the id of the registered worker.
-   * @param worker - The worker
-   * @param totalCapacity - (Optional) Worker's total capacity.
+   * @param workerId - The ID of the worker to register.
    * @param options - Operation options.
    */
   public async registerWorker(
-    worker: RouterWorker,
-    totalCapacity?: number,
-    options: UpdateWorkerOptions = {}
+    workerId: string,
+    options: RegisterWorkerOptions = {}
   ): Promise<RouterWorker> {
-    if (!worker.id) {
-      throw new Error("Updated model must contain id");
+    if (!options.patch) {
+      options.patch = {
+        id: workerId
+      }
     }
 
-
-    if (totalCapacity) {
-      worker.totalCapacity = totalCapacity
-    }
-
-    worker.availableForOffers = true;
-    options.patch = worker;
-    return this.client.jobRouter.updateWorker(worker.id, options);
+    options.patch.availableForOffers = true;
+    return this.client.jobRouter.upsertWorker(workerId, options);
   }
 
   /**
    * De-registers a worker.
-   * Returns worker with the id of the deregistered worker.
-   * @param worker - The worker
-   * @param totalCapacity - (Optional) Worker's total capacity.
+   * Returns worker with the id of the de-registered worker.
+   * @param workerId - The ID of the worker to deregister.
    * @param options - Operation options.
    */
   public async deregisterWorker(
-    worker: RouterWorker,
-    totalCapacity?: number,
-    options: UpdateWorkerOptions = {}
+    workerId: string,
+    options: DeregisterWorkerOptions = {}
   ): Promise<RouterWorker> {
-    if (!worker.id) {
-      throw new Error("Updated model must contain id");
+    if (!options.patch) {
+      options.patch = {
+        id: workerId
+      }
     }
 
-    if (totalCapacity) {
-      worker.totalCapacity = totalCapacity
-    }
-
-    worker.availableForOffers = false;
-    options.patch = worker;
-    return this.client.jobRouter.updateWorker(worker.id, options);
+    options.patch.availableForOffers = false;
+    return this.client.jobRouter.upsertWorker(workerId, options);
   }
 
   /**
@@ -713,46 +645,19 @@ export class RouterClient {
    * @param workerId - The ID of the worker to get.
    * @param options - Operation options.
    */
-  public async getWorker(workerId: string, options: GetWorkerOptions = {}): Promise<RouterWorker> {
+  public async getWorker(
+    workerId: string,
+    options: GetWorkerOptions = {}): Promise<RouterWorker> {
     return this.client.jobRouter.getWorker(workerId, options);
   }
 
   /**
    * Gets the list of workers.
-   * @param maxpagesize - (Optional) If specified, list workers with pagination (max page size).
-   * @param status - (Optional) If specified, select workers by worker status. Valid options are: `active`, `draining`, `inactive` and `all`.
-   * @param channelId - (Optional) If specified, select workers who have a channel configuration with this channel.
-   * @param queueId - (Optional) If specified, select workers who are assigned to this queue.
-   * @param hasCapacity - (Optional) If set to true, select only workers who have capacity for the channel specified by `channelId` or for any channel if `channelId` not specified. If set to false, then will return all workers including workers without any capacity for jobs. Defaults to false.
    * @param options - List workers options.
    */
   public listWorkers(
-    maxpagesize?: number,
-    status?: WorkerStateSelector,
-    channelId?: string,
-    queueId?: string,
-    hasCapacity?: boolean,
     options: ListWorkersOptions = {}
   ): PagedAsyncIterableIterator<RouterWorker> {
-    if (maxpagesize) {
-      options.maxpagesize = maxpagesize;
-    }
-
-    if (status) {
-      options.status = status;
-    }
-
-    if (channelId) {
-      options.channelId = channelId;
-    }
-
-    if (queueId) {
-      options.queueId = queueId;
-    }
-
-    if (hasCapacity) {
-      options.hasCapacity = hasCapacity;
-    }
     return this.client.jobRouter.listWorkers(options);
   }
 
