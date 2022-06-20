@@ -59,7 +59,6 @@ export const validateDeployConfig: TValidate<TDeployConfig> = {
 
     return validateUrl()(input);
   },
-  apiVersion: () => true,
 };
 
 export const validateMiscConfig: TValidate<TMiscConfig> = {
