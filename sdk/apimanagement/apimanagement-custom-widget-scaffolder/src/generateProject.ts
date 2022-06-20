@@ -43,7 +43,8 @@ export async function generateProject(
 
   const renderTemplate = async (file: string): Promise<void> => {
     const isTemplate = file.endsWith(templateSuffix);
-    let fileData = await fs.readFile(file, { encoding: "utf8" });
+    const encoding = file.endsWith(".ttf") ? "binary" : "utf8";
+    let fileData = await fs.readFile(file, { encoding });
     if (isTemplate) {
       fileData = mustache.render(fileData, {
         name,
@@ -66,7 +67,7 @@ export async function generateProject(
     const dir = parsePath(newFilePath).dir;
 
     await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(newFilePath, fileData);
+    await fs.writeFile(newFilePath, fileData, { encoding });
   };
 
   const templates = await getTemplates(widgetConfig.tech);
