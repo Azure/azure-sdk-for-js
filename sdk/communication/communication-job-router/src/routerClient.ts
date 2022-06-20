@@ -355,10 +355,7 @@ export class RouterClient {
    * @param jobId - The job to be create
    * @param options - Operation options.
    */
-  public async createJob(
-    jobId: string,
-    options: CreateJobOptions = {}
-  ): Promise<RouterJob> {
+  public async createJob(jobId: string, options: CreateJobOptions = {}): Promise<RouterJob> {
     return this.client.jobRouter.upsertJob(jobId, options);
   }
 
@@ -367,10 +364,7 @@ export class RouterClient {
    * @param jobId - The job to be updated
    * @param options -  Operation options.
    */
-  public async updateJob(
-    jobId: string,
-    options: UpdateJobOptions = {}
-  ): Promise<RouterJob> {
+  public async updateJob(jobId: string, options: UpdateJobOptions = {}): Promise<RouterJob> {
     return this.client.jobRouter.upsertJob(jobId, options);
   }
 
@@ -461,7 +455,6 @@ export class RouterClient {
     assignmentId: string,
     options: UnassignJobOptions = {}
   ): Promise<RestResponse> {
-
     return this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
   }
 
@@ -524,9 +517,7 @@ export class RouterClient {
    * @param queueId - The ID of the queue to create.
    * @param options - Operation options.
    */
-  public async createQueue(
-    queueId: string,
-    options: CreateQueueOptions = {}): Promise<JobQueue> {
+  public async createQueue(queueId: string, options: CreateQueueOptions = {}): Promise<JobQueue> {
     return this.client.jobRouter.upsertQueue(queueId, options);
   }
 
@@ -536,10 +527,7 @@ export class RouterClient {
    * @param queueId - The ID of the queue to update.
    * @param options - Operation options.
    */
-  public async updateQueue(
-    queueId: string,
-    options: UpdateQueueOptions = {}
-  ): Promise<JobQueue> {
+  public async updateQueue(queueId: string, options: UpdateQueueOptions = {}): Promise<JobQueue> {
     return this.client.jobRouter.upsertQueue(queueId, options);
   }
 
@@ -612,7 +600,7 @@ export class RouterClient {
     if (!options.patch) {
       options.patch = {
         id: workerId
-      }
+      };
     }
 
     options.patch.availableForOffers = true;
@@ -632,7 +620,7 @@ export class RouterClient {
     if (!options.patch) {
       options.patch = {
         id: workerId
-      }
+      };
     }
 
     options.patch.availableForOffers = false;
@@ -645,9 +633,7 @@ export class RouterClient {
    * @param workerId - The ID of the worker to get.
    * @param options - Operation options.
    */
-  public async getWorker(
-    workerId: string,
-    options: GetWorkerOptions = {}): Promise<RouterWorker> {
+  public async getWorker(workerId: string, options: GetWorkerOptions = {}): Promise<RouterWorker> {
     return this.client.jobRouter.getWorker(workerId, options);
   }
 
@@ -655,9 +641,7 @@ export class RouterClient {
    * Gets the list of workers.
    * @param options - List workers options.
    */
-  public listWorkers(
-    options: ListWorkersOptions = {}
-  ): PagedAsyncIterableIterator<RouterWorker> {
+  public listWorkers(options: ListWorkersOptions = {}): PagedAsyncIterableIterator<RouterWorker> {
     return this.client.jobRouter.listWorkers(options);
   }
 

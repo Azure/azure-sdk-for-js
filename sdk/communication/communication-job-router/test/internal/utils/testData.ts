@@ -1,21 +1,21 @@
 import {
-  // DistributionPolicy,
-  ExceptionPolicy,
   ClassificationPolicy,
+  ExceptionPolicy,
+  DistributionPolicy,
   JobQueue,
   RouterWorker,
   RouterJob
 } from "../../../src";
 
 export var exceptionPolicyRequest: ExceptionPolicy = {
-  id: "exception-policy-123",
-  name: "test-policy",
+  id: "test-e-policy",
+  name: "test-e-policy",
   exceptionRules: {
     MaxWaitTimeExceeded: {
       actions: {
         MoveJobToEscalatedQueue: {
           kind: "reclassify",
-          classificationPolicyId: "Main",
+          classificationPolicyId: "test-c-policy",
           labelsToUpsert: {
             escalated: true
           }
@@ -30,12 +30,16 @@ export var exceptionPolicyRequest: ExceptionPolicy = {
 };
 
 export var classificationPolicyRequest: ClassificationPolicy = {
-  id: "classification-policy-123",
-  name: "test-policy",
-  fallbackQueueId: "MainQueue",
+  id: "test-c-policy",
+  name: "test-c-policy",
+  fallbackQueueId: "test-queue",
   queueSelectors: [
     {
       kind: "conditional",
+      condition: {
+        kind: "static-rule",
+        value: true
+      },
       labelSelectors: [
         {
           key: "foo",
@@ -51,35 +55,34 @@ export var classificationPolicyRequest: ClassificationPolicy = {
   }
 };
 
-// export var distributionPolicyRequest: DistributionPolicy = {
-//   name: "Main",
-//   mode: {
-//     kind: "longest-idle",
-//     minConcurrentOffers: 1,
-//     maxConcurrentOffers: 5,
-//     bypassSelectors: false
-//   },
-//   offerTTLSeconds: 120
-// };
+export var distributionPolicyRequest: DistributionPolicy = {
+  id: "test-d-policy",
+  name: "test-d-policy",
+  offerTtlSeconds: 120,
+  mode: {
+    kind: "longest-idle",
+    minConcurrentOffers: 1,
+    maxConcurrentOffers: 5,
+    bypassSelectors: false
+  }
+};
 
 export var queueRequest: JobQueue = {
-  id: "queue-123",
-  distributionPolicyId: "MainDistributionPolicy",
-  name: "Main",
-  labels: {},
-  exceptionPolicyId: "MainExceptionPolicy"
+  id: "test-queue",
+  name: "test-queue",
+  exceptionPolicyId: "test-e-policy",
+  distributionPolicyId: "test-d-policy",
+  labels: {}
 };
 
 export var workerRequest: RouterWorker = {
-  id: "worker-id",
+  id: "test-worker",
   state: "active",
   loadRatio: 1,
   totalCapacity: 100,
   queueAssignments: {
-    MainQueue: {},
-    SecondaryQueue: {}
+    "test-queue": { QueueId: "test-queue" }
   },
-  labels: {},
   channelConfigurations: {
     CustomChatChannel: {
       capacityCostPerJob: 10
@@ -87,7 +90,8 @@ export var workerRequest: RouterWorker = {
     CustomVoiceChannel: {
       capacityCostPerJob: 100
     }
-  }
+  },
+  labels: {}
 };
 
 export var jobRequest: RouterJob = {
