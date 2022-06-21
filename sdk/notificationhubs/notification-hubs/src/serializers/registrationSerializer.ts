@@ -276,7 +276,6 @@ export function createAppleTemplateRegistrationDescription(
   rawRegistrationDescription: Record<string, any>
 ): AppleTemplateRegistrationDescription {
   return {
-    expiry: getDateOrUndefined(rawRegistrationDescription["Expiry"]),
     priority: getStringOrUndefined(rawRegistrationDescription["Priority"]),
     apnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["ApnsHeaders"]?.["ApnsHeader"]),
     ...createAppleRegistrationDescription(rawRegistrationDescription),
