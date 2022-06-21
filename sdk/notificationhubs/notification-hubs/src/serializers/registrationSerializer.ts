@@ -169,11 +169,11 @@ export interface FirebaseLegacyTemplateRegistrationDescription
 /**
  * Represents a Windows Notification Services (WNS) registration description.
  */
-export interface WindowsRegistrationDescription {
+export interface WindowsRegistrationDescription extends RegistrationDescription {
   /**
    * The channel URI.
    */
-  channelUri: URL;
+  channelUri: string;
 }
 
 /**
@@ -312,6 +312,34 @@ export function createBaiduTemplateRegistration(
 
 /**
  * @internal
+ * Creates a Browser registration description from incoming XML property bag.
+ */
+export function createBrowserRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): BrowserRegistrationDescription {
+  return {
+    endpoint: getString(rawRegistrationDescription["Endpoint"], "endpoint"),
+    p256DH: getString(rawRegistrationDescription["P256DH"], "p256DH"),
+    auth: getString(rawRegistrationDescription["Auth"], "auth"),
+    ...createRegistrationDescription(rawRegistrationDescription),
+  }
+}
+
+/**
+ * @internal
+ * Creates a Browser template registration description from incoming XML property bag.
+ */
+export function createBrowserTemplateRegistrationDescription(
+  rawRegistrationDescription: Record<string, any>
+): BrowserTemplateRegistrationDescription {
+  return {
+    ...createBrowserRegistrationDescription(rawRegistrationDescription),
+    ...createTemplateRegistrationDescription(rawRegistrationDescription),
+  };
+}
+
+/**
+ * @internal
  * Creates an FCM registration description from incoming XML property bag.
  */
 export function createFirebaseLegacyRegistrationDescription(
@@ -344,7 +372,7 @@ export function createWindowsRegistrationDescription(
   rawRegistrationDescription: Record<string, any>
 ): WindowsRegistrationDescription {
   return {
-    channelUri: new URL(getString(rawRegistrationDescription["ChannelUri"], "channelUri")),
+    channelUri: getString(rawRegistrationDescription["ChannelUri"], "channelUri"),
     ...createRegistrationDescription(rawRegistrationDescription),
   };
 }
