@@ -265,13 +265,13 @@ type Writable<T> = {
  */
 export function createUpdateAnalyzeState(documents?: TextDocumentInput[]) {
   return (state: AnalyzeBatchOperationState, lastResponse: RawResponse): void => {
-    const { createdOn, lastModifiedOn, operationId, status, displayName, expiresOn, tasks } =
+    const { createdOn, modifiedOn, operationId, status, displayName, expiresOn, tasks } =
       lastResponse.body as AnalyzeTextJobStatusResponse;
     const mutableState = state as Writable<AnalyzeBatchOperationState> & {
       documents?: TextDocumentInput[];
     };
     mutableState.createdOn = createdOn;
-    mutableState.lastModifiedOn = lastModifiedOn;
+    mutableState.modifiedOn = modifiedOn;
     mutableState.expiresOn = expiresOn;
     mutableState.displayName = displayName;
     mutableState.operationId = operationId;

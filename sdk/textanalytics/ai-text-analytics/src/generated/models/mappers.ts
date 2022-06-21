@@ -289,7 +289,7 @@ export const JobState: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      modifiedOn: {
         serializedName: "lastUpdatedDateTime",
         required: true,
         type: {

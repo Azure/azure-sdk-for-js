@@ -8,6 +8,7 @@
 
 - Extractive Summarization has been removed because it is still in preview.
 - Healthcare's FHIR has been removed because it is still in preview.
+- The `lastModifiedOn` member in the `AnalyzeBatchOperationMetadata` interface has been renamed to `modifiedOn`.
 
 ### Bugs Fixed
 

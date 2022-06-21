@@ -138,7 +138,7 @@ export interface JobState {
   createdOn: Date;
   expiresOn?: Date;
   operationId: string;
-  lastModifiedOn: Date;
+  modifiedOn: Date;
   status: OperationStatus;
   errors?: ErrorModel[];
   nextLink?: string;

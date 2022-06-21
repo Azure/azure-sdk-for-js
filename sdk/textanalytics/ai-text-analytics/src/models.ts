@@ -895,7 +895,7 @@ export interface AnalyzeBatchOperationMetadata {
   /**
    * The time the operation status was last updated.
    */
-  readonly lastModifiedOn: Date;
+  readonly modifiedOn: Date;
   /**
    * The current status of the operation.
    */

@@ -89,7 +89,7 @@ export interface AnalyzeBatchOperationMetadata {
     readonly createdOn: Date;
     readonly displayName?: string;
     readonly expiresOn?: Date;
-    readonly lastModifiedOn: Date;
+    readonly modifiedOn: Date;
     readonly operationId: string;
     readonly status: OperationStatus;
 }

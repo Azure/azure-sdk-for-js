@@ -52,7 +52,7 @@ directive:
     transform: $.properties.jobId["x-ms-client-name"] = "operationId";
   - from: swagger-document
     where: $.definitions.JobState
-    transform: $.properties.lastUpdatedDateTime["x-ms-client-name"] = "lastModifiedOn";
+    transform: $.properties.lastUpdatedDateTime["x-ms-client-name"] = "modifiedOn";
   - from: swagger-document
     where: $.definitions.JobState
     transform: $.properties.status["x-ms-enum"].name = "OperationStatus";
