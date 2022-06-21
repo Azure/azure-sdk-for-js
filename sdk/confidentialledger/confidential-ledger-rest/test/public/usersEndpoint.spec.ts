@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerRestClient } from "../../src";
+import { ConfidentialLedgerRestClient, GetUser200Response } from "../../src";
 import { Recorder, env } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -25,13 +25,11 @@ describe("Get user", () => {
   it("should obtain user data", async function () {
     // if the ledger in the .env changes, so should this
     const userId = env.USER_ID;
-    const result = await client.path("/app/users/{userId}", userId).get();
+    var result = await client.path("/app/users/{userId}", userId).get();
+    assert.equal(result.status, "200");
+  
+    result = result as GetUser200Response;
 
-    console.log(result)
-
-    if (result.status !== "200") {
-      assert.fail(`GET "/app/transactions" failed with ${result.status}`);
-    }
     assert.equal(result.body.userId, userId);
   });
 });

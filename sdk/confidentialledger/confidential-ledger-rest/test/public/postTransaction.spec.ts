@@ -41,9 +41,7 @@ describe("Post transaction", () => {
       .post(ledgerEntry)) as PostLedgerEntry200Response;
 
 
-    if (result.status !== "200") {
-      assert.fail(`GET "/app/transactions" failed with ${result.status}`);
-    }
+      assert.equal(result.status, "200");
 
     const transactionId = result.headers["x-ms-ccf-transaction-id"] ?? "";
 
@@ -51,9 +49,8 @@ describe("Post transaction", () => {
     const status = await client
       .path("/app/transactions/{transactionId}/status", transactionId)
       .get();
-    if (result.status !== "200") {
-      assert.fail(`GET "/app/transactions/{transactionId}/status" failed with ${result.status}`);
-    }
+    
+    assert.equal(result.status, "200");
     const statusResponse = status as GetTransactionStatus200Response;
     
     assert(statusResponse.body.state === "Pending" || statusResponse.body.state === "Committed");

@@ -88,7 +88,6 @@
     "@azure-rest/core-client": "1.0.0-beta.10",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/logger": "^1.0.0",
-    "azure": "^2.3.1-preview",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

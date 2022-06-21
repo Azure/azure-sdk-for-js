@@ -29,9 +29,7 @@ describe("Colder endpoints", () => {
   it("should obtain constitution from ledger", async function () {
     const result = await client.path("/app/governance/constitution").get();
 
-    if (result.status !== "200") {
-      assert.fail(`GET "/app/governance/constitution" failed with ${result.status}`);
-    }
+    assert.equal(result.status, "200");
 
     const constResponse = result as GetConstitution200Response;
 
@@ -42,9 +40,7 @@ describe("Colder endpoints", () => {
   it("should retrieve a list of consortium members", async function () {
     const result = await client.path("/app/governance/members").get();
 
-    if (result.status !== "200") {
-      assert.fail(`GET "/app/governance/members" failed with ${result.status}`);
-    }
+    assert.equal(result.status, "200");
 
     const memberResponse = result as GetConsortiumMembers200Response;
 
@@ -57,9 +53,7 @@ describe("Colder endpoints", () => {
   it("should retrieve a list of cenclve quotes", async function () {
     const result = await client.path("/app/enclaveQuotes").get();
 
-    if (result.status !== "200") {
-      assert.fail(`GET "/app/enclaveQuotes" failed with ${result.status}`);
-    }
+    assert.equal(result.status, "200");
 
     const memberResponse = result as GetEnclaveQuotes200Response;
 

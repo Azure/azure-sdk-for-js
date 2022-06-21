@@ -13,7 +13,6 @@ import {
   record,
 } from "@azure-tools/test-recorder";
 import ConfidentialLedger, { ConfidentialLedgerRestClient, getLedgerIdentity } from "../../../src";
-// import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import { ClientSecretCredential } from "@azure/identity";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
