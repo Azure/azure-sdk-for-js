@@ -52,6 +52,11 @@ export interface GetTokenOptions {
    * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
    */
   tenantId?: string;
+
+  /**
+   * Detailed claims to perform the Continuous Access Evaluation authentication flow
+   */
+  claims?: string;
 }
 
 /**

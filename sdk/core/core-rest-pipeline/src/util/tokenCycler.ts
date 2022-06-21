@@ -201,9 +201,10 @@ export function createTokenCycler(
     //   step 1.
     //
 
-    // IF the tenantId passed in token options is different to the one we have, we need to
+    // IF the tenantId passed in token options is different to the one we have
+    // IF we are in CAE claim process, we need to
     // refresh the token with the new tenantId.
-    const mustRefresh = tenantId !== tokenOptions.tenantId || cycler.mustRefresh;
+    const mustRefresh = tenantId !== tokenOptions.tenantId || !!tokenOptions.claims || cycler.mustRefresh;
 
     if (mustRefresh) return refresh(scopes, tokenOptions);
 
