@@ -51,7 +51,7 @@ export interface TemplateRegistrationDescription {
   /**
    * The name of the template.
    */
-  templateName: string;
+  templateName?: string;
 }
 
 /**
@@ -224,7 +224,7 @@ function createTemplateRegistrationDescription(
 ): TemplateRegistrationDescription {
   return {
     bodyTemplate: getString(rawRegistrationDescription["BodyTemplate"], "bodyTemplate"),
-    templateName: getString(rawRegistrationDescription["TemplateName"], "templateName"),
+    templateName: getStringOrUndefined(rawRegistrationDescription["TemplateName"]),
     ...createRegistrationDescription(rawRegistrationDescription)
   };
 }

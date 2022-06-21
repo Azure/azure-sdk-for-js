@@ -11,6 +11,7 @@ import {
   getIntegerOrUndefined,
   getString, 
   getStringOrUndefined, 
+  getTagsOrUndefined, 
   isDefined, 
 } from "../../../src/utils/xmlUtils";
 
@@ -208,7 +209,23 @@ describe("xmlUtils", () => {
   });
 
   describe("getTagsOrUndefined", () => {
+    it("should return multiple tags for a comma separated list", () => {
+      const value = "tag1,tag2,tag3";
+      const actual = getTagsOrUndefined(value);
+      assert.deepEqual(actual, ["tag1", "tag2", "tag3"]);
+    });
 
+    it("should return a single item array for just one tag", () => {
+      const value = "tag1";
+      const actual = getTagsOrUndefined(value);
+      assert.deepEqual(actual, ["tag1"]);
+    });
+
+    it("should return undefined for no tags", () => {
+      let value: string | undefined;
+      const actual = getTagsOrUndefined(value);
+      assert.isUndefined(actual);
+    })
   });
 
 });
