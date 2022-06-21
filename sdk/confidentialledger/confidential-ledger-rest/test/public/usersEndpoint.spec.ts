@@ -27,6 +27,8 @@ describe("Get user", () => {
     const userId = env.USER_ID;
     const result = await client.path("/app/users/{userId}", userId).get();
 
+    console.log(result)
+
     if (result.status !== "200") {
       assert.fail(`GET "/app/transactions" failed with ${result.status}`);
     }

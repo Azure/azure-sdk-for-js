@@ -14,7 +14,7 @@ import {
 } from "@azure-tools/test-recorder";
 import ConfidentialLedger, { ConfidentialLedgerRestClient, getLedgerIdentity } from "../../../src";
 // import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
-import { DefaultAzureCredential } from "@azure/identity";
+import { ClientSecretCredential } from "@azure/identity";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 import "./env";
@@ -55,9 +55,10 @@ export async function createClient(): Promise<ConfidentialLedgerRestClient> {
     { httpClient }
   );
   */
-  const credential = new DefaultAzureCredential({ httpClient });
+  const clientCredential = new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET);
+  // const credential = new DefaultAzureCredential({ httpClient });
   const {ledgerTlsCertificate} = await getLedgerIdentity(env.LEDGER_IDENTITY, env.IDENTITY_SERVICE_URL);
-  return ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, credential, { httpClient });
+  return ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, clientCredential, { httpClient });
 }
 
 /**
