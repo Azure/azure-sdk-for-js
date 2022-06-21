@@ -41,6 +41,7 @@ import { logger } from "./log";
 import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
+import { decodeBase64 } from "./utils/encoding";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -374,7 +375,7 @@ export class Recorder {
 
   private handleTestProxyErrors(response: HttpOperationResponse | PipelineResponse) {
     if (response.headers.get("x-request-mismatch") === "true") {
-      const errorMessage = atob(response.headers.get("x-request-mismatch-error") ?? "");
+      const errorMessage = decodeBase64(response.headers.get("x-request-mismatch-error") ?? "");
       logger.error(
         "[Recorder#handleTestProxyErrors] Could not match request to recording",
         errorMessage
@@ -383,7 +384,9 @@ export class Recorder {
     }
 
     if (response.headers.get("x-request-known-exception") === "true") {
-      const errorMessage = atob(response.headers.get("x-request-known-exception-error") ?? "");
+      const errorMessage = decodeBase64(
+        response.headers.get("x-request-known-exception-error") ?? ""
+      );
       logger.error("[Recorder#handleTestProxyErrors] Test proxy error encountered", errorMessage);
       throw new RecorderError(errorMessage);
     }

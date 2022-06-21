@@ -11,6 +11,7 @@ import {
   DataCollectionRuleAssociationProxyOnlyResource,
   DataCollectionRuleAssociationsListByResourceOptionalParams,
   DataCollectionRuleAssociationsListByRuleOptionalParams,
+  DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
   DataCollectionRuleAssociationsGetOptionalParams,
   DataCollectionRuleAssociationsGetResponse,
   DataCollectionRuleAssociationsCreateOptionalParams,
@@ -40,6 +41,18 @@ export interface DataCollectionRuleAssociations {
     resourceGroupName: string,
     dataCollectionRuleName: string,
     options?: DataCollectionRuleAssociationsListByRuleOptionalParams
+  ): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
+  /**
+   * Lists associations for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param options The options parameters.
+   */
+  listByDataCollectionEndpoint(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
   ): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
   /**
    * Returns the specified association.

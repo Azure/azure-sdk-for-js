@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "250e59f1-fbe4-404f-98a9-f705ad5e5311"
+        "x-ms-client-request-id": "6e948228-03e0-40ea-9f15-33743af94373"
       },
       "RequestBody": {
         "analysisInput": {
@@ -65,18 +65,18 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "4d8cc72b-ff91-4253-8073-6de573d00c9a",
+        "apim-request-id": "7051e7b1-c330-4478-943c-3d5aff681f14",
         "Content-Length": "0",
-        "Date": "Tue, 14 Jun 2022 00:02:21 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/86171df0-42e3-43f9-84d4-24ce5f550335?api-version=2022-05-01",
+        "Date": "Tue, 21 Jun 2022 00:25:42 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/2851a01b-641f-4be0-8584-e4287a028447?api-version=2022-05-01",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "277"
+        "x-envoy-upstream-service-time": "248"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/86171df0-42e3-43f9-84d4-24ce5f550335?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2851a01b-641f-4be0-8584-e4287a028447?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -84,100 +84,24 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "0e22715b-6fcc-483e-a9b6-79bf74cc1474"
+        "x-ms-client-request-id": "dd6e4f85-f55f-415c-b629-06d5d8806b57"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8fa18e5b-4526-46af-8ad0-bd608ab0f4d8",
-        "Content-Length": "283",
+        "apim-request-id": "82fd87d4-1d44-4efd-a041-62359cc2e705",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:02:21 GMT",
+        "Date": "Tue, 21 Jun 2022 00:25:42 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "8"
       },
       "ResponseBody": {
-        "jobId": "86171df0-42e3-43f9-84d4-24ce5f550335",
-        "lastUpdatedDateTime": "2022-06-14T00:02:21Z",
-        "createdDateTime": "2022-06-14T00:02:21Z",
-        "expirationDateTime": "2022-06-15T00:02:21Z",
-        "status": "notStarted",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/86171df0-42e3-43f9-84d4-24ce5f550335?api-version=2022-05-01",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Connection": "keep-alive",
-        "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "71791b28-905a-4954-a2f7-febcb50c1360"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "17cb251d-980c-48cd-a6d1-cf8cba2770c6",
-        "Content-Length": "283",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:02:21 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7"
-      },
-      "ResponseBody": {
-        "jobId": "86171df0-42e3-43f9-84d4-24ce5f550335",
-        "lastUpdatedDateTime": "2022-06-14T00:02:21Z",
-        "createdDateTime": "2022-06-14T00:02:21Z",
-        "expirationDateTime": "2022-06-15T00:02:21Z",
-        "status": "notStarted",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/86171df0-42e3-43f9-84d4-24ce5f550335?api-version=2022-05-01",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Connection": "keep-alive",
-        "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "213a23b3-febd-4793-afc7-2b5d80778f73"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "6cade957-cfaa-40fa-aa33-8a1afb8595f8",
-        "Content-Length": "280",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:02:23 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7"
-      },
-      "ResponseBody": {
-        "jobId": "86171df0-42e3-43f9-84d4-24ce5f550335",
-        "lastUpdatedDateTime": "2022-06-14T00:02:21Z",
-        "createdDateTime": "2022-06-14T00:02:21Z",
-        "expirationDateTime": "2022-06-15T00:02:21Z",
+        "jobId": "2851a01b-641f-4be0-8584-e4287a028447",
+        "lastUpdatedDateTime": "2022-06-21T00:25:43Z",
+        "createdDateTime": "2022-06-21T00:25:42Z",
+        "expirationDateTime": "2022-06-22T00:25:42Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -190,7 +114,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/86171df0-42e3-43f9-84d4-24ce5f550335?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2851a01b-641f-4be0-8584-e4287a028447?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -198,24 +122,24 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "ea42c8e0-b7e4-4702-beea-cf2e95d196aa"
+        "x-ms-client-request-id": "c7ab3fd3-8cba-43d8-b1a6-9fd69cd0cad6"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "f43cd3bc-b64a-45bd-8137-d36cfdd5082a",
+        "apim-request-id": "d914c881-1f65-4de6-9ed2-bcc34c77ca2c",
         "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:02:25 GMT",
+        "Date": "Tue, 21 Jun 2022 00:25:42 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
-        "jobId": "86171df0-42e3-43f9-84d4-24ce5f550335",
-        "lastUpdatedDateTime": "2022-06-14T00:02:21Z",
-        "createdDateTime": "2022-06-14T00:02:21Z",
-        "expirationDateTime": "2022-06-15T00:02:21Z",
+        "jobId": "2851a01b-641f-4be0-8584-e4287a028447",
+        "lastUpdatedDateTime": "2022-06-21T00:25:43Z",
+        "createdDateTime": "2022-06-21T00:25:42Z",
+        "expirationDateTime": "2022-06-22T00:25:42Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -228,7 +152,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/86171df0-42e3-43f9-84d4-24ce5f550335?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2851a01b-641f-4be0-8584-e4287a028447?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -236,24 +160,24 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "b5380518-fd80-40a3-baeb-a2cfbee574ec"
+        "x-ms-client-request-id": "2e163832-f99d-46a3-805b-415dd6beffae"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "18a8443a-cb40-419d-8a40-d9d61cb23e71",
+        "apim-request-id": "c3831013-8d55-44c6-9818-dd7cbfd549b2",
         "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:02:27 GMT",
+        "Date": "Tue, 21 Jun 2022 00:25:44 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
-        "jobId": "86171df0-42e3-43f9-84d4-24ce5f550335",
-        "lastUpdatedDateTime": "2022-06-14T00:02:21Z",
-        "createdDateTime": "2022-06-14T00:02:21Z",
-        "expirationDateTime": "2022-06-15T00:02:21Z",
+        "jobId": "2851a01b-641f-4be0-8584-e4287a028447",
+        "lastUpdatedDateTime": "2022-06-21T00:25:43Z",
+        "createdDateTime": "2022-06-21T00:25:42Z",
+        "expirationDateTime": "2022-06-22T00:25:42Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -266,7 +190,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/86171df0-42e3-43f9-84d4-24ce5f550335?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2851a01b-641f-4be0-8584-e4287a028447?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -274,62 +198,24 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "0c27f109-02ac-4e81-ae83-8a8c7dda7072"
+        "x-ms-client-request-id": "ef64aea1-fddc-4b25-bbad-030f3e720762"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "5ea8b46c-4826-45bd-95a1-fbd0df9af9d9",
-        "Content-Length": "280",
+        "apim-request-id": "b2bd97f5-a4e9-415d-bfe7-e79995faaf8b",
+        "Content-Length": "8185",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:02:29 GMT",
+        "Date": "Tue, 21 Jun 2022 00:25:46 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7"
+        "x-envoy-upstream-service-time": "89"
       },
       "ResponseBody": {
-        "jobId": "86171df0-42e3-43f9-84d4-24ce5f550335",
-        "lastUpdatedDateTime": "2022-06-14T00:02:21Z",
-        "createdDateTime": "2022-06-14T00:02:21Z",
-        "expirationDateTime": "2022-06-15T00:02:21Z",
-        "status": "running",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/86171df0-42e3-43f9-84d4-24ce5f550335?api-version=2022-05-01",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Connection": "keep-alive",
-        "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "ea8cbefb-5243-47ed-a364-3df3ccf9950e"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "8f06dd44-8a19-44a9-b29d-29018c722e8e",
-        "Content-Length": "8335",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:02:31 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "91"
-      },
-      "ResponseBody": {
-        "jobId": "86171df0-42e3-43f9-84d4-24ce5f550335",
-        "lastUpdatedDateTime": "2022-06-14T00:02:29Z",
-        "createdDateTime": "2022-06-14T00:02:21Z",
-        "expirationDateTime": "2022-06-15T00:02:21Z",
+        "jobId": "2851a01b-641f-4be0-8584-e4287a028447",
+        "lastUpdatedDateTime": "2022-06-21T00:25:46Z",
+        "createdDateTime": "2022-06-21T00:25:42Z",
+        "expirationDateTime": "2022-06-22T00:25:42Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -340,7 +226,7 @@
           "items": [
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:02:29.8481096Z",
+              "lastUpdateDateTime": "2022-06-21T00:25:46.1734456Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -350,7 +236,7 @@
                     "confidenceScores": {
                       "positive": 0.0,
                       "neutral": 0.0,
-                      "negative": 1.0
+                      "negative": 0.99
                     },
                     "sentences": [
                       {
@@ -358,7 +244,7 @@
                         "confidenceScores": {
                           "positive": 0.0,
                           "neutral": 0.0,
-                          "negative": 1.0
+                          "negative": 0.99
                         },
                         "offset": 0,
                         "length": 25,
@@ -402,7 +288,7 @@
                     "id": "1",
                     "sentiment": "positive",
                     "confidenceScores": {
-                      "positive": 1.0,
+                      "positive": 0.99,
                       "neutral": 0.0,
                       "negative": 0.0
                     },
@@ -410,13 +296,13 @@
                       {
                         "sentiment": "positive",
                         "confidenceScores": {
-                          "positive": 1.0,
+                          "positive": 0.99,
                           "neutral": 0.0,
                           "negative": 0.0
                         },
                         "offset": 0,
-                        "length": 25,
-                        "text": "The rooms were beautiful.",
+                        "length": 26,
+                        "text": "The rooms were beautiful. ",
                         "targets": [
                           {
                             "sentiment": "positive",
@@ -452,7 +338,7 @@
                       {
                         "sentiment": "positive",
                         "confidenceScores": {
-                          "positive": 1.0,
+                          "positive": 0.99,
                           "neutral": 0.0,
                           "negative": 0.0
                         },
@@ -513,17 +399,17 @@
                     "id": "2",
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.01,
+                      "positive": 0.03,
                       "neutral": 0.0,
-                      "negative": 0.99
+                      "negative": 0.97
                     },
                     "sentences": [
                       {
                         "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.01,
+                          "positive": 0.03,
                           "neutral": 0.0,
-                          "negative": 0.99
+                          "negative": 0.97
                         },
                         "offset": 0,
                         "length": 50,
@@ -655,6 +541,10 @@
                               {
                                 "relationType": "assessment",
                                 "ref": "#/documents/3/sentences/0/assessments/2"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/3"
                               }
                             ]
                           },
@@ -670,24 +560,23 @@
                             "relations": [
                               {
                                 "relationType": "assessment",
-                                "ref": "#/documents/3/sentences/0/assessments/0"
-                              },
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/3/sentences/0/assessments/1"
-                              },
-                              {
-                                "relationType": "assessment",
                                 "ref": "#/documents/3/sentences/0/assessments/3"
-                              },
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/3/sentences/0/assessments/2"
                               }
                             ]
                           }
                         ],
                         "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 0,
+                            "length": 5,
+                            "text": "Loved",
+                            "isNegated": false
+                          },
                           {
                             "sentiment": "positive",
                             "confidenceScores": {
@@ -708,17 +597,6 @@
                             "offset": 36,
                             "length": 4,
                             "text": "nice",
-                            "isNegated": false
-                          },
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 1.0,
-                              "negative": 0.0
-                            },
-                            "offset": 0,
-                            "length": 5,
-                            "text": "loved",
                             "isNegated": false
                           },
                           {
@@ -760,8 +638,8 @@
                           {
                             "sentiment": "positive",
                             "confidenceScores": {
-                              "positive": 0.97,
-                              "negative": 0.03
+                              "positive": 1.0,
+                              "negative": 0.0
                             },
                             "offset": 27,
                             "length": 4,
@@ -793,8 +671,8 @@
                           {
                             "sentiment": "positive",
                             "confidenceScores": {
-                              "positive": 0.93,
-                              "negative": 0.07
+                              "positive": 0.99,
+                              "negative": 0.01
                             },
                             "offset": 14,
                             "length": 12,
@@ -810,17 +688,17 @@
                     "id": "5",
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.0,
+                      "positive": 0.09,
                       "neutral": 0.0,
-                      "negative": 1.0
+                      "negative": 0.91
                     },
                     "sentences": [
                       {
                         "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.0,
+                          "positive": 0.09,
                           "neutral": 0.0,
-                          "negative": 1.0
+                          "negative": 0.91
                         },
                         "offset": 0,
                         "length": 75,
@@ -884,7 +762,7 @@
                             },
                             "offset": 0,
                             "length": 4,
-                            "text": "nice",
+                            "text": "Nice",
                             "isNegated": false
                           },
                           {
@@ -916,19 +794,19 @@
                   },
                   {
                     "id": "6",
-                    "sentiment": "neutral",
+                    "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.03,
-                      "neutral": 0.63,
-                      "negative": 0.34
+                      "positive": 0.02,
+                      "neutral": 0.09,
+                      "negative": 0.88
                     },
                     "sentences": [
                       {
-                        "sentiment": "neutral",
+                        "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.03,
-                          "neutral": 0.63,
-                          "negative": 0.34
+                          "positive": 0.02,
+                          "neutral": 0.09,
+                          "negative": 0.88
                         },
                         "offset": 0,
                         "length": 19,
@@ -937,8 +815,8 @@
                           {
                             "sentiment": "negative",
                             "confidenceScores": {
-                              "positive": 0.01,
-                              "negative": 0.99
+                              "positive": 0.0,
+                              "negative": 1.0
                             },
                             "offset": 4,
                             "length": 6,
@@ -955,8 +833,8 @@
                           {
                             "sentiment": "negative",
                             "confidenceScores": {
-                              "positive": 0.01,
-                              "negative": 0.99
+                              "positive": 0.0,
+                              "negative": 1.0
                             },
                             "offset": 11,
                             "length": 7,
@@ -970,7 +848,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2020-04-01"
+                "modelVersion": "2021-10-01"
               }
             }
           ]
@@ -978,7 +856,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/86171df0-42e3-43f9-84d4-24ce5f550335?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2851a01b-641f-4be0-8584-e4287a028447?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -986,24 +864,24 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "ef6e7972-301a-47de-ba51-e5d62487f244"
+        "x-ms-client-request-id": "c279daf5-ab52-493b-ab2e-8d9eed1280e0"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "31919bea-9277-40c4-81cf-e6ac4bf36780",
-        "Content-Length": "8335",
+        "apim-request-id": "4ec029f1-5a86-46ae-9cba-05543e69d03c",
+        "Content-Length": "8185",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:02:31 GMT",
+        "Date": "Tue, 21 Jun 2022 00:25:46 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "138"
+        "x-envoy-upstream-service-time": "121"
       },
       "ResponseBody": {
-        "jobId": "86171df0-42e3-43f9-84d4-24ce5f550335",
-        "lastUpdatedDateTime": "2022-06-14T00:02:29Z",
-        "createdDateTime": "2022-06-14T00:02:21Z",
-        "expirationDateTime": "2022-06-15T00:02:21Z",
+        "jobId": "2851a01b-641f-4be0-8584-e4287a028447",
+        "lastUpdatedDateTime": "2022-06-21T00:25:46Z",
+        "createdDateTime": "2022-06-21T00:25:42Z",
+        "expirationDateTime": "2022-06-22T00:25:42Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -1014,7 +892,7 @@
           "items": [
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:02:29.8481096Z",
+              "lastUpdateDateTime": "2022-06-21T00:25:46.1734456Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1024,7 +902,7 @@
                     "confidenceScores": {
                       "positive": 0.0,
                       "neutral": 0.0,
-                      "negative": 1.0
+                      "negative": 0.99
                     },
                     "sentences": [
                       {
@@ -1032,7 +910,7 @@
                         "confidenceScores": {
                           "positive": 0.0,
                           "neutral": 0.0,
-                          "negative": 1.0
+                          "negative": 0.99
                         },
                         "offset": 0,
                         "length": 25,
@@ -1076,7 +954,7 @@
                     "id": "1",
                     "sentiment": "positive",
                     "confidenceScores": {
-                      "positive": 1.0,
+                      "positive": 0.99,
                       "neutral": 0.0,
                       "negative": 0.0
                     },
@@ -1084,13 +962,13 @@
                       {
                         "sentiment": "positive",
                         "confidenceScores": {
-                          "positive": 1.0,
+                          "positive": 0.99,
                           "neutral": 0.0,
                           "negative": 0.0
                         },
                         "offset": 0,
-                        "length": 25,
-                        "text": "The rooms were beautiful.",
+                        "length": 26,
+                        "text": "The rooms were beautiful. ",
                         "targets": [
                           {
                             "sentiment": "positive",
@@ -1126,7 +1004,7 @@
                       {
                         "sentiment": "positive",
                         "confidenceScores": {
-                          "positive": 1.0,
+                          "positive": 0.99,
                           "neutral": 0.0,
                           "negative": 0.0
                         },
@@ -1187,17 +1065,17 @@
                     "id": "2",
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.01,
+                      "positive": 0.03,
                       "neutral": 0.0,
-                      "negative": 0.99
+                      "negative": 0.97
                     },
                     "sentences": [
                       {
                         "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.01,
+                          "positive": 0.03,
                           "neutral": 0.0,
-                          "negative": 0.99
+                          "negative": 0.97
                         },
                         "offset": 0,
                         "length": 50,
@@ -1329,6 +1207,10 @@
                               {
                                 "relationType": "assessment",
                                 "ref": "#/documents/3/sentences/0/assessments/2"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/3"
                               }
                             ]
                           },
@@ -1344,24 +1226,23 @@
                             "relations": [
                               {
                                 "relationType": "assessment",
-                                "ref": "#/documents/3/sentences/0/assessments/0"
-                              },
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/3/sentences/0/assessments/1"
-                              },
-                              {
-                                "relationType": "assessment",
                                 "ref": "#/documents/3/sentences/0/assessments/3"
-                              },
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/3/sentences/0/assessments/2"
                               }
                             ]
                           }
                         ],
                         "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 0,
+                            "length": 5,
+                            "text": "Loved",
+                            "isNegated": false
+                          },
                           {
                             "sentiment": "positive",
                             "confidenceScores": {
@@ -1382,17 +1263,6 @@
                             "offset": 36,
                             "length": 4,
                             "text": "nice",
-                            "isNegated": false
-                          },
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 1.0,
-                              "negative": 0.0
-                            },
-                            "offset": 0,
-                            "length": 5,
-                            "text": "loved",
                             "isNegated": false
                           },
                           {
@@ -1434,8 +1304,8 @@
                           {
                             "sentiment": "positive",
                             "confidenceScores": {
-                              "positive": 0.97,
-                              "negative": 0.03
+                              "positive": 1.0,
+                              "negative": 0.0
                             },
                             "offset": 27,
                             "length": 4,
@@ -1467,8 +1337,8 @@
                           {
                             "sentiment": "positive",
                             "confidenceScores": {
-                              "positive": 0.93,
-                              "negative": 0.07
+                              "positive": 0.99,
+                              "negative": 0.01
                             },
                             "offset": 14,
                             "length": 12,
@@ -1484,17 +1354,17 @@
                     "id": "5",
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.0,
+                      "positive": 0.09,
                       "neutral": 0.0,
-                      "negative": 1.0
+                      "negative": 0.91
                     },
                     "sentences": [
                       {
                         "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.0,
+                          "positive": 0.09,
                           "neutral": 0.0,
-                          "negative": 1.0
+                          "negative": 0.91
                         },
                         "offset": 0,
                         "length": 75,
@@ -1558,7 +1428,7 @@
                             },
                             "offset": 0,
                             "length": 4,
-                            "text": "nice",
+                            "text": "Nice",
                             "isNegated": false
                           },
                           {
@@ -1590,19 +1460,19 @@
                   },
                   {
                     "id": "6",
-                    "sentiment": "neutral",
+                    "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.03,
-                      "neutral": 0.63,
-                      "negative": 0.34
+                      "positive": 0.02,
+                      "neutral": 0.09,
+                      "negative": 0.88
                     },
                     "sentences": [
                       {
-                        "sentiment": "neutral",
+                        "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.03,
-                          "neutral": 0.63,
-                          "negative": 0.34
+                          "positive": 0.02,
+                          "neutral": 0.09,
+                          "negative": 0.88
                         },
                         "offset": 0,
                         "length": 19,
@@ -1611,8 +1481,8 @@
                           {
                             "sentiment": "negative",
                             "confidenceScores": {
-                              "positive": 0.01,
-                              "negative": 0.99
+                              "positive": 0.0,
+                              "negative": 1.0
                             },
                             "offset": 4,
                             "length": 6,
@@ -1629,8 +1499,8 @@
                           {
                             "sentiment": "negative",
                             "confidenceScores": {
-                              "positive": 0.01,
-                              "negative": 0.99
+                              "positive": 0.0,
+                              "negative": 1.0
                             },
                             "offset": 11,
                             "length": 7,
@@ -1644,7 +1514,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2020-04-01"
+                "modelVersion": "2021-10-01"
               }
             }
           ]

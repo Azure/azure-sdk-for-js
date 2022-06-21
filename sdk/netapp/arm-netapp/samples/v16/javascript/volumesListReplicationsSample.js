@@ -25,13 +25,16 @@ async function volumesListReplications() {
   const volumeName = "volume1";
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
-  const result = await client.volumes.listReplications(
+  const resArray = new Array();
+  for await (let item of client.volumes.listReplications(
     resourceGroupName,
     accountName,
     poolName,
     volumeName
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 volumesListReplications().catch(console.error);

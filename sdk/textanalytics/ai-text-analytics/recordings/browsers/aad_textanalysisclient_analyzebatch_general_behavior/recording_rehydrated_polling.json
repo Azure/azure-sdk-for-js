@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "b4b4a9ec-f59e-4ad5-adf8-e85aba91e7cc",
+        "x-ms-client-request-id": "b80ad0c9-f2e8-4a4d-9117-3e4d9472a797",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -60,18 +60,18 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "fa2e188e-8bce-4fdc-968f-253f13e96867",
+        "apim-request-id": "088ad20a-833e-406f-ac0b-0d19a9cae3ab",
         "Content-Length": "0",
-        "Date": "Tue, 14 Jun 2022 00:35:02 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+        "Date": "Tue, 21 Jun 2022 00:26:58 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "494"
+        "x-envoy-upstream-service-time": "210"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -87,26 +87,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "acba12f0-d46f-4b24-b017-6c1fad5a07f8",
+        "x-ms-client-request-id": "c399b29d-2f3e-4c44-8243-cc560d560051",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "41054b7d-4b31-40af-9d06-bffa2be03879",
-        "Content-Length": "280",
+        "apim-request-id": "7b701fe7-b02f-4f4a-ace4-c68ed76f1771",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:35:02 GMT",
+        "Date": "Tue, 21 Jun 2022 00:26:58 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "12"
+        "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
-        "jobId": "9aa29469-51b1-4a41-b7f4-d61ca2fb2510",
-        "lastUpdatedDateTime": "2022-06-14T00:35:02Z",
-        "createdDateTime": "2022-06-14T00:35:01Z",
-        "expirationDateTime": "2022-06-15T00:35:01Z",
-        "status": "running",
+        "jobId": "97531959-b91e-4f37-9019-645beadf51dd",
+        "lastUpdatedDateTime": "2022-06-21T00:26:58Z",
+        "createdDateTime": "2022-06-21T00:26:58Z",
+        "expirationDateTime": "2022-06-22T00:26:58Z",
+        "status": "notStarted",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -118,7 +118,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -134,26 +134,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "9f8802f4-3d4b-4f1d-8a62-90ce3f9be17f",
+        "x-ms-client-request-id": "4f538828-7fa6-46d8-baf0-40d65bc6e34b",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "a6fdee21-7044-4b84-96b2-5af9f8f40943",
-        "Content-Length": "280",
+        "apim-request-id": "39413710-3996-4e1a-b88a-12560008ede3",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:35:02 GMT",
+        "Date": "Tue, 21 Jun 2022 00:26:58 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "8"
       },
       "ResponseBody": {
-        "jobId": "9aa29469-51b1-4a41-b7f4-d61ca2fb2510",
-        "lastUpdatedDateTime": "2022-06-14T00:35:02Z",
-        "createdDateTime": "2022-06-14T00:35:01Z",
-        "expirationDateTime": "2022-06-15T00:35:01Z",
-        "status": "running",
+        "jobId": "97531959-b91e-4f37-9019-645beadf51dd",
+        "lastUpdatedDateTime": "2022-06-21T00:26:58Z",
+        "createdDateTime": "2022-06-21T00:26:58Z",
+        "expirationDateTime": "2022-06-22T00:26:58Z",
+        "status": "notStarted",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -165,7 +165,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -181,26 +181,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "5e021b12-831b-43ad-99bd-613cf3fe6465",
+        "x-ms-client-request-id": "1634ec4c-7005-4137-8cb6-67d1e137d2a8",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7c2276ed-4cc5-497e-8985-cb85f67bdacb",
-        "Content-Length": "280",
+        "apim-request-id": "832867b4-e154-4ec9-936f-0a29ad58495d",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:35:02 GMT",
+        "Date": "Tue, 21 Jun 2022 00:26:58 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "9"
+        "x-envoy-upstream-service-time": "10"
       },
       "ResponseBody": {
-        "jobId": "9aa29469-51b1-4a41-b7f4-d61ca2fb2510",
-        "lastUpdatedDateTime": "2022-06-14T00:35:02Z",
-        "createdDateTime": "2022-06-14T00:35:01Z",
-        "expirationDateTime": "2022-06-15T00:35:01Z",
-        "status": "running",
+        "jobId": "97531959-b91e-4f37-9019-645beadf51dd",
+        "lastUpdatedDateTime": "2022-06-21T00:26:58Z",
+        "createdDateTime": "2022-06-21T00:26:58Z",
+        "expirationDateTime": "2022-06-22T00:26:58Z",
+        "status": "notStarted",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -212,7 +212,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -228,36 +228,36 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "95c101a2-ad9b-442e-88b1-78863557265b",
+        "x-ms-client-request-id": "61b801e2-a591-4414-bd6b-88c7c0bb74b4",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8e155ce9-d2fc-4e9e-b679-96fdf6e914bd",
-        "Content-Length": "5533",
+        "apim-request-id": "7225478c-7cfb-40ea-95e2-d6d8e067e2fe",
+        "Content-Length": "4888",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:35:04 GMT",
+        "Date": "Tue, 21 Jun 2022 00:27:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "107"
+        "x-envoy-upstream-service-time": "68"
       },
       "ResponseBody": {
-        "jobId": "9aa29469-51b1-4a41-b7f4-d61ca2fb2510",
-        "lastUpdatedDateTime": "2022-06-14T00:35:04Z",
-        "createdDateTime": "2022-06-14T00:35:01Z",
-        "expirationDateTime": "2022-06-15T00:35:01Z",
+        "jobId": "97531959-b91e-4f37-9019-645beadf51dd",
+        "lastUpdatedDateTime": "2022-06-21T00:27:00Z",
+        "createdDateTime": "2022-06-21T00:26:58Z",
+        "expirationDateTime": "2022-06-22T00:26:58Z",
         "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 3,
+          "completed": 2,
           "failed": 0,
-          "inProgress": 1,
+          "inProgress": 2,
           "total": 4,
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:02.8774873Z",
+              "lastUpdateDateTime": "2022-06-21T00:26:58.690955Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -649,61 +649,8 @@
               }
             },
             {
-              "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.1734421Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "id": "0",
-                    "entities": [
-                      {
-                        "text": "Patient",
-                        "category": "PersonType",
-                        "offset": 0,
-                        "length": 7,
-                        "confidenceScore": 0.99
-                      }
-                    ],
-                    "warnings": []
-                  },
-                  {
-                    "id": "1",
-                    "entities": [
-                      {
-                        "text": "100mg",
-                        "category": "Quantity",
-                        "subcategory": "Dimension",
-                        "offset": 11,
-                        "length": 5,
-                        "confidenceScore": 0.8
-                      },
-                      {
-                        "text": "ibuprofen",
-                        "category": "Product",
-                        "offset": 17,
-                        "length": 9,
-                        "confidenceScore": 0.89
-                      },
-                      {
-                        "text": "daily",
-                        "category": "DateTime",
-                        "subcategory": "Set",
-                        "offset": 40,
-                        "length": 5,
-                        "confidenceScore": 0.8
-                      }
-                    ],
-                    "warnings": []
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2021-06-01"
-              }
-            },
-            {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.2664541Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:00.0010232Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -746,7 +693,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -762,36 +709,36 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "0d26e379-73f3-4dd8-b087-c4bf4005661c",
+        "x-ms-client-request-id": "53516802-9f9a-48ff-bc5c-d9fdbecaad90",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "9e123869-1406-480c-8824-a7cc819eb8f4",
-        "Content-Length": "5533",
+        "apim-request-id": "e0f90b62-5555-45c2-88c5-65acb75f38eb",
+        "Content-Length": "4888",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:35:06 GMT",
+        "Date": "Tue, 21 Jun 2022 00:27:02 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "139"
+        "x-envoy-upstream-service-time": "65"
       },
       "ResponseBody": {
-        "jobId": "9aa29469-51b1-4a41-b7f4-d61ca2fb2510",
-        "lastUpdatedDateTime": "2022-06-14T00:35:04Z",
-        "createdDateTime": "2022-06-14T00:35:01Z",
-        "expirationDateTime": "2022-06-15T00:35:01Z",
+        "jobId": "97531959-b91e-4f37-9019-645beadf51dd",
+        "lastUpdatedDateTime": "2022-06-21T00:27:00Z",
+        "createdDateTime": "2022-06-21T00:26:58Z",
+        "expirationDateTime": "2022-06-22T00:26:58Z",
         "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 3,
+          "completed": 2,
           "failed": 0,
-          "inProgress": 1,
+          "inProgress": 2,
           "total": 4,
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:02.8774873Z",
+              "lastUpdateDateTime": "2022-06-21T00:26:58.690955Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1183,61 +1130,8 @@
               }
             },
             {
-              "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.1734421Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "id": "0",
-                    "entities": [
-                      {
-                        "text": "Patient",
-                        "category": "PersonType",
-                        "offset": 0,
-                        "length": 7,
-                        "confidenceScore": 0.99
-                      }
-                    ],
-                    "warnings": []
-                  },
-                  {
-                    "id": "1",
-                    "entities": [
-                      {
-                        "text": "100mg",
-                        "category": "Quantity",
-                        "subcategory": "Dimension",
-                        "offset": 11,
-                        "length": 5,
-                        "confidenceScore": 0.8
-                      },
-                      {
-                        "text": "ibuprofen",
-                        "category": "Product",
-                        "offset": 17,
-                        "length": 9,
-                        "confidenceScore": 0.89
-                      },
-                      {
-                        "text": "daily",
-                        "category": "DateTime",
-                        "subcategory": "Set",
-                        "offset": 40,
-                        "length": 5,
-                        "confidenceScore": 0.8
-                      }
-                    ],
-                    "warnings": []
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2021-06-01"
-              }
-            },
-            {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.2664541Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:00.0010232Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1280,7 +1174,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1296,36 +1190,36 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "37bd6c01-0e74-45c4-bdd6-a10ff5b9d968",
+        "x-ms-client-request-id": "640b8ba9-953d-4865-a3c3-4fe005819c91",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "bf8bb944-0f82-44ce-b0bc-9c91fa9fc30c",
-        "Content-Length": "5533",
+        "apim-request-id": "b6ddf9c5-2ce9-42e6-81c6-6d527b937504",
+        "Content-Length": "4888",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:35:08 GMT",
+        "Date": "Tue, 21 Jun 2022 00:27:03 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "173"
+        "x-envoy-upstream-service-time": "57"
       },
       "ResponseBody": {
-        "jobId": "9aa29469-51b1-4a41-b7f4-d61ca2fb2510",
-        "lastUpdatedDateTime": "2022-06-14T00:35:04Z",
-        "createdDateTime": "2022-06-14T00:35:01Z",
-        "expirationDateTime": "2022-06-15T00:35:01Z",
+        "jobId": "97531959-b91e-4f37-9019-645beadf51dd",
+        "lastUpdatedDateTime": "2022-06-21T00:27:00Z",
+        "createdDateTime": "2022-06-21T00:26:58Z",
+        "expirationDateTime": "2022-06-22T00:26:58Z",
         "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 3,
+          "completed": 2,
           "failed": 0,
-          "inProgress": 1,
+          "inProgress": 2,
           "total": 4,
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:02.8774873Z",
+              "lastUpdateDateTime": "2022-06-21T00:26:58.690955Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1717,61 +1611,8 @@
               }
             },
             {
-              "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.1734421Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "id": "0",
-                    "entities": [
-                      {
-                        "text": "Patient",
-                        "category": "PersonType",
-                        "offset": 0,
-                        "length": 7,
-                        "confidenceScore": 0.99
-                      }
-                    ],
-                    "warnings": []
-                  },
-                  {
-                    "id": "1",
-                    "entities": [
-                      {
-                        "text": "100mg",
-                        "category": "Quantity",
-                        "subcategory": "Dimension",
-                        "offset": 11,
-                        "length": 5,
-                        "confidenceScore": 0.8
-                      },
-                      {
-                        "text": "ibuprofen",
-                        "category": "Product",
-                        "offset": 17,
-                        "length": 9,
-                        "confidenceScore": 0.89
-                      },
-                      {
-                        "text": "daily",
-                        "category": "DateTime",
-                        "subcategory": "Set",
-                        "offset": 40,
-                        "length": 5,
-                        "confidenceScore": 0.8
-                      }
-                    ],
-                    "warnings": []
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2021-06-01"
-              }
-            },
-            {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.2664541Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:00.0010232Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1814,7 +1655,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1830,25 +1671,25 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "a13805b8-c3aa-4a45-bf26-95562fb0387e",
+        "x-ms-client-request-id": "df87fac9-3f46-4250-bd5e-4e99eb725cde",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "de3dce94-507c-4dba-acfc-10b1f0b81add",
-        "Content-Length": "6717",
+        "apim-request-id": "7b9ae14d-8c3a-41ec-82cb-2f4f35636687",
+        "Content-Length": "6371",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:35:10 GMT",
+        "Date": "Tue, 21 Jun 2022 00:27:06 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "260"
+        "x-envoy-upstream-service-time": "172"
       },
       "ResponseBody": {
-        "jobId": "9aa29469-51b1-4a41-b7f4-d61ca2fb2510",
-        "lastUpdatedDateTime": "2022-06-14T00:35:10Z",
-        "createdDateTime": "2022-06-14T00:35:01Z",
-        "expirationDateTime": "2022-06-15T00:35:01Z",
+        "jobId": "97531959-b91e-4f37-9019-645beadf51dd",
+        "lastUpdatedDateTime": "2022-06-21T00:27:06Z",
+        "createdDateTime": "2022-06-21T00:26:58Z",
+        "expirationDateTime": "2022-06-22T00:26:58Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -1859,7 +1700,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:02.8774873Z",
+              "lastUpdateDateTime": "2022-06-21T00:26:58.690955Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2252,7 +2093,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.1734421Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:06.0445639Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2305,7 +2146,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.2664541Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:00.0010232Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2345,60 +2186,31 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:10.0487859Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:06.1674854Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "sentiment": "positive",
+                    "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.99,
-                      "neutral": 0.01,
-                      "negative": 0.0
+                      "positive": 0.04,
+                      "neutral": 0.76,
+                      "negative": 0.2
                     },
                     "sentences": [
                       {
-                        "sentiment": "positive",
+                        "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.99,
-                          "neutral": 0.01,
-                          "negative": 0.0
+                          "positive": 0.04,
+                          "neutral": 0.76,
+                          "negative": 0.2
                         },
                         "offset": 0,
                         "length": 49,
                         "text": "Patient does not suffer from high blood pressure.",
-                        "targets": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 0,
-                            "length": 7,
-                            "text": "Patient",
-                            "relations": [
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/0/sentences/0/assessments/0"
-                              }
-                            ]
-                          }
-                        ],
-                        "assessments": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 17,
-                            "length": 6,
-                            "text": "suffer",
-                            "isNegated": true
-                          }
-                        ]
+                        "targets": [],
+                        "assessments": []
                       }
                     ],
                     "warnings": []
@@ -2407,17 +2219,17 @@
                     "id": "1",
                     "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.03,
-                      "neutral": 0.89,
-                      "negative": 0.08
+                      "positive": 0.0,
+                      "neutral": 0.99,
+                      "negative": 0.01
                     },
                     "sentences": [
                       {
                         "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.03,
-                          "neutral": 0.89,
-                          "negative": 0.08
+                          "positive": 0.0,
+                          "neutral": 0.99,
+                          "negative": 0.01
                         },
                         "offset": 0,
                         "length": 46,
@@ -2430,7 +2242,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2020-04-01"
+                "modelVersion": "2021-10-01"
               }
             }
           ]
@@ -2438,7 +2250,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2454,25 +2266,25 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "bcfd86ba-71f2-4716-9a0d-0746b0fff46e",
+        "x-ms-client-request-id": "a9aea870-4ed1-496e-b985-3fe642a3d9ad",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "64e217a6-5ab5-487b-a32b-5d7a34463f34",
-        "Content-Length": "6717",
+        "apim-request-id": "d7da604b-8186-4bdc-8676-b1c39aca387c",
+        "Content-Length": "6371",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:35:13 GMT",
+        "Date": "Tue, 21 Jun 2022 00:27:07 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "2891"
+        "x-envoy-upstream-service-time": "122"
       },
       "ResponseBody": {
-        "jobId": "9aa29469-51b1-4a41-b7f4-d61ca2fb2510",
-        "lastUpdatedDateTime": "2022-06-14T00:35:10Z",
-        "createdDateTime": "2022-06-14T00:35:01Z",
-        "expirationDateTime": "2022-06-15T00:35:01Z",
+        "jobId": "97531959-b91e-4f37-9019-645beadf51dd",
+        "lastUpdatedDateTime": "2022-06-21T00:27:06Z",
+        "createdDateTime": "2022-06-21T00:26:58Z",
+        "expirationDateTime": "2022-06-22T00:26:58Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -2483,7 +2295,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:02.8774873Z",
+              "lastUpdateDateTime": "2022-06-21T00:26:58.690955Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2876,7 +2688,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.1734421Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:06.0445639Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2929,7 +2741,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.2664541Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:00.0010232Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2969,60 +2781,31 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:10.0487859Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:06.1674854Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "sentiment": "positive",
+                    "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.99,
-                      "neutral": 0.01,
-                      "negative": 0.0
+                      "positive": 0.04,
+                      "neutral": 0.76,
+                      "negative": 0.2
                     },
                     "sentences": [
                       {
-                        "sentiment": "positive",
+                        "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.99,
-                          "neutral": 0.01,
-                          "negative": 0.0
+                          "positive": 0.04,
+                          "neutral": 0.76,
+                          "negative": 0.2
                         },
                         "offset": 0,
                         "length": 49,
                         "text": "Patient does not suffer from high blood pressure.",
-                        "targets": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 0,
-                            "length": 7,
-                            "text": "Patient",
-                            "relations": [
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/0/sentences/0/assessments/0"
-                              }
-                            ]
-                          }
-                        ],
-                        "assessments": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 17,
-                            "length": 6,
-                            "text": "suffer",
-                            "isNegated": true
-                          }
-                        ]
+                        "targets": [],
+                        "assessments": []
                       }
                     ],
                     "warnings": []
@@ -3031,17 +2814,17 @@
                     "id": "1",
                     "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.03,
-                      "neutral": 0.89,
-                      "negative": 0.08
+                      "positive": 0.0,
+                      "neutral": 0.99,
+                      "negative": 0.01
                     },
                     "sentences": [
                       {
                         "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.03,
-                          "neutral": 0.89,
-                          "negative": 0.08
+                          "positive": 0.0,
+                          "neutral": 0.99,
+                          "negative": 0.01
                         },
                         "offset": 0,
                         "length": 46,
@@ -3054,7 +2837,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2020-04-01"
+                "modelVersion": "2021-10-01"
               }
             }
           ]
@@ -3062,7 +2845,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3078,25 +2861,25 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "eaea1b55-a988-45cf-a91d-d1d29b5cb391",
+        "x-ms-client-request-id": "158d13d5-0241-4716-805f-7deaceafb067",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "cd5fe4c3-f960-416a-945f-b848e5916bb3",
-        "Content-Length": "6717",
+        "apim-request-id": "e17427b1-cbd0-437c-9e7f-1d0c1cdbe651",
+        "Content-Length": "6371",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:35:13 GMT",
+        "Date": "Tue, 21 Jun 2022 00:27:07 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "158"
+        "x-envoy-upstream-service-time": "149"
       },
       "ResponseBody": {
-        "jobId": "9aa29469-51b1-4a41-b7f4-d61ca2fb2510",
-        "lastUpdatedDateTime": "2022-06-14T00:35:10Z",
-        "createdDateTime": "2022-06-14T00:35:01Z",
-        "expirationDateTime": "2022-06-15T00:35:01Z",
+        "jobId": "97531959-b91e-4f37-9019-645beadf51dd",
+        "lastUpdatedDateTime": "2022-06-21T00:27:06Z",
+        "createdDateTime": "2022-06-21T00:26:58Z",
+        "expirationDateTime": "2022-06-22T00:26:58Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -3107,7 +2890,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:02.8774873Z",
+              "lastUpdateDateTime": "2022-06-21T00:26:58.690955Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -3500,7 +3283,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.1734421Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:06.0445639Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -3553,7 +3336,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.2664541Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:00.0010232Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -3593,60 +3376,31 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:10.0487859Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:06.1674854Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "sentiment": "positive",
+                    "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.99,
-                      "neutral": 0.01,
-                      "negative": 0.0
+                      "positive": 0.04,
+                      "neutral": 0.76,
+                      "negative": 0.2
                     },
                     "sentences": [
                       {
-                        "sentiment": "positive",
+                        "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.99,
-                          "neutral": 0.01,
-                          "negative": 0.0
+                          "positive": 0.04,
+                          "neutral": 0.76,
+                          "negative": 0.2
                         },
                         "offset": 0,
                         "length": 49,
                         "text": "Patient does not suffer from high blood pressure.",
-                        "targets": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 0,
-                            "length": 7,
-                            "text": "Patient",
-                            "relations": [
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/0/sentences/0/assessments/0"
-                              }
-                            ]
-                          }
-                        ],
-                        "assessments": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 17,
-                            "length": 6,
-                            "text": "suffer",
-                            "isNegated": true
-                          }
-                        ]
+                        "targets": [],
+                        "assessments": []
                       }
                     ],
                     "warnings": []
@@ -3655,17 +3409,17 @@
                     "id": "1",
                     "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.03,
-                      "neutral": 0.89,
-                      "negative": 0.08
+                      "positive": 0.0,
+                      "neutral": 0.99,
+                      "negative": 0.01
                     },
                     "sentences": [
                       {
                         "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.03,
-                          "neutral": 0.89,
-                          "negative": 0.08
+                          "positive": 0.0,
+                          "neutral": 0.99,
+                          "negative": 0.01
                         },
                         "offset": 0,
                         "length": 46,
@@ -3678,7 +3432,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2020-04-01"
+                "modelVersion": "2021-10-01"
               }
             }
           ]
@@ -3686,7 +3440,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/9aa29469-51b1-4a41-b7f4-d61ca2fb2510?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/97531959-b91e-4f37-9019-645beadf51dd?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3702,25 +3456,25 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "d53a4010-2e01-463a-aff5-8fbae1b0e755",
+        "x-ms-client-request-id": "5111fb96-a8e6-4c71-bbf8-ac02d1852b43",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "df71bff4-a816-4d9e-b9e0-b4f300672692",
-        "Content-Length": "6717",
+        "apim-request-id": "01c6e06b-939c-4c5e-8c00-973174b4f0e4",
+        "Content-Length": "6371",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 00:35:13 GMT",
+        "Date": "Tue, 21 Jun 2022 00:27:07 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "153"
+        "x-envoy-upstream-service-time": "101"
       },
       "ResponseBody": {
-        "jobId": "9aa29469-51b1-4a41-b7f4-d61ca2fb2510",
-        "lastUpdatedDateTime": "2022-06-14T00:35:10Z",
-        "createdDateTime": "2022-06-14T00:35:01Z",
-        "expirationDateTime": "2022-06-15T00:35:01Z",
+        "jobId": "97531959-b91e-4f37-9019-645beadf51dd",
+        "lastUpdatedDateTime": "2022-06-21T00:27:06Z",
+        "createdDateTime": "2022-06-21T00:26:58Z",
+        "expirationDateTime": "2022-06-22T00:26:58Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -3731,7 +3485,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:02.8774873Z",
+              "lastUpdateDateTime": "2022-06-21T00:26:58.690955Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -4124,7 +3878,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.1734421Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:06.0445639Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -4177,7 +3931,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:04.2664541Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:00.0010232Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -4217,60 +3971,31 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-06-14T00:35:10.0487859Z",
+              "lastUpdateDateTime": "2022-06-21T00:27:06.1674854Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "sentiment": "positive",
+                    "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.99,
-                      "neutral": 0.01,
-                      "negative": 0.0
+                      "positive": 0.04,
+                      "neutral": 0.76,
+                      "negative": 0.2
                     },
                     "sentences": [
                       {
-                        "sentiment": "positive",
+                        "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.99,
-                          "neutral": 0.01,
-                          "negative": 0.0
+                          "positive": 0.04,
+                          "neutral": 0.76,
+                          "negative": 0.2
                         },
                         "offset": 0,
                         "length": 49,
                         "text": "Patient does not suffer from high blood pressure.",
-                        "targets": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 0,
-                            "length": 7,
-                            "text": "Patient",
-                            "relations": [
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/0/sentences/0/assessments/0"
-                              }
-                            ]
-                          }
-                        ],
-                        "assessments": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 17,
-                            "length": 6,
-                            "text": "suffer",
-                            "isNegated": true
-                          }
-                        ]
+                        "targets": [],
+                        "assessments": []
                       }
                     ],
                     "warnings": []
@@ -4279,17 +4004,17 @@
                     "id": "1",
                     "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.03,
-                      "neutral": 0.89,
-                      "negative": 0.08
+                      "positive": 0.0,
+                      "neutral": 0.99,
+                      "negative": 0.01
                     },
                     "sentences": [
                       {
                         "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.03,
-                          "neutral": 0.89,
-                          "negative": 0.08
+                          "positive": 0.0,
+                          "neutral": 0.99,
+                          "negative": 0.01
                         },
                         "offset": 0,
                         "length": 46,
@@ -4302,7 +4027,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2020-04-01"
+                "modelVersion": "2021-10-01"
               }
             }
           ]

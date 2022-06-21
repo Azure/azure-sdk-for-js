@@ -24,13 +24,16 @@ export interface CreateChunkOptions extends CommonOptions {
 export class ChunkFactory {
   private readonly avroReaderFactory: AvroReaderFactory;
   private readonly lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory;
+  private readonly maxTransferSize?: number;
 
   constructor(
     avroReaderFactory: AvroReaderFactory,
-    lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory
+    lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory,
+    maxTransferSize?: number
   ) {
     this.avroReaderFactory = avroReaderFactory;
     this.lazyLoadingBlobStreamFactory = lazyLoadingBlobStreamFactory;
+    this.maxTransferSize = maxTransferSize;
   }
 
   public async create(
@@ -48,7 +51,7 @@ export class ChunkFactory {
       this.lazyLoadingBlobStreamFactory.create(
         blobClient,
         blockOffset,
-        CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
+        this.maxTransferSize ? this.maxTransferSize : CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
         options
       )
     );
@@ -59,7 +62,7 @@ export class ChunkFactory {
         this.lazyLoadingBlobStreamFactory.create(
           blobClient,
           0,
-          CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
+          this.maxTransferSize ? this.maxTransferSize : CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
           options
         )
       );
