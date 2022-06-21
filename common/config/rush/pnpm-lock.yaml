@@ -1668,14 +1668,6 @@ packages:
       '@rushstack/node-core-library': 3.41.0
     dev: false
 
-  /@microsoft/api-extractor-model/7.17.3:
-    resolution: {integrity: sha512-ETslFxVEZTEK6mrOARxM34Ll2W/5H2aTk9Pe9dxsMCnthE8O/CaStV4WZAGsvvZKyjelSWgPVYGowxGVnwOMlQ==}
-    dependencies:
-      '@microsoft/tsdoc': 0.14.1
-      '@microsoft/tsdoc-config': 0.16.1
-      '@rushstack/node-core-library': 3.45.5
-    dev: false
-
   /@microsoft/api-extractor-model/7.18.2:
     resolution: {integrity: sha512-m7MCvJrudnWyE4iuRhdmgJTdTkYLw+yN/XUp3y9sxicu5/mNdg8y4pflaM82ZbLakhfGreMlB/XgjvyGbLHwkA==}
     dependencies:
@@ -1707,24 +1699,6 @@ packages:
       semver: 7.3.7
       source-map: 0.6.1
       typescript: 4.4.4
-    dev: false
-
-  /@microsoft/api-extractor/7.24.1:
-    resolution: {integrity: sha512-RjcKRvKRAtTK4z8UdC2qYsvgTYHEYvdsqF4QGoX4mNAVo7s6Jj4zcHtSrMEQMTUHujZbSd5+ihI5ktISp338mQ==}
-    hasBin: true
-    dependencies:
-      '@microsoft/api-extractor-model': 7.17.3
-      '@microsoft/tsdoc': 0.14.1
-      '@microsoft/tsdoc-config': 0.16.1
-      '@rushstack/node-core-library': 3.45.5
-      '@rushstack/rig-package': 0.3.11
-      '@rushstack/ts-command-line': 4.11.0
-      colors: 1.2.5
-      lodash: 4.17.21
-      resolve: 1.17.0
-      semver: 7.3.7
-      source-map: 0.6.1
-      typescript: 4.6.4
     dev: false
 
   /@microsoft/api-extractor/7.25.2:
@@ -2236,20 +2210,6 @@ packages:
       z-schema: 3.18.4
     dev: false
 
-  /@rushstack/node-core-library/3.45.5:
-    resolution: {integrity: sha512-KbN7Hp9vH3bD3YJfv6RnVtzzTAwGYIBl7y2HQLY4WEQqRbvE3LgI78W9l9X+cTAXCX//p0EeoiUYNTFdqJrMZg==}
-    dependencies:
-      '@types/node': 12.20.24
-      colors: 1.2.5
-      fs-extra: 7.0.1
-      import-lazy: 4.0.0
-      jju: 1.4.0
-      resolve: 1.17.0
-      semver: 7.3.7
-      timsort: 0.3.0
-      z-schema: 5.0.3
-    dev: false
-
   /@rushstack/node-core-library/3.45.7:
     resolution: {integrity: sha512-DHfOvgPrm9X4uILlUfGgiqcobe5QGNDmqqYLM8dJ5M5fqQ9H5GwyUwBnFeRsxBo0b75RE83l41Oze+gdHKvKaA==}
     dependencies:
@@ -2271,27 +2231,11 @@ packages:
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/rig-package/0.3.11:
-    resolution: {integrity: sha512-uI1/g5oQPtyrT9nStoyX/xgZSLa2b+srRFaDk3r1eqC7zA5th4/bvTGl2QfV3C9NcP+coSqmk5mFJkUfH6i3Lw==}
-    dependencies:
-      resolve: 1.17.0
-      strip-json-comments: 3.1.1
-    dev: false
-
   /@rushstack/rig-package/0.3.12:
     resolution: {integrity: sha512-ZzxuBWG0wbOtI+9IHYvOsr3QN52GtxTWpcaHMsQ/PC9us2ve/k0xK0XOMu+CtStyHSnBG2nDdnF9vFv9HMYOZg==}
     dependencies:
       resolve: 1.17.0
       strip-json-comments: 3.1.1
-    dev: false
-
-  /@rushstack/ts-command-line/4.11.0:
-    resolution: {integrity: sha512-ptG9L0mjvJ5QtK11GsAFY+jGfsnqHDS6CY6Yw1xT7a9bhjfNYnf6UPwjV+pF6UgiucfNcMDNW9lkDLxvZKKxMg==}
-    dependencies:
-      '@types/argparse': 1.0.38
-      argparse: 1.0.10
-      colors: 1.2.5
-      string-argv: 0.3.1
     dev: false
 
   /@rushstack/ts-command-line/4.11.1:
@@ -3959,7 +3903,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220617
+      typescript: 4.8.0-dev.20220621
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8769,8 +8713,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220617:
-    resolution: {integrity: sha512-wVck+bYkw1T7uOZ5448lp00u9+8GPpNVLX6AXV7uMPgvWqw0exrIZ8BEpGmrt+buhkCKfZeiTOX1OF/sS/EAJw==}
+  /typescript/4.8.0-dev.20220621:
+    resolution: {integrity: sha512-PHGgACdx4MlvHE5Frxbugg55gqiwEO7z514J09qdJfEZrcso2Rd26pteWWefuGVIJVBWJRETfb7/gYv/nwbevQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12500,7 +12444,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.24.1
+      '@microsoft/api-extractor': 7.25.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
       '@rollup/plugin-json': 4.1.0_rollup@2.74.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
@@ -13739,7 +13683,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.24.1
+      '@microsoft/api-extractor': 7.25.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
       '@rollup/plugin-json': 4.1.0_rollup@2.74.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
@@ -17437,13 +17381,13 @@ packages:
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-CnYztrx2FGIj60sIjDPlFF+SHyRs0TIQnIuml58nUQ06ONNDeaKSiQrMPknBKyV3tkZFNE4ojq6hwKCGNHQuJg==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-BNRWYBd5jMMmZt3yUeWpqhvEjHy5/8bOCODjCK4gIq52r7x1H14Rm0PN9BoLLsFJyc6JPe5r8sg2f5HHKOH8Bg==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.9
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.25.2
+      '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.52
