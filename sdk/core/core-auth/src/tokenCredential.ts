@@ -54,7 +54,7 @@ export interface GetTokenOptions {
   tenantId?: string;
 
   /**
-   * Detailed claims to perform the Continuous Access Evaluation authentication flow
+   * Claim details to perform the Continuous Access Evaluation authentication flow
    */
   claims?: string;
 }
