@@ -3,8 +3,9 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { Context } from "mocha";
+import "./env";
 
+import ConfidentialLedger, { ConfidentialLedgerClient, getLedgerIdentity } from "../../../src";
 import {
   Recorder,
   RecorderEnvironmentSetup,
@@ -12,11 +13,10 @@ import {
   isLiveMode,
   record,
 } from "@azure-tools/test-recorder";
-import ConfidentialLedger, { ConfidentialLedgerRestClient, getLedgerIdentity } from "../../../src";
-import { ClientSecretCredential } from "@azure/identity";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
-import "./env";
+import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",
@@ -44,7 +44,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export async function createClient(): Promise<ConfidentialLedgerRestClient> {
+export async function createClient(): Promise<ConfidentialLedgerClient> {
   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   /* in the future, let's change this to the following:
   const credential = new ClientSecretCredential(
@@ -54,9 +54,16 @@ export async function createClient(): Promise<ConfidentialLedgerRestClient> {
     { httpClient }
   );
   */
-  const clientCredential = new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET);
+  const clientCredential = new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
+  );
   // const credential = new DefaultAzureCredential({ httpClient });
-  const {ledgerTlsCertificate} = await getLedgerIdentity(env.LEDGER_IDENTITY, env.IDENTITY_SERVICE_URL);
+  const { ledgerTlsCertificate } = await getLedgerIdentity(
+    env.LEDGER_IDENTITY,
+    env.IDENTITY_SERVICE_URL
+  );
   return ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, clientCredential, { httpClient });
 }
 

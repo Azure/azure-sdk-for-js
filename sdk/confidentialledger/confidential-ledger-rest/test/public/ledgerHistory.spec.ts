@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerRestClient, GetCurrentLedgerEntry200Response } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
-
-import { assert } from "chai";
+import { ConfidentialLedgerClient, GetCurrentLedgerEntry200Response } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
+
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 describe("Get ledger history", () => {
   let recorder: Recorder;
-  let client: ConfidentialLedgerRestClient;
+  let client: ConfidentialLedgerClient;
 
   beforeEach(async function (this: Context) {
     recorder = createRecorder(this);

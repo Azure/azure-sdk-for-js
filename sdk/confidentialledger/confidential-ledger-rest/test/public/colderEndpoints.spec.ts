@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import {
-  ConfidentialLedgerRestClient,
+  ConfidentialLedgerClient,
   GetConsortiumMembers200Response,
-  GetConstitution200Response,
   GetEnclaveQuotes200Response,
+  isUnexpected,
 } from "../../src";
-import { EnclaveQuote, EnclaveQuotesDictionary } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
-
-import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
+
 import { Context } from "mocha";
+import { EnclaveQuoteOutput } from "../../src";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 describe("Colder endpoints", () => {
   let recorder: Recorder;
-  let client: ConfidentialLedgerRestClient;
+  let client: ConfidentialLedgerClient;
 
   beforeEach(async function (this: Context) {
     recorder = createRecorder(this);
@@ -31,10 +31,17 @@ describe("Colder endpoints", () => {
 
     assert.equal(result.status, "200");
 
-    const constResponse = result as GetConstitution200Response;
+    if (isUnexpected(result)) {
+      // If this condition is true, TypeScript is able to infer that the type of result is
+      // GetConstitutiondefaultResponse because we got an "unexpected" response. If you hover over
+      // result, the right type is displayed and intellisense gives you the right options.
+      assert.fail(result.status, "200", `Unexpected response status ${result.status}`);
+    }
 
-    assert.typeOf(constResponse.body.digest, "string");
-    assert.typeOf(constResponse.body.script, "string");
+    // Outside of the if statement, TypeScript infers that the response status was "200" and gives result a type of GetConstitution200Response
+    // without the need to cast
+    assert.typeOf(result.body.digest, "string");
+    assert.typeOf(result.body.script, "string");
   });
 
   it("should retrieve a list of consortium members", async function () {
@@ -59,9 +66,9 @@ describe("Colder endpoints", () => {
 
     assert.typeOf(memberResponse.body.currentNodeId, "string");
 
-    const enclaveQuotes: EnclaveQuotesDictionary = memberResponse.body.enclaveQuotes;
+    const enclaveQuotes = memberResponse.body.enclaveQuotes;
     for (const key in enclaveQuotes) {
-      const quote: EnclaveQuote = enclaveQuotes[key];
+      const quote: EnclaveQuoteOutput = enclaveQuotes[key];
       assert.typeOf(quote.quoteVersion, "string");
       assert.typeOf(quote.nodeId, "string");
       assert.typeOf(quote.raw, "string");

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import {
-    ConfidentialLedgerRestClient,
-    GetTransactionStatus200Response,
-    LedgerEntry,
-    PostLedgerEntry200Response,
-    PostLedgerEntryParameters,
-  } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
-
-import { assert } from "chai";
+  ConfidentialLedgerClient,
+  GetTransactionStatus200Response,
+  LedgerEntry,
+  PostLedgerEntry200Response,
+  PostLedgerEntryParameters,
+} from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
+
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 describe("Range query should be successful", () => {
   let recorder: Recorder;
-  let client: ConfidentialLedgerRestClient;
+  let client: ConfidentialLedgerClient;
 
   beforeEach(async function (this: Context) {
     recorder = createRecorder(this);
@@ -27,9 +27,9 @@ describe("Range query should be successful", () => {
   });
 
   it("should list all available document formats", async function () {
-    const modulus = 5
+    const modulus = 5;
     // Should result in 2 pages.
-    const numMessagesSent = 2001
+    const numMessagesSent = 2001;
 
     // five separate collections
     let employees = new Map<string, string>();
@@ -37,19 +37,19 @@ describe("Range query should be successful", () => {
     // we want to send 2001 messages total
     for (let i = 0; i < numMessagesSent; i++) {
       let message = "message-" + i;
-      let collection = {"collectionId": "" + i % modulus};
-        
+      let collection = { collectionId: "" + (i % modulus) };
+
       const entry: LedgerEntry = {
-          contents: message,
-          collectionId: collection
-        };
-        const ledgerEntry: PostLedgerEntryParameters = {
-          contentType: "application/json",
-          body: entry,
-        };
-        const result = (await client
-          .path("/app/transactions")
-          .post(ledgerEntry)) as PostLedgerEntry200Response;
+        contents: message,
+        collectionId: collection,
+      };
+      const ledgerEntry: PostLedgerEntryParameters = {
+        contentType: "application/json",
+        body: entry,
+      };
+      const result = (await client
+        .path("/app/transactions")
+        .post(ledgerEntry)) as PostLedgerEntry200Response;
     }
 
     /*

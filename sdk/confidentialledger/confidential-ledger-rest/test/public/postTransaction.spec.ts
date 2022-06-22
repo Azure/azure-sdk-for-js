@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import {
-  ConfidentialLedgerRestClient,
+  ConfidentialLedgerClient,
   GetTransactionStatus200Response,
   LedgerEntry,
   PostLedgerEntry200Response,
   PostLedgerEntryParameters,
 } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
-
-import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
+
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 describe("Post transaction", () => {
   let recorder: Recorder;
-  let client: ConfidentialLedgerRestClient;
+  let client: ConfidentialLedgerClient;
   let contentBody: string;
 
   beforeEach(async function (this: Context) {
@@ -40,8 +40,7 @@ describe("Post transaction", () => {
       .path("/app/transactions")
       .post(ledgerEntry)) as PostLedgerEntry200Response;
 
-
-      assert.equal(result.status, "200");
+    assert.equal(result.status, "200");
 
     const transactionId = result.headers["x-ms-ccf-transaction-id"] ?? "";
 
@@ -49,16 +48,17 @@ describe("Post transaction", () => {
     const status = await client
       .path("/app/transactions/{transactionId}/status", transactionId)
       .get();
-    
+
     assert.equal(result.status, "200");
     const statusResponse = status as GetTransactionStatus200Response;
-    
+
     assert(statusResponse.body.state === "Pending" || statusResponse.body.state === "Committed");
     assert.equal(statusResponse.body.transactionId, transactionId);
 
     const transactionResponse = await client
       .path("/app/transactions/{transactionId}/receipt", transactionId)
       .get();
+    console.log(transactionResponse);
     if (transactionResponse.status !== "200") {
       assert.fail(`GET "/app/transactions" failed with ${result.status}`);
     }

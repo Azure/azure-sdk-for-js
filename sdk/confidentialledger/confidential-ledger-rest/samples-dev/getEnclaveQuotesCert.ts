@@ -9,7 +9,10 @@ import * as dotenv from "dotenv";
  * @summary gets a list of all enclave quotes using Client Certificate Authentication
  * @azsdk-weight 40
  */
-import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import ConfidentialLedger, {
+  getLedgerIdentity,
+  isUnexpected,
+} from "@azure-rest/confidential-ledger";
 
 dotenv.config();
 
@@ -35,7 +38,7 @@ export async function main() {
   // Get enclave quotes
   const enclaveQuotes = await confidentialLedger.path("/app/enclaveQuotes").get();
 
-  if (enclaveQuotes.status !== "200") {
+  if (isUnexpected(enclaveQuotes)) {
     throw enclaveQuotes.body.error;
   }
 

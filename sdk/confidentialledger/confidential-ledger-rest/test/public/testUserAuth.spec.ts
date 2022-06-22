@@ -21,7 +21,10 @@ describe("Test user authentications", () => {
   });
 
   it("should authenticate using AAD", async function () {
-    const {ledgerTlsCertificate} = await getLedgerIdentity(env.LEDGER_IDENTITY, env.IDENTITY_SERVICE_URL);
+    const { ledgerTlsCertificate } = await getLedgerIdentity(
+      env.LEDGER_IDENTITY,
+      env.IDENTITY_SERVICE_URL
+    );
     const credential = new DefaultAzureCredential();
     const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, credential);
     assert.isDefined(ledgerClient);
@@ -29,17 +32,17 @@ describe("Test user authentications", () => {
     const result = await ledgerClient.path("/app/governance/constitution").get();
 
     assert.equal(result.status, "200");
-
   });
 
   it("should authenticate using a certificate", async function () {
-
-
-    const {ledgerTlsCertificate} = await getLedgerIdentity(env.LEDGER_IDENTITY, env.IDENTITY_SERVICE_URL);
+    const { ledgerTlsCertificate } = await getLedgerIdentity(
+      env.LEDGER_IDENTITY,
+      env.IDENTITY_SERVICE_URL
+    );
     const cert = env.PUBLIC_KEY;
     const key = env.PRIVATE_KEY;
     const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, {
-        tlsOptions: {
+      tlsOptions: {
         cert,
         key,
       },
@@ -48,6 +51,5 @@ describe("Test user authentications", () => {
     const result = await ledgerClient.path("/app/governance/constitution").get();
 
     assert.equal(result.status, "200");
-
   });
 });

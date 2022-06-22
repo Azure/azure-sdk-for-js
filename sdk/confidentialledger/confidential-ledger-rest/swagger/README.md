@@ -15,8 +15,8 @@ input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specificatio
 package-version: 1.0.0-beta.3
 hide-clients: true
 rest-level-client: true
-add-credentials: true
-credential-scopes: "https://confidential-ledger.azure.com/.default"
+security: 'AADToken'
+security-scopes: "https://confidential-ledger.azure.com/.default"
 use-extension:
-  "@autorest/typescript": "https://aka.ms/azsdk/typescript/rlc"
+  "@autorest/typescript": "dev"
 ```
