@@ -70,6 +70,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           poiCategories.forEach((poiCategory) => {
             assert.isFinite(poiCategory.id);
             assert.isString(poiCategory.name);
+            assert.hasAllKeys(poiCategory, ["id", "name", "childIds", "synonyms"]);
           });
         });
       });

@@ -189,9 +189,7 @@ export class MapsSearchClient {
         ? result.polygons.map((p) => {
             return {
               providerID: p.providerID,
-              geometryData: p.geometryData
-                ? (p.geometryData as GeoJsonFeatureCollection)
-                : undefined,
+              geometryData: p.geometryData as GeoJsonFeatureCollection,
             };
           })
         : [];

@@ -21,11 +21,9 @@ export interface SearchAddressResult {
   /** The type of query being returned: NEARBY or NON_NEAR. */
   readonly queryType?: QueryType;
   /** Time spent resolving the query, in milliseconds. */
-  readonly queryTime?: number;
+  readonly queryTime: number;
   /** Number of results in the response. */
-  readonly numResults?: number;
-  /** Maximum number of responses that will be returned */
-  readonly top?: number;
+  readonly numResults: number;
   /** The starting offset of the returned Results within the full Result set. */
   readonly skip?: number;
   /** The total number of Results found. */
@@ -35,17 +33,17 @@ export interface SearchAddressResult {
   /** Indication when the internal search engine has applied a geospatial bias to improve the ranking of results. */
   readonly geoBias?: LatLon;
   /** A list of Search API results. */
-  readonly results?: SearchAddressResultItem[];
+  readonly results: SearchAddressResultItem[];
 }
 
 /** Result object for a Search API response. */
 export interface SearchAddressResultItem {
   /** Result type */
-  readonly type?: SearchAddressResultType;
+  readonly type: SearchAddressResultType;
   /** Id property */
-  readonly id?: string;
+  readonly id: string;
   /** The value within a result set to indicate the relative matching score between results. */
-  readonly score?: number;
+  readonly score: number;
   /** Straight line distance between the result and geobias location in meters. */
   readonly distanceInMeters?: number;
   /** Information about the original data source of the Result. Used for support requests. */
@@ -55,11 +53,11 @@ export interface SearchAddressResultItem {
   /** Details of the returned POI including information such as the name, phone, url address, and classifications. */
   readonly pointOfInterest?: PointOfInterest;
   /** The address of the result */
-  readonly address?: Address;
+  readonly address: Address;
   /** A location represented as a latitude and longitude using short names 'lat' & 'lon'. */
-  readonly position?: LatLon;
+  readonly position: LatLon;
   /** The viewport that covers the result represented by the top-left and bottom-right coordinates of the viewport. */
-  readonly viewport?: BoundingBox;
+  readonly viewport: BoundingBox;
   /** Array of EntryPoints. Those describe the types of entrances available at the location. */
   readonly entryPoints?: EntryPoint[];
   /** Describes the address range on both sides of the street for a search result. */
@@ -75,39 +73,39 @@ export interface SearchAddressResultItem {
 /** The entry point for the POI being returned. */
 export interface EntryPoint {
   /** The type of entry point. */
-  readonly type?: EntryPointType;
+  readonly type: EntryPointType;
   /** Position of the entry point */
-  position?: LatLon;
+  position: LatLon;
 }
 
 /** Describes the address range on both sides of the street for a search result. Coordinates for the start and end locations of the address range are included. */
 export interface AddressRanges {
   /** Address range on the left side of the street. */
-  rangeLeft?: string;
+  rangeLeft: string;
   /** Address range on the right side of the street. */
-  rangeRight?: string;
+  rangeRight: string;
   /** The beginning point of a street segment */
-  from?: LatLon;
+  from: LatLon;
   /** The end point of a street segment */
-  to?: LatLon;
+  to: LatLon;
 }
 
 export interface ReverseSearchAddressResult {
   /** Time spent resolving the query, in milliseconds. */
-  readonly queryTime?: number;
+  readonly queryTime: number;
   /** Number of results in the response. */
-  readonly numResults?: number;
+  readonly numResults: number;
   /** The Result list, sorted in descending order by score. */
-  readonly results?: ReverseSearchAddressResultItem[];
+  readonly results: ReverseSearchAddressResultItem[];
 }
 
 export interface ReverseSearchCrossStreetAddressResult {
   /** Time spent resolving the query, in milliseconds. */
-  readonly queryTime?: number;
+  readonly queryTime: number;
   /** Number of results in the response. */
-  readonly numResults?: number;
+  readonly numResults: number;
   /** The Result list, sorted in descending order by score. */
-  readonly results?: ReverseSearchCrossStreetAddressResultItem[];
+  readonly results: ReverseSearchCrossStreetAddressResultItem[];
 }
 
 /** The address of the result */
@@ -168,9 +166,9 @@ export interface Address {
 
 export interface ReverseSearchAddressResultItem {
   /** The address of the result */
-  readonly address?: Address;
+  readonly address: Address;
   /** Position of the result */
-  readonly position?: LatLon;
+  readonly position: LatLon;
   /** List of road usage types at the address */
   readonly roadUse?: RoadUseType[];
   /** Information on the type of match. */
@@ -182,28 +180,24 @@ export interface ReverseSearchCrossStreetAddressResultItem {
   readonly address?: Address;
   /** Position of the result */
   readonly position?: LatLon;
-  /** List of road usage types at the address */
-  readonly roadUse?: RoadUseType[];
-  /** Information on the type of match. */
-  readonly matchType?: MatchType;
 }
 
 /** This object is returned from a successful Batch service call. */
 export interface BatchResult<TResult> {
   /** Number of successful requests in the batch */
-  readonly successfulRequests?: number;
+  readonly successfulRequests: number;
   /** Total number of requests in the batch */
-  readonly totalRequests?: number;
+  readonly totalRequests: number;
   /** Array containing the batch results. */
-  readonly batchItems?: BatchItem<TResult>[];
+  readonly batchItems: BatchItem<TResult>[];
 }
 
 /** An item returned from Batch service call. */
 export interface BatchItem<TResult> {
   /** HTTP request status code. */
-  readonly statusCode?: number;
+  readonly statusCode: number;
   /** The result of the query. TResult if the query completed successfully, ErrorResponse otherwise. */
-  readonly response?: TResult & ErrorResponse;
+  readonly response: TResult | ErrorResponse;
 }
 
 /**
@@ -211,7 +205,7 @@ export interface BatchItem<TResult> {
  */
 export interface EntityGeometry {
   /**  ID of the returned entity */
-  readonly providerID?: string;
+  readonly providerID: string;
   /** Geometry data in GeoJSON FeatureCollection format. */
   geometryData?: GeoJsonFeatureCollection;
 }

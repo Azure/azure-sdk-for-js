@@ -37,6 +37,7 @@ export const Polygon: coreClient.CompositeMapper = {
     modelProperties: {
       providerID: {
         serializedName: "providerID",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -195,6 +196,7 @@ export const SearchAddressResult: coreClient.CompositeMapper = {
       },
       results: {
         serializedName: "results",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -231,6 +233,7 @@ export const SearchSummary: coreClient.CompositeMapper = {
       },
       queryTime: {
         serializedName: "queryTime",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -238,13 +241,7 @@ export const SearchSummary: coreClient.CompositeMapper = {
       },
       numResults: {
         serializedName: "numResults",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      top: {
-        serializedName: "limit",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -289,12 +286,14 @@ export const LatLongPairAbbreviated: coreClient.CompositeMapper = {
     modelProperties: {
       lat: {
         serializedName: "lat",
+        required: true,
         type: {
           name: "Number"
         }
       },
       lon: {
         serializedName: "lon",
+        required: true,
         type: {
           name: "Number"
         }
@@ -310,6 +309,7 @@ export const SearchAddressResultItem: coreClient.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -317,6 +317,7 @@ export const SearchAddressResultItem: coreClient.CompositeMapper = {
       },
       id: {
         serializedName: "id",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -324,6 +325,7 @@ export const SearchAddressResultItem: coreClient.CompositeMapper = {
       },
       score: {
         serializedName: "score",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -429,6 +431,7 @@ export const PointOfInterest: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -517,6 +520,7 @@ export const PointOfInterestCategorySet: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -533,6 +537,7 @@ export const Classification: coreClient.CompositeMapper = {
     modelProperties: {
       code: {
         serializedName: "code",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -540,6 +545,7 @@ export const Classification: coreClient.CompositeMapper = {
       },
       names: {
         serializedName: "names",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -562,6 +568,7 @@ export const ClassificationName: coreClient.CompositeMapper = {
     modelProperties: {
       nameLocale: {
         serializedName: "nameLocale",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -569,6 +576,7 @@ export const ClassificationName: coreClient.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -585,6 +593,7 @@ export const BrandName: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -601,6 +610,7 @@ export const OperatingHours: coreClient.CompositeMapper = {
     modelProperties: {
       mode: {
         serializedName: "mode",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -608,6 +618,7 @@ export const OperatingHours: coreClient.CompositeMapper = {
       },
       timeRanges: {
         serializedName: "timeRanges",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -653,6 +664,7 @@ export const OperatingHoursTime: coreClient.CompositeMapper = {
     modelProperties: {
       date: {
         serializedName: "date",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -660,6 +672,7 @@ export const OperatingHoursTime: coreClient.CompositeMapper = {
       },
       hour: {
         serializedName: "hour",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -667,6 +680,7 @@ export const OperatingHoursTime: coreClient.CompositeMapper = {
       },
       minute: {
         serializedName: "minute",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -844,6 +858,7 @@ export const BoundingBoxCompassNotation: coreClient.CompositeMapper = {
     modelProperties: {
       northEast: {
         serializedName: "northEast",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -851,6 +866,7 @@ export const BoundingBoxCompassNotation: coreClient.CompositeMapper = {
       },
       southWest: {
         serializedName: "southWest",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -897,6 +913,7 @@ export const EntryPoint: coreClient.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -920,12 +937,14 @@ export const AddressRanges: coreClient.CompositeMapper = {
     modelProperties: {
       rangeLeft: {
         serializedName: "rangeLeft",
+        required: true,
         type: {
           name: "String"
         }
       },
       rangeRight: {
         serializedName: "rangeRight",
+        required: true,
         type: {
           name: "String"
         }
@@ -971,6 +990,7 @@ export const GeometryIdentifier: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -1009,6 +1029,7 @@ export const PointOfInterestCategory: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -1016,6 +1037,7 @@ export const PointOfInterestCategory: coreClient.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -1023,6 +1045,7 @@ export const PointOfInterestCategory: coreClient.CompositeMapper = {
       },
       childIds: {
         serializedName: "childCategoryIds",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -1035,6 +1058,7 @@ export const PointOfInterestCategory: coreClient.CompositeMapper = {
       },
       synonyms: {
         serializedName: "synonyms",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -1063,6 +1087,7 @@ export const ReverseSearchAddressResult: coreClient.CompositeMapper = {
       },
       addresses: {
         serializedName: "addresses",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -1092,6 +1117,7 @@ export const ReverseSearchAddressResultItem: coreClient.CompositeMapper = {
       },
       position: {
         serializedName: "position",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -1134,6 +1160,7 @@ export const ReverseSearchCrossStreetAddressResult: coreClient.CompositeMapper =
       },
       addresses: {
         serializedName: "addresses",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -1273,6 +1300,7 @@ export const BatchResultItem: coreClient.CompositeMapper = {
     modelProperties: {
       statusCode: {
         serializedName: "statusCode",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -1305,6 +1333,7 @@ export const BatchResultSummary: coreClient.CompositeMapper = {
     modelProperties: {
       successfulRequests: {
         serializedName: "successfulRequests",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -1312,6 +1341,7 @@ export const BatchResultSummary: coreClient.CompositeMapper = {
       },
       totalRequests: {
         serializedName: "totalRequests",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -1691,6 +1721,7 @@ export const SearchAddressBatchResult: coreClient.CompositeMapper = {
       ...BatchResult.type.modelProperties,
       batchItems: {
         serializedName: "batchItems",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -1714,6 +1745,7 @@ export const ReverseSearchAddressBatchResult: coreClient.CompositeMapper = {
       ...BatchResult.type.modelProperties,
       batchItems: {
         serializedName: "batchItems",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",

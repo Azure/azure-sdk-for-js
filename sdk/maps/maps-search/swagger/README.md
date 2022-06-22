@@ -38,3 +38,214 @@ directive:
       };
     reason: Autorest TS codegen does not deserialize array of base class objects as an operation parameter properly -> https://github.com/Azure/autorest.typescript/issues/1040
 ```
+
+### Define Required Fields
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Polygon
+    transform: >
+      $["required"] = [
+        "providerID",
+      ]
+  - from: swagger-document
+    where: $.definitions.PointOfInterestCategory
+    transform: >
+      $["required"] = [
+        "id",
+        "name",
+        "childCategoryIds",
+        "synonyms",
+      ]
+  - from: swagger-document
+    where: $.definitions.SearchAddressResult
+    transform: >
+      $["required"] = [
+        "summary",
+        "results",
+      ]
+  - from: swagger-document
+    where: $.definitions.SearchSummary
+    transform: >
+      $["required"] = [
+        "queryTime",
+        "numResults",
+      ]
+  - from: swagger-document
+    where-model: SearchSummary
+    remove-property: limit
+  - from: swagger-document
+    where: $.definitions.LatLongPairAbbreviated
+    transform: >
+      $["required"] = [
+        "lat",
+        "lon",
+      ]
+  - from: swagger-document
+    where: $.definitions.SearchAddressResultItem
+    transform: >
+      $["required"] = [
+        "type",
+        "id",
+        "score",
+        "address",
+        "position",
+        "viewport",
+      ]
+  - from: swagger-document
+    where: $.definitions.EntryPoint
+    transform: >
+      $["required"] = [
+        "type",
+        "position",
+      ]
+
+  - from: swagger-document
+    where: $.definitions.PointOfInterest
+    transform: >
+      $["required"] = [
+        "name",
+      ]
+  - from: swagger-document
+    where: $.definitions.Geometry
+    transform: >
+      $["required"] = [
+        "id",
+      ]
+  - from: swagger-document
+    where: $.definitions.AddressRanges
+    transform: >
+      $["required"] = [
+        "rangeLeft",
+        "rangeRight",
+        "from",
+        "to",
+      ]
+  - from: swagger-document
+    where: $.definitions.ReverseSearchAddressResult
+    transform: >
+      $["required"] = [
+        "summary",
+        "addresses",
+      ]
+  - from: swagger-document
+    where: $.definitions.ReverseSearchAddressResultItem
+    transform: >
+      $["required"] = [
+        "address",
+        "position",
+      ]
+  - from: swagger-document
+    where: $.definitions.ReverseSearchCrossStreetAddressResult
+    transform: >
+      $["required"] = [
+        "summary",
+        "addresses",
+      ]
+  - from: swagger-document
+    where: $.definitions.PointOfInterestCategorySet
+    transform: >
+      $["required"] = [
+        "id",
+      ]
+  - from: swagger-document
+    where: $.definitions.Classification
+    transform: >
+      $["required"] = [
+        "code",
+        "names",
+      ]
+  - from: swagger-document
+    where: $.definitions.ClassificationName
+    transform: >
+      $["required"] = [
+        "nameLocale",
+        "name",
+      ]
+  - from: swagger-document
+    where: $.definitions.BrandName
+    transform: >
+      $["required"] = [
+        "name",
+      ]
+  - from: swagger-document
+    where: $.definitions.OperatingHours
+    transform: >
+      $["required"] = [
+        "mode",
+        "timeRanges",
+      ]
+  - from: swagger-document
+    where: $.definitions.OperatingHoursTimeRange
+    transform: >
+      $["required"] = [
+        "startTime",
+        "endTime",
+      ]
+  - from: swagger-document
+    where: $.definitions.OperatingHoursTime
+    transform: >
+      $["required"] = [
+        "date",
+        "hour",
+        "minute",
+      ]
+  - from: swagger-document
+    where: $.definitions.BoundingBox
+    transform: >
+      $["required"] = [
+        "topLeftPoint",
+        "btmRightPoint",
+      ]
+  - from: swagger-document
+    where: $.definitions.BoundingBoxCompassNotation
+    transform: >
+      $["required"] = [
+        "northEast",
+        "southWest",
+      ]
+  - from: swagger-document
+    where: $.definitions.BatchResultItem
+    transform: >
+      $["required"] = [
+        "statusCode",
+      ]
+  - from: swagger-document
+    where: $.definitions.BatchResult
+    transform: >
+      $["required"] = [
+        "summary",
+      ]
+  - from: swagger-document
+    where: $.definitions.BatchResult.properties.summary
+    transform: >
+      $["required"] = [
+        "successfulRequests",
+        "totalRequests",
+      ]
+  - from: swagger-document
+    where: $.definitions.SearchAddressBatchItem
+    transform: >
+      $["required"] = [
+        "response",
+      ]
+  - from: swagger-document
+    where: $.definitions.ReverseSearchAddressBatchItem
+    transform: >
+      $["required"] = [
+        "response",
+      ]
+  - from: swagger-document
+    where: $.definitions.SearchAddressBatchProcessResult
+    transform: >
+      $["required"] = [
+        "batchItems",
+      ]
+  - from: swagger-document
+    where: $.definitions.ReverseSearchAddressBatchProcessResult
+    transform: >
+      $["required"] = [
+        "batchItems",
+      ]
+```

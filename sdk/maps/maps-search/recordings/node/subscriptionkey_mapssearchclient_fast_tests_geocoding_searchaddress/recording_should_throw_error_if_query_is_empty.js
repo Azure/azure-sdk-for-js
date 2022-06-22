@@ -21,7 +21,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 37D9D97051944EF68F0A5E2EDCAA0994 Ref B: TPE30EDGE0620 Ref C: 2022-03-15T05:29:15Z',
+  'Ref A: 651768D471224C9499D89661D75B9C60 Ref B: TYO01EDGE1812 Ref C: 2022-06-22T02:35:35Z',
   'Date',
-  'Tue, 15 Mar 2022 05:29:15 GMT'
+  'Wed, 22 Jun 2022 02:35:34 GMT'
 ]);
