@@ -737,6 +737,12 @@ export type ListBlobsIncludeItem =
 export type PathResourceType = "directory" | "file";
 /** Defines values for PathRenameMode. */
 export type PathRenameMode = "legacy" | "posix";
+/** Defines values for PathExpiryOptions. */
+export type PathExpiryOptions =
+  | "NeverExpire"
+  | "RelativeToCreation"
+  | "RelativeToNow"
+  | "Absolute";
 /** Defines values for PathUpdateAction. */
 export type PathUpdateAction =
   | "append"
@@ -755,12 +761,6 @@ export type PathLeaseAction =
   | "release";
 /** Defines values for PathGetPropertiesAction. */
 export type PathGetPropertiesAction = "getAccessControl" | "getStatus";
-/** Defines values for PathExpiryOptions. */
-export type PathExpiryOptions =
-  | "NeverExpire"
-  | "RelativeToCreation"
-  | "RelativeToNow"
-  | "Absolute";
 
 /** Optional parameters. */
 export interface ServiceListFileSystemsOptionalParams
@@ -970,6 +970,20 @@ export interface PathCreateOptionalParams extends coreHttp.OperationOptions {
   permissions?: string;
   /** Optional and only valid if Hierarchical Namespace is enabled for the account. When creating a file or directory and the parent folder does not have a default ACL, the umask restricts the permissions of the file or directory to be created.  The resulting permission is given by p bitwise and not u, where p is the permission and u is the umask.  For example, if p is 0777 and u is 0057, then the resulting permission is 0720.  The default permission is 0777 for a directory and 0666 for a file.  The default umask is 0027.  The umask must be specified in 4-digit octal notation (e.g. 0766). */
   umask?: string;
+  /** Optional. The owner of the blob or directory. */
+  owner?: string;
+  /** Optional. The owning group of the blob or directory. */
+  group?: string;
+  /** Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". */
+  acl?: string;
+  /** Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
+  proposedLeaseId?: string;
+  /** The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease. */
+  leaseDuration?: number;
+  /** Required. Indicates mode of the expiry time */
+  expiryOptions?: PathExpiryOptions;
+  /** The time to set the blob to expiry */
+  expiresOn?: string;
 }
 
 /** Contains response data for the create operation. */
@@ -999,6 +1013,12 @@ export interface PathUpdateOptionalParams extends coreHttp.OperationOptions {
   properties?: string;
   /** Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX access permissions for the file owner, the file owning group, and others. Each class may be granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported. */
   permissions?: string;
+  /** Optional. The owner of the blob or directory. */
+  owner?: string;
+  /** Optional. The owning group of the blob or directory. */
+  group?: string;
+  /** Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". */
+  acl?: string;
   /** Optional. Valid for "SetAccessControlRecursive" operation. It specifies the maximum number of files or directories on which the acl change will be applied. If omitted or greater than 2,000, the request will process up to 2,000 items */
   maxRecords?: number;
   /** Optional. Valid for "SetAccessControlRecursive" operation. If set to false, the operation will terminate quickly on encountering user errors (4XX). If true, the operation will ignore user errors and proceed with the operation on other sub-entities of the directory. Continuation token will only be returned when forceFlag is true in case of user errors. If not set the default value is false for this. */
@@ -1011,12 +1031,6 @@ export interface PathUpdateOptionalParams extends coreHttp.OperationOptions {
   close?: boolean;
   /** Required for "Append Data" and "Flush Data".  Must be 0 for "Flush Data".  Must be the length of the request content in bytes for "Append Data". */
   contentLength?: number;
-  /** Optional. The owner of the blob or directory. */
-  owner?: string;
-  /** Optional. The owning group of the blob or directory. */
-  group?: string;
-  /** Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". */
-  acl?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -1044,12 +1058,10 @@ export interface PathLeaseOptionalParams extends coreHttp.OperationOptions {
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
-  /** The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease. */
-  xMsLeaseDuration?: number;
-  /** The lease break period duration is optional to break a lease, and  specifies the break period of the lease in seconds.  The lease break  duration must be between 0 and 60 seconds. */
-  xMsLeaseBreakPeriod?: number;
   /** Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
   proposedLeaseId?: string;
+  /** The lease break period duration is optional to break a lease, and  specifies the break period of the lease in seconds.  The lease break  duration must be between 0 and 60 seconds. */
+  xMsLeaseBreakPeriod?: number;
 }
 
 /** Contains response data for the lease operation. */
@@ -1193,12 +1205,12 @@ export interface PathSetAccessControlRecursiveOptionalParams
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
+  /** Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". */
+  acl?: string;
   /** Optional. It specifies the maximum number of files or directories on which the acl change will be applied. If omitted or greater than 2,000, the request will process up to 2,000 items */
   maxRecords?: number;
   /** Optional. Valid for "SetAccessControlRecursive" operation. If set to false, the operation will terminate quickly on encountering user errors (4XX). If true, the operation will ignore user errors and proceed with the operation on other sub-entities of the directory. Continuation token will only be returned when forceFlag is true in case of user errors. If not set the default value is false for this. */
   forceFlag?: boolean;
-  /** Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". */
-  acl?: string;
 }
 
 /** Contains response data for the setAccessControlRecursive operation. */
@@ -1324,6 +1336,8 @@ export interface StorageClientOptionalParams
   version?: string;
   /** The value must be "filesystem" for all filesystem operations. */
   resource?: string;
+  /** The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease. */
+  xMsLeaseDuration?: number;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

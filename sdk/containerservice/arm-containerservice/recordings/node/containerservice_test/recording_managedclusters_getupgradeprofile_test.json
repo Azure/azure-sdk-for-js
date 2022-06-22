@@ -1,0 +1,56 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeProfiles/default?api-version=2022-05-02-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-containerservice/17.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "313e3e41-aba0-46e3-9780-8431e418c248"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Wed, 08 Jun 2022 09:24:39 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "nginx",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "bbd21728-2099-44eb-9730-6a139bb244c8",
+        "x-ms-ratelimit-remaining-subscription-reads": "11900",
+        "x-ms-request-id": "7aadf208-2e0a-46dc-9695-489ad312a267",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220608T092439Z:bbd21728-2099-44eb-9730-6a139bb244c8"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeprofiles/default",
+        "name": "default",
+        "type": "Microsoft.ContainerService/managedClusters/upgradeprofiles",
+        "properties": {
+          "controlPlaneProfile": {
+            "kubernetesVersion": "1.22.6",
+            "osType": "Linux",
+            "upgrades": [
+              {
+                "kubernetesVersion": "1.23.3"
+              },
+              {
+                "kubernetesVersion": "1.23.5"
+              }
+            ]
+          },
+          "agentPoolProfiles": null
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

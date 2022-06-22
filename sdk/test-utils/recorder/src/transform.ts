@@ -4,6 +4,7 @@
 import { createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
 import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
+import { logger } from "./log";
 
 interface ApplyCondition {
   uriRegex: string;
@@ -44,9 +45,12 @@ export async function addTransform(
     ...((transform as { params?: Record<string, unknown> }).params ?? {}),
   });
 
-  const { status, bodyAsText } = await httpClient.sendRequest(request);
+  logger.info("[addTransform] Adding transform", transform);
+  const response = await httpClient.sendRequest(request);
+  const { status, bodyAsText } = response;
 
   if (status < 200 || status > 299) {
+    logger.error("[addTransform] addTransform failed", response);
     throw new RecorderError(`addTransform failed: ${bodyAsText}`, status);
   }
 }

@@ -19,10 +19,12 @@ export interface ActionCommon {
 }
 
 // @public
-export type ActionCustom = ActionCommon & {
-    projectName: string;
+export interface ActionCustom extends ActionCommon {
+    // (undocumented)
     deploymentName: string;
-};
+    // (undocumented)
+    projectName: string;
+}
 
 // @public
 export interface ActionMetadata {
@@ -30,9 +32,9 @@ export interface ActionMetadata {
 }
 
 // @public
-export type ActionPrebuilt = ActionCommon & {
+export interface ActionPrebuilt extends ActionCommon {
     modelVersion?: string;
-};
+}
 
 // @public
 export type AnalyzeActionName = keyof typeof AnalyzeActionNames;
@@ -169,9 +171,9 @@ export interface CustomActionMetadata {
 }
 
 // @public
-export type CustomEntityRecognitionAction = ActionCustom & {
+export interface CustomEntityRecognitionAction extends ActionCustom {
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface CustomEntityRecognitionBatchAction extends AnalyzeBatchActionCommon, CustomEntityRecognitionAction {
@@ -193,7 +195,8 @@ export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSucces
 }
 
 // @public
-export type CustomMultiLabelClassificationAction = ActionCustom;
+export interface CustomMultiLabelClassificationAction extends ActionCustom {
+}
 
 // @public
 export interface CustomMultiLabelClassificationBatchAction extends AnalyzeBatchActionCommon, CustomMultiLabelClassificationAction {
@@ -215,7 +218,8 @@ export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysi
 }
 
 // @public
-export type CustomSingleLabelClassificationAction = ActionCustom;
+export interface CustomSingleLabelClassificationAction extends ActionCustom {
+}
 
 // @public
 export interface CustomSingleLabelClassificationBatchAction extends AnalyzeBatchActionCommon, CustomSingleLabelClassificationAction {
@@ -278,9 +282,9 @@ export interface EntityDataSource {
 }
 
 // @public
-export type EntityLinkingAction = ActionPrebuilt & {
+export interface EntityLinkingAction extends ActionPrebuilt {
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface EntityLinkingBatchAction extends AnalyzeBatchActionCommon, EntityLinkingAction {
@@ -302,9 +306,9 @@ export interface EntityLinkingSuccessResult extends TextAnalysisSuccessResult {
 }
 
 // @public
-export type EntityRecognitionAction = ActionPrebuilt & {
+export interface EntityRecognitionAction extends ActionPrebuilt {
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface EntityRecognitionBatchAction extends AnalyzeBatchActionCommon, EntityRecognitionAction {
@@ -326,11 +330,11 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
-export type ExtractiveSummarizationAction = ActionPrebuilt & {
+export interface ExtractiveSummarizationAction extends ActionPrebuilt {
     maxSentenceCount?: number;
     orderBy?: ExtractiveSummarizationOrderingCriteria;
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface ExtractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, ExtractiveSummarizationAction {
@@ -347,10 +351,10 @@ export type ExtractiveSummarizationOrderingCriteria = string;
 export type FhirVersion = string;
 
 // @public
-export type HealthcareAction = ActionPrebuilt & {
+export interface HealthcareAction extends ActionPrebuilt {
     fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface HealthcareAssertion {
@@ -407,7 +411,8 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
 }
 
 // @public
-export type KeyPhraseExtractionAction = ActionPrebuilt;
+export interface KeyPhraseExtractionAction extends ActionPrebuilt {
+}
 
 // @public
 export interface KeyPhraseExtractionBatchAction extends AnalyzeBatchActionCommon, KeyPhraseExtractionAction {
@@ -430,33 +435,19 @@ export interface KeyPhraseExtractionSuccessResult extends TextAnalysisSuccessRes
 
 // @public
 export enum KnownErrorCode {
-    // (undocumented)
     AzureCognitiveSearchIndexLimitReached = "AzureCognitiveSearchIndexLimitReached",
-    // (undocumented)
     AzureCognitiveSearchIndexNotFound = "AzureCognitiveSearchIndexNotFound",
-    // (undocumented)
     AzureCognitiveSearchNotFound = "AzureCognitiveSearchNotFound",
-    // (undocumented)
     AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
-    // (undocumented)
     Forbidden = "Forbidden",
-    // (undocumented)
     InternalServerError = "InternalServerError",
-    // (undocumented)
     InvalidArgument = "InvalidArgument",
-    // (undocumented)
     InvalidRequest = "InvalidRequest",
-    // (undocumented)
     NotFound = "NotFound",
-    // (undocumented)
     OperationNotFound = "OperationNotFound",
-    // (undocumented)
     ProjectNotFound = "ProjectNotFound",
-    // (undocumented)
     ServiceUnavailable = "ServiceUnavailable",
-    // (undocumented)
     TooManyRequests = "TooManyRequests",
-    // (undocumented)
     Unauthorized = "Unauthorized"
 }
 
@@ -473,383 +464,196 @@ export enum KnownFhirVersion {
 
 // @public
 export enum KnownInnerErrorCode {
-    // (undocumented)
     AzureCognitiveSearchNotFound = "AzureCognitiveSearchNotFound",
-    // (undocumented)
     AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
-    // (undocumented)
     EmptyRequest = "EmptyRequest",
-    // (undocumented)
     ExtractionFailure = "ExtractionFailure",
-    // (undocumented)
     InvalidCountryHint = "InvalidCountryHint",
-    // (undocumented)
     InvalidDocument = "InvalidDocument",
-    // (undocumented)
     InvalidDocumentBatch = "InvalidDocumentBatch",
-    // (undocumented)
     InvalidParameterValue = "InvalidParameterValue",
-    // (undocumented)
     InvalidRequest = "InvalidRequest",
-    // (undocumented)
     InvalidRequestBodyFormat = "InvalidRequestBodyFormat",
-    // (undocumented)
     KnowledgeBaseNotFound = "KnowledgeBaseNotFound",
-    // (undocumented)
     MissingInputDocuments = "MissingInputDocuments",
-    // (undocumented)
     ModelVersionIncorrect = "ModelVersionIncorrect",
-    // (undocumented)
     UnsupportedLanguageCode = "UnsupportedLanguageCode"
 }
 
 // @public
 export enum KnownPiiEntityCategory {
-    // (undocumented)
     ABARoutingNumber = "ABARoutingNumber",
-    // (undocumented)
     Address = "Address",
-    // (undocumented)
     Age = "Age",
-    // (undocumented)
     All = "All",
-    // (undocumented)
     ARNationalIdentityNumber = "ARNationalIdentityNumber",
-    // (undocumented)
     ATIdentityCard = "ATIdentityCard",
-    // (undocumented)
     ATTaxIdentificationNumber = "ATTaxIdentificationNumber",
-    // (undocumented)
     ATValueAddedTaxNumber = "ATValueAddedTaxNumber",
-    // (undocumented)
     AUBankAccountNumber = "AUBankAccountNumber",
-    // (undocumented)
     AUBusinessNumber = "AUBusinessNumber",
-    // (undocumented)
     AUCompanyNumber = "AUCompanyNumber",
-    // (undocumented)
     AUDriversLicenseNumber = "AUDriversLicenseNumber",
-    // (undocumented)
     AUMedicalAccountNumber = "AUMedicalAccountNumber",
-    // (undocumented)
     AUPassportNumber = "AUPassportNumber",
-    // (undocumented)
     AUTaxFileNumber = "AUTaxFileNumber",
-    // (undocumented)
     AzureDocumentDBAuthKey = "AzureDocumentDBAuthKey",
-    // (undocumented)
     AzureIaasDatabaseConnectionAndSQLString = "AzureIAASDatabaseConnectionAndSQLString",
-    // (undocumented)
     AzureIoTConnectionString = "AzureIoTConnectionString",
-    // (undocumented)
     AzurePublishSettingPassword = "AzurePublishSettingPassword",
-    // (undocumented)
     AzureRedisCacheString = "AzureRedisCacheString",
-    // (undocumented)
     AzureSAS = "AzureSAS",
-    // (undocumented)
     AzureServiceBusString = "AzureServiceBusString",
-    // (undocumented)
     AzureStorageAccountGeneric = "AzureStorageAccountGeneric",
-    // (undocumented)
     AzureStorageAccountKey = "AzureStorageAccountKey",
-    // (undocumented)
     BENationalNumber = "BENationalNumber",
-    // (undocumented)
     BENationalNumberV2 = "BENationalNumberV2",
-    // (undocumented)
     BEValueAddedTaxNumber = "BEValueAddedTaxNumber",
-    // (undocumented)
     BGUniformCivilNumber = "BGUniformCivilNumber",
-    // (undocumented)
     BrcpfNumber = "BRCPFNumber",
-    // (undocumented)
     BRLegalEntityNumber = "BRLegalEntityNumber",
-    // (undocumented)
     BRNationalIdrg = "BRNationalIDRG",
-    // (undocumented)
     CABankAccountNumber = "CABankAccountNumber",
-    // (undocumented)
     CADriversLicenseNumber = "CADriversLicenseNumber",
-    // (undocumented)
     CAHealthServiceNumber = "CAHealthServiceNumber",
-    // (undocumented)
     CAPassportNumber = "CAPassportNumber",
-    // (undocumented)
     CAPersonalHealthIdentification = "CAPersonalHealthIdentification",
-    // (undocumented)
     CASocialInsuranceNumber = "CASocialInsuranceNumber",
-    // (undocumented)
     CHSocialSecurityNumber = "CHSocialSecurityNumber",
-    // (undocumented)
     CLIdentityCardNumber = "CLIdentityCardNumber",
-    // (undocumented)
     CNResidentIdentityCardNumber = "CNResidentIdentityCardNumber",
-    // (undocumented)
     CreditCardNumber = "CreditCardNumber",
-    // (undocumented)
     CYIdentityCard = "CYIdentityCard",
-    // (undocumented)
     CYTaxIdentificationNumber = "CYTaxIdentificationNumber",
-    // (undocumented)
     CZPersonalIdentityNumber = "CZPersonalIdentityNumber",
-    // (undocumented)
     CZPersonalIdentityV2 = "CZPersonalIdentityV2",
-    // (undocumented)
     Date = "Date",
-    // (undocumented)
     DEDriversLicenseNumber = "DEDriversLicenseNumber",
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     DEIdentityCardNumber = "DEIdentityCardNumber",
-    // (undocumented)
     DEPassportNumber = "DEPassportNumber",
-    // (undocumented)
     DETaxIdentificationNumber = "DETaxIdentificationNumber",
-    // (undocumented)
     DEValueAddedNumber = "DEValueAddedNumber",
-    // (undocumented)
     DKPersonalIdentificationNumber = "DKPersonalIdentificationNumber",
-    // (undocumented)
     DKPersonalIdentificationV2 = "DKPersonalIdentificationV2",
-    // (undocumented)
     DrugEnforcementAgencyNumber = "DrugEnforcementAgencyNumber",
-    // (undocumented)
     EEPersonalIdentificationCode = "EEPersonalIdentificationCode",
-    // (undocumented)
     Email = "Email",
-    // (undocumented)
     Esdni = "ESDNI",
-    // (undocumented)
     ESSocialSecurityNumber = "ESSocialSecurityNumber",
-    // (undocumented)
     ESTaxIdentificationNumber = "ESTaxIdentificationNumber",
-    // (undocumented)
     EUDebitCardNumber = "EUDebitCardNumber",
-    // (undocumented)
     EUDriversLicenseNumber = "EUDriversLicenseNumber",
-    // (undocumented)
     EugpsCoordinates = "EUGPSCoordinates",
-    // (undocumented)
     EUNationalIdentificationNumber = "EUNationalIdentificationNumber",
-    // (undocumented)
     EUPassportNumber = "EUPassportNumber",
-    // (undocumented)
     EUSocialSecurityNumber = "EUSocialSecurityNumber",
-    // (undocumented)
     EUTaxIdentificationNumber = "EUTaxIdentificationNumber",
-    // (undocumented)
     FIEuropeanHealthNumber = "FIEuropeanHealthNumber",
-    // (undocumented)
     FINationalID = "FINationalID",
-    // (undocumented)
     FINationalIDV2 = "FINationalIDV2",
-    // (undocumented)
     FIPassportNumber = "FIPassportNumber",
-    // (undocumented)
     FRDriversLicenseNumber = "FRDriversLicenseNumber",
-    // (undocumented)
     FRHealthInsuranceNumber = "FRHealthInsuranceNumber",
-    // (undocumented)
     FRNationalID = "FRNationalID",
-    // (undocumented)
     FRPassportNumber = "FRPassportNumber",
-    // (undocumented)
     FRSocialSecurityNumber = "FRSocialSecurityNumber",
-    // (undocumented)
     FRTaxIdentificationNumber = "FRTaxIdentificationNumber",
-    // (undocumented)
     FRValueAddedTaxNumber = "FRValueAddedTaxNumber",
-    // (undocumented)
     GRNationalIDCard = "GRNationalIDCard",
-    // (undocumented)
     GRNationalIDV2 = "GRNationalIDV2",
-    // (undocumented)
     GRTaxIdentificationNumber = "GRTaxIdentificationNumber",
-    // (undocumented)
     HKIdentityCardNumber = "HKIdentityCardNumber",
-    // (undocumented)
     HRIdentityCardNumber = "HRIdentityCardNumber",
-    // (undocumented)
     HRNationalIDNumber = "HRNationalIDNumber",
-    // (undocumented)
     HRPersonalIdentificationNumber = "HRPersonalIdentificationNumber",
-    // (undocumented)
     HRPersonalIdentificationOIBNumberV2 = "HRPersonalIdentificationOIBNumberV2",
-    // (undocumented)
     HUPersonalIdentificationNumber = "HUPersonalIdentificationNumber",
-    // (undocumented)
     HUTaxIdentificationNumber = "HUTaxIdentificationNumber",
-    // (undocumented)
     HUValueAddedNumber = "HUValueAddedNumber",
-    // (undocumented)
     IDIdentityCardNumber = "IDIdentityCardNumber",
-    // (undocumented)
     IEPersonalPublicServiceNumber = "IEPersonalPublicServiceNumber",
-    // (undocumented)
     IEPersonalPublicServiceNumberV2 = "IEPersonalPublicServiceNumberV2",
-    // (undocumented)
     ILBankAccountNumber = "ILBankAccountNumber",
-    // (undocumented)
     ILNationalID = "ILNationalID",
-    // (undocumented)
     INPermanentAccount = "INPermanentAccount",
-    // (undocumented)
     InternationalBankingAccountNumber = "InternationalBankingAccountNumber",
-    // (undocumented)
     INUniqueIdentificationNumber = "INUniqueIdentificationNumber",
-    // (undocumented)
     IPAddress = "IPAddress",
-    // (undocumented)
     ITDriversLicenseNumber = "ITDriversLicenseNumber",
-    // (undocumented)
     ITFiscalCode = "ITFiscalCode",
-    // (undocumented)
     ITValueAddedTaxNumber = "ITValueAddedTaxNumber",
-    // (undocumented)
     JPBankAccountNumber = "JPBankAccountNumber",
-    // (undocumented)
     JPDriversLicenseNumber = "JPDriversLicenseNumber",
-    // (undocumented)
     JPMyNumberCorporate = "JPMyNumberCorporate",
-    // (undocumented)
     JPMyNumberPersonal = "JPMyNumberPersonal",
-    // (undocumented)
     JPPassportNumber = "JPPassportNumber",
-    // (undocumented)
     JPResidenceCardNumber = "JPResidenceCardNumber",
-    // (undocumented)
     JPResidentRegistrationNumber = "JPResidentRegistrationNumber",
-    // (undocumented)
     JPSocialInsuranceNumber = "JPSocialInsuranceNumber",
-    // (undocumented)
     KRResidentRegistrationNumber = "KRResidentRegistrationNumber",
-    // (undocumented)
     LTPersonalCode = "LTPersonalCode",
-    // (undocumented)
     LUNationalIdentificationNumberNatural = "LUNationalIdentificationNumberNatural",
-    // (undocumented)
     LUNationalIdentificationNumberNonNatural = "LUNationalIdentificationNumberNonNatural",
-    // (undocumented)
     LVPersonalCode = "LVPersonalCode",
-    // (undocumented)
     MTIdentityCardNumber = "MTIdentityCardNumber",
-    // (undocumented)
     MTTaxIDNumber = "MTTaxIDNumber",
-    // (undocumented)
     MYIdentityCardNumber = "MYIdentityCardNumber",
-    // (undocumented)
     NLCitizensServiceNumber = "NLCitizensServiceNumber",
-    // (undocumented)
     NLCitizensServiceNumberV2 = "NLCitizensServiceNumberV2",
-    // (undocumented)
     NLTaxIdentificationNumber = "NLTaxIdentificationNumber",
-    // (undocumented)
     NLValueAddedTaxNumber = "NLValueAddedTaxNumber",
-    // (undocumented)
     NOIdentityNumber = "NOIdentityNumber",
-    // (undocumented)
     NZBankAccountNumber = "NZBankAccountNumber",
-    // (undocumented)
     NZDriversLicenseNumber = "NZDriversLicenseNumber",
-    // (undocumented)
     NZInlandRevenueNumber = "NZInlandRevenueNumber",
-    // (undocumented)
     NZMinistryOfHealthNumber = "NZMinistryOfHealthNumber",
-    // (undocumented)
     NZSocialWelfareNumber = "NZSocialWelfareNumber",
-    // (undocumented)
     Organization = "Organization",
-    // (undocumented)
     Person = "Person",
-    // (undocumented)
     PhoneNumber = "PhoneNumber",
-    // (undocumented)
     PHUnifiedMultiPurposeIDNumber = "PHUnifiedMultiPurposeIDNumber",
-    // (undocumented)
     PLIdentityCard = "PLIdentityCard",
-    // (undocumented)
     PLNationalID = "PLNationalID",
-    // (undocumented)
     PLNationalIDV2 = "PLNationalIDV2",
-    // (undocumented)
     PLPassportNumber = "PLPassportNumber",
-    // (undocumented)
     PlregonNumber = "PLREGONNumber",
-    // (undocumented)
     PLTaxIdentificationNumber = "PLTaxIdentificationNumber",
-    // (undocumented)
     PTCitizenCardNumber = "PTCitizenCardNumber",
-    // (undocumented)
     PTCitizenCardNumberV2 = "PTCitizenCardNumberV2",
-    // (undocumented)
     PTTaxIdentificationNumber = "PTTaxIdentificationNumber",
-    // (undocumented)
     ROPersonalNumericalCode = "ROPersonalNumericalCode",
-    // (undocumented)
     RUPassportNumberDomestic = "RUPassportNumberDomestic",
-    // (undocumented)
     RUPassportNumberInternational = "RUPassportNumberInternational",
-    // (undocumented)
     SANationalID = "SANationalID",
-    // (undocumented)
     SENationalID = "SENationalID",
-    // (undocumented)
     SENationalIDV2 = "SENationalIDV2",
-    // (undocumented)
     SEPassportNumber = "SEPassportNumber",
-    // (undocumented)
     SETaxIdentificationNumber = "SETaxIdentificationNumber",
-    // (undocumented)
     SGNationalRegistrationIdentityCardNumber = "SGNationalRegistrationIdentityCardNumber",
-    // (undocumented)
     SITaxIdentificationNumber = "SITaxIdentificationNumber",
-    // (undocumented)
     SIUniqueMasterCitizenNumber = "SIUniqueMasterCitizenNumber",
-    // (undocumented)
     SKPersonalNumber = "SKPersonalNumber",
-    // (undocumented)
     SQLServerConnectionString = "SQLServerConnectionString",
-    // (undocumented)
     SwiftCode = "SWIFTCode",
-    // (undocumented)
     THPopulationIdentificationCode = "THPopulationIdentificationCode",
-    // (undocumented)
     TRNationalIdentificationNumber = "TRNationalIdentificationNumber",
-    // (undocumented)
     TWNationalID = "TWNationalID",
-    // (undocumented)
     TWPassportNumber = "TWPassportNumber",
-    // (undocumented)
     TWResidentCertificate = "TWResidentCertificate",
-    // (undocumented)
     UAPassportNumberDomestic = "UAPassportNumberDomestic",
-    // (undocumented)
     UAPassportNumberInternational = "UAPassportNumberInternational",
-    // (undocumented)
     UKDriversLicenseNumber = "UKDriversLicenseNumber",
-    // (undocumented)
     UKElectoralRollNumber = "UKElectoralRollNumber",
-    // (undocumented)
     UKNationalHealthNumber = "UKNationalHealthNumber",
-    // (undocumented)
     UKNationalInsuranceNumber = "UKNationalInsuranceNumber",
-    // (undocumented)
     UKUniqueTaxpayerNumber = "UKUniqueTaxpayerNumber",
-    // (undocumented)
     URL = "URL",
-    // (undocumented)
     USBankAccountNumber = "USBankAccountNumber",
-    // (undocumented)
     USDriversLicenseNumber = "USDriversLicenseNumber",
-    // (undocumented)
     USIndividualTaxpayerIdentification = "USIndividualTaxpayerIdentification",
-    // (undocumented)
     USSocialSecurityNumber = "USSocialSecurityNumber",
-    // (undocumented)
     UsukPassportNumber = "USUKPassportNumber",
-    // (undocumented)
     ZAIdentificationNumber = "ZAIdentificationNumber"
 }
 
@@ -896,7 +700,8 @@ export const KnownTextAnalysisErrorCode: {
 };
 
 // @public
-export type LanguageDetectionAction = ActionPrebuilt;
+export interface LanguageDetectionAction extends ActionPrebuilt {
+}
 
 // @public
 export type LanguageDetectionErrorResult = TextAnalysisErrorResult;
@@ -954,11 +759,11 @@ export type PiiEntityCategory = string;
 export type PiiEntityDomain = string;
 
 // @public
-export type PiiEntityRecognitionAction = ActionPrebuilt & {
-    domainFilter?: PiiEntityDomain;
+export interface PiiEntityRecognitionAction extends ActionPrebuilt {
     categoriesFilter?: PiiEntityCategory[];
+    domainFilter?: PiiEntityDomain;
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface PiiEntityRecognitionBatchAction extends AnalyzeBatchActionCommon, PiiEntityRecognitionAction {
@@ -1002,10 +807,10 @@ export interface SentenceSentiment {
 export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 
 // @public
-export type SentimentAnalysisAction = ActionPrebuilt & {
+export interface SentimentAnalysisAction extends ActionPrebuilt {
     includeOpinionMining?: boolean;
     stringIndexType?: StringIndexType;
-};
+}
 
 // @public
 export interface SentimentAnalysisBatchAction extends AnalyzeBatchActionCommon, SentimentAnalysisAction {

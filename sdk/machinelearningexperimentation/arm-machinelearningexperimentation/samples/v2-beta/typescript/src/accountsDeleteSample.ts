@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a machine learning team account.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/DeleteAccount.json
  */
-async function accountCreate() {
+async function accountDelete() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myAccount";
@@ -27,4 +27,4 @@ async function accountCreate() {
   console.log(result);
 }
 
-accountCreate().catch(console.error);
+accountDelete().catch(console.error);

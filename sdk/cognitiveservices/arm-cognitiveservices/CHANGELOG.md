@@ -1,15 +1,12 @@
 # Release History
+    
+## 7.2.0 (2022-06-10)
+    
+**Features**
 
-## 7.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownDeploymentScaleType has a new value Standard
+    
+    
 ## 7.1.0 (2022-04-06)
     
 **Features**

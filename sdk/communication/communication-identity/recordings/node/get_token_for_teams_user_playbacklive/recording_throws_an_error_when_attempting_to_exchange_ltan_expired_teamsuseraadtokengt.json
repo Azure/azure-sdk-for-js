@@ -1,0 +1,45 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2022-06-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "62",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "rWLS\u002BNmgOZo/uY3f8bYH236LlnXDAiZIMi8O0lqnfk4=",
+        "x-ms-date": "Wed, 18 May 2022 11:19:30 GMT"
+      },
+      "RequestBody": {
+        "token": "sanitized",
+        "appId": "sanitized",
+        "userId": "sanitized"
+      },
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Wed, 18 May 2022 11:19:30 GMT",
+        "MS-CV": "VOyHxLOB7kGcoC3qu8CTrA.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0Q9aEYgAAAAAGT9EUQXecTa9id0CRc2FLTFRTRURHRTEyMTgAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "sanitized",
+        "X-Processing-Time": "33ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidAccessToken",
+          "message": "Provided access token is not valid."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

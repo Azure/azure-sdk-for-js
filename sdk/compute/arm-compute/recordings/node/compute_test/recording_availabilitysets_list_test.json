@@ -1,0 +1,58 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/availabilitySets?api-version=2022-03-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-compute/19.0.0 core-rest-pipeline/1.9.0 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "44f59369-7d05-4a75-9d03-5dd27ca8d634"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Jun 2022 12:27:30 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": [
+          "Microsoft-HTTPAPI/2.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3f7d4a4c-fbf5-494b-a112-bd56ea605382",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3998,Microsoft.Compute/LowCostGet30Min;31973",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "6a5e17e0-8059-45ba-be8e-b408be9b6ef6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220607T122731Z:3f7d4a4c-fbf5-494b-a112-bd56ea605382"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "availabilitySets123",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/availabilitySets/availabilitySets123",
+            "type": "Microsoft.Compute/availabilitySets",
+            "location": "eastus",
+            "properties": {
+              "platformUpdateDomainCount": 20,
+              "platformFaultDomainCount": 2,
+              "virtualMachines": []
+            },
+            "sku": {
+              "name": "Classic"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

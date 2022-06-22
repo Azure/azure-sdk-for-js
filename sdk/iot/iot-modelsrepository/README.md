@@ -2,14 +2,13 @@
 
 This package contains an isomorphic Client Library for Azure IoT Models Repository in JavaScript. Use the Azure IoT Models Repository library for JavaScript to pull DTDL files from remote endpoints.
 
-
 Key links:
+
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iot/iot-modelsrepository)
 - [Package (npm)](https://www.npmjs.com/package/@azure/iot-modelsrepository/)
 - Samples
 
-
-# Getting started
+## Getting started
 
 ## Key concepts
 
@@ -30,10 +29,9 @@ The preferred way to install the Azure IoT Models Repository client library for 
 npm install @azure/iot-modelsrepository
 ```
 
-# Examples
+## Examples
 
-
-## Initializing the Models Repository Client
+### Initializing the Models Repository Client
 
 ```ts
 // When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
@@ -44,18 +42,22 @@ const { ModelsRepositoryClient } = require("@azure/iot-modelsrepository");
 const client = new ModelsRepositoryClient();
 console.log(`Initialized client point to global endpoint: ${client.repositoryLocation}`);
 ```
+
 ```ts
 // The client will also work with a local filesystem URI. This example shows initalization
 // with a local URI and disabling model dependency resolution.
-const client = new ModelsRepositoryClient({repositoryLocation: 'file:///path/to/repository/', dependencyResolution: 'disabled'});
+const client = new ModelsRepositoryClient({
+  repositoryLocation: "file:///path/to/repository/",
+  dependencyResolution: "disabled",
+});
 console.log(`Initialized client pointing to local path: ${client.repositoryLocation}`);
 ```
 
-## Publish Models
+### Publish Models
 
 Publishing models to the models repository requires [exercising](https://docs.microsoft.com/azure/iot-pnp/concepts-model-repository#publish-a-model) common GitHub workflows.
 
-## Get Models
+### Get Models
 
 After publishing, your model(s) will be available for consumption from the global repository endpoint. The following snippet shows how to retrieve the corresponding JSON-LD content.
 
@@ -67,7 +69,7 @@ const client = new ModelsRepositoryClient();
 // If the model dependency resolution configuration is not disabled, then models in which the
 // target dtmi depends on will also be included in the returned object (mapping dtmis to model objects).
 const dtmi = "dtmi:com:example:TemperatureController;1";
-const models = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpanded'});
+const models = await client.getModels(dtmi, { dependencyResolution: "tryFromExpanded" });
 
 // In this case the above dtmi has 2 model dependencies.
 // dtmi:com:example:Thermostat;1 and dtmi:azure:DeviceManagement:DeviceInformation;1
@@ -99,7 +101,10 @@ You are also able to get definitions for multiple root models at a time by lever
 // Global endpoint client
 const client = new ModelsRepositoryClient();
 
-const dtmis = ["dtmi:com:example:TemperatureController;1", "dtmi:com:example:azuresphere:sampledevice;1"];
+const dtmis = [
+  "dtmi:com:example:TemperatureController;1",
+  "dtmi:com:example:azuresphere:sampledevice;1",
+];
 const models = await client.getModels(dtmis);
 
 // In this case the dtmi "dtmi:com:example:TemperatureController;1" has 2 model dependencies
@@ -108,11 +113,11 @@ const models = await client.getModels(dtmis);
 console.log(`${dtmis.toString()} resolved in ${models.keys().length} interfaces.`);
 ```
 
-## Digital Twins Model Parser Integration
+### Digital Twins Model Parser Integration
 
-*When the Digital Twins Model Parser is completed, we will update you with information on how to integrate this client.*
+_When the Digital Twins Model Parser is completed, we will update you with information on how to integrate this client._
 
-## DtmiConventions utility functions
+### DtmiConventions utility functions
 
 The IoT Models Repository applies a set of conventions for organizing digital twin models. This package exposes two auxiliary functions related to `DtmiConventions`, `getModelUri` and `isValidDtmi`. These same functions are used throughout the client.
 
@@ -131,38 +136,42 @@ isValidDtmi("dtmi:com:example:Thermostat");
 
 // Local repository example
 const localRepositoryUri: string = "file:///path/to/repository/";
-const fullyQualifiedModelPath: string =
-    getModelUri("dtmi:com:example:Thermostat;1", localRepositoryUri);
+const fullyQualifiedModelPath: string = getModelUri(
+  "dtmi:com:example:Thermostat;1",
+  localRepositoryUri
+);
 
 // Prints '/path/to/repository/dtmi/com/example/thermostat-1.json'
 console.log(fullyQualifiedModelPath);
 
 // Remote repository example
 const remoteRepositoryUri: string = "https://contoso.com/models/";
-const fullyQualifiedModelPath: string =
-    GetModelUri("dtmi:com:example:Thermostat;1", remoteRepositoryUri);
+const fullyQualifiedModelPath: string = GetModelUri(
+  "dtmi:com:example:Thermostat;1",
+  remoteRepositoryUri
+);
 
 // Prints 'https://contoso.com/models/dtmi/com/example/thermostat-1.json'
 console.log(fullyQualifiedModelPath);
 ```
 
------------------------------------------
+---
 
-# Troubleshooting
+## Troubleshooting
 
 - If you run into an error, first make sure the model you are access exists at the location you are attempting to get it from.
 
-# Next steps
+## Next steps
 
 - Review the [DTDL Spec](https://docs.microsoft.com/azure/iot-pnp/concepts-model-parser).
 - Understand the [Device Models Repository](https://devicemodels.azure.com/).
-- Code a IoT Plug and Play 'Device' using the [Azure IoT SDK for Node](https://github.com/Azure/azure-iot-sdk-node/tree/master/device/samples#plug-and-play-examples).  
+- Code a IoT Plug and Play 'Device' using the [Azure IoT SDK for Node](https://github.com/Azure/azure-iot-sdk-node/tree/master/device/samples#plug-and-play-examples).
 
-# Related projects
+## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-# Contributing
+## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

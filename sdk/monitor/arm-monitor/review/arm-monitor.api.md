@@ -26,6 +26,14 @@ export interface ActionDetail {
 }
 
 // @public
+export interface ActionGroup {
+    actionGroupId: string;
+    webhookProperties?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface ActionGroupList {
     nextLink?: string;
     value?: ActionGroupResource[];
@@ -58,6 +66,10 @@ export type ActionGroupResource = AzureResource & {
 
 // @public
 export interface ActionGroups {
+    beginCreateNotificationsAtActionGroupResourceLevel(resourceGroupName: string, actionGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams): Promise<PollerLike<PollOperationState<ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse>, ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse>>;
+    beginCreateNotificationsAtActionGroupResourceLevelAndWait(resourceGroupName: string, actionGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams): Promise<ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse>;
+    beginCreateNotificationsAtResourceGroupLevel(resourceGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams): Promise<PollerLike<PollOperationState<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse>, ActionGroupsCreateNotificationsAtResourceGroupLevelResponse>>;
+    beginCreateNotificationsAtResourceGroupLevelAndWait(resourceGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams): Promise<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse>;
     beginPostTestNotifications(notificationRequest: NotificationRequestBody, options?: ActionGroupsPostTestNotificationsOptionalParams): Promise<PollerLike<PollOperationState<ActionGroupsPostTestNotificationsResponse>, ActionGroupsPostTestNotificationsResponse>>;
     beginPostTestNotificationsAndWait(notificationRequest: NotificationRequestBody, options?: ActionGroupsPostTestNotificationsOptionalParams): Promise<ActionGroupsPostTestNotificationsResponse>;
     createOrUpdate(resourceGroupName: string, actionGroupName: string, actionGroup: ActionGroupResource, options?: ActionGroupsCreateOrUpdateOptionalParams): Promise<ActionGroupsCreateOrUpdateResponse>;
@@ -65,10 +77,40 @@ export interface ActionGroups {
     enableReceiver(resourceGroupName: string, actionGroupName: string, enableRequest: EnableRequest, options?: ActionGroupsEnableReceiverOptionalParams): Promise<void>;
     get(resourceGroupName: string, actionGroupName: string, options?: ActionGroupsGetOptionalParams): Promise<ActionGroupsGetResponse>;
     getTestNotifications(notificationId: string, options?: ActionGroupsGetTestNotificationsOptionalParams): Promise<ActionGroupsGetTestNotificationsResponse>;
+    getTestNotificationsAtActionGroupResourceLevel(resourceGroupName: string, actionGroupName: string, notificationId: string, options?: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams): Promise<ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse>;
+    getTestNotificationsAtResourceGroupLevel(resourceGroupName: string, notificationId: string, options?: ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams): Promise<ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ActionGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ActionGroupResource>;
     listBySubscriptionId(options?: ActionGroupsListBySubscriptionIdOptionalParams): PagedAsyncIterableIterator<ActionGroupResource>;
     update(resourceGroupName: string, actionGroupName: string, actionGroupPatch: ActionGroupPatchBody, options?: ActionGroupsUpdateOptionalParams): Promise<ActionGroupsUpdateResponse>;
 }
+
+// @public
+export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders {
+    location?: string;
+}
+
+// @public
+export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse = ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders;
+
+// @public
+export interface ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders {
+    location?: string;
+}
+
+// @public
+export interface ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ActionGroupsCreateNotificationsAtResourceGroupLevelResponse = ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders;
 
 // @public
 export interface ActionGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -93,6 +135,20 @@ export interface ActionGroupsGetOptionalParams extends coreClient.OperationOptio
 export type ActionGroupsGetResponse = ActionGroupResource;
 
 // @public
+export interface ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse = TestNotificationDetailsResponse;
+
+// @public
+export interface ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse = TestNotificationDetailsResponse;
+
+// @public
 export interface ActionGroupsGetTestNotificationsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -114,13 +170,18 @@ export interface ActionGroupsListBySubscriptionIdOptionalParams extends coreClie
 export type ActionGroupsListBySubscriptionIdResponse = ActionGroupList;
 
 // @public
+export interface ActionGroupsPostTestNotificationsHeaders {
+    location?: string;
+}
+
+// @public
 export interface ActionGroupsPostTestNotificationsOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ActionGroupsPostTestNotificationsResponse = TestNotificationResponse;
+export type ActionGroupsPostTestNotificationsResponse = ActionGroupsPostTestNotificationsHeaders;
 
 // @public
 export interface ActionGroupsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -129,64 +190,31 @@ export interface ActionGroupsUpdateOptionalParams extends coreClient.OperationOp
 // @public
 export type ActionGroupsUpdateResponse = ActionGroupResource;
 
+// @public
+export interface ActionList {
+    actionGroups?: ActionGroup[];
+}
+
 // @public (undocumented)
 export type ActionUnion = Action | AlertingAction | LogToMetricAction;
 
 // @public
-export interface ActivityLogAlertActionGroup {
-    actionGroupId: string;
-    webhookProperties?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface ActivityLogAlertActionList {
-    actionGroups?: ActivityLogAlertActionGroup[];
-}
-
-// @public
-export interface ActivityLogAlertAllOfCondition {
-    allOf: ActivityLogAlertLeafCondition[];
-}
-
-// @public
-export interface ActivityLogAlertLeafCondition {
-    equals: string;
-    field: string;
-}
-
-// @public
-export interface ActivityLogAlertList {
-    nextLink?: string;
-    value?: ActivityLogAlertResource[];
-}
-
-// @public
-export interface ActivityLogAlertPatchBody {
-    enabled?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export type ActivityLogAlertResource = Resource & {
+export type ActivityLogAlertResource = AzureResourceAutoGenerated & {
     scopes?: string[];
+    condition?: AlertRuleAllOfCondition;
+    actions?: ActionList;
     enabled?: boolean;
-    condition?: ActivityLogAlertAllOfCondition;
-    actions?: ActivityLogAlertActionList;
     description?: string;
 };
 
 // @public
 export interface ActivityLogAlerts {
-    createOrUpdate(resourceGroupName: string, activityLogAlertName: string, activityLogAlert: ActivityLogAlertResource, options?: ActivityLogAlertsCreateOrUpdateOptionalParams): Promise<ActivityLogAlertsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, activityLogAlertName: string, activityLogAlertRule: ActivityLogAlertResource, options?: ActivityLogAlertsCreateOrUpdateOptionalParams): Promise<ActivityLogAlertsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, activityLogAlertName: string, options?: ActivityLogAlertsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, activityLogAlertName: string, options?: ActivityLogAlertsGetOptionalParams): Promise<ActivityLogAlertsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ActivityLogAlertsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ActivityLogAlertResource>;
     listBySubscriptionId(options?: ActivityLogAlertsListBySubscriptionIdOptionalParams): PagedAsyncIterableIterator<ActivityLogAlertResource>;
-    update(resourceGroupName: string, activityLogAlertName: string, activityLogAlertPatch: ActivityLogAlertPatchBody, options?: ActivityLogAlertsUpdateOptionalParams): Promise<ActivityLogAlertsUpdateResponse>;
+    update(resourceGroupName: string, activityLogAlertName: string, activityLogAlertRulePatch: AlertRulePatchObject, options?: ActivityLogAlertsUpdateOptionalParams): Promise<ActivityLogAlertsUpdateResponse>;
 }
 
 // @public
@@ -208,18 +236,32 @@ export interface ActivityLogAlertsGetOptionalParams extends coreClient.Operation
 export type ActivityLogAlertsGetResponse = ActivityLogAlertResource;
 
 // @public
+export interface ActivityLogAlertsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActivityLogAlertsListByResourceGroupNextResponse = AlertRuleList;
+
+// @public
 export interface ActivityLogAlertsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ActivityLogAlertsListByResourceGroupResponse = ActivityLogAlertList;
+export type ActivityLogAlertsListByResourceGroupResponse = AlertRuleList;
+
+// @public
+export interface ActivityLogAlertsListBySubscriptionIdNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActivityLogAlertsListBySubscriptionIdNextResponse = AlertRuleList;
 
 // @public
 export interface ActivityLogAlertsListBySubscriptionIdOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ActivityLogAlertsListBySubscriptionIdResponse = ActivityLogAlertList;
+export type ActivityLogAlertsListBySubscriptionIdResponse = AlertRuleList;
 
 // @public
 export interface ActivityLogAlertsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -265,6 +307,16 @@ export type AlertingAction = Action & {
 };
 
 // @public
+export interface AlertRuleAllOfCondition {
+    allOf: AlertRuleAnyOfOrLeafCondition[];
+}
+
+// @public
+export type AlertRuleAnyOfOrLeafCondition = AlertRuleLeafCondition & {
+    anyOf?: AlertRuleLeafCondition[];
+};
+
+// @public
 export interface AlertRuleIncidents {
     get(resourceGroupName: string, ruleName: string, incidentName: string, options?: AlertRuleIncidentsGetOptionalParams): Promise<AlertRuleIncidentsGetResponse>;
     listByAlertRule(resourceGroupName: string, ruleName: string, options?: AlertRuleIncidentsListByAlertRuleOptionalParams): PagedAsyncIterableIterator<Incident>;
@@ -283,6 +335,27 @@ export interface AlertRuleIncidentsListByAlertRuleOptionalParams extends coreCli
 
 // @public
 export type AlertRuleIncidentsListByAlertRuleResponse = IncidentListResult;
+
+// @public
+export interface AlertRuleLeafCondition {
+    containsAny?: string[];
+    equals?: string;
+    field?: string;
+}
+
+// @public
+export interface AlertRuleList {
+    nextLink?: string;
+    value?: ActivityLogAlertResource[];
+}
+
+// @public
+export interface AlertRulePatchObject {
+    enabled?: boolean;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export type AlertRuleResource = Resource & {
@@ -547,6 +620,17 @@ export interface AzureResource {
 }
 
 // @public
+export interface AzureResourceAutoGenerated {
+    readonly id?: string;
+    location?: string;
+    readonly name?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
 export interface BaselineMetadata {
     name: string;
     value: string;
@@ -577,6 +661,12 @@ export type BaselinesListResponse = MetricBaselinesResponse;
 
 // @public
 export type CategoryType = "Metrics" | "Logs";
+
+// @public
+export interface ColumnDefinition {
+    name?: string;
+    type?: KnownColumnDefinitionType;
+}
 
 // @public
 export type ComparisonOperationType = "Equals" | "NotEquals" | "GreaterThan" | "GreaterThanOrEqual" | "LessThan" | "LessThanOrEqual";
@@ -621,13 +711,13 @@ export interface DataCollectionEndpoint {
 }
 
 // @public
-export type DataCollectionEndpointConfigurationAccess = ConfigurationAccessEndpointSpec & {};
+export type DataCollectionEndpointConfigurationAccess = ConfigurationAccessEndpointSpec;
 
 // @public
-export type DataCollectionEndpointLogsIngestion = LogsIngestionEndpointSpec & {};
+export type DataCollectionEndpointLogsIngestion = LogsIngestionEndpointSpec;
 
 // @public
-export type DataCollectionEndpointNetworkAcls = NetworkRuleSet & {};
+export type DataCollectionEndpointNetworkAcls = NetworkRuleSet;
 
 // @public
 export interface DataCollectionEndpointResource {
@@ -656,10 +746,10 @@ export interface DataCollectionEndpointResourceListResult {
 }
 
 // @public
-export type DataCollectionEndpointResourceProperties = DataCollectionEndpoint & {};
+export type DataCollectionEndpointResourceProperties = DataCollectionEndpoint;
 
 // @public
-export type DataCollectionEndpointResourceSystemData = SystemData & {};
+export type DataCollectionEndpointResourceSystemData = SystemData;
 
 // @public
 export interface DataCollectionEndpoints {
@@ -728,12 +818,17 @@ export type DataCollectionEndpointsUpdateResponse = DataCollectionEndpointResour
 
 // @public
 export interface DataCollectionRule {
+    dataCollectionEndpointId?: string;
     dataFlows?: DataFlow[];
     dataSources?: DataCollectionRuleDataSources;
     description?: string;
     destinations?: DataCollectionRuleDestinations;
     readonly immutableId?: string;
+    readonly metadata?: DataCollectionRuleMetadata;
     readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
+    streamDeclarations?: {
+        [propertyName: string]: StreamDeclaration;
+    };
 }
 
 // @public
@@ -741,8 +836,12 @@ export interface DataCollectionRuleAssociation {
     dataCollectionEndpointId?: string;
     dataCollectionRuleId?: string;
     description?: string;
+    readonly metadata?: DataCollectionRuleAssociationMetadata;
     readonly provisioningState?: KnownDataCollectionRuleAssociationProvisioningState;
 }
+
+// @public
+export type DataCollectionRuleAssociationMetadata = Metadata;
 
 // @public
 export interface DataCollectionRuleAssociationProxyOnlyResource {
@@ -751,6 +850,7 @@ export interface DataCollectionRuleAssociationProxyOnlyResource {
     description?: string;
     readonly etag?: string;
     readonly id?: string;
+    readonly metadata?: DataCollectionRuleAssociationMetadata;
     readonly name?: string;
     readonly provisioningState?: KnownDataCollectionRuleAssociationProvisioningState;
     readonly systemData?: DataCollectionRuleAssociationProxyOnlyResourceSystemData;
@@ -764,16 +864,17 @@ export interface DataCollectionRuleAssociationProxyOnlyResourceListResult {
 }
 
 // @public
-export type DataCollectionRuleAssociationProxyOnlyResourceProperties = DataCollectionRuleAssociation & {};
+export type DataCollectionRuleAssociationProxyOnlyResourceProperties = DataCollectionRuleAssociation;
 
 // @public
-export type DataCollectionRuleAssociationProxyOnlyResourceSystemData = SystemData & {};
+export type DataCollectionRuleAssociationProxyOnlyResourceSystemData = SystemData;
 
 // @public
 export interface DataCollectionRuleAssociations {
     create(resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsCreateOptionalParams): Promise<DataCollectionRuleAssociationsCreateResponse>;
     delete(resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsDeleteOptionalParams): Promise<void>;
     get(resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsGetOptionalParams): Promise<DataCollectionRuleAssociationsGetResponse>;
+    listByDataCollectionEndpoint(resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
     listByResource(resourceUri: string, options?: DataCollectionRuleAssociationsListByResourceOptionalParams): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
     listByRule(resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRuleAssociationsListByRuleOptionalParams): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
 }
@@ -796,6 +897,20 @@ export interface DataCollectionRuleAssociationsGetOptionalParams extends coreCli
 
 // @public
 export type DataCollectionRuleAssociationsGetResponse = DataCollectionRuleAssociationProxyOnlyResource;
+
+// @public
+export interface DataCollectionRuleAssociationsListByDataCollectionEndpointNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DataCollectionRuleAssociationsListByDataCollectionEndpointNextResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
+
+// @public
+export interface DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DataCollectionRuleAssociationsListByDataCollectionEndpointResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
 
 // @public
 export interface DataCollectionRuleAssociationsListByResourceNextOptionalParams extends coreClient.OperationOptions {
@@ -826,13 +941,17 @@ export interface DataCollectionRuleAssociationsListByRuleOptionalParams extends 
 export type DataCollectionRuleAssociationsListByRuleResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
 
 // @public
-export type DataCollectionRuleDataSources = DataSourcesSpec & {};
+export type DataCollectionRuleDataSources = DataSourcesSpec;
 
 // @public
-export type DataCollectionRuleDestinations = DestinationsSpec & {};
+export type DataCollectionRuleDestinations = DestinationsSpec;
+
+// @public
+export type DataCollectionRuleMetadata = Metadata;
 
 // @public
 export interface DataCollectionRuleResource {
+    dataCollectionEndpointId?: string;
     dataFlows?: DataFlow[];
     dataSources?: DataCollectionRuleDataSources;
     description?: string;
@@ -842,8 +961,12 @@ export interface DataCollectionRuleResource {
     readonly immutableId?: string;
     kind?: KnownDataCollectionRuleResourceKind;
     location: string;
+    readonly metadata?: DataCollectionRuleMetadata;
     readonly name?: string;
     readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
+    streamDeclarations?: {
+        [propertyName: string]: StreamDeclaration;
+    };
     readonly systemData?: DataCollectionRuleResourceSystemData;
     tags?: {
         [propertyName: string]: string;
@@ -858,10 +981,10 @@ export interface DataCollectionRuleResourceListResult {
 }
 
 // @public
-export type DataCollectionRuleResourceProperties = DataCollectionRule & {};
+export type DataCollectionRuleResourceProperties = DataCollectionRule;
 
 // @public
-export type DataCollectionRuleResourceSystemData = SystemData & {};
+export type DataCollectionRuleResourceSystemData = SystemData;
 
 // @public
 export interface DataCollectionRules {
@@ -936,12 +1059,16 @@ export interface DataContainer {
 // @public
 export interface DataFlow {
     destinations?: string[];
+    outputStream?: string;
     streams?: KnownDataFlowStreams[];
+    transformKql?: string;
 }
 
 // @public
 export interface DataSourcesSpec {
     extensions?: ExtensionDataSource[];
+    iisLogs?: IisLogsDataSource[];
+    logFiles?: LogFilesDataSource[];
     performanceCounters?: PerfCounterDataSource[];
     syslog?: SyslogDataSource[];
     windowsEventLogs?: WindowsEventLogDataSource[];
@@ -957,7 +1084,7 @@ export interface DestinationsSpec {
 }
 
 // @public
-export type DestinationsSpecAzureMonitorMetrics = AzureMonitorMetricsDestination & {};
+export type DestinationsSpecAzureMonitorMetrics = AzureMonitorMetricsDestination;
 
 // @public
 export interface DiagnosticSettings {
@@ -1123,6 +1250,12 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface ErrorResponseAutoGenerated {
+    readonly code?: string;
+    readonly message?: string;
+}
+
+// @public
 export type ErrorResponseCommon = ErrorResponse & {
     readonly details?: ErrorResponseCommon[];
     readonly additionalInfo?: ErrorAdditionalInfo[];
@@ -1219,6 +1352,13 @@ export interface HttpRequestInfo {
 }
 
 // @public
+export interface IisLogsDataSource {
+    logDirectories?: string[];
+    name?: string;
+    streams: string[];
+}
+
+// @public
 export interface Incident {
     readonly activatedTime?: Date;
     readonly isActive?: boolean;
@@ -1278,6 +1418,9 @@ export enum KnownBaselineSensitivity {
     // (undocumented)
     Medium = "Medium"
 }
+
+// @public
+export type KnownColumnDefinitionType = string;
 
 // @public
 export enum KnownConditionalOperator {
@@ -1371,6 +1514,24 @@ export enum KnownEnabled {
 export type KnownExtensionDataSourceStreams = string;
 
 // @public
+export enum KnownKnownColumnDefinitionType {
+    // (undocumented)
+    Boolean = "boolean",
+    // (undocumented)
+    Datetime = "datetime",
+    // (undocumented)
+    Dynamic = "dynamic",
+    // (undocumented)
+    Int = "int",
+    // (undocumented)
+    Long = "long",
+    // (undocumented)
+    Real = "real",
+    // (undocumented)
+    String = "string"
+}
+
+// @public
 export enum KnownKnownDataCollectionEndpointProvisioningState {
     // (undocumented)
     Creating = "Creating",
@@ -1454,6 +1615,34 @@ export enum KnownKnownExtensionDataSourceStreams {
     MicrosoftSyslog = "Microsoft-Syslog",
     // (undocumented)
     MicrosoftWindowsEvent = "Microsoft-WindowsEvent"
+}
+
+// @public
+export enum KnownKnownLogFilesDataSourceFormat {
+    // (undocumented)
+    Text = "text"
+}
+
+// @public
+export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
+    // (undocumented)
+    DdMMMYyyyHHMmSsZzz = "dd/MMM/yyyy:HH:mm:ss zzz",
+    // (undocumented)
+    DdMMyyHHMmSs = "ddMMyy HH:mm:ss",
+    // (undocumented)
+    ISO8601 = "ISO 8601",
+    // (undocumented)
+    MDYyyyHHMMSSAMPM = "M/D/YYYY HH:MM:SS AM/PM",
+    // (undocumented)
+    MMMDHhMmSs = "MMM d hh:mm:ss",
+    // (undocumented)
+    MonDDYyyyHHMMSS = "Mon DD, YYYY HH:MM:SS",
+    // (undocumented)
+    YyMMddHHMmSs = "yyMMdd HH:mm:ss",
+    // (undocumented)
+    YyyyMMDDHHMMSS = "YYYY-MM-DD HH:MM:SS",
+    // (undocumented)
+    YyyyMMDdTHHMmSsK = "yyyy-MM-ddTHH:mm:ssK"
 }
 
 // @public
@@ -1553,6 +1742,12 @@ export enum KnownKnownWindowsEventLogDataSourceStreams {
     // (undocumented)
     MicrosoftWindowsEvent = "Microsoft-WindowsEvent"
 }
+
+// @public
+export type KnownLogFilesDataSourceFormat = string;
+
+// @public
+export type KnownLogFileTextSettingsRecordStartTimestampFormat = string;
 
 // @public
 export enum KnownMetricClass {
@@ -1717,6 +1912,31 @@ export interface LogAnalyticsDestination {
 }
 
 // @public
+export interface LogFilesDataSource {
+    filePatterns: string[];
+    format: KnownLogFilesDataSourceFormat;
+    name?: string;
+    settings?: LogFilesDataSourceSettings;
+    streams: string[];
+}
+
+// @public
+export type LogFilesDataSourceSettings = LogFileSettings;
+
+// @public
+export interface LogFileSettings {
+    text?: LogFileSettingsText;
+}
+
+// @public
+export type LogFileSettingsText = LogFileTextSettings;
+
+// @public
+export interface LogFileTextSettings {
+    recordStartTimestampFormat: KnownLogFileTextSettingsRecordStartTimestampFormat;
+}
+
+// @public
 export interface LogicAppReceiver {
     callbackUrl: string;
     name: string;
@@ -1857,6 +2077,11 @@ export type ManagementEventRuleCondition = RuleCondition & {
     odataType: "Microsoft.Azure.Management.Insights.Models.ManagementEventRuleCondition";
     aggregation?: ManagementEventAggregationCondition;
 };
+
+// @public
+export interface Metadata {
+    readonly provisionedBy?: string;
+}
 
 // @public
 export interface MetadataValue {
@@ -2930,6 +3155,11 @@ export interface Source {
 }
 
 // @public
+export interface StreamDeclaration {
+    columns?: ColumnDefinition[];
+}
+
+// @public
 export interface SyslogDataSource {
     facilityNames?: KnownSyslogDataSourceFacilityNames[];
     logLevels?: KnownSyslogDataSourceLogLevels[];
@@ -2984,13 +3214,6 @@ export interface TestNotificationDetailsResponse {
     context?: Context;
     createdTime?: string;
     state: string;
-}
-
-// @public
-export interface TestNotificationResponse {
-    correlationId: string;
-    createdTime: string;
-    notificationId: string;
 }
 
 // @public

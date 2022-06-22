@@ -16,71 +16,105 @@ import {
   RawResponse,
 } from "../../src/lroEngine/models";
 import { LroEngine, PollOperationState, PollerLike } from "../../src";
-import { routes, routesTable } from "./router/routesTable";
+import { LroResponseSpec, RouteProcessor, createProcessor, generate } from "./utils";
 import { CoreRestPipelineLro } from "./coreRestPipelineLro";
-import { applyScenarios } from "./router/utils";
-import { paramRoutes } from "./router/paramRoutes";
+import { getYieldedValue } from "@azure/test-utils";
 
 /**
- * Re-implementation of the lro routes in Autorest test server located in https://github.com/Azure/autorest.testserver/blob/main/legacy/routes/lros.js
+ * This helper creates an array of route processors where each processor is represented
+ * as a generator. This generator representation is needed to handle a sequence of GET
+ * requests to the same route. In particular, the first GET request may get
+ * a response indicating that the LRO is still in progress but a subsequent
+ * GET request may get a response indicating the LRO is in a terminal state.
  */
-
-const lroClient: HttpClient = {
-  async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
-    const reqPath = request.url;
-    const reqMethod = request.method;
-    const route = routesTable.get(reqPath);
-    if (route !== undefined) {
-      if (route.method === reqMethod) {
-        return route.process(request);
-      } else {
-        for (const { method, path, process } of routes) {
-          if (method === reqMethod && path === reqPath) {
-            return process(request);
-          }
-        }
-      }
+function toLroProcessors(responses: LroResponseSpec[]): RouteProcessor[] {
+  const routeCountMap = new Map<
+    string,
+    {
+      method: HttpMethods;
+      path: string;
+      responseProcessors: ((req: PipelineRequest) => PipelineResponse)[];
     }
-    const response = applyScenarios(request, paramRoutes);
-    if (response) {
-      return response;
+  >();
+  for (const response of responses) {
+    const key = createRouteKey(response);
+    const routeProcessor = routeCountMap.get(key);
+    if (routeProcessor !== undefined) {
+      routeProcessor.responseProcessors.push(createProcessor(response));
+    } else {
+      const { method, path } = response;
+      routeCountMap.set(key, { method, path, responseProcessors: [createProcessor(response)] });
     }
-    throw new RestError(`Route for ${reqMethod} request to ${reqPath} was not found`, {
-      statusCode: 404,
-    });
-  },
-};
+  }
+  return [...routeCountMap.values()].map(({ responseProcessors, ...rest }) => ({
+    process: generate(...responseProcessors),
+    ...rest,
+  }));
+}
 
-export type Response = LroBody & { statusCode: number };
-
-async function runRouter(request: PipelineRequest): Promise<LroResponse<Response>> {
-  const response = await lroClient.sendRequest(request);
-  const parsedBody: LroBody = response.bodyAsText
-    ? JSON.parse(response.bodyAsText)
-    : response.bodyAsText;
-  const headers = response.headers.toJSON();
+function createRouteKey({ method, path }: { path: string; method: string }): string {
+  return method + ":" + path;
+}
+function createClient(routes: RouteProcessor[]): HttpClient {
+  const routesTable = new Map(routes.map((route) => [createRouteKey(route), route]));
   return {
-    flatResponse: { ...parsedBody, ...headers, statusCode: response.status },
-    rawResponse: {
-      headers: headers,
-      statusCode: response.status,
-      body: parsedBody,
+    async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+      const path = request.url;
+      const method = request.method;
+      const route = routesTable.get(createRouteKey({ method, path }));
+      if (route !== undefined) {
+        return getYieldedValue(route.process.next())(request);
+      }
+      throw new RestError(`Route for ${method} request to ${path} was not found`, {
+        statusCode: 404,
+      });
     },
   };
 }
 
-export function mockedPoller<TState>(settings: {
-  method: HttpMethods;
-  url: string;
+export type Response = LroBody & { statusCode: number };
+
+function createSendOp(settings: {
+  client: HttpClient;
+}): (request: PipelineRequest) => Promise<LroResponse<Response>> {
+  const { client } = settings;
+  return async function (request: PipelineRequest): Promise<LroResponse<Response>> {
+    const response = await client.sendRequest(request);
+    const parsedBody: LroBody = response.bodyAsText
+      ? JSON.parse(response.bodyAsText)
+      : response.bodyAsText;
+    const headers = response.headers.toJSON();
+    return {
+      flatResponse: { ...parsedBody, ...headers, statusCode: response.status },
+      rawResponse: {
+        headers: headers,
+        statusCode: response.status,
+        body: parsedBody,
+      },
+    };
+  };
+}
+
+function throwIfUndefined<T>(input: T | undefined): T {
+  if (!input) {
+    throw new Error("input is undefined");
+  }
+  return input;
+}
+
+export function createPoller<TState>(settings: {
+  routes: LroResponseSpec[];
   lroResourceLocationConfig?: LroResourceLocationConfig;
   processResult?: (result: unknown, state: TState) => Response;
   updateState?: (state: TState, lastResponse: RawResponse) => void;
   cancel?: (state: TState) => Promise<void>;
 }): PollerLike<PollOperationState<Response>, Response> {
-  const { method, url, lroResourceLocationConfig, processResult, updateState, cancel } = settings;
-  const lro = new CoreRestPipelineLro(runRouter, {
-    method: method,
-    url: url,
+  const { routes, lroResourceLocationConfig, processResult, updateState, cancel } = settings;
+  const client = createClient(toLroProcessors(routes));
+  const { method: requestMethod, path } = routes[0];
+  const lro = new CoreRestPipelineLro(createSendOp({ client }), {
+    method: throwIfUndefined(requestMethod),
+    url: throwIfUndefined(path),
     headers: createHttpHeaders(),
     requestId: "",
     timeout: 0,
@@ -95,13 +129,16 @@ export function mockedPoller<TState>(settings: {
   });
 }
 
-export async function runMockedLro(
-  method: HttpMethods,
-  url: string,
-  onProgress?: (state: PollOperationState<Response>) => void,
-  lroResourceLocationConfig?: LroResourceLocationConfig
-): Promise<Response> {
-  const poller = mockedPoller({ method, url, lroResourceLocationConfig });
+export async function runLro(settings: {
+  routes: LroResponseSpec[];
+  onProgress?: (state: PollOperationState<Response>) => void;
+  lroResourceLocationConfig?: LroResourceLocationConfig;
+}): Promise<Response> {
+  const { routes, onProgress, lroResourceLocationConfig } = settings;
+  const poller = createPoller({
+    routes,
+    lroResourceLocationConfig,
+  });
   if (onProgress !== undefined) {
     poller.onProgress(onProgress);
   }

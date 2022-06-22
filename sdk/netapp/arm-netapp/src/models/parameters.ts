@@ -33,6 +33,8 @@ import {
   BackupPatch as BackupPatchMapper,
   BackupPolicy as BackupPolicyMapper,
   BackupPolicyPatch as BackupPolicyPatchMapper,
+  VolumeQuotaRule as VolumeQuotaRuleMapper,
+  VolumeQuotaRulePatch as VolumeQuotaRulePatchMapper,
   VolumeGroupDetails as VolumeGroupDetailsMapper,
   SubvolumeInfo as SubvolumeInfoMapper,
   SubvolumePatchRequest as SubvolumePatchRequestMapper
@@ -65,7 +67,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01",
+    defaultValue: "2022-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -386,6 +388,27 @@ export const body21: OperationParameter = {
   mapper: BackupPolicyPatchMapper
 };
 
+export const volumeQuotaRuleName: OperationURLParameter = {
+  parameterPath: "volumeQuotaRuleName",
+  mapper: {
+    serializedName: "volumeQuotaRuleName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body22: OperationParameter = {
+  parameterPath: "body",
+  mapper: VolumeQuotaRuleMapper
+};
+
+export const body23: OperationParameter = {
+  parameterPath: "body",
+  mapper: VolumeQuotaRulePatchMapper
+};
+
 export const volumeGroupName: OperationURLParameter = {
   parameterPath: "volumeGroupName",
   mapper: {
@@ -402,7 +425,7 @@ export const volumeGroupName: OperationURLParameter = {
   }
 };
 
-export const body22: OperationParameter = {
+export const body24: OperationParameter = {
   parameterPath: "body",
   mapper: VolumeGroupDetailsMapper
 };
@@ -423,12 +446,12 @@ export const subvolumeName: OperationURLParameter = {
   }
 };
 
-export const body23: OperationParameter = {
+export const body25: OperationParameter = {
   parameterPath: "body",
   mapper: SubvolumeInfoMapper
 };
 
-export const body24: OperationParameter = {
+export const body26: OperationParameter = {
   parameterPath: "body",
   mapper: SubvolumePatchRequestMapper
 };

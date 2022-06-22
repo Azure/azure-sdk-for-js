@@ -1,540 +1,1907 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { mockedPoller, runMockedLro } from "./utils/router";
-import { RawResponse } from "../src/lroEngine/models";
+import { assertError, createDoubleHeaders } from "./utils/utils";
+import { createPoller, runLro } from "./utils/router";
+import { RawResponse } from "../src";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
 
 describe("Lro Engine", function () {
   describe("No polling", () => {
     it("should handle delete204Succeeded", async () => {
-      const response = await runMockedLro("DELETE", "/delete/204/succeeded");
+      const response = await runLro({
+        routes: [{ method: "DELETE", path: "/delete/204/succeeded", status: 204 }],
+      });
       assert.equal(response.statusCode, 204);
     });
 
     it("put201Succeeded", async function () {
-      const result = await runMockedLro("PUT", "/put/201/succeeded");
+      const result = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path: "/put/201/succeeded",
+            status: 201,
+            body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
+          },
+        ],
+      });
       assert.equal(result.id, "100");
       assert.equal(result.name, "foo");
       assert.equal(result.properties?.provisioningState, "Succeeded");
     });
 
     it("should handle post202Retry200", async () => {
-      const response = await runMockedLro("POST", "/post/202/retry/200");
+      const path = "/post/202/retry/200";
+      const newPath = "/post/newuri/202/retry/200";
+      const response = await runLro({
+        routes: [
+          {
+            method: "POST",
+            path,
+            status: 202,
+            headers: {
+              location: path,
+              "retry-after": "0",
+            },
+          },
+          {
+            method: "GET",
+            path,
+            status: 202,
+            headers: {
+              location: newPath,
+            },
+          },
+          {
+            method: "GET",
+            path: newPath,
+            status: 200,
+            body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+          },
+        ],
+      });
       assert.equal(response.statusCode, 200);
     });
 
     it("should handle post202NoRetry204", async () => {
-      try {
-        await runMockedLro("POST", "/post/202/noretry/204");
-        throw new Error("should have thrown instead");
-      } catch (e: any) {
-        assert.equal(
-          e.message,
-          "Received unexpected HTTP status code 204 while polling. This may indicate a server issue."
-        );
-      }
+      const path = "/post/202/noretry/204";
+      const pollingPath = "/post/newuri/202/noretry/204";
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "POST",
+              path,
+              status: 202,
+              headers: {
+                location: path,
+              },
+            },
+            {
+              method: "GET",
+              path,
+              status: 202,
+              headers: {
+                location: pollingPath,
+              },
+            },
+            {
+              method: "GET",
+              path: pollingPath,
+              status: 204,
+            },
+          ],
+        }),
+        {
+          messagePattern:
+            /Received unexpected HTTP status code 204 while polling. This may indicate a server issue./,
+        }
+      );
     });
 
     it("should handle deleteNoHeaderInRetry", async () => {
-      try {
-        await runMockedLro("DELETE", "/delete/noheader");
-        throw new Error("should have thrown instead");
-      } catch (e: any) {
-        assert.equal(
-          e.message,
-          "Received unexpected HTTP status code 204 while polling. This may indicate a server issue."
-        );
-      }
+      const pollingPath = "/delete/noheader/operationresults/123";
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "DELETE",
+              path: "/delete/noheader",
+              status: 200,
+              headers: { Location: pollingPath },
+            },
+            { method: "GET", path: pollingPath, status: 202 },
+            { method: "GET", path: pollingPath, status: 204 },
+          ],
+        }),
+        {
+          messagePattern:
+            /Received unexpected HTTP status code 204 while polling. This may indicate a server issue./,
+        }
+      );
     });
 
     it("should handle put202Retry200", async () => {
-      const response = await runMockedLro("PUT", "/put/202/retry/200");
+      const pollingPath = "/put/202/retry/operationResults/200";
+      const response = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path: "/put/202/retry/200",
+            status: 202,
+            headers: { Location: pollingPath },
+          },
+          { method: "GET", path: pollingPath, status: 200, body: `{"id": "100", "name": "foo" }` },
+        ],
+      });
       assert.equal(response.statusCode, 200);
     });
 
     it("should handle putNoHeaderInRetry", async () => {
-      const result = await runMockedLro("PUT", "/put/noheader/202/200");
+      const pollingPath = "/put/noheader/operationresults";
+      const result = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path: "/put/noheader/202/200",
+            status: 202,
+            body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "name": "foo" }`,
+            headers: { Location: pollingPath },
+          },
+          { method: "GET", path: pollingPath, status: 202 },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
+          },
+        ],
+      });
       assert.equal(result.id, "100");
       assert.equal(result.name, "foo");
       assert.equal(result.properties?.provisioningState, "Succeeded");
     });
 
     it("should handle putSubResource", async () => {
-      const result = await runMockedLro("PUT", "/putsubresource/202/200");
+      const pollingPath = "/putsubresource/operationresults";
+      const result = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path: "/putsubresource/202/200",
+            status: 202,
+            body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "subresource": "sub1" }`,
+            headers: { Location: pollingPath },
+          },
+          { method: "GET", path: pollingPath, status: 202 },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "subresource": "sub1" }`,
+          },
+        ],
+      });
       assert.equal(result.id, "100");
       assert.equal(result.properties?.provisioningState, "Succeeded");
     });
 
     it("should handle putNonResource", async () => {
-      const result = await runMockedLro("PUT", "/putnonresource/202/200");
+      const pollingPath = "/putnonresource/operationresults";
+      const result = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path: "/putnonresource/202/200",
+            status: 202,
+            headers: { Location: pollingPath },
+          },
+          { method: "GET", path: pollingPath, status: 202 },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ "name": "sku" , "id": "100" }`,
+          },
+        ],
+      });
       assert.equal(result.id, "100");
       assert.equal(result.name, "sku");
     });
 
     it("should handle delete202Retry200", async () => {
-      const response = await runMockedLro("DELETE", "/delete/202/retry/200");
+      const path = "/delete/202/retry/200";
+      const pollingPath = "/delete/newuri/202/retry/200";
+      const response = await runLro({
+        routes: [
+          {
+            method: "DELETE",
+            path,
+            status: 202,
+            headers: {
+              location: path,
+              "retry-after": "0",
+            },
+          },
+          {
+            method: "GET",
+            path,
+            status: 202,
+            headers: {
+              location: pollingPath,
+              "retry-after": "0",
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+          },
+        ],
+      });
       assert.equal(response.statusCode, 200);
     });
 
     it("should handle delete202NoRetry204", async () => {
-      try {
-        await runMockedLro("DELETE", "/delete/202/noretry/204");
-        throw new Error("should have thrown instead");
-      } catch (e: any) {
-        assert.equal(
-          e.message,
-          "Received unexpected HTTP status code 204 while polling. This may indicate a server issue."
-        );
-      }
+      const path = "/delete/202/noretry/204";
+      const newPath = "/delete/newuri/202/noretry/204";
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "DELETE",
+              path,
+              status: 202,
+              headers: {
+                location: path,
+              },
+            },
+            {
+              method: "GET",
+              path,
+              status: 202,
+              headers: {
+                location: newPath,
+              },
+            },
+            {
+              method: "GET",
+              path: newPath,
+              status: 204,
+            },
+          ],
+        }),
+        {
+          messagePattern:
+            /Received unexpected HTTP status code 204 while polling. This may indicate a server issue./,
+        }
+      );
     });
 
     it("should handle deleteProvisioning202Accepted200Succeeded", async () => {
-      const response = await runMockedLro(
-        "DELETE",
-        "/delete/provisioning/202/accepted/200/succeeded"
-      );
+      const pollingPath = "/delete/provisioning/202/accepted/200/succeeded";
+      const response = await runLro({
+        routes: [
+          {
+            method: "DELETE",
+            path: "/delete/provisioning/202/accepted/200/succeeded",
+            status: 202,
+            headers: {
+              location: pollingPath,
+              "retry-after": "0",
+            },
+            body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+          },
+        ],
+      });
       assert.equal(response.statusCode, 200);
     });
 
     it("should handle deleteProvisioning202DeletingFailed200", async () => {
-      const result = await runMockedLro("DELETE", "/delete/provisioning/202/deleting/200/failed");
+      const path = "/delete/provisioning/202/deleting/200/failed";
+      const result = await runLro({
+        routes: [
+          {
+            method: "DELETE",
+            path,
+            status: 202,
+            headers: {
+              location: path,
+              "retry-after": "0",
+            },
+            body: `{"properties":{"provisioningState":"Deleting"},"id":"100","name":"foo"}`,
+          },
+          {
+            method: "GET",
+            path,
+            status: 200,
+            body: `{"properties":{"provisioningState":"Failed"},"id":"100","name":"foo"}`,
+          },
+        ],
+      });
       assert.equal(result.properties?.provisioningState, "Failed");
     });
 
     it("should handle deleteProvisioning202Deletingcanceled200", async () => {
-      const result = await runMockedLro("DELETE", "/delete/provisioning/202/deleting/200/canceled");
+      const path = "/delete/provisioning/202/deleting/200/canceled";
+      const result = await runLro({
+        routes: [
+          {
+            method: "DELETE",
+            path,
+            status: 202,
+            headers: {
+              location: path,
+              "retry-after": "0",
+            },
+            body: `{"properties":{"provisioningState":"Deleting"},"id":"100","name":"foo"}`,
+          },
+          {
+            method: "GET",
+            path,
+            status: 200,
+            body: `{"properties":{"provisioningState":"Canceled"},"id":"100","name":"foo"}`,
+          },
+        ],
+      });
       assert.equal(result.properties?.provisioningState, "Canceled");
     });
   });
 
   describe("Polling from body", () => {
     it("put200Succeeded", async function () {
-      const result = await runMockedLro("PUT", "/put/200/succeeded");
+      const result = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path: "/put/200/succeeded",
+            status: 200,
+            body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
+          },
+        ],
+      });
       assert.equal(result.properties?.provisioningState, "Succeeded");
     });
 
     it("should handle initial response with terminal state without provisioning State", async () => {
-      const result = await runMockedLro("PUT", "/put/200/succeeded/nostate");
+      const result = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path: "/put/200/succeeded/nostate",
+            status: 200,
+            body: `{"id": "100", "name": "foo" }`,
+          },
+        ],
+      });
       assert.deepEqual(result.id, "100");
       assert.deepEqual(result.name, "foo");
     });
 
     it("should handle initial response creating followed by success through an Azure Resource", async () => {
-      const result = await runMockedLro("PUT", "/put/201/creating/succeeded/200");
+      const path = "/put/201/creating/succeeded/200";
+      const result = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path,
+            status: 201,
+            body: `{"properties":{"provisioningState":"Creating"},"id":"100","name":"foo"}`,
+          },
+          {
+            method: "GET",
+            path,
+            status: 200,
+            body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+          },
+        ],
+      });
       assert.deepEqual(result.properties?.provisioningState, "Succeeded");
       assert.deepEqual(result.id, "100");
       assert.deepEqual(result.name, "foo");
     });
 
     it("should handle put200Acceptedcanceled200", async () => {
-      try {
-        await runMockedLro("PUT", "/put/200/accepted/canceled/200");
-        throw new Error("should have thrown instead");
-      } catch (e: any) {
-        assert.equal(e.message, "The long-running operation has been canceled.");
-      }
+      const path = "/put/200/accepted/canceled/200";
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "PUT",
+              path,
+              status: 200,
+              body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+            },
+            {
+              method: "GET",
+              path,
+              status: 200,
+              body: `{"properties":{"provisioningState":"Canceled"}}`,
+            },
+          ],
+        }),
+        {
+          messagePattern: /Poller cancelled/,
+        }
+      );
     });
 
     it("should handle put200UpdatingSucceeded204", async () => {
-      const result = await runMockedLro("PUT", "/put/200/updating/succeeded/200");
+      const path = "/put/200/updating/succeeded/200";
+      const result = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path,
+            status: 200,
+            body: `{"properties":{"provisioningState":"Updating"},"id":"100","name":"foo"}`,
+          },
+          {
+            method: "GET",
+            path,
+            status: 200,
+            body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+          },
+        ],
+      });
       assert.deepEqual(result.properties?.provisioningState, "Succeeded");
       assert.deepEqual(result.id, "100");
       assert.deepEqual(result.name, "foo");
     });
 
     it("should handle put201CreatingFailed200", async () => {
-      try {
-        await runMockedLro("PUT", "/put/201/created/failed/200");
-        throw new Error("should have thrown instead");
-      } catch (e: any) {
-        assert.equal(e.message, "The long-running operation has failed.");
-      }
+      const path = "/put/201/created/failed/200";
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "PUT",
+              path,
+              status: 201,
+              body: `{"properties":{"provisioningState":"Created"},"id":"100","name":"foo"}`,
+            },
+            {
+              method: "GET",
+              path,
+              status: 200,
+              body: `{"properties":{"provisioningState":"Failed"}}`,
+            },
+          ],
+        }),
+        {
+          messagePattern: /The long-running operation has failed./,
+        }
+      );
     });
 
     it("should handle post200WithPayload", async () => {
-      const result = await runMockedLro("POST", "/post/payload/200");
+      const path = `/post/payload/200`;
+      const result = await runLro({
+        routes: [
+          {
+            method: "POST",
+            path,
+            status: 202,
+            headers: { Location: path, "Retry-After": "0" },
+          },
+          { method: "GET", path, status: 200, body: `{"id":"1", "name":"product"}` },
+        ],
+      });
       assert.equal(result.id, "1");
       assert.equal(result.name, "product");
     });
   });
 
-  matrix([["async", "location"]] as const, async function (rootPrefix: string) {
-    describe(`Polling from ${
-      rootPrefix === "async" ? "Azure-AsyncOperation" : "Operation-Location"
-    }`, function () {
-      const rootPrefix1 =
-        rootPrefix === "location" ? rootPrefix.charAt(0).toUpperCase() + rootPrefix.slice(1) : "";
+  matrix(
+    [["Azure-AsyncOperation", "Operation-Location"]] as const,
+    async function (headerName: string) {
+      describe(`Polling from ${headerName}`, function () {
+        it("should handle postDoubleHeadersFinalLocationGet", async () => {
+          const operationLocationPath = "/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl";
+          const resourceLocationPath = `/LROPostDoubleHeadersFinalLocationGet/location`;
+          const result = await runLro({
+            routes: [
+              {
+                method: "POST",
+                path: `/LROPostDoubleHeadersFinalLocationGet`,
+                status: 202,
+                headers: {
+                  Location: resourceLocationPath,
+                  [headerName]: operationLocationPath,
+                },
+              },
+              {
+                method: "GET",
+                path: operationLocationPath,
+                status: 200,
+                body: `{ "status": "succeeded" }`,
+              },
+              {
+                method: "GET",
+                path: resourceLocationPath,
+                status: 200,
+                body: `{ "id": "100", "name": "foo" }`,
+              },
+            ],
+          });
+          assert.equal(result.id, "100");
+          assert.equal(result.name, "foo");
+        });
 
-      it("should handle postDoubleHeadersFinalLocationGet", async () => {
-        const result = await runMockedLro(
-          "POST",
-          `/LROPost${rootPrefix1}DoubleHeadersFinalLocationGet`
-        );
-        assert.equal(result.id, "100");
-        assert.equal(result.name, "foo");
-      });
+        it("should handle postDoubleHeadersFinalAzureHeaderGet", async () => {
+          const locationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/location`;
+          const operationLocationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl`;
+          const result = await runLro({
+            routes: [
+              {
+                method: "POST",
+                path: `/LROPostDoubleHeadersFinalAzureHeaderGet`,
+                status: 202,
+                body: "",
+                headers: {
+                  Location: locationPath,
+                  [headerName]: operationLocationPath,
+                },
+              },
+              {
+                method: "GET",
+                path: operationLocationPath,
+                status: 200,
+                body: `{ "status": "succeeded", "id": "100"}`,
+              },
+              {
+                method: "GET",
+                path: locationPath,
+                status: 400,
+              },
+            ],
+            lroResourceLocationConfig: "azure-async-operation",
+          });
+          assert.equal(result.statusCode, 200);
+          assert.equal(result.id, "100");
+        });
 
-      it("should handle postDoubleHeadersFinalAzureHeaderGet", async () => {
-        const result = await runMockedLro(
-          "POST",
-          `/LRO${rootPrefix1}PostDoubleHeadersFinalAzureHeaderGet`,
-          undefined,
-          "azure-async-operation"
-        );
-        assert.equal(result.id, "100");
-      });
+        it("should handle postDoubleHeadersFinalAzureHeaderGetDefault", async () => {
+          const resourceLocationPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/location";
+          const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
+          const result = await runLro({
+            routes: [
+              {
+                method: "POST",
+                path: `/LROPostDoubleHeadersFinalAzureHeaderGetDefault`,
+                status: 202,
+                body: "",
+                headers: {
+                  Location: resourceLocationPath,
+                  [headerName]: pollingPath,
+                },
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{ "status": "succeeded"}`,
+              },
+              {
+                method: "GET",
+                path: resourceLocationPath,
+                status: 200,
+                body: `{ "id": "100", "name": "foo" }`,
+              },
+            ],
+          });
+          assert.equal(result.id, "100");
+          assert.equal(result.statusCode, 200);
+        });
 
-      it("should handle postDoubleHeadersFinalAzureHeaderGetDefault", async () => {
-        const result = await runMockedLro(
-          "POST",
-          `/LRO${rootPrefix1}PostDoubleHeadersFinalAzureHeaderGetDefault`
-        );
-        assert.equal(result.id, "100");
-        assert.equal(result.statusCode, 200);
-      });
+        it("should handle deleteAsyncRetrySucceeded", async () => {
+          const pollingPath = "/deleteasync/retry/succeeded/operationResults/200/";
+          const response = await runLro({
+            routes: [
+              {
+                method: "DELETE",
+                path: `/delete/retry/succeeded`,
+                status: 202,
+                headers: {
+                  location: pollingPath,
+                  [headerName]: pollingPath,
+                  "retry-after": "0",
+                },
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 202,
+                headers: {
+                  location: pollingPath,
+                  [headerName]: pollingPath,
+                  "retry-after": "0",
+                },
+                body: `{"status":"Accepted"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{"status":"Succeeded"}`,
+              },
+            ],
+          });
+          assert.equal(response.statusCode, 200);
+        });
 
-      it("should handle deleteAsyncRetrySucceeded", async () => {
-        const response = await runMockedLro("DELETE", `/delete${rootPrefix}/retry/succeeded`);
-        assert.equal(response.statusCode, 200);
-      });
+        it("should handle deleteAsyncNoRetrySucceeded", async () => {
+          const pollingPath = "/deleteasync/noretry/succeeded/operationResults/200/";
+          const response = await runLro({
+            routes: [
+              {
+                method: "DELETE",
+                path: `/delete/noretry/succeeded`,
+                status: 202,
+                headers: {
+                  location: pollingPath,
+                  [headerName]: pollingPath,
+                },
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 202,
+                headers: {
+                  location: pollingPath,
+                  [headerName]: pollingPath,
+                },
+                body: `{"status":"Accepted"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{"status":"Succeeded"}`,
+              },
+            ],
+          });
+          assert.equal(response.statusCode, 200);
+        });
 
-      it("should handle deleteAsyncNoRetrySucceeded", async () => {
-        const response = await runMockedLro("DELETE", `/delete${rootPrefix}/noretry/succeeded`);
-        assert.equal(response.statusCode, 200);
-      });
+        it("should handle deleteAsyncRetrycanceled", async () => {
+          const pollingPath = "/deletelocation/retry/canceled/operationResults/200/";
+          await assertError(
+            runLro({
+              routes: [
+                {
+                  method: "DELETE",
+                  path: `/delete/retry/canceled`,
+                  status: 202,
+                  headers: {
+                    location: pollingPath,
+                    [headerName]: pollingPath,
+                    "retry-after": "0",
+                  },
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 202,
+                  body: `{"status":"Accepted"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: `{"status":"Canceled"}`,
+                },
+              ],
+            }),
+            {
+              messagePattern: /Poller cancelled/,
+            }
+          );
+        });
 
-      it("should handle deleteAsyncRetrycanceled", async () => {
-        try {
-          await runMockedLro("DELETE", `/delete${rootPrefix}/retry/canceled`);
-          throw new Error("should have thrown instead");
-        } catch (e: any) {
-          assert.equal(e.message, "The long-running operation has been canceled.");
-        }
-      });
+        it("should handle DeleteAsyncRetryFailed", async () => {
+          const pollingPath = "/deleteasync/retry/failed/operationResults/200/";
+          await assertError(
+            runLro({
+              routes: [
+                {
+                  method: "DELETE",
+                  path: `/delete/retry/failed`,
+                  status: 202,
+                  headers: {
+                    location: pollingPath,
+                    [headerName]: pollingPath,
+                    "retry-after": "0",
+                  },
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 202,
+                  headers: {
+                    location: pollingPath,
+                    [headerName]: pollingPath,
+                    "retry-after": "0",
+                  },
+                  body: `{"status":"Accepted"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: `{"status":"Failed"}`,
+                },
+              ],
+            }),
+            {
+              messagePattern: /The long-running operation has failed./,
+            }
+          );
+        });
 
-      it("should handle DeleteAsyncRetryFailed", async () => {
-        try {
-          await runMockedLro("DELETE", `/delete${rootPrefix}/retry/failed`);
-          throw new Error("should have thrown instead");
-        } catch (e: any) {
-          assert.equal(e.message, "The long-running operation has failed.");
-        }
-      });
+        it("should handle putAsyncRetrySucceeded", async () => {
+          const path = `/put/noretry/succeeded`;
+          const pollingPath = "/putasync/noretry/succeeded/operationResults/200/";
+          const result = await runLro({
+            routes: [
+              {
+                method: "PUT",
+                path,
+                status: 200,
+                headers: {
+                  location: pollingPath,
+                  [headerName]: pollingPath,
+                },
+                body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 202,
+                headers: {
+                  location: pollingPath,
+                  [headerName]: pollingPath,
+                },
+                body: `{"status":"Accepted"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{"status":"Succeeded"}`,
+              },
+              {
+                method: "GET",
+                path,
+                status: 200,
+                body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+              },
+            ],
+          });
+          assert.equal(result.id, "100");
+          assert.equal(result.name, "foo");
+          assert.equal(result.properties?.provisioningState, "Succeeded");
+        });
 
-      it("should handle putAsyncRetrySucceeded", async () => {
-        const result = await runMockedLro("PUT", `/put${rootPrefix}/noretry/succeeded`);
-        assert.equal(result.id, "100");
-        assert.equal(result.name, "foo");
-        assert.equal(result.properties?.provisioningState, "Succeeded");
-      });
+        it("should handle post202List", async () => {
+          const resourceLocationPath = `/list/finalGet`;
+          const pollingPath = `/list/pollingGet`;
+          const result = await runLro({
+            routes: [
+              {
+                method: "POST",
+                path: `/list`,
+                status: 200,
+                headers: {
+                  Location: resourceLocationPath,
+                  [headerName]: pollingPath,
+                },
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{ "status": "Succeeded" }`,
+              },
+              {
+                method: "GET",
+                path: resourceLocationPath,
+                status: 200,
+                body: `[{ "id": "100", "name": "foo" }]`,
+              },
+            ],
+          });
+          assert.equal((result as any)[0].id, "100");
+          assert.equal((result as any)[0].name, "foo");
+        });
 
-      it("should handle post202List", async () => {
-        const result = await runMockedLro(
-          "POST",
-          `/list${rootPrefix === "location" ? "location" : ""}`
-        );
-        assert.equal((result as any)[0].id, "100");
-        assert.equal((result as any)[0].name, "foo");
-      });
+        it("should handle putAsyncRetryFailed", async () => {
+          const pollingPath = "/putlocation/retry/failed/operationResults/200/";
+          await assertError(
+            runLro({
+              routes: [
+                {
+                  method: "PUT",
+                  path: `/put/retry/failed`,
+                  status: 200,
+                  body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+                  headers: {
+                    location: pollingPath,
+                    [headerName]: pollingPath,
+                    "retry-after": "0",
+                  },
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 202,
+                  headers: {
+                    location: pollingPath,
+                    [headerName]: pollingPath,
+                    "retry-after": "0",
+                  },
+                  body: `{"status":"Accepted"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: `{"status":"Failed"}`,
+                },
+              ],
+            }),
+            {
+              messagePattern: /The long-running operation has failed./,
+            }
+          );
+        });
 
-      it("should handle putAsyncRetryFailed", async () => {
-        try {
-          await runMockedLro("PUT", `/put${rootPrefix}/retry/failed`);
-          throw new Error("should have thrown instead");
-        } catch (e: any) {
-          assert.equal(e.message, "The long-running operation has failed.");
-        }
-      });
+        it("should handle putAsyncNonResource", async () => {
+          const path = `/putnonresource/202/200`;
+          const pollingUrl = `/putnonresourceasync/operationresults/123`;
+          const result = await runLro({
+            routes: [
+              {
+                method: "PUT",
+                path,
+                status: 202,
+                headers: {
+                  Location: `somethingBadWhichShouldNotBeUsed`,
+                  [headerName]: pollingUrl,
+                },
+              },
+              {
+                method: "GET",
+                path: pollingUrl,
+                status: 200,
+                body: `{ "status": "InProgress"}`,
+              },
+              {
+                method: "GET",
+                path: pollingUrl,
+                status: 200,
+                body: `{ "status": "Succeeded"}`,
+              },
+              {
+                method: "GET",
+                path,
+                status: 200,
+                body: `{ "name": "sku" , "id": "100" }`,
+              },
+            ],
+          });
+          assert.equal(result.name, "sku");
+          assert.equal(result.id, "100");
+        });
 
-      it("should handle putAsyncNonResource", async () => {
-        const result = await runMockedLro("PUT", `/putnonresource${rootPrefix}/202/200`);
-        assert.equal(result.name, "sku");
-        assert.equal(result.id, "100");
-      });
+        it("should handle patchAsync", async () => {
+          const resourceLocationPath = `/patchasync/succeeded`;
+          const pollingPath = `/patchasync/operationresults/123`;
+          const result = await runLro({
+            routes: [
+              {
+                method: "PATCH",
+                path: `/patch/202/200`,
+                status: 202,
+                headers: {
+                  Location: resourceLocationPath,
+                  [headerName]: pollingPath,
+                },
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{ "status": "InProgress"}`,
+                headers: {
+                  "Azure-AsyncOperation": pollingPath,
+                },
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{ "status": "Succeeded"}`,
+              },
+              {
+                method: "GET",
+                path: resourceLocationPath,
+                status: 200,
+                body: `{ "name": "sku" , "id": "100" }`,
+              },
+            ],
+          });
+          assert.equal(result.name, "sku");
+          assert.equal(result.id, "100");
+        });
 
-      it("should handle patchAsync", async () => {
-        const result = await runMockedLro("PATCH", `/patch${rootPrefix}/202/200`);
-        assert.equal(result.name, "sku");
-        assert.equal(result.id, "100");
-      });
+        it("should handle putAsyncNoHeaderInRetry", async () => {
+          const path = `/put/noheader/201/200`;
+          const pollingPath = `/putasync/noheader/operationresults/123`;
+          const result = await runLro({
+            routes: [
+              {
+                method: "PUT",
+                path,
+                status: 201,
+                body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "name": "foo" }`,
+                headers: {
+                  Location: `somethingBadWhichShouldNotBeUsed`,
+                  [headerName]: pollingPath,
+                },
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{ "status": "InProgress"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{ "status": "Succeeded"}`,
+              },
+              {
+                method: "GET",
+                path,
+                status: 200,
+                body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
+              },
+            ],
+          });
+          assert.equal(result.name, "foo");
+          assert.equal(result.id, "100");
+          assert.deepEqual(result.properties?.provisioningState, "Succeeded");
+        });
 
-      it("should handle putAsyncNoHeaderInRetry", async () => {
-        const result = await runMockedLro("PUT", `/put${rootPrefix}/noheader/201/200`);
-        assert.equal(result.name, "foo");
-        assert.equal(result.id, "100");
-        assert.deepEqual(result.properties?.provisioningState, "Succeeded");
-      });
+        it("should handle putAsyncNoRetrySucceeded", async () => {
+          const path = `/put/noretry/succeeded`;
+          const pollingPath = "/putlocation/noretry/succeeded/operationResults/200/";
+          const result = await runLro({
+            routes: [
+              {
+                method: "PUT",
+                path,
+                status: 200,
+                headers: {
+                  location: pollingPath,
+                  [headerName]: pollingPath,
+                },
+                body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 202,
+                headers: {
+                  location: pollingPath,
+                  [headerName]: pollingPath,
+                },
+                body: `{"status":"Accepted"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{"status":"Succeeded"}`,
+              },
+              {
+                method: "GET",
+                path,
+                status: 200,
+                body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+              },
+            ],
+          });
+          assert.equal(result.name, "foo");
+          assert.equal(result.id, "100");
+        });
 
-      it("should handle putAsyncNoRetrySucceeded", async () => {
-        const result = await runMockedLro("PUT", `/put${rootPrefix}/noretry/succeeded`);
-        assert.equal(result.name, "foo");
-        assert.equal(result.id, "100");
-      });
+        it("should handle putAsyncNoRetrycanceled", async () => {
+          const pollingPath = "/putlocation/noretry/canceled/operationResults/200/";
+          await assertError(
+            runLro({
+              routes: [
+                {
+                  method: "PUT",
+                  path: `/put/noretry/canceled`,
+                  status: 200,
+                  headers: {
+                    location: pollingPath,
+                    [headerName]: pollingPath,
+                  },
+                  body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 202,
+                  headers: {
+                    location: pollingPath,
+                    [headerName]: pollingPath,
+                  },
+                  body: `{"status":"Accepted"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  headers: {
+                    location: pollingPath,
+                    [headerName]: pollingPath,
+                  },
+                  body: `{"status":"Canceled"}`,
+                },
+              ],
+            }),
+            {
+              messagePattern: /Poller cancelled/,
+            }
+          );
+        });
 
-      it("should handle putAsyncNoRetrycanceled", async () => {
-        try {
-          await runMockedLro("PUT", `/put${rootPrefix}/noretry/canceled`);
-          throw new Error("should have thrown instead");
-        } catch (e: any) {
-          assert.equal(e.message, "The long-running operation has been canceled.");
-        }
-      });
+        it("should handle putAsyncSubResource", async () => {
+          const pollingPath = `/putsubresourceasync/operationresults/123`;
+          const path = `/putsubresource/202/200`;
+          const result = await runLro({
+            routes: [
+              {
+                method: "PUT",
+                path,
+                status: 202,
+                body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "subresource": "sub1" }`,
+                headers: {
+                  Location: `somethingBadWhichShouldNotBeUsed`,
+                  [headerName]: pollingPath,
+                },
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{ "status": "InProgress"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{ "status": "Succeeded"}`,
+              },
+              {
+                method: "GET",
+                path: path,
+                status: 200,
+                body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "subresource": "sub1" }`,
+              },
+            ],
+          });
+          assert.equal(result.id, "100");
+          assert.equal(result.properties?.provisioningState, "Succeeded");
+        });
 
-      it("should handle putAsyncSubResource", async () => {
-        const result = await runMockedLro("PUT", `/putsubresource${rootPrefix}/202/200`);
-        assert.equal(result.id, "100");
-        assert.equal(result.properties?.provisioningState, "Succeeded");
-      });
+        it("should handle deleteAsyncNoHeaderInRetry", async () => {
+          const pollingPath = `/deleteasync/noheader/operationresults/123`;
+          const response = await runLro({
+            routes: [
+              {
+                method: "DELETE",
+                path: `/delete/noheader/202/204`,
+                status: 202,
+                headers: {
+                  Location: `somethingBadWhichShouldNotBeUsed`,
+                  [headerName]: pollingPath,
+                },
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{ "status": "InProgress"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{ "status": "Succeeded"}`,
+              },
+            ],
+          });
+          assert.equal(response.statusCode, 200);
+        });
 
-      it("should handle deleteAsyncNoHeaderInRetry", async () => {
-        const response = await runMockedLro("DELETE", `/delete${rootPrefix}/noheader/202/204`);
-        assert.equal(response.statusCode, 200);
-      });
+        it("should handle postAsyncNoRetrySucceeded", async () => {
+          const locationPath = "/postlocation/noretry/succeeded/operationResults/foo/200/";
+          const pollingPath = "/postasync/noretry/succeeded/operationResults/foo/200/";
+          const result = await runLro({
+            routes: [
+              {
+                method: "POST",
+                path: `/post/noretry/succeeded`,
+                status: 202,
+                headers: {
+                  location: locationPath,
+                  [headerName]: pollingPath,
+                },
+                body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 202,
+                body: `{"status":"Accepted"}`,
+                headers: {
+                  location: locationPath,
+                  [headerName]: pollingPath,
+                },
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+              },
+              {
+                method: "GET",
+                path: locationPath,
+                status: 200,
+                body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+              },
+            ],
+          });
+          assert.deepInclude(result, { id: "100", name: "foo" });
+        });
 
-      it("should handle postAsyncNoRetrySucceeded", async () => {
-        const result = await runMockedLro("POST", `/post${rootPrefix}/noretry/succeeded`);
-        assert.deepInclude(result, { id: "100", name: "foo" });
-      });
+        it("should handle postAsyncRetryFailed", async () => {
+          const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
+          await assertError(
+            runLro({
+              routes: [
+                {
+                  method: "POST",
+                  path: `/post/retry/failed`,
+                  status: 202,
+                  headers: {
+                    location: "/postlocation/retry/succeeded/operationResults/foo/200/",
+                    [headerName]: pollingPath,
+                    "retry-after": "0",
+                  },
+                  body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: `{"status":"Failed"}`,
+                },
+              ],
+            }),
+            {
+              messagePattern: /The long-running operation has failed./,
+            }
+          );
+        });
 
-      it("should handle postAsyncRetryFailed", async () => {
-        try {
-          await runMockedLro("POST", `/post${rootPrefix}/retry/failed`);
-          throw new Error("should have thrown instead");
-        } catch (e: any) {
-          assert.equal(e.message, "The long-running operation has failed.");
-        }
-      });
+        it("should handle postAsyncRetrySucceeded", async () => {
+          const locationPath = "/postlocation/retry/succeeded/operationResults/foo/200/";
+          const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
+          const result = await runLro({
+            routes: [
+              {
+                method: "POST",
+                path: `/post/retry/succeeded`,
+                status: 202,
+                headers: {
+                  location: locationPath,
+                  [headerName]: pollingPath,
+                  "retry-after": "0",
+                },
+                body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 202,
+                headers: {
+                  location: locationPath,
+                  [headerName]: pollingPath,
+                  "retry-after": "0",
+                },
+                body: `{"status":"Accepted"}`,
+              },
+              {
+                method: "GET",
+                path: pollingPath,
+                status: 200,
+                body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+              },
+              {
+                method: "GET",
+                path: locationPath,
+                status: 200,
+                body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+              },
+            ],
+          });
+          assert.deepInclude(result, { id: "100", name: "foo" });
+        });
 
-      it("should handle postAsyncRetrySucceeded", async () => {
-        const result = await runMockedLro("POST", `/post${rootPrefix}/retry/succeeded`);
-        assert.deepInclude(result, { id: "100", name: "foo" });
+        it("should handle postAsyncRetrycanceled", async () => {
+          const pollingPath = "/postasync/retry/canceled/operationResults/200/";
+          await assertError(
+            runLro({
+              routes: [
+                {
+                  method: "POST",
+                  path: `/post/retry/canceled`,
+                  status: 202,
+                  headers: {
+                    location: "/postasync/retry/succeeded/operationResults/foo/200/",
+                    [headerName]: pollingPath,
+                    "retry-after": "0",
+                  },
+                  body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "name": "foo"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: `{"status":"Canceled"}`,
+                },
+              ],
+            }),
+            {
+              messagePattern: /Poller cancelled/,
+            }
+          );
+        });
       });
-
-      it("should handle postAsyncRetrycanceled", async () => {
-        try {
-          await runMockedLro("POST", `/post${rootPrefix}/retry/canceled`);
-          throw new Error("should have thrown instead");
-        } catch (e: any) {
-          assert.equal(e.message, "The long-running operation has been canceled.");
-        }
-      });
-    });
-  });
+    }
+  );
 
   describe("LRO Sad scenarios", () => {
     it("should handle PutNonRetry400 ", async () => {
-      try {
-        await runMockedLro("PUT", "/nonretryerror/put/400");
-        throw new Error("should have thrown instead");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-      }
+      await assertError(
+        runLro({ routes: [{ method: "PUT", path: "/nonretryerror/put/400", status: 400 }] }),
+        {
+          statusCode: 400,
+        }
+      );
     });
 
     it("should handle putNonRetry201Creating400 ", async () => {
-      try {
-        await runMockedLro("PUT", "/nonretryerror/put/201/creating/400");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-      }
+      const path = "/nonretryerror/put/201/creating/400";
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "PUT",
+              path,
+              status: 201,
+              body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+            },
+            {
+              method: "GET",
+              path,
+              status: 400,
+              body: `{ "message" : "Error from the server" }`,
+            },
+          ],
+        }),
+        {
+          statusCode: 400,
+        }
+      );
     });
 
     it("should throw with putNonRetry201Creating400InvalidJson ", async () => {
-      try {
-        await runMockedLro("PUT", "/nonretryerror/put/201/creating/400/invalidjson");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-      }
+      const path = "/nonretryerror/put/201/creating/400/invalidjson";
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "PUT",
+              path,
+              status: 201,
+              body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+            },
+            {
+              method: "GET",
+              path,
+              status: 400,
+              body: `{ "message" : "Error from the server" }`,
+            },
+          ],
+        }),
+        {
+          statusCode: 400,
+        }
+      );
     });
 
     it("should handle putAsyncRelativeRetry400 ", async () => {
-      try {
-        await runMockedLro("PUT", "/nonretryerror/putasync/retry/400");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-      }
+      const pollingPath = `/nonretryerror/putasync/retry/failed/operationResults/400`;
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "PUT",
+              path: "/nonretryerror/putasync/retry/400",
+              status: 200,
+              body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+              headers: createDoubleHeaders({
+                pollingPath,
+                headers: { "Retry-After": "0" },
+              }),
+            },
+            {
+              method: "GET",
+              path: pollingPath,
+              status: 400,
+            },
+          ],
+        }),
+        {
+          statusCode: 400,
+        }
+      );
     });
 
     it("should handle delete202NonRetry400 ", async () => {
-      try {
-        await runMockedLro("DELETE", "/nonretryerror/delete/202/retry/400");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-      }
+      const path = "/nonretryerror/delete/202/retry/400";
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "DELETE",
+              path,
+              status: 202,
+              body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+              headers: {
+                Location: path,
+                "Retry-After": "0",
+              },
+            },
+            {
+              method: "GET",
+              path,
+              status: 400,
+              body: `{ "message" : "Expected bad request message" }`,
+            },
+          ],
+        }),
+        {
+          statusCode: 400,
+        }
+      );
     });
 
     it("should handle deleteNonRetry400 ", async () => {
-      try {
-        await runMockedLro("DELETE", "/nonretryerror/delete/400");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-      }
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "DELETE",
+              path: "/nonretryerror/delete/400",
+              status: 400,
+              body: `{ "message" : "Expected bad request message" }`,
+            },
+          ],
+        }),
+        {
+          statusCode: 400,
+        }
+      );
     });
 
     it("should handle deleteAsyncRelativeRetry400 ", async () => {
-      try {
-        await runMockedLro("DELETE", "/nonretryerror/deleteasync/retry/400");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-      }
+      const pollingPath = `/nonretryerror/deleteasync/retry/failed/operationResults/400`;
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "DELETE",
+              path: "/nonretryerror/deleteasync/retry/400",
+              status: 202,
+              body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+              headers: createDoubleHeaders({
+                pollingPath,
+                headers: { "Retry-After": "0" },
+              }),
+            },
+            {
+              method: "GET",
+              path: pollingPath,
+              status: 400,
+              body: `{ "message" : "Expected bad request message", "status": 200 }`,
+            },
+          ],
+        }),
+        {
+          statusCode: 400,
+        }
+      );
     });
 
     it("should handle postNonRetry400 ", async () => {
-      try {
-        await runMockedLro("POST", "/nonretryerror/post/400");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-      }
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "POST",
+              path: "/nonretryerror/post/400",
+              status: 400,
+              body: `{ "message" : "Expected bad request message" }`,
+            },
+          ],
+        }),
+        {
+          statusCode: 400,
+        }
+      );
     });
 
     it("should handle post202NonRetry400 ", async () => {
-      try {
-        await runMockedLro("POST", "/nonretryerror/post/202/retry/400");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-      }
+      const path = `/nonretryerror/post/202/retry/400`;
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "POST",
+              path,
+              status: 202,
+              body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+              headers: {
+                Location: path,
+                "Retry-After": "0",
+              },
+            },
+            {
+              method: "GET",
+              path,
+              status: 400,
+              body: `{ "message" : "Expected bad request message" }`,
+            },
+          ],
+        }),
+        {
+          statusCode: 400,
+        }
+      );
     });
 
     it("should handle postAsyncRelativeRetry400 ", async () => {
-      try {
-        await runMockedLro("POST", "/nonretryerror/postasync/retry/400");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-      }
+      const pollingPath = `/nonretryerror/postasync/retry/failed/operationResults/400`;
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "POST",
+              path: "/nonretryerror/postasync/retry/400",
+              status: 202,
+              body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+              headers: createDoubleHeaders({
+                pollingPath,
+                headers: { "Retry-After": "0" },
+              }),
+            },
+            {
+              method: "GET",
+              path: pollingPath,
+              status: 400,
+              body: `{ "message" : "Expected bad request message" }`,
+            },
+          ],
+        }),
+        {
+          statusCode: 400,
+        }
+      );
     });
 
     it("should handle PutError201NoProvisioningStatePayload ", async () => {
-      const response = await runMockedLro("PUT", "/error/put/201/noprovisioningstatepayload");
+      const response = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path: "/error/put/201/noprovisioningstatepayload",
+            status: 201,
+          },
+        ],
+      });
       assert.equal(response.statusCode, 201); // weird!
     });
 
     it("should handle putAsyncRelativeRetryNoStatusPayload ", async () => {
-      const response = await runMockedLro("PUT", "/error/putasync/retry/nostatuspayload");
+      const pollingPath = `/error/putasync/retry/failed/operationResults/nostatuspayload`;
+      const path = "/error/putasync/retry/nostatuspayload";
+      const response = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path,
+            status: 200,
+            body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+            headers: createDoubleHeaders({
+              pollingPath,
+              headers: { "Retry-After": "0" },
+            }),
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+          },
+          {
+            method: "GET",
+            path: path,
+            status: 200,
+          },
+        ],
+      });
       assert.equal(response.statusCode, 200);
     });
 
     it("should handle putAsyncRelativeRetryNoStatus ", async () => {
-      const response = await runMockedLro("PUT", "/error/putasync/retry/nostatus");
+      const path = "/error/putasync/retry/nostatus";
+      const pollingPath = `/error/putasync/retry/failed/operationResults/nostatus`;
+      const response = await runLro({
+        routes: [
+          {
+            method: "PUT",
+            path,
+            status: 200,
+            body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+            headers: createDoubleHeaders({
+              pollingPath,
+              headers: { "Retry-After": "0" },
+            }),
+          },
+          {
+            method: "GET",
+            path,
+            status: 200,
+            body: `{ }`,
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ }`,
+          },
+        ],
+      });
       assert.equal(response.statusCode, 200);
     });
 
     it("should handle delete204Succeeded ", async () => {
-      const response = await runMockedLro("DELETE", "/error/delete/204/nolocation");
+      const response = await runLro({
+        routes: [
+          {
+            method: "DELETE",
+            path: "/error/delete/204/nolocation",
+            status: 204,
+          },
+        ],
+      });
       assert.equal(response.statusCode, 204);
     });
 
     it("should handle deleteAsyncRelativeRetryNoStatus ", async () => {
-      const response = await runMockedLro("DELETE", "/error/deleteasync/retry/nostatus");
+      const pollingPath = `/error/deleteasync/retry/failed/operationResults/nostatus`;
+      const response = await runLro({
+        routes: [
+          {
+            method: "DELETE",
+            path: "/error/deleteasync/retry/nostatus",
+            status: 202,
+            headers: createDoubleHeaders({
+              pollingPath,
+              headers: { "Retry-After": "0" },
+            }),
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ }`,
+          },
+        ],
+      });
       assert.equal(response.statusCode, 200);
     });
 
     it("should handle post202NoLocation ", async () => {
-      const response = await runMockedLro("POST", "/error/post/202/nolocation");
+      const response = await runLro({
+        routes: [
+          {
+            method: "POST",
+            path: "/error/post/202/nolocation",
+            status: 202,
+          },
+        ],
+      });
       assert.equal(response.statusCode, 202);
     });
 
     it("should handle postAsyncRelativeRetryNoPayload ", async () => {
-      const response = await runMockedLro("POST", "/error/postasync/retry/nopayload");
+      const pollingPath = `/error/postasync/retry/failed/operationResults/nopayload`;
+      const response = await runLro({
+        routes: [
+          {
+            method: "POST",
+            path: "/error/postasync/retry/nopayload",
+            status: 202,
+            headers: createDoubleHeaders({
+              pollingPath,
+              headers: { "Retry-After": "0" },
+            }),
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+          },
+        ],
+      });
       assert.equal(response.statusCode, 200);
     });
 
     it("should handle put200InvalidJson ", async () => {
-      try {
-        await runMockedLro("PUT", "/error/put/200/invalidjson");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.message, "Unexpected end of JSON input");
-      }
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "PUT",
+              path: "/error/put/200/invalidjson",
+              status: 200,
+              body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo"`,
+            },
+          ],
+        }),
+        {
+          messagePattern: /Unexpected end of JSON input/,
+        }
+      );
     });
 
     it("should handle putAsyncRelativeRetryInvalidHeader ", async () => {
-      try {
-        await runMockedLro("PUT", "/error/putasync/retry/invalidheader");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 404);
-        // assert.equal(error.statusCode, 404); // core-client would have validated the retry-after header
-      }
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "PUT",
+              path: "/error/putasync/retry/invalidheader",
+              status: 200,
+              body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+              headers: createDoubleHeaders({
+                pollingPath: "/foo",
+                headers: { "Retry-After": "/bar" },
+              }),
+            },
+          ],
+        }),
+        {
+          statusCode: 404,
+        }
+      );
     });
 
     it("should handle putAsyncRelativeRetryInvalidJsonPolling ", async () => {
-      try {
-        await runMockedLro("PUT", "/error/putasync/retry/invalidjsonpolling");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.message, "Unexpected end of JSON input");
-      }
+      const pollingPath = `/error/putasync/retry/failed/operationResults/invalidjsonpolling`;
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "PUT",
+              path: "/error/putasync/retry/invalidjsonpolling",
+              status: 200,
+              body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
+              headers: createDoubleHeaders({
+                pollingPath,
+                headers: { "Retry-After": "0" },
+              }),
+            },
+            {
+              method: "GET",
+              path: pollingPath,
+              status: 200,
+              body: `{ "status": "Accepted"`,
+            },
+          ],
+        }),
+        {
+          messagePattern: /Unexpected end of JSON input/,
+        }
+      );
     });
 
     it("should handle delete202RetryInvalidHeader ", async () => {
-      try {
-        await runMockedLro("DELETE", "/error/delete/202/retry/invalidheader");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 404);
-      }
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "DELETE",
+              path: "/error/delete/202/retry/invalidheader",
+              status: 202,
+              headers: {
+                Location: `/foo`,
+                "Retry-After": "/bar",
+              },
+            },
+          ],
+        }),
+        {
+          statusCode: 404,
+        }
+      );
     });
 
     it("should handle deleteAsyncRelativeRetryInvalidHeader ", async () => {
-      try {
-        await runMockedLro("DELETE", "/error/deleteasync/retry/invalidheader");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 404);
-      }
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "DELETE",
+              path: "/error/deleteasync/retry/invalidheader",
+              status: 202,
+              headers: createDoubleHeaders({
+                pollingPath: "/foo",
+                headers: { "Retry-After": "/bar" },
+              }),
+            },
+          ],
+        }),
+        {
+          statusCode: 404,
+        }
+      );
     });
 
     it("should handle DeleteAsyncRelativeRetryInvalidJsonPolling ", async () => {
-      try {
-        await runMockedLro("DELETE", "/error/deleteasync/retry/invalidjsonpolling");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.message, "Unexpected end of JSON input");
-      }
+      const pollingPath = `/error/deleteasync/retry/failed/operationResults/invalidjsonpolling`;
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "DELETE",
+              path: "/error/deleteasync/retry/invalidjsonpolling",
+              status: 202,
+              headers: createDoubleHeaders({
+                pollingPath,
+                headers: { "Retry-After": "0" },
+              }),
+            },
+            {
+              method: "GET",
+              path: pollingPath,
+              status: 200,
+              body: `{ "status": "Accepted"`,
+            },
+          ],
+        }),
+        {
+          messagePattern: /Unexpected end of JSON input/,
+        }
+      );
     });
 
     it("should handle post202RetryInvalidHeader ", async () => {
-      try {
-        await runMockedLro("POST", "/error/post/202/retry/invalidheader");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 404);
-      }
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "POST",
+              path: "/error/post/202/retry/invalidheader",
+              status: 202,
+              headers: {
+                Location: `/foo`,
+                "Retry-After": "/bar",
+              },
+            },
+          ],
+        }),
+        {
+          statusCode: 404,
+        }
+      );
     });
 
     it("should handle postAsyncRelativeRetryInvalidHeader ", async () => {
-      try {
-        await runMockedLro("POST", "/error/postasync/retry/invalidheader");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 404);
-      }
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "POST",
+              path: "/error/postasync/retry/invalidheader",
+              status: 202,
+              headers: createDoubleHeaders({
+                pollingPath: "/foo",
+                headers: { "Retry-After": "/bar" },
+              }),
+            },
+          ],
+        }),
+        {
+          statusCode: 404,
+        }
+      );
     });
 
     it("should handle postAsyncRelativeRetryInvalidJsonPolling ", async () => {
-      try {
-        await runMockedLro("POST", "/error/postasync/retry/invalidjsonpolling");
-        assert.fail("Scenario should throw");
-      } catch (error: any) {
-        assert.equal(error.message, "Unexpected end of JSON input");
-      }
+      const pollingPath = `/error/postasync/retry/failed/operationResults/invalidjsonpolling`;
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "POST",
+              path: "/error/postasync/retry/invalidjsonpolling",
+              status: 202,
+              headers: createDoubleHeaders({
+                pollingPath,
+                headers: { "Retry-After": "/bar" },
+              }),
+            },
+            {
+              method: "GET",
+              path: pollingPath,
+              status: 200,
+              body: `{ "status": "Accepted"`,
+            },
+          ],
+        }),
+        {
+          messagePattern: /Unexpected end of JSON input/,
+        }
+      );
     });
   });
 
   describe("serialized state", () => {
     let state: any, serializedState: string;
     it("should handle serializing the state", async () => {
-      const poller = mockedPoller({
-        method: "PUT",
-        url: "/put/200/succeeded",
+      const poller = createPoller({
+        routes: [
+          {
+            method: "PUT",
+            path: "/put/200/succeeded",
+            status: 200,
+            body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
+          },
+        ],
       });
       poller.onProgress((currentState) => {
         if (state === undefined && serializedState === undefined) {
@@ -550,9 +1917,24 @@ describe("Lro Engine", function () {
 
   describe("mutate state", () => {
     it("The state can be mutated in onProgress", async () => {
-      const poller = mockedPoller({
-        method: "POST",
-        url: "/error/postasync/retry/nopayload",
+      const pollingPath = `/error/postasync/retry/failed/operationResults/nopayload`;
+      const poller = createPoller({
+        routes: [
+          {
+            method: "POST",
+            path: "/error/postasync/retry/nopayload",
+            status: 202,
+            headers: createDoubleHeaders({
+              pollingPath,
+              headers: { "Retry-After": "0" },
+            }),
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+          },
+        ],
       });
       poller.onProgress((currentState) => {
         // Abruptly stop the LRO after the first poll request without getting a result
@@ -564,9 +1946,24 @@ describe("Lro Engine", function () {
     });
 
     it("The state can be mutated in processState", async () => {
-      const poller = mockedPoller({
-        method: "POST",
-        url: "/error/postasync/retry/nopayload",
+      const pollingPath = `/error/postasync/retry/failed/operationResults/nopayload`;
+      const poller = createPoller({
+        routes: [
+          {
+            method: "POST",
+            path: "/error/postasync/retry/nopayload",
+            status: 202,
+            headers: createDoubleHeaders({
+              pollingPath,
+              headers: { "Retry-After": "0" },
+            }),
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+          },
+        ],
         updateState: (state: any, lastResponse: RawResponse) => {
           assert.ok(lastResponse);
           assert.ok(lastResponse?.statusCode);
@@ -582,9 +1979,44 @@ describe("Lro Engine", function () {
 
   describe("process result", () => {
     it("The final result can be processed using processResult", async () => {
-      const poller = mockedPoller({
-        method: "POST",
-        url: "/postasync/noretry/succeeded",
+      const locationPath = "/postlocation/noretry/succeeded/operationResults/foo/200/";
+      const pollingPath = "/postasync/noretry/succeeded/operationResults/foo/200/";
+      const headerName = "Operation-Location";
+      const poller = createPoller({
+        routes: [
+          {
+            method: "POST",
+            path: `/post/noretry/succeeded`,
+            status: 202,
+            headers: {
+              location: locationPath,
+              [headerName]: pollingPath,
+            },
+            body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 202,
+            body: `{"status":"Accepted"}`,
+            headers: {
+              location: locationPath,
+              [headerName]: pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+          },
+          {
+            method: "GET",
+            path: locationPath,
+            status: 200,
+            body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+          },
+        ],
         processResult: (result: unknown, state: any) => {
           const serializedState = JSON.stringify({ state: state });
           assert.equal(serializedState, poller.toString());
@@ -601,10 +2033,34 @@ describe("Lro Engine", function () {
 
   describe("poller cancellation", () => {
     it("isCancel is set after the cancellation callback resolves", async () => {
+      const resourceLocationPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/location";
+      const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
       let run = false;
-      const poller = mockedPoller({
-        method: "POST",
-        url: "/LROLocationPostDoubleHeadersFinalAzureHeaderGetDefault",
+      const poller = createPoller({
+        routes: [
+          {
+            method: "POST",
+            path: `/LROPostDoubleHeadersFinalAzureHeaderGetDefault`,
+            status: 202,
+            body: "",
+            headers: {
+              Location: resourceLocationPath,
+              "Operation-Location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ "status": "running"}`,
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ "status": "canceled" }`,
+          },
+        ],
         cancel: async () => {
           run = true;
         },
@@ -614,14 +2070,47 @@ describe("Lro Engine", function () {
       assert.isUndefined(poller.getOperationState().isCancelled);
       await poller.cancelOperation();
       assert.isTrue(run);
+      assert.isUndefined(poller.getOperationState().isCancelled);
+      await Promise.all([
+        assertError(poller.pollUntilDone(), {
+          messagePattern: /Poller cancelled/,
+        }),
+        assertError(poller.poll(), {
+          messagePattern: /The long-running operation has been canceled./,
+        }),
+      ]);
       assert.isTrue(poller.getOperationState().isCancelled);
     });
 
     it("isCancel is not set when the cancellation callback throws", async () => {
+      const resourceLocationPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/location";
+      const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
       let run = false;
-      const poller = mockedPoller({
-        method: "POST",
-        url: "/LROLocationPostDoubleHeadersFinalAzureHeaderGetDefault",
+      const poller = createPoller({
+        routes: [
+          {
+            method: "POST",
+            path: `/LROPostDoubleHeadersFinalAzureHeaderGetDefault`,
+            status: 202,
+            body: "",
+            headers: {
+              Location: resourceLocationPath,
+              "Operation-Location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ "status": "succeeded"}`,
+          },
+          {
+            method: "GET",
+            path: resourceLocationPath,
+            status: 200,
+            body: `{ "id": "100", "name": "foo" }`,
+          },
+        ],
         cancel: async () => {
           run = true;
           throw new Error();
@@ -635,29 +2124,36 @@ describe("Lro Engine", function () {
       assert.isUndefined(poller.getOperationState().isCancelled);
     });
 
-    it("calling cancelOperation stops polling", async () => {
-      let run = false;
-      let count = 0;
-      const poller = mockedPoller({
-        method: "POST",
-        url: "/LROLocationPostDoubleHeadersFinalAzureHeaderGetDefault",
-        cancel: async () => {
-          run = true;
-        },
+    it("cancelled poller gives access to partial results", async () => {
+      const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
+      const poller = createPoller({
+        routes: [
+          {
+            method: "POST",
+            path: `/LROPostDoubleHeadersFinalAzureHeaderGetDefault`,
+            status: 202,
+            body: "",
+            headers: {
+              "Operation-Location": pollingPath,
+            },
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ "status": "running"}`,
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 200,
+            body: `{ "status": "canceled", "results": [1,2] }`,
+          },
+        ],
       });
-      poller.onProgress(() => {
-        ++count;
-      });
-      assert.equal(count, 0);
-      await poller.poll();
-      assert.equal(count, 1);
-      await poller.cancelOperation();
-      assert.isTrue(run);
-      await poller.poll();
-      assert.equal(count, 1);
-      await poller.poll();
-      assert.equal(count, 1);
-      await assert.isRejected(poller.pollUntilDone(), /Poller cancelled/);
+      await assertError(poller.pollUntilDone(), { messagePattern: /Poller cancelled/ });
+      const result = poller.getResult();
+      assert.deepEqual(result!.results, [1, 2]);
     });
   });
 });

@@ -37,7 +37,7 @@ let argv = require("yargs")
 
 const path = require("path");
 const versionUtils = require("./VersionUtils");
-const packageUtils = require("eng-package-utils");
+const packageUtils = require("@azure-tools/eng-package-utils");
 
 async function main(argv) {
   const artifactName = argv["artifact-name"];
