@@ -49,7 +49,7 @@ describe("Eventgrid test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new EventGridManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2";
     resourceGroupName = "myjstest";
     topicName = "mytopicxxx";
     domainName = "mydomainxxx";
