@@ -1,5 +1,5 @@
-import { execa } from 'execa';
-import packageJson from './package.json' assert { type: 'json' };
+const packageJson = require("./package.json");
+const { exec } = require('child_process');
 
 const versions = ["latest"];
 
@@ -12,11 +12,17 @@ const packages = [
   ),
 ];
 
-async function exec(cmd) {
-  const command = execa(cmd, { cwd: ".", shell: true });
-  command.stderr.pipe(process.stderr);
-  command.stdout.pipe(process.stdout);
-  return command;
+function runProcess(cmd, callback) {
+  var command = exec(cmd, (err, stdout, stderr) => {
+    if (err) {
+      console.log(`err: ${err}`);
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
+  command.on('exit', function () {
+    callback()
+  });
 }
 
 (async () => {
@@ -26,17 +32,19 @@ async function exec(cmd) {
       // Note: this moves devDeps to dependencies, but it does not matter for these tests
       const packagesToInstall = packages.map((packg) => `${packg}@${version}`).join(" ");
       console.log(`Installing ${packagesToInstall}`);
-      await exec(
+      runProcess(
         `npm install --no-save --prefix ./test-opentelemetry-versions ${packagesToInstall}`
-      );
-
-      console.log(`Compiling on version: ${version}`);
-      await exec(`npm run build`);
-
-      console.log(`Running tests on version: ${version}`);
-      await exec(`npm run test`);
+        , () => {
+          console.log(`Compiling on version: ${version}`);
+          runProcess(`npm run build`, () => {
+            console.log(`Running tests on version: ${version}`);
+            runProcess(`npm run test`, () => {
+              process.exit(0);
+            });
+          });
+        });
     }
-    process.exit(0);
+
   } catch (error) {
     console.log("Opentelemetry version test failed!");
     console.log(error);
