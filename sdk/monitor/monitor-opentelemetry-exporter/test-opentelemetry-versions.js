@@ -1,15 +1,11 @@
 const packageJson = require("./package.json");
-const { exec } = require('child_process');
+const { exec } = require("child_process");
 
 const versions = ["latest"];
 
 const packages = [
-  ...Object.keys(packageJson.dependencies).filter((packg) =>
-    packg.startsWith("@opentelemetry")
-  ),
-  ...Object.keys(packageJson.devDependencies).filter((packg) =>
-    packg.startsWith("@opentelemetry")
-  ),
+  ...Object.keys(packageJson.dependencies).filter((packg) => packg.startsWith("@opentelemetry")),
+  ...Object.keys(packageJson.devDependencies).filter((packg) => packg.startsWith("@opentelemetry")),
 ];
 
 function runProcess(cmd, callback) {
@@ -20,8 +16,8 @@ function runProcess(cmd, callback) {
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
   });
-  command.on('exit', function () {
-    callback()
+  command.on("exit", function () {
+    callback();
   });
 }
 
@@ -33,8 +29,8 @@ function runProcess(cmd, callback) {
       const packagesToInstall = packages.map((packg) => `${packg}@${version}`).join(" ");
       console.log(`Installing ${packagesToInstall}`);
       runProcess(
-        `npm install --no-save --prefix ./test-opentelemetry-versions ${packagesToInstall}`
-        , () => {
+        `npm install --no-save --prefix ./test-opentelemetry-versions ${packagesToInstall}`,
+        () => {
           console.log(`Compiling on version: ${version}`);
           runProcess(`npm run build`, () => {
             console.log(`Running tests on version: ${version}`);
@@ -42,9 +38,9 @@ function runProcess(cmd, callback) {
               process.exit(0);
             });
           });
-        });
+        }
+      );
     }
-
   } catch (error) {
     console.log("Opentelemetry version test failed!");
     console.log(error);
