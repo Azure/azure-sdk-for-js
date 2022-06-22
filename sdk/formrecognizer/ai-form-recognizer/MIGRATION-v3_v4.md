@@ -19,7 +19,7 @@ To avoid migrating an application all at once, major version 3 may be installed 
     "dependencies": {
         ...,
         "@azure/ai-form-recognizer": "^3.2.0",
-        "@azure/ai-form-recognizer-beta": "npm:@azure/ai-form-recognizer@4.0.0-beta.4"
+        "@azure/ai-form-recognizer-beta": "npm:@azure/ai-form-recognizer@4.0.0-beta.5"
     }
 }
 ```
@@ -31,7 +31,7 @@ With this configuration, imports from `"@azure/ai-form-recognizer"` will import 
     ...,
     "dependencies": {
         ...,
-        "@azure/ai-form-recognizer": "4.0.0-beta.4",
+        "@azure/ai-form-recognizer": "4.0.0-beta.5",
         "@azure/ai-form-recognizer-v3": "npm:@azure/ai-form-recognizer@^3.2.0"
     }
 }
@@ -164,7 +164,7 @@ Compare the following samples:
   const forms: RecognizedForm[] = await poller.pollUntilDone();
   ```
 
-  Current (4.0.0-beta.4):
+  Current (4.0.0-beta.5):
 
   ```typescript
   const client = new DocumentAnalysisClient(...);
@@ -201,7 +201,7 @@ Compare the following samples:
   }
   ```
 
-  Current (4.0.0-beta.4):
+  Current (4.0.0-beta.5):
 
   ```typescript
   const client = new DocumentAnalysisClient(...);
@@ -235,7 +235,7 @@ if (table.boundingBox) {
 }
 ```
 
-Current (4.0.0-beta.4):
+Current (4.0.0-beta.5):
 
 ```typescript
 // Now, tables are accessed through `AnalyzeResult`.
@@ -285,7 +285,7 @@ const url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/f
 const poller = await client.beginRecognizeCustomFormsFromUrl("<model ID>", url);
 ```
 
-Current (4.0.0-beta.4):
+Current (4.0.0-beta.5):
 
 ```typescript
 const client = new DocumentAnalysisClient(...);
@@ -325,7 +325,7 @@ const [receipt] = await poller.pollUntilDone();
 const receiptType: string = (receipt.fields["ReceiptType"] as FormStringField)?.value ?? "<unknown>";
 ```
 
-Current (4.0.0-beta.4), using the `DocumentModel`:
+Current (4.0.0-beta.5), using the `DocumentModel`:
 
 ```typescript
 // We need to import `PrebuiltModels`, which holds the prebuilt `DocumentModel` data structures
@@ -347,7 +347,7 @@ const { documents: [receipt] } = await poller.pollUntilDone();
 const receiptType: string = receipt.fields.receiptType?.value ?? "<unknown>";
 ```
 
-Current (4.0.0-beta.4), using the model ID:
+Current (4.0.0-beta.5), using the model ID:
 
 ```typescript
 import { DocumentAnalysisClient, DocumentStringField } from "@azure/ai-form-recognizer";
@@ -440,7 +440,7 @@ if (model.trainingDocuments) {
 }
 ```
 
-Current (4.0.0-beta.4):
+Current (4.0.0-beta.5):
 
 ```typescript
 const client = new DocumentModelAdministrationClient(...);
