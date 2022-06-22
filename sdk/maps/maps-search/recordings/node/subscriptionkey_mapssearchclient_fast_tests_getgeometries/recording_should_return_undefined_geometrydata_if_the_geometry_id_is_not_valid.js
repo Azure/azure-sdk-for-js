@@ -7,8 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .get('/search/polygon/json')
   .query(true)
-  .reply(200, {"additionalData":[{"providerID":"invalid-geometry-id","error":"Wrong geometry id format. Supported format: UUID (RFC 4122)"}]}, [
-  'Content-Length',
+  .reply(200, {"additionalData":[{"providerID":"invalid-geometry-id","error":"Wrong geometry id format. Supported format: UUID (RFC 4122)"}]}, [ 'Content-Length',
   '127',
   'Content-Type',
   'application/json',
@@ -25,7 +24,6 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 00283CEEF1434E36B5F1890B05083BD7 Ref B: TYO01EDGE1812 Ref C: 2022-06-22T02:35:34Z',
+  'Ref A: 3379D75385884347995F10F6F467F592 Ref B: TYO01EDGE2921 Ref C: 2022-06-22T06:18:10Z',
   'Date',
-  'Wed, 22 Jun 2022 02:35:34 GMT'
-]);
+  'Wed, 22 Jun 2022 06:18:10 GMT' ]);

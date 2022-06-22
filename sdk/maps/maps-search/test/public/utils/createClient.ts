@@ -18,10 +18,7 @@ const replaceableVariables: { [k: string]: string } = {
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string =>
-      recording.replace(/batch\/{?\w{8}-?\w{4}-?\w{4}-?\w{4}-?\w{12}}?/g, `batch/<batch-id>`),
-  ],
+  customizationsOnRecordings: [],
   queryParametersToSkip: [],
 };
 
