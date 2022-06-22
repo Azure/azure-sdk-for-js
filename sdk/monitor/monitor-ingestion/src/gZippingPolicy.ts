@@ -16,15 +16,15 @@ export const GZippingPolicy: PipelinePolicy = {
       console.log("going to await gzip function");
       const buffer = await gzip(JSON.stringify(req.body));
       req.body = buffer.toString();
-      console.log("inside sendrequest of gzip policy ->")
+      console.log("inside sendrequest of gzip policy ->");
       console.log(req.body);
     }
     return next(req);
   },
 };
 
-function gzip(body: string): Promise<Buffer>{
-  return new Promise((resolve, reject)=>{
+function gzip(body: string): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
     zlib.gzip(body, (err, buffer) => {
       if (!err) {
         resolve(buffer);
@@ -32,5 +32,5 @@ function gzip(body: string): Promise<Buffer>{
         reject(new Error(`Error doing gzipping - ${err}`));
       }
     });
-  })
+  });
 }

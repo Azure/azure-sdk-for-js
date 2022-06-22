@@ -5,8 +5,9 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
-import { UploadLogsError, UploadOptions, UploadResult } from "./models";
+import { /*UploadLogsError, */ UploadOptions, UploadResult } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
+import asyncPool from "tiny-async-pool";
 // import * as pLimit from "p-limit";
 
 /**
@@ -54,7 +55,7 @@ export class LogsIngestionClient {
         userAgentPrefix,
       },
     });
-    // adding gziping policy bcz this is a simgle method client which needs gzipping
+    // adding gziping policy bcz this is a single method client which needs gzipping
     this._dataClient.pipeline.addPolicy(GZippingPolicy);
   }
 
@@ -88,19 +89,36 @@ export class LogsIngestionClient {
       uploadStatus: "Success",
     };
 
-    let uploadLogsError: UploadLogsError[] = [];
-    while (count < noOfChunks) {
+    let errorsArray: Record<string, any>[] = [];
+    let promiseCount = 0;
+    const upload = async (x: any): Promise<void> => {
       try {
-        await this._dataClient.upload(ruleId, streamName, chunkArray[count], {
+        promiseCount++;
+        console.log("promise count after increment", promiseCount);
+        console.log(x);
+        await this._dataClient.upload(ruleId, streamName, x, {
           contentEncoding: "gzip",
         });
-      } catch (e: any) {
-        uploadLogsError.push({ failedLogs: chunkArray[count], responseError: e })
+      } catch (e) {
+        console.log("this error catch got triggered");
+        console.dir(e);
+        console.log(JSON.stringify(e));
+        errorsArray.push({ error: e, log: count });
       }
-      count++;
-    }
-    uploadResult.errors = uploadLogsError;
+      promiseCount--;
+      console.log("promiseCount after decrement", promiseCount);
+    };
 
+    for await (const _i of asyncPool(concurrency, chunkArray, upload)) {
+    }
+    for (let errorsObj of errorsArray) {
+      uploadResult.errors.push({
+        responseError: errorsObj.error,
+        failedLogs: chunkArray[errorsObj.log],
+      });
+    }
+    console.log("what is inside uploadResult");
+    console.log(JSON.stringify(uploadResult.errors));
     //    let plimitPromises = [];
     //    const limit = pLimit.default(concurrency);
     //    let errorsArray: Record<string, any>[] = [];
@@ -123,7 +141,7 @@ export class LogsIngestionClient {
     //           promiseCount--;
     //           console.log("promiseCount after decrement", promiseCount);
     //        });
-    //      
+    //
     //      plimitPromises.push(promise);
     //      count++;
     //    }
@@ -143,7 +161,7 @@ export class LogsIngestionClient {
       uploadResult.uploadStatus = "PartialFailure";
       return uploadResult;
     } else {
-      throw Error(`All logs failed for ingestion - ${uploadResult.errors.toString()}`);
+      throw Error(`All logs failed for ingestion - ${JSON.stringify(uploadResult.errors)}`);
     }
   }
 
