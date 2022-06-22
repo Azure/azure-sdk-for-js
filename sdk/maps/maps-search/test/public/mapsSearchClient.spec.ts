@@ -108,25 +108,6 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           });
         });
 
-        describe("#searchAddressBatch", function () {
-          it("should throw errors if given empty requests", async function () {
-            // "Number of queries must be between 1 and 10000 inclusive.""
-            assert.isRejected(client.searchAddressBatch([]));
-          });
-          it("could take an array of fuzzy search requests as input", async function () {
-            const batchRequests = [
-              { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
-              { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
-              { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
-            ];
-
-            const batchResult = await client.searchAddressBatch(batchRequests);
-
-            assert.equal(batchResult.totalRequests, batchRequests.length);
-            assert.equal(batchResult.batchItems?.length, batchRequests.length);
-          });
-        });
-
         describe("#searchStructuredAddress", function () {
           it("should throw error the the query contains invalid countryCode", async function () {
             const structuredAddress = {
@@ -168,29 +149,6 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
             searchResult.results?.forEach((r) => {
               assert.isString(r.address?.streetName);
             });
-          });
-        });
-
-        describe("#reverseSearchAddressBatch", function () {
-          it("should throw errors if given empty requests", async function () {
-            // "Number of queries must be between 1 and 10000 inclusive.""
-            assert.isRejected(client.reverseSearchAddressBatch([]));
-          });
-
-          it("could take an array of fuzzy search requests as input", async function () {
-            const batchRequests = [
-              { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
-              {
-                coordinates: { latitude: 47.639765, longitude: -122.127896 },
-                options: { radiusInMeters: 5000 },
-              },
-              { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
-            ];
-
-            const batchResult = await client.reverseSearchAddressBatch(batchRequests);
-
-            assert.equal(batchResult.totalRequests, batchRequests.length);
-            assert.equal(batchResult.batchItems?.length, batchRequests.length);
           });
         });
 
@@ -418,32 +376,6 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
               },
             });
             assertSearchResults(searchResult.results);
-          });
-        });
-
-        describe("#fuzzySearchBatch", function () {
-          it("should throw errors if given empty requests", async function () {
-            // "Number of queries must be between 1 and 10000 inclusive.""
-            assert.isRejected(client.fuzzySearchBatch([]));
-          });
-
-          it("could take an array of fuzzy search requests as input", async function () {
-            const batchRequests = [
-              { searchQuery: { query: "pizza", countryFilter: ["fr"] } },
-              { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
-              {
-                searchQuery: {
-                  query: "pizza",
-                  countryFilter: ["tw"],
-                  coordinates: { latitude: 25, longitude: 121 },
-                },
-              },
-            ];
-
-            const batchResult = await client.fuzzySearchBatch(batchRequests);
-
-            assert.equal(batchResult.totalRequests, batchRequests.length);
-            assert.equal(batchResult.batchItems?.length, batchRequests.length);
           });
         });
 
