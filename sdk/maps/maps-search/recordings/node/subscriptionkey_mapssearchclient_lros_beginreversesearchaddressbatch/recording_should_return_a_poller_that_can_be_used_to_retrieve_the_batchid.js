@@ -23,15 +23,15 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 1BBAE7914F5F42ECAA282B2CC1DD19FB Ref B: TPE30EDGE0620 Ref C: 2022-03-15T05:29:29Z',
+  'Ref A: AEB2C6EAB0AD4B93B8DC5DF5DE06BD96 Ref B: TYO01EDGE3514 Ref C: 2022-06-22T02:35:46Z',
   'Date',
-  'Tue, 15 Mar 2022 05:29:29 GMT'
+  'Wed, 22 Jun 2022 02:35:46 GMT'
 ]);
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .get('/search/address/reverse/batch/<batch-id>')
   .query(true)
-  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"queryTime":5,"numResults":1},"addresses":[{"address":{"buildingNumber":"410","streetNumber":"410","routeNumbers":[],"street":"Thomas Street","streetName":"Thomas Street","streetNameAndNumber":"410 Thomas Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Seattle","postalCode":"98109","municipalitySubdivision":"Queen Anne","country":"United States","countryCodeISO3":"USA","freeformAddress":"410 Thomas Street, Seattle, WA 98109","boundingBox":{"northEast":"47.620954,-122.347601","southWest":"47.620944,-122.348498","entity":"position"},"countrySubdivisionName":"Washington","localName":"Seattle"},"position":"47.620945,-122.348175"}]}}],"summary":{"successfulRequests":1,"totalRequests":1}}, [
+  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"queryTime":6,"numResults":1},"addresses":[{"address":{"buildingNumber":"410","streetNumber":"410","routeNumbers":[],"street":"Thomas Street","streetName":"Thomas Street","streetNameAndNumber":"410 Thomas Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Seattle","postalCode":"98109","municipalitySubdivision":"Queen Anne","country":"United States","countryCodeISO3":"USA","freeformAddress":"410 Thomas Street, Seattle, WA 98109","boundingBox":{"northEast":"47.620954,-122.347601","southWest":"47.620944,-122.348498","entity":"position"},"countrySubdivisionName":"Washington","localName":"Seattle"},"position":"47.620945,-122.348175"}]}}],"summary":{"successfulRequests":1,"totalRequests":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -45,7 +45,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 0A235CFA94A248FBBA10A479F59E5EBC Ref B: TPE30EDGE0620 Ref C: 2022-03-15T05:29:29Z',
+  'Ref A: 23B3A4FAF5D844C38BF95828130D80E9 Ref B: TYO01EDGE3514 Ref C: 2022-06-22T02:35:46Z',
   'Date',
-  'Tue, 15 Mar 2022 05:29:29 GMT'
+  'Wed, 22 Jun 2022 02:35:46 GMT'
 ]);

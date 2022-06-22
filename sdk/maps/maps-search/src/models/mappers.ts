@@ -5,11 +5,8 @@ import {
   Address,
   BatchResult,
   ReverseSearchAddressResult,
-  ReverseSearchAddressResultItem,
   ReverseSearchCrossStreetAddressResult,
-  ReverseSearchCrossStreetAddressResultItem,
   SearchAddressResult,
-  SearchAddressResultItem,
 } from "./results";
 import {
   Address as AddressInternal,
@@ -64,20 +61,14 @@ export function toLatLonString(coordinates: LatLon): string {
 /**
  * @internal
  */
-export function mapLatLongPairAbbreviatedToLatLon(
-  latLongAbbr?: LatLongPairAbbreviated
-): LatLon | undefined {
-  if (latLongAbbr && latLongAbbr.lat && latLongAbbr.lon) {
-    return toLatLon(latLongAbbr.lat, latLongAbbr.lon);
-  } else {
-    return undefined;
-  }
+export function mapLatLongPairAbbreviatedToLatLon(latLongAbbr: LatLongPairAbbreviated): LatLon {
+  return toLatLon(latLongAbbr.lat, latLongAbbr.lon);
 }
 
 /**
  * @internal
  */
-export function mapStringToLatLon(LatLonStr?: string): LatLon | undefined {
+export function mapStringToLatLon(LatLonStr: string): LatLon {
   if (LatLonStr && typeof LatLonStr === "string") {
     const LatLonArray = LatLonStr.split(",");
     if (LatLonArray.length === 2) {
@@ -88,7 +79,7 @@ export function mapStringToLatLon(LatLonStr?: string): LatLon | undefined {
       }
     }
   }
-  return undefined;
+  throw new Error("Failed to deserialize LatLon string.");
 }
 
 /**
@@ -104,15 +95,10 @@ export function toBoundingBox(topLeft: LatLon, bottomRight: LatLon): BoundingBox
 /**
  * @internal
  */
-export function mapBoundingBox(bbox?: BoundingBoxInternal): BoundingBox | undefined {
-  if (bbox && bbox.topLeft && bbox.bottomRight) {
-    const topLeft = mapLatLongPairAbbreviatedToLatLon(bbox.topLeft);
-    const bottomRight = mapLatLongPairAbbreviatedToLatLon(bbox.bottomRight);
-    if (topLeft && bottomRight) {
-      return toBoundingBox(topLeft, bottomRight);
-    }
-  }
-  return undefined;
+export function mapBoundingBox(bbox: BoundingBoxInternal): BoundingBox {
+  const topLeft = mapLatLongPairAbbreviatedToLatLon(bbox.topLeft);
+  const bottomRight = mapLatLongPairAbbreviatedToLatLon(bbox.bottomRight);
+  return toBoundingBox(topLeft, bottomRight);
 }
 
 /**
@@ -232,34 +218,12 @@ export function mapFuzzySearchOptions(
 /**
  * @internal
  */
-export function mapAddress(address?: AddressInternal): Address | undefined {
-  if (address) {
-    const mappedAddress = {
-      buildingNumber: address.buildingNumber,
-      street: address.street,
-      crossStreet: address.crossStreet,
-      streetNumber: address.streetNumber,
-      routeNumbers: address.routeNumbers,
-      streetName: address.streetName,
-      streetNameAndNumber: address.streetNameAndNumber,
-      municipality: address.municipality,
-      municipalitySubdivision: address.municipalitySubdivision,
-      countryTertiarySubdivision: address.countryTertiarySubdivision,
-      countrySecondarySubdivision: address.countrySecondarySubdivision,
-      countrySubdivision: address.countrySubdivision,
-      postalCode: address.postalCode,
-      extendedPostalCode: address.extendedPostalCode,
-      countryCode: address.countryCode,
-      country: address.country,
-      countryCodeISO3: address.countryCodeISO3,
-      freeformAddress: address.freeformAddress,
-      countrySubdivisionName: address.countrySecondarySubdivision,
-      localName: address.localName,
-      boundingBox: mapBoundingBoxFromCompassNotation(address.boundingBox),
-    };
-    return removeUndefinedProperties(mappedAddress);
-  }
-  return undefined;
+export function mapAddress(address: AddressInternal): Address {
+  const { boundingBox, ...addressObject } = address;
+  return {
+    ...addressObject,
+    ...(boundingBox && { boundingBox: mapBoundingBoxFromCompassNotation(boundingBox) }),
+  };
 }
 
 /**
@@ -268,61 +232,35 @@ export function mapAddress(address?: AddressInternal): Address | undefined {
 export function mapSearchAddressResult(
   internalResult: SearchAddressResultInternal
 ): SearchAddressResult {
-  const resultWithUndefinedProps = {
-    query: internalResult.summary?.query,
-    queryType: internalResult.summary?.queryType,
-    queryTime: internalResult.summary?.queryTime,
-    numResults: internalResult.summary?.numResults,
-    top: internalResult.summary?.top,
-    skip: internalResult.summary?.skip,
-    totalResults: internalResult.summary?.totalResults,
-    fuzzyLevel: internalResult.summary?.fuzzyLevel,
-    geoBias: mapLatLongPairAbbreviatedToLatLon(internalResult.summary?.geoBias),
-    results: internalResult.results?.map((ir) => {
-      const mappedResult: SearchAddressResultItem = {
-        type: ir.type,
-        id: ir.id,
-        score: ir.score,
-        distanceInMeters: ir.distanceInMeters,
-        info: ir.info,
-        entityType: ir.entityType,
-        pointOfInterest: ir.pointOfInterest,
-        address: mapAddress(ir.address),
-        position:
-          ir.position && ir.position.lat && ir.position.lon
-            ? toLatLon(ir.position.lat, ir.position.lon)
-            : undefined,
-        viewport: mapBoundingBox(ir.viewport),
-        entryPoints: ir.entryPoints?.map((p) => {
-          return { type: p.type, position: mapLatLongPairAbbreviatedToLatLon(p.position) };
+  const { geoBias, ...summaryObject } = internalResult.summary;
+  const searchResult: SearchAddressResult = {
+    ...summaryObject,
+    ...(geoBias && { geoBias: mapLatLongPairAbbreviatedToLatLon(geoBias) }),
+    results: internalResult.results.map((ir) => {
+      const { address, position, viewport, entryPoints, addressRanges, ...resultObject } = ir;
+      return {
+        ...resultObject,
+        ...(address && { address: mapAddress(address) }),
+        ...(position && { position: toLatLon(position.lat, position.lon) }),
+        ...(viewport && { viewport: mapBoundingBox(viewport) }),
+        ...(entryPoints && {
+          entryPoints: entryPoints.map((p) => {
+            return { type: p.type, position: mapLatLongPairAbbreviatedToLatLon(p.position) };
+          }),
         }),
-        addressRanges: ir.addressRanges
-          ? {
-              rangeLeft: ir.addressRanges.rangeLeft,
-              rangeRight: ir.addressRanges.rangeRight,
-              from: mapLatLongPairAbbreviatedToLatLon(ir.addressRanges.from),
-              to: mapLatLongPairAbbreviatedToLatLon(ir.addressRanges.to),
-            }
-          : undefined,
-        dataSources: ir.dataSources,
-        matchType: ir.matchType,
-        detourTime: ir.detourTime,
+        ...(addressRanges && {
+          addressRanges: {
+            rangeLeft: addressRanges.rangeLeft,
+            rangeRight: addressRanges.rangeRight,
+            from: mapLatLongPairAbbreviatedToLatLon(addressRanges.from),
+            to: mapLatLongPairAbbreviatedToLatLon(addressRanges.to),
+          },
+        }),
       };
-      return removeUndefinedProperties(mappedResult);
     }),
   };
 
-  const result: SearchAddressResult = removeUndefinedProperties(resultWithUndefinedProps);
-  return result;
-}
-
-/**
- * @internal
- */
-export function removeUndefinedProperties(obj: Record<string, any>): Record<string, any> {
-  return Object.entries(obj)
-    .filter(([, value]) => value !== undefined)
-    .reduce((result, [key, value]) => ({ ...result, [key]: value }), {});
+  return searchResult;
 }
 
 /**
@@ -331,21 +269,19 @@ export function removeUndefinedProperties(obj: Record<string, any>): Record<stri
 export function mapReverseSearchAddressResult(
   internalResult: ReverseSearchAddressResultInternal
 ): ReverseSearchAddressResult {
-  const resultWithUndefinedProps = {
-    queryTime: internalResult.summary?.queryTime,
-    numResults: internalResult.summary?.numResults,
-    results: internalResult.addresses?.map((ad) => {
-      const mappedResult: ReverseSearchAddressResultItem = {
+  const searchResult: ReverseSearchAddressResult = {
+    queryTime: internalResult.summary.queryTime,
+    numResults: internalResult.summary.numResults,
+    results: internalResult.addresses.map((ad) => {
+      const { address, position, ...resultObject } = ad;
+      return {
+        ...resultObject,
         address: mapAddress(ad.address),
         position: mapStringToLatLon(ad.position),
-        roadUse: ad.roadUse,
-        matchType: ad.matchType,
       };
-      return removeUndefinedProperties(mappedResult);
     }),
   };
-  const result: ReverseSearchAddressResult = removeUndefinedProperties(resultWithUndefinedProps);
-  return result;
+  return searchResult;
 }
 
 /**
@@ -354,21 +290,19 @@ export function mapReverseSearchAddressResult(
 export function mapReverseSearchCrossStreetAddressResult(
   internalResult: ReverseSearchCrossStreetAddressResultInternal
 ): ReverseSearchCrossStreetAddressResult {
-  const resultWithUndefinedProps = {
-    queryTime: internalResult.summary?.queryTime,
-    numResults: internalResult.summary?.numResults,
-    results: internalResult.addresses?.map((ad) => {
-      const mappedResult: ReverseSearchCrossStreetAddressResultItem = {
-        address: mapAddress(ad.address),
-        position: mapStringToLatLon(ad.position),
+  const searchResult: ReverseSearchCrossStreetAddressResult = {
+    queryTime: internalResult.summary.queryTime,
+    numResults: internalResult.summary.numResults,
+    results: internalResult.addresses.map((ad) => {
+      const { address, position } = ad;
+      return {
+        ...(address && { address: mapAddress(address) }),
+        ...(position && { position: mapStringToLatLon(position) }),
       };
-      return removeUndefinedProperties(mappedResult);
     }),
   };
 
-  const result: ReverseSearchCrossStreetAddressResult =
-    removeUndefinedProperties(resultWithUndefinedProps);
-  return result;
+  return searchResult;
 }
 
 /**
@@ -378,13 +312,14 @@ export function mapSearchAddressBatchResult(
   internalResult: SearchAddressBatchResult
 ): BatchResult<SearchAddressResult> {
   const result: BatchResult<SearchAddressResult> = {
-    totalRequests: internalResult.batchSummary?.totalRequests,
-    successfulRequests: internalResult.batchSummary?.successfulRequests,
-    batchItems: internalResult.batchItems?.map((item) => {
+    totalRequests: internalResult.batchSummary.totalRequests,
+    successfulRequests: internalResult.batchSummary.successfulRequests,
+    batchItems: internalResult.batchItems.map((item) => {
       if (item.statusCode === 200) {
+        item;
         return {
           statusCode: item.statusCode,
-          response: mapSearchAddressResult(item.response as SearchAddressResultInternal),
+          response: mapSearchAddressResult(item.response as unknown as SearchAddressResultInternal),
         };
       } else {
         return { statusCode: item.statusCode, response: item.response as ErrorResponse };
@@ -400,15 +335,15 @@ export function mapSearchAddressBatchResult(
 export function mapReverseSearchAddressBatchResult(
   internalResult: ReverseSearchAddressBatchResult
 ): BatchResult<ReverseSearchAddressResult> {
-  const result: BatchResult<SearchAddressResult> = {
-    totalRequests: internalResult.batchSummary?.totalRequests,
+  const result: BatchResult<ReverseSearchAddressResult> = {
+    totalRequests: internalResult.batchSummary.totalRequests,
     successfulRequests: internalResult.batchSummary?.successfulRequests,
-    batchItems: internalResult.batchItems?.map((item) => {
+    batchItems: internalResult.batchItems.map((item) => {
       if (item.statusCode === 200) {
         return {
           statusCode: item.statusCode,
           response: mapReverseSearchAddressResult(
-            item.response as ReverseSearchAddressResultInternal
+            item.response as unknown as ReverseSearchAddressResultInternal
           ),
         };
       } else {

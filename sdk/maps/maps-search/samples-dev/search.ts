@@ -169,7 +169,7 @@ async function main() {
 
   console.log(" --- List polygons by geometry IDs:");
   console.log(geometryIds);
-  console.log(await client.getGeometries(geometryIds));
+  console.log(await client.getGeometries([...geometryIds, "8bceafe8-3d98-4444-b29b-fd81d3e9adf5"]));
 
   console.log(" --- Search along route:");
   const searchALongRouteQuery = "burger";
@@ -330,7 +330,7 @@ async function main() {
   // };
 
   const reverseSearchAddressRequests: ReverseSearchAddressRequest[] = [
-    { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+    { coordinates: { latitude: 148.858561, longitude: 2.294911 } },
     {
       coordinates: { latitude: 47.639765, longitude: -122.127896 },
       options: { radiusInMeters: 5000 },

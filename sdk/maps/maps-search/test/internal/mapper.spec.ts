@@ -23,7 +23,6 @@ import {
   mapSearchExtraFilterOptions,
   mapSearchPointOfInterestOptions,
   mapStringToLatLon,
-  removeUndefinedProperties,
   toBoundingBox,
   toLatLon,
   toLatLonString,
@@ -65,6 +64,8 @@ import {
   KnownMatchType,
   SearchAddressBatchResult,
   ReverseSearchAddressBatchResult,
+  SearchAddressBatchItemResponse,
+  ReverseSearchAddressBatchItemResponse,
 } from "../../src/generated/models";
 import { OperationOptions } from "@azure/core-client";
 import {
@@ -108,10 +109,6 @@ describe("LatLon/BoundingBox mappers", () => {
       assert.equal(latLongAbbr.lat, latLon.latitude);
       assert.equal(latLongAbbr.lon, latLon.longitude);
     });
-
-    it("should return undefined if the input is also undefined", () => {
-      assert.isUndefined(mapLatLongPairAbbreviatedToLatLon(undefined));
-    });
   });
 
   describe("mapStringToLatLon", () => {
@@ -123,8 +120,8 @@ describe("LatLon/BoundingBox mappers", () => {
       assert.equal(latLon.longitude, 120.3);
     });
 
-    it("should return undefined if the input is also undefined", () => {
-      assert.isUndefined(mapStringToLatLon(undefined));
+    it("should throw error if the input string is invalid", () => {
+      assert.throw(() => mapStringToLatLon("123"), /Failed to deserialize LatLon string./);
     });
   });
 
@@ -154,23 +151,6 @@ describe("LatLon/BoundingBox mappers", () => {
       assert.isDefined(bbox.topLeft);
       assert.isDefined(bbox.bottomRight);
     });
-
-    it("should not convert to a BoundingBox is some properties are null", () => {
-      const incompleteBbox1: BoundingBoxInternal = {
-        topLeft: topLeft,
-        bottomRight: undefined,
-      };
-      const incompleteBbox2: BoundingBoxInternal = {
-        topLeft: undefined,
-        bottomRight: bottomRight,
-      };
-      assert.isUndefined(mapBoundingBox(incompleteBbox1));
-      assert.isUndefined(mapBoundingBox(incompleteBbox2));
-    });
-
-    it("should return undefined if the input is also undefined", () => {
-      assert.isUndefined(mapBoundingBox(undefined));
-    });
   });
 
   describe("mapBoundingBoxFromCompassNotation", () => {
@@ -190,19 +170,6 @@ describe("LatLon/BoundingBox mappers", () => {
       assert.equal(bbox.topLeft.longitude, 12.3);
       assert.equal(bbox.bottomRight.latitude, 45.1);
       assert.equal(bbox.bottomRight.longitude, 12.4);
-    });
-
-    it("should not convert to a BoundingBox is some properties are null", () => {
-      const incompleteBbox1: BoundingBoxCompassNotation = {
-        northEast: northEast,
-        southWest: undefined,
-      };
-      const incompleteBbox2: BoundingBoxCompassNotation = {
-        northEast: undefined,
-        southWest: southWest,
-      };
-      assert.isUndefined(mapBoundingBoxFromCompassNotation(incompleteBbox1));
-      assert.isUndefined(mapBoundingBoxFromCompassNotation(incompleteBbox2));
     });
 
     it("should return undefined if the input is also undefined", () => {
@@ -366,21 +333,6 @@ describe("Result mappers", () => {
       };
       assert.deepEqual(mapAddress(internalAddr), expectedAddress);
     });
-    it("should not include undefined properties", () => {
-      const internalAddr: AddressInternal = {
-        buildingNumber: "buildingNumber",
-        crossStreet: "crossStreet",
-        streetNumber: undefined,
-      };
-      const expectedAddress = {
-        buildingNumber: "buildingNumber",
-        crossStreet: "crossStreet",
-      };
-      assert.deepEqual(mapAddress(internalAddr), expectedAddress);
-    });
-    it("should return undefined if the input is also undefined", () => {
-      assert.isUndefined(mapAddress(undefined));
-    });
   });
   describe("mapSearchAddressResult", () => {
     it("should transform an internal search address result to custom result object", () => {
@@ -388,6 +340,7 @@ describe("Result mappers", () => {
         summary: {
           query: "15127 98052 ne redmond wa",
           queryType: "NON_NEAR",
+          queryTime: 100,
           numResults: 1,
           geoBias: {
             lat: 47.301293179130347,
@@ -397,6 +350,7 @@ describe("Result mappers", () => {
         results: [
           {
             type: "Point Address",
+            id: "id",
             score: 8.074,
             position: {
               lat: 47.6308,
@@ -412,6 +366,14 @@ describe("Result mappers", () => {
                 lon: -122.13717,
               },
             },
+            address: {
+              streetName: "street name",
+              municipality: "municipality",
+              countryCode: "countryCode",
+              country: "country",
+              countryCodeISO3: "countryCodeISO3",
+              freeformAddress: "freeformAddress",
+            },
           },
         ],
       };
@@ -419,6 +381,7 @@ describe("Result mappers", () => {
       const expectedResult: SearchAddressResult = {
         query: "15127 98052 ne redmond wa",
         queryType: "NON_NEAR",
+        queryTime: 100,
         numResults: 1,
         geoBias: {
           latitude: 47.301293179130347,
@@ -427,6 +390,7 @@ describe("Result mappers", () => {
         results: [
           {
             type: "Point Address",
+            id: "id",
             score: 8.074,
             position: {
               latitude: 47.6308,
@@ -442,23 +406,19 @@ describe("Result mappers", () => {
                 longitude: -122.13717,
               },
             },
+            address: {
+              streetName: "street name",
+              municipality: "municipality",
+              countryCode: "countryCode",
+              country: "country",
+              countryCodeISO3: "countryCodeISO3",
+              freeformAddress: "freeformAddress",
+            },
           },
         ],
       };
 
       assert.deepEqual(mapSearchAddressResult(internalResult), expectedResult);
-    });
-  });
-  describe("removeUndefinedProperties", () => {
-    it("should remove undefined properties of an object", () => {
-      const obj: Record<string, any> = {
-        prop1: 5,
-        prop2: "text",
-        prop3: undefined,
-      };
-      const convertedObj = removeUndefinedProperties(obj);
-      assert.hasAllKeys(convertedObj, ["prop1", "prop2"]);
-      assert.doesNotHaveAnyKeys(convertedObj, ["prop3"]);
     });
   });
   describe("mapReverseSearchAddressResult", () => {
@@ -469,8 +429,19 @@ describe("Result mappers", () => {
           {
             roadUse: [],
             matchType: KnownMatchType.Street,
-            address: { country: "Japan" },
-            position: "60.12,120.34",
+            address: {
+              country: "Japan",
+              countryCode: "JP",
+              countryCodeISO3: "JPN",
+              freeformAddress: "Matsuyama, Shikoku",
+              municipality: "Matsuyama",
+              boundingBox: {
+                northEast: "33.583073,133.356155",
+                southWest: "33.561634,133.309204",
+                entity: "position",
+              },
+            },
+            position: "33.56,133.35",
           },
         ],
       };
@@ -482,8 +453,18 @@ describe("Result mappers", () => {
           {
             roadUse: [],
             matchType: KnownMatchType.Street,
-            address: { country: "Japan" },
-            position: { latitude: 60.12, longitude: 120.34 },
+            address: {
+              country: "Japan",
+              countryCode: "JP",
+              countryCodeISO3: "JPN",
+              freeformAddress: "Matsuyama, Shikoku",
+              municipality: "Matsuyama",
+              boundingBox: {
+                topLeft: { latitude: 33.583073, longitude: 133.309204 },
+                bottomRight: { latitude: 33.561634, longitude: 133.356155 },
+              },
+            },
+            position: { latitude: 33.56, longitude: 133.35 },
           },
         ],
       };
@@ -494,22 +475,38 @@ describe("Result mappers", () => {
   describe("mapReverseSearchCrossStreetAddressResult", () => {
     it("should transform an internal reverse search cross street address result to custom result object", () => {
       const internalResult: ReverseSearchCrossStreetAddressResultInternal = {
-        summary: { queryTime: 100, numResults: 10 },
+        summary: { queryTime: 100, numResults: 1 },
         addresses: [
           {
-            address: { country: "Japan" },
-            position: "60.12,120.34",
+            address: {
+              streetName: "Sarphatistraat & Frederiksplein",
+              crossStreet: "Sarphatistraat",
+              municipality: "Amsterdam",
+              countryCode: "NL",
+              country: "Nederland",
+              countryCodeISO3: "NLD",
+              freeformAddress: "Sarphatistraat & Frederiksplein, 1017 Amsterdam",
+            },
+            position: "52.36,4.90",
           },
         ],
       };
 
       const expectedResult: ReverseSearchCrossStreetAddressResult = {
         queryTime: 100,
-        numResults: 10,
+        numResults: 1,
         results: [
           {
-            address: { country: "Japan" },
-            position: { latitude: 60.12, longitude: 120.34 },
+            address: {
+              streetName: "Sarphatistraat & Frederiksplein",
+              crossStreet: "Sarphatistraat",
+              municipality: "Amsterdam",
+              countryCode: "NL",
+              country: "Nederland",
+              countryCodeISO3: "NLD",
+              freeformAddress: "Sarphatistraat & Frederiksplein, 1017 Amsterdam",
+            },
+            position: { latitude: 52.36, longitude: 4.9 },
           },
         ],
       };
@@ -525,18 +522,44 @@ describe("Result mappers", () => {
           {
             statusCode: 200,
             response: {
-              summary: { numResults: 1, query: "one microsoft way redmond wa 98052" },
-              results: [{ position: { lat: 47.63989, lon: -122.12509 } }],
+              summary: {
+                numResults: 1,
+                query: "one microsoft way redmond wa 98052",
+                queryTime: 100,
+              },
+              results: [
+                {
+                  type: "Street",
+                  id: "id",
+                  score: 10.22519207,
+                  viewport: {
+                    topLeft: {
+                      lat: 47.64016,
+                      lon: -122.12466,
+                    },
+                    bottomRight: {
+                      lat: 47.64012,
+                      lon: -122.12424,
+                    },
+                  },
+                  address: {
+                    streetName: "Microsoft Way",
+                    municipality: "Redmond",
+                    countryCode: "US",
+                    country: "United States",
+                    countryCodeISO3: "USA",
+                    freeformAddress: "Microsoft Way, Redmond, WA 98052",
+                    localName: "Redmond",
+                  },
+                  position: { lat: 47.64016, lon: -122.1245 },
+                },
+              ],
             },
           },
           {
-            statusCode: 200,
-            response: {
-              summary: { numResults: 2, query: "pike pl seattle wa 98101" },
-              results: [{ position: { lat: 47.60963, lon: -122.34215 } }],
-            },
+            statusCode: 400,
+            response: { error: { code: "400 BadRequest" } } as SearchAddressBatchItemResponse,
           },
-          { statusCode: 400, response: { error: { code: "400 BadRequest" } } },
         ],
       };
 
@@ -549,15 +572,35 @@ describe("Result mappers", () => {
             response: {
               numResults: 1,
               query: "one microsoft way redmond wa 98052",
-              results: [{ position: { latitude: 47.63989, longitude: -122.12509 } }],
-            },
-          },
-          {
-            statusCode: 200,
-            response: {
-              numResults: 2,
-              query: "pike pl seattle wa 98101",
-              results: [{ position: { latitude: 47.60963, longitude: -122.34215 } }],
+              queryTime: 100,
+              results: [
+                {
+                  type: "Street",
+                  id: "id",
+                  score: 10.22519207,
+                  viewport: {
+                    topLeft: {
+                      latitude: 47.64016,
+                      longitude: -122.12466,
+                    },
+                    bottomRight: {
+                      latitude: 47.64012,
+                      longitude: -122.12424,
+                    },
+                  },
+                  address: {
+                    streetName: "Microsoft Way",
+                    municipality: "Redmond",
+                    countryCode: "US",
+                    country: "United States",
+                    countryCodeISO3: "USA",
+                    freeformAddress: "Microsoft Way, Redmond, WA 98052",
+                    localName: "Redmond",
+                  },
+
+                  position: { latitude: 47.64016, longitude: -122.1245 },
+                },
+              ],
             },
           },
           { statusCode: 400, response: { error: { code: "400 BadRequest" } } },
@@ -575,11 +618,17 @@ describe("Result mappers", () => {
           {
             statusCode: 200,
             response: {
-              summary: { queryTime: 11 },
+              summary: {
+                queryTime: 7,
+                numResults: 1,
+              },
               addresses: [
                 {
                   address: {
+                    municipality: "Paris",
                     country: "France",
+                    countryCode: "FR",
+                    countryCodeISO3: "FRA",
                     freeformAddress: "Avenue Anatole France, 75007 Paris",
                   },
                   position: "48.858490,2.294820",
@@ -587,7 +636,12 @@ describe("Result mappers", () => {
               ],
             },
           },
-          { statusCode: 400, response: { error: { code: "400 BadRequest" } } },
+          {
+            statusCode: 400,
+            response: {
+              error: { code: "400 BadRequest" },
+            } as ReverseSearchAddressBatchItemResponse,
+          },
         ],
       };
 
@@ -598,11 +652,15 @@ describe("Result mappers", () => {
           {
             statusCode: 200,
             response: {
-              queryTime: 11,
+              queryTime: 7,
+              numResults: 1,
               results: [
                 {
                   address: {
+                    municipality: "Paris",
                     country: "France",
+                    countryCode: "FR",
+                    countryCodeISO3: "FRA",
                     freeformAddress: "Avenue Anatole France, 75007 Paris",
                   },
                   position: { latitude: 48.85849, longitude: 2.29482 },
