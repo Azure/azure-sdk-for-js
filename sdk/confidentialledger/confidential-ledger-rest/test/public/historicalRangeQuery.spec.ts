@@ -2,17 +2,18 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-    LedgerEntry,
-    ListCollections200Response,
-    PostLedgerEntry200Response,
-    PostLedgerEntryParameters,
+    //LedgerEntry,
+    ListLedgerEntries200Response,
+    paginate,
+    //PostLedgerEntry200Response,
+    //PostLedgerEntryParameters,
   } from "../../src";
 
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+// import { assert } from "chai";
 
 describe("Range query should be successful", () => {
   let recorder: Recorder;
@@ -27,14 +28,15 @@ describe("Range query should be successful", () => {
     await recorder.stop();
   });
 
-  it("should list all available document formats", async function () {
+  it("should list entries", async function () {
     const modulus = 5;
     // Should result in 2 pages.
-    const numMessagesSent = 2001;
+    // const numMessagesSent = 2001;
 
     // we want to send 2001 messages total
+    /*
     for (let i = 0; i < numMessagesSent; i++) {
-      let message = "message-" + i;
+      let message = i;
       let collection = { collectionId: "" + (i % modulus) };
 
       const entry: LedgerEntry = {
@@ -45,14 +47,32 @@ describe("Range query should be successful", () => {
         contentType: "application/json",
         body: entry,
       };
-      const result = (await client
+      let result = (await client
         .path("/app/transactions")
         .post(ledgerEntry)) as PostLedgerEntry200Response;
+
+      console.log(result);
     }
+    */
 
     // get ledger entries for each collection
     for (let i = 0; i < modulus; i++) {
-      const ledgerEntries = await client.path("/app/collections").get() as ListCollections200Response;
+      const ledgerEntries = await client.path("/app/transactions").get() as ListLedgerEntries200Response;
+
+      console.log(ledgerEntries.body.entries);
+      console.log(ledgerEntries.body.nextLink);
+
+      var items = paginate(client, ledgerEntries).byPage();
+      items = items;
+      //for await (var page of items) {
+        // console.log(page);
+        // assert that there are at least ~350 of each collection
+        // contents mod 5 should be equal to the col id
+        // col 0 - 0, 5, 10
+        // col 1 - 1, 6, 11
+        // col 2 - 2, 7, 12
+        // 
+      //}
     }
 
     // make sure they contain the majority of correct entries

@@ -58,9 +58,6 @@ describe("Post transaction", () => {
     const transactionResponse = await client
       .path("/app/transactions/{transactionId}/receipt", transactionId)
       .get();
-    console.log(transactionResponse);
-    if (transactionResponse.status !== "200") {
-      assert.fail(`GET "/app/transactions" failed with ${result.status}`);
-    }
+    assert(transactionResponse.status == "200" || (transactionResponse.status == "406" && statusResponse.body.state === "Pending"));
   });
 });
