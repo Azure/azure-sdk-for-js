@@ -101,11 +101,13 @@ We are working on to automatically generate everything right now, but currently 
 
 # How to write test for RLC
 
-In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. but before we add the test, we need to add a generate-test: true make the code generator generate the necessary change in package.json and tsconfig.json so that test framework can work. Once the generation finished, you will see a sampleTest.spec.ts file in your `{PROJECT_ROOT}/test/public` folder, which only has a empty test and you may change them into test against your own services.
+In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. but before we add the test, we need to add a `generate-test: true` make the code generator generate the necessary change in `package.json` and `tsconfig.json` so that test framework can work. Once the generation finished, you will see a  `sampleTest.spec.ts` file in your `{PROJECT_ROOT}/test/public` folder, which only has a empty test and you may change them into test against your own services.
+
+See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/test-quickstart.md) for information on how to write and run tests for the Javascript SDK.
 
 ## Prerequisites
 
-- To record and playback the tests, [Docker](https://www.docker.com/) is required when we run the test, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
+- To record and playback the tests, [Docker](https://www.docker.com/) is required when we run the test, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it.
 
 1. **run the test**  
     Now, you can run the test like this. If you are the first time to run test, you need to set the environment variable `TEST_MODE` to `record`. This will generate recordings for your test they could be used in `playback` mode.
@@ -227,3 +229,8 @@ If there's already a ci.yml file in your project path. then the only thing you n
 
 # Create API View
 You may also want to create API View when submitting a PR. You can do it easily by uploading a json file to [API View Website](https://apiview.dev/). The json file is under `<you-sdk-folder>/temp`, and its name ends with `api.json`. For example: `sdk/compute/arm-compute/temp/arm-compute.api.json`.
+
+# How to do customizations
+There is many information about the SDK that AutoRest will never know, so you may want to do your customizations based on generated code. 
+
+We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.

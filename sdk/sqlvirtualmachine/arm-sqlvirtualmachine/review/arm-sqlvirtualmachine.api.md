@@ -30,6 +30,9 @@ export interface AgReplica {
 }
 
 // @public
+export type AssessmentDayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+
+// @public
 export interface AssessmentSettings {
     enable?: boolean;
     runImmediately?: boolean;
@@ -37,10 +40,13 @@ export interface AssessmentSettings {
 }
 
 // @public
+export type AutoBackupDaysOfWeek = string;
+
+// @public
 export interface AutoBackupSettings {
     backupScheduleType?: BackupScheduleType;
     backupSystemDbs?: boolean;
-    daysOfWeek?: DaysOfWeek[];
+    daysOfWeek?: AutoBackupDaysOfWeek[];
     enable?: boolean;
     enableEncryption?: boolean;
     fullBackupFrequency?: FullBackupFrequencyType;
@@ -145,10 +151,7 @@ export type ConnectivityType = string;
 export type CreatedByType = string;
 
 // @public
-export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
-
-// @public
-export type DaysOfWeek = string;
+export type DayOfWeek = "Everyday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 // @public
 export type DiskConfigurationType = string;
@@ -169,6 +172,24 @@ export interface KeyVaultCredentialSettings {
     enable?: boolean;
     servicePrincipalName?: string;
     servicePrincipalSecret?: string;
+}
+
+// @public
+export enum KnownAutoBackupDaysOfWeek {
+    // (undocumented)
+    Friday = "Friday",
+    // (undocumented)
+    Monday = "Monday",
+    // (undocumented)
+    Saturday = "Saturday",
+    // (undocumented)
+    Sunday = "Sunday",
+    // (undocumented)
+    Thursday = "Thursday",
+    // (undocumented)
+    Tuesday = "Tuesday",
+    // (undocumented)
+    Wednesday = "Wednesday"
 }
 
 // @public
@@ -219,24 +240,6 @@ export enum KnownCreatedByType {
     ManagedIdentity = "ManagedIdentity",
     // (undocumented)
     User = "User"
-}
-
-// @public
-export enum KnownDaysOfWeek {
-    // (undocumented)
-    Friday = "Friday",
-    // (undocumented)
-    Monday = "Monday",
-    // (undocumented)
-    Saturday = "Saturday",
-    // (undocumented)
-    Sunday = "Sunday",
-    // (undocumented)
-    Thursday = "Thursday",
-    // (undocumented)
-    Tuesday = "Tuesday",
-    // (undocumented)
-    Wednesday = "Wednesday"
 }
 
 // @public
@@ -429,7 +432,7 @@ export interface PrivateIPAddress {
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 // @public
 export type ReadableSecondary = string;
@@ -456,7 +459,7 @@ export type ScaleType = string;
 
 // @public (undocumented)
 export interface Schedule {
-    dayOfWeek?: DayOfWeek;
+    dayOfWeek?: AssessmentDayOfWeek;
     enable?: boolean;
     monthlyOccurrence?: number;
     startTime?: string;
