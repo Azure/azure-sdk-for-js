@@ -64,7 +64,7 @@ describe("Range query should be successful", () => {
     var totalCorrectItems = 0;
 
     for (var i = 0; i < modulus; i++) {
-      var correctMembers = Object.values(items).filter((col: any) => col.collectionId == i && typeof(col.collectionId) == typeof(3) && parseInt(col.contents) % 5 == i);
+      var correctMembers = Object.values(items).filter((col: any) => col.collectionId == "" + i && typeof(parseInt(col.contents)) == typeof(3) && parseInt(col.contents) % 5 == i);
       //console.log(correctMembers);
       totalCorrectItems += correctMembers.length;
       console.log(totalCorrectItems);
