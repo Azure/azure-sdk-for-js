@@ -45,18 +45,18 @@ export interface Address {
 
 // @public
 export interface AddressRanges {
-    from?: LatLon;
-    rangeLeft?: string;
-    rangeRight?: string;
-    to?: LatLon;
+    from: LatLon;
+    rangeLeft: string;
+    rangeRight: string;
+    to: LatLon;
 }
 
 export { AzureKeyCredential }
 
 // @public
 export interface BatchItem<TResult> {
-    readonly response?: TResult & ErrorResponse;
-    readonly statusCode?: number;
+    readonly response: TResult | ErrorResponse;
+    readonly statusCode: number;
 }
 
 // @public
@@ -67,26 +67,26 @@ export interface BatchPollerOptions {
 
 // @public
 export interface BatchResult<TResult> {
-    readonly batchItems?: BatchItem<TResult>[];
-    readonly successfulRequests?: number;
-    readonly totalRequests?: number;
+    readonly batchItems: BatchItem<TResult>[];
+    readonly successfulRequests: number;
+    readonly totalRequests: number;
 }
 
 // @public
 export interface BrandName {
-    readonly name?: string;
+    readonly name: string;
 }
 
 // @public
 export interface Classification {
-    readonly code?: string;
-    readonly names?: ClassificationName[];
+    readonly code: string;
+    readonly names: ClassificationName[];
 }
 
 // @public
 export interface ClassificationName {
-    readonly name?: string;
-    readonly nameLocale?: string;
+    readonly name: string;
+    readonly nameLocale: string;
 }
 
 // @public
@@ -100,13 +100,13 @@ export type ElectricVehicleConnector = string;
 // @public
 export interface EntityGeometry {
     geometryData?: GeoJsonFeatureCollection;
-    readonly providerID?: string;
+    readonly providerID: string;
 }
 
 // @public
 export interface EntryPoint {
-    position?: LatLon;
-    readonly type?: EntryPointType;
+    position: LatLon;
+    readonly type: EntryPointType;
 }
 
 // @public
@@ -191,7 +191,7 @@ export interface GeoJsonPolygonFeature extends GeoJsonFeature {
 
 // @public
 export interface GeometryIdentifier {
-    readonly id?: string;
+    readonly id: string;
 }
 
 // @public
@@ -368,8 +368,8 @@ export type MatchType = string;
 
 // @public
 export interface OperatingHours {
-    readonly mode?: string;
-    readonly timeRanges?: OperatingHoursTimeRange[];
+    readonly mode: string;
+    readonly timeRanges: OperatingHoursTimeRange[];
 }
 
 // @public
@@ -377,15 +377,15 @@ export type OperatingHoursRange = string;
 
 // @public
 export interface OperatingHoursTime {
-    readonly date?: string;
-    readonly hour?: number;
-    readonly minute?: number;
+    readonly date: string;
+    readonly hour: number;
+    readonly minute: number;
 }
 
 // @public
 export interface OperatingHoursTimeRange {
-    endTime?: OperatingHoursTime;
-    startTime?: OperatingHoursTime;
+    endTime: OperatingHoursTime;
+    startTime: OperatingHoursTime;
 }
 
 // @public
@@ -394,7 +394,7 @@ export interface PointOfInterest {
     readonly categories?: string[];
     readonly categorySet?: PointOfInterestCategorySet[];
     readonly classifications?: Classification[];
-    readonly name?: string;
+    readonly name: string;
     operatingHours?: OperatingHours;
     readonly phone?: string;
     readonly url?: string;
@@ -402,15 +402,15 @@ export interface PointOfInterest {
 
 // @public
 export interface PointOfInterestCategory {
-    readonly childIds?: number[];
-    readonly id?: number;
-    readonly name?: string;
-    readonly synonyms?: string[];
+    readonly childIds: number[];
+    readonly id: number;
+    readonly name: string;
+    readonly synonyms: string[];
 }
 
 // @public
 export interface PointOfInterestCategorySet {
-    readonly id?: number;
+    readonly id: number;
 }
 
 // @public
@@ -445,16 +445,16 @@ export interface ReverseSearchAddressRequest {
 
 // @public (undocumented)
 export interface ReverseSearchAddressResult {
-    readonly numResults?: number;
-    readonly queryTime?: number;
-    readonly results?: ReverseSearchAddressResultItem[];
+    readonly numResults: number;
+    readonly queryTime: number;
+    readonly results: ReverseSearchAddressResultItem[];
 }
 
 // @public (undocumented)
 export interface ReverseSearchAddressResultItem {
-    readonly address?: Address;
+    readonly address: Address;
     readonly matchType?: MatchType;
-    readonly position?: LatLon;
+    readonly position: LatLon;
     readonly roadUse?: RoadUseType[];
 }
 
@@ -473,17 +473,15 @@ export interface ReverseSearchCrossStreetAddressOptions extends ReverseSearchBas
 
 // @public (undocumented)
 export interface ReverseSearchCrossStreetAddressResult {
-    readonly numResults?: number;
-    readonly queryTime?: number;
-    readonly results?: ReverseSearchCrossStreetAddressResultItem[];
+    readonly numResults: number;
+    readonly queryTime: number;
+    readonly results: ReverseSearchCrossStreetAddressResultItem[];
 }
 
 // @public (undocumented)
 export interface ReverseSearchCrossStreetAddressResultItem {
     readonly address?: Address;
-    readonly matchType?: MatchType;
     readonly position?: LatLon;
-    readonly roadUse?: RoadUseType[];
 }
 
 // @public
@@ -518,33 +516,32 @@ export interface SearchAddressRequest {
 export interface SearchAddressResult {
     readonly fuzzyLevel?: number;
     readonly geoBias?: LatLon;
-    readonly numResults?: number;
+    readonly numResults: number;
     readonly query?: string;
-    readonly queryTime?: number;
+    readonly queryTime: number;
     readonly queryType?: QueryType;
-    readonly results?: SearchAddressResultItem[];
+    readonly results: SearchAddressResultItem[];
     readonly skip?: number;
-    readonly top?: number;
     readonly totalResults?: number;
 }
 
 // @public
 export interface SearchAddressResultItem {
-    readonly address?: Address;
+    readonly address: Address;
     readonly addressRanges?: AddressRanges;
     readonly dataSources?: DataSource;
     readonly detourTime?: number;
     readonly distanceInMeters?: number;
     readonly entityType?: GeographicEntityType;
     readonly entryPoints?: EntryPoint[];
-    readonly id?: string;
+    readonly id: string;
     readonly info?: string;
     readonly matchType?: MatchType;
     readonly pointOfInterest?: PointOfInterest;
-    readonly position?: LatLon;
-    readonly score?: number;
-    readonly type?: SearchAddressResultType;
-    readonly viewport?: BoundingBox;
+    readonly position: LatLon;
+    readonly score: number;
+    readonly type: SearchAddressResultType;
+    readonly viewport: BoundingBox;
 }
 
 // @public

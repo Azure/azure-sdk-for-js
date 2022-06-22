@@ -37,7 +37,7 @@ export interface Polygon {
    * ID of the returned entity
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly providerID?: string;
+  readonly providerID: string;
   /** Geometry data in GeoJSON format. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946) for details. Present only if "error" is not present. */
   geometryData?: GeoJsonObjectUnion;
 }
@@ -113,12 +113,12 @@ export interface SearchAddressResult {
    * Summary object for a Search API response
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly summary?: SearchSummary;
+  readonly summary: SearchSummary;
   /**
    * A list of Search API results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly results?: SearchAddressResultItem[];
+  readonly results: SearchAddressResultItem[];
 }
 
 /** Summary object for a Search API response. */
@@ -137,17 +137,12 @@ export interface SearchSummary {
    * Time spent resolving the query, in milliseconds.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly queryTime?: number;
+  readonly queryTime: number;
   /**
    * Number of results in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly numResults?: number;
-  /**
-   * Maximum number of responses that will be returned
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly top?: number;
+  readonly numResults: number;
   /**
    * The starting offset of the returned Results within the full Result set.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -173,9 +168,9 @@ export interface SearchSummary {
 /** A location represented as a latitude and longitude using short names 'lat' & 'lon'. */
 export interface LatLongPairAbbreviated {
   /** Latitude property */
-  lat?: number;
+  lat: number;
   /** Longitude property */
-  lon?: number;
+  lon: number;
 }
 
 /** Result object for a Search API response. */
@@ -190,17 +185,17 @@ export interface SearchAddressResultItem {
    * * Cross Street
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: SearchAddressResultType;
+  readonly type: SearchAddressResultType;
   /**
    * Id property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly id: string;
   /**
    * The value within a result set to indicate the relative matching score between results.  You can use this to  determine that result x is twice as likely to be as relevant as result y if the value of x is 2x the value of y.   The values vary between queries and is only meant as a relative value for one result set.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly score?: number;
+  readonly score: number;
   /**
    * Straight line distance between the result and geobias location in meters.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -221,14 +216,14 @@ export interface SearchAddressResultItem {
    * The address of the result
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly address?: Address;
+  readonly address: Address;
   /** A location represented as a latitude and longitude using short names 'lat' & 'lon'. */
-  position?: LatLongPairAbbreviated;
+  position: LatLongPairAbbreviated;
   /**
    * The viewport that covers the result represented by the top-left and bottom-right coordinates of the viewport.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly viewport?: BoundingBox;
+  readonly viewport: BoundingBox;
   /**
    * Array of EntryPoints. Those describe the types of entrances available at the location. The type can be "main" for main entrances such as a front door, or a lobby, and "minor", for side and back doors.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -267,7 +262,7 @@ export interface PointOfInterest {
    * Name of the POI property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly name: string;
   /**
    * Telephone number property
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -308,7 +303,7 @@ export interface PointOfInterestCategorySet {
    * Category ID
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: number;
+  readonly id: number;
 }
 
 /** The classification for the POI being returned */
@@ -317,12 +312,12 @@ export interface Classification {
    * Code property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: string;
+  readonly code: string;
   /**
    * Names array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly names?: ClassificationName[];
+  readonly names: ClassificationName[];
 }
 
 /** Name for the classification */
@@ -331,12 +326,12 @@ export interface ClassificationName {
    * Name Locale property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nameLocale?: string;
+  readonly nameLocale: string;
   /**
    * Name property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly name: string;
 }
 
 /** The name of the brand for the POI being returned */
@@ -345,7 +340,7 @@ export interface BrandName {
    * Name of the brand
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly name: string;
 }
 
 /** Opening hours for a POI (Points of Interest). */
@@ -354,20 +349,20 @@ export interface OperatingHours {
    * Value used in the request: none or "nextSevenDays"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly mode?: string;
+  readonly mode: string;
   /**
    * List of time ranges for the next 7 days
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly timeRanges?: OperatingHoursTimeRange[];
+  readonly timeRanges: OperatingHoursTimeRange[];
 }
 
 /** Open time range for a day */
 export interface OperatingHoursTimeRange {
   /** The point in the next 7 days range when a given POI is being opened, or the beginning of the range if it was opened before the range. */
-  startTime?: OperatingHoursTime;
+  startTime: OperatingHoursTime;
   /** The point in the next 7 days range when a given POI is being closed, or the beginning of the range if it was closed before the range. */
-  endTime?: OperatingHoursTime;
+  endTime: OperatingHoursTime;
 }
 
 /** Represents a date and time */
@@ -376,17 +371,17 @@ export interface OperatingHoursTime {
    * Represents current calendar date in POI time zone, e.g. "2019-02-07".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly date?: string;
+  readonly date: string;
   /**
    * Hours are in the 24 hour format in the local time of a POI; possible values are 0 - 23.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly hour?: number;
+  readonly hour: number;
   /**
    * Minutes are in the local time of a POI; possible values are 0 - 59.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly minute?: number;
+  readonly minute: number;
 }
 
 /** The address of the result */
@@ -504,12 +499,12 @@ export interface BoundingBoxCompassNotation {
    * North-east latitude,longitude coordinate of the bounding box as comma-separated floats
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly northEast?: string;
+  readonly northEast: string;
   /**
    * South-west latitude,longitude coordinate of the bounding box as comma-separated floats
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly southWest?: string;
+  readonly southWest: string;
   /**
    * Entity type source of the bounding box. For reverse-geocoding this is always equal to position.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -520,9 +515,9 @@ export interface BoundingBoxCompassNotation {
 /** The viewport that covers the result represented by the top-left and bottom-right coordinates of the viewport. */
 export interface BoundingBox {
   /** A location represented as a latitude and longitude using short names 'lat' & 'lon'. */
-  topLeft?: LatLongPairAbbreviated;
+  topLeft: LatLongPairAbbreviated;
   /** A location represented as a latitude and longitude using short names 'lat' & 'lon'. */
-  bottomRight?: LatLongPairAbbreviated;
+  bottomRight: LatLongPairAbbreviated;
 }
 
 /** The entry point for the POI being returned. */
@@ -531,21 +526,21 @@ export interface EntryPoint {
    * The type of entry point. Value can be either _main_ or _minor_.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: EntryPointType;
+  readonly type: EntryPointType;
   /** A location represented as a latitude and longitude using short names 'lat' & 'lon'. */
-  position?: LatLongPairAbbreviated;
+  position: LatLongPairAbbreviated;
 }
 
 /** Describes the address range on both sides of the street for a search result. Coordinates for the start and end locations of the address range are included. */
 export interface AddressRanges {
   /** Address range on the left side of the street. */
-  rangeLeft?: string;
+  rangeLeft: string;
   /** Address range on the right side of the street. */
-  rangeRight?: string;
+  rangeRight: string;
   /** A location represented as a latitude and longitude using short names 'lat' & 'lon'. */
-  from?: LatLongPairAbbreviated;
+  from: LatLongPairAbbreviated;
   /** A location represented as a latitude and longitude using short names 'lat' & 'lon'. */
-  to?: LatLongPairAbbreviated;
+  to: LatLongPairAbbreviated;
 }
 
 /** Optional section. Reference ids for use with the [Get Search Polygon](https://docs.microsoft.com/rest/api/maps/search/getsearchpolygon) API. */
@@ -560,7 +555,7 @@ export interface GeometryIdentifier {
    * Pass this as geometryId to the [Get Search Polygon](https://docs.microsoft.com/rest/api/maps/search/getsearchpolygon) API to fetch geometry information for this result.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly id: string;
 }
 
 /** This object is returned from a successful POI Category Tree call */
@@ -578,22 +573,22 @@ export interface PointOfInterestCategory {
    * Unique ID for the category. ID can be used to restrict search results to specific categories through other Search Service APIs, like [Get Search POI](https://docs.microsoft.com/rest/api/maps/search/getsearchpoi).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: number;
+  readonly id: number;
   /**
    * Name of the category
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly name: string;
   /**
    * Array of child category ids
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly childIds?: number[];
+  readonly childIds: number[];
   /**
    * Array of alternative names of the category
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly synonyms?: string[];
+  readonly synonyms: string[];
 }
 
 /** This object is returned from a successful Search Address Reverse call */
@@ -602,12 +597,12 @@ export interface ReverseSearchAddressResult {
    * Summary object for a Search Address Reverse response
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly summary?: SearchSummary;
+  readonly summary: SearchSummary;
   /**
    * Addresses array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly addresses?: ReverseSearchAddressResultItem[];
+  readonly addresses: ReverseSearchAddressResultItem[];
 }
 
 /** Result object for a Search Address Reverse response */
@@ -616,12 +611,12 @@ export interface ReverseSearchAddressResultItem {
    * The address of the result
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly address?: Address;
+  readonly address: Address;
   /**
    * Position property in the form of "{latitude},{longitude}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly position?: string;
+  readonly position: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly roadUse?: RoadUseType[];
   /**
@@ -642,12 +637,12 @@ export interface ReverseSearchCrossStreetAddressResult {
    * Summary object for a Search Address Reverse Cross Street response
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly summary?: SearchSummary;
+  readonly summary: SearchSummary;
   /**
    * Addresses array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly addresses?: ReverseSearchCrossStreetAddressResultItem[];
+  readonly addresses: ReverseSearchCrossStreetAddressResultItem[];
 }
 
 /** Result object for a Search Address Reverse Cross Street response */
@@ -699,7 +694,7 @@ export interface BatchResultItem {
    * HTTP request status code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly statusCode?: number;
+  readonly statusCode: number;
 }
 
 /** This object is returned from a successful Batch service call. Extend with 'batchItems' property. */
@@ -708,7 +703,7 @@ export interface BatchResult {
    * Summary of the results for the batch request
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly batchSummary?: BatchResultSummary;
+  readonly batchSummary: BatchResultSummary;
 }
 
 /** Summary of the results for the batch request */
@@ -717,12 +712,12 @@ export interface BatchResultSummary {
    * Number of successful requests in the batch
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly successfulRequests?: number;
+  readonly successfulRequests: number;
   /**
    * Total number of requests in the batch
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly totalRequests?: number;
+  readonly totalRequests: number;
 }
 
 /** The viewport that covers the result represented by the top-left and bottom-right coordinates of the viewport. */
@@ -826,7 +821,7 @@ export type SearchAddressBatchItem = BatchResultItem & {
    * The result of the query. SearchAddressResponse if the query completed successfully, ErrorResponse otherwise.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly response?: SearchAddressBatchItemResponse;
+  readonly response: SearchAddressBatchItemResponse;
 };
 
 /** An item returned from Search Address Reverse Batch service call. */
@@ -835,7 +830,7 @@ export type ReverseSearchAddressBatchItem = BatchResultItem & {
    * The result of the query. SearchAddressReverseResponse if the query completed successfully, ErrorResponse otherwise.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly response?: ReverseSearchAddressBatchItemResponse;
+  readonly response: ReverseSearchAddressBatchItemResponse;
 };
 
 /** This object is returned from a successful Search Address Batch service call. */
@@ -844,7 +839,7 @@ export type SearchAddressBatchResult = BatchResult & {
    * Array containing the batch results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly batchItems?: SearchAddressBatchItem[];
+  readonly batchItems: SearchAddressBatchItem[];
 };
 
 /** This object is returned from a successful Search Address Reverse Batch service call. */
@@ -853,7 +848,7 @@ export type ReverseSearchAddressBatchResult = BatchResult & {
    * Array containing the batch results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly batchItems?: ReverseSearchAddressBatchItem[];
+  readonly batchItems: ReverseSearchAddressBatchItem[];
 };
 
 /** A valid `GeoJSON Point` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.2) for details. */
