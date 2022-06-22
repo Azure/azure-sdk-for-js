@@ -12239,7 +12239,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearningexperimentation.tgz:
-    resolution: {integrity: sha512-oZxXBbPnv94Ql1INrbYWLA0ZPqzjhTADqq1cizYsu1oCAknd07kf4t/Tk1YAzicTNjANHhP9vL5fWiTUle5Tbw==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
+    resolution: {integrity: sha512-2uo1zx59A0MkpzHL7vjA8Ohr5nrDO183UymT/bvPrR7+1twccg+49n80ytFzq/cflUapWgmDyf+OKdK/Y4cBzg==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
     name: '@rush-temp/arm-machinelearningexperimentation'
     version: 0.0.0
     dependencies:
@@ -12250,6 +12250,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.74.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12262,7 +12264,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
