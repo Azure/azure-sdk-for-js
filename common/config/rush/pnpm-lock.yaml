@@ -12010,7 +12010,7 @@ packages:
     dev: false
 
   file:projects/arm-labservices.tgz:
-    resolution: {integrity: sha512-MpHr2J2stQuXfwPuERpCNPd+I9Gc9NyyEPz9n5WgZ5StUZSS3lR7095ODHbOYw3UYvz+u/NY23ZxheOuGNh2oA==, tarball: file:projects/arm-labservices.tgz}
+    resolution: {integrity: sha512-fSBOwNN1acOKQ+sYRGObEJP2+ZtecB91GeWE8ap81xX2ortKgCUy/sdeKqiZ53v4pF8AVX6u7yh13wx9LXe42w==, tarball: file:projects/arm-labservices.tgz}
     name: '@rush-temp/arm-labservices'
     version: 0.0.0
     dependencies:
@@ -12022,6 +12022,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.74.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12034,7 +12036,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
