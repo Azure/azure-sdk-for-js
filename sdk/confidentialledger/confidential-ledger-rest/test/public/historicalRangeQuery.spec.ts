@@ -13,7 +13,7 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
-// import { assert } from "chai";
+import { assert } from "chai";
 
 describe("Range query should be successful", () => {
   let recorder: Recorder;
@@ -31,12 +31,12 @@ describe("Range query should be successful", () => {
   it("should list entries", async function () {
     const modulus = 5;
     // Should result in 2 pages.
-    // const numMessagesSent = 2001;
+    const numMessagesSent = 2001;
 
     // we want to send 2001 messages total
     /*
     for (let i = 0; i < numMessagesSent; i++) {
-      let message = i;
+      let message = "" + i;
       let collection = { collectionId: "" + (i % modulus) };
 
       const entry: LedgerEntry = {
@@ -50,20 +50,28 @@ describe("Range query should be successful", () => {
       let result = (await client
         .path("/app/transactions")
         .post(ledgerEntry)) as PostLedgerEntry200Response;
-
-      console.log(result);
     }
     */
-
     // get ledger entries for each collection
-    for (let i = 0; i < modulus; i++) {
-      const ledgerEntries = await client.path("/app/transactions").get() as ListLedgerEntries200Response;
+    const ledgerEntries = await client.path("/app/transactions").get() as ListLedgerEntries200Response;
 
-      console.log(ledgerEntries.body.entries);
-      console.log(ledgerEntries.body.nextLink);
+    var items = paginate(client, ledgerEntries).byPage();
 
-      var items = paginate(client, ledgerEntries).byPage();
-      items = items;
+    for await (var page of items) {
+      console.log(page);
+    }
+      
+    var totalCorrectItems = 0;
+
+    for (var i = 0; i < modulus; i++) {
+      var correctMembers = Object.values(items).filter((col: any) => col.collectionId == i && typeof(col.collectionId) == typeof(3) && parseInt(col.contents) % 5 == i);
+      //console.log(correctMembers);
+      totalCorrectItems += correctMembers.length;
+      console.log(totalCorrectItems);
+    }
+      
+    assert(totalCorrectItems >= 0.9 * numMessagesSent);
+
       //for await (var page of items) {
         // console.log(page);
         // assert that there are at least ~350 of each collection
@@ -73,7 +81,14 @@ describe("Range query should be successful", () => {
         // col 2 - 2, 7, 12
         // 
       //}
-    }
+
+        // Due to replication delay, it's possible not all messages are matched.
+        // self.assertGreaterEqual(num_matched, 0.9 * num_messages_sent)
+  });
+});
+
+
+
 
     // make sure they contain the majority of correct entries
 
@@ -125,9 +140,4 @@ describe("Range query should be successful", () => {
                     self.assertEqual(historical_entry["collectionId"], collection_id)
 
                 num_matched += 1
-
-        # Due to replication delay, it's possible not all messages are matched.
-        self.assertGreaterEqual(num_matched, 0.9 * num_messages_sent)
-        */
-  });
-});
+                */
