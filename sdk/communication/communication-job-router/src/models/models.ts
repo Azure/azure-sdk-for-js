@@ -25,6 +25,9 @@ export {
   WorkerAssignment,
   JobOffer,
   RouterWorkerState,
+  KnownRouterWorkerState,
+  PagedWorkerState,
+  KnownPagedWorkerState,
   JobStatus,
   WorkerSelector,
   JobPositionDetails,
@@ -65,5 +68,14 @@ export {
   JobExceptionTrigger,
   QueueLengthExceptionTrigger,
   WaitTimeExceptionTrigger,
-  ScoringRuleParameterSelector
+  ScoringRuleParameterSelector,
+  JobRouterUpsertClassificationPolicyOptionalParams,
+  JobRouterUpsertDistributionPolicyOptionalParams,
+  JobRouterUpsertExceptionPolicyOptionalParams,
+  JobRouterUpsertJobOptionalParams,
+  JobRouterUpsertQueueOptionalParams,
+  JobRouterUpsertWorkerOptionalParams,
+  JobRouterReclassifyJobActionOptionalParams,
+  JobRouterUnassignJobActionOptionalParams,
+  WorkerSelectorState
 } from "../generated/src/models";
