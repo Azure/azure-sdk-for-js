@@ -7,8 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .get('/search/address/json')
   .query(true)
-  .reply(400, {"error":{"code":"400 BadRequest","message":"query is missing or empty"}}, [
-  'Content-Length',
+  .reply(400, {"error":{"code":"400 BadRequest","message":"query is missing or empty"}}, [ 'Content-Length',
   '73',
   'Content-Type',
   'application/json; charset=utf-8',
@@ -21,7 +20,6 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 651768D471224C9499D89661D75B9C60 Ref B: TYO01EDGE1812 Ref C: 2022-06-22T02:35:35Z',
+  'Ref A: 2ED2FBA70AD84133B004C18B73888B38 Ref B: TYO01EDGE2921 Ref C: 2022-06-22T06:18:10Z',
   'Date',
-  'Wed, 22 Jun 2022 02:35:34 GMT'
-]);
+  'Wed, 22 Jun 2022 06:18:10 GMT' ]);
