@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-  GetTransactionStatus200Response,
-  LedgerEntry,
-  PostLedgerEntry200Response,
-  PostLedgerEntryParameters,
-} from "../../src";
+    LedgerEntry,
+    ListCollections200Response,
+    PostLedgerEntry200Response,
+    PostLedgerEntryParameters,
+  } from "../../src";
+
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -31,9 +32,6 @@ describe("Range query should be successful", () => {
     // Should result in 2 pages.
     const numMessagesSent = 2001;
 
-    // five separate collections
-    let employees = new Map<string, string>();
-
     // we want to send 2001 messages total
     for (let i = 0; i < numMessagesSent; i++) {
       let message = "message-" + i;
@@ -51,6 +49,13 @@ describe("Range query should be successful", () => {
         .path("/app/transactions")
         .post(ledgerEntry)) as PostLedgerEntry200Response;
     }
+
+    // get ledger entries for each collection
+    for (let i = 0; i < modulus; i++) {
+      const ledgerEntries = await client.path("/app/collections").get() as ListCollections200Response;
+    }
+
+    // make sure they contain the majority of correct entries
 
     /*
     pass 0.1-preview to test
