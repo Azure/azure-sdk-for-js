@@ -7,6 +7,13 @@
 import { CommonClientOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
+// @public (undocumented)
+export class FailedLogsIngestionError extends Error {
+    constructor(message: string, errors: Array<UploadLogsError>);
+    // (undocumented)
+    errors: Array<UploadLogsError>;
+}
+
 // @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);

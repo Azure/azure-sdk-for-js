@@ -5,7 +5,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
-import { UploadOptions, UploadResult } from "./models";
+import { UploadOptions, UploadResult, FailedLogsIngestionError } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import asyncPool from "tiny-async-pool";
 
@@ -89,17 +89,17 @@ export class LogsIngestionClient {
     };
 
     let errorsArray: Record<string, any>[] = [];
-    const upload = async (x: any): Promise<void> => {
+    const uploadCallback = async (x: any): Promise<void> => {
       try {
         await this._dataClient.upload(ruleId, streamName, x, {
           contentEncoding: "gzip",
         });
-      } catch (e) {
+      } catch (e: any) {
         errorsArray.push({ error: e, log: count });
       }
     };
 
-    for await (const _i of asyncPool(concurrency, chunkArray, upload)) {
+    for await (const _i of asyncPool(concurrency, chunkArray, uploadCallback)) {
     }
     for (let errorsObj of errorsArray) {
       uploadResult.errors.push({
@@ -113,7 +113,7 @@ export class LogsIngestionClient {
       uploadResult.uploadStatus = "PartialFailure";
       return uploadResult;
     } else {
-      throw Error(`All logs failed for ingestion - ${JSON.stringify(uploadResult.errors)}`);
+      throw new FailedLogsIngestionError("All logs failed for ingestion", uploadResult.errors);
     }
   }
 
