@@ -103,7 +103,7 @@ const searchResult = await client.searchAddress("400 Broad, Seattle");
 You can use Fuzzy Search to search an address or a point of interest (POI). The following examples demostrate how to search for `pizza` over the scope of a specific country (`France`, in this example).
 
 ```javascript
-const fuzzySearchResult = await client.fuzzySearch({ query: "pizza", countryFilter: ["fr"] });
+const fuzzySearchResult = await client.fuzzySearch({ query: "pizza", countryCodeFilter: ["fr"] });
 ```
 
 ### Make a Reverse Address Search to translate coordinate location to street address

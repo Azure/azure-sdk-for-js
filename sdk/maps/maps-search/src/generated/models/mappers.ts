@@ -1331,7 +1331,7 @@ export const BatchResultSummary: coreClient.CompositeMapper = {
     name: "Composite",
     className: "BatchResultSummary",
     modelProperties: {
-      successfulRequests: {
+      totalSuccessfulRequests: {
         serializedName: "successfulRequests",
         required: true,
         readOnly: true,

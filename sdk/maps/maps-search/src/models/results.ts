@@ -185,7 +185,7 @@ export interface ReverseSearchCrossStreetAddressResultItem {
 /** This object is returned from a successful Batch service call. */
 export interface BatchResult<TResult> {
   /** Number of successful requests in the batch */
-  readonly successfulRequests: number;
+  readonly totalSuccessfulRequests: number;
   /** Total number of requests in the batch */
   readonly totalRequests: number;
   /** Array containing the batch results. */

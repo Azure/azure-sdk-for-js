@@ -215,10 +215,10 @@ export class MapsSearchClient {
     options: FuzzySearchOptions & OperationOptions = {}
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearch", options);
-    const { query, coordinates, countryFilter } = searchQuery as {
+    const { query, coordinates, countryCodeFilter } = searchQuery as {
       query: string;
       coordinates?: LatLon;
-      countryFilter?: string[];
+      countryCodeFilter?: string[];
     };
 
     const internalOptions = mapFuzzySearchOptions(updatedOptions);
@@ -227,8 +227,8 @@ export class MapsSearchClient {
       internalOptions.lon = coordinates.longitude;
     }
 
-    if (countryFilter) {
-      internalOptions.countryFilter = countryFilter;
+    if (countryCodeFilter) {
+      internalOptions.countryCodeFilter = countryCodeFilter;
     }
     try {
       const result = await this.client.search.fuzzySearch(
@@ -259,10 +259,10 @@ export class MapsSearchClient {
     options: SearchPointOfInterestOptions = {}
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-searchPointOfInterest", options);
-    const { query, coordinates, countryFilter } = searchQuery as {
+    const { query, coordinates, countryCodeFilter } = searchQuery as {
       query: string;
       coordinates?: LatLon;
-      countryFilter?: string[];
+      countryCodeFilter?: string[];
     };
 
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
@@ -271,8 +271,8 @@ export class MapsSearchClient {
       internalOptions.lon = coordinates.longitude;
     }
 
-    if (countryFilter) {
-      internalOptions.countryFilter = countryFilter;
+    if (countryCodeFilter) {
+      internalOptions.countryCodeFilter = countryCodeFilter;
     }
     try {
       const result = await this.client.search.searchPointOfInterest(
@@ -340,10 +340,10 @@ export class MapsSearchClient {
       "MapsSearchClient-searchPointOfInterestCategory",
       options
     );
-    const { query, coordinates, countryFilter } = searchQuery as {
+    const { query, coordinates, countryCodeFilter } = searchQuery as {
       query: string;
       coordinates?: LatLon;
-      countryFilter?: string[];
+      countryCodeFilter?: string[];
     };
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
     if (coordinates) {
@@ -351,8 +351,8 @@ export class MapsSearchClient {
       internalOptions.lon = coordinates.longitude;
     }
 
-    if (countryFilter) {
-      internalOptions.countryFilter = countryFilter;
+    if (countryCodeFilter) {
+      internalOptions.countryCodeFilter = countryCodeFilter;
     }
     try {
       const result = await this.client.search.searchPointOfInterestCategory(

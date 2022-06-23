@@ -239,6 +239,10 @@ directive:
         "totalRequests",
       ]
   - from: swagger-document
+    where: $.definitions.BatchResult.properties.summary.properties.successfulRequests
+    transform: >
+      $["x-ms-client-name"] = "totalSuccessfulRequests";
+  - from: swagger-document
     where: $.definitions.SearchAddressBatchItem
     transform: >
       $["required"] = [
@@ -268,4 +272,8 @@ directive:
       if ($.name === "number") {
         $["x-ms-client-name"] = "streetNumber";
       }
+  - from: swagger-document
+    where: $.parameters.CountrySet
+    transform: >
+      $["x-ms-client-name"] = "CountryCodeFilter";
 ```

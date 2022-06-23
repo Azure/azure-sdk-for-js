@@ -202,7 +202,7 @@ describe("Options mappers", () => {
     ...operationOptionsKeys,
     ...searchBaseOptionsKeys,
     "isTypeAhead",
-    "countryFilter",
+    "countryCodeFilter",
     "lat",
     "lon",
     "radiusInMeters",
@@ -517,7 +517,7 @@ describe("Result mappers", () => {
   describe("mapSearchAddressBatchResult", () => {
     it("should transform an internal search address batch result to custom result object", () => {
       const searchAddressBatchResult: SearchAddressBatchResult = {
-        batchSummary: { successfulRequests: 2, totalRequests: 3 },
+        batchSummary: { totalSuccessfulRequests: 2, totalRequests: 3 },
         batchItems: [
           {
             statusCode: 200,
@@ -564,7 +564,7 @@ describe("Result mappers", () => {
       };
 
       const expectedResult: BatchResult<SearchAddressResult> = {
-        successfulRequests: 2,
+        totalSuccessfulRequests: 2,
         totalRequests: 3,
         batchItems: [
           {
@@ -613,7 +613,7 @@ describe("Result mappers", () => {
   describe("mapReverseSearchAddressBatchResult", () => {
     it("should transform an internal reverse search address batch result to custom result object", () => {
       const searchAddressBatchResult: ReverseSearchAddressBatchResult = {
-        batchSummary: { successfulRequests: 2, totalRequests: 3 },
+        batchSummary: { totalSuccessfulRequests: 2, totalRequests: 3 },
         batchItems: [
           {
             statusCode: 200,
@@ -646,7 +646,7 @@ describe("Result mappers", () => {
       };
 
       const expectedResult: BatchResult<ReverseSearchAddressResult> = {
-        successfulRequests: 2,
+        totalSuccessfulRequests: 2,
         totalRequests: 3,
         batchItems: [
           {
@@ -682,7 +682,7 @@ describe("Result mappers", () => {
     it("should properly transform the request objects to query strings", () => {
       const query = "pizza";
       const coordinates = { latitude: 47.59118, longitude: -122.3327 };
-      const countryFilter = ["fr", "us"];
+      const countryCodeFilter = ["fr", "us"];
       const options1: FuzzySearchOptions = {
         entityType: KnownGeographicEntityType.Country,
         minFuzzyLevel: 1,
@@ -723,8 +723,14 @@ describe("Result mappers", () => {
       };
       const queries: FuzzySearchRequest[] = [
         { searchQuery: { query: query, coordinates: coordinates } },
-        { searchQuery: { query: query, countryFilter: countryFilter } },
-        { searchQuery: { query: query, coordinates: coordinates, countryFilter: countryFilter } },
+        { searchQuery: { query: query, countryCodeFilter: countryCodeFilter } },
+        {
+          searchQuery: {
+            query: query,
+            coordinates: coordinates,
+            countryCodeFilter: countryCodeFilter,
+          },
+        },
         { searchQuery: { query: query, coordinates }, options: options1 },
         { searchQuery: { query: query, coordinates }, options: options2 },
         { searchQuery: { query: query, coordinates }, options: options3 },
@@ -776,7 +782,7 @@ describe("Result mappers", () => {
       const query = "Paris";
       const options1: SearchAddressOptions = {
         entityType: KnownGeographicEntityType.Country,
-        countryFilter: ["fr", "us"],
+        countryCodeFilter: ["fr", "us"],
         coordinates: { latitude: 47.59118, longitude: -122.3327 },
         isTypeAhead: false,
         radiusInMeters: 5000,
@@ -795,7 +801,7 @@ describe("Result mappers", () => {
         localizedMapView: "Auto",
       };
       const options4: SearchAddressOptions = {
-        countryFilter: [],
+        countryCodeFilter: [],
         coordinates: undefined,
         boundingBox: undefined,
         extendedPostalCodesFor: undefined,

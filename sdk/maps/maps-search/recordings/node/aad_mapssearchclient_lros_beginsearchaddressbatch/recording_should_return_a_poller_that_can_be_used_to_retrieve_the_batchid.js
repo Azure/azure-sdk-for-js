@@ -22,21 +22,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '6ef3774e-bc2f-4368-a048-a13365412700',
+  'b7acab86-6eeb-405c-86e7-6d0369190500',
   'x-ms-ests-server',
-  '2.1.13006.6 - SEASLR2 ProdSlices',
+  '2.1.13081.8 - KRC ProdSlices',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=AkeBpz8h_ThFisE0epEiv7E; expires=Fri, 22-Jul-2022 06:18:40 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnIHSlr_GEVMg5uVQLzN36M; expires=Sat, 23-Jul-2022 09:22:23 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrEcx6cpTrvBJH31duaUZxGLtYm84UADzS0GIB_hK2EsKIYeeonVwlYMXbF3AfaEGSwjZ1rTcBQSTrfxwJDndZHkhbbhsnUMW5zc5VSZ3mSXrnpZsmdBejVQgHeRDm4fdGjyHBF0VqGFGft_m4ZrBUDbk8JiBy0Ah9hQWr7iEmmcogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr96nx3wMTeYOyv27R9cu_HZKHmFjFLGYodTH9ZXa2OrmySr_L5lp7wAj8CLYcRlOcACbbx5QxWTO8kDwNnla2z4DLkhEKzDiRMP1NotcqJRWg-Km7XUttMF630UT-ZInYEK8m-CBLXexXfcXzdu63XbrGQz6z5EDvgI9qrwxN4DIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:40 GMT',
+  'Thu, 23 Jun 2022 09:22:22 GMT',
   'Content-Length',
   '980' ]);
 
@@ -57,26 +57,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e169ddee-f71c-4b68-bd85-85b7b550aa00',
+  '538f144a-1b77-4f5d-90d7-5944c13a0e00',
   'x-ms-ests-server',
-  '2.1.12890.7 - SEASLR2 ProdSlices',
+  '2.1.13006.6 - KRC ProdSlices',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=ApanSBVt-79EgxvPEy8F4OU; expires=Fri, 22-Jul-2022 06:18:40 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AmbPwM77bf5JtsUhtS3_s0A; expires=Sat, 23-Jul-2022 09:22:23 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrIsGSZMxCxcDJOzIsMwn5XGq3p8VsGN1ADnjQJl29MxYYnyq3hVpm7gHICKMunraDMZ5HuPutKmUMH-fHv05LzSqjBOJyBGS0lmBXSDNk1t0y_dsNYxqMybJvyxX_dkxTVcryTETMyWhE_rCMJmZJACXRrZ759J9e89rcFSQ79n0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr__-w4LBqjIpkkaDe85mFR7OdVyN3JWz4UB05Lo_tA69rT37wjHSrv9aJWHZN4j6BIM--VV36qLi_LQyQ0s92LobwcxU1oSo2nOAQiovBW1-TmdyqQHLWyUhg7Aq9iJOSiNAFRS_I2Geza7MvmhAanwzgEsfL1xxj_47-01daLDQgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:39 GMT',
+  'Thu, 23 Jun 2022 09:22:23 GMT',
   'Content-Length',
   '1753' ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=1fd974e2-cb42-41d1-953c-14711001d65d&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=df0ab1a3-2178-40ae-b409-74bc0f4ed6d5&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -92,21 +92,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'afcf4f3f-6ac6-44be-94e1-84c8f5bd1400',
+  '65966091-a9e6-4ffb-bfa6-2f5e7e0e2400',
   'x-ms-ests-server',
-  '2.1.12890.7 - KRC ProdSlices',
+  '2.1.13006.6 - SEASLR2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=AtILXmVcamBErCQjPxjsYas; expires=Fri, 22-Jul-2022 06:18:40 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Apx2zPXSVexJiJHi9nXe8dmr4fIWAQAAAM4nRtoOAAAA; expires=Sat, 23-Jul-2022 09:22:23 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:40 GMT',
+  'Thu, 23 Jun 2022 09:22:23 GMT',
   'Content-Length',
   '1319' ]);
 
@@ -118,7 +118,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'Location',
-  'https://atlas.microsoft.com/search/address/batch/5dba0115-550f-4fe6-bad4-c10ced16c5a1?api-version=1.0',
+  'https://atlas.microsoft.com/search/address/batch/884c74f1-e374-4736-b896-0d041311337d?api-version=1.0',
   'x-ms-azuremaps-region',
   'West US 2',
   'X-Content-Type-Options',
@@ -128,14 +128,14 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: F68F46BD079342229D0ED9F235560141 Ref B: TYO01EDGE3011 Ref C: 2022-06-22T06:18:40Z',
+  'Ref A: 6381B28D0B6145F29A983C02F4A55B79 Ref B: TYO01EDGE3415 Ref C: 2022-06-23T09:22:23Z',
   'Date',
-  'Wed, 22 Jun 2022 06:18:40 GMT' ]);
+  'Thu, 23 Jun 2022 09:22:23 GMT' ]);
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
-  .get('/search/address/batch/5dba0115-550f-4fe6-bad4-c10ced16c5a1')
+  .get('/search/address/batch/884c74f1-e374-4736-b896-0d041311337d')
   .query(true)
-  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"query":"400 broad st seattle wa 98109","queryType":"NON_NEAR","queryTime":5,"numResults":2,"offset":0,"totalResults":2,"fuzzyLevel":1},"results":[{"type":"Point Address","id":"US/PAD/p1/49061382","score":11.9729099274,"matchConfidence":{"score":1},"address":{"streetNumber":"400","streetName":"Broad Street","municipalitySubdivision":"Queen Anne","municipality":"Seattle","countrySecondarySubdivision":"King","countrySubdivision":"WA","countrySubdivisionName":"Washington","postalCode":"98109","extendedPostalCode":"98109-4607","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"400 Broad Street, Seattle, WA 98109","localName":"Seattle"},"position":{"lat":47.62039,"lon":-122.34928},"viewport":{"topLeftPoint":{"lat":47.62129,"lon":-122.35061},"btmRightPoint":{"lat":47.61949,"lon":-122.34795}},"entryPoints":[{"type":"main","position":{"lat":47.61982,"lon":-122.34886}}]},{"type":"Street","id":"US/STR/p0/5815408","score":10.22519207,"matchConfidence":{"score":0.8912703912563223},"address":{"streetName":"Broad Street","municipalitySubdivision":"South Lake Union","municipality":"Seattle","countrySecondarySubdivision":"King","countrySubdivision":"WA","countrySubdivisionName":"Washington","postalCode":"98109","extendedPostalCode":"98109-4942","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"Broad Street, Seattle, WA 98109","localName":"Seattle"},"position":{"lat":47.61911,"lon":-122.3497},"viewport":{"topLeftPoint":{"lat":47.61965,"lon":-122.35041},"btmRightPoint":{"lat":47.61857,"lon":-122.349}}}]}}],"summary":{"successfulRequests":1,"totalRequests":1}}, [ 'Transfer-Encoding',
+  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"query":"400 broad st seattle wa 98109","queryType":"NON_NEAR","queryTime":111,"numResults":2,"offset":0,"totalResults":2,"fuzzyLevel":1},"results":[{"type":"Point Address","id":"US/PAD/p1/49061382","score":11.9729099274,"matchConfidence":{"score":1},"address":{"streetNumber":"400","streetName":"Broad Street","municipalitySubdivision":"Queen Anne","municipality":"Seattle","countrySecondarySubdivision":"King","countrySubdivision":"WA","countrySubdivisionName":"Washington","postalCode":"98109","extendedPostalCode":"98109-4607","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"400 Broad Street, Seattle, WA 98109","localName":"Seattle"},"position":{"lat":47.62039,"lon":-122.34928},"viewport":{"topLeftPoint":{"lat":47.62129,"lon":-122.35061},"btmRightPoint":{"lat":47.61949,"lon":-122.34795}},"entryPoints":[{"type":"main","position":{"lat":47.61982,"lon":-122.34886}}]},{"type":"Street","id":"US/STR/p0/5815408","score":10.22519207,"matchConfidence":{"score":0.8912703912563223},"address":{"streetName":"Broad Street","municipalitySubdivision":"South Lake Union","municipality":"Seattle","countrySecondarySubdivision":"King","countrySubdivision":"WA","countrySubdivisionName":"Washington","postalCode":"98109","extendedPostalCode":"98109-4942","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"Broad Street, Seattle, WA 98109","localName":"Seattle"},"position":{"lat":47.61911,"lon":-122.3497},"viewport":{"topLeftPoint":{"lat":47.61965,"lon":-122.35041},"btmRightPoint":{"lat":47.61857,"lon":-122.349}}}]}}],"summary":{"successfulRequests":1,"totalRequests":1}}, [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json',
@@ -148,6 +148,6 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: FB1E2F4E9C3C45C080E96C3367BD47C4 Ref B: TYO01EDGE2921 Ref C: 2022-06-22T06:18:41Z',
+  'Ref A: 8352A4736F254B1DA6B867085F24C709 Ref B: TYBEDGE0410 Ref C: 2022-06-23T09:22:24Z',
   'Date',
-  'Wed, 22 Jun 2022 06:18:40 GMT' ]);
+  'Thu, 23 Jun 2022 09:22:23 GMT' ]);
