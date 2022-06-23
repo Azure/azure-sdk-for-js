@@ -10,8 +10,7 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
-    endpoint: string;
-    // (undocumented)
+    // @internal (undocumented)
     splitDataToChunks(logs: Record<string, any>[]): any[];
     upload(ruleId: string, streamName: string, logs: Record<string, any>[], options?: UploadOptions): Promise<UploadResult>;
 }

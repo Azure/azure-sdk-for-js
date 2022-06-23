@@ -46,7 +46,6 @@ export class GeneratedDataCollectionClient extends GeneratedDataCollectionClient
     body: Record<string, unknown>[],
     options?: UploadOptionalParams
   ): Promise<void> {
-    console.log("this function has run");
     return this.sendOperationRequest(
       { ruleId, stream, body, options },
       uploadOperationSpec
