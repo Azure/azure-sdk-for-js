@@ -200,8 +200,8 @@ export interface ReverseSearchAddressOptions extends ReverseSearchBaseOptions {
   entityType?: GeographicEntityType;
   /** To enable return of the posted speed limit */
   includeSpeedLimit?: boolean;
-  /** If a number is sent in along with the request, the response may include the side of the street (Left/Right) and also an offset position for that number */
-  numberParam?: string;
+  /** Street number as a string. If a number is sent in along with the request, the response may include the side of the street (Left/Right) and also an offset position for that number */
+  streetNumber?: string;
   /** Boolean. To enable return of the road use array for reverse geocodes at street level */
   includeRoadUse?: boolean;
   /** To restrict reverse geocodes to a certain type of road use. The road use array for reverse geocodes can be one or more of LimitedAccess, Arterial, Terminal, Ramp, Rotary, LocalStreet */
