@@ -11196,7 +11196,7 @@ packages:
     dev: false
 
   file:projects/arm-digitaltwins.tgz:
-    resolution: {integrity: sha512-5D7wJRdXEbuVDU6m4id//FuRiG1jY86DhsKCCxXqCNnBt5piQNJQ/7QCkt5vIeLF3YzauHdsx7QbhETZ5iHa6g==, tarball: file:projects/arm-digitaltwins.tgz}
+    resolution: {integrity: sha512-qbuQRu2+PeBAjsk6rNjghKnoglENOUrokQlchy5bpxJ6Lxp04kaz26ROGNuv6aCye4Ti/Js1aTxGJORrpDMauw==, tarball: file:projects/arm-digitaltwins.tgz}
     name: '@rush-temp/arm-digitaltwins'
     version: 0.0.0
     dependencies:
@@ -11208,6 +11208,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.74.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11220,7 +11222,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
