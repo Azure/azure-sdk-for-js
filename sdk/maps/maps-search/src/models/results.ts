@@ -205,7 +205,7 @@ export interface BatchItem<TResult> {
  */
 export interface EntityGeometry {
   /**  ID of the returned entity */
-  readonly providerID: string;
+  readonly providerId: string;
   /** Geometry data in GeoJSON FeatureCollection format. */
   geometryData?: GeoJsonFeatureCollection;
 }

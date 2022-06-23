@@ -35,7 +35,7 @@ export const Polygon: coreClient.CompositeMapper = {
     name: "Composite",
     className: "Polygon",
     modelProperties: {
-      providerID: {
+      providerId: {
         serializedName: "providerID",
         required: true,
         readOnly: true,
@@ -497,7 +497,7 @@ export const PointOfInterest: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BrandName"
+              className: "Brand"
             }
           }
         }
@@ -586,10 +586,10 @@ export const ClassificationName: coreClient.CompositeMapper = {
   }
 };
 
-export const BrandName: coreClient.CompositeMapper = {
+export const Brand: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "BrandName",
+    className: "Brand",
     modelProperties: {
       name: {
         serializedName: "name",

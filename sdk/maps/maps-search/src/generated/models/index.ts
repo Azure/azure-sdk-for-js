@@ -37,7 +37,7 @@ export interface Polygon {
    * ID of the returned entity
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly providerID: string;
+  readonly providerId: string;
   /** Geometry data in GeoJSON format. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946) for details. Present only if "error" is not present. */
   geometryData?: GeoJsonObjectUnion;
 }
@@ -292,7 +292,7 @@ export interface PointOfInterest {
    * Brands array. The name of the brand for the POI being returned.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly brands?: BrandName[];
+  readonly brands?: Brand[];
   /** Opening hours for a POI (Points of Interest). */
   operatingHours?: OperatingHours;
 }
@@ -334,8 +334,8 @@ export interface ClassificationName {
   readonly name: string;
 }
 
-/** The name of the brand for the POI being returned */
-export interface BrandName {
+/** The brand associated with the POI */
+export interface Brand {
   /**
    * Name of the brand
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1894,7 +1894,7 @@ export interface SearchReverseSearchAddressOptionalParams
   /** The directional heading of the vehicle in degrees, for travel along a segment of roadway. 0 is North, 90 is East and so on, values range from -360 to 360. The precision can include upto one decimal place */
   heading?: number;
   /** If a number is sent in along with the request, the response may include the side of the street (Left/Right) and also an offset position for that number */
-  numberParam?: string;
+  streetNumber?: string;
   /** Boolean. To enable return of the road use array for reverse geocodes at street level */
   includeRoadUse?: boolean;
   /** To restrict reverse geocodes to a certain type of road use. The road use array for reverse geocodes can be one or more of LimitedAccess, Arterial, Terminal, Ramp, Rotary, LocalStreet */
