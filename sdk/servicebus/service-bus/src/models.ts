@@ -141,8 +141,8 @@ export interface ServiceBusReceiverOptions {
   subQueueType?: "deadLetter" | "transferDeadLetter";
 
   /**
-   * The maximum duration in milliseconds until which the lock on the message will be renewed
-   * by the sdk automatically. This auto renewal stops once the message is settled.
+   * The maximum duration, in milliseconds, that the lock on the message will be renewed automatically by the client.
+   * This auto renewal stops once the message is settled.
    *
    * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
@@ -151,7 +151,7 @@ export interface ServiceBusReceiverOptions {
    *    
    *    If the message lock expires in 2 minutes and your message processing time is say, 8 minutes...
    * 
-   *    Set maxAutoLockRenewalDurationInMs to 8 minutes, and the message lock will be automatically renewed for about 3 times 
+   *    Set maxAutoLockRenewalDurationInMs to 10 minutes, and the message lock will be automatically renewed for about 3 times 
    *    (equivalent to having the message locked for 4 times its lock duration by leveraging the lock renewals).
    */
   maxAutoLockRenewalDurationInMs?: number;
@@ -195,7 +195,7 @@ export interface ReceiveMessagesOptions extends OperationOptionsBase {
 /**
  * Options when getting an iterable iterator from Service Bus.
  */
-export interface GetMessageIteratorOptions extends OperationOptionsBase {}
+export interface GetMessageIteratorOptions extends OperationOptionsBase { }
 
 /**
  * Options used when subscribing to a Service Bus queue or subscription.
