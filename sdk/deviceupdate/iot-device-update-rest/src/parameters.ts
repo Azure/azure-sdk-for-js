@@ -3,7 +3,12 @@
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import { ImportUpdateInputItem, PatchBody, Deployment, LogCollectionOperation } from "./models";
+import {
+  ImportUpdateInputItem,
+  PatchBody,
+  Deployment,
+  LogCollection
+} from "./models";
 
 export interface DeviceUpdateListUpdatesQueryParamProperties {
   /** Request updates matching a free-text search expression. */
@@ -42,7 +47,8 @@ export interface DeviceUpdateGetUpdateHeaderParam {
   headers: RawHttpHeadersInput & DeviceUpdateGetUpdateHeaders;
 }
 
-export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam & RequestParameters;
+export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam &
+  RequestParameters;
 export type DeviceUpdateDeleteUpdateParameters = RequestParameters;
 export type DeviceUpdateListProvidersParameters = RequestParameters;
 export type DeviceUpdateListNamesParameters = RequestParameters;
@@ -69,7 +75,8 @@ export interface DeviceUpdateGetFileHeaderParam {
   headers: RawHttpHeadersInput & DeviceUpdateGetFileHeaders;
 }
 
-export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam & RequestParameters;
+export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam &
+  RequestParameters;
 
 export interface DeviceUpdateListOperationsQueryParamProperties {
   /** Restricts the set of operations returned. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
@@ -157,10 +164,10 @@ export type DeviceManagementListGroupsParameters = DeviceManagementListGroupsQue
   RequestParameters;
 export type DeviceManagementGetGroupParameters = RequestParameters;
 export type DeviceManagementDeleteGroupParameters = RequestParameters;
-export type DeviceManagementGetGroupUpdateComplianceParameters = RequestParameters;
+export type DeviceManagementGetUpdateComplianceForGroupParameters = RequestParameters;
 
 export interface DeviceManagementListBestUpdatesForGroupQueryParamProperties {
-  /** Restricts the set of bestUpdates returned. You can filter on update Provider, Name and Version property. */
+  /** Restricts the set of bestUpdates returned. You can filter on update Provider, Name and Version property. This filter is deprecated and should not be used. */
   filter?: string;
 }
 
@@ -211,10 +218,10 @@ export interface DeviceManagementListDeviceClassSubgroupsForGroupQueryParam {
 
 export type DeviceManagementListDeviceClassSubgroupsForGroupParameters = DeviceManagementListDeviceClassSubgroupsForGroupQueryParam &
   RequestParameters;
-export type DeviceManagementGetDeviceClassSubgroupDetailsParameters = RequestParameters;
+export type DeviceManagementGetDeviceClassSubgroupParameters = RequestParameters;
 export type DeviceManagementDeleteDeviceClassSubgroupParameters = RequestParameters;
 export type DeviceManagementGetDeviceClassSubgroupUpdateComplianceParameters = RequestParameters;
-export type DeviceManagementListBestUpdatesForDeviceClassSubgroupParameters = RequestParameters;
+export type DeviceManagementGetBestUpdatesForDeviceClassSubgroupParameters = RequestParameters;
 
 export interface DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParamProperties {
   /** Orders the set of deployments returned. You can order by start date. */
@@ -228,21 +235,21 @@ export interface DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParam
 export type DeviceManagementListDeploymentsForDeviceClassSubgroupParameters = DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParam &
   RequestParameters;
 export type DeviceManagementGetDeploymentForDeviceClassSubgroupParameters = RequestParameters;
-export type DeviceManagementDeleteDeviceClassSubgroupDeploymentParameters = RequestParameters;
+export type DeviceManagementDeleteDeploymentForDeviceClassSubgroupParameters = RequestParameters;
 export type DeviceManagementStopDeploymentParameters = RequestParameters;
 export type DeviceManagementRetryDeploymentParameters = RequestParameters;
 export type DeviceManagementGetDeviceClassSubgroupDeploymentStatusParameters = RequestParameters;
 
-export interface DeviceManagementListDevicesForDeviceClassSubgroupDeploymentQueryParamProperties {
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParamProperties {
   /** Restricts the set of deployment device states returned. You can filter on deviceId and moduleId and/or deviceState. */
   filter?: string;
 }
 
-export interface DeviceManagementListDevicesForDeviceClassSubgroupDeploymentQueryParam {
-  queryParameters?: DeviceManagementListDevicesForDeviceClassSubgroupDeploymentQueryParamProperties;
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParam {
+  queryParameters?: DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParamProperties;
 }
 
-export type DeviceManagementListDevicesForDeviceClassSubgroupDeploymentParameters = DeviceManagementListDevicesForDeviceClassSubgroupDeploymentQueryParam &
+export type DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentParameters = DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParam &
   RequestParameters;
 
 export interface DeviceManagementGetOperationHeaders {
@@ -271,22 +278,22 @@ export interface DeviceManagementListOperationsQueryParam {
 export type DeviceManagementListOperationsParameters = DeviceManagementListOperationsQueryParam &
   RequestParameters;
 
-export interface DeviceManagementCollectLogsBodyParam {
-  /** The deployment properties. */
-  body: LogCollectionOperation;
+export interface DeviceManagementStartLogCollectionBodyParam {
+  /** The log collection properties. */
+  body: LogCollection;
 }
 
-export interface DeviceManagementCollectLogsMediaTypesParam {
+export interface DeviceManagementStartLogCollectionMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type DeviceManagementCollectLogsParameters = DeviceManagementCollectLogsMediaTypesParam &
-  DeviceManagementCollectLogsBodyParam &
+export type DeviceManagementStartLogCollectionParameters = DeviceManagementStartLogCollectionMediaTypesParam &
+  DeviceManagementStartLogCollectionBodyParam &
   RequestParameters;
-export type DeviceManagementGetLogCollectionOperationParameters = RequestParameters;
-export type DeviceManagementListLogCollectionOperationsParameters = RequestParameters;
-export type DeviceManagementGetLogCollectionOperationDetailedStatusParameters = RequestParameters;
+export type DeviceManagementGetLogCollectionParameters = RequestParameters;
+export type DeviceManagementListLogCollectionsParameters = RequestParameters;
+export type DeviceManagementGetLogCollectionDetailedStatusParameters = RequestParameters;
 
 export interface DeviceManagementListDeviceHealthQueryParamProperties {
   /** Filter list by specified properties. */

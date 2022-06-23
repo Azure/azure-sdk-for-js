@@ -332,15 +332,15 @@ export interface DeploymentsListOutput {
 }
 
 export interface DeploymentOutput {
-  /** The deployment identifier. */
+  /** The caller-provided deployment identifier. */
   deploymentId: string;
   /** The deployment start datetime. */
   startDateTime: string;
-  /** Update information. */
+  /** Update information for the update in the deployment. */
   update: UpdateInfoOutput;
-  /** The group identity */
+  /** The group identity for the devices the deployment is intended to update. */
   groupId: string;
-  /** The device class subgroups for the deployment. */
+  /** The device class subgroups the deployment is compatible with and subgroup deployments have been created for. This is not provided by the caller during CreateOrUpdateDeployment but is automatically determined by Device Update */
   deviceClassSubgroups?: Array<string>;
   /** Boolean flag indicating whether the deployment was canceled. */
   isCanceled?: boolean;
@@ -370,7 +370,12 @@ export interface DeploymentStatusOutput {
   /** The group identity */
   groupId: string;
   /** The state of the deployment. */
-  deploymentState: "Active" | "ActiveWithSubgroupFailures" | "Failed" | "Inactive" | "Canceled";
+  deploymentState:
+    | "Active"
+    | "ActiveWithSubgroupFailures"
+    | "Failed"
+    | "Inactive"
+    | "Canceled";
   /** The error details of the Failed state.  This is not present if the deployment state is not Failed. */
   error?: ErrorModelOutput;
   /** The collection of device class subgroup status objects */
@@ -410,11 +415,11 @@ export interface DeviceClassSubgroupOutput {
   deviceClassId: string;
   /** Group identity. */
   groupId: string;
-  /** Date and time when the deviceclass subgroup was created. */
+  /** Date and time when the device class subgroup was created. */
   createdDateTime: string;
-  /** The number of devices in the deviceclass subgroup. */
+  /** The number of devices in the device class subgroup. */
   deviceCount?: number;
-  /** The active deployment Id for the deviceclass subgroup. */
+  /** The active deployment Id for the device class subgroup. */
   deploymentId?: string;
 }
 
@@ -462,8 +467,8 @@ export interface DeviceOperationsListOutput {
   nextLink?: string;
 }
 
-export interface LogCollectionOperationOutput {
-  /** The diagnostics operation id. */
+export interface LogCollectionOutput {
+  /** The log collection id. */
   operationId?: string;
   /** Array of Device Update agent ids */
   deviceList: Array<DeviceUpdateAgentIdOutput>;
@@ -484,9 +489,9 @@ export interface DeviceUpdateAgentIdOutput {
   moduleId?: string;
 }
 
-export interface LogCollectionOperationListOutput {
+export interface LogCollectionListOutput {
   /** The collection of pageable items. */
-  value: Array<LogCollectionOperationOutput>;
+  value: Array<LogCollectionOutput>;
   /** The link to the next page of items. */
   nextLink?: string;
 }

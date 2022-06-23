@@ -50,15 +50,15 @@ export interface PatchBody {
 }
 
 export interface Deployment {
-  /** The deployment identifier. */
+  /** The caller-provided deployment identifier. */
   deploymentId: string;
   /** The deployment start datetime. */
   startDateTime: Date | string;
-  /** Update information. */
+  /** Update information for the update in the deployment. */
   update: UpdateInfo;
-  /** The group identity */
+  /** The group identity for the devices the deployment is intended to update. */
   groupId: string;
-  /** The device class subgroups for the deployment. */
+  /** The device class subgroups the deployment is compatible with and subgroup deployments have been created for. This is not provided by the caller during CreateOrUpdateDeployment but is automatically determined by Device Update */
   deviceClassSubgroups?: Array<string>;
   /** Boolean flag indicating whether the deployment was canceled. */
   isCanceled?: boolean;
@@ -84,8 +84,8 @@ export interface CloudInitiatedRollbackPolicyFailure {
   devicesFailedCount: number;
 }
 
-export interface LogCollectionOperation {
-  /** The diagnostics operation id. */
+export interface LogCollection {
+  /** The log collection id. */
   operationId?: string;
   /** Array of Device Update agent ids */
   deviceList: Array<DeviceUpdateAgentId>;
