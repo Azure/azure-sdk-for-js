@@ -529,18 +529,18 @@ export interface CustomDocumentModelsInfo {
 }
 
 /** Get Operation response object. */
-export type GetOperationResponse = OperationInfo & {
+export interface GetOperationResponse extends OperationInfo {
   /** Encountered error. */
   error?: ErrorModel;
   /** Operation result upon success. */
   result?: Record<string, unknown>;
-};
+}
 
 /** Model info. */
-export type ModelInfo = ModelSummary & {
+export interface ModelInfo extends ModelSummary {
   /** Supported document types. */
   docTypes?: { [propertyName: string]: DocTypeInfo };
-};
+}
 
 /** Defines headers for GeneratedClient_analyzeDocument operation. */
 export interface GeneratedClientAnalyzeDocumentHeaders {
@@ -568,8 +568,11 @@ export interface GeneratedClientCopyDocumentModelToHeaders {
 
 /** Known values of {@link StringIndexType} that the service accepts. */
 export enum KnownStringIndexType {
+  /** TextElements */
   TextElements = "textElements",
+  /** UnicodeCodePoint */
   UnicodeCodePoint = "unicodeCodePoint",
+  /** Utf16CodeUnit */
   Utf16CodeUnit = "utf16CodeUnit"
 }
 
@@ -586,6 +589,7 @@ export type StringIndexType = string;
 
 /** Known values of {@link ApiVersion} that the service accepts. */
 export enum KnownApiVersion {
+  /** TwoThousandTwentyTwo0630Preview */
   TwoThousandTwentyTwo0630Preview = "2022-06-30-preview"
 }
 
@@ -600,9 +604,13 @@ export type ApiVersion = string;
 
 /** Known values of {@link DocumentPageKind} that the service accepts. */
 export enum KnownDocumentPageKind {
+  /** Document */
   Document = "document",
+  /** Sheet */
   Sheet = "sheet",
+  /** Slide */
   Slide = "slide",
+  /** Image */
   Image = "image"
 }
 
@@ -620,7 +628,9 @@ export type DocumentPageKind = string;
 
 /** Known values of {@link LengthUnit} that the service accepts. */
 export enum KnownLengthUnit {
+  /** Pixel */
   Pixel = "pixel",
+  /** Inch */
   Inch = "inch"
 }
 
@@ -636,7 +646,9 @@ export type LengthUnit = string;
 
 /** Known values of {@link SelectionMarkState} that the service accepts. */
 export enum KnownSelectionMarkState {
+  /** Selected */
   Selected = "selected",
+  /** Unselected */
   Unselected = "unselected"
 }
 
@@ -652,11 +664,17 @@ export type SelectionMarkState = string;
 
 /** Known values of {@link ParagraphRole} that the service accepts. */
 export enum KnownParagraphRole {
+  /** PageHeader */
   PageHeader = "pageHeader",
+  /** PageFooter */
   PageFooter = "pageFooter",
+  /** PageNumber */
   PageNumber = "pageNumber",
+  /** Title */
   Title = "title",
+  /** SectionHeading */
   SectionHeading = "sectionHeading",
+  /** Footnote */
   Footnote = "footnote"
 }
 
@@ -676,10 +694,15 @@ export type ParagraphRole = string;
 
 /** Known values of {@link DocumentTableCellKind} that the service accepts. */
 export enum KnownDocumentTableCellKind {
+  /** Content */
   Content = "content",
+  /** RowHeader */
   RowHeader = "rowHeader",
+  /** ColumnHeader */
   ColumnHeader = "columnHeader",
+  /** StubHead */
   StubHead = "stubHead",
+  /** Description */
   Description = "description"
 }
 
@@ -698,18 +721,31 @@ export type DocumentTableCellKind = string;
 
 /** Known values of {@link DocumentFieldType} that the service accepts. */
 export enum KnownDocumentFieldType {
+  /** String */
   String = "string",
+  /** Date */
   Date = "date",
+  /** Time */
   Time = "time",
+  /** PhoneNumber */
   PhoneNumber = "phoneNumber",
+  /** Number */
   Number = "number",
+  /** Integer */
   Integer = "integer",
+  /** SelectionMark */
   SelectionMark = "selectionMark",
+  /** CountryRegion */
   CountryRegion = "countryRegion",
+  /** Signature */
   Signature = "signature",
+  /** Array */
   Array = "array",
+  /** Object */
   Object = "object",
+  /** Currency */
   Currency = "currency",
+  /** Address */
   Address = "address"
 }
 
@@ -736,7 +772,9 @@ export type DocumentFieldType = string;
 
 /** Known values of {@link DocumentSignatureType} that the service accepts. */
 export enum KnownDocumentSignatureType {
+  /** Signed */
   Signed = "signed",
+  /** Unsigned */
   Unsigned = "unsigned"
 }
 
@@ -752,7 +790,9 @@ export type DocumentSignatureType = string;
 
 /** Known values of {@link DocumentBuildMode} that the service accepts. */
 export enum KnownDocumentBuildMode {
+  /** Template */
   Template = "template",
+  /** Neural */
   Neural = "neural"
 }
 
@@ -768,8 +808,11 @@ export type DocumentBuildMode = string;
 
 /** Known values of {@link OperationKind} that the service accepts. */
 export enum KnownOperationKind {
+  /** DocumentModelBuild */
   DocumentModelBuild = "documentModelBuild",
+  /** DocumentModelCompose */
   DocumentModelCompose = "documentModelCompose",
+  /** DocumentModelCopyTo */
   DocumentModelCopyTo = "documentModelCopyTo"
 }
 

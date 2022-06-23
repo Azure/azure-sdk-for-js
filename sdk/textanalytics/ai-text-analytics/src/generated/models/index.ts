@@ -937,11 +937,17 @@ export interface AnalyzeTextCancelJobHeaders {
 
 /** Known values of {@link AnalyzeTextTaskKind} that the service accepts. */
 export enum KnownAnalyzeTextTaskKind {
+  /** SentimentAnalysis */
   SentimentAnalysis = "SentimentAnalysis",
+  /** EntityRecognition */
   EntityRecognition = "EntityRecognition",
+  /** PiiEntityRecognition */
   PiiEntityRecognition = "PiiEntityRecognition",
+  /** KeyPhraseExtraction */
   KeyPhraseExtraction = "KeyPhraseExtraction",
+  /** LanguageDetection */
   LanguageDetection = "LanguageDetection",
+  /** EntityLinking */
   EntityLinking = "EntityLinking"
 }
 
@@ -961,11 +967,17 @@ export type AnalyzeTextTaskKind = string;
 
 /** Known values of {@link AnalyzeTextTaskResultsKind} that the service accepts. */
 export enum KnownAnalyzeTextTaskResultsKind {
+  /** SentimentAnalysisResults */
   SentimentAnalysisResults = "SentimentAnalysisResults",
+  /** EntityRecognitionResults */
   EntityRecognitionResults = "EntityRecognitionResults",
+  /** PiiEntityRecognitionResults */
   PiiEntityRecognitionResults = "PiiEntityRecognitionResults",
+  /** KeyPhraseExtractionResults */
   KeyPhraseExtractionResults = "KeyPhraseExtractionResults",
+  /** LanguageDetectionResults */
   LanguageDetectionResults = "LanguageDetectionResults",
+  /** EntityLinkingResults */
   EntityLinkingResults = "EntityLinkingResults"
 }
 
@@ -985,19 +997,33 @@ export type AnalyzeTextTaskResultsKind = string;
 
 /** Known values of {@link ErrorCode} that the service accepts. */
 export enum KnownErrorCode {
+  /** InvalidRequest */
   InvalidRequest = "InvalidRequest",
+  /** InvalidArgument */
   InvalidArgument = "InvalidArgument",
+  /** Unauthorized */
   Unauthorized = "Unauthorized",
+  /** Forbidden */
   Forbidden = "Forbidden",
+  /** NotFound */
   NotFound = "NotFound",
+  /** ProjectNotFound */
   ProjectNotFound = "ProjectNotFound",
+  /** OperationNotFound */
   OperationNotFound = "OperationNotFound",
+  /** AzureCognitiveSearchNotFound */
   AzureCognitiveSearchNotFound = "AzureCognitiveSearchNotFound",
+  /** AzureCognitiveSearchIndexNotFound */
   AzureCognitiveSearchIndexNotFound = "AzureCognitiveSearchIndexNotFound",
+  /** TooManyRequests */
   TooManyRequests = "TooManyRequests",
+  /** AzureCognitiveSearchThrottling */
   AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
+  /** AzureCognitiveSearchIndexLimitReached */
   AzureCognitiveSearchIndexLimitReached = "AzureCognitiveSearchIndexLimitReached",
+  /** InternalServerError */
   InternalServerError = "InternalServerError",
+  /** ServiceUnavailable */
   ServiceUnavailable = "ServiceUnavailable"
 }
 
@@ -1025,19 +1051,33 @@ export type ErrorCode = string;
 
 /** Known values of {@link InnerErrorCode} that the service accepts. */
 export enum KnownInnerErrorCode {
+  /** InvalidRequest */
   InvalidRequest = "InvalidRequest",
+  /** InvalidParameterValue */
   InvalidParameterValue = "InvalidParameterValue",
+  /** KnowledgeBaseNotFound */
   KnowledgeBaseNotFound = "KnowledgeBaseNotFound",
+  /** AzureCognitiveSearchNotFound */
   AzureCognitiveSearchNotFound = "AzureCognitiveSearchNotFound",
+  /** AzureCognitiveSearchThrottling */
   AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
+  /** ExtractionFailure */
   ExtractionFailure = "ExtractionFailure",
+  /** InvalidRequestBodyFormat */
   InvalidRequestBodyFormat = "InvalidRequestBodyFormat",
+  /** EmptyRequest */
   EmptyRequest = "EmptyRequest",
+  /** MissingInputDocuments */
   MissingInputDocuments = "MissingInputDocuments",
+  /** InvalidDocument */
   InvalidDocument = "InvalidDocument",
+  /** ModelVersionIncorrect */
   ModelVersionIncorrect = "ModelVersionIncorrect",
+  /** InvalidDocumentBatch */
   InvalidDocumentBatch = "InvalidDocumentBatch",
+  /** UnsupportedLanguageCode */
   UnsupportedLanguageCode = "UnsupportedLanguageCode",
+  /** InvalidCountryHint */
   InvalidCountryHint = "InvalidCountryHint"
 }
 
@@ -1065,15 +1105,25 @@ export type InnerErrorCode = string;
 
 /** Known values of {@link AnalyzeTextLROTaskKind} that the service accepts. */
 export enum KnownAnalyzeTextLROTaskKind {
+  /** SentimentAnalysis */
   SentimentAnalysis = "SentimentAnalysis",
+  /** EntityRecognition */
   EntityRecognition = "EntityRecognition",
+  /** PiiEntityRecognition */
   PiiEntityRecognition = "PiiEntityRecognition",
+  /** KeyPhraseExtraction */
   KeyPhraseExtraction = "KeyPhraseExtraction",
+  /** EntityLinking */
   EntityLinking = "EntityLinking",
+  /** Healthcare */
   Healthcare = "Healthcare",
+  /** ExtractiveSummarization */
   ExtractiveSummarization = "ExtractiveSummarization",
+  /** CustomEntityRecognition */
   CustomEntityRecognition = "CustomEntityRecognition",
+  /** CustomSingleLabelClassification */
   CustomSingleLabelClassification = "CustomSingleLabelClassification",
+  /** CustomMultiLabelClassification */
   CustomMultiLabelClassification = "CustomMultiLabelClassification"
 }
 
@@ -1097,15 +1147,25 @@ export type AnalyzeTextLROTaskKind = string;
 
 /** Known values of {@link AnalyzeTextLROResultsKind} that the service accepts. */
 export enum KnownAnalyzeTextLROResultsKind {
+  /** SentimentAnalysisLROResults */
   SentimentAnalysisLROResults = "SentimentAnalysisLROResults",
+  /** EntityRecognitionLROResults */
   EntityRecognitionLROResults = "EntityRecognitionLROResults",
+  /** PiiEntityRecognitionLROResults */
   PiiEntityRecognitionLROResults = "PiiEntityRecognitionLROResults",
+  /** KeyPhraseExtractionLROResults */
   KeyPhraseExtractionLROResults = "KeyPhraseExtractionLROResults",
+  /** EntityLinkingLROResults */
   EntityLinkingLROResults = "EntityLinkingLROResults",
+  /** HealthcareLROResults */
   HealthcareLROResults = "HealthcareLROResults",
+  /** ExtractiveSummarizationLROResults */
   ExtractiveSummarizationLROResults = "ExtractiveSummarizationLROResults",
+  /** CustomEntityRecognitionLROResults */
   CustomEntityRecognitionLROResults = "CustomEntityRecognitionLROResults",
+  /** CustomSingleLabelClassificationLROResults */
   CustomSingleLabelClassificationLROResults = "CustomSingleLabelClassificationLROResults",
+  /** CustomMultiLabelClassificationLROResults */
   CustomMultiLabelClassificationLROResults = "CustomMultiLabelClassificationLROResults"
 }
 
@@ -1168,178 +1228,351 @@ export type PiiEntityDomain = string;
 
 /** Known values of {@link PiiEntityCategory} that the service accepts. */
 export enum KnownPiiEntityCategory {
+  /** ABARoutingNumber */
   ABARoutingNumber = "ABARoutingNumber",
+  /** ARNationalIdentityNumber */
   ARNationalIdentityNumber = "ARNationalIdentityNumber",
+  /** AUBankAccountNumber */
   AUBankAccountNumber = "AUBankAccountNumber",
+  /** AUDriversLicenseNumber */
   AUDriversLicenseNumber = "AUDriversLicenseNumber",
+  /** AUMedicalAccountNumber */
   AUMedicalAccountNumber = "AUMedicalAccountNumber",
+  /** AUPassportNumber */
   AUPassportNumber = "AUPassportNumber",
+  /** AUTaxFileNumber */
   AUTaxFileNumber = "AUTaxFileNumber",
+  /** AUBusinessNumber */
   AUBusinessNumber = "AUBusinessNumber",
+  /** AUCompanyNumber */
   AUCompanyNumber = "AUCompanyNumber",
+  /** ATIdentityCard */
   ATIdentityCard = "ATIdentityCard",
+  /** ATTaxIdentificationNumber */
   ATTaxIdentificationNumber = "ATTaxIdentificationNumber",
+  /** ATValueAddedTaxNumber */
   ATValueAddedTaxNumber = "ATValueAddedTaxNumber",
+  /** AzureDocumentDBAuthKey */
   AzureDocumentDBAuthKey = "AzureDocumentDBAuthKey",
+  /** AzureIaasDatabaseConnectionAndSQLString */
   AzureIaasDatabaseConnectionAndSQLString = "AzureIAASDatabaseConnectionAndSQLString",
+  /** AzureIoTConnectionString */
   AzureIoTConnectionString = "AzureIoTConnectionString",
+  /** AzurePublishSettingPassword */
   AzurePublishSettingPassword = "AzurePublishSettingPassword",
+  /** AzureRedisCacheString */
   AzureRedisCacheString = "AzureRedisCacheString",
+  /** AzureSAS */
   AzureSAS = "AzureSAS",
+  /** AzureServiceBusString */
   AzureServiceBusString = "AzureServiceBusString",
+  /** AzureStorageAccountKey */
   AzureStorageAccountKey = "AzureStorageAccountKey",
+  /** AzureStorageAccountGeneric */
   AzureStorageAccountGeneric = "AzureStorageAccountGeneric",
+  /** BENationalNumber */
   BENationalNumber = "BENationalNumber",
+  /** BENationalNumberV2 */
   BENationalNumberV2 = "BENationalNumberV2",
+  /** BEValueAddedTaxNumber */
   BEValueAddedTaxNumber = "BEValueAddedTaxNumber",
+  /** BrcpfNumber */
   BrcpfNumber = "BRCPFNumber",
+  /** BRLegalEntityNumber */
   BRLegalEntityNumber = "BRLegalEntityNumber",
+  /** BRNationalIdrg */
   BRNationalIdrg = "BRNationalIDRG",
+  /** BGUniformCivilNumber */
   BGUniformCivilNumber = "BGUniformCivilNumber",
+  /** CABankAccountNumber */
   CABankAccountNumber = "CABankAccountNumber",
+  /** CADriversLicenseNumber */
   CADriversLicenseNumber = "CADriversLicenseNumber",
+  /** CAHealthServiceNumber */
   CAHealthServiceNumber = "CAHealthServiceNumber",
+  /** CAPassportNumber */
   CAPassportNumber = "CAPassportNumber",
+  /** CAPersonalHealthIdentification */
   CAPersonalHealthIdentification = "CAPersonalHealthIdentification",
+  /** CASocialInsuranceNumber */
   CASocialInsuranceNumber = "CASocialInsuranceNumber",
+  /** CLIdentityCardNumber */
   CLIdentityCardNumber = "CLIdentityCardNumber",
+  /** CNResidentIdentityCardNumber */
   CNResidentIdentityCardNumber = "CNResidentIdentityCardNumber",
+  /** CreditCardNumber */
   CreditCardNumber = "CreditCardNumber",
+  /** HRIdentityCardNumber */
   HRIdentityCardNumber = "HRIdentityCardNumber",
+  /** HRNationalIDNumber */
   HRNationalIDNumber = "HRNationalIDNumber",
+  /** HRPersonalIdentificationNumber */
   HRPersonalIdentificationNumber = "HRPersonalIdentificationNumber",
+  /** HRPersonalIdentificationOIBNumberV2 */
   HRPersonalIdentificationOIBNumberV2 = "HRPersonalIdentificationOIBNumberV2",
+  /** CYIdentityCard */
   CYIdentityCard = "CYIdentityCard",
+  /** CYTaxIdentificationNumber */
   CYTaxIdentificationNumber = "CYTaxIdentificationNumber",
+  /** CZPersonalIdentityNumber */
   CZPersonalIdentityNumber = "CZPersonalIdentityNumber",
+  /** CZPersonalIdentityV2 */
   CZPersonalIdentityV2 = "CZPersonalIdentityV2",
+  /** DKPersonalIdentificationNumber */
   DKPersonalIdentificationNumber = "DKPersonalIdentificationNumber",
+  /** DKPersonalIdentificationV2 */
   DKPersonalIdentificationV2 = "DKPersonalIdentificationV2",
+  /** DrugEnforcementAgencyNumber */
   DrugEnforcementAgencyNumber = "DrugEnforcementAgencyNumber",
+  /** EEPersonalIdentificationCode */
   EEPersonalIdentificationCode = "EEPersonalIdentificationCode",
+  /** EUDebitCardNumber */
   EUDebitCardNumber = "EUDebitCardNumber",
+  /** EUDriversLicenseNumber */
   EUDriversLicenseNumber = "EUDriversLicenseNumber",
+  /** EugpsCoordinates */
   EugpsCoordinates = "EUGPSCoordinates",
+  /** EUNationalIdentificationNumber */
   EUNationalIdentificationNumber = "EUNationalIdentificationNumber",
+  /** EUPassportNumber */
   EUPassportNumber = "EUPassportNumber",
+  /** EUSocialSecurityNumber */
   EUSocialSecurityNumber = "EUSocialSecurityNumber",
+  /** EUTaxIdentificationNumber */
   EUTaxIdentificationNumber = "EUTaxIdentificationNumber",
+  /** FIEuropeanHealthNumber */
   FIEuropeanHealthNumber = "FIEuropeanHealthNumber",
+  /** FINationalID */
   FINationalID = "FINationalID",
+  /** FINationalIDV2 */
   FINationalIDV2 = "FINationalIDV2",
+  /** FIPassportNumber */
   FIPassportNumber = "FIPassportNumber",
+  /** FRDriversLicenseNumber */
   FRDriversLicenseNumber = "FRDriversLicenseNumber",
+  /** FRHealthInsuranceNumber */
   FRHealthInsuranceNumber = "FRHealthInsuranceNumber",
+  /** FRNationalID */
   FRNationalID = "FRNationalID",
+  /** FRPassportNumber */
   FRPassportNumber = "FRPassportNumber",
+  /** FRSocialSecurityNumber */
   FRSocialSecurityNumber = "FRSocialSecurityNumber",
+  /** FRTaxIdentificationNumber */
   FRTaxIdentificationNumber = "FRTaxIdentificationNumber",
+  /** FRValueAddedTaxNumber */
   FRValueAddedTaxNumber = "FRValueAddedTaxNumber",
+  /** DEDriversLicenseNumber */
   DEDriversLicenseNumber = "DEDriversLicenseNumber",
+  /** DEPassportNumber */
   DEPassportNumber = "DEPassportNumber",
+  /** DEIdentityCardNumber */
   DEIdentityCardNumber = "DEIdentityCardNumber",
+  /** DETaxIdentificationNumber */
   DETaxIdentificationNumber = "DETaxIdentificationNumber",
+  /** DEValueAddedNumber */
   DEValueAddedNumber = "DEValueAddedNumber",
+  /** GRNationalIDCard */
   GRNationalIDCard = "GRNationalIDCard",
+  /** GRNationalIDV2 */
   GRNationalIDV2 = "GRNationalIDV2",
+  /** GRTaxIdentificationNumber */
   GRTaxIdentificationNumber = "GRTaxIdentificationNumber",
+  /** HKIdentityCardNumber */
   HKIdentityCardNumber = "HKIdentityCardNumber",
+  /** HUValueAddedNumber */
   HUValueAddedNumber = "HUValueAddedNumber",
+  /** HUPersonalIdentificationNumber */
   HUPersonalIdentificationNumber = "HUPersonalIdentificationNumber",
+  /** HUTaxIdentificationNumber */
   HUTaxIdentificationNumber = "HUTaxIdentificationNumber",
+  /** INPermanentAccount */
   INPermanentAccount = "INPermanentAccount",
+  /** INUniqueIdentificationNumber */
   INUniqueIdentificationNumber = "INUniqueIdentificationNumber",
+  /** IDIdentityCardNumber */
   IDIdentityCardNumber = "IDIdentityCardNumber",
+  /** InternationalBankingAccountNumber */
   InternationalBankingAccountNumber = "InternationalBankingAccountNumber",
+  /** IEPersonalPublicServiceNumber */
   IEPersonalPublicServiceNumber = "IEPersonalPublicServiceNumber",
+  /** IEPersonalPublicServiceNumberV2 */
   IEPersonalPublicServiceNumberV2 = "IEPersonalPublicServiceNumberV2",
+  /** ILBankAccountNumber */
   ILBankAccountNumber = "ILBankAccountNumber",
+  /** ILNationalID */
   ILNationalID = "ILNationalID",
+  /** ITDriversLicenseNumber */
   ITDriversLicenseNumber = "ITDriversLicenseNumber",
+  /** ITFiscalCode */
   ITFiscalCode = "ITFiscalCode",
+  /** ITValueAddedTaxNumber */
   ITValueAddedTaxNumber = "ITValueAddedTaxNumber",
+  /** JPBankAccountNumber */
   JPBankAccountNumber = "JPBankAccountNumber",
+  /** JPDriversLicenseNumber */
   JPDriversLicenseNumber = "JPDriversLicenseNumber",
+  /** JPPassportNumber */
   JPPassportNumber = "JPPassportNumber",
+  /** JPResidentRegistrationNumber */
   JPResidentRegistrationNumber = "JPResidentRegistrationNumber",
+  /** JPSocialInsuranceNumber */
   JPSocialInsuranceNumber = "JPSocialInsuranceNumber",
+  /** JPMyNumberCorporate */
   JPMyNumberCorporate = "JPMyNumberCorporate",
+  /** JPMyNumberPersonal */
   JPMyNumberPersonal = "JPMyNumberPersonal",
+  /** JPResidenceCardNumber */
   JPResidenceCardNumber = "JPResidenceCardNumber",
+  /** LVPersonalCode */
   LVPersonalCode = "LVPersonalCode",
+  /** LTPersonalCode */
   LTPersonalCode = "LTPersonalCode",
+  /** LUNationalIdentificationNumberNatural */
   LUNationalIdentificationNumberNatural = "LUNationalIdentificationNumberNatural",
+  /** LUNationalIdentificationNumberNonNatural */
   LUNationalIdentificationNumberNonNatural = "LUNationalIdentificationNumberNonNatural",
+  /** MYIdentityCardNumber */
   MYIdentityCardNumber = "MYIdentityCardNumber",
+  /** MTIdentityCardNumber */
   MTIdentityCardNumber = "MTIdentityCardNumber",
+  /** MTTaxIDNumber */
   MTTaxIDNumber = "MTTaxIDNumber",
+  /** NLCitizensServiceNumber */
   NLCitizensServiceNumber = "NLCitizensServiceNumber",
+  /** NLCitizensServiceNumberV2 */
   NLCitizensServiceNumberV2 = "NLCitizensServiceNumberV2",
+  /** NLTaxIdentificationNumber */
   NLTaxIdentificationNumber = "NLTaxIdentificationNumber",
+  /** NLValueAddedTaxNumber */
   NLValueAddedTaxNumber = "NLValueAddedTaxNumber",
+  /** NZBankAccountNumber */
   NZBankAccountNumber = "NZBankAccountNumber",
+  /** NZDriversLicenseNumber */
   NZDriversLicenseNumber = "NZDriversLicenseNumber",
+  /** NZInlandRevenueNumber */
   NZInlandRevenueNumber = "NZInlandRevenueNumber",
+  /** NZMinistryOfHealthNumber */
   NZMinistryOfHealthNumber = "NZMinistryOfHealthNumber",
+  /** NZSocialWelfareNumber */
   NZSocialWelfareNumber = "NZSocialWelfareNumber",
+  /** NOIdentityNumber */
   NOIdentityNumber = "NOIdentityNumber",
+  /** PHUnifiedMultiPurposeIDNumber */
   PHUnifiedMultiPurposeIDNumber = "PHUnifiedMultiPurposeIDNumber",
+  /** PLIdentityCard */
   PLIdentityCard = "PLIdentityCard",
+  /** PLNationalID */
   PLNationalID = "PLNationalID",
+  /** PLNationalIDV2 */
   PLNationalIDV2 = "PLNationalIDV2",
+  /** PLPassportNumber */
   PLPassportNumber = "PLPassportNumber",
+  /** PLTaxIdentificationNumber */
   PLTaxIdentificationNumber = "PLTaxIdentificationNumber",
+  /** PlregonNumber */
   PlregonNumber = "PLREGONNumber",
+  /** PTCitizenCardNumber */
   PTCitizenCardNumber = "PTCitizenCardNumber",
+  /** PTCitizenCardNumberV2 */
   PTCitizenCardNumberV2 = "PTCitizenCardNumberV2",
+  /** PTTaxIdentificationNumber */
   PTTaxIdentificationNumber = "PTTaxIdentificationNumber",
+  /** ROPersonalNumericalCode */
   ROPersonalNumericalCode = "ROPersonalNumericalCode",
+  /** RUPassportNumberDomestic */
   RUPassportNumberDomestic = "RUPassportNumberDomestic",
+  /** RUPassportNumberInternational */
   RUPassportNumberInternational = "RUPassportNumberInternational",
+  /** SANationalID */
   SANationalID = "SANationalID",
+  /** SGNationalRegistrationIdentityCardNumber */
   SGNationalRegistrationIdentityCardNumber = "SGNationalRegistrationIdentityCardNumber",
+  /** SKPersonalNumber */
   SKPersonalNumber = "SKPersonalNumber",
+  /** SITaxIdentificationNumber */
   SITaxIdentificationNumber = "SITaxIdentificationNumber",
+  /** SIUniqueMasterCitizenNumber */
   SIUniqueMasterCitizenNumber = "SIUniqueMasterCitizenNumber",
+  /** ZAIdentificationNumber */
   ZAIdentificationNumber = "ZAIdentificationNumber",
+  /** KRResidentRegistrationNumber */
   KRResidentRegistrationNumber = "KRResidentRegistrationNumber",
+  /** Esdni */
   Esdni = "ESDNI",
+  /** ESSocialSecurityNumber */
   ESSocialSecurityNumber = "ESSocialSecurityNumber",
+  /** ESTaxIdentificationNumber */
   ESTaxIdentificationNumber = "ESTaxIdentificationNumber",
+  /** SQLServerConnectionString */
   SQLServerConnectionString = "SQLServerConnectionString",
+  /** SENationalID */
   SENationalID = "SENationalID",
+  /** SENationalIDV2 */
   SENationalIDV2 = "SENationalIDV2",
+  /** SEPassportNumber */
   SEPassportNumber = "SEPassportNumber",
+  /** SETaxIdentificationNumber */
   SETaxIdentificationNumber = "SETaxIdentificationNumber",
+  /** SwiftCode */
   SwiftCode = "SWIFTCode",
+  /** CHSocialSecurityNumber */
   CHSocialSecurityNumber = "CHSocialSecurityNumber",
+  /** TWNationalID */
   TWNationalID = "TWNationalID",
+  /** TWPassportNumber */
   TWPassportNumber = "TWPassportNumber",
+  /** TWResidentCertificate */
   TWResidentCertificate = "TWResidentCertificate",
+  /** THPopulationIdentificationCode */
   THPopulationIdentificationCode = "THPopulationIdentificationCode",
+  /** TRNationalIdentificationNumber */
   TRNationalIdentificationNumber = "TRNationalIdentificationNumber",
+  /** UKDriversLicenseNumber */
   UKDriversLicenseNumber = "UKDriversLicenseNumber",
+  /** UKElectoralRollNumber */
   UKElectoralRollNumber = "UKElectoralRollNumber",
+  /** UKNationalHealthNumber */
   UKNationalHealthNumber = "UKNationalHealthNumber",
+  /** UKNationalInsuranceNumber */
   UKNationalInsuranceNumber = "UKNationalInsuranceNumber",
+  /** UKUniqueTaxpayerNumber */
   UKUniqueTaxpayerNumber = "UKUniqueTaxpayerNumber",
+  /** UsukPassportNumber */
   UsukPassportNumber = "USUKPassportNumber",
+  /** USBankAccountNumber */
   USBankAccountNumber = "USBankAccountNumber",
+  /** USDriversLicenseNumber */
   USDriversLicenseNumber = "USDriversLicenseNumber",
+  /** USIndividualTaxpayerIdentification */
   USIndividualTaxpayerIdentification = "USIndividualTaxpayerIdentification",
+  /** USSocialSecurityNumber */
   USSocialSecurityNumber = "USSocialSecurityNumber",
+  /** UAPassportNumberDomestic */
   UAPassportNumberDomestic = "UAPassportNumberDomestic",
+  /** UAPassportNumberInternational */
   UAPassportNumberInternational = "UAPassportNumberInternational",
+  /** Organization */
   Organization = "Organization",
+  /** Email */
   Email = "Email",
+  /** URL */
   URL = "URL",
+  /** Age */
   Age = "Age",
+  /** PhoneNumber */
   PhoneNumber = "PhoneNumber",
+  /** IPAddress */
   IPAddress = "IPAddress",
+  /** Date */
   Date = "Date",
+  /** Person */
   Person = "Person",
+  /** Address */
   Address = "Address",
+  /** All */
   All = "All",
+  /** Default */
   Default = "Default"
 }
 
@@ -1526,7 +1759,9 @@ export type PiiEntityCategory = string;
 
 /** Known values of {@link WarningCode} that the service accepts. */
 export enum KnownWarningCode {
+  /** LongWordsInDocument */
   LongWordsInDocument = "LongWordsInDocument",
+  /** DocumentTruncated */
   DocumentTruncated = "DocumentTruncated"
 }
 
@@ -1542,6 +1777,7 @@ export type WarningCode = string;
 
 /** Known values of {@link FhirVersion} that the service accepts. */
 export enum KnownFhirVersion {
+  /** Four01 */
   Four01 = "4.0.1"
 }
 
@@ -1556,31 +1792,57 @@ export type FhirVersion = string;
 
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {
+  /** BodyStructure */
   BodyStructure = "BODY_STRUCTURE",
+  /** AGE */
   AGE = "AGE",
+  /** Gender */
   Gender = "GENDER",
+  /** ExaminationName */
   ExaminationName = "EXAMINATION_NAME",
+  /** Date */
   Date = "DATE",
+  /** Direction */
   Direction = "DIRECTION",
+  /** Frequency */
   Frequency = "FREQUENCY",
+  /** MeasurementValue */
   MeasurementValue = "MEASUREMENT_VALUE",
+  /** MeasurementUnit */
   MeasurementUnit = "MEASUREMENT_UNIT",
+  /** RelationalOperator */
   RelationalOperator = "RELATIONAL_OPERATOR",
+  /** Time */
   Time = "TIME",
+  /** GeneORProtein */
   GeneORProtein = "GENE_OR_PROTEIN",
+  /** Variant */
   Variant = "VARIANT",
+  /** AdministrativeEvent */
   AdministrativeEvent = "ADMINISTRATIVE_EVENT",
+  /** CareEnvironment */
   CareEnvironment = "CARE_ENVIRONMENT",
+  /** HealthcareProfession */
   HealthcareProfession = "HEALTHCARE_PROFESSION",
+  /** Diagnosis */
   Diagnosis = "DIAGNOSIS",
+  /** SymptomORSign */
   SymptomORSign = "SYMPTOM_OR_SIGN",
+  /** ConditionQualifier */
   ConditionQualifier = "CONDITION_QUALIFIER",
+  /** MedicationClass */
   MedicationClass = "MEDICATION_CLASS",
+  /** MedicationName */
   MedicationName = "MEDICATION_NAME",
+  /** Dosage */
   Dosage = "DOSAGE",
+  /** MedicationForm */
   MedicationForm = "MEDICATION_FORM",
+  /** MedicationRoute */
   MedicationRoute = "MEDICATION_ROUTE",
+  /** FamilyRelation */
   FamilyRelation = "FAMILY_RELATION",
+  /** TreatmentName */
   TreatmentName = "TREATMENT_NAME"
 }
 
@@ -1620,26 +1882,47 @@ export type HealthcareEntityCategory = string;
 
 /** Known values of {@link RelationType} that the service accepts. */
 export enum KnownRelationType {
+  /** Abbreviation */
   Abbreviation = "Abbreviation",
+  /** DirectionOfBodyStructure */
   DirectionOfBodyStructure = "DirectionOfBodyStructure",
+  /** DirectionOfCondition */
   DirectionOfCondition = "DirectionOfCondition",
+  /** DirectionOfExamination */
   DirectionOfExamination = "DirectionOfExamination",
+  /** DirectionOfTreatment */
   DirectionOfTreatment = "DirectionOfTreatment",
+  /** DosageOfMedication */
   DosageOfMedication = "DosageOfMedication",
+  /** FormOfMedication */
   FormOfMedication = "FormOfMedication",
+  /** FrequencyOfMedication */
   FrequencyOfMedication = "FrequencyOfMedication",
+  /** FrequencyOfTreatment */
   FrequencyOfTreatment = "FrequencyOfTreatment",
+  /** QualifierOfCondition */
   QualifierOfCondition = "QualifierOfCondition",
+  /** RelationOfExamination */
   RelationOfExamination = "RelationOfExamination",
+  /** RouteOfMedication */
   RouteOfMedication = "RouteOfMedication",
+  /** TimeOfCondition */
   TimeOfCondition = "TimeOfCondition",
+  /** TimeOfEvent */
   TimeOfEvent = "TimeOfEvent",
+  /** TimeOfExamination */
   TimeOfExamination = "TimeOfExamination",
+  /** TimeOfMedication */
   TimeOfMedication = "TimeOfMedication",
+  /** TimeOfTreatment */
   TimeOfTreatment = "TimeOfTreatment",
+  /** UnitOfCondition */
   UnitOfCondition = "UnitOfCondition",
+  /** UnitOfExamination */
   UnitOfExamination = "UnitOfExamination",
+  /** ValueOfCondition */
   ValueOfCondition = "ValueOfCondition",
+  /** ValueOfExamination */
   ValueOfExamination = "ValueOfExamination"
 }
 

@@ -18,9 +18,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "286795e0-e4d0-4e6c-be46-4eee433e15e4",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "1b497a07-f074-4b31-9ff8-035226c6dfcf",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "analysisInput": {
@@ -60,18 +60,21 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "6521573f-68ec-4d48-9129-0844efa7e6bf",
+        "apim-request-id": "398ad529-765a-4f6a-87d9-4de01f8fb11c",
         "Content-Length": "0",
-        "Date": "Fri, 06 May 2022 20:11:10 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
+        "Date": "Fri, 17 Jun 2022 21:34:55 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "221"
+        "x-envoy-upstream-service-time": "248"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -86,27 +89,30 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "efd3dc93-f25b-41be-9c77-b17824338609",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "009a0e30-43cd-43d0-b849-5022c3972428",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "a3cf3cbc-5c36-4800-a54a-bb45454b05e2",
-        "Content-Length": "282",
+        "apim-request-id": "454eeec1-1fec-4dae-93a1-93c04f6e86a0",
+        "Content-Length": "279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:11:10 GMT",
+        "Date": "Fri, 17 Jun 2022 21:34:55 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "10"
       },
       "ResponseBody": {
-        "jobId": "061cdda5-b41d-45b3-9411-f5f22e46cf71",
-        "lastUpdateDateTime": "2022-05-06T20:11:10Z",
-        "createdDateTime": "2022-05-06T20:11:10Z",
-        "expirationDateTime": "2022-05-07T20:11:10Z",
-        "status": "notStarted",
+        "jobId": "2eb86455-b89d-4e53-8e34-b3d2d67000e9",
+        "lastUpdateDateTime": "2022-06-17T21:34:55Z",
+        "createdDateTime": "2022-06-17T21:34:55Z",
+        "expirationDateTime": "2022-06-18T21:34:55Z",
+        "status": "running",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -118,7 +124,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -133,73 +139,29 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "0c2c5dd8-8730-4baa-bcdd-b8e5e1f346fc",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "b6221499-508a-4675-80f2-5e0679c1cc80",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "555e1ae7-40e6-4d63-a68c-b23bfeacfa32",
-        "Content-Length": "282",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:11:10 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "8"
-      },
-      "ResponseBody": {
-        "jobId": "061cdda5-b41d-45b3-9411-f5f22e46cf71",
-        "lastUpdateDateTime": "2022-05-06T20:11:10Z",
-        "createdDateTime": "2022-05-06T20:11:10Z",
-        "expirationDateTime": "2022-05-07T20:11:10Z",
-        "status": "notStarted",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 4,
-          "total": 4,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "502bb02a-8388-43b1-8673-cff4035ebf65",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "b8b599b5-f39a-42e8-82f3-19747d247f29",
+        "apim-request-id": "df6eb9b5-986e-463d-8607-85358874e6f4",
         "Content-Length": "279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:11:10 GMT",
+        "Date": "Fri, 17 Jun 2022 21:34:55 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "8"
       },
       "ResponseBody": {
-        "jobId": "061cdda5-b41d-45b3-9411-f5f22e46cf71",
-        "lastUpdateDateTime": "2022-05-06T20:11:11Z",
-        "createdDateTime": "2022-05-06T20:11:10Z",
-        "expirationDateTime": "2022-05-07T20:11:10Z",
+        "jobId": "2eb86455-b89d-4e53-8e34-b3d2d67000e9",
+        "lastUpdateDateTime": "2022-06-17T21:34:55Z",
+        "createdDateTime": "2022-06-17T21:34:55Z",
+        "expirationDateTime": "2022-06-18T21:34:55Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -212,7 +174,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -227,26 +189,79 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "f0f30241-cd6e-4209-86a1-b2a7a912a1e5",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "d1752115-1870-4eb1-a583-365d0b830fdb",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "23a3eb4b-5af5-4263-b02c-07a82196a671",
-        "Content-Length": "5532",
+        "apim-request-id": "3a34f521-5e0e-4d72-a556-a91223213c67",
+        "Content-Length": "279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:11:12 GMT",
+        "Date": "Fri, 17 Jun 2022 21:34:55 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "118"
+        "x-envoy-upstream-service-time": "8"
       },
       "ResponseBody": {
-        "jobId": "061cdda5-b41d-45b3-9411-f5f22e46cf71",
-        "lastUpdateDateTime": "2022-05-06T20:11:12Z",
-        "createdDateTime": "2022-05-06T20:11:10Z",
-        "expirationDateTime": "2022-05-07T20:11:10Z",
+        "jobId": "2eb86455-b89d-4e53-8e34-b3d2d67000e9",
+        "lastUpdateDateTime": "2022-06-17T21:34:55Z",
+        "createdDateTime": "2022-06-17T21:34:55Z",
+        "expirationDateTime": "2022-06-18T21:34:55Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 4,
+          "total": 4,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "abdda381-200a-4fe8-a1ba-442e937e09d8",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "20e12af2-9751-4d82-8e21-58d0b3deac3c",
+        "Content-Length": "5532",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 17 Jun 2022 21:34:57 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "110"
+      },
+      "ResponseBody": {
+        "jobId": "2eb86455-b89d-4e53-8e34-b3d2d67000e9",
+        "lastUpdateDateTime": "2022-06-17T21:34:56Z",
+        "createdDateTime": "2022-06-17T21:34:55Z",
+        "expirationDateTime": "2022-06-18T21:34:55Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -257,7 +272,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:11.2166664Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:55.6478953Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -650,7 +665,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.5872382Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.7429961Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -703,7 +718,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.6294471Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.8320136Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -746,7 +761,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -761,26 +776,29 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "4a468691-5267-4228-9598-96db4b2270a5",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "a4b99c91-cedb-40d2-997f-abb692d9026e",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "e27979d6-948d-4417-9e63-598e5c8cc703",
+        "apim-request-id": "9e12a9c7-6c9b-4677-9322-6327281d7878",
         "Content-Length": "5532",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:11:15 GMT",
+        "Date": "Fri, 17 Jun 2022 21:34:59 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "127"
+        "x-envoy-upstream-service-time": "93"
       },
       "ResponseBody": {
-        "jobId": "061cdda5-b41d-45b3-9411-f5f22e46cf71",
-        "lastUpdateDateTime": "2022-05-06T20:11:12Z",
-        "createdDateTime": "2022-05-06T20:11:10Z",
-        "expirationDateTime": "2022-05-07T20:11:10Z",
+        "jobId": "2eb86455-b89d-4e53-8e34-b3d2d67000e9",
+        "lastUpdateDateTime": "2022-06-17T21:34:56Z",
+        "createdDateTime": "2022-06-17T21:34:55Z",
+        "expirationDateTime": "2022-06-18T21:34:55Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -791,7 +809,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:11.2166664Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:55.6478953Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1184,7 +1202,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.5872382Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.7429961Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1237,7 +1255,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.6294471Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.8320136Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1280,7 +1298,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1295,26 +1313,29 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "3d95322f-6998-4655-843d-bae7945eafe8",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "ce9341eb-8c46-4b71-854e-9102d51a2a80",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "47e1c4e2-d532-49c0-a93c-bd794d89100f",
+        "apim-request-id": "4ce1ee64-4152-4018-aa66-89e56cb9de89",
         "Content-Length": "5532",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:11:17 GMT",
+        "Date": "Fri, 17 Jun 2022 21:35:01 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "118"
+        "x-envoy-upstream-service-time": "79"
       },
       "ResponseBody": {
-        "jobId": "061cdda5-b41d-45b3-9411-f5f22e46cf71",
-        "lastUpdateDateTime": "2022-05-06T20:11:12Z",
-        "createdDateTime": "2022-05-06T20:11:10Z",
-        "expirationDateTime": "2022-05-07T20:11:10Z",
+        "jobId": "2eb86455-b89d-4e53-8e34-b3d2d67000e9",
+        "lastUpdateDateTime": "2022-06-17T21:34:56Z",
+        "createdDateTime": "2022-06-17T21:34:55Z",
+        "expirationDateTime": "2022-06-18T21:34:55Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -1325,7 +1346,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:11.2166664Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:55.6478953Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1718,7 +1739,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.5872382Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.7429961Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1771,7 +1792,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.6294471Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.8320136Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1814,7 +1835,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1829,26 +1850,29 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "ef2173b7-4089-473a-9719-47e49e137e21",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "8cf2e274-f6b4-4b70-bf09-b2e92c269cca",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "3fbcc7af-5e1b-48df-afb9-e1a2dc5a9e65",
-        "Content-Length": "6716",
+        "apim-request-id": "7fb30b85-797d-4b05-9403-3e091378224a",
+        "Content-Length": "6371",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:11:19 GMT",
+        "Date": "Fri, 17 Jun 2022 21:35:03 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "141"
+        "x-envoy-upstream-service-time": "119"
       },
       "ResponseBody": {
-        "jobId": "061cdda5-b41d-45b3-9411-f5f22e46cf71",
-        "lastUpdateDateTime": "2022-05-06T20:11:18Z",
-        "createdDateTime": "2022-05-06T20:11:10Z",
-        "expirationDateTime": "2022-05-07T20:11:10Z",
+        "jobId": "2eb86455-b89d-4e53-8e34-b3d2d67000e9",
+        "lastUpdateDateTime": "2022-06-17T21:35:03Z",
+        "createdDateTime": "2022-06-17T21:34:55Z",
+        "expirationDateTime": "2022-06-18T21:34:55Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -1859,7 +1883,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:11.2166664Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:55.6478953Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2252,7 +2276,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.5872382Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.7429961Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2305,7 +2329,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.6294471Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.8320136Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2345,60 +2369,31 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:18.5389742Z",
+              "lastUpdateDateTime": "2022-06-17T21:35:03.0673166Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "sentiment": "positive",
+                    "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.99,
-                      "neutral": 0.01,
-                      "negative": 0.0
+                      "positive": 0.04,
+                      "neutral": 0.76,
+                      "negative": 0.2
                     },
                     "sentences": [
                       {
-                        "sentiment": "positive",
+                        "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.99,
-                          "neutral": 0.01,
-                          "negative": 0.0
+                          "positive": 0.04,
+                          "neutral": 0.76,
+                          "negative": 0.2
                         },
                         "offset": 0,
                         "length": 49,
                         "text": "Patient does not suffer from high blood pressure.",
-                        "targets": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 0,
-                            "length": 7,
-                            "text": "Patient",
-                            "relations": [
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/0/sentences/0/assessments/0"
-                              }
-                            ]
-                          }
-                        ],
-                        "assessments": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 17,
-                            "length": 6,
-                            "text": "suffer",
-                            "isNegated": true
-                          }
-                        ]
+                        "targets": [],
+                        "assessments": []
                       }
                     ],
                     "warnings": []
@@ -2407,17 +2402,17 @@
                     "id": "1",
                     "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.03,
-                      "neutral": 0.89,
-                      "negative": 0.08
+                      "positive": 0.0,
+                      "neutral": 0.99,
+                      "negative": 0.01
                     },
                     "sentences": [
                       {
                         "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.03,
-                          "neutral": 0.89,
-                          "negative": 0.08
+                          "positive": 0.0,
+                          "neutral": 0.99,
+                          "negative": 0.01
                         },
                         "offset": 0,
                         "length": 46,
@@ -2430,7 +2425,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2020-04-01"
+                "modelVersion": "2021-10-01"
               }
             }
           ]
@@ -2438,7 +2433,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2453,26 +2448,29 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "87527698-b700-4a0a-bf6f-98249b28cf92",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "ee96363d-92d0-4239-a96c-d68d2dd106b4",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "0aa75183-5aed-4972-9a03-50beee617385",
-        "Content-Length": "6716",
+        "apim-request-id": "4283e8af-0878-4e9e-8541-142f1dbf4568",
+        "Content-Length": "6371",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:11:19 GMT",
+        "Date": "Fri, 17 Jun 2022 21:35:03 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "285"
+        "x-envoy-upstream-service-time": "106"
       },
       "ResponseBody": {
-        "jobId": "061cdda5-b41d-45b3-9411-f5f22e46cf71",
-        "lastUpdateDateTime": "2022-05-06T20:11:18Z",
-        "createdDateTime": "2022-05-06T20:11:10Z",
-        "expirationDateTime": "2022-05-07T20:11:10Z",
+        "jobId": "2eb86455-b89d-4e53-8e34-b3d2d67000e9",
+        "lastUpdateDateTime": "2022-06-17T21:35:03Z",
+        "createdDateTime": "2022-06-17T21:34:55Z",
+        "expirationDateTime": "2022-06-18T21:34:55Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -2483,7 +2481,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:11.2166664Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:55.6478953Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2876,7 +2874,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.5872382Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.7429961Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2929,7 +2927,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.6294471Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.8320136Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2969,60 +2967,31 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:18.5389742Z",
+              "lastUpdateDateTime": "2022-06-17T21:35:03.0673166Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "sentiment": "positive",
+                    "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.99,
-                      "neutral": 0.01,
-                      "negative": 0.0
+                      "positive": 0.04,
+                      "neutral": 0.76,
+                      "negative": 0.2
                     },
                     "sentences": [
                       {
-                        "sentiment": "positive",
+                        "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.99,
-                          "neutral": 0.01,
-                          "negative": 0.0
+                          "positive": 0.04,
+                          "neutral": 0.76,
+                          "negative": 0.2
                         },
                         "offset": 0,
                         "length": 49,
                         "text": "Patient does not suffer from high blood pressure.",
-                        "targets": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 0,
-                            "length": 7,
-                            "text": "Patient",
-                            "relations": [
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/0/sentences/0/assessments/0"
-                              }
-                            ]
-                          }
-                        ],
-                        "assessments": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 17,
-                            "length": 6,
-                            "text": "suffer",
-                            "isNegated": true
-                          }
-                        ]
+                        "targets": [],
+                        "assessments": []
                       }
                     ],
                     "warnings": []
@@ -3031,17 +3000,17 @@
                     "id": "1",
                     "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.03,
-                      "neutral": 0.89,
-                      "negative": 0.08
+                      "positive": 0.0,
+                      "neutral": 0.99,
+                      "negative": 0.01
                     },
                     "sentences": [
                       {
                         "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.03,
-                          "neutral": 0.89,
-                          "negative": 0.08
+                          "positive": 0.0,
+                          "neutral": 0.99,
+                          "negative": 0.01
                         },
                         "offset": 0,
                         "length": 46,
@@ -3054,7 +3023,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2020-04-01"
+                "modelVersion": "2021-10-01"
               }
             }
           ]
@@ -3062,7 +3031,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3077,26 +3046,29 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "fa5622e2-a77c-4527-843c-4cb3129c80f3",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "dcd2b628-9d59-44de-b0b9-9cce82287f48",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "c282d09f-6d3c-4b92-b023-c0277929f0eb",
-        "Content-Length": "6716",
+        "apim-request-id": "a3bdfc36-08a0-4679-9b7c-7718b7412b55",
+        "Content-Length": "6371",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:11:19 GMT",
+        "Date": "Fri, 17 Jun 2022 21:35:03 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "144"
+        "x-envoy-upstream-service-time": "106"
       },
       "ResponseBody": {
-        "jobId": "061cdda5-b41d-45b3-9411-f5f22e46cf71",
-        "lastUpdateDateTime": "2022-05-06T20:11:18Z",
-        "createdDateTime": "2022-05-06T20:11:10Z",
-        "expirationDateTime": "2022-05-07T20:11:10Z",
+        "jobId": "2eb86455-b89d-4e53-8e34-b3d2d67000e9",
+        "lastUpdateDateTime": "2022-06-17T21:35:03Z",
+        "createdDateTime": "2022-06-17T21:34:55Z",
+        "expirationDateTime": "2022-06-18T21:34:55Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -3107,7 +3079,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:11.2166664Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:55.6478953Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -3500,7 +3472,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.5872382Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.7429961Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -3553,7 +3525,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.6294471Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.8320136Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -3593,60 +3565,31 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:18.5389742Z",
+              "lastUpdateDateTime": "2022-06-17T21:35:03.0673166Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "sentiment": "positive",
+                    "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.99,
-                      "neutral": 0.01,
-                      "negative": 0.0
+                      "positive": 0.04,
+                      "neutral": 0.76,
+                      "negative": 0.2
                     },
                     "sentences": [
                       {
-                        "sentiment": "positive",
+                        "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.99,
-                          "neutral": 0.01,
-                          "negative": 0.0
+                          "positive": 0.04,
+                          "neutral": 0.76,
+                          "negative": 0.2
                         },
                         "offset": 0,
                         "length": 49,
                         "text": "Patient does not suffer from high blood pressure.",
-                        "targets": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 0,
-                            "length": 7,
-                            "text": "Patient",
-                            "relations": [
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/0/sentences/0/assessments/0"
-                              }
-                            ]
-                          }
-                        ],
-                        "assessments": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 17,
-                            "length": 6,
-                            "text": "suffer",
-                            "isNegated": true
-                          }
-                        ]
+                        "targets": [],
+                        "assessments": []
                       }
                     ],
                     "warnings": []
@@ -3655,17 +3598,17 @@
                     "id": "1",
                     "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.03,
-                      "neutral": 0.89,
-                      "negative": 0.08
+                      "positive": 0.0,
+                      "neutral": 0.99,
+                      "negative": 0.01
                     },
                     "sentences": [
                       {
                         "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.03,
-                          "neutral": 0.89,
-                          "negative": 0.08
+                          "positive": 0.0,
+                          "neutral": 0.99,
+                          "negative": 0.01
                         },
                         "offset": 0,
                         "length": 46,
@@ -3678,7 +3621,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2020-04-01"
+                "modelVersion": "2021-10-01"
               }
             }
           ]
@@ -3686,7 +3629,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/061cdda5-b41d-45b3-9411-f5f22e46cf71?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2eb86455-b89d-4e53-8e34-b3d2d67000e9?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3701,26 +3644,29 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "d18a4c82-b68e-48b3-84ad-3f82d87ff577",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "accd4c7b-a0b8-4b31-b858-d0a45a6fd025",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "e58b5ab8-53ad-4e36-a6e6-6abcde4f3cc9",
-        "Content-Length": "6716",
+        "apim-request-id": "7168700d-6afd-4757-97f7-72a6a13a0344",
+        "Content-Length": "6371",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:11:19 GMT",
+        "Date": "Fri, 17 Jun 2022 21:35:04 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "154"
+        "x-envoy-upstream-service-time": "131"
       },
       "ResponseBody": {
-        "jobId": "061cdda5-b41d-45b3-9411-f5f22e46cf71",
-        "lastUpdateDateTime": "2022-05-06T20:11:18Z",
-        "createdDateTime": "2022-05-06T20:11:10Z",
-        "expirationDateTime": "2022-05-07T20:11:10Z",
+        "jobId": "2eb86455-b89d-4e53-8e34-b3d2d67000e9",
+        "lastUpdateDateTime": "2022-06-17T21:35:03Z",
+        "createdDateTime": "2022-06-17T21:34:55Z",
+        "expirationDateTime": "2022-06-18T21:34:55Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -3731,7 +3677,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:11.2166664Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:55.6478953Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -4124,7 +4070,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.5872382Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.7429961Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -4177,7 +4123,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:12.6294471Z",
+              "lastUpdateDateTime": "2022-06-17T21:34:56.8320136Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -4217,60 +4163,31 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-05-06T20:11:18.5389742Z",
+              "lastUpdateDateTime": "2022-06-17T21:35:03.0673166Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "id": "0",
-                    "sentiment": "positive",
+                    "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.99,
-                      "neutral": 0.01,
-                      "negative": 0.0
+                      "positive": 0.04,
+                      "neutral": 0.76,
+                      "negative": 0.2
                     },
                     "sentences": [
                       {
-                        "sentiment": "positive",
+                        "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.99,
-                          "neutral": 0.01,
-                          "negative": 0.0
+                          "positive": 0.04,
+                          "neutral": 0.76,
+                          "negative": 0.2
                         },
                         "offset": 0,
                         "length": 49,
                         "text": "Patient does not suffer from high blood pressure.",
-                        "targets": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 0,
-                            "length": 7,
-                            "text": "Patient",
-                            "relations": [
-                              {
-                                "relationType": "assessment",
-                                "ref": "#/documents/0/sentences/0/assessments/0"
-                              }
-                            ]
-                          }
-                        ],
-                        "assessments": [
-                          {
-                            "sentiment": "positive",
-                            "confidenceScores": {
-                              "positive": 0.94,
-                              "negative": 0.06
-                            },
-                            "offset": 17,
-                            "length": 6,
-                            "text": "suffer",
-                            "isNegated": true
-                          }
-                        ]
+                        "targets": [],
+                        "assessments": []
                       }
                     ],
                     "warnings": []
@@ -4279,17 +4196,17 @@
                     "id": "1",
                     "sentiment": "neutral",
                     "confidenceScores": {
-                      "positive": 0.03,
-                      "neutral": 0.89,
-                      "negative": 0.08
+                      "positive": 0.0,
+                      "neutral": 0.99,
+                      "negative": 0.01
                     },
                     "sentences": [
                       {
                         "sentiment": "neutral",
                         "confidenceScores": {
-                          "positive": 0.03,
-                          "neutral": 0.89,
-                          "negative": 0.08
+                          "positive": 0.0,
+                          "neutral": 0.99,
+                          "negative": 0.01
                         },
                         "offset": 0,
                         "length": 46,
@@ -4302,7 +4219,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2020-04-01"
+                "modelVersion": "2021-10-01"
               }
             }
           ]
