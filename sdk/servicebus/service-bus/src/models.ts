@@ -146,12 +146,12 @@ export interface ServiceBusReceiverOptions {
    *
    * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
-   * 
+   *
    * **Example:**
-   *    
+   *
    *    If the message lock expires in 2 minutes and your message processing time is 8 minutes...
-   * 
-   *    Set maxAutoLockRenewalDurationInMs to 10 minutes, and the message lock will be automatically renewed for 4 times 
+   *
+   *    Set maxAutoLockRenewalDurationInMs to 10 minutes, and the message lock will be automatically renewed for 4 times
    *    (equivalent to having the message locked for 4 times its lock duration by leveraging the lock renewals).
    */
   maxAutoLockRenewalDurationInMs?: number;
@@ -195,7 +195,7 @@ export interface ReceiveMessagesOptions extends OperationOptionsBase {
 /**
  * Options when getting an iterable iterator from Service Bus.
  */
-export interface GetMessageIteratorOptions extends OperationOptionsBase { }
+export interface GetMessageIteratorOptions extends OperationOptionsBase {}
 
 /**
  * Options used when subscribing to a Service Bus queue or subscription.
@@ -253,15 +253,15 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
   receiveMode?: "peekLock" | "receiveAndDelete";
   /**
    * The maximum duration, in milliseconds, that the lock on the session will be renewed automatically by the client.
-   * 
+   *
    * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
-   * 
+   *
    * **Example:**
-   *    
+   *
    *    If the lock expires in 2 minutes and your processing time is 8 minutes...
-   * 
-   *    Set maxAutoLockRenewalDurationInMs to 10 minutes, and the lock will be automatically renewed about 4 times 
+   *
+   *    Set maxAutoLockRenewalDurationInMs to 10 minutes, and the lock will be automatically renewed about 4 times
    *    (equivalent to having the session locked for 4 times its lock duration by leveraging the lock renewals).
    */
   maxAutoLockRenewalDurationInMs?: number;
