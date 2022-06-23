@@ -146,6 +146,13 @@ export interface ServiceBusReceiverOptions {
    *
    * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
+   * 
+   * **Example:**
+   *    
+   *    If the message lock expires in 2 minutes and your message processing time is say, 8 minutes...
+   * 
+   *    Set maxAutoLockRenewalDurationInMs to 8 minutes, and the message lock will be automatically renewed for about 3 times 
+   *    (equivalent to having the message locked for 4 times its lock duration by leveraging the lock renewals).
    */
   maxAutoLockRenewalDurationInMs?: number;
   /**
@@ -245,10 +252,17 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    */
   receiveMode?: "peekLock" | "receiveAndDelete";
   /**
-   * The maximum duration in milliseconds
-   * until which, the lock on the session will be renewed automatically by the sdk.
+   * The maximum duration in milliseconds until which, the lock on the session will be renewed automatically by the sdk.
+   * 
    * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
+   * 
+   * **Example:**
+   *    
+   *    If the lock expires in 2 minutes and your processing time is say, 8 minutes...
+   * 
+   *    Set maxAutoLockRenewalDurationInMs to 8 minutes, and the lock will be automatically renewed for about 3 times 
+   *    (equivalent to having the session locked for 4 times its lock duration by leveraging the lock renewals).
    */
   maxAutoLockRenewalDurationInMs?: number;
   /**
