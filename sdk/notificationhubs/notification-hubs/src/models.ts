@@ -91,7 +91,7 @@ export interface AppleInstallation extends DeviceTokenInstallation {
 /**
  * Represents an Amazon Device Messaging (ADM) based installation.
  */
-export interface ADMInstallation extends DeviceTokenInstallation {
+export interface AdmInstallation extends DeviceTokenInstallation {
   /**
    * The platform for the installation.
    */
@@ -169,7 +169,7 @@ export interface BrowserInstallation extends InstallationCommon {
  */
 export type Installation =
   | AppleInstallation
-  | ADMInstallation
+  | AdmInstallation
   | BaiduInstallation
   | BrowserInstallation
   | FirebaseLegacyInstallation

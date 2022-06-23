@@ -21,13 +21,13 @@ import {
   RestError,
 } from "@azure/core-rest-pipeline";
 import { OperationOptions, ServiceClient } from "@azure/core-client";
+import { RegistrationDescription, registrationDescriptionParser } from "./serializers/registrationSerializer";
 import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
 } from "./utils/connectionStringUtils";
 import { SasTokenProvider } from "@azure/core-amqp";
 import { tracingClient } from "./utils/tracing";
-import { RegistrationDescription, registrationDescriptionParser } from "./serializers/registrationSerializer";
 
 const API_VERSION = "2020-06";
 
@@ -84,8 +84,12 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 204) {
-          // TODO: throw special error
-          throw new Error(`deleteInstallation failed with ${response.status}`);
+          throw new RestError(
+            `deleteInstallation failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
         }
 
         return this.parseNotificationResponse(response);
@@ -116,8 +120,12 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          // TODO: throw special errors
-          throw new Error(`getInstallation failed with ${response.status}`);
+          throw new RestError(
+            `getInstallation failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
         }
 
         const installation = JSON.parse(response.bodyAsText!) as Installation;
@@ -151,8 +159,12 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          // TODO: throw special errors
-          throw new Error(`createOrUpdateInstallation failed with ${response.status}`);
+          throw new RestError(
+            `createOrUpdateInstallation failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
         }
 
         return this.parseNotificationResponse(response);
@@ -187,8 +199,12 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          // TODO: throw special errors
-          throw new Error(`patchInstallation failed with ${response.status}`);
+          throw new RestError(
+            `patchInstallation failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
         }
 
         return this.parseNotificationResponse(response);
@@ -215,13 +231,53 @@ export class NotificationHubsClient extends ServiceClient {
         const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          // TODO: throw special errors
-          throw new Error(`getFeedbackContainerURL failed with ${response.status}`);
+          throw new RestError(
+            `getFeedbackContainerURL failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
         }
 
         return response.bodyAsText!;
       }
     );
+  }
+
+  /**
+   * Creates a new registration ID.
+   * @param options - The options for creating a new registration ID.
+   * @returns The newly created registration ID.
+   */
+  public async createRegistrationId(options: OperationOptions = {}): Promise<string> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-createRegistrationId",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += "/registrationIDs";
+
+        const headers = this.createHeaders();
+        headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
+
+        const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
+        const response = await this.sendRequest(request);
+        if (response.status !== 201) {
+          throw new RestError(
+            `createRegistrationId failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
+        }
+
+        // In the form: https://{namespace}.servicebus.windows.net/{NotificationHub}/registrations/<registrationId>
+        const locationHeader = response.headers.get("Location");
+        const locationUrl = new URL(locationHeader!);
+        const registrationId = locationUrl.pathname.split("/")[3];
+
+        return registrationId;
+      });
   }
 
   /**
@@ -393,7 +449,6 @@ export class NotificationHubsClient extends ServiceClient {
         if (pushHandle) {
           endpoint.searchParams.append("direct", "true");
 
-          // TODO: Validation?
           if (message.platform === "browser") {
             const browserHandle = pushHandle as BrowserPushChannel;
             headers.set("ServiceBusNotification-DeviceHandle", browserHandle.endpoint);
