@@ -252,7 +252,7 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    */
   receiveMode?: "peekLock" | "receiveAndDelete";
   /**
-   * The maximum duration in milliseconds until which, the lock on the session will be renewed automatically by the sdk.
+   * The maximum duration, in milliseconds, that the lock on the session will be renewed automatically by the client.
    * 
    * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
