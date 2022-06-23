@@ -170,7 +170,7 @@ export function mapSearchAddressOptions(
 ): SearchAddressOptionalParams {
   return {
     isTypeAhead: options.isTypeAhead,
-    countryFilter: options.countryFilter,
+    countryCodeFilter: options.countryCodeFilter,
     lat: options.coordinates?.latitude,
     lon: options.coordinates?.longitude,
     radiusInMeters: options.radiusInMeters,
@@ -313,7 +313,7 @@ export function mapSearchAddressBatchResult(
 ): BatchResult<SearchAddressResult> {
   const result: BatchResult<SearchAddressResult> = {
     totalRequests: internalResult.batchSummary.totalRequests,
-    successfulRequests: internalResult.batchSummary.successfulRequests,
+    totalSuccessfulRequests: internalResult.batchSummary.totalSuccessfulRequests,
     batchItems: internalResult.batchItems.map((item) => {
       if (item.statusCode === 200) {
         item;
@@ -337,7 +337,7 @@ export function mapReverseSearchAddressBatchResult(
 ): BatchResult<ReverseSearchAddressResult> {
   const result: BatchResult<ReverseSearchAddressResult> = {
     totalRequests: internalResult.batchSummary.totalRequests,
-    successfulRequests: internalResult.batchSummary?.successfulRequests,
+    totalSuccessfulRequests: internalResult.batchSummary?.totalSuccessfulRequests,
     batchItems: internalResult.batchItems.map((item) => {
       if (item.statusCode === 200) {
         return {
@@ -379,7 +379,7 @@ const clientToServiceNamesArray: Readonly<Record<string, string>> = {
   indexFilter: "idxSet",
   categoryFilter: "categorySet",
   brandFilter: "brandSet",
-  countryFilter: "countrySet",
+  countryCodeFilter: "countrySet",
   electricVehicleConnectorFilter: "connectorSet",
   roadUse: "roadUse",
 };
@@ -420,18 +420,18 @@ export function createFuzzySearchBatchRequest(requests: FuzzySearchRequest[]): B
   return {
     batchItems: requests.map((r) => {
       const options = r.options;
-      const { query, coordinates, countryFilter } = r.searchQuery as {
+      const { query, coordinates, countryCodeFilter } = r.searchQuery as {
         query: string;
         coordinates?: LatLon;
-        countryFilter?: string[];
+        countryCodeFilter?: string[];
       };
       // Add top level query parameters
       let queryText = `?query=${query}`;
       if (coordinates) {
         queryText += `&lat=${coordinates.latitude}&lon=${coordinates.longitude}`;
       }
-      if (countryFilter && countryFilter.length > 0) {
-        queryText += `&countrySet=${countryFilter.join(",")}`;
+      if (countryCodeFilter && countryCodeFilter.length > 0) {
+        queryText += `&countrySet=${countryCodeFilter.join(",")}`;
       }
 
       // Add optional query parameters

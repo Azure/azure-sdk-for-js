@@ -74,16 +74,20 @@ async function main() {
   console.log(fuzzyResult);
 
   console.log(" --- Perform a fuzzy search with country filter:");
-  fuzzyResult = await client.fuzzySearch({ query: "pizza", countryFilter: ["Fr"] });
+  fuzzyResult = await client.fuzzySearch({ query: "pizza", countryCodeFilter: ["Fr"] });
   console.log(fuzzyResult);
 
   console.log(" --- Perform a fuzzy search with coordinate and country filter:");
-  fuzzyResult = await client.fuzzySearch({ query: "pizza", coordinates, countryFilter: ["Fr"] });
+  fuzzyResult = await client.fuzzySearch({
+    query: "pizza",
+    coordinates,
+    countryCodeFilter: ["Fr"],
+  });
   console.log(fuzzyResult);
 
   // let's save geometry IDs from the fuzzy search for the getSearchPolygon example
   let geometryIds: string[] = [];
-  fuzzyResult = await client.fuzzySearch({ query: "Netherlands", countryFilter: ["NL"] });
+  fuzzyResult = await client.fuzzySearch({ query: "Netherlands", countryCodeFilter: ["NL"] });
   if (fuzzyResult.results) {
     fuzzyResult.results.forEach((res) => {
       if (res.dataSources && res.dataSources.geometry && res.dataSources.geometry.id) {
@@ -112,21 +116,21 @@ async function main() {
     })
   );
 
-  console.log(" --- Search POI with countryFilter:");
+  console.log(" --- Search POI with countryCodeFilter:");
   console.log(
     await client.searchPointOfInterest({
       query: searchPOIQuery,
-      countryFilter: ["fr"],
+      countryCodeFilter: ["fr"],
       ...searchPOIOptions,
     })
   );
 
-  console.log(" --- Search POI with coordinate and countryFilter:");
+  console.log(" --- Search POI with coordinate and countryCodeFilter:");
   console.log(
     await client.searchPointOfInterest({
       query: searchPOIQuery,
       coordinates: { latitude: 47.606038, longitude: -122.333345 },
-      countryFilter: ["fr"],
+      countryCodeFilter: ["fr"],
       ...searchPOIOptions,
     })
   );
@@ -145,21 +149,21 @@ async function main() {
     })
   );
 
-  console.log(" --- Search POI category with countryFilter:");
+  console.log(" --- Search POI category with countryCodeFilter:");
   console.log(
     await client.searchPointOfInterestCategory({
       query: searchPOICategoryQuery,
-      countryFilter: ["fr"],
+      countryCodeFilter: ["fr"],
       ...searchPOICategoryOptions,
     })
   );
 
-  console.log(" --- Search POI category with coordinates and countryFilter:");
+  console.log(" --- Search POI category with coordinates and countryCodeFilter:");
   console.log(
     await client.searchPointOfInterestCategory({
       query: searchPOICategoryQuery,
       coordinates: { latitude: 47.606038, longitude: -122.333345 },
-      countryFilter: ["fr"],
+      countryCodeFilter: ["fr"],
       ...searchPOICategoryOptions,
     })
   );
@@ -366,7 +370,7 @@ async function main() {
     {
       searchQuery: {
         query: "Statue Of Liberty",
-        countryFilter: ["us"],
+        countryCodeFilter: ["us"],
       },
       options: { top: 2 },
     },

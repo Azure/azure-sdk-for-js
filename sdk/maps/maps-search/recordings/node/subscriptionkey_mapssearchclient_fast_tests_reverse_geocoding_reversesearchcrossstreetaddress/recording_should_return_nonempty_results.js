@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .get('/search/address/reverse/crossStreet/json')
   .query(true)
-  .reply(200, {"summary":{"numResults":1,"queryTime":130},"addresses":[{"address":{"streetName":"新港路12巷 & 新港路, 114","crossStreet":"新港路, 114","municipalitySubdivision":"新屋區","municipality":"桃園市","countrySubdivision":"桃園市","postalCode":"327","countryCode":"TW","country":"台灣","countryCodeISO3":"TWN","freeformAddress":"新港路12巷 & 新港路, 新屋區, 桃園市 327","localName":"新屋區","street":"新港路12巷"},"position":"24.98891,121.0177"}]}, [ 'Content-Length',
+  .reply(200, {"summary":{"numResults":1,"queryTime":152},"addresses":[{"address":{"streetName":"新港路12巷 & 新港路, 114","crossStreet":"新港路, 114","municipalitySubdivision":"新屋區","municipality":"桃園市","countrySubdivision":"桃園市","postalCode":"327","countryCode":"TW","country":"台灣","countryCodeISO3":"TWN","freeformAddress":"新港路12巷 & 新港路, 新屋區, 桃園市 327","localName":"新屋區","street":"新港路12巷"},"position":"24.98891,121.0177"}]}, [ 'Content-Length',
   '483',
   'Content-Type',
   'application/json; charset=utf-8',
@@ -22,6 +22,6 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 74DA2777D82A4D2FAE11B7F0EBE68C75 Ref B: TYO01EDGE3011 Ref C: 2022-06-22T06:18:12Z',
+  'Ref A: 4EF7E5254A2D45FE8FE2F24F420807F9 Ref B: TYBEDGE0410 Ref C: 2022-06-23T09:21:55Z',
   'Date',
-  'Wed, 22 Jun 2022 06:18:11 GMT' ]);
+  'Thu, 23 Jun 2022 09:21:54 GMT' ]);

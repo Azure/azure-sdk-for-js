@@ -494,12 +494,12 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         });
         it("could take an array of fuzzy search requests as input", async function () {
           const batchRequests = [
-            { searchQuery: { query: "pizza", countryFilter: ["fr"] } },
+            { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
             { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
             {
               searchQuery: {
                 query: "pizza",
-                countryFilter: ["tw"],
+                countryCodeFilter: ["tw"],
                 coordinates: { latitude: 25, longitude: 121 },
               },
             },
@@ -516,7 +516,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
-          const batchRequests = [{ searchQuery: { query: "pizza", countryFilter: ["fr"] } }];
+          const batchRequests = [{ searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } }];
 
           const poller = await client.beginFuzzySearchBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
@@ -545,12 +545,12 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
 
         it("could retrieve a previous submitted batch results", async function () {
           const batchRequests = [
-            { searchQuery: { query: "pizza", countryFilter: ["fr"] } },
+            { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
             { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
             {
               searchQuery: {
                 query: "pizza",
-                countryFilter: ["tw"],
+                countryCodeFilter: ["tw"],
                 coordinates: { latitude: 25, longitude: 121 },
               },
             },
@@ -574,12 +574,12 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
 
         it("should obtain the same result as beginFuzzySearchBatch ", async function () {
           const batchRequests = [
-            { searchQuery: { query: "pizza", countryFilter: ["fr"] } },
+            { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
             { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
             {
               searchQuery: {
                 query: "pizza",
-                countryFilter: ["tw"],
+                countryCodeFilter: ["tw"],
                 coordinates: { latitude: 25, longitude: 121 },
               },
             },
