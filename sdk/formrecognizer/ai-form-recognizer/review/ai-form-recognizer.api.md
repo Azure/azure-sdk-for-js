@@ -831,11 +831,11 @@ export interface ListOperationsOptions extends OperationOptions {
 }
 
 // @public
-export type ModelInfo = ModelSummary & {
+export interface ModelInfo extends ModelSummary {
     docTypes?: {
         [propertyName: string]: DocTypeInfo;
     };
-};
+}
 
 // @public
 export interface ModelSchema {
