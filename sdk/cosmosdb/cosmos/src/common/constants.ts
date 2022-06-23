@@ -181,7 +181,7 @@ export const Constants = {
 
   //Platform
   CurrentVersion: "2020-07-15",
-  Namespace: "Azure.Cosmos",
+  AzureNamespace: "Azure.Cosmos",
   SDKName: "@azure/azure-cosmos-js",
   SDKVersion: "3.16.2",
 
