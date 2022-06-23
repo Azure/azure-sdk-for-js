@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TConfigs, TDeployConfig, TMiscConfig, TWidgetConfig, technologies } from "../scaffolding";
+import { TConfigs, TDeploymentConfig, TOptions, TWidgetConfig, technologies } from "../scaffolding";
 
 import inquirer from "inquirer";
 
@@ -42,7 +42,7 @@ export const validateWidgetConfig: TValidate<TWidgetConfig> = {
   },
 };
 
-export const validateDeployConfig: TValidate<TDeployConfig> = {
+export const validateDeployConfig: TValidate<TDeploymentConfig> = {
   resourceId: (input) => {
     const required = validateRequired()(input);
     if (required !== true) return required;
@@ -61,7 +61,7 @@ export const validateDeployConfig: TValidate<TDeployConfig> = {
   },
 };
 
-export const validateMiscConfig: TValidate<TMiscConfig> = {
+export const validateMiscConfig: TValidate<TOptions> = {
   openUrl: (input) => {
     if (!input) return true;
     return validateUrl()(input);
@@ -90,7 +90,7 @@ export const promptWidgetConfig = (partial: Partial<TWidgetConfig>): Promise<TWi
     partial
   );
 
-export const promptDeployConfig = (partial: Partial<TDeployConfig>): Promise<TDeployConfig> =>
+export const promptDeployConfig = (partial: Partial<TDeploymentConfig>): Promise<TDeploymentConfig> =>
   inquirer.prompt(
     [
       {
@@ -116,7 +116,7 @@ export const promptDeployConfig = (partial: Partial<TDeployConfig>): Promise<TDe
     partial
   );
 
-export const promptMiscConfig = (partial: Partial<TMiscConfig>): Promise<TMiscConfig> =>
+export const promptMiscConfig = (partial: Partial<TOptions>): Promise<TOptions> =>
   inquirer.prompt(
     [
       {

@@ -15,17 +15,23 @@ the [official Azure documentation](https://aka.ms/apimdocs/portal/customwidgets)
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge, and Firefox
 
 ### Prerequisites
 
 - An [Azure Subscription](https://azure.microsoft.com)
-- An [API Management](https://aka.ms/apimdocs/) resource.
-- Active [Developer portal](https://aka.ms/apimdocs/portal/).
+- An [API Management](https://aka.ms/apimdocs/) resource
+- Active [Developer portal](https://aka.ms/apimdocs/portal/)
 
 ### Create your first Custom widget
 
 Navigate to [Custom widgets for Developer portal documentation](https://aka.ms/apimdocs/portal/customwidgets) to learn how to create and manage Custom widgets.
+
+## Key concepts
+
+Package contains template files and a function to generate Custom widgets for the API Management services' Developer Portal. In general, it's not meant to be imported to other projects, just used via [npx](https://docs.npmjs.com/cli/v7/commands/npx). 
+
+This package should not be confused with `@azure/api-management-custom-widgets-tools` package, which provides tools for communication between scaffolded widgets and the Developer Portal.
 
 ## Contributing
 

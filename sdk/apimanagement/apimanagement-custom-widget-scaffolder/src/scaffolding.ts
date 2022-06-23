@@ -28,7 +28,7 @@ export interface TWidgetConfig {
 }
 
 /** Data needed for deployment. */
-export interface TDeployConfig {
+export interface TDeploymentConfig {
   /** Management API endpoint to use (e.g. management.azure.com). */
   managementApiEndpoint: string;
   /** resourceId of your APIM service, must be in this format: subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ApiManagement/service/<service-name> */
@@ -38,12 +38,12 @@ export interface TDeployConfig {
 }
 
 /** Miscellaneous data for scaffolding of a custom widget which will not be stored in DevPortal. */
-export interface TMiscConfig {
+export interface TOptions {
   /** The URL to open after development server of the widget is started (URL of your Developer Portal). If you don't want to use this feature, set it to `false`. If you want to open just the widget page, set it to `true`. */
   openUrl?: string;
 }
 
-export type TConfigs = TWidgetConfig | TDeployConfig | TMiscConfig;
+export type TConfigs = TWidgetConfig | TDeploymentConfig | TOptions;
 
 /**
  * Converts user defined name of a custom widget to a unique ID, which is in context of Dev Portal known as "name".

@@ -15,8 +15,8 @@ export { OVERRIDE_PORT_KEY, OVERRIDE_DEFAULT_PORT } from "./scaffolding";
 export { generateProject } from "./generateProject";
 export type {
   TWidgetConfig as TCustomWidgetCommonConfig,
-  TDeployConfig,
-  TMiscConfig,
+  TDeploymentConfig,
+  TOptions,
   // TScaffoldSourceControl,
   TScaffoldTech,
 } from "./scaffolding";

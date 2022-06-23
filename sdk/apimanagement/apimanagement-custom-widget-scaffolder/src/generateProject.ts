@@ -4,8 +4,8 @@
 import {
   OVERRIDE_DEFAULT_PORT,
   OVERRIDE_PORT_KEY,
-  TDeployConfig,
-  TMiscConfig,
+  TDeploymentConfig,
+  TOptions,
   TWidgetConfig,
   displayNameToName,
   widgetFolderName,
@@ -21,15 +21,15 @@ const templateSuffix = ".mustache";
  * Generates a scaffold project of Custom widget for API Managements' Dev Portal.
  *
  * @param widgetConfig - JSON object with data required by DevPortal to handle a widget integration.
- * @param deployConfig - JSON object with data for deployment.
- * @param miscConfig - JSON object with other data, which will not be stored in the DevPortal.
+ * @param deploymentConfig - JSON object with data for deployment.
+ * @param options - JSON object with other data, which will not be stored in the DevPortal.
  */
 export async function generateProject(
   widgetConfig: TWidgetConfig,
-  deployConfig: TDeployConfig,
-  miscConfig: TMiscConfig = {}
+  deploymentConfig: TDeploymentConfig,
+  options: TOptions = {}
 ): Promise<void> {
-  const { openUrl } = miscConfig;
+  const { openUrl } = options;
   const openUrlParsed = openUrl ? new URL(openUrl) : null;
   if (openUrlParsed) {
     openUrlParsed.searchParams.append(OVERRIDE_PORT_KEY, String(OVERRIDE_DEFAULT_PORT));
@@ -50,7 +50,7 @@ export async function generateProject(
         name,
         displayName: widgetConfig.displayName,
         config: JSON.stringify({ ...widgetConfig, name }, null, "\t"),
-        configDeploy: JSON.stringify(deployConfig, null, "\t"),
+        configDeploy: JSON.stringify(deploymentConfig, null, "\t"),
         serverSettings: JSON.stringify(serverSettings, null, "\t"),
       });
     }

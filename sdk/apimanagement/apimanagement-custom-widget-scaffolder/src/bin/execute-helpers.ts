@@ -21,8 +21,8 @@ export const extractConfigFromArgs = <TConfig extends TConfigs>(
     const response = validate(value);
 
     if (response === true) {
-      if (value != null) configPartial[key as keyof typeof validateConfig] = value;
-    } else if (value == null) {
+      if (value !== null && value !== undefined) configPartial[key as keyof typeof validateConfig] = value;
+    } else if (value === null || value === undefined) {
       missing = true;
     } else {
       missing = true;
