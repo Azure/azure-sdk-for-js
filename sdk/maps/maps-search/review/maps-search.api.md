@@ -68,8 +68,8 @@ export interface BatchPollerOptions {
 // @public
 export interface BatchResult<TResult> {
     readonly batchItems: BatchItem<TResult>[];
-    readonly successfulRequests: number;
     readonly totalRequests: number;
+    readonly totalSuccessfulRequests: number;
 }
 
 // @public
@@ -497,7 +497,7 @@ export type SearchAddressBatchOptions = OperationOptions;
 // @public
 export interface SearchAddressOptions extends SearchAddressBaseOptions {
     coordinates?: LatLon;
-    countryFilter?: string[];
+    countryCodeFilter?: string[];
     entityType?: GeographicEntityType;
 }
 
@@ -589,7 +589,7 @@ export interface SearchInsideGeometryOptions extends SearchGeometryBaseOptions, 
 
 // @public
 export interface SearchNearbyPointOfInterestOptions extends SearchBaseOptions, SearchExtraFilterOptions, OperationOptions {
-    countryFilter?: string[];
+    countryCodeFilter?: string[];
     radiusInMeters?: number;
 }
 
@@ -610,7 +610,7 @@ export type SearchQuery = {
     coordinates: LatLon;
 } | {
     query: string;
-    countryFilter: string[];
+    countryCodeFilter: string[];
 };
 
 // @public

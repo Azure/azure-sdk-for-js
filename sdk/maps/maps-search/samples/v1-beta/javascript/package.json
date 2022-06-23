@@ -1,5 +1,5 @@
 {
-  "name": "azure-maps-search-samples-js-beta",
+  "name": "@azure-samples/maps-search-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Maps Search client library samples for JavaScript (Beta)",

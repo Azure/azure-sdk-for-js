@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "07e7c9b557709f3be9a42b143f518305";
+module.exports.hash = "9fe686b2310f88fec395ff0002a5443a";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,21 +22,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4e19c452-b24f-41bb-a0c1-83b11bb70100',
+  '6ddf5010-1c02-4d4c-af48-e96003b30400',
   'x-ms-ests-server',
-  '2.1.13006.6 - SEASLR1 ProdSlices',
+  '2.1.13081.8 - SEASLR1 ProdSlices',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=At3smrXSIjFEmVO6bSluE7c; expires=Fri, 22-Jul-2022 06:18:36 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Au9utNXX6StLiq0alCtlW74; expires=Sat, 23-Jul-2022 09:22:19 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrjmtYICxiV56-Joj5gAbtdOOqBr9qwalP9wPsC8-ySye42xFzTGkxqLQiAU20ZiERo5S-7d1jixiyPXDBwRBw01Hmly8VqxqRgXzRNVLhMPq2gjfXRZ1kBAyar6oeuc-h-mamaG2FvmwvcQjP9RRfECQPPBLQ2RlCNMv1LloB7tMgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrhNyEExJxjjW2DWgmHdKPiB5hffUgQCEJkXXhpY0b4O2wXE9pdy9mJ9OkPBiqpGUOOHDlcQOQ0_FGSundfYXUEsb0MWWhP4qikP1hFMwH6fM-rLrmywgky6SkwJkijudgv_r6kuYHoTxN8I7vaF5vaSPJAdWgQZzNDdx5kCfR_fsgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:35 GMT',
+  'Thu, 23 Jun 2022 09:22:19 GMT',
   'Content-Length',
   '980' ]);
 
@@ -57,26 +57,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e514ef55-b07c-4943-bb40-6065e7f1c500',
+  'fb7d94f1-a341-4fef-9e97-0b7bfd192e00',
   'x-ms-ests-server',
-  '2.1.12890.7 - SEASLR1 ProdSlices',
+  '2.1.13006.6 - KRSLR1 ProdSlices',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=Aqv3yvzio1RPsZiTJKIRGsg; expires=Fri, 22-Jul-2022 06:18:36 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AmIb1tsFxZVMrd7oSKhqSlU; expires=Sat, 23-Jul-2022 09:22:19 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrKZHBEAR3BbTM_X4h7ZxqmYibCEoDV9oAdm6kCpQI2KRCY6yV75Xqd7ncNdDwTpt_OMg7BRikJq6OWHxGgR0l1Vu20UcH-GNspEgxaIqPxGQqLrALYO6QEqSX8WB2KWNPqnvXe4cTsM3Y4HSnns_FYawJRL6zXqzXBpbddTte6WogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrUsFoWfPr1BpyzYiP21th4wqlyOE4YFTp9MMzv9L_ATQZC73pEx8TRahoWeWRRG5GI4zWP4RUNaz5gVn-g2i42KAendKouDX7-vvL6CulPyvH2fBuXFJDZ4w_JlCkSy69H8eCtwq0En9efPs8FrgDy_S6NJS-AuNn2qu6qx0_7zIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:35 GMT',
+  'Thu, 23 Jun 2022 09:22:19 GMT',
   'Content-Length',
   '1753' ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=b0b9e4b5-f925-4695-8dc7-8e8123eb814c&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=59b58043-003d-4ddb-b635-6fe76a8aa4c6&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -92,21 +92,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '6a26cee2-11c3-4f26-867d-1450e214be00',
+  '5a9e82b2-59cc-4726-a753-07b1cb722200',
   'x-ms-ests-server',
-  '2.1.12890.7 - SEASLR1 ProdSlices',
+  '2.1.13006.6 - KRC ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=AtAjyB-OCx1KgzIjnRIXyYI; expires=Fri, 22-Jul-2022 06:18:36 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AskMbTJBstFChccuOgXWif-r4fIWAQAAAMsnRtoOAAAA; expires=Sat, 23-Jul-2022 09:22:19 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:36 GMT',
+  'Thu, 23 Jun 2022 09:22:19 GMT',
   'Content-Length',
   '1319' ]);
 
@@ -118,7 +118,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'Location',
-  'https://atlas.microsoft.com/search/fuzzy/batch/b948cd09-2173-400c-952a-306a52a7f3dc?api-version=1.0',
+  'https://atlas.microsoft.com/search/fuzzy/batch/71031740-fd88-4333-9ffe-6fd494060756?api-version=1.0',
   'x-ms-azuremaps-region',
   'West US 2',
   'X-Content-Type-Options',
@@ -128,14 +128,14 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: EBCE950604C841D8ADE36A7D5C2E1FED Ref B: TYO01EDGE3011 Ref C: 2022-06-22T06:18:36Z',
+  'Ref A: 4689AA54C36F4323816048A60E1A63BE Ref B: TYO01EDGE3415 Ref C: 2022-06-23T09:22:20Z',
   'Date',
-  'Wed, 22 Jun 2022 06:18:36 GMT' ]);
+  'Thu, 23 Jun 2022 09:22:19 GMT' ]);
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
-  .get('/search/fuzzy/batch/b948cd09-2173-400c-952a-306a52a7f3dc')
+  .get('/search/fuzzy/batch/71031740-fd88-4333-9ffe-6fd494060756')
   .query(true)
-  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"query":"pizza","queryType":"NON_NEAR","queryTime":7,"numResults":10,"offset":0,"totalResults":19878,"fuzzyLevel":1},"results":[{"type":"POI","id":"250001000222461","score":2.1454398632,"info":"search:ta:250001000222461-FR","poi":{"name":"Mona Lisa","phone":"+33 2 97 64 71 10","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"35","streetName":"Rue du Couëdic","municipality":"Lorient","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Bretagne","postalCode":"56100","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"35 Rue du Couëdic, 56100 Lorient","localName":"Lorient"},"position":{"lat":47.75145,"lon":-3.3624},"viewport":{"topLeftPoint":{"lat":47.75235,"lon":-3.36374},"btmRightPoint":{"lat":47.75055,"lon":-3.36106}},"entryPoints":[{"type":"main","position":{"lat":47.75144,"lon":-3.36255}}]},{"type":"POI","id":"250001000582354","score":2.1454398632,"info":"search:ta:250001000582354-FR","poi":{"name":"Pizza et Bocconi","phone":"+33 2 97 21 97 66","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"12","streetName":"Rue Paul Bert","municipality":"Lorient","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Bretagne","postalCode":"56100","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"12 Rue Paul Bert, 56100 Lorient","localName":"Lorient"},"position":{"lat":47.74713,"lon":-3.36129},"viewport":{"topLeftPoint":{"lat":47.74803,"lon":-3.36263},"btmRightPoint":{"lat":47.74623,"lon":-3.35995}},"entryPoints":[{"type":"main","position":{"lat":47.74711,"lon":-3.36116}}]},{"type":"POI","id":"250009010923164","score":2.1454398632,"info":"search:ta:250009010923164-FR","poi":{"name":"Crousti Pizza","phone":"+33 2 97 01 39 33","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetName":"Route de Bignan","municipality":"Saint-Jean-Brévelay","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Bretagne","postalCode":"56660","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"Route de Bignan, 56660 Saint-Jean-Brévelay","localName":"Saint-Jean-Brévelay"},"position":{"lat":47.84899,"lon":-2.72593},"viewport":{"topLeftPoint":{"lat":47.84989,"lon":-2.72727},"btmRightPoint":{"lat":47.84809,"lon":-2.72459}},"entryPoints":[{"type":"main","position":{"lat":47.84903,"lon":-2.72581}}]},{"type":"POI","id":"250009008079045","score":2.1454398632,"info":"search:ta:250009008079045-FR","poi":{"name":"Ty Pizz","phone":"+33 2 98 87 75 78","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"6","streetName":"Rue des Alliés","municipality":"Plonéour-Lanvern","countrySecondarySubdivision":"Finistère","countrySubdivision":"Bretagne","postalCode":"29720","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"6 Rue des Alliés, 29720 Plonéour-Lanvern","localName":"Plonéour-Lanvern"},"position":{"lat":47.90321,"lon":-4.28153},"viewport":{"topLeftPoint":{"lat":47.90411,"lon":-4.28287},"btmRightPoint":{"lat":47.90231,"lon":-4.28019}},"entryPoints":[{"type":"main","position":{"lat":47.90328,"lon":-4.2816}}]},{"type":"POI","id":"250009000113094","score":2.1454398632,"info":"search:ta:250009000113094-FR","poi":{"name":"Mad Eo Pizz","phone":"+33 2 98 58 03 48","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"48","streetName":"Rue Raymond Le Corre","municipality":"Guilvinec","countrySecondarySubdivision":"Finistère","countrySubdivision":"Bretagne","postalCode":"29730","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"48 Rue Raymond Le Corre, 29730 Guilvinec","localName":"Guilvinec"},"position":{"lat":47.79819,"lon":-4.27974},"viewport":{"topLeftPoint":{"lat":47.79919,"lon":-4.28123},"btmRightPoint":{"lat":47.79719,"lon":-4.27825}},"entryPoints":[{"type":"main","position":{"lat":47.79719,"lon":-4.27982}}]},{"type":"POI","id":"250009036639842","score":2.1454398632,"info":"search:ta:250009036639842-FR","poi":{"name":"Bella Pizza","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"12","streetName":"Rue du Calvaire","municipality":"Plouescat","countrySecondarySubdivision":"Finistère","countrySubdivision":"Bretagne","postalCode":"29430","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"12 Rue du Calvaire, 29430 Plouescat","localName":"Plouescat"},"position":{"lat":48.65604,"lon":-4.17592},"viewport":{"topLeftPoint":{"lat":48.65694,"lon":-4.17728},"btmRightPoint":{"lat":48.65514,"lon":-4.17456}},"entryPoints":[{"type":"main","position":{"lat":48.65616,"lon":-4.17561}}]},{"type":"POI","id":"250009013216030","score":2.1454398632,"info":"search:ta:250009013216030-FR","poi":{"name":"Pizza Fredo","phone":"+33 2 99 37 66 66","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"30","streetName":"Rue du Docteur Laennec","municipality":"Merlevenez","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Bretagne","postalCode":"56700","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"30 Rue du Docteur Laennec, 56700 Merlevenez","localName":"Merlevenez"},"position":{"lat":47.74218,"lon":-3.2374},"viewport":{"topLeftPoint":{"lat":47.74308,"lon":-3.23874},"btmRightPoint":{"lat":47.74128,"lon":-3.23606}},"entryPoints":[{"type":"main","position":{"lat":47.74236,"lon":-3.2369}},{"type":"main","position":{"lat":47.74226,"lon":-3.23743}}]},{"type":"POI","id":"250009013477553","score":2.1454398632,"info":"search:ta:250009013477553-FR","poi":{"name":"Pizzeria Beg en","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetName":"Rue des Menhirs","municipality":"Erdeven","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Brittany","postalCode":"56410","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"Rue des Menhirs, 56410 Erdeven","localName":"Erdeven"},"position":{"lat":47.64062,"lon":-3.1549},"viewport":{"topLeftPoint":{"lat":47.64152,"lon":-3.15623},"btmRightPoint":{"lat":47.63972,"lon":-3.15357}},"entryPoints":[{"type":"main","position":{"lat":47.64058,"lon":-3.15502}}]},{"type":"POI","id":"250009036596719","score":2.1454398632,"info":"search:ta:250009036596719-FR","poi":{"name":"Breizh Pizz","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"25","streetName":"Rue du Bac","municipalitySubdivision":"Sainte-Marine","municipality":"Combrit","countrySecondarySubdivision":"Finistère","countrySubdivision":"Bretagne","postalCode":"29120","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"25 Rue du Bac, 29120 Combrit","localName":"Combrit"},"position":{"lat":47.87384,"lon":-4.11896},"viewport":{"topLeftPoint":{"lat":47.87474,"lon":-4.1203},"btmRightPoint":{"lat":47.87294,"lon":-4.11762}},"entryPoints":[{"type":"main","position":{"lat":47.87393,"lon":-4.11883}}]},{"type":"POI","id":"250009009865180","score":2.1454398632,"info":"search:ta:250009009865180-FR","poi":{"name":"Pizz et Pasta","phone":"+33 2 97 27 41 53","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"33","streetName":"Rue du Fil","municipality":"Pontivy","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Bretagne","postalCode":"56300","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"33 Rue du Fil, 56300 Pontivy","localName":"Pontivy"},"position":{"lat":48.06716,"lon":-2.96396},"viewport":{"topLeftPoint":{"lat":48.06806,"lon":-2.96531},"btmRightPoint":{"lat":48.06626,"lon":-2.96261}},"entryPoints":[{"type":"main","position":{"lat":48.0671,"lon":-2.96405}}]}]}}],"summary":{"successfulRequests":1,"totalRequests":1}}, [ 'Transfer-Encoding',
+  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"query":"pizza","queryType":"NON_NEAR","queryTime":7,"numResults":10,"offset":0,"totalResults":19878,"fuzzyLevel":1},"results":[{"type":"POI","id":"250001000222461","score":2.1454398632,"info":"search:ta:250001000222461-FR","poi":{"name":"Mona Lisa","phone":"+33 2 97 64 71 10","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"35","streetName":"Rue du Couëdic","municipality":"Lorient","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Bretagne","postalCode":"56100","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"35 Rue du Couëdic, 56100 Lorient","localName":"Lorient"},"position":{"lat":47.75145,"lon":-3.3624},"viewport":{"topLeftPoint":{"lat":47.75235,"lon":-3.36374},"btmRightPoint":{"lat":47.75055,"lon":-3.36106}},"entryPoints":[{"type":"main","position":{"lat":47.75144,"lon":-3.36255}}]},{"type":"POI","id":"250001000582354","score":2.1454398632,"info":"search:ta:250001000582354-FR","poi":{"name":"Pizza et Bocconi","phone":"+33 2 97 21 97 66","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"12","streetName":"Rue Paul Bert","municipality":"Lorient","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Bretagne","postalCode":"56100","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"12 Rue Paul Bert, 56100 Lorient","localName":"Lorient"},"position":{"lat":47.74713,"lon":-3.36129},"viewport":{"topLeftPoint":{"lat":47.74803,"lon":-3.36263},"btmRightPoint":{"lat":47.74623,"lon":-3.35995}},"entryPoints":[{"type":"main","position":{"lat":47.74711,"lon":-3.36116}}]},{"type":"POI","id":"250009010923164","score":2.1454398632,"info":"search:ta:250009010923164-FR","poi":{"name":"Crousti Pizza","phone":"+33 2 97 01 39 33","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetName":"Route de Bignan","municipality":"Saint-Jean-Brévelay","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Bretagne","postalCode":"56660","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"Route de Bignan, 56660 Saint-Jean-Brévelay","localName":"Saint-Jean-Brévelay"},"position":{"lat":47.84899,"lon":-2.72593},"viewport":{"topLeftPoint":{"lat":47.84989,"lon":-2.72727},"btmRightPoint":{"lat":47.84809,"lon":-2.72459}},"entryPoints":[{"type":"main","position":{"lat":47.84903,"lon":-2.72581}}]},{"type":"POI","id":"250009008079045","score":2.1454398632,"info":"search:ta:250009008079045-FR","poi":{"name":"Ty Pizz","phone":"+33 2 98 87 75 78","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"6","streetName":"Rue des Alliés","municipality":"Plonéour-Lanvern","countrySecondarySubdivision":"Finistère","countrySubdivision":"Bretagne","postalCode":"29720","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"6 Rue des Alliés, 29720 Plonéour-Lanvern","localName":"Plonéour-Lanvern"},"position":{"lat":47.90321,"lon":-4.28153},"viewport":{"topLeftPoint":{"lat":47.90411,"lon":-4.28287},"btmRightPoint":{"lat":47.90231,"lon":-4.28019}},"entryPoints":[{"type":"main","position":{"lat":47.90328,"lon":-4.2816}}]},{"type":"POI","id":"250009000113094","score":2.1454398632,"info":"search:ta:250009000113094-FR","poi":{"name":"Mad Eo Pizz","phone":"+33 2 98 58 03 48","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"48","streetName":"Rue Raymond Le Corre","municipality":"Guilvinec","countrySecondarySubdivision":"Finistère","countrySubdivision":"Bretagne","postalCode":"29730","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"48 Rue Raymond Le Corre, 29730 Guilvinec","localName":"Guilvinec"},"position":{"lat":47.79819,"lon":-4.27974},"viewport":{"topLeftPoint":{"lat":47.79919,"lon":-4.28123},"btmRightPoint":{"lat":47.79719,"lon":-4.27825}},"entryPoints":[{"type":"main","position":{"lat":47.79719,"lon":-4.27982}}]},{"type":"POI","id":"250009036639842","score":2.1454398632,"info":"search:ta:250009036639842-FR","poi":{"name":"Bella Pizza","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"12","streetName":"Rue du Calvaire","municipality":"Plouescat","countrySecondarySubdivision":"Finistère","countrySubdivision":"Bretagne","postalCode":"29430","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"12 Rue du Calvaire, 29430 Plouescat","localName":"Plouescat"},"position":{"lat":48.65604,"lon":-4.17592},"viewport":{"topLeftPoint":{"lat":48.65694,"lon":-4.17728},"btmRightPoint":{"lat":48.65514,"lon":-4.17456}},"entryPoints":[{"type":"main","position":{"lat":48.65616,"lon":-4.17561}}]},{"type":"POI","id":"250009013216030","score":2.1454398632,"info":"search:ta:250009013216030-FR","poi":{"name":"Pizza Fredo","phone":"+33 2 99 37 66 66","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"30","streetName":"Rue du Docteur Laennec","municipality":"Merlevenez","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Bretagne","postalCode":"56700","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"30 Rue du Docteur Laennec, 56700 Merlevenez","localName":"Merlevenez"},"position":{"lat":47.74218,"lon":-3.2374},"viewport":{"topLeftPoint":{"lat":47.74308,"lon":-3.23874},"btmRightPoint":{"lat":47.74128,"lon":-3.23606}},"entryPoints":[{"type":"main","position":{"lat":47.74236,"lon":-3.2369}},{"type":"main","position":{"lat":47.74226,"lon":-3.23743}}]},{"type":"POI","id":"250009013477553","score":2.1454398632,"info":"search:ta:250009013477553-FR","poi":{"name":"Pizzeria Beg en","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetName":"Rue des Menhirs","municipality":"Erdeven","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Brittany","postalCode":"56410","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"Rue des Menhirs, 56410 Erdeven","localName":"Erdeven"},"position":{"lat":47.64062,"lon":-3.1549},"viewport":{"topLeftPoint":{"lat":47.64152,"lon":-3.15623},"btmRightPoint":{"lat":47.63972,"lon":-3.15357}},"entryPoints":[{"type":"main","position":{"lat":47.64058,"lon":-3.15502}}]},{"type":"POI","id":"250009036596719","score":2.1454398632,"info":"search:ta:250009036596719-FR","poi":{"name":"Breizh Pizz","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"25","streetName":"Rue du Bac","municipalitySubdivision":"Sainte-Marine","municipality":"Combrit","countrySecondarySubdivision":"Finistère","countrySubdivision":"Bretagne","postalCode":"29120","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"25 Rue du Bac, 29120 Combrit","localName":"Combrit"},"position":{"lat":47.87384,"lon":-4.11896},"viewport":{"topLeftPoint":{"lat":47.87474,"lon":-4.1203},"btmRightPoint":{"lat":47.87294,"lon":-4.11762}},"entryPoints":[{"type":"main","position":{"lat":47.87393,"lon":-4.11883}}]},{"type":"POI","id":"250009009865180","score":2.1454398632,"info":"search:ta:250009009865180-FR","poi":{"name":"Pizz et Pasta","phone":"+33 2 97 27 41 53","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"33","streetName":"Rue du Fil","municipality":"Pontivy","countrySecondarySubdivision":"Morbihan","countrySubdivision":"Bretagne","postalCode":"56300","countryCode":"FR","country":"France","countryCodeISO3":"FRA","freeformAddress":"33 Rue du Fil, 56300 Pontivy","localName":"Pontivy"},"position":{"lat":48.06716,"lon":-2.96396},"viewport":{"topLeftPoint":{"lat":48.06806,"lon":-2.96531},"btmRightPoint":{"lat":48.06626,"lon":-2.96261}},"entryPoints":[{"type":"main","position":{"lat":48.0671,"lon":-2.96405}}]}]}}],"summary":{"successfulRequests":1,"totalRequests":1}}, [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json',
@@ -148,6 +148,6 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: AFA80213FFE7411BB491F2632873A249 Ref B: TYAEDGE0916 Ref C: 2022-06-22T06:18:37Z',
+  'Ref A: 0E73FA9DEA594219B427603537C50BF6 Ref B: TYBEDGE0410 Ref C: 2022-06-23T09:22:20Z',
   'Date',
-  'Wed, 22 Jun 2022 06:18:37 GMT' ]);
+  'Thu, 23 Jun 2022 09:22:19 GMT' ]);

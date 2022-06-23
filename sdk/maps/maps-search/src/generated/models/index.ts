@@ -712,7 +712,7 @@ export interface BatchResultSummary {
    * Number of successful requests in the batch
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly successfulRequests: number;
+  readonly totalSuccessfulRequests: number;
   /**
    * Total number of requests in the batch
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1298,7 +1298,7 @@ export interface SearchFuzzySearchOptionalParams
    */
   categoryFilter?: number[];
   /** Comma separated string of country codes, e.g. FR,ES. This will limit the search to the specified countries */
-  countryFilter?: string[];
+  countryCodeFilter?: string[];
   /** Latitude where results should be biased. E.g. 37.337 */
   lat?: number;
   /** Longitude where results should be biased. E.g. -121.89 */
@@ -1460,7 +1460,7 @@ export interface SearchSearchPointOfInterestOptionalParams
    */
   categoryFilter?: number[];
   /** Comma separated string of country codes, e.g. FR,ES. This will limit the search to the specified countries */
-  countryFilter?: string[];
+  countryCodeFilter?: string[];
   /** Latitude where results should be biased. E.g. 37.337 */
   lat?: number;
   /** Longitude where results should be biased. E.g. -121.89 */
@@ -1563,7 +1563,7 @@ export interface SearchSearchNearbyPointOfInterestOptionalParams
    */
   categoryFilter?: number[];
   /** Comma separated string of country codes, e.g. FR,ES. This will limit the search to the specified countries */
-  countryFilter?: string[];
+  countryCodeFilter?: string[];
   /** The radius in meters to for the results to be constrained to the defined area, Min value is 1, Max Value is 50000. */
   radiusInMeters?: number;
   /**
@@ -1667,7 +1667,7 @@ export interface SearchSearchPointOfInterestCategoryOptionalParams
    */
   categoryFilter?: number[];
   /** Comma separated string of country codes, e.g. FR,ES. This will limit the search to the specified countries */
-  countryFilter?: string[];
+  countryCodeFilter?: string[];
   /** Latitude where results should be biased. E.g. 37.337 */
   lat?: number;
   /** Longitude where results should be biased. E.g. -121.89 */
@@ -1790,7 +1790,7 @@ export interface SearchSearchAddressOptionalParams
   /** Starting offset of the returned results within the full result set. Default: 0, minimum: 0 and maximum: 1900 */
   skip?: number;
   /** Comma separated string of country codes, e.g. FR,ES. This will limit the search to the specified countries */
-  countryFilter?: string[];
+  countryCodeFilter?: string[];
   /** Latitude where results should be biased. E.g. 37.337 */
   lat?: number;
   /** Longitude where results should be biased. E.g. -121.89 */

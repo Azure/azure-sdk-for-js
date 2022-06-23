@@ -22,21 +22,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4e19c452-b24f-41bb-a0c1-83b17cb70100',
+  'cce39351-fc4a-4401-9788-4abfc51c0400',
   'x-ms-ests-server',
-  '2.1.13006.6 - SEASLR1 ProdSlices',
+  '2.1.13081.8 - SEASLR2 ProdSlices',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=AmRsjZrTlc1EoXMyL8odl1o; expires=Fri, 22-Jul-2022 06:18:43 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuUVUN2U6GlGvnDFx6XJ3BI; expires=Sat, 23-Jul-2022 09:22:26 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrw9IRbzc_gbgCu3iKcK0z-qEosS2HrB6O3Qhnih-afjgrYrIpI7qQau9VDvvxiNstj7MPF_Tm1meZsa5oluVo9wsNDvsJZ8DGM0s2pTJ5uV2BO4FyENn6VcaBZOgm5iDzDPxg3MkwT5iIhgXLOATyfOz54hNd3RD_XS8ynxafzuEgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr8HACELFiAL1nhL0gef3i3MyfglkU0PPkAnpWtKF8YhtuLLV1kg3YE0IBHstzDdnAGE1cvuEegwKtOlrLNmZHb7vWKCjoHH8ORo0AEV6f2xMb7F219g1STajgr0-myGWTDTHLq6o2spXC1_yqsXzZBpu2LE7QzQQ-_rq0o_218zQgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:43 GMT',
+  'Thu, 23 Jun 2022 09:22:25 GMT',
   'Content-Length',
   '980' ]);
 
@@ -57,21 +57,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '592e3457-3a09-418c-a4f7-5017974c1200',
+  '9e16c158-76b0-442f-8313-648e41da2300',
   'x-ms-ests-server',
-  '2.1.13006.6 - KRSLR1 ProdSlices',
+  '2.1.13006.6 - SEASLR2 ProdSlices',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=AgKdolaux3lGvna7WUUAZGk; expires=Fri, 22-Jul-2022 06:18:44 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aon4_uwNCDFKvZeJp7kzfKA; expires=Sat, 23-Jul-2022 09:22:26 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrhneP3Vs7Un5t0Rxg8YlmZDp1XPWUNs6spl4-qiA-RyDRYArh_h62b_FcyRxM936ggHpslYEP_f1Fa1KEH9lGtR4PL1Dk6IpTbXevSnTK1PPE_LRQ30FKzF36FzgKTIP45-qQEd7uOMCY9vZa6jABXkQ4XPyOcdyhkWTSPckYxS4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevruIN_tQkd4u5dpttU-d_Q9WxuF1nywwBtyfYT38RloIL1NrUobCXWUMb9x2PiOcGRbRZQ8gCHIyRxOWD5yFQz0ZE-AjOXPEVUhTvCwjufpnL95jdpby7PXpVeSEnUNVxTJkcI-m7sAQ3U7vwojlaW-boFuywVkjiifLFx3Kg1ipsgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:43 GMT',
+  'Thu, 23 Jun 2022 09:22:26 GMT',
   'Content-Length',
   '1753' ]);
 
@@ -92,26 +92,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e514ef55-b07c-4943-bb40-6065b6f3c500',
+  '6343fab0-8edc-45d3-82e9-194c18e02200',
   'x-ms-ests-server',
-  '2.1.12890.7 - SEASLR1 ProdSlices',
+  '2.1.13006.6 - SEASLR2 ProdSlices',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=AqfIhSxZzEhIhj3gSwQONC4; expires=Fri, 22-Jul-2022 06:18:44 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AicppSf9OS5DhxK2-OVYrgY; expires=Sat, 23-Jul-2022 09:22:26 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrhgSGS1_A0Y_3cK_qFYYsVPFB5qwhIwF-_-iyAGPsBz4ZaQ68AW3LGonpRo7u2iN8Dbb5qHpo9mFtOjO1FOQlHTxyQxJ_JUieM90VXg0AzYeudV-KIEJKVZNs6nzMk4Ni4d6NiYD5bAOvMpzKJqis4fMgJfeBxvlHSdFql5m9MhkgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr3LeAdkmhtcNObvsrgrjQOc2ffA8a0_8aGQuApMB0eV5_eD-lvaqw9xa2PAr6ihXcw0FwiFuei3dkbEKqyUBx7sYTCWztFRpOHnMxPufbUpD7BoTg1XDteP3p90qJ5gmkwyqokA2hu3F7CWkOntu0nqKTlZrQ-qGu4w2BpPgzCeUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:43 GMT',
+  'Thu, 23 Jun 2022 09:22:26 GMT',
   'Content-Length',
   '1753' ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=b1e88a1b-c176-4702-8a77-9de25cf063c5&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=da1011cd-8260-4096-b74d-9cc0a6023026&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -127,26 +127,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'ce883ff3-9857-4de6-af88-a0d5eb66c000',
+  '1dbc7e60-1531-4ac0-a329-0a120e271d00',
   'x-ms-ests-server',
-  '2.1.12890.7 - SEASLR1 ProdSlices',
+  '2.1.13006.6 - KRC ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=AhC364I4udFAiMCBgFY-TjA; expires=Fri, 22-Jul-2022 06:18:44 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AmDW72qpk0lEgtOsDB0CryQ; expires=Sat, 23-Jul-2022 09:22:26 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:43 GMT',
+  'Thu, 23 Jun 2022 09:22:26 GMT',
   'Content-Length',
   '1319' ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=b874ecff-f0a2-4cfd-be02-243271eaa899&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=04abbcba-0895-4790-bfd8-901cf1c23d68&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -162,21 +162,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '3d005fa7-9236-4dc5-8f7f-109b0f963b00',
+  '03345490-bce5-4126-9bae-3f40a9be3e00',
   'x-ms-ests-server',
-  '2.1.12890.7 - KRC ProdSlices',
+  '2.1.13006.6 - KRSLR1 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'X-XSS-Protection',
   '0',
   'Set-Cookie',
-  'fpc=AjDkh8iKxW5Pk_BuzQq_VMQ; expires=Fri, 22-Jul-2022 06:18:44 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvI_7Jp2ff1GnicouY5Jy1ar4fIWAQAAANInRtoOAAAA; expires=Sat, 23-Jul-2022 09:22:26 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 22 Jun 2022 06:18:43 GMT',
+  'Thu, 23 Jun 2022 09:22:26 GMT',
   'Content-Length',
   '1319' ]);
 
@@ -196,9 +196,9 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 5BB71C7237B04D0D91F8663CDD5C48E6 Ref B: TYO01EDGE2921 Ref C: 2022-06-22T06:18:44Z',
+  'Ref A: 82B4E0B6424246A587C0C5E81318E331 Ref B: TYO01EDGE3020 Ref C: 2022-06-23T09:22:26Z',
   'Date',
-  'Wed, 22 Jun 2022 06:18:43 GMT' ]);
+  'Thu, 23 Jun 2022 09:22:26 GMT' ]);
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .post('/search/address/reverse/batch/json', {"batchItems":[{"query":"?query=48.858561,2.294911"},{"query":"?query=47.639765,-122.127896&radius=5000"},{"query":"?query=47.621028,-122.34817"}]})
@@ -208,7 +208,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'Location',
-  'https://atlas.microsoft.com/search/address/reverse/batch/c4c7d6f1-cab0-4f28-a690-ce9a23944d11?api-version=1.0',
+  'https://atlas.microsoft.com/search/address/reverse/batch/93d26d04-f6dc-4870-acb9-b886fb3f7ed2?api-version=1.0',
   'x-ms-azuremaps-region',
   'West US 2',
   'X-Content-Type-Options',
@@ -218,14 +218,14 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 939A954D72CA4A928A2CF2CA0746FA59 Ref B: TYAEDGE0916 Ref C: 2022-06-22T06:18:44Z',
+  'Ref A: 03A1F722591645208A1DC354ACDCBD1E Ref B: TYO01EDGE3415 Ref C: 2022-06-23T09:22:26Z',
   'Date',
-  'Wed, 22 Jun 2022 06:18:44 GMT' ]);
+  'Thu, 23 Jun 2022 09:22:26 GMT' ]);
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
-  .get('/search/address/reverse/batch/c4c7d6f1-cab0-4f28-a690-ce9a23944d11')
+  .get('/search/address/reverse/batch/93d26d04-f6dc-4870-acb9-b886fb3f7ed2')
   .query(true)
-  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"queryTime":5,"numResults":1},"addresses":[{"address":{"buildingNumber":"5","streetNumber":"5","routeNumbers":[],"street":"Esplanade des Ouvriers de la Tour Eiffel","streetName":"Esplanade des Ouvriers de la Tour Eiffel","streetNameAndNumber":"5 Esplanade des Ouvriers de la Tour Eiffel","countryCode":"FR","countrySubdivision":"Île-de-France","countrySecondarySubdivision":"Paris","municipality":"Paris","postalCode":"75007","municipalitySubdivision":"7ème Arrondissement","country":"France","countryCodeISO3":"FRA","freeformAddress":"5 Esplanade des Ouvriers de la Tour Eiffel, 75007 Paris","boundingBox":{"northEast":"48.858576,2.295027","southWest":"48.858321,2.294559","entity":"position"},"localName":"Paris"},"position":"48.858582,2.294525"}]}},{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"routeNumbers":[],"street":"Northeast 31st Street","streetName":"Northeast 31st Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Redmond","postalCode":"98052","country":"United States","countryCodeISO3":"USA","freeformAddress":"Northeast 31st Street, Redmond, WA 98052","boundingBox":{"northEast":"47.638988,-122.126617","southWest":"47.638122,-122.127537","entity":"position"},"countrySubdivisionName":"Washington","localName":"Redmond"},"position":"47.638988,-122.127541"}]}},{"statusCode":200,"response":{"summary":{"queryTime":3,"numResults":1},"addresses":[{"address":{"buildingNumber":"410","streetNumber":"410","routeNumbers":[],"street":"Thomas Street","streetName":"Thomas Street","streetNameAndNumber":"410 Thomas Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Seattle","postalCode":"98109","municipalitySubdivision":"Queen Anne","country":"United States","countryCodeISO3":"USA","freeformAddress":"410 Thomas Street, Seattle, WA 98109","boundingBox":{"northEast":"47.620954,-122.347601","southWest":"47.620944,-122.348498","entity":"position"},"countrySubdivisionName":"Washington","localName":"Seattle"},"position":"47.620945,-122.348175"}]}}],"summary":{"successfulRequests":3,"totalRequests":3}}, [ 'Transfer-Encoding',
+  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"queryTime":5,"numResults":1},"addresses":[{"address":{"buildingNumber":"5","streetNumber":"5","routeNumbers":[],"street":"Esplanade des Ouvriers de la Tour Eiffel","streetName":"Esplanade des Ouvriers de la Tour Eiffel","streetNameAndNumber":"5 Esplanade des Ouvriers de la Tour Eiffel","countryCode":"FR","countrySubdivision":"Île-de-France","countrySecondarySubdivision":"Paris","municipality":"Paris","postalCode":"75007","municipalitySubdivision":"7ème Arrondissement","country":"France","countryCodeISO3":"FRA","freeformAddress":"5 Esplanade des Ouvriers de la Tour Eiffel, 75007 Paris","boundingBox":{"northEast":"48.858576,2.295027","southWest":"48.858321,2.294559","entity":"position"},"localName":"Paris"},"position":"48.858582,2.294525"}]}},{"statusCode":200,"response":{"summary":{"queryTime":5,"numResults":1},"addresses":[{"address":{"routeNumbers":[],"street":"Northeast 31st Street","streetName":"Northeast 31st Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Redmond","postalCode":"98052","country":"United States","countryCodeISO3":"USA","freeformAddress":"Northeast 31st Street, Redmond, WA 98052","boundingBox":{"northEast":"47.638988,-122.126617","southWest":"47.638122,-122.127537","entity":"position"},"countrySubdivisionName":"Washington","localName":"Redmond"},"position":"47.638988,-122.127541"}]}},{"statusCode":200,"response":{"summary":{"queryTime":3,"numResults":1},"addresses":[{"address":{"buildingNumber":"410","streetNumber":"410","routeNumbers":[],"street":"Thomas Street","streetName":"Thomas Street","streetNameAndNumber":"410 Thomas Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Seattle","postalCode":"98109","municipalitySubdivision":"Queen Anne","country":"United States","countryCodeISO3":"USA","freeformAddress":"410 Thomas Street, Seattle, WA 98109","boundingBox":{"northEast":"47.620954,-122.347601","southWest":"47.620944,-122.348498","entity":"position"},"countrySubdivisionName":"Washington","localName":"Seattle"},"position":"47.620945,-122.348175"}]}}],"summary":{"successfulRequests":3,"totalRequests":3}}, [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json',
@@ -238,6 +238,6 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 960B890DC6034199A1257FA81A4840EA Ref B: TYO01EDGE3011 Ref C: 2022-06-22T06:18:44Z',
+  'Ref A: 39BDA258F45A48B997B91E5BC7871E62 Ref B: TYBEDGE0410 Ref C: 2022-06-23T09:22:27Z',
   'Date',
-  'Wed, 22 Jun 2022 06:18:43 GMT' ]);
+  'Thu, 23 Jun 2022 09:22:26 GMT' ]);

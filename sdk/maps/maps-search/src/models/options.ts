@@ -130,7 +130,7 @@ export interface FuzzySearchBaseOptions extends SearchPointOfInterestBaseOptions
  */
 export type SearchQuery =
   | { query: string; coordinates: LatLon }
-  | { query: string; countryFilter: string[] };
+  | { query: string; countryCodeFilter: string[] };
 
 /**
  * Options for fuzzy search
@@ -153,7 +153,7 @@ export interface SearchNearbyPointOfInterestOptions
     SearchExtraFilterOptions,
     OperationOptions {
   /** Counter filters that limit the search to the specified countries */
-  countryFilter?: string[];
+  countryCodeFilter?: string[];
   /** The radius in meters to for the results to be constrained to the defined area, Min value is 1, Max Value is 50000. */
   radiusInMeters?: number;
 }
@@ -165,7 +165,7 @@ export interface SearchAddressOptions extends SearchAddressBaseOptions {
   /** The entityType specifies the level of filtering performed on geographies */
   entityType?: GeographicEntityType;
   /** Counter filters that limit the search to the specified countries */
-  countryFilter?: string[];
+  countryCodeFilter?: string[];
   /** The coordinates where results should be biased */
   coordinates?: LatLon;
 }

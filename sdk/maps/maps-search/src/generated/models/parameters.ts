@@ -167,8 +167,8 @@ export const categoryFilter: OperationQueryParameter = {
   collectionFormat: "CSV"
 };
 
-export const countryFilter: OperationQueryParameter = {
-  parameterPath: ["options", "countryFilter"],
+export const countryCodeFilter: OperationQueryParameter = {
+  parameterPath: ["options", "countryCodeFilter"],
   mapper: {
     serializedName: "countrySet",
     type: {
