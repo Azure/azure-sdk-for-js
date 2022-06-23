@@ -26,10 +26,15 @@ async function main() {
   const client = DeviceUpdate(endpoint, credentials);
 
   const result = await client
-    .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions", instanceId, provider, name)
+    .path(
+      "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
+      instanceId,
+      provider,
+      name
+    )
     .get();
 
-    console.log(result.body);
-  }
+  console.log(result.body);
+}
 
 main().catch(console.error);

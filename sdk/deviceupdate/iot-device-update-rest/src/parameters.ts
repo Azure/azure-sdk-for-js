@@ -3,12 +3,7 @@
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import {
-  ImportUpdateInputItem,
-  PatchBody,
-  Deployment,
-  LogCollection
-} from "./models";
+import { ImportUpdateInputItem, PatchBody, Deployment, LogCollection } from "./models";
 
 export interface DeviceUpdateListUpdatesQueryParamProperties {
   /** Request updates matching a free-text search expression. */
@@ -47,8 +42,7 @@ export interface DeviceUpdateGetUpdateHeaderParam {
   headers: RawHttpHeadersInput & DeviceUpdateGetUpdateHeaders;
 }
 
-export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam &
-  RequestParameters;
+export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam & RequestParameters;
 export type DeviceUpdateDeleteUpdateParameters = RequestParameters;
 export type DeviceUpdateListProvidersParameters = RequestParameters;
 export type DeviceUpdateListNamesParameters = RequestParameters;
@@ -75,8 +69,7 @@ export interface DeviceUpdateGetFileHeaderParam {
   headers: RawHttpHeadersInput & DeviceUpdateGetFileHeaders;
 }
 
-export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam &
-  RequestParameters;
+export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam & RequestParameters;
 
 export interface DeviceUpdateListOperationsQueryParamProperties {
   /** Restricts the set of operations returned. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
