@@ -259,7 +259,7 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    * 
    * **Example:**
    *    
-   *    If the lock expires in 2 minutes and your processing time is say, 8 minutes...
+   *    If the lock expires in 2 minutes and your processing time is 8 minutes...
    * 
    *    Set maxAutoLockRenewalDurationInMs to 8 minutes, and the lock will be automatically renewed for about 3 times 
    *    (equivalent to having the session locked for 4 times its lock duration by leveraging the lock renewals).
