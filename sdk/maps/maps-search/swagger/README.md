@@ -50,6 +50,10 @@ directive:
         "providerID",
       ]
   - from: swagger-document
+    where: $.definitions.Polygon.properties.providerID
+    transform: >
+      $["x-ms-client-name"] = "providerId";
+  - from: swagger-document
     where: $.definitions.PointOfInterestCategory
     transform: >
       $["required"] = [
@@ -166,9 +170,19 @@ directive:
   - from: swagger-document
     where: $.definitions.BrandName
     transform: >
-      $["required"] = [
-        "name",
-      ]
+      $ = {
+        "description": "The brand associated with the POI",
+        "required": ["name"],
+        "type": "object",
+        "x-ms-client-name": "Brand",
+        "properties": {
+          "name": {
+            "description": "Name of the brand",
+            "type": "string",
+            "readOnly": true
+          }
+        }
+      };
   - from: swagger-document
     where: $.definitions.OperatingHours
     transform: >
@@ -248,4 +262,10 @@ directive:
       $["required"] = [
         "batchItems",
       ]
+  - from: swagger-document
+    where: $.paths["/search/address/reverse/{format}"].get.parameters[*]
+    transform: >
+      if ($.name === "number") {
+        $["x-ms-client-name"] = "streetNumber";
+      }
 ```

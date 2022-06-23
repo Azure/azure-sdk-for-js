@@ -33,7 +33,7 @@ export {
   PointOfInterest,
   GeometryIdentifier,
   DataSource,
-  BrandName,
+  Brand,
   Classification,
   ClassificationName,
   PointOfInterestCategorySet,

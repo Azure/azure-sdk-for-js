@@ -451,8 +451,8 @@ export const heading: OperationQueryParameter = {
   }
 };
 
-export const numberParam: OperationQueryParameter = {
-  parameterPath: ["options", "numberParam"],
+export const streetNumber: OperationQueryParameter = {
+  parameterPath: ["options", "streetNumber"],
   mapper: {
     serializedName: "number",
     type: {
@@ -519,7 +519,7 @@ export const countryCode: OperationQueryParameter = {
   }
 };
 
-export const streetNumber: OperationQueryParameter = {
+export const streetNumber1: OperationQueryParameter = {
   parameterPath: ["options", "streetNumber"],
   mapper: {
     serializedName: "streetNumber",

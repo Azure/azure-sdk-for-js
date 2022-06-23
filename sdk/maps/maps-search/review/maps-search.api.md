@@ -73,7 +73,7 @@ export interface BatchResult<TResult> {
 }
 
 // @public
-export interface BrandName {
+export interface Brand {
     readonly name: string;
 }
 
@@ -100,7 +100,7 @@ export type ElectricVehicleConnector = string;
 // @public
 export interface EntityGeometry {
     geometryData?: GeoJsonFeatureCollection;
-    readonly providerID: string;
+    readonly providerId: string;
 }
 
 // @public
@@ -387,7 +387,7 @@ export interface OperatingHoursTimeRange {
 
 // @public
 export interface PointOfInterest {
-    readonly brands?: BrandName[];
+    readonly brands?: Brand[];
     readonly categories?: string[];
     readonly categorySet?: PointOfInterestCategorySet[];
     readonly classifications?: Classification[];
@@ -428,8 +428,8 @@ export interface ReverseSearchAddressOptions extends ReverseSearchBaseOptions {
     includeMatchType?: boolean;
     includeRoadUse?: boolean;
     includeSpeedLimit?: boolean;
-    numberParam?: string;
     roadUse?: RoadUseType[];
+    streetNumber?: string;
 }
 
 // @public
