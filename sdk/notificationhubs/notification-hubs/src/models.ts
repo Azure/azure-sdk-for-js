@@ -203,7 +203,7 @@ export interface InstallationTemplate {
 /**
  * Represents the JSON Patch types of add, remove and replace.
  */
-export type JSONPatchOperation = "add" | "remove" | "replace";
+export type JsonPatchOperation = "add" | "remove" | "replace";
 
 /**
  * Represents a patch operation for the installation.
@@ -212,7 +212,7 @@ export interface InstallationPatch {
   /**
    * The patch operation.
    */
-  op: JSONPatchOperation;
+  op: JsonPatchOperation;
 
   /**
    * The path for the patch operation.
@@ -237,7 +237,7 @@ export interface NotificationHubMessageCommon {
   /**
    * The headers to include for the push notification.
    */
-  headers: Record<string, string>;
+  headers?: Record<string, string>;
 
   /**
    * The platform for the push notification.
@@ -253,7 +253,7 @@ export interface NotificationHubMessageCommon {
 /**
  * Represents a JSON notification hub message.
  */
-export interface JSONNotificationMessage extends NotificationHubMessageCommon {
+export interface JsonNotificationMessage extends NotificationHubMessageCommon {
   /**
    * The content type for the push notification.
    */
@@ -263,7 +263,7 @@ export interface JSONNotificationMessage extends NotificationHubMessageCommon {
 /**
  * Represents an Apple APNs push notification message.
  */
-export interface AppleMessage extends JSONNotificationMessage {
+export interface AppleMessage extends JsonNotificationMessage {
   /**
    * The platform for the push notification.
    */
@@ -273,7 +273,7 @@ export interface AppleMessage extends JSONNotificationMessage {
 /**
  * Represents an Amazon Device Messaging (ADM) push notification message.
  */
-export interface ADMMessage extends JSONNotificationMessage {
+export interface AdmMessage extends JsonNotificationMessage {
   /**
    * The platform for the push notification.
    */
@@ -283,7 +283,7 @@ export interface ADMMessage extends JSONNotificationMessage {
 /**
  * Represents a Baidu push notification message.
  */
-export interface BaiduMessage extends JSONNotificationMessage {
+export interface BaiduMessage extends JsonNotificationMessage {
   /**
    * The platform for the push notification.
    */
@@ -293,7 +293,7 @@ export interface BaiduMessage extends JSONNotificationMessage {
 /**
  * Represents a Browser push notification message.
  */
-export interface BrowserMessage extends JSONNotificationMessage {
+export interface BrowserMessage extends JsonNotificationMessage {
   /**
    * The platform for the push notification.
    */
@@ -303,7 +303,7 @@ export interface BrowserMessage extends JSONNotificationMessage {
 /**
  * Represents a Firebase legacy HTTP push notification message.
  */
-export interface FirebaseLegacyMessage extends JSONNotificationMessage {
+export interface FirebaseLegacyMessage extends JsonNotificationMessage {
   /**
    * The platform for the push notification.
    */
@@ -313,7 +313,7 @@ export interface FirebaseLegacyMessage extends JSONNotificationMessage {
 /**
  * Represents a template based push notification message.
  */
-export interface TemplateMessage extends JSONNotificationMessage {
+export interface TemplateMessage extends JsonNotificationMessage {
   /**
    * The platform for the push notification.
    */
@@ -345,7 +345,7 @@ export type WindowsContentType = "application/xml" | "application/octet-stream";
  */
 export type NotificationHubMessage =
   | AppleMessage
-  | ADMMessage
+  | AdmMessage
   | BaiduMessage
   | BrowserMessage
   | FirebaseLegacyMessage
@@ -357,9 +357,9 @@ export type NotificationHubMessage =
  */
 export interface SendOperationOptions extends OperationOptions {
   /**
-   * Set to true to enable debug send.
+   * Set to true to enable test send.
    */
-  debug?: boolean;
+  enableTestSend?: boolean;
 }
 
 /**

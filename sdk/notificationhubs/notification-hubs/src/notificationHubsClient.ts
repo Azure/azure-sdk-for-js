@@ -18,6 +18,7 @@ import {
   PipelineResponse,
   createHttpHeaders,
   createPipelineRequest,
+  RestError,
 } from "@azure/core-rest-pipeline";
 import { OperationOptions, ServiceClient } from "@azure/core-client";
 import {
@@ -26,6 +27,7 @@ import {
 } from "./utils/connectionStringUtils";
 import { SasTokenProvider } from "@azure/core-amqp";
 import { tracingClient } from "./utils/tracing";
+import { RegistrationDescription, registrationDescriptionParser } from "./serializers/registrationSerializer";
 
 const API_VERSION = "2020-06";
 
@@ -223,6 +225,41 @@ export class NotificationHubsClient extends ServiceClient {
   }
 
   /**
+   * Gets a registration by the given registration ID.
+   * @param registrationId - The ID of the registration to get.
+   * @param options - The options for getting a registration by ID.
+   * @returns A RegistrationDescription that has the given registration ID.
+   */
+  public async getRegistrationById(
+    registrationId: string,
+    options: OperationOptions = {}
+  ): Promise<RegistrationDescription> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-getRegistrationById",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += `/registrations/${registrationId}`;
+
+        const headers = this.createHeaders();
+        headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
+
+        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
+        const response = await this.sendRequest(request);
+        if (response.status !== 200) {
+          throw new RestError(
+            `getRegistrationById failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
+        }
+
+        return registrationDescriptionParser.parseRegistrationEntry(response.bodyAsText!);
+      });
+  }
+
+  /**
    * Sends a direct push notification to a device with the given push handle.
    * @param pushHandle - The push handle which is the unique identifier for the device.
    * @param message - The message to send to the device.
@@ -235,11 +272,10 @@ export class NotificationHubsClient extends ServiceClient {
     message: NotificationHubMessage,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubResponse> {
-    return this.sendNotificationImpl(
+    return this.sendNotificationMessage(
       message,
       "sendDirectNotification",
       pushHandle,
-      undefined,
       undefined,
       options
     );
@@ -258,12 +294,11 @@ export class NotificationHubsClient extends ServiceClient {
     message: NotificationHubMessage,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubResponse> {
-    return this.sendNotificationImpl(
+    return this.sendNotificationMessage(
       message,
       "sendNotification",
       undefined,
       tags,
-      undefined,
       options
     );
   }
@@ -282,24 +317,59 @@ export class NotificationHubsClient extends ServiceClient {
     scheduledTime: Date,
     tags: string[] | string,
     message: NotificationHubMessage,
-    options: SendOperationOptions = {}
+    options: OperationOptions = {}
   ): Promise<NotificationHubResponse> {
-    return this.sendNotificationImpl(
-      message,
-      "scheduleNotification",
-      undefined,
-      tags,
-      scheduledTime,
-      options
-    );
+    return tracingClient.withSpan(
+      "NotificationHubsClient-$scheduleNotification",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += "/schedulednotifications/";
+
+        const headers = this.createHeaders();
+        if (message.headers) {
+          for (const headerName of Object.keys(message.headers)) {
+            headers.set(headerName, message.headers[headerName]);
+          }
+        }
+
+        headers.set("ServiceBusNotification-ScheduleTime", scheduledTime.toISOString());
+        headers.set("Content-Type", message.contentType);
+        headers.set("ServiceBusNotification-Format", message.platform);
+
+        if (tags) {
+          let tagExpression = null;
+          if (Array.isArray(tags)) {
+            tagExpression = tags.join("||");
+          } else {
+            tagExpression = tags;
+          }
+          headers.set("ServiceBusNotification-Tags", tagExpression);
+        }
+
+        const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
+
+        request.body = message.body;
+
+        const response = await this.sendRequest(request);
+        if (response.status !== 201) {
+          throw new RestError(
+            `scheduleNotification failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
+        }
+
+        return this.parseNotificationResponse(response);
+      });
   }
 
-  private sendNotificationImpl(
+  private sendNotificationMessage(
     message: NotificationHubMessage,
     method: string,
     pushHandle?: PushHandle,
     tags?: string | string[],
-    scheduledTime?: Date,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubResponse> {
     return tracingClient.withSpan(
@@ -307,16 +377,9 @@ export class NotificationHubsClient extends ServiceClient {
       options,
       async (updatedOptions) => {
         const endpoint = this.getBaseURL();
+        endpoint.pathname += "/messages/";;
 
-        let subPath = null;
-        if (scheduledTime) {
-          subPath = "/schedulednotifications/";
-        } else {
-          subPath = "/messages/";
-        }
-        endpoint.pathname += subPath;
-
-        if (options.debug) {
+        if (options.enableTestSend) {
           endpoint.searchParams.append("debug", "true");
         }
 
@@ -328,6 +391,8 @@ export class NotificationHubsClient extends ServiceClient {
         }
 
         if (pushHandle) {
+          endpoint.searchParams.append("direct", "true");
+
           // TODO: Validation?
           if (message.platform === "browser") {
             const browserHandle = pushHandle as BrowserPushChannel;
@@ -337,10 +402,6 @@ export class NotificationHubsClient extends ServiceClient {
           } else {
             headers.set("ServiceBusNotification-DeviceHandle", pushHandle as string);
           }
-        }
-
-        if (scheduledTime) {
-          headers.set("ServiceBusNotification-ScheduleTime", scheduledTime.toISOString());
         }
 
         headers.set("Content-Type", message.contentType);
@@ -362,8 +423,12 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 201) {
-          // TODO: throw special errors
-          throw new Error(`${method} failed with ${response.status}`);
+          throw new RestError(
+            `${method} failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
         }
 
         return this.parseNotificationResponse(response);
