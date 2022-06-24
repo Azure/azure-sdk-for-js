@@ -3,8 +3,8 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
-import { ServiceVersion } from "./parameters";
 import { PurviewCatalogClient } from "./clientDefinitions";
+import { ServiceVersion } from "./parameters";
 
 export default function createClient(
   Endpoint: string,
@@ -17,7 +17,7 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://purview.azure.net/.default"],
+      scopes: ["user_impersonation"],
     },
   };
 

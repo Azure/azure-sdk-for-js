@@ -21,6 +21,10 @@ import {
   MoveEntitiesRequest,
 } from "./models";
 
+export type Endpoint = string;
+export type ServiceVersion = "v2" | "v3";
+export type ApiVersion = "2022-03-01-preview";
+
 export interface EntityCreateOrUpdateBodyParam {
   /** Atlas entity with extended information. */
   body: AtlasEntityWithExtInfo;
@@ -219,8 +223,6 @@ export interface EntityDeleteClassificationByUniqueAttributeQueryParamProperties
   "attr:qualifiedName"?: string;
 }
 
-export type ServiceVersion = "v2";
-
 export interface EntityDeleteClassificationByUniqueAttributeQueryParam {
   queryParameters?: EntityDeleteClassificationByUniqueAttributeQueryParamProperties;
 }
@@ -389,7 +391,7 @@ export interface EntityImportBusinessMetadataFormBody {
    *
    * Value may contain any sequence of octets
    */
-  uploadedInputStream?: string | Uint8Array;
+  uploadedInputStream?: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 export interface EntityImportBusinessMetadataMediaTypesParam {
@@ -968,7 +970,7 @@ export interface GlossaryImportGlossaryTermsViaCsvFormBody {
    *
    * Value may contain any sequence of octets
    */
-  file: string | Uint8Array;
+  file: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 export interface GlossaryImportGlossaryTermsViaCsvQueryParamProperties {
@@ -1001,7 +1003,7 @@ export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameFormBody {
    *
    * Value may contain any sequence of octets
    */
-  file: string | Uint8Array;
+  file: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParamProperties {
