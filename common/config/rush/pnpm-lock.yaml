@@ -3903,7 +3903,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220622
+      typescript: 4.8.0-dev.20220623
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8713,8 +8713,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220622:
-    resolution: {integrity: sha512-Am95aEDYflhxvYuJglcbr7lwj1tztpwUhzS9SEyo7J5sXtc84mCvEmCxlJ4+2/nWVY61PCVjyPacQaLMHD4efg==}
+  /typescript/4.8.0-dev.20220623:
+    resolution: {integrity: sha512-faQ+tFuZke9d/VFLNA/5sV9HzhXujdJ6l8OMA8Cd0O5CRu6MlCNV/zjR7QtmPFouqlF5rDD81NbEdqHwI4Lsxg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12470,7 +12470,7 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-hFz+nUrTSY9ekF4mEs1VutsLV9FmAq1D/MxGZaliK4hr+9LSO4yeKyJoA+XMevS1EnulD4bTDL/i3/qXbDuVTA==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-RVG3k+NRJx5M598l3NAvPQdyTrnFsTQ2WTbsJILdDkaY+PMxmdAB+iwljodChkjxKuK7ATBjIvTTdbH3ZPJz1w==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
@@ -12482,6 +12482,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.74.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12494,7 +12496,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 

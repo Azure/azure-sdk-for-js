@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Locations } from "../operationsInterfaces";
+import { MediaServicesOperationStatuses } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMediaServices } from "../azureMediaServices";
 import {
-  CheckNameAvailabilityInput,
-  LocationsCheckNameAvailabilityOptionalParams,
-  LocationsCheckNameAvailabilityResponse
+  MediaServicesOperationStatusesGetOptionalParams,
+  MediaServicesOperationStatusesGetResponse
 } from "../models";
 
-/** Class containing Locations operations. */
-export class LocationsImpl implements Locations {
+/** Class containing MediaServicesOperationStatuses operations. */
+export class MediaServicesOperationStatusesImpl
+  implements MediaServicesOperationStatuses {
   private readonly client: AzureMediaServices;
 
   /**
-   * Initialize a new instance of the class Locations class.
+   * Initialize a new instance of the class MediaServicesOperationStatuses class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMediaServices) {
@@ -30,45 +30,44 @@ export class LocationsImpl implements Locations {
   }
 
   /**
-   * Checks whether the Media Service resource name is available.
+   * Get media service operation status.
    * @param locationName Location name.
-   * @param parameters The request parameters
+   * @param operationId Operation ID.
    * @param options The options parameters.
    */
-  checkNameAvailability(
+  get(
     locationName: string,
-    parameters: CheckNameAvailabilityInput,
-    options?: LocationsCheckNameAvailabilityOptionalParams
-  ): Promise<LocationsCheckNameAvailabilityResponse> {
+    operationId: string,
+    options?: MediaServicesOperationStatusesGetOptionalParams
+  ): Promise<MediaServicesOperationStatusesGetResponse> {
     return this.client.sendOperationRequest(
-      { locationName, parameters, options },
-      checkNameAvailabilityOperationSpec
+      { locationName, operationId, options },
+      getOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Media/locations/{locationName}/checkNameAvailability",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Media/locations/{locationName}/mediaServicesOperationStatuses/{operationId}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityNameAvailabilityCheckOutput
+      bodyMapper: Mappers.MediaServiceOperationStatus
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
+    Parameters.operationId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
