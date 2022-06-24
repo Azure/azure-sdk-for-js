@@ -59,8 +59,8 @@
   },
   "prettier": "./prettier.json",
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "~5.27.0",
-    "@typescript-eslint/parser": "~5.27.0",
+    "@typescript-eslint/eslint-plugin": "~5.29.0",
+    "@typescript-eslint/parser": "~5.29.0",
     "eslint": "^8.0.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-no-only-tests": "^2.4.0",
@@ -68,7 +68,7 @@
     "eslint-plugin-tsdoc": "^0.2.10"
   },
   "dependencies": {
-    "@typescript-eslint/typescript-estree": "~5.27.0",
+    "@typescript-eslint/typescript-estree": "~5.29.0",
     "@types/eslint": "~8.4.0",
     "@types/estree": "~0.0.46",
     "eslint-config-prettier": "^8.0.0",
@@ -83,9 +83,9 @@
     "@types/json-schema": "^7.0.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
-    "@typescript-eslint/eslint-plugin": "~5.27.0",
-    "@typescript-eslint/experimental-utils": "~5.27.0",
-    "@typescript-eslint/parser": "~5.27.0",
+    "@typescript-eslint/eslint-plugin": "~5.29.0",
+    "@typescript-eslint/experimental-utils": "~5.29.0",
+    "@typescript-eslint/parser": "~5.29.0",
     "chai": "^4.2.0",
     "eslint": "^8.0.0",
     "mocha": "^7.1.1",
