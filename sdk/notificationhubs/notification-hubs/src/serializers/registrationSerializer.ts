@@ -39,7 +39,7 @@ export interface RegistrationDescriptionCommon {
   /**
    * The registration ID.
    */
-  registrationId: string;
+  registrationId?: string;
 
   /**
    * The expiration time of the registration.
@@ -757,7 +757,7 @@ function createRegistrationDescription(
   }
 
   return {
-    registrationId: getString(rawRegistrationDescription["RegistrationId"], "registrationId"),
+    registrationId: getStringOrUndefined(rawRegistrationDescription["RegistrationId"]),
     expirationTime: getDateOrUndefined(rawRegistrationDescription["ExpirationTime"]),
     eTag: getStringOrUndefined(rawRegistrationDescription["ETag"]),
     tags: getTagsOrUndefined(rawRegistrationDescription["Tags"]),
@@ -772,5 +772,172 @@ function createTemplateRegistrationDescription(
     bodyTemplate: getString(rawRegistrationDescription["BodyTemplate"], "bodyTemplate"),
     templateName: getStringOrUndefined(rawRegistrationDescription["TemplateName"]),
     ...createRegistrationDescription(rawRegistrationDescription)
+  };
+}
+
+export interface RegistrationDescriptionSerializer {
+  serializeAdmRegistrationDescription(description: Omit<AdmRegistrationDescription, "platform">): Record<string, any>;
+  serializeAdmTemplateRegistrationDescription(description: Omit<AdmTemplateRegistrationDescription, "platform">): Record<string, any>;
+  serializeAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "platform">): Record<string, any>;
+  serializeAppleTemplateRegistrationDescription(description: Omit<AppleRegistrationDescription, "platform">): Record<string, any>;
+  serializeBaiduRegistrationDescription(description: Omit<BaiduRegistrationDescription, "platform">): Record<string, any>;
+  serializeBaiduTemplateRegistrationDescription(description: Omit<BaiduTemplateRegistrationDescription, "platform">): Record<string, any>;
+  serializeBrowserRegistrationDescription(description: Omit<BrowserRegistrationDescription, "platform">): Record<string, any>;
+  serializeBrowserTemplateRegistrationDescription(description: Omit<BrowserTemplateRegistrationDescription, "platform">): Record<string, any>;
+  serializeGcmRegistrationDescription(description: Omit<GcmRegistrationDescription, "platform">): Record<string, any>;
+  serializeGcmTemplateRegistrationDescription(description: Omit<GcmTemplateRegistrationDescription, "platform">): Record<string, any>;
+  serializeFcmRegistrationDescription(description: Omit<FcmRegistrationDescription, "platform">): Record<string, any>;
+  serializeFcmTemplateRegistrationDescription(description: Omit<FcmRegistrationDescription, "platform">): Record<string, any>;
+  serializeMpnsRegistrationDescription(description: Omit<MpnsRegistrationDescription, "platform">): Record<string, any>;
+  serializeMpnsTemplateRegistrationDescription(description: Omit<MpnsTemplateRegistrationDescription, "platform">): Record<string, any>;
+  serializeWindowsRegistrationDescription(description: Omit<WindowsRegistrationDescription, "platform">): Record<string, any>;
+  serializeWindowsTemplateRegistrationDescription(description: Omit<WindowsTemplateRegistrationDescription, "platform">): Record<string, any>;
+}
+
+export const registrationSerializer: RegistrationDescriptionSerializer = {
+  serializeAdmRegistrationDescription(description: Omit<AdmRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...serializeRegistrationDescription(description),
+      "AdmRegistrationId": getString(description.admRegistrationId, "admRegistrationId"),
+    };
+  },
+
+  serializeAdmTemplateRegistrationDescription(description: Omit<AdmTemplateRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...this.serializeAdmRegistrationDescription(description),
+      ...serializeTemplateRegistrationDescription(description),
+    };
+  },
+
+  serializeAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...serializeRegistrationDescription(description),
+      "DeviceToken": getString(description.deviceToken, "deviceToken"),
+    };
+  },
+
+  serializeAppleTemplateRegistrationDescription(description: AppleTemplateRegistrationDescription): Record<string, any> {
+    // TODO: Headers
+
+    return {
+      ...this.serializeAppleRegistrationDescription(description),
+      ...serializeTemplateRegistrationDescription(description),
+    };
+  },
+
+  serializeBaiduRegistrationDescription(description: Omit<BaiduRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...serializeRegistrationDescription(description),
+      "BaiduChannelId": getString(description.baiduChannelId, "baiduChannelId"),
+      "BaiduUserId": getString(description.baiduUserId, "baiduUserId"),
+    };
+  },
+
+  serializeBaiduTemplateRegistrationDescription(description: Omit<BaiduTemplateRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...this.serializeBaiduRegistrationDescription(description),
+      ...serializeTemplateRegistrationDescription(description)
+    };
+  },
+
+  serializeBrowserRegistrationDescription(description: Omit<BrowserRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...serializeRegistrationDescription(description),
+      "Endpoint": description.endpoint,
+      "Auth": description.auth,
+      "P256DH": description.p256DH,
+    };
+  },
+
+  serializeBrowserTemplateRegistrationDescription(description: Omit<BrowserTemplateRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...this.serializeBrowserRegistrationDescription(description),
+      ...serializeTemplateRegistrationDescription(description),
+    };
+  },
+
+  serializeGcmRegistrationDescription(description: Omit<GcmRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...serializeRegistrationDescription(description),
+      "GcmRegistrationId": getString(description.gcmRegistrationId, "gcmRegistrationId"),
+    };
+  },
+
+  serializeGcmTemplateRegistrationDescription(description: Omit<GcmTemplateRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...this.serializeGcmRegistrationDescription(description),
+      ...serializeTemplateRegistrationDescription(description),
+    };
+  },
+
+  serializeFcmRegistrationDescription(description: Omit<FcmRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...serializeRegistrationDescription(description),
+      "FcmRegistrationId": description.fcmRegistrationId,
+    };
+  },
+
+  serializeFcmTemplateRegistrationDescription(description: Omit<FcmTemplateRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...this.serializeFcmRegistrationDescription(description),
+      ...serializeTemplateRegistrationDescription(description),
+    };
+  },
+
+  serializeMpnsRegistrationDescription(description: Omit<MpnsRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...serializeRegistrationDescription(description),
+      "ChannelUri": description.channelUri,
+    };
+  },
+
+  serializeMpnsTemplateRegistrationDescription(description: Omit<MpnsTemplateRegistrationDescription, "platform">): Record<string, any> {
+    // TODO: MpnsHeaders
+    
+    return {
+      ...this.serializeMpnsRegistrationDescription(description),
+      ...serializeTemplateRegistrationDescription(description),
+    };
+  },
+
+  serializeWindowsRegistrationDescription(description: Omit<WindowsRegistrationDescription, "platform">): Record<string, any> {
+    return {
+      ...serializeRegistrationDescription(description),
+      "ChannelUri": description.channelUri,
+    };
+  },
+
+  serializeWindowsTemplateRegistrationDescription(description: Omit<WindowsTemplateRegistrationDescription, "platform">): Record<string, any> {
+    // TODO: WnsHeaders
+    
+    return {
+      ...this.serializeWindowsRegistrationDescription(description),
+      ...serializeTemplateRegistrationDescription(description),
+    };
+  }
+}
+
+function serializeRegistrationDescription(description: Omit<RegistrationDescriptionCommon, "platform">): Record<string, any> {
+  let tags: string | undefined;
+  if (description.tags) {
+    tags = description.tags.join(",");
+  }
+
+  let pushVariables: string | undefined;
+  if (description.pushVariables) {
+    pushVariables = JSON.stringify(description.pushVariables);
+  }
+
+  return {
+    "RegistrationId": getStringOrUndefined(description.registrationId),
+    "Tags": tags, 
+    "PushVariables": pushVariables,
+  };
+}
+
+function serializeTemplateRegistrationDescription(description: TemplateRegistrationDescription): Record<string, any> {
+  return {
+    "BodyTemplate": `<![CDATA[${description.bodyTemplate}]]>`,
+    "TemplateName": getStringOrUndefined(description.templateName),
   };
 }

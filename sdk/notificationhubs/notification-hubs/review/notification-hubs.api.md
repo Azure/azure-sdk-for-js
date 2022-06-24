@@ -241,7 +241,7 @@ export interface RegistrationDescriptionCommon {
     expirationTime?: Date;
     platform: RegistrationType;
     pushVariables?: Record<string, string>;
-    registrationId: string;
+    registrationId?: string;
     tags?: string[];
 }
 
