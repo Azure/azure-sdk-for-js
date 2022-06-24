@@ -558,7 +558,13 @@ describe("Result mappers", () => {
           },
           {
             statusCode: 400,
-            response: { error: { code: "400 BadRequest" } } as SearchAddressBatchItemResponse,
+            response: {
+              error: {
+                code: "400 BadRequest",
+                message:
+                  "Bad request: one or more parameters were incorrectly specified or are mutually exclusive.",
+              },
+            } as SearchAddressBatchItemResponse,
           },
         ],
       };
@@ -603,7 +609,16 @@ describe("Result mappers", () => {
               ],
             },
           },
-          { statusCode: 400, response: { error: { code: "400 BadRequest" } } },
+          {
+            statusCode: 400,
+            response: {
+              error: {
+                code: "400 BadRequest",
+                message:
+                  "Bad request: one or more parameters were incorrectly specified or are mutually exclusive.",
+              },
+            },
+          },
         ],
       };
 
@@ -639,7 +654,11 @@ describe("Result mappers", () => {
           {
             statusCode: 400,
             response: {
-              error: { code: "400 BadRequest" },
+              error: {
+                code: "400 BadRequest",
+                message:
+                  "Bad request: one or more parameters were incorrectly specified or are mutually exclusive.",
+              },
             } as ReverseSearchAddressBatchItemResponse,
           },
         ],
@@ -668,7 +687,16 @@ describe("Result mappers", () => {
               ],
             },
           },
-          { statusCode: 400, response: { error: { code: "400 BadRequest" } } },
+          {
+            statusCode: 400,
+            response: {
+              error: {
+                code: "400 BadRequest",
+                message:
+                  "Bad request: one or more parameters were incorrectly specified or are mutually exclusive.",
+              },
+            },
+          },
         ],
       };
 

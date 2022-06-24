@@ -260,4 +260,23 @@ directive:
     where: $.parameters.CountrySet
     transform: >
       $["x-ms-client-name"] = "CountryCodeFilter";
+  - from: swagger-document
+    where: $.definitions.ErrorDetail
+    transform: >
+      $ = {
+        "type": "object",
+        "description": "The error detail.",
+        "properties": {
+          "code": {
+            "readOnly": true,
+            "type": "string",
+            "description": "The error code."
+          },
+          "message": {
+            "readOnly": true,
+            "type": "string",
+            "description": "The error message."
+          }
+        }
+      };
 ```
