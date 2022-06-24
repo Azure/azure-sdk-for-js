@@ -418,12 +418,12 @@ export const expectation9: AnalyzeBatchResult[] = [
         id: "0",
         warnings: [],
         sentiment: "negative",
-        confidenceScores: { positive: 0, neutral: 0, negative: 1 },
+        confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
         sentences: [
           {
             text: "The food was unacceptable",
             sentiment: "negative",
-            confidenceScores: { positive: 0, neutral: 0, negative: 1 },
+            confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
             offset: 0,
             length: 25,
             opinions: [
@@ -454,14 +454,14 @@ export const expectation9: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         sentiment: "positive",
-        confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+        confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
         sentences: [
           {
-            text: "The rooms were beautiful.",
+            text: "The rooms were beautiful. ",
             sentiment: "positive",
-            confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+            confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
             offset: 0,
-            length: 25,
+            length: 26,
             opinions: [
               {
                 target: {
@@ -487,7 +487,7 @@ export const expectation9: AnalyzeBatchResult[] = [
           {
             text: "The AC was good and quiet.",
             sentiment: "positive",
-            confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+            confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
             offset: 26,
             length: 26,
             opinions: [
@@ -526,12 +526,12 @@ export const expectation9: AnalyzeBatchResult[] = [
         id: "2",
         warnings: [],
         sentiment: "negative",
-        confidenceScores: { positive: 0.01, neutral: 0, negative: 0.99 },
+        confidenceScores: { positive: 0.03, neutral: 0, negative: 0.97 },
         sentences: [
           {
             text: "The breakfast was good, but the toilet was smelly.",
             sentiment: "negative",
-            confidenceScores: { positive: 0.01, neutral: 0, negative: 0.99 },
+            confidenceScores: { positive: 0.03, neutral: 0, negative: 0.97 },
             offset: 0,
             length: 50,
             opinions: [
@@ -602,9 +602,9 @@ export const expectation9: AnalyzeBatchResult[] = [
                   {
                     sentiment: "positive",
                     confidenceScores: { positive: 1, negative: 0 },
-                    offset: 19,
-                    length: 4,
-                    text: "good",
+                    offset: 0,
+                    length: 5,
+                    text: "Loved",
                     isNegated: false,
                   },
                 ],
@@ -621,9 +621,9 @@ export const expectation9: AnalyzeBatchResult[] = [
                   {
                     sentiment: "positive",
                     confidenceScores: { positive: 1, negative: 0 },
-                    offset: 36,
+                    offset: 19,
                     length: 4,
-                    text: "nice",
+                    text: "good",
                     isNegated: false,
                   },
                 ],
@@ -640,9 +640,17 @@ export const expectation9: AnalyzeBatchResult[] = [
                   {
                     sentiment: "positive",
                     confidenceScores: { positive: 1, negative: 0 },
-                    offset: 0,
+                    offset: 36,
+                    length: 4,
+                    text: "nice",
+                    isNegated: false,
+                  },
+                  {
+                    sentiment: "positive",
+                    confidenceScores: { positive: 1, negative: 0 },
+                    offset: 59,
                     length: 5,
-                    text: "loved",
+                    text: "clean",
                     isNegated: false,
                   },
                 ],
@@ -659,33 +667,9 @@ export const expectation9: AnalyzeBatchResult[] = [
                   {
                     sentiment: "positive",
                     confidenceScores: { positive: 1, negative: 0 },
-                    offset: 19,
-                    length: 4,
-                    text: "good",
-                    isNegated: false,
-                  },
-                  {
-                    sentiment: "positive",
-                    confidenceScores: { positive: 1, negative: 0 },
-                    offset: 36,
-                    length: 4,
-                    text: "nice",
-                    isNegated: false,
-                  },
-                  {
-                    sentiment: "positive",
-                    confidenceScores: { positive: 1, negative: 0 },
                     offset: 59,
                     length: 5,
                     text: "clean",
-                    isNegated: false,
-                  },
-                  {
-                    sentiment: "positive",
-                    confidenceScores: { positive: 1, negative: 0 },
-                    offset: 0,
-                    length: 5,
-                    text: "loved",
                     isNegated: false,
                   },
                 ],
@@ -710,7 +694,7 @@ export const expectation9: AnalyzeBatchResult[] = [
               {
                 target: {
                   sentiment: "positive",
-                  confidenceScores: { positive: 0.97, negative: 0.03 },
+                  confidenceScores: { positive: 1, negative: 0 },
                   offset: 27,
                   length: 4,
                   text: "view",
@@ -726,7 +710,7 @@ export const expectation9: AnalyzeBatchResult[] = [
                   },
                   {
                     sentiment: "positive",
-                    confidenceScores: { positive: 0.93, negative: 0.07 },
+                    confidenceScores: { positive: 0.99, negative: 0.01 },
                     offset: 14,
                     length: 12,
                     text: "unobstructed",
@@ -742,12 +726,12 @@ export const expectation9: AnalyzeBatchResult[] = [
         id: "5",
         warnings: [],
         sentiment: "negative",
-        confidenceScores: { positive: 0, neutral: 0, negative: 1 },
+        confidenceScores: { positive: 0.09, neutral: 0, negative: 0.91 },
         sentences: [
           {
             text: "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
             sentiment: "negative",
-            confidenceScores: { positive: 0, neutral: 0, negative: 1 },
+            confidenceScores: { positive: 0.09, neutral: 0, negative: 0.91 },
             offset: 0,
             length: 75,
             opinions: [
@@ -765,7 +749,7 @@ export const expectation9: AnalyzeBatchResult[] = [
                     confidenceScores: { positive: 1, negative: 0 },
                     offset: 0,
                     length: 4,
-                    text: "nice",
+                    text: "Nice",
                     isNegated: false,
                   },
                 ],
@@ -815,20 +799,20 @@ export const expectation9: AnalyzeBatchResult[] = [
       {
         id: "6",
         warnings: [],
-        sentiment: "neutral",
-        confidenceScores: { positive: 0.03, neutral: 0.63, negative: 0.34 },
+        sentiment: "negative",
+        confidenceScores: { positive: 0.02, neutral: 0.09, negative: 0.88 },
         sentences: [
           {
             text: "The toilet smelled.",
-            sentiment: "neutral",
-            confidenceScores: { positive: 0.03, neutral: 0.63, negative: 0.34 },
+            sentiment: "negative",
+            confidenceScores: { positive: 0.02, neutral: 0.09, negative: 0.88 },
             offset: 0,
             length: 19,
             opinions: [
               {
                 target: {
                   sentiment: "negative",
-                  confidenceScores: { positive: 0.01, negative: 0.99 },
+                  confidenceScores: { positive: 0, negative: 1 },
                   offset: 4,
                   length: 6,
                   text: "toilet",
@@ -836,7 +820,7 @@ export const expectation9: AnalyzeBatchResult[] = [
                 assessments: [
                   {
                     sentiment: "negative",
-                    confidenceScores: { positive: 0.01, negative: 0.99 },
+                    confidenceScores: { positive: 0, negative: 1 },
                     offset: 11,
                     length: 7,
                     text: "smelled",
@@ -849,8 +833,8 @@ export const expectation9: AnalyzeBatchResult[] = [
         ],
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
 ];
 
@@ -2205,19 +2189,19 @@ export const expectation25: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "84de8de2-72cb-40e1-8a76-4e21c1f36963",
+          id: "804a3524-67c4-4c72-a27f-5c59a56510df",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:84de8de2-72cb-40e1-8a76-4e21c1f36963",
+            value: "urn:uuid:804a3524-67c4-4c72-a27f-5c59a56510df",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/66984b59-f67e-49de-9eda-1bb0b561c20d",
+              fullUrl: "Composition/71c062e0-d5c1-457c-a151-d6efa3630ab1",
               resource: {
                 resourceType: "Composition",
-                id: "66984b59-f67e-49de-9eda-1bb0b561c20d",
+                id: "71c062e0-d5c1-457c-a151-d6efa3630ab1",
                 status: "final",
                 type: {
                   coding: [
@@ -2226,18 +2210,18 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "Pathology study",
                 },
                 subject: {
-                  reference: "Patient/7511e2d8-e558-4039-8706-033b968b105c",
+                  reference: "Patient/d9ee04ef-f947-4693-8c48-fdb28005d75c",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/b2310f22-ac9e-4f2f-980f-704abfbe6cbb",
+                  reference: "Encounter/a22ba9fa-8a05-4dff-a313-f70d498b0ad0",
                   type: "Encounter",
                   display: "unknown",
                 },
-                date: "2022-05-01",
+                date: "2022-06-17",
                 author: [
                   {
-                    reference: "Practitioner/972dde47-f95b-452b-9bd7-f6213c0c3456",
+                    reference: "Practitioner/dcf7e0c8-1acb-4eaa-8f42-f79eeba178d6",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -2255,7 +2239,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                     },
                     entry: [
                       {
-                        reference: "List/1957301f-ff78-4245-85c0-75fc7f2a6e01",
+                        reference: "List/b49f0dfd-b16f-461e-9ea9-337215047f41",
                         type: "List",
                         display: "General",
                       },
@@ -2265,10 +2249,10 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/972dde47-f95b-452b-9bd7-f6213c0c3456",
+              fullUrl: "Practitioner/dcf7e0c8-1acb-4eaa-8f42-f79eeba178d6",
               resource: {
                 resourceType: "Practitioner",
-                id: "972dde47-f95b-452b-9bd7-f6213c0c3456",
+                id: "dcf7e0c8-1acb-4eaa-8f42-f79eeba178d6",
                 extension: [
                   {
                     extension: [
@@ -2282,18 +2266,18 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Patient/7511e2d8-e558-4039-8706-033b968b105c",
+              fullUrl: "Patient/d9ee04ef-f947-4693-8c48-fdb28005d75c",
               resource: {
                 resourceType: "Patient",
-                id: "7511e2d8-e558-4039-8706-033b968b105c",
+                id: "d9ee04ef-f947-4693-8c48-fdb28005d75c",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/b2310f22-ac9e-4f2f-980f-704abfbe6cbb",
+              fullUrl: "Encounter/a22ba9fa-8a05-4dff-a313-f70d498b0ad0",
               resource: {
                 resourceType: "Encounter",
-                id: "b2310f22-ac9e-4f2f-980f-704abfbe6cbb",
+                id: "a22ba9fa-8a05-4dff-a313-f70d498b0ad0",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -2303,16 +2287,16 @@ export const expectation25: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/7511e2d8-e558-4039-8706-033b968b105c",
+                  reference: "Patient/d9ee04ef-f947-4693-8c48-fdb28005d75c",
                   type: "Patient",
                 },
               },
             },
             {
-              fullUrl: "Observation/962a5498-55d2-4f30-945a-ca31b9b23568",
+              fullUrl: "Observation/88f1400c-e387-46ee-9c0c-270c0dc80320",
               resource: {
                 resourceType: "Observation",
-                id: "962a5498-55d2-4f30-945a-ca31b9b23568",
+                id: "88f1400c-e387-46ee-9c0c-270c0dc80320",
                 extension: [
                   {
                     extension: [
@@ -2340,7 +2324,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                     {
                       system: "http://www.nlm.nih.gov/research/umls",
                       code: "C0020538",
-                      display: "high blood pressure",
+                      display: "Hypertensive disease",
                     },
                     { system: "http://www.nlm.nih.gov/research/umls/aod", code: "0000023317" },
                     { system: "http://www.nlm.nih.gov/research/umls/bi", code: "BI00001" },
@@ -2394,11 +2378,11 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "high blood pressure",
                 },
                 subject: {
-                  reference: "Patient/7511e2d8-e558-4039-8706-033b968b105c",
+                  reference: "Patient/d9ee04ef-f947-4693-8c48-fdb28005d75c",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/b2310f22-ac9e-4f2f-980f-704abfbe6cbb",
+                  reference: "Encounter/a22ba9fa-8a05-4dff-a313-f70d498b0ad0",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -2408,36 +2392,36 @@ export const expectation25: AnalyzeBatchResult[] = [
                       {
                         system:
                           "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-                        code: "POS",
-                        display: "Positive",
+                        code: "NEG",
+                        display: "Negative",
                       },
                     ],
-                    text: "Positive",
+                    text: "Negative",
                   },
                 ],
               },
             },
             {
-              fullUrl: "List/1957301f-ff78-4245-85c0-75fc7f2a6e01",
+              fullUrl: "List/b49f0dfd-b16f-461e-9ea9-337215047f41",
               resource: {
                 resourceType: "List",
-                id: "1957301f-ff78-4245-85c0-75fc7f2a6e01",
+                id: "b49f0dfd-b16f-461e-9ea9-337215047f41",
                 status: "current",
                 mode: "snapshot",
                 title: "General",
                 subject: {
-                  reference: "Patient/7511e2d8-e558-4039-8706-033b968b105c",
+                  reference: "Patient/d9ee04ef-f947-4693-8c48-fdb28005d75c",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/b2310f22-ac9e-4f2f-980f-704abfbe6cbb",
+                  reference: "Encounter/a22ba9fa-8a05-4dff-a313-f70d498b0ad0",
                   type: "Encounter",
                   display: "unknown",
                 },
                 entry: [
                   {
                     item: {
-                      reference: "Observation/962a5498-55d2-4f30-945a-ca31b9b23568",
+                      reference: "Observation/88f1400c-e387-46ee-9c0c-270c0dc80320",
                       type: "Observation",
                       display: "high blood pressure",
                     },
@@ -2631,19 +2615,19 @@ export const expectation25: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "5ab182bc-6bed-4bba-a52d-eebb7999ce73",
+          id: "edca7b98-600d-4ebc-ae3f-d74bd41084f6",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:5ab182bc-6bed-4bba-a52d-eebb7999ce73",
+            value: "urn:uuid:edca7b98-600d-4ebc-ae3f-d74bd41084f6",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/0c35a810-8d68-4037-8eea-b807b4c27d9e",
+              fullUrl: "Composition/504b69aa-8cc5-4192-bdce-bb32a276183f",
               resource: {
                 resourceType: "Composition",
-                id: "0c35a810-8d68-4037-8eea-b807b4c27d9e",
+                id: "504b69aa-8cc5-4192-bdce-bb32a276183f",
                 status: "final",
                 type: {
                   coding: [
@@ -2652,18 +2636,18 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "Pathology study",
                 },
                 subject: {
-                  reference: "Patient/a2ff9943-e8a0-4ac2-ab05-e0c76004768e",
+                  reference: "Patient/4bc56ab6-2deb-4453-b592-86ab1213cbfb",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/b8a4d7c5-fe79-4e8b-93a7-ecdfdffacf34",
+                  reference: "Encounter/1a2b0062-1764-464a-9b94-dec01d856017",
                   type: "Encounter",
                   display: "unknown",
                 },
-                date: "2022-05-01",
+                date: "2022-06-17",
                 author: [
                   {
-                    reference: "Practitioner/068e450a-e885-4542-babc-b2704aecbaea",
+                    reference: "Practitioner/52178290-6f14-484d-aee4-1189db9911e8",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -2681,7 +2665,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                     },
                     entry: [
                       {
-                        reference: "List/782a81fd-0395-4412-a8bc-2bb0e2d5dae3",
+                        reference: "List/47e16111-264b-4634-8c4b-6dc4518425fe",
                         type: "List",
                         display: "General",
                       },
@@ -2691,10 +2675,10 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/068e450a-e885-4542-babc-b2704aecbaea",
+              fullUrl: "Practitioner/52178290-6f14-484d-aee4-1189db9911e8",
               resource: {
                 resourceType: "Practitioner",
-                id: "068e450a-e885-4542-babc-b2704aecbaea",
+                id: "52178290-6f14-484d-aee4-1189db9911e8",
                 extension: [
                   {
                     extension: [
@@ -2708,18 +2692,18 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Patient/a2ff9943-e8a0-4ac2-ab05-e0c76004768e",
+              fullUrl: "Patient/4bc56ab6-2deb-4453-b592-86ab1213cbfb",
               resource: {
                 resourceType: "Patient",
-                id: "a2ff9943-e8a0-4ac2-ab05-e0c76004768e",
+                id: "4bc56ab6-2deb-4453-b592-86ab1213cbfb",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/b8a4d7c5-fe79-4e8b-93a7-ecdfdffacf34",
+              fullUrl: "Encounter/1a2b0062-1764-464a-9b94-dec01d856017",
               resource: {
                 resourceType: "Encounter",
-                id: "b8a4d7c5-fe79-4e8b-93a7-ecdfdffacf34",
+                id: "1a2b0062-1764-464a-9b94-dec01d856017",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -2729,16 +2713,16 @@ export const expectation25: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/a2ff9943-e8a0-4ac2-ab05-e0c76004768e",
+                  reference: "Patient/4bc56ab6-2deb-4453-b592-86ab1213cbfb",
                   type: "Patient",
                 },
               },
             },
             {
-              fullUrl: "MedicationStatement/00760614-f9ec-4a2a-be28-daed148a0b42",
+              fullUrl: "MedicationStatement/c0727ac3-846e-4a48-9c8b-dbd673559ec4",
               resource: {
                 resourceType: "MedicationStatement",
-                id: "00760614-f9ec-4a2a-be28-daed148a0b42",
+                id: "c0727ac3-846e-4a48-9c8b-dbd673559ec4",
                 extension: [
                   {
                     extension: [
@@ -2792,11 +2776,11 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "ibuprofen",
                 },
                 subject: {
-                  reference: "Patient/a2ff9943-e8a0-4ac2-ab05-e0c76004768e",
+                  reference: "Patient/4bc56ab6-2deb-4453-b592-86ab1213cbfb",
                   type: "Patient",
                 },
                 context: {
-                  reference: "Encounter/b8a4d7c5-fe79-4e8b-93a7-ecdfdffacf34",
+                  reference: "Encounter/1a2b0062-1764-464a-9b94-dec01d856017",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -2813,26 +2797,26 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "List/782a81fd-0395-4412-a8bc-2bb0e2d5dae3",
+              fullUrl: "List/47e16111-264b-4634-8c4b-6dc4518425fe",
               resource: {
                 resourceType: "List",
-                id: "782a81fd-0395-4412-a8bc-2bb0e2d5dae3",
+                id: "47e16111-264b-4634-8c4b-6dc4518425fe",
                 status: "current",
                 mode: "snapshot",
                 title: "General",
                 subject: {
-                  reference: "Patient/a2ff9943-e8a0-4ac2-ab05-e0c76004768e",
+                  reference: "Patient/4bc56ab6-2deb-4453-b592-86ab1213cbfb",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/b8a4d7c5-fe79-4e8b-93a7-ecdfdffacf34",
+                  reference: "Encounter/1a2b0062-1764-464a-9b94-dec01d856017",
                   type: "Encounter",
                   display: "unknown",
                 },
                 entry: [
                   {
                     item: {
-                      reference: "MedicationStatement/00760614-f9ec-4a2a-be28-daed148a0b42",
+                      reference: "MedicationStatement/c0727ac3-846e-4a48-9c8b-dbd673559ec4",
                       type: "MedicationStatement",
                       display: "ibuprofen",
                     },
@@ -3075,19 +3059,19 @@ export const expectation25: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "cb9705e2-b7cf-4ccb-82ed-31247fc26936",
+          id: "fd36500a-9bad-4d27-a6c9-ddefd245c275",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:cb9705e2-b7cf-4ccb-82ed-31247fc26936",
+            value: "urn:uuid:fd36500a-9bad-4d27-a6c9-ddefd245c275",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/3b5b3783-b234-4907-8e92-b9a82b06ce0b",
+              fullUrl: "Composition/98d82c90-9b03-4d75-866e-227b4c8a5daa",
               resource: {
                 resourceType: "Composition",
-                id: "3b5b3783-b234-4907-8e92-b9a82b06ce0b",
+                id: "98d82c90-9b03-4d75-866e-227b4c8a5daa",
                 status: "final",
                 type: {
                   coding: [
@@ -3096,18 +3080,18 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "Pathology study",
                 },
                 subject: {
-                  reference: "Patient/6782afcc-6db5-4840-9c8f-9f720bc698a7",
+                  reference: "Patient/28c22610-2f09-40b8-97ad-c578ce78d4d8",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/3e8c7a13-cb3f-41f7-8eac-5b0367624ce8",
+                  reference: "Encounter/765582da-3964-499e-a115-dea2170ec61f",
                   type: "Encounter",
                   display: "unknown",
                 },
-                date: "2022-05-01",
+                date: "2022-06-17",
                 author: [
                   {
-                    reference: "Practitioner/2ba6447c-e579-416d-ae41-b575051d2b0a",
+                    reference: "Practitioner/ef1f5449-5c43-44d5-8e61-87cc0a81c44e",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -3125,7 +3109,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                     },
                     entry: [
                       {
-                        reference: "List/98e197dc-88d1-4a69-92bc-61124d3a2a43",
+                        reference: "List/2eb27058-14c2-4994-b316-a4c9bc052aad",
                         type: "List",
                         display: "General",
                       },
@@ -3135,10 +3119,10 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/2ba6447c-e579-416d-ae41-b575051d2b0a",
+              fullUrl: "Practitioner/ef1f5449-5c43-44d5-8e61-87cc0a81c44e",
               resource: {
                 resourceType: "Practitioner",
-                id: "2ba6447c-e579-416d-ae41-b575051d2b0a",
+                id: "ef1f5449-5c43-44d5-8e61-87cc0a81c44e",
                 extension: [
                   {
                     extension: [
@@ -3152,18 +3136,18 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Patient/6782afcc-6db5-4840-9c8f-9f720bc698a7",
+              fullUrl: "Patient/28c22610-2f09-40b8-97ad-c578ce78d4d8",
               resource: {
                 resourceType: "Patient",
-                id: "6782afcc-6db5-4840-9c8f-9f720bc698a7",
+                id: "28c22610-2f09-40b8-97ad-c578ce78d4d8",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/3e8c7a13-cb3f-41f7-8eac-5b0367624ce8",
+              fullUrl: "Encounter/765582da-3964-499e-a115-dea2170ec61f",
               resource: {
                 resourceType: "Encounter",
-                id: "3e8c7a13-cb3f-41f7-8eac-5b0367624ce8",
+                id: "765582da-3964-499e-a115-dea2170ec61f",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -3173,16 +3157,16 @@ export const expectation25: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/6782afcc-6db5-4840-9c8f-9f720bc698a7",
+                  reference: "Patient/28c22610-2f09-40b8-97ad-c578ce78d4d8",
                   type: "Patient",
                 },
               },
             },
             {
-              fullUrl: "Condition/a2aa3b2d-a641-4361-864b-090ca3452110",
+              fullUrl: "Condition/e77eabc2-2e1c-4aaa-9c12-a3d6c1e756ea",
               resource: {
                 resourceType: "Condition",
-                id: "a2aa3b2d-a641-4361-864b-090ca3452110",
+                id: "e77eabc2-2e1c-4aaa-9c12-a3d6c1e756ea",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition"],
                 },
@@ -3199,11 +3183,11 @@ export const expectation25: AnalyzeBatchResult[] = [
                   coding: [
                     {
                       system: "http://terminology.hl7.org/CodeSystem/condition-ver-status",
-                      code: "confirmed",
-                      display: "Confirmed",
+                      code: "unconfirmed",
+                      display: "Unconfirmed",
                     },
                   ],
-                  text: "Confirmed",
+                  text: "Unconfirmed",
                 },
                 category: [
                   {
@@ -3270,21 +3254,21 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "Meningitis",
                 },
                 subject: {
-                  reference: "Patient/6782afcc-6db5-4840-9c8f-9f720bc698a7",
+                  reference: "Patient/28c22610-2f09-40b8-97ad-c578ce78d4d8",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/3e8c7a13-cb3f-41f7-8eac-5b0367624ce8",
+                  reference: "Encounter/765582da-3964-499e-a115-dea2170ec61f",
                   type: "Encounter",
                   display: "unknown",
                 },
               },
             },
             {
-              fullUrl: "Observation/392011e3-70f1-4bae-a7c5-f05f21403d21",
+              fullUrl: "Observation/3c08ede8-e183-4810-8f4e-f70c3018329e",
               resource: {
                 resourceType: "Observation",
-                id: "392011e3-70f1-4bae-a7c5-f05f21403d21",
+                id: "3c08ede8-e183-4810-8f4e-f70c3018329e",
                 extension: [
                   {
                     extension: [
@@ -3312,7 +3296,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                     {
                       system: "http://www.nlm.nih.gov/research/umls",
                       code: "C0015967",
-                      display: "fever",
+                      display: "Fever",
                     },
                     { system: "http://www.nlm.nih.gov/research/umls/air", code: "FEVER" },
                     { system: "http://www.nlm.nih.gov/research/umls/aod", code: "0000004396" },
@@ -3373,11 +3357,11 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "fever",
                 },
                 subject: {
-                  reference: "Patient/6782afcc-6db5-4840-9c8f-9f720bc698a7",
+                  reference: "Patient/28c22610-2f09-40b8-97ad-c578ce78d4d8",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/3e8c7a13-cb3f-41f7-8eac-5b0367624ce8",
+                  reference: "Encounter/765582da-3964-499e-a115-dea2170ec61f",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -3397,10 +3381,10 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "MedicationStatement/a2b01543-f52c-44dc-bdac-f501dbd9a8e1",
+              fullUrl: "MedicationStatement/380d3a80-3d57-4634-8896-cf5662f9f58a",
               resource: {
                 resourceType: "MedicationStatement",
-                id: "a2b01543-f52c-44dc-bdac-f501dbd9a8e1",
+                id: "380d3a80-3d57-4634-8896-cf5662f9f58a",
                 extension: [
                   {
                     extension: [
@@ -3410,13 +3394,13 @@ export const expectation25: AnalyzeBatchResult[] = [
                     url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
                   },
                 ],
-                status: "active",
+                status: "unknown",
                 medicationCodeableConcept: {
                   coding: [
                     {
                       system: "http://www.nlm.nih.gov/research/umls",
                       code: "C0030842",
-                      display: "Penicillin",
+                      display: "penicillins",
                     },
                     { system: "http://www.nlm.nih.gov/research/umls/aod", code: "0000019206" },
                     { system: "http://www.whocc.no/atc", code: "J01C" },
@@ -3447,51 +3431,51 @@ export const expectation25: AnalyzeBatchResult[] = [
                   text: "Penicillin",
                 },
                 subject: {
-                  reference: "Patient/6782afcc-6db5-4840-9c8f-9f720bc698a7",
+                  reference: "Patient/28c22610-2f09-40b8-97ad-c578ce78d4d8",
                   type: "Patient",
                 },
                 context: {
-                  reference: "Encounter/3e8c7a13-cb3f-41f7-8eac-5b0367624ce8",
+                  reference: "Encounter/765582da-3964-499e-a115-dea2170ec61f",
                   type: "Encounter",
                   display: "unknown",
                 },
               },
             },
             {
-              fullUrl: "List/98e197dc-88d1-4a69-92bc-61124d3a2a43",
+              fullUrl: "List/2eb27058-14c2-4994-b316-a4c9bc052aad",
               resource: {
                 resourceType: "List",
-                id: "98e197dc-88d1-4a69-92bc-61124d3a2a43",
+                id: "2eb27058-14c2-4994-b316-a4c9bc052aad",
                 status: "current",
                 mode: "snapshot",
                 title: "General",
                 subject: {
-                  reference: "Patient/6782afcc-6db5-4840-9c8f-9f720bc698a7",
+                  reference: "Patient/28c22610-2f09-40b8-97ad-c578ce78d4d8",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/3e8c7a13-cb3f-41f7-8eac-5b0367624ce8",
+                  reference: "Encounter/765582da-3964-499e-a115-dea2170ec61f",
                   type: "Encounter",
                   display: "unknown",
                 },
                 entry: [
                   {
                     item: {
-                      reference: "Condition/a2aa3b2d-a641-4361-864b-090ca3452110",
+                      reference: "Condition/e77eabc2-2e1c-4aaa-9c12-a3d6c1e756ea",
                       type: "Condition",
                       display: "Meningitis",
                     },
                   },
                   {
                     item: {
-                      reference: "Observation/392011e3-70f1-4bae-a7c5-f05f21403d21",
+                      reference: "Observation/3c08ede8-e183-4810-8f4e-f70c3018329e",
                       type: "Observation",
                       display: "fever",
                     },
                   },
                   {
                     item: {
-                      reference: "MedicationStatement/a2b01543-f52c-44dc-bdac-f501dbd9a8e1",
+                      reference: "MedicationStatement/380d3a80-3d57-4634-8896-cf5662f9f58a",
                       type: "MedicationStatement",
                       display: "Penicillin",
                     },
@@ -3835,36 +3819,16 @@ export const expectation26: AnalyzeBatchResult[] = [
       {
         id: "0",
         warnings: [],
-        sentiment: "positive",
-        confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+        sentiment: "neutral",
+        confidenceScores: { positive: 0.04, neutral: 0.76, negative: 0.2 },
         sentences: [
           {
             text: "Patient does not suffer from high blood pressure.",
-            sentiment: "positive",
-            confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+            sentiment: "neutral",
+            confidenceScores: { positive: 0.04, neutral: 0.76, negative: 0.2 },
             offset: 0,
             length: 49,
-            opinions: [
-              {
-                target: {
-                  sentiment: "positive",
-                  confidenceScores: { positive: 0.94, negative: 0.06 },
-                  offset: 0,
-                  length: 7,
-                  text: "Patient",
-                },
-                assessments: [
-                  {
-                    sentiment: "positive",
-                    confidenceScores: { positive: 0.94, negative: 0.06 },
-                    offset: 17,
-                    length: 6,
-                    text: "suffer",
-                    isNegated: true,
-                  },
-                ],
-              },
-            ],
+            opinions: [],
           },
         ],
       },
@@ -3872,12 +3836,12 @@ export const expectation26: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         sentiment: "neutral",
-        confidenceScores: { positive: 0.03, neutral: 0.89, negative: 0.08 },
+        confidenceScores: { positive: 0, neutral: 0.99, negative: 0.01 },
         sentences: [
           {
             text: "Prescribed 100mg ibuprofen, taken twice daily.",
             sentiment: "neutral",
-            confidenceScores: { positive: 0.03, neutral: 0.89, negative: 0.08 },
+            confidenceScores: { positive: 0, neutral: 0.99, negative: 0.01 },
             offset: 0,
             length: 46,
             opinions: [],

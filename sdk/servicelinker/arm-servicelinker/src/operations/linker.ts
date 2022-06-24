@@ -646,16 +646,16 @@ const validateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateResult
+      bodyMapper: Mappers.ValidateOperationResult
     },
     201: {
-      bodyMapper: Mappers.ValidateResult
+      bodyMapper: Mappers.ValidateOperationResult
     },
     202: {
-      bodyMapper: Mappers.ValidateResult
+      bodyMapper: Mappers.ValidateOperationResult
     },
     204: {
-      bodyMapper: Mappers.ValidateResult
+      bodyMapper: Mappers.ValidateOperationResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

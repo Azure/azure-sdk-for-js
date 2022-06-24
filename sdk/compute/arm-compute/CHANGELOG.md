@@ -1,6 +1,6 @@
 # Release History
 
-## 17.3.2 (Unreleased)
+## 19.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,102 @@
 
 ### Other Changes
 
+## 19.0.0 (2022-06-06)
+    
+**Features**
+
+  - Added operation CommunityGalleryImages.list
+  - Added operation CommunityGalleryImageVersions.list
+  - Added operation VirtualMachineImages.listByEdgeZone
+  - Added Interface CommunityGalleryImageList
+  - Added Interface CommunityGalleryImagesListNextOptionalParams
+  - Added Interface CommunityGalleryImagesListOptionalParams
+  - Added Interface CommunityGalleryImageVersionList
+  - Added Interface CommunityGalleryImageVersionsListNextOptionalParams
+  - Added Interface CommunityGalleryImageVersionsListOptionalParams
+  - Added Interface CopyCompletionError
+  - Added Interface SharedGalleryDiskImage
+  - Added Interface SharedGalleryImageVersionStorageProfile
+  - Added Interface UserArtifactSettings
+  - Added Interface VirtualMachineImagesListByEdgeZoneOptionalParams
+  - Added Interface VmImagesInEdgeZoneListResult
+  - Added Type Alias CommunityGalleryImagesListNextResponse
+  - Added Type Alias CommunityGalleryImagesListResponse
+  - Added Type Alias CommunityGalleryImageVersionsListNextResponse
+  - Added Type Alias CommunityGalleryImageVersionsListResponse
+  - Added Type Alias CopyCompletionErrorReason
+  - Added Type Alias GalleryProvisioningState
+  - Added Type Alias SharedGalleryDataDiskImage
+  - Added Type Alias SharedGalleryHostCaching
+  - Added Type Alias SharedGalleryOSDiskImage
+  - Added Type Alias VirtualMachineImagesListByEdgeZoneResponse
+  - Interface DiskEncryptionSetUpdate has a new optional parameter federatedClientId
+  - Interface EncryptionSetIdentity has a new optional parameter userAssignedIdentities
+  - Interface ImageDiskReference has a new optional parameter communityGalleryImageId
+  - Interface ImageDiskReference has a new optional parameter sharedGalleryImageId
+  - Type Alias CommunityGalleryImage has a new parameter architecture
+  - Type Alias CommunityGalleryImage has a new parameter privacyStatementUri
+  - Type Alias CommunityGalleryImage has a new parameter eula
+  - Type Alias CommunityGalleryImageVersion has a new parameter excludeFromLatest
+  - Type Alias CommunityGalleryImageVersion has a new parameter storageProfile
+  - Type Alias DiskEncryptionSet has a new parameter federatedClientId
+  - Type Alias DiskRestorePoint has a new parameter securityProfile
+  - Type Alias GalleryApplicationVersionPublishingProfile has a new parameter settings
+  - Type Alias SharedGalleryImage has a new parameter architecture
+  - Type Alias SharedGalleryImageVersion has a new parameter excludeFromLatest
+  - Type Alias SharedGalleryImageVersion has a new parameter storageProfile
+  - Type Alias Snapshot has a new parameter copyCompletionError
+  - Added Enum KnownCopyCompletionErrorReason
+  - Added Enum KnownGalleryProvisioningState
+  - Added Enum KnownSharedGalleryHostCaching
+  - Enum KnownDiskEncryptionSetIdentityType has a new value SystemAssignedUserAssigned
+  - Enum KnownDiskEncryptionSetIdentityType has a new value UserAssigned
+  - Enum KnownDiskStorageAccountTypes has a new value PremiumV2LRS
+  - Enum KnownGallerySharingPermissionTypes has a new value Community
+
+**Breaking Changes**
+
+  - Removed Enum KnownGalleryApplicationVersionPropertiesProvisioningState
+  - Removed Enum KnownGalleryImagePropertiesProvisioningState
+  - Removed Enum KnownGalleryImageVersionPropertiesProvisioningState
+  - Removed Enum KnownGalleryPropertiesProvisioningState
+  - Enum KnownSharingProfileGroupTypes no longer has value Community
+    
+    
+## 18.0.0 (2022-05-23)
+    
+**Features**
+
+  - Added Interface DedicatedHostGroupPropertiesAdditionalCapabilities
+  - Added Interface LinuxVMGuestPatchAutomaticByPlatformSettings
+  - Added Interface ProximityPlacementGroupPropertiesIntent
+  - Added Interface ResourceWithOptionalLocation
+  - Added Interface WindowsVMGuestPatchAutomaticByPlatformSettings
+  - Added Type Alias LinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Type Alias WindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Interface AutomaticOSUpgradePolicy has a new optional parameter useRollingUpgradePolicy
+  - Interface DiskRestorePointReplicationStatus has a new optional parameter completionPercent
+  - Interface LinuxPatchSettings has a new optional parameter automaticByPlatformSettings
+  - Interface PatchSettings has a new optional parameter automaticByPlatformSettings
+  - Interface VirtualMachineScaleSetDataDisk has a new optional parameter deleteOption
+  - Interface VirtualMachineScaleSetOSDisk has a new optional parameter deleteOption
+  - Interface VirtualMachineScaleSetUpdateOSDisk has a new optional parameter deleteOption
+  - Interface VMGalleryApplication has a new optional parameter enableAutomaticUpgrade
+  - Interface VMGalleryApplication has a new optional parameter treatFailureAsDeploymentFailure
+  - Add parameters of ResourceWithOptionalLocation to TypeAlias VirtualMachineExtension
+  - Type Alias DedicatedHostGroup has a new parameter additionalCapabilities
+  - Type Alias DedicatedHostGroupUpdate has a new parameter additionalCapabilities
+  - Type Alias ProximityPlacementGroup has a new parameter zones
+  - Type Alias ProximityPlacementGroup has a new parameter intent
+  - Type Alias VirtualMachineScaleSetVM has a new parameter identity
+  - Added Enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Enum KnownStorageAccountTypes has a new value PremiumV2LRS
+
+**Breaking Changes**
+
+  - Delete parameters of Resource in TypeAlias VirtualMachineExtension
+    
 ## 17.3.1 (2022-04-06)
 
 **features**

@@ -25,6 +25,12 @@ export const receiverLogger = createServiceBusLogger("service-bus:receiver");
 export const senderLogger = createServiceBusLogger("service-bus:sender");
 
 /**
+ * Logging for ServiceBusRuleManagers
+ * @internal
+ */
+export const ruleManagerLogger = createServiceBusLogger("service-bus:rulemanager");
+
+/**
  * Logging for connection management
  * @internal
  */

@@ -1,5 +1,12 @@
 # Release History
 
+## 1.1.0 (Unreleased)
+
+### Features Added
+
+- Added support to build a custom Teams endpoint using Microsoft 365 Teams identities:
+  - Added `getTokenForTeamsUser(teamsUserAadToken: string, appId: string, userId: string, options: OperationOptions = {})` method that provides the ability to exchange an AAD access token of a Teams user for a Communication Identity access token to `CommunicationIdentityClient`.
+
 ## 1.1.0-beta.2 (2022-04-05)
 
 ### Features Added

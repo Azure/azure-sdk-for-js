@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.0-beta.5 (Unreleased)
+## 5.0.0-beta.6 (Unreleased)
 
 ### Features Added
 
@@ -10,9 +10,9 @@
 
 ### Other Changes
 
-## 5.0.0-beta.4 (2022-05-01)
+## 5.0.0-beta.5 (2022-06-10)
 
-The package of @azure/arm-sqlvirtualmachine is using our next generation design principles since version 5.0.0-beta.4, which contains breaking changes.
+The package of @azure/arm-sqlvirtualmachine is using our next generation design principles since version 5.0.0-beta.5, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 

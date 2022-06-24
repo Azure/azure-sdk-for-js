@@ -11,7 +11,8 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/latest/service-bus.d.ts"
+    "publicTrimmedFilePath": "./types/latest/service-bus.d.ts",
+    "betaTrimmedFilePath": "./types/latest/service-bus-beta.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

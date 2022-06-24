@@ -64,9 +64,13 @@ export interface CommunicationError {
   readonly innerError?: CommunicationError;
 }
 
-export interface TeamsUserAccessTokenRequest {
-  /** AAD access token of a Teams User to acquire a new Communication Identity access token. */
+export interface TeamsUserExchangeTokenRequest {
+  /** Azure AD access token of a Teams User to acquire a new Communication Identity access token. */
   token: string;
+  /** Client ID of an Azure AD application to be verified against the appid claim in the Azure AD access token. */
+  appId: string;
+  /** Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the Azure AD access token. */
+  userId: string;
 }
 
 export interface CommunicationIdentityAccessTokenRequest {

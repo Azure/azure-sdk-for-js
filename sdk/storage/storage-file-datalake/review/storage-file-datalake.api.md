@@ -1319,13 +1319,19 @@ export interface PathCreateHttpHeaders {
 export interface PathCreateIfNotExistsOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
+    acl?: PathAccessControlItem[];
     customerProvidedKey?: CpkInfo;
+    expiresOn?: number | Date;
+    group?: string;
+    leaseDuration?: number;
     // (undocumented)
     metadata?: Metadata;
+    owner?: string;
     // (undocumented)
     pathHttpHeaders?: PathCreateHttpHeaders;
     // (undocumented)
     permissions?: string;
+    proposedLeaseId?: string;
     // (undocumented)
     umask?: string;
 }
@@ -1339,15 +1345,21 @@ export interface PathCreateIfNotExistsResponse extends PathCreateResponse {
 export interface PathCreateOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
+    acl?: PathAccessControlItem[];
     // (undocumented)
     conditions?: DataLakeRequestConditions;
     customerProvidedKey?: CpkInfo;
+    expiresOn?: number | Date;
+    group?: string;
+    leaseDuration?: number;
     // (undocumented)
     metadata?: Metadata;
+    owner?: string;
     // (undocumented)
     pathHttpHeaders?: PathCreateHttpHeaders;
     // (undocumented)
     permissions?: string;
+    proposedLeaseId?: string;
     // (undocumented)
     umask?: string;
 }

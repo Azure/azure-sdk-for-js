@@ -33,7 +33,7 @@ describe("#AzureMonitorBaseExporter", () => {
     }
 
     async exportEnvelopesPrivate(payload: Envelope[]): Promise<ExportResult> {
-      return this.thisAsAny.exportEnvelopes(payload);
+      return this.thisAsAny._exportEnvelopes(payload);
     }
   }
 
