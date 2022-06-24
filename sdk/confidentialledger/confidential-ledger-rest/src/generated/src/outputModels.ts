@@ -65,15 +65,13 @@ export interface PagedLedgerEntriesOutput {
 export interface LedgerEntryOutput {
   /** Contents of the ledger entry. */
   contents: string;
-  /** Identifier for collections. */
-  collectionId?: CollectionOutput;
+  collectionId?: string;
   /** A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read. */
   transactionId?: string;
 }
 
 export interface LedgerWriteResultOutput {
-  /** Identifier for collections. */
-  collectionId: CollectionOutput;
+  collectionId: string;
 }
 
 export interface LedgerQueryResultOutput {

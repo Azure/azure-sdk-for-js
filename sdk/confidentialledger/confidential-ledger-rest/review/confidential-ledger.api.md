@@ -15,12 +15,6 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export interface Collection {
-    // (undocumented)
-    collectionId: string;
-}
-
-// @public (undocumented)
 export interface CollectionOutput {
     // (undocumented)
     collectionId: string;
@@ -398,14 +392,16 @@ export function isUnexpected(response: CreateOrUpdateUser200Response | CreateOrU
 
 // @public (undocumented)
 export interface LedgerEntry {
-    collectionId?: Collection;
+    // (undocumented)
+    collectionId?: string;
     contents: string;
     transactionId?: string;
 }
 
 // @public (undocumented)
 export interface LedgerEntryOutput {
-    collectionId?: CollectionOutput;
+    // (undocumented)
+    collectionId?: string;
     contents: string;
     transactionId?: string;
 }
@@ -438,7 +434,8 @@ export interface LedgerUserOutput {
 
 // @public (undocumented)
 export interface LedgerWriteResultOutput {
-    collectionId: CollectionOutput;
+    // (undocumented)
+    collectionId: string;
 }
 
 // @public (undocumented)

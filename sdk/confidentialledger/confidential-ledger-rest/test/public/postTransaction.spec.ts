@@ -60,4 +60,37 @@ describe("Post transaction", () => {
       .get();
     assert(transactionResponse.status == "200" || (transactionResponse.status == "406" && statusResponse.body.state === "Pending"));
   });
+
+  it("should post to collection", async function () {
+    const entry: LedgerEntry = {
+      contents: "post ledger entry test",
+      collectionId: "collectionPost:0" as any,
+    };
+    const ledgerEntry: PostLedgerEntryParameters = {
+      contentType: "application/json",
+      body: entry,
+    };
+    let result = (await client
+      .path("/app/transactions")
+      .post(ledgerEntry)) as PostLedgerEntry200Response;
+
+    assert(result.status == "200");
+
+    const transactionId = result.headers["x-ms-ccf-transaction-id"] ?? "";
+    
+    const status = await client
+    .path("/app/transactions/{transactionId}/status", transactionId)
+    .get();
+
+    assert.equal(result.status, "200");
+    const statusResponse = status as GetTransactionStatus200Response;
+
+    assert(statusResponse.body.state === "Pending" || statusResponse.body.state === "Committed");
+    assert.equal(statusResponse.body.transactionId, transactionId);
+
+    const transactionResponse = await client
+      .path("/app/transactions/{transactionId}/receipt", transactionId)
+      .get();
+    assert(transactionResponse.status == "200" || (transactionResponse.status == "406" && statusResponse.body.state === "Pending"));
+  });
 });

@@ -164,7 +164,7 @@ function checkPagingRequest(response: PathUncheckedResponse): void {
  */
 function getPaginationProperties(initialResponse: PathUncheckedResponse) {
   // Build a set with the passed custom nextLinkNames
-  const nextLinkNames = new Set(["nextLink"]);
+  const nextLinkNames = new Set(["nextLink", "@nextLink"]);
 
   // Build a set with the passed custom set of itemNames
   const itemNames = new Set(["value", "entries"]);

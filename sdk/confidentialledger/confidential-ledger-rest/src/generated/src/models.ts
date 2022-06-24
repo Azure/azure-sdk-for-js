@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface Collection {
-  collectionId: string;
-}
-
 export interface LedgerEntry {
   /** Contents of the ledger entry. */
   contents: string;
-  /** Identifier for collections. */
-  collectionId?: Collection;
+  collectionId?: string;
   /** A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read. */
   transactionId?: string;
 }
