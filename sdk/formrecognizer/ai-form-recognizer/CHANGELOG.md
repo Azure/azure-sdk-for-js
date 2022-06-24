@@ -1,14 +1,10 @@
 # Release History
 
-## 4.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.0.0-beta.5 (2022-06-22)
 
 ### Bugs Fixed
 
-### Other Changes
+- Reworked a lookbehind regular expression that was preventing `@azure/ai-form-recognizer` from loading in Safari.
 
 ## 4.0.0-beta.4 (2022-06-07)
 

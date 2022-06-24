@@ -536,6 +536,89 @@ describe("Lro Engine", function () {
           assert.equal(result.name, "foo");
         });
 
+        it("should handle getDoubleHeadersFinalLocationGet", async () => {
+          const operationLocationPath = "/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl";
+          const resourceLocationPath = `/LROPostDoubleHeadersFinalLocationGet/location`;
+          const result = await runLro({
+            routes: [
+              {
+                method: "GET",
+                path: `/LROPostDoubleHeadersFinalLocationGet`,
+                status: 202,
+                headers: {
+                  Location: resourceLocationPath,
+                  [headerName]: operationLocationPath,
+                },
+              },
+              {
+                method: "GET",
+                path: operationLocationPath,
+                status: 200,
+                body: `{ "status": "running" }`,
+              },
+              {
+                method: "GET",
+                path: operationLocationPath,
+                status: 200,
+                body: `{ "status": "succeeded" }`,
+              },
+              {
+                method: "GET",
+                path: resourceLocationPath,
+                status: 200,
+                body: `{ "id": "100", "name": "foo" }`,
+              },
+            ],
+          });
+          assert.equal(result.id, "100");
+          assert.equal(result.name, "foo");
+        });
+
+        it("should handle getDoubleHeaders", async () => {
+          const operationLocationPath = "/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl";
+          const result = await runLro({
+            routes: [
+              {
+                method: "GET",
+                path: `/LROPostDoubleHeadersFinalLocationGet`,
+                status: 202,
+                headers: {
+                  [headerName]: operationLocationPath,
+                },
+              },
+              {
+                method: "GET",
+                path: operationLocationPath,
+                status: 200,
+                body: `{ "status": "running" }`,
+              },
+              {
+                method: "GET",
+                path: operationLocationPath,
+                status: 200,
+                body: `{ "status": "succeeded", "id": "100", "name": "foo" }`,
+              },
+            ],
+          });
+          assert.equal(result.id, "100");
+          assert.equal(result.name, "foo");
+        });
+
+        it("should handle get200", async () => {
+          const result = await runLro({
+            routes: [
+              {
+                method: "GET",
+                path: `/LROPostDoubleHeadersFinalLocationGet`,
+                status: 200,
+                body: `{ "id": "100", "name": "foo" }`,
+              },
+            ],
+          });
+          assert.equal(result.id, "100");
+          assert.equal(result.name, "foo");
+        });
+
         it("should handle postDoubleHeadersFinalAzureHeaderGet", async () => {
           const locationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/location`;
           const operationLocationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl`;
