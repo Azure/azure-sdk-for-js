@@ -7,6 +7,7 @@
 ### Breaking Changes
 
 ### Bugs Fixed
+- Added support to run queries with group by over a column with null values.  [#22345](https://github.com/Azure/azure-sdk-for-js/pull/22345)
 
 ### Other Changes
 
