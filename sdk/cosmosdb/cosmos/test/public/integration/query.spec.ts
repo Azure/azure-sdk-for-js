@@ -152,14 +152,18 @@ describe("aggregate query over null value", function (this: Suite) {
       type: "td",
       source: null,
     });
+
     const query =
-      "SELECT COUNT(c.source) AS _COUNT, c.source FROM c WHERE c.referenceNumber IN ('AAAAGDD', 'AAAAHGM') GROUP BY c.source";
+      "SELECT COUNT(c.source) AS _COUNT, c.source FROM c " +
+      "WHERE c.referenceNumber IN ('AAAAGDD', 'AAAAHGM') GROUP BY c.source";
+
     const queryIterator = container.items.query(query);
 
     const { resources } = await queryIterator.fetchAll();
-    assert.equal(resources.length, 1);
-    assert.equal(resources[0]._COUNT, 2);
-    assert.equal(resources[0].source, null);
+
+    assert.strictEqual(resources.length, 1);
+    assert.strictEqual(resources[0]._COUNT, 2);
+    assert.strictEqual(resources[0].source, null);
   };
 
   beforeEach(async function () {
