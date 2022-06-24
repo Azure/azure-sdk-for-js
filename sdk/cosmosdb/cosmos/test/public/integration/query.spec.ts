@@ -3,6 +3,7 @@
 import assert from "assert";
 import { Suite } from "mocha";
 import { FeedOptions } from "../../../src";
+import { Container } from "../../../src";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 const doc = { id: "myId", pk: "pk" };
@@ -114,5 +115,47 @@ describe("Partition key in FeedOptions", function (this: Suite) {
     const { resources } = await queryIterator.fetchAll();
     assert.equal(resources.length, 1);
     assert.equal(resources[0].id, "foo");
+  });
+});
+
+describe("Query for property with values ending with whitespaces", function (this: Suite) {
+  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+
+  beforeEach(async function () {
+    await removeAllDatabases();
+  });
+
+  const executeAndValidateQuery = async function (
+    container: Container,
+    searchTerm: string,
+    expectedId: string
+  ): Promise<void> {
+    const query = 'SELECT * from c WHERE c.otherProperty = "' + searchTerm + '"';
+    const queryIterator = container.items.query(query);
+
+    const { resources } = await queryIterator.fetchAll();
+    assert.equal(resources.length, 1);
+    assert.equal(resources[0].id, expectedId);
+  };
+
+  it("passing partition key in FeedOptions", async function () {
+    const containerDefinition = {
+      id: "testcontainer",
+      partitionKey: {
+        paths: ["/id"],
+      },
+    };
+
+    const container = await getTestContainer(
+      "validate correct execution of query",
+      undefined,
+      containerDefinition
+    );
+
+    await container.items.create({ id: "foo", otherProperty: "Test" });
+    await container.items.create({ id: "bar", otherProperty: "Test " });
+
+    await executeAndValidateQuery(container, "Test", "foo");
+    await executeAndValidateQuery(container, "Test ", "bar");
   });
 });
