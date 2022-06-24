@@ -108,7 +108,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkspaceListManagementGroupsResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
