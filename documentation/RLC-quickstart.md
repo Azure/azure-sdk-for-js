@@ -44,7 +44,7 @@ We are working on to automatically generate everything right now, but currently 
     add-credentials: true
     credential-scopes: https://farmbeats.azure.net/.default
     use-extension:
-      "@autorest/typescript": "6.0.0-beta.14"
+      "@autorest/typescript": "6.0.0-rc.1"
     ```
     ~~~
 
