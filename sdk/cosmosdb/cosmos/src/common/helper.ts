@@ -203,12 +203,26 @@ export function isResourceValid(resource: { id?: string }, err: { message?: stri
       err.message = "Id contains illegal chars.";
       return false;
     }
-    if (resource.id[resource.id.length - 1] === " ") {
-      err.message = "Id ends with a space.";
-      return false;
-    }
   }
   return true;
+}
+
+export function getResourceIdForUri(resource: { id?: string }): string {
+  const err = {};
+  if (!isResourceValid(resource, err)) {
+    throw err;
+  }
+
+  if (resource.id && resource.id[resource.id.length - 1] === " ") {
+    let i = resource.id.length - 1;
+    while (resource.id.charAt(i) === " ") {
+      i--;
+    }
+
+    return resource.id.substring(0, i + 1) + "%20".repeat(resource.id.length - i - 1);
+  }
+
+  return resource.id;
 }
 
 /** @hidden */

@@ -127,18 +127,35 @@ describe("Query for property with values ending with whitespaces", function (thi
 
   const executeAndValidateQuery = async function (
     container: Container,
-    searchTerm: string,
-    expectedId: string
+    searchTerm: string
   ): Promise<void> {
-    const query = 'SELECT * from c WHERE c.otherProperty = "' + searchTerm + '"';
+    const query = 'SELECT * from c WHERE c.id = "' + searchTerm + '"';
     const queryIterator = container.items.query(query);
 
     const { resources } = await queryIterator.fetchAll();
-    assert.equal(resources.length, 1);
-    assert.equal(resources[0].id, expectedId);
+    assert.strictEqual(resources.length, 1);
+    assert.strictEqual(resources[0].id, searchTerm);
+
+    const itemViaPointLookup = await container.item(searchTerm, searchTerm);
+    assert.strictEqual(itemViaPointLookup.id, searchTerm);
   };
 
-  it("passing partition key in FeedOptions", async function () {
+  it("can execute query and retrieve results via point lookup for id without whitespaces", async function () {
+    const containerDefinition = {
+      id: "testcontainer",
+      partitionKey: {
+        paths: ["/id"],
+      },
+    };
+
+    const container = await getTestContainer("NoWhitespaces", undefined, containerDefinition);
+
+    await container.items.create({ id: "Test" });
+
+    await executeAndValidateQuery(container, "Test");
+  });
+
+  it("can execute query and retrieve results via point lookup for id starting with whitespace", async function () {
     const containerDefinition = {
       id: "testcontainer",
       partitionKey: {
@@ -147,15 +164,51 @@ describe("Query for property with values ending with whitespaces", function (thi
     };
 
     const container = await getTestContainer(
-      "validate correct execution of query",
+      "StartingWithWhitespace",
       undefined,
       containerDefinition
     );
 
-    await container.items.create({ id: "foo", otherProperty: "Test" });
-    await container.items.create({ id: "bar", otherProperty: "Test " });
+    await container.items.create({ id: " Test" });
 
-    await executeAndValidateQuery(container, "Test", "foo");
-    await executeAndValidateQuery(container, "Test ", "bar");
+    await executeAndValidateQuery(container, " Test");
+  });
+
+  it("can execute query and retrieve results via point lookup for id with whitespaces inbetween", async function () {
+    const containerDefinition = {
+      id: "testcontainer",
+      partitionKey: {
+        paths: ["/id"],
+      },
+    };
+
+    const container = await getTestContainer(
+      "WhitespacesInbetween",
+      undefined,
+      containerDefinition
+    );
+
+    await container.items.create({ id: "This is a test" });
+
+    await executeAndValidateQuery(container, "This is a test");
+  });
+
+  it("can execute query and retrieve results via point lookup for id ending with whitespace", async function () {
+    const containerDefinition = {
+      id: "testcontainer",
+      partitionKey: {
+        paths: ["/id"],
+      },
+    };
+
+    const container = await getTestContainer(
+      "EndingWithWhitespace",
+      undefined,
+      containerDefinition
+    );
+
+    await container.items.create({ id: "Test " });
+
+    await executeAndValidateQuery(container, "Test ");
   });
 });

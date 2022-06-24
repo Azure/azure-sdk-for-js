@@ -6,6 +6,7 @@ import {
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
+  getResourceIdForUri,
   ResourceType,
   StatusCodes,
 } from "../../common";
@@ -29,7 +30,11 @@ export class Item {
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url(): string {
-    return createDocumentUri(this.container.database.id, this.container.id, this.id);
+    return createDocumentUri(
+      this.container.database.id,
+      this.container.id,
+      getResourceIdForUri(this)
+    );
   }
 
   /**

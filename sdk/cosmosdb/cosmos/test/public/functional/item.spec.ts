@@ -34,7 +34,10 @@ describe("Item CRUD", function (this: Suite) {
   beforeEach(async function () {
     await removeAllDatabases();
   });
-  const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
+  const documentCRUDTest = async function (
+    isUpsertTest: boolean,
+    initialId: string
+  ): Promise<void> {
     // create database
     const database = await getTestDatabase("sample 中文 database");
     // create container
@@ -47,26 +50,39 @@ describe("Item CRUD", function (this: Suite) {
 
     // create an item
     const beforeCreateDocumentsCount = items.length;
-    const itemDefinition: TestItem = {
-      name: "sample document",
-      foo: "bar",
-      key: "value",
-      replace: "new property",
-    };
-    try {
-      await createOrUpsertItem(
-        container,
-        itemDefinition,
-        { disableAutomaticIdGeneration: true },
-        isUpsertTest
-      );
-      assert.fail("id generation disabled must throw with invalid id");
-    } catch (err: any) {
-      assert(
-        err !== undefined,
-        "should throw an error because automatic id generation is disabled"
-      );
+    const itemDefinition: TestItem = initialId
+      ? {
+          id: initialId,
+          name: "sample document",
+          foo: "bar",
+          key: "value",
+          replace: "new property",
+        }
+      : {
+          name: "sample document",
+          foo: "bar",
+          key: "value",
+          replace: "new property",
+        };
+
+    if (!initialId) {
+      try {
+        await createOrUpsertItem(
+          container,
+          itemDefinition,
+          { disableAutomaticIdGeneration: true },
+          isUpsertTest
+        );
+
+        assert.fail("id generation disabled must throw with invalid id");
+      } catch (err: any) {
+        assert(
+          err !== undefined,
+          "should throw an error because automatic id generation is disabled"
+        );
+      }
     }
+
     const { resource: document } = await createOrUpsertItem(
       container,
       itemDefinition,
@@ -127,12 +143,22 @@ describe("Item CRUD", function (this: Suite) {
     assert.equal(response.resource, undefined);
   };
 
-  it("Should do document CRUD operations successfully", async function () {
-    await documentCRUDTest(false);
+  it("Should do document CRUD operations successfully when no id is specified", async function () {
+    await documentCRUDTest(false, undefined);
   });
 
-  it("Should do document CRUD operations successfully with upsert", async function () {
-    await documentCRUDTest(true);
+  it("Should do document CRUD operations successfully with upsert when no id is specified", async function () {
+    await documentCRUDTest(true, undefined);
+  });
+
+  it("Should do document CRUD operations successfully when id ends with whitespace", async function () {
+    this.timeout(process.env.MOCHA_TIMEOUT || 10000000);
+    await documentCRUDTest(false, "SomeId   ");
+  });
+
+  it("Should do document CRUD operations successfully with upsert when id ends with whitespace", async function () {
+    this.timeout(process.env.MOCHA_TIMEOUT || 10000000);
+    await documentCRUDTest(true, "SomeOtherId ");
   });
 
   it("Should do document CRUD operations over multiple partitions", async function () {

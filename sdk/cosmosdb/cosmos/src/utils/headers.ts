@@ -27,6 +27,19 @@ export async function generateHeaders(
   };
 }
 
+function getEffectiveResourceIdForSignature(resourceId: string) {
+  if (resourceId.endsWith("%20")) {
+    let i = resourceId.length;
+    while (resourceId.substring(i - 3, i) === "%20") {
+      i -= 3;
+    }
+
+    return resourceId.substring(0, i) + " ".repeat((resourceId.length - i) / 3);
+  }
+
+  return resourceId;
+}
+
 async function signature(
   masterKey: string,
   method: HTTPMethod,
@@ -36,12 +49,13 @@ async function signature(
 ): Promise<string> {
   const type = "master";
   const version = "1.0";
+
   const text =
     method.toLowerCase() +
     "\n" +
     resourceType.toLowerCase() +
     "\n" +
-    resourceId +
+    getEffectiveResourceIdForSignature(resourceId) +
     "\n" +
     date.toUTCString().toLowerCase() +
     "\n" +
