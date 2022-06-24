@@ -6,7 +6,7 @@ Azure Digital Twins Client for managing DigitalTwinsInstance
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/arm-digitaltwins) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-digitaltwins) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-digitaltwins?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-digitaltwins) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

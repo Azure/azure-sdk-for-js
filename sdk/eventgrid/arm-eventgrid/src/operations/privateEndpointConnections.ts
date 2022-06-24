@@ -16,7 +16,7 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   PrivateEndpointConnection,
-  ParentType,
+  PrivateEndpointConnectionsParentType,
   PrivateEndpointConnectionsListByResourceNextOptionalParams,
   PrivateEndpointConnectionsListByResourceOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
@@ -53,7 +53,7 @@ export class PrivateEndpointConnectionsImpl
    */
   public listByResource(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
@@ -83,7 +83,7 @@ export class PrivateEndpointConnectionsImpl
 
   private async *listByResourcePagingPage(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
@@ -110,7 +110,7 @@ export class PrivateEndpointConnectionsImpl
 
   private async *listByResourcePagingAll(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection> {
@@ -136,7 +136,7 @@ export class PrivateEndpointConnectionsImpl
    */
   get(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsGetOptionalParams
@@ -166,7 +166,7 @@ export class PrivateEndpointConnectionsImpl
    */
   async beginUpdate(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
@@ -249,7 +249,7 @@ export class PrivateEndpointConnectionsImpl
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
@@ -278,7 +278,7 @@ export class PrivateEndpointConnectionsImpl
    */
   async beginDelete(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
@@ -353,7 +353,7 @@ export class PrivateEndpointConnectionsImpl
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
@@ -379,7 +379,7 @@ export class PrivateEndpointConnectionsImpl
    */
   private _listByResource(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): Promise<PrivateEndpointConnectionsListByResourceResponse> {
@@ -401,7 +401,7 @@ export class PrivateEndpointConnectionsImpl
    */
   private _listByResourceNext(
     resourceGroupName: string,
-    parentType: ParentType,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     nextLink: string,
     options?: PrivateEndpointConnectionsListByResourceNextOptionalParams
