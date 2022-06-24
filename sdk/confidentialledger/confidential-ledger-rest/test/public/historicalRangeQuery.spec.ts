@@ -5,6 +5,7 @@ import {
     LedgerEntry,
     ListLedgerEntries200Response,
     paginate,
+    PostLedgerEntry200Response,
     //PostLedgerEntry200Response,
     PostLedgerEntryParameters,
   } from "../../src";
@@ -31,7 +32,8 @@ describe("Range query should be successful", () => {
   it("should list entries", async function () {
     const modulus = 5;
     // Should result in 2 pages.
-    const numMessagesSent = 2001;
+    // const numMessagesSent = 2001;
+    const numMessagesSent = 3;
 
     // we want to send 2001 messages total
     for (let i = 0; i < numMessagesSent; i++) {
@@ -39,24 +41,19 @@ describe("Range query should be successful", () => {
 
       const entry: LedgerEntry = {
         contents: message,
-        collectionId: "collection" + (i % modulus),
+        collectionId: "" + (i % modulus),
       };
-      console.log(entry);
 
       const ledgerEntry: PostLedgerEntryParameters = {
         contentType: "application/json",
         body: entry,
       };
-
-      console.log(ledgerEntry);
-      /*
+      
       let result = (await client
         .path("/app/transactions")
         .post(ledgerEntry)) as PostLedgerEntry200Response;
 
-      console.log(result);
       result = result;
-      */
     }
 
     // get ledger entries for each collection
@@ -66,19 +63,35 @@ describe("Range query should be successful", () => {
 
     var items = paginate(client, ledgerEntries).byPage();
 
-    for await (var page of items) {
-      console.log(page);
-    }
-      
-    var totalCorrectItems = 0;
+    var pages: LedgerEntry[] = [];
 
+    var index: number = 0;
+
+    const rangedArr = Array.from(Array(5).keys()).map(x => x + 1);
+
+    for await (var page of items) {
+      console.log(page[0]);
+      for (index of rangedArr) {
+        pages.push(page[index]);
+      }
+    }
+
+    pages = pages.filter((entry): entry is LedgerEntry => Boolean(entry));
+    console.log(pages);
+    
+    var totalCorrectItems = 0;
+  
     for (var i = 0; i < modulus; i++) {
+      var firstTest = Object.values(items).filter((col: any) => col.collectionId == "subledger" + i);
+      console.log("First test:");
+      console.log(firstTest);
+
       var correctMembers = Object.values(items).filter((col: any) => col.collectionId == "" + i && typeof(parseInt(col.contents)) == typeof(3) && parseInt(col.contents) % 5 == i);
       console.log(correctMembers);
       totalCorrectItems += correctMembers.length;
       console.log(totalCorrectItems);
     }
-      
+    
     assert(totalCorrectItems >= 0.9 * numMessagesSent);
 
       //for await (var page of items) {
