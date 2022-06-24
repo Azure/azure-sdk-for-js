@@ -11,7 +11,8 @@ description: The ConfidentialLedgerClient writes and retrieves ledger entries ag
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/confidentialledger/data-plane/Microsoft.ConfidentialLedger/stable/2022-05-13/confidentialledger.json
+# input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/confidentialledger/data-plane/Microsoft.ConfidentialLedger/stable/2022-05-13/confidentialledger.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/c079fbd05764f33476a74bc6e6e3d51c564e70e2/specification/confidentialledger/data-plane/Microsoft.ConfidentialLedger/stable/2022-05-13/confidentialledger.json
 package-version: 1.0.0-beta.3
 hide-clients: true
 rest-level-client: true
@@ -19,4 +20,12 @@ security: 'AADToken'
 security-scopes: "https://confidential-ledger.azure.com/.default"
 use-extension:
   "@autorest/typescript": "dev"
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths["/app/transactions"].get
+    transform: >
+      $["x-ms-pageable"].nextLinkName = "@nextLink"
 ```
