@@ -886,6 +886,15 @@ packages:
       tslib: 2.4.0
     dev: false
 
+  /@azure/core-lro/2.3.0-beta.1:
+    resolution: {integrity: sha512-Ij6oRo+e+AQuwwFOhj/t/IQlDICmJBYLVJ/DruCKC9AGRwzeRO9O6yMXr6gHo575tTEgYmcVRHWkOv+8wmHHVA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/logger': 1.0.3
+      tslib: 2.4.0
+    dev: false
+
   /@azure/core-paging/1.3.0:
     resolution: {integrity: sha512-H6Tg9eBm0brHqLy0OSAGzxIh1t4UL8eZVrSUMJ60Ra9cwq2pOskFqVpz2pYoHDsBY1jZ4V/P8LRGb5D5pmC6rg==}
     engines: {node: '>=12.0.0'}
@@ -9507,10 +9516,11 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-SiXiIP+vUU+a/A2cyPnGjEaxQm4uOj+7IjgguDroNipyE3jz6pHyQGfjQoPUtcXTg+jMwOgLmKizFqWasFJXXQ==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-i3SJXCHCNn91lWnIAyylHeovyjMyPlp2xYdn1Ibmn3HGC3a9LxAi2hOaAsqAbJqYHvWqu07oHWDWQmR0e/0Ing==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
+      '@azure/core-lro': 2.3.0-beta.1
       '@azure/core-tracing': 1.0.0
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
