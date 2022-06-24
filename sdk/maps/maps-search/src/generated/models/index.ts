@@ -477,7 +477,7 @@ export interface Address {
    */
   readonly freeformAddress?: string;
   /**
-   * The full name of a first level of country administrative hierarchy. This field appears only in case countrySubdivision is presented in an abbreviated form. Only supported for USA, Canada, and Great Britain.
+   * The full name of a first level of country administrative hierarchy. This field appears only in case countrySubdivision is presented in an abbreviated form. Only supported for USA, Canada, and United Kingdom.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly countrySubdivisionName?: string;
@@ -1893,7 +1893,7 @@ export interface SearchReverseSearchAddressOptionalParams
   includeSpeedLimit?: boolean;
   /** The directional heading of the vehicle in degrees, for travel along a segment of roadway. 0 is North, 90 is East and so on, values range from -360 to 360. The precision can include upto one decimal place */
   heading?: number;
-  /** If a number is sent in along with the request, the response may include the side of the street (Left/Right) and also an offset position for that number */
+  /** Street number as a string. If a number is sent in along with the request, the response may include the side of the street (Left/Right) and also an offset position for that number */
   streetNumber?: string;
   /** Boolean. To enable return of the road use array for reverse geocodes at street level */
   includeRoadUse?: boolean;

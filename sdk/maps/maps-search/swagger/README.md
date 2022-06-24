@@ -168,21 +168,11 @@ directive:
         "name",
       ]
   - from: swagger-document
-    where: $.definitions.BrandName
+    where: $.definitions.Brand
     transform: >
-      $ = {
-        "description": "The brand associated with the POI",
-        "required": ["name"],
-        "type": "object",
-        "x-ms-client-name": "Brand",
-        "properties": {
-          "name": {
-            "description": "Name of the brand",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      };
+      $["required"] = [
+        "name",
+      ]
   - from: swagger-document
     where: $.definitions.OperatingHours
     transform: >
@@ -266,12 +256,6 @@ directive:
       $["required"] = [
         "batchItems",
       ]
-  - from: swagger-document
-    where: $.paths["/search/address/reverse/{format}"].get.parameters[*]
-    transform: >
-      if ($.name === "number") {
-        $["x-ms-client-name"] = "streetNumber";
-      }
   - from: swagger-document
     where: $.parameters.CountrySet
     transform: >
