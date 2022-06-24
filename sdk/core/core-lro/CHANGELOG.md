@@ -1,5 +1,17 @@
 # Release History
 
+## 2.3.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Support LROs with GET as the initial request method.
+
 ## 2.3.0-beta.1 (2022-05-18)
 
 ### Features Added
@@ -9,7 +21,6 @@
 ### Other Changes
 
 - Removed the unused dependency `@azure/core-tracing`.
-- Support LROs with GET as the initial request method.
 
 ## 2.2.4 (2022-03-07)
 
