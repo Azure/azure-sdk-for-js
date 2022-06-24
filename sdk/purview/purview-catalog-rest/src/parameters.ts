@@ -22,7 +22,7 @@ import {
 } from "./models";
 
 export type Endpoint = string;
-export type ServiceVersion = "v2" | "v3";
+export type ServiceVersion = "v2";
 export type ApiVersion = "2022-03-01-preview";
 
 export interface EntityCreateOrUpdateBodyParam {

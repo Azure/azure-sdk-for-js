@@ -4,11 +4,10 @@
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { PurviewCatalogClient } from "./clientDefinitions";
-import { ServiceVersion } from "./parameters";
 
 export default function createClient(
   Endpoint: string,
-  serviceVersion: ServiceVersion,
+  serviceVersion: string,
   credentials: TokenCredential,
   options: ClientOptions = {}
 ): PurviewCatalogClient {
