@@ -3,7 +3,6 @@
 import { diag } from "@opentelemetry/api";
 import {
   AggregationTemporality,
-  InstrumentType,
   PushMetricExporter,
   ResourceMetrics,
 } from "@opentelemetry/sdk-metrics-base";
@@ -40,10 +39,7 @@ export class AzureMonitorMetricExporter
   ): Promise<void> {
     diag.info(`Exporting ${metrics.scopeMetrics.length} metrics(s). Converting to envelopes...`);
 
-    let envelopes: Envelope[] = resourceMetricsToEnvelope(
-      metrics,
-      this._options.instrumentationKey
-    );
+    let envelopes: Envelope[] = resourceMetricsToEnvelope(metrics, this._instrumentationKey);
     resultCallback(await this._exportEnvelopes(envelopes));
   }
 
@@ -55,10 +51,16 @@ export class AzureMonitorMetricExporter
     return this._shutdown();
   }
 
-  public selectAggregationTemporality(_instrumentType: InstrumentType) {
+  /**
+   * Select aggregation temporality
+   */
+  public selectAggregationTemporality() {
     return AggregationTemporality.CUMULATIVE;
   }
 
+  /**
+   * Force flush
+   */
   public async forceFlush() {
     // TODO: https://github.com/open-telemetry/opentelemetry-js/issues/3060
     throw new Error("Method not implemented.");

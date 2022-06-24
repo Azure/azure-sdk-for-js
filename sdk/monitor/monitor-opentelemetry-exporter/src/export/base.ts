@@ -20,14 +20,21 @@ import { TelemetryItem as Envelope } from "../generated";
  * Azure Monitor OpenTelemetry Trace Exporter.
  */
 export class AzureMonitorBaseExporter {
+  /**
+   * Instrumentation key to be used for exported envelopes
+   */
+  protected readonly _instrumentationKey: string;
   private readonly _persister: PersistentStorage;
   private readonly _sender: Sender;
   private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
-  protected readonly _options: AzureExporterInternalConfig;
+  /**
+   * Exporter internal configuration
+   */
+  private readonly _options: AzureExporterInternalConfig;
 
   /**
-   * Initializes a new instance of the AzureMonitorTraceExporter class.
+   * Initializes a new instance of the AzureMonitorBaseExporter class.
    * @param AzureExporterConfig - Exporter configuration.
    */
   constructor(options: AzureExporterConfig = {}) {
@@ -54,13 +61,17 @@ export class AzureMonitorBaseExporter {
       throw new Error(message);
     }
 
+    this._instrumentationKey = this._options.instrumentationKey;
     this._sender = new HttpSender(this._options);
     this._persister = new FileSystemPersist(this._options);
     this._retryTimer = null;
     diag.debug("AzureMonitorTraceExporter was successfully setup");
   }
 
-  protected async _persist(envelopes: unknown[]): Promise<ExportResult> {
+  /**
+   * Persist envelopes to disk
+   */
+  private async _persist(envelopes: unknown[]): Promise<ExportResult> {
     try {
       const success = await this._persister.push(envelopes);
       return success
@@ -75,13 +86,15 @@ export class AzureMonitorBaseExporter {
   }
 
   /**
-   * Shutdown AzureMonitorTraceExporter.
+   * Shutdown exporter
    */
   protected async _shutdown(): Promise<void> {
-    diag.info("Azure Monitor Trace Exporter shutting down");
     return this._sender.shutdown();
   }
 
+  /**
+   * Export envelopes
+   */
   protected async _exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 

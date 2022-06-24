@@ -35,8 +35,8 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 
     let envelopes: Envelope[] = [];
     spans.forEach((span) => {
-      envelopes.push(readableSpanToEnvelope(span, this._options.instrumentationKey));
-      let spanEventEnvelopes = spanEventsToEnvelopes(span, this._options.instrumentationKey);
+      envelopes.push(readableSpanToEnvelope(span, this._instrumentationKey));
+      let spanEventEnvelopes = spanEventsToEnvelopes(span, this._instrumentationKey);
       if (spanEventEnvelopes.length > 0) {
         envelopes.push(...spanEventEnvelopes);
       }

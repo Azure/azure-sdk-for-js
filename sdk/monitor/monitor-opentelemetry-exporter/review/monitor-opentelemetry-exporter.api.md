@@ -6,12 +6,11 @@
 
 import { AggregationTemporality } from '@opentelemetry/sdk-metrics-base';
 import { ExportResult } from '@opentelemetry/core';
-import { InstrumentType } from '@opentelemetry/sdk-metrics-base';
 import { PushMetricExporter } from '@opentelemetry/sdk-metrics-base';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import { ResourceMetrics } from '@opentelemetry/sdk-metrics-base';
 import { SpanExporter } from '@opentelemetry/sdk-trace-base';
-import { TokenCredential } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AzureExporterConfig {
@@ -20,16 +19,20 @@ export interface AzureExporterConfig {
     connectionString?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "AzureMonitorBaseExporter" needs to be exported by the entry point index.d.ts
-//
+// @public
+export class AzureMonitorBaseExporter {
+    constructor(options?: AzureExporterConfig);
+    protected _exportEnvelopes(envelopes: TelemetryItem[]): Promise<ExportResult>;
+    protected readonly _instrumentationKey: string;
+    protected _shutdown(): Promise<void>;
+}
+
 // @public
 export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
     constructor(options?: AzureExporterConfig);
     export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
-    // (undocumented)
     forceFlush(): Promise<void>;
-    // (undocumented)
-    selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality;
+    selectAggregationTemporality(): AggregationTemporality;
     shutdown(): Promise<void>;
 }
 
@@ -41,8 +44,34 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 }
 
 // @public
+export interface MonitorBase {
+    baseData?: MonitorDomain;
+    baseType?: string;
+}
+
+// @public
+export interface MonitorDomain {
+    [property: string]: any;
+    version: number;
+}
+
+// @public
 export enum ServiceApiVersion {
     V2 = "2020-09-15_Preview"
+}
+
+// @public
+export interface TelemetryItem {
+    data?: MonitorBase;
+    instrumentationKey?: string;
+    name: string;
+    sampleRate?: number;
+    sequence?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    time: Date;
+    version?: number;
 }
 
 // (No @packageDocumentation comment for this package)
