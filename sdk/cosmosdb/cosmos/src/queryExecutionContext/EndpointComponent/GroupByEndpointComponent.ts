@@ -53,7 +53,9 @@ export class GroupByEndpointComponent implements ExecutionContext {
           // Iterator over all results in the payload
           Object.keys(payload).map((key) => {
             // in case the value of a group is null make sure we create a dummy payload with item2==null
-            const effectiveGroupByValue = payload[key] ? payload[key] : new Map().set("item2", null)
+            const effectiveGroupByValue = payload[key]
+              ? payload[key]
+              : new Map().set("item2", null);
             const aggregateResult = extractAggregateResult(effectiveGroupByValue);
             aggregators.get(key).aggregate(aggregateResult);
           });

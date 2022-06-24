@@ -120,35 +120,50 @@ describe("Partition key in FeedOptions", function (this: Suite) {
 describe("aggregate query over null value", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
-  const aggregateQueryOverNullValue = async function (testName: string, containerName: string, containerThroughput: number): Promise<void> {
+  const aggregateQueryOverNullValue = async function (
+    testName: string,
+    containerName: string,
+    containerThroughput: number
+  ): Promise<void> {
     const containerDefinition = {
       id: containerName,
       partitionKey: {
-          paths: ["/id"],
+        paths: ["/id"],
       },
     };
     const containerOptions = { offerThroughput: containerThroughput };
-  
+
     const container = await getTestContainer(
-        testName,
-        undefined,
-        containerDefinition,
-        containerOptions
+      testName,
+      undefined,
+      containerDefinition,
+      containerOptions
     );
-  
-    await container.items.create({ id: "AAAAHGM", referenceNumber: "AAAAHGM", type: "td", source: null });
-    await container.items.create({ id: "AAAAGDD", referenceNumber: "AAAAGDD", type: "td", source: null});
-    const query = "SELECT COUNT(c.source) AS _COUNT, c.source FROM c WHERE c.referenceNumber IN ('AAAAGDD', 'AAAAHGM') GROUP BY c.source";
+
+    await container.items.create({
+      id: "AAAAHGM",
+      referenceNumber: "AAAAHGM",
+      type: "td",
+      source: null,
+    });
+    await container.items.create({
+      id: "AAAAGDD",
+      referenceNumber: "AAAAGDD",
+      type: "td",
+      source: null,
+    });
+    const query =
+      "SELECT COUNT(c.source) AS _COUNT, c.source FROM c WHERE c.referenceNumber IN ('AAAAGDD', 'AAAAHGM') GROUP BY c.source";
     const queryIterator = container.items.query(query);
-  
+
     const { resources } = await queryIterator.fetchAll();
     assert.equal(resources.length, 1);
     assert.equal(resources[0]._COUNT, 2);
     assert.equal(resources[0].source, null);
-  }
+  };
 
   beforeEach(async function () {
-      await removeAllDatabases();
+    await removeAllDatabases();
   });
 
   it("should execute successfully for container with single partition", async function () {
@@ -157,6 +172,5 @@ describe("aggregate query over null value", function (this: Suite) {
 
   it("should execute successfully for container with multiple partitions", async function () {
     await aggregateQueryOverNullValue("MultiplePartitons", "MultiplePartitons", 10100);
-  }); 
+  });
 });
-
