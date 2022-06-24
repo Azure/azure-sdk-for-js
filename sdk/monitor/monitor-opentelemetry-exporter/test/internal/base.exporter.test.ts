@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { AzureMonitorTraceExporter } from "../../src/export/trace";
+import { AzureMonitorBaseExporter } from "../../src/export/base";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
@@ -19,7 +19,7 @@ function toObject<T>(obj: T): T {
 }
 
 describe("#AzureMonitorBaseExporter", () => {
-  class TestExporter extends AzureMonitorTraceExporter {
+  class TestExporter extends AzureMonitorBaseExporter {
     private thisAsAny: any;
     constructor() {
       super({
@@ -52,14 +52,14 @@ describe("#AzureMonitorBaseExporter", () => {
 
   describe("Sender/Persister Controller", () => {
     describe("#exportEnvelopes()", () => {
-      const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
+      let scope: nock.Interceptor;
       const envelope = {
         name: "Name",
         time: new Date(),
       };
 
       before(() => {
-        nock.cleanAll();
+        scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
       });
 
       after(() => {

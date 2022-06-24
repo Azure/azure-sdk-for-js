@@ -4,8 +4,12 @@
 
 ```ts
 
+import { AggregationTemporality } from '@opentelemetry/sdk-metrics-base';
 import { ExportResult } from '@opentelemetry/core';
+import { InstrumentType } from '@opentelemetry/sdk-metrics-base';
+import { PushMetricExporter } from '@opentelemetry/sdk-metrics-base';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
+import { ResourceMetrics } from '@opentelemetry/sdk-metrics-base';
 import { SpanExporter } from '@opentelemetry/sdk-trace-base';
 import { TokenCredential } from '@azure/core-http';
 
@@ -16,8 +20,21 @@ export interface AzureExporterConfig {
     connectionString?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "AzureMonitorBaseExporter" needs to be exported by the entry point index.d.ts
+//
 // @public
-export class AzureMonitorTraceExporter implements SpanExporter {
+export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
+    constructor(options?: AzureExporterConfig);
+    export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
+    // (undocumented)
+    forceFlush(): Promise<void>;
+    // (undocumented)
+    selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality;
+    shutdown(): Promise<void>;
+}
+
+// @public
+export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implements SpanExporter {
     constructor(options?: AzureExporterConfig);
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
     shutdown(): Promise<void>;

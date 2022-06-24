@@ -1,24 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assertCount, assertTraceExpectation } from "../../utils/assert";
-import { TraceBasicScenario } from "../../utils/basic";
+import { assertCount, assertMetricExpectation } from "../../utils/assert";
+import { MetricBasicScenario } from "../../utils/basic";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
 import { TelemetryItem as Envelope } from "../../../src/generated";
 
-describe("Trace Exporter Scenarios", () => {
-  describe(TraceBasicScenario.prototype.constructor.name, () => {
-    const scenario = new TraceBasicScenario();
-    let ingest: Envelope[] = [];
+describe("Metric Exporter Scenarios", () => {
+  describe(MetricBasicScenario.prototype.constructor.name, () => {
+    const scenario = new MetricBasicScenario();
 
+    let ingest: Envelope[] = [];
     before(() => {
       nock(DEFAULT_BREEZE_ENDPOINT)
         .post("/v2.1/track", (body: Envelope[]) => {
-          // todo: gzip is not supported by generated applicationInsightsClient
-          // const buffer = gunzipSync(Buffer.from(body, "hex"));
-          // ingest.push(...(JSON.parse(buffer.toString("utf8")) as Envelope[]));
           ingest.push(...body);
           return true;
         })
@@ -39,7 +36,7 @@ describe("Trace Exporter Scenarios", () => {
         .then(() => {
           // promisify doesn't work on this, so use callbacks/done for now
           return scenario.flush().then(() => {
-            assertTraceExpectation(ingest, scenario.expectation);
+            assertMetricExpectation(ingest, scenario.expectation);
             assertCount(ingest, scenario.expectation);
             done();
           });
