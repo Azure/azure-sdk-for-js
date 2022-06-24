@@ -604,6 +604,21 @@ describe("Lro Engine", function () {
           assert.equal(result.name, "foo");
         });
 
+        it("should handle get200", async () => {
+          const result = await runLro({
+            routes: [
+              {
+                method: "GET",
+                path: `/LROPostDoubleHeadersFinalLocationGet`,
+                status: 200,
+                body: `{ "id": "100", "name": "foo" }`,
+              },
+            ],
+          });
+          assert.equal(result.id, "100");
+          assert.equal(result.name, "foo");
+        });
+
         it("should handle postDoubleHeadersFinalAzureHeaderGet", async () => {
           const locationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/location`;
           const operationLocationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl`;
