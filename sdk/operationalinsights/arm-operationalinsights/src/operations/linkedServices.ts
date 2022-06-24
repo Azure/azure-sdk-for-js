@@ -352,7 +352,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -382,7 +382,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedService
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -402,7 +402,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedService
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -422,7 +422,7 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedServiceListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

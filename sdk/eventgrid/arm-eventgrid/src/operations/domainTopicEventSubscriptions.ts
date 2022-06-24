@@ -590,8 +590,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -622,8 +622,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -640,8 +640,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   serializer
 };
@@ -671,8 +671,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -694,8 +694,8 @@ const getFullUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -737,8 +737,8 @@ const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept],
   serializer
