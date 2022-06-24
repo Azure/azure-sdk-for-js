@@ -619,11 +619,6 @@ export class MapsSearchClient {
     const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
     const batchRequest = createFuzzySearchBatchRequest(requests);
     try {
-      // TODO:
-      // if (requests.length <= 100) {
-      //   const fuzzySearchBatchResult = this.client.search.fuzzySearchAddressBatchSync(...);
-      //   return createPollerWithState(fuzzySearchBatchResult, ...);
-      // }
       const internalPoller = await this.client.search.beginFuzzySearchBatch(
         this.defaultFormat,
         batchRequest,
@@ -702,11 +697,6 @@ export class MapsSearchClient {
     );
     const batchRequest = createSearchAddressBatchRequest(requests);
     try {
-      // TODO:
-      // if (requests.length <= 100) {
-      //   const searchBatchResult = this.client.search.searchAddressBatchSync(...);
-      //   return createPollerWithState(searchBatchResult, ...);
-      // }
       const internalPoller = await this.client.search.beginSearchAddressBatch(
         this.defaultFormat,
         batchRequest,
@@ -785,11 +775,6 @@ export class MapsSearchClient {
     );
     const batchRequest = createReverseSearchAddressBatchRequest(requests);
     try {
-      // TODO:
-      // if (requests.length <= 100) {
-      //   const reverseSearchBatchResult = this.client.search.reverseSearchAddressBatchSync(...);
-      //   return createPollerWithState(reverseSearchBatchResult, ...);
-      // }
       const internalPoller = await this.client.search.beginReverseSearchAddressBatch(
         this.defaultFormat,
         batchRequest,
