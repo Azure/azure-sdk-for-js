@@ -8,7 +8,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import {
   BoundingBox,
-  createMapsAzureKeyCredentialPolicy,
+  createAzureMapsKeyCredentialPolicy,
   createMapsClientIdPolicy,
 } from "@azure/maps-common";
 import {
@@ -115,7 +115,7 @@ export class MapsRenderClient {
       );
       this.client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     } else {
-      this.client.pipeline.addPolicy(createMapsAzureKeyCredentialPolicy(credential));
+      this.client.pipeline.addPolicy(createAzureMapsKeyCredentialPolicy(credential));
     }
   }
 

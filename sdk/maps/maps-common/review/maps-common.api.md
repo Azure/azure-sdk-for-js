@@ -63,7 +63,7 @@ export interface BoundingBox {
 }
 
 // @public
-export function createMapsAzureKeyCredentialPolicy(azureKeyCredential: KeyCredential): PipelinePolicy;
+export function createAzureMapsKeyCredentialPolicy(azureKeyCredential: KeyCredential): PipelinePolicy;
 
 // @public
 export function createMapsClientIdPolicy(mapsClientId: string): PipelinePolicy;

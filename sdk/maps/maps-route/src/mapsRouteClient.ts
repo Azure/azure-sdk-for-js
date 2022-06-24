@@ -7,7 +7,7 @@ import {
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import {
-  createMapsAzureKeyCredentialPolicy,
+  createAzureMapsKeyCredentialPolicy,
   createMapsClientIdPolicy,
   LatLon,
   BatchPoller,
@@ -119,7 +119,7 @@ export class MapsRouteClient {
       );
       this.client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     } else {
-      this.client.pipeline.addPolicy(createMapsAzureKeyCredentialPolicy(credential));
+      this.client.pipeline.addPolicy(createAzureMapsKeyCredentialPolicy(credential));
     }
   }
 
