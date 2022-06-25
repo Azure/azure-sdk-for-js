@@ -25,7 +25,7 @@ parameters:
     default: ' '
 
 extends:
-  template: ../../../eng/pipelines/templates/jobs/perf.yml
+  template: /eng/pipelines/templates/jobs/perf.yml
   parameters:
     operatingSystems: ${{ parameters.operatingSystems }}
     serviceDirectory: storage/storage-file-datalake
