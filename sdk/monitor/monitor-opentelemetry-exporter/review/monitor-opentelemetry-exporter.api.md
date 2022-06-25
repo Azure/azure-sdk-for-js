@@ -20,7 +20,7 @@ export interface AzureExporterConfig {
 }
 
 // @public
-export class AzureMonitorBaseExporter {
+export abstract class AzureMonitorBaseExporter {
     constructor(options?: AzureExporterConfig);
     protected _exportEnvelopes(envelopes: TelemetryItem[]): Promise<ExportResult>;
     protected readonly _instrumentationKey: string;

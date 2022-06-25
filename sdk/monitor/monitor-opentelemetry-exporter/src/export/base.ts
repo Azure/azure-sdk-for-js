@@ -19,7 +19,7 @@ import { TelemetryItem as Envelope } from "../generated";
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
  */
-export class AzureMonitorBaseExporter {
+export abstract class AzureMonitorBaseExporter {
   /**
    * Instrumentation key to be used for exported envelopes
    */
@@ -117,11 +117,13 @@ export class AzureMonitorBaseExporter {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes: Envelope[] = [];
-          breezeResponse.errors.forEach((error) => {
-            if (error.statusCode && isRetriable(error.statusCode)) {
-              filteredEnvelopes.push(envelopes[error.index]);
-            }
-          });
+          if (breezeResponse.errors) {
+            breezeResponse.errors.forEach((error) => {
+              if (error.statusCode && isRetriable(error.statusCode)) {
+                filteredEnvelopes.push(envelopes[error.index]);
+              }
+            });
+          }
           if (filteredEnvelopes.length > 0) {
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this._persist(filteredEnvelopes);

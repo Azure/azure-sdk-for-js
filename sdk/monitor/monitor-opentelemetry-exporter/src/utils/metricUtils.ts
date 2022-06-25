@@ -1,48 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import os from "os";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics-base";
-import {
-  SemanticResourceAttributes,
-  SemanticAttributes,
-} from "@opentelemetry/semantic-conventions";
-import { Tags } from "../types";
-import { getInstance } from "../platform";
-import {
-  TelemetryItem as Envelope,
-  KnownContextTagKeys,
-  MetricsData,
-  MetricDataPoint,
-} from "../generated";
-import { Resource } from "@opentelemetry/resources";
-
-function createTagsFromResource(resource: Resource): Tags {
-  const context = getInstance();
-  const tags: Tags = { ...context.tags };
-  if (resource && resource.attributes) {
-    const serviceName = resource.attributes[SemanticResourceAttributes.SERVICE_NAME];
-    const serviceNamespace = resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
-    if (serviceName) {
-      if (serviceNamespace) {
-        tags[KnownContextTagKeys.AiCloudRole] = `${serviceNamespace}.${serviceName}`;
-      } else {
-        tags[KnownContextTagKeys.AiCloudRole] = String(serviceName);
-      }
-    }
-    const serviceInstanceId = resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
-    if (serviceInstanceId) {
-      tags[KnownContextTagKeys.AiCloudRoleInstance] = String(serviceInstanceId);
-    } else {
-      tags[KnownContextTagKeys.AiCloudRoleInstance] = os && os.hostname();
-    }
-    const endUserId = resource.attributes[SemanticAttributes.ENDUSER_ID];
-    if (endUserId) {
-      tags[KnownContextTagKeys.AiUserId] = String(endUserId);
-    }
-  }
-  return tags;
-}
+import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
+import { createTagsFromResource } from "./resourceUtils";
 
 /**
  * Metric to Azure envelope parsing.
