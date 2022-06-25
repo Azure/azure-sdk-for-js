@@ -76,7 +76,7 @@ describe("LogsIngestionClient live tests", function () {
     const result = await client.upload(
       getDcrId(),
       "Custom-MyTableRawData",
-      getObjects(100000),
+      getObjects(1000),
       {
         maxConcurrency: 5
       }
@@ -86,7 +86,7 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async() => {
-    const logData = getObjects(1500000);
+    const logData = getObjects(150000);
     const additionalPolicies = createFailedPolicies({isFailed:false});
     const client = new LogsIngestionClient(
       getLogsIngestionEndpoint(),
@@ -147,7 +147,7 @@ export function getObjects(logsCount: Number): LogData[] {
   for (let i = 0; i < logsCount; i++) {
     const logData: LogData = {
       Time: new Date(1655957386799),
-      AdditionalContext: `additional logs context`,
+      AdditionalContext: `additional logs context ${i}`,
     };
     logs.push(logData);
   }
