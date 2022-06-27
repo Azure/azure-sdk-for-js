@@ -6,7 +6,6 @@ import {
     ListLedgerEntries200Response,
     paginate,
     PostLedgerEntry200Response,
-    //PostLedgerEntry200Response,
     PostLedgerEntryParameters,
   } from "../../src";
 
@@ -48,18 +47,19 @@ describe("Range query should be successful", () => {
         contentType: "application/json",
         body: entry,
       };
+
+      console.log(ledgerEntry);
       
       let result = (await client
         .path("/app/transactions")
         .post(ledgerEntry)) as PostLedgerEntry200Response;
 
+      console.log(result)
       result = result;
     }
 
     // get ledger entries for each collection
     const ledgerEntries = await client.path("/app/transactions").get() as ListLedgerEntries200Response;
-
-    //console.log(ledgerEntries);
 
     var items = paginate(client, ledgerEntries).byPage();
 
@@ -70,7 +70,6 @@ describe("Range query should be successful", () => {
     const rangedArr = Array.from(Array(5).keys()).map(x => x + 1);
 
     for await (var page of items) {
-      console.log(page[0]);
       for (index of rangedArr) {
         pages.push(page[index]);
       }
@@ -82,7 +81,7 @@ describe("Range query should be successful", () => {
     var totalCorrectItems = 0;
   
     for (var i = 0; i < modulus; i++) {
-      var firstTest = Object.values(items).filter((col: any) => col.collectionId == "subledger" + i);
+      var firstTest = Object.values(items).filter((col: any) => col.collectionId == "" + i);
       console.log("First test:");
       console.log(firstTest);
 
