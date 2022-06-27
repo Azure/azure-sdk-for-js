@@ -12,6 +12,7 @@ export interface BatchPoller<TBatchResult>
 }
 
 /**
+ * @internal
  * Batch operation poller proxy
  */
 export class BatchPollerProxy<TBatchResult, TInternalBatchResult>

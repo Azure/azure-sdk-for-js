@@ -1,7 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeoJsonGeometryCollection, GeoJsonMultiPolygon } from "@azure/maps-common";
+import {
+  GeoJsonGeometryCollection,
+  GeoJsonMultiPolygon,
+  GeoJsonMultiPoint,
+  GeoJsonType,
+  BBox,
+  BBox2D,
+  BBox3D,
+  LatLon,
+  BatchPoller,
+  Position,
+  Position2D,
+  Position3D,
+  GeoJsonObject,
+  GeoJsonGeometry,
+  GeoJsonPoint,
+  GeoJsonLineString,
+  GeoJsonMultiLineString,
+  GeoJsonPolygon,
+  GeometryType,
+} from "../../../maps-common/src";
+export {
+  GeoJsonGeometryCollection,
+  GeoJsonMultiPolygon,
+  GeoJsonMultiPoint,
+  GeoJsonType,
+  BBox,
+  BBox2D,
+  BBox3D,
+  LatLon,
+  BatchPoller,
+  Position,
+  Position2D,
+  Position3D,
+  GeoJsonObject,
+  GeoJsonGeometry,
+  GeoJsonPoint,
+  GeoJsonLineString,
+  GeoJsonMultiLineString,
+  GeoJsonPolygon,
+  GeometryType,
+};
 
 export {
   RouteMatrixResult,
