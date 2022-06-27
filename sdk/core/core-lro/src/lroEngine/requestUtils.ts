@@ -41,6 +41,7 @@ function findResourceLocation(
       return requestPath;
     }
     case "POST":
+    case "GET":
     case "PATCH": {
       return getLocation(rawResponse);
     }

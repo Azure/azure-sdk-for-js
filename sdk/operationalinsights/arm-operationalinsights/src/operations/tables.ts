@@ -12,16 +12,20 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   Table,
   TablesListByWorkspaceOptionalParams,
   TablesListByWorkspaceResponse,
+  TablesCreateOrUpdateOptionalParams,
+  TablesCreateOrUpdateResponse,
   TablesUpdateOptionalParams,
   TablesUpdateResponse,
-  TablesCreateOptionalParams,
-  TablesCreateResponse,
   TablesGetOptionalParams,
-  TablesGetResponse
+  TablesGetResponse,
+  TablesDeleteOptionalParams,
+  TablesMigrateOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -115,45 +119,196 @@ export class TablesImpl implements Tables {
   }
 
   /**
-   * Updates a Log Analytics workspace table properties.
+   * Update or Create a Log Analytics workspace table.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param tableName The name of the table.
    * @param parameters The parameters required to update table properties.
    * @param options The options parameters.
    */
-  update(
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TablesCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<TablesCreateOrUpdateResponse>,
+      TablesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<TablesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, workspaceName, tableName, parameters, options },
+      createOrUpdateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update or Create a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param parameters The parameters required to update table properties.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TablesCreateOrUpdateOptionalParams
+  ): Promise<TablesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      workspaceName,
+      tableName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param parameters The parameters required to update table properties.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TablesUpdateOptionalParams
+  ): Promise<
+    PollerLike<PollOperationState<TablesUpdateResponse>, TablesUpdateResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<TablesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, workspaceName, tableName, parameters, options },
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param parameters The parameters required to update table properties.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
     tableName: string,
     parameters: Table,
     options?: TablesUpdateOptionalParams
   ): Promise<TablesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, tableName, parameters, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      workspaceName,
+      tableName,
+      parameters,
+      options
     );
-  }
-
-  /**
-   * Updates a Log Analytics workspace table properties.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param tableName The name of the table.
-   * @param parameters The parameters required to update table properties.
-   * @param options The options parameters.
-   */
-  create(
-    resourceGroupName: string,
-    workspaceName: string,
-    tableName: string,
-    parameters: Table,
-    options?: TablesCreateOptionalParams
-  ): Promise<TablesCreateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, tableName, parameters, options },
-      createOperationSpec
-    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -174,6 +329,114 @@ export class TablesImpl implements Tables {
       getOperationSpec
     );
   }
+
+  /**
+   * Delete a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    options?: TablesDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, workspaceName, tableName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    options?: TablesDeleteOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      workspaceName,
+      tableName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Migrate a Log Analytics table from support of the Data Collector API and Custom Fields features to
+   * support of Data Collection Rule-based Custom Logs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param options The options parameters.
+   */
+  migrate(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    options?: TablesMigrateOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, tableName, options },
+      migrateOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -190,7 +453,7 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -200,20 +463,29 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}",
-  httpMethod: "PATCH",
+  httpMethod: "PUT",
   responses: {
     200: {
+      bodyMapper: Mappers.Table
+    },
+    201: {
+      bodyMapper: Mappers.Table
+    },
+    202: {
+      bodyMapper: Mappers.Table
+    },
+    204: {
       bodyMapper: Mappers.Table
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters10,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -225,20 +497,29 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const createOperationSpec: coreClient.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}",
-  httpMethod: "PUT",
+  httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.Table
+    },
+    201: {
+      bodyMapper: Mappers.Table
+    },
+    202: {
+      bodyMapper: Mappers.Table
+    },
+    204: {
       bodyMapper: Mappers.Table
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters10,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -262,7 +543,52 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.tableName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.tableName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const migrateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}/migrate",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
