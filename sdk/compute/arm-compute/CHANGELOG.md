@@ -1,15 +1,16 @@
 # Release History
+    
+## 19.1.0 (2022-06-27)
+    
+**Features**
 
-## 19.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface SystemData
+  - Added Type Alias CloudServiceSlotType
+  - Interface CloudService has a new optional parameter systemData
+  - Interface CloudServiceNetworkProfile has a new optional parameter slotType
+  - Added Enum KnownCloudServiceSlotType
+    
+    
 ## 19.0.0 (2022-06-06)
     
 **Features**

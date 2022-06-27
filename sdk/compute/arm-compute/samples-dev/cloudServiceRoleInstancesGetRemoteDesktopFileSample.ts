@@ -12,20 +12,20 @@ import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets a role from a cloud service.
+ * This sample demonstrates how to Gets a remote desktop file for a role instance in a cloud service.
  *
- * @summary Gets a role from a cloud service.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-03-01/examples/GetCloudServiceRole.json
+ * @summary Gets a remote desktop file for a role instance in a cloud service.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceRoleInstance_Get_RemoteDesktopFile.json
  */
 async function getCloudServiceRole() {
   const subscriptionId = "{subscription-id}";
-  const roleName = "{role-name}";
-  const resourceGroupName = "ConstosoRG";
-  const cloudServiceName = "{cs-name}";
+  const roleInstanceName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = "rgcloudService";
+  const cloudServiceName = "aaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.cloudServiceRoles.get(
-    roleName,
+  const result = await client.cloudServiceRoleInstances.getRemoteDesktopFile(
+    roleInstanceName,
     resourceGroupName,
     cloudServiceName
   );

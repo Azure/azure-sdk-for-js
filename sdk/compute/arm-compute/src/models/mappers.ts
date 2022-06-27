@@ -9939,6 +9939,13 @@ export const CloudService: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CloudServiceProperties"
         }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
       }
     }
   }
@@ -10155,6 +10162,12 @@ export const CloudServiceNetworkProfile: coreClient.CompositeMapper = {
           }
         }
       },
+      slotType: {
+        serializedName: "slotType",
+        type: {
+          name: "String"
+        }
+      },
       swappableCloudService: {
         serializedName: "swappableCloudService",
         type: {
@@ -10344,13 +10357,15 @@ export const CloudServiceExtensionProperties: coreClient.CompositeMapper = {
       settings: {
         serializedName: "settings",
         type: {
-          name: "String"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       protectedSettings: {
         serializedName: "protectedSettings",
         type: {
-          name: "String"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       protectedSettingsFromKeyVault: {
@@ -10404,6 +10419,29 @@ export const CloudServiceVaultAndSecretReference: coreClient.CompositeMapper = {
         serializedName: "secretUrl",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdAt: {
+        serializedName: "createdAt",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        readOnly: true,
+        type: {
+          name: "DateTime"
         }
       }
     }

@@ -443,6 +443,7 @@ export interface CloudService {
     location: string;
     readonly name?: string;
     properties?: CloudServiceProperties;
+    systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -458,13 +459,12 @@ export interface CloudServiceExtensionProfile {
 export interface CloudServiceExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: string;
-    // (undocumented)
+    protectedSettings?: Record<string, unknown>;
     protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
     readonly provisioningState?: string;
     publisher?: string;
     rolesAppliedTo?: string[];
-    settings?: string;
+    settings?: Record<string, unknown>;
     type?: string;
     typeHandlerVersion?: string;
 }
@@ -477,17 +477,16 @@ export interface CloudServiceInstanceView {
     readonly statuses?: ResourceInstanceViewStatus[];
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: CloudService[];
 }
 
 // @public
 export interface CloudServiceNetworkProfile {
     loadBalancerConfigurations?: LoadBalancerConfiguration[];
+    slotType?: CloudServiceSlotType;
     swappableCloudService?: SubResource;
 }
 
@@ -567,7 +566,6 @@ export interface CloudServiceRole {
     readonly id?: string;
     readonly location?: string;
     readonly name?: string;
-    // (undocumented)
     properties?: CloudServiceRoleProperties;
     sku?: CloudServiceRoleSku;
     readonly type?: string;
@@ -654,11 +652,9 @@ export interface CloudServiceRoleInstancesRestartOptionalParams extends coreClie
     updateIntervalInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: CloudServiceRole[];
 }
 
@@ -673,7 +669,7 @@ export interface CloudServiceRoleProfileProperties {
     sku?: CloudServiceRoleSku;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleProperties {
     readonly uniqueId?: string;
 }
@@ -804,6 +800,9 @@ export interface CloudServicesListOptionalParams extends coreClient.OperationOpt
 export type CloudServicesListResponse = CloudServiceListResult;
 
 // @public
+export type CloudServiceSlotType = string;
+
+// @public
 export interface CloudServicesPowerOffOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -892,11 +891,9 @@ export interface CloudServiceUpdate {
 // @public
 export type CloudServiceUpgradeMode = string;
 
-// @public (undocumented)
+// @public
 export interface CloudServiceVaultAndSecretReference {
-    // (undocumented)
     secretUrl?: string;
-    // (undocumented)
     sourceVault?: SubResource;
 }
 
@@ -2849,7 +2846,7 @@ export interface InnerError {
     exceptiontype?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface InstanceSku {
     readonly name?: string;
     readonly tier?: string;
@@ -2967,6 +2964,14 @@ export enum KnownCapacityReservationGroupInstanceViewTypes {
 export enum KnownCapacityReservationInstanceViewTypes {
     // (undocumented)
     InstanceView = "instanceView"
+}
+
+// @public
+export enum KnownCloudServiceSlotType {
+    // (undocumented)
+    Production = "Production",
+    // (undocumented)
+    Staging = "Staging"
 }
 
 // @public
@@ -4120,12 +4125,12 @@ export interface LoadBalancerConfiguration {
     properties: LoadBalancerConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerConfigurationProperties {
     frontendIPConfigurations: LoadBalancerFrontendIPConfiguration[];
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerFrontendIPConfiguration {
     name: string;
     properties: LoadBalancerFrontendIPConfigurationProperties;
@@ -4317,11 +4322,9 @@ export interface OSFamily {
     readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSFamilyListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: OSFamily[];
 }
 
@@ -4354,11 +4357,9 @@ export interface OSVersion {
     readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSVersionListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: OSVersion[];
 }
 
@@ -5026,14 +5027,12 @@ export interface RetrieveBootDiagnosticsDataResult {
     readonly serialConsoleLogBlobUri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstance {
     readonly id?: string;
     readonly location?: string;
     readonly name?: string;
-    // (undocumented)
     properties?: RoleInstanceProperties;
-    // (undocumented)
     sku?: InstanceSku;
     readonly tags?: {
         [propertyName: string]: string;
@@ -5041,11 +5040,9 @@ export interface RoleInstance {
     readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstanceListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: RoleInstance[];
 }
 
@@ -5054,7 +5051,7 @@ export interface RoleInstanceNetworkProfile {
     readonly networkInterfaces?: SubResource[];
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstanceProperties {
     instanceView?: RoleInstanceView;
     networkProfile?: RoleInstanceNetworkProfile;
@@ -5673,7 +5670,7 @@ export type SshPublicKeyUpdateResource = UpdateResource & {
     publicKey?: string;
 };
 
-// @public (undocumented)
+// @public
 export interface StatusCodeCount {
     readonly code?: string;
     readonly count?: number;
@@ -5717,6 +5714,12 @@ export interface SupportedCapabilities {
 }
 
 // @public
+export interface SystemData {
+    readonly createdAt?: Date;
+    readonly lastModifiedAt?: Date;
+}
+
+// @public
 export interface TargetRegion {
     encryption?: EncryptionImages;
     name: string;
@@ -5745,11 +5748,9 @@ export interface UpdateDomain {
     readonly name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateDomainListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: UpdateDomain[];
 }
 

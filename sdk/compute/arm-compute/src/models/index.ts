@@ -3646,6 +3646,7 @@ export interface CommunityGalleryImageVersionList {
   nextLink?: string;
 }
 
+/** Describes the cloud service role instance. */
 export interface RoleInstance {
   /**
    * Resource Id
@@ -3672,10 +3673,13 @@ export interface RoleInstance {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tags?: { [propertyName: string]: string };
+  /** The role instance SKU. */
   sku?: InstanceSku;
+  /** Role instance properties. */
   properties?: RoleInstanceProperties;
 }
 
+/** The role instance SKU. */
 export interface InstanceSku {
   /**
    * The sku name.
@@ -3689,6 +3693,7 @@ export interface InstanceSku {
   readonly tier?: string;
 }
 
+/** Role instance properties. */
 export interface RoleInstanceProperties {
   /** Describes the network profile for the role instance. */
   networkProfile?: RoleInstanceNetworkProfile;
@@ -3752,8 +3757,11 @@ export interface ResourceInstanceViewStatus {
   level?: StatusLevelTypes;
 }
 
+/** The list operation result. */
 export interface RoleInstanceListResult {
+  /** The list of resources. */
   value: RoleInstance[];
+  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -3781,6 +3789,7 @@ export interface CloudServiceRole {
   readonly location?: string;
   /** Describes the cloud service role sku. */
   sku?: CloudServiceRoleSku;
+  /** The cloud service role properties. */
   properties?: CloudServiceRoleProperties;
 }
 
@@ -3794,6 +3803,7 @@ export interface CloudServiceRoleSku {
   capacity?: number;
 }
 
+/** The cloud service role properties. */
 export interface CloudServiceRoleProperties {
   /**
    * Specifies the ID which uniquely identifies a cloud service role.
@@ -3802,8 +3812,11 @@ export interface CloudServiceRoleProperties {
   readonly uniqueId?: string;
 }
 
+/** The list operation result. */
 export interface CloudServiceRoleListResult {
+  /** The list of resources. */
   value: CloudServiceRole[];
+  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -3830,6 +3843,8 @@ export interface CloudService {
   tags?: { [propertyName: string]: string };
   /** Cloud service properties */
   properties?: CloudServiceProperties;
+  /** The system meta data relating to this resource. */
+  systemData?: SystemData;
 }
 
 /** Cloud service properties */
@@ -3920,6 +3935,12 @@ export interface CloudServiceVaultCertificate {
 export interface CloudServiceNetworkProfile {
   /** List of Load balancer configurations. Cloud service can have up to two load balancer configurations, corresponding to a Public Load Balancer and an Internal Load Balancer. */
   loadBalancerConfigurations?: LoadBalancerConfiguration[];
+  /**
+   * Slot type for the cloud service.
+   * Possible values are <br /><br />**Production**<br /><br />**Staging**<br /><br />
+   * If not specified, the default value is Production.
+   */
+  slotType?: CloudServiceSlotType;
   /** The id reference of the cloud service containing the target IP with which the subject cloud service can perform a swap. This property cannot be updated once it is set. The swappable cloud service referred by this id must be present otherwise an error will be thrown. */
   swappableCloudService?: SubResource;
 }
@@ -3934,11 +3955,13 @@ export interface LoadBalancerConfiguration {
   properties: LoadBalancerConfigurationProperties;
 }
 
+/** Describes the properties of the load balancer configuration. */
 export interface LoadBalancerConfigurationProperties {
   /** Specifies the frontend IP to be used for the load balancer. Only IPv4 frontend IP address is supported. Each load balancer configuration must have exactly one frontend IP configuration. */
   frontendIPConfigurations: LoadBalancerFrontendIPConfiguration[];
 }
 
+/** Specifies the frontend IP to be used for the load balancer. Only IPv4 frontend IP address is supported. Each load balancer configuration must have exactly one frontend IP configuration. */
 export interface LoadBalancerFrontendIPConfiguration {
   /** The name of the resource that is unique within the set of frontend IP configurations used by the load balancer. This name can be used to access the resource. */
   name: string;
@@ -3981,9 +4004,10 @@ export interface CloudServiceExtensionProperties {
   /** Explicitly specify whether platform can automatically upgrade typeHandlerVersion to higher minor versions when they become available. */
   autoUpgradeMinorVersion?: boolean;
   /** Public settings for the extension. For JSON extensions, this is the JSON settings for the extension. For XML Extension (like RDP), this is the XML setting for the extension. */
-  settings?: string;
+  settings?: Record<string, unknown>;
   /** Protected settings for the extension which are encrypted before sent to the role instance. */
-  protectedSettings?: string;
+  protectedSettings?: Record<string, unknown>;
+  /** Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance. */
   protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
   /**
    * Tag to force apply the provided public and protected settings.
@@ -4002,9 +4026,26 @@ export interface CloudServiceExtensionProperties {
   rolesAppliedTo?: string[];
 }
 
+/** Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance. */
 export interface CloudServiceVaultAndSecretReference {
+  /** The ARM Resource ID of the Key Vault */
   sourceVault?: SubResource;
+  /** Secret URL which contains the protected settings of the extension */
   secretUrl?: string;
+}
+
+/** The system meta data relating to this resource. */
+export interface SystemData {
+  /**
+   * Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAt?: Date;
+  /**
+   * Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedAt?: Date;
 }
 
 export interface CloudServiceUpdate {
@@ -4032,10 +4073,14 @@ export interface CloudServiceInstanceView {
 
 /** Instance view statuses. */
 export interface InstanceViewStatusesSummary {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * The summary.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly statusesSummary?: StatusCodeCount[];
 }
 
+/** The status code and count of the cloud service instance view statuses */
 export interface StatusCodeCount {
   /**
    * The instance view status code
@@ -4049,8 +4094,11 @@ export interface StatusCodeCount {
   readonly count?: number;
 }
 
+/** The list operation result. */
 export interface CloudServiceListResult {
+  /** The list of resources. */
   value: CloudService[];
+  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -4074,8 +4122,11 @@ export interface UpdateDomain {
   readonly name?: string;
 }
 
+/** The list operation result. */
 export interface UpdateDomainListResult {
+  /** The list of resources. */
   value: UpdateDomain[];
+  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -4139,8 +4190,11 @@ export interface OSVersionProperties {
   readonly isActive?: boolean;
 }
 
+/** The list operation result. */
 export interface OSVersionListResult {
+  /** The list of resources. */
   value: OSVersion[];
+  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -4213,8 +4267,11 @@ export interface OSVersionPropertiesBase {
   readonly isActive?: boolean;
 }
 
+/** The list operation result. */
 export interface OSFamilyListResult {
+  /** The list of resources. */
   value: OSFamily[];
+  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -8119,6 +8176,22 @@ export enum KnownCloudServiceUpgradeMode {
  * **Simultaneous**
  */
 export type CloudServiceUpgradeMode = string;
+
+/** Known values of {@link CloudServiceSlotType} that the service accepts. */
+export enum KnownCloudServiceSlotType {
+  Production = "Production",
+  Staging = "Staging"
+}
+
+/**
+ * Defines values for CloudServiceSlotType. \
+ * {@link KnownCloudServiceSlotType} can be used interchangeably with CloudServiceSlotType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Production** \
+ * **Staging**
+ */
+export type CloudServiceSlotType = string;
 
 /** Known values of {@link AvailabilitySetSkuTypes} that the service accepts. */
 export enum KnownAvailabilitySetSkuTypes {
