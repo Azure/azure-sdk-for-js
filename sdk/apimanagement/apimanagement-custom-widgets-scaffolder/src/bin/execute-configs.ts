@@ -90,7 +90,9 @@ export const promptWidgetConfig = (partial: Partial<TWidgetConfig>): Promise<TWi
     partial
   );
 
-export const promptDeployConfig = (partial: Partial<TDeploymentConfig>): Promise<TDeploymentConfig> =>
+export const promptDeployConfig = (
+  partial: Partial<TDeploymentConfig>
+): Promise<TDeploymentConfig> =>
   inquirer.prompt(
     [
       {

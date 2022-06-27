@@ -21,7 +21,8 @@ export const extractConfigFromArgs = <TConfig extends TConfigs>(
     const response = validate(value);
 
     if (response === true) {
-      if (value !== null && value !== undefined) configPartial[key as keyof typeof validateConfig] = value;
+      if (value !== null && value !== undefined)
+        configPartial[key as keyof typeof validateConfig] = value;
     } else if (value === null || value === undefined) {
       missing = true;
     } else {
@@ -34,7 +35,7 @@ export const extractConfigFromArgs = <TConfig extends TConfigs>(
   return { configPartial, missing };
 };
 
-export type TLog = (msg: string) => void
+export type TLog = (msg: string) => void;
 
 export const buildGetConfig = (gray: TLog, red: TLog) => {
   const argv = yargsParser(hideBin(process.argv));

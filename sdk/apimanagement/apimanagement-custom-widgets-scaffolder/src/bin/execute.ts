@@ -13,15 +13,15 @@ import {
   validateWidgetConfig,
 } from "./execute-configs";
 
-import {buildGetConfig, TLog} from "./execute-helpers"
+import { buildGetConfig, TLog } from "./execute-helpers";
 import chalk from "chalk";
 import { generateProject } from "../generateProject";
 
 const log = console.log;
-const white: TLog = msg => log(chalk.white(msg));
-const green: TLog = msg => log(chalk.green(msg));
-const red: TLog = msg => log(chalk.red(msg));
-const gray: TLog = msg => log(chalk.gray(msg));
+const white: TLog = (msg) => log(chalk.white(msg));
+const green: TLog = (msg) => log(chalk.green(msg));
+const red: TLog = (msg) => log(chalk.red(msg));
+const gray: TLog = (msg) => log(chalk.gray(msg));
 
 async function main(): Promise<void> {
   green("\nWelcome to generator of Custom Widgets for Azure API Management service!\n");
