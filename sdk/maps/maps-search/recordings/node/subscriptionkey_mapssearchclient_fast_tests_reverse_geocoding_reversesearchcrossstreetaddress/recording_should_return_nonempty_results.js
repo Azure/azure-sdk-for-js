@@ -1,14 +1,15 @@
 let nock = require('nock');
 
-module.exports.hash = "9d4921867e8baf873527a25b4802a046";
+module.exports.hash = "5ea542d746b239cedd9f17e5a1e854aa";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .get('/search/address/reverse/crossStreet/json')
   .query(true)
-  .reply(200, {"summary":{"numResults":1,"queryTime":152},"addresses":[{"address":{"streetName":"新港路12巷 & 新港路, 114","crossStreet":"新港路, 114","municipalitySubdivision":"新屋區","municipality":"桃園市","countrySubdivision":"桃園市","postalCode":"327","countryCode":"TW","country":"台灣","countryCodeISO3":"TWN","freeformAddress":"新港路12巷 & 新港路, 新屋區, 桃園市 327","localName":"新屋區","street":"新港路12巷"},"position":"24.98891,121.0177"}]}, [ 'Content-Length',
-  '483',
+  .reply(200, {"summary":{"numResults":1,"queryTime":54},"addresses":[{"address":{"streetName":"1st Avenue South & 1st Avenue","crossStreet":"1st Avenue","municipalitySubdivision":"Downtown Seattle","municipality":"Seattle","countrySecondarySubdivision":"King","countrySubdivision":"WA","countrySubdivisionName":"Washington","postalCode":"98104","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"1st Avenue South & 1st Avenue, Seattle, WA 98104","localName":"Seattle","street":"1st Avenue South"},"position":"47.60174,-122.33426"}]}, [
+  'Content-Length',
+  '556',
   'Content-Type',
   'application/json; charset=utf-8',
   'Vary',
@@ -22,6 +23,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 4EF7E5254A2D45FE8FE2F24F420807F9 Ref B: TYBEDGE0410 Ref C: 2022-06-23T09:21:55Z',
+  'Ref A: 2D722DC46CCB4752AB93593518AFDA1E Ref B: TPE30EDGE0715 Ref C: 2022-06-27T02:24:48Z',
   'Date',
-  'Thu, 23 Jun 2022 09:21:54 GMT' ]);
+  'Mon, 27 Jun 2022 02:24:48 GMT'
+]);
