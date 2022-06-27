@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Power off the cloud service. Note that resources are still attached and you are getting charged for the resources.
  *
  * @summary Power off the cloud service. Note that resources are still attached and you are getting charged for the resources.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-03-01/examples/PowerOffCloudService.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_PowerOff.json
  */
 async function stopOrPowerOffCloudService() {
   const subscriptionId = "{subscription-id}";

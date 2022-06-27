@@ -1,15 +1,101 @@
 # Release History
+    
+## 19.1.0 (2022-06-27)
+    
+**Features**
 
-## 19.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AvailabilitySet
+  - Added Interface AvailabilitySetUpdate
+  - Added Interface CapacityReservation
+  - Added Interface CapacityReservationGroup
+  - Added Interface CapacityReservationGroupUpdate
+  - Added Interface CapacityReservationInstanceViewWithName
+  - Added Interface CapacityReservationUpdate
+  - Added Interface CommunityGallery
+  - Added Interface CommunityGalleryImage
+  - Added Interface CommunityGalleryImageVersion
+  - Added Interface DataDiskImageEncryption
+  - Added Interface DedicatedHost
+  - Added Interface DedicatedHostGroup
+  - Added Interface DedicatedHostGroupUpdate
+  - Added Interface DedicatedHostInstanceViewWithName
+  - Added Interface DedicatedHostUpdate
+  - Added Interface Disk
+  - Added Interface DiskAccess
+  - Added Interface DiskEncryptionSet
+  - Added Interface DiskEncryptionSetParameters
+  - Added Interface DiskRestorePoint
+  - Added Interface Gallery
+  - Added Interface GalleryApplication
+  - Added Interface GalleryApplicationUpdate
+  - Added Interface GalleryApplicationVersion
+  - Added Interface GalleryApplicationVersionPublishingProfile
+  - Added Interface GalleryApplicationVersionUpdate
+  - Added Interface GalleryDataDiskImage
+  - Added Interface GalleryImage
+  - Added Interface GalleryImageUpdate
+  - Added Interface GalleryImageVersion
+  - Added Interface GalleryImageVersionPublishingProfile
+  - Added Interface GalleryImageVersionUpdate
+  - Added Interface GalleryOSDiskImage
+  - Added Interface GalleryUpdate
+  - Added Interface Image_2
+  - Added Interface ImageDataDisk
+  - Added Interface ImageOSDisk
+  - Added Interface ImageReference
+  - Added Interface ImageUpdate
+  - Added Interface ManagedDiskParameters
+  - Added Interface NetworkInterfaceReference
+  - Added Interface OSDiskImageEncryption
+  - Added Interface PirSharedGalleryResource
+  - Added Interface ProximityPlacementGroup
+  - Added Interface ProximityPlacementGroupUpdate
+  - Added Interface RequestRateByIntervalInput
+  - Added Interface RestorePoint
+  - Added Interface RestorePointCollection
+  - Added Interface RestorePointCollectionUpdate
+  - Added Interface RollingUpgradeStatusInfo
+  - Added Interface RunCommandDocument
+  - Added Interface SharedGallery
+  - Added Interface SharedGalleryDataDiskImage
+  - Added Interface SharedGalleryImage
+  - Added Interface SharedGalleryImageVersion
+  - Added Interface SharedGalleryOSDiskImage
+  - Added Interface Snapshot
+  - Added Interface SshPublicKeyResource
+  - Added Interface SshPublicKeyUpdateResource
+  - Added Interface SubResourceWithColocationStatus
+  - Added Interface SystemData
+  - Added Interface ThrottledRequestsInput
+  - Added Interface VirtualMachine
+  - Added Interface VirtualMachineCaptureResult
+  - Added Interface VirtualMachineExtension
+  - Added Interface VirtualMachineExtensionImage
+  - Added Interface VirtualMachineExtensionUpdate
+  - Added Interface VirtualMachineImage
+  - Added Interface VirtualMachineImageResource
+  - Added Interface VirtualMachineRunCommand
+  - Added Interface VirtualMachineRunCommandUpdate
+  - Added Interface VirtualMachineScaleSet
+  - Added Interface VirtualMachineScaleSetExtension
+  - Added Interface VirtualMachineScaleSetExtensionUpdate
+  - Added Interface VirtualMachineScaleSetIPConfiguration
+  - Added Interface VirtualMachineScaleSetNetworkConfiguration
+  - Added Interface VirtualMachineScaleSetReimageParameters
+  - Added Interface VirtualMachineScaleSetUpdate
+  - Added Interface VirtualMachineScaleSetUpdateIPConfiguration
+  - Added Interface VirtualMachineScaleSetUpdateNetworkConfiguration
+  - Added Interface VirtualMachineScaleSetVM
+  - Added Interface VirtualMachineScaleSetVMExtension
+  - Added Interface VirtualMachineScaleSetVMExtensionUpdate
+  - Added Interface VirtualMachineScaleSetVMReimageParameters
+  - Added Interface VirtualMachineUpdate
+  - Added Type Alias CloudServiceSlotType
+  - Interface CloudService has a new optional parameter systemData
+  - Interface CloudServiceNetworkProfile has a new optional parameter slotType
+  - Added Enum KnownCloudServiceSlotType
+    
+    
 ## 19.0.0 (2022-06-06)
     
 **Features**

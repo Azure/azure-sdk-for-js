@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ComputeManagementClient.",
-  "version": "19.0.1",
+  "version": "19.1.0",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -99,8 +99,7 @@
     "unit-test:browser": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
-    "integration-test:browser": "echo skipped",
-    "docs": "echo skipped"
+    "integration-test:browser": "echo skipped"
   },
   "sideEffects": false,
   "//metadata": {

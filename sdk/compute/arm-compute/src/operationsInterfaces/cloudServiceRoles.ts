@@ -20,8 +20,8 @@ export interface CloudServiceRoles {
   /**
    * Gets a list of all roles in a cloud service. Use nextLink property in the response to get the next
    * page of roles. Do this till nextLink is null to fetch all the roles.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   list(
@@ -32,8 +32,8 @@ export interface CloudServiceRoles {
   /**
    * Gets a role from a cloud service.
    * @param roleName Name of the role.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   get(
