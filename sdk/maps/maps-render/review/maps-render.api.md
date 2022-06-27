@@ -5,13 +5,17 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { BoundingBox } from '@azure/maps-common';
 import { CommonClientOptions } from '@azure/core-client';
-import { LatLon } from '@azure/maps-common';
 import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
+
+// @public
+export interface BoundingBox {
+    bottomRight: LatLon;
+    topLeft: LatLon;
+}
 
 // @public
 export interface Copyright {
@@ -151,6 +155,14 @@ export enum KnownTilesetID {
     MicrosoftTrafficRelativeMain = "microsoft.traffic.relative.main",
     MicrosoftWeatherInfraredMain = "microsoft.weather.infrared.main",
     MicrosoftWeatherRadarMain = "microsoft.weather.radar.main"
+}
+
+// @public
+export interface LatLon {
+    // (undocumented)
+    latitude: number;
+    // (undocumented)
+    longitude: number;
 }
 
 // @public

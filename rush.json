@@ -614,7 +614,7 @@
     {
       "packageName": "@azure/maps-common",
       "projectFolder": "sdk/maps/maps-common",
-      "versionPolicyName": "client"
+      "versionPolicyName": "utility"
     },
     {
       "packageName": "@azure/maps-search",

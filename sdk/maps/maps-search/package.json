@@ -4,7 +4,7 @@
   "description": "A client library for Azure Maps maps-search",
   "sdk-type": "client",
   "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
+  "module": "dist-esm/maps-search/src/index.js",
   "browser": {},
   "types": "types/maps-search.d.ts",
   "typesVersions": {

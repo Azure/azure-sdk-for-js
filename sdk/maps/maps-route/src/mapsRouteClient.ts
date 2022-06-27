@@ -9,10 +9,8 @@ import {
 import {
   createAzureMapsKeyCredentialPolicy,
   createMapsClientIdPolicy,
-  LatLon,
-  BatchPoller,
   BatchPollerProxy,
-} from "@azure/maps-common";
+} from "../../maps-common/src";
 import { GeneratedClient, RouteDirectionsBatchResult, RouteMatrixResult } from "./generated";
 import {
   RouteDirectionsOptions,
@@ -28,7 +26,7 @@ import {
 import { logger } from "./utils/logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { RouteDirectionParameters } from "./models/models";
+import { RouteDirectionParameters, LatLon, BatchPoller } from "./models/models";
 import {
   createRouteDirectionsBatchRequest,
   mapRouteDirections,

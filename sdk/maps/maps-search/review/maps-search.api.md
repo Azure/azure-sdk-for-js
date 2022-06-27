@@ -5,17 +5,10 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { BatchPoller } from '@azure/maps-common';
-import { BoundingBox } from '@azure/maps-common';
 import { CommonClientOptions } from '@azure/core-client';
-import { GeoJsonFeature } from '@azure/maps-common';
-import { GeoJsonFeatureCollection } from '@azure/maps-common';
-import { GeoJsonGeometryCollection } from '@azure/maps-common';
-import { GeoJsonLineString } from '@azure/maps-common';
-import { GeoJsonPoint } from '@azure/maps-common';
-import { GeoJsonPolygon } from '@azure/maps-common';
-import { LatLon } from '@azure/maps-common';
 import { OperationOptions } from '@azure/core-client';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -60,6 +53,11 @@ export interface BatchItem<TResult> {
 }
 
 // @public
+export interface BatchPoller<TBatchResult> extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {
+    getBatchId(): string | undefined;
+}
+
+// @public
 export interface BatchPollerOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -70,6 +68,21 @@ export interface BatchResult<TResult> {
     readonly batchItems: BatchItem<TResult>[];
     readonly totalRequests: number;
     readonly totalSuccessfulRequests: number;
+}
+
+// @public
+export type BBox = BBox2D | BBox3D;
+
+// @public
+export type BBox2D = [number, number, number, number];
+
+// @public
+export type BBox3D = [number, number, number, number, number, number];
+
+// @public
+export interface BoundingBox {
+    bottomRight: LatLon;
+    topLeft: LatLon;
 }
 
 // @public
@@ -169,6 +182,95 @@ export interface GeoJsonCircleOrPolygonFeatureCollection extends GeoJsonFeatureC
 }
 
 // @public
+export interface GeoJsonFeature extends GeoJsonObject {
+    // (undocumented)
+    geometry?: GeoJsonGeometry;
+    // (undocumented)
+    id?: number | string;
+    // (undocumented)
+    properties?: {
+        [name: string]: any;
+    };
+    // (undocumented)
+    type: "Feature";
+}
+
+// @public
+export interface GeoJsonFeatureCollection extends GeoJsonObject {
+    // (undocumented)
+    features: GeoJsonFeature[];
+    // (undocumented)
+    type: "FeatureCollection";
+}
+
+// @public
+export type GeoJsonGeometry = GeoJsonPoint | GeoJsonMultiPoint | GeoJsonLineString | GeoJsonMultiLineString | GeoJsonPolygon | GeoJsonMultiPolygon;
+
+// @public
+export interface GeoJsonGeometryCollection extends GeoJsonObject {
+    // (undocumented)
+    geometries: GeoJsonGeometry[];
+    // (undocumented)
+    type: "GeometryCollection";
+}
+
+// @public
+export interface GeoJsonLineString extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[];
+    // (undocumented)
+    type: "LineString";
+}
+
+// @public
+export interface GeoJsonMultiLineString extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[][];
+    // (undocumented)
+    type: "MultiLineString";
+}
+
+// @public
+export interface GeoJsonMultiPoint extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[];
+    // (undocumented)
+    type: "MultiPoint";
+}
+
+// @public
+export interface GeoJsonMultiPolygon extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[][][];
+    // (undocumented)
+    type: "MultiPolygon";
+}
+
+// @public
+export interface GeoJsonObject {
+    // (undocumented)
+    bbox?: BBox;
+    // (undocumented)
+    type: GeoJsonType;
+}
+
+// @public
+export interface GeoJsonPoint extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position;
+    // (undocumented)
+    type: "Point";
+}
+
+// @public
+export interface GeoJsonPolygon extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[][];
+    // (undocumented)
+    type: "Polygon";
+}
+
+// @public
 export interface GeoJsonPolygonCollection extends GeoJsonGeometryCollection {
     // (undocumented)
     geometries: GeoJsonPolygon[];
@@ -181,9 +283,15 @@ export interface GeoJsonPolygonFeature extends GeoJsonFeature {
 }
 
 // @public
+export type GeoJsonType = GeometryType | "Feature" | "FeatureCollection";
+
+// @public
 export interface GeometryIdentifier {
     readonly id: string;
 }
+
+// @public
+export type GeometryType = "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
 
 // @public
 export type GetGeometriesOptions = OperationOptions;
@@ -322,6 +430,14 @@ export enum KnownSearchIndexes {
 }
 
 // @public
+export interface LatLon {
+    // (undocumented)
+    latitude: number;
+    // (undocumented)
+    longitude: number;
+}
+
+// @public
 export type LocalizedMapView = string;
 
 // @public
@@ -405,6 +521,15 @@ export interface PointOfInterestCategorySet {
 export interface PointOfInterestCategoryTreeResult {
     readonly categories?: PointOfInterestCategory[];
 }
+
+// @public
+export type Position = Position2D | Position3D;
+
+// @public
+export type Position2D = [number, number];
+
+// @public
+export type Position3D = [number, number, number];
 
 // @public
 export type QueryType = string;
