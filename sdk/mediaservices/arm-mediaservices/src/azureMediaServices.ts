@@ -8,6 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   AccountFiltersImpl,
@@ -16,6 +21,8 @@ import {
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
   LocationsImpl,
+  MediaServicesOperationStatusesImpl,
+  MediaServicesOperationResultsImpl,
   AssetsImpl,
   AssetFiltersImpl,
   TracksImpl,
@@ -37,6 +44,8 @@ import {
   PrivateLinkResources,
   PrivateEndpointConnections,
   Locations,
+  MediaServicesOperationStatuses,
+  MediaServicesOperationResults,
   Assets,
   AssetFilters,
   Tracks,
@@ -56,6 +65,7 @@ import { AzureMediaServicesOptionalParams } from "./models";
 export class AzureMediaServices extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the AzureMediaServices class.
@@ -84,7 +94,7 @@ export class AzureMediaServices extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-mediaservices/11.0.1`;
+    const packageDetails = `azsdk-js-arm-mediaservices/12.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,12 +141,19 @@ export class AzureMediaServices extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-11-01";
     this.accountFilters = new AccountFiltersImpl(this);
     this.operations = new OperationsImpl(this);
     this.mediaservices = new MediaservicesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.locations = new LocationsImpl(this);
+    this.mediaServicesOperationStatuses = new MediaServicesOperationStatusesImpl(
+      this
+    );
+    this.mediaServicesOperationResults = new MediaServicesOperationResultsImpl(
+      this
+    );
     this.assets = new AssetsImpl(this);
     this.assetFilters = new AssetFiltersImpl(this);
     this.tracks = new TracksImpl(this);
@@ -150,6 +167,35 @@ export class AzureMediaServices extends coreClient.ServiceClient {
     this.liveEvents = new LiveEventsImpl(this);
     this.liveOutputs = new LiveOutputsImpl(this);
     this.streamingEndpoints = new StreamingEndpointsImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return item.replace(/(?<==).*$/, apiVersion);
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   accountFilters: AccountFilters;
@@ -158,6 +204,8 @@ export class AzureMediaServices extends coreClient.ServiceClient {
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
   locations: Locations;
+  mediaServicesOperationStatuses: MediaServicesOperationStatuses;
+  mediaServicesOperationResults: MediaServicesOperationResults;
   assets: Assets;
   assetFilters: AssetFilters;
   tracks: Tracks;

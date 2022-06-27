@@ -6,22 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationStatuses } from "../operationsInterfaces";
+import { MediaServicesOperationResults } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMediaServices } from "../azureMediaServices";
 import {
-  OperationStatusesGetOptionalParams,
-  OperationStatusesGetResponse
+  MediaServicesOperationResultsGetOptionalParams,
+  MediaServicesOperationResultsGetResponse
 } from "../models";
 
-/** Class containing OperationStatuses operations. */
-export class OperationStatusesImpl implements OperationStatuses {
+/** Class containing MediaServicesOperationResults operations. */
+export class MediaServicesOperationResultsImpl
+  implements MediaServicesOperationResults {
   private readonly client: AzureMediaServices;
 
   /**
-   * Initialize a new instance of the class OperationStatuses class.
+   * Initialize a new instance of the class MediaServicesOperationResults class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMediaServices) {
@@ -29,31 +30,18 @@ export class OperationStatusesImpl implements OperationStatuses {
   }
 
   /**
-   * Get asset track operation status.
-   * @param resourceGroupName The name of the resource group within the Azure subscription.
-   * @param accountName The Media Services account name.
-   * @param assetName The Asset name.
-   * @param trackName The Asset Track name.
+   * Get media service operation result.
+   * @param locationName Location name.
    * @param operationId Operation Id.
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    accountName: string,
-    assetName: string,
-    trackName: string,
+    locationName: string,
     operationId: string,
-    options?: OperationStatusesGetOptionalParams
-  ): Promise<OperationStatusesGetResponse> {
+    options?: MediaServicesOperationResultsGetOptionalParams
+  ): Promise<MediaServicesOperationResultsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        assetName,
-        trackName,
-        operationId,
-        options
-      },
+      { locationName, operationId, options },
       getOperationSpec
     );
   }
@@ -63,11 +51,14 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}/operationStatuses/{operationId}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Media/locations/{locationName}/mediaServicesOperationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AssetTrackOperationStatus
+      bodyMapper: Mappers.MediaService
+    },
+    202: {
+      headersMapper: Mappers.MediaServicesOperationResultsGetHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -77,11 +68,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.operationId,
-    Parameters.assetName,
-    Parameters.trackName
+    Parameters.locationName,
+    Parameters.operationId
   ],
   headerParameters: [Parameters.accept],
   serializer
