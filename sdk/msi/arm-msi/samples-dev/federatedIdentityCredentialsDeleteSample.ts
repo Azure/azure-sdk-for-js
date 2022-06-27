@@ -8,31 +8,28 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Identity, ManagedServiceIdentityClient } from "@azure/arm-msi";
+import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Create or update an identity in the specified subscription and resource group.
+ * This sample demonstrates how to Deletes the federated identity credential.
  *
- * @summary Create or update an identity in the specified subscription and resource group.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/IdentityCreate.json
+ * @summary Deletes the federated identity credential.
+ * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialDelete.json
  */
-async function identityCreate() {
+async function federatedIdentityCredentialDelete() {
   const subscriptionId = "subid";
   const resourceGroupName = "rgName";
   const resourceName = "resourceName";
-  const parameters: Identity = {
-    location: "eastus",
-    tags: { key1: "value1", key2: "value2" }
-  };
+  const federatedIdentityCredentialResourceName = "ficResourceName";
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
-  const result = await client.userAssignedIdentities.createOrUpdate(
+  const result = await client.federatedIdentityCredentials.delete(
     resourceGroupName,
     resourceName,
-    parameters
+    federatedIdentityCredentialResourceName
   );
   console.log(result);
 }
 
-identityCreate().catch(console.error);
+federatedIdentityCredentialDelete().catch(console.error);
