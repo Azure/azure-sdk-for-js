@@ -28,7 +28,6 @@ describe("Range query should be successful", () => {
     await recorder.stop();
   });
 
-  /*
   it("should post 2000 entries", async function () {
     const modulus = 5;
     // Should result in 2 pages.
@@ -55,8 +54,7 @@ describe("Range query should be successful", () => {
       assert.equal(result.status, "200");
     }
   });
-  */
- 
+
   it ("should audit 2000 entries", async function () {
 
     const modulus = 5;
@@ -77,32 +75,17 @@ describe("Range query should be successful", () => {
         const rangedArr = Array.from(Array(page.length).keys()).map(x => x + 1);
         for (index of rangedArr) {
           var entry = page[index] as LedgerEntry;
-          if (entry != undefined && entry.collectionId == "" + i && parseInt(entry.collectionId) % modulus == parseInt(entry.contents)) {
-            //console.log("HERE = " + entry.contents);
+          console.log(entry)
+          if (entry != undefined && entry.collectionId == "" + i && parseInt(entry.contents) % modulus == parseInt(entry.collectionId)) {
             correctEntries.push(entry.contents);
           }
         }
       }
     }
 
-    console.log("HERE!!");
-    console.log(correctEntries);
     correctEntries = correctEntries.filter((value, index) => correctEntries.indexOf(value) === index);
-    console.log(correctEntries);
-    console.log(correctEntries.length);
+
+    // Due to replication delay, it's possible not all messages are matched.
     assert(correctEntries.length >= 0.9 * numMessagesSent);
-
-      //for await (var page of items) {
-        // console.log(page);
-        // assert that there are at least ~350 of each collection
-        // contents mod 5 should be equal to the col id
-        // col 0 - 0, 5, 10
-        // col 1 - 1, 6, 11
-        // col 2 - 2, 7, 12
-        // 
-      //}
-
-        // Due to replication delay, it's possible not all messages are matched.
-        // self.assertGreaterEqual(num_matched, 0.9 * num_messages_sent)
   });
 });
