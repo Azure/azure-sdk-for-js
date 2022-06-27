@@ -28,70 +28,69 @@ describe("Range query should be successful", () => {
     await recorder.stop();
   });
 
-  it("should list entries", async function () {
+  /*
+  it("should post 2000 entries", async function () {
     const modulus = 5;
     // Should result in 2 pages.
-    // const numMessagesSent = 2001;
-    const numMessagesSent = 3;
+    const numMessagesSent = 2001;
 
     // we want to send 2001 messages total
     for (let i = 0; i < numMessagesSent; i++) {
-      let message = "" + i;
-
       const entry: LedgerEntry = {
-        contents: message,
-        collectionId: "" + (i % modulus),
+        contents: "" + i,
       };
 
       const ledgerEntry: PostLedgerEntryParameters = {
         contentType: "application/json",
         body: entry,
+        queryParameters: {collectionId: "" + (i % modulus)}
       };
-
-      console.log(ledgerEntry);
       
       let result = (await client
         .path("/app/transactions")
         .post(ledgerEntry)) as PostLedgerEntry200Response;
 
-      console.log(result)
-      result = result;
+      console.log(result);
+
+      assert.equal(result.status, "200");
     }
+  });
+  */
+ 
+  it ("should audit 2000 entries", async function () {
 
+    const modulus = 5;
+    const numMessagesSent = 2001;
+
+    var correctEntries: string[] = [];
+
+    for (let i = 0; i < modulus; i += 1) {
+      const getLedgerEntriesParams = {queryParameters: {collectionId: "" + i}};
     // get ledger entries for each collection
-    const ledgerEntries = await client.path("/app/transactions").get() as ListLedgerEntries200Response;
+      const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams) as ListLedgerEntries200Response;
 
-    var items = paginate(client, ledgerEntries).byPage();
+      var items = paginate(client, ledgerEntries).byPage();
 
-    var pages: LedgerEntry[] = [];
+      var index: number = 0;
 
-    var index: number = 0;
-
-    const rangedArr = Array.from(Array(5).keys()).map(x => x + 1);
-
-    for await (var page of items) {
-      for (index of rangedArr) {
-        pages.push(page[index]);
+      for await (var page of items) {
+        const rangedArr = Array.from(Array(page.length).keys()).map(x => x + 1);
+        for (index of rangedArr) {
+          var entry = page[index] as LedgerEntry;
+          if (entry != undefined && entry.collectionId == "" + i && parseInt(entry.collectionId) % modulus == parseInt(entry.contents)) {
+            //console.log("HERE = " + entry.contents);
+            correctEntries.push(entry.contents);
+          }
+        }
       }
     }
 
-    pages = pages.filter((entry): entry is LedgerEntry => Boolean(entry));
-    console.log(pages);
-    
-    var totalCorrectItems = 0;
-  
-    for (var i = 0; i < modulus; i++) {
-      var firstTest = Object.values(items).filter((col: any) => col.collectionId == "" + i);
-      console.log("First test:");
-      console.log(firstTest);
-
-      var correctMembers = Object.values(items).filter((col: any) => col.collectionId == "" + i && typeof(parseInt(col.contents)) == typeof(3) && parseInt(col.contents) % 5 == i);
-      console.log(correctMembers);
-      totalCorrectItems += correctMembers.length;
-      console.log(totalCorrectItems);
-    }
-    
-    assert(totalCorrectItems >= 0.9 * numMessagesSent);
+    console.log("HERE!!");
+    console.log(correctEntries);
+    correctEntries = correctEntries.filter((value, index) => correctEntries.indexOf(value) === index);
+    console.log(correctEntries);
+    console.log(correctEntries.length);
+    assert(correctEntries.length >= 0.9 * numMessagesSent);
 
       //for await (var page of items) {
         // console.log(page);

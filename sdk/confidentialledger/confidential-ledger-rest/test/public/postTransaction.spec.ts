@@ -6,7 +6,7 @@ import {
   LedgerEntry,
   PostLedgerEntry200Response,
   PostLedgerEntryParameters,
-  PostLedgerEntryQueryParamProperties,
+  // PostLedgerEntryQueryParamProperties,
 } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
@@ -41,8 +41,6 @@ describe("Post transaction", () => {
       .path("/app/transactions")
       .post(ledgerEntry)) as PostLedgerEntry200Response;
 
-    console.log(result)
-
     assert.equal(result.status, "200");
 
     const transactionId = result.headers["x-ms-ccf-transaction-id"] ?? "";
@@ -69,14 +67,18 @@ describe("Post transaction", () => {
       contents: "post ledger entry test"
     };
 
+    /*
     const queryParams: PostLedgerEntryQueryParamProperties = {
       collectionId: "collectionPost:0"
     }
+    */
+
+    let collectionIdVar = "collectionPost:0";
 
     const ledgerEntry: PostLedgerEntryParameters = {
       contentType: "application/json",
       body: entry,
-      queryParameters: queryParams as any
+      queryParameters: {collectionId: collectionIdVar}
     };
 
     let result = (await client
@@ -84,6 +86,7 @@ describe("Post transaction", () => {
       .post(ledgerEntry)) as PostLedgerEntry200Response;
 
     assert(result.status == "200");
+    assert.equal(result.body.collectionId, collectionIdVar);
 
     let transactionId = result.headers["x-ms-ccf-transaction-id"] ?? "";
     
@@ -101,17 +104,5 @@ describe("Post transaction", () => {
       .path("/app/transactions/{transactionId}/receipt", transactionId)
       .get();
     assert(transactionResponse.status == "200" || (transactionResponse.status == "406" && statusResponse.body.state === "Pending"));
-
-    console.log(transactionId);
-    console.log(transactionResponse);
-
-    transactionId = "2.381";
-
-    const transactionItself = await client
-    .path("/app/transactions/{transactionId}", transactionId)
-    .get();
-
-    console.log("transaction:")
-    console.log(transactionItself);
   });
 });
