@@ -85,9 +85,9 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         ];
         const nonExpectedTypes = [KnownSearchAddressResultType.POI];
 
-        function assertGeocodingResults(results?: SearchAddressResultItem[]): void {
+        function assertGeocodingResults(results: SearchAddressResultItem[]): void {
           assert.isNotEmpty(results);
-          results?.forEach((r) => {
+          results.forEach((r) => {
             // Could be any types except POI
             assert.oneOf(r.type, expectedTypes);
             assert.notInclude(nonExpectedTypes, r.type);
@@ -146,8 +146,8 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
               longitude: 121,
             });
             assert.isNotEmpty(searchResult.results);
-            searchResult.results?.forEach((r) => {
-              assert.isString(r.address?.streetName);
+            searchResult.results.forEach((r) => {
+              assert.isString(r.address.streetName);
             });
           });
         });
@@ -165,11 +165,11 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
 
           it("should return non-empty results", async function () {
             const searchResult = await client.reverseSearchCrossStreetAddress({
-              latitude: 25,
-              longitude: 121,
+              latitude: 47.59118,
+              longitude: -122.3327,
             });
-            assert.isNotEmpty(searchResult.results);
-            searchResult.results?.forEach((r) => {
+            assert.isNotEmpty(searchResult);
+            searchResult.results.forEach((r) => {
               assert.isString(r.address?.crossStreet);
             });
           });
@@ -178,9 +178,9 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
 
       describe("POI search", function () {
         const expectedType = KnownSearchAddressResultType.POI;
-        function assertPOISearchResults(results?: SearchAddressResultItem[]): void {
+        function assertPOISearchResults(results: SearchAddressResultItem[]): void {
           assert.isNotEmpty(results);
-          results?.forEach((r) => {
+          results.forEach((r) => {
             // Could be any types except POI
             assert.equal(r.type, expectedType);
             // Has valid score
@@ -334,9 +334,9 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           KnownSearchAddressResultType.POI,
         ];
 
-        function assertSearchResults(results?: SearchAddressResultItem[]): void {
+        function assertSearchResults(results: SearchAddressResultItem[]): void {
           assert.isNotEmpty(results);
-          results?.forEach((r) => {
+          results.forEach((r) => {
             // Could be any types except POI
             assert.oneOf(r.type, expectedTypes);
             // Has valid score
@@ -512,7 +512,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           const batchResult = await poller.pollUntilDone();
 
           assert.equal(batchResult.totalRequests, batchRequests.length);
-          assert.equal(batchResult.batchItems?.length, batchRequests.length);
+          assert.equal(batchResult.batchItems.length, batchRequests.length);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
@@ -569,7 +569,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           });
           const batchResult = await poller2.pollUntilDone();
           assert.equal(batchResult.totalRequests, batchRequests.length);
-          assert.equal(batchResult.batchItems?.length, batchRequests.length);
+          assert.equal(batchResult.batchItems.length, batchRequests.length);
         });
 
         it("should obtain the same result as beginFuzzySearchBatch ", async function () {
@@ -621,7 +621,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           const batchResult = await poller.pollUntilDone();
 
           assert.equal(batchResult.totalRequests, batchRequests.length);
-          assert.equal(batchResult.batchItems?.length, batchRequests.length);
+          assert.equal(batchResult.batchItems.length, batchRequests.length);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
@@ -672,7 +672,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           });
           const batchResult = await poller2.pollUntilDone();
           assert.equal(batchResult.totalRequests, batchRequests.length);
-          assert.equal(batchResult.batchItems?.length, batchRequests.length);
+          assert.equal(batchResult.batchItems.length, batchRequests.length);
         });
 
         it("should obtain the same result as beginSearchAddressBatch ", async function () {
@@ -722,7 +722,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           const batchResult = await poller.pollUntilDone();
 
           assert.equal(batchResult.totalRequests, batchRequests.length);
-          assert.equal(batchResult.batchItems?.length, batchRequests.length);
+          assert.equal(batchResult.batchItems.length, batchRequests.length);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
@@ -776,7 +776,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           });
           const batchResult = await poller2.pollUntilDone();
           assert.equal(batchResult.totalRequests, batchRequests.length);
-          assert.equal(batchResult.batchItems?.length, batchRequests.length);
+          assert.equal(batchResult.batchItems.length, batchRequests.length);
         });
 
         it("should obtain the same result as beginReverseSearchAddressBatch ", async function () {
