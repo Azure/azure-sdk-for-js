@@ -9,12 +9,8 @@ import {
 import {
   createAzureMapsKeyCredentialPolicy,
   createMapsClientIdPolicy,
-  LatLon,
-  GeoJsonFeatureCollection,
-  GeoJsonLineString,
-  BatchPoller,
   BatchPollerProxy,
-} from "@azure/maps-common";
+} from "../../maps-common/src";
 import {
   mapFuzzySearchOptions,
   mapReverseSearchAddressBatchResult,
@@ -38,7 +34,14 @@ import {
   SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
 } from "./generated/models";
-import { SearchGeometry, StructuredAddress } from "./models/models";
+import {
+  SearchGeometry,
+  StructuredAddress,
+  LatLon,
+  GeoJsonLineString,
+  BatchPoller,
+  GeoJsonFeatureCollection,
+} from "./models/models";
 import {
   createFuzzySearchBatchRequest,
   createReverseSearchAddressBatchRequest,

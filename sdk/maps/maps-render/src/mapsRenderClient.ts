@@ -7,10 +7,9 @@ import {
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import {
-  BoundingBox,
   createAzureMapsKeyCredentialPolicy,
   createMapsClientIdPolicy,
-} from "@azure/maps-common";
+} from "../../maps-common/src";
 import {
   Copyright,
   CopyrightCaption,
@@ -21,6 +20,7 @@ import {
   TileIndex,
   TilesetID,
 } from "./generated";
+import { BoundingBox } from "./models/models";
 import {
   GetAttributionOptions,
   GetCopyrightCaptionOptions,

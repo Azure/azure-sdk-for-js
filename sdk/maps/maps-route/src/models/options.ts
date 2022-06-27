@@ -17,7 +17,7 @@ import {
   VehicleLoadType,
   WindingnessLevel,
 } from "../generated";
-import { GeoJsonMultiPoint, LatLon } from "@azure/maps-common";
+import { GeoJsonMultiPoint, LatLon } from "./models";
 
 /**
  * Client options used to configure the Maps Route Client

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingBox, LatLon } from "@azure/maps-common";
 import { assert } from "chai";
 import {
   createFuzzySearchBatchRequest,
@@ -41,7 +40,14 @@ import {
   SearchNearbyPointOfInterestOptions,
   SearchPointOfInterestBaseOptions,
   SearchPointOfInterestOptions,
-} from "../../src/models/options";
+  BoundingBox,
+  LatLon,
+  Address,
+  BatchResult,
+  ReverseSearchAddressResult,
+  ReverseSearchCrossStreetAddressResult,
+  SearchAddressResult,
+} from "../../src";
 import {
   LatLongPairAbbreviated,
   BoundingBox as BoundingBoxInternal,
@@ -68,13 +74,6 @@ import {
   ReverseSearchAddressBatchItemResponse,
 } from "../../src/generated/models";
 import { OperationOptions } from "@azure/core-client";
-import {
-  Address,
-  BatchResult,
-  ReverseSearchAddressResult,
-  ReverseSearchCrossStreetAddressResult,
-  SearchAddressResult,
-} from "../../src/models/results";
 
 describe("LatLon/BoundingBox mappers", () => {
   describe("toLatLon", () => {
