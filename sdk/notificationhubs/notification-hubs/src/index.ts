@@ -2,26 +2,8 @@
 // Licensed under the MIT license.
 
 export { NotificationHubsClient } from "./notificationHubsClient";
-export {
-  AdmRegistrationDescription,
-  AdmTemplateRegistrationDescription,
-  AppleRegistrationDescription,
-  AppleTemplateRegistrationDescription,
-  BaiduRegistrationDescription,
-  BaiduTemplateRegistrationDescription,
-  BrowserRegistrationDescription,
-  BrowserTemplateRegistrationDescription,
-  GcmRegistrationDescription,
-  GcmTemplateRegistrationDescription,
-  FcmRegistrationDescription,
-  FcmTemplateRegistrationDescription,
-  MpnsRegistrationDescription,
-  MpnsTemplateRegistrationDescription,
-  RegistrationDescription,
-  RegistrationDescriptionCommon,
-  RegistrationType,
-  TemplateRegistrationDescription,
-  WindowsRegistrationDescription,
-  WindowsTemplateRegistrationDescription,
-} from "./serializers/registrationSerializer";
-export * from "./models";
+export * from "./models/installation";
+export * from "./models/message";
+export * from "./models/options";
+export * from "./models/registration";
+export * from "./models/response";

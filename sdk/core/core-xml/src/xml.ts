@@ -21,6 +21,7 @@ function getSerializerOptions(options: XmlOptions = {}) {
     suppressEmptyNode: true,
     indentBy: "",
     rootNodeName: options.rootName ?? "root",
+    cDataPropName: "__cdata",
   };
 }
 

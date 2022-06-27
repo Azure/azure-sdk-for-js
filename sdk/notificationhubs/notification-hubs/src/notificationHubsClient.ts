@@ -2,16 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  BrowserPushChannel,
-  InstallationPatch,
-  Installation,
-  NotificationHubMessage,
-  NotificationHubResponse,
-  NotificationHubsClientOptions,
-  PushHandle,
-  SendOperationOptions,
-} from "./models";
-import {
   HttpHeaders,
   HttpMethods,
   PipelineRequest,
@@ -21,13 +11,19 @@ import {
   RestError,
 } from "@azure/core-rest-pipeline";
 import { OperationOptions, ServiceClient } from "@azure/core-client";
-import { RegistrationDescription, registrationDescriptionParser } from "./serializers/registrationSerializer";
+import { registrationDescriptionParser, registrationSerializer } from "./serializers/registrationSerializer";
 import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
 } from "./utils/connectionStringUtils";
 import { SasTokenProvider } from "@azure/core-amqp";
 import { tracingClient } from "./utils/tracing";
+import { Installation, InstallationPatch, PushHandle, BrowserPushChannel } from "./models/installation";
+import { NotificationHubMessage } from "./models/message";
+import { EntityOperationOptions, NotificationHubsClientOptions, RegistrationQueryLimitOptions, RegistrationQueryOptions, SendOperationOptions } from "./models/options";
+import { NotificationHubMessageResponse, NotificationHubResponse, RegistrationQueryResponse } from "./models/response";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { RegistrationDescription } from "./models/registration";
 
 const API_VERSION = "2020-06";
 
@@ -316,6 +312,338 @@ export class NotificationHubsClient extends ServiceClient {
   }
 
   /**
+   * Deletes a registration with the given registration ID.
+   * @param registrationId - The registration ID of the registration to delete.
+   * @param options - The options for delete operations including the ETag
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  public deleteRegistrationById(
+    registrationId: string,
+    options: EntityOperationOptions = {}
+  ): Promise<NotificationHubResponse> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-deleteRegistrationById",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += `/registrations/${registrationId}`;
+
+        const headers = this.createHeaders();
+        headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
+        headers.set("If-Match", options.eTag ?? "*");
+
+        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
+        const response = await this.sendRequest(request);
+        if (response.status !== 200) {
+          throw new RestError(
+            `deleteRegistrationById failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
+        }
+
+        return this.parseNotificationResponse(response);
+      });
+  }
+
+  /**
+   * Creates a new registration. This method generates a registration ID, 
+   * which you can subsequently use to retrieve, update, and delete this registration.
+   * @param registration - The registration to create.
+   * @param options - Options for creating a new registration.
+   * @returns The newly created registration description.
+   */
+  public async createRegistration(
+    registration: RegistrationDescription,
+    options: OperationOptions = {}
+  ): Promise<RegistrationDescription> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-createRegistration",
+      options,
+      async (updatedOptions) => {
+        if (registration.registrationId) {
+          throw new RestError("registrationId must not be set during a create operation", { statusCode: 400 });
+        }
+
+        return this.createOrUpdateRegistrationDescription(
+          registration,
+          "create",
+          "*",
+          updatedOptions
+        );
+      });
+  }
+
+  /**
+   * Creates or updates a registration.
+   * @param registration - The registration to create or update.
+   * @param options - The operation options.
+   * @returns The created or updated registration description.
+   */
+  public async createOrUpdateRegistration(
+    registration: RegistrationDescription,
+    options: OperationOptions = {}
+  ): Promise<RegistrationDescription> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-createOrUpdateRegistration",
+      options,
+      async (updatedOptions) => {
+        return this.createOrUpdateRegistrationDescription(
+          registration,
+          "createOrUpdate",
+          "*",
+          updatedOptions
+        );
+      });
+  }
+
+  /**
+   * Updates an existing registration.
+   * @param registration - The registration to update.
+   * @param options - The operation options.
+   * @returns The updated registration description.
+   */
+  public async updateRegistration(
+    registration: RegistrationDescription,
+    options: OperationOptions = {}
+  ): Promise<RegistrationDescription> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-updateRegistration",
+      options,
+      async (updatedOptions) => {
+        if (!registration.eTag) {
+          throw new RestError("ETag is required for registration update", { statusCode: 400 });
+        }
+        return this.createOrUpdateRegistrationDescription(
+          registration,
+          "update",
+          `"${registration.eTag}"`,
+          updatedOptions
+        );
+      });
+  }
+
+  private async createOrUpdateRegistrationDescription(
+    registration: RegistrationDescription,
+    operationName: "create" | "createOrUpdate" | "update",
+    eTag: string,
+    options: OperationOptions,
+  ): Promise<RegistrationDescription> {
+    const endpoint = this.getBaseURL();
+    endpoint.pathname += "/registrations";
+    let httpMethod: HttpMethods = "POST";
+
+    if (operationName === "createOrUpdate" || operationName === "update") {
+      endpoint.pathname += `/${registration.registrationId}`;
+      httpMethod = "PUT";
+    }
+
+    // Clear out readonly properties
+    registration.registrationId = undefined;
+    registration.eTag = undefined;
+
+    const headers = this.createHeaders();
+    headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
+    headers.set("If-Match", eTag);
+
+    const request = this.createRequest(endpoint, httpMethod, headers, options);
+    request.body = registrationSerializer.serializeRegistrationDescription(registration);
+    const response = await this.sendRequest(request);
+    if (response.status !== 200 && response.status !== 201) {
+      throw new RestError(
+        `${operationName}Registration failed with ${response.status}`,
+        {
+          statusCode: response.status,
+          response: response
+        });
+    }
+
+    return registrationDescriptionParser.parseRegistrationEntry(response.bodyAsText!);
+  }
+
+  /**
+   * Gets all registrations for the notification hub with the given query options.
+   * @param options - The options for querying the registrations such as $top and $filter.
+   * @returns A paged async iterable containing all of the registrations for the notification hub.
+   */
+  public listRegistrations(
+    options: RegistrationQueryOptions = {}
+  ): PagedAsyncIterableIterator<RegistrationDescription> {
+    const { span, updatedOptions } = tracingClient.startSpan("NotificationHubsClient-listRegistrations", options);
+    try {
+      const iter = this.listRegistrationsAll(updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: () => {
+          return this.listRegistrationPagingPage(options);
+        }
+      };
+    } catch (e: any) {
+      span.setStatus({ status: "error", error: e });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listRegistrationsAll(
+    options: RegistrationQueryOptions
+  ): AsyncIterableIterator<RegistrationDescription> {
+    for await (const page of this.listRegistrationPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  private async *listRegistrationPagingPage(
+    options: RegistrationQueryOptions
+  ): AsyncIterableIterator<RegistrationDescription[]> {
+    let result = await this._listRegistrations(options);
+    yield result.registrations || [];
+    let continuationToken = result.continuationToken;
+    while (continuationToken) {
+      result = await this._listRegistrations(options, continuationToken);
+      continuationToken = result.continuationToken;
+      yield result.registrations || [];
+    }
+  }
+
+  private async _listRegistrations(
+    options: RegistrationQueryOptions, 
+    continuationToken?: string
+  ): Promise<RegistrationQueryResponse> {
+    const endpoint = this.getBaseURL();
+    endpoint.pathname += "/registrations";
+    if (options.top !== undefined) {
+      endpoint.searchParams.set("$top", `${options.top}`);
+    }
+
+    if (options.filter !== undefined) {
+      endpoint.searchParams.set("$filter", options.filter);
+    }
+
+    if (continuationToken !== undefined) {
+      endpoint.searchParams.set("continuationtoken", continuationToken);
+    }
+
+    const headers = this.createHeaders();
+
+    const request = this.createRequest(endpoint, "GET", headers, options);
+    const response = await this.sendRequest(request);
+    if (response.status !== 200) {
+      throw new RestError(
+        `listRegistrations failed with ${response.status}`,
+        {
+          statusCode: response.status,
+          response: response
+        });
+    }
+
+    const registrations = await registrationDescriptionParser.parseRegistrationFeed(response.bodyAsText!);
+    const nextToken = response.headers.get("x-ms-continuationtoken");
+    return {
+      registrations,
+      continuationToken: nextToken
+    };
+  }
+
+  /**
+   * Lists all registrations with the matching tag.
+   * @param tag - The tag to query for matching registrations.
+   * @param options - The query options such as $top.
+   * @returns A paged async iterable containing the matching registrations for the notification hub.
+   */
+  public listRegistrationsByTag(
+    tag: string,
+    options: RegistrationQueryLimitOptions
+  ): PagedAsyncIterableIterator<RegistrationDescription> {
+    const { span, updatedOptions } = tracingClient.startSpan("NotificationHubsClient-listRegistrationsByTag", options);
+    try {
+      const iter = this.listRegistrationsByTagAll(tag, updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: () => {
+          return this.listRegistrationsByTagPagingPage(tag, options);
+        }
+      };
+    } catch (e: any) {
+      span.setStatus({ status: "error", error: e });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listRegistrationsByTagAll(
+    tag: string,
+    options: RegistrationQueryLimitOptions
+  ): AsyncIterableIterator<RegistrationDescription> {
+    for await (const page of this.listRegistrationsByTagPagingPage(tag, options)) {
+      yield* page;
+    }
+  }
+
+  private async *listRegistrationsByTagPagingPage(
+    tag: string,
+    options: RegistrationQueryLimitOptions
+  ): AsyncIterableIterator<RegistrationDescription[]> {
+    let result = await this._listRegistrationsByTag(tag, options);
+    yield result.registrations || [];
+    let continuationToken = result.continuationToken;
+    while (continuationToken) {
+      result = await this._listRegistrationsByTag(tag, options, continuationToken);
+      continuationToken = result.continuationToken;
+      yield result.registrations || [];
+    }
+  }
+
+  private async _listRegistrationsByTag(
+    tag: string,
+    options: RegistrationQueryLimitOptions, 
+    continuationToken?: string
+  ): Promise<RegistrationQueryResponse> {
+    const endpoint = this.getBaseURL();
+    endpoint.pathname += `/tags/${tag}/registrations`;
+    if (options.top !== undefined) {
+      endpoint.searchParams.set("$top", `${options.top}`);
+    }
+
+    if (continuationToken !== undefined) {
+      endpoint.searchParams.set("continuationtoken", continuationToken);
+    }
+
+    const headers = this.createHeaders();
+
+    const request = this.createRequest(endpoint, "GET", headers, options);
+    const response = await this.sendRequest(request);
+    if (response.status !== 200) {
+      throw new RestError(
+        `listRegistrations failed with ${response.status}`,
+        {
+          statusCode: response.status,
+          response: response
+        });
+    }
+
+    const registrations = await registrationDescriptionParser.parseRegistrationFeed(response.bodyAsText!);
+    const nextToken = response.headers.get("x-ms-continuationtoken");
+    return {
+      registrations,
+      continuationToken: nextToken
+    };
+  }
+
+  /**
    * Sends a direct push notification to a device with the given push handle.
    * @param pushHandle - The push handle which is the unique identifier for the device.
    * @param message - The message to send to the device.
@@ -374,7 +702,7 @@ export class NotificationHubsClient extends ServiceClient {
     tags: string[] | string,
     message: NotificationHubMessage,
     options: OperationOptions = {}
-  ): Promise<NotificationHubResponse> {
+  ): Promise<NotificationHubMessageResponse> {
     return tracingClient.withSpan(
       "NotificationHubsClient-$scheduleNotification",
       options,
@@ -417,7 +745,41 @@ export class NotificationHubsClient extends ServiceClient {
             });
         }
 
-        return this.parseNotificationResponse(response);
+        return this.parseNotificationSendResponse(response);
+      });
+  }
+
+  /**
+   * Cancels the scheduled notification with the given notification ID.
+   * @param notificationId - The notification ID from the scheduled notification.
+   * @param options - The operation options.
+   * @returns A notification hub response with correlation ID and tracking ID.
+   */
+  public async cancelScheduledNotification(
+    notificationId: string,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubResponse> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-cancelScheduledNotification",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += `/schedulednotifications/${notificationId}`;
+
+        const headers = this.createHeaders();
+        const request = this.createRequest(endpoint, "DELETE", headers, updatedOptions);
+
+        const response = await this.sendRequest(request);
+        if (response.status !== 200) {
+          throw new RestError(
+            `cancelScheduledNotification failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
+        }
+
+        return this.parseNotificationSendResponse(response);
       });
   }
 
@@ -427,7 +789,7 @@ export class NotificationHubsClient extends ServiceClient {
     pushHandle?: PushHandle,
     tags?: string | string[],
     options: SendOperationOptions = {}
-  ): Promise<NotificationHubResponse> {
+  ): Promise<NotificationHubMessageResponse> {
     return tracingClient.withSpan(
       `NotificationHubsClient-${method}`,
       options,
@@ -486,7 +848,7 @@ export class NotificationHubsClient extends ServiceClient {
             });
         }
 
-        return this.parseNotificationResponse(response);
+        return this.parseNotificationSendResponse(response);
       }
     );
   }
@@ -526,6 +888,20 @@ export class NotificationHubsClient extends ServiceClient {
       trackingId,
       location,
     };
+  }
+
+  private parseNotificationSendResponse(response: PipelineResponse): NotificationHubMessageResponse {
+    const result = this.parseNotificationResponse(response);
+    let notificationId: string | undefined;
+    if (result.location) {
+      const locationUrl = new URL(result.location);
+      notificationId = locationUrl.pathname.split("/")[3];
+    }
+
+    return {
+      ...result,
+      notificationId
+    }
   }
 
   private getBaseURL(): URL {

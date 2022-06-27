@@ -1,367 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-rest-pipeline";
-import { parseXML } from "@azure/core-xml";
 import { 
+  AdmRegistrationDescription, 
+  AdmTemplateRegistrationDescription, 
+  AppleRegistrationDescription, 
+  AppleTemplateRegistrationDescription, 
+  BaiduRegistrationDescription, 
+  BaiduTemplateRegistrationDescription, 
+  BrowserRegistrationDescription, 
+  BrowserTemplateRegistrationDescription, 
+  FcmRegistrationDescription, 
+  FcmTemplateRegistrationDescription, 
+  GcmRegistrationDescription, 
+  GcmTemplateRegistrationDescription, 
+  MpnsRegistrationDescription, 
+  MpnsTemplateRegistrationDescription, 
+  RegistrationDescription, 
+  RegistrationDescriptionCommon, 
+  TemplateRegistrationDescription, 
+  WindowsRegistrationDescription, 
+  WindowsTemplateRegistrationDescription 
+} from "../models/registration";
+import { 
+  capitalize,
   getDateOrUndefined, 
   getString, 
   getStringOrUndefined, 
   getTagsOrUndefined, 
   isDefined,
+  serializeToAtomXmlRequest,
 } from "../utils/xmlUtils";
-
-/**
- * Represents the types of registration descriptions.
- */
-export type RegistrationType =
-  "adm" |
-  "admTemplate" |
-  "apple" |
-  "appleTemplate" |
-  "baidu" |
-  "baiduTemplate" |
-  "browser" |
-  "browserTemplate" |
-  "gcm" |
-  "gcmTemplate" |
-  "fcm" |
-  "fcmTemplate" |
-  "mpns" |
-  "mpnsTemplate" |
-  "windows" |
-  "windowsTemplate";
-
-/**
- * Represents a registration description.
- */
-export interface RegistrationDescriptionCommon {
-  /**
-   * The registration ID.
-   */
-  registrationId?: string;
-
-  /**
-   * The expiration time of the registration.
-   */
-  expirationTime?: Date;
-
-  /**
-   * The ETag associated with this description.
-   */
-  eTag?: string;
-
-  /**
-   * The tags associated with the registration.
-   */
-  tags?: string[];
-
-  /**
-   * A dictionary of push variables associated with property bag.
-   */
-  pushVariables?: Record<string, string>;
-
-  /**
-   * The type of the registration.
-   */
-  platform: RegistrationType;
-}
-
-/**
- * Represents the description of a template registration.
- */
-export interface TemplateRegistrationDescription {
-  /**
-   * The body template.
-   */
-  bodyTemplate: string;
-
-  /**
-   * The name of the template.
-   */
-  templateName?: string;
-}
-
-/**
- * Represents the description of the Amazon Device Messaging (ADM) registration.
- */
-export interface AdmRegistrationDescription extends RegistrationDescriptionCommon {
-  /**
-   * The Amazon Device Messaging registration identifier.
-   */
-  admRegistrationId: string;
-
-  /**
-   * The type of the registration.
-   */  
-  platform: "adm";
-}
-
-/**
- * Represents the description of the Amazon Device Messaging (ADM) template registration.
- */
-export interface AdmTemplateRegistrationDescription
-  extends Omit<AdmRegistrationDescription, "platform">,
-    TemplateRegistrationDescription {
-  /**
-   * The type of the registration.
-   */
-  platform: "admTemplate";
-}
-
-/**
- * Represents the description of apple registration.
- */
-export interface AppleRegistrationDescription extends RegistrationDescriptionCommon {
-  /**
-   * The APNs device token.
-   */
-  deviceToken: string;
-
-  /**
-   * The type of the registration.
-   */
-  platform: "apple";
-}
-
-/**
- * Represents the description of the Apple template registration.
- */
-export interface AppleTemplateRegistrationDescription
-  extends Omit<AppleRegistrationDescription, "platform">,
-    TemplateRegistrationDescription {
-  /**
-   * The expiry date.
-   */
-  expiry?: Date;
-
-  /**
-   * The notification priority.
-   */
-  priority?: string;
-
-  /**
-   * The APNS headers.
-   */
-  apnsHeaders?: Record<string, string>;
-
-  /**
-   * The type of the registration.
-   */
-  platform: "appleTemplate";
-}
-
-/**
- * Represents a Baidu registration description.
- */
-export interface BaiduRegistrationDescription extends RegistrationDescriptionCommon {
-  /**
-   * The Baidu user identifier.
-   */
-  baiduUserId: string;
-
-  /**
-   * The Baidu channel identifier.
-   */
-  baiduChannelId: string;
-
-  /**
-   * The type of the registration.
-   */
-  platform: "baidu";
-}
-
-/**
- * Represents a Baidu template registration description.
- */
-export interface BaiduTemplateRegistrationDescription
-  extends Omit<BaiduRegistrationDescription, "platform">,
-    TemplateRegistrationDescription {
-  /**
-   * The type of the registration.
-   */
-  platform: "baiduTemplate";
-}
-
-/**
- * Represents a Browser Push registration description.
- */
-export interface BrowserRegistrationDescription extends RegistrationDescriptionCommon {
-  /**
-   * The Browser push endpoint.
-   */
-  endpoint: string;
-
-  /**
-   * The Browser push P256DH.
-   */
-  p256DH: string;
-
-  /**
-   * The Browser push auth secret.
-   */
-  auth: string;
-
-  /**
-   * The type of the registration.
-   */
-  platform: "browser";
-}
-
-/**
- * Represents a Browser Push remplate registration description.
- */
-export interface BrowserTemplateRegistrationDescription
-  extends Omit<BrowserRegistrationDescription, "platform">,
-    TemplateRegistrationDescription {
-  /**
-   * The type of the registration.
-   */
-  platform: "browserTemplate";
-}
-
-/**
- * Represents Notification Hub registration description for Google Cloud Messaging.
- * @deprecated Use FcmRegistrationDescription instead.
- */
-export interface GcmRegistrationDescription extends RegistrationDescriptionCommon {
-  /**
-   * Registration id obtained from the Google Cloud Messaging service.
-   */
-  gcmRegistrationId: string;
-
-  /**
-   * The type of the registration.
-   */
-  platform: "gcm";
-}
-
-/**
- * Represents Notification Hub template registration description for Google Cloud Messaging.
- * @deprecated Use FcmTemplateRegistrationDescription instead
- */
-export interface GcmTemplateRegistrationDescription
-  extends Omit<GcmRegistrationDescription, "platform">,
-    TemplateRegistrationDescription {
-  /**
-   * The type of the registration.
-   */
-  platform: "gcmTemplate";
-}
-
-/**
- * Represents Notification Hub registration description for Firebase Legacy HTTP API.
- */
-export interface FcmRegistrationDescription extends RegistrationDescriptionCommon {
-  /**
-   * Registration id obtained from the Google Cloud Messaging service.
-   */
-  fcmRegistrationId: string;
-
-  /**
-   * The type of the registration.
-   */
-  platform: "fcm";
-}
-
-/**
- * Represents Notification Hub template registration description for Firebase Legacy HTTP API.
- */
-export interface FcmTemplateRegistrationDescription
-  extends Omit<FcmRegistrationDescription, "platform">,
-    TemplateRegistrationDescription {
-  /**
-   * The type of the registration.
-   */
-  platform: "fcmTemplate";
-}
-
-/**
- * Represents a Windows Phone Notification Services registration description.
- * @deprecated Windows Phone is no longer supported.
- */
-export interface MpnsRegistrationDescription extends RegistrationDescriptionCommon {
-  /**
-   * The channel URI.
-   */
-  channelUri: string;
-
-  /**
-   * The type of the registration.
-   */
-  platform: "mpns";
-}
-
-/**
- * Represents a Windows Phone Notification Services template registration.
- * @deprecated Windows Phone is no longer supported.
- */
-export interface MpnsTemplateRegistrationDescription
-  extends Omit<MpnsRegistrationDescription, "platform">,
-    TemplateRegistrationDescription {
-  /**
-   * The WNS headers.
-   */
-  mpnsHeaders?: Record<string, string>;
-
-  /**
-   * The type of the registration.
-   */
-  platform: "mpnsTemplate";
-}
-
-/**
- * Represents a Windows Notification Services (WNS) registration description.
- */
-export interface WindowsRegistrationDescription extends RegistrationDescriptionCommon {
-  /**
-   * The channel URI.
-   */
-  channelUri: string;
-
-  /**
-   * The type of the registration.
-   */
-  platform: "windows";
-}
-
-/**
- * Represents a Windows Notification Services (WNS) template registration.
- */
-export interface WindowsTemplateRegistrationDescription
-  extends Omit<WindowsRegistrationDescription, "platform">,
-    TemplateRegistrationDescription {
-  /**
-   * The WNS headers.
-   */
-  wnsHeaders?: Record<string, string>;
-
-  /**
-   * The type of the registration.
-   */
-  platform: "windowsTemplate";
-}
-
-/**
- * Describes the types of registration descriptions.
- */
-export type RegistrationDescription = 
-  AdmRegistrationDescription |
-  AdmTemplateRegistrationDescription |
-  AppleRegistrationDescription |
-  AppleTemplateRegistrationDescription |
-  BaiduRegistrationDescription |
-  BaiduTemplateRegistrationDescription |
-  BrowserRegistrationDescription |
-  BrowserTemplateRegistrationDescription |
-  GcmRegistrationDescription |
-  GcmTemplateRegistrationDescription |
-  FcmRegistrationDescription |
-  FcmTemplateRegistrationDescription |
-  MpnsRegistrationDescription |
-  MpnsTemplateRegistrationDescription |
-  WindowsRegistrationDescription |
-  WindowsTemplateRegistrationDescription;
+import { parseXML, stringifyXML } from "@azure/core-xml";
+import { RestError } from "@azure/core-rest-pipeline";
 
 /**
  * Represents a registration description parser from the incoming XML.
@@ -775,26 +446,114 @@ function createTemplateRegistrationDescription(
   };
 }
 
+/**
+ * @internal
+ * Represents a serializer for all registration descriptions.
+ */
 export interface RegistrationDescriptionSerializer {
+  /**
+   * @internal
+   * Serializes a registration description into an ATOM XML string.
+   */
+  serializeRegistrationDescription(description: RegistrationDescription): string;
+  /**
+   * @internal
+   * Serializes an Amazon Device Messaging (ADM) registration description into an XML object for serialization.
+   */
   serializeAdmRegistrationDescription(description: Omit<AdmRegistrationDescription, "platform">): Record<string, any>;
+  /**
+   * @internal
+   * Serializes an Amazon Device Messaging (ADM) template registration description into an XML object for serialization.
+   */
   serializeAdmTemplateRegistrationDescription(description: Omit<AdmTemplateRegistrationDescription, "platform">): Record<string, any>;
+  /**
+   * @internal
+   * Serializes an Apple registration description into an XML object for serialization.
+   */
   serializeAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "platform">): Record<string, any>;
+  /**
+   * @internal
+   * Serializes an Apple template registration description into an XML object for serialization.
+   */
   serializeAppleTemplateRegistrationDescription(description: Omit<AppleRegistrationDescription, "platform">): Record<string, any>;
+  /**
+   * @internal
+   * Serializes a Baidu registration description into an XML object for serialization.
+   */
   serializeBaiduRegistrationDescription(description: Omit<BaiduRegistrationDescription, "platform">): Record<string, any>;
+  /**
+   * @internal
+   * Serializes a Baidu template registration description into an XML object for serialization.
+   */
   serializeBaiduTemplateRegistrationDescription(description: Omit<BaiduTemplateRegistrationDescription, "platform">): Record<string, any>;
+  /**
+   * @internal
+   * Serializes a Web Push registration description into an XML object for serialization.
+   */
   serializeBrowserRegistrationDescription(description: Omit<BrowserRegistrationDescription, "platform">): Record<string, any>;
+  /**
+   * @internal
+   * Serializes a Web Push template registration description into an XML object for serialization.
+   */
   serializeBrowserTemplateRegistrationDescription(description: Omit<BrowserTemplateRegistrationDescription, "platform">): Record<string, any>;
+    /**
+   * @internal
+   * Serializes a Google Cloud Messaging (GCM) registration description into an XML object for serialization.
+   */
   serializeGcmRegistrationDescription(description: Omit<GcmRegistrationDescription, "platform">): Record<string, any>;
+    /**
+   * @internal
+   * Serializes a Google Cloud Messaging (GCM) template registration description into an XML object for serialization.
+   */
   serializeGcmTemplateRegistrationDescription(description: Omit<GcmTemplateRegistrationDescription, "platform">): Record<string, any>;
+    /**
+   * @internal
+   * Serializes a Firebase registration description into an XML object for serialization.
+   */
   serializeFcmRegistrationDescription(description: Omit<FcmRegistrationDescription, "platform">): Record<string, any>;
+    /**
+   * @internal
+   * Serializes a Firebase template registration description into an XML object for serialization.
+   */
   serializeFcmTemplateRegistrationDescription(description: Omit<FcmRegistrationDescription, "platform">): Record<string, any>;
+    /**
+   * @internal
+   * Serializes a Windows Phone registration description into an XML object for serialization.
+   */
   serializeMpnsRegistrationDescription(description: Omit<MpnsRegistrationDescription, "platform">): Record<string, any>;
+    /**
+   * @internal
+   * Serializes a Windows Phone template registration description into an XML object for serialization.
+   */
   serializeMpnsTemplateRegistrationDescription(description: Omit<MpnsTemplateRegistrationDescription, "platform">): Record<string, any>;
+    /**
+   * @internal
+   * Serializes a Windows Notification Services (WNS) registration description into an XML object for serialization.
+   */
   serializeWindowsRegistrationDescription(description: Omit<WindowsRegistrationDescription, "platform">): Record<string, any>;
+    /**
+   * @internal
+   * Serializes a Windows Notification Services (WNS) template registration description into an XML object for serialization.
+   */
   serializeWindowsTemplateRegistrationDescription(description: Omit<WindowsTemplateRegistrationDescription, "platform">): Record<string, any>;
 }
 
 export const registrationSerializer: RegistrationDescriptionSerializer = {
+  serializeRegistrationDescription(description: RegistrationDescription): string {
+    const rootName = `${capitalize(description.platform)}RegistrationDescription`;
+    const methodName = `serialize${rootName}`;
+
+    const method = this[methodName as keyof RegistrationDescriptionSerializer] as any;
+    if (!isDefined(method)) {
+      throw new RestError(`Undefined platform ${description.platform}`, { statusCode: 400 });
+    }
+
+    const registration: Record<string, any> = method.call(this, description);
+    const requestObject = serializeToAtomXmlRequest(rootName, registration);
+
+    return stringifyXML(requestObject, { "rootName": "entry" });
+  },
+
   serializeAdmRegistrationDescription(description: Omit<AdmRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -817,11 +576,25 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
   },
 
   serializeAppleTemplateRegistrationDescription(description: AppleTemplateRegistrationDescription): Record<string, any> {
-    // TODO: Headers
+    let apnsHeaders: Record<string, any> | undefined;
+    if (description.apnsHeaders) {
+      apnsHeaders = {
+        "ApnsHeader": []
+      };
+
+      for (const header of Object.keys(description.apnsHeaders)) {
+        apnsHeaders["ApnsHeader"].push({
+          "Header": header,
+          "Value": description.apnsHeaders[header]
+        });
+      }
+    }
 
     return {
       ...this.serializeAppleRegistrationDescription(description),
       ...serializeTemplateRegistrationDescription(description),
+      "Expiry": getStringOrUndefined(description.expiry),
+      "ApnsHeaders": apnsHeaders,
     };
   },
 
@@ -892,11 +665,24 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
   },
 
   serializeMpnsTemplateRegistrationDescription(description: Omit<MpnsTemplateRegistrationDescription, "platform">): Record<string, any> {
-    // TODO: MpnsHeaders
+    let mpnsHeaders: Record<string, any> | undefined;
+    if (description.mpnsHeaders) {
+      mpnsHeaders = {
+        "MpnsHeader": []
+      };
+
+      for (const header of Object.keys(description.mpnsHeaders)) {
+        mpnsHeaders["MpnsHeader"].push({
+          "Header": header,
+          "Value": description.mpnsHeaders[header]
+        });
+      }
+    }
     
     return {
       ...this.serializeMpnsRegistrationDescription(description),
       ...serializeTemplateRegistrationDescription(description),
+      "MpnsHeaders": mpnsHeaders,
     };
   },
 
@@ -908,7 +694,19 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
   },
 
   serializeWindowsTemplateRegistrationDescription(description: Omit<WindowsTemplateRegistrationDescription, "platform">): Record<string, any> {
-    // TODO: WnsHeaders
+    let wnsHeaders: Record<string, any> | undefined;
+    if (description.wnsHeaders) {
+      wnsHeaders = {
+        "WnsHeader": []
+      };
+
+      for (const header of Object.keys(description.wnsHeaders)) {
+        wnsHeaders["WnsHeader"].push({
+          "Header": header,
+          "Value": description.wnsHeaders[header]
+        });
+      }
+    }
     
     return {
       ...this.serializeWindowsRegistrationDescription(description),
@@ -937,7 +735,7 @@ function serializeRegistrationDescription(description: Omit<RegistrationDescript
 
 function serializeTemplateRegistrationDescription(description: TemplateRegistrationDescription): Record<string, any> {
   return {
-    "BodyTemplate": `<![CDATA[${description.bodyTemplate}]]>`,
+    "BodyTemplate": { "__cdata": description.bodyTemplate },
     "TemplateName": getStringOrUndefined(description.templateName),
   };
 }

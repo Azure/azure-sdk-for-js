@@ -228,3 +228,11 @@ export function serializeToAtomXmlRequest(
   };
   return requestDetails;
 }
+
+/**
+ * @internal
+ * Used to capitalize strings.
+ */
+export function capitalize(value: string): string {
+  return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
+}
