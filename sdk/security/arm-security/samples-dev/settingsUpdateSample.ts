@@ -12,10 +12,10 @@ import { DataExportSettings, SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to updating settings about different configurations in security center
+ * This sample demonstrates how to updating settings about different configurations in Microsoft Defender for Cloud
  *
- * @summary updating settings about different configurations in security center
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-07-01/examples/Settings/UpdateSetting_example.json
+ * @summary updating settings about different configurations in Microsoft Defender for Cloud
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2022-05-01/examples/Settings/UpdateSetting_example.json
  */
 async function updateASettingForSubscription() {
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
