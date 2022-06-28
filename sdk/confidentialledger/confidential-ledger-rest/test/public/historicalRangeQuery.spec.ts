@@ -26,7 +26,6 @@ describe("Range query should be successful", () => {
   afterEach(async function () {
     await recorder.stop();
   });
-
   it("should post 2000 entries", async function () {
     const modulus = 5;
     // Should result in 2 pages.
