@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.3 (Unreleased)
+## 2.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,31 @@
 
 ### Other Changes
 
+## 2.0.0 (2022-06-06)
+    
+**Features**
+
+  - Added Interface ImageTemplateInVMValidator
+  - Added Interface ImageTemplatePropertiesValidate
+  - Added Type Alias ImageTemplateInVMValidatorUnion
+  - Added Type Alias ImageTemplatePowerShellValidator
+  - Added Type Alias ImageTemplateShellValidator
+  - Added Type Alias ProxyResource
+  - Interface Resource has a new optional parameter systemData
+  - Add parameters of ProxyResource to TypeAlias RunOutput
+  - Type Alias ImageTemplate has a new parameter validate
+  - Type Alias ImageTemplate has a new parameter stagingResourceGroup
+  - Type Alias ImageTemplate has a new parameter exactStagingResourceGroup
+  - Enum KnownProvisioningErrorCode has a new value BadStagingResourceGroup
+  - Enum KnownProvisioningErrorCode has a new value BadValidatorType
+  - Enum KnownProvisioningErrorCode has a new value NoValidatorScript
+  - Enum KnownProvisioningErrorCode has a new value UnsupportedValidatorType
+
+**Breaking Changes**
+
+  - Delete parameters of SubResource in TypeAlias RunOutput
+  - Type Alias ImageTemplate no longer has parameter systemData
+    
 ## 1.0.2 (2022-04-26)
 
 **Features**

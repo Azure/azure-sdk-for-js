@@ -119,13 +119,13 @@ export const id: OperationParameter = {
   mapper: ProgramBriefAttachmentMapper
 };
 
-export const typeParam: OperationParameter = {
-  parameterPath: ["options", "typeParam"],
+export const type: OperationParameter = {
+  parameterPath: ["options", "type"],
   mapper: ProgramBriefAttachmentMapper
 };
 
-export const friendlyName: OperationParameter = {
-  parameterPath: ["options", "friendlyName"],
+export const fileName: OperationParameter = {
+  parameterPath: ["options", "fileName"],
   mapper: ProgramBriefAttachmentMapper
 };
 

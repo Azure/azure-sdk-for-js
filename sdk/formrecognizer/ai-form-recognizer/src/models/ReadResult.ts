@@ -2,12 +2,8 @@
 // Licensed under the MIT license.
 
 import { DocumentLanguage, DocumentStyle } from "../generated";
-import {
-  AnalyzeResult,
-  AnalyzeResultCommon,
-  DocumentPage,
-  toDocumentPageFromGenerated,
-} from "../lro/analyze";
+import { AnalyzeResult, AnalyzeResultCommon } from "../lro/analyze";
+import { DocumentPage } from "./documentElements";
 
 /**
  * Extract from an AnalyzeResult the fields that are produced from document reading.
@@ -20,7 +16,7 @@ export function toReadResult(analyzeResult: AnalyzeResult<unknown>): ReadResult 
     apiVersion,
     modelId,
     content,
-    pages: pages.map(toDocumentPageFromGenerated),
+    pages,
     languages,
     styles,
   };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentEntity, DocumentKeyValuePair } from "../generated";
+import { DocumentKeyValuePair } from "./documentElements";
 import { AnalyzeResult } from "../lro/analyze";
 import { LayoutResult, toLayoutResult } from "./LayoutResult";
 
@@ -13,11 +13,10 @@ import { LayoutResult, toLayoutResult } from "./LayoutResult";
 export function toGeneralDocumentResult(
   analyzeResult: AnalyzeResult<unknown>
 ): GeneralDocumentResult {
-  const { keyValuePairs, entities } = analyzeResult;
+  const { keyValuePairs } = analyzeResult;
   return {
     ...toLayoutResult(analyzeResult),
     keyValuePairs,
-    entities,
   };
 }
 
@@ -34,11 +33,4 @@ export interface GeneralDocumentResult extends LayoutResult {
    * For example, a labeled entry box may consist of the label (key) and the entry box text (value).
    */
   keyValuePairs: DocumentKeyValuePair[];
-  /**
-   * Extracted entities. An entity is a page element that has been classified as belonging to a category and optionally
-   * a subcategory.
-   *
-   * For example, the text "CALIFORNIA" may be identified as an entity with the category "Location".
-   */
-  entities: DocumentEntity[];
 }

@@ -1,0 +1,297 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountxxx?api-version=2021-09-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "278",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-storage/17.2.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "ca6207b2-abb3-4b6d-b8e2-eadfdf75318f"
+      },
+      "RequestBody": {
+        "sku": {
+          "name": "Standard_GRS"
+        },
+        "kind": "StorageV2",
+        "location": "westeurope",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "properties": {
+          "encryption": {
+            "services": {
+              "blob": {
+                "enabled": true,
+                "keyType": "Account"
+              },
+              "file": {
+                "enabled": true,
+                "keyType": "Account"
+              }
+            },
+            "keySource": "Microsoft.Storage"
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Fri, 24 Jun 2022 09:42:44 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b4b13997-ed2c-465a-adfa-dd79c6005b5c",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "d59b534a-47c2-4c88-a89f-d38dc346290f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220624T094245Z:b4b13997-ed2c-465a-adfa-dd79c6005b5c"
+      },
+      "ResponseBody": {
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "kind": "StorageV2",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountxxx",
+        "name": "mystorageaccountxxx",
+        "type": "Microsoft.Storage/storageAccounts",
+        "location": "westeurope",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "properties": {
+          "keyCreationTime": {
+            "key1": "2022-06-24T09:40:15.2556305Z",
+            "key2": "2022-06-24T09:40:15.2556305Z"
+          },
+          "privateEndpointConnections": [],
+          "minimumTlsVersion": "TLS1_0",
+          "allowBlobPublicAccess": true,
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "virtualNetworkRules": [],
+            "ipRules": [],
+            "defaultAction": "Allow"
+          },
+          "supportsHttpsTrafficOnly": true,
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2022-06-24T09:40:15.2556305Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2022-06-24T09:40:15.2556305Z"
+              }
+            },
+            "keySource": "Microsoft.Storage"
+          },
+          "accessTier": "Hot",
+          "provisioningState": "Succeeded",
+          "creationTime": "2022-06-24T09:40:15.1150272Z",
+          "primaryEndpoints": {
+            "dfs": "https://mystorageaccountxxx.dfs.core.windows.net/",
+            "web": "https://mystorageaccountxxx.z6.web.core.windows.net/",
+            "blob": "https://mystorageaccountxxx.blob.core.windows.net/",
+            "queue": "https://mystorageaccountxxx.queue.core.windows.net/",
+            "table": "https://mystorageaccountxxx.table.core.windows.net/",
+            "file": "https://mystorageaccountxxx.file.core.windows.net/"
+          },
+          "primaryLocation": "westeurope",
+          "statusOfPrimary": "available",
+          "secondaryLocation": "northeurope",
+          "statusOfSecondary": "available"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Media/mediaservices/mymediaxxx?api-version=2021-11-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "207",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-mediaservices/12.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "a3e8dc91-a6b3-47f9-a398-3591ec919351"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "properties": {
+          "storageAccounts": [
+            {
+              "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountxxx",
+              "type": "Primary"
+            }
+          ]
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Media/locations/eastus/mediaServicesOperationStatuses/35c78c61-b666-4f9d-84ca-30f801bd46a9?api-version=2021-11-01",
+        "Cache-Control": "no-cache",
+        "Content-Length": "730",
+        "Content-Type": "application/json; odata.metadata=minimal",
+        "Date": "Fri, 24 Jun 2022 09:42:50 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Media/locations/eastus/mediaServicesOperationResults/35c78c61-b666-4f9d-84ca-30f801bd46a9?api-version=2021-11-01",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Retry-After": "30",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "a3e8dc91-a6b3-47f9-a398-3591ec919351",
+        "x-ms-correlation-request-id": "e871ef36-75fa-4617-ac7f-ea1ee74a3cc8",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "3d8d46c0-6e17-4aed-a892-8436beec4f16",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220624T094250Z:e871ef36-75fa-4617-ac7f-ea1ee74a3cc8"
+      },
+      "ResponseBody": {
+        "name": "mymediaxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Media/mediaservices/mymediaxxx",
+        "type": "Microsoft.Media/mediaservices",
+        "location": "East US",
+        "properties": {
+          "mediaServiceId": "beaf7993-760c-47f5-afbd-bb7cc27e59ca",
+          "storageAccounts": [
+            {
+              "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountxxx",
+              "type": "Primary"
+            }
+          ],
+          "keyDelivery": {
+            "accessControl": {
+              "defaultAction": "Allow",
+              "ipAllowList": []
+            }
+          },
+          "publicNetworkAccess": "Enabled",
+          "provisioningState": "InProgress",
+          "privateEndpointConnections": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Media/locations/eastus/mediaServicesOperationStatuses/35c78c61-b666-4f9d-84ca-30f801bd46a9?api-version=2021-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-mediaservices/12.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b53ff5ce-f749-4f53-990a-8bc9a38d68af"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; odata.metadata=minimal",
+        "Date": "Fri, 24 Jun 2022 09:42:50 GMT",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "b53ff5ce-f749-4f53-990a-8bc9a38d68af",
+        "x-ms-correlation-request-id": "528024bb-bf08-4b30-aad2-9fc0a56d0e19",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "0e73b650-c6cb-4ab6-b489-44a7d40d6acb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220624T094250Z:528024bb-bf08-4b30-aad2-9fc0a56d0e19"
+      },
+      "ResponseBody": {
+        "name": "35c78c61-b666-4f9d-84ca-30f801bd46a9",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Media/locations/eastus/mediaServicesOperationStatuses/35c78c61-b666-4f9d-84ca-30f801bd46a9",
+        "startTime": "2022-06-24T09:42:48.5742949Z",
+        "endTime": "2022-06-24T09:42:49.6680915Z",
+        "status": "Succeeded"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Media/mediaservices/mymediaxxx?api-version=2021-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-mediaservices/12.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "32484695-f9b2-4945-beb6-e76df51b8738"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; odata.metadata=minimal",
+        "Date": "Fri, 24 Jun 2022 09:42:51 GMT",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "32484695-f9b2-4945-beb6-e76df51b8738",
+        "x-ms-correlation-request-id": "41e7f37c-b95b-4268-ae79-c5acb664da03",
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "a0eb46ce-ae40-49b2-9421-746d026d5812",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220624T094251Z:41e7f37c-b95b-4268-ae79-c5acb664da03"
+      },
+      "ResponseBody": {
+        "name": "mymediaxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Media/mediaservices/mymediaxxx",
+        "type": "Microsoft.Media/mediaservices",
+        "location": "East US",
+        "properties": {
+          "mediaServiceId": "beaf7993-760c-47f5-afbd-bb7cc27e59ca",
+          "storageAccounts": [
+            {
+              "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountxxx",
+              "type": "Primary"
+            }
+          ],
+          "storageAuthentication": "System",
+          "encryption": {
+            "type": "SystemKey"
+          },
+          "keyDelivery": {
+            "accessControl": {
+              "defaultAction": "Allow",
+              "ipAllowList": []
+            }
+          },
+          "publicNetworkAccess": "Enabled",
+          "provisioningState": "Succeeded",
+          "privateEndpointConnections": []
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

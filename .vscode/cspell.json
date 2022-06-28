@@ -226,7 +226,12 @@
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
       "words": [
-        "WDLABCD"
+        "WDLABCD",
+        "presentationml",
+        "spreadsheetml",
+        "wordprocessingml",
+        "heif",
+        "copays"
       ]
     },
     {
@@ -250,6 +255,13 @@
       "filename": "sdk/communication/communication-common/review/**/*.md",
       "words": [
         "gcch"
+      ]
+    },
+    {
+      "filename": "sdk/communication/communication-email/review/**/*.md",
+      "words": [
+        "rpmsg",
+        "xlsb"
       ]
     },
     {

@@ -14,11 +14,33 @@ import { PollOperationState } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export interface ArcConnectivityProperties {
+    enabled?: boolean;
+}
+
+// @public
+export interface ArcIdentityResponse {
+    // (undocumented)
+    arcApplicationClientId?: string;
+    // (undocumented)
+    arcApplicationObjectId?: string;
+    // (undocumented)
+    arcApplicationTenantId?: string;
+    // (undocumented)
+    arcServicePrincipalObjectId?: string;
+}
+
+// @public
 export type ArcSetting = ProxyResource & {
     readonly provisioningState?: ProvisioningState;
     arcInstanceResourceGroup?: string;
+    arcApplicationClientId?: string;
+    arcApplicationTenantId?: string;
+    arcServicePrincipalObjectId?: string;
+    arcApplicationObjectId?: string;
     readonly aggregateState?: ArcSettingAggregateState;
     readonly perNodeDetails?: PerNodeState[];
+    connectivityProperties?: Record<string, unknown>;
     createdBy?: string;
     createdByType?: CreatedByType;
     createdAt?: Date;
@@ -38,12 +60,25 @@ export interface ArcSettingList {
 
 // @public
 export interface ArcSettings {
+    beginCreateIdentity(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsCreateIdentityOptionalParams): Promise<PollerLike<PollOperationState<ArcSettingsCreateIdentityResponse>, ArcSettingsCreateIdentityResponse>>;
+    beginCreateIdentityAndWait(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsCreateIdentityOptionalParams): Promise<ArcSettingsCreateIdentityResponse>;
     beginDelete(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsDeleteOptionalParams): Promise<void>;
     create(resourceGroupName: string, clusterName: string, arcSettingName: string, arcSetting: ArcSetting, options?: ArcSettingsCreateOptionalParams): Promise<ArcSettingsCreateResponse>;
+    generatePassword(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsGeneratePasswordOptionalParams): Promise<ArcSettingsGeneratePasswordResponse>;
     get(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsGetOptionalParams): Promise<ArcSettingsGetResponse>;
     listByCluster(resourceGroupName: string, clusterName: string, options?: ArcSettingsListByClusterOptionalParams): PagedAsyncIterableIterator<ArcSetting>;
+    update(resourceGroupName: string, clusterName: string, arcSettingName: string, arcSetting: ArcSettingsPatch, options?: ArcSettingsUpdateOptionalParams): Promise<ArcSettingsUpdateResponse>;
 }
+
+// @public
+export interface ArcSettingsCreateIdentityOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ArcSettingsCreateIdentityResponse = ArcIdentityResponse;
 
 // @public
 export interface ArcSettingsCreateOptionalParams extends coreClient.OperationOptions {
@@ -57,6 +92,13 @@ export interface ArcSettingsDeleteOptionalParams extends coreClient.OperationOpt
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface ArcSettingsGeneratePasswordOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ArcSettingsGeneratePasswordResponse = PasswordCredential;
 
 // @public
 export interface ArcSettingsGetOptionalParams extends coreClient.OperationOptions {
@@ -78,6 +120,21 @@ export interface ArcSettingsListByClusterOptionalParams extends coreClient.Opera
 
 // @public
 export type ArcSettingsListByClusterResponse = ArcSettingList;
+
+// @public
+export interface ArcSettingsPatch {
+    connectivityProperties?: Record<string, unknown>;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ArcSettingsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ArcSettingsUpdateResponse = ArcSetting;
 
 // @public (undocumented)
 export class AzureStackHCIClient extends coreClient.ServiceClient {
@@ -113,6 +170,8 @@ export type Cluster = TrackedResource & {
     cloudManagementEndpoint?: string;
     aadClientId?: string;
     aadTenantId?: string;
+    aadApplicationObjectId?: string;
+    aadServicePrincipalObjectId?: string;
     desiredProperties?: ClusterDesiredProperties;
     readonly reportedProperties?: ClusterReportedProperties;
     readonly trialDaysRemaining?: number;
@@ -120,6 +179,7 @@ export type Cluster = TrackedResource & {
     readonly registrationTimestamp?: Date;
     readonly lastSyncTimestamp?: Date;
     readonly lastBillingTimestamp?: Date;
+    readonly serviceEndpoint?: string;
     createdBy?: string;
     createdByType?: CreatedByType;
     createdAt?: Date;
@@ -132,6 +192,18 @@ export type Cluster = TrackedResource & {
 export interface ClusterDesiredProperties {
     diagnosticLevel?: DiagnosticLevel;
     windowsServerSubscription?: WindowsServerSubscription;
+}
+
+// @public
+export interface ClusterIdentityResponse {
+    // (undocumented)
+    aadApplicationObjectId?: string;
+    // (undocumented)
+    aadClientId?: string;
+    // (undocumented)
+    aadServicePrincipalObjectId?: string;
+    // (undocumented)
+    aadTenantId?: string;
 }
 
 // @public
@@ -178,13 +250,27 @@ export interface ClusterReportedProperties {
 
 // @public
 export interface Clusters {
+    beginCreateIdentity(resourceGroupName: string, clusterName: string, options?: ClustersCreateIdentityOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateIdentityResponse>, ClustersCreateIdentityResponse>>;
+    beginCreateIdentityAndWait(resourceGroupName: string, clusterName: string, options?: ClustersCreateIdentityOptionalParams): Promise<ClustersCreateIdentityResponse>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
+    beginUploadCertificate(resourceGroupName: string, clusterName: string, uploadCertificateRequest: UploadCertificateRequest, options?: ClustersUploadCertificateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUploadCertificateAndWait(resourceGroupName: string, clusterName: string, uploadCertificateRequest: UploadCertificateRequest, options?: ClustersUploadCertificateOptionalParams): Promise<void>;
     create(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOptionalParams): Promise<ClustersCreateResponse>;
-    delete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listBySubscription(options?: ClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Cluster>;
     update(resourceGroupName: string, clusterName: string, cluster: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
 }
+
+// @public
+export interface ClustersCreateIdentityOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClustersCreateIdentityResponse = ClusterIdentityResponse;
 
 // @public
 export interface ClustersCreateOptionalParams extends coreClient.OperationOptions {
@@ -195,6 +281,8 @@ export type ClustersCreateResponse = Cluster;
 
 // @public
 export interface ClustersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -238,6 +326,12 @@ export interface ClustersUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ClustersUpdateResponse = Cluster;
+
+// @public
+export interface ClustersUploadCertificateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export type CreatedByType = string;
@@ -604,6 +698,18 @@ export type OperationsListResponse = OperationListResult;
 // @public
 export type Origin = string;
 
+// @public (undocumented)
+export interface PasswordCredential {
+    // (undocumented)
+    endDateTime?: Date;
+    // (undocumented)
+    keyId?: string;
+    // (undocumented)
+    secretText?: string;
+    // (undocumented)
+    startDateTime?: Date;
+}
+
 // @public
 export interface PerNodeExtensionState {
     readonly extension?: string;
@@ -624,6 +730,12 @@ export type ProvisioningState = string;
 // @public
 export type ProxyResource = Resource & {};
 
+// @public (undocumented)
+export interface RawCertificateData {
+    // (undocumented)
+    certificates?: string[];
+}
+
 // @public
 export interface Resource {
     readonly id?: string;
@@ -641,6 +753,12 @@ export type TrackedResource = Resource & {
     };
     location: string;
 };
+
+// @public (undocumented)
+export interface UploadCertificateRequest {
+    // (undocumented)
+    properties?: RawCertificateData;
+}
 
 // @public
 export type WindowsServerSubscription = string;

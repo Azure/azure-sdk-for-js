@@ -1,12 +1,20 @@
 # Release History
 
-## 13.1.2 (Unreleased)
+## 13.1.3 (Unreleased)
 
 ### Features Added
 
-- Support cross tenant authentication [PR#21678](https://github.com/Azure/azure-sdk-for-js/pull/21678)
-
 ### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 13.1.2 (2022-06-07)
+
+### Features Added
+
+- Support cross tenant authentication [#21678](https://github.com/Azure/azure-sdk-for-js/pull/21678)
 
 ### Bugs Fixed
 
@@ -14,6 +22,8 @@
   entry point so that dependencies can be loaded asynchronously.
 
 ### Other Changes
+
+- Export NamedKeyCredential [#20935](https://github.com/Azure/azure-sdk-for-js/pull/20935). (A community contribution, courtesy of _[dhensby](https://github.com/dhensby))_
 
 ## 13.1.1 (2022-04-14)
 
@@ -33,7 +43,6 @@
 - Updated our `@azure/core-tracing` dependency to the latest version (1.0.0)
   - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
   - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
-- Export NamedKeyCredential [#20935](https://github.com/Azure/azure-sdk-for-js/pull/20935). (A community contribution, courtesy of _[dhensby](https://github.com/dhensby))_
 
 ## 13.0.1 (2022-01-12)
 

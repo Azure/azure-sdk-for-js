@@ -35,9 +35,11 @@ async function main() {
     for (const page of pages) {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
-      console.log(`  ${page.lines.length} lines, ${page.words.length} words`);
+      console.log(
+        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`
+      );
 
-      if (page.lines.length > 0) {
+      if (page.lines && page.lines.length > 0) {
         console.log("  Lines:");
 
         for (const line of page.lines) {
@@ -59,7 +61,7 @@ async function main() {
     console.log("Languages:");
     for (const languageEntry of languages) {
       console.log(
-        `- Found language: ${languageEntry.languageCode} (confidence: ${languageEntry.confidence})`
+        `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`
       );
       for (const text of getTextOfSpans(content, languageEntry.spans)) {
         const escapedText = text.replace(/\r?\n/g, "\\n").replace(/"/g, '\\"');

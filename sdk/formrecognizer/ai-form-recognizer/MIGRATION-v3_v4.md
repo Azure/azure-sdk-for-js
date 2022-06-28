@@ -5,7 +5,7 @@
 In major version 4, this package introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2021-09-30-preview" and newer), the new SDK is required, and application code must be changed to use the new clients. Similarly, the new major version 4 of the client library cannot be used to communicate with version 2.1 of the service API. To summarize:
 
 - Version 3 of the `@azure/ai-form-recognizer` package _only_ supports Form Recognizer service API version 2.1, and will not receive support for newer (date-based) versions of Form Recognizer.
-- Version 4 (beta) of the package supports service API version "2021-09-30-preview", and future releases of this major version will support newer service API versions as well.
+- Version 4 (beta) of the package supports service API version "2022-06-30-preview", and future releases of this major version will support newer service API versions as well.
 
 This document provides instructions for updating your application code to the new major version 4 of the SDK client library. In this document the examples provided use TypeScript to provide type information, but all runtime behavior changes naturally apply to plain JavaScript as well.
 
@@ -19,7 +19,7 @@ To avoid migrating an application all at once, major version 3 may be installed 
     "dependencies": {
         ...,
         "@azure/ai-form-recognizer": "^3.2.0",
-        "@azure/ai-form-recognizer-beta": "npm:@azure/ai-form-recognizer@4.0.0-beta.2"
+        "@azure/ai-form-recognizer-beta": "npm:@azure/ai-form-recognizer@4.0.0-beta.5"
     }
 }
 ```
@@ -31,7 +31,7 @@ With this configuration, imports from `"@azure/ai-form-recognizer"` will import 
     ...,
     "dependencies": {
         ...,
-        "@azure/ai-form-recognizer": "4.0.0-beta.2",
+        "@azure/ai-form-recognizer": "4.0.0-beta.5",
         "@azure/ai-form-recognizer-v3": "npm:@azure/ai-form-recognizer@^3.2.0"
     }
 }
@@ -80,9 +80,9 @@ The following table explores several type names from the previous (v3.x) SDK and
 | `AccountProperties` | `GetInfoResponse` | Interface | All properties replaced with `customDocumentModels`, which itself has `count` and `limit` denoting the number of models in the resource and the maximum allowable, respectively. |
 | `CopyAuthorization` | `CopyAuthorization` (no change) | Interface | `modelId` was renamed `targetModelId`, `resourceId` renamed `targetResourceId`, `resourceRegion` renamed `targetResourceRegion` and `expiresOn` renamed `expirationDateTime`. |
 
-### `AnalyzeResult`, `GenericDocumentResult`, and `LayoutResult` vs. `RecognizedFormArray` and `FormPageArray`
+### `AnalyzeResult`, `GeneralDocumentResult`, and `LayoutResult` vs. `RecognizedFormArray` and `FormPageArray`
 
-In the previous SDK, the analysis operations `beginRecognizeCustomForms` (as well as all of the prebuilt methods such as `beginRecognizeReceipts`) and `beginRecognizeContent` produced arrays of `RecognizedForm` and `FormPage` (respectively). Those types represented extracted structured documents and extracted page elements. However, in the new SDK, all of these methods as well as the new `beginExtractGenericDocument` method produce objects that have fields for `pages`, `tables`, `documents`, and more.
+In the previous SDK, the analysis operations `beginRecognizeCustomForms` (as well as all of the prebuilt methods such as `beginRecognizeReceipts`) and `beginRecognizeContent` produced arrays of `RecognizedForm` and `FormPage` (respectively). Those types represented extracted structured documents and extracted page elements. However, in the new SDK, all of these methods as well as the new `beginExtractGeneralDocument` method produce objects that have fields for `pages`, `tables`, `documents`, and more.
 
 The fundamental type that represents the result of an analysis operation is `AnalyzeResult`:
 
@@ -142,16 +142,16 @@ export interface AnalyzeResult<Document = AnalyzedDocument> {
 }
 ```
 
-This type is the result of prebuilt/custom model analysis using `beginAnalyzeDocuments`. The other two analysis methods produce related (but not the same) types:
+This type is the result of prebuilt/custom model analysis using `beginAnalyzeDocument`. The other two analysis methods produce related (but not the same) types:
 
 - `beginExtractLayout` produces a reduced "subtype" called `LayoutResult` that only has `pages`, `tables`, and `styles` (since these are the only fields produced by the prebuilt layout model).
-- `beginExtractGenericDocument` produces a type called `GenericDocumentResult` that has all of the fields of `LayoutResult` and additionally `entities` and `keyValuePairs` (again, as these are the only five fields produced by the prebuilt generic document model).
+- `beginExtractGeneralDocument` produces a type called `GeneralDocumentResult` that has all of the fields of `LayoutResult` and additionally `entities` and `keyValuePairs` (again, as these are the only five fields produced by the prebuilt general document model).
 
 **Notice** that the _relationship between data types has changed_. Whereas `tables` were previously a property of `FormPage` (in other words, every table could be associated to only a single page), they are now properties of the `AnalyzeResult` (meaning that tables can potentially span multiple pages). The same is true for the relationship between `pages` and `documents`. Previously, a `RecognizedForm` (now `AnalyzedDocument`) had a `pages` property, now `pages` is a property of the `AnalyzeResult` and not nested underneath its `documents`. This reflects the fact that in the newest Form Recognizer service APIs, multiple documents may appear on a single page. Additionally, there may be pages that have no documents within, and those pages are now representable in the SDK.
 
 Compare the following samples:
 
-- `beginAnalyzeDocuments` vs. `beginRecognizeCustomForms`:
+- `beginAnalyzeDocument` vs. `beginRecognizeCustomForms`:
 
   Previous (3.2.0):
 
@@ -164,12 +164,12 @@ Compare the following samples:
   const forms: RecognizedForm[] = await poller.pollUntilDone();
   ```
 
-  Current (4.0.0-beta.2):
+  Current (4.0.0-beta.5):
 
   ```typescript
   const client = new DocumentAnalysisClient(...);
 
-  const poller = await client.beginAnalyzeDocuments("<model ID>", input);
+  const poller = await client.beginAnalyzeDocument("<model ID>", input);
 
   const result: AnalyzeResult = await poller.pollUntilDone();
 
@@ -182,6 +182,8 @@ Compare the following samples:
   ```
 
 - `beginExtractLayout` vs. `beginRecognizeContent`:
+
+  **Deprecation Warning ⚠️**: The `beginExtractLayout` method of SDK version `4.0.0-beta` is deprecated and will be replaced prior to a stable release of version 4.0.0. Please see [the deprecation notice in the README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/README.md#beginextractlayout-deprecation) for more information.
 
   Previous (3.2.0):
 
@@ -199,7 +201,7 @@ Compare the following samples:
   }
   ```
 
-  Current (4.0.0-beta.2):
+  Current (4.0.0-beta.5):
 
   ```typescript
   const client = new DocumentAnalysisClient(...);
@@ -233,10 +235,10 @@ if (table.boundingBox) {
 }
 ```
 
-Current (4.0.0-beta.2):
+Current (4.0.0-beta.5):
 
 ```typescript
-// Now, tables were accessed through `AnalyzeResult`.
+// Now, tables are accessed through `AnalyzeResult`.
 const table: FormTable = result.tables[0];
 
 for (const region of table.boundingRegions ?? []) {
@@ -249,29 +251,29 @@ for (const region of table.boundingRegions ?? []) {
 
 ## Migrating from `FormRecognizerClient` to `DocumentAnalysisClient`
 
-The `DocumentAnalysisClient` class, used for all analysis operations (layout, generic document, and custom/prebuilt models), has replaced `FormRecognizerClient` (which has been removed). The constructor signature is the same, but two new options have been introduced to the client constructor:
+The `DocumentAnalysisClient` class, used for all analysis operations (layout, general document, and custom/prebuilt models), has replaced `FormRecognizerClient` (which has been removed). The constructor signature is the same, but two new options have been introduced to the client constructor:
 
 - `apiVersion`, which allows the application to specify the version of the Form Recognizer service API to use (the default is the newest compatible version).
 - `stringIndexType`, which configures the units used to compute string indexes and offsets (this option defaults to UTF-16 code units, and it should not be set without a very good reason).
 
 The previous `FormRecognizerClient` class and new `DocumentAnalysisClient` class have no methods in common. The new class only has three methods in total. They are:
 
-- `beginAnalyzeDocuments`, which replaces all of the following:
+- `beginAnalyzeDocument`, which replaces all of the following:
   - `beginRecognizeCustomForms` and `beginRecognizeCustomFormsFromUrl`
   - `beginRecognizeReceipts` and `beginRecognizeReceiptsFromUrl`
   - `beginRecognizeBusinessCards` and `beginRecognizeBusinessCardsFromUrl`
   - `beginRecognizeInvoices` and `beginRecognizeInvoicesFromUrl`
   - `beginRecognizeIdentityDocuments` and `beginRecognizeIdentityDocumentsFromUrl`
 - `beginExtractLayout`, which replaces `beginRecognizeContent` and `beginRecognizeContentFromUrl`
-- `beginExtractGenericDocument`, which is new, and provides similar functionality to unlabeled custom models from the previous SDK without the need to train a model. Please refer to [the `extractGenericDocument` sample for an example of using this new method](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGeneralDocument.ts), as it is not quite the same as using an unlabeled custom model.
+- `beginExtractGeneralDocument`, which is new, and provides similar functionality to unlabeled custom models from the previous SDK without the need to train a model. Please refer to [the `extractGeneralDocument` sample for an example of using this new method](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGeneralDocument.ts), as it is not quite the same as using an unlabeled custom model.
 
-All of these methods produce `AnalyzeResult`, `LayoutResult`, and `GenericDocumentResult` types respectively. Please see the section above about these types for more information.
+All of these methods produce `AnalyzeResult`, `LayoutResult`, and `GeneralDocumentResult` types respectively. Please see the section above about these types for more information.
 
 _\* Unlabeled custom models are no longer supported in version 4.x of the Form Recognizer SDK, to continue using unlabeled custom models, please continue to use version 3.x, but be aware that the feature is deprecated and future releases of the Form Recognizer service and SDK will not support it._
 
 ### URL Inputs
 
-In the previous v3.x SDK, to provide a publicly-accessible URL as an input to an analysis operation, the application used a method with a `-FromUrl` suffix. For example, `beginRecognizeReceiptsFromUrl`. In the new SDK, however, there is only a single unified method signature. If a `string` is given as the input, then the string will be treated as a URL. Otherwise, it will be treated as a binary request body (such as a stream or buffer). Compare the following samples using `beginRecognizeCustomForms` and `beginAnalyzeDocuments`:
+In the previous v3.x SDK, to provide a publicly-accessible URL as an input to an analysis operation, the application used a method with a `-FromUrl` suffix. For example, `beginRecognizeReceiptsFromUrl`. In the new SDK, however, there is only a single unified method signature. If a `string` is given as the input, then the string will be treated as a URL. Otherwise, it will be treated as a binary request body (such as a stream or buffer). Compare the following samples using `beginRecognizeCustomForms` and `beginAnalyzeDocument`:
 
 Previous (3.2.0):
 
@@ -283,24 +285,26 @@ const url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/f
 const poller = await client.beginRecognizeCustomFormsFromUrl("<model ID>", url);
 ```
 
-Current (4.0.0-beta.2):
+Current (4.0.0-beta.5):
 
 ```typescript
 const client = new DocumentAnalysisClient(...);
 const url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/identityDocument/license.jpg";
 
 // Now, the same method may be used as for streams and buffers.
-const poller = await client.beginAnalyzeDocuments("<model ID>", url);
+const poller = await client.beginAnalyzeDocument("<model ID>", url);
 ```
 
 ### Prebuilt Models
 
-In the previous v3.x SDK packages, using a prebuilt model required using a method dedicated to that model. In the new v4.x SDK, however, all prebuilt models also utilize the same `beginAnalyzeDocuments` method as custom forms. There are two ways to use a prebuilt model with `beginAnalyzeDocuments` in the new SDK. They are:
+In the previous v3.x SDK packages, using a prebuilt model required using a method dedicated to that model. In the new v4.x SDK, however, all prebuilt models also utilize the same `beginAnalyzeDocument` method as custom forms. There are two ways to use a prebuilt model with `beginAnalyzeDocument` in the new SDK. They are:
 
 1. Using a `DocumentModel`, which is a data structure that provides a strong, associated type for the prebuilt output and that converts its fields into a "camelCase" JavaScript naming convention.
 2. Using the prebuilt model's ID (same as a custom model), which will produce an `AnalyzeResult` with no specific type for the prebuilt model, exactly as if the prebuilt model were a custom model (prebuilt models are simply custom models trained and tested by the Form Recognizer team).
 
 We recommend using the `DocumentModel` approach (#1), as it provides the best type-safety for TypeScript users and the most idiomatic representation of the data at runtime. Compare the following three samples that show the differences using a receipt document:
+
+**Deprecation Warning ⚠️**: `PrebuiltModels` is deprecated as of version `4.0.0-beta.4` and will be replaced prior to a stable release of version 4.0.0. Please see [the deprecation notice in the README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/README.md#prebuiltmodels-deprecation) for more information.
 
 Previous (3.2.0):
 
@@ -321,7 +325,7 @@ const [receipt] = await poller.pollUntilDone();
 const receiptType: string = (receipt.fields["ReceiptType"] as FormStringField)?.value ?? "<unknown>";
 ```
 
-Current (4.0.0-beta.2), using the `DocumentModel`:
+Current (4.0.0-beta.5), using the `DocumentModel`:
 
 ```typescript
 // We need to import `PrebuiltModels`, which holds the prebuilt `DocumentModel` data structures
@@ -332,7 +336,7 @@ const url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/f
 
 // Passing the `PrebuiltModels.Receipt` document model will allow TypeScript to infer a stronger type for the output,
 // and it will be validated against the model's schema as well as converted to use "camelCase" property names.
-const poller = await client.beginAnalyzeDocuments(PrebuiltModels.Receipt, url);
+const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, url);
 
 const { documents: [receipt] } = await poller.pollUntilDone();
 
@@ -343,7 +347,7 @@ const { documents: [receipt] } = await poller.pollUntilDone();
 const receiptType: string = receipt.fields.receiptType?.value ?? "<unknown>";
 ```
 
-Current (4.0.0-beta.2), using the model ID:
+Current (4.0.0-beta.5), using the model ID:
 
 ```typescript
 import { DocumentAnalysisClient, DocumentStringField } from "@azure/ai-form-recognizer";
@@ -353,7 +357,7 @@ const url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/f
 
 // The prebuilt receipt model's ID is "prebuilt-receipt". When passed this way (rather than using the DocumentModel), it
 // is functionally the same as a custom model ID.
-const poller = await client.beginAnalyzeDocuments("prebuilt-receipt", url);
+const poller = await client.beginAnalyzeDocument("prebuilt-receipt", url);
 
 const { documents: [receipt] } = await poller.pollUntilDone();
 
@@ -362,7 +366,7 @@ const { documents: [receipt] } = await poller.pollUntilDone();
 const receiptType: string = (receipt.fields["ReceiptType"] as DocumentStringField)?.value ?? "<unknown>";
 ```
 
-**Note**: The prebuilt layout and generic document models can also be used with `beginAnalyzeDocuments` using their model IDs. They do not have `DocumentModel` data structures (as they do not produce `documents` in the result), but their model IDs (`"prebuilt-layout"` and `"prebuilt-document"` respectively) may be used. They will produce only the fields that they support and that would exist if used with their dedicated methods (the layout model will only produce `pages`, `tables`, and `styles`, and the generic document model will additionally produce `keyValuePairs` and `entities`), and the `documents` field will be empty.
+**Note**: The prebuilt layout and general document models can also be used with `beginAnalyzeDocument` using their model IDs. They do not have `DocumentModel` data structures (as they do not produce `documents` in the result), but their model IDs (`"prebuilt-layout"` and `"prebuilt-document"` respectively) may be used. They will produce only the fields that they support and that would exist if used with their dedicated methods (the layout model will only produce `pages`, `tables`, and `styles`, and the general document model will additionally produce `keyValuePairs` and `entities`), and the `documents` field will be empty.
 
 ## Migrating from `FormTrainingClient` to `DocumentModelAdministrationClient`
 
@@ -436,7 +440,7 @@ if (model.trainingDocuments) {
 }
 ```
 
-Current (4.0.0-beta.2):
+Current (4.0.0-beta.5):
 
 ```typescript
 const client = new DocumentModelAdministrationClient(...);

@@ -6,13 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  CommunityGalleryImageVersion,
+  CommunityGalleryImageVersionsListOptionalParams,
   CommunityGalleryImageVersionsGetOptionalParams,
   CommunityGalleryImageVersionsGetResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a CommunityGalleryImageVersions. */
 export interface CommunityGalleryImageVersions {
+  /**
+   * List community gallery image versions inside an image.
+   * @param location Resource location.
+   * @param publicGalleryName The public name of the community gallery.
+   * @param galleryImageName The name of the community gallery image definition.
+   * @param options The options parameters.
+   */
+  list(
+    location: string,
+    publicGalleryName: string,
+    galleryImageName: string,
+    options?: CommunityGalleryImageVersionsListOptionalParams
+  ): PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
   /**
    * Get a community gallery image version.
    * @param location Resource location.

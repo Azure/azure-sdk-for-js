@@ -9,3 +9,4 @@
 export * from "./systemAssignedIdentities";
 export * from "./operations";
 export * from "./userAssignedIdentities";
+export * from "./federatedIdentityCredentials";

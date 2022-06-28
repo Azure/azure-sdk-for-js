@@ -30,7 +30,7 @@ async function main() {
   const poller = await client.beginAnalyzeDocument(
     PrebuiltModels.IdentityDocument,
     // The form recognizer service will access the following URL to a driver license image and extract data from it
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/identityDocument/license.jpg"
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/identityDocument/license.png"
   );
 
   const {
