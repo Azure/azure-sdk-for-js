@@ -12,22 +12,24 @@ import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets the identity.
+ * This sample demonstrates how to Deletes the federated identity credential.
  *
- * @summary Gets the identity.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityGet.json
+ * @summary Deletes the federated identity credential.
+ * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialDelete.json
  */
-async function identityGet() {
+async function federatedIdentityCredentialDelete() {
   const subscriptionId = "subid";
   const resourceGroupName = "rgName";
   const resourceName = "resourceName";
+  const federatedIdentityCredentialResourceName = "ficResourceName";
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
-  const result = await client.userAssignedIdentities.get(
+  const result = await client.federatedIdentityCredentials.delete(
     resourceGroupName,
-    resourceName
+    resourceName,
+    federatedIdentityCredentialResourceName
   );
   console.log(result);
 }
 
-identityGet().catch(console.error);
+federatedIdentityCredentialDelete().catch(console.error);
