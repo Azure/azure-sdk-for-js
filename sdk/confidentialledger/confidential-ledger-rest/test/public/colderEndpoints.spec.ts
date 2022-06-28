@@ -49,9 +49,11 @@ describe("Colder endpoints", () => {
 
     assert.equal(result.status, "200");
 
-    const memberResponse = result as GetConsortiumMembers200Response;
+    if (isUnexpected(result)) {
+      throw result.body;
+    }
 
-    memberResponse.body.members.forEach((member) => {
+    result.body.members.forEach((member) => {
       assert.typeOf(member.certificate, "string");
       assert.typeOf(member.id, "string");
     });
@@ -62,11 +64,13 @@ describe("Colder endpoints", () => {
 
     assert.equal(result.status, "200");
 
-    const memberResponse = result as GetEnclaveQuotes200Response;
+    if (isUnexpected(result)) {
+      throw result.body;
+    }
 
-    assert.typeOf(memberResponse.body.currentNodeId, "string");
+    assert.typeOf(result.body.currentNodeId, "string");
 
-    const enclaveQuotes = memberResponse.body.enclaveQuotes;
+    const enclaveQuotes = result.body.enclaveQuotes;
     for (const key in enclaveQuotes) {
       const quote: EnclaveQuoteOutput = enclaveQuotes[key];
       assert.typeOf(quote.quoteVersion, "string");

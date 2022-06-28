@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
+  isUnexpected,
   LedgerEntry,
   ListLedgerEntries200Response,
   paginate,
-  //PostLedgerEntry200Response,
-  //PostLedgerEntryParameters,
+  PostLedgerEntry200Response,
+  PostLedgerEntryParameters,
 } from "../../src";
 
 import { createClient, createRecorder } from "./utils/recordedClient";
@@ -27,7 +28,7 @@ describe("Range query should be successful", () => {
   afterEach(async function () {
     await recorder.stop();
   });
-  /*
+
   it("should post 2000 entries", async function () {
     const modulus = 5;
     // Should result in 2 pages.
@@ -47,12 +48,14 @@ describe("Range query should be successful", () => {
 
       let result = (await client
         .path("/app/transactions")
-        .post(ledgerEntry)) as PostLedgerEntry200Response;
+        .post(ledgerEntry));
 
-      assert.equal(result.status, "200");
+      if (isUnexpected(result)) {
+        throw result.body;
+      }
     }
   });
-*/
+
   it("should audit 2000 entries", async function () {
 
     const modulus = 5;
@@ -63,7 +66,11 @@ describe("Range query should be successful", () => {
     for (let i = 0; i < modulus; i += 1) {
       const getLedgerEntriesParams = { queryParameters: { collectionId: "" + i } };
       // get ledger entries for each collection
-      const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams) as ListLedgerEntries200Response;
+      const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
+
+      if (isUnexpected(ledgerEntries)) {
+        throw ledgerEntries.body;
+      }
 
       var items = paginate(client, ledgerEntries).byPage();
 

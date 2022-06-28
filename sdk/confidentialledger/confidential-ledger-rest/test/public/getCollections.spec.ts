@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, ListCollections200Response } from "../../src";
+import { ConfidentialLedgerClient, isUnexpected, ListCollections200Response } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -25,7 +25,9 @@ describe("List Document Formats", () => {
 
     assert.equal(result.status, "200");
 
-    result = result as ListCollections200Response;
+    if (isUnexpected(result)) {
+      throw result.body;
+    }
 
     let collections = result.body.collections;
 

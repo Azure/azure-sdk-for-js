@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, GetEnclaveQuotes200Response } from "../../src";
+import { ConfidentialLedgerClient, GetEnclaveQuotes200Response, isUnexpected } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -25,7 +25,9 @@ describe("List Document Formats", () => {
 
     assert.equal(result.status, "200");
 
-    result = result as GetEnclaveQuotes200Response;
+    if (isUnexpected(result)) {
+      throw result.body;
+    }
 
     assert.typeOf(result.body.currentNodeId, "string");
     assert.equal(Object.keys(result.body.enclaveQuotes).length, 3);

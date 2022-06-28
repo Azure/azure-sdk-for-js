@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, GetUser200Response } from "../../src";
+import { ConfidentialLedgerClient, GetUser200Response, isUnexpected } from "../../src";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
@@ -26,7 +26,9 @@ describe("Get user", () => {
     var result = await client.path("/app/users/{userId}", userId).get();
     assert.equal(result.status, "200");
 
-    result = result as GetUser200Response;
+    if (isUnexpected(result)) {
+      throw result.body;
+    }
 
     assert.equal(result.body.userId, userId);
   });
