@@ -17,7 +17,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary Lists all the available machine learning team accounts under the specified subscription.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/ListAccount.json
  */
-async function accountCreate() {
+async function accountList() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const credential = new DefaultAzureCredential();
   const client = new MLTeamAccountManagementClient(credential, subscriptionId);
@@ -28,4 +28,4 @@ async function accountCreate() {
   console.log(resArray);
 }
 
-accountCreate().catch(console.error);
+accountList().catch(console.error);

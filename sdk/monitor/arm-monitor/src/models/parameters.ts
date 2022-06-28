@@ -32,7 +32,7 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ScopedResource as ScopedResourceMapper,
   ActivityLogAlertResource as ActivityLogAlertResourceMapper,
-  ActivityLogAlertPatchBody as ActivityLogAlertPatchBodyMapper,
+  AlertRulePatchObject as AlertRulePatchObjectMapper,
   DataCollectionEndpointResource as DataCollectionEndpointResourceMapper,
   ResourceForUpdate as ResourceForUpdateMapper,
   DataCollectionRuleAssociationProxyOnlyResource as DataCollectionRuleAssociationProxyOnlyResourceMapper,
@@ -273,7 +273,7 @@ export const actionGroupName: OperationURLParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-01",
+    defaultValue: "2022-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -619,8 +619,8 @@ export const parameters9: OperationParameter = {
   mapper: ScopedResourceMapper
 };
 
-export const activityLogAlert: OperationParameter = {
-  parameterPath: "activityLogAlert",
+export const activityLogAlertRule: OperationParameter = {
+  parameterPath: "activityLogAlertRule",
   mapper: ActivityLogAlertResourceMapper
 };
 
@@ -638,7 +638,7 @@ export const activityLogAlertName: OperationURLParameter = {
 export const apiVersion11: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2017-04-01",
+    defaultValue: "2020-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -647,15 +647,15 @@ export const apiVersion11: OperationQueryParameter = {
   }
 };
 
-export const activityLogAlertPatch: OperationParameter = {
-  parameterPath: "activityLogAlertPatch",
-  mapper: ActivityLogAlertPatchBodyMapper
+export const activityLogAlertRulePatch: OperationParameter = {
+  parameterPath: "activityLogAlertRulePatch",
+  mapper: AlertRulePatchObjectMapper
 };
 
 export const apiVersion12: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-01",
+    defaultValue: "2021-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
+import { logger } from "./log";
 import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
 
@@ -64,9 +65,13 @@ export async function setMatcher(
       ignoreQueryOrdering: matcherBody.ignoreQueryOrdering,
     });
   }
-  const { status, bodyAsText } = await httpClient.sendRequest(request);
+
+  logger.info("[setMatcher] Setting matcher", matcher, matcherBody);
+  const response = await httpClient.sendRequest(request);
+  const { status, bodyAsText } = response;
 
   if (status < 200 || status > 299) {
+    logger.error("[setMatcher] setMatcher failed", response);
     throw new RecorderError(`setMatcher failed: ${bodyAsText}`, status);
   }
 }

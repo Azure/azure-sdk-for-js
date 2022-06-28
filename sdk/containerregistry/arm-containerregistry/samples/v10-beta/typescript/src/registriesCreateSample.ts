@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates a container registry with the specified parameters.
  *
  * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/RegistryCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/RegistryCreate.json
  */
 async function registryCreate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -49,7 +49,7 @@ registryCreate().catch(console.error);
  * This sample demonstrates how to Creates a container registry with the specified parameters.
  *
  * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/RegistryCreateZoneRedundant.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/RegistryCreateZoneRedundant.json
  */
 async function registryCreateZoneRedundant() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

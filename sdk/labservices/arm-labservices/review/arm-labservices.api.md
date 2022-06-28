@@ -733,7 +733,7 @@ export interface PagedVirtualMachines {
 export type ProvisioningState = "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed" | "Locked";
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 // @public
 export type RecurrenceFrequency = "Daily" | "Weekly";

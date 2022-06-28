@@ -279,7 +279,7 @@ export interface ProgramBriefAttachment {
    * A friendly name to refer to the attachment
    * e.g. 'myFile01'
    */
-  friendlyName?: string;
+  fileName?: string;
   /** File size in bytes. */
   fileSize?: number;
   /**
@@ -436,12 +436,12 @@ export interface ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
    * Attachment type describing the purpose of the attachment
    * e.g. 'callToAction', 'termsOfService'
    */
-  typeParam?: AttachmentType;
+  type?: AttachmentType;
   /**
    * A friendly name to refer to the attachment
    * e.g. 'myFile01'
    */
-  friendlyName?: string;
+  fileName?: string;
   /** File size in bytes. */
   fileSize?: number;
   /**

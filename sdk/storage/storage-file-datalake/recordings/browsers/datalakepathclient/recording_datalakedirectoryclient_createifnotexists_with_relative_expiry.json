@@ -1,0 +1,124 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem165382981754508224",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DA41749419DB43\"",
+    "last-modified": "Sun, 29 May 2022 13:10:18 GMT",
+    "x-ms-client-request-id": "e9fa6449-7620-481b-b862-ade72b551e04",
+    "x-ms-request-id": "84b4a660-a01e-0003-0f5d-731608000000",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem165382981754508224/file165382981805908785",
+   "query": {
+    "resource": "file"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Sun, 29 May 2022 13:10:18 GMT",
+    "etag": "\"0x8DA4174946B7E46\"",
+    "last-modified": "Sun, 29 May 2022 13:10:18 GMT",
+    "x-ms-client-request-id": "e3858562-c735-49ad-b1ce-c7b23a2d86d0",
+    "x-ms-request-id": "52432211-601f-0002-805d-73e805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem165382981754508224/file165382981805908785",
+   "query": {
+    "position": "0",
+    "action": "append"
+   },
+   "requestBody": "Hello World",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Sun, 29 May 2022 13:10:18 GMT",
+    "x-ms-client-request-id": "05357b71-f1a5-4907-b600-0014feb315dc",
+    "x-ms-request-id": "52432213-601f-0002-025d-73e805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem165382981754508224/file165382981805908785",
+   "query": {
+    "position": "11",
+    "action": "flush"
+   },
+   "requestBody": "",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Sun, 29 May 2022 13:10:19 GMT",
+    "etag": "\"0x8DA417495033957\"",
+    "last-modified": "Sun, 29 May 2022 13:10:19 GMT",
+    "x-ms-client-request-id": "875b4be4-fe2f-4a55-b6ac-a995ce96764e",
+    "x-ms-request-id": "52432215-601f-0002-045d-73e805000000",
+    "x-ms-request-server-encrypted": "false",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem165382981754508224/testdir165382981956600160",
+   "query": {
+    "resource": "directory"
+   },
+   "requestBody": null,
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"ExpiryNotSupportedForDirectory\",\"message\":\"Set Expiry is not supported for a directory\\nRequestId:52432218-601f-0002-065d-73e805000000\\nTime:2022-05-29T13:10:20.3265291Z\"}}",
+   "responseHeaders": {
+    "content-length": "190",
+    "content-type": "application/json;charset=utf-8",
+    "date": "Sun, 29 May 2022 13:10:19 GMT",
+    "x-ms-client-request-id": "3632612d-1930-44ab-a96b-bf82be3bbac8",
+    "x-ms-error-code": "ExpiryNotSupportedForDirectory",
+    "x-ms-request-id": "52432218-601f-0002-065d-73e805000000",
+    "x-ms-version": "2021-06-08"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem165382981754508224",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "afea236c-9003-47ed-ae32-0c9faa0e3be7",
+    "x-ms-request-id": "84b4a665-a01e-0003-115d-731608000000",
+    "x-ms-version": "2021-06-08"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "filesystem": "filesystem165382981754508224",
+   "file": "file165382981805908785",
+   "testdir": "testdir165382981956600160"
+  },
+  "newDate": {}
+ },
+ "hash": "7f9986e3c5360be3cf0f76466451f8b3"
+}

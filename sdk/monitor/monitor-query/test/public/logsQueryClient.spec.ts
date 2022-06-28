@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { env } from "process";
-import { createRecorderAndLogsClient, RecorderAndLogsClient } from "./shared/testShared";
+import { RecorderAndLogsClient, createRecorderAndLogsClient } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Durations, LogsQueryClient, LogsQueryResultStatus, QueryBatch } from "../../src";
 // import { runWithTelemetry } from "../setupOpenTelemetry";

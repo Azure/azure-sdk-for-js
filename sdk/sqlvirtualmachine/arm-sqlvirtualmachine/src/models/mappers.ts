@@ -548,6 +548,7 @@ export const AutoPatchingSettings: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
+            "Everyday",
             "Monday",
             "Tuesday",
             "Wednesday",

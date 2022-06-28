@@ -3,8 +3,8 @@
 
 import {
   AnalyzeActionNames,
-  KnownPiiCategory,
-  KnownPiiDomain,
+  KnownPiiEntityCategory,
+  KnownPiiEntityDomain,
   KnownStringIndexType,
   KnownTextAnalysisErrorCode,
   LanguageDetectionInput,
@@ -606,7 +606,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 language: "en",
               },
             ],
-            { domainFilter: KnownPiiDomain.Phi }
+            { domainFilter: KnownPiiEntityDomain.Phi }
           );
           const result = getSuccRes(response[0]);
           assert.equal(result.entities.length, 2);
@@ -630,12 +630,12 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 language: "en",
               },
             ],
-            { categoriesFilter: [KnownPiiCategory.USSocialSecurityNumber] }
+            { categoriesFilter: [KnownPiiEntityCategory.USSocialSecurityNumber] }
           );
           const result = getSuccRes(response[0]);
           assert.equal(result.entities.length, 1);
           assert.equal(result.entities[0].text, "859-98-0987");
-          assert.equal(result.entities[0].category, KnownPiiCategory.USSocialSecurityNumber);
+          assert.equal(result.entities[0].category, KnownPiiEntityCategory.USSocialSecurityNumber);
           assert.equal(result.redactedText, "Patient name is Joe and SSN is ***********");
         });
 

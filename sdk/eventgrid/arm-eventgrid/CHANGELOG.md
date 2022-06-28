@@ -1,15 +1,13 @@
 # Release History
     
-## 14.0.0-beta.1 (2022-04-06)
+## 14.0.0 (2022-06-17)
     
 **Features**
 
   - Added operation group Channels
   - Added operation group DomainEventSubscriptions
   - Added operation group DomainTopicEventSubscriptions
-  - Added operation group EventChannels
   - Added operation group PartnerConfigurations
-  - Added operation group PartnerDestinations
   - Added operation group PartnerNamespaces
   - Added operation group PartnerRegistrations
   - Added operation group PartnerTopicEventSubscriptions
@@ -30,6 +28,7 @@
   - Added Interface DomainEventSubscriptionsGetDeliveryAttributesOptionalParams
   - Added Interface DomainEventSubscriptionsGetFullUrlOptionalParams
   - Added Interface DomainEventSubscriptionsGetOptionalParams
+  - Added Interface DomainEventSubscriptionsListNextOptionalParams
   - Added Interface DomainEventSubscriptionsListOptionalParams
   - Added Interface DomainEventSubscriptionsUpdateOptionalParams
   - Added Interface DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams
@@ -37,23 +36,13 @@
   - Added Interface DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
   - Added Interface DomainTopicEventSubscriptionsGetFullUrlOptionalParams
   - Added Interface DomainTopicEventSubscriptionsGetOptionalParams
+  - Added Interface DomainTopicEventSubscriptionsListNextOptionalParams
   - Added Interface DomainTopicEventSubscriptionsListOptionalParams
   - Added Interface DomainTopicEventSubscriptionsUpdateOptionalParams
-  - Added Interface EventChannelDestination
-  - Added Interface EventChannelFilter
-  - Added Interface EventChannelsCreateOrUpdateOptionalParams
-  - Added Interface EventChannelsDeleteOptionalParams
-  - Added Interface EventChannelsGetOptionalParams
-  - Added Interface EventChannelsListByPartnerNamespaceNextOptionalParams
-  - Added Interface EventChannelsListByPartnerNamespaceOptionalParams
-  - Added Interface EventChannelsListResult
-  - Added Interface EventChannelSource
   - Added Interface EventTypeInfo
-  - Added Interface ExtendedLocation
   - Added Interface InlineEventProperties
   - Added Interface Partner
   - Added Interface PartnerAuthorization
-  - Added Interface PartnerClientAuthentication
   - Added Interface PartnerConfigurationsAuthorizePartnerOptionalParams
   - Added Interface PartnerConfigurationsCreateOrUpdateOptionalParams
   - Added Interface PartnerConfigurationsDeleteOptionalParams
@@ -65,18 +54,6 @@
   - Added Interface PartnerConfigurationsUnauthorizePartnerOptionalParams
   - Added Interface PartnerConfigurationsUpdateOptionalParams
   - Added Interface PartnerConfigurationUpdateParameters
-  - Added Interface PartnerDestinationInfo
-  - Added Interface PartnerDestinationsActivateOptionalParams
-  - Added Interface PartnerDestinationsCreateOrUpdateOptionalParams
-  - Added Interface PartnerDestinationsDeleteOptionalParams
-  - Added Interface PartnerDestinationsGetOptionalParams
-  - Added Interface PartnerDestinationsListByResourceGroupNextOptionalParams
-  - Added Interface PartnerDestinationsListByResourceGroupOptionalParams
-  - Added Interface PartnerDestinationsListBySubscriptionNextOptionalParams
-  - Added Interface PartnerDestinationsListBySubscriptionOptionalParams
-  - Added Interface PartnerDestinationsListResult
-  - Added Interface PartnerDestinationsUpdateOptionalParams
-  - Added Interface PartnerDestinationUpdateParameters
   - Added Interface PartnerDetails
   - Added Interface PartnerNamespaceRegenerateKeyRequest
   - Added Interface PartnerNamespacesCreateOrUpdateOptionalParams
@@ -123,22 +100,19 @@
   - Added Interface PartnerTopicsListResult
   - Added Interface PartnerTopicsUpdateOptionalParams
   - Added Interface PartnerTopicUpdateParameters
-  - Added Interface PartnerUpdateDestinationInfo
   - Added Interface PartnerUpdateTopicInfo
-  - Added Interface ResourceMoveChangeHistory
-  - Added Interface ResourceSku
   - Added Interface TopicEventSubscriptionsCreateOrUpdateOptionalParams
   - Added Interface TopicEventSubscriptionsDeleteOptionalParams
   - Added Interface TopicEventSubscriptionsGetDeliveryAttributesOptionalParams
   - Added Interface TopicEventSubscriptionsGetFullUrlOptionalParams
   - Added Interface TopicEventSubscriptionsGetOptionalParams
+  - Added Interface TopicEventSubscriptionsListNextOptionalParams
   - Added Interface TopicEventSubscriptionsListOptionalParams
   - Added Interface TopicEventSubscriptionsUpdateOptionalParams
   - Added Interface VerifiedPartnersGetOptionalParams
   - Added Interface VerifiedPartnersListNextOptionalParams
   - Added Interface VerifiedPartnersListOptionalParams
   - Added Interface VerifiedPartnersListResult
-  - Added Type Alias AzureADPartnerClientAuthentication
   - Added Type Alias Channel
   - Added Type Alias ChannelProvisioningState
   - Added Type Alias ChannelsCreateOrUpdateResponse
@@ -152,28 +126,21 @@
   - Added Type Alias DomainEventSubscriptionsGetDeliveryAttributesResponse
   - Added Type Alias DomainEventSubscriptionsGetFullUrlResponse
   - Added Type Alias DomainEventSubscriptionsGetResponse
+  - Added Type Alias DomainEventSubscriptionsListNextResponse
   - Added Type Alias DomainEventSubscriptionsListResponse
   - Added Type Alias DomainEventSubscriptionsUpdateResponse
   - Added Type Alias DomainTopicEventSubscriptionsCreateOrUpdateResponse
   - Added Type Alias DomainTopicEventSubscriptionsGetDeliveryAttributesResponse
   - Added Type Alias DomainTopicEventSubscriptionsGetFullUrlResponse
   - Added Type Alias DomainTopicEventSubscriptionsGetResponse
+  - Added Type Alias DomainTopicEventSubscriptionsListNextResponse
   - Added Type Alias DomainTopicEventSubscriptionsListResponse
   - Added Type Alias DomainTopicEventSubscriptionsUpdateResponse
-  - Added Type Alias EventChannel
-  - Added Type Alias EventChannelProvisioningState
-  - Added Type Alias EventChannelsCreateOrUpdateResponse
-  - Added Type Alias EventChannelsGetResponse
-  - Added Type Alias EventChannelsListByPartnerNamespaceNextResponse
-  - Added Type Alias EventChannelsListByPartnerNamespaceResponse
   - Added Type Alias EventDefinitionKind
   - Added Type Alias IsNotNullAdvancedFilter
   - Added Type Alias IsNullOrUndefinedAdvancedFilter
   - Added Type Alias NumberInRangeAdvancedFilter
   - Added Type Alias NumberNotInRangeAdvancedFilter
-  - Added Type Alias ParentType
-  - Added Type Alias PartnerClientAuthenticationType
-  - Added Type Alias PartnerClientAuthenticationUnion
   - Added Type Alias PartnerConfiguration
   - Added Type Alias PartnerConfigurationProvisioningState
   - Added Type Alias PartnerConfigurationsAuthorizePartnerResponse
@@ -184,20 +151,6 @@
   - Added Type Alias PartnerConfigurationsListBySubscriptionResponse
   - Added Type Alias PartnerConfigurationsUnauthorizePartnerResponse
   - Added Type Alias PartnerConfigurationsUpdateResponse
-  - Added Type Alias PartnerDestination
-  - Added Type Alias PartnerDestinationActivationState
-  - Added Type Alias PartnerDestinationInfoUnion
-  - Added Type Alias PartnerDestinationProvisioningState
-  - Added Type Alias PartnerDestinationsActivateResponse
-  - Added Type Alias PartnerDestinationsCreateOrUpdateResponse
-  - Added Type Alias PartnerDestinationsGetResponse
-  - Added Type Alias PartnerDestinationsListByResourceGroupNextResponse
-  - Added Type Alias PartnerDestinationsListByResourceGroupResponse
-  - Added Type Alias PartnerDestinationsListBySubscriptionNextResponse
-  - Added Type Alias PartnerDestinationsListBySubscriptionResponse
-  - Added Type Alias PartnerDestinationsUpdateResponse
-  - Added Type Alias PartnerEndpointType
-  - Added Type Alias PartnerEventSubscriptionDestination
   - Added Type Alias PartnerNamespace
   - Added Type Alias PartnerNamespaceProvisioningState
   - Added Type Alias PartnerNamespacesCreateOrUpdateResponse
@@ -216,7 +169,6 @@
   - Added Type Alias PartnerRegistrationsListByResourceGroupResponse
   - Added Type Alias PartnerRegistrationsListBySubscriptionNextResponse
   - Added Type Alias PartnerRegistrationsListBySubscriptionResponse
-  - Added Type Alias PartnerRegistrationVisibilityState
   - Added Type Alias PartnerTopic
   - Added Type Alias PartnerTopicActivationState
   - Added Type Alias PartnerTopicEventSubscriptionsCreateOrUpdateResponse
@@ -227,7 +179,6 @@
   - Added Type Alias PartnerTopicEventSubscriptionsListByPartnerTopicResponse
   - Added Type Alias PartnerTopicEventSubscriptionsUpdateResponse
   - Added Type Alias PartnerTopicProvisioningState
-  - Added Type Alias PartnerTopicReadinessState
   - Added Type Alias PartnerTopicRoutingMode
   - Added Type Alias PartnerTopicsActivateResponse
   - Added Type Alias PartnerTopicsCreateOrUpdateResponse
@@ -238,10 +189,8 @@
   - Added Type Alias PartnerTopicsListBySubscriptionNextResponse
   - Added Type Alias PartnerTopicsListBySubscriptionResponse
   - Added Type Alias PartnerTopicsUpdateResponse
-  - Added Type Alias PartnerUpdateDestinationInfoUnion
+  - Added Type Alias PrivateEndpointConnectionsParentType
   - Added Type Alias ReadinessState
-  - Added Type Alias ResourceKind
-  - Added Type Alias Sku
   - Added Type Alias StringNotBeginsWithAdvancedFilter
   - Added Type Alias StringNotContainsAdvancedFilter
   - Added Type Alias StringNotEndsWithAdvancedFilter
@@ -249,59 +198,43 @@
   - Added Type Alias TopicEventSubscriptionsGetDeliveryAttributesResponse
   - Added Type Alias TopicEventSubscriptionsGetFullUrlResponse
   - Added Type Alias TopicEventSubscriptionsGetResponse
+  - Added Type Alias TopicEventSubscriptionsListNextResponse
   - Added Type Alias TopicEventSubscriptionsListResponse
   - Added Type Alias TopicEventSubscriptionsUpdateResponse
+  - Added Type Alias TopicTypeSourceScope
   - Added Type Alias VerifiedPartner
   - Added Type Alias VerifiedPartnerProvisioningState
   - Added Type Alias VerifiedPartnersGetResponse
   - Added Type Alias VerifiedPartnersListNextResponse
   - Added Type Alias VerifiedPartnersListResponse
-  - Added Type Alias WebhookPartnerDestinationInfo
-  - Added Type Alias WebhookUpdatePartnerDestinationInfo
   - Interface DomainUpdateParameters has a new optional parameter dataResidencyBoundary
-  - Interface DomainUpdateParameters has a new optional parameter sku
   - Interface Operation has a new optional parameter isDataAction
   - Interface TopicUpdateParameters has a new optional parameter dataResidencyBoundary
-  - Interface TopicUpdateParameters has a new optional parameter sku
   - Class EventGridManagementClient has a new parameter channels
   - Class EventGridManagementClient has a new parameter domainEventSubscriptions
   - Class EventGridManagementClient has a new parameter domainTopicEventSubscriptions
-  - Class EventGridManagementClient has a new parameter eventChannels
   - Class EventGridManagementClient has a new parameter partnerConfigurations
-  - Class EventGridManagementClient has a new parameter partnerDestinations
   - Class EventGridManagementClient has a new parameter partnerNamespaces
   - Class EventGridManagementClient has a new parameter partnerRegistrations
   - Class EventGridManagementClient has a new parameter partnerTopicEventSubscriptions
   - Class EventGridManagementClient has a new parameter partnerTopics
   - Class EventGridManagementClient has a new parameter topicEventSubscriptions
   - Class EventGridManagementClient has a new parameter verifiedPartners
-  - Type Alias Domain has a new parameter sku
   - Type Alias Domain has a new parameter dataResidencyBoundary
-  - Type Alias Topic has a new parameter sku
-  - Type Alias Topic has a new parameter kind
-  - Type Alias Topic has a new parameter extendedLocation
   - Type Alias Topic has a new parameter dataResidencyBoundary
   - Added Enum KnownChannelProvisioningState
   - Added Enum KnownChannelType
   - Added Enum KnownDataResidencyBoundary
-  - Added Enum KnownEventChannelProvisioningState
   - Added Enum KnownEventDefinitionKind
-  - Added Enum KnownParentType
-  - Added Enum KnownPartnerClientAuthenticationType
   - Added Enum KnownPartnerConfigurationProvisioningState
-  - Added Enum KnownPartnerDestinationActivationState
-  - Added Enum KnownPartnerDestinationProvisioningState
-  - Added Enum KnownPartnerEndpointType
   - Added Enum KnownPartnerNamespaceProvisioningState
   - Added Enum KnownPartnerRegistrationProvisioningState
-  - Added Enum KnownPartnerRegistrationVisibilityState
   - Added Enum KnownPartnerTopicActivationState
   - Added Enum KnownPartnerTopicProvisioningState
-  - Added Enum KnownPartnerTopicReadinessState
   - Added Enum KnownPartnerTopicRoutingMode
+  - Added Enum KnownPrivateEndpointConnectionsParentType
   - Added Enum KnownReadinessState
-  - Added Enum KnownResourceKind
-  - Added Enum KnownSku
+  - Added Enum KnownTopicTypeSourceScope
   - Added Enum KnownVerifiedPartnerProvisioningState
   - Enum KnownAdvancedFilterOperatorType has a new value IsNotNull
   - Enum KnownAdvancedFilterOperatorType has a new value IsNullOrUndefined
@@ -310,8 +243,6 @@
   - Enum KnownAdvancedFilterOperatorType has a new value StringNotBeginsWith
   - Enum KnownAdvancedFilterOperatorType has a new value StringNotContains
   - Enum KnownAdvancedFilterOperatorType has a new value StringNotEndsWith
-  - Enum KnownEndpointType has a new value PartnerDestination
-  - Enum KnownTopicTypePropertiesSupportedScopesForSourceItem has a new value ManagementGroup
 
 **Breaking Changes**
 
@@ -325,6 +256,7 @@
   - Removed Enum KnownEnum19
   - Removed Enum KnownEnum20
   - Removed Enum KnownEnum21
+  - Removed Enum KnownTopicTypePropertiesSupportedScopesForSourceItem
     
     
 ## 13.0.0 (2021-12-09)

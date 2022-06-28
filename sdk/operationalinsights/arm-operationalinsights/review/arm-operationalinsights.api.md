@@ -47,6 +47,14 @@ export type AzureEntityResource = Resource & {
 };
 
 // @public
+export interface AzureResourceProperties {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
 export type BillingType = string;
 
 // @public
@@ -179,10 +187,30 @@ export interface ClustersUpdateOptionalParams extends coreClient.OperationOption
 export type ClustersUpdateResponse = Cluster;
 
 // @public
+export interface Column {
+    dataTypeHint?: ColumnDataTypeHintEnum;
+    description?: string;
+    displayName?: string;
+    readonly isDefaultDisplay?: boolean;
+    readonly isHidden?: boolean;
+    name?: string;
+    type?: ColumnTypeEnum;
+}
+
+// @public
+export type ColumnDataTypeHintEnum = string;
+
+// @public
+export type ColumnTypeEnum = string;
+
+// @public
 export interface CoreSummary {
     numberOfDocuments: number;
     status?: string;
 }
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export type DataExport = ProxyResource & {
@@ -304,7 +332,7 @@ export interface DataSourcesListByWorkspaceOptionalParams extends coreClient.Ope
 export type DataSourcesListByWorkspaceResponse = DataSourceListResult;
 
 // @public
-export type DataSourceType = "CustomLogs" | "AzureWatson" | "Query" | "Alerts";
+export type DataSourceType = "CustomLogs" | "AzureWatson" | "Query" | "Ingestion" | "Alerts";
 
 // @public
 export interface DeletedWorkspaces {
@@ -366,7 +394,7 @@ export interface Identity {
 }
 
 // @public
-export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
+export type IdentityType = string;
 
 // @public
 export interface IntelligencePack {
@@ -435,6 +463,46 @@ export enum KnownClusterEntityStatus {
 export enum KnownClusterSkuNameEnum {
     // (undocumented)
     CapacityReservation = "CapacityReservation"
+}
+
+// @public
+export enum KnownColumnDataTypeHintEnum {
+    ArmPath = "armPath",
+    Guid = "guid",
+    Ip = "ip",
+    Uri = "uri"
+}
+
+// @public
+export enum KnownColumnTypeEnum {
+    // (undocumented)
+    Boolean = "boolean",
+    // (undocumented)
+    DateTime = "dateTime",
+    // (undocumented)
+    Dynamic = "dynamic",
+    // (undocumented)
+    Guid = "guid",
+    // (undocumented)
+    Int = "int",
+    // (undocumented)
+    Long = "long",
+    // (undocumented)
+    Real = "real",
+    // (undocumented)
+    String = "string"
+}
+
+// @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
 }
 
 // @public
@@ -518,6 +586,24 @@ export enum KnownDataSourceKind {
 }
 
 // @public
+export enum KnownIdentityType {
+    // (undocumented)
+    Application = "application",
+    // (undocumented)
+    Key = "key",
+    // (undocumented)
+    ManagedIdentity = "managedIdentity",
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    SystemAssigned = "SystemAssigned",
+    // (undocumented)
+    User = "user",
+    // (undocumented)
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownLinkedServiceEntityStatus {
     // (undocumented)
     Deleting = "Deleting",
@@ -526,6 +612,13 @@ export enum KnownLinkedServiceEntityStatus {
     // (undocumented)
     Succeeded = "Succeeded",
     // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownProvisioningStateEnum {
+    InProgress = "InProgress",
+    Succeeded = "Succeeded",
     Updating = "Updating"
 }
 
@@ -570,11 +663,38 @@ export enum KnownSkuNameEnum {
 }
 
 // @public
+export enum KnownSourceEnum {
+    Customer = "customer",
+    Microsoft = "microsoft"
+}
+
+// @public
 export enum KnownStorageInsightState {
     // (undocumented)
     Error = "ERROR",
     // (undocumented)
     OK = "OK"
+}
+
+// @public
+export enum KnownTablePlanEnum {
+    Analytics = "Analytics",
+    Basic = "Basic"
+}
+
+// @public
+export enum KnownTableSubTypeEnum {
+    Any = "Any",
+    Classic = "Classic",
+    DataCollectionRuleBased = "DataCollectionRuleBased"
+}
+
+// @public
+export enum KnownTableTypeEnum {
+    CustomLog = "CustomLog",
+    Microsoft = "Microsoft",
+    RestoredLogs = "RestoredLogs",
+    SearchResults = "SearchResults"
 }
 
 // @public
@@ -728,6 +848,64 @@ export type LinkedStorageAccountsResource = ProxyResource & {
 };
 
 // @public
+export type LogAnalyticsQueryPack = QueryPacksResource & {
+    readonly queryPackId?: string;
+    readonly timeCreated?: Date;
+    readonly timeModified?: Date;
+    readonly provisioningState?: string;
+};
+
+// @public
+export interface LogAnalyticsQueryPackListResult {
+    nextLink?: string;
+    value: LogAnalyticsQueryPack[];
+}
+
+// @public
+export type LogAnalyticsQueryPackQuery = AzureResourceProperties & {
+    readonly idPropertiesId?: string;
+    displayName?: string;
+    readonly timeCreated?: Date;
+    readonly timeModified?: Date;
+    readonly author?: string;
+    description?: string;
+    body?: string;
+    related?: LogAnalyticsQueryPackQueryPropertiesRelated;
+    tags?: {
+        [propertyName: string]: string[];
+    };
+    properties?: Record<string, unknown>;
+};
+
+// @public
+export interface LogAnalyticsQueryPackQueryListResult {
+    nextLink?: string;
+    value: LogAnalyticsQueryPackQuery[];
+}
+
+// @public
+export interface LogAnalyticsQueryPackQueryPropertiesRelated {
+    categories?: string[];
+    resourceTypes?: string[];
+    solutions?: string[];
+}
+
+// @public
+export interface LogAnalyticsQueryPackQuerySearchProperties {
+    related?: LogAnalyticsQueryPackQuerySearchPropertiesRelated;
+    tags?: {
+        [propertyName: string]: string[];
+    };
+}
+
+// @public
+export interface LogAnalyticsQueryPackQuerySearchPropertiesRelated {
+    categories?: string[];
+    resourceTypes?: string[];
+    solutions?: string[];
+}
+
+// @public
 export interface ManagementGroup {
     created?: Date;
     dataReceived?: Date;
@@ -793,9 +971,13 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
     // (undocumented)
     operationStatuses: OperationStatuses;
     // (undocumented)
+    queries: Queries;
+    // (undocumented)
+    queryPacks: QueryPacks;
+    // (undocumented)
     savedSearches: SavedSearches;
     // (undocumented)
-    schema: Schema;
+    schemaOperations: SchemaOperations;
     // (undocumented)
     sharedKeysOperations: SharedKeysOperations;
     // (undocumented)
@@ -880,7 +1062,10 @@ export interface PrivateLinkScopedResource {
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProvisioningStateEnum = string;
+
+// @public
+export type ProxyResource = Resource;
 
 // @public
 export type PublicNetworkAccessType = string;
@@ -889,10 +1074,172 @@ export type PublicNetworkAccessType = string;
 export type PurgeState = string;
 
 // @public
+export interface Queries {
+    delete(resourceGroupName: string, queryPackName: string, id: string, options?: QueriesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, queryPackName: string, id: string, options?: QueriesGetOptionalParams): Promise<QueriesGetResponse>;
+    list(resourceGroupName: string, queryPackName: string, options?: QueriesListOptionalParams): PagedAsyncIterableIterator<LogAnalyticsQueryPackQuery>;
+    listSearch(resourceGroupName: string, queryPackName: string, querySearchProperties: LogAnalyticsQueryPackQuerySearchProperties, options?: QueriesSearchOptionalParams): PagedAsyncIterableIterator<LogAnalyticsQueryPackQuery>;
+    put(resourceGroupName: string, queryPackName: string, id: string, queryPayload: LogAnalyticsQueryPackQuery, options?: QueriesPutOptionalParams): Promise<QueriesPutResponse>;
+    update(resourceGroupName: string, queryPackName: string, id: string, queryPayload: LogAnalyticsQueryPackQuery, options?: QueriesUpdateOptionalParams): Promise<QueriesUpdateResponse>;
+}
+
+// @public
+export interface QueriesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface QueriesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueriesGetResponse = LogAnalyticsQueryPackQuery;
+
+// @public
+export interface QueriesListNextOptionalParams extends coreClient.OperationOptions {
+    includeBody?: boolean;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type QueriesListNextResponse = LogAnalyticsQueryPackQueryListResult;
+
+// @public
+export interface QueriesListOptionalParams extends coreClient.OperationOptions {
+    includeBody?: boolean;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type QueriesListResponse = LogAnalyticsQueryPackQueryListResult;
+
+// @public
+export interface QueriesPutOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueriesPutResponse = LogAnalyticsQueryPackQuery;
+
+// @public
+export interface QueriesSearchNextOptionalParams extends coreClient.OperationOptions {
+    includeBody?: boolean;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type QueriesSearchNextResponse = LogAnalyticsQueryPackQueryListResult;
+
+// @public
+export interface QueriesSearchOptionalParams extends coreClient.OperationOptions {
+    includeBody?: boolean;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type QueriesSearchResponse = LogAnalyticsQueryPackQueryListResult;
+
+// @public
+export interface QueriesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueriesUpdateResponse = LogAnalyticsQueryPackQuery;
+
+// @public
+export interface QueryPacks {
+    createOrUpdate(resourceGroupName: string, queryPackName: string, logAnalyticsQueryPackPayload: LogAnalyticsQueryPack, options?: QueryPacksCreateOrUpdateOptionalParams): Promise<QueryPacksCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, queryPackName: string, options?: QueryPacksDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, queryPackName: string, options?: QueryPacksGetOptionalParams): Promise<QueryPacksGetResponse>;
+    list(options?: QueryPacksListOptionalParams): PagedAsyncIterableIterator<LogAnalyticsQueryPack>;
+    listByResourceGroup(resourceGroupName: string, options?: QueryPacksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LogAnalyticsQueryPack>;
+    updateTags(resourceGroupName: string, queryPackName: string, queryPackTags: TagsResource, options?: QueryPacksUpdateTagsOptionalParams): Promise<QueryPacksUpdateTagsResponse>;
+}
+
+// @public
+export interface QueryPacksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueryPacksCreateOrUpdateResponse = LogAnalyticsQueryPack;
+
+// @public
+export interface QueryPacksDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface QueryPacksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueryPacksGetResponse = LogAnalyticsQueryPack;
+
+// @public
+export interface QueryPacksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueryPacksListByResourceGroupNextResponse = LogAnalyticsQueryPackListResult;
+
+// @public
+export interface QueryPacksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueryPacksListByResourceGroupResponse = LogAnalyticsQueryPackListResult;
+
+// @public
+export interface QueryPacksListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueryPacksListNextResponse = LogAnalyticsQueryPackListResult;
+
+// @public
+export interface QueryPacksListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueryPacksListResponse = LogAnalyticsQueryPackListResult;
+
+// @public
+export interface QueryPacksResource {
+    readonly id?: string;
+    location: string;
+    readonly name?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
+export interface QueryPacksUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueryPacksUpdateTagsResponse = LogAnalyticsQueryPack;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly type?: string;
+}
+
+// @public
+export interface RestoredLogs {
+    endRestoreTime?: Date;
+    sourceTable?: string;
+    startRestoreTime?: Date;
+}
+
+// @public
+export interface ResultStatistics {
+    readonly ingestedRecords?: number;
+    readonly progress?: number;
 }
 
 // @public
@@ -947,7 +1294,19 @@ export interface SavedSearchesListResult {
 
 // @public
 export interface Schema {
-    get(resourceGroupName: string, workspaceName: string, options?: SchemaGetOptionalParams): Promise<SchemaGetResponse>;
+    readonly categories?: string[];
+    columns?: Column[];
+    description?: string;
+    displayName?: string;
+    readonly labels?: string[];
+    name?: string;
+    readonly restoredLogs?: RestoredLogs;
+    readonly searchResults?: SearchResults;
+    readonly solutions?: string[];
+    readonly source?: SourceEnum;
+    readonly standardColumns?: Column[];
+    readonly tableSubType?: TableSubTypeEnum;
+    readonly tableType?: TableTypeEnum;
 }
 
 // @public
@@ -956,6 +1315,11 @@ export interface SchemaGetOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type SchemaGetResponse = SearchGetSchemaResponse;
+
+// @public
+export interface SchemaOperations {
+    get(resourceGroupName: string, workspaceName: string, options?: SchemaGetOptionalParams): Promise<SchemaGetResponse>;
+}
 
 // @public
 export interface SearchGetSchemaResponse {
@@ -988,6 +1352,16 @@ export interface SearchMetadata {
 export interface SearchMetadataSchema {
     name?: string;
     version?: number;
+}
+
+// @public
+export interface SearchResults {
+    description?: string;
+    endSearchTime?: Date;
+    limit?: number;
+    query?: string;
+    readonly sourceTable?: string;
+    startSearchTime?: Date;
 }
 
 // @public
@@ -1038,6 +1412,9 @@ export type SharedKeysRegenerateResponse = SharedKeys;
 
 // @public
 export type SkuNameEnum = string;
+
+// @public
+export type SourceEnum = string;
 
 // @public
 export interface StorageAccount {
@@ -1113,27 +1490,70 @@ export interface StorageInsightStatus {
 }
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: IdentityType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: IdentityType;
+}
+
+// @public
+export interface SystemDataAutoGenerated {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export type Table = ProxyResource & {
+    readonly systemData?: SystemDataAutoGenerated;
     retentionInDays?: number;
-    readonly isTroubleshootingAllowed?: boolean;
-    isTroubleshootEnabled?: boolean;
-    readonly lastTroubleshootDate?: string;
+    totalRetentionInDays?: number;
+    readonly archiveRetentionInDays?: number;
+    searchResults?: SearchResults;
+    restoredLogs?: RestoredLogs;
+    resultStatistics?: ResultStatistics;
+    plan?: TablePlanEnum;
+    readonly lastPlanModifiedDate?: string;
+    schema?: Schema;
+    readonly provisioningState?: ProvisioningStateEnum;
 };
 
 // @public
+export type TablePlanEnum = string;
+
+// @public
 export interface Tables {
-    create(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesCreateOptionalParams): Promise<TablesCreateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TablesCreateOrUpdateResponse>, TablesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesCreateOrUpdateOptionalParams): Promise<TablesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesUpdateOptionalParams): Promise<PollerLike<PollOperationState<TablesUpdateResponse>, TablesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesUpdateOptionalParams): Promise<TablesUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesGetOptionalParams): Promise<TablesGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: TablesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<Table>;
-    update(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesUpdateOptionalParams): Promise<TablesUpdateResponse>;
+    migrate(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesMigrateOptionalParams): Promise<void>;
 }
 
 // @public
-export interface TablesCreateOptionalParams extends coreClient.OperationOptions {
+export interface TablesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type TablesCreateResponse = Table;
+export type TablesCreateOrUpdateResponse = Table;
+
+// @public
+export interface TablesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface TablesGetOptionalParams extends coreClient.OperationOptions {
@@ -1155,16 +1575,35 @@ export interface TablesListResult {
 }
 
 // @public
+export interface TablesMigrateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TableSubTypeEnum = string;
+
+// @public
 export interface TablesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type TablesUpdateResponse = Table;
 
 // @public
+export type TableTypeEnum = string;
+
+// @public
 export interface Tag {
     name: string;
     value: string;
+}
+
+// @public
+export interface TagsResource {
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -1208,8 +1647,9 @@ export interface UserIdentityProperties {
 
 // @public
 export type Workspace = TrackedResource & {
+    readonly systemData?: SystemDataAutoGenerated;
     eTag?: string;
-    provisioningState?: WorkspaceEntityStatus;
+    readonly provisioningState?: WorkspaceEntityStatus;
     readonly customerId?: string;
     sku?: WorkspaceSku;
     retentionInDays?: number;
@@ -1221,6 +1661,7 @@ export type Workspace = TrackedResource & {
     forceCmkForQuery?: boolean;
     readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
     features?: WorkspaceFeatures;
+    defaultDataCollectionRuleResourceId?: string;
 };
 
 // @public
@@ -1263,7 +1704,7 @@ export type WorkspacePatch = AzureEntityResource & {
     tags?: {
         [propertyName: string]: string;
     };
-    provisioningState?: WorkspaceEntityStatus;
+    readonly provisioningState?: WorkspaceEntityStatus;
     readonly customerId?: string;
     sku?: WorkspaceSku;
     retentionInDays?: number;
@@ -1275,6 +1716,7 @@ export type WorkspacePatch = AzureEntityResource & {
     forceCmkForQuery?: boolean;
     readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
     features?: WorkspaceFeatures;
+    defaultDataCollectionRuleResourceId?: string;
 };
 
 // @public

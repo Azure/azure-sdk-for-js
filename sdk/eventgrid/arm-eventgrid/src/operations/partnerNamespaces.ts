@@ -684,7 +684,7 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.regenerateKeyRequest1,
+  requestBody: Parameters.regenerateKeyRequest2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

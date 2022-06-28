@@ -14,8 +14,7 @@ import { PhoneNumbersClientOptionalParams } from "./models";
 export class PhoneNumbersClient extends PhoneNumbersClientContext {
   /**
    * Initializes a new instance of the PhoneNumbersClient class.
-   * @param endpoint The communication resource, for example
-   *                 https://resourcename.communication.azure.com.
+   * @param endpoint The communication resource, for example https://resourcename.communication.azure.com
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: PhoneNumbersClientOptionalParams) {

@@ -1,16 +1,29 @@
 # Release History
 
-## 7.6.0-beta.3 (Unreleased)
+## 7.6.0-beta.5 (Unreleased)
 
 ### Features Added
-
-- Add an option `omitMessageBody` in `PeekMessagesOptions` allowing omitting message body when peeking messages using `receiver.peekMessages()`
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Stop yielding empty page when listing rules using RuleManager.
+- Improves documentation for `maxAutoLockRenewalDurationInMs` with an example to clarify its usage. [#22343](https://github.com/Azure/azure-sdk-for-js/pull/22343)
+
+## 7.6.0-beta.4 (2022-06-07)
+
+### Features Added
+
+- Add support to add, retrieve, and remove subscription-level rules via AMQP links. [PR #22018](https://github.com/Azure/azure-sdk-for-js/pull/22018)
+
+## 7.6.0-beta.3 (2022-05-19)
+
+### Features Added
+
+- Add an option `omitMessageBody` in `PeekMessagesOptions` allowing omitting message body when peeking messages using `receiver.peekMessages()`
 
 ## 7.6.0-beta.2 (2022-05-10)
 

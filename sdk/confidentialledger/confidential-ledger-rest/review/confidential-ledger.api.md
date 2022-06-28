@@ -4,7 +4,6 @@
 
 ```ts
 
-import { CertificateCredential } from '@azure-rest/core-client';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
@@ -13,8 +12,10 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, credentials: TokenCredential | CertificateCredential, options?: ClientOptions): ConfidentialLedgerRestClient;
+function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, options?: ClientOptions): ConfidentialLedgerRestClient;
 
+// @public (undocumented)
+function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, credentials: TokenCredential, options?: ClientOptions): ConfidentialLedgerRestClient;
 export default ConfidentialLedger;
 
 // @public (undocumented)
@@ -507,7 +508,6 @@ export interface TransactionStatus {
     state: TransactionState;
     transactionId: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 
