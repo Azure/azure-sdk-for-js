@@ -10,6 +10,7 @@ import {
   AtlasClassificationOutput,
   AtlasClassificationsOutput,
   AtlasEntityHeaderOutput,
+  BulkImportResponseOutput,
   AtlasGlossaryOutput,
   AtlasGlossaryCategoryOutput,
   AtlasRelatedCategoryHeaderOutput,
@@ -25,6 +26,7 @@ import {
   AtlasLineageInfoOutput,
   AtlasRelationshipOutput,
   AtlasRelationshipWithExtInfoOutput,
+  AtlasBusinessMetadataDefOutput,
   AtlasClassificationDefOutput,
   AtlasEntityDefOutput,
   AtlasEnumDefOutput,
@@ -394,6 +396,97 @@ export interface EntityGetHeader200Response extends HttpResponse {
 export interface EntityGetHeaderdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
+}
+
+/** Remove business metadata from an entity. */
+export interface EntityDeleteBusinessMetadata204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Add business metadata to an entity. */
+export interface EntityAddOrUpdateBusinessMetadata204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Delete business metadata attributes from an entity. */
+export interface EntityDeleteBusinessMetadataAttributes204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Add or update business metadata attributes */
+export interface EntityAddOrUpdateBusinessMetadataAttributes204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Get the sample Template for uploading/creating bulk BusinessMetaData */
+export interface EntityGetSampleBusinessMetadataTemplate200Response extends HttpResponse {
+  status: "200";
+  /** Value may contain any sequence of octets */
+  body: Uint8Array;
+}
+
+/** Get the sample Template for uploading/creating bulk BusinessMetaData */
+export interface EntityGetSampleBusinessMetadataTemplate400Response extends HttpResponse {
+  status: "400";
+  body: Record<string, unknown>;
+}
+
+/** Upload the file for creating Business Metadata in BULK */
+export interface EntityImportBusinessMetadata200Response extends HttpResponse {
+  status: "200";
+  body: BulkImportResponseOutput;
+}
+
+/** Upload the file for creating Business Metadata in BULK */
+export interface EntityImportBusinessMetadata400Response extends HttpResponse {
+  status: "400";
+  body: Record<string, unknown>;
+}
+
+/** Upload the file for creating Business Metadata in BULK */
+export interface EntityImportBusinessMetadata409Response extends HttpResponse {
+  status: "409";
+  body: Record<string, unknown>;
+}
+
+/** delete given labels to a given entity */
+export interface EntityDeleteLabels204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Set labels to a given entity */
+export interface EntitySetLabels204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** add given labels to a given entity */
+export interface EntityAddLabel204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Delete given labels to a given entity identified by its type and unique attributes, if labels is null/empty, no labels will be removed. If any labels in labels set are non-existing labels, they will be ignored, only existing labels will be removed. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: DELETE /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+export interface EntityDeleteLabelsByUniqueAttribute204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Set labels to a given entity identified by its type and unique attributes, if labels is null/empty, existing labels will all be removed. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: POST /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+export interface EntitySetLabelsByUniqueAttribute204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Add given labels to a given entity identified by its type and unique attributes, if labels is null/empty, no labels will be added. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: PUT /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+export interface EntityAddLabelsByUniqueAttribute204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Get all glossaries registered with Atlas. */
@@ -890,6 +983,48 @@ export interface LineageNextPageLineagedefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
+/**
+ * Returns lineage info about entity.
+ *
+ * In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format
+ *
+ * attr:[attrName]=[attrValue]
+ *
+ * NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName
+ */
+export interface LineageGetLineageByUniqueAttribute200Response extends HttpResponse {
+  status: "200";
+  body: AtlasLineageInfoOutput;
+}
+
+/**
+ * Returns lineage info about entity.
+ *
+ * In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format
+ *
+ * attr:[attrName]=[attrValue]
+ *
+ * NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName
+ */
+export interface LineageGetLineageByUniqueAttribute400Response extends HttpResponse {
+  status: "400";
+  body: Record<string, unknown>;
+}
+
+/**
+ * Returns lineage info about entity.
+ *
+ * In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format
+ *
+ * attr:[attrName]=[attrValue]
+ *
+ * NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName
+ */
+export interface LineageGetLineageByUniqueAttribute404Response extends HttpResponse {
+  status: "404";
+  body: Record<string, unknown>;
+}
+
 /** Create a new relationship between entities. */
 export interface RelationshipCreate200Response extends HttpResponse {
   status: "200";
@@ -936,6 +1071,30 @@ export interface RelationshipDelete204Response extends HttpResponse {
 export interface RelationshipDeletedefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
+}
+
+/** Get the businessMetadata definition for the given guid */
+export interface TypesGetBusinessMetadataDefByGuid200Response extends HttpResponse {
+  status: "200";
+  body: AtlasBusinessMetadataDefOutput;
+}
+
+/** Get the businessMetadata definition for the given guid */
+export interface TypesGetBusinessMetadataDefByGuid404Response extends HttpResponse {
+  status: "404";
+  body: Record<string, unknown>;
+}
+
+/** Get the businessMetadata definition by it's name (unique) */
+export interface TypesGetBusinessMetadataDefByName200Response extends HttpResponse {
+  status: "200";
+  body: AtlasBusinessMetadataDefOutput;
+}
+
+/** Get the businessMetadata definition by it's name (unique) */
+export interface TypesGetBusinessMetadataDefByName404Response extends HttpResponse {
+  status: "404";
+  body: Record<string, unknown>;
 }
 
 /** Get the classification definition for the given GUID. */

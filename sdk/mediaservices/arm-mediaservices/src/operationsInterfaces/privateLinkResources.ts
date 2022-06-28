@@ -16,7 +16,7 @@ import {
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
   /**
-   * Get list of group IDs.
+   * List supported group IDs.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The options parameters.
@@ -27,7 +27,7 @@ export interface PrivateLinkResources {
     options?: PrivateLinkResourcesListOptionalParams
   ): Promise<PrivateLinkResourcesListResponse>;
   /**
-   * Get group ID.
+   * Get details of a group ID.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param name

@@ -129,9 +129,6 @@ describe("Long Running Operations - custom client", function () {
 
     await poller.cancelOperation();
     assert.ok(poller.getOperationState().isCancelled);
-
-    // Cancelling a poller stops it
-    assert.ok(poller.isStopped());
   });
 
   it("fails to cancel the operation (when cancellation is not supported)", async function () {

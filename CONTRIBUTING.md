@@ -156,6 +156,8 @@ Eventually, all the tests will be migrated to depend on the `2.x.y` version of t
 
 To record and playback the tests that depend on version `2.x.y` of `@azure-tools/test-recorder`, [docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
 
+Refer to the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md) for more information on migrating the tests from recorder v1 to v2.
+
 #### Live tests
 
 To use the `rushx test` command to run the tests against live resources, you must:

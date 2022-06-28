@@ -15,11 +15,17 @@
     ],
     "declaration": true,
     "outDir": "./dist-esm",
-    "importHelpers": true
+    "importHelpers": true,
+    "paths": {
+      "@azure/arm-datafactory": [
+        "./src/index"
+      ]
+    }
   },
   "include": [
     "./src/**/*.ts",
-    "./test/**/*.ts"
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
   ],
   "exclude": [
     "node_modules"

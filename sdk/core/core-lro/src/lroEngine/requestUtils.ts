@@ -41,6 +41,7 @@ function findResourceLocation(
       return requestPath;
     }
     case "POST":
+    case "GET":
     case "PATCH": {
       return getLocation(rawResponse);
     }
@@ -88,7 +89,7 @@ class SimpleRestError extends Error {
 
 export function isUnexpectedInitialResponse(rawResponse: RawResponse): boolean {
   const code = rawResponse.statusCode;
-  if (![203, 204, 202, 201, 200, 500].includes(code)) {
+  if (![203, 204, 202, 201, 200].includes(code)) {
     throw new SimpleRestError(
       `Received unexpected HTTP status code ${code} in the initial response. This may indicate a server issue.`,
       code
@@ -99,7 +100,7 @@ export function isUnexpectedInitialResponse(rawResponse: RawResponse): boolean {
 
 export function isUnexpectedPollingResponse(rawResponse: RawResponse): boolean {
   const code = rawResponse.statusCode;
-  if (![202, 201, 200, 500].includes(code)) {
+  if (![202, 201, 200].includes(code)) {
     throw new SimpleRestError(
       `Received unexpected HTTP status code ${code} while polling. This may indicate a server issue.`,
       code
@@ -115,7 +116,7 @@ export function isCanceled<TResult, TState extends PollOperationState<TResult>>(
   const { state, status } = operation;
   if (["canceled", "cancelled"].includes(status)) {
     state.isCancelled = true;
-    throw new Error(`The long-running operation has been canceled.`);
+    return true;
   }
   return false;
 }

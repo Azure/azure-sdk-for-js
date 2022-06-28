@@ -226,7 +226,12 @@
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
       "words": [
-        "WDLABCD"
+        "WDLABCD",
+        "presentationml",
+        "spreadsheetml",
+        "wordprocessingml",
+        "heif",
+        "copays"
       ]
     },
     {

@@ -7,4 +7,6 @@
  */
 
 export * from "./operations";
-export * from "./communicationService";
+export * from "./communicationServices";
+export * from "./domains";
+export * from "./emailServices";

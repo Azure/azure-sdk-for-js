@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-//
-import { createSpanFunction } from "@azure/core-tracing";
+
+import { createTracingClient } from "@azure/core-tracing";
+import { SDK_VERSION } from "./constants";
 
 /**
- * Creates a span using the global tracer.
- *
- * @param name - The name of the operation being performed.
- * @param tracingOptions - The options for the underlying http request.
+ * Global tracing client used by this package.
  *
  * @internal
  */
-export const createSpan = createSpanFunction({
+export const tracingClient = createTracingClient({
   namespace: "Microsoft.Monitor",
-  packagePrefix: "Azure.Monitor.Query",
+  packageName: "@azure/monitor-query",
+  packageVersion: SDK_VERSION,
 });

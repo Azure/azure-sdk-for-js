@@ -73,12 +73,12 @@ export interface AnalyzeResult {
   content: string;
   /** Analyzed pages. */
   pages: DocumentPage[];
+  /** Extracted paragraphs. */
+  paragraphs?: DocumentParagraph[];
   /** Extracted tables. */
   tables?: DocumentTable[];
   /** Extracted key-value pairs. */
   keyValuePairs?: DocumentKeyValuePair[];
-  /** Extracted entities. */
-  entities?: DocumentEntity[];
   /** Extracted font styles. */
   styles?: DocumentStyle[];
   /** Detected languages. */
@@ -89,24 +89,28 @@ export interface AnalyzeResult {
 
 /** Content and layout elements extracted from a page from the input. */
 export interface DocumentPage {
+  /** Kind of document page. */
+  kind: DocumentPageKind;
   /** 1-based page number in the input document. */
   pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */
-  angle: number;
+  angle?: number;
   /** The width of the image/PDF in pixels/inches, respectively. */
-  width: number;
+  width?: number;
   /** The height of the image/PDF in pixels/inches, respectively. */
-  height: number;
-  /** The unit used by the width, height, and boundingBox properties. For images, the unit is "pixel". For PDF, the unit is "inch". */
-  unit: LengthUnit;
+  height?: number;
+  /** The unit used by the width, height, and polygon properties. For images, the unit is "pixel". For PDF, the unit is "inch". */
+  unit?: LengthUnit;
   /** Location of the page in the reading order concatenated content. */
   spans: DocumentSpan[];
   /** Extracted words from the page. */
-  words: DocumentWord[];
+  words?: DocumentWord[];
   /** Extracted selection marks from the page. */
   selectionMarks?: DocumentSelectionMark[];
+  /** Extracted images from the page. */
+  images?: DocumentImage[];
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
-  lines: DocumentLine[];
+  lines?: DocumentLine[];
 }
 
 /** Contiguous region of the concatenated content property, specified as an offset and length. */
@@ -121,8 +125,8 @@ export interface DocumentSpan {
 export interface DocumentWord {
   /** Text content of the word. */
   content: string;
-  /** Bounding box of the word. */
-  boundingBox?: number[];
+  /** Bounding polygon of the word. */
+  polygon?: number[];
   /** Location of the word in the reading order concatenated content. */
   span: DocumentSpan;
   /** Confidence of correctly extracting the word. */
@@ -133,11 +137,23 @@ export interface DocumentWord {
 export interface DocumentSelectionMark {
   /** State of the selection mark. */
   state: SelectionMarkState;
-  /** Bounding box of the selection mark. */
-  boundingBox?: number[];
+  /** Bounding polygon of the selection mark. */
+  polygon?: number[];
   /** Location of the selection mark in the reading order concatenated content. */
   span: DocumentSpan;
   /** Confidence of correctly extracting the selection mark. */
+  confidence: number;
+}
+
+/** An image object detected in the page. */
+export interface DocumentImage {
+  /** Bounding polygon of the image. */
+  polygon?: number[];
+  /** Location of the image in the reading order concatenated content. */
+  span: DocumentSpan;
+  /** 0-based index of the global pages array that containing the content of the image. */
+  pageRef: number;
+  /** Confidence of correctly identifying the image. */
   confidence: number;
 }
 
@@ -145,10 +161,30 @@ export interface DocumentSelectionMark {
 export interface DocumentLine {
   /** Concatenated content of the contained elements in reading order. */
   content: string;
-  /** Bounding box of the line. */
-  boundingBox?: number[];
+  /** Bounding polygon of the line. */
+  polygon?: number[];
   /** Location of the line in the reading order concatenated content. */
   spans: DocumentSpan[];
+}
+
+/** A paragraph object consisting with contiguous lines generally with common alignment and spacing. */
+export interface DocumentParagraph {
+  /** Semantic role of the paragraph. */
+  role?: ParagraphRole;
+  /** Concatenated content of the paragraph in reading order. */
+  content: string;
+  /** Bounding regions covering the paragraph. */
+  boundingRegions?: BoundingRegion[];
+  /** Location of the paragraph in the reading order concatenated content. */
+  spans: DocumentSpan[];
+}
+
+/** Bounding polygon on a specific page of the input. */
+export interface BoundingRegion {
+  /** 1-based page number of page containing the bounding region. */
+  pageNumber: number;
+  /** Bounding polygon on the page, or the entire page if not specified. */
+  polygon: number[];
 }
 
 /** A table object consisting table cells arranged in a rectangular layout. */
@@ -159,6 +195,10 @@ export interface DocumentTable {
   columnCount: number;
   /** Cells contained within the table. */
   cells: DocumentTableCell[];
+  /** Caption associated with the table. */
+  caption?: DocumentCaption;
+  /** Footnotes associated with the table. */
+  footnotes?: DocumentFootnote[];
   /** Bounding regions covering the table. */
   boundingRegions?: BoundingRegion[];
   /** Location of the table in the reading order concatenated content. */
@@ -185,12 +225,24 @@ export interface DocumentTableCell {
   spans: DocumentSpan[];
 }
 
-/** Bounding box on a specific page of the input. */
-export interface BoundingRegion {
-  /** 1-based page number of page containing the bounding region. */
-  pageNumber: number;
-  /** Bounding box on the page, or the entire page if not specified. */
-  boundingBox: number[];
+/** An object representing the location and content of a table caption. */
+export interface DocumentCaption {
+  /** Table caption content. */
+  content: string;
+  /** Bounding regions covering the table caption. */
+  boundingRegions?: BoundingRegion[];
+  /** Location of the table caption in the reading order concatenated content. */
+  spans: DocumentSpan[];
+}
+
+/** An object representing the location and content of a table footnote. */
+export interface DocumentFootnote {
+  /** Table footnote content. */
+  content: string;
+  /** Bounding regions covering the table footnote. */
+  boundingRegions?: BoundingRegion[];
+  /** Location of the table footnote in the reading order concatenated content. */
+  spans: DocumentSpan[];
 }
 
 /** An object representing a form field with distinct field label (key) and field value (may be empty). */
@@ -213,22 +265,6 @@ export interface DocumentKeyValueElement {
   spans: DocumentSpan[];
 }
 
-/** An object representing various categories of entities. */
-export interface DocumentEntity {
-  /** Entity type. */
-  category: string;
-  /** Entity sub type. */
-  subCategory?: string;
-  /** Entity content. */
-  content: string;
-  /** Bounding regions covering the entity. */
-  boundingRegions?: BoundingRegion[];
-  /** Location of the entity in the reading order concatenated content. */
-  spans: DocumentSpan[];
-  /** Confidence of correctly extracting the entity. */
-  confidence: number;
-}
-
 /** An object representing observed text styles. */
 export interface DocumentStyle {
   /** Is content handwritten? */
@@ -242,7 +278,7 @@ export interface DocumentStyle {
 /** An object representing the detected language for a given text span. */
 export interface DocumentLanguage {
   /** Detected language.  Value may an ISO 639-1 language code (ex. "en", "fr") or BCP 47 language tag (ex. "zh-Hans"). */
-  languageCode: string;
+  locale: string;
   /** Location of the text elements in the concatenated content the language applies to. */
   spans: DocumentSpan[];
   /** Confidence of correctly identifying the language. */
@@ -258,7 +294,7 @@ export interface Document {
   /** Location of the document in the reading order concatenated content. */
   spans: DocumentSpan[];
   /** Dictionary of named field values. */
-  fields: { [propertyName: string]: DocumentField };
+  fields?: { [propertyName: string]: DocumentField };
   /** Confidence of correctly extracting the document. */
   confidence: number;
 }
@@ -294,6 +330,8 @@ export interface DocumentField {
   valueObject?: { [propertyName: string]: DocumentField };
   /** Currency value. */
   valueCurrency?: CurrencyValue;
+  /** Address value. */
+  valueAddress?: AddressValue;
   /** Field content. */
   content?: string;
   /** Bounding regions covering the field. */
@@ -310,6 +348,26 @@ export interface CurrencyValue {
   amount: number;
   /** Currency symbol label, if any. */
   currencySymbol?: string;
+}
+
+/** Address field value. */
+export interface AddressValue {
+  /** House or building number. */
+  houseNumber?: string;
+  /** Post office box number. */
+  poBox?: string;
+  /** Street name. */
+  road?: string;
+  /** Name of city, town, village, etc. */
+  city?: string;
+  /** First-level administrative division. */
+  state?: string;
+  /** Postal code used for mail sorting. */
+  postalCode?: string;
+  /** Country/region. */
+  countryRegion?: string;
+  /** Street-level address, excluding city, state, countryRegion, and postalCode. */
+  streetAddress?: string;
 }
 
 /** Request body to build a new custom model. */
@@ -471,18 +529,18 @@ export interface CustomDocumentModelsInfo {
 }
 
 /** Get Operation response object. */
-export type GetOperationResponse = OperationInfo & {
+export interface GetOperationResponse extends OperationInfo {
   /** Encountered error. */
   error?: ErrorModel;
   /** Operation result upon success. */
   result?: Record<string, unknown>;
-};
+}
 
 /** Model info. */
-export type ModelInfo = ModelSummary & {
+export interface ModelInfo extends ModelSummary {
   /** Supported document types. */
   docTypes?: { [propertyName: string]: DocTypeInfo };
-};
+}
 
 /** Defines headers for GeneratedClient_analyzeDocument operation. */
 export interface GeneratedClientAnalyzeDocumentHeaders {
@@ -510,8 +568,11 @@ export interface GeneratedClientCopyDocumentModelToHeaders {
 
 /** Known values of {@link StringIndexType} that the service accepts. */
 export enum KnownStringIndexType {
+  /** TextElements */
   TextElements = "textElements",
+  /** UnicodeCodePoint */
   UnicodeCodePoint = "unicodeCodePoint",
+  /** Utf16CodeUnit */
   Utf16CodeUnit = "utf16CodeUnit"
 }
 
@@ -528,7 +589,8 @@ export type StringIndexType = string;
 
 /** Known values of {@link ApiVersion} that the service accepts. */
 export enum KnownApiVersion {
-  TwoThousandTwentyTwo0130Preview = "2022-01-30-preview"
+  /** TwoThousandTwentyTwo0630Preview */
+  TwoThousandTwentyTwo0630Preview = "2022-06-30-preview"
 }
 
 /**
@@ -536,13 +598,39 @@ export enum KnownApiVersion {
  * {@link KnownApiVersion} can be used interchangeably with ApiVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2022-01-30-preview**
+ * **2022-06-30-preview**
  */
 export type ApiVersion = string;
 
+/** Known values of {@link DocumentPageKind} that the service accepts. */
+export enum KnownDocumentPageKind {
+  /** Document */
+  Document = "document",
+  /** Sheet */
+  Sheet = "sheet",
+  /** Slide */
+  Slide = "slide",
+  /** Image */
+  Image = "image"
+}
+
+/**
+ * Defines values for DocumentPageKind. \
+ * {@link KnownDocumentPageKind} can be used interchangeably with DocumentPageKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **document** \
+ * **sheet** \
+ * **slide** \
+ * **image**
+ */
+export type DocumentPageKind = string;
+
 /** Known values of {@link LengthUnit} that the service accepts. */
 export enum KnownLengthUnit {
+  /** Pixel */
   Pixel = "pixel",
+  /** Inch */
   Inch = "inch"
 }
 
@@ -558,7 +646,9 @@ export type LengthUnit = string;
 
 /** Known values of {@link SelectionMarkState} that the service accepts. */
 export enum KnownSelectionMarkState {
+  /** Selected */
   Selected = "selected",
+  /** Unselected */
   Unselected = "unselected"
 }
 
@@ -572,12 +662,47 @@ export enum KnownSelectionMarkState {
  */
 export type SelectionMarkState = string;
 
+/** Known values of {@link ParagraphRole} that the service accepts. */
+export enum KnownParagraphRole {
+  /** PageHeader */
+  PageHeader = "pageHeader",
+  /** PageFooter */
+  PageFooter = "pageFooter",
+  /** PageNumber */
+  PageNumber = "pageNumber",
+  /** Title */
+  Title = "title",
+  /** SectionHeading */
+  SectionHeading = "sectionHeading",
+  /** Footnote */
+  Footnote = "footnote"
+}
+
+/**
+ * Defines values for ParagraphRole. \
+ * {@link KnownParagraphRole} can be used interchangeably with ParagraphRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **pageHeader** \
+ * **pageFooter** \
+ * **pageNumber** \
+ * **title** \
+ * **sectionHeading** \
+ * **footnote**
+ */
+export type ParagraphRole = string;
+
 /** Known values of {@link DocumentTableCellKind} that the service accepts. */
 export enum KnownDocumentTableCellKind {
+  /** Content */
   Content = "content",
+  /** RowHeader */
   RowHeader = "rowHeader",
+  /** ColumnHeader */
   ColumnHeader = "columnHeader",
+  /** StubHead */
   StubHead = "stubHead",
+  /** Description */
   Description = "description"
 }
 
@@ -596,18 +721,32 @@ export type DocumentTableCellKind = string;
 
 /** Known values of {@link DocumentFieldType} that the service accepts. */
 export enum KnownDocumentFieldType {
+  /** String */
   String = "string",
+  /** Date */
   Date = "date",
+  /** Time */
   Time = "time",
+  /** PhoneNumber */
   PhoneNumber = "phoneNumber",
+  /** Number */
   Number = "number",
+  /** Integer */
   Integer = "integer",
+  /** SelectionMark */
   SelectionMark = "selectionMark",
+  /** CountryRegion */
   CountryRegion = "countryRegion",
+  /** Signature */
   Signature = "signature",
+  /** Array */
   Array = "array",
+  /** Object */
   Object = "object",
-  Currency = "currency"
+  /** Currency */
+  Currency = "currency",
+  /** Address */
+  Address = "address"
 }
 
 /**
@@ -626,13 +765,16 @@ export enum KnownDocumentFieldType {
  * **signature** \
  * **array** \
  * **object** \
- * **currency**
+ * **currency** \
+ * **address**
  */
 export type DocumentFieldType = string;
 
 /** Known values of {@link DocumentSignatureType} that the service accepts. */
 export enum KnownDocumentSignatureType {
+  /** Signed */
   Signed = "signed",
+  /** Unsigned */
   Unsigned = "unsigned"
 }
 
@@ -648,7 +790,9 @@ export type DocumentSignatureType = string;
 
 /** Known values of {@link DocumentBuildMode} that the service accepts. */
 export enum KnownDocumentBuildMode {
+  /** Template */
   Template = "template",
+  /** Neural */
   Neural = "neural"
 }
 
@@ -664,8 +808,11 @@ export type DocumentBuildMode = string;
 
 /** Known values of {@link OperationKind} that the service accepts. */
 export enum KnownOperationKind {
+  /** DocumentModelBuild */
   DocumentModelBuild = "documentModelBuild",
+  /** DocumentModelCompose */
   DocumentModelCompose = "documentModelCompose",
+  /** DocumentModelCopyTo */
   DocumentModelCopyTo = "documentModelCopyTo"
 }
 
@@ -683,7 +830,11 @@ export type OperationKind = string;
 export type ContentType =
   | "application/octet-stream"
   | "application/pdf"
+  | "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+  | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  | "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   | "image/bmp"
+  | "image/heif"
   | "image/jpeg"
   | "image/png"
   | "image/tiff";
@@ -706,6 +857,17 @@ export interface AnalyzeDocument$binaryOptionalParams
   extends coreClient.OperationOptions {
   /** Analyze request parameters. */
   analyzeRequest?: coreRestPipeline.RequestBodyType;
+  /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
+  pages?: string;
+  /** Locale hint for text recognition and document analysis.  Value may contain only the language code (ex. "en", "fr") or BCP 47 language tag (ex. "en-US"). */
+  locale?: string;
+}
+
+/** Optional parameters. */
+export interface AnalyzeDocument$textOptionalParams
+  extends coreClient.OperationOptions {
+  /** Analyze request parameters. */
+  analyzeRequest?: string;
   /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
   pages?: string;
   /** Locale hint for text recognition and document analysis.  Value may contain only the language code (ex. "en", "fr") or BCP 47 language tag (ex. "en-US"). */

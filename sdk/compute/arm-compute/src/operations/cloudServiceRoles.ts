@@ -38,8 +38,8 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
   /**
    * Gets a list of all roles in a cloud service. Use nextLink property in the response to get the next
    * page of roles. Do this till nextLink is null to fetch all the roles.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   public list(
@@ -106,8 +106,8 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
   /**
    * Gets a role from a cloud service.
    * @param roleName Name of the role.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   get(
@@ -125,8 +125,8 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
   /**
    * Gets a list of all roles in a cloud service. Use nextLink property in the response to get the next
    * page of roles. Do this till nextLink is null to fetch all the roles.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   private _list(
@@ -142,8 +142,8 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
 
   /**
    * ListNext
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -177,8 +177,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.roleName
   ],
@@ -200,8 +200,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -221,9 +221,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],

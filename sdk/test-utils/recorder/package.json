@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-recorder",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "sdk-type": "utility",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "dist/index.js",
@@ -9,6 +9,7 @@
   "browser": {
     "./dist-esm/src/utils/relativePathCalculator.js": "./dist-esm/src/utils/relativePathCalculator.browser.js",
     "./dist-esm/src/utils/env.js": "./dist-esm/src/utils/env.browser.js",
+    "./dist-esm/src/utils/encoding.js": "./dist-esm/src/utils/encoding.browser.js",
     "./dist-esm/test/utils/server.js": "./dist-esm/test/utils/server.browser.js"
   },
   "scripts": {
@@ -67,7 +68,8 @@
     "@azure/core-http": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-auth": "^1.3.2",
-    "@azure/core-util": "^1.0.0"
+    "@azure/core-util": "^1.0.0",
+    "@azure/logger": "^1.0.0"
   },
   "devDependencies": {
     "@azure/core-client": "^1.0.0",
