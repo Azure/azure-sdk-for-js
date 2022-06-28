@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the status of a cloud service.
  *
  * @summary Gets the status of a cloud service.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-03-01/examples/GetCloudServiceInstanceViewWithMultiRole.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Get_InstanceViewWithMultiRole.json
  */
 async function getCloudServiceInstanceViewWithMultipleRoles() {
   const subscriptionId = "{subscription-id}";

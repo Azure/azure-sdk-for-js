@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  *
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-03-01/examples/CreateCloudServiceWithMultiRole.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithMultiRole.json
  */
 async function createNewCloudServiceWithMultipleRoles() {
   const subscriptionId = "{subscription-id}";
@@ -77,7 +77,7 @@ createNewCloudServiceWithMultipleRoles().catch(console.error);
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  *
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-03-01/examples/CreateCloudServiceWithSingleRole.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRole.json
  */
 async function createNewCloudServiceWithSingleRole() {
   const subscriptionId = "{subscription-id}";
@@ -135,7 +135,7 @@ createNewCloudServiceWithSingleRole().catch(console.error);
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  *
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-03-01/examples/CreateCloudServiceWithSingleRoleAndCertificate.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRoleAndCertificate.json
  */
 async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
   const subscriptionId = "{subscription-id}";
@@ -208,7 +208,7 @@ createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault().catch(console.er
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  *
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-03-01/examples/CreateCloudServiceWithSingleRoleAndRDP.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRoleAndRDP.json
  */
 async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
   const subscriptionId = "{subscription-id}";
@@ -229,7 +229,7 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
               publisher: "Microsoft.Windows.Azure.Extensions",
               settings:
                 "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>",
-              typeHandlerVersion: "1.2.1",
+              typeHandlerVersion: "1.2",
             },
           },
         ],

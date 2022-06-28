@@ -1,30 +1,6 @@
 {
  "recordings": [
   {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1325",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:30 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - SCUS ProdSlices",
-    "x-ms-request-id": "f0f9d77a-d74a-4c90-8c91-5ae5f12f7701"
-   }
-  },
-  {
    "method": "DELETE",
    "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
@@ -36,9 +12,10 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:31 GMT",
+    "date": "Sun, 26 Jun 2022 20:27:49 GMT",
+    "mise-correlation-id": "0dd5ac88-5cf8-41cf-b8da-7d92741e2b72",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-7c7f36d0190a6948905e46f768999aa1-35112ca3e0956e4d-01"
+    "traceresponse": "00-7108592f49d6866ba5309b915e877ebf-f74f06c3598f014f-01"
    }
   },
   {
@@ -53,9 +30,28 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:31 GMT",
+    "date": "Sun, 26 Jun 2022 20:27:49 GMT",
+    "mise-correlation-id": "0650d2a3-f1fd-4d3b-a7f0-5ddd65f5dc76",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-6adfb5aafba81b43b57fa52b0978da08-6df111fdf6d49d45-01"
+    "traceresponse": "00-2b4e951cdffd099e21f87b216c4eb542-629a15e5c78f5553-01"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models",
+   "query": {
+    "api-version": "2020-10-31"
+   },
+   "requestBody": "[]",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Operation failed as models provided was empty or of a type that is not supported.. Check that your Model Array contains at least one item and it is of a supported type. See link(https://aka.ms/ADTv2Models) for details.\"}}",
+   "responseHeaders": {
+    "content-length": "267",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sun, 26 Jun 2022 20:27:49 GMT",
+    "mise-correlation-id": "47aecffc-c09c-45c6-9516-ccabe664c553",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-4a4d6db953dd78d431cf27592b083f5f-91d328ccd5c3a74f-01"
    }
   }
  ],
@@ -63,5 +59,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "dc7dcd2f29b8d580f2535bdeec19b7dc"
+ "hash": "7f4217de94bef5b1ea96a2a96907ea38"
 }
