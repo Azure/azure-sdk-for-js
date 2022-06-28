@@ -19,6 +19,8 @@ export function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
       rootName: opts.rootName ?? "",
       includeRoot: opts.includeRoot ?? false,
       xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY,
+      cdataPropName:  opts.cdataPropName ?? "__cdata",
+      stopNodes: opts.stopNodes ?? [],
     };
     const dom = parser.parseFromString(str, "application/xml");
     throwIfError(dom);
@@ -134,6 +136,8 @@ export function stringifyXML(content: unknown, opts: XmlOptions = {}): string {
     rootName: opts.rootName ?? "root",
     includeRoot: opts.includeRoot ?? false,
     xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY,
+    cdataPropName:  opts.cdataPropName ?? "__cdata",
+    stopNodes: opts.stopNodes ?? [],
   };
   const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
   return (
