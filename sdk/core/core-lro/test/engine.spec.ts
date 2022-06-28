@@ -502,7 +502,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "POST",
-                path: `/LROPostDoubleHeadersFinalLocationGet`,
                 status: 202,
                 headers: {
                   Location: resourceLocationPath,
@@ -534,7 +533,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "GET",
-                path: `/LROPostDoubleHeadersFinalLocationGet`,
                 status: 202,
                 headers: {
                   Location: resourceLocationPath,
@@ -571,7 +569,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "GET",
-                path: `/LROPostDoubleHeadersFinalLocationGet`,
                 status: 202,
                 headers: {
                   [headerName]: operationLocationPath,
@@ -600,7 +597,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "GET",
-                path: `/LROPostDoubleHeadersFinalLocationGet`,
                 status: 200,
                 body: `{ "id": "100", "name": "foo" }`,
               },
@@ -617,7 +613,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "POST",
-                path: `/LROPostDoubleHeadersFinalAzureHeaderGet`,
                 status: 202,
                 body: "",
                 headers: {
@@ -650,7 +645,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "POST",
-                path: `/LROPostDoubleHeadersFinalAzureHeaderGetDefault`,
                 status: 202,
                 body: "",
                 headers: {
@@ -682,7 +676,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "DELETE",
-                path: `/delete/retry/succeeded`,
                 status: 202,
                 headers: {
                   location: pollingPath,
@@ -718,7 +711,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "DELETE",
-                path: `/delete/noretry/succeeded`,
                 status: 202,
                 headers: {
                   location: pollingPath,
@@ -753,7 +745,6 @@ describe("Lro Engine", function () {
               routes: [
                 {
                   method: "DELETE",
-                  path: `/delete/retry/canceled`,
                   status: 202,
                   headers: {
                     location: pollingPath,
@@ -788,7 +779,6 @@ describe("Lro Engine", function () {
               routes: [
                 {
                   method: "DELETE",
-                  path: `/delete/retry/failed`,
                   status: 202,
                   headers: {
                     location: pollingPath,
@@ -872,7 +862,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "POST",
-                path: `/list`,
                 status: 200,
                 headers: {
                   Location: resourceLocationPath,
@@ -904,7 +893,6 @@ describe("Lro Engine", function () {
               routes: [
                 {
                   method: "PUT",
-                  path: `/put/retry/failed`,
                   status: 200,
                   body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
                   headers: {
@@ -983,7 +971,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "PATCH",
-                path: `/patch/202/200`,
                 status: 202,
                 headers: {
                   Location: resourceLocationPath,
@@ -1107,7 +1094,6 @@ describe("Lro Engine", function () {
               routes: [
                 {
                   method: "PUT",
-                  path: `/put/noretry/canceled`,
                   status: 200,
                   headers: {
                     location: pollingPath,
@@ -1188,7 +1174,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "DELETE",
-                path: `/delete/noheader/202/204`,
                 status: 202,
                 headers: {
                   Location: `somethingBadWhichShouldNotBeUsed`,
@@ -1219,7 +1204,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "POST",
-                path: `/post/noretry/succeeded`,
                 status: 202,
                 headers: {
                   location: locationPath,
@@ -1261,7 +1245,6 @@ describe("Lro Engine", function () {
               routes: [
                 {
                   method: "POST",
-                  path: `/post/retry/failed`,
                   status: 202,
                   headers: {
                     location: "/postlocation/retry/succeeded/operationResults/foo/200/",
@@ -1291,7 +1274,6 @@ describe("Lro Engine", function () {
             routes: [
               {
                 method: "POST",
-                path: `/post/retry/succeeded`,
                 status: 202,
                 headers: {
                   location: locationPath,
@@ -1335,7 +1317,6 @@ describe("Lro Engine", function () {
               routes: [
                 {
                   method: "POST",
-                  path: `/post/retry/canceled`,
                   status: 202,
                   headers: {
                     location: "/postasync/retry/succeeded/operationResults/foo/200/",
@@ -2035,7 +2016,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "POST",
-            path: `/post/noretry/succeeded`,
             status: 202,
             headers: {
               location: locationPath,
@@ -2089,7 +2069,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "POST",
-            path: `/LROPostDoubleHeadersFinalAzureHeaderGetDefault`,
             status: 202,
             body: "",
             headers: {
@@ -2139,7 +2118,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "POST",
-            path: `/LROPostDoubleHeadersFinalAzureHeaderGetDefault`,
             status: 202,
             body: "",
             headers: {
@@ -2179,7 +2157,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "POST",
-            path: `/LROPostDoubleHeadersFinalAzureHeaderGetDefault`,
             status: 202,
             body: "",
             headers: {
