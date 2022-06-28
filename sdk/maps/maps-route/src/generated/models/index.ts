@@ -26,9 +26,9 @@ export type GeoJsonGeometryUnion =
 /** An object with a matrix of coordinates. */
 export interface RouteMatrixQuery {
   /** A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details. */
-  origins?: GeoJsonMultiPoint;
+  origins: GeoJsonMultiPoint;
   /** A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details. */
-  destinations?: GeoJsonMultiPoint;
+  destinations: GeoJsonMultiPoint;
 }
 
 /** A valid `GeoJSON` object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3) for details. */
@@ -64,12 +64,12 @@ export interface RouteMatrixResult {
    * Results as a 2 dimensional array of route summaries.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly matrix?: RouteMatrix[][];
+  readonly matrix: RouteMatrix[][];
   /**
    * Summary object
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly summary?: RouteMatrixSummary;
+  readonly summary: RouteMatrixSummary;
 }
 
 /** Matrix result object */
@@ -78,7 +78,7 @@ export interface RouteMatrix {
    * StatusCode property for the current cell in the input matrix.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly statusCode?: number;
+  readonly statusCode: number;
   /**
    * Summary object for route section.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -146,12 +146,12 @@ export interface RouteMatrixSummary {
    * Number of successful routes in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly successfulRoutes?: number;
+  readonly successfulRoutes: number;
   /**
    * Total number of routes requested. Number of cells in the input matrix.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly totalRoutes?: number;
+  readonly totalRoutes: number;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -172,35 +172,6 @@ export interface ErrorDetail {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
 }
 
 /** This object is returned from a successful Route Directions call */
@@ -552,7 +523,7 @@ export interface RouteReport {
    * Effective parameters or data used when calling this Route API.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly effectiveSettings?: EffectiveSetting[];
+  readonly effectiveSettings: EffectiveSetting[];
 }
 
 /** Effective parameter or data used when calling this Route API. */
@@ -561,12 +532,12 @@ export interface EffectiveSetting {
    * Name of the parameter used.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly key?: string;
+  readonly key: string;
   /**
    * Value of the parameter used.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: string;
+  readonly value: string;
 }
 
 /** Post body parameters for Route directions. */
@@ -603,7 +574,7 @@ export interface RouteRangeResult {
    */
   readonly formatVersion?: string;
   /** Reachable Range */
-  reachableRange?: RouteRange;
+  reachableRange: RouteRange;
   /** Reports the effective settings used in the current call. */
   report?: RouteReport;
 }
@@ -611,12 +582,12 @@ export interface RouteRangeResult {
 /** Reachable Range */
 export interface RouteRange {
   /** Center point of the reachable range */
-  center?: LatLongPair;
+  center: LatLongPair;
   /**
    * Polygon boundary of the reachable range represented as a list of points.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly boundary?: LatLongPair[];
+  readonly boundary: LatLongPair[];
 }
 
 /** This type represents the request body for the Batch service. */
