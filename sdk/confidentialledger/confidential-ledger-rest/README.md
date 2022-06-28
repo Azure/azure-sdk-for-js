@@ -49,7 +49,7 @@ Because Confidential Ledgers use self-signed certificates securely generated and
 ```typescript
 import ConfidentialLedger, { getLedgerIdentity } from "../../src";
 
-const { ledgerTlsCertificate } = await getLedgerIdentity(
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
       // for example, test-ledger-name
       LEDGER_IDENTITY,
       // for example, https://identity.confidential-ledger.core.azure.com
@@ -58,7 +58,7 @@ const { ledgerTlsCertificate } = await getLedgerIdentity(
     const credential = new DefaultAzureCredential();
 
     // ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
-    const ledgerClient = ConfidentialLedger(ENDPOINT, ledgerTlsCertificate, credential);
+    const ledgerClient = ConfidentialLedger(ENDPOINT, ledgerIdentityCertificate, credential);
 ```
 
 #### Using a client certificate
@@ -69,7 +69,7 @@ As an alternative to Azure Active Directory, clients may choose to authenticate 
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 
 // Get the signing certificate from the Confidential Ledger Identity Service
-const { ledgerTlsCertificate } = await getLedgerIdentity(
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
       LEDGER_IDENTITY,
       IDENTITY_SERVICE_URL
     );
@@ -78,7 +78,7 @@ const { ledgerTlsCertificate } = await getLedgerIdentity(
     const key = PRIVATE_KEY;
     // Create the Confidential Ledger Client
     // ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
-    const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, {
+    const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, {
       tlsOptions: {
         cert,
         key,
@@ -135,7 +135,7 @@ export async function main() {
   // Create the Confidential Ledger Client
   const confidentialLedger = ConfidentialLedger(
     "https://<ledger-name>.eastus.cloudapp.azure.com",
-    ledgerIdentity.ledgerTlsCertificate,
+    ledgerIdentity.ledgerIdentityCertificate,
     new DefaultAzureCredential()
   );
 

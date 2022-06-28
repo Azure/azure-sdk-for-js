@@ -20,8 +20,6 @@ describe("Get user", () => {
     await recorder.stop();
   });
 
-  // TODO: add subLedgerIds test
-
   it("should obtain user data", async function () {
     // if the ledger in the .env changes, so should this
     const userId = env.USER_ID;

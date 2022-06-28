@@ -26,10 +26,10 @@ export interface CollectionsOutput {
 }
 
 // @public (undocumented)
-function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, options?: ClientOptions): ConfidentialLedgerClient;
+function ConfidentialLedger(ledgerBaseUrl: string, ledgerIdentityCertificate: string, options?: ClientOptions): ConfidentialLedgerClient;
 
 // @public (undocumented)
-function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, credentials: TokenCredential, options?: ClientOptions): ConfidentialLedgerClient;
+function ConfidentialLedger(ledgerBaseUrl: string, ledgerIdentityCertificate: string, credentials: TokenCredential, options?: ClientOptions): ConfidentialLedgerClient;
 export default ConfidentialLedger;
 
 // @public (undocumented)
@@ -416,7 +416,7 @@ export interface LedgerIdentity {
     // (undocumented)
     ledgerId: string;
     // (undocumented)
-    ledgerTlsCertificate: string;
+    ledgerIdentityCertificate: string;
 }
 
 // @public (undocumented)

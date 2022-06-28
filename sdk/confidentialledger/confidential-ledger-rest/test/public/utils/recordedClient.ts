@@ -54,12 +54,12 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
   );
 
   // const credential = new DefaultAzureCredential({ httpClient });
-  const { ledgerTlsCertificate } = await getLedgerIdentity(
+  const { ledgerIdentityCertificate } = await getLedgerIdentity(
     env.LEDGER_IDENTITY,
     env.IDENTITY_SERVICE_URL
   );
-  
-  return ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, clientCredential, { httpClient });
+
+  return ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, clientCredential, { httpClient });
 }
 
 /**
