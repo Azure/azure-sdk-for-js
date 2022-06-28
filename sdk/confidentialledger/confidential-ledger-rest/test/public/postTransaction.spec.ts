@@ -2,10 +2,8 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-  GetTransactionStatus200Response,
   isUnexpected,
   LedgerEntry,
-  PostLedgerEntry200Response,
   PostLedgerEntryParameters,
   // PostLedgerEntryQueryParamProperties,
 } from "../../src";

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, GetUser200Response, isUnexpected } from "../../src";
+import { ConfidentialLedgerClient, isUnexpected } from "../../src";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient";
 

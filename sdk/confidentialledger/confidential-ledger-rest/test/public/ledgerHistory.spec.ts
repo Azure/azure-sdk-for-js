@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, GetCurrentLedgerEntry200Response } from "../../src";
+import { ConfidentialLedgerClient, isUnexpected } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -29,11 +29,12 @@ describe("Get ledger history", () => {
 
     assert.equal(result.status, "200");
 
-    const currentTransaction: GetCurrentLedgerEntry200Response =
-      currentTransactionsResult as GetCurrentLedgerEntry200Response;
+    if (isUnexpected(currentTransactionsResult)) {
+      throw result.body;
+    }
 
-    assert.typeOf(currentTransaction.body.contents, "string");
-    assert.typeOf(currentTransaction.body.collectionId, "string");
-    assert.typeOf(currentTransaction.body.transactionId, "string");
+    assert.typeOf(currentTransactionsResult.body.contents, "string");
+    assert.typeOf(currentTransactionsResult.body.collectionId, "string");
+    assert.typeOf(currentTransactionsResult.body.transactionId, "string");
   });
 });

@@ -4,9 +4,7 @@ import {
   ConfidentialLedgerClient,
   isUnexpected,
   LedgerEntry,
-  ListLedgerEntries200Response,
   paginate,
-  PostLedgerEntry200Response,
   PostLedgerEntryParameters,
 } from "../../src";
 

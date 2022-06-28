@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-  GetConsortiumMembers200Response,
-  GetEnclaveQuotes200Response,
   isUnexpected,
 } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";

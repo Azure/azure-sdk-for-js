@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, GetEnclaveQuotes200Response, isUnexpected } from "../../src";
+import { ConfidentialLedgerClient, isUnexpected } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
