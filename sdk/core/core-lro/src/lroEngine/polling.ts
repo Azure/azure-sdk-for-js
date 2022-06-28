@@ -47,7 +47,7 @@ export function createGetLroStatusFromResponse<
   const { lro, state, lroResourceLocationConfig, resourceLocation } = inputs;
   return (response: LroResponse<TResult>): LroStatus<TResult> => {
     const status = getStatus(response.rawResponse);
-    const terminalStatus =
+    const isTerminalStatus =
       isCanceled({
         state,
         status,
@@ -59,9 +59,9 @@ export function createGetLroStatusFromResponse<
     return {
       ...response,
       done:
-        terminalStatus &&
+        isTerminalStatus &&
         (!resourceLocation || lroResourceLocationConfig === "azure-async-operation"),
-      next: !(terminalStatus && resourceLocation)
+      next: !(isTerminalStatus && resourceLocation)
         ? undefined
         : () =>
             sendFinalRequest({
