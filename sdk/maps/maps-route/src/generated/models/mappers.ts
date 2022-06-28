@@ -103,6 +103,7 @@ export const RouteMatrixResult: coreClient.CompositeMapper = {
       },
       matrix: {
         serializedName: "matrix",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -137,6 +138,7 @@ export const RouteMatrix: coreClient.CompositeMapper = {
     modelProperties: {
       statusCode: {
         serializedName: "statusCode",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -239,6 +241,7 @@ export const RouteMatrixSummary: coreClient.CompositeMapper = {
     modelProperties: {
       successfulRoutes: {
         serializedName: "successfulRoutes",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -246,6 +249,7 @@ export const RouteMatrixSummary: coreClient.CompositeMapper = {
       },
       totalRoutes: {
         serializedName: "totalRoutes",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -288,63 +292,6 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        serializedName: "info",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
         }
       }
     }
@@ -919,6 +866,7 @@ export const RouteReport: coreClient.CompositeMapper = {
     modelProperties: {
       effectiveSettings: {
         serializedName: "effectiveSettings",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -941,6 +889,7 @@ export const EffectiveSetting: coreClient.CompositeMapper = {
     modelProperties: {
       key: {
         serializedName: "key",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -948,6 +897,7 @@ export const EffectiveSetting: coreClient.CompositeMapper = {
       },
       value: {
         serializedName: "value",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -1082,6 +1032,7 @@ export const RouteRange: coreClient.CompositeMapper = {
       },
       boundary: {
         serializedName: "boundary",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
