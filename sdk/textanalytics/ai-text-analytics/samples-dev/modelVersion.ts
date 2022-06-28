@@ -41,7 +41,7 @@ export async function main() {
     onResponse: (_rawResponse, flatResponse) => {
       const modelVersion = (flatResponse as any).results.modelVersion;
       console.log(
-        `The result of the sentiment analysis was computed using model version: ${modelVersion} `
+        `The result of the sentiment analysis was computed using model version: ${modelVersion}`
       );
     },
   });

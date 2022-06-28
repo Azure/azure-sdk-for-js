@@ -18,10 +18,15 @@ export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "
 
 // @public
 export class BlobChangeFeedClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions, changeFeedClientOptions?: BlobChangeFeedClientOptions);
     constructor(url: string, pipeline: Pipeline);
-    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobChangeFeedClient;
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions, changeFeedClientOptions?: BlobChangeFeedClientOptions): BlobChangeFeedClient;
     listChanges(options?: BlobChangeFeedListChangesOptions): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage>;
+}
+
+// @public
+export interface BlobChangeFeedClientOptions {
+    maximumTransferSize?: number;
 }
 
 // @public

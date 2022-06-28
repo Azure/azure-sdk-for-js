@@ -49,8 +49,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Gets the list of all role instances in a cloud service. Use nextLink property in the response to get
    * the next page of role instances. Do this till nextLink is null to fetch all the role instances.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   public list(
@@ -117,8 +117,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Deletes a role instance from a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -182,8 +182,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Deletes a role instance from a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -204,8 +204,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Gets a role instance from a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   get(
@@ -223,8 +223,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Retrieves information about the run-time state of a role instance in a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   getInstanceView(
@@ -242,8 +242,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Gets the list of all role instances in a cloud service. Use nextLink property in the response to get
    * the next page of role instances. Do this till nextLink is null to fetch all the role instances.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   private _list(
@@ -261,8 +261,8 @@ export class CloudServiceRoleInstancesImpl
    * The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud
    * service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginRestart(
@@ -327,8 +327,8 @@ export class CloudServiceRoleInstancesImpl
    * The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud
    * service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginRestartAndWait(
@@ -350,8 +350,8 @@ export class CloudServiceRoleInstancesImpl
    * The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web
    * roles or worker roles.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginReimage(
@@ -416,8 +416,8 @@ export class CloudServiceRoleInstancesImpl
    * The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web
    * roles or worker roles.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginReimageAndWait(
@@ -440,8 +440,8 @@ export class CloudServiceRoleInstancesImpl
    * roles or worker roles and initializes the storage resources that are used by them. If you do not
    * want to initialize storage resources, you can use Reimage Role Instance.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginRebuild(
@@ -507,8 +507,8 @@ export class CloudServiceRoleInstancesImpl
    * roles or worker roles and initializes the storage resources that are used by them. If you do not
    * want to initialize storage resources, you can use Reimage Role Instance.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginRebuildAndWait(
@@ -529,8 +529,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Gets a remote desktop file for a role instance in a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   getRemoteDesktopFile(
@@ -547,8 +547,8 @@ export class CloudServiceRoleInstancesImpl
 
   /**
    * ListNext
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -583,8 +583,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -603,11 +603,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.expand1, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -629,8 +629,8 @@ const getInstanceViewOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -649,11 +649,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.expand1, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -675,8 +675,8 @@ const restartOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -699,8 +699,8 @@ const reimageOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -723,8 +723,8 @@ const rebuildOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -744,8 +744,8 @@ const getRemoteDesktopFileOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -763,12 +763,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.expand1, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],

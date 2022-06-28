@@ -1,0 +1,60 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Communication/communicationServices?api-version=2021-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-communication/4.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v12.22.9 OS/(x64-Darwin-21.5.0)",
+        "x-ms-client-request-id": "1f54e6f7-209d-4459-8354-51ace42bd3e9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Jun 2022 01:58:05 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5146a100-7c7b-4172-b028-12c05522c955",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11967",
+        "x-ms-request-id": "330c466a-265c-4599-af49-bcf49409cd56",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220609T015806Z:5146a100-7c7b-4172-b028-12c05522c955"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Communication/communicationServices/mycommunicationServicexxx",
+            "name": "mycommunicationServicexxx",
+            "type": "microsoft.communication/communicationservices",
+            "location": "global",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2022-06-09T01:56:49.0244165Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2022-06-09T01:56:49.0244165Z"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "hostName": "mycommunicationservicexxx.communication.azure.com",
+              "immutableResourceId": "be23b2a4-1874-4eda-9287-3d335c80d0ec",
+              "dataLocation": "UnitedStates"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,16 +1,30 @@
 # Release History
 
-## 4.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-- Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775) 
+## 4.0.0-beta.5 (2022-06-22)
 
 ### Bugs Fixed
 
-### Other Changes
+- Reworked a lookbehind regular expression that was preventing `@azure/ai-form-recognizer` from loading in Safari.
+
+## 4.0.0-beta.4 (2022-06-07)
+
+### Features Added
+
+- Updated the SDK to use the latest preview version of the Form Recognizer service: `2022-06-30-preview`.
+- Added a `paragraphs` property to the `AnalyzeResult` type and a new `DocumentParagraph` type. This property represents the paragraph structure of the input document's text.
+- Documents may now contain a `DocumentAddressField` type, which has an object with several fields related to physical addresses, such as `streetAddress`, `city`, and `state` as its value. This field is identified by the value `"address"` in the `kind` field.
+- Added a `kind` field to `DocumentPage`. For now, the only supported value of this field is `"document"`. In the future, other page kinds may be added, indicating different dispositions of the extracted page elements.
+
+### Breaking Changes
+
+- [**DEPRECATION**] Deprecated `PrebuiltModels`. In a future version (prior to a stable release), `PrebuiltModels` and its fields will be replaced with an out-of-tree solution for obtaining strongly-typed analysis results.
+- [**DEPRECATION**] Deprecated `beginExtractLayout`, `beginExtractGeneralDocument`, and `beginReadDocument`. In a future version (prior to a stable release), these methods will be removed, and `beginAnalyzeDocument` will be enhanced to provide the same restricted types.
+- Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775)
+- Renamed `BoundingRegion#boundingBox` to `BoundingRegion#polygon`, as the service may now provide arbitrary, polygonal bounding areas rather than just rectangles.
+  - The polygon is represented as an array of `Point2D`, clockwise from the left, -180 degrees inclusive.
+- Removed the `entities` property from the `AnalyzeResult` type. This field may be reintroduced in a future version, but service API version `2022-06-30-preview` no longer returns this field.
+- Renamed the `languageCode` property in the `DocumentLanguage` type to `locale`.
+- Made the `angle`, `height`, `lines`, `unit`, `width`, and `words` properties of `DocumentPage` optional, as not all page kinds are guaranteed to support these fields.
 
 ## 4.0.0-beta.3 (2022-02-10)
 

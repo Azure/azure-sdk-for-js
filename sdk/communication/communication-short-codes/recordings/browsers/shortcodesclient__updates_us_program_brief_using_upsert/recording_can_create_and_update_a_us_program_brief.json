@@ -1,50 +1,480 @@
 {
- "recordings": [
-  {
-   "method": "PATCH",
-   "url": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000",
-   "query": {
-    "api-version": "2021-10-25-preview"
-   },
-   "requestBody": "{\"id\":\"00000000-0000-0000-0000-000000000000\",\"programDetails\":{\"isVanity\":false,\"numberType\":\"shortCode\",\"isPoliticalCampaign\":false,\"name\":\"Contoso Loyalty Program\",\"description\":\"TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.\",\"url\":\"https://endpoint/loyalty-program\",\"signUpTypes\":[\"sms\",\"website\"],\"signUpUrl\":\"https://contoso.com/sign-up\",\"termsOfServiceUrl\":\"https://contoso.com/terms\",\"privacyPolicyUrl\":\"https://contoso.com/privacy\"},\"companyInformation\":{\"name\":\"Contoso\",\"url\":\"https://contoso.com\",\"address\":\"1 Contoso Way Redmond, WA 98052\",\"contactInformation\":{\"name\":\"Alex\",\"phone\":\"+14255551234\",\"email\":\"alex@contoso.com\"},\"customerCareInformation\":{\"tollFreeNumber\":\"+18005551234\",\"email\":\"customercare@contoso.com\"}},\"messageDetails\":{\"supportedProtocols\":[\"sms\"],\"recurrence\":\"subscription\",\"helpMessage\":\"Send 'Stop' to unsubscribe, send 'Start' to resubscribe.\",\"optOutMessage\":\"You've been unsubscribed from these messages.  Send 'Start' if you want to resubscribe.\",\"optInMessage\":\"Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'\",\"optInReply\":\"JOIN\",\"confirmationMessage\":\"Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!\",\"directionality\":\"twoWay\",\"useCases\":[{\"contentCategory\":\"coupons\",\"examples\":[{\"messages\":[{\"direction\":\"fromUser\",\"text\":\"txtMessage\"}]}]},{\"contentCategory\":\"loyaltyProgram\",\"examples\":[{\"messages\":[{\"direction\":\"toUser\",\"text\":\"txtMessage\"}]}]},{\"contentCategory\":\"loyaltyProgramPointsPrizes\",\"examples\":[{\"messages\":[{\"direction\":\"toUser\",\"text\":\"txtMessage\"}]}]}]},\"trafficDetails\":{\"totalMonthlyVolume\":10000,\"monthlyAverageMessagesFromUser\":1,\"monthlyAverageMessagesToUser\":3,\"isSpiky\":true,\"spikeDetails\":\"Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.\",\"estimatedRampUpTimeInDays\":0}}",
-   "status": 201,
-   "response": "{\"id\":\"00000000-0000-0000-0000-000000000000\",\"status\":\"draft\",\"costs\":[{\"amount\":650.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"once\"},{\"amount\":1000.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}],\"statusUpdatedDate\":\"2022-04-11T19:07:58+00:00\",\"programDetails\":{\"isVanity\":false,\"numberType\":\"shortCode\",\"isPoliticalCampaign\":false,\"name\":\"Contoso Loyalty Program\",\"description\":\"TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.\",\"url\":\"https://endpoint/loyalty-program\",\"signUpTypes\":[\"sms\",\"website\"],\"signUpUrl\":\"https://contoso.com/sign-up\",\"termsOfServiceUrl\":\"https://contoso.com/terms\",\"privacyPolicyUrl\":\"https://contoso.com/privacy\"},\"companyInformation\":{\"name\":\"Contoso\",\"url\":\"https://contoso.com\",\"address\":\"1 Contoso Way Redmond, WA 98052\",\"contactInformation\":{\"name\":\"Alex\",\"phone\":\"+14255551234\",\"email\":\"alex@contoso.com\"},\"customerCareInformation\":{\"tollFreeNumber\":\"+18005551234\",\"email\":\"customercare@contoso.com\"}},\"messageDetails\":{\"supportedProtocols\":[\"sms\"],\"recurrence\":\"subscription\",\"helpMessage\":\"Send 'Stop' to unsubscribe, send 'Start' to resubscribe.\",\"optOutMessage\":\"You've been unsubscribed from these messages.  Send 'Start' if you want to resubscribe.\",\"optInMessage\":\"Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'\",\"optInReply\":\"JOIN\",\"confirmationMessage\":\"Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!\",\"directionality\":\"twoWay\",\"useCases\":[{\"contentCategory\":\"coupons\",\"examples\":[{\"messages\":[{\"direction\":\"fromUser\",\"text\":\"txtMessage\"}]}]},{\"contentCategory\":\"loyaltyProgram\",\"examples\":[{\"messages\":[{\"direction\":\"toUser\",\"text\":\"txtMessage\"}]}]},{\"contentCategory\":\"loyaltyProgramPointsPrizes\",\"examples\":[{\"messages\":[{\"direction\":\"toUser\",\"text\":\"txtMessage\"}]}]}]},\"trafficDetails\":{\"totalMonthlyVolume\":10000,\"monthlyAverageMessagesFromUser\":1,\"monthlyAverageMessagesToUser\":3,\"isSpiky\":true,\"spikeDetails\":\"Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.\",\"estimatedRampUpTimeInDays\":0}}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-10-25-preview",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 11 Apr 2022 19:07:58 GMT",
-    "location": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000",
-    "ms-cv": "Ki88mBHDfUqYraMMU1I7mQ.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0jHxUYgAAAABwoxBlFGfLTIsn+N7FuS2qTUVYMzBFREdFMDQxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1882ms"
-   }
-  },
-  {
-   "method": "PATCH",
-   "url": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000",
-   "query": {
-    "api-version": "2021-10-25-preview"
-   },
-   "requestBody": "{\"id\":\"00000000-0000-0000-0000-000000000000\",\"programDetails\":{\"isVanity\":false,\"numberType\":\"shortCode\",\"isPoliticalCampaign\":false,\"name\":\"Contoso Loyalty Program\",\"description\":\"TEST UPDATE\",\"url\":\"https://endpoint/loyalty-program\",\"signUpTypes\":[\"sms\",\"website\"],\"signUpUrl\":\"https://contoso.com/sign-up\",\"termsOfServiceUrl\":\"https://contoso.com/terms\",\"privacyPolicyUrl\":\"https://contoso.com/privacy\"},\"companyInformation\":{\"name\":\"Contoso\",\"url\":\"https://contoso.com\",\"address\":\"1 Contoso Way Redmond, WA 98052\",\"contactInformation\":{\"name\":\"Alex\",\"phone\":\"+14255551234\",\"email\":\"alex@contoso.com\"},\"customerCareInformation\":{\"tollFreeNumber\":\"+18005551234\",\"email\":\"customercare@contoso.com\"}},\"messageDetails\":{\"supportedProtocols\":[\"sms\"],\"recurrence\":\"subscription\",\"helpMessage\":\"Send 'Stop' to unsubscribe, send 'Start' to resubscribe.\",\"optOutMessage\":\"You've been unsubscribed from these messages.  Send 'Start' if you want to resubscribe.\",\"optInMessage\":\"Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'\",\"optInReply\":\"JOIN\",\"confirmationMessage\":\"Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!\",\"directionality\":\"twoWay\",\"useCases\":[{\"contentCategory\":\"coupons\",\"examples\":[{\"messages\":[{\"direction\":\"fromUser\",\"text\":\"txtMessage\"}]}]},{\"contentCategory\":\"loyaltyProgram\",\"examples\":[{\"messages\":[{\"direction\":\"toUser\",\"text\":\"txtMessage\"}]}]},{\"contentCategory\":\"loyaltyProgramPointsPrizes\",\"examples\":[{\"messages\":[{\"direction\":\"toUser\",\"text\":\"txtMessage\"}]}]}]},\"trafficDetails\":{\"totalMonthlyVolume\":10000,\"monthlyAverageMessagesFromUser\":1,\"monthlyAverageMessagesToUser\":3,\"isSpiky\":true,\"spikeDetails\":\"Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.\",\"estimatedRampUpTimeInDays\":0}}",
-   "status": 200,
-   "response": "{\"id\":\"00000000-0000-0000-0000-000000000000\",\"status\":\"draft\",\"costs\":[{\"amount\":650.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"once\"},{\"amount\":1000.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}],\"statusUpdatedDate\":\"2022-04-11T19:07:58+00:00\",\"programDetails\":{\"isVanity\":false,\"numberType\":\"shortCode\",\"isPoliticalCampaign\":false,\"name\":\"Contoso Loyalty Program\",\"description\":\"TEST UPDATE\",\"url\":\"https://endpoint/loyalty-program\",\"signUpTypes\":[\"sms\",\"website\"],\"signUpUrl\":\"https://contoso.com/sign-up\",\"termsOfServiceUrl\":\"https://contoso.com/terms\",\"privacyPolicyUrl\":\"https://contoso.com/privacy\"},\"companyInformation\":{\"name\":\"Contoso\",\"url\":\"https://contoso.com\",\"address\":\"1 Contoso Way Redmond, WA 98052\",\"contactInformation\":{\"name\":\"Alex\",\"phone\":\"+14255551234\",\"email\":\"alex@contoso.com\"},\"customerCareInformation\":{\"tollFreeNumber\":\"+18005551234\",\"email\":\"customercare@contoso.com\"}},\"messageDetails\":{\"supportedProtocols\":[\"sms\"],\"recurrence\":\"subscription\",\"helpMessage\":\"Send 'Stop' to unsubscribe, send 'Start' to resubscribe.\",\"optOutMessage\":\"You've been unsubscribed from these messages.  Send 'Start' if you want to resubscribe.\",\"optInMessage\":\"Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'\",\"optInReply\":\"JOIN\",\"confirmationMessage\":\"Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!\",\"directionality\":\"twoWay\",\"useCases\":[{\"contentCategory\":\"coupons\",\"examples\":[{\"messages\":[{\"direction\":\"fromUser\",\"text\":\"txtMessage\"}]}]},{\"contentCategory\":\"loyaltyProgram\",\"examples\":[{\"messages\":[{\"direction\":\"toUser\",\"text\":\"txtMessage\"}]}]},{\"contentCategory\":\"loyaltyProgramPointsPrizes\",\"examples\":[{\"messages\":[{\"direction\":\"toUser\",\"text\":\"txtMessage\"}]}]}]},\"trafficDetails\":{\"totalMonthlyVolume\":10000,\"monthlyAverageMessagesFromUser\":1,\"monthlyAverageMessagesToUser\":3,\"isSpiky\":true,\"spikeDetails\":\"Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.\",\"estimatedRampUpTimeInDays\":0}}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-10-25-preview",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 11 Apr 2022 19:07:59 GMT",
-    "ms-cv": "ONlK35GQok+f67BfWTdxTA.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0jnxUYgAAAADb4Dye9x0UQbLubyqTKgl8TUVYMzBFREdFMDQxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1767ms"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "341ddafcd1546f80ce80a49595cf09fe"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000?api-version=2021-10-25-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "1997",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "zUYsBqzIkivIwozH0gZDy2m4Tm75n6y/f\u002BiGvnN8x8I=",
+        "x-ms-date": "Fri, 27 May 2022 16:48:35 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+          "url": "https://endpoint/loyalty-program",
+          "signUpTypes": [
+            "sms",
+            "website"
+          ],
+          "signUpUrl": "https://contoso.com/sign-up",
+          "termsOfServiceUrl": "https://contoso.com/terms",
+          "privacyPolicyUrl": "https://contoso.com/privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocols": [
+            "sms"
+          ],
+          "recurrence": "subscription",
+          "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInReply": "JOIN",
+          "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentCategory": "coupons",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentCategory": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentCategory": "loyaltyProgramPointsPrizes",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 16:48:38 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000",
+        "MS-CV": "Yn5UfOxxd0O8sKs1ejWmFw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "05QCRYgAAAAAV9kzaCWINR5GZUPpoot2BTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1941ms"
+      },
+      "ResponseBody": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "status": "draft",
+        "costs": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "billingFrequency": "monthly"
+          }
+        ],
+        "statusUpdatedDate": "2022-05-27T16:48:39\u002B00:00",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+          "url": "https://endpoint/loyalty-program",
+          "signUpTypes": [
+            "sms",
+            "website"
+          ],
+          "signUpUrl": "https://contoso.com/sign-up",
+          "termsOfServiceUrl": "https://contoso.com/terms",
+          "privacyPolicyUrl": "https://contoso.com/privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocols": [
+            "sms"
+          ],
+          "recurrence": "subscription",
+          "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInReply": "JOIN",
+          "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentCategory": "coupons",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentCategory": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentCategory": "loyaltyProgramPointsPrizes",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000?api-version=2021-10-25-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "1904",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "oBmmAyZv3RIpcK71leZKCjuq5hbM814JhuDb4DtlCeE=",
+        "x-ms-date": "Fri, 27 May 2022 16:48:38 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST UPDATE",
+          "url": "https://endpoint/loyalty-program",
+          "signUpTypes": [
+            "sms",
+            "website"
+          ],
+          "signUpUrl": "https://contoso.com/sign-up",
+          "termsOfServiceUrl": "https://contoso.com/terms",
+          "privacyPolicyUrl": "https://contoso.com/privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocols": [
+            "sms"
+          ],
+          "recurrence": "subscription",
+          "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInReply": "JOIN",
+          "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentCategory": "coupons",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentCategory": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentCategory": "loyaltyProgramPointsPrizes",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 16:48:40 GMT",
+        "MS-CV": "L23nepJ2hkyCiV/AxG29aQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "05wCRYgAAAAAJIuokTxruRbVSmbySZusWTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1576ms"
+      },
+      "ResponseBody": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "status": "draft",
+        "costs": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "billingFrequency": "monthly"
+          }
+        ],
+        "statusUpdatedDate": "2022-05-27T16:48:39\u002B00:00",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST UPDATE",
+          "url": "https://endpoint/loyalty-program",
+          "signUpTypes": [
+            "sms",
+            "website"
+          ],
+          "signUpUrl": "https://contoso.com/sign-up",
+          "termsOfServiceUrl": "https://contoso.com/terms",
+          "privacyPolicyUrl": "https://contoso.com/privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocols": [
+            "sms"
+          ],
+          "recurrence": "subscription",
+          "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInReply": "JOIN",
+          "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentCategory": "coupons",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentCategory": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentCategory": "loyaltyProgramPointsPrizes",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

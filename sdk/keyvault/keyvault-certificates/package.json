@@ -126,7 +126,7 @@
     "@types/sinon": "^9.0.4",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",

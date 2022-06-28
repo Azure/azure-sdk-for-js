@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/ImportImageByManifestDigest.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ImportImageByManifestDigest.json
  */
 async function importImageByManifestDigest() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -48,7 +48,7 @@ importImageByManifestDigest().catch(console.error);
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/ImportImageByTag.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ImportImageByTag.json
  */
 async function importImageByTag() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -80,7 +80,7 @@ importImageByTag().catch(console.error);
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/ImportImageFromPublicRegistry.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ImportImageFromPublicRegistry.json
  */
 async function importImageFromPublicRegistry() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

@@ -26,14 +26,14 @@ import {
 /** Interface representing a ContactProfiles. */
 export interface ContactProfiles {
   /**
-   * Returns list of contact profiles
+   * Returns list of contact profiles by Subscription
    * @param options The options parameters.
    */
   listBySubscription(
     options?: ContactProfilesListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<ContactProfile>;
   /**
-   * Returns list of contact profiles
+   * Returns list of contact profiles by Resource Group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -112,7 +112,25 @@ export interface ContactProfiles {
    * @param parameters Parameters supplied to update contact profile tags.
    * @param options The options parameters.
    */
-  updateTags(
+  beginUpdateTags(
+    resourceGroupName: string,
+    contactProfileName: string,
+    parameters: TagsObject,
+    options?: ContactProfilesUpdateTagsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ContactProfilesUpdateTagsResponse>,
+      ContactProfilesUpdateTagsResponse
+    >
+  >;
+  /**
+   * Updates the specified contact profile tags.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param contactProfileName Contact Profile Name
+   * @param parameters Parameters supplied to update contact profile tags.
+   * @param options The options parameters.
+   */
+  beginUpdateTagsAndWait(
     resourceGroupName: string,
     contactProfileName: string,
     parameters: TagsObject,

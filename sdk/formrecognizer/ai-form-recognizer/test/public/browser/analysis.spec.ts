@@ -4,8 +4,8 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { PrebuiltModels, DocumentAnalysisClient } from "../../../src";
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+import { DocumentAnalysisClient, PrebuiltModels } from "../../../src";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecordedClient, testPollingOptions } from "../../utils/recordedClients";
 
 describe("analysis (browser)", () => {
