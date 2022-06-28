@@ -36,7 +36,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Get all private endpoint connections.
+   * List all private endpoint connections.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The options parameters.
@@ -53,7 +53,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Get private endpoint connection.
+   * Get the details of a private endpoint connection.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param name
@@ -72,7 +72,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Update private endpoint connection.
+   * Update an existing private endpoint connection.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param name
@@ -93,7 +93,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Delete private endpoint connection.
+   * Deletes a private endpoint connection.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param name
@@ -126,7 +126,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -148,7 +148,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -172,7 +172,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -195,7 +195,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

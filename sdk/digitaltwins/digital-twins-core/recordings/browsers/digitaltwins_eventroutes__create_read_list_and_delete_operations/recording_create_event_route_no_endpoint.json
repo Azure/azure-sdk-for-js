@@ -2,29 +2,29 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/eventroutes/eventRoute165356108734900679",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/eventroutes/eventRoute165644226532507671",
    "query": {
     "api-version": "2022-05-31"
    },
-   "requestBody": "{\"endpointName\":\"endpoint165356108735006495\",\"filter\":\"$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'\"}",
+   "requestBody": "{\"endpointName\":\"endpoint165644226532509763\",\"filter\":\"$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'\"}",
    "status": 400,
    "response": "{\"error\":{\"code\":\"EventRouteEndpointInvalid\",\"message\":\"The endpoint provided does not exist or is not active. Check that your endpoint is provisioned correctly. See event route documentation (https://aka.ms/ADTv2Routes).\"}}",
    "responseHeaders": {
     "content-length": "224",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:27 GMT",
-    "mise-correlation-id": "373a8fa9-4275-4be0-84fd-9ee85bfc6b2c",
+    "date": "Tue, 28 Jun 2022 18:51:05 GMT",
+    "mise-correlation-id": "68f53d86-a352-4b49-b483-00637d213e37",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-14175bbcc6d6c947ae6853746fc9b1a0-99fda93f6c832843-01"
+    "traceresponse": "00-e1f358c49b9e56508cd1d61afe71ed62-0a489e453aa05840-01"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "create-event-route": "eventRoute165356108734900679",
-   "list-event-routes-enpoint": "endpoint165356108735006495"
+   "create-event-route": "eventRoute165644226532507671",
+   "list-event-routes-enpoint": "endpoint165644226532509763"
   },
   "newDate": {}
  },
- "hash": "99439f85a5a8105c83279c35727ea94b"
+ "hash": "e4135aee9a64ea325e5955e2a0bbc85f"
 }

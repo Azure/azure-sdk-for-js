@@ -12,10 +12,10 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:21 GMT",
-    "mise-correlation-id": "154a9a01-8de7-4c06-9405-32f3361dc951",
+    "date": "Tue, 28 Jun 2022 18:51:08 GMT",
+    "mise-correlation-id": "5c3c765a-1049-42fa-8b60-36db002409e1",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-a4209e8645ef0040a1c2b5fcf37c7446-89db15b21968f14e-01"
+    "traceresponse": "00-6827b77fae0dbbfd2ae3869f4a64228c-919c5dca733bc593-01"
    }
   },
   {
@@ -30,10 +30,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:21 GMT",
-    "mise-correlation-id": "6f86ab9f-b248-429c-bfc3-21d02dc1d720",
+    "date": "Tue, 28 Jun 2022 18:51:08 GMT",
+    "mise-correlation-id": "8213fd42-b934-439a-be95-b820ec8aee57",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-1b00bd7db45e9d4bb230f930956107a3-fdc0b2c6b97aa74f-01"
+    "traceresponse": "00-bc114ce1b6c2817fdcf3789ce21cd8ae-3de6ae93fc7b0673-01"
    }
   },
   {
@@ -44,14 +44,14 @@
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTModelTestsModel;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"TempModel\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Prop1\",\"schema\":\"string\"},{\"@type\":\"Component\",\"name\":\"Component1\",\"schema\":\"XXX\"},{\"@type\":\"Telemetry\",\"name\":\"Telemetry1\",\"schema\":\"integer\"}]}]",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"DTDLParserError\",\"message\":\"None of the models in this request could be created due to a problem with one or more models: dtmi:samples:DTModelTestsModel;1 has 'contents' value with name 'Component1' whose property 'schema' has value 'XXX' that is neither a valid DTMI reference nor a DTDL term. Replace the value of property 'schema' with a valid DTMI reference or a term defined by DTDL -- see https://github.com/Azure/opendigitaltwins-dtdl/tree/master/DTDL. | dtmi:samples:DTModelTestsModel;1 has 'contents' value with name 'Component1' whose property 'schema' has no valid value but one is required. Provide a value for 'schema' that is either an element definition or a DTMI reference.. See model documentation(https://aka.ms/ADTv2Models) for supported format.\"}}",
+   "response": "{\"error\":{\"code\":\"DTDLParserError\",\"message\":\"None of the models in this request could be created due to a problem with one or more models: dtmi:samples:DTModelTestsModel;1 has 'contents' value with name 'Component1' whose property 'schema' has value 'XXX' that is not a DTMI or a DTDL term. Replace the value of property 'schema, with a valid DTMI or a term defined by DTDL -- see https://github.com/Azure/opendigitaltwins-dtdl/tree/master/DTDL.. See model documentation(https://aka.ms/ADTv2Models) for supported format.\"}}",
    "responseHeaders": {
-    "content-length": "785",
+    "content-length": "524",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:21 GMT",
-    "mise-correlation-id": "82ba5d49-71b8-49e9-8c4d-f9ffe3c6058c",
+    "date": "Tue, 28 Jun 2022 18:51:08 GMT",
+    "mise-correlation-id": "bedeac91-1fc6-4b4f-a538-1ef52baf6c1e",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-df82f468f7ccab429ebc442f055f14ff-d878d9b34ccc0542-01"
+    "traceresponse": "00-8902fbeb6a3b7b6597bf59694aa833f2-a9ffb4143d22eb18-01"
    }
   },
   {
@@ -66,10 +66,10 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:21 GMT",
-    "mise-correlation-id": "0f753822-e9b7-4687-97b0-498517badf12",
+    "date": "Tue, 28 Jun 2022 18:51:08 GMT",
+    "mise-correlation-id": "33aa0adc-b700-4cae-a063-0411fc9f47a4",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-b4989ad79d33f64b97ca828246b370fa-bfc14e20d870c946-01"
+    "traceresponse": "00-1c25fa030012a983c9e8786c15b31757-176770b2cddb534c-01"
    }
   },
   {
@@ -84,10 +84,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:21 GMT",
-    "mise-correlation-id": "5061b555-b4b6-47ff-bd6d-83346384829b",
+    "date": "Tue, 28 Jun 2022 18:51:08 GMT",
+    "mise-correlation-id": "e1c20bac-2b21-4ef1-b321-86c8175c929a",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-adafb55875f44e4180d87edf0dde0196-9829c09983c83947-01"
+    "traceresponse": "00-3469955bd47e3c43b1520163a781ecc4-05026661dc8e812e-01"
    }
   }
  ],
@@ -95,5 +95,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "a6ec43a5986530ade051ac90dddfdd47"
+ "hash": "048f6346378f46eb4e738ad159696080"
 }

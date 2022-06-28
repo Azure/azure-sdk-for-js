@@ -12,6 +12,8 @@ export * from "./mediaservices";
 export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";
 export * from "./locations";
+export * from "./mediaServicesOperationStatuses";
+export * from "./mediaServicesOperationResults";
 export * from "./assets";
 export * from "./assetFilters";
 export * from "./tracks";

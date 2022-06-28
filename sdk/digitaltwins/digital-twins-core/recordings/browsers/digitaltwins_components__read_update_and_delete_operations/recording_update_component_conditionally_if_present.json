@@ -12,10 +12,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
-    "mise-correlation-id": "f19a0696-83f4-4a90-aa56-0f7feac6d431",
+    "date": "Tue, 28 Jun 2022 18:50:41 GMT",
+    "mise-correlation-id": "25ff4cbd-9b3b-404a-b134-cd3536424220",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-cab778238259b149978e1bf44e20ef14-a2bda0c71c58224d-01"
+    "traceresponse": "00-181b7257a00b5e96d8caaa7370f73270-1767e0959c011819-01"
    }
   },
   {
@@ -30,10 +30,10 @@
    "responseHeaders": {
     "content-length": "225",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
-    "mise-correlation-id": "87fe52ba-c4ef-48d6-a313-7c7632f42abc",
+    "date": "Tue, 28 Jun 2022 18:50:41 GMT",
+    "mise-correlation-id": "c31f4adf-951f-4f61-8fec-11e119c89bb9",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-29969d9be8cab0459ad76f601ad91cfa-356ceb1dddf03843-01"
+    "traceresponse": "00-ee6d2c89e55b69483f1039bbdcac9aa7-0e7b8606a61dafa2-01"
    }
   },
   {
@@ -44,14 +44,14 @@
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Component1\",\"contents\":[{\"@type\":\"Property\",\"name\":\"ComponentProp1\",\"schema\":\"string\"},{\"@type\":\"Telemetry\",\"name\":\"ComponentTelemetry1\",\"schema\":\"integer\"}]},{\"@id\":\"dtmi:samples:DTComponentTestsModel;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"TempModel\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Prop1\",\"schema\":\"string\"},{\"@type\":\"Component\",\"name\":\"Component1\",\"schema\":\"dtmi:samples:DTComponentTestsComponent;1\"},{\"@type\":\"Telemetry\",\"name\":\"Telemetry1\",\"schema\":\"integer\"}]}]",
    "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"description\":{},\"displayName\":{\"en-US\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:34.2223866+00:00\"},{\"id\":\"dtmi:samples:DTComponentTestsModel;1\",\"description\":{},\"displayName\":{\"en-US\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:34.2224095+00:00\"}]",
+   "response": "[{\"id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:50:41.7059512+00:00\"},{\"id\":\"dtmi:samples:DTComponentTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:50:41.7059995+00:00\"}]",
    "responseHeaders": {
-    "content-length": "348",
+    "content-length": "342",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
-    "mise-correlation-id": "82c0fcbf-ac2e-45ec-87b0-eb38b91b0f88",
+    "date": "Tue, 28 Jun 2022 18:50:41 GMT",
+    "mise-correlation-id": "9548935e-2d1c-485d-b2b0-0171773894ec",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-b12e7a17245884419b898ec676748b7b-3c3e7b1516a5504e-01"
+    "traceresponse": "00-b8aaf89f9b93c37f3a6e00462f613da6-f03ae7fec2e49b8e-01"
    }
   },
   {
@@ -66,9 +66,9 @@
    "responseHeaders": {
     "content-length": "278",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
+    "date": "Tue, 28 Jun 2022 18:50:41 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-31c78b30f79be4458543a16b6a2edd09-561da1f14cc7db4e-01"
+    "traceresponse": "00-4b4300dfdbb1e74bac21b86105d09619-52931284fcbcc145-01"
    }
   },
   {
@@ -79,14 +79,14 @@
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\"},\"Prop1\":\"value\",\"Component1\":{\"$metadata\":{},\"ComponentProp1\":\"value1\"}}",
    "status": 200,
-   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"bf43116c-57fa-4a5c-bf44-891ffd70e504\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"$lastUpdateTime\":\"2022-05-26T10:31:34.3591578Z\",\"ComponentProp1\":{\"lastUpdateTime\":\"2022-05-26T10:31:34.3591578Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"$lastUpdateTime\":\"2022-05-26T10:31:34.3591578Z\",\"Prop1\":{\"lastUpdateTime\":\"2022-05-26T10:31:34.3591578Z\"}}}",
+   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"09f54ee4-05b8-4ece-b270-e1cd901be64c\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"$lastUpdateTime\":\"2022-06-28T18:50:41.8662859Z\",\"ComponentProp1\":{\"lastUpdateTime\":\"2022-06-28T18:50:41.8662859Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"$lastUpdateTime\":\"2022-06-28T18:50:41.8662859Z\",\"Prop1\":{\"lastUpdateTime\":\"2022-06-28T18:50:41.8662859Z\"}}}",
    "responseHeaders": {
     "content-length": "445",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
-    "etag": "W/\"bf43116c-57fa-4a5c-bf44-891ffd70e504\"",
+    "date": "Tue, 28 Jun 2022 18:50:41 GMT",
+    "etag": "W/\"09f54ee4-05b8-4ece-b270-e1cd901be64c\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-a6257a07b285f3429fc0a72efa0f8251-5a3b3d65a7b9174d-01"
+    "traceresponse": "00-0318528b2a303249a165bbbb07296185-5efd3d7d63918e48-01"
    }
   },
   {
@@ -97,14 +97,14 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"bf43116c-57fa-4a5c-bf44-891ffd70e504\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"$lastUpdateTime\":\"2022-05-26T10:31:34.3591578Z\",\"ComponentProp1\":{\"lastUpdateTime\":\"2022-05-26T10:31:34.3591578Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"$lastUpdateTime\":\"2022-05-26T10:31:34.3591578Z\",\"Prop1\":{\"lastUpdateTime\":\"2022-05-26T10:31:34.3591578Z\"}}}",
+   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"09f54ee4-05b8-4ece-b270-e1cd901be64c\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"$lastUpdateTime\":\"2022-06-28T18:50:41.8662859Z\",\"ComponentProp1\":{\"lastUpdateTime\":\"2022-06-28T18:50:41.8662859Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"$lastUpdateTime\":\"2022-06-28T18:50:41.8662859Z\",\"Prop1\":{\"lastUpdateTime\":\"2022-06-28T18:50:41.8662859Z\"}}}",
    "responseHeaders": {
     "content-length": "445",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
-    "etag": "W/\"bf43116c-57fa-4a5c-bf44-891ffd70e504\"",
+    "date": "Tue, 28 Jun 2022 18:50:41 GMT",
+    "etag": "W/\"09f54ee4-05b8-4ece-b270-e1cd901be64c\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-010ebbf670480c43b7c8ce2c68b27f23-775e5ba2cf64c447-01"
+    "traceresponse": "00-e4ea775c60bc4b418bab8ce617da3006-e499b6cf649f5342-01"
    }
   },
   {
@@ -118,10 +118,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
-    "etag": "W/\"ae85b595-aff0-417f-9f81-6bec13f3dd04\"",
+    "date": "Tue, 28 Jun 2022 18:50:42 GMT",
+    "etag": "W/\"e90b8316-72a1-4c18-8ba5-7a9471522f5a\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-f1ba5c364beb4c4c819536e652d2eae0-3a5840a57e197047-01"
+    "traceresponse": "00-4c872e1cd922ca47a064b8aabb924192-f2652dd95a017b43-01"
    }
   },
   {
@@ -132,14 +132,14 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"ComponentProp1\":\"value2\",\"$metadata\":{\"$lastUpdateTime\":\"2022-05-26T10:31:34.4686020Z\",\"ComponentProp1\":{\"lastUpdateTime\":\"2022-05-26T10:31:34.4686020Z\"}}}",
+   "response": "{\"ComponentProp1\":\"value2\",\"$metadata\":{\"$lastUpdateTime\":\"2022-06-28T18:50:42.0166261Z\",\"ComponentProp1\":{\"lastUpdateTime\":\"2022-06-28T18:50:42.0166261Z\"}}}",
    "responseHeaders": {
     "content-length": "157",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
-    "etag": "W/\"ae85b595-aff0-417f-9f81-6bec13f3dd04\"",
+    "date": "Tue, 28 Jun 2022 18:50:42 GMT",
+    "etag": "W/\"e90b8316-72a1-4c18-8ba5-7a9471522f5a\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-22c1e4463ddbb34aaa7383c70e68f1f8-f15781025075cd49-01"
+    "traceresponse": "00-91789b2a3e81b249a323cd394a618a59-116b57e073187a49-01"
    }
   },
   {
@@ -153,9 +153,9 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
+    "date": "Tue, 28 Jun 2022 18:50:42 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-5d589d738d0af141ab3c739a4e7e03bb-207ba87101f8154d-01"
+    "traceresponse": "00-f76b3966ae54d84e90f3dcde09acd631-9952e1afe25e374f-01"
    }
   },
   {
@@ -169,10 +169,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
-    "mise-correlation-id": "7bc6777d-0066-42ce-99c0-c4d4aa80243f",
+    "date": "Tue, 28 Jun 2022 18:50:42 GMT",
+    "mise-correlation-id": "597722dc-cbc8-4775-ad4a-91b869447fbc",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-403d9b213a9dc24eb0b346c93b8ab4dd-6520ea715be7ec41-01"
+    "traceresponse": "00-dbc59844bd06068dc40f051c0f1579cc-45ffb31a68ca200c-01"
    }
   },
   {
@@ -186,10 +186,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:34 GMT",
-    "mise-correlation-id": "d892c83b-6502-4023-a60f-5194527e519b",
+    "date": "Tue, 28 Jun 2022 18:50:42 GMT",
+    "mise-correlation-id": "bbb5290a-3af5-49b3-835e-f64c2f5f61b7",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-40064b9c3ce9664682af20ae49442c1b-cde729d458c83a45-01"
+    "traceresponse": "00-01aa188ee855e4df2fd1d1ac798183cd-14b895fbd09b2857-01"
    }
   }
  ],
@@ -197,5 +197,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "2caa6c1ab350df0240378ae4c6284144"
+ "hash": "6683949ff3ec36c312e2c4af4103a13d"
 }

@@ -12,10 +12,10 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:20 GMT",
-    "mise-correlation-id": "2b9f5dbe-3fee-437c-8506-bea9c88a1935",
+    "date": "Tue, 28 Jun 2022 18:51:06 GMT",
+    "mise-correlation-id": "aa488049-eb1b-4ac0-a981-78988fe60dcc",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-8177e902e898454c9d46913bf359b162-ff0225dea6d4cc44-01"
+    "traceresponse": "00-d4ad1be4e02d0de0376377986591af03-17b083bc383010d9-01"
    }
   },
   {
@@ -30,10 +30,28 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:20 GMT",
-    "mise-correlation-id": "9394216a-f5d3-4a86-8ff0-8695fe2e88c5",
+    "date": "Tue, 28 Jun 2022 18:51:06 GMT",
+    "mise-correlation-id": "22514c1f-d869-4ea8-83f8-e67fcd1e586d",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-2f67c2656535334791d81c7fd5b6df0c-484ab689a844f749-01"
+    "traceresponse": "00-c87a34ac1ece1ee987f4a29a314736ca-ed3cc18d579280f9-01"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models",
+   "query": {
+    "api-version": "2022-05-31"
+   },
+   "requestBody": "[]",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Operation failed as models provided was empty or of a type that is not supported.. Check that your Model Array contains at least one item and it is of a supported type. See link(https://aka.ms/ADTv2Models) for details.\"}}",
+   "responseHeaders": {
+    "content-length": "267",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 28 Jun 2022 18:51:06 GMT",
+    "mise-correlation-id": "528f154c-a45a-4697-acac-9954bd0a8460",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-c1b7423961cb0088a95a8e3584e53034-d19b6c6ea6cdf8e4-01"
    }
   }
  ],
@@ -41,5 +59,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "53e32b05f177794c8a30560a7573e9e7"
+ "hash": "d064d921672d7457569758c57812e7b3"
 }

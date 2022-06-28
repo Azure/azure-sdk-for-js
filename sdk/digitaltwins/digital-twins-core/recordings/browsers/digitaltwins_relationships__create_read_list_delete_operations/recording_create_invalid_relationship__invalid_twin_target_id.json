@@ -12,10 +12,10 @@
    "responseHeaders": {
     "content-length": "228",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:38 GMT",
-    "mise-correlation-id": "066cfb59-f081-4526-95bb-032f926f373e",
+    "date": "Tue, 28 Jun 2022 18:51:19 GMT",
+    "mise-correlation-id": "c9dd4bb3-2191-4d89-9a7d-35675a862b29",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-d94fb2472d3fcd4c8cbc965cb7473cf6-4c00b2fec5315a41-01"
+    "traceresponse": "00-b169d9a3c5312ca303a366ff7219f8fd-a0711b20a104d1d8-01"
    }
   },
   {
@@ -30,10 +30,10 @@
    "responseHeaders": {
     "content-length": "225",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:38 GMT",
-    "mise-correlation-id": "61526743-f2fd-4a8e-8b54-182b81478051",
+    "date": "Tue, 28 Jun 2022 18:51:19 GMT",
+    "mise-correlation-id": "b83e03e2-e943-457e-956f-19a366ea6ebe",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-ff5be2058be6f24787495dc6c679b5af-2d6ee1a16140e847-01"
+    "traceresponse": "00-20835984e3a380e2626f53f19e92f650-a098dc6b230d19be-01"
    }
   },
   {
@@ -48,10 +48,10 @@
    "responseHeaders": {
     "content-length": "224",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:38 GMT",
-    "mise-correlation-id": "ce3123e8-c2fd-40c2-bc2e-5a88941bc1a8",
+    "date": "Tue, 28 Jun 2022 18:51:19 GMT",
+    "mise-correlation-id": "6ef813db-d6ad-447f-b642-0d3e2513c400",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-3badac089041bd4187907a06ea1258a4-55843d91b5fe8d43-01"
+    "traceresponse": "00-99a3c2222d5a396d971d7324df7ca317-685d17dda509c9a6-01"
    }
   },
   {
@@ -62,14 +62,14 @@
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Building\",\"contents\":[{\"@type\":\"Relationship\",\"name\":\"has\",\"target\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"properties\":[{\"@type\":\"Property\",\"name\":\"isAccessRestricted\",\"schema\":\"boolean\"}]},{\"@type\":\"Property\",\"name\":\"AverageTemperature\",\"schema\":\"double\"}]},{\"@id\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Floor\",\"contents\":[{\"@type\":\"Relationship\",\"name\":\"contains\",\"target\":\"dtmi:samples:DTRelationshipsTestsRoom;1\"},{\"@type\":\"Property\",\"name\":\"AverageTemperature\",\"schema\":\"double\"}]},{\"@id\":\"dtmi:samples:DTRelationshipsTestsRoom;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Room\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Temperature\",\"schema\":\"double\"},{\"@type\":\"Property\",\"name\":\"IsOccupied\",\"schema\":\"boolean\"}]}]",
    "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\",\"description\":{},\"displayName\":{\"en-US\":\"Building\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:39.1797721+00:00\"},{\"id\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"description\":{},\"displayName\":{\"en-US\":\"Floor\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:39.179792+00:00\"},{\"id\":\"dtmi:samples:DTRelationshipsTestsRoom;1\",\"description\":{},\"displayName\":{\"en-US\":\"Room\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:39.1798035+00:00\"}]",
+   "response": "[{\"id\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\",\"description\":{},\"displayName\":{\"en\":\"Building\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:20.6118557+00:00\"},{\"id\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"description\":{},\"displayName\":{\"en\":\"Floor\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:20.6118796+00:00\"},{\"id\":\"dtmi:samples:DTRelationshipsTestsRoom;1\",\"description\":{},\"displayName\":{\"en\":\"Room\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:20.6118937+00:00\"}]",
    "responseHeaders": {
-    "content-length": "517",
+    "content-length": "509",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:38 GMT",
-    "mise-correlation-id": "df3fb3a7-719d-4ec5-90b5-7e0965c8c7f7",
+    "date": "Tue, 28 Jun 2022 18:51:19 GMT",
+    "mise-correlation-id": "971d9248-a929-4b89-820f-8f2dc9be53bf",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-b45044ac74d87b4087701283e4c215fc-023f69bd337d5d40-01"
+    "traceresponse": "00-85c353277ca58b99c4f950d60c69449d-002383f0770f9d94-01"
    }
   },
   {
@@ -84,9 +84,9 @@
    "responseHeaders": {
     "content-length": "286",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:38 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:19 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-d02abaa4bc339d47a9ba6acf6da897ec-5d588bea649a354f-01"
+    "traceresponse": "00-d98bea94d975ac42a818cb2ae23a4755-649913eae5cd7640-01"
    }
   },
   {
@@ -101,9 +101,9 @@
    "responseHeaders": {
     "content-length": "283",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:38 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-497d45ff33a3344cbfdb6f2b81d05b47-e3fdff6c279a2e46-01"
+    "traceresponse": "00-a5257f13cae56146a1912633dab9d7fd-f6a3d5bfadcc0b4a-01"
    }
   },
   {
@@ -118,9 +118,9 @@
    "responseHeaders": {
     "content-length": "282",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-01be0d9b42f9a14c826b7a1f32808da9-40c871301218af48-01"
+    "traceresponse": "00-c3c688ae20e7ad4fb6c4422fe1c5647f-68e5417cc87f8d4b-01"
    }
   },
   {
@@ -131,14 +131,14 @@
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\"},\"AverageTemperature\":68}",
    "status": 200,
-   "response": "{\"$dtId\":\"DTRelationshipsTestsBuildingTwin\",\"$etag\":\"W/\\\"db193ee9-aeb7-407b-a333-2593355e4f5a\\\"\",\"AverageTemperature\":68,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\",\"$lastUpdateTime\":\"2022-05-26T10:31:39.4094422Z\",\"AverageTemperature\":{\"lastUpdateTime\":\"2022-05-26T10:31:39.4094422Z\"}}}",
+   "response": "{\"$dtId\":\"DTRelationshipsTestsBuildingTwin\",\"$etag\":\"W/\\\"6029d101-9376-456c-a8d1-ed60082e336f\\\"\",\"AverageTemperature\":68,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\",\"$lastUpdateTime\":\"2022-06-28T18:51:20.9076759Z\",\"AverageTemperature\":{\"lastUpdateTime\":\"2022-06-28T18:51:20.9076759Z\"}}}",
    "responseHeaders": {
     "content-length": "310",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
-    "etag": "W/\"db193ee9-aeb7-407b-a333-2593355e4f5a\"",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
+    "etag": "W/\"6029d101-9376-456c-a8d1-ed60082e336f\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-03ac0e1397456d47a03bff1e48faef7f-3e9b55f12769744e-01"
+    "traceresponse": "00-c6338b24e4f3cb43b532b15391242b8f-5b47d8d94f56d24b-01"
    }
   },
   {
@@ -149,14 +149,14 @@
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsFloor;1\"},\"AverageTemperature\":75}",
    "status": 200,
-   "response": "{\"$dtId\":\"DTRelationshipsTestsFloorTwin\",\"$etag\":\"W/\\\"291fad14-0ee6-4e83-9239-6e41d4e2c1e7\\\"\",\"AverageTemperature\":75,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"$lastUpdateTime\":\"2022-05-26T10:31:39.4730890Z\",\"AverageTemperature\":{\"lastUpdateTime\":\"2022-05-26T10:31:39.4730890Z\"}}}",
+   "response": "{\"$dtId\":\"DTRelationshipsTestsFloorTwin\",\"$etag\":\"W/\\\"56b8a09b-8ef6-485d-b189-ec8327eaf579\\\"\",\"AverageTemperature\":75,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"$lastUpdateTime\":\"2022-06-28T18:51:20.9922383Z\",\"AverageTemperature\":{\"lastUpdateTime\":\"2022-06-28T18:51:20.9922383Z\"}}}",
    "responseHeaders": {
     "content-length": "304",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
-    "etag": "W/\"291fad14-0ee6-4e83-9239-6e41d4e2c1e7\"",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
+    "etag": "W/\"56b8a09b-8ef6-485d-b189-ec8327eaf579\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-5992741895476047b2b147fec09c60dc-b1d4a6944a1d5647-01"
+    "traceresponse": "00-73924994119c634fbbf34ca6806f9473-c5356f6fa7a61743-01"
    }
   },
   {
@@ -167,14 +167,14 @@
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsRoom;1\"},\"Temperature\":80,\"IsOccupied\":true}",
    "status": 200,
-   "response": "{\"$dtId\":\"DTRelationshipsTestsRoomTwin\",\"$etag\":\"W/\\\"08af58f6-4e67-425c-876c-29572c0cb365\\\"\",\"Temperature\":80,\"IsOccupied\":true,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsRoom;1\",\"$lastUpdateTime\":\"2022-05-26T10:31:39.5316015Z\",\"Temperature\":{\"lastUpdateTime\":\"2022-05-26T10:31:39.5316015Z\"},\"IsOccupied\":{\"lastUpdateTime\":\"2022-05-26T10:31:39.5316015Z\"}}}",
+   "response": "{\"$dtId\":\"DTRelationshipsTestsRoomTwin\",\"$etag\":\"W/\\\"3c351ed0-0d4e-4ba2-9e83-ff539263303c\\\"\",\"Temperature\":80,\"IsOccupied\":true,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsRoom;1\",\"$lastUpdateTime\":\"2022-06-28T18:51:21.0843653Z\",\"Temperature\":{\"lastUpdateTime\":\"2022-06-28T18:51:21.0843653Z\"},\"IsOccupied\":{\"lastUpdateTime\":\"2022-06-28T18:51:21.0843653Z\"}}}",
    "responseHeaders": {
     "content-length": "369",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
-    "etag": "W/\"08af58f6-4e67-425c-876c-29572c0cb365\"",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
+    "etag": "W/\"3c351ed0-0d4e-4ba2-9e83-ff539263303c\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-d34d63f194af594c8f38c7b821dfd2c9-dbfac91ad2b97645-01"
+    "traceresponse": "00-85669c76ad072e47b8cf22575a625160-4b9736d901c61d46-01"
    }
   },
   {
@@ -189,9 +189,9 @@
    "responseHeaders": {
     "content-length": "268",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-0c2fa41e18eb134e854161c5b3c3bfb1-12f16a6054d2e145-01"
+    "traceresponse": "00-62eec92d2added44a8957b17cb728f2d-15ddd7e718ffb345-01"
    }
   },
   {
@@ -206,9 +206,9 @@
    "responseHeaders": {
     "content-length": "315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-a86d224b1de57341b96cd34a7403bec2-f6b2648efde21840-01"
+    "traceresponse": "00-0f1e3ee99f6c5e459de2da504f27b95e-d6bd4e52346b3b44-01"
    }
   },
   {
@@ -222,9 +222,9 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-bce32aee8fb9de4f8e0fe8f8266c4e0c-cf4290a7cc51d245-01"
+    "traceresponse": "00-1578288e1c530448abd1dea48072bdb1-7f06f56ce439bd48-01"
    }
   },
   {
@@ -238,9 +238,9 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-8588e9d5feae71408b4cc4f9cf78aae3-896668e6629c1f49-01"
+    "traceresponse": "00-249c93220925f447884f71cc63177f97-86e237e9cb56104a-01"
    }
   },
   {
@@ -254,9 +254,9 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-b14e2630b42258439c8956fecdc8f003-c92798358ecd5d4a-01"
+    "traceresponse": "00-95a23690a2cc294ca05d69b8315a66d7-40378d05eac40f49-01"
    }
   },
   {
@@ -270,10 +270,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
-    "mise-correlation-id": "268fb7ec-ed0b-419c-8188-e32b675aeab2",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
+    "mise-correlation-id": "3ec9d667-054e-4b5e-b55f-75f8fcc90ec2",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-c29c9c199057204d98c15c8a2a2fbfb8-489e62036abacc4b-01"
+    "traceresponse": "00-58d53166d4d737e645f01a2d38ae4a7e-56ceadb8ef362f86-01"
    }
   },
   {
@@ -287,10 +287,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
-    "mise-correlation-id": "da035251-b5df-4b21-8c77-cbad5258d68f",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
+    "mise-correlation-id": "4cffafed-6d37-49b7-adc2-78bcffe9dc31",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-dc5f4157811c58428eb4961db8c4632f-fb487aaf6ac35c43-01"
+    "traceresponse": "00-e3161dbfddfb0473be76f82f773452dd-12eb9f1c343b5384-01"
    }
   },
   {
@@ -304,10 +304,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:39 GMT",
-    "mise-correlation-id": "3f705e1a-6f41-460e-ab9d-db49d0882382",
+    "date": "Tue, 28 Jun 2022 18:51:20 GMT",
+    "mise-correlation-id": "9babb1eb-45f5-4b2d-8139-c6d8f4a35e34",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-22f8fe0f34e12541a2bbe3258a3fc7ac-a8ff182874f4054e-01"
+    "traceresponse": "00-baa38a7505ac8fe93993723e3e71148f-5b498aa6d12cd290-01"
    }
   }
  ],
@@ -315,5 +315,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "113b94e3e18161298155ca11b1981886"
+ "hash": "685466161dd6d9d4872d5cbba7a6c2e1"
 }

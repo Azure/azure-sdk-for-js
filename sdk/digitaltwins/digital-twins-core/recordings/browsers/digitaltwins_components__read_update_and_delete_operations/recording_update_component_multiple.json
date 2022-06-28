@@ -12,10 +12,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:31 GMT",
-    "mise-correlation-id": "c12c3205-390d-4666-806e-318caecd4170",
+    "date": "Tue, 28 Jun 2022 18:50:38 GMT",
+    "mise-correlation-id": "bb09aeec-0f65-4953-aad9-ed04bb1820d3",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-8134db70d5d06446841b14cd73bc35cc-453647f468df0542-01"
+    "traceresponse": "00-a790321a491feedb1667952e7224d226-f4993539743f03f0-01"
    }
   },
   {
@@ -30,10 +30,10 @@
    "responseHeaders": {
     "content-length": "225",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:31 GMT",
-    "mise-correlation-id": "a207e94d-70c3-41a7-930e-dac0393b3d0e",
+    "date": "Tue, 28 Jun 2022 18:50:38 GMT",
+    "mise-correlation-id": "d8deb6b2-37ee-4c0b-a4ee-7282aa675f02",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-c70d469e182ba44bb16428f28089c38a-e04c48b6f0deae4d-01"
+    "traceresponse": "00-424986f4aba58dc2004d021ccb330ed0-0b48ce79d8740ec4-01"
    }
   },
   {
@@ -44,14 +44,14 @@
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Component1\",\"contents\":[{\"@type\":\"Property\",\"name\":\"ComponentProp1\",\"schema\":\"string\"},{\"@type\":\"Telemetry\",\"name\":\"ComponentTelemetry1\",\"schema\":\"integer\"}]},{\"@id\":\"dtmi:samples:DTComponentTestsModel;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"TempModel\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Prop1\",\"schema\":\"string\"},{\"@type\":\"Component\",\"name\":\"Component1\",\"schema\":\"dtmi:samples:DTComponentTestsComponent;1\"},{\"@type\":\"Telemetry\",\"name\":\"Telemetry1\",\"schema\":\"integer\"}]}]",
    "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"description\":{},\"displayName\":{\"en-US\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:32.8178917+00:00\"},{\"id\":\"dtmi:samples:DTComponentTestsModel;1\",\"description\":{},\"displayName\":{\"en-US\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:32.8179215+00:00\"}]",
+   "response": "[{\"id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:50:39.6352647+00:00\"},{\"id\":\"dtmi:samples:DTComponentTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:50:39.6352923+00:00\"}]",
    "responseHeaders": {
-    "content-length": "348",
+    "content-length": "342",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:31 GMT",
-    "mise-correlation-id": "71bbfdbe-6da9-40cf-911e-73b8f6fdc3b8",
+    "date": "Tue, 28 Jun 2022 18:50:38 GMT",
+    "mise-correlation-id": "f125a4e3-b0c4-4cbf-8fc9-177c8ebdc5aa",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-f429d3499cad584e8acc0cd7134ca410-ae487cab0cb18e4e-01"
+    "traceresponse": "00-ce2a13fa76f094e258f48f737bdd137c-223f17885c179494-01"
    }
   },
   {
@@ -66,9 +66,9 @@
    "responseHeaders": {
     "content-length": "278",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:31 GMT",
+    "date": "Tue, 28 Jun 2022 18:50:38 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-0dd16ce748643c47b6cd91185583e7ad-52d7612f9e4df743-01"
+    "traceresponse": "00-8a3037838f7a274187057c64623e4944-8373b6dae37dab41-01"
    }
   },
   {
@@ -79,14 +79,14 @@
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\"},\"Prop1\":\"value\",\"Component1\":{\"$metadata\":{},\"ComponentProp1\":\"value1\"}}",
    "status": 200,
-   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"b8e3ddb2-39cc-4af1-aaf1-47bb747b3f28\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"$lastUpdateTime\":\"2022-05-26T10:31:32.9270376Z\",\"ComponentProp1\":{\"lastUpdateTime\":\"2022-05-26T10:31:32.9270376Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"$lastUpdateTime\":\"2022-05-26T10:31:32.9270376Z\",\"Prop1\":{\"lastUpdateTime\":\"2022-05-26T10:31:32.9270376Z\"}}}",
+   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"a7ca0ad2-91eb-4418-936c-665bdcf9b714\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"$lastUpdateTime\":\"2022-06-28T18:50:39.7942689Z\",\"ComponentProp1\":{\"lastUpdateTime\":\"2022-06-28T18:50:39.7942689Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"$lastUpdateTime\":\"2022-06-28T18:50:39.7942689Z\",\"Prop1\":{\"lastUpdateTime\":\"2022-06-28T18:50:39.7942689Z\"}}}",
    "responseHeaders": {
     "content-length": "445",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:31 GMT",
-    "etag": "W/\"b8e3ddb2-39cc-4af1-aaf1-47bb747b3f28\"",
+    "date": "Tue, 28 Jun 2022 18:50:38 GMT",
+    "etag": "W/\"a7ca0ad2-91eb-4418-936c-665bdcf9b714\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-2556810834d9a449b9d43340befd1814-c2d3ec41c0200243-01"
+    "traceresponse": "00-74ef61670a1b1f418a4eb801d3555fbf-8c075f49bb87fe40-01"
    }
   },
   {
@@ -100,10 +100,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:32 GMT",
-    "etag": "W/\"eb884030-28e2-406c-9a94-b10f7303e890\"",
+    "date": "Tue, 28 Jun 2022 18:50:38 GMT",
+    "etag": "W/\"d57f5bc1-1aa5-4f9d-bb21-062f198f7bf7\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-d6856b974ceb054f84f1b5458edf2cc5-2173faeebedb5a4e-01"
+    "traceresponse": "00-199895fb22fb614d87975b0afd37a438-c5b503fc5ad5b64d-01"
    }
   },
   {
@@ -114,14 +114,14 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"$metadata\":{\"$lastUpdateTime\":\"2022-05-26T10:31:32.9270376Z\"}}",
+   "response": "{\"$metadata\":{\"$lastUpdateTime\":\"2022-06-28T18:50:39.7942689Z\"}}",
    "responseHeaders": {
     "content-length": "64",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:32 GMT",
-    "etag": "W/\"eb884030-28e2-406c-9a94-b10f7303e890\"",
+    "date": "Tue, 28 Jun 2022 18:50:39 GMT",
+    "etag": "W/\"d57f5bc1-1aa5-4f9d-bb21-062f198f7bf7\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-80aa84703b99ca43a58b00fc93f2877a-02278464b7c9ac44-01"
+    "traceresponse": "00-afdb5f9ddf84014da41466bed0e6bedc-eff873ebce5cc14c-01"
    }
   },
   {
@@ -132,14 +132,14 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"eb884030-28e2-406c-9a94-b10f7303e890\\\"\",\"Prop1\":\"value\",\"Component1\":{\"$metadata\":{\"$lastUpdateTime\":\"2022-05-26T10:31:32.9270376Z\"}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"$lastUpdateTime\":\"2022-05-26T10:31:32.9869366Z\",\"Prop1\":{\"lastUpdateTime\":\"2022-05-26T10:31:32.9270376Z\"}}}",
+   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"d57f5bc1-1aa5-4f9d-bb21-062f198f7bf7\\\"\",\"Prop1\":\"value\",\"Component1\":{\"$metadata\":{\"$lastUpdateTime\":\"2022-06-28T18:50:39.7942689Z\"}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"$lastUpdateTime\":\"2022-06-28T18:50:39.8769067Z\",\"Prop1\":{\"lastUpdateTime\":\"2022-06-28T18:50:39.7942689Z\"}}}",
    "responseHeaders": {
     "content-length": "352",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:32 GMT",
-    "etag": "W/\"eb884030-28e2-406c-9a94-b10f7303e890\"",
+    "date": "Tue, 28 Jun 2022 18:50:39 GMT",
+    "etag": "W/\"d57f5bc1-1aa5-4f9d-bb21-062f198f7bf7\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-514a9e8a56d35545a98b287d0899dbff-55a8f527ddfe3243-01"
+    "traceresponse": "00-4ecfbdc265b3c64486e94f143c117f91-bb578385d42c9c4e-01"
    }
   },
   {
@@ -153,9 +153,9 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:32 GMT",
+    "date": "Tue, 28 Jun 2022 18:50:39 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-addcf9376824e64db456410d1ce14222-0a4a896668c6274b-01"
+    "traceresponse": "00-0e1fc61404932a47a521325fa7eab114-e7f1703bf3c0e648-01"
    }
   },
   {
@@ -169,10 +169,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:32 GMT",
-    "mise-correlation-id": "f9bccafa-c4e6-4e6b-b8da-54f164aad02d",
+    "date": "Tue, 28 Jun 2022 18:50:39 GMT",
+    "mise-correlation-id": "ea52ab47-4bac-47be-bf05-dcbe34dc0c33",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-75178bb92725da408fba2f3262c32df9-22ed5f9b074a9e44-01"
+    "traceresponse": "00-ee78005f3b1d4854073f68a230a659cb-4ab75359e217e6fe-01"
    }
   },
   {
@@ -186,10 +186,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:32 GMT",
-    "mise-correlation-id": "d71c8c85-add4-405a-83a0-a75f12e36d5f",
+    "date": "Tue, 28 Jun 2022 18:50:39 GMT",
+    "mise-correlation-id": "a6e27898-c9b2-4cff-bfdb-4150b92e2949",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-fd026562dce2254999306d778f57a4e7-bc163cb3946c7741-01"
+    "traceresponse": "00-81d1b8c7c51afedf30ad36c408616d90-6e3b0dd282962ff1-01"
    }
   }
  ],
@@ -197,5 +197,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "f8a76e993195b8f6d986bf2053dcc09b"
+ "hash": "0cb2a10c5eb3e462b48054aa73ac332c"
 }

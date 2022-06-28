@@ -12,10 +12,10 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:23 GMT",
-    "mise-correlation-id": "514e53a5-89c1-4c07-8571-989eea06bfe8",
+    "date": "Tue, 28 Jun 2022 18:51:10 GMT",
+    "mise-correlation-id": "daf3cfd1-7083-4aec-a5f7-cdae9d7bc253",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-3fc109a1b6867d4b8b2deb89fd4637e9-1ebd3f9ba8165247-01"
+    "traceresponse": "00-41d9ec9b5371f1f7bfec8ae203b633c5-7b4e8ee1e92db69f-01"
    }
   },
   {
@@ -30,10 +30,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:23 GMT",
-    "mise-correlation-id": "5fbf8c6e-df29-446e-8e96-e32bb94bd636",
+    "date": "Tue, 28 Jun 2022 18:51:10 GMT",
+    "mise-correlation-id": "d18364d7-c034-4d84-9966-767df14296ba",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-6d7af9a298db604b92c9135eb084be02-9a9b2559cede8543-01"
+    "traceresponse": "00-b0b3f0d207cce176bd3268923c2e0584-4b118574d55d08d8-01"
    }
   },
   {
@@ -44,14 +44,14 @@
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTModelTestsComponent;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Component1\",\"contents\":[{\"@type\":\"Property\",\"name\":\"ComponentProp1\",\"schema\":\"string\"},{\"@type\":\"Telemetry\",\"name\":\"ComponentTelemetry1\",\"schema\":\"integer\"}]},{\"@id\":\"dtmi:samples:DTModelTestsModel;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"TempModel\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Prop1\",\"schema\":\"string\"},{\"@type\":\"Component\",\"name\":\"Component1\",\"schema\":\"dtmi:samples:DTModelTestsComponent;1\"},{\"@type\":\"Telemetry\",\"name\":\"Telemetry1\",\"schema\":\"integer\"}]}]",
    "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTModelTestsComponent;1\",\"description\":{},\"displayName\":{\"en-US\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:23.8510518+00:00\"},{\"id\":\"dtmi:samples:DTModelTestsModel;1\",\"description\":{},\"displayName\":{\"en-US\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:23.8510743+00:00\"}]",
+   "response": "[{\"id\":\"dtmi:samples:DTModelTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:10.7517042+00:00\"},{\"id\":\"dtmi:samples:DTModelTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:10.7517343+00:00\"}]",
    "responseHeaders": {
-    "content-length": "340",
+    "content-length": "334",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:23 GMT",
-    "mise-correlation-id": "9db6f0c0-1ba9-4fa0-af98-83728b45e7ba",
+    "date": "Tue, 28 Jun 2022 18:51:10 GMT",
+    "mise-correlation-id": "88aeef29-38f7-4761-87ee-639e72420d3f",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-ac32feda0fe5e7419e143d88597f23dc-8993ec64899ee345-01"
+    "traceresponse": "00-5844bda627ca2bbbd79e4f4f38c9f0b3-e8e35a25883295a9-01"
    }
   },
   {
@@ -63,14 +63,14 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"id\":\"dtmi:samples:RelationshipTestBuilding;1\",\"description\":{},\"displayName\":{\"en-US\":\"Building\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T07:29:48.9209954+00:00\"},{\"id\":\"dtmi:samples:RelationshipTestFloor;1\",\"description\":{},\"displayName\":{\"en-US\":\"Floor\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T07:29:48.9210181+00:00\"},{\"id\":\"dtmi:samples:RelationshipTestRoom;1\",\"description\":{},\"displayName\":{\"en-US\":\"Room\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T07:29:48.9210307+00:00\"},{\"id\":\"dtmi:samples:DTModelTestsComponent;1\",\"description\":{},\"displayName\":{\"en-US\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:23.8510518+00:00\"},{\"id\":\"dtmi:samples:DTModelTestsModel;1\",\"description\":{},\"displayName\":{\"en-US\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:23.8510743+00:00\"}],\"nextLink\":null}",
+   "response": "{\"value\":[{\"id\":\"dtmi:samples:DTModelTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:10.7517042+00:00\"},{\"id\":\"dtmi:samples:DTModelTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:10.7517343+00:00\"}],\"nextLink\":null}",
    "responseHeaders": {
-    "content-length": "871",
+    "content-length": "360",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 26 May 2022 10:31:23 GMT",
-    "mise-correlation-id": "4243c2eb-0308-4c20-a14c-c57612ae5664",
+    "date": "Tue, 28 Jun 2022 18:51:10 GMT",
+    "mise-correlation-id": "87801d63-2f13-4ef2-bfbd-a7a7b691626e",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-effde5373c388844a9fbebea2e813fc9-40061dcd223b1a4e-01"
+    "traceresponse": "00-9010b3bde5ba1810e02edddc169d78aa-080da0d5fcd3b4d5-01"
    }
   },
   {
@@ -84,10 +84,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:23 GMT",
-    "mise-correlation-id": "349801ec-27c4-4520-9ddd-c348fade526d",
+    "date": "Tue, 28 Jun 2022 18:51:10 GMT",
+    "mise-correlation-id": "e146ffe0-875b-484b-a032-15d259adf4ad",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-c072ab4ce4d88345b30b0cb1e5b94cdc-c2d1c6e7fb8e6041-01"
+    "traceresponse": "00-d549db790d83add7d95b171fed7c880c-b9198eb4df3620f2-01"
    }
   },
   {
@@ -101,10 +101,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 26 May 2022 10:31:23 GMT",
-    "mise-correlation-id": "74df28ae-ea87-400b-a281-f6c5eb889a16",
+    "date": "Tue, 28 Jun 2022 18:51:10 GMT",
+    "mise-correlation-id": "4f752d74-71be-41c1-8281-ade8426a8492",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-1b503206659d95459b8194b65aac43d1-78a6db10ec918a47-01"
+    "traceresponse": "00-6e6c89efb7ceb1d4cdaf51d8fc9b6062-f54a4071ef864c7a-01"
    }
   }
  ],
@@ -112,5 +112,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "19dee9ff6773de2934a405cb3b3be50a"
+ "hash": "ef4c522a3c81e06d1846d762b4ad7fad"
 }

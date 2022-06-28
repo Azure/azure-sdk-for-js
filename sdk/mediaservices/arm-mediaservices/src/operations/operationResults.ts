@@ -83,9 +83,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
+    Parameters.operationId,
     Parameters.assetName,
-    Parameters.trackName,
-    Parameters.operationId
+    Parameters.trackName
   ],
   headerParameters: [Parameters.accept],
   serializer
