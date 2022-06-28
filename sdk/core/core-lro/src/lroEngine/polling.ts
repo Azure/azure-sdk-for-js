@@ -24,12 +24,9 @@ function sendFinalRequest<TResult>(inputs: {
   lro: LongRunningOperation<TResult>;
   resourceLocation: string;
   lroResourceLocationConfig?: LroResourceLocationConfig;
-  response: LroResponse<TResult>;
 }): Promise<LroResponse<TResult>> {
-  const { lro, resourceLocation, response, lroResourceLocationConfig } = inputs;
+  const { lro, resourceLocation, lroResourceLocationConfig } = inputs;
   switch (lroResourceLocationConfig) {
-    case "azure-async-operation":
-      return Promise.resolve(response);
     case "original-uri":
       return lro.sendPollRequest(lro.requestPath);
     case "location":
@@ -61,7 +58,7 @@ export function createGetLroStatusFromResponse<
       });
     return {
       ...response,
-      done: done && !resourceLocation,
+      done: done && (!resourceLocation || lroResourceLocationConfig === "azure-async-operation"),
       next: !(done && resourceLocation)
         ? undefined
         : () =>
@@ -69,7 +66,6 @@ export function createGetLroStatusFromResponse<
               lro,
               resourceLocation,
               lroResourceLocationConfig,
-              response,
             }).then((res) => ({
               ...res,
               done: true,
