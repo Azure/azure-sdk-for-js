@@ -30,12 +30,12 @@
     "dist/",
     "bin/",
     "dist-esm/src/",
-    "types/letest/apimanagement-custom-widget-scaffolder.d.ts",
+    "types/letest/api-management-custom-widgets-scaffolder.d.ts",
     "LICENSE"
   ],
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "types/latest/apimanagement-custom-widget-scaffolder.d.ts",
+  "types": "types/latest/api-management-custom-widgets-scaffolder.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && dev-tool run bundle --browser-test=false",

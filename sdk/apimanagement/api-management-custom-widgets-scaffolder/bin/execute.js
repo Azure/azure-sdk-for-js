@@ -1,144 +1,24 @@
 #!/usr/bin/env node
 'use strict';
 
-var inquirer = require('inquirer');
 var Parser = require('yargs-parser');
 var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
 var util = require('util');
 var url = require('url');
+var inquirer = require('inquirer');
 var chalk = require('chalk');
 var glob = require('glob');
 var mustache = require('mustache');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-var inquirer__default = /*#__PURE__*/_interopDefaultLegacy(inquirer);
 var Parser__default = /*#__PURE__*/_interopDefaultLegacy(Parser);
+var inquirer__default = /*#__PURE__*/_interopDefaultLegacy(inquirer);
 var chalk__default = /*#__PURE__*/_interopDefaultLegacy(chalk);
 var glob__default = /*#__PURE__*/_interopDefaultLegacy(glob);
 var mustache__default = /*#__PURE__*/_interopDefaultLegacy(mustache);
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-/**
- * Unique identifier under which is specified which port to use for injecting locally hosted custom widget to a running DevPortal instance.
- */
-const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
-/**
- * Default port for running local dev server on.
- */
-const OVERRIDE_DEFAULT_PORT = 3000;
-// export type TScaffoldSourceControl = "git" | "azure" | "none" | null;
-const technologies = ["typescript", "react"];
-/**
- * Converts user defined name of a custom widget to a unique ID, which is in context of Dev Portal known as "name".
- *
- * @param displayName - User defined name of the custom widget.
- */
-const displayNameToName = (displayName) => encodeURIComponent(displayName
-    .normalize("NFD")
-    .toLowerCase()
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9-]/g, "-"));
-const widgetFolderName = (name) => `azure-api-management-widget-${name}`;
-
-// Copyright (c) Microsoft Corporation.
-const prefixUrlProtocol = (value) => /https?:\/\//.test(value) ? value : `https://${value}`;
-const validateRequired = (msg = "This field is required.") => (input) => (input != null && input !== "") || msg;
-const validateUrl = (msg = (input) => `${prefixUrlProtocol(input)} is not a valid URL`) => (input) => {
-    try {
-        new URL(prefixUrlProtocol(input));
-        return true;
-    }
-    catch (e) {
-        return msg(prefixUrlProtocol(input));
-    }
-};
-const validateWidgetConfig = {
-    displayName: validateRequired(),
-    tech: (input) => {
-        const required = validateRequired()(input);
-        if (required !== true)
-            return required;
-        if (technologies.includes(input))
-            return true;
-        else
-            return "Invalid tech. Must be one of: " + technologies.join(", ");
-    },
-};
-const validateDeployConfig = {
-    resourceId: (input) => {
-        const required = validateRequired()(input);
-        if (required !== true)
-            return required;
-        const regex = /^\/?subscriptions\/[^/]+\/resourceGroups\/[^/]+\/providers\/Microsoft\.ApiManagement\/service\/[^/]+\/?$/;
-        return input === "test" || regex.test(input)
-            ? true
-            : "resourceId does not satisfy required format: subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ApiManagement/service/<service-name>";
-    },
-    managementApiEndpoint: (input) => {
-        const required = validateRequired()(input);
-        if (required !== true)
-            return required;
-        return validateUrl()(input);
-    },
-};
-const validateMiscConfig = {
-    openUrl: (input) => {
-        if (!input)
-            return true;
-        return validateUrl()(input);
-    },
-};
-const promptWidgetConfig = (partial) => inquirer__default["default"].prompt([
-    {
-        name: "displayName",
-        type: "input",
-        message: "Enter name of your widget:",
-        validate: validateWidgetConfig.displayName,
-    },
-    {
-        name: "tech",
-        type: "list",
-        message: "What technology do you want to use?",
-        choices: [
-            { name: "TypeScript", value: "typescript" },
-            { name: "React", value: "react" },
-        ], // , {name: "Vue", disabled: "Coming soon"}],
-    },
-], partial);
-const promptDeployConfig = (partial) => inquirer__default["default"].prompt([
-    {
-        name: "resourceId",
-        type: "input",
-        message: "resourceId:",
-        validate: validateDeployConfig.resourceId,
-    },
-    {
-        name: "managementApiEndpoint",
-        type: "input",
-        message: "managementApiEndpoint:",
-        default: "management.azure.com",
-        transformer: prefixUrlProtocol,
-        validate: validateDeployConfig.managementApiEndpoint,
-    },
-    {
-        name: "apiVersion",
-        type: "input",
-        message: "apiVersion override (optional):",
-    },
-], partial);
-const promptMiscConfig = (partial) => inquirer__default["default"].prompt([
-    {
-        name: "openUrl",
-        type: "input",
-        message: "openUrl (optional):",
-        transformer: prefixUrlProtocol,
-        validate: validateMiscConfig.openUrl,
-    },
-], partial);
 
 class YError extends Error {
     constructor(msg) {
@@ -776,8 +656,9 @@ const extractConfigFromArgs = (argv, validateConfig, red) => {
         const value = argv[key];
         const response = validate(value);
         if (response === true) {
-            if (value !== null && value !== undefined)
+            if (value !== null && value !== undefined) {
                 configPartial[key] = value;
+            }
         }
         else if (value === null || value === undefined) {
             missing = true;
@@ -805,6 +686,126 @@ const buildGetConfig = (gray, red) => {
         }
     };
 };
+
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/**
+ * Unique identifier under which is specified which port to use for injecting locally hosted custom widget to a running DevPortal instance.
+ */
+const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
+/**
+ * Default port for running local dev server on.
+ */
+const OVERRIDE_DEFAULT_PORT = 3000;
+// export type TScaffoldSourceControl = "git" | "azure" | "none" | null;
+const technologies = ["typescript", "react"];
+/**
+ * Converts user defined name of a custom widget to a unique ID, which is in context of Dev Portal known as "name".
+ *
+ * @param displayName - User defined name of the custom widget.
+ */
+const displayNameToName = (displayName) => encodeURIComponent(displayName
+    .normalize("NFD")
+    .toLowerCase()
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9-]/g, "-"));
+const widgetFolderName = (name) => `azure-api-management-widget-${name}`;
+
+// Copyright (c) Microsoft Corporation.
+const prefixUrlProtocol = (value) => /https?:\/\//.test(value) ? value : `https://${value}`;
+const validateRequired = (msg = "This field is required.") => (input) => (input != null && input !== "") || msg;
+const validateUrl = (msg = (input) => `${prefixUrlProtocol(input)} is not a valid URL`) => (input) => {
+    try {
+        new URL(prefixUrlProtocol(input));
+        return true;
+    }
+    catch (e) {
+        return msg(prefixUrlProtocol(input));
+    }
+};
+const validateWidgetConfig = {
+    displayName: validateRequired(),
+    tech: (input) => {
+        const required = validateRequired()(input);
+        if (required !== true)
+            return required;
+        if (technologies.includes(input))
+            return true;
+        else
+            return "Invalid tech. Must be one of: " + technologies.join(", ");
+    },
+};
+const validateDeployConfig = {
+    resourceId: (input) => {
+        const required = validateRequired()(input);
+        if (required !== true)
+            return required;
+        const regex = /^\/?subscriptions\/[^/]+\/resourceGroups\/[^/]+\/providers\/Microsoft\.ApiManagement\/service\/[^/]+\/?$/;
+        return input === "test" || regex.test(input)
+            ? true
+            : "resourceId does not satisfy required format: subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ApiManagement/service/<service-name>";
+    },
+    managementApiEndpoint: (input) => {
+        const required = validateRequired()(input);
+        if (required !== true)
+            return required;
+        return validateUrl()(input);
+    },
+};
+const validateMiscConfig = {
+    openUrl: (input) => {
+        if (!input)
+            return true;
+        return validateUrl()(input);
+    },
+};
+const promptWidgetConfig = (partial) => inquirer__default["default"].prompt([
+    {
+        name: "displayName",
+        type: "input",
+        message: "Enter name of your widget:",
+        validate: validateWidgetConfig.displayName,
+    },
+    {
+        name: "tech",
+        type: "list",
+        message: "What technology do you want to use?",
+        choices: [
+            { name: "TypeScript", value: "typescript" },
+            { name: "React", value: "react" },
+        ], // , {name: "Vue", disabled: "Coming soon"}],
+    },
+], partial);
+const promptDeployConfig = (partial) => inquirer__default["default"].prompt([
+    {
+        name: "resourceId",
+        type: "input",
+        message: "resourceId:",
+        validate: validateDeployConfig.resourceId,
+    },
+    {
+        name: "managementApiEndpoint",
+        type: "input",
+        message: "managementApiEndpoint:",
+        default: "management.azure.com",
+        transformer: prefixUrlProtocol,
+        validate: validateDeployConfig.managementApiEndpoint,
+    },
+    {
+        name: "apiVersion",
+        type: "input",
+        message: "apiVersion override (optional):",
+    },
+], partial);
+const promptMiscConfig = (partial) => inquirer__default["default"].prompt([
+    {
+        name: "openUrl",
+        type: "input",
+        message: "openUrl (optional):",
+        transformer: prefixUrlProtocol,
+        validate: validateMiscConfig.openUrl,
+    },
+], partial);
 
 // Copyright (c) Microsoft Corporation.
 async function getTemplates(template) {

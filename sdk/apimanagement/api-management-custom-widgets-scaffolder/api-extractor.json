@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/latest/apimanagement-custom-widgets-scaffolder.d.ts"
+    "publicTrimmedFilePath": "./types/latest/api-management-custom-widgets-scaffolder.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

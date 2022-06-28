@@ -24,7 +24,7 @@ const validateUrl =
     }
   };
 
-type ReplaceTypesPreserveOptional<T extends Record<any, any>, V> = {
+export type ReplaceTypesPreserveOptional<T extends Record<any, any>, V> = {
   [Key in keyof T]: T[Key] extends undefined ? V | undefined : V;
 };
 

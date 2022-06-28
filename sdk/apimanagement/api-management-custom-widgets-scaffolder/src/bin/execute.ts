@@ -3,6 +3,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TLog, buildGetConfig } from "./execute-helpers";
 import {
   prefixUrlProtocol,
   promptDeployConfig,
@@ -13,7 +14,6 @@ import {
   validateWidgetConfig,
 } from "./execute-configs";
 
-import { buildGetConfig, TLog } from "./execute-helpers";
 import chalk from "chalk";
 import { generateProject } from "../generateProject";
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TValidate, TValidateFnc } from "./execute-configs";
+import { ReplaceTypesPreserveOptional, TValidate, TValidateFnc } from "./execute-configs";
 
 import { TConfigs } from "../scaffolding";
 import { hideBin } from "yargs/helpers";
@@ -21,8 +21,9 @@ export const extractConfigFromArgs = <TConfig extends TConfigs>(
     const response = validate(value);
 
     if (response === true) {
-      if (value !== null && value !== undefined)
+      if (value !== null && value !== undefined) {
         configPartial[key as keyof typeof validateConfig] = value;
+      }
     } else if (value === null || value === undefined) {
       missing = true;
     } else {
@@ -36,8 +37,12 @@ export const extractConfigFromArgs = <TConfig extends TConfigs>(
 };
 
 export type TLog = (msg: string) => void;
+ type Config = <TConfig extends TConfigs>(
+  promptForConfig: (partial: Partial<TConfig>) => Promise<TConfig>,
+  validateConfig: ReplaceTypesPreserveOptional<TConfig, TValidateFnc>
+) => Promise<TConfig>;
 
-export const buildGetConfig = (gray: TLog, red: TLog) => {
+export const buildGetConfig = (gray: TLog, red: TLog): Config => {
   const argv = yargsParser(hideBin(process.argv));
   return async <TConfig extends TConfigs>(
     promptForConfig: (partial: Partial<TConfig>) => Promise<TConfig>,
