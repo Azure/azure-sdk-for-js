@@ -50,10 +50,6 @@ directive:
         "providerID",
       ]
   - from: swagger-document
-    where: $.definitions.Polygon.properties.providerID
-    transform: >
-      $["x-ms-client-name"] = "providerId";
-  - from: swagger-document
     where: $.definitions.PointOfInterestCategory
     transform: >
       $["required"] = [
@@ -76,9 +72,6 @@ directive:
         "queryTime",
         "numResults",
       ]
-  - from: swagger-document
-    where-model: SearchSummary
-    remove-property: limit
   - from: swagger-document
     where: $.definitions.LatLongPairAbbreviated
     transform: >
@@ -229,10 +222,6 @@ directive:
         "totalRequests",
       ]
   - from: swagger-document
-    where: $.definitions.BatchResult.properties.summary.properties.successfulRequests
-    transform: >
-      $["x-ms-client-name"] = "totalSuccessfulRequests";
-  - from: swagger-document
     where: $.definitions.SearchAddressBatchItem
     transform: >
       $["required"] = [
@@ -256,10 +245,33 @@ directive:
       $["required"] = [
         "batchItems",
       ]
+```
+
+### Model Rename
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Polygon.properties.providerID
+    transform: >
+      $["x-ms-client-name"] = "providerId";
+  - from: swagger-document
+    where: $.definitions.BatchResult.properties.summary.properties.successfulRequests
+    transform: >
+      $["x-ms-client-name"] = "totalSuccessfulRequests";
   - from: swagger-document
     where: $.parameters.CountrySet
     transform: >
       $["x-ms-client-name"] = "CountryCodeFilter";
+```
+
+### Model Fixes
+
+```yaml
+directive:
+  - from: swagger-document
+    where-model: SearchSummary
+    remove-property: limit
   - from: swagger-document
     where: $.definitions.ErrorDetail
     transform: >
