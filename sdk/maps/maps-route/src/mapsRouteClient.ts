@@ -226,40 +226,6 @@ export class MapsRouteClient {
   }
 
   /**
-   * Sends batches of route directions requests.
-   * The method return the result directly.
-   *
-   * @param requests - The array of search requests to process. The array can contain a max of 100 requests and must contain at least 1 request.
-   * @param options - Optional parameters for the operation
-   */
-  public async requestRouteDirectionsBatch(
-    requests: RouteDirectionsRequest[],
-    options: RouteDirectionsBatchOptions = {}
-  ): Promise<BatchResult<RouteDirections>> {
-    const { span, updatedOptions } = createSpan(
-      "MapsRouteClient-requestRouteDirectionsBatch",
-      options
-    );
-    const batchRequest = createRouteDirectionsBatchRequest(requests);
-    try {
-      const internalResult = await this.client.routeOperations.requestRouteDirectionsBatchSync(
-        this.defaultFormat,
-        batchRequest,
-        updatedOptions
-      );
-      return mapRouteDirectionsBatchResult(internalResult);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
    * Sends batches of route direction queries.
    * The method returns a poller for retrieving the result later.
    *
@@ -326,38 +292,6 @@ export class MapsRouteClient {
 
       await poller.poll();
       return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Calculates a matrix of route summaries for a set of routes defined by origin and destination locations.
-   * The method return the result directly.
-   *
-   * The maximum size of a matrix for this method is 100 (the number of origins multiplied by the number of destinations)
-   *
-   * @param routeMatrixQuery - The matrix of origin and destination coordinates to compute the routes.
-   * @param options - Optional parameters for the operation
-   */
-  public async requestRouteMatrix(
-    routeMatrixQuery: RouteMatrixQuery,
-    options: RouteMatrixOptions = {}
-  ): Promise<RouteMatrixResult> {
-    const { span, updatedOptions } = createSpan("MapsRouteClient-beginRequestRouteMatrix", options);
-    try {
-      const result = await this.client.routeOperations.requestRouteMatrixSync(
-        this.defaultFormat,
-        routeMatrixQuery,
-        updatedOptions
-      );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

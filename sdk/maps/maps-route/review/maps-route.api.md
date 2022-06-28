@@ -408,8 +408,6 @@ export class MapsRouteClient {
     getRouteDirections(routePoints: LatLon[], options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
     getRouteDirectionsWithAdditionalParameters(routePoints: LatLon[], routeDirectionParameters: RouteDirectionParameters, options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
     getRouteRange(coordinates: LatLon, budget: RouteRangeBudget, options?: RouteRangeOptions): Promise<RouteRangeResult>;
-    requestRouteDirectionsBatch(requests: RouteDirectionsRequest[], options?: RouteDirectionsBatchOptions): Promise<BatchResult<RouteDirections>>;
-    requestRouteMatrix(routeMatrixQuery: RouteMatrixQuery, options?: RouteMatrixOptions): Promise<RouteMatrixResult>;
 }
 
 // @public
