@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-    LedgerEntry,
-    ListLedgerEntries200Response,
-    paginate,
-    PostLedgerEntry200Response,
-    PostLedgerEntryParameters,
-  } from "../../src";
+  LedgerEntry,
+  ListLedgerEntries200Response,
+  paginate,
+  //PostLedgerEntry200Response,
+  //PostLedgerEntryParameters,
+} from "../../src";
 
 import { createClient, createRecorder } from "./utils/recordedClient";
 
@@ -27,7 +27,7 @@ describe("Range query should be successful", () => {
   afterEach(async function () {
     await recorder.stop();
   });
-
+  /*
   it("should post 2000 entries", async function () {
     const modulus = 5;
     // Should result in 2 pages.
@@ -42,20 +42,18 @@ describe("Range query should be successful", () => {
       const ledgerEntry: PostLedgerEntryParameters = {
         contentType: "application/json",
         body: entry,
-        queryParameters: {collectionId: "" + (i % modulus)}
+        queryParameters: { collectionId: "" + (i % modulus) }
       };
-      
+
       let result = (await client
         .path("/app/transactions")
         .post(ledgerEntry)) as PostLedgerEntry200Response;
 
-      console.log(result);
-
       assert.equal(result.status, "200");
     }
   });
-
-  it ("should audit 2000 entries", async function () {
+*/
+  it("should audit 2000 entries", async function () {
 
     const modulus = 5;
     const numMessagesSent = 2001;
@@ -63,8 +61,8 @@ describe("Range query should be successful", () => {
     var correctEntries: string[] = [];
 
     for (let i = 0; i < modulus; i += 1) {
-      const getLedgerEntriesParams = {queryParameters: {collectionId: "" + i}};
-    // get ledger entries for each collection
+      const getLedgerEntriesParams = { queryParameters: { collectionId: "" + i } };
+      // get ledger entries for each collection
       const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams) as ListLedgerEntries200Response;
 
       var items = paginate(client, ledgerEntries).byPage();
@@ -75,7 +73,6 @@ describe("Range query should be successful", () => {
         const rangedArr = Array.from(Array(page.length).keys()).map(x => x + 1);
         for (index of rangedArr) {
           var entry = page[index] as LedgerEntry;
-          console.log(entry)
           if (entry != undefined && entry.collectionId == "" + i && parseInt(entry.contents) % modulus == parseInt(entry.collectionId)) {
             correctEntries.push(entry.contents);
           }

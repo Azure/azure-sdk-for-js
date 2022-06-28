@@ -8,7 +8,7 @@ import {
   ConfidentialLedgerErrorOutput,
   ConsortiumOutput,
   ConfidentialLedgerEnclavesOutput,
-  CollectionOutput,
+  CollectionsOutput,
   PagedLedgerEntriesOutput,
   LedgerWriteResultOutput,
   LedgerQueryResultOutput,
@@ -57,7 +57,7 @@ export interface GetEnclaveQuotesdefaultResponse extends HttpResponse {
 /** Collection ids are user-created collections of ledger entries */
 export interface ListCollections200Response extends HttpResponse {
   status: "200";
-  body: Array<CollectionOutput>;
+  body: CollectionsOutput;
 }
 
 /** Collection ids are user-created collections of ledger entries */

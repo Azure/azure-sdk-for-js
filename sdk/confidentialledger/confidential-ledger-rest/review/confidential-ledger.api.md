@@ -21,6 +21,11 @@ export interface CollectionOutput {
 }
 
 // @public (undocumented)
+export interface CollectionsOutput {
+    collections: Array<CollectionOutput>;
+}
+
+// @public (undocumented)
 function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, options?: ClientOptions): ConfidentialLedgerClient;
 
 // @public (undocumented)
@@ -446,7 +451,7 @@ export interface ListCollections {
 // @public
 export interface ListCollections200Response extends HttpResponse {
     // (undocumented)
-    body: Array<CollectionOutput>;
+    body: CollectionsOutput;
     // (undocumented)
     status: "200";
 }

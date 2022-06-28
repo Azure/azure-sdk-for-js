@@ -11,7 +11,8 @@ description: The ConfidentialLedgerClient writes and retrieves ledger entries ag
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/confidentialledger/data-plane/Microsoft.ConfidentialLedger/stable/2022-05-13/confidentialledger.json
+# input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/confidentialledger/data-plane/Microsoft.ConfidentialLedger/stable/2022-05-13/confidentialledger.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/f89be7447fd4b71e5271ad6ea0d9051ee2c4f01e/specification/confidentialledger/data-plane/Microsoft.ConfidentialLedger/stable/2022-05-13/confidentialledger.json
 package-version: 1.0.0-beta.3
 hide-clients: true
 rest-level-client: true

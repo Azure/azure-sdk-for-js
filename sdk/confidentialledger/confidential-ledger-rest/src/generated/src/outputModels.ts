@@ -49,6 +49,11 @@ export interface EnclaveQuoteOutput {
   raw: string;
 }
 
+export interface CollectionsOutput {
+  /** A list of identifiers for ledger collections. */
+  collections: Array<CollectionOutput>;
+}
+
 export interface CollectionOutput {
   collectionId: string;
 }
