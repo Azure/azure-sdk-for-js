@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://thisurl-logsingestion-somethinglocation123abcrd.monitor.azure.com/dataCollectionRules/dcr-adec84661d05465f8532f32a04af6f98/streams/Custom-MyTableRawData?api-version=2021-11-01-preview",
+      "RequestUri": "https://thisurl-logsingestion-somethinglocation123abcrd.monitor.azure.com/dataCollectionRules/dcr-abcdefghijklmnopqrstuvwxyztyuiop/streams/Custom-MyTableRawData?api-version=2021-11-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,8 +11,8 @@
         "Content-Encoding": "gzip",
         "Content-Length": "4736",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-monitor-ingestion/1.0.0-beta.1 azsdk-js-data-collection/1.0.0-beta.1 core-rest-pipeline/1.8.2 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "b5bf910e-0256-406f-8c52-91d4afccefd7"
+        "User-Agent": "azsdk-js-monitor-ingestion/1.0.0-beta.1 azsdk-js-data-collection/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "e2421824-ebc7-4b81-83a5-d5e67007f528"
       },
       "RequestBody": [
         "\u001F\uFFFD\b\u0000\u0000\u0000\u0000\u0000\u0000\n",
@@ -20,10 +20,10 @@
       ],
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Sat, 25 Jun 2022 00:42:49 GMT",
+        "Date": "Tue, 28 Jun 2022 23:50:00 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
-        "x-ms-client-request-id": "b5bf910e-0256-406f-8c52-91d4afccefd7",
-        "x-ms-request-id": "999d4a74-2927-484d-94c5-3b02e7dfbf6d"
+        "x-ms-client-request-id": "e2421824-ebc7-4b81-83a5-d5e67007f528",
+        "x-ms-request-id": "03971001-4756-49a2-bcf9-daecd70b925b"
       },
       "ResponseBody": null
     }
