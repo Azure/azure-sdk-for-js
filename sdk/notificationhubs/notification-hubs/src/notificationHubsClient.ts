@@ -11,7 +11,7 @@ import {
   RestError,
 } from "@azure/core-rest-pipeline";
 import { OperationOptions, ServiceClient } from "@azure/core-client";
-import { registrationDescriptionParser, registrationSerializer } from "./serializers/registrationSerializer";
+import { registrationDescriptionParser, registrationDescriptionSerializer } from "./serializers/registrationSerializer";
 import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
@@ -24,6 +24,8 @@ import { EntityOperationOptions, NotificationHubsClientOptions, RegistrationQuer
 import { NotificationHubMessageResponse, NotificationHubResponse, RegistrationQueryResponse } from "./models/response";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "./models/registration";
+import { parseNotificationDetails } from "./serializers/notificationDetailsSerializer";
+import { NotificationDetails } from "./models/notificationDetails";
 
 const API_VERSION = "2020-06";
 
@@ -448,7 +450,7 @@ export class NotificationHubsClient extends ServiceClient {
     headers.set("If-Match", eTag);
 
     const request = this.createRequest(endpoint, httpMethod, headers, options);
-    request.body = registrationSerializer.serializeRegistrationDescription(registration);
+    request.body = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
     const response = await this.sendRequest(request);
     if (response.status !== 200 && response.status !== 201) {
       throw new RestError(
@@ -851,6 +853,41 @@ export class NotificationHubsClient extends ServiceClient {
         return this.parseNotificationSendResponse(response);
       }
     );
+  }
+
+  /**
+   * Retrieves the results of a send operation. This can retrieve intermediate results if the send is being processed 
+   * or final results if the Send* has completed. This API can only be called for Standard SKU and above.
+   * @param notificationId - The notification ID returned from the send operation.
+   * @param options - The operation options.
+   * @returns The results of the send operation.
+   */
+  public async getNotificationOutcomeDetails(
+    notificationId: string,
+    options: OperationOptions = {},
+  ): Promise<NotificationDetails> {
+    return tracingClient.withSpan(
+      "getNotificationOutcomeDetails-NotificationHubsClient",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += `/messages/${notificationId}`;
+
+        const headers = this.createHeaders();
+        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
+
+        const response = await this.sendRequest(request);
+        if (response.status !== 200) {
+          throw new RestError(
+            `getNotificationOutcomeDetails failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
+        }
+
+        return parseNotificationDetails(response.bodyAsText!);
+      });
   }
 
   private createHeaders(): HttpHeaders {

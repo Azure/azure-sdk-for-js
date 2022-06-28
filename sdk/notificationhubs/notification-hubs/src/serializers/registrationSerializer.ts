@@ -23,7 +23,6 @@ import {
   WindowsTemplateRegistrationDescription 
 } from "../models/registration";
 import { 
-  capitalize,
   getDateOrUndefined, 
   getString, 
   getStringOrUndefined, 
@@ -183,7 +182,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       admRegistrationId: getString(rawRegistrationDescription["AdmRegistrationId"], "admRegistrationId"),
       ...createRegistrationDescription(rawRegistrationDescription),
-      platform: "adm",
+      platform: "Adm",
     };
   },
 
@@ -197,7 +196,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       ...this.createAdmRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
-      platform: "admTemplate",
+      platform: "AdmTemplate",
     }
   },
 
@@ -211,7 +210,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       deviceToken: getString(rawRegistrationDescription["DeviceToken"], "deviceToken"),
       ...createRegistrationDescription(rawRegistrationDescription),
-      platform: "apple",
+      platform: "Apple",
     };
   },
 
@@ -227,7 +226,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       apnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["ApnsHeaders"]?.["ApnsHeader"]),
       ...this.createAppleRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
-      platform: "appleTemplate",
+      platform: "AppleTemplate",
     }
   },
 
@@ -242,7 +241,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       baiduChannelId: getString(rawRegistrationDescription["BaiduChannelId"], "baiduChannelId"),
       baiduUserId: getString(rawRegistrationDescription["BaiduUserId"], "baiduUserId"),
       ...createRegistrationDescription(rawRegistrationDescription),
-      platform: "baidu",
+      platform: "Baidu",
     };
   },
 
@@ -256,7 +255,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       ...this.createBaiduRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
-      platform: "baiduTemplate",
+      platform: "BaiduTemplate",
     };
   },
 
@@ -272,7 +271,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       p256DH: getString(rawRegistrationDescription["P256DH"], "p256DH"),
       auth: getString(rawRegistrationDescription["Auth"], "auth"),
       ...createRegistrationDescription(rawRegistrationDescription),
-      platform: "browser",
+      platform: "Browser",
     }
   },
 
@@ -286,7 +285,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       ...this.createBrowserRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
-      platform: "browserTemplate",
+      platform: "BrowserTemplate",
     };
   },
 
@@ -300,7 +299,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       gcmRegistrationId: getString(rawRegistrationDescription["GcmRegistrationId"], "gcmRegistrationId"),
       ...createRegistrationDescription(rawRegistrationDescription),
-      platform: "gcm",
+      platform: "Gcm",
     }
   },
 
@@ -314,7 +313,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       ...this.createGcmRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
-      platform: "gcmTemplate",
+      platform: "GcmTemplate",
     };
   },
 
@@ -328,7 +327,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       fcmRegistrationId: getString(rawRegistrationDescription["FcmRegistrationId"], "fcmRegistrationId"),
       ...createRegistrationDescription(rawRegistrationDescription),
-      platform: "fcm",
+      platform: "Fcm",
     }
   },
 
@@ -342,7 +341,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       ...this.createFcmRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
-      platform: "fcmTemplate",
+      platform: "FcmTemplate",
     };
   },
 
@@ -356,7 +355,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       channelUri: getString(rawRegistrationDescription["ChannelUri"], "channelUri"),
       ...createRegistrationDescription(rawRegistrationDescription),
-      platform: "mpns",
+      platform: "Mpns",
     };
   },
 
@@ -371,7 +370,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       mpnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["MpnsHeaders"]?.["MpnsHeader"]),
       ...this.createWindowsRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
-      platform: "mpnsTemplate",
+      platform: "MpnsTemplate",
     }
   },
 
@@ -385,7 +384,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     return {
       channelUri: getString(rawRegistrationDescription["ChannelUri"], "channelUri"),
       ...createRegistrationDescription(rawRegistrationDescription),
-      platform: "windows",
+      platform: "Windows",
     };
   },
 
@@ -400,7 +399,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       wnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["WnsHeaders"]?.["WnsHeader"]),
       ...this.createWindowsRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
-      platform: "windowsTemplate",
+      platform: "WindowsTemplate",
     }
   }
 };
@@ -538,9 +537,12 @@ export interface RegistrationDescriptionSerializer {
   serializeWindowsTemplateRegistrationDescription(description: Omit<WindowsTemplateRegistrationDescription, "platform">): Record<string, any>;
 }
 
-export const registrationSerializer: RegistrationDescriptionSerializer = {
+/**
+ * Represents a RegistrationDescription serializer.
+ */
+export const registrationDescriptionSerializer: RegistrationDescriptionSerializer = {
   serializeRegistrationDescription(description: RegistrationDescription): string {
-    const rootName = `${capitalize(description.platform)}RegistrationDescription`;
+    const rootName = `${description.platform}RegistrationDescription`;
     const methodName = `serialize${rootName}`;
 
     const method = this[methodName as keyof RegistrationDescriptionSerializer] as any;
@@ -554,6 +556,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     return stringifyXML(requestObject, { "rootName": "entry" });
   },
 
+  /**
+   * @internal
+   * Serializes an existing ADM registration description to an object for serialization.
+   */
   serializeAdmRegistrationDescription(description: Omit<AdmRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -561,6 +567,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing ADM template registration description to an object for serialization.
+   */
   serializeAdmTemplateRegistrationDescription(description: Omit<AdmTemplateRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...this.serializeAdmRegistrationDescription(description),
@@ -568,6 +578,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing Apple registration description to an object for serialization.
+   */
   serializeAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -575,6 +589,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing Apple template registration description to an object for serialization.
+   */  
   serializeAppleTemplateRegistrationDescription(description: AppleTemplateRegistrationDescription): Record<string, any> {
     let apnsHeaders: Record<string, any> | undefined;
     if (description.apnsHeaders) {
@@ -598,6 +616,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing Baidu registration description to an object for serialization.
+   */  
   serializeBaiduRegistrationDescription(description: Omit<BaiduRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -606,6 +628,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing Baidu template registration description to an object for serialization.
+   */
   serializeBaiduTemplateRegistrationDescription(description: Omit<BaiduTemplateRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...this.serializeBaiduRegistrationDescription(description),
@@ -613,6 +639,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing Browser registration description to an object for serialization.
+   */
   serializeBrowserRegistrationDescription(description: Omit<BrowserRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -622,6 +652,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing Browser template registration description to an object for serialization.
+   */
   serializeBrowserTemplateRegistrationDescription(description: Omit<BrowserTemplateRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...this.serializeBrowserRegistrationDescription(description),
@@ -629,6 +663,11 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * @deprecated Should use FCM registrations instead of GCM.
+   * Serializes an existing GCM registration description to an object for serialization.
+   */
   serializeGcmRegistrationDescription(description: Omit<GcmRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -636,6 +675,11 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * @deprecated Should use FCM template registrations instead of GCM.
+   * Serializes an existing GCM template registration description to an object for serialization.
+   */  
   serializeGcmTemplateRegistrationDescription(description: Omit<GcmTemplateRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...this.serializeGcmRegistrationDescription(description),
@@ -643,6 +687,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing FCM registration description to an object for serialization.
+   */  
   serializeFcmRegistrationDescription(description: Omit<FcmRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -650,6 +698,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing FCM template registration description to an object for serialization.
+   */  
   serializeFcmTemplateRegistrationDescription(description: Omit<FcmTemplateRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...this.serializeFcmRegistrationDescription(description),
@@ -657,6 +709,11 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * @deprecated Windows Phone is no longer supported.
+   * Serializes an existing MPNS registration description to an object for serialization.
+   */
   serializeMpnsRegistrationDescription(description: Omit<MpnsRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -664,6 +721,11 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * @deprecated Windows Phone is no longer supported.
+   * Serializes an existing MPNS template registration description to an object for serialization.
+   */
   serializeMpnsTemplateRegistrationDescription(description: Omit<MpnsTemplateRegistrationDescription, "platform">): Record<string, any> {
     let mpnsHeaders: Record<string, any> | undefined;
     if (description.mpnsHeaders) {
@@ -686,6 +748,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing Windows registration description to an object for serialization.
+   */
   serializeWindowsRegistrationDescription(description: Omit<WindowsRegistrationDescription, "platform">): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -693,6 +759,10 @@ export const registrationSerializer: RegistrationDescriptionSerializer = {
     };
   },
 
+  /**
+   * @internal
+   * Serializes an existing Windows template registration description to an object for serialization.
+   */  
   serializeWindowsTemplateRegistrationDescription(description: Omit<WindowsTemplateRegistrationDescription, "platform">): Record<string, any> {
     let wnsHeaders: Record<string, any> | undefined;
     if (description.wnsHeaders) {

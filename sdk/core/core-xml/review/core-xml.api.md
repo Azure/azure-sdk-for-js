@@ -18,8 +18,10 @@ export const XML_CHARKEY = "_";
 
 // @public
 export interface XmlOptions {
+    cDataPropName?: string;
     includeRoot?: boolean;
     rootName?: string;
+    stopNodes?: string[];
     xmlCharKey?: string;
 }
 

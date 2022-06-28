@@ -61,6 +61,11 @@ export interface AppleInstallation extends DeviceTokenInstallation {
   platform: "apple";
 }
 
+/**
+ * Creates an Apple based installation.
+ * @param installation - A partial installation used to create the Apple installation.
+ * @returns The newly created Apple installation.
+ */
 export function createAppleInstallation(installation: Omit<AppleInstallation, "platform">): AppleInstallation {
   return {
     ...installation,
@@ -79,6 +84,18 @@ export interface AdmInstallation extends DeviceTokenInstallation {
 }
 
 /**
+ * Creates an Amazon Device Messaging (ADM) based installation.
+ * @param installation - A partial installation used to create the ADM installation.
+ * @returns The newly created ADM installation.
+ */
+export function createAdmInstallation(installation: Omit<AdmInstallation, "platform">): AdmInstallation {
+  return {
+    ...installation,
+    platform: "adm",
+  };
+}
+
+/**
  * Represents a Baidu based installation.
  */
 export interface BaiduInstallation extends DeviceTokenInstallation {
@@ -86,6 +103,18 @@ export interface BaiduInstallation extends DeviceTokenInstallation {
    * The platform for the installation.
    */
   platform: "baidu";
+}
+
+/**
+ * Creates a Baidu based installation.
+ * @param installation - A partial installation used to create the Baidu installation.
+ * @returns The newly created Baidu installation.
+ */
+export function createBaiduInstallation(installation: Omit<BaiduInstallation, "platform">): BaiduInstallation {
+  return {
+    ...installation,
+    platform: "baidu",
+  };
 }
 
 /**
@@ -99,6 +128,18 @@ export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
 }
 
 /**
+ * Creates a Firebase legacy HTTP based installation.
+ * @param installation - A partial installation used to create the Firebase Legacy HTTP installation.
+ * @returns The newly created Baidu installation.
+ */
+export function createFirebaseLegacyInstallation(installation: Omit<FirebaseLegacyInstallation, "platform">): FirebaseLegacyInstallation {
+  return {
+    ...installation,
+    platform: "gcm",
+  };
+}
+
+/**
  * Represents a Windows Notification Services (WNS) based installation.
  */
 export interface WindowsInstallation extends DeviceTokenInstallation {
@@ -106,6 +147,18 @@ export interface WindowsInstallation extends DeviceTokenInstallation {
    * The platform for the installation.
    */
   platform: "wns";
+}
+
+/**
+ * Creates a Windows Notification Services (WNS) based installation.
+ * @param installation - A partial installation used to create the WNS installation.
+ * @returns The newly created WNS installation.
+ */
+export function createWindowsInstallation(installation: Omit<WindowsInstallation, "platform">): WindowsInstallation {
+  return {
+    ...installation,
+    platform: "wns",
+  };
 }
 
 /**
@@ -142,6 +195,18 @@ export interface BrowserInstallation extends InstallationCommon {
    * The platform for the installation.
    */
   platform: "browser";
+}
+
+/**
+ * Creates a Web Push based installation.
+ * @param installation - A partial installation used to create the Web Push installation.
+ * @returns The newly created Web Push installation.
+ */
+export function createBrowserInstallation(installation: Omit<BrowserInstallation, "platform">): BrowserInstallation {
+  return {
+    ...installation,
+    platform: "browser",
+  };
 }
 
 /**

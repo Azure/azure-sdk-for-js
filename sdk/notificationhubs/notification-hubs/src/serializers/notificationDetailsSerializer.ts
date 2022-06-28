@@ -1,100 +1,61 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * Represents the notification outcome states.
- */
-export type NotificationOutcomeState = 
-  "Enqueued" |
-  "DetailedStateAvailable" |
-  "Processing" |
-  "Completed" |
-  "Abandoned" |
-  "Unknown" |
-  "NoTargetFound" |
-  "Cancelled";
+import { parseXML } from "@azure/core-xml";
+import { NotificationDetails, NotificationOutcomeCollectionItem, NotificationOutcomeState } from "../models/notificationDetails";
+import { getDateOrUndefined, getInteger, getStringOrUndefined, isDefined } from "../utils/xmlUtils";
 
-/**
- * The per platform count per state.
- */
-export interface NotificationOutcomeCollectionItem {
-  /**
-   * The state of the notification.
-   */
-  state: string;
+export async function parseNotificationDetails(bodyText: string): Promise<NotificationDetails> {
+  const xml = await parseXML(bodyText, { includeRoot: true, stopNodes: ["NotificationDetails.NotificationBody"] });
+  const notificationDetails = xml["NotificationDetails"];
 
-  /**
-   * The count of notifications per state.
-   */
-  count: number;
+  let apnsOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
+  if (isDefined(notificationDetails["ApnsOutcomeCounts"])) {
+    apnsOutcomeCounts = parseOutcomeCounts(notificationDetails["ApnsOutcomeCounts"]["Outcome"]);
+  }
+
+  let admOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
+  if (isDefined(notificationDetails["AdmOutcomeCounts"])) {
+    admOutcomeCounts = parseOutcomeCounts(notificationDetails["AdmOutcomeCounts"]["Outcome"]);
+  }
+
+  let baiduOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
+  if (isDefined(notificationDetails["BaiduOutcomeCounts"])) {
+    baiduOutcomeCounts = parseOutcomeCounts(notificationDetails["BaiduOutcomeCounts"]["Outcome"]);
+  }
+
+  let fcmOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
+  if (isDefined(notificationDetails["GcmOutcomeCounts"])) {
+    fcmOutcomeCounts = parseOutcomeCounts(notificationDetails["GcmOutcomeCounts"]["Outcome"]);
+  }
+
+  let wnsOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
+  if (isDefined(notificationDetails["WnsOutcomeCounts"])) {
+    wnsOutcomeCounts = parseOutcomeCounts(notificationDetails["WnsOutcomeCounts"]["Outcome"]);
+  }
+
+  return {
+    notificationId: getStringOrUndefined(notificationDetails["NotificationId"]),
+    location: getStringOrUndefined(notificationDetails["Location"]),
+    state: getStringOrUndefined(notificationDetails["State"]) as NotificationOutcomeState,
+    enqueueTime: getDateOrUndefined(notificationDetails["EnqueueTime"]),
+    startTime: getDateOrUndefined(notificationDetails["StartTime"]),
+    endTime: getDateOrUndefined(notificationDetails["EndTime"]),
+    pnsErrorDetailsUrl: getStringOrUndefined(notificationDetails["PnsErrorDetailsUri"]),
+    targetPlatforms: getStringOrUndefined(notificationDetails["TargetPlatforms"]),
+    apnsOutcomeCounts,
+    admOutcomeCounts,
+    baiduOutcomeCounts,
+    fcmOutcomeCounts,
+    wnsOutcomeCounts,
+  };
 }
 
-/**
- * Represents Notification details.
- */
-export interface NotificationDetails {
-  /**
-   * The unique notification identifier.
-   */
-  notificationId?: string;
+function parseOutcomeCounts(counts: Record<string, any>[]): NotificationOutcomeCollectionItem[] {
+  const results: NotificationOutcomeCollectionItem[] = [];
+  for (const item of counts) {
+    results.push({ state: item["Name"], count: getInteger(item["Count"], "Count") });
+  }
 
-  /**
-   * The notification location.
-   */
-  location?: string;
-
-  /**
-   * The notification state.
-   */
-  state?: NotificationOutcomeState;
-
-  /**
-   * The enqueue time of the notification.
-   */
-  enqueueTime?: Date;
-
-  /**
-   * The notification send start time.
-   */
-  startTime?: Date;
-
-  /**
-   * The notification send end time.
-   */
-  endTime?: Date;
-
-  /**
-   * The notification body.
-   */
-  notificationBody?: string;
-
-  /**
-   * The notification tags.
-   */
-  tags?: string;
-
-  /**
-   * The notification platforms targeted.
-   */
-  targetPlatforms?: string;
-
-  /**
-   * APNs outcomes counts per state.
-   */
-  apnsOutcomeCounts?: NotificationOutcomeCollectionItem[];
-
-  /**
-   * WNS outcomes counts per state.
-   */  
-  wnsOutcomeCounts?: NotificationOutcomeCollectionItem[];
-
-  /**
-   * FCM outcome counts per state.
-   */
-  fcmOutcomeCounts?: NotificationOutcomeCollectionItem[];
-
-  /**
-   * ADM outcome counts per state.
-   */  
-  admOutcomeCounts?: NotificationOutcomeCollectionItem[];
-}
+  return results;
+};

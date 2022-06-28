@@ -6,6 +6,7 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ServiceClient } from '@azure/core-client';
 
 // @public
@@ -21,12 +22,12 @@ export interface AdmMessage extends JsonNotificationMessage {
 // @public
 export interface AdmRegistrationDescription extends RegistrationDescriptionCommon {
     admRegistrationId: string;
-    platform: "adm";
+    platform: "Adm";
 }
 
 // @public
 export interface AdmTemplateRegistrationDescription extends Omit<AdmRegistrationDescription, "platform">, TemplateRegistrationDescription {
-    platform: "admTemplate";
+    platform: "AdmTemplate";
 }
 
 // @public
@@ -42,14 +43,14 @@ export interface AppleMessage extends JsonNotificationMessage {
 // @public
 export interface AppleRegistrationDescription extends RegistrationDescriptionCommon {
     deviceToken: string;
-    platform: "apple";
+    platform: "Apple";
 }
 
 // @public
 export interface AppleTemplateRegistrationDescription extends Omit<AppleRegistrationDescription, "platform">, TemplateRegistrationDescription {
     apnsHeaders?: Record<string, string>;
     expiry?: Date;
-    platform: "appleTemplate";
+    platform: "AppleTemplate";
     priority?: string;
 }
 
@@ -67,12 +68,12 @@ export interface BaiduMessage extends JsonNotificationMessage {
 export interface BaiduRegistrationDescription extends RegistrationDescriptionCommon {
     baiduChannelId: string;
     baiduUserId: string;
-    platform: "baidu";
+    platform: "Baidu";
 }
 
 // @public
 export interface BaiduTemplateRegistrationDescription extends Omit<BaiduRegistrationDescription, "platform">, TemplateRegistrationDescription {
-    platform: "baiduTemplate";
+    platform: "BaiduTemplate";
 }
 
 // @public
@@ -98,13 +99,109 @@ export interface BrowserRegistrationDescription extends RegistrationDescriptionC
     auth: string;
     endpoint: string;
     p256DH: string;
-    platform: "browser";
+    platform: "Browser";
 }
 
 // @public
 export interface BrowserTemplateRegistrationDescription extends Omit<BrowserRegistrationDescription, "platform">, TemplateRegistrationDescription {
-    platform: "browserTemplate";
+    platform: "BrowserTemplate";
 }
+
+// @public
+export function createAdmInstallation(installation: Omit<AdmInstallation, "platform">): AdmInstallation;
+
+// @public
+export function createAdmMessage(message: Omit<AdmMessage, "platform" | "contentType">): AdmMessage;
+
+// @public
+export function createAdmRegistrationDescription(description: Omit<AdmRegistrationDescription, "platform">): AdmRegistrationDescription;
+
+// @public
+export function createAdmTemplateRegistrationDescription(description: Omit<AdmTemplateRegistrationDescription, "platform">): AdmTemplateRegistrationDescription;
+
+// @public
+export function createAppleInstallation(installation: Omit<AppleInstallation, "platform">): AppleInstallation;
+
+// @public
+export function createAppleMessage(message: Omit<AppleMessage, "platform" | "contentType">): AppleMessage;
+
+// @public
+export function createAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "Platform">): AppleRegistrationDescription;
+
+// @public
+export function createAppleTemplateRegistrationDescription(description: Omit<AppleTemplateRegistrationDescription, "platform">): AppleTemplateRegistrationDescription;
+
+// @public
+export function createBadgeMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage;
+
+// @public
+export function createBaiduInstallation(installation: Omit<BaiduInstallation, "platform">): BaiduInstallation;
+
+// @public
+export function createBaiduMessage(message: Omit<BaiduMessage, "platform" | "contentType">): BaiduMessage;
+
+// @public
+export function createBaiduRegistrationDescription(description: Omit<BaiduRegistrationDescription, "platform">): BaiduRegistrationDescription;
+
+// @public
+export function createBaiduTemplateRegistrationDescription(description: Omit<BaiduTemplateRegistrationDescription, "platform">): BaiduTemplateRegistrationDescription;
+
+// @public
+export function createBrowserInstallation(installation: Omit<BrowserInstallation, "platform">): BrowserInstallation;
+
+// @public
+export function createBrowserMessage(message: Omit<BrowserMessage, "platform" | "contentType">): BrowserMessage;
+
+// @public
+export function createBrowserRegistrationDescription(description: Omit<BrowserRegistrationDescription, "platform">): BrowserRegistrationDescription;
+
+// @public
+export function createBrowserTemplateRegistrationDescription(description: Omit<BrowserTemplateRegistrationDescription, "platform">): BrowserTemplateRegistrationDescription;
+
+// @public
+export function createFcmRegistrationDescription(description: Omit<FcmTemplateRegistrationDescription, "platform">): FcmRegistrationDescription;
+
+// @public
+export function createFcmTemplateRegistrationDescription(description: Omit<FcmTemplateRegistrationDescription, "platform">): FcmTemplateRegistrationDescription;
+
+// @public
+export function createFirebaseLegacyInstallation(installation: Omit<FirebaseLegacyInstallation, "platform">): FirebaseLegacyInstallation;
+
+// @public
+export function createFirebaseLegacyMessage(message: Omit<FirebaseLegacyMessage, "platform" | "contentType">): FirebaseLegacyMessage;
+
+// @public
+export function createGcmRegistrationDescription(description: Omit<GcmRegistrationDescription, "platform">): GcmRegistrationDescription;
+
+// @public @deprecated (undocumented)
+export function createGcmTemplateRegistrationDescription(description: Omit<GcmTemplateRegistrationDescription, "platform">): GcmTemplateRegistrationDescription;
+
+// @public @deprecated (undocumented)
+export function createMpnsRegistrationDescription(description: Omit<MpnsRegistrationDescription, "platform">): MpnsRegistrationDescription;
+
+// @public @deprecated (undocumented)
+export function createMpnsTemplateRegistrationDescription(description: Omit<MpnsTemplateRegistrationDescription, "platform">): MpnsTemplateRegistrationDescription;
+
+// @public
+export function createTemplateMessage(message: Omit<TemplateMessage, "platform" | "contentType">): TemplateMessage;
+
+// @public
+export function createWindowsInstallation(installation: Omit<WindowsInstallation, "platform">): WindowsInstallation;
+
+// @public
+export function createWindowsRawMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage;
+
+// @public
+export function createWindowsRegistrationDescription(description: Omit<WindowsRegistrationDescription, "platform">): WindowsRegistrationDescription;
+
+// @public
+export function createWindowsTemplateRegistrationDescription(description: Omit<WindowsTemplateRegistrationDescription, "platform">): WindowsTemplateRegistrationDescription;
+
+// @public
+export function createWindowsTileMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage;
+
+// @public
+export function createWindowsToastMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage;
 
 // @public
 export interface DeviceTokenInstallation extends InstallationCommon {
@@ -112,14 +209,19 @@ export interface DeviceTokenInstallation extends InstallationCommon {
 }
 
 // @public
+export interface EntityOperationOptions extends OperationOptions {
+    eTag?: string;
+}
+
+// @public
 export interface FcmRegistrationDescription extends RegistrationDescriptionCommon {
     fcmRegistrationId: string;
-    platform: "fcm";
+    platform: "Fcm";
 }
 
 // @public
 export interface FcmTemplateRegistrationDescription extends Omit<FcmRegistrationDescription, "platform">, TemplateRegistrationDescription {
-    platform: "fcmTemplate";
+    platform: "FcmTemplate";
 }
 
 // @public
@@ -135,12 +237,12 @@ export interface FirebaseLegacyMessage extends JsonNotificationMessage {
 // @public @deprecated
 export interface GcmRegistrationDescription extends RegistrationDescriptionCommon {
     gcmRegistrationId: string;
-    platform: "gcm";
+    platform: "Gcm";
 }
 
-// @public @deprecated
+// @public @deprecated (undocumented)
 export interface GcmTemplateRegistrationDescription extends Omit<GcmRegistrationDescription, "platform">, TemplateRegistrationDescription {
-    platform: "gcmTemplate";
+    platform: "GcmTemplate";
 }
 
 // @public
@@ -183,13 +285,33 @@ export type JsonPatchOperation = "add" | "remove" | "replace";
 // @public @deprecated
 export interface MpnsRegistrationDescription extends RegistrationDescriptionCommon {
     channelUri: string;
-    platform: "mpns";
+    platform: "Mpns";
 }
 
 // @public @deprecated
 export interface MpnsTemplateRegistrationDescription extends Omit<MpnsRegistrationDescription, "platform">, TemplateRegistrationDescription {
     mpnsHeaders?: Record<string, string>;
-    platform: "mpnsTemplate";
+    platform: "MpnsTemplate";
+}
+
+// @public
+export interface NotificationDetails {
+    admOutcomeCounts?: NotificationOutcomeCollectionItem[];
+    apnsOutcomeCounts?: NotificationOutcomeCollectionItem[];
+    baiduOutcomeCounts?: NotificationOutcomeCollectionItem[];
+    browserOutcomeCounts?: NotificationOutcomeCollectionItem[];
+    endTime?: Date;
+    enqueueTime?: Date;
+    fcmOutcomeCounts?: NotificationOutcomeCollectionItem[];
+    location?: string;
+    notificationBody?: string;
+    notificationId?: string;
+    pnsErrorDetailsUrl?: string;
+    startTime?: Date;
+    state?: NotificationOutcomeState;
+    tags?: string;
+    targetPlatforms?: string;
+    wnsOutcomeCounts?: NotificationOutcomeCollectionItem[];
 }
 
 // @public
@@ -204,6 +326,11 @@ export interface NotificationHubMessageCommon {
 }
 
 // @public
+export interface NotificationHubMessageResponse extends NotificationHubResponse {
+    notificationId?: string;
+}
+
+// @public
 export interface NotificationHubResponse {
     correlationId?: string;
     location?: string;
@@ -213,21 +340,38 @@ export interface NotificationHubResponse {
 // @public
 export class NotificationHubsClient extends ServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
+    cancelScheduledNotification(notificationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
     createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubResponse>;
+    createOrUpdateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
+    createRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
     createRegistrationId(options?: OperationOptions): Promise<string>;
     deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
+    deleteRegistrationById(registrationId: string, options?: EntityOperationOptions): Promise<NotificationHubResponse>;
     getFeedbackContainerURL(options?: OperationOptions): Promise<string>;
     getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
+    getNotificationOutcomeDetails(notificationId: string, options?: OperationOptions): Promise<NotificationDetails>;
     getRegistrationById(registrationId: string, options?: OperationOptions): Promise<RegistrationDescription>;
+    listRegistrations(options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
+    listRegistrationsByTag(tag: string, options: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     patchInstallation(installationId: string, installationPatches: InstallationPatch[], options?: OperationOptions): Promise<NotificationHubResponse>;
-    scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessage, options?: OperationOptions): Promise<NotificationHubResponse>;
+    scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessage, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
     sendDirectNotification(pushHandle: PushHandle, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
     sendNotification(tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
+    updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
 }
 
 // @public
 export interface NotificationHubsClientOptions extends CommonClientOptions {
 }
+
+// @public
+export interface NotificationOutcomeCollectionItem {
+    count: number;
+    state: string;
+}
+
+// @public
+export type NotificationOutcomeState = "Enqueued" | "DetailedStateAvailable" | "Processing" | "Completed" | "Abandoned" | "Unknown" | "NoTargetFound" | "Cancelled";
 
 // @public
 export type PushHandle = BrowserPushChannel | string;
@@ -246,7 +390,23 @@ export interface RegistrationDescriptionCommon {
 }
 
 // @public
-export type RegistrationType = "adm" | "admTemplate" | "apple" | "appleTemplate" | "baidu" | "baiduTemplate" | "browser" | "browserTemplate" | "gcm" | "gcmTemplate" | "fcm" | "fcmTemplate" | "mpns" | "mpnsTemplate" | "windows" | "windowsTemplate";
+export interface RegistrationQueryLimitOptions extends OperationOptions {
+    top?: number;
+}
+
+// @public
+export interface RegistrationQueryOptions extends RegistrationQueryLimitOptions {
+    filter?: string;
+}
+
+// @public
+export interface RegistrationQueryResponse {
+    continuationToken?: string;
+    registrations: RegistrationDescription[];
+}
+
+// @public
+export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate" | "Baidu" | "BaiduTemplate" | "Browser" | "BrowserTemplate" | "Gcm" | "GcmTemplate" | "Fcm" | "FcmTemplate" | "Mpns" | "MpnsTemplate" | "Windows" | "WindowsTemplate";
 
 // @public
 export interface SendOperationOptions extends OperationOptions {
@@ -281,12 +441,12 @@ export interface WindowsMessage extends NotificationHubMessageCommon {
 // @public
 export interface WindowsRegistrationDescription extends RegistrationDescriptionCommon {
     channelUri: string;
-    platform: "windows";
+    platform: "Windows";
 }
 
 // @public
 export interface WindowsTemplateRegistrationDescription extends Omit<WindowsRegistrationDescription, "platform">, TemplateRegistrationDescription {
-    platform: "windowsTemplate";
+    platform: "WindowsTemplate";
     wnsHeaders?: Record<string, string>;
 }
 
