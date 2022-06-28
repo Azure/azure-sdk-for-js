@@ -98,7 +98,7 @@ export function isUnexpectedInitialResponse(rawResponse: RawResponse): boolean {
   return false;
 }
 
-export function isUnexpectedPollingResponse(rawResponse: RawResponse): boolean {
+function isUnexpectedPollingResponse(rawResponse: RawResponse): boolean {
   const code = rawResponse.statusCode;
   if (![202, 201, 200].includes(code)) {
     throw new SimpleRestError(
@@ -121,12 +121,15 @@ export function isCanceled<TResult, TState extends PollOperationState<TResult>>(
   return false;
 }
 
-export function isSucceededStatus(status: string): boolean {
+function isSucceededStatus(status: string): boolean {
   return status === "succeeded";
 }
 
 export function isPollingDone(result: { rawResponse: RawResponse; status: string }): boolean {
   const { rawResponse, status } = result;
+  if (rawResponse.statusCode === 202) {
+    return false;
+  }
   if (isUnexpectedPollingResponse(rawResponse) || status === "failed") {
     throw new Error(`The long-running operation has failed.`);
   }

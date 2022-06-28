@@ -12,8 +12,9 @@ import {
   ResumablePollOperationState,
 } from "./models";
 import { PollOperation, PollOperationState } from "../pollOperation";
-import { createGetLroStatusFromResponse, createInitializeState, createPoll } from "./stateMachine";
+import { createInitializeState, createPoll } from "./stateMachine";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { createGetLroStatusFromResponse } from "./polling";
 import { getPollingUrl } from "./requestUtils";
 import { logger } from "./logger";
 
@@ -86,12 +87,12 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
               ...response,
               done: isDone(response.flatResponse, this.state),
             })
-          : createGetLroStatusFromResponse(
-              this.lro,
-              state.config,
-              this.state,
-              this.lroResourceLocationConfig
-            );
+          : createGetLroStatusFromResponse({
+              lro: this.lro,
+              resourceLocation: state.config.resourceLocation,
+              state: this.state,
+              lroResourceLocationConfig: this.lroResourceLocationConfig,
+            });
         this.poll = createPoll(this.lro);
       }
       if (!state.pollingURL) {

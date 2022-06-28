@@ -72,7 +72,7 @@ function createClient(routes: RouteProcessor[]): HttpClient {
   };
 }
 
-export type Response = LroBody & { statusCode: number };
+type Response = LroBody & { statusCode: number };
 
 function createSendOp(settings: {
   client: HttpClient;

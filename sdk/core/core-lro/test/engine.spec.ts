@@ -307,52 +307,60 @@ describe("Lro Engine", function () {
 
     it("should handle deleteProvisioning202DeletingFailed200", async () => {
       const path = "/delete/provisioning/202/deleting/200/failed";
-      const result = await runLro({
-        routes: [
-          {
-            method: "DELETE",
-            path,
-            status: 202,
-            headers: {
-              location: path,
-              "retry-after": "0",
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "DELETE",
+              path,
+              status: 202,
+              headers: {
+                location: path,
+                "retry-after": "0",
+              },
+              body: `{"properties":{"provisioningState":"Deleting"},"id":"100","name":"foo"}`,
             },
-            body: `{"properties":{"provisioningState":"Deleting"},"id":"100","name":"foo"}`,
-          },
-          {
-            method: "GET",
-            path,
-            status: 200,
-            body: `{"properties":{"provisioningState":"Failed"},"id":"100","name":"foo"}`,
-          },
-        ],
-      });
-      assert.equal(result.properties?.provisioningState, "Failed");
+            {
+              method: "GET",
+              path,
+              status: 200,
+              body: `{"properties":{"provisioningState":"Failed"},"id":"100","name":"foo"}`,
+            },
+          ],
+        }),
+        {
+          messagePattern: /The long-running operation has failed/,
+        }
+      );
     });
 
     it("should handle deleteProvisioning202Deletingcanceled200", async () => {
       const path = "/delete/provisioning/202/deleting/200/canceled";
-      const result = await runLro({
-        routes: [
-          {
-            method: "DELETE",
-            path,
-            status: 202,
-            headers: {
-              location: path,
-              "retry-after": "0",
+      await assertError(
+        runLro({
+          routes: [
+            {
+              method: "DELETE",
+              path,
+              status: 202,
+              headers: {
+                location: path,
+                "retry-after": "0",
+              },
+              body: `{"properties":{"provisioningState":"Deleting"},"id":"100","name":"foo"}`,
             },
-            body: `{"properties":{"provisioningState":"Deleting"},"id":"100","name":"foo"}`,
-          },
-          {
-            method: "GET",
-            path,
-            status: 200,
-            body: `{"properties":{"provisioningState":"Canceled"},"id":"100","name":"foo"}`,
-          },
-        ],
-      });
-      assert.equal(result.properties?.provisioningState, "Canceled");
+            {
+              method: "GET",
+              path,
+              status: 200,
+              body: `{"properties":{"provisioningState":"Canceled"},"id":"100","name":"foo"}`,
+            },
+          ],
+        }),
+        {
+          messagePattern: /Poller cancelled/,
+        }
+      );
     });
   });
 

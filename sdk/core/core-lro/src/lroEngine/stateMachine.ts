@@ -4,8 +4,6 @@
 import {
   GetLroStatusFromResponse,
   LongRunningOperation,
-  LroConfig,
-  LroResourceLocationConfig,
   LroResponse,
   LroStatus,
   PollerConfig,
@@ -18,38 +16,7 @@ import {
   isPollingDone,
   isUnexpectedInitialResponse,
 } from "./requestUtils";
-import { PollOperationState } from "../pollOperation";
 import { logger } from "./logger";
-import { processBodyPollingOperationResult } from "./bodyPolling";
-import { processLocationPollingOperationResult } from "./locationPolling";
-import { processPassthroughOperationResult } from "./passthrough";
-
-/**
- * creates a stepping function that maps an LRO state to another.
- */
-export function createGetLroStatusFromResponse<TResult, TState extends PollOperationState<TResult>>(
-  lroPrimitives: LongRunningOperation<TResult>,
-  config: LroConfig,
-  state: TState,
-  lroResourceLocationConfig?: LroResourceLocationConfig
-): GetLroStatusFromResponse<TResult> {
-  switch (config.mode) {
-    case "Location": {
-      return processLocationPollingOperationResult(
-        lroPrimitives,
-        state,
-        config.resourceLocation,
-        lroResourceLocationConfig
-      );
-    }
-    case "Body": {
-      return processBodyPollingOperationResult(state);
-    }
-    default: {
-      return processPassthroughOperationResult;
-    }
-  }
-}
 
 /**
  * Creates a polling operation.
