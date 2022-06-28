@@ -39,21 +39,63 @@ directive:
     reason: Autorest TS codegen does not deserialize array of base class objects as an operation parameter properly -> https://github.com/Azure/autorest.typescript/issues/1040
 ```
 
-### Required Fields for RouteDirections Model
-
-<!-- ```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.RouteDirections
-    transform: >
-      $["required"] = [
-        "formatVersion",
-        "routes"
-      ]
-``` -->
+### Define Required Fields
 
 ```yaml
 directive:
+  - from: swagger-document
+    where: $.definitions.RouteMatrixQuery
+    transform: >
+      $["required"] = [
+        "origins",
+        "destinations",
+      ]
+  - from: swagger-document
+    where: $.definitions.RouteMatrixResult
+    transform: >
+      $["required"] = [
+        "matrix",
+        "summary",
+      ]
+  - from: swagger-document
+    where: $.definitions.RouteMatrixSummary
+    transform: >
+      $["required"] = [
+        "successfulRoutes",
+        "totalRoutes",
+      ]
+  - from: swagger-document
+    where: $.definitions.RouteMatrix
+    transform: >
+      $["required"] = [
+        "statusCode",
+      ]
+  - from: swagger-document
+    where: $.definitions.RouteRangeResult
+    transform: >
+      $["required"] = [
+        "reachableRange",
+      ]
+  - from: swagger-document
+    where: $.definitions.RouteRange
+    transform: >
+      $["required"] = [
+        "center",
+        "boundary",
+      ]
+  - from: swagger-document
+    where: $.definitions.RouteReport
+    transform: >
+      $["required"] = [
+        "effectiveSettings",
+      ]
+  - from: swagger-document
+    where: $.definitions.EffectiveSetting
+    transform: >
+      $["required"] = [
+        "key",
+        "value",
+      ]
   - from: swagger-document
     where: $.definitions.Route
     transform: >
@@ -62,10 +104,6 @@ directive:
         "sections",
         "summary"
       ]
-```
-
-```yaml
-directive:
   - from: swagger-document
     where: $.definitions.RouteLeg
     transform: >
@@ -73,10 +111,6 @@ directive:
         "points",
         "summary"
       ]
-```
-
-```yaml
-directive:
   - from: swagger-document
     where: $.definitions.RouteGuidance
     transform: >
@@ -96,10 +130,37 @@ directive:
       $["x-ms-client-flatten"] = true;
 ```
 
+### Model Rename
+
 ```yaml
 directive:
   - from: swagger-document
     where: $.definitions.RouteMatrixResultResponse.properties.routeSummary
     transform: >
       $["x-ms-client-name"] = "routeLegSummary";
+```
+
+### Model Fixes
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.ErrorDetail
+    transform: >
+      $ = {
+        "type": "object",
+        "description": "The error detail.",
+        "properties": {
+          "code": {
+            "readOnly": true,
+            "type": "string",
+            "description": "The error code."
+          },
+          "message": {
+            "readOnly": true,
+            "type": "string",
+            "description": "The error message."
+          }
+        }
+      };
 ```

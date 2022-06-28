@@ -24,7 +24,7 @@ export interface RouteRangeResult {
    */
   readonly formatVersion?: string;
   /** Reachable Range */
-  reachableRange?: RouteRange;
+  reachableRange: RouteRange;
   /** Reports the effective settings used in the current call. */
   report?: RouteReport;
 }
@@ -32,12 +32,12 @@ export interface RouteRangeResult {
 /** Reachable Range */
 export interface RouteRange {
   /** Center point of the reachable range */
-  center?: LatLon;
+  center: LatLon;
   /**
    * Polygon boundary of the reachable range represented as a list of points.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly boundary?: LatLon[];
+  readonly boundary: LatLon[];
 }
 
 /** This object is returned from a successful Route Directions call */
@@ -252,5 +252,5 @@ export interface BatchItem<TResult> {
   /** HTTP request status code. */
   readonly statusCode?: number;
   /** The result of the query. TResult if the query completed successfully, ErrorResponse otherwise. */
-  readonly response?: TResult & ErrorResponse;
+  readonly response?: TResult | ErrorResponse;
 }
