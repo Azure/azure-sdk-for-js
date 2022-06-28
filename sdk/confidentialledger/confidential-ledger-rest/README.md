@@ -36,7 +36,7 @@ npm install @azure-rest/confidential-ledger
 
 #### Using Azure Active Directory
 
-This document demonstrates using [DefaultAzureCredential][default_azure_credential] to authenticate to the Confidential Ledger via Azure Active Directory. However, `ConfidentialLedger` accepts any [@azure/identity][azure_identity_credentials] credential.
+This document demonstrates using [DefaultAzureCredential][default_azure_credential] to authenticate to the Confidential Ledger via Azure Active Directory. You can find the environment variables in the Azure Portal. However, `ConfidentialLedger` accepts any [@azure/identity][azure_identity_credentials] credential.
 
 `DefaultAzureCredential` will automatically handle most Azure SDK client scenarios. To get started, set the values of client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
@@ -47,18 +47,18 @@ Creating the client also requires your Confidential Ledger's URL and id, which y
 Because Confidential Ledgers use self-signed certificates securely generated and stored in an enclave, the signing certificate for each Confidential Ledger must first be retrieved from the Confidential Ledger Identity Service.
 
 ```typescript
-import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
-import { DefaultAzureCredential } from "@azure/identity";
+import ConfidentialLedger, { getLedgerIdentity } from "../../src";
 
-// Get the signing certificate from the Confidential Ledger Identity Service
-const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
+const { ledgerTlsCertificate } = await getLedgerIdentity(
+      // for example, test-ledger-name
+      LEDGER_IDENTITY,
+      // for example, https://identity.confidential-ledger.core.azure.com
+      IDENTITY_SERVICE_URL
+    );
+    const credential = new DefaultAzureCredential();
 
-// Create the Confidential Ledger Client
-const confidentialLedger = ConfidentialLedger(
-  "https://<ledger-name>.eastus.cloudapp.azure.com",
-  ledgerIdentity.ledgerTlsCertificate,
-  new DefaultAzureCredential()
-);
+    // ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
+    const ledgerClient = ConfidentialLedger(ENDPOINT, ledgerTlsCertificate, credential);
 ```
 
 #### Using a client certificate
@@ -67,15 +67,23 @@ As an alternative to Azure Active Directory, clients may choose to authenticate 
 
 ```typescript
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
-// Get the signing certificate from the Confidential Ledger Identity Service
-const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
 
-// Create the Confidential Ledger Client
-const confidentialLedger = ConfidentialLedger(
-  "https://<ledger-name>.eastus.cloudapp.azure.com",
-  ledgerIdentity.ledgerTlsCertificate,
-  { cert: "<CERTIFICATE_KEY_PEM_FORMAT>", certKey: "<PRIVATE_KEY_PEM_FORMAT>" }
-);
+// Get the signing certificate from the Confidential Ledger Identity Service
+const { ledgerTlsCertificate } = await getLedgerIdentity(
+      LEDGER_IDENTITY,
+      IDENTITY_SERVICE_URL
+    );
+    // both cert (certificate key) and key (private key) are in PEM format
+    const cert = PUBLIC_KEY;
+    const key = PRIVATE_KEY;
+    // Create the Confidential Ledger Client
+    // ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
+    const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, {
+      tlsOptions: {
+        cert,
+        key,
+      },
+    });
 ```
 
 ## Key concepts
