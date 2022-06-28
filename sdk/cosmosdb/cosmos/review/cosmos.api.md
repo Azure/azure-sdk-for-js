@@ -406,6 +406,7 @@ export const Constants: {
     ThrottleRetryWaitTimeInMs: string;
     CurrentVersion: string;
     AzureNamespace: string;
+    AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
     Quota: {

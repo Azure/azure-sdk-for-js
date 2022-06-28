@@ -5,11 +5,12 @@ import { createTracingClient } from "@azure/core-tracing";
 import { Constants } from "../common/constants";
 
 /**
- * Creates a span using the global tracer.\
- * 
+ * Global tracing client for this package.
+ *
+ * @internal
  */
 export const tracingClient = createTracingClient({
   namespace: Constants.AzureNamespace,
-  packageName: Constants.SDKName,
+  packageName: Constants.AzurePackageName,
   packageVersion: Constants.SDKVersion,
 });
