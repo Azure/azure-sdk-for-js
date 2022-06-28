@@ -3940,7 +3940,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220627
+      typescript: 4.8.0-dev.20220
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -15730,10 +15730,11 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-GpYqqiBAd35JuauL9AaLd1cWDeltqyWkIdd4UuNPUCMcBb+6oOiH4IE3xJaJjtIBZx72XZIFHx4BOoGFGhEYng==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-WFROFTfIF7dWC6zyQcbcvmXRoV7h6IUrNqb0Z/CPnoULMJKQTCUAL253aGj/4HrUf3BE0LU+xLkOK+B6gSN8PA==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
+      '@azure/core-tracing': 1.0.0
       '@azure/identity': 2.0.4_debug@4.3.4
       '@microsoft/api-extractor': 7.18.11
       '@types/debug': 4.1.7
