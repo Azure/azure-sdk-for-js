@@ -11,7 +11,7 @@ describe("Lro Engine", function () {
   describe("No polling", () => {
     it("should handle delete204Succeeded", async () => {
       const response = await runLro({
-        routes: [{ method: "DELETE", path: "/delete/204/succeeded", status: 204 }],
+        routes: [{ method: "DELETE", status: 204 }],
       });
       assert.equal(response.statusCode, 204);
     });
@@ -21,7 +21,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "PUT",
-            path: "/put/201/succeeded",
             status: 201,
             body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
           },
@@ -108,7 +107,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "DELETE",
-              path: "/delete/noheader",
               status: 200,
               headers: { Location: pollingPath },
             },
@@ -129,7 +127,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "PUT",
-            path: "/put/202/retry/200",
             status: 202,
             headers: { Location: pollingPath },
           },
@@ -145,7 +142,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "PUT",
-            path: "/put/noheader/202/200",
             status: 202,
             body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "name": "foo" }`,
             headers: { Location: pollingPath },
@@ -170,7 +166,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "PUT",
-            path: "/putsubresource/202/200",
             status: 202,
             body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "subresource": "sub1" }`,
             headers: { Location: pollingPath },
@@ -194,7 +189,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "PUT",
-            path: "/putnonresource/202/200",
             status: 202,
             headers: { Location: pollingPath },
           },
@@ -286,7 +280,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "DELETE",
-            path: "/delete/provisioning/202/accepted/200/succeeded",
             status: 202,
             headers: {
               location: pollingPath,
@@ -362,7 +355,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "PUT",
-            path: "/put/200/succeeded",
             status: 200,
             body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
           },
@@ -376,7 +368,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "PUT",
-            path: "/put/200/succeeded/nostate",
             status: 200,
             body: `{"id": "100", "name": "foo" }`,
           },
@@ -1372,12 +1363,9 @@ describe("Lro Engine", function () {
 
   describe("LRO Sad scenarios", () => {
     it("should handle PutNonRetry400 ", async () => {
-      await assertError(
-        runLro({ routes: [{ method: "PUT", path: "/nonretryerror/put/400", status: 400 }] }),
-        {
-          statusCode: 400,
-        }
-      );
+      await assertError(runLro({ routes: [{ method: "PUT", status: 400 }] }), {
+        statusCode: 400,
+      });
     });
 
     it("should handle putNonRetry201Creating400 ", async () => {
@@ -1437,7 +1425,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "PUT",
-              path: "/nonretryerror/putasync/retry/400",
               status: 200,
               body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
               headers: createDoubleHeaders({
@@ -1493,7 +1480,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "DELETE",
-              path: "/nonretryerror/delete/400",
               status: 400,
               body: `{ "message" : "Expected bad request message" }`,
             },
@@ -1512,7 +1498,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "DELETE",
-              path: "/nonretryerror/deleteasync/retry/400",
               status: 202,
               body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
               headers: createDoubleHeaders({
@@ -1540,7 +1525,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "POST",
-              path: "/nonretryerror/post/400",
               status: 400,
               body: `{ "message" : "Expected bad request message" }`,
             },
@@ -1588,7 +1572,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "POST",
-              path: "/nonretryerror/postasync/retry/400",
               status: 202,
               body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
               headers: createDoubleHeaders({
@@ -1615,7 +1598,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "PUT",
-            path: "/error/put/201/noprovisioningstatepayload",
             status: 201,
           },
         ],
@@ -1690,7 +1672,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "DELETE",
-            path: "/error/delete/204/nolocation",
             status: 204,
           },
         ],
@@ -1704,7 +1685,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "DELETE",
-            path: "/error/deleteasync/retry/nostatus",
             status: 202,
             headers: createDoubleHeaders({
               pollingPath,
@@ -1727,7 +1707,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "POST",
-            path: "/error/post/202/nolocation",
             status: 202,
           },
         ],
@@ -1741,7 +1720,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "POST",
-            path: "/error/postasync/retry/nopayload",
             status: 202,
             headers: createDoubleHeaders({
               pollingPath,
@@ -1769,7 +1747,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "PUT",
-              path: "/error/put/200/invalidjson",
               status: 200,
               body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo"`,
             },
@@ -1787,7 +1764,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "PUT",
-              path: "/error/putasync/retry/invalidheader",
               status: 200,
               body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
               headers: createDoubleHeaders({
@@ -1810,7 +1786,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "PUT",
-              path: "/error/putasync/retry/invalidjsonpolling",
               status: 200,
               body: `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
               headers: createDoubleHeaders({
@@ -1838,7 +1813,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "DELETE",
-              path: "/error/delete/202/retry/invalidheader",
               status: 202,
               headers: {
                 Location: `/foo`,
@@ -1859,7 +1833,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "DELETE",
-              path: "/error/deleteasync/retry/invalidheader",
               status: 202,
               headers: createDoubleHeaders({
                 pollingPath: "/foo",
@@ -1881,7 +1854,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "DELETE",
-              path: "/error/deleteasync/retry/invalidjsonpolling",
               status: 202,
               headers: createDoubleHeaders({
                 pollingPath,
@@ -1908,7 +1880,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "POST",
-              path: "/error/post/202/retry/invalidheader",
               status: 202,
               headers: {
                 Location: `/foo`,
@@ -1929,7 +1900,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "POST",
-              path: "/error/postasync/retry/invalidheader",
               status: 202,
               headers: createDoubleHeaders({
                 pollingPath: "/foo",
@@ -1951,7 +1921,6 @@ describe("Lro Engine", function () {
           routes: [
             {
               method: "POST",
-              path: "/error/postasync/retry/invalidjsonpolling",
               status: 202,
               headers: createDoubleHeaders({
                 pollingPath,
@@ -1980,7 +1949,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "PUT",
-            path: "/put/200/succeeded",
             status: 200,
             body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
           },
@@ -2005,7 +1973,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "POST",
-            path: "/error/postasync/retry/nopayload",
             status: 202,
             headers: createDoubleHeaders({
               pollingPath,
@@ -2034,7 +2001,6 @@ describe("Lro Engine", function () {
         routes: [
           {
             method: "POST",
-            path: "/error/postasync/retry/nopayload",
             status: 202,
             headers: createDoubleHeaders({
               pollingPath,
