@@ -144,6 +144,7 @@ specifiers:
   '@rush-temp/arm-redisenterprisecache': file:./projects/arm-redisenterprisecache.tgz
   '@rush-temp/arm-relay': file:./projects/arm-relay.tgz
   '@rush-temp/arm-reservations': file:./projects/arm-reservations.tgz
+  '@rush-temp/arm-resourceconnector': file:./projects/arm-resourceconnector.tgz
   '@rush-temp/arm-resourcegraph': file:./projects/arm-resourcegraph.tgz
   '@rush-temp/arm-resourcehealth': file:./projects/arm-resourcehealth.tgz
   '@rush-temp/arm-resourcemover': file:./projects/arm-resourcemover.tgz
@@ -430,6 +431,7 @@ dependencies:
   '@rush-temp/arm-redisenterprisecache': file:projects/arm-redisenterprisecache.tgz
   '@rush-temp/arm-relay': file:projects/arm-relay.tgz
   '@rush-temp/arm-reservations': file:projects/arm-reservations.tgz
+  '@rush-temp/arm-resourceconnector': file:projects/arm-resourceconnector.tgz
   '@rush-temp/arm-resourcegraph': file:projects/arm-resourcegraph.tgz
   '@rush-temp/arm-resourcehealth': file:projects/arm-resourcehealth.tgz
   '@rush-temp/arm-resourcemover': file:projects/arm-resourcemover.tgz
@@ -3940,7 +3942,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220627
+      typescript: 4.8.0-dev.20220628
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8750,8 +8752,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220627:
-    resolution: {integrity: sha512-AotGcCE4LR1khwUAONhErpEdikkPmmkibtbhakf8A6mfzTe7VxsUF8CVLbE4ZJlGkafl0TsWFi7mxvrv47Dq2w==}
+  /typescript/4.8.0-dev.20220628:
+    resolution: {integrity: sha512-89n1Fp/JQev/bPPuVferlfw0VguLxr0uFergLfPbhs+6Hlu3M5rLwplGLHL+JZ+0+BsTyWg779TmaMcqa5FB5Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13550,6 +13552,35 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-resourceconnector.tgz:
+    resolution: {integrity: sha512-RBmUmOPz9iY8y2RlrC8jU6GqJCodqy1QGJ8IGXI5ZgQEalR6N7iMMAo5M519FNoGJMgqcWw7lF5ntmLqiBcsZQ==, tarball: file:projects/arm-resourceconnector.tgz}
+    name: '@rush-temp/arm-resourceconnector'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.74.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.74.1
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-resourcegraph.tgz:
     resolution: {integrity: sha512-0ECZkn0Vu/MMysUtodUMIulb/vYcwG+kzLPlbh9CLw0LU6lbzjpTyk0nrx9jGMMzj+sYjS3qBzIirlyMoa0GIg==, tarball: file:projects/arm-resourcegraph.tgz}
     name: '@rush-temp/arm-resourcegraph'
@@ -15866,7 +15897,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-C3MJn479PjL1HtfGa1euqS9Deq2LHP10GIUlLsKcR/t7nU/x7qTxxtHJ9xY68bgmfDslUCSK6DasSxaE2ttsnA==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-kIKHHdoizneYXxt/04v8PPTIix3BRz3R+5W4IB4LPKxWyGbOcxCmmfMLJQR2qi21aodoUAVQlYXRh1Qx9oPNdw==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -16800,7 +16831,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-1dmSLd76k6lNZQ6TVkvh9LO2zx3hD1ZNRAbe0BbtCLwpm0WS4RsVhMsZMZjl3+qJFlIfw2gXCMWobZuhe/0Mgg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-ubHP0HYjZmKqD02JYENR0TlCMmn6DIbJqw24rQebJWWD38YkShWd+ajvMqfa0yItOYP/uZDYZXxrPuTpkx+VPA==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
