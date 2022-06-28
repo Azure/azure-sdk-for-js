@@ -16,7 +16,8 @@
     "@types/uuid": "^8.3.4",
     "tslib": "^1.9.3",
     "uuid": "^8.3.2",
-    "@azure/core-client": "~1.6.1"
+    "@azure/core-client": "~1.6.1",
+    "@azure-tools/test-recorder": "~2.0.1"
   },
   "keywords": [
     "node",

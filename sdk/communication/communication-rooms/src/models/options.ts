@@ -11,14 +11,14 @@ export interface RoomsClientOptions extends CommonClientOptions {}
 export interface CreateRoomOptions extends OperationOptions {
   validFrom?: Date;
   validUntil?: Date;
-  roomOpen?: boolean;
+  roomJoinPolicy?: string;
   participants?: RoomParticipant[];
 }
 
 export interface UpdateRoomOptions extends OperationOptions {
   validFrom?: Date;
   validUntil?: Date;
-  roomOpen?: boolean;
+  roomJoinPolicy?: string;
   participants?: RoomParticipant[];
 }
 

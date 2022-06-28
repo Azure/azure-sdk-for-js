@@ -25,10 +25,10 @@ export const CreateRoomRequest: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      roomOpen: {
-        serializedName: "roomOpen",
+      roomJoinPolicy: {
+        serializedName: "roomJoinPolicy",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       },
       participants: {
@@ -136,10 +136,10 @@ export const RoomModel: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      roomOpen: {
-        serializedName: "roomOpen",
+      roomJoinPolicy: {
+        serializedName: "roomJoinPolicy",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       },
       participants: {
@@ -241,10 +241,10 @@ export const UpdateRoomRequest: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      roomOpen: {
-        serializedName: "roomOpen",
+      roomJoinPolicy: {
+        serializedName: "roomJoinPolicy",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       },
       participants: {

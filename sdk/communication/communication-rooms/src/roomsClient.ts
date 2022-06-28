@@ -78,7 +78,7 @@ export class RoomsClient {
         {
           validFrom: options.validFrom,
           validUntil: options.validUntil,
-          roomOpen: options.roomOpen,
+          roomJoinPolicy: options.roomJoinPolicy,
           participants: options.participants?.map((participant) =>
             mapToRoomParticipantRestModel(participant)
           ),
@@ -114,7 +114,7 @@ export class RoomsClient {
           patchRoomRequest: {
             validFrom: options.validFrom,
             validUntil: options.validUntil,
-            roomOpen: options.roomOpen,
+            roomJoinPolicy: options.roomJoinPolicy,
             participants: options.participants?.map((participant) =>
               mapToRoomParticipantRestModel(participant)
             ),

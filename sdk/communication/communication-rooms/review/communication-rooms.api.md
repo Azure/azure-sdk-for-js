@@ -21,7 +21,7 @@ export interface CreateRoomOptions extends OperationOptions {
     // (undocumented)
     participants?: RoomParticipant[];
     // (undocumented)
-    roomOpen?: boolean;
+    roomJoinPolicy?: string;
     // (undocumented)
     validFrom?: Date;
     // (undocumented)
@@ -56,6 +56,12 @@ export interface RemoveParticipantsOptions extends OperationOptions {
 }
 
 // @public (undocumented)
+export type Role = string;
+
+// @public (undocumented)
+export type RoomJoinPolicy = string;
+
+// @public (undocumented)
 export interface RoomModel {
     // (undocumented)
     createdDateTime?: Date;
@@ -63,6 +69,8 @@ export interface RoomModel {
     id: string;
     // (undocumented)
     participants?: RoomParticipant[];
+    // (undocumented)
+    roomJoinPolicy?: RoomJoinPolicy;
     // (undocumented)
     validFrom?: Date;
     // (undocumented)
@@ -74,7 +82,7 @@ export interface RoomParticipant {
     // (undocumented)
     id: CommunicationIdentifier;
     // (undocumented)
-    role?: string;
+    role?: Role;
 }
 
 // @public (undocumented)
@@ -114,7 +122,7 @@ export interface UpdateRoomOptions extends OperationOptions {
     // (undocumented)
     participants?: RoomParticipant[];
     // (undocumented)
-    roomOpen?: boolean;
+    roomJoinPolicy?: string;
     // (undocumented)
     validFrom?: Date;
     // (undocumented)

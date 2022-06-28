@@ -14,9 +14,9 @@ export interface CreateRoomRequest {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
-  /** Flag to specify if the room is to be an open room or closed room. */
-  roomOpen?: boolean;
-  /** (Optional) Collection of identities invited to the room. */
+  /** The Policy based on which Participants can join a room. */
+  roomJoinPolicy?: RoomJoinPolicy;
+  /** (Optional) Collection of participants invited to the room. */
   participants?: RoomParticipant[];
 }
 
@@ -24,13 +24,13 @@ export interface CreateRoomRequest {
 export interface RoomParticipant {
   /** Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
   communicationIdentifier: CommunicationIdentifierModel;
-  /** Role Name. */
-  role?: string;
+  /** The Role of a room participant. */
+  role?: Role;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
 export interface CommunicationIdentifierModel {
-  /** Raw Id of the identifier. Optional in requests, required in responses. */
+  /** Raw id of the identifier. Optional in requests, required in responses. */
   rawId?: string;
   /** A user that got created with an Azure Communication Services resource. */
   communicationUser?: CommunicationUserIdentifierModel;
@@ -52,9 +52,9 @@ export interface RoomModel {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
-  /** Flag to specify if the room is to be an open room or closed room. */
-  roomOpen?: boolean;
-  /** Collection of identities invited to the room. */
+  /** The Policy based on which Participants can join a room. */
+  roomJoinPolicy?: RoomJoinPolicy;
+  /** Collection of room participants. */
   participants?: RoomParticipant[];
 }
 
@@ -93,13 +93,13 @@ export interface UpdateRoomRequest {
   validFrom?: Date;
   /** (Optional) The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
-  /** Flag to specify if the room is to be an open room or closed room. */
-  roomOpen?: boolean;
+  /** The Policy based on which Participants can join a room. */
+  roomJoinPolicy?: RoomJoinPolicy;
   /** Collection of room participants. */
   participants?: RoomParticipant[];
 }
 
-/** Collection of participants who belong to a room. */
+/** Collection of participants in a room. */
 export interface ParticipantsCollection {
   /** Room Participants. */
   participants: RoomParticipant[];
@@ -163,6 +163,40 @@ export interface RoomsRemoveParticipantsExceptionHeaders {
   errorCode?: string;
 }
 
+/** Known values of {@link RoomJoinPolicy} that the service accepts. */
+export enum KnownRoomJoinPolicy {
+  InviteOnly = "InviteOnly",
+  CommunicationServiceUsers = "CommunicationServiceUsers"
+}
+
+/**
+ * Defines values for RoomJoinPolicy. \
+ * {@link KnownRoomJoinPolicy} can be used interchangeably with RoomJoinPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InviteOnly** \
+ * **CommunicationServiceUsers**
+ */
+export type RoomJoinPolicy = string;
+
+/** Known values of {@link Role} that the service accepts. */
+export enum KnownRole {
+  Presenter = "Presenter",
+  Attendee = "Attendee",
+  Consumer = "Consumer"
+}
+
+/**
+ * Defines values for Role. \
+ * {@link KnownRole} can be used interchangeably with Role,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Presenter** \
+ * **Attendee** \
+ * **Consumer**
+ */
+export type Role = string;
+
 /** Optional parameters. */
 export interface RoomsCreateRoomOptionalParams
   extends coreClient.OperationOptions {
@@ -185,7 +219,7 @@ export type RoomsGetRoomResponse = RoomModel;
 /** Optional parameters. */
 export interface RoomsUpdateRoomOptionalParams
   extends coreClient.OperationOptions {
-  /** The path room request */
+  /** The patch room request */
   patchRoomRequest?: UpdateRoomRequest;
 }
 

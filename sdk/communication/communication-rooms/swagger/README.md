@@ -8,7 +8,7 @@
 package-name: "@azure/communication-rooms"
 title: RoomsApiClient
 require:
-    -  https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ea1a21b30050e1a4b992dcb9d33db1245fa30b89/specification/communication/data-plane/Rooms/readme.md
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f3d76c0c124ccc0ddbe08738a88c92087e358e36/specification/communication/data-plane/Rooms/readme.md
 description: Communication Rooms Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION

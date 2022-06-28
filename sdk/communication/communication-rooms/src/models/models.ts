@@ -8,14 +8,19 @@ export interface RoomModel {
   createdDateTime?: Date;
   validFrom?: Date;
   validUntil?: Date;
+  roomJoinPolicy?: RoomJoinPolicy;
   participants?: RoomParticipant[];
 }
 
 export interface RoomParticipant {
   id: CommunicationIdentifier;
-  role?: string;
+  role?: Role;
 }
 
 export interface ParticipantsCollection {
   participants: RoomParticipant[];
 }
+
+export type RoomJoinPolicy = string;
+
+export type Role = string;

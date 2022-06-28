@@ -40,7 +40,7 @@ export interface Rooms {
     options?: RoomsCreateRoomOptionalParams
   ): Promise<RoomsCreateRoomResponse>;
   /**
-   * Retrieves an existing room by Id.
+   * Retrieves an existing room by id.
    * @param roomId The id of the room requested
    * @param options The options parameters.
    */
@@ -77,7 +77,7 @@ export interface Rooms {
   ): Promise<RoomsGetParticipantsResponse>;
   /**
    * Adds participants to a room. If participants already exist, no change occurs.
-   * @param roomId Id of the room to add participants to.
+   * @param roomId Room id to add participants to.
    * @param addParticipantsRequest Participants to be added to the room.
    * @param options The options parameters.
    */
@@ -88,7 +88,7 @@ export interface Rooms {
   ): Promise<RoomsAddParticipantsResponse>;
   /**
    * Update participants in a room.
-   * @param roomId Id of the room.
+   * @param roomId The room id.
    * @param updateParticipantsRequest Participants in a room to be updated.
    * @param options The options parameters.
    */
@@ -99,7 +99,7 @@ export interface Rooms {
   ): Promise<RoomsUpdateParticipantsResponse>;
   /**
    * Remove participants from a room.
-   * @param roomId room id to remove the participants from.
+   * @param roomId Room id to remove the participants from.
    * @param removeParticipantsRequest Participants in a room to be removed.
    * @param options The options parameters.
    */
