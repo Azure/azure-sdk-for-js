@@ -28,12 +28,16 @@ export async function main() {
   const ledgerIdentity = await getLedgerIdentity(ledgerId);
 
   // Create the Confidential Ledger Client
-  const confidentialLedger = ConfidentialLedger(endpoint, ledgerIdentity.ledgerIdentityCertificate, {
-    tlsOptions: {
-      cert,
-      key,
-    },
-  });
+  const confidentialLedger = ConfidentialLedger(
+    endpoint,
+    ledgerIdentity.ledgerIdentityCertificate,
+    {
+      tlsOptions: {
+        cert,
+        key,
+      },
+    }
+  );
 
   // Get enclave quotes
   const enclaveQuotes = await confidentialLedger.path("/app/enclaveQuotes").get();

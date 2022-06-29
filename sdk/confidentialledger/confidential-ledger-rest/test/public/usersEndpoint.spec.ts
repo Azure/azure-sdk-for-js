@@ -23,7 +23,7 @@ describe("Get user", () => {
   it("should obtain user data", async function () {
     // if the ledger in the .env changes, so should this
     const userId = env.USER_ID;
-    var result = await client.path("/app/users/{userId}", userId).get();
+    let result = await client.path("/app/users/{userId}", userId).get();
     assert.equal(result.status, "200");
 
     // this cast is still required

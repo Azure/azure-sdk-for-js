@@ -21,7 +21,7 @@ describe("List Document Formats", () => {
   });
 
   it("should list all available document formats", async function () {
-    var result = await client.path("/app/collections").get();
+    const result = await client.path("/app/collections").get();
 
     assert.equal(result.status, "200");
 
@@ -32,7 +32,7 @@ describe("List Document Formats", () => {
     let collections = result.body.collections;
 
     // the range query adds collections [0..4]
-    let collectionVals = ["0", "1", "2", "3", "4"]
+    const collectionVals = ["0", "1", "2", "3", "4"];
 
     collections = collections.filter((col: any) => collectionVals.includes(col.collectionId));
 

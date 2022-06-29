@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-  isUnexpected,
   LedgerEntry,
   PostLedgerEntryParameters,
-  // PostLedgerEntryQueryParamProperties,
+  isUnexpected,
 } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
@@ -36,9 +35,7 @@ describe("Post transaction", () => {
       contentType: "application/json",
       body: entry,
     };
-    const result = (await client
-      .path("/app/transactions")
-      .post(ledgerEntry));
+    const result = await client.path("/app/transactions").post(ledgerEntry);
 
     if (isUnexpected(result)) {
       throw result.body;
@@ -65,34 +62,35 @@ describe("Post transaction", () => {
     const transactionResponse = await client
       .path("/app/transactions/{transactionId}/receipt", transactionId)
       .get();
-    assert(transactionResponse.status == "200" || (transactionResponse.status == "406" && status.body.state === "Pending"));
+    assert(
+      transactionResponse.status === "200" ||
+      (transactionResponse.status === "406" && status.body.state === "Pending")
+    );
   });
 
   it("should post to collection", async function () {
     const entry: LedgerEntry = {
-      contents: "post ledger entry test"
+      contents: "post ledger entry test",
     };
 
-    let collectionIdVar = "collectionPost:0";
+    const collectionIdVar = "collectionPost:0";
 
     const ledgerEntry: PostLedgerEntryParameters = {
       contentType: "application/json",
       body: entry,
-      queryParameters: { collectionId: collectionIdVar }
+      queryParameters: { collectionId: collectionIdVar },
     };
 
-    let result = (await client
-      .path("/app/transactions")
-      .post(ledgerEntry));
+    const result = await client.path("/app/transactions").post(ledgerEntry);
 
     if (isUnexpected(result)) {
       throw result.body;
     }
 
-    assert(result.status == "200");
+    assert(result.status === "200");
     assert.equal(result.body.collectionId, collectionIdVar);
 
-    let transactionId = result.headers["x-ms-ccf-transaction-id"] ?? "";
+    const transactionId = result.headers["x-ms-ccf-transaction-id"] ?? "";
 
     const status = await client
       .path("/app/transactions/{transactionId}/status", transactionId)
@@ -109,6 +107,9 @@ describe("Post transaction", () => {
     const transactionResponse = await client
       .path("/app/transactions/{transactionId}/receipt", transactionId)
       .get();
-    assert(transactionResponse.status == "200" || (transactionResponse.status == "406" && status.body.state === "Pending"));
+    assert(
+      transactionResponse.status === "200" ||
+      (transactionResponse.status === "406" && status.body.state === "Pending")
+    );
   });
 });

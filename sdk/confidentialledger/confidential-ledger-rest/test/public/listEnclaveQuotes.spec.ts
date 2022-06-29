@@ -21,7 +21,7 @@ describe("List Document Formats", () => {
   });
 
   it("should list all available document formats", async function () {
-    var result = await client.path("/app/enclaveQuotes").get();
+    const result = await client.path("/app/enclaveQuotes").get();
 
     assert.equal(result.status, "200");
 

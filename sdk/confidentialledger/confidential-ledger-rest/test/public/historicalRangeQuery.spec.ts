@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-  isUnexpected,
   LedgerEntry,
-  paginate,
   PostLedgerEntryParameters,
+  isUnexpected,
+  paginate,
 } from "../../src";
 
 import { createClient, createRecorder } from "./utils/recordedClient";
@@ -40,12 +40,10 @@ describe("Range query should be successful", () => {
       const ledgerEntry: PostLedgerEntryParameters = {
         contentType: "application/json",
         body: entry,
-        queryParameters: { collectionId: "" + (i % modulus) }
+        queryParameters: { collectionId: "" + (i % modulus) },
       };
 
-      let result = (await client
-        .path("/app/transactions")
-        .post(ledgerEntry));
+      const result = await client.path("/app/transactions").post(ledgerEntry);
 
       if (isUnexpected(result)) {
         throw result.body;
@@ -54,11 +52,10 @@ describe("Range query should be successful", () => {
   });
 
   it("should audit 2000 entries", async function () {
-
     const modulus = 5;
     const numMessagesSent = 2001;
 
-    var correctEntries: string[] = [];
+    let correctEntries: string[] = [];
 
     for (let i = 0; i < modulus; i += 1) {
       const getLedgerEntriesParams = { queryParameters: { collectionId: "" + i } };
@@ -69,22 +66,28 @@ describe("Range query should be successful", () => {
         throw ledgerEntries.body;
       }
 
-      var items = paginate(client, ledgerEntries).byPage();
+      const items = paginate(client, ledgerEntries).byPage();
 
-      var index: number = 0;
+      let index: number = 0;
 
-      for await (var page of items) {
-        const rangedArr = Array.from(Array(page.length).keys()).map(x => x + 1);
+      for await (const page of items) {
+        const rangedArr = Array.from(Array(page.length).keys()).map((x) => x + 1);
         for (index of rangedArr) {
-          var entry = page[index] as LedgerEntry;
-          if (entry != undefined && entry.collectionId == "" + i && parseInt(entry.contents) % modulus == parseInt(entry.collectionId)) {
+          const entry = page[index] as LedgerEntry;
+          if (
+            entry !== undefined &&
+            entry.collectionId === "" + i &&
+            parseInt(entry.contents) % modulus === parseInt(entry.collectionId)
+          ) {
             correctEntries.push(entry.contents);
           }
         }
       }
     }
 
-    correctEntries = correctEntries.filter((value, index) => correctEntries.indexOf(value) === index);
+    correctEntries = correctEntries.filter(
+      (value, index) => correctEntries.indexOf(value) === index
+    );
 
     // Due to replication delay, it's possible not all messages are matched.
     assert(correctEntries.length >= 0.9 * numMessagesSent);

@@ -16,7 +16,10 @@ export async function getLedgerIdentity(
 
   const cert = await client.pathUnchecked("/ledgerIdentity/{ledgerId}", ledgerId).get();
 
-  let updatedCert = { ledgerIdentityCertificate: cert.body["ledgerTlsCertificate"], ledgerId: cert.body["ledgerId"] }
+  const updatedCert = {
+    ledgerIdentityCertificate: cert.body["ledgerTlsCertificate"],
+    ledgerId: cert.body["ledgerId"],
+  };
 
   if (!isLedgerIdentity(updatedCert)) {
     throw new Error(
