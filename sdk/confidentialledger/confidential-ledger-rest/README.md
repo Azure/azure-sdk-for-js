@@ -118,7 +118,47 @@ Azure Confidential Ledger is built on Microsoft Research's open-source [Confiden
 
 This section contains code snippets for the following samples:
 
+- [Post Ledger Entry](#post-ledger-entry "Post Ledger Entry")
+- [Get a Ledger Entry By Transaction Id](#get-a-ledger-entry "Get a Ledger Entry By Transaction Id")
+- [Get All Ledger Entries](#get-all-ledger-entries "Get All Ledger Entries")
+- [Get All Collections](#get-all-collections "Get All Collections")
+- [Get Transactions for a Collection](#transactions-for-collection "Get Transactions for a Collection")
 - [List Enclave Quotes](#list-enclave-quotes "List Enclave Quotes")
+
+### Post Ledger Entry
+```typescript
+const entry: LedgerEntry = {
+  contents: contentBody,
+};
+const ledgerEntry: PostLedgerEntryParameters = {
+  contentType: "application/json",
+  body: entry,
+};
+const result = await client.path("/app/transactions").post(ledgerEntry);
+```
+
+### Get a Ledger Entry By Transaction Id
+```typescript
+const status = await client
+  .path("/app/transactions/{transactionId}/status", transactionId)
+  .get();
+```
+
+### Get All Ledger Entries
+```typescript
+const ledgerEntries = await client.path("/app/transactions");
+```
+
+### Get All Collections
+```typescript
+const result = await client.path("/app/collections").get();
+```
+
+### Get Transactions for a Collection
+```typescript
+const getLedgerEntriesParams = { queryParameters: { collectionId: "my collection" } };
+const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
+```
 
 ### List Enclave Quotes
 
