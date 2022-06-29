@@ -3642,6 +3642,7 @@ packages:
 
   /core-js/3.22.6:
     resolution: {integrity: sha512-2IGcGH00z9I4twgNWU4uGCNEsBFG1s2JudVQrgSCoVhOfwoTwQjxC8aMo9exrpTMOxvobggEpaHnGMmQY4cfBQ==}
+    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
 
@@ -3940,7 +3941,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220
+      typescript: 4.8.0-dev.20220628
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8750,8 +8751,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220627:
-    resolution: {integrity: sha512-AotGcCE4LR1khwUAONhErpEdikkPmmkibtbhakf8A6mfzTe7VxsUF8CVLbE4ZJlGkafl0TsWFi7mxvrv47Dq2w==}
+  /typescript/4.8.0-dev.20220628:
+    resolution: {integrity: sha512-89n1Fp/JQev/bPPuVferlfw0VguLxr0uFergLfPbhs+6Hlu3M5rLwplGLHL+JZ+0+BsTyWg779TmaMcqa5FB5Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13060,7 +13061,7 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-iSUVJXAlWs5sKsoQ4uu0TcF3D9AjFq8Kf3m6SCxefLvh+j3wWPJ6vLcGE8rXgVoi5Pyl+pgJZ//n4YfNS5K4/w==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-pUbn1ftbfm0BDSqVc9Toyj9wt4AVYAJB+xq8hgOQOwQDBN82JiSri/u4JhGK5u0KDltp09PkVx+M06nZr6VLnA==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
@@ -13071,6 +13072,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.74.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13083,7 +13086,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -15730,7 +15732,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-WFROFTfIF7dWC6zyQcbcvmXRoV7h6IUrNqb0Z/CPnoULMJKQTCUAL253aGj/4HrUf3BE0LU+xLkOK+B6gSN8PA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-CtITkph7jz48HsNI/kTsOushqH3+fDwLm27HbpIVQ8GNLuxMk0Qyd5O+MeuirjngP1VJq0M4lq9AEfj41I4bAg==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -15867,7 +15869,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-C3MJn479PjL1HtfGa1euqS9Deq2LHP10GIUlLsKcR/t7nU/x7qTxxtHJ9xY68bgmfDslUCSK6DasSxaE2ttsnA==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-kIKHHdoizneYXxt/04v8PPTIix3BRz3R+5W4IB4LPKxWyGbOcxCmmfMLJQR2qi21aodoUAVQlYXRh1Qx9oPNdw==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -16801,7 +16803,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-1dmSLd76k6lNZQ6TVkvh9LO2zx3hD1ZNRAbe0BbtCLwpm0WS4RsVhMsZMZjl3+qJFlIfw2gXCMWobZuhe/0Mgg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-ubHP0HYjZmKqD02JYENR0TlCMmn6DIbJqw24rQebJWWD38YkShWd+ajvMqfa0yItOYP/uZDYZXxrPuTpkx+VPA==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
