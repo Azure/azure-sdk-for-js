@@ -11,19 +11,19 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AnalysisServicesServer = Resource & {
+export interface AnalysisServicesServer extends Resource {
     asAdministrators?: ServerAdministrators;
     backupBlobContainerUri?: string;
     gatewayDetails?: GatewayDetails;
     ipV4FirewallSettings?: IPv4FirewallSettings;
-    querypoolConnectionMode?: ConnectionMode;
     managedMode?: ManagedMode;
-    serverMonitorMode?: ServerMonitorMode;
-    readonly state?: State;
     readonly provisioningState?: ProvisioningState;
+    querypoolConnectionMode?: ConnectionMode;
     readonly serverFullName?: string;
+    serverMonitorMode?: ServerMonitorMode;
     skuPropertiesSku?: ResourceSku;
-};
+    readonly state?: State;
+}
 
 // @public
 export interface AnalysisServicesServerMutableProperties {
@@ -37,12 +37,12 @@ export interface AnalysisServicesServerMutableProperties {
 }
 
 // @public
-export type AnalysisServicesServerProperties = AnalysisServicesServerMutableProperties & {
-    readonly state?: State;
+export interface AnalysisServicesServerProperties extends AnalysisServicesServerMutableProperties {
     readonly provisioningState?: ProvisioningState;
     readonly serverFullName?: string;
     sku?: ResourceSku;
-};
+    readonly state?: State;
+}
 
 // @public
 export interface AnalysisServicesServers {
@@ -139,7 +139,7 @@ export interface GatewayListStatusError {
 
 // @public
 export interface GatewayListStatusLive {
-    status?: "undefined";
+    status?: 0;
 }
 
 // @public
@@ -157,67 +157,40 @@ export interface IPv4FirewallSettings {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Paused = "Paused",
-    // (undocumented)
     Pausing = "Pausing",
-    // (undocumented)
     Preparing = "Preparing",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Resuming = "Resuming",
-    // (undocumented)
     Scaling = "Scaling",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Development = "Development",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownState {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Paused = "Paused",
-    // (undocumented)
     Pausing = "Pausing",
-    // (undocumented)
     Preparing = "Preparing",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Resuming = "Resuming",
-    // (undocumented)
     Scaling = "Scaling",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Updating = "Updating"
 }
 

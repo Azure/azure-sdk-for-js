@@ -18,7 +18,7 @@ export interface RouteProcessor {
 
 export interface LroResponseSpec {
   method: HttpMethods;
-  path: string;
+  path?: string;
   status: number;
   body?: string;
   headers?: Record<string, string>;
