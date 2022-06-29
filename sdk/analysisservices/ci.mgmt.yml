@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/analysisservices/ci.mgmt.yml
-      - sdk/analysisservices/arm-analysisservices/
       - sdk/analysisservices/arm-analysisservices
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/analysisservices/ci.mgmt.yml
-      - sdk/analysisservices/arm-analysisservices/
       - sdk/analysisservices/arm-analysisservices
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
