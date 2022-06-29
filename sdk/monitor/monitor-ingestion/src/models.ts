@@ -28,7 +28,7 @@ export interface UploadResult {
 export class FailedLogsIngestionError extends Error {
   errors: Array<UploadLogsError>;
 
-  constructor(message:string, errors: Array<UploadLogsError>){
+  constructor(message: string, errors: Array<UploadLogsError>) {
     super(message);
     this.errors = errors;
   }

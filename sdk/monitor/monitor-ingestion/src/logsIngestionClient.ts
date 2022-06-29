@@ -71,7 +71,6 @@ export class LogsIngestionClient {
     logs: Record<string, any>[],
     options?: UploadOptions
   ): Promise<UploadResult> {
-
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks

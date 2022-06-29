@@ -17,8 +17,9 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  LOGS_INGESTION_ENDPOINT: "https://thisurl-logsingestion-somethinglocation123abcrd.monitor.azure.com",
-  IMMUTABLE_ID: "dcr-abcdefghijklmnopqrstuvwxyztyuiop"
+  LOGS_INGESTION_ENDPOINT:
+    "https://thisurl-logsingestion-somethinglocation123abcrd.monitor.azure.com",
+  IMMUTABLE_ID: "dcr-abcdefghijklmnopqrstuvwxyztyuiop",
 };
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
@@ -41,20 +42,21 @@ export async function createClientAndStartRecorder(
   const client = new LogsIngestionClient(
     getLogsIngestionEndpoint(),
     createTestCredential(),
-    recorder.configureClientOptions( { 
-         retryOptions, 
-         additionalPolicies })
+    recorder.configureClientOptions({
+      retryOptions,
+      additionalPolicies,
+    })
   );
   return {
     client,
-    recorder
+    recorder,
   };
 }
-  
-export function getLogsIngestionEndpoint(): string{
-    return assertEnvironmentVariable("LOGS_INGESTION_ENDPOINT")
+
+export function getLogsIngestionEndpoint(): string {
+  return assertEnvironmentVariable("LOGS_INGESTION_ENDPOINT");
 }
 
 export function getDcrId(): string {
-    return assertEnvironmentVariable("IMMUTABLE_ID");
-  }
+  return assertEnvironmentVariable("IMMUTABLE_ID");
+}
