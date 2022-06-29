@@ -1,140 +1,98 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getDateOrUndefined, getInteger, getString, getStringOrUndefined } from "../utils/xmlUtils";
+import { 
+  NotificationHubJob, 
+  NotificationHubJobStatus, 
+  NotificationHubJobType 
+} from "../models/notificationHubJob";
+import { 
+  parseXML, 
+  stringifyXML 
+} from "@azure/core-xml";
+import { 
+  getDateOrUndefined, 
+  getFloatOrUndefined,
+  getString, 
+  getStringOrUndefined, 
+  isDefined,
+  serializeToAtomXmlRequest
+} from "../utils/xmlUtils";
 
-export enum NotificationHubJobType {
-  /**
-   * Job type to bulk get registrations.
-   */
-  ExportRegistrations = 0,
+/**
+ * Serializes a NotificationHubJob into an Atom XML entry.
+ * @param entry - The NotificationHubJob to turn into an Atom XML entry.
+ * @returns An Atom XML entry containing the notification hub job.
+ */
+export function serializeNotificationHubJobEntry(entry: NotificationHubJob): string {
+  const job: Record<string, any> = {
+    "Type": entry.type,
+    "OutputContainerUri": { "__cdata": entry.outputContainerUrl },
+    "ImportFileUri": isDefined(entry.importFileUrl) ? { "__cdata": entry.importFileUrl } : undefined,
+  };
 
-  /**
-   * Job type to bulk create registrations.
-   */
-  ImportCreateRegistrations = 1,
+  const requestObject = serializeToAtomXmlRequest("NotificationHubJob", job);
 
-  /**
-   * Job type to bulk update registrations.
-   */
-  ImportUpdateRegistrations = 2,
-
-  /**
-   * Job type to bulk delete registrations.
-   */
-  ImportDeleteRegistrations = 3,
-
-  /**
-   * Job type to bulk upsert registrations.
-   */
-  ImportUpsertRegistrations = 4
-}
-
-export enum NotificationHubJobStatus {
-  /**
-   * Indicates that the NotificationHubJob was accepted.
-   */
-  Started = 0,
-
-  /**
-   * Indicates that the NotificationHubJob is currently running. Depending on the amount of data, 
-   * a job may stay in this state for several hours.
-   */
-  Running = 1,
-
-  /**
-   * Indicates that the NotificationHubJob was completed successfully. Any output
-   * will be ready where configured via the NotificationHubJob object.
-  */
-  Completed = 2,
-
-  /**
-   * Indicates that the NotificationHubJob has failed.
-  */
-  Failed = 3
+  return stringifyXML(requestObject, { "rootName": "entry", cdataPropName: "__cdata" });
 }
 
 /**
- * Represents a Notification Hub Job.
+ * Parses an Atom XML of an notification hub job entry.
+ * @param bodyText - The incoming Atom XML entry to parse into a notification hub job.
+ * @returns A parsed NotificationHubJob.
  */
-export interface NotificationHubJob {
-  /**
-   * The unique job identifier.
-   */
-  jobId: string;
-
-  /**
-   * The output file name.
-   */
-  outputFileName?: string;
-
-  /**
-   * The file name for the job failures.
-   */
-  failuresFileName?: string;
-
-  /**
-   * The progress for the job.
-   */
-  progress?: number;
-
-  /**
-   * The type of job.
-   */
-  jobType: NotificationHubJobType,
-
-  /**
-   * The status of the job.
-   */
-  status: NotificationHubJobStatus,
-
-  /**
-   * The output container URL.
-   */
-  outputContainerUrl: string;
-
-  /**
-   * The import file URL.
-   */
-  importFileUrl?: string;
-
-  /**
-   * The input properties for the notification hub job.
-   */
-  inputProperties?: Record<string, string>;
-
-  /**
-   * Gets the notification hub job failure message.
-   */
-  failure?: string;
-
-  /**
-   * The output properties for the notification hub job.
-   */
-  outputProperties?: Record<string, string>;
-
-  /**
-   * Notification hub job created date.
-   */
-  createdAt?: Date;
-
-  /**
-   * Notification hub job last updated date.
-   */
-  updatedAt?: Date;
+export async function parseNotificationHubJobEntry(bodyText: string): Promise<NotificationHubJob> {
+  const xml = await parseXML(bodyText, { includeRoot: true });
+  const content = xml.entry.content.NotificationHubJob;
+  return createNotificationHubJob(content);
 }
 
-export function createNotificationHubJob(rawNotificationHubJob: Record<string, any>): NotificationHubJob {
-  // TODO: Parse OutputProperties/InputProperties
+/**
+ * Parses an Atom XML feed of notification hub jobs.
+ * @param bodyText - The incoming Atom XML feed to parse into notification hub jobs.
+ * @returns A list of notification hub jobs.
+ */
+export async function parseNotificationHubJobFeed(bodyText: string): Promise<NotificationHubJob[]> {
+  const xml = await parseXML(bodyText, { includeRoot: true });
+  const results = [];
+  for (const item of xml.feed.entry) {
+    results.push(createNotificationHubJob(item.content.NotificationHubJob));
+  }
+
+  return results;
+}
+
+function createInputOutputProperties(content: Record<string, any>): Record<string, string> {
+  const props: Record<string, string> = {};
+  for (const item of content["d3p1:KeyValueOfstringstring"]) {
+    props[item["d3p1:Key"]] = item["d3p1:Value"];
+  }
+
+  return props;
+}
+
+function createNotificationHubJob(content: Record<string, any>): NotificationHubJob {
+  let outputProperties: Record<string, string> | undefined;
+  if (isDefined(content["OutputProperties"])) {
+    outputProperties = createInputOutputProperties(content["OutputProperties"]);
+  }
+
+  let inputProperties: Record<string, string> | undefined;
+  if (isDefined(content["InputProperties"])) {
+    inputProperties = createInputOutputProperties(content["InputProperties"]);
+  }
 
   return {
-    jobId: getString(rawNotificationHubJob["JobId"], "jobId"),
-    jobType: getInteger(rawNotificationHubJob["JobType"], "jobType") as NotificationHubJobType,
-    status: getInteger(rawNotificationHubJob["Status"], "status") as NotificationHubJobStatus,
-    outputContainerUrl: getString(rawNotificationHubJob["OutputContainerUri"], "outputContainerUrl"),
-    importFileUrl: getStringOrUndefined(rawNotificationHubJob["ImportFileUri"]),
-    failure: getStringOrUndefined(rawNotificationHubJob["Failure"]),
-    createdAt: getDateOrUndefined(rawNotificationHubJob["CreatedAt"]),
-    updatedAt: getDateOrUndefined(rawNotificationHubJob["UpdatedAt"]),
+    jobId: getStringOrUndefined(content["JobId"]),
+    type: getString(content["Type"], "type") as NotificationHubJobType,
+    status: getStringOrUndefined(content["Status"]) as NotificationHubJobStatus,
+    progress: getFloatOrUndefined(content["Progress"]),
+    outputContainerUrl: getString(content["OutputContainerUri"], "outputContainerUrl"),
+    importFileUrl: getStringOrUndefined(content["ImportFileUri"]),
+    failure: getStringOrUndefined(content["Failure"]),
+    createdAt: getDateOrUndefined(content["CreatedAt"]),
+    updatedAt: getDateOrUndefined(content["UpdatedAt"]),
+    inputProperties,
+    outputProperties,
   };
 }

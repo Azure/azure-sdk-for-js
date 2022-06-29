@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-
 import { AdmRegistrationDescription, AdmTemplateRegistrationDescription, AppleRegistrationDescription, AppleTemplateRegistrationDescription, BaiduRegistrationDescription, BaiduTemplateRegistrationDescription, BrowserRegistrationDescription, BrowserTemplateRegistrationDescription, FcmRegistrationDescription, FcmTemplateRegistrationDescription, GcmRegistrationDescription, GcmTemplateRegistrationDescription, MpnsRegistrationDescription, MpnsTemplateRegistrationDescription, WindowsRegistrationDescription, WindowsTemplateRegistrationDescription } from "../../../src/models/registration";
 import { assert } from "@azure/test-utils";
 import {  registrationDescriptionParser } from "../../../src/serializers/registrationSerializer";
