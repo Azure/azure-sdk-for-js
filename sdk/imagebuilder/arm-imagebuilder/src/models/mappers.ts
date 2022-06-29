@@ -83,6 +83,68 @@ export const ImageTemplateCustomizer: coreClient.CompositeMapper = {
   }
 };
 
+export const ImageTemplatePropertiesValidate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageTemplatePropertiesValidate",
+    modelProperties: {
+      continueDistributeOnFailure: {
+        defaultValue: false,
+        serializedName: "continueDistributeOnFailure",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sourceValidationOnly: {
+        defaultValue: false,
+        serializedName: "sourceValidationOnly",
+        type: {
+          name: "Boolean"
+        }
+      },
+      inVMValidations: {
+        serializedName: "inVMValidations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageTemplateInVMValidator"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ImageTemplateInVMValidator: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageTemplateInVMValidator",
+    uberParent: "ImageTemplateInVMValidator",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ImageTemplateDistributor: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -177,7 +239,13 @@ export const ImageTemplateLastRunStatus: coreClient.CompositeMapper = {
         serializedName: "runSubState",
         type: {
           name: "Enum",
-          allowedValues: ["Queued", "Building", "Customizing", "Distributing"]
+          allowedValues: [
+            "Queued",
+            "Building",
+            "Customizing",
+            "Validating",
+            "Distributing"
+          ]
         }
       },
       message: {
@@ -309,6 +377,43 @@ export const ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassignedi
   }
 };
 
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
 export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -348,36 +453,6 @@ export const SystemData: coreClient.CompositeMapper = {
         serializedName: "lastModifiedAt",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -481,36 +556,6 @@ export const RunOutputCollection: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SubResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SubResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -947,6 +992,107 @@ export const ImageTemplateFileCustomizer: coreClient.CompositeMapper = {
   }
 };
 
+export const ImageTemplateShellValidator: coreClient.CompositeMapper = {
+  serializedName: "Shell",
+  type: {
+    name: "Composite",
+    className: "ImageTemplateShellValidator",
+    uberParent: "ImageTemplateInVMValidator",
+    polymorphicDiscriminator:
+      ImageTemplateInVMValidator.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ImageTemplateInVMValidator.type.modelProperties,
+      scriptUri: {
+        serializedName: "scriptUri",
+        type: {
+          name: "String"
+        }
+      },
+      sha256Checksum: {
+        defaultValue: "",
+        serializedName: "sha256Checksum",
+        type: {
+          name: "String"
+        }
+      },
+      inline: {
+        serializedName: "inline",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ImageTemplatePowerShellValidator: coreClient.CompositeMapper = {
+  serializedName: "PowerShell",
+  type: {
+    name: "Composite",
+    className: "ImageTemplatePowerShellValidator",
+    uberParent: "ImageTemplateInVMValidator",
+    polymorphicDiscriminator:
+      ImageTemplateInVMValidator.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ImageTemplateInVMValidator.type.modelProperties,
+      scriptUri: {
+        serializedName: "scriptUri",
+        type: {
+          name: "String"
+        }
+      },
+      sha256Checksum: {
+        defaultValue: "",
+        serializedName: "sha256Checksum",
+        type: {
+          name: "String"
+        }
+      },
+      inline: {
+        serializedName: "inline",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      runElevated: {
+        defaultValue: false,
+        serializedName: "runElevated",
+        type: {
+          name: "Boolean"
+        }
+      },
+      runAsSystem: {
+        defaultValue: false,
+        serializedName: "runAsSystem",
+        type: {
+          name: "Boolean"
+        }
+      },
+      validExitCodes: {
+        serializedName: "validExitCodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ImageTemplateManagedImageDistributor: coreClient.CompositeMapper = {
   serializedName: "ManagedImage",
   type: {
@@ -1059,38 +1205,12 @@ export const TrackedResource: coreClient.CompositeMapper = {
   }
 };
 
-export const RunOutput: coreClient.CompositeMapper = {
+export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RunOutput",
+    className: "ProxyResource",
     modelProperties: {
-      ...SubResource.type.modelProperties,
-      artifactId: {
-        serializedName: "properties.artifactId",
-        type: {
-          name: "String"
-        }
-      },
-      artifactUri: {
-        serializedName: "properties.artifactUri",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Creating",
-            "Updating",
-            "Succeeded",
-            "Failed",
-            "Deleting"
-          ]
-        }
-      }
+      ...Resource.type.modelProperties
     }
   }
 };
@@ -1106,13 +1226,6 @@ export const ImageTemplate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImageTemplateIdentity"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
         }
       },
       source: {
@@ -1132,6 +1245,13 @@ export const ImageTemplate: coreClient.CompositeMapper = {
               className: "ImageTemplateCustomizer"
             }
           }
+        }
+      },
+      validate: {
+        serializedName: "properties.validate",
+        type: {
+          name: "Composite",
+          className: "ImageTemplatePropertiesValidate"
         }
       },
       distribute: {
@@ -1191,6 +1311,55 @@ export const ImageTemplate: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ImageTemplateVmProfile"
         }
+      },
+      stagingResourceGroup: {
+        serializedName: "properties.stagingResourceGroup",
+        type: {
+          name: "String"
+        }
+      },
+      exactStagingResourceGroup: {
+        serializedName: "properties.exactStagingResourceGroup",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RunOutput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RunOutput",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      artifactId: {
+        serializedName: "properties.artifactId",
+        type: {
+          name: "String"
+        }
+      },
+      artifactUri: {
+        serializedName: "properties.artifactUri",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Creating",
+            "Updating",
+            "Succeeded",
+            "Failed",
+            "Deleting"
+          ]
+        }
       }
     }
   }
@@ -1199,6 +1368,7 @@ export const ImageTemplate: coreClient.CompositeMapper = {
 export let discriminators = {
   ImageTemplateSource: ImageTemplateSource,
   ImageTemplateCustomizer: ImageTemplateCustomizer,
+  ImageTemplateInVMValidator: ImageTemplateInVMValidator,
   ImageTemplateDistributor: ImageTemplateDistributor,
   "ImageTemplateSource.PlatformImage": ImageTemplatePlatformImageSource,
   "ImageTemplateSource.ManagedImage": ImageTemplateManagedImageSource,
@@ -1208,6 +1378,8 @@ export let discriminators = {
   "ImageTemplateCustomizer.WindowsUpdate": ImageTemplateWindowsUpdateCustomizer,
   "ImageTemplateCustomizer.PowerShell": ImageTemplatePowerShellCustomizer,
   "ImageTemplateCustomizer.File": ImageTemplateFileCustomizer,
+  "ImageTemplateInVMValidator.Shell": ImageTemplateShellValidator,
+  "ImageTemplateInVMValidator.PowerShell": ImageTemplatePowerShellValidator,
   "ImageTemplateDistributor.ManagedImage": ImageTemplateManagedImageDistributor,
   "ImageTemplateDistributor.SharedImage": ImageTemplateSharedImageDistributor,
   "ImageTemplateDistributor.VHD": ImageTemplateVhdDistributor

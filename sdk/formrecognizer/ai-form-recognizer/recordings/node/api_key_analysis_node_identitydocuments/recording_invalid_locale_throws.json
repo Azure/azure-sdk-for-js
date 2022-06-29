@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-idDocument:analyze?locale=thisIsNotAValidLocaleString\u0026api-version=2022-01-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-idDocument:analyze?locale=thisIsNotAValidLocaleString\u0026api-version=2022-06-30-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,29 +10,29 @@
         "Content-Length": "71",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.3 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "9d5c2ef3-c6d4-48cb-a3f1-3ef56cad4e00"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "f20d71ed-44a1-47da-b9c3-1c5ab5eaf988"
       },
       "RequestBody": {
-        "urlSource": "https://storageaccount/testingdata/license.jpg?sastoken"
+        "urlSource": "https://storageaccount/testingdata/license.png?sastoken"
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "4e98bb44-19d3-4dd4-91e3-8b234cab1647",
+        "apim-request-id": "419572f4-54da-40f1-9e97-3c903accae3b",
+        "Content-Length": "221",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 08 Feb 2022 23:11:41 GMT",
+        "Date": "Thu, 02 Jun 2022 15:38:34 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "102"
+        "x-envoy-upstream-service-time": "843"
       },
       "ResponseBody": {
         "error": {
-          "code": "InvalidArgument",
-          "message": "Invalid argument.",
+          "code": "InvalidRequest",
+          "message": "Invalid request.",
           "innererror": {
-            "code": "InvalidParameter",
-            "message": "The parameter Locale is invalid: The language code is invalid or not supported."
+            "code": "InvalidContent",
+            "message": "The file is corrupted or format is unsupported. Refer to documentation for the list of supported formats."
           }
         }
       }

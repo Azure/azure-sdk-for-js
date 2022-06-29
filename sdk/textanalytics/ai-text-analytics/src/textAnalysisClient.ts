@@ -22,7 +22,6 @@ import {
 import { DEFAULT_COGNITIVE_SCOPE, SDK_VERSION } from "./constants";
 import {
   InternalPipelineOptions,
-  RestError,
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -42,7 +41,7 @@ import {
   getDocsFromState,
   processAnalyzeResult,
 } from "./lro";
-import { transformActionResult, transformError } from "./transforms";
+import { throwError, transformActionResult } from "./transforms";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
@@ -495,23 +494,24 @@ export class TextAnalysisClient {
     return this._tracing.withSpan(
       "TextAnalysisClient.analyze",
       operationOptions,
-      async (updatedOptions: TextAnalysisOperationOptions) => {
-        try {
-          const result = await this._client.analyze(
-            {
-              kind: actionName,
-              analysisInput: {
-                documents: realInputs,
-              },
-              parameters: action,
-            } as any,
-            updatedOptions
-          );
-          return transformActionResult(actionName, realInputs, result) as AnalyzeResult<ActionName>;
-        } catch (e: unknown) {
-          throw transformError(e as RestError);
-        }
-      }
+      async (updatedOptions: TextAnalysisOperationOptions) =>
+        throwError(
+          this._client
+            .analyze(
+              {
+                kind: actionName,
+                analysisInput: {
+                  documents: realInputs,
+                },
+                parameters: action,
+              } as any,
+              updatedOptions
+            )
+            .then(
+              (result) =>
+                transformActionResult(actionName, realInputs, result) as AnalyzeResult<ActionName>
+            )
+        )
     );
   }
 

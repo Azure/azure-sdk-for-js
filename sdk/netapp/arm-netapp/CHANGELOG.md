@@ -1,6 +1,6 @@
 # Release History
 
-## 15.1.2 (Unreleased)
+## 16.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,63 @@
 
 ### Other Changes
 
+## 16.0.0 (2022-06-13)
+    
+**Features**
+
+  - Added operation group VolumeQuotaRules
+  - Added operation Volumes.beginFinalizeRelocation
+  - Added operation Volumes.beginFinalizeRelocationAndWait
+  - Added operation Volumes.beginRelocate
+  - Added operation Volumes.beginRelocateAndWait
+  - Added operation Volumes.beginResetCifsPassword
+  - Added operation Volumes.beginResetCifsPasswordAndWait
+  - Added operation Volumes.beginRevertRelocation
+  - Added operation Volumes.beginRevertRelocationAndWait
+  - Added operation Volumes.listReplications
+  - Added Interface ListReplications
+  - Added Interface Replication
+  - Added Interface VolumeQuotaRulePatch
+  - Added Interface VolumeQuotaRulesCreateOptionalParams
+  - Added Interface VolumeQuotaRulesDeleteOptionalParams
+  - Added Interface VolumeQuotaRulesGetOptionalParams
+  - Added Interface VolumeQuotaRulesList
+  - Added Interface VolumeQuotaRulesListByVolumeOptionalParams
+  - Added Interface VolumeQuotaRulesUpdateOptionalParams
+  - Added Interface VolumeRelocationProperties
+  - Added Interface VolumesFinalizeRelocationOptionalParams
+  - Added Interface VolumesListReplicationsOptionalParams
+  - Added Interface VolumesRelocateOptionalParams
+  - Added Interface VolumesResetCifsPasswordOptionalParams
+  - Added Interface VolumesRevertRelocationOptionalParams
+  - Added Type Alias BackupPolicy
+  - Added Type Alias CapacityPool
+  - Added Type Alias EncryptionKeySource
+  - Added Type Alias NetAppAccount
+  - Added Type Alias ProvisioningState
+  - Added Type Alias SnapshotPolicy
+  - Added Type Alias TrackedResource
+  - Added Type Alias Type
+  - Added Type Alias Volume
+  - Added Type Alias VolumeQuotaRule
+  - Added Type Alias VolumeQuotaRulesCreateResponse
+  - Added Type Alias VolumeQuotaRulesGetResponse
+  - Added Type Alias VolumeQuotaRulesListByVolumeResponse
+  - Added Type Alias VolumeQuotaRulesUpdateResponse
+  - Added Type Alias VolumesListReplicationsResponse
+  - Interface Resource has a new optional parameter systemData
+  - Interface VolumeGroupVolumeProperties has a new optional parameter encrypted
+  - Class NetAppManagementClient has a new parameter volumeQuotaRules
+  - Added Enum KnownEncryptionKeySource
+  - Added Enum KnownType
+
+**Breaking Changes**
+
+  - Interface VolumeGroup no longer has parameter tags
+  - Interface VolumeGroupDetails no longer has parameter tags
+  - Type Alias SubscriptionQuotaItem no longer has parameter systemData
+  - Type Alias SubvolumeInfo no longer has parameter systemData
+    
 ## 15.1.1 (2022-04-27)
 
 **Features**

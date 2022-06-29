@@ -140,6 +140,7 @@ directive:
     where: $.definitions.ExtractiveSummarizationTaskParameters
     transform:
       $["x-ms-client-name"] = "ExtractiveSummarizationAction";
+      $.properties.sentenceCount.description = "The max number of sentences to be part of the summary.";
       $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
       $.properties.sortBy["x-ms-client-name"] = "orderBy";
   - from: swagger-document

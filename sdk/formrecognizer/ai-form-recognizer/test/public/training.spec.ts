@@ -4,15 +4,15 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { matrix, getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue, matrix } from "@azure/test-utils";
 
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 
 import {
-  testPollingOptions,
-  makeCredential,
   createRecorder,
   getRandomNumber,
+  makeCredential,
+  testPollingOptions,
 } from "../utils/recordedClients";
 
 import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";
@@ -29,7 +29,10 @@ const containerSasUrl = (): string =>
  * environment.
  */
 matrix(
-  [[true, false], [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/]] as const,
+  [
+    [/* true, */ false],
+    [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/],
+  ] as const,
   async (useAad, buildMode) => {
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;
@@ -156,7 +159,7 @@ matrix(
               assert.isNotEmpty(tables);
               const [table] = tables!;
 
-              assert.ok(table.boundingRegions?.[0].boundingBox);
+              assert.ok(table.boundingRegions?.[0].polygon);
               assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
               assert.ok(document.fields);
@@ -286,15 +289,24 @@ matrix(
         assert.equal(Object.entries(composedModel.docTypes ?? {}).length, 2);
       });
 
-      // TODO: re-enable when preview service degradation is mitigated.
-      // See: https://github.com/Azure/azure-sdk-for-js/issues/19604
-      it.skip(`copy model (${buildMode})`, async function () {
+      it(`copy model (${buildMode})`, async function () {
         // Since this test is isolated, we'll create a fresh set of resources for it
 
         const trainingClient = new DocumentModelAdministrationClient(
           endpoint(),
           makeCredential(useAad),
           recorder.configureClientOptions({})
+        );
+        await recorder.addSanitizers(
+          {
+            bodyKeySanitizers: [
+              {
+                jsonPath: "$.accessToken",
+                value: "access_token",
+              },
+            ],
+          },
+          ["playback", "record"]
         );
         const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 

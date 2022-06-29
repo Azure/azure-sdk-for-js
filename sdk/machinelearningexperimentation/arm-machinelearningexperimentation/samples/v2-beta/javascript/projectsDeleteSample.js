@@ -17,7 +17,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary Deletes a project.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/DeleteProject.json
  */
-async function accountCreate() {
+async function projectDelete() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myAccount";
@@ -34,4 +34,4 @@ async function accountCreate() {
   console.log(result);
 }
 
-accountCreate().catch(console.error);
+projectDelete().catch(console.error);
