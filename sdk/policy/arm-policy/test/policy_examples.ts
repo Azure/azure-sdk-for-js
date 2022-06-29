@@ -17,6 +17,12 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PolicyClient } from "../src/policyClient";
+import {
+  CreateManagementGroupRequest,
+  ManagementGroupsCreateOrUpdateOptionalParams,
+  ManagementGroupsAPI
+} from "@azure/arm-managementgroups";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -53,9 +59,9 @@ describe("Policy test", () => {
     client = new PolicyClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    groupId = "20000000-0001-0000-0000-000000000123";
+    groupId = "testabc";
     policyName = "jspolicy";
-    scope = "/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
+    scope = "providers/Microsoft.Management/managementgroups/testabc/";
     policyAssignmentName = "passigment";
   });
 
@@ -64,6 +70,26 @@ describe("Policy test", () => {
   });
 
   it("policyDefinitions create test", async function () {
+    // const cacheControl = "no-cache";
+    // const createManagementGroupRequest: CreateManagementGroupRequest = {
+    //   displayName: "ChildGroup",
+    //   details: {
+    //     parent: {
+    //       id: "/providers/Microsoft.Management/managementGroups/72f988bf-86f1-41af-91ab-2d7cd011db47"
+    //     }
+    //   }
+    // };
+    // const options: ManagementGroupsCreateOrUpdateOptionalParams = {
+    //   cacheControl
+    // };
+    // const credential = new DefaultAzureCredential();
+    // const mgmtgroup_client = new ManagementGroupsAPI(credential);
+    // const result = await mgmtgroup_client.managementGroups.beginCreateOrUpdateAndWait(
+    //   groupId,
+    //   createManagementGroupRequest,
+    //   options
+    // );
+
     const res = await client.policyDefinitions.createOrUpdateAtManagementGroup(policyName, groupId, {
       policyType: "Custom",
       description: "Don't create a VM anywhere",

@@ -1,0 +1,40 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.Management/managementGroups/testabc/providers/Microsoft.Authorization/policyDefinitions/jspolicy?api-version=2021-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-policy/5.0.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "61642471-8bcc-414b-a12f-376cf9592ff5"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "110",
+        "Content-Type": "application/json",
+        "Date": "Wed, 29 Jun 2022 08:27:21 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "87634445-e172-494a-9dea-c9077a440d2f",
+        "x-ms-ratelimit-remaining-tenant-reads": "11993",
+        "x-ms-request-id": "87634445-e172-494a-9dea-c9077a440d2f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220629T082722Z:87634445-e172-494a-9dea-c9077a440d2f"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "PolicyDefinitionNotFound",
+          "message": "The policy definition \u0027jspolicy\u0027 could not be found."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
