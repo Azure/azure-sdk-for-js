@@ -17,7 +17,7 @@ import {
 } from "../../src";
 chaiUse(chaiPromises);
 
-matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] MapsRouteClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: MapsRouteClient;
@@ -173,7 +173,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           const batchResult = await poller.pollUntilDone();
 
           assert.equal(batchResult.totalRequests, batchRequests.length);
-          assert.equal(batchResult.batchItems?.length, batchRequests.length);
+          assert.equal(batchResult.batchItems.length, batchRequests.length);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
@@ -257,7 +257,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           const batchResult = await poller2.pollUntilDone();
 
           assert.equal(batchResult.totalRequests, batchRequests.length);
-          assert.equal(batchResult.batchItems?.length, batchRequests.length);
+          assert.equal(batchResult.batchItems.length, batchRequests.length);
         });
 
         it("should obtain the same result as beginRequestRouteDirectionsBatch ", async function () {
@@ -332,7 +332,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
 
           assert.isNotEmpty(routeMatrixResult.matrix);
           assert.isNotEmpty(routeMatrixResult.summary);
-          assert.equal(routeMatrixResult.summary?.totalRoutes, 4);
+          assert.equal(routeMatrixResult.summary.totalRoutes, 4);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
@@ -411,7 +411,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
 
           assert.isNotEmpty(routeMatrixResult.matrix);
           assert.isNotEmpty(routeMatrixResult.summary);
-          assert.equal(routeMatrixResult.summary?.totalRoutes, 4);
+          assert.equal(routeMatrixResult.summary.totalRoutes, 4);
         });
 
         it("should obtain the same result as beginFuzzySearchBatch ", async function () {

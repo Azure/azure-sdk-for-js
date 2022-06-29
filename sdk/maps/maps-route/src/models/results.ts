@@ -8,7 +8,6 @@ import {
   GuidanceManeuver,
   JunctionType,
   RouteInstructionGroup,
-  RouteLegSummary,
   RouteOptimizedWaypoint,
   RouteReport,
   RouteSection,
@@ -51,7 +50,7 @@ export interface RouteDirections {
    * Routes array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly routes?: Route[];
+  readonly routes: Route[];
   /**
    * Optimized sequence of waypoints. It shows the index from the user provided waypoint sequence for the original and optimized list. For instance, a response:
    *
@@ -86,7 +85,7 @@ export interface Route {
    * Sections array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sections: RouteSection[];
+  readonly sections?: RouteSection[];
   /**
    * Contains guidance related elements. This field is present only when guidance was requested and is available.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -100,7 +99,7 @@ export interface RouteLeg {
    * Summary object for route section.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly summary: RouteLegSummary;
+  readonly summary: RouteSummary;
   /**
    * Points array
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -240,17 +239,17 @@ export interface RouteInstruction {
 /** This object is returned from a successful Batch service call. */
 export interface BatchResult<TResult> {
   /** Number of successful requests in the batch */
-  readonly successfulRequests?: number;
+  readonly totalSuccessfulRequests: number;
   /** Total number of requests in the batch */
-  readonly totalRequests?: number;
+  readonly totalRequests: number;
   /** Array containing the batch results. */
-  readonly batchItems?: BatchItem<TResult>[];
+  readonly batchItems: BatchItem<TResult>[];
 }
 
 /** An item returned from Batch service call. */
 export interface BatchItem<TResult> {
   /** HTTP request status code. */
-  readonly statusCode?: number;
+  readonly statusCode: number;
   /** The result of the query. TResult if the query completed successfully, ErrorResponse otherwise. */
-  readonly response?: TResult | ErrorResponse;
+  readonly response: TResult | ErrorResponse;
 }

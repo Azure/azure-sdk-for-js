@@ -144,24 +144,25 @@ export const RouteMatrix: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      routeLegSummary: {
+      routeSummary: {
         serializedName: "response.routeSummary",
         type: {
           name: "Composite",
-          className: "RouteLegSummary"
+          className: "RouteSummary"
         }
       }
     }
   }
 };
 
-export const RouteLegSummary: coreClient.CompositeMapper = {
+export const RouteSummary: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RouteLegSummary",
+    className: "RouteSummary",
     modelProperties: {
       lengthInMeters: {
         serializedName: "lengthInMeters",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -169,6 +170,7 @@ export const RouteLegSummary: coreClient.CompositeMapper = {
       },
       travelTimeInSeconds: {
         serializedName: "travelTimeInSeconds",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -176,6 +178,7 @@ export const RouteLegSummary: coreClient.CompositeMapper = {
       },
       trafficDelayInSeconds: {
         serializedName: "trafficDelayInSeconds",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -183,6 +186,7 @@ export const RouteLegSummary: coreClient.CompositeMapper = {
       },
       departureTime: {
         serializedName: "departureTime",
+        required: true,
         readOnly: true,
         type: {
           name: "DateTime"
@@ -190,44 +194,10 @@ export const RouteLegSummary: coreClient.CompositeMapper = {
       },
       arrivalTime: {
         serializedName: "arrivalTime",
+        required: true,
         readOnly: true,
         type: {
           name: "DateTime"
-        }
-      },
-      noTrafficTravelTimeInSeconds: {
-        serializedName: "noTrafficTravelTimeInSeconds",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      historicTrafficTravelTimeInSeconds: {
-        serializedName: "historicTrafficTravelTimeInSeconds",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      liveTrafficIncidentsTravelTimeInSeconds: {
-        serializedName: "liveTrafficIncidentsTravelTimeInSeconds",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fuelConsumptionInLiters: {
-        serializedName: "fuelConsumptionInLiters",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      batteryConsumptionInKwH: {
-        serializedName: "batteryConsumptionInkWh",
-        readOnly: true,
-        type: {
-          name: "Number"
         }
       }
     }
@@ -312,6 +282,7 @@ export const RouteDirections: coreClient.CompositeMapper = {
       },
       routes: {
         serializedName: "routes",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -375,7 +346,6 @@ export const Route: coreClient.CompositeMapper = {
       },
       sections: {
         serializedName: "sections",
-        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -398,50 +368,6 @@ export const Route: coreClient.CompositeMapper = {
   }
 };
 
-export const RouteSummary: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RouteSummary",
-    modelProperties: {
-      lengthInMeters: {
-        serializedName: "lengthInMeters",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      travelTimeInSeconds: {
-        serializedName: "travelTimeInSeconds",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      trafficDelayInSeconds: {
-        serializedName: "trafficDelayInSeconds",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      departureTime: {
-        serializedName: "departureTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      arrivalTime: {
-        serializedName: "arrivalTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
 export const RouteLeg: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -451,7 +377,7 @@ export const RouteLeg: coreClient.CompositeMapper = {
         serializedName: "summary",
         type: {
           name: "Composite",
-          className: "RouteLegSummary"
+          className: "RouteSummary"
         }
       },
       points: {
@@ -479,12 +405,14 @@ export const LatLongPair: coreClient.CompositeMapper = {
     modelProperties: {
       latitude: {
         serializedName: "latitude",
+        required: true,
         type: {
           name: "Number"
         }
       },
       longitude: {
         serializedName: "longitude",
+        required: true,
         type: {
           name: "Number"
         }
@@ -500,6 +428,7 @@ export const RouteSection: coreClient.CompositeMapper = {
     modelProperties: {
       startPointIndex: {
         serializedName: "startPointIndex",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -507,6 +436,7 @@ export const RouteSection: coreClient.CompositeMapper = {
       },
       endPointIndex: {
         serializedName: "endPointIndex",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -514,6 +444,7 @@ export const RouteSection: coreClient.CompositeMapper = {
       },
       sectionType: {
         serializedName: "sectionType",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -843,6 +774,7 @@ export const RouteOptimizedWaypoint: coreClient.CompositeMapper = {
     modelProperties: {
       providedIndex: {
         serializedName: "providedIndex",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -850,6 +782,7 @@ export const RouteOptimizedWaypoint: coreClient.CompositeMapper = {
       },
       optimizedIndex: {
         serializedName: "optimizedIndex",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -1091,6 +1024,7 @@ export const BatchResultItem: coreClient.CompositeMapper = {
     modelProperties: {
       statusCode: {
         serializedName: "statusCode",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -1121,8 +1055,9 @@ export const BatchResultSummary: coreClient.CompositeMapper = {
     name: "Composite",
     className: "BatchResultSummary",
     modelProperties: {
-      successfulRequests: {
+      totalSuccessfulRequests: {
         serializedName: "successfulRequests",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -1130,6 +1065,7 @@ export const BatchResultSummary: coreClient.CompositeMapper = {
       },
       totalRequests: {
         serializedName: "totalRequests",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -1437,6 +1373,7 @@ export const RouteDirectionsBatchResult: coreClient.CompositeMapper = {
       ...BatchResult.type.modelProperties,
       batchItems: {
         serializedName: "batchItems",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
