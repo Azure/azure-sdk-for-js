@@ -3642,6 +3642,7 @@ packages:
 
   /core-js/3.22.6:
     resolution: {integrity: sha512-2IGcGH00z9I4twgNWU4uGCNEsBFG1s2JudVQrgSCoVhOfwoTwQjxC8aMo9exrpTMOxvobggEpaHnGMmQY4cfBQ==}
+    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
 
@@ -3940,7 +3941,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220628
+      typescript: 4.8.0-dev.20220629
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8750,8 +8751,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220628:
-    resolution: {integrity: sha512-89n1Fp/JQev/bPPuVferlfw0VguLxr0uFergLfPbhs+6Hlu3M5rLwplGLHL+JZ+0+BsTyWg779TmaMcqa5FB5Q==}
+  /typescript/4.8.0-dev.20220629:
+    resolution: {integrity: sha512-QEp1M6iqlYpQXFF2f9ucXMkXbYcAoXcG0ws0IG8bWd7mjPGf8R5iVCbQVSm1dzV/GoOy0PsvfNe5/uL6D9TSPA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9660,7 +9661,7 @@ packages:
     dev: false
 
   file:projects/arm-analysisservices.tgz:
-    resolution: {integrity: sha512-RISC51vMCbLqCgbL+K6tvS9SsZhQRYYbhR2i0tFyWLbA/uBYUU/o0t6lVAnhbMpJ7eQpb9HdY+x7JeIQBjKZYQ==, tarball: file:projects/arm-analysisservices.tgz}
+    resolution: {integrity: sha512-gtSzdcJMM+nPw03anc4RahwXcSU41cNNa2gxrQREZXwJMwjXRsWPRD1rvv+26eFwXej1grHgSx1GqcObHMaM1w==, tarball: file:projects/arm-analysisservices.tgz}
     name: '@rush-temp/arm-analysisservices'
     version: 0.0.0
     dependencies:
@@ -9670,20 +9671,22 @@ packages:
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
       '@rollup/plugin-json': 4.1.0_rollup@2.74.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.74.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.74.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.74.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.74.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.74.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
+      - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -15730,7 +15733,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-GpYqqiBAd35JuauL9AaLd1cWDeltqyWkIdd4UuNPUCMcBb+6oOiH4IE3xJaJjtIBZx72XZIFHx4BOoGFGhEYng==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-CtITkph7jz48HsNI/kTsOushqH3+fDwLm27HbpIVQ8GNLuxMk0Qyd5O+MeuirjngP1VJq0M4lq9AEfj41I4bAg==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
