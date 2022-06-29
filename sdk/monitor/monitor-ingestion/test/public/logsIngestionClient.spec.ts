@@ -107,16 +107,13 @@ describe("LogsIngestionClient live tests", function () {
     result.errors.forEach(err => {
       assert.equal(err.responseError.message,`Data collection rule with immutable Id 'fake-id' not found.`);
     });
-    // assert.equal(result.errors[0].responseError.message,`Data collection rule with immutable Id 'fake-id' not found.`);
-    console.log(result.errors.length);
     const chunkArray = client.splitDataToChunks(logData);
-    console.log(chunkArray.length);
-    // if(chunkArray.length%2 == 0){
-    //   assert.equal(result.errors.length,(chunkArray.length/2));
-    // }
-    // if(chunkArray.length%2 == 1){
-    //   assert.equal(result.errors.length,(chunkArray.length-1)/2);
-    // }    
+    if(chunkArray.length%2 == 0){
+      assert.equal(result.errors.length,(chunkArray.length/2));
+    }
+    if(chunkArray.length%2 == 1){
+      assert.equal(result.errors.length,(chunkArray.length-1)/2);
+    }    
   })
 
   it("Throws error when all logs fail", async ()=>{
