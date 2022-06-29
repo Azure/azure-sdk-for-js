@@ -138,7 +138,7 @@ export function getObjects(logsCount: number): LogData[] {
   for (let i = 0; i < logsCount; i++) {
     const logData: LogData = {
       Time: new Date(1655957386799),
-      AdditionalContext: `additional logs context ${i}`,
+      AdditionalContext: `additional logs context`,
     };
     logs.push(logData);
   }
