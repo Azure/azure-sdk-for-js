@@ -3,9 +3,10 @@
 
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-process.env.RECORDINGS_RELATIVE_PATH =
-  require("@azure-tools/test-recorder").relativeRecordingsPath();
 require("dotenv").config();
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 module.exports = function (config) {
   config.set({
@@ -48,9 +49,8 @@ module.exports = function (config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "APPCONFIG_ENDPOINT",
-      "APPCONFIG_TEST_SETTING_KEY",
-      "APPCONFIG_TEST_SETTING_EXPECTED_VALUE",
+      "LOGS_INGESTION_ENDPOINT",
+      "IMMUTABLE_ID",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
@@ -65,7 +65,7 @@ module.exports = function (config) {
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }],
+      reporters: [{ type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }],
     },
 
     junitReporter: {
