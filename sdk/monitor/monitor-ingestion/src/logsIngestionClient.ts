@@ -5,7 +5,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
-import { UploadOptions, UploadResult, FailedLogsIngestionError } from "./models";
+import { FailedLogsIngestionError, UploadOptions, UploadResult } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import asyncPool from "tiny-async-pool";
 
@@ -76,34 +76,34 @@ export class LogsIngestionClient {
     // This splits logs into 1MB chunks
     const chunkArray: any[] = this.splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
-    let count = 0;
     let concurrency = 1;
     if (options?.maxConcurrency && options?.maxConcurrency > 1) {
       concurrency = options?.maxConcurrency;
     }
 
-    let uploadResult: UploadResult = {
+    const uploadResult: UploadResult = {
       errors: [],
       uploadStatus: "Success",
     };
 
-    let errorsArray: Record<string, any>[] = [];
+    const errorsArray: Record<string, any>[] = [];
     const uploadCallback = async (x: any): Promise<void> => {
       try {
         await this._dataClient.upload(ruleId, streamName, x, {
           contentEncoding: "gzip",
         });
       } catch (e: any) {
-        errorsArray.push({ error: e, log: count });
+        errorsArray.push({ error: e, log: x });
       }
     };
 
     for await (const _i of asyncPool(concurrency, chunkArray, uploadCallback)) {
+      /* eslint-disable no-empty */
     }
-    for (let errorsObj of errorsArray) {
+    for (const errorsObj of errorsArray) {
       uploadResult.errors.push({
         responseError: errorsObj.error,
-        failedLogs: chunkArray[errorsObj.log],
+        failedLogs: errorsObj.log,
       });
     }
     if (uploadResult.errors.length === 0) {

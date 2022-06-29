@@ -7,11 +7,11 @@ import { assert } from "chai";
 import * as dotenv from "dotenv";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 import {
+  RecorderAndLogsClient,
   createClientAndStartRecorder,
   getDcrId,
   getLogsIngestionEndpoint,
   loggerForTest,
-  RecorderAndLogsClient,
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -86,7 +86,7 @@ describe("LogsIngestionClient live tests", function () {
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async () => {
     const logData = getObjects(150000);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
-    const client = new LogsIngestionClient(
+    client = new LogsIngestionClient(
       getLogsIngestionEndpoint(),
       createTestCredential(),
       recorder.configureClientOptions({
@@ -105,10 +105,10 @@ describe("LogsIngestionClient live tests", function () {
       );
     });
     const chunkArray = client.splitDataToChunks(logData);
-    if (chunkArray.length % 2 == 0) {
+    if (chunkArray.length % 2 === 0) {
       assert.equal(result.errors.length, chunkArray.length / 2);
     }
-    if (chunkArray.length % 2 == 1) {
+    if (chunkArray.length % 2 === 1) {
       assert.equal(result.errors.length, (chunkArray.length - 1) / 2);
     }
   });
@@ -132,8 +132,8 @@ describe("LogsIngestionClient live tests", function () {
   });
 });
 
-export function getObjects(logsCount: Number): LogData[] {
-  let logs: LogData[] = [];
+export function getObjects(logsCount: number): LogData[] {
+  const logs: LogData[] = [];
 
   for (let i = 0; i < logsCount; i++) {
     const logData: LogData = {

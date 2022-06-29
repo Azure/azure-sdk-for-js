@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 import { createTestCredential } from "@azure-tools/test-credential";
 import {
-  assertEnvironmentVariable,
-  env,
   Recorder,
   RecorderStartOptions,
+  assertEnvironmentVariable,
+  env,
 } from "@azure-tools/test-recorder";
 
 import { createClientLogger } from "@azure/logger";
