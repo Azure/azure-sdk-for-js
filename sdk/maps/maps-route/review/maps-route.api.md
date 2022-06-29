@@ -18,8 +18,8 @@ export { AzureKeyCredential }
 
 // @public
 export interface BatchItem<TResult> {
-    readonly response?: TResult & ErrorResponse;
-    readonly statusCode?: number;
+    readonly response: TResult | ErrorResponse;
+    readonly statusCode: number;
 }
 
 // @public
@@ -35,9 +35,9 @@ export interface BatchPollerOptions {
 
 // @public
 export interface BatchResult<TResult> {
-    readonly batchItems?: BatchItem<TResult>[];
-    readonly successfulRequests?: number;
-    readonly totalRequests?: number;
+    readonly batchItems: BatchItem<TResult>[];
+    readonly totalRequests: number;
+    readonly totalSuccessfulRequests: number;
 }
 
 // @public
@@ -60,23 +60,14 @@ export type DrivingSide = string;
 
 // @public
 export interface EffectiveSetting {
-    readonly key?: string;
-    readonly value?: string;
-}
-
-// @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
-    readonly type?: string;
+    readonly key: string;
+    readonly value: string;
 }
 
 // @public
 export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
-    readonly details?: ErrorDetail[];
     readonly message?: string;
-    readonly target?: string;
 }
 
 // @public
@@ -445,7 +436,7 @@ export type ResponseTravelMode = string;
 export interface Route {
     readonly guidance?: RouteGuidance;
     readonly legs: RouteLeg[];
-    readonly sections: RouteSection[];
+    readonly sections?: RouteSection[];
     readonly summary: RouteSummary;
 }
 
@@ -497,7 +488,7 @@ export interface RouteDirections {
     readonly formatVersion?: string;
     readonly optimizedWaypoints?: RouteOptimizedWaypoint[];
     report?: RouteReport;
-    readonly routes?: Route[];
+    readonly routes: Route[];
 }
 
 // @public
@@ -572,27 +563,13 @@ export type RouteInstructionsType = string;
 // @public
 export interface RouteLeg {
     readonly points: LatLon[];
-    readonly summary: RouteLegSummary;
-}
-
-// @public
-export interface RouteLegSummary {
-    readonly arrivalTime?: Date;
-    readonly batteryConsumptionInKwH?: number;
-    readonly departureTime?: Date;
-    readonly fuelConsumptionInLiters?: number;
-    readonly historicTrafficTravelTimeInSeconds?: number;
-    readonly lengthInMeters?: number;
-    readonly liveTrafficIncidentsTravelTimeInSeconds?: number;
-    readonly noTrafficTravelTimeInSeconds?: number;
-    readonly trafficDelayInSeconds?: number;
-    readonly travelTimeInSeconds?: number;
+    readonly summary: RouteSummary;
 }
 
 // @public
 export interface RouteMatrix {
-    readonly routeLegSummary?: RouteLegSummary;
-    readonly statusCode?: number;
+    readonly routeSummary?: RouteSummary;
+    readonly statusCode: number;
 }
 
 // @public
@@ -625,26 +602,26 @@ export interface RouteMatrixQuery {
 // @public
 export interface RouteMatrixResult {
     readonly formatVersion?: string;
-    readonly matrix?: RouteMatrix[][];
-    readonly summary?: RouteMatrixSummary;
+    readonly matrix: RouteMatrix[][];
+    readonly summary: RouteMatrixSummary;
 }
 
 // @public
 export interface RouteMatrixSummary {
-    readonly successfulRoutes?: number;
-    readonly totalRoutes?: number;
+    readonly successfulRoutes: number;
+    readonly totalRoutes: number;
 }
 
 // @public
 export interface RouteOptimizedWaypoint {
-    readonly optimizedIndex?: number;
-    readonly providedIndex?: number;
+    readonly optimizedIndex: number;
+    readonly providedIndex: number;
 }
 
 // @public
 export interface RouteRange {
-    readonly boundary?: LatLon[];
-    center?: LatLon;
+    readonly boundary: LatLon[];
+    center: LatLon;
 }
 
 // @public
@@ -661,13 +638,13 @@ export type RouteRangeOptions = RouteBaseOptions & OperationOptions;
 // @public
 export interface RouteRangeResult {
     readonly formatVersion?: string;
-    reachableRange?: RouteRange;
+    reachableRange: RouteRange;
     report?: RouteReport;
 }
 
 // @public
 export interface RouteReport {
-    readonly effectiveSettings?: EffectiveSetting[];
+    readonly effectiveSettings: EffectiveSetting[];
 }
 
 // @public
@@ -678,10 +655,10 @@ export interface RouteSection {
     readonly delayInSeconds?: number;
     readonly delayMagnitude?: DelayMagnitude;
     readonly effectiveSpeedInKmh?: number;
-    readonly endPointIndex?: number;
-    readonly sectionType?: ResponseSectionType;
+    readonly endPointIndex: number;
+    readonly sectionType: ResponseSectionType;
     readonly simpleCategory?: SimpleCategory;
-    readonly startPointIndex?: number;
+    readonly startPointIndex: number;
     tec?: RouteSectionTec;
     readonly travelMode?: ResponseTravelMode;
 }
@@ -700,11 +677,11 @@ export interface RouteSectionTecCause {
 
 // @public
 export interface RouteSummary {
-    readonly arrivalTime?: Date;
-    readonly departureTime?: Date;
-    readonly lengthInMeters?: number;
-    readonly trafficDelayInSeconds?: number;
-    readonly travelTimeInSeconds?: number;
+    readonly arrivalTime: Date;
+    readonly departureTime: Date;
+    readonly lengthInMeters: number;
+    readonly trafficDelayInSeconds: number;
+    readonly travelTimeInSeconds: number;
 }
 
 // @public

@@ -66,7 +66,6 @@ export {
   EffectiveSetting,
   ErrorResponse,
   ErrorDetail,
-  RouteLegSummary,
   RouteSection,
   RouteSummary,
   RouteInstructionGroup,

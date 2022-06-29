@@ -80,64 +80,39 @@ export interface RouteMatrix {
    */
   readonly statusCode: number;
   /**
-   * Summary object for route section.
+   * Summary object
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly routeLegSummary?: RouteLegSummary;
+  readonly routeSummary?: RouteSummary;
 }
 
-/** Summary object for route section. */
-export interface RouteLegSummary {
+/** Summary object */
+export interface RouteSummary {
   /**
    * Length In Meters property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lengthInMeters?: number;
+  readonly lengthInMeters: number;
   /**
    * Estimated travel time in seconds property that includes the delay due to real-time traffic. Note that even when traffic=false travelTimeInSeconds still includes the delay due to traffic. If DepartAt is in the future, travel time is calculated using time-dependent historic traffic data.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly travelTimeInSeconds?: number;
+  readonly travelTimeInSeconds: number;
   /**
    * Estimated delay in seconds caused by the real-time incident(s) according to traffic information. For routes planned with departure time in the future, delays is always 0. To return additional travel times using different types of traffic information, parameter computeTravelTimeFor=all needs to be added.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly trafficDelayInSeconds?: number;
+  readonly trafficDelayInSeconds: number;
   /**
    * The estimated departure time for the route or leg.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly departureTime?: Date;
+  readonly departureTime: Date;
   /**
    * The estimated arrival time for the route or leg.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly arrivalTime?: Date;
-  /**
-   * Estimated travel time calculated as if there are no delays on the route due to traffic conditions (e.g. congestion). Included only if computeTravelTimeFor = all is used in the query.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly noTrafficTravelTimeInSeconds?: number;
-  /**
-   * Estimated travel time calculated using time-dependent historic traffic data. Included only if computeTravelTimeFor = all is used in the query.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly historicTrafficTravelTimeInSeconds?: number;
-  /**
-   * Estimated travel time calculated using real-time speed data. Included only if computeTravelTimeFor = all is used in the query.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly liveTrafficIncidentsTravelTimeInSeconds?: number;
-  /**
-   * Estimated fuel consumption in liters using the Combustion Consumption Model. Included if vehicleEngineType is set to _combustion_ and constantSpeedConsumptionInLitersPerHundredkm is specified. The value will be non-negative.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fuelConsumptionInLiters?: number;
-  /**
-   * Estimated electric energy consumption in kilowatt hours (kWh) using the Electric Consumption Model. Included if vehicleEngineType is set to electric and constantSpeedConsumptionInkWhPerHundredkm is specified. The value of batteryConsumptionInkWh includes the recuperated electric energy and can therefore be negative (which indicates gaining energy). If both maxChargeInkWh and currentChargeInkWh are specified, recuperation will be capped to ensure that the battery charge level never exceeds maxChargeInkWh. If neither maxChargeInkWh nor currentChargeInkWh are specified, unconstrained recuperation is assumed in the consumption calculation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly batteryConsumptionInKwH?: number;
+  readonly arrivalTime: Date;
 }
 
 /** Summary object */
@@ -185,7 +160,7 @@ export interface RouteDirections {
    * Routes array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly routes?: Route[];
+  readonly routes: Route[];
   /**
    * Optimized sequence of waypoints. It shows the index from the user provided waypoint sequence for the original and optimized list. For instance, a response:
    *
@@ -220,7 +195,7 @@ export interface Route {
    * Sections array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sections: RouteSection[];
+  readonly sections?: RouteSection[];
   /**
    * Contains guidance related elements. This field is present only when guidance was requested and is available.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -228,42 +203,13 @@ export interface Route {
   readonly guidance?: RouteGuidance;
 }
 
-/** Summary object */
-export interface RouteSummary {
-  /**
-   * Length In Meters property
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lengthInMeters?: number;
-  /**
-   * Estimated travel time in seconds property that includes the delay due to real-time traffic. Note that even when traffic=false travelTimeInSeconds still includes the delay due to traffic. If DepartAt is in the future, travel time is calculated using time-dependent historic traffic data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly travelTimeInSeconds?: number;
-  /**
-   * Estimated delay in seconds caused by the real-time incident(s) according to traffic information. For routes planned with departure time in the future, delays is always 0. To return additional travel times using different types of traffic information, parameter computeTravelTimeFor=all needs to be added.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trafficDelayInSeconds?: number;
-  /**
-   * The estimated departure time for the route or leg.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly departureTime?: Date;
-  /**
-   * The estimated arrival time for the route or leg.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly arrivalTime?: Date;
-}
-
 /** A description of a part of a route, comprised of a list of points. Each additional waypoint provided in the request will result in an additional leg in the returned route. */
 export interface RouteLeg {
   /**
-   * Summary object for route section.
+   * Summary object
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly summary: RouteLegSummary;
+  readonly summary: RouteSummary;
   /**
    * Points array
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -274,9 +220,9 @@ export interface RouteLeg {
 /** A location represented as a latitude and longitude. */
 export interface LatLongPair {
   /** Latitude property */
-  latitude?: number;
+  latitude: number;
   /** Longitude property */
-  longitude?: number;
+  longitude: number;
 }
 
 /** Route sections contain additional information about parts of a route. Each section contains at least the elements `startPointIndex`, `endPointIndex`, and `sectionType`. */
@@ -285,17 +231,17 @@ export interface RouteSection {
    * Index of the first point (offset 0) in the route this section applies to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly startPointIndex?: number;
+  readonly startPointIndex: number;
   /**
    * Index of the last point (offset 0) in the route this section applies to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly endPointIndex?: number;
+  readonly endPointIndex: number;
   /**
    * Section types of the reported route response
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sectionType?: ResponseSectionType;
+  readonly sectionType: ResponseSectionType;
   /**
    * Travel mode for the calculated route. The value will be set to `other` if the requested mode of transport is not possible in this section
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -509,12 +455,12 @@ export interface RouteOptimizedWaypoint {
    * Way point index provided by the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly providedIndex?: number;
+  readonly providedIndex: number;
   /**
    * Optimized way point index from the system.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly optimizedIndex?: number;
+  readonly optimizedIndex: number;
 }
 
 /** Reports the effective settings used in the current call. */
@@ -608,7 +554,7 @@ export interface BatchResultItem {
    * HTTP request status code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly statusCode?: number;
+  readonly statusCode: number;
 }
 
 /** This object is returned from a successful Batch service call. Extend with 'batchItems' property. */
@@ -617,7 +563,7 @@ export interface BatchResult {
    * Summary of the results for the batch request
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly batchSummary?: BatchResultSummary;
+  readonly batchSummary: BatchResultSummary;
 }
 
 /** Summary of the results for the batch request */
@@ -626,12 +572,12 @@ export interface BatchResultSummary {
    * Number of successful requests in the batch
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly successfulRequests?: number;
+  readonly totalSuccessfulRequests: number;
   /**
    * Total number of requests in the batch
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly totalRequests?: number;
+  readonly totalRequests: number;
 }
 
 /** Data contained by a `GeoJson Point`. */
@@ -721,7 +667,7 @@ export type RouteDirectionsBatchItem = BatchResultItem & {
    * The result of the query. RouteDirections if the query completed successfully, ErrorResponse otherwise.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly response?: RouteDirectionsBatchItemResponse;
+  readonly response: RouteDirectionsBatchItemResponse;
 };
 
 /** This object is returned from a successful Route Directions Batch service call. */
@@ -730,7 +676,7 @@ export type RouteDirectionsBatchResult = BatchResult & {
    * Array containing the batch results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly batchItems?: RouteDirectionsBatchItem[];
+  readonly batchItems: RouteDirectionsBatchItem[];
 };
 
 /** A valid `GeoJSON Point` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.2) for details. */

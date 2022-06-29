@@ -29,9 +29,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { RouteDirectionParameters, LatLon, BatchPoller } from "./models/models";
 import {
   createRouteDirectionsBatchRequest,
-  mapRouteDirections,
   mapRouteDirectionsBatchResult,
-  mapRouteRangeResult,
   toColonDelimitedLatLonString,
   toNumericArray,
 } from "./models/mappers";
@@ -137,12 +135,11 @@ export class MapsRouteClient {
 
     const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteDirections", options);
     try {
-      const result = await this.client.routeOperations.getRouteDirections(
+      return await this.client.routeOperations.getRouteDirections(
         this.defaultFormat,
         toColonDelimitedLatLonString(routePoints),
         updatedOptions
       );
-      return mapRouteDirections(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -171,7 +168,7 @@ export class MapsRouteClient {
       options
     );
     try {
-      const result = await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
+      return await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
         this.defaultFormat,
         toColonDelimitedLatLonString(routePoints),
         {
@@ -183,7 +180,6 @@ export class MapsRouteClient {
         },
         updatedOptions
       );
-      return mapRouteDirections(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -208,12 +204,11 @@ export class MapsRouteClient {
   ): Promise<RouteRangeResult> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteRange", options);
     try {
-      const result = await this.client.routeOperations.getRouteRange(
+      return await this.client.routeOperations.getRouteRange(
         this.defaultFormat,
         toNumericArray(coordinates),
         { ...updatedOptions, ...budget }
       );
-      return mapRouteRangeResult(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
