@@ -36,7 +36,7 @@ export const contentType: OperationParameter = {
 };
 
 export const patch: OperationParameter = {
-  parameterPath: ["options", "patch"],
+  parameterPath: "patch",
   mapper: ClassificationPolicyMapper
 };
 
@@ -99,29 +99,18 @@ export const maxpagesize: OperationQueryParameter = {
 };
 
 export const patch1: OperationParameter = {
-  parameterPath: ["options", "patch"],
+  parameterPath: "patch",
   mapper: DistributionPolicyMapper
 };
 
 export const patch2: OperationParameter = {
-  parameterPath: ["options", "patch"],
+  parameterPath: "patch",
   mapper: ExceptionPolicyMapper
 };
 
 export const patch3: OperationParameter = {
-  parameterPath: ["options", "patch"],
+  parameterPath: "patch",
   mapper: RouterJobMapper
-};
-
-export const jobId: OperationURLParameter = {
-  parameterPath: "jobId",
-  mapper: {
-    serializedName: "jobId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const contentType1: OperationParameter = {
@@ -141,7 +130,8 @@ export const reclassifyJobRequest: OperationParameter = {
   mapper: {
     serializedName: "reclassifyJobRequest",
     type: {
-      name: "any"
+      name: "Dictionary",
+      value: { type: { name: "any" } }
     }
   }
 };
@@ -228,17 +218,6 @@ export const channelId: OperationQueryParameter = {
   }
 };
 
-export const assignmentId2: OperationURLParameter = {
-  parameterPath: "assignmentId",
-  mapper: {
-    serializedName: "assignmentId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const workerId: OperationURLParameter = {
   parameterPath: "workerId",
   mapper: {
@@ -262,23 +241,12 @@ export const offerId: OperationURLParameter = {
 };
 
 export const patch4: OperationParameter = {
-  parameterPath: ["options", "patch"],
+  parameterPath: "patch",
   mapper: JobQueueMapper
 };
 
-export const queueId1: OperationURLParameter = {
-  parameterPath: "queueId",
-  mapper: {
-    serializedName: "queueId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const patch5: OperationParameter = {
-  parameterPath: ["options", "patch"],
+  parameterPath: "patch",
   mapper: RouterWorkerMapper
 };
 

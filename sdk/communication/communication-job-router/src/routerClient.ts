@@ -47,8 +47,7 @@ import {
   CreateClassificationPolicyOptions,
   ReclassifyJobOptions,
   RegisterWorkerOptions,
-  DeregisterWorkerOptions,
-  UnassignJobOptions
+  DeregisterWorkerOptions
 } from "./models/options";
 import {
   ClassificationPolicy,
@@ -64,7 +63,8 @@ import {
   JobRouterCancelJobActionResponse,
   JobRouterCompleteJobActionResponse,
   JobRouterCloseJobActionResponse,
-  JobRouterDeclineJobActionResponse
+  JobRouterDeclineJobActionResponse,
+  PagedQueue
 } from "./generated/src";
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -166,27 +166,31 @@ export class RouterClient {
   /**
    * Creates a classification policy.
    * Returns classification policy with the id of the created classification policy.
-   * @param classificationPolicyId - Id of the classification policy.
+   * @param classificationPolicyId - Id of the classification policy to create.
+   * @param patch - Classification policy entity to create.
    * @param options - Operation options.
    */
   public async createClassificationPolicy(
     classificationPolicyId: string,
+    patch: ClassificationPolicy,
     options: CreateClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
-    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, options);
+    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, patch, options);
   }
 
   /**
    * Updates a classification policy.
    * Returns classification policy with the id of the updated classification policy.
-   * @param classificationPolicyId - Id of the classification policy.
+   * @param classificationPolicyId - Id of the classification policy to update.
+   * @param patch - Classification policy entity to patch existing policy with.
    * @param options - Operation options.
    */
   public async updateClassificationPolicy(
     classificationPolicyId: string,
+    patch: ClassificationPolicy,
     options: UpdateClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
-    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, options);
+    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, patch, options);
   }
 
   /**
@@ -202,7 +206,7 @@ export class RouterClient {
   /**
    * Gets a classification policy.
    * Returns classification policy with the id of the classification policy.
-   * @param classificationPolicyId - The id of the classification policy to get.
+   * @param classificationPolicyId - Id of the classification policy to get.
    * @param options - Operation options.
    */
   public async getClassificationPolicy(
@@ -214,8 +218,8 @@ export class RouterClient {
 
   /**
    * Deletes a classification policy.
-   * @param classificationPolicyId - The id of the classification policy to delete.
-   * @param options -  Operation options.
+   * @param classificationPolicyId - Id of the classification policy to delete.
+   * @param options - Operation options.
    */
   public async deleteClassificationPolicy(
     classificationPolicyId: string,
@@ -228,27 +232,31 @@ export class RouterClient {
   /**
    * Creates a distribution policy.
    * Returns distribution policy with the id of the created distribution policy.
-   * @param distributionPolicyId - The id of the distribution policy to create.
+   * @param distributionPolicyId - Id of the distribution policy to create.
+   * @param patch - Distribution policy to create.
    * @param options - Operation options.
    */
   public async createDistributionPolicy(
     distributionPolicyId: string,
+    patch: DistributionPolicy,
     options: CreateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, options);
+    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, patch, options);
   }
 
   /**
    * Updates a distribution policy.
    * Returns distribution policy with the id of the updated distribution policy.
-   * @param distributionPolicyId - The id of the distribution policy to update.
+   * @param distributionPolicyId - Id of the distribution policy to update.
+   * @param patch - Distribution policy to patch existing policy with.
    * @param options - Operation options.
    */
   public async updateDistributionPolicy(
     distributionPolicyId: string,
+    patch: DistributionPolicy,
     options: UpdateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, options);
+    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, patch, options);
   }
 
   /**
@@ -263,8 +271,8 @@ export class RouterClient {
 
   /**
    * Gets a distribution policy.
-   * Returns distribution policy client with the id of the distribution policy.
-   * @param distributionPolicyId - The id of the distribution policy to get.
+   * Returns distribution policy with the id of the distribution policy.
+   * @param distributionPolicyId - Id of the distribution policy to get.
    * @param options - Operation options.
    */
   public async getDistributionPolicy(
@@ -276,7 +284,7 @@ export class RouterClient {
 
   /**
    * Deletes a distribution policy.
-   * @param distributionPolicyId - The id of the distribution policy to delete.
+   * @param distributionPolicyId - Id of the distribution policy to delete.
    * @param options - Operation options.
    */
   public async deleteDistributionPolicy(
@@ -290,27 +298,31 @@ export class RouterClient {
   /**
    * Creates a exception policy.
    * Returns exception policy with the id of the created exception policy.
-   * @param exceptionPolicyId - The id of the exception policy to create.
+   * @param exceptionPolicyId - Id of the exception policy to create.
+   * @param patch - Exception policy to create.
    * @param options - Operation options.
    */
   public async createExceptionPolicy(
     exceptionPolicyId: string,
+    patch: ExceptionPolicy,
     options: CreateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, options);
+    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, patch, options);
   }
 
   /**
    * Updates a exception policy.
    * Returns exception policy with the id of the updated exception policy.
-   * @param exceptionPolicyId - The id of the exception policy to update.
+   * @param exceptionPolicyId - Id of the exception policy to update.
+   * @param patch - Exception policy to patch existing policy with.
    * @param options - Operation options.
    */
   public async updateExceptionPolicy(
     exceptionPolicyId: string,
+    patch: ExceptionPolicy,
     options: UpdateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, options);
+    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, patch, options);
   }
 
   /**
@@ -326,7 +338,7 @@ export class RouterClient {
   /**
    * Gets an exception policy.
    * Returns exception policy with the id of the exception policy.
-   * @param exceptionPolicyId - The id of the exception policy to get.
+   * @param exceptionPolicyId - Id of the exception policy to get.
    * @param options - Operation options.
    */
   public async getExceptionPolicy(
@@ -338,7 +350,7 @@ export class RouterClient {
 
   /**
    * Deletes an exception policy.
-   * @param exceptionPolicyId - The id of the exception policy to delete.
+   * @param exceptionPolicyId - Id of the exception policy to delete.
    * @param options - Operation options.
    */
   public async deleteExceptionPolicy(
@@ -352,26 +364,36 @@ export class RouterClient {
   /**
    * Creates a job.
    * Returns job with the id of the created job.
-   * @param jobId - The job to be create
+   * @param jobId - Id of the job to create.
+   * @param patch - Job to create.
    * @param options - Operation options.
    */
-  public async createJob(jobId: string, options: CreateJobOptions = {}): Promise<RouterJob> {
-    return this.client.jobRouter.upsertJob(jobId, options);
+  public async createJob(
+    jobId: string,
+    patch: RouterJob,
+    options: CreateJobOptions = {}
+  ): Promise<RouterJob> {
+    return this.client.jobRouter.upsertJob(jobId, patch, options);
   }
 
   /**
-   * Update a job by Id.
-   * @param jobId - The job to be updated
-   * @param options -  Operation options.
+   * Update a job by id.
+   * @param jobId - Id of the job to be updated.
+   * @param patch - Job to patch existing job with.
+   * @param options - Operation options.
    */
-  public async updateJob(jobId: string, options: UpdateJobOptions = {}): Promise<RouterJob> {
-    return this.client.jobRouter.upsertJob(jobId, options);
+  public async updateJob(
+    jobId: string,
+    patch: RouterJob,
+    options: UpdateJobOptions = {}
+  ): Promise<RouterJob> {
+    return this.client.jobRouter.upsertJob(jobId, patch, options);
   }
 
   /**
    * Gets an job.
    * Returns job with the id of the job.
-   * @param jobId - The id of the job to get.
+   * @param jobId - Id of the job to get.
    * @param options - Operation options.
    */
   public async getJob(jobId: string, options: GetJobOptions = {}): Promise<RouterJob> {
@@ -396,7 +418,7 @@ export class RouterClient {
   /**
    * Gets a job's position details.
    * Returns job position details.
-   * @param jobId - The ID of the job to get.
+   * @param jobId - Id of the job to get.
    * @param options - Operation options.
    */
   public async getInQueuePosition(
@@ -408,7 +430,7 @@ export class RouterClient {
 
   /**
    * Cancel a job.
-   * @param jobId - The ID of the job to cancel.
+   * @param jobId - Id of the job to cancel.
    * @param options - Operation options.
    */
   public async cancelJob(
@@ -420,7 +442,7 @@ export class RouterClient {
 
   /**
    * Complete a job.
-   * @param jobId - The ID of the job to complete.
+   * @param jobId - Id of the job to complete.
    * @param assignmentId - The assignment Id to complete.
    * @param options - Operation options.
    */
@@ -433,9 +455,9 @@ export class RouterClient {
   }
 
   /**
-   * Updates an existing job by Id and forcing it to be reclassified.
-   * @param jobId - The ID of the job to reclassify.
-   * @param options -  Operation options.
+   * Updates an existing job by id and forcing it to be reclassified.
+   * @param jobId - Id of the job to reclassify.
+   * @param options - Operation options.
    */
   public async reclassifyJob(
     jobId: string,
@@ -445,22 +467,8 @@ export class RouterClient {
   }
 
   /**
-   * Unassign a job.
-   * @param jobId - The ID of the job to unassign.
-   * @param assignmentId - The assignment within which the job is to be unassigned.
-   * @param options -  Operation options.
-   */
-  public async unassignJob(
-    jobId: string,
-    assignmentId: string,
-    options: UnassignJobOptions = {}
-  ): Promise<RestResponse> {
-    return this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
-  }
-
-  /**
    * Close a job.
-   * @param jobId - The ID of the job to close.
+   * @param jobId - Id of the job to close.
    * @param assignmentId - The assignment within which the job is to be closed.
    * @param options - Operation options.
    */
@@ -474,7 +482,7 @@ export class RouterClient {
 
   /**
    * Deletes a job.
-   * @param jobId - The id of the job to delete.
+   * @param jobId - Id of the job to delete.
    * @param options - Operation options.
    */
   public async deleteJob(jobId: string, options: DeleteJobOptions = {}): Promise<RestResponse> {
@@ -484,9 +492,9 @@ export class RouterClient {
   // Offer Actions
   /**
    * Accept a job offer.
-   * @param workerId - The ID of the worker that accepts the job.
-   * @param offerId - The ID of the offer to accept.
-   * @param options -  Operation options.
+   * @param workerId - Id of the worker that accepts the job.
+   * @param offerId - Id of the offer to accept.
+   * @param options - Operation options.
    */
   public async acceptJobOffer(
     workerId: string,
@@ -498,9 +506,9 @@ export class RouterClient {
 
   /**
    * Decline a job offer.
-   * @param workerId - The ID of the worker holding the offer.
-   * @param offerId - The ID of the offer to decline.
-   * @param options -  Operation options.
+   * @param workerId - Id of the worker holding the offer.
+   * @param offerId - Id of the offer to decline.
+   * @param options - Operation options.
    */
   public async declineJobOffer(
     workerId: string,
@@ -514,35 +522,43 @@ export class RouterClient {
   /**
    * Creates a queue.
    * Returns queue with the id of the created queue.
-   * @param queueId - The ID of the queue to create.
+   * @param queueId - Id of the queue to create.
    * @param options - Operation options.
    */
-  public async createQueue(queueId: string, options: CreateQueueOptions = {}): Promise<JobQueue> {
-    return this.client.jobRouter.upsertQueue(queueId, options);
+  public async createQueue(
+    queueId: string,
+    patch: JobQueue,
+    options: CreateQueueOptions = {}
+  ): Promise<JobQueue> {
+    return this.client.jobRouter.upsertQueue(queueId, patch, options);
   }
 
   /**
    * Updates a queue.
    * Returns queue with the id of the created queue.
-   * @param queueId - The ID of the queue to update.
+   * @param queueId - Id of the queue to update.
    * @param options - Operation options.
    */
-  public async updateQueue(queueId: string, options: UpdateQueueOptions = {}): Promise<JobQueue> {
-    return this.client.jobRouter.upsertQueue(queueId, options);
+  public async updateQueue(
+    queueId: string,
+    patch: JobQueue,
+    options: UpdateQueueOptions = {}
+  ): Promise<JobQueue> {
+    return this.client.jobRouter.upsertQueue(queueId, patch, options);
   }
 
   /**
    * Gets the list of queues.
    * @param options - List queues options.
    */
-  public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<JobQueue> {
+  public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<PagedQueue> {
     return this.client.jobRouter.listQueues(options);
   }
 
   /**
    * Gets a queue.
    * Returns queue with the id of the queue.
-   * @param queueId - The ID of the queue to get.
+   * @param queueId - Id of the queue to get.
    * @param options - Operation options.
    */
   public async getQueue(queueId: string, options: GetQueueOptions = {}): Promise<JobQueue> {
@@ -551,8 +567,8 @@ export class RouterClient {
 
   /**
    * Deletes a queue.
-   * @param queueId - The ID of the queue to delete.
-   * @param options -  Operation options.
+   * @param queueId - Id of the queue to delete.
+   * @param options - Operation options.
    */
   public async deleteQueue(
     queueId: string,
@@ -565,72 +581,70 @@ export class RouterClient {
   /**
    * Creates a worker.
    * Returns worker with the id of the registered worker.
-   * @param workerId - The ID of the worker to create.
+   * @param workerId - Id of the worker to create.
    * @param options - Operation options.
    */
   public async createWorker(
     workerId: string,
+    patch: RouterWorker,
     options: CreateWorkerOptions = {}
   ): Promise<RouterWorker> {
-    return this.client.jobRouter.upsertWorker(workerId, options);
+    return this.client.jobRouter.upsertWorker(workerId, patch, options);
   }
 
   /**
    * Updates a worker.
-   * @param workerId - The ID of the worker to update.
+   * @param workerId - Id of the worker to update.
+   * @param patch - Worker to update.
    * @param options - Operation options.
    */
   public async updateWorker(
     workerId: string,
+    patch: RouterWorker,
     options: UpdateWorkerOptions = {}
   ): Promise<RouterWorker> {
-    return this.client.jobRouter.upsertWorker(workerId, options);
+    return this.client.jobRouter.upsertWorker(workerId, patch, options);
   }
 
   /**
    * Registers a worker.
    * Returns worker with the id of the registered worker.
-   * @param workerId - The ID of the worker to register.
+   * @param workerId - Id of the worker to register.
+   * @param patch - Worker to register.
    * @param options - Operation options.
    */
   public async registerWorker(
     workerId: string,
+    patch: RouterWorker,
     options: RegisterWorkerOptions = {}
   ): Promise<RouterWorker> {
-    if (!options.patch) {
-      options.patch = {
-        id: workerId
-      };
-    }
+    patch = patch ?? { id: workerId };
+    patch.availableForOffers = true;
 
-    options.patch.availableForOffers = true;
-    return this.client.jobRouter.upsertWorker(workerId, options);
+    return this.client.jobRouter.upsertWorker(workerId, patch, options);
   }
 
   /**
    * De-registers a worker.
    * Returns worker with the id of the de-registered worker.
-   * @param workerId - The ID of the worker to deregister.
+   * @param workerId - Id of the worker to deregister.
    * @param options - Operation options.
    */
   public async deregisterWorker(
     workerId: string,
+    patch: RouterWorker,
     options: DeregisterWorkerOptions = {}
   ): Promise<RouterWorker> {
-    if (!options.patch) {
-      options.patch = {
-        id: workerId
-      };
-    }
+    patch = patch ?? { id: workerId };
+    patch.availableForOffers = true;
 
-    options.patch.availableForOffers = false;
-    return this.client.jobRouter.upsertWorker(workerId, options);
+    return this.client.jobRouter.upsertWorker(workerId, patch, options);
   }
 
   /**
    * Gets a worker.
    * Returns worker with the id of the worker.
-   * @param workerId - The ID of the worker to get.
+   * @param workerId - Id of the worker to get.
    * @param options - Operation options.
    */
   public async getWorker(workerId: string, options: GetWorkerOptions = {}): Promise<RouterWorker> {
@@ -647,8 +661,8 @@ export class RouterClient {
 
   /**
    * Deletes a worker.
-   * @param workerId - The ID of the worker to delete.
-   * @param options -  Operation options.
+   * @param workerId - Id of the worker to delete.
+   * @param options - Operation options.
    */
   public async deleteWorker(
     workerId: string,

@@ -26,7 +26,7 @@ describe("RouterClient", function() {
     });
 
     it("should create a queue", async function() {
-      const result = await client.createQueue(request.id!, { patch: request });
+      const result = await client.createQueue(request.id!, {});
 
       assert.isDefined(result);
       assert.isDefined(result?.id);
@@ -34,9 +34,7 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should get a queue", async function() {
-      const response: JobQueue = await client.createQueue(request.id!, {
-        patch: request
-      });
+      const response: JobQueue = await client.createQueue(request.id!, {});
 
       const result = await client.getQueue(request.id!);
 
@@ -45,12 +43,10 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should update a queue", async function() {
-      const response: JobQueue = await client.createQueue(request.id!, {
-        patch: request
-      });
+      const response: JobQueue = await client.createQueue(request.id!, {});
 
       const patch = { ...response, name: "new name" };
-      const result = await client.updateQueue(response.id!, { patch });
+      const result = await client.updateQueue(response.id!, {});
 
       assert.isDefined(result);
       assert.isDefined(result.id);
@@ -73,7 +69,7 @@ describe("RouterClient", function() {
     // }).timeout(timeoutMs);
 
     it("should list queues", async function() {
-      await client.createQueue(request.id!, { patch: request });
+      await client.createQueue(request.id!, {});
 
       const result = await client.listQueues({
         maxpagesize: 1

@@ -38,20 +38,20 @@ export var classificationPolicyRequest: ClassificationPolicy = {
       kind: "conditional",
       condition: {
         kind: "static-rule",
-        value: true
+        value: { value: true }
       },
       labelSelectors: [
         {
           key: "foo",
           labelOperator: "equal",
-          value: "bar"
+          value: { value: "bar" }
         }
       ]
     }
   ],
   prioritizationRule: {
     kind: "static-rule",
-    value: "2"
+    value: { value: 1 }
   }
 };
 

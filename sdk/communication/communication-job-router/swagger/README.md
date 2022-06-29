@@ -17,7 +17,7 @@ model-date-time-as-string: false
 optional-response-headers: true
 use-extension:
   "@autorest/typescript": "latest"
-  "@autorest/modelerfour": "4.15.442"
+  "@autorest/modelerfour": "latest"
 azure-arm: false
 add-credentials: false
 use-core-v2: false
@@ -37,7 +37,6 @@ use-core-v2: false
 
 ```yaml
 directive:
-
   - from: swagger-document
     where: "$.definitions.DistributionPolicy.properties.mode"
     transform: >
@@ -47,7 +46,7 @@ directive:
     where: "$.definitions.PagedDistributionPolicy.properties.mode"
     transform: >
       $["$ref"] = "#/definitions/DistributionMode";
-      
+
   - from: swagger-document
     where: "$.definitions.CompositeModeIteration.properties.mode"
     transform: >
@@ -59,7 +58,7 @@ directive:
       $.queueSelectors.items["$ref"] = "#/definitions/QueueSelectorAttachment";
       $.workerSelectors.items["$ref"] = "#/definitions/WorkerSelectorAttachment";
       $.prioritizationRule["$ref"] = "#/definitions/RouterRule";
-      
+
   - from: swagger-document
     where: "$.definitions.PagedClassificationPolicy.properties"
     transform: >
