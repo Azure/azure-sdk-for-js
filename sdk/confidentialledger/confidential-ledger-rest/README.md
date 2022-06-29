@@ -161,14 +161,27 @@ const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntrie
 ```
 
 ### List Enclave Quotes
+```typescript
+// Get enclave quotes
+const enclaveQuotes = await confidentialLedger.path("/app/enclaveQuotes").get();
 
+// Check for non-success response
+if (enclaveQuotes.status !== "200") {
+  throw enclaveQuotes.body.error;
+}
+
+// Log all the enclave quotes' nodeId
+Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((key) => {
+  console.log(enclaveQuotes.body.enclaveQuotes[key].nodeId);
+});
+```
+
+### Full Example
 ```typescript
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
 export async function main() {
-  console.log("== List Enclave Quotes ==");
-
   // Get the signing certificate from the Confidential Ledger Identity Service
   const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
 
