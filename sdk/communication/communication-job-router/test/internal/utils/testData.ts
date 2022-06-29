@@ -23,7 +23,7 @@ export var exceptionPolicyRequest: ExceptionPolicy = {
       },
       trigger: {
         kind: "wait-time",
-        threshold: "00:20:00"
+        threshold: "1000"
       }
     }
   }
@@ -95,6 +95,9 @@ export var workerRequest: RouterWorker = {
 };
 
 export var jobRequest: RouterJob = {
-  channelId: "ChatChannel",
+  id: "test-job",
+  channelId: "test-channel",
+  priority: 1,
+  classificationPolicyId: "test-c-policy",
   labels: {}
 };
