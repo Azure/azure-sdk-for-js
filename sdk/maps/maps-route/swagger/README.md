@@ -43,6 +43,7 @@ directive:
 
 ```yaml
 directive:
+  # Route Matrix
   - from: swagger-document
     where: $.definitions.RouteMatrixQuery
     transform: >
@@ -71,6 +72,17 @@ directive:
         "statusCode",
       ]
   - from: swagger-document
+    where: $.definitions.RouteSummary
+    transform: >
+      $["required"] = [
+        "lengthInMeters",
+        "travelTimeInSeconds",
+        "trafficDelayInSeconds",
+        "departureTime",
+        "arrivalTime",
+      ]
+  # Route Range
+  - from: swagger-document
     where: $.definitions.RouteRangeResult
     transform: >
       $["required"] = [
@@ -96,12 +108,25 @@ directive:
         "key",
         "value",
       ]
+  # Route Directions
+  - from: swagger-document
+    where: $.definitions.RouteDirections
+    transform: >
+      $["required"] = [
+        "routes",
+      ]
+  - from: swagger-document
+    where: $.definitions.RouteOptimizedWaypoint
+    transform: >
+      $["required"] = [
+        "providedIndex",
+        "optimizedIndex",
+      ]
   - from: swagger-document
     where: $.definitions.Route
     transform: >
       $["required"] = [
         "legs",
-        "sections",
         "summary"
       ]
   - from: swagger-document
@@ -112,11 +137,58 @@ directive:
         "summary"
       ]
   - from: swagger-document
+    where: $.definitions.LatLongPair
+    transform: >
+      $["required"] = [
+        "latitude",
+        "longitude"
+      ]
+  - from: swagger-document
+    where: $.definitions.RouteSection
+    transform: >
+      $["required"] = [
+        "startPointIndex",
+        "endPointIndex",
+        "sectionType",
+      ]
+  - from: swagger-document
     where: $.definitions.RouteGuidance
     transform: >
       $["required"] = [
         "instructions",
         "instructionGroups"
+      ]
+  # Batch
+  - from: swagger-document
+    where: $.definitions.BatchResultItem
+    transform: >
+      $["required"] = [
+        "statusCode",
+      ]
+  - from: swagger-document
+    where: $.definitions.BatchResult
+    transform: >
+      $["required"] = [
+        "summary",
+      ]
+  - from: swagger-document
+    where: $.definitions.BatchResult.properties.summary
+    transform: >
+      $["required"] = [
+        "successfulRequests",
+        "totalRequests",
+      ]
+  - from: swagger-document
+    where: $.definitions.RouteDirectionsBatchItem
+    transform: >
+      $["required"] = [
+        "response",
+      ]
+  - from: swagger-document
+    where: $.definitions.RouteDirectionsBatchResult
+    transform: >
+      $["required"] = [
+        "batchItems",
       ]
 ```
 
@@ -135,9 +207,9 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions.RouteMatrixResultResponse.properties.routeSummary
+    where: $.definitions.BatchResult.properties.summary.properties.successfulRequests
     transform: >
-      $["x-ms-client-name"] = "routeLegSummary";
+      $["x-ms-client-name"] = "totalSuccessfulRequests";
 ```
 
 ### Model Fixes
@@ -163,4 +235,22 @@ directive:
           }
         }
       };
+  - from: swagger-document
+    where: $.definitions.RouteMatrixResultResponse
+    transform: >
+      $ = {     
+        "description": "Response object of the current cell in the input matrix.",
+        "type": "object",
+        "readOnly": true,
+        "properties": {
+          "routeSummary": {
+            "$ref": "#/definitions/RouteSummary"
+          }
+        }
+      };
+  - from: swagger-document
+    where: $.definitions.RouteLeg.properties.summary
+    transform: >
+      $ = { "$ref": "#/definitions/RouteSummary" };
+  - remove-model: RouteLegSummary
 ```
