@@ -76,7 +76,7 @@ describe("LogsIngestionClient live tests", function () {
     const result = await client.upload(
       getDcrId(),
       "Custom-MyTableRawData",
-      getObjects(1000),
+      getObjects(10000),
       {
         maxConcurrency: 5
       }
