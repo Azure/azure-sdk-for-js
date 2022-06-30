@@ -12,9 +12,9 @@ import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to List secure scores for all your Security Center initiatives within your current scope.
+ * This sample demonstrates how to List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
  *
- * @summary List secure scores for all your Security Center initiatives within your current scope.
+ * @summary List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScores/ListSecureScores_example.json
  */
 async function listSecureScores() {

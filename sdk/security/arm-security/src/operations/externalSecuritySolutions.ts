@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  ExternalSecuritySolutionUnion,
+  ExternalSecuritySolution,
   ExternalSecuritySolutionsListNextOptionalParams,
   ExternalSecuritySolutionsListOptionalParams,
   ExternalSecuritySolutionsListByHomeRegionNextOptionalParams,
@@ -46,7 +46,7 @@ export class ExternalSecuritySolutionsImpl
    */
   public list(
     options?: ExternalSecuritySolutionsListOptionalParams
-  ): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion> {
+  ): PagedAsyncIterableIterator<ExternalSecuritySolution> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -63,7 +63,7 @@ export class ExternalSecuritySolutionsImpl
 
   private async *listPagingPage(
     options?: ExternalSecuritySolutionsListOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion[]> {
+  ): AsyncIterableIterator<ExternalSecuritySolution[]> {
     let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -76,7 +76,7 @@ export class ExternalSecuritySolutionsImpl
 
   private async *listPagingAll(
     options?: ExternalSecuritySolutionsListOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion> {
+  ): AsyncIterableIterator<ExternalSecuritySolution> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -91,7 +91,7 @@ export class ExternalSecuritySolutionsImpl
   public listByHomeRegion(
     ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  ): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion> {
+  ): PagedAsyncIterableIterator<ExternalSecuritySolution> {
     const iter = this.listByHomeRegionPagingAll(ascLocation, options);
     return {
       next() {
@@ -109,7 +109,7 @@ export class ExternalSecuritySolutionsImpl
   private async *listByHomeRegionPagingPage(
     ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion[]> {
+  ): AsyncIterableIterator<ExternalSecuritySolution[]> {
     let result = await this._listByHomeRegion(ascLocation, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -127,7 +127,7 @@ export class ExternalSecuritySolutionsImpl
   private async *listByHomeRegionPagingAll(
     ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion> {
+  ): AsyncIterableIterator<ExternalSecuritySolution> {
     for await (const page of this.listByHomeRegionPagingPage(
       ascLocation,
       options
