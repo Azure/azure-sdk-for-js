@@ -48,7 +48,7 @@ describe("Web test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new WebSiteManagementClient(credential, subscriptionId, subscriptionId, recorder.configureClientOptions({}));
+    client = new WebSiteManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     appservicePlanName = "myappserviceplanxxx";
