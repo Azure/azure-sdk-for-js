@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { ServiceClient } from '@azure/core-client';
@@ -131,14 +129,14 @@ export interface NotificationHubResponse {
 // @public
 export class NotificationHubsClient extends ServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
+    createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubResponse>;
     deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
-    getFeedbackContainerURL(options?: OperationOptions): Promise<URL>;
+    getFeedbackContainerURL(options?: OperationOptions): Promise<string>;
     getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
     patchInstallation(installationId: string, installationPatches: InstallationPatch[], options?: OperationOptions): Promise<NotificationHubResponse>;
     scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
     sendDirectNotification(pushHandle: PushHandle, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
     sendNotification(tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
-    upsertInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubResponse>;
 }
 
 // @public
