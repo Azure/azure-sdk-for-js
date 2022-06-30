@@ -183,6 +183,9 @@ function buildNode(obj: any, elementName: string, options: Required<XmlOptions>)
         }
       } else if (key === options.xmlCharKey) {
         elem.textContent = obj[key].toString();
+      } else if (key === options.cdataPropName) {
+        const cdataElement = doc.createCDATASection(obj[key].toString());
+        elem.appendChild(cdataElement);
       } else {
         for (const child of buildNode(obj[key], key, options)) {
           elem.appendChild(child);
