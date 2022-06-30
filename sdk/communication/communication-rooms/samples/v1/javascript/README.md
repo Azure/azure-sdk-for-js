@@ -5,10 +5,10 @@ languages:
 products:
   - azure
   - azure-communication-services
-urlFragment: communication-rooms-javascript-beta
+urlFragment: communication-rooms-javascript
 ---
 
-# Azure Communication Services - Rooms client library samples for JavaScript (Beta)
+# Azure Communication Services - Rooms client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Rooms in some common scenarios.
 
@@ -57,8 +57,8 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[participantoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1-beta/javascript/participantOperations.js
-[roomoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1-beta/javascript/roomOperations.js
+[participantoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1/javascript/participantOperations.js
+[roomoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1/javascript/roomOperations.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-rooms
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource

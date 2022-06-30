@@ -60,18 +60,13 @@ async function main() {
         id: user1.user,
         role: "presenter",
       },
-      {
-        id: user3.user,
-        role: "attendee",
-      },
     ],
   };
-  console.log;
   const updateParticipants = await roomsClient.updateParticipants(
     roomId,
     updateParticipantsRequest
   );
-  write(`Updated Participants`);
+  console.log(`Updated Participants`);
   printParticipants(updateParticipants);
 
   const deleteUser = {
@@ -92,13 +87,6 @@ async function main() {
   await roomsClient.deleteRoom(roomId);
 }
 
-function write(message) {
-  const fs = require("fs");
-  fs.writeFileSync("./logs.txt", message, {
-    flag: "w",
-  });
-}
-
 function printParticipants(pc) {
   for (const participant of pc.participants) {
     const identifierKind = getIdentifierKind(participant.id);
@@ -116,11 +104,15 @@ function printParticipants(pc) {
         break;
       case "unknown":
         id = identifierKind.id;
-        write("Unknown user");
+        console.log("Unknown user");
         break;
     }
-    write(`${id} - ${role}`);
+    console.log(`${id} - ${role}`);
   }
 }
+main().catch((error) => {
+  console.error("Encountered an error while sending request: ", error);
+  process.exit(1);
+});
 
 module.exports = { main };

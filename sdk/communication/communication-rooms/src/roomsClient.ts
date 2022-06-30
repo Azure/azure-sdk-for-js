@@ -211,7 +211,7 @@ export class RoomsClient {
         updatedOptions
       );
       return {
-        participants: result.participants.map((participant) => mapToRoomParticipantSdkModel(participant)),
+        participants: result.participants!.map((participant) => mapToRoomParticipantSdkModel(participant)),
       };
     }
     catch (e: any) {
@@ -240,7 +240,7 @@ export class RoomsClient {
         updatedOptions
       );
       return {
-        participants: result.participants.map((participant) => mapToRoomParticipantSdkModel(participant)),
+        participants: result.participants!.map((participant) => mapToRoomParticipantSdkModel(participant)),
       };
     }
     catch (e: any) {
@@ -263,13 +263,13 @@ export class RoomsClient {
       const result = await this.client.rooms.removeParticipants(
         roomId,
         {
-          participants: options.participants?.map((participant: any) =>
+          participants: options.participants!.map((participant: any) =>
             mapToRoomParticipantRestModel(participant)),
         },
         updatedOptions
       );
       return {
-        participants: result.participants.map((participant) => mapToRoomParticipantSdkModel(participant)),
+        participants: result.participants!.map((participant) => mapToRoomParticipantSdkModel(participant)),
       };
     }
     catch (e: any) {

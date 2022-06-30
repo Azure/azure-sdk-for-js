@@ -5,10 +5,10 @@ languages:
 products:
   - azure
   - azure-communication-services
-urlFragment: communication-rooms-typescript-beta
+urlFragment: communication-rooms-typescript
 ---
 
-# Azure Communication Services - Rooms client library samples for TypeScript (Beta)
+# Azure Communication Services - Rooms client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Services - Rooms in some common scenarios.
 
@@ -69,8 +69,8 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[participantoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1-beta/typescript/src/participantOperations.ts
-[roomoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1-beta/typescript/src/roomOperations.ts
+[participantoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1/typescript/src/participantOperations.ts
+[roomoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1/typescript/src/roomOperations.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-rooms
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource

@@ -10,8 +10,9 @@ import {
   CommunicationIdentifier
 } from "@azure/communication-common"
 
-const isRoomParticipant = (participant: any): participant is RoomParticipant =>
-  !!participant;
+function isRoomParticipant (participant: RoomParticipant | CommunicationIdentifier): participant is RoomParticipant {
+  return (<RoomParticipant>participant).role !== undefined;
+}
 
 export const mapToRoomParticipantRestModel = (
   roomParticipant: RoomParticipant | CommunicationIdentifier

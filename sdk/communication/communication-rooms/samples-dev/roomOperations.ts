@@ -40,12 +40,12 @@ export async function main() {
   const getRoom = await roomsClient.getRoom(roomId);
   console.log(`Retrieved Room with ID ${roomId}`);
   printRoom(getRoom);
-  const today = new Date();
-  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
+  const from = new Date(new Date().setDate(new Date().getDate() + 1));
+  const until = new Date(new Date().setDate(new Date().getDate() + 2));
 
   const updateRoomRequest = {
-    validFrom: today,
-    validUntil: tomorrow,
+    validFrom: from,
+    validUntil: until,
     roomJoinPolicy: "CommunicationServiceUsers",
     participants: [
       {
@@ -66,11 +66,11 @@ export async function main() {
 }
 
 function printRoom (room: RoomModel): void {
-  write(`Room ID: ${room.id}`);
-  write(`Valid From: ${room.validFrom}`);
-  write(`Valid Until: ${room.validUntil}`);
-  write(`Room Join Policy: ${room.roomJoinPolicy}`);
-  write(`Participants:`);
+  console.log(`Room ID: ${room.id}`);
+  console.log(`Valid From: ${room.validFrom}`);
+  console.log(`Valid Until: ${room.validUntil}`);
+  console.log(`Room Join Policy: ${room.roomJoinPolicy}`);
+  console.log(`Participants:`);
   for (const participant of room.participants!) {
     const identifierKind = getIdentifierKind(participant.id);
     let id;
@@ -87,16 +87,14 @@ function printRoom (room: RoomModel): void {
         break;
       case "unknown":
         id = identifierKind.id;
-        write("Unknown user");
+        console.log("Unknown user");
         break;
     }
-    write(`${id} - ${role}`);
+    console.log(`${id} - ${role}`);
   }
 }
 
-function write(message: string): void {
-  const fs = require("fs");
-  fs.writeFileSync("./logs.txt",message,{
-    flag: 'w',
-  });
-}
+main().catch((error) => {
+  console.error("Encountered an error while sending request: ", error);
+  process.exit(1);
+});

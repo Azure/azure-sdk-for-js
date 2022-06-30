@@ -5,19 +5,19 @@
  * @summary Perform room operations using the RoomsClient.
  */
 
-const { RoomsClient } = require("@azure/communication-rooms");
-const { CommunicationIdentityClient } = require("@azure/communication-identity");
+import { RoomsClient, RoomModel } from "@azure/communication-rooms";
+import { CommunicationIdentityClient} from "@azure/communication-identity";
 
-const dotenv = require("dotenv");
-const { getIdentifierKind } = require("@azure/communication-common");
+import * as dotenv from "dotenv";
+import { getIdentifierKind } from "@azure/communication-common";
 dotenv.config();
 
-async function main() {
-  const connectionString =
+export async function main() {
+  const connectionString = 
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
 
-  const roomsClient = new RoomsClient(connectionString);
+  const roomsClient: RoomsClient = new RoomsClient(connectionString);
   const identityClient = new CommunicationIdentityClient(connectionString);
 
   const user1 = await identityClient.createUserAndToken(["voip"]);
@@ -27,9 +27,9 @@ async function main() {
     participants: [
       {
         id: user1.user,
-        role: "attendee",
-      },
-    ],
+        role: "attendee"
+      }
+    ]
   };
 
   const createRoom = await roomsClient.createRoom(createRoomRequest);
@@ -40,38 +40,38 @@ async function main() {
   const getRoom = await roomsClient.getRoom(roomId);
   console.log(`Retrieved Room with ID ${roomId}`);
   printRoom(getRoom);
-  const today = new Date();
-  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
+  const from = new Date(new Date().setDate(new Date().getDate() + 1));
+  const until = new Date(new Date().setDate(new Date().getDate() + 2));
 
   const updateRoomRequest = {
-    validFrom: today,
-    validUntil: tomorrow,
+    validFrom: from,
+    validUntil: until,
     roomJoinPolicy: "CommunicationServiceUsers",
     participants: [
       {
         id: user1.user,
-        role: "consumer",
+        role: "consumer"
       },
       {
         id: user2.user,
-        role: "presenter",
-      },
-    ],
+        role: "presenter"
+      }
+    ]
   };
-  const updateRoom = await roomsClient.updateRoom(roomId, updateRoomRequest);
+  const updateRoom = await roomsClient.updateRoom(roomId,updateRoomRequest);
   console.log(`Updated Room`);
   printRoom(updateRoom);
 
   await roomsClient.deleteRoom(roomId);
 }
 
-function printRoom(room) {
-  write(`Room ID: ${room.id}`);
-  write(`Valid From: ${room.validFrom}`);
-  write(`Valid Until: ${room.validUntil}`);
-  write(`Room Join Policy: ${room.roomJoinPolicy}`);
-  write(`Participants:`);
-  for (const participant of room.participants) {
+function printRoom (room: RoomModel): void {
+  console.log(`Room ID: ${room.id}`);
+  console.log(`Valid From: ${room.validFrom}`);
+  console.log(`Valid Until: ${room.validUntil}`);
+  console.log(`Room Join Policy: ${room.roomJoinPolicy}`);
+  console.log(`Participants:`);
+  for (const participant of room.participants!) {
     const identifierKind = getIdentifierKind(participant.id);
     let id;
     const role = participant.role;
@@ -87,18 +87,14 @@ function printRoom(room) {
         break;
       case "unknown":
         id = identifierKind.id;
-        write("Unknown user");
+        console.log("Unknown user");
         break;
     }
-    write(`${id} - ${role}`);
+    console.log(`${id} - ${role}`);
   }
 }
 
-function write(message) {
-  const fs = require("fs");
-  fs.writeFileSync("./logs.txt", message, {
-    flag: "w",
-  });
-}
-
-module.exports = { main };
+main().catch((error) => {
+  console.error("Encountered an error while sending request: ", error);
+  process.exit(1);
+});
