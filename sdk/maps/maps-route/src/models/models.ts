@@ -92,7 +92,6 @@ export {
   KnownVehicleEngineType,
   KnownVehicleLoadType,
   KnownWindingnessLevel,
-  KnownDrivingSide,
   KnownGuidanceInstructionType,
   KnownGuidanceManeuver,
   KnownJunctionType,
