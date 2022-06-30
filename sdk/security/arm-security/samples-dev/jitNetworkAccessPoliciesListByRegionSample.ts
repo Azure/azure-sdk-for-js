@@ -21,11 +21,9 @@ async function getJitNetworkAccessPoliciesOnASubscriptionFromASecurityDataLocati
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const ascLocation = "westeurope";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
   const resArray = new Array();
-  for await (let item of client.jitNetworkAccessPolicies.listByRegion(
-    ascLocation
-  )) {
+  for await (let item of client.jitNetworkAccessPolicies.listByRegion()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -19,14 +19,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function getTopology() {
   const subscriptionId = "3eeab341-f466-499c-a8be-85427e154bad";
-  const resourceGroupName = "myservers";
   const ascLocation = "centralus";
+  const resourceGroupName = "myservers";
   const topologyResourceName = "vnets";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
   const result = await client.topology.get(
     resourceGroupName,
-    ascLocation,
     topologyResourceName
   );
   console.log(result);

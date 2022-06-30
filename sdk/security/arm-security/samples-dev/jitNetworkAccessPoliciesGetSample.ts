@@ -19,14 +19,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function getJitNetworkAccessPolicy() {
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "myRg1";
   const ascLocation = "westeurope";
+  const resourceGroupName = "myRg1";
   const jitNetworkAccessPolicyName = "default";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
   const result = await client.jitNetworkAccessPolicies.get(
     resourceGroupName,
-    ascLocation,
     jitNetworkAccessPolicyName
   );
   console.log(result);

@@ -22,8 +22,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function initiateAnActionOnAJitNetworkAccessPolicy() {
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "myRg1";
   const ascLocation = "westeurope";
+  const resourceGroupName = "myRg1";
   const jitNetworkAccessPolicyName = "default";
   const body: JitNetworkAccessPolicyInitiateRequest = {
     justification: "testing a new version of the product",
@@ -31,15 +31,14 @@ async function initiateAnActionOnAJitNetworkAccessPolicy() {
       {
         id:
           "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
-        ports: [{ allowedSourceAddressPrefix: "192.127.0.2", number: 3389, endTimeUtc: new Date() }]
+        ports: [{ allowedSourceAddressPrefix: "192.127.0.2", number: 3389 }]
       }
     ]
   };
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
   const result = await client.jitNetworkAccessPolicies.initiate(
     resourceGroupName,
-    ascLocation,
     jitNetworkAccessPolicyName,
     body
   );

@@ -19,14 +19,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function getAllowedConnections() {
   const subscriptionId = "3eeab341-f466-499c-a8be-85427e154bad";
-  const resourceGroupName = "myResourceGroup";
   const ascLocation = "centralus";
+  const resourceGroupName = "myResourceGroup";
   const connectionType = "Internal";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
   const result = await client.allowedConnections.get(
     resourceGroupName,
-    ascLocation,
     connectionType
   );
   console.log(result);

@@ -22,11 +22,8 @@ async function getSecurityRecommendationTaskFromSecurityDataLocation() {
   const ascLocation = "westeurope";
   const taskName = "62609ee7-d0a5-8616-9fe4-1df5cca7758d";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.tasks.getSubscriptionLevelTask(
-    ascLocation,
-    taskName
-  );
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
+  const result = await client.tasks.getSubscriptionLevelTask(taskName);
   console.log(result);
 }
 

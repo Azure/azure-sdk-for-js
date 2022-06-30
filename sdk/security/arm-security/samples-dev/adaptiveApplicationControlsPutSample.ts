@@ -115,12 +115,8 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
     ]
   };
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.adaptiveApplicationControls.put(
-    ascLocation,
-    groupName,
-    body
-  );
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
+  const result = await client.adaptiveApplicationControls.put(groupName, body);
   console.log(result);
 }
 

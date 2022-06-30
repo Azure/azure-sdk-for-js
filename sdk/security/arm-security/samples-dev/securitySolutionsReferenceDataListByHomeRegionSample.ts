@@ -21,10 +21,8 @@ async function getSecuritySolutionsFromASecurityDataLocation() {
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const ascLocation = "westcentralus";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.securitySolutionsReferenceDataOperations.listByHomeRegion(
-    ascLocation
-  );
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
+  const result = await client.securitySolutionsReferenceDataOperations.listByHomeRegion();
   console.log(result);
 }
 

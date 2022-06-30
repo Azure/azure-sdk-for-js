@@ -19,14 +19,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function getASecuritySolutionFromASecurityDataLocation() {
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "myRg2";
   const ascLocation = "centralus";
+  const resourceGroupName = "myRg2";
   const securitySolutionName = "paloalto7";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
   const result = await client.securitySolutions.get(
     resourceGroupName,
-    ascLocation,
     securitySolutionName
   );
   console.log(result);

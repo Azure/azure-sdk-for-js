@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SettingUnion,
   SettingsListOptionalParams,
-  SettingName,
+  Enum73,
   SettingsGetOptionalParams,
   SettingsGetResponse,
   SettingsUpdateOptionalParams,
@@ -33,7 +33,7 @@ export interface Settings {
    * @param options The options parameters.
    */
   get(
-    settingName: SettingName,
+    settingName: Enum73,
     options?: SettingsGetOptionalParams
   ): Promise<SettingsGetResponse>;
   /**
@@ -43,7 +43,7 @@ export interface Settings {
    * @param options The options parameters.
    */
   update(
-    settingName: SettingName,
+    settingName: Enum73,
     setting: SettingUnion,
     options?: SettingsUpdateOptionalParams
   ): Promise<SettingsUpdateResponse>;

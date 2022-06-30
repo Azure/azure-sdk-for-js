@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   InformationProtectionPolicy,
   InformationProtectionPoliciesListOptionalParams,
-  InformationProtectionPolicyName,
+  Enum17,
   InformationProtectionPoliciesGetOptionalParams,
   InformationProtectionPoliciesGetResponse,
   InformationProtectionPoliciesCreateOrUpdateOptionalParams,
@@ -41,7 +41,7 @@ export interface InformationProtectionPolicies {
    */
   get(
     scope: string,
-    informationProtectionPolicyName: InformationProtectionPolicyName,
+    informationProtectionPolicyName: Enum17,
     options?: InformationProtectionPoliciesGetOptionalParams
   ): Promise<InformationProtectionPoliciesGetResponse>;
   /**
@@ -55,7 +55,7 @@ export interface InformationProtectionPolicies {
    */
   createOrUpdate(
     scope: string,
-    informationProtectionPolicyName: InformationProtectionPolicyName,
+    informationProtectionPolicyName: Enum17,
     informationProtectionPolicy: InformationProtectionPolicy,
     options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams
   ): Promise<InformationProtectionPoliciesCreateOrUpdateResponse>;

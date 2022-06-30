@@ -23,9 +23,8 @@ async function changeSecurityRecommendationTaskState() {
   const taskName = "62609ee7-d0a5-8616-9fe4-1df5cca7758d";
   const taskUpdateActionType = "Dismiss";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
   const result = await client.tasks.updateSubscriptionLevelTaskState(
-    ascLocation,
     taskName,
     taskUpdateActionType
   );

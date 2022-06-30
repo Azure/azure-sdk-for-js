@@ -22,11 +22,8 @@ async function getsAConfiguredApplicationControlVMOrServerGroup() {
   const ascLocation = "centralus";
   const groupName = "ERELGROUP1";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.adaptiveApplicationControls.get(
-    ascLocation,
-    groupName
-  );
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
+  const result = await client.adaptiveApplicationControls.get(groupName);
   console.log(result);
 }
 

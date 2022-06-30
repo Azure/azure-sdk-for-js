@@ -43,16 +43,13 @@ export class SecuritySolutionsReferenceDataOperationsImpl
 
   /**
    * Gets list of all supported Security Solutions for subscription and location.
-   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
-   *                    Get locations
    * @param options The options parameters.
    */
   listByHomeRegion(
-    ascLocation: string,
     options?: SecuritySolutionsReferenceDataListByHomeRegionOptionalParams
   ): Promise<SecuritySolutionsReferenceDataListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
-      { ascLocation, options },
+      { options },
       listByHomeRegionOperationSpec
     );
   }

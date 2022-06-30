@@ -15,17 +15,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List all the alerts that are associated with the resource group that are stored in a specific location
  *
  * @summary List all the alerts that are associated with the resource group that are stored in a specific location
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-11-01/examples/Alerts/GetAlertsResourceGroupLocation_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-01-01/examples/Alerts/GetAlertsResourceGroupLocation_example.json
  */
 async function getSecurityAlertsOnAResourceGroupFromASecurityDataLocation() {
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const ascLocation = "westeurope";
   const resourceGroupName = "myRg1";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
   const resArray = new Array();
   for await (let item of client.alerts.listResourceGroupLevelByRegion(
-    ascLocation,
     resourceGroupName
   )) {
     resArray.push(item);

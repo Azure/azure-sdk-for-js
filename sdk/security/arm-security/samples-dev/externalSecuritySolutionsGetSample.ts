@@ -19,15 +19,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function getExternalSecuritySolution() {
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "defaultresourcegroup-eus";
   const ascLocation = "centralus";
+  const resourceGroupName = "defaultresourcegroup-eus";
   const externalSecuritySolutionsName =
     "aad_defaultworkspace-20ff7fc3-e762-44dd-bd96-b71116dcdc23-eus";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
   const result = await client.externalSecuritySolutions.get(
     resourceGroupName,
-    ascLocation,
     externalSecuritySolutionsName
   );
   console.log(result);

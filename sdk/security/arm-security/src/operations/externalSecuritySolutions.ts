@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  ExternalSecuritySolutionUnion,
+  ExternalSecuritySolution,
   ExternalSecuritySolutionsListNextOptionalParams,
   ExternalSecuritySolutionsListOptionalParams,
   ExternalSecuritySolutionsListByHomeRegionNextOptionalParams,
@@ -46,7 +46,7 @@ export class ExternalSecuritySolutionsImpl
    */
   public list(
     options?: ExternalSecuritySolutionsListOptionalParams
-  ): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion> {
+  ): PagedAsyncIterableIterator<ExternalSecuritySolution> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -63,7 +63,7 @@ export class ExternalSecuritySolutionsImpl
 
   private async *listPagingPage(
     options?: ExternalSecuritySolutionsListOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion[]> {
+  ): AsyncIterableIterator<ExternalSecuritySolution[]> {
     let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -76,7 +76,7 @@ export class ExternalSecuritySolutionsImpl
 
   private async *listPagingAll(
     options?: ExternalSecuritySolutionsListOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion> {
+  ): AsyncIterableIterator<ExternalSecuritySolution> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -84,15 +84,12 @@ export class ExternalSecuritySolutionsImpl
 
   /**
    * Gets a list of external Security Solutions for the subscription and location.
-   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
-   *                    Get locations
    * @param options The options parameters.
    */
   public listByHomeRegion(
-    ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  ): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion> {
-    const iter = this.listByHomeRegionPagingAll(ascLocation, options);
+  ): PagedAsyncIterableIterator<ExternalSecuritySolution> {
+    const iter = this.listByHomeRegionPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -101,37 +98,28 @@ export class ExternalSecuritySolutionsImpl
         return this;
       },
       byPage: () => {
-        return this.listByHomeRegionPagingPage(ascLocation, options);
+        return this.listByHomeRegionPagingPage(options);
       }
     };
   }
 
   private async *listByHomeRegionPagingPage(
-    ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion[]> {
-    let result = await this._listByHomeRegion(ascLocation, options);
+  ): AsyncIterableIterator<ExternalSecuritySolution[]> {
+    let result = await this._listByHomeRegion(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByHomeRegionNext(
-        ascLocation,
-        continuationToken,
-        options
-      );
+      result = await this._listByHomeRegionNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
   private async *listByHomeRegionPagingAll(
-    ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion> {
-    for await (const page of this.listByHomeRegionPagingPage(
-      ascLocation,
-      options
-    )) {
+  ): AsyncIterableIterator<ExternalSecuritySolution> {
+    for await (const page of this.listByHomeRegionPagingPage(options)) {
       yield* page;
     }
   }
@@ -148,16 +136,13 @@ export class ExternalSecuritySolutionsImpl
 
   /**
    * Gets a list of external Security Solutions for the subscription and location.
-   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
-   *                    Get locations
    * @param options The options parameters.
    */
   private _listByHomeRegion(
-    ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
   ): Promise<ExternalSecuritySolutionsListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
-      { ascLocation, options },
+      { options },
       listByHomeRegionOperationSpec
     );
   }
@@ -166,24 +151,16 @@ export class ExternalSecuritySolutionsImpl
    * Gets a specific external Security Solution.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
-   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
-   *                    Get locations
    * @param externalSecuritySolutionsName Name of an external security solution.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    ascLocation: string,
     externalSecuritySolutionsName: string,
     options?: ExternalSecuritySolutionsGetOptionalParams
   ): Promise<ExternalSecuritySolutionsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        ascLocation,
-        externalSecuritySolutionsName,
-        options
-      },
+      { resourceGroupName, externalSecuritySolutionsName, options },
       getOperationSpec
     );
   }
@@ -205,18 +182,15 @@ export class ExternalSecuritySolutionsImpl
 
   /**
    * ListByHomeRegionNext
-   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
-   *                    Get locations
    * @param nextLink The nextLink from the previous successful call to the ListByHomeRegion method.
    * @param options The options parameters.
    */
   private _listByHomeRegionNext(
-    ascLocation: string,
     nextLink: string,
     options?: ExternalSecuritySolutionsListByHomeRegionNextOptionalParams
   ): Promise<ExternalSecuritySolutionsListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
-      { ascLocation, nextLink, options },
+      { nextLink, options },
       listByHomeRegionNextOperationSpec
     );
   }

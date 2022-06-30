@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Simulate security alerts
  *
  * @summary Simulate security alerts
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-11-01/examples/Alerts/SimulateAlerts_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-01-01/examples/Alerts/SimulateAlerts_example.json
  */
 async function simulateSecurityAlertsOnASubscription() {
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -36,9 +36,8 @@ async function simulateSecurityAlertsOnASubscription() {
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.alerts.simulate(
-    ascLocation,
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
+  const result = await client.alerts.beginSimulateAndWait(
     alertSimulatorRequestBody
   );
   console.log(result);

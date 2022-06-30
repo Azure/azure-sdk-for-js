@@ -22,11 +22,8 @@ async function deleteAnApplicationControlMachineGroup() {
   const ascLocation = "centralus";
   const groupName = "GROUP1";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.adaptiveApplicationControls.delete(
-    ascLocation,
-    groupName
-  );
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
+  const result = await client.adaptiveApplicationControls.delete(groupName);
   console.log(result);
 }
 

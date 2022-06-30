@@ -21,8 +21,8 @@ async function getSecurityDataLocation() {
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const ascLocation = "centralus";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.locations.get(ascLocation);
+  const client = new SecurityCenter(credential, subscriptionId, ascLocation);
+  const result = await client.locations.get();
   console.log(result);
 }
 

@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   MdeOnboardingsImpl,
@@ -115,16 +116,20 @@ import { SecurityCenterOptionalParams } from "./models";
 export class SecurityCenter extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
+  ascLocation: string;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId Azure subscription ID
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    ascLocation: string,
     options?: SecurityCenterOptionalParams
   ) {
     if (credentials === undefined) {
@@ -132,6 +137,9 @@ export class SecurityCenter extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (ascLocation === undefined) {
+      throw new Error("'ascLocation' cannot be null");
     }
 
     // Initializing default values for options
@@ -143,15 +151,12 @@ export class SecurityCenter extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-security/5.0.1`;
+    const packageDetails = `azsdk-js-arm-security/6.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
@@ -162,8 +167,32 @@ export class SecurityCenter extends coreClient.ServiceClient {
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.ascLocation = ascLocation;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
