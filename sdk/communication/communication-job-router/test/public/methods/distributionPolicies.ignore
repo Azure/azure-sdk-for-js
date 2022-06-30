@@ -28,7 +28,7 @@ describe("RouterClient", function() {
     });
 
     it("should create a distribution policy", async function() {
-      const result = await client.createDistributionPolicy(request.id!, { patch: request });
+      const result = await client.createDistributionPolicy(request.id!, request);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
@@ -36,9 +36,10 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should get a distribution policy", async function() {
-      const response: DistributionPolicy = await client.createDistributionPolicy(request.id!, {
-        patch: request
-      });
+      const response: DistributionPolicy = await client.createDistributionPolicy(
+        request.id!,
+        request
+      );
 
       const result = await client.getDistributionPolicy(request.id!);
 
@@ -46,18 +47,16 @@ describe("RouterClient", function() {
       assert.equal(result.name, response.name);
       assert.equal(result.offerTtlSeconds, response.offerTtlSeconds);
       assert.deepEqual(result.mode, response.mode);
-
-      // Should we just do this instead?
-      //     assert.deepEqual(result, response);
     }).timeout(timeoutMs);
 
     it("should update a distribution policy", async function() {
-      var response: DistributionPolicy = await client.createDistributionPolicy(request.id!, {
-        patch: request
-      });
+      var response: DistributionPolicy = await client.createDistributionPolicy(
+        request.id!,
+        request
+      );
 
-      const patch = { ...response, name: "new name" };
-      const result = await client.updateDistributionPolicy(response.id!, { patch });
+      const patch: DistributionPolicy = { ...response, name: "new name" };
+      const result = await client.updateDistributionPolicy(response.id!, patch);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
@@ -65,17 +64,18 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should delete a distribution policy", async function() {
-      const response: DistributionPolicy = await client.createDistributionPolicy(request.id!, {
-        patch: request
-      });
+      const response: DistributionPolicy = await client.createDistributionPolicy(
+        request.id!,
+        request
+      );
 
       const result = await client.deleteDistributionPolicy(response.id!, {});
 
-      assert.isDefined(result); // TODO: What validation criteria are there for a delete call?
+      assert.isDefined(result);
     }).timeout(timeoutMs);
 
     it("should list distribution policies", async function() {
-      await client.createDistributionPolicy(request.id!, { patch: request });
+      await client.createDistributionPolicy(request.id!, request);
 
       const result = await client.listDistributionPolicies({
         maxpagesize: 1
