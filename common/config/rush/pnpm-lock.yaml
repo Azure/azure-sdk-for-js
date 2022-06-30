@@ -144,6 +144,7 @@ specifiers:
   '@rush-temp/arm-redisenterprisecache': file:./projects/arm-redisenterprisecache.tgz
   '@rush-temp/arm-relay': file:./projects/arm-relay.tgz
   '@rush-temp/arm-reservations': file:./projects/arm-reservations.tgz
+  '@rush-temp/arm-resourceconnector': file:./projects/arm-resourceconnector.tgz
   '@rush-temp/arm-resourcegraph': file:./projects/arm-resourcegraph.tgz
   '@rush-temp/arm-resourcehealth': file:./projects/arm-resourcehealth.tgz
   '@rush-temp/arm-resourcemover': file:./projects/arm-resourcemover.tgz
@@ -431,6 +432,7 @@ dependencies:
   '@rush-temp/arm-redisenterprisecache': file:projects/arm-redisenterprisecache.tgz
   '@rush-temp/arm-relay': file:projects/arm-relay.tgz
   '@rush-temp/arm-reservations': file:projects/arm-reservations.tgz
+  '@rush-temp/arm-resourceconnector': file:projects/arm-resourceconnector.tgz
   '@rush-temp/arm-resourcegraph': file:projects/arm-resourcegraph.tgz
   '@rush-temp/arm-resourcehealth': file:projects/arm-resourcehealth.tgz
   '@rush-temp/arm-resourcemover': file:projects/arm-resourcemover.tgz
@@ -13552,6 +13554,35 @@ packages:
       - '@types/node'
       - debug
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-resourceconnector.tgz:
+    resolution: {integrity: sha512-RBmUmOPz9iY8y2RlrC8jU6GqJCodqy1QGJ8IGXI5ZgQEalR6N7iMMAo5M519FNoGJMgqcWw7lF5ntmLqiBcsZQ==, tarball: file:projects/arm-resourceconnector.tgz}
+    name: '@rush-temp/arm-resourceconnector'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.74.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.74.1
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
       - supports-color
     dev: false
 
