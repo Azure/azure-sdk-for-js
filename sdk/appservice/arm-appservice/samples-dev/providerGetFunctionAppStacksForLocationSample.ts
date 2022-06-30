@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Get available Function app frameworks and their versions for location
  *
  * @summary Description for Get available Function app frameworks and their versions for location
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/GetFunctionAppStacksForLocation.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetFunctionAppStacksForLocation.json
  */
 async function getLocationsFunctionAppStacks() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

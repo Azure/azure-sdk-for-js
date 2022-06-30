@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Get all the Kubernetes Environments in a resource group.
  *
  * @summary Description for Get all the Kubernetes Environments in a resource group.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/KubeEnvironments_ListByResourceGroup.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/KubeEnvironments_ListByResourceGroup.json
  */
 async function listKubeEnvironmentsByResourceGroup() {
   const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";

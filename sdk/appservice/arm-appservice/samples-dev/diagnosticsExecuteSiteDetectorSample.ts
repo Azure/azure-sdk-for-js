@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Execute Detector
  *
  * @summary Description for Execute Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/Diagnostics_ExecuteSiteDetector.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ExecuteSiteDetector.json
  */
 async function executeSiteDetector() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -40,7 +40,7 @@ executeSiteDetector().catch(console.error);
  * This sample demonstrates how to Description for Execute Detector
  *
  * @summary Description for Execute Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/Diagnostics_ExecuteSiteDetectorSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ExecuteSiteDetectorSlot.json
  */
 async function executeSiteSlotDetector() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

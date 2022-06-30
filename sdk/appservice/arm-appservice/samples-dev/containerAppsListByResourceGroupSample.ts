@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get the Container Apps in a given resource group.
  *
  * @summary Get the Container Apps in a given resource group.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/ListContainerAppsByResourceGroup.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListContainerAppsByResourceGroup.json
  */
 async function listContainerAppsByResourceGroup() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

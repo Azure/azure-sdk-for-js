@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Creates or updates the function app settings of a static site.
  *
  * @summary Description for Creates or updates the function app settings of a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/CreateOrUpdateStaticSiteFunctionAppSettings.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/CreateOrUpdateStaticSiteFunctionAppSettings.json
  */
 async function createsOrUpdatesTheFunctionAppSettingsOfAStaticSite() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

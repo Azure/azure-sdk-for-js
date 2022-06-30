@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Deletes a custom domain.
  *
  * @summary Description for Deletes a custom domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/DeleteStaticSiteCustomDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/DeleteStaticSiteCustomDomain.json
  */
 async function deleteACustomDomainForAStaticSite() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Gets an operation in a subscription and given region
  *
  * @summary Description for Gets an operation in a subscription and given region
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/GetSubscriptionOperationWithAsyncResponse.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetSubscriptionOperationWithAsyncResponse.json
  */
 async function getsAnOperationInASubscriptionAndGivenRegion() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

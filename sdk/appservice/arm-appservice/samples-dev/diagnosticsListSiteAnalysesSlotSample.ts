@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Get Site Analyses
  *
  * @summary Description for Get Site Analyses
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/Diagnostics_ListSiteAnalyses.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteAnalyses.json
  */
 async function listAppAnalyses() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -43,7 +43,7 @@ listAppAnalyses().catch(console.error);
  * This sample demonstrates how to Description for Get Site Analyses
  *
  * @summary Description for Get Site Analyses
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/Diagnostics_ListSiteAnalysesSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteAnalysesSlot.json
  */
 async function listAppSlotAnalyses() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

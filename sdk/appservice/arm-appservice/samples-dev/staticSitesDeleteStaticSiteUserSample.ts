@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Deletes the user entry from the static site.
  *
  * @summary Description for Deletes the user entry from the static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/DeleteStaticSiteUser.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/DeleteStaticSiteUser.json
  */
 async function deleteAUserForAStaticSite() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

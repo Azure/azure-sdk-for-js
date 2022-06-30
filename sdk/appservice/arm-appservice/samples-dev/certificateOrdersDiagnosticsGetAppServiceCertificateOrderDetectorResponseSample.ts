@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
  *
  * @summary Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2021-03-01/examples/Diagnostics_GetAppServiceCertificateOrderDetectorResponse.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/Diagnostics_GetAppServiceCertificateOrderDetectorResponse.json
  */
 async function getAppServiceCertificateOrderDetectorResponse() {
   const subscriptionId = "5700fc96-77b4-4f8d-afce-c353d8c443bd";

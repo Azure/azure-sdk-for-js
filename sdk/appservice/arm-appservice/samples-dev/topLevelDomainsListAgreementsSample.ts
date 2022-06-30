@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Gets all legal agreements that user needs to accept before purchasing a domain.
  *
  * @summary Description for Gets all legal agreements that user needs to accept before purchasing a domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2021-03-01/examples/ListTopLevelDomainAgreements.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/ListTopLevelDomainAgreements.json
  */
 async function listTopLevelDomainAgreements() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

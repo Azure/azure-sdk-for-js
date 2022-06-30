@@ -8,14 +8,17 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { WebSiteManagementClient } from "@azure/arm-appservice";
+import {
+  ListCustomHostNameSitesOptionalParams,
+  WebSiteManagementClient
+} from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to Get custom hostnames under this subscription
  *
  * @summary Get custom hostnames under this subscription
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/ListCustomHostNameSites.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListCustomHostNameSites.json
  */
 async function getCustomHostnamesUnderSubscription() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -29,3 +32,24 @@ async function getCustomHostnamesUnderSubscription() {
 }
 
 getCustomHostnamesUnderSubscription().catch(console.error);
+
+/**
+ * This sample demonstrates how to Get custom hostnames under this subscription
+ *
+ * @summary Get custom hostnames under this subscription
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListCustomSpecificHostNameSites.json
+ */
+async function getSpecificCustomHostnameUnderSubscription() {
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const hostname = "www.example.com";
+  const options: ListCustomHostNameSitesOptionalParams = { hostname };
+  const credential = new DefaultAzureCredential();
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (let item of client.listCustomHostNameSites(options)) {
+    resArray.push(item);
+  }
+  console.log(resArray);
+}
+
+getSpecificCustomHostnameUnderSubscription().catch(console.error);

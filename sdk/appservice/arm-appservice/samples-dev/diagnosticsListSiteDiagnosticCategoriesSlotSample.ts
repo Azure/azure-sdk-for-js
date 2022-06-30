@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Get Diagnostics Categories
  *
  * @summary Description for Get Diagnostics Categories
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/Diagnostics_ListSiteDiagnosticCategories.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteDiagnosticCategories.json
  */
 async function listAppDiagnosticCategories() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -41,7 +41,7 @@ listAppDiagnosticCategories().catch(console.error);
  * This sample demonstrates how to Description for Get Diagnostics Categories
  *
  * @summary Description for Get Diagnostics Categories
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/Diagnostics_ListSiteDiagnosticCategoriesSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteDiagnosticCategoriesSlot.json
  */
 async function listAppSlotDiagnosticCategories() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

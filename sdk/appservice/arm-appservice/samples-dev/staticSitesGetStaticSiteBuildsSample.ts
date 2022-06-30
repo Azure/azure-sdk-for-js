@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Gets all static site builds for a particular static site.
  *
  * @summary Description for Gets all static site builds for a particular static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/GetStaticSiteBuilds.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetStaticSiteBuilds.json
  */
 async function getAllBuildsForAStaticSite() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

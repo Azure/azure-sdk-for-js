@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Get deleted app for a subscription.
  *
  * @summary Description for Get deleted app for a subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/GetDeletedWebApp.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetDeletedWebApp.json
  */
 async function getDeletedWebApp() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

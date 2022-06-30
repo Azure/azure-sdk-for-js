@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Creates or updates a Kubernetes Environment.
  *
  * @summary Description for Creates or updates a Kubernetes Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/KubeEnvironments_Update.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/KubeEnvironments_Update.json
  */
 async function updateKubeEnvironments() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

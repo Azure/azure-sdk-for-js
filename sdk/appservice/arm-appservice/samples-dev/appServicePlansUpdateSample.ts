@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Creates or updates an App Service Plan.
  *
  * @summary Description for Creates or updates an App Service Plan.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/PatchAppServicePlan.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/PatchAppServicePlan.json
  */
 async function patchServicePlan() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

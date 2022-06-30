@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Returns whether FTP is allowed on the site or not.
  *
  * @summary Description for Returns whether FTP is allowed on the site or not.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/GetPublishingCredentialsPolicy.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetPublishingCredentialsPolicy.json
  */
 async function getFtpAllowed() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

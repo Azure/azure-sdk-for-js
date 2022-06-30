@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Renew a domain.
  *
  * @summary Description for Renew a domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2021-03-01/examples/RenewDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/RenewDomain.json
  */
 async function renewAnExistingDomain() {
   const subscriptionId = "3dddfa4f-cedf-4dc0-ba29-b6d1a69ab545";

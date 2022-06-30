@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Gets the application settings of a static site build.
  *
  * @summary Description for Gets the application settings of a static site build.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/ListStaticSiteBuildFunctionAppSettings.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListStaticSiteBuildFunctionAppSettings.json
  */
 async function getFunctionAppSettingsOfAStaticSiteBuild() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

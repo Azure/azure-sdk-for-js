@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for List Site Detector Responses
  *
  * @summary Description for List Site Detector Responses
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/Diagnostics_ListSiteDetectorResponses.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteDetectorResponses.json
  */
 async function getAppDetectorResponses() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -39,7 +39,7 @@ getAppDetectorResponses().catch(console.error);
  * This sample demonstrates how to Description for List Site Detector Responses
  *
  * @summary Description for List Site Detector Responses
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/Diagnostics_ListSiteDetectorResponsesSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteDetectorResponsesSlot.json
  */
 async function getAppSlotDetectorResponses() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Generates a preview workflow file for the static site
  *
  * @summary Description for Generates a preview workflow file for the static site
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/GenerateStaticSiteWorkflowPreview.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GenerateStaticSiteWorkflowPreview.json
  */
 async function generatesAPreviewWorkflowFileForTheStaticSite() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions
  *
  * @summary Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/ListOperations.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListOperations.json
  */
 async function listOperations() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
