@@ -310,15 +310,15 @@ export interface BatchPollerOptions {
 /**
  * Options for performing batch fuzzy searches
  */
-export type FuzzySearchBatchOptions = OperationOptions;
+export type FuzzySearchBatchOptions = OperationOptions & BatchPollerOptions;
 /**
  * Options for performing batch address searches
  */
-export type SearchAddressBatchOptions = OperationOptions;
+export type SearchAddressBatchOptions = OperationOptions & BatchPollerOptions;
 /**
  * Options for performing batch reverse searches
  */
-export type ReverseSearchAddressBatchOptions = OperationOptions;
+export type ReverseSearchAddressBatchOptions = OperationOptions & BatchPollerOptions;
 
 /**
  * Request object containing parameters for making fuzzy search call

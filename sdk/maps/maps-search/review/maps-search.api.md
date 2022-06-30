@@ -157,7 +157,7 @@ export interface FuzzySearchBaseOptions extends SearchPointOfInterestBaseOptions
 }
 
 // @public
-export type FuzzySearchBatchOptions = OperationOptions;
+export type FuzzySearchBatchOptions = OperationOptions & BatchPollerOptions;
 
 // @public
 export type FuzzySearchOptions = FuzzySearchBaseOptions;
@@ -454,12 +454,12 @@ export type LocalizedMapView = string;
 export class MapsSearchClient {
     constructor(credential: AzureKeyCredential, options?: MapsSearchClientOptions);
     constructor(credential: TokenCredential, mapsAccountClientId: string, options?: MapsSearchClientOptions);
-    beginFuzzySearchBatch(requests: FuzzySearchRequest[], options?: FuzzySearchBatchOptions & BatchPollerOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
-    beginGetFuzzySearchBatchResult(batchId: string, options?: FuzzySearchBatchOptions & BatchPollerOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
-    beginGetReverseSearchAddressBatchResult(batchId: string, options?: ReverseSearchAddressBatchOptions & BatchPollerOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
-    beginGetSearchAddressBatchResult(batchId: string, options?: SearchAddressBatchOptions & BatchPollerOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
-    beginReverseSearchAddressBatch(requests: ReverseSearchAddressRequest[], options?: ReverseSearchAddressBatchOptions & BatchPollerOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
-    beginSearchAddressBatch(requests: SearchAddressRequest[], options?: SearchAddressBatchOptions & BatchPollerOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    beginFuzzySearchBatch(requests: FuzzySearchRequest[], options?: FuzzySearchBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    beginGetFuzzySearchBatchResult(batchId: string, options?: FuzzySearchBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    beginGetReverseSearchAddressBatchResult(batchId: string, options?: ReverseSearchAddressBatchOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
+    beginGetSearchAddressBatchResult(batchId: string, options?: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    beginReverseSearchAddressBatch(requests: ReverseSearchAddressRequest[], options?: ReverseSearchAddressBatchOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
+    beginSearchAddressBatch(requests: SearchAddressRequest[], options?: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     fuzzySearch(searchQuery: SearchQuery, options?: FuzzySearchOptions & OperationOptions): Promise<SearchAddressResult>;
     getGeometries(geometryIds: string[], options?: GetGeometriesOptions): Promise<EntityGeometry[]>;
     getPointOfInterestCategories(options?: GetPointOfInterestCategoriesOptions): Promise<PointOfInterestCategory[]>;
@@ -545,7 +545,7 @@ export type Position3D = [longitude: number, latitude: number, elevation: number
 export type QueryType = string;
 
 // @public
-export type ReverseSearchAddressBatchOptions = OperationOptions;
+export type ReverseSearchAddressBatchOptions = OperationOptions & BatchPollerOptions;
 
 // @public
 export interface ReverseSearchAddressOptions extends ReverseSearchBaseOptions {
@@ -618,7 +618,7 @@ export interface SearchAddressBaseOptions extends SearchBaseOptions {
 }
 
 // @public
-export type SearchAddressBatchOptions = OperationOptions;
+export type SearchAddressBatchOptions = OperationOptions & BatchPollerOptions;
 
 // @public
 export interface SearchAddressOptions extends SearchAddressBaseOptions {

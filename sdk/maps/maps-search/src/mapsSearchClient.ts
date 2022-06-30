@@ -72,7 +72,6 @@ import {
   SearchPointOfInterestCategoryOptions,
   SearchPointOfInterestOptions,
   SearchStructuredAddressOptions,
-  BatchPollerOptions,
   SearchQuery,
   FuzzySearchRequest,
   SearchAddressRequest,
@@ -617,7 +616,7 @@ export class MapsSearchClient {
    */
   public async beginFuzzySearchBatch(
     requests: FuzzySearchRequest[],
-    options: FuzzySearchBatchOptions & BatchPollerOptions = {}
+    options: FuzzySearchBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
     const batchRequest = createFuzzySearchBatchRequest(requests);
@@ -654,7 +653,7 @@ export class MapsSearchClient {
    */
   public async beginGetFuzzySearchBatchResult(
     batchId: string,
-    options: FuzzySearchBatchOptions & BatchPollerOptions = {}
+    options: FuzzySearchBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginGetFuzzySearchBatchResult",
@@ -692,7 +691,7 @@ export class MapsSearchClient {
    */
   public async beginSearchAddressBatch(
     requests: SearchAddressRequest[],
-    options: SearchAddressBatchOptions & BatchPollerOptions = {}
+    options: SearchAddressBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginSearchAddressBatch",
@@ -732,7 +731,7 @@ export class MapsSearchClient {
    */
   public async beginGetSearchAddressBatchResult(
     batchId: string,
-    options: SearchAddressBatchOptions & BatchPollerOptions = {}
+    options: SearchAddressBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginGetSearchAddressBatchResult",
@@ -770,7 +769,7 @@ export class MapsSearchClient {
    */
   public async beginReverseSearchAddressBatch(
     requests: ReverseSearchAddressRequest[],
-    options: ReverseSearchAddressBatchOptions & BatchPollerOptions = {}
+    options: ReverseSearchAddressBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginReverseSearchAddressBatch",
@@ -811,7 +810,7 @@ export class MapsSearchClient {
    */
   public async beginGetReverseSearchAddressBatchResult(
     batchId: string,
-    options: ReverseSearchAddressBatchOptions & BatchPollerOptions = {}
+    options: ReverseSearchAddressBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginGetReverseSearchAddressBatchResult",
