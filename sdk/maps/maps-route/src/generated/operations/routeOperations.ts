@@ -1926,7 +1926,7 @@ const getRouteRangeOperationSpec: coreClient.OperationSpec = {
     Parameters.query,
     Parameters.fuelBudgetInLiters,
     Parameters.energyBudgetInKwH,
-    Parameters.timeBudgetInSec,
+    Parameters.timeBudgetInSeconds,
     Parameters.distanceBudgetInMeters
   ],
   urlParameters: [Parameters.$host, Parameters.format1],

@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
@@ -250,7 +252,6 @@ export interface TileIndex {
 
 // @public
 export type TilesetID = string;
-
 
 // (No @packageDocumentation comment for this package)
 

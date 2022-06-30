@@ -210,6 +210,12 @@ directive:
     where: $.definitions.BatchResult.properties.summary.properties.successfulRequests
     transform: >
       $["x-ms-client-name"] = "totalSuccessfulRequests";
+  - from: swagger-document
+    where: $.paths["/route/range/{format}"].get.parameters[*]
+    transform: >
+      if ($["name"] == "timeBudgetInSec") {
+        $["x-ms-client-name"] = "timeBudgetInSeconds";
+      };
 ```
 
 ### Model Fixes
