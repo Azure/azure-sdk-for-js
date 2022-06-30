@@ -398,10 +398,10 @@ export interface LatLon {
 export class MapsRouteClient {
     constructor(credential: AzureKeyCredential, options?: MapsRouteClientOptions);
     constructor(credential: TokenCredential, mapsAccountClientId: string, options?: MapsRouteClientOptions);
-    beginGetRouteDirectionsBatchResult(batchId: string, options?: RouteDirectionsBatchOptions & BatchPollerOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
-    beginGetRouteMatrixResult(matrixId: string, options?: RouteMatrixOptions & BatchPollerOptions): Promise<BatchPoller<RouteMatrixResult>>;
-    beginRequestRouteDirectionsBatch(requests: RouteDirectionsRequest[], options?: RouteDirectionsBatchOptions & BatchPollerOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
-    beginRequestRouteMatrix(routeMatrixQuery: RouteMatrixQuery, options?: RouteMatrixOptions & BatchPollerOptions): Promise<BatchPoller<RouteMatrixResult>>;
+    beginGetRouteDirectionsBatchResult(batchId: string, options?: RouteDirectionsBatchOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
+    beginGetRouteMatrixResult(matrixId: string, options?: RouteMatrixOptions): Promise<BatchPoller<RouteMatrixResult>>;
+    beginRequestRouteDirectionsBatch(requests: RouteDirectionsRequest[], options?: RouteDirectionsBatchOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
+    beginRequestRouteMatrix(routeMatrixQuery: RouteMatrixQuery, options?: RouteMatrixRequestOptions): Promise<BatchPoller<RouteMatrixResult>>;
     getRouteDirections(routePoints: LatLon[], options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
     getRouteDirectionsWithAdditionalParameters(routePoints: LatLon[], routeDirectionParameters: RouteDirectionParameters, options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
     getRouteRange(coordinates: LatLon, budget: RouteRangeBudget, options?: RouteRangeOptions): Promise<RouteRangeResult>;
@@ -493,8 +493,7 @@ export interface RouteDirections {
 }
 
 // @public
-export interface RouteDirectionsBatchOptions extends OperationOptions {
-}
+export type RouteDirectionsBatchOptions = OperationOptions & BatchPollerOptions;
 
 // @public
 export interface RouteDirectionsOptions extends RouteBaseOptions {
@@ -574,31 +573,34 @@ export interface RouteMatrix {
 }
 
 // @public
-export interface RouteMatrixOptions extends OperationOptions {
-    arriveAt?: Date;
-    avoid?: RouteAvoidType[];
-    computeTravelTime?: ComputeTravelTime;
-    departAt?: Date;
-    filterSectionType?: SectionType;
-    inclineLevel?: InclineLevel;
-    routeType?: RouteType;
-    travelMode?: TravelMode;
-    useTrafficData?: boolean;
-    vehicleAxleWeight?: number;
-    vehicleHeight?: number;
-    vehicleLength?: number;
-    vehicleLoadType?: VehicleLoadType;
-    vehicleMaxSpeed?: number;
-    vehicleWeight?: number;
-    vehicleWidth?: number;
-    windingness?: WindingnessLevel;
-}
+export type RouteMatrixOptions = OperationOptions & BatchPollerOptions;
 
 // @public
 export interface RouteMatrixQuery {
     destinations: GeoJsonMultiPoint;
     origins: GeoJsonMultiPoint;
 }
+
+// @public
+export type RouteMatrixRequestOptions = RouteMatrixOptions & {
+    computeTravelTime?: ComputeTravelTime;
+    filterSectionType?: SectionType;
+    arriveAt?: Date;
+    departAt?: Date;
+    vehicleAxleWeight?: number;
+    vehicleLength?: number;
+    vehicleHeight?: number;
+    vehicleWidth?: number;
+    vehicleMaxSpeed?: number;
+    vehicleWeight?: number;
+    windingness?: WindingnessLevel;
+    inclineLevel?: InclineLevel;
+    travelMode?: TravelMode;
+    avoid?: RouteAvoidType[];
+    useTrafficData?: boolean;
+    routeType?: RouteType;
+    vehicleLoadType?: VehicleLoadType;
+};
 
 // @public
 export interface RouteMatrixResult {

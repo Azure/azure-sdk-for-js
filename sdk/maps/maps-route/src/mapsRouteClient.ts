@@ -20,8 +20,8 @@ import {
   RouteRangeBudget,
   RouteDirectionsRequest,
   RouteDirectionsBatchOptions,
-  BatchPollerOptions,
   RouteMatrixQuery,
+  RouteMatrixRequestOptions,
 } from "./models/options";
 import { logger } from "./utils/logger";
 import { createSpan } from "./utils/tracing";
@@ -229,7 +229,7 @@ export class MapsRouteClient {
    */
   public async beginRequestRouteDirectionsBatch(
     requests: RouteDirectionsRequest[],
-    options: RouteDirectionsBatchOptions & BatchPollerOptions = {}
+    options: RouteDirectionsBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<RouteDirections>>> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-beginRequestRouteDirectionsBatch",
@@ -269,7 +269,7 @@ export class MapsRouteClient {
    */
   public async beginGetRouteDirectionsBatchResult(
     batchId: string,
-    options: RouteDirectionsBatchOptions & BatchPollerOptions = {}
+    options: RouteDirectionsBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<RouteDirections>>> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-beginGetRouteDirectionsBatchResult",
@@ -309,7 +309,7 @@ export class MapsRouteClient {
    */
   public async beginRequestRouteMatrix(
     routeMatrixQuery: RouteMatrixQuery,
-    options: RouteMatrixOptions & BatchPollerOptions = {}
+    options: RouteMatrixRequestOptions = {}
   ): Promise<BatchPoller<RouteMatrixResult>> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-beginRequestRouteMatrix", options);
     try {
@@ -346,7 +346,7 @@ export class MapsRouteClient {
    */
   public async beginGetRouteMatrixResult(
     matrixId: string,
-    options: RouteMatrixOptions & BatchPollerOptions = {}
+    options: RouteMatrixOptions = {}
   ): Promise<BatchPoller<RouteMatrixResult>> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-beginGetRouteMatrixResult",

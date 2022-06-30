@@ -344,8 +344,11 @@ export interface BatchPollerOptions {
   resumeFrom?: string;
 }
 
+/** Options for route matrix  */
+export type RouteMatrixOptions = OperationOptions & BatchPollerOptions;
+
 /** Options for requesting route matrix */
-export interface RouteMatrixOptions extends OperationOptions {
+export type RouteMatrixRequestOptions = RouteMatrixOptions & {
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
   computeTravelTime?: ComputeTravelTime;
   /**
@@ -408,10 +411,10 @@ export interface RouteMatrixOptions extends OperationOptions {
    * This parameter is currently only considered for travelMode=truck.
    */
   vehicleLoadType?: VehicleLoadType;
-}
+};
 
 /** Options for requesting route directions in batch */
-export interface RouteDirectionsBatchOptions extends OperationOptions {}
+export type RouteDirectionsBatchOptions = OperationOptions & BatchPollerOptions;
 
 /**
  * Request object containing parameters for making route directions calls
