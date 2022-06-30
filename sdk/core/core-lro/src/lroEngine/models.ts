@@ -81,17 +81,10 @@ export interface LroResponse<T> {
   rawResponse: RawResponse;
 }
 
-/** The type of which LRO implementation being followed by a specific API. */
-export type LroMode = "Location" | "Body";
-
-/**
- * The configuration of a LRO to determine how to perform polling and checking whether the operation has completed.
- */
-export interface LroConfig {
-  /** The LRO mode */
-  mode?: LroMode;
-  /** The path of a provisioned resource */
-  resourceLocation?: string;
+export interface LroInfo {
+  pollingUrl?: string;
+  location?: string;
+  mode: "OperationLocation" | "ResourceLocation" | "Body" | "None";
 }
 
 /**
@@ -99,7 +92,8 @@ export interface LroConfig {
  */
 export type ResumablePollOperationState<T> = PollOperationState<T> & {
   initialRawResponse?: RawResponse;
-  config?: LroConfig;
+  config?: LroInfo;
+  /** @deprecated use state.config.pollingUrl instead */
   pollingURL?: string;
 };
 
@@ -110,7 +104,7 @@ export interface PollerConfig {
 /**
  * The type of a terminal state of an LRO.
  */
-export interface LroTerminalState<T> extends LroResponse<T> {
+interface LroTerminalState<T> extends LroResponse<T> {
   /**
    * Whether the operation has finished.
    */
@@ -120,7 +114,7 @@ export interface LroTerminalState<T> extends LroResponse<T> {
 /**
  * The type of an in-progress state of an LRO.
  */
-export interface LroInProgressState<T> extends LroResponse<T> {
+interface LroInProgressState<T> extends LroResponse<T> {
   /**
    * Whether the operation has finished.
    */
