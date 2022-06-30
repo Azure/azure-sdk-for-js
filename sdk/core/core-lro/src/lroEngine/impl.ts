@@ -188,7 +188,7 @@ function isTerminal<TResult, TState extends PollOperationState<TResult>>(operati
   return status === "succeeded" || isCanceled({ state, status });
 }
 
-export function isDone<TResult, TState extends PollOperationState<TResult>>(result: {
+function isDone<TResult, TState extends PollOperationState<TResult>>(result: {
   rawResponse: RawResponse;
   state: TState;
   info: LroInfo;
