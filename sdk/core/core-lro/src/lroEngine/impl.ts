@@ -109,7 +109,7 @@ function inferLroMode(inputs: {
     return {
       mode: "OperationLocation",
       pollingUrl: operationLocation ?? azureAsyncOperation,
-      location: findResourceLocation({
+      resourceLocation: findResourceLocation({
         requestMethod,
         location,
         requestPath,
@@ -252,6 +252,15 @@ function calculatePollingIntervalFromDate(
   return defaultIntervalInMs;
 }
 
+export function buildResult<TResult, TState extends PollOperationState<TResult>>(inputs: {
+  response: TResult;
+  state: TState;
+  processResult?: (result: unknown, state: TState) => TResult;
+}): TResult {
+  const { processResult, response, state } = inputs;
+  return processResult ? processResult(response, state) : response;
+}
+
 /**
  * Creates a callback to be used to initialize the polling operation state.
  * @param state - of the polling operation
@@ -259,13 +268,14 @@ function calculatePollingIntervalFromDate(
  * @param callback - callback to be called when the operation is done
  * @returns callback that initializes the state of the polling operation
  */
-export function createInitializeState<TResult>(inputs: {
+export function createInitializeState<TResult, TState extends PollOperationState<TResult>>(inputs: {
   state: ResumablePollOperationState<TResult>;
   requestPath: string;
   requestMethod: string;
   lroResourceLocationConfig?: LroResourceLocationConfig;
+  processResult?: (result: unknown, state: TState) => TResult;
 }): (response: LroResponse<TResult>) => void {
-  const { requestMethod, requestPath, state, lroResourceLocationConfig } = inputs;
+  const { requestMethod, requestPath, state, lroResourceLocationConfig, processResult } = inputs;
   return (response: LroResponse<TResult>): void => {
     state.initialRawResponse = response.rawResponse;
     state.isStarted = true;
@@ -284,7 +294,11 @@ export function createInitializeState<TResult>(inputs: {
         responseKind: "Initial",
       })
     ) {
-      state.result = response.flatResponse;
+      state.result = buildResult({
+        response: response.flatResponse,
+        state: state as TState,
+        processResult,
+      });
       state.isCompleted = true;
     }
     logger.verbose(`LRO: initial state: ${JSON.stringify(state)}`);
@@ -300,7 +314,7 @@ export function createGetLroStatusFromResponse<
   info: LroInfo;
 }): (response: LroResponse<TResult>) => LroStatus<TResult> {
   const { lro, state, info } = inputs;
-  const location = info.location;
+  const location = info.resourceLocation;
   return (response: LroResponse<TResult>): LroStatus<TResult> => {
     const isTerminalStatus = isDone({
       info,

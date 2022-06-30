@@ -13,6 +13,7 @@ import {
 } from "./models";
 import { PollOperation, PollOperationState } from "../pollOperation";
 import {
+  buildResult,
   createGetLroStatusFromResponse,
   createInitializeState,
   createPoll,
@@ -74,6 +75,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         requestPath: this.lro.requestPath,
         requestMethod: this.lro.requestMethod,
         lroResourceLocationConfig: this.lroResourceLocationConfig,
+        processResult: this.processResult,
       });
       lastResponse = await this.lro.sendInitialRequest();
       initializeState(lastResponse);
@@ -107,9 +109,11 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
       );
       logger.verbose(`LRO: polling response: ${JSON.stringify(currentState.rawResponse)}`);
       if (currentState.done) {
-        state.result = this.processResult
-          ? this.processResult(currentState.flatResponse, state)
-          : currentState.flatResponse;
+        state.result = buildResult({
+          response: currentState.flatResponse,
+          state,
+          processResult: this.processResult,
+        });
         state.isCompleted = true;
       } else {
         this.poll = currentState.next ?? this.poll;

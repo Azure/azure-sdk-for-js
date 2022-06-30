@@ -85,7 +85,7 @@ export interface LroInfo {
   /** The polling URL */
   pollingUrl?: string;
   /** The resource location URL */
-  location?: string;
+  resourceLocation?: string;
   /** The LRO mode */
   mode: "OperationLocation" | "ResourceLocation" | "Body" | "None";
 }

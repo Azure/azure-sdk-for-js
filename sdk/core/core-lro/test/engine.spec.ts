@@ -2028,7 +2028,7 @@ describe("Lro Engine", function () {
   });
 
   describe("process result", () => {
-    it("The final result can be processed using processResult", async () => {
+    it("From a location response", async () => {
       const locationPath = "/postlocation/noretry/succeeded/operationResults/foo/200/";
       const pollingPath = "/postasync/noretry/succeeded/operationResults/foo/200/";
       const headerName = "Operation-Location";
@@ -2072,6 +2072,27 @@ describe("Lro Engine", function () {
           assert.ok(state.initialRawResponse);
           assert.ok(state.pollingURL);
           assert.ok(state.config.pollingUrl);
+          assert.equal((result as any).id, "100");
+          return { ...(result as any), id: "200" };
+        },
+      });
+      const result = await poller.pollUntilDone();
+      assert.deepInclude(result, { id: "200", name: "foo" });
+    });
+
+    it("From the initial response", async () => {
+      const poller = createPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 200,
+            body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+          },
+        ],
+        processResult: (result: unknown, state: any) => {
+          const serializedState = JSON.stringify({ state: state });
+          assert.equal(serializedState, poller.toString());
+          assert.ok(state.initialRawResponse);
           assert.equal((result as any).id, "100");
           return { ...(result as any), id: "200" };
         },
