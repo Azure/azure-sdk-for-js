@@ -287,45 +287,45 @@ export interface RouteDirectionsOptions extends RouteBaseOptions {
 }
 
 /**
- * RequireOnlyOne helps create a type where only one of the properties of an interface is required to exist.
- */
-export type RequireOnlyOne<T> = {
-  [K in keyof T]-?: Required<Pick<T, K>> & Partial<Record<Exclude<keyof T, K>, undefined>>;
-}[keyof T];
-
-/**
  * Budget for the route range request. One and only one budget must be provided.
  */
-export type RouteRangeBudget = RequireOnlyOne<{
-  /**
-   * Fuel budget in liters that determines maximal range which can be travelled using the specified Combustion Consumption Model.
-   * When fuelBudgetInLiters is used, it is mandatory to specify a detailed Combustion Consumption Model.
-   *
-   * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
-   */
-  fuelBudgetInLiters?: number;
-  /**
-   * Electric energy budget in kilowatt hours (kWh) that determines maximal range which can be travelled using the specified Electric Consumption Model.
-   * When energyBudgetInkWh is used, it is mandatory to specify a detailed Electric Consumption Model.
-   *
-   * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
-   */
-  energyBudgetInKwH?: number;
-  /**
-   * Time budget in seconds that determines maximal range which can be travelled using driving time.
-   * The Consumption Model will only affect the range when routeType is eco.
-   *
-   * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
-   */
-  timeBudgetInSec?: number;
-  /**
-   * Distance budget in meters that determines maximal range which can be travelled using driving distance.
-   * The Consumption Model will only affect the range when routeType is eco.
-   *
-   * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
-   */
-  distanceBudgetInMeters?: number;
-}>;
+export type RouteRangeBudget =
+  | {
+      /**
+       * Fuel budget in liters that determines maximal range which can be travelled using the specified Combustion Consumption Model.
+       * When fuelBudgetInLiters is used, it is mandatory to specify a detailed Combustion Consumption Model.
+       *
+       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
+       */
+      fuelBudgetInLiters: number;
+    }
+  | {
+      /**
+       * Electric energy budget in kilowatt hours (kWh) that determines maximal range which can be travelled using the specified Electric Consumption Model.
+       * When energyBudgetInkWh is used, it is mandatory to specify a detailed Electric Consumption Model.
+       *
+       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
+       */
+      energyBudgetInKwH: number;
+    }
+  | {
+      /**
+       * Time budget in seconds that determines maximal range which can be travelled using driving time.
+       * The Consumption Model will only affect the range when routeType is eco.
+       *
+       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
+       */
+      timeBudgetInSec: number;
+    }
+  | {
+      /**
+       * Distance budget in meters that determines maximal range which can be travelled using driving distance.
+       * The Consumption Model will only affect the range when routeType is eco.
+       *
+       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
+       */
+      distanceBudgetInMeters: number;
+    };
 
 /** Options for retrieving route range */
 export type RouteRangeOptions = RouteBaseOptions & OperationOptions;

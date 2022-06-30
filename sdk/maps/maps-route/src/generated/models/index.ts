@@ -1300,24 +1300,6 @@ export enum KnownJunctionType {
  */
 export type JunctionType = string;
 
-/** Known values of {@link DrivingSide} that the service accepts. */
-export enum KnownDrivingSide {
-  /** Left side. */
-  Left = "LEFT",
-  /** Right side. */
-  Right = "RIGHT"
-}
-
-/**
- * Defines values for DrivingSide. \
- * {@link KnownDrivingSide} can be used interchangeably with DrivingSide,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LEFT**: Left side. \
- * **RIGHT**: Right side.
- */
-export type DrivingSide = string;
-
 /** Known values of {@link GuidanceManeuver} that the service accepts. */
 export enum KnownGuidanceManeuver {
   /** You have arrived. */
@@ -1439,6 +1421,8 @@ export type GeoJsonObjectType =
   | "GeometryCollection"
   | "Feature"
   | "FeatureCollection";
+/** Defines values for DrivingSide. */
+export type DrivingSide = "LEFT" | "RIGHT";
 
 /** Optional parameters. */
 export interface RouteRequestRouteMatrixOptionalParams

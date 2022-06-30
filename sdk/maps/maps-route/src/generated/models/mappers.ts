@@ -702,7 +702,8 @@ export const RouteInstruction: coreClient.CompositeMapper = {
         serializedName: "drivingSide",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["LEFT", "RIGHT"]
         }
       },
       maneuver: {

@@ -56,7 +56,7 @@ export type ComputeTravelTime = string;
 export type DelayMagnitude = string;
 
 // @public
-export type DrivingSide = string;
+export type DrivingSide = "LEFT" | "RIGHT";
 
 // @public
 export interface EffectiveSetting {
@@ -179,12 +179,6 @@ export enum KnownDelayMagnitude {
     Moderate = "2",
     Undefined = "4",
     Unknown = "0"
-}
-
-// @public
-export enum KnownDrivingSide {
-    Left = "LEFT",
-    Right = "RIGHT"
 }
 
 // @public
@@ -422,11 +416,6 @@ export type RequireAtLeastOne<T> = {
 }[keyof T];
 
 // @public
-export type RequireOnlyOne<T> = {
-    [K in keyof T]-?: Required<Pick<T, K>> & Partial<Record<Exclude<keyof T, K>, undefined>>;
-}[keyof T];
-
-// @public
 export type ResponseSectionType = string;
 
 // @public
@@ -625,12 +614,15 @@ export interface RouteRange {
 }
 
 // @public
-export type RouteRangeBudget = RequireOnlyOne<{
-    fuelBudgetInLiters?: number;
-    energyBudgetInKwH?: number;
-    timeBudgetInSec?: number;
-    distanceBudgetInMeters?: number;
-}>;
+export type RouteRangeBudget = {
+    fuelBudgetInLiters: number;
+} | {
+    energyBudgetInKwH: number;
+} | {
+    timeBudgetInSec: number;
+} | {
+    distanceBudgetInMeters: number;
+};
 
 // @public
 export type RouteRangeOptions = RouteBaseOptions & OperationOptions;
