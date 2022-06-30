@@ -253,4 +253,21 @@ directive:
     transform: >
       $ = { "$ref": "#/definitions/RouteSummary" };
   - remove-model: RouteLegSummary
+  - from: swagger-document
+    where: $.definitions.RouteInstruction.properties.drivingSide
+    transform: >
+      $["x-ms-enum"] = {
+        "name": "DrivingSide",
+        "modelAsString": false,
+        "values": [
+          {
+            "value": "LEFT",
+            "description": "Left side."
+          },
+          {
+            "value": "RIGHT",
+            "description": "Right side."
+          }
+        ]
+      };
 ```
