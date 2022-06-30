@@ -4,7 +4,6 @@
 import { PipelineOptions } from "@azure/core-http";
 import {
   JobRouterReclassifyJobActionOptionalParams,
-  JobRouterUnassignJobActionOptionalParams,
   JobRouterUpsertClassificationPolicyOptionalParams,
   JobRouterUpsertDistributionPolicyOptionalParams,
   JobRouterUpsertExceptionPolicyOptionalParams,
@@ -129,11 +128,6 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {}
  * Options to reclassify a job.
  */
 export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams {}
-
-/**
- * Options to unassign a job.
- */
-export interface UnassignJobOptions extends JobRouterUnassignJobActionOptionalParams {}
 
 /**
  * Options to update or insert a job's labels.

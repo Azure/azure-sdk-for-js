@@ -894,7 +894,7 @@ export interface QueueLengthExceptionTrigger extends JobExceptionTrigger {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "queue-length";
   /** Threshold of number of jobs ahead in the queue to for this trigger to fire. */
-  threshold: number;
+  threshold: string;
 }
 
 /** Trigger for an exception action on exceeding wait time */

@@ -31,7 +31,7 @@ describe("RouterClient", function() {
     });
 
     it("should create an exception policy", async function() {
-      const result = await client.createExceptionPolicy(request.id!, { patch: request });
+      const result = await client.createExceptionPolicy(request.id!, request);
 
       assert.isDefined(result);
       assert.isDefined(result?.id);
@@ -39,9 +39,7 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should get an exception policy", async function() {
-      const response: ExceptionPolicy = await client.createExceptionPolicy(request.id!, {
-        patch: request
-      });
+      const response: ExceptionPolicy = await client.createExceptionPolicy(request.id!, request);
 
       const result = await client.getExceptionPolicy(request.id!);
 
@@ -51,12 +49,10 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should update an exception policy", async function() {
-      const response: ExceptionPolicy = await client.createExceptionPolicy(request.id!, {
-        patch: request
-      });
+      const response: ExceptionPolicy = await client.createExceptionPolicy(request.id!, request);
 
-      const patch = { ...response, name: "new name" };
-      const result = await client.updateExceptionPolicy(response.id!, { patch });
+      const patch: ExceptionPolicy = { ...response, name: "new name" };
+      const result = await client.updateExceptionPolicy(response.id!, patch);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
@@ -69,9 +65,7 @@ describe("RouterClient", function() {
       await client.deleteDistributionPolicy(distributionPolicyRequest.id!, {});
       await client.deleteClassificationPolicy(classificationPolicyRequest.id!, {});
 
-      const response: ExceptionPolicy = await client.createExceptionPolicy(request.id!, {
-        patch: request
-      });
+      const response: ExceptionPolicy = await client.createExceptionPolicy(request.id!, request);
 
       const result = await client.deleteExceptionPolicy(response.id!, {});
 
@@ -79,7 +73,7 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should list exception policies", async function() {
-      await client.createExceptionPolicy(request.id!, { patch: request });
+      await client.createExceptionPolicy(request.id!, request);
 
       const result = await client.listExceptionPolicies({
         maxpagesize: 1

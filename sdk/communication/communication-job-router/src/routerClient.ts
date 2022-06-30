@@ -443,7 +443,7 @@ export class RouterClient {
   /**
    * Complete a job.
    * @param jobId - Id of the job to complete.
-   * @param assignmentId - The assignment Id to complete.
+   * @param assignmentId - Id of the assignment to complete.
    * @param options - Operation options.
    */
   public async completeJob(
@@ -469,7 +469,7 @@ export class RouterClient {
   /**
    * Close a job.
    * @param jobId - Id of the job to close.
-   * @param assignmentId - The assignment within which the job is to be closed.
+   * @param assignmentId - Id of the assignment of the job to be closed.
    * @param options - Operation options.
    */
   public async closeJob(
@@ -523,6 +523,7 @@ export class RouterClient {
    * Creates a queue.
    * Returns queue with the id of the created queue.
    * @param queueId - Id of the queue to create.
+   * @param patch - Queue to create.
    * @param options - Operation options.
    */
   public async createQueue(
@@ -537,6 +538,7 @@ export class RouterClient {
    * Updates a queue.
    * Returns queue with the id of the created queue.
    * @param queueId - Id of the queue to update.
+   * @param patch - Queue to patch existing queue with.
    * @param options - Operation options.
    */
   public async updateQueue(
@@ -582,6 +584,7 @@ export class RouterClient {
    * Creates a worker.
    * Returns worker with the id of the registered worker.
    * @param workerId - Id of the worker to create.
+   * @param patch - Worker to create.
    * @param options - Operation options.
    */
   public async createWorker(
@@ -595,7 +598,7 @@ export class RouterClient {
   /**
    * Updates a worker.
    * @param workerId - Id of the worker to update.
-   * @param patch - Worker to update.
+   * @param patch - Worker to patch existing worker with.
    * @param options - Operation options.
    */
   public async updateWorker(
@@ -628,6 +631,7 @@ export class RouterClient {
    * De-registers a worker.
    * Returns worker with the id of the de-registered worker.
    * @param workerId - Id of the worker to deregister.
+   * @param patch - Worker to deregister.
    * @param options - Operation options.
    */
   public async deregisterWorker(
@@ -636,7 +640,7 @@ export class RouterClient {
     options: DeregisterWorkerOptions = {}
   ): Promise<RouterWorker> {
     patch = patch ?? { id: workerId };
-    patch.availableForOffers = true;
+    patch.availableForOffers = false;
 
     return this.client.jobRouter.upsertWorker(workerId, patch, options);
   }

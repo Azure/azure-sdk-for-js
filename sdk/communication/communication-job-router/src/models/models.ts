@@ -75,7 +75,5 @@ export {
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertQueueOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
-  JobRouterReclassifyJobActionOptionalParams,
-  JobRouterUnassignJobActionOptionalParams,
-  WorkerSelectorState
+  JobRouterReclassifyJobActionOptionalParams
 } from "../generated/src/models";
