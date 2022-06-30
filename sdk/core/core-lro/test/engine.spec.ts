@@ -108,7 +108,7 @@ describe("Lro Engine", function () {
           { method: "GET", path: pollingPath, status: 204 },
         ],
       });
-      assert.equal(response.statusCode, 200);
+      assert.equal(response.statusCode, 204);
     });
 
     it("should handle put202Retry200", async () => {

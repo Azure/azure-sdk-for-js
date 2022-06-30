@@ -204,7 +204,7 @@ function isDone<TResult, TState extends PollOperationState<TResult>>(result: {
       return isTerminal({ state, status: getProvisioningState(rawResponse) });
     }
     case "ResourceLocation": {
-      return rawResponse.statusCode !== 202;
+      return responseKind === "Polling" && rawResponse.statusCode !== 202;
     }
     case "None": {
       return true;
