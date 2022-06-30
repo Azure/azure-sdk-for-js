@@ -593,6 +593,39 @@ describe("Lro Engine", function () {
           assert.equal(result.name, "foo");
         });
 
+        it("should handle postUpdatedPollingUrl", async () => {
+          const operationLocationPath1 = "path1";
+          const operationLocationPath2 = "path2";
+          const result = await runLro({
+            routes: [
+              {
+                method: "POST",
+                status: 200,
+                headers: {
+                  [headerName]: operationLocationPath1,
+                },
+              },
+              {
+                method: "GET",
+                path: operationLocationPath1,
+                status: 200,
+                body: `{ "status": "running" }`,
+                headers: {
+                  [headerName]: operationLocationPath2,
+                },
+              },
+              {
+                method: "GET",
+                path: operationLocationPath2,
+                status: 200,
+                body: `{ "status": "succeeded", "id": "100", "name": "foo" }`,
+              },
+            ],
+          });
+          assert.equal(result.id, "100");
+          assert.equal(result.name, "foo");
+        });
+
         it("should handle postDoubleHeadersFinalAzureHeaderGet", async () => {
           const locationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/location`;
           const operationLocationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl`;
