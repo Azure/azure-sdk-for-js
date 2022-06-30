@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Email } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EmailRestApiClient } from "../emailRestApiClient";
 import {
+  EmailGetSendStatusOptionalParams,
   EmailGetSendStatusResponse,
   EmailMessage,
+  EmailSendOptionalParams,
   EmailSendResponse
 } from "../models";
 
-/**
- * Class representing a Email.
- */
-export class Email {
+/** Class containing Email operations. */
+export class EmailImpl implements Email {
   private readonly client: EmailRestApiClient;
 
   /**
@@ -37,15 +38,12 @@ export class Email {
    */
   getSendStatus(
     messageId: string,
-    options?: coreHttp.OperationOptions
+    options?: EmailGetSendStatusOptionalParams
   ): Promise<EmailGetSendStatusResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { messageId, options: operationOptions },
+      { messageId, options },
       getSendStatusOperationSpec
-    ) as Promise<EmailGetSendStatusResponse>;
+    );
   }
 
   /**
@@ -65,27 +63,18 @@ export class Email {
     repeatabilityRequestId: string,
     repeatabilityFirstSent: string,
     emailMessage: EmailMessage,
-    options?: coreHttp.OperationOptions
+    options?: EmailSendOptionalParams
   ): Promise<EmailSendResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      {
-        repeatabilityRequestId,
-        repeatabilityFirstSent,
-        emailMessage,
-        options: operationOptions
-      },
+      { repeatabilityRequestId, repeatabilityFirstSent, emailMessage, options },
       sendOperationSpec
-    ) as Promise<EmailSendResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getSendStatusOperationSpec: coreHttp.OperationSpec = {
+const getSendStatusOperationSpec: coreClient.OperationSpec = {
   path: "/emails/{messageId}/status",
   httpMethod: "GET",
   responses: {
@@ -95,14 +84,15 @@ const getSendStatusOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.EmailGetSendStatusHeaders
+      headersMapper: Mappers.EmailGetSendStatusExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.messageId],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const sendOperationSpec: coreHttp.OperationSpec = {
+const sendOperationSpec: coreClient.OperationSpec = {
   path: "/emails:send",
   httpMethod: "POST",
   responses: {
@@ -111,13 +101,14 @@ const sendOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.EmailSendHeaders
+      headersMapper: Mappers.EmailSendExceptionHeaders
     }
   },
   requestBody: Parameters.emailMessage,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
+    Parameters.accept,
     Parameters.contentType,
     Parameters.repeatabilityRequestId,
     Parameters.repeatabilityFirstSent

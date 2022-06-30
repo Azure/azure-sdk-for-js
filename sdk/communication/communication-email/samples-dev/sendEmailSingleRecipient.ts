@@ -28,12 +28,7 @@ const sendSingleEmail = async (): Promise<void> => {
       html: "<html><h1>This is the body</h1></html>",
     },
     recipients: {
-      to: [
-        {
-          email: recipientAddress,
-          displayName: "Customer Name",
-        },
-      ],
+      to: [{ email: recipientAddress, displayName: "Customer Name" }],
     },
   };
 
