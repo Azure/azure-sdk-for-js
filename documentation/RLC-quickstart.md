@@ -236,7 +236,7 @@ There is many information about the SDK that AutoRest will never know, so you ma
 We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.
 
 # How to configure authentication
-Autorest only support two types of authentications: Azure Key Credential(AzureKey) and Token credential(AADToken), any other will need to be handled manually. 
+Autorest only support two types of authentication: Azure Key Credential(AzureKey) and Token credential(AADToken), any other will need to be handled manually. 
 
 This could be either configured in OpenAPI spec or configuration file e.g `README.md`. You could learn more in [Authentication in AutoRest](https://github.com/Azure/autorest/blob/main/docs/generate/authentication.md).
 
