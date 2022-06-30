@@ -12,9 +12,14 @@ import {
   ResumablePollOperationState,
 } from "./models";
 import { PollOperation, PollOperationState } from "../pollOperation";
-import { createInitializeState, createPoll, throwIfUndefined, updatePollingUrl } from "./utils";
+import {
+  createGetLroStatusFromResponse,
+  createInitializeState,
+  createPoll,
+  throwIfUndefined,
+  updatePollingUrl,
+} from "./impl";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { createGetLroStatusFromResponse } from "./polling";
 import { logger } from "./logger";
 
 export class GenericPollOperation<TResult, TState extends PollOperationState<TResult>>
