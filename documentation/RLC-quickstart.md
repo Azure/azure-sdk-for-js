@@ -240,7 +240,7 @@ Autorest only support two types of authentication: Azure Key Credential(AzureKey
 
 This could be either configured in OpenAPI spec or configuration file e.g `README.md`. You could learn more in [Authentication in AutoRest](https://github.com/Azure/autorest/blob/main/docs/generate/authentication.md).
 
-Here are the details if we configure in REAMDE.md file.
+Here are the details if we configure in README.md file.
 - Support AAD token authentication
 ```yaml
 security: AzureKey
