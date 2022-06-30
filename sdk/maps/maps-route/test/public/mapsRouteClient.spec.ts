@@ -107,7 +107,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
       describe("#getRouteRange", function () {
         it("should accept LatLon and return reachable range", async function () {
           const startCoordinates = { latitude: 50.97452, longitude: 5.86605 };
-          const routeRangeBudget = { timeBudgetInSec: 6000 };
+          const routeRangeBudget = { timeBudgetInSeconds: 6000 };
 
           const routeRangeResult = await client.getRouteRange(startCoordinates, routeRangeBudget);
 
