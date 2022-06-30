@@ -23,7 +23,7 @@ export var exceptionPolicyRequest: ExceptionPolicy = {
       },
       trigger: {
         kind: "wait-time",
-        threshold: "10"
+        thresholdSeconds: 10
       }
     }
   }

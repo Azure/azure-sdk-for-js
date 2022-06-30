@@ -2221,8 +2221,8 @@ export const QueueLengthExceptionTrigger: coreHttp.CompositeMapper = {
     polymorphicDiscriminator: JobExceptionTrigger.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobExceptionTrigger.type.modelProperties,
-      threshold: {
-        serializedName: "threshold",
+      thresholdSeconds: {
+        serializedName: "thresholdSeconds",
         required: true,
         type: {
           name: "Number"
@@ -2241,11 +2241,11 @@ export const WaitTimeExceptionTrigger: coreHttp.CompositeMapper = {
     polymorphicDiscriminator: JobExceptionTrigger.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobExceptionTrigger.type.modelProperties,
-      threshold: {
-        serializedName: "threshold",
+      thresholdSeconds: {
+        serializedName: "thresholdSeconds",
         required: true,
         type: {
-          name: "String"
+          name: "Number"
         }
       }
     }

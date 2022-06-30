@@ -2813,7 +2813,7 @@
     "QueueLengthExceptionTrigger": {
       "description": "Trigger for an exception action on exceeding queue length",
       "required": [
-        "threshold"
+        "thresholdSeconds"
       ],
       "type": "object",
       "allOf": [
@@ -2825,7 +2825,7 @@
         "kind": {
           "type": "string"
         },
-        "threshold": {
+        "thresholdSeconds": {
           "format": "int32",
           "description": "Threshold of number of jobs ahead in the queue to for this trigger to fire.",
           "type": "integer"
@@ -3325,7 +3325,7 @@
     "WaitTimeExceptionTrigger": {
       "description": "Trigger for an exception action on exceeding wait time",
       "required": [
-        "threshold"
+        "thresholdSeconds"
       ],
       "type": "object",
       "allOf": [
@@ -3337,9 +3337,10 @@
         "kind": {
           "type": "string"
         },
-        "threshold": {
+        "thresholdSeconds": {
+          "format":"int32",
           "description": "Threshold for wait time for this trigger. Requires input conforming to ISO8601 duration format.",
-          "type": "string"
+          "type": "integer"
         }
       },
       "x-ms-discriminator-value": "wait-time"
