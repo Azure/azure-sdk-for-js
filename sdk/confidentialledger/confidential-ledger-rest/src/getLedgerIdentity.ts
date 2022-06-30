@@ -10,7 +10,7 @@ export interface LedgerIdentity {
 
 export async function getLedgerIdentity(
   ledgerId: string,
-  identityServiceBaseUrl: string = "https://identity.accledger.azure.com"
+  identityServiceBaseUrl: string = "https://identity.confidential-ledger.core.azure.com"
 ): Promise<LedgerIdentity> {
   const client = getClient(identityServiceBaseUrl);
 
