@@ -52,7 +52,7 @@ export interface ParticipantsCollection {
 // @public (undocumented)
 export interface RemoveParticipantsOptions extends OperationOptions {
     // (undocumented)
-    participants: RoomParticipant[] | CommunicationIdentifier[];
+    participants: (RoomParticipant | CommunicationIdentifier)[];
 }
 
 // @public (undocumented)
@@ -90,7 +90,7 @@ export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: RoomsClientOptions);
     // (undocumented)
-    addParticipants(roomId: string, options: AddParticipantsOptions): Promise<RoomModel>;
+    addParticipants(roomId: string, options: AddParticipantsOptions): Promise<ParticipantsCollection>;
     // (undocumented)
     createRoom(options?: CreateRoomOptions): Promise<RoomModel>;
     // (undocumented)
@@ -100,9 +100,9 @@ export class RoomsClient {
     // (undocumented)
     getRoom(roomId: string, options?: GetRoomOptions): Promise<RoomModel>;
     // (undocumented)
-    removeParticipants(roomId: string, options: RemoveParticipantsOptions): Promise<RoomModel>;
+    removeParticipants(roomId: string, options: RemoveParticipantsOptions): Promise<ParticipantsCollection>;
     // (undocumented)
-    updateParticipants(roomId: string, options: UpdateParticipantsOptions): Promise<RoomModel>;
+    updateParticipants(roomId: string, options: UpdateParticipantsOptions): Promise<ParticipantsCollection>;
     // (undocumented)
     updateRoom(roomId: string, options: UpdateRoomOptions): Promise<RoomModel>;
 }

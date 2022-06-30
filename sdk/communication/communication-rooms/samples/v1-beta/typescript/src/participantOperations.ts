@@ -1,14 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RoomsClient, RoomModel } from "@azure/communication-rooms";
+/**
+ * @summary Perform participant operations using the RoomsClient.
+ */
+
+import { RoomsClient, RoomParticipant, ParticipantsCollection } from "@azure/communication-rooms";
 import { CommunicationIdentityClient} from "@azure/communication-identity";
-import { printRoom } from "./printRoom";
 
 import * as dotenv from "dotenv";
+import { getIdentifierKind } from "@azure/communication-common";
 dotenv.config();
 
 export async function main() {
+  console.log("TEST");
   const connectionString = 
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
@@ -21,9 +26,10 @@ export async function main() {
   const user3 = await identityClient.createUserAndToken(["voip"]);
 
   const today = new Date();
+  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
   const createRoomRequest = {
     validFrom: today,
-    validUntil: today.getDate() + 1,
+    validUntil: tomorrow,
     participants: [
       {
         id: user1.user,
@@ -34,8 +40,7 @@ export async function main() {
 
   const createRoom = await roomsClient.createRoom(createRoomRequest);
   const roomId = createRoom.id;
-  console.log(`Created Room`);
-  printRoom(createRoom);
+  console.log(`Created Room with ID ${roomId}`);
 
   const addParticipantsRequest = {
     participants: [
@@ -47,7 +52,7 @@ export async function main() {
   };
   const addParticipants = await roomsClient.addParticipants(roomId, addParticipantsRequest);
   console.log(`Added Participants`);
-  printRoom(addParticipants);
+  printParticipants(addParticipants);
 
   const updateParticipantsRequest = {
     participants: [
@@ -60,23 +65,56 @@ export async function main() {
         role: "attendee"
       }
     ]
-  };
+  };console.log
   const updateParticipants = await roomsClient.updateParticipants(roomId, updateParticipantsRequest);
-  console.log(`Updated Participants`);
-  printRoom(updateParticipants);
+  write(`Updated Participants`);
+  printParticipants(updateParticipants);
+
+  const deleteUser = {
+    id: user1.user,
+    role: "presenter"
+  } as RoomParticipant;
 
   const removeParticipantsRequest = {
     participants: [
-      {
-        id: user1.user,
-        role: "presenter"
-      },
+      deleteUser,
       user2.user
     ]
   }
   const removeParticipants = await roomsClient.removeParticipants(roomId, removeParticipantsRequest);
   console.log(`Removed Participants`);
-  printRoom(removeParticipants);
+  printParticipants(removeParticipants);
 
   await roomsClient.deleteRoom(roomId);
+}
+
+function write(message: string): void {
+  const fs = require("fs");
+  fs.writeFileSync("./logs.txt",message,{
+    flag: 'w',
+  });
+}
+
+function printParticipants(pc: ParticipantsCollection): void {
+  for (const participant of pc.participants!) {
+    const identifierKind = getIdentifierKind(participant.id);
+    let id;
+    const role = participant.role;
+    switch (identifierKind.kind) {
+      case "communicationUser":
+        id = identifierKind.communicationUserId;
+        break;
+      case "microsoftTeamsUser":
+        id = identifierKind.microsoftTeamsUserId;
+        break;
+      case "phoneNumber":
+        id = identifierKind.phoneNumber;
+        break;
+      case "unknown":
+        id = identifierKind.id;
+        write("Unknown user");
+        break;
+    }
+    write(`${id} - ${role}`);
+  }
 }

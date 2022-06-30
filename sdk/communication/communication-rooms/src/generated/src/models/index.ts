@@ -25,7 +25,7 @@ export interface RoomParticipant {
   /** Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
   communicationIdentifier: CommunicationIdentifierModel;
   /** The Role of a room participant. */
-  role?: Role;
+  role?: RoleType;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
@@ -179,23 +179,23 @@ export enum KnownRoomJoinPolicy {
  */
 export type RoomJoinPolicy = string;
 
-/** Known values of {@link Role} that the service accepts. */
-export enum KnownRole {
+/** Known values of {@link RoleType} that the service accepts. */
+export enum KnownRoleType {
   Presenter = "Presenter",
   Attendee = "Attendee",
   Consumer = "Consumer"
 }
 
 /**
- * Defines values for Role. \
- * {@link KnownRole} can be used interchangeably with Role,
+ * Defines values for RoleType. \
+ * {@link KnownRoleType} can be used interchangeably with RoleType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Presenter** \
  * **Attendee** \
  * **Consumer**
  */
-export type Role = string;
+export type RoleType = string;
 
 /** Optional parameters. */
 export interface RoomsCreateRoomOptionalParams
@@ -242,21 +242,21 @@ export interface RoomsAddParticipantsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the addParticipants operation. */
-export type RoomsAddParticipantsResponse = RoomModel;
+export type RoomsAddParticipantsResponse = ParticipantsCollection;
 
 /** Optional parameters. */
 export interface RoomsUpdateParticipantsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateParticipants operation. */
-export type RoomsUpdateParticipantsResponse = RoomModel;
+export type RoomsUpdateParticipantsResponse = ParticipantsCollection;
 
 /** Optional parameters. */
 export interface RoomsRemoveParticipantsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the removeParticipants operation. */
-export type RoomsRemoveParticipantsResponse = RoomModel;
+export type RoomsRemoveParticipantsResponse = ParticipantsCollection;
 
 /** Optional parameters. */
 export interface RoomsApiClientOptionalParams

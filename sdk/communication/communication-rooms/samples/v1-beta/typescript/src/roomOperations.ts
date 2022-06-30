@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RoomsClient } from "@azure/communication-rooms";
+/**
+ * @summary Perform room operations using the RoomsClient.
+ */
+
+import { RoomsClient, RoomModel } from "@azure/communication-rooms";
 import { CommunicationIdentityClient} from "@azure/communication-identity";
-import { printRoom } from "./printRoom"
 
 import * as dotenv from "dotenv";
+import { getIdentifierKind } from "@azure/communication-common";
 dotenv.config();
 
 export async function main() {
@@ -37,10 +41,11 @@ export async function main() {
   console.log(`Retrieved Room with ID ${roomId}`);
   printRoom(getRoom);
   const today = new Date();
+  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
 
   const updateRoomRequest = {
     validFrom: today,
-    validUntil: today.getDate() + 1,
+    validUntil: tomorrow,
     roomJoinPolicy: "CommunicationServiceUsers",
     participants: [
       {
@@ -58,4 +63,40 @@ export async function main() {
   printRoom(updateRoom);
 
   await roomsClient.deleteRoom(roomId);
+}
+
+function printRoom (room: RoomModel): void {
+  write(`Room ID: ${room.id}`);
+  write(`Valid From: ${room.validFrom}`);
+  write(`Valid Until: ${room.validUntil}`);
+  write(`Room Join Policy: ${room.roomJoinPolicy}`);
+  write(`Participants:`);
+  for (const participant of room.participants!) {
+    const identifierKind = getIdentifierKind(participant.id);
+    let id;
+    const role = participant.role;
+    switch (identifierKind.kind) {
+      case "communicationUser":
+        id = identifierKind.communicationUserId;
+        break;
+      case "microsoftTeamsUser":
+        id = identifierKind.microsoftTeamsUserId;
+        break;
+      case "phoneNumber":
+        id = identifierKind.phoneNumber;
+        break;
+      case "unknown":
+        id = identifierKind.id;
+        write("Unknown user");
+        break;
+    }
+    write(`${id} - ${role}`);
+  }
+}
+
+function write(message: string): void {
+  const fs = require("fs");
+  fs.writeFileSync("./logs.txt",message,{
+    flag: 'w',
+  });
 }

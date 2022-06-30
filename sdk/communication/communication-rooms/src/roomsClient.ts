@@ -199,7 +199,7 @@ export class RoomsClient {
   public async addParticipants(
     roomId: string,
     options: AddParticipantsOptions
-  ): Promise<RoomModel> {
+  ): Promise<ParticipantsCollection> {
     const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
     try {
       const result = await this.client.rooms.addParticipants(
@@ -210,7 +210,9 @@ export class RoomsClient {
         },
         updatedOptions
       );
-      return mapToRoomSdkModel(result);
+      return {
+        participants: result.participants.map((participant) => mapToRoomParticipantSdkModel(participant)),
+      };
     }
     catch (e: any) {
       span.setStatus({
@@ -226,7 +228,7 @@ export class RoomsClient {
   public async updateParticipants(
     roomId: string,
     options: UpdateParticipantsOptions
-  ): Promise<RoomModel> {
+  ): Promise<ParticipantsCollection> {
     const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
     try {
       const result = await this.client.rooms.updateParticipants(
@@ -237,7 +239,9 @@ export class RoomsClient {
         },
         updatedOptions
       );
-      return mapToRoomSdkModel(result);
+      return {
+        participants: result.participants.map((participant) => mapToRoomParticipantSdkModel(participant)),
+      };
     }
     catch (e: any) {
       span.setStatus({
@@ -253,7 +257,7 @@ export class RoomsClient {
   public async removeParticipants(
     roomId: string,
     options: RemoveParticipantsOptions
-  ): Promise<RoomModel> {
+  ): Promise<ParticipantsCollection> {
     const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
     try {
       const result = await this.client.rooms.removeParticipants(
@@ -264,7 +268,9 @@ export class RoomsClient {
         },
         updatedOptions
       );
-      return mapToRoomSdkModel(result);
+      return {
+        participants: result.participants.map((participant) => mapToRoomParticipantSdkModel(participant)),
+      };
     }
     catch (e: any) {
       span.setStatus({

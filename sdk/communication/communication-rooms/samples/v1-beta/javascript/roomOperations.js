@@ -5,19 +5,19 @@
  * @summary Perform room operations using the RoomsClient.
  */
 
-import { RoomsClient, RoomModel } from "@azure/communication-rooms";
-import { CommunicationIdentityClient} from "@azure/communication-identity";
+const { RoomsClient } = require("@azure/communication-rooms");
+const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
-import * as dotenv from "dotenv";
-import { getIdentifierKind } from "@azure/communication-common";
+const dotenv = require("dotenv");
+const { getIdentifierKind } = require("@azure/communication-common");
 dotenv.config();
 
-export async function main() {
-  const connectionString = 
+async function main() {
+  const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
 
-  const roomsClient: RoomsClient = new RoomsClient(connectionString);
+  const roomsClient = new RoomsClient(connectionString);
   const identityClient = new CommunicationIdentityClient(connectionString);
 
   const user1 = await identityClient.createUserAndToken(["voip"]);
@@ -27,9 +27,9 @@ export async function main() {
     participants: [
       {
         id: user1.user,
-        role: "attendee"
-      }
-    ]
+        role: "attendee",
+      },
+    ],
   };
 
   const createRoom = await roomsClient.createRoom(createRoomRequest);
@@ -50,28 +50,28 @@ export async function main() {
     participants: [
       {
         id: user1.user,
-        role: "consumer"
+        role: "consumer",
       },
       {
         id: user2.user,
-        role: "presenter"
-      }
-    ]
+        role: "presenter",
+      },
+    ],
   };
-  const updateRoom = await roomsClient.updateRoom(roomId,updateRoomRequest);
+  const updateRoom = await roomsClient.updateRoom(roomId, updateRoomRequest);
   console.log(`Updated Room`);
   printRoom(updateRoom);
 
   await roomsClient.deleteRoom(roomId);
 }
 
-function printRoom (room: RoomModel): void {
+function printRoom(room) {
   write(`Room ID: ${room.id}`);
   write(`Valid From: ${room.validFrom}`);
   write(`Valid Until: ${room.validUntil}`);
   write(`Room Join Policy: ${room.roomJoinPolicy}`);
   write(`Participants:`);
-  for (const participant of room.participants!) {
+  for (const participant of room.participants) {
     const identifierKind = getIdentifierKind(participant.id);
     let id;
     const role = participant.role;
@@ -94,9 +94,11 @@ function printRoom (room: RoomModel): void {
   }
 }
 
-function write(message: string): void {
+function write(message) {
   const fs = require("fs");
-  fs.writeFileSync("./logs.txt",message,{
-    flag: 'w',
+  fs.writeFileSync("./logs.txt", message, {
+    flag: "w",
   });
 }
+
+module.exports = { main };

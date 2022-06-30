@@ -77,7 +77,7 @@ export interface Rooms {
   ): Promise<RoomsGetParticipantsResponse>;
   /**
    * Adds participants to a room. If participants already exist, no change occurs.
-   * @param roomId Room id to add participants to.
+   * @param roomId Room id to add participants.
    * @param addParticipantsRequest Participants to be added to the room.
    * @param options The options parameters.
    */

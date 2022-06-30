@@ -122,7 +122,7 @@ export class RoomsImpl implements Rooms {
 
   /**
    * Adds participants to a room. If participants already exist, no change occurs.
-   * @param roomId Room id to add participants to.
+   * @param roomId Room id to add participants.
    * @param addParticipantsRequest Participants to be added to the room.
    * @param options The options parameters.
    */
@@ -271,7 +271,7 @@ const addParticipantsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RoomModel
+      bodyMapper: Mappers.ParticipantsCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
@@ -290,7 +290,7 @@ const updateParticipantsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RoomModel
+      bodyMapper: Mappers.ParticipantsCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
@@ -309,7 +309,7 @@ const removeParticipantsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RoomModel
+      bodyMapper: Mappers.ParticipantsCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,

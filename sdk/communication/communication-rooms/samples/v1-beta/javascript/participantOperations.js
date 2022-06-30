@@ -5,20 +5,20 @@
  * @summary Perform participant operations using the RoomsClient.
  */
 
-import { RoomsClient, RoomParticipant, ParticipantsCollection } from "@azure/communication-rooms";
-import { CommunicationIdentityClient} from "@azure/communication-identity";
+const { RoomsClient } = require("@azure/communication-rooms");
+const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
-import * as dotenv from "dotenv";
-import { getIdentifierKind } from "@azure/communication-common";
+const dotenv = require("dotenv");
+const { getIdentifierKind } = require("@azure/communication-common");
 dotenv.config();
 
-export async function main() {
+async function main() {
   console.log("TEST");
-  const connectionString = 
+  const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
 
-  const roomsClient: RoomsClient = new RoomsClient(connectionString);
+  const roomsClient = new RoomsClient(connectionString);
   const identityClient = new CommunicationIdentityClient(connectionString);
 
   const user1 = await identityClient.createUserAndToken(["voip"]);
@@ -33,9 +33,9 @@ export async function main() {
     participants: [
       {
         id: user1.user,
-        role: "attendee"
-      }
-    ]
+        role: "attendee",
+      },
+    ],
   };
 
   const createRoom = await roomsClient.createRoom(createRoomRequest);
@@ -46,9 +46,9 @@ export async function main() {
     participants: [
       {
         id: user2.user,
-        role: "consumer"
-      }
-    ]
+        role: "consumer",
+      },
+    ],
   };
   const addParticipants = await roomsClient.addParticipants(roomId, addParticipantsRequest);
   console.log(`Added Participants`);
@@ -58,45 +58,49 @@ export async function main() {
     participants: [
       {
         id: user1.user,
-        role: "presenter"
+        role: "presenter",
       },
       {
         id: user3.user,
-        role: "attendee"
-      }
-    ]
-  };console.log
-  const updateParticipants = await roomsClient.updateParticipants(roomId, updateParticipantsRequest);
+        role: "attendee",
+      },
+    ],
+  };
+  console.log;
+  const updateParticipants = await roomsClient.updateParticipants(
+    roomId,
+    updateParticipantsRequest
+  );
   write(`Updated Participants`);
   printParticipants(updateParticipants);
 
   const deleteUser = {
     id: user1.user,
-    role: "presenter"
-  } as RoomParticipant;
+    role: "presenter",
+  };
 
   const removeParticipantsRequest = {
-    participants: [
-      deleteUser,
-      user2.user
-    ]
-  }
-  const removeParticipants = await roomsClient.removeParticipants(roomId, removeParticipantsRequest);
+    participants: [deleteUser, user2.user],
+  };
+  const removeParticipants = await roomsClient.removeParticipants(
+    roomId,
+    removeParticipantsRequest
+  );
   console.log(`Removed Participants`);
   printParticipants(removeParticipants);
 
   await roomsClient.deleteRoom(roomId);
 }
 
-function write(message: string): void {
+function write(message) {
   const fs = require("fs");
-  fs.writeFileSync("./logs.txt",message,{
-    flag: 'w',
+  fs.writeFileSync("./logs.txt", message, {
+    flag: "w",
   });
 }
 
-function printParticipants(pc: ParticipantsCollection): void {
-  for (const participant of pc.participants!) {
+function printParticipants(pc) {
+  for (const participant of pc.participants) {
     const identifierKind = getIdentifierKind(participant.id);
     let id;
     const role = participant.role;
@@ -118,3 +122,5 @@ function printParticipants(pc: ParticipantsCollection): void {
     write(`${id} - ${role}`);
   }
 }
+
+module.exports = { main };

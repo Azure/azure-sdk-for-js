@@ -31,7 +31,7 @@
   ],
   "license": "MIT",
   "main": "dist/index.js",
-  "module": "dist-esm/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "types/communication-rooms.d.ts",
   "devDependencies": {
     "@azure/communication-common": "~2.1.0",
@@ -97,7 +97,7 @@
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:samples": "echo skipped.",
+    "build:samples": "dev-tool samples publish --force",
     "check-format": "echo skipped",
     "execute:samples": "dev-tool samples run samples-dev",
     "format": "echo skipped",
@@ -125,5 +125,15 @@
         "prefix": "package-version"
       }
     ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Communication Services - Rooms",
+    "productSlugs": [
+      "azure",
+      "azure-communication-services"
+    ],
+    "requiredResources": {
+      "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
+    }
   }
 }
