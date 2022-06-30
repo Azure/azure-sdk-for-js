@@ -1712,6 +1712,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-workloads",
+      "projectFolder": "sdk/workloads/arm-workloads",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-dynatrace",
       "projectFolder": "sdk/dynatrace/arm-dynatrace",
       "versionPolicyName": "management"

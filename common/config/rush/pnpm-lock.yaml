@@ -184,6 +184,7 @@ specifiers:
   '@rush-temp/arm-vmwarecloudsimple': file:./projects/arm-vmwarecloudsimple.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:./projects/arm-webservices.tgz
+  '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
@@ -471,6 +472,7 @@ dependencies:
   '@rush-temp/arm-vmwarecloudsimple': file:projects/arm-vmwarecloudsimple.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:projects/arm-webservices.tgz
+  '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
@@ -3943,7 +3945,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220628
+      typescript: 4.8.0-dev.20220629
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8753,8 +8755,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220628:
-    resolution: {integrity: sha512-89n1Fp/JQev/bPPuVferlfw0VguLxr0uFergLfPbhs+6Hlu3M5rLwplGLHL+JZ+0+BsTyWg779TmaMcqa5FB5Q==}
+  /typescript/4.8.0-dev.20220629:
+    resolution: {integrity: sha512-QEp1M6iqlYpQXFF2f9ucXMkXbYcAoXcG0ws0IG8bWd7mjPGf8R5iVCbQVSm1dzV/GoOy0PsvfNe5/uL6D9TSPA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14704,6 +14706,35 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-workloads.tgz:
+    resolution: {integrity: sha512-DYJR8bS92EqV6dOMSYc+6Hl+/ZdBJw7Q9xMd0CrsoMYBMlZrgqKIvgQ6o6cAT3pJsGKovXQ394UuoiBy1/459w==, tarball: file:projects/arm-workloads.tgz}
+    name: '@rush-temp/arm-workloads'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.74.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.74.1
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-workspaces.tgz:
     resolution: {integrity: sha512-kZH9xy+GCEJvZWdGfdjthX+8z2uTRDTyUkNItlhVRk47oc85jHOwvMsjtM2yY9UdLd1I+4zIF6qU/snt3QRCTg==, tarball: file:projects/arm-workspaces.tgz}
     name: '@rush-temp/arm-workspaces'
@@ -14885,7 +14916,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-cg+0o/UDZTS8e6Eud4C2ql+IE9FaqPi5QPAtPgjoFTMqsKulijRkLtb1guIK1mJ9SkaqFbUq8JYFsIYkClMmnA==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-AlPbxogx/1TifV283TyuACZ7i4eQcVPCzYNbFkyLanbd95uk97Q+991I7XLxgA9tOIgo1xOrZdGTJO1E6WFXsw==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -14923,7 +14954,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
