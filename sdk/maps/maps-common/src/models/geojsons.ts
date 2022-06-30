@@ -18,19 +18,19 @@ export type GeoJsonType = GeometryType | "Feature" | "FeatureCollection";
 
 /** 2D bounding box */
 export type BBox2D = [
-  southwestLongitude: number,
-  southwestLatitude: number,
-  northeastLongitude: number,
-  northeastLatitude: number
+  southWestLongitude: number,
+  southWestLatitude: number,
+  northEastLongitude: number,
+  northEastLatitude: number
 ];
 /** 3D bounding box */
 export type BBox3D = [
-  southwestLongitude: number,
-  southwestLatitude: number,
-  southwestElevation: number,
-  northeastLongitude: number,
-  northeastLatitude: number,
-  northeastElevation: number
+  southWestLongitude: number,
+  southWestLatitude: number,
+  southWestElevation: number,
+  northEastLongitude: number,
+  northEastLatitude: number,
+  northEastElevation: number
 ];
 /** Bounding box including information on the coordinate range for its geometries */
 export type BBox = BBox2D | BBox3D;
@@ -102,7 +102,7 @@ export interface GeoJsonGeometryCollection extends GeoJsonObject {
 export interface GeoJsonFeature extends GeoJsonObject {
   type: "Feature";
   geometry?: GeoJsonGeometry;
-  properties?: { [name: string]: any };
+  properties?: Record<string, any>;
   id?: number | string;
 }
 

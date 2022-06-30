@@ -74,10 +74,22 @@ export interface BatchResult<TResult> {
 export type BBox = BBox2D | BBox3D;
 
 // @public
-export type BBox2D = [southwestLongitude: number, southwestLatitude: number, northeastLongitude: number, northeastLatitude: number];
+export type BBox2D = [
+southWestLongitude: number,
+southWestLatitude: number,
+northEastLongitude: number,
+northEastLatitude: number
+];
 
 // @public
-export type BBox3D = [southwestLongitude: number, southwestLatitude: number, southwestElevation: number, northeastLongitude: number, northeastLatitude: number, northeastElevation: number];
+export type BBox3D = [
+southWestLongitude: number,
+southWestLatitude: number,
+southWestElevation: number,
+northEastLongitude: number,
+northEastLatitude: number,
+northEastElevation: number
+];
 
 // @public
 export interface BoundingBox {
@@ -188,9 +200,7 @@ export interface GeoJsonFeature extends GeoJsonObject {
     // (undocumented)
     id?: number | string;
     // (undocumented)
-    properties?: {
-        [name: string]: any;
-    };
+    properties?: Record<string, any>;
     // (undocumented)
     type: "Feature";
 }
