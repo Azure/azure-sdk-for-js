@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { createAdmInstallation, createAppleInstallation, createBaiduInstallation, createFirebaseLegacyInstallation, createWindowsInstallation } from "../../../src/models/installation";
+import { createAdmInstallation, createAppleInstallation, createBaiduInstallation, createBrowserInstallation, createFirebaseLegacyInstallation, createWindowsInstallation } from "../../../src/models/installation";
 
 describe("createAppleInstallation", () => {
   it("should set the default properties", () => {
@@ -40,6 +40,25 @@ describe("createBaiduInstallation", () => {
     assert.equal(installation.installationId, "abc123");
     assert.equal(installation.pushChannel, "zxy321-abcabc");
     assert.equal(installation.platform, "baidu");
+  });
+});
+
+describe("createBrowserInstallation", () => {
+  it("should set the default properties", () => {
+    const installation = createBrowserInstallation({
+      installationId: "abc123",
+      pushChannel: {
+        endpoint: "https://www.microsoft.com",
+        p256dh: "{P256DH}",
+        auth: "{Auth Secret}",
+      },
+    });
+
+    assert.equal(installation.installationId, "abc123");
+    assert.equal(installation.pushChannel.endpoint, "https://www.microsoft.com");
+    assert.equal(installation.pushChannel.p256dh, "{P256DH}");
+    assert.equal(installation.pushChannel.auth, "{Auth Secret}");
+    assert.equal(installation.platform, "browser");
   });
 });
 

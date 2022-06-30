@@ -126,13 +126,10 @@ export function createAppleInstallation(installation: Omit<AppleInstallation, "p
 export function createAppleMessage(message: Omit<AppleMessage, "platform" | "contentType">): AppleMessage;
 
 // @public
-export function createAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "Platform">): AppleRegistrationDescription;
+export function createAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "platform">): AppleRegistrationDescription;
 
 // @public
 export function createAppleTemplateRegistrationDescription(description: Omit<AppleTemplateRegistrationDescription, "platform">): AppleTemplateRegistrationDescription;
-
-// @public
-export function createBadgeMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage;
 
 // @public
 export function createBaiduInstallation(installation: Omit<BaiduInstallation, "platform">): BaiduInstallation;
@@ -159,7 +156,7 @@ export function createBrowserRegistrationDescription(description: Omit<BrowserRe
 export function createBrowserTemplateRegistrationDescription(description: Omit<BrowserTemplateRegistrationDescription, "platform">): BrowserTemplateRegistrationDescription;
 
 // @public
-export function createFcmRegistrationDescription(description: Omit<FcmTemplateRegistrationDescription, "platform">): FcmRegistrationDescription;
+export function createFcmRegistrationDescription(description: Omit<FcmRegistrationDescription, "platform">): FcmRegistrationDescription;
 
 // @public
 export function createFcmTemplateRegistrationDescription(description: Omit<FcmTemplateRegistrationDescription, "platform">): FcmTemplateRegistrationDescription;
@@ -170,7 +167,7 @@ export function createFirebaseLegacyInstallation(installation: Omit<FirebaseLega
 // @public
 export function createFirebaseLegacyMessage(message: Omit<FirebaseLegacyMessage, "platform" | "contentType">): FirebaseLegacyMessage;
 
-// @public
+// @public @deprecated (undocumented)
 export function createGcmRegistrationDescription(description: Omit<GcmRegistrationDescription, "platform">): GcmRegistrationDescription;
 
 // @public @deprecated (undocumented)
@@ -184,6 +181,9 @@ export function createMpnsTemplateRegistrationDescription(description: Omit<Mpns
 
 // @public
 export function createTemplateMessage(message: Omit<TemplateMessage, "platform" | "contentType">): TemplateMessage;
+
+// @public
+export function createWindowsBadgeMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage;
 
 // @public
 export function createWindowsInstallation(installation: Omit<WindowsInstallation, "platform">): WindowsInstallation;
@@ -250,9 +250,9 @@ export type Installation = AppleInstallation | AdmInstallation | BaiduInstallati
 
 // @public
 export interface InstallationCommon {
-    readonly expirationTime: string;
+    readonly expirationTime?: string;
     installationId: string;
-    readonly lastUpdate: string;
+    readonly lastUpdate?: string;
     platform: string;
     tags?: string[];
     templates?: Record<string, InstallationTemplate>;
@@ -273,6 +273,9 @@ export interface InstallationTemplate {
     headers: Record<string, string>;
     tags?: string[];
 }
+
+// @public (undocumented)
+export const JSON_CONTENT_TYPE = "application/json;charset=utf-8";
 
 // @public
 export interface JsonNotificationMessage extends NotificationHubMessageCommon {
@@ -315,6 +318,67 @@ export interface NotificationDetails {
 }
 
 // @public
+export interface NotificationHubJob {
+    createdAt?: Date;
+    failure?: string;
+    failuresFileName?: string;
+    importFileUrl?: string;
+    inputProperties?: Record<string, string>;
+    jobId?: string;
+    outputContainerUrl: string;
+    outputFileName?: string;
+    outputProperties?: Record<string, string>;
+    progress?: number;
+    status?: NotificationHubJobStatus;
+    type: NotificationHubJobType;
+    updatedAt?: Date;
+}
+
+// @public
+export type NotificationHubJobStatus =
+/**
+* Indicates that the NotificationHubJob was accepted.
+*/
+"Started" |
+/**
+* Indicates that the NotificationHubJob is currently running. Depending on the amount of data,
+* a job may stay in this state for several hours.
+*/
+"Running" |
+/**
+* Indicates that the NotificationHubJob was completed successfully. Any output
+* will be ready where configured via the NotificationHubJob object.
+*/
+"Completed" |
+/**
+* Indicates that the NotificationHubJob has failed.
+*/
+"Failed";
+
+// @public
+export type NotificationHubJobType =
+/**
+* Job type to bulk get registrations.
+*/
+"ExportRegistrations" |
+/**
+* Job type to bulk create registrations.
+*/
+"ImportCreateRegistrations" |
+/**
+* Job type to bulk update registrations.
+*/
+"ImportUpdateRegistrations" |
+/**
+* Job type to bulk delete registrations.
+*/
+"ImportDeleteRegistrations" |
+/**
+* Job type to bulk upsert registrations.
+*/
+"ImportUpsertRegistrations";
+
+// @public
 export type NotificationHubMessage = AppleMessage | AdmMessage | BaiduMessage | BrowserMessage | FirebaseLegacyMessage | WindowsMessage | TemplateMessage;
 
 // @public
@@ -349,6 +413,8 @@ export class NotificationHubsClient extends ServiceClient {
     deleteRegistrationById(registrationId: string, options?: EntityOperationOptions): Promise<NotificationHubResponse>;
     getFeedbackContainerURL(options?: OperationOptions): Promise<string>;
     getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
+    getNotificationHubJob(jobId: string, options?: OperationOptions): Promise<NotificationHubJob>;
+    getNotificationHubJobs(options?: OperationOptions): Promise<NotificationHubJob[]>;
     getNotificationOutcomeDetails(notificationId: string, options?: OperationOptions): Promise<NotificationDetails>;
     getRegistrationById(registrationId: string, options?: OperationOptions): Promise<RegistrationDescription>;
     listRegistrations(options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
@@ -357,6 +423,7 @@ export class NotificationHubsClient extends ServiceClient {
     scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessage, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
     sendDirectNotification(pushHandle: PushHandle, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
     sendNotification(tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
+    submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
 }
 
@@ -413,6 +480,9 @@ export interface SendOperationOptions extends OperationOptions {
     enableTestSend?: boolean;
 }
 
+// @public (undocumented)
+export const STREAM_CONTENT_TYPE = "application/octet-stream";
+
 // @public
 export interface TemplateMessage extends JsonNotificationMessage {
     platform: "template";
@@ -449,6 +519,24 @@ export interface WindowsTemplateRegistrationDescription extends Omit<WindowsRegi
     platform: "WindowsTemplate";
     wnsHeaders?: Record<string, string>;
 }
+
+// @public (undocumented)
+export const WNS_BADGE = "wns/badge";
+
+// @public (undocumented)
+export const WNS_RAW = "wns/raw";
+
+// @public (undocumented)
+export const WNS_TITLE = "wns/tile";
+
+// @public (undocumented)
+export const WNS_TOAST = "wns/toast";
+
+// @public (undocumented)
+export const WNS_TYPE_NAME = "X-WNS-Type";
+
+// @public (undocumented)
+export const XML_CONTENT_TYPE = "application/xml";
 
 // (No @packageDocumentation comment for this package)
 

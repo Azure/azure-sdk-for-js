@@ -26,6 +26,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "./models/registration";
 import { parseNotificationDetails } from "./serializers/notificationDetailsSerializer";
 import { NotificationDetails } from "./models/notificationDetails";
+import { NotificationHubJob } from "./models/notificationHubJob";
+import { parseNotificationHubJobEntry, parseNotificationHubJobFeed, serializeNotificationHubJobEntry } from "./serializers/notificationHubJobSerializer";
 
 const API_VERSION = "2020-06";
 
@@ -867,7 +869,7 @@ export class NotificationHubsClient extends ServiceClient {
     options: OperationOptions = {},
   ): Promise<NotificationDetails> {
     return tracingClient.withSpan(
-      "getNotificationOutcomeDetails-NotificationHubsClient",
+      "NotificationHubsClient-getNotificationOutcomeDetails",
       options,
       async (updatedOptions) => {
         const endpoint = this.getBaseURL();
@@ -887,6 +889,109 @@ export class NotificationHubsClient extends ServiceClient {
         }
 
         return parseNotificationDetails(response.bodyAsText!);
+      });
+  }
+
+  /**
+   * Submits a Notification Hub Job.  Note this is available to Standard SKU namespace and above.
+   * @param job - The notification hub job to submit.
+   * @param options - The operation options.
+   * @returns The notification hub job details including job ID and status.
+   */
+  public async submitNotificationHubJob(
+    job: NotificationHubJob,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubJob> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-submitNotificationHubJob",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += "/jobs";
+
+        const headers = this.createHeaders();
+        headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
+
+        const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
+        request.body = serializeNotificationHubJobEntry(job);
+
+        const response = await this.sendRequest(request);
+        if (response.status !== 201) {
+          throw new RestError(
+            `submitNotificationHubJob failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
+        }
+
+        return parseNotificationHubJobEntry(response.bodyAsText!);
+      });
+  }
+
+  /**
+   * Gets a Notification Hub Job by the ID.
+   * @param jobId - The Notification Hub Job ID.
+   * @param options - The operation options.
+   * @returns The Notification Hub Job with the matching ID.
+   */
+  public getNotificationHubJob(
+    jobId: string,
+    options: OperationOptions = {},
+  ): Promise<NotificationHubJob> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-getNotificationHubJob",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += `/jobs/${jobId}`;
+
+        const headers = this.createHeaders();
+        headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
+
+        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
+        const response = await this.sendRequest(request);
+        if (response.status !== 200) {
+          throw new RestError(
+            `getNotificationHubJob failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
+        }
+
+        return parseNotificationHubJobEntry(response.bodyAsText!);
+      });
+  }
+
+  /**
+   * Gets all Notification Hub Jobs for this Notification Hub.
+   * @param options - The operation options.
+   * @returns An array of all Notification Hub Jobs for this Notification Hub.
+   */
+  public async getNotificationHubJobs(options: OperationOptions = {}): Promise<NotificationHubJob[]> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-getNotificationHubJobs",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += "/jobs";
+
+        const headers = this.createHeaders();
+        headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
+
+        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
+        const response = await this.sendRequest(request);
+        if (response.status !== 200) {
+          throw new RestError(
+            `getNotificationHubJobs failed with ${response.status}`,
+            {
+              statusCode: response.status,
+              response: response
+            });
+        }
+
+        return parseNotificationHubJobFeed(response.bodyAsText!);
       });
   }
 
