@@ -99,7 +99,7 @@
     "build:test": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo skipped.",
     "check-format": "echo skipped",
-    "execute:samples": "echo skipped",
+    "execute:samples": "dev-tool samples run samples-dev",
     "format": "echo skipped",
     "test": "echo skipped",
     "test:node": "echo skipped",

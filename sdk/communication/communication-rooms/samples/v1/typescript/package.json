@@ -1,0 +1,41 @@
+{
+  "name": "@azure-samples/communication-rooms-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Communication Services - Rooms client library samples for TypeScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/communication/communication-chat"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "Azure",
+    "communication",
+    "chat"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms",
+  "dependencies": {
+    "@azure/communication-rooms": "latest",
+    "dotenv": "latest",
+    "@azure/communication-common": "^2.1.0",
+    "@azure/communication-identity": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.4.0",
+    "rimraf": "latest"
+  }
+}

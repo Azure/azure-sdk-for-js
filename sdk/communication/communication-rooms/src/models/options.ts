@@ -37,7 +37,7 @@ export interface UpdateParticipantsOptions extends OperationOptions {
 }
 
 export interface RemoveParticipantsOptions extends OperationOptions {
-  participants: RoomParticipant[] | CommunicationIdentifier[];
+  participants: (RoomParticipant | CommunicationIdentifier)[];
 }
 
 export interface GetParticipiantsResult {
