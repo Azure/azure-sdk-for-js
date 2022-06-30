@@ -1,0 +1,68 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/emails:send?api-version=2021-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "344",
+        "Content-Type": "application/json",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "repeatability-first-sent": "Sanitized",
+        "repeatability-request-id": "Sanitized",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "4WncXrahwd69tLgc5zPXCuvmLcdQidfqoBILjbBlAiY=",
+        "x-ms-date": "Sanitized",
+        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Win32"
+      },
+      "RequestBody": {
+        "sender": "someSender@contoso.com",
+        "content": {
+          "subject": "someSubject",
+          "plainText": "somePlainTextBody",
+          "html": "\u003Chtml\u003E\u003Ch1\u003EsomeHtmlBody\u003C/html\u003E"
+        },
+        "recipients": {
+          "to": [
+            {
+              "email": "someRecipient@domain.com",
+              "displayName": "someRecipient"
+            }
+          ]
+        },
+        "attachments": [
+          {
+            "name": "readme.txt",
+            "attachmentType": "txt",
+            "contentBytesBase64": "ZW1haWwgdGVzdCBhdHRhY2htZW50"
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01-preview",
+        "Content-Length": "0",
+        "Date": "Sanitized",
+        "Operation-Location": "https://someEndpoint/emails/someMessageId/status",
+        "Repeatability-Result": "accepted",
+        "X-Azure-Ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-request-id": "Sanitized"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

@@ -472,354 +472,358 @@ export interface JobErrors {
   errors?: ErrorModel[];
 }
 
-export type AnalyzeTextEntityLinkingInput = AnalyzeAction & {
+export interface AnalyzeTextEntityLinkingInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "EntityLinking";
   analysisInput?: MultiLanguageAnalysisInput;
   /** Options for an entity linking action. */
   parameters?: EntityLinkingAction;
-};
+}
 
-export type AnalyzeTextEntityRecognitionInput = AnalyzeAction & {
+export interface AnalyzeTextEntityRecognitionInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "EntityRecognition";
   analysisInput?: MultiLanguageAnalysisInput;
   /** Options for an entity recognition action. */
   parameters?: EntityRecognitionAction;
-};
+}
 
-export type AnalyzeTextKeyPhraseExtractionInput = AnalyzeAction & {
+export interface AnalyzeTextKeyPhraseExtractionInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "KeyPhraseExtraction";
   analysisInput?: MultiLanguageAnalysisInput;
   /** Options for a key phrase recognition action. */
   parameters?: KeyPhraseExtractionAction;
-};
+}
 
-export type AnalyzeTextPiiEntitiesRecognitionInput = AnalyzeAction & {
+export interface AnalyzeTextPiiEntitiesRecognitionInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "PiiEntityRecognition";
   analysisInput?: MultiLanguageAnalysisInput;
   /** Options for a Pii entity recognition action. */
   parameters?: PiiEntityRecognitionAction;
-};
+}
 
-export type AnalyzeTextLanguageDetectionInput = AnalyzeAction & {
+export interface AnalyzeTextLanguageDetectionInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "LanguageDetection";
   analysisInput?: LanguageDetectionAnalysisInput;
   /** Options for a language detection action. */
   parameters?: LanguageDetectionAction;
-};
+}
 
-export type AnalyzeTextSentimentAnalysisInput = AnalyzeAction & {
+export interface AnalyzeTextSentimentAnalysisInput extends AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "SentimentAnalysis";
   analysisInput?: MultiLanguageAnalysisInput;
   /** Options for a sentiment analysis action. */
   parameters?: SentimentAnalysisAction;
-};
+}
 
-export type SentimentTaskResult = AnalyzeTextTaskResult & {
+export interface SentimentTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "SentimentAnalysisResults";
   results: SentimentResponse;
-};
+}
 
-export type EntitiesTaskResult = AnalyzeTextTaskResult & {
+export interface EntitiesTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "EntityRecognitionResults";
   results: EntitiesResult;
-};
+}
 
-export type EntityLinkingTaskResult = AnalyzeTextTaskResult & {
+export interface EntityLinkingTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "EntityLinkingResults";
   results: EntityLinkingResult;
-};
+}
 
-export type PiiTaskResult = AnalyzeTextTaskResult & {
+export interface PiiTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "PiiEntityRecognitionResults";
   results: PiiResult;
-};
+}
 
-export type KeyPhraseTaskResult = AnalyzeTextTaskResult & {
+export interface KeyPhraseTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "KeyPhraseExtractionResults";
   results: KeyPhraseResult;
-};
+}
 
-export type LanguageDetectionTaskResult = AnalyzeTextTaskResult & {
+export interface LanguageDetectionTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "LanguageDetectionResults";
   results: LanguageDetectionResult;
-};
+}
 
-export type AnalyzeBatchAction = BatchActionState & {
+export interface AnalyzeBatchAction extends BatchActionState {
   /** Enumeration of supported long-running Text Analysis tasks. */
   kind: AnalyzeTextLROTaskKind;
-};
+}
 
-export type AnalyzeTextLROResult = TaskState &
-  BatchActionState & {
-    /** Enumeration of supported Text Analysis long-running operation task results. */
-    kind: AnalyzeTextLROResultsKind;
-  };
+export interface AnalyzeTextLROResult extends TaskState, BatchActionState {
+  /** Enumeration of supported Text Analysis long-running operation task results. */
+  kind: AnalyzeTextLROResultsKind;
+}
 
-export type AnalyzeTextJobState = JobState &
-  TasksState &
-  AnalyzeTextJobStatistics;
+export interface AnalyzeTextJobState
+  extends JobState,
+    TasksState,
+    AnalyzeTextJobStatistics {}
 
 /** Configuration common to all actions that use prebuilt models. */
-export type ActionPrebuilt = ActionCommon & {
+export interface ActionPrebuilt extends ActionCommon {
   /** The version of the model to be used by the action. */
   modelVersion?: string;
-};
+}
 
 /** Parameters object for a text analysis task using custom models. */
-export type ActionCustom = ActionCommon & {
+export interface ActionCustom extends ActionCommon {
   projectName: string;
   deploymentName: string;
-};
+}
 
-export type HealthcareResult = PreBuiltResult & {
+export interface HealthcareResult extends PreBuiltResult {
   documents: HealthcareResultDocumentsItem[];
-};
+}
 
-export type SentimentResponse = PreBuiltResult & {
+export interface SentimentResponse extends PreBuiltResult {
   /** Sentiment analysis per document. */
   documents: SentimentResponseDocumentsItem[];
-};
+}
 
-export type EntitiesResult = PreBuiltResult & {
+export interface EntitiesResult extends PreBuiltResult {
   /** Response by document */
   documents: EntitiesResultDocumentsItem[];
-};
+}
 
-export type EntityLinkingResult = PreBuiltResult & {
+export interface EntityLinkingResult extends PreBuiltResult {
   /** Response by document */
   documents: EntityLinkingResultDocumentsItem[];
-};
+}
 
-export type PiiResult = PreBuiltResult & {
+export interface PiiResult extends PreBuiltResult {
   /** Response by document */
   documents: PiiResultDocumentsItem[];
-};
+}
 
-export type ExtractiveSummarizationResult = PreBuiltResult & {
+export interface ExtractiveSummarizationResult extends PreBuiltResult {
   /** Response by document */
   documents: ExtractiveSummarizationResultDocumentsItem[];
-};
+}
 
-export type KeyPhraseResult = PreBuiltResult & {
+export interface KeyPhraseResult extends PreBuiltResult {
   /** Response by document */
   documents: KeyPhraseResultDocumentsItem[];
-};
+}
 
-export type LanguageDetectionResult = PreBuiltResult & {
+export interface LanguageDetectionResult extends PreBuiltResult {
   /** Response by document */
   documents: LanguageDetectionDocumentResult[];
-};
+}
 
-export type CustomEntitiesResult = CustomResult & {
+export interface CustomEntitiesResult extends CustomResult {
   /** Response by document */
   documents: CustomEntitiesResultDocumentsItem[];
-};
+}
 
-export type CustomSingleLabelClassificationResult = CustomResult & {
+export interface CustomSingleLabelClassificationResult extends CustomResult {
   /** Response by document */
   documents: CustomSingleLabelClassificationResultDocumentsItem[];
-};
+}
 
-export type CustomMultiLabelClassificationResult = CustomResult & {
+export interface CustomMultiLabelClassificationResult extends CustomResult {
   /** Response by document */
   documents: CustomMultiLabelClassificationResultDocumentsItem[];
-};
+}
 
-export type EntitiesDocumentResult = DocumentResult & {
+export interface EntitiesDocumentResult extends DocumentResult {
   /** Recognized entities in the document. */
   entities: Entity[];
-};
+}
 
-export type SingleClassificationDocumentResult = DocumentResult & {
+export interface SingleClassificationDocumentResult extends DocumentResult {
   /** A classification result from a custom classify document single category action */
   classification: ClassificationCategory;
-};
+}
 
-export type MultiClassificationDocumentResult = DocumentResult & {
+export interface MultiClassificationDocumentResult extends DocumentResult {
   classifications: ClassificationCategory[];
-};
+}
 
-export type HealthcareEntitiesDocumentResult = DocumentResult & {
+export interface HealthcareEntitiesDocumentResult extends DocumentResult {
   /** Healthcare entities. */
   entities: HealthcareEntity[];
   /** Healthcare entity relations. */
   relations: HealthcareRelation[];
   /** JSON bundle containing a FHIR compatible object for consumption in other Healthcare tools. For additional information see https://www.hl7.org/fhir/overview.html. */
   fhirBundle?: { [propertyName: string]: any };
-};
+}
 
-export type SentimentDocumentResult = DocumentResult & {
+export interface SentimentDocumentResult extends DocumentResult {
   /** Predicted sentiment for document (Negative, Neutral, Positive, or Mixed). */
   sentiment: DocumentSentimentLabel;
   /** Document level sentiment confidence scores between 0 and 1 for each sentiment class. */
   confidenceScores: SentimentConfidenceScores;
   /** Sentence level sentiment analysis. */
   sentences: SentenceSentiment[];
-};
+}
 
-export type LinkedEntitiesDocumentResult = DocumentResult & {
+export interface LinkedEntitiesDocumentResult extends DocumentResult {
   /** Recognized well known entities in the document. */
   entities: LinkedEntity[];
-};
+}
 
-export type PiiEntitiesDocumentResult = DocumentResult & {
+export interface PiiEntitiesDocumentResult extends DocumentResult {
   /** Returns redacted text. */
   redactedText: string;
   /** Recognized entities in the document. */
   entities: Entity[];
-};
+}
 
-export type ExtractedSummaryDocumentResult = DocumentResult & {
+export interface ExtractedSummaryDocumentResult extends DocumentResult {
   /** A ranked list of sentences representing the extracted summary. */
   sentences: SummarySentence[];
-};
+}
 
-export type KeyPhrasesDocumentResult = DocumentResult & {
+export interface KeyPhrasesDocumentResult extends DocumentResult {
   /** A list of representative words or phrases. The number of key phrases returned is proportional to the number of words in the input document. */
   keyPhrases: string[];
-};
+}
 
-export type LanguageDetectionDocumentResult = DocumentResult & {
+export interface LanguageDetectionDocumentResult extends DocumentResult {
   /** Detected Language. */
   detectedLanguage: DetectedLanguage;
-};
+}
 
 /** Use custom models to ease the process of information extraction from unstructured documents like contracts or financial documents */
-export type CustomEntitiesLROTask = AnalyzeBatchAction & {
+export interface CustomEntitiesLROTask extends AnalyzeBatchAction {
   /** Supported parameters for a Custom Entities task. */
   parameters?: CustomEntityRecognitionAction;
-};
+}
 
 /** Use custom models to classify text into single label taxonomy */
-export type CustomSingleLabelClassificationLROTask = AnalyzeBatchAction & {
+export interface CustomSingleLabelClassificationLROTask
+  extends AnalyzeBatchAction {
   /** Options for a single-label classification custom action */
   parameters?: CustomSingleLabelClassificationAction;
-};
+}
 
 /** Use custom models to classify text into multi label taxonomy */
-export type CustomMultiLabelClassificationLROTask = AnalyzeBatchAction & {
+export interface CustomMultiLabelClassificationLROTask
+  extends AnalyzeBatchAction {
   /** Options for a multi-label classification custom action */
   parameters?: CustomMultiLabelClassificationAction;
-};
+}
 
-export type HealthcareLROTask = AnalyzeBatchAction & {
+export interface HealthcareLROTask extends AnalyzeBatchAction {
   /** Supported parameters for a Healthcare task. */
   parameters?: HealthcareAction;
-};
+}
 
 /** An object representing the task definition for a Sentiment Analysis task. */
-export type SentimentAnalysisLROTask = AnalyzeBatchAction & {
+export interface SentimentAnalysisLROTask extends AnalyzeBatchAction {
   /** Options for a sentiment analysis action. */
   parameters?: SentimentAnalysisAction;
-};
+}
 
 /** An object representing the task definition for an Entities Recognition task. */
-export type EntitiesLROTask = AnalyzeBatchAction & {
+export interface EntitiesLROTask extends AnalyzeBatchAction {
   /** Options for an entity recognition action. */
   parameters?: EntityRecognitionAction;
-};
+}
 
 /** An object representing the task definition for an Entity Linking task. */
-export type EntityLinkingLROTask = AnalyzeBatchAction & {
+export interface EntityLinkingLROTask extends AnalyzeBatchAction {
   /** Options for an entity linking action. */
   parameters?: EntityLinkingAction;
-};
+}
 
 /** An object representing the task definition for a PII Entities Recognition task. */
-export type PiiLROTask = AnalyzeBatchAction & {
+export interface PiiLROTask extends AnalyzeBatchAction {
   /** Options for a Pii entity recognition action. */
   parameters?: PiiEntityRecognitionAction;
-};
+}
 
 /** An object representing the task definition for an Extractive Summarization task. */
-export type ExtractiveSummarizationLROTask = AnalyzeBatchAction & {
+export interface ExtractiveSummarizationLROTask extends AnalyzeBatchAction {
   /** Supported parameters for an Extractive Summarization task. */
   parameters?: ExtractiveSummarizationAction;
-};
+}
 
 /** An object representing the task definition for a Key Phrase Extraction task. */
-export type KeyPhraseLROTask = AnalyzeBatchAction & {
+export interface KeyPhraseLROTask extends AnalyzeBatchAction {
   /** Options for a key phrase recognition action. */
   parameters?: KeyPhraseExtractionAction;
-};
+}
 
-export type EntityRecognitionLROResult = AnalyzeTextLROResult & {
+export interface EntityRecognitionLROResult extends AnalyzeTextLROResult {
   results: EntitiesResult;
-};
+}
 
-export type CustomEntityRecognitionLROResult = AnalyzeTextLROResult & {
+export interface CustomEntityRecognitionLROResult extends AnalyzeTextLROResult {
   results: CustomEntitiesResult;
-};
+}
 
-export type CustomSingleLabelClassificationLROResult = AnalyzeTextLROResult & {
+export interface CustomSingleLabelClassificationLROResult
+  extends AnalyzeTextLROResult {
   results: CustomSingleLabelClassificationResult;
-};
+}
 
-export type CustomMultiLabelClassificationLROResult = AnalyzeTextLROResult & {
+export interface CustomMultiLabelClassificationLROResult
+  extends AnalyzeTextLROResult {
   results: CustomMultiLabelClassificationResult;
-};
+}
 
-export type EntityLinkingLROResult = AnalyzeTextLROResult & {
+export interface EntityLinkingLROResult extends AnalyzeTextLROResult {
   results: EntityLinkingResult;
-};
+}
 
-export type PiiEntityRecognitionLROResult = AnalyzeTextLROResult & {
+export interface PiiEntityRecognitionLROResult extends AnalyzeTextLROResult {
   results: PiiResult;
-};
+}
 
-export type ExtractiveSummarizationLROResult = AnalyzeTextLROResult & {
+export interface ExtractiveSummarizationLROResult extends AnalyzeTextLROResult {
   results: ExtractiveSummarizationResult;
-};
+}
 
-export type HealthcareLROResult = AnalyzeTextLROResult & {
+export interface HealthcareLROResult extends AnalyzeTextLROResult {
   results: HealthcareResult;
-};
+}
 
-export type SentimentLROResult = AnalyzeTextLROResult & {
+export interface SentimentLROResult extends AnalyzeTextLROResult {
   results: SentimentResponse;
-};
+}
 
-export type KeyPhraseExtractionLROResult = AnalyzeTextLROResult & {
+export interface KeyPhraseExtractionLROResult extends AnalyzeTextLROResult {
   results: KeyPhraseResult;
-};
+}
 
 /** Options for an entity linking action. */
-export type EntityLinkingAction = ActionPrebuilt & {
+export interface EntityLinkingAction extends ActionPrebuilt {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Options for an entity recognition action. */
-export type EntityRecognitionAction = ActionPrebuilt & {
+export interface EntityRecognitionAction extends ActionPrebuilt {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Options for a key phrase recognition action. */
-export type KeyPhraseExtractionAction = ActionPrebuilt;
+export interface KeyPhraseExtractionAction extends ActionPrebuilt {}
 
 /** Options for a Pii entity recognition action. */
-export type PiiEntityRecognitionAction = ActionPrebuilt & {
+export interface PiiEntityRecognitionAction extends ActionPrebuilt {
   /**
    * Filters entities to ones only included in the specified domain (e.g., if set to `Phi`, only entities in the Protected Healthcare Information domain will be returned). For a list of possible domains, see {@link PiiDomain}.
    *
@@ -834,13 +838,13 @@ export type PiiEntityRecognitionAction = ActionPrebuilt & {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Options for a language detection action. */
-export type LanguageDetectionAction = ActionPrebuilt;
+export interface LanguageDetectionAction extends ActionPrebuilt {}
 
 /** Options for a sentiment analysis action. */
-export type SentimentAnalysisAction = ActionPrebuilt & {
+export interface SentimentAnalysisAction extends ActionPrebuilt {
   /** Enables performing opinion mining on the input documents, a more  granular analysis around the aspects of a product or service (also known as aspect-based sentiment analysis). If set to true, {@link SentenceSentiment.opinions} will contain the results of this analysis. See {@link https://docs.microsoft.com/azure/cognitive-services/language-service/sentiment-opinion-mining/overview#opinion-mining the service documentation} for more information. */
   includeOpinionMining?: boolean;
   /**
@@ -849,10 +853,10 @@ export type SentimentAnalysisAction = ActionPrebuilt & {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Supported parameters for a Healthcare task. */
-export type HealthcareAction = ActionPrebuilt & {
+export interface HealthcareAction extends ActionPrebuilt {
   /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
   fhirVersion?: FhirVersion;
   /**
@@ -861,10 +865,11 @@ export type HealthcareAction = ActionPrebuilt & {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Supported parameters for an Extractive Summarization task. */
-export type ExtractiveSummarizationAction = ActionPrebuilt & {
+export interface ExtractiveSummarizationAction extends ActionPrebuilt {
+  /** The max number of sentences to be part of the summary. */
   maxSentenceCount?: number;
   /** The sorting criteria to use for the results of Extractive Summarization. */
   orderBy?: ExtractiveSummarizationOrderingCriteria;
@@ -874,43 +879,51 @@ export type ExtractiveSummarizationAction = ActionPrebuilt & {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Supported parameters for a Custom Entities task. */
-export type CustomEntityRecognitionAction = ActionCustom & {
+export interface CustomEntityRecognitionAction extends ActionCustom {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-};
+}
 
 /** Options for a single-label classification custom action */
-export type CustomSingleLabelClassificationAction = ActionCustom;
+export interface CustomSingleLabelClassificationAction extends ActionCustom {}
 
 /** Options for a multi-label classification custom action */
-export type CustomMultiLabelClassificationAction = ActionCustom;
+export interface CustomMultiLabelClassificationAction extends ActionCustom {}
 
-export type CustomEntitiesResultDocumentsItem = EntitiesDocumentResult;
+export interface CustomEntitiesResultDocumentsItem
+  extends EntitiesDocumentResult {}
 
-export type EntitiesResultDocumentsItem = EntitiesDocumentResult;
+export interface EntitiesResultDocumentsItem extends EntitiesDocumentResult {}
 
-export type CustomSingleLabelClassificationResultDocumentsItem = SingleClassificationDocumentResult;
+export interface CustomSingleLabelClassificationResultDocumentsItem
+  extends SingleClassificationDocumentResult {}
 
-export type CustomMultiLabelClassificationResultDocumentsItem = MultiClassificationDocumentResult;
+export interface CustomMultiLabelClassificationResultDocumentsItem
+  extends MultiClassificationDocumentResult {}
 
-export type HealthcareResultDocumentsItem = HealthcareEntitiesDocumentResult;
+export interface HealthcareResultDocumentsItem
+  extends HealthcareEntitiesDocumentResult {}
 
-export type SentimentResponseDocumentsItem = SentimentDocumentResult;
+export interface SentimentResponseDocumentsItem
+  extends SentimentDocumentResult {}
 
-export type EntityLinkingResultDocumentsItem = LinkedEntitiesDocumentResult;
+export interface EntityLinkingResultDocumentsItem
+  extends LinkedEntitiesDocumentResult {}
 
-export type PiiResultDocumentsItem = PiiEntitiesDocumentResult;
+export interface PiiResultDocumentsItem extends PiiEntitiesDocumentResult {}
 
-export type ExtractiveSummarizationResultDocumentsItem = ExtractedSummaryDocumentResult;
+export interface ExtractiveSummarizationResultDocumentsItem
+  extends ExtractedSummaryDocumentResult {}
 
-export type KeyPhraseResultDocumentsItem = KeyPhrasesDocumentResult;
+export interface KeyPhraseResultDocumentsItem
+  extends KeyPhrasesDocumentResult {}
 
 /** Defines headers for AnalyzeText_submitJob operation. */
 export interface AnalyzeTextSubmitJobHeaders {
@@ -924,11 +937,17 @@ export interface AnalyzeTextCancelJobHeaders {
 
 /** Known values of {@link AnalyzeTextTaskKind} that the service accepts. */
 export enum KnownAnalyzeTextTaskKind {
+  /** SentimentAnalysis */
   SentimentAnalysis = "SentimentAnalysis",
+  /** EntityRecognition */
   EntityRecognition = "EntityRecognition",
+  /** PiiEntityRecognition */
   PiiEntityRecognition = "PiiEntityRecognition",
+  /** KeyPhraseExtraction */
   KeyPhraseExtraction = "KeyPhraseExtraction",
+  /** LanguageDetection */
   LanguageDetection = "LanguageDetection",
+  /** EntityLinking */
   EntityLinking = "EntityLinking"
 }
 
@@ -948,11 +967,17 @@ export type AnalyzeTextTaskKind = string;
 
 /** Known values of {@link AnalyzeTextTaskResultsKind} that the service accepts. */
 export enum KnownAnalyzeTextTaskResultsKind {
+  /** SentimentAnalysisResults */
   SentimentAnalysisResults = "SentimentAnalysisResults",
+  /** EntityRecognitionResults */
   EntityRecognitionResults = "EntityRecognitionResults",
+  /** PiiEntityRecognitionResults */
   PiiEntityRecognitionResults = "PiiEntityRecognitionResults",
+  /** KeyPhraseExtractionResults */
   KeyPhraseExtractionResults = "KeyPhraseExtractionResults",
+  /** LanguageDetectionResults */
   LanguageDetectionResults = "LanguageDetectionResults",
+  /** EntityLinkingResults */
   EntityLinkingResults = "EntityLinkingResults"
 }
 
@@ -972,19 +997,33 @@ export type AnalyzeTextTaskResultsKind = string;
 
 /** Known values of {@link ErrorCode} that the service accepts. */
 export enum KnownErrorCode {
+  /** InvalidRequest */
   InvalidRequest = "InvalidRequest",
+  /** InvalidArgument */
   InvalidArgument = "InvalidArgument",
+  /** Unauthorized */
   Unauthorized = "Unauthorized",
+  /** Forbidden */
   Forbidden = "Forbidden",
+  /** NotFound */
   NotFound = "NotFound",
+  /** ProjectNotFound */
   ProjectNotFound = "ProjectNotFound",
+  /** OperationNotFound */
   OperationNotFound = "OperationNotFound",
+  /** AzureCognitiveSearchNotFound */
   AzureCognitiveSearchNotFound = "AzureCognitiveSearchNotFound",
+  /** AzureCognitiveSearchIndexNotFound */
   AzureCognitiveSearchIndexNotFound = "AzureCognitiveSearchIndexNotFound",
+  /** TooManyRequests */
   TooManyRequests = "TooManyRequests",
+  /** AzureCognitiveSearchThrottling */
   AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
+  /** AzureCognitiveSearchIndexLimitReached */
   AzureCognitiveSearchIndexLimitReached = "AzureCognitiveSearchIndexLimitReached",
+  /** InternalServerError */
   InternalServerError = "InternalServerError",
+  /** ServiceUnavailable */
   ServiceUnavailable = "ServiceUnavailable"
 }
 
@@ -1012,19 +1051,33 @@ export type ErrorCode = string;
 
 /** Known values of {@link InnerErrorCode} that the service accepts. */
 export enum KnownInnerErrorCode {
+  /** InvalidRequest */
   InvalidRequest = "InvalidRequest",
+  /** InvalidParameterValue */
   InvalidParameterValue = "InvalidParameterValue",
+  /** KnowledgeBaseNotFound */
   KnowledgeBaseNotFound = "KnowledgeBaseNotFound",
+  /** AzureCognitiveSearchNotFound */
   AzureCognitiveSearchNotFound = "AzureCognitiveSearchNotFound",
+  /** AzureCognitiveSearchThrottling */
   AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
+  /** ExtractionFailure */
   ExtractionFailure = "ExtractionFailure",
+  /** InvalidRequestBodyFormat */
   InvalidRequestBodyFormat = "InvalidRequestBodyFormat",
+  /** EmptyRequest */
   EmptyRequest = "EmptyRequest",
+  /** MissingInputDocuments */
   MissingInputDocuments = "MissingInputDocuments",
+  /** InvalidDocument */
   InvalidDocument = "InvalidDocument",
+  /** ModelVersionIncorrect */
   ModelVersionIncorrect = "ModelVersionIncorrect",
+  /** InvalidDocumentBatch */
   InvalidDocumentBatch = "InvalidDocumentBatch",
+  /** UnsupportedLanguageCode */
   UnsupportedLanguageCode = "UnsupportedLanguageCode",
+  /** InvalidCountryHint */
   InvalidCountryHint = "InvalidCountryHint"
 }
 
@@ -1052,15 +1105,25 @@ export type InnerErrorCode = string;
 
 /** Known values of {@link AnalyzeTextLROTaskKind} that the service accepts. */
 export enum KnownAnalyzeTextLROTaskKind {
+  /** SentimentAnalysis */
   SentimentAnalysis = "SentimentAnalysis",
+  /** EntityRecognition */
   EntityRecognition = "EntityRecognition",
+  /** PiiEntityRecognition */
   PiiEntityRecognition = "PiiEntityRecognition",
+  /** KeyPhraseExtraction */
   KeyPhraseExtraction = "KeyPhraseExtraction",
+  /** EntityLinking */
   EntityLinking = "EntityLinking",
+  /** Healthcare */
   Healthcare = "Healthcare",
+  /** ExtractiveSummarization */
   ExtractiveSummarization = "ExtractiveSummarization",
+  /** CustomEntityRecognition */
   CustomEntityRecognition = "CustomEntityRecognition",
+  /** CustomSingleLabelClassification */
   CustomSingleLabelClassification = "CustomSingleLabelClassification",
+  /** CustomMultiLabelClassification */
   CustomMultiLabelClassification = "CustomMultiLabelClassification"
 }
 
@@ -1084,15 +1147,25 @@ export type AnalyzeTextLROTaskKind = string;
 
 /** Known values of {@link AnalyzeTextLROResultsKind} that the service accepts. */
 export enum KnownAnalyzeTextLROResultsKind {
+  /** SentimentAnalysisLROResults */
   SentimentAnalysisLROResults = "SentimentAnalysisLROResults",
+  /** EntityRecognitionLROResults */
   EntityRecognitionLROResults = "EntityRecognitionLROResults",
+  /** PiiEntityRecognitionLROResults */
   PiiEntityRecognitionLROResults = "PiiEntityRecognitionLROResults",
+  /** KeyPhraseExtractionLROResults */
   KeyPhraseExtractionLROResults = "KeyPhraseExtractionLROResults",
+  /** EntityLinkingLROResults */
   EntityLinkingLROResults = "EntityLinkingLROResults",
+  /** HealthcareLROResults */
   HealthcareLROResults = "HealthcareLROResults",
+  /** ExtractiveSummarizationLROResults */
   ExtractiveSummarizationLROResults = "ExtractiveSummarizationLROResults",
+  /** CustomEntityRecognitionLROResults */
   CustomEntityRecognitionLROResults = "CustomEntityRecognitionLROResults",
+  /** CustomSingleLabelClassificationLROResults */
   CustomSingleLabelClassificationLROResults = "CustomSingleLabelClassificationLROResults",
+  /** CustomMultiLabelClassificationLROResults */
   CustomMultiLabelClassificationLROResults = "CustomMultiLabelClassificationLROResults"
 }
 
@@ -1155,178 +1228,351 @@ export type PiiEntityDomain = string;
 
 /** Known values of {@link PiiEntityCategory} that the service accepts. */
 export enum KnownPiiEntityCategory {
+  /** ABARoutingNumber */
   ABARoutingNumber = "ABARoutingNumber",
+  /** ARNationalIdentityNumber */
   ARNationalIdentityNumber = "ARNationalIdentityNumber",
+  /** AUBankAccountNumber */
   AUBankAccountNumber = "AUBankAccountNumber",
+  /** AUDriversLicenseNumber */
   AUDriversLicenseNumber = "AUDriversLicenseNumber",
+  /** AUMedicalAccountNumber */
   AUMedicalAccountNumber = "AUMedicalAccountNumber",
+  /** AUPassportNumber */
   AUPassportNumber = "AUPassportNumber",
+  /** AUTaxFileNumber */
   AUTaxFileNumber = "AUTaxFileNumber",
+  /** AUBusinessNumber */
   AUBusinessNumber = "AUBusinessNumber",
+  /** AUCompanyNumber */
   AUCompanyNumber = "AUCompanyNumber",
+  /** ATIdentityCard */
   ATIdentityCard = "ATIdentityCard",
+  /** ATTaxIdentificationNumber */
   ATTaxIdentificationNumber = "ATTaxIdentificationNumber",
+  /** ATValueAddedTaxNumber */
   ATValueAddedTaxNumber = "ATValueAddedTaxNumber",
+  /** AzureDocumentDBAuthKey */
   AzureDocumentDBAuthKey = "AzureDocumentDBAuthKey",
+  /** AzureIaasDatabaseConnectionAndSQLString */
   AzureIaasDatabaseConnectionAndSQLString = "AzureIAASDatabaseConnectionAndSQLString",
+  /** AzureIoTConnectionString */
   AzureIoTConnectionString = "AzureIoTConnectionString",
+  /** AzurePublishSettingPassword */
   AzurePublishSettingPassword = "AzurePublishSettingPassword",
+  /** AzureRedisCacheString */
   AzureRedisCacheString = "AzureRedisCacheString",
+  /** AzureSAS */
   AzureSAS = "AzureSAS",
+  /** AzureServiceBusString */
   AzureServiceBusString = "AzureServiceBusString",
+  /** AzureStorageAccountKey */
   AzureStorageAccountKey = "AzureStorageAccountKey",
+  /** AzureStorageAccountGeneric */
   AzureStorageAccountGeneric = "AzureStorageAccountGeneric",
+  /** BENationalNumber */
   BENationalNumber = "BENationalNumber",
+  /** BENationalNumberV2 */
   BENationalNumberV2 = "BENationalNumberV2",
+  /** BEValueAddedTaxNumber */
   BEValueAddedTaxNumber = "BEValueAddedTaxNumber",
+  /** BrcpfNumber */
   BrcpfNumber = "BRCPFNumber",
+  /** BRLegalEntityNumber */
   BRLegalEntityNumber = "BRLegalEntityNumber",
+  /** BRNationalIdrg */
   BRNationalIdrg = "BRNationalIDRG",
+  /** BGUniformCivilNumber */
   BGUniformCivilNumber = "BGUniformCivilNumber",
+  /** CABankAccountNumber */
   CABankAccountNumber = "CABankAccountNumber",
+  /** CADriversLicenseNumber */
   CADriversLicenseNumber = "CADriversLicenseNumber",
+  /** CAHealthServiceNumber */
   CAHealthServiceNumber = "CAHealthServiceNumber",
+  /** CAPassportNumber */
   CAPassportNumber = "CAPassportNumber",
+  /** CAPersonalHealthIdentification */
   CAPersonalHealthIdentification = "CAPersonalHealthIdentification",
+  /** CASocialInsuranceNumber */
   CASocialInsuranceNumber = "CASocialInsuranceNumber",
+  /** CLIdentityCardNumber */
   CLIdentityCardNumber = "CLIdentityCardNumber",
+  /** CNResidentIdentityCardNumber */
   CNResidentIdentityCardNumber = "CNResidentIdentityCardNumber",
+  /** CreditCardNumber */
   CreditCardNumber = "CreditCardNumber",
+  /** HRIdentityCardNumber */
   HRIdentityCardNumber = "HRIdentityCardNumber",
+  /** HRNationalIDNumber */
   HRNationalIDNumber = "HRNationalIDNumber",
+  /** HRPersonalIdentificationNumber */
   HRPersonalIdentificationNumber = "HRPersonalIdentificationNumber",
+  /** HRPersonalIdentificationOIBNumberV2 */
   HRPersonalIdentificationOIBNumberV2 = "HRPersonalIdentificationOIBNumberV2",
+  /** CYIdentityCard */
   CYIdentityCard = "CYIdentityCard",
+  /** CYTaxIdentificationNumber */
   CYTaxIdentificationNumber = "CYTaxIdentificationNumber",
+  /** CZPersonalIdentityNumber */
   CZPersonalIdentityNumber = "CZPersonalIdentityNumber",
+  /** CZPersonalIdentityV2 */
   CZPersonalIdentityV2 = "CZPersonalIdentityV2",
+  /** DKPersonalIdentificationNumber */
   DKPersonalIdentificationNumber = "DKPersonalIdentificationNumber",
+  /** DKPersonalIdentificationV2 */
   DKPersonalIdentificationV2 = "DKPersonalIdentificationV2",
+  /** DrugEnforcementAgencyNumber */
   DrugEnforcementAgencyNumber = "DrugEnforcementAgencyNumber",
+  /** EEPersonalIdentificationCode */
   EEPersonalIdentificationCode = "EEPersonalIdentificationCode",
+  /** EUDebitCardNumber */
   EUDebitCardNumber = "EUDebitCardNumber",
+  /** EUDriversLicenseNumber */
   EUDriversLicenseNumber = "EUDriversLicenseNumber",
+  /** EugpsCoordinates */
   EugpsCoordinates = "EUGPSCoordinates",
+  /** EUNationalIdentificationNumber */
   EUNationalIdentificationNumber = "EUNationalIdentificationNumber",
+  /** EUPassportNumber */
   EUPassportNumber = "EUPassportNumber",
+  /** EUSocialSecurityNumber */
   EUSocialSecurityNumber = "EUSocialSecurityNumber",
+  /** EUTaxIdentificationNumber */
   EUTaxIdentificationNumber = "EUTaxIdentificationNumber",
+  /** FIEuropeanHealthNumber */
   FIEuropeanHealthNumber = "FIEuropeanHealthNumber",
+  /** FINationalID */
   FINationalID = "FINationalID",
+  /** FINationalIDV2 */
   FINationalIDV2 = "FINationalIDV2",
+  /** FIPassportNumber */
   FIPassportNumber = "FIPassportNumber",
+  /** FRDriversLicenseNumber */
   FRDriversLicenseNumber = "FRDriversLicenseNumber",
+  /** FRHealthInsuranceNumber */
   FRHealthInsuranceNumber = "FRHealthInsuranceNumber",
+  /** FRNationalID */
   FRNationalID = "FRNationalID",
+  /** FRPassportNumber */
   FRPassportNumber = "FRPassportNumber",
+  /** FRSocialSecurityNumber */
   FRSocialSecurityNumber = "FRSocialSecurityNumber",
+  /** FRTaxIdentificationNumber */
   FRTaxIdentificationNumber = "FRTaxIdentificationNumber",
+  /** FRValueAddedTaxNumber */
   FRValueAddedTaxNumber = "FRValueAddedTaxNumber",
+  /** DEDriversLicenseNumber */
   DEDriversLicenseNumber = "DEDriversLicenseNumber",
+  /** DEPassportNumber */
   DEPassportNumber = "DEPassportNumber",
+  /** DEIdentityCardNumber */
   DEIdentityCardNumber = "DEIdentityCardNumber",
+  /** DETaxIdentificationNumber */
   DETaxIdentificationNumber = "DETaxIdentificationNumber",
+  /** DEValueAddedNumber */
   DEValueAddedNumber = "DEValueAddedNumber",
+  /** GRNationalIDCard */
   GRNationalIDCard = "GRNationalIDCard",
+  /** GRNationalIDV2 */
   GRNationalIDV2 = "GRNationalIDV2",
+  /** GRTaxIdentificationNumber */
   GRTaxIdentificationNumber = "GRTaxIdentificationNumber",
+  /** HKIdentityCardNumber */
   HKIdentityCardNumber = "HKIdentityCardNumber",
+  /** HUValueAddedNumber */
   HUValueAddedNumber = "HUValueAddedNumber",
+  /** HUPersonalIdentificationNumber */
   HUPersonalIdentificationNumber = "HUPersonalIdentificationNumber",
+  /** HUTaxIdentificationNumber */
   HUTaxIdentificationNumber = "HUTaxIdentificationNumber",
+  /** INPermanentAccount */
   INPermanentAccount = "INPermanentAccount",
+  /** INUniqueIdentificationNumber */
   INUniqueIdentificationNumber = "INUniqueIdentificationNumber",
+  /** IDIdentityCardNumber */
   IDIdentityCardNumber = "IDIdentityCardNumber",
+  /** InternationalBankingAccountNumber */
   InternationalBankingAccountNumber = "InternationalBankingAccountNumber",
+  /** IEPersonalPublicServiceNumber */
   IEPersonalPublicServiceNumber = "IEPersonalPublicServiceNumber",
+  /** IEPersonalPublicServiceNumberV2 */
   IEPersonalPublicServiceNumberV2 = "IEPersonalPublicServiceNumberV2",
+  /** ILBankAccountNumber */
   ILBankAccountNumber = "ILBankAccountNumber",
+  /** ILNationalID */
   ILNationalID = "ILNationalID",
+  /** ITDriversLicenseNumber */
   ITDriversLicenseNumber = "ITDriversLicenseNumber",
+  /** ITFiscalCode */
   ITFiscalCode = "ITFiscalCode",
+  /** ITValueAddedTaxNumber */
   ITValueAddedTaxNumber = "ITValueAddedTaxNumber",
+  /** JPBankAccountNumber */
   JPBankAccountNumber = "JPBankAccountNumber",
+  /** JPDriversLicenseNumber */
   JPDriversLicenseNumber = "JPDriversLicenseNumber",
+  /** JPPassportNumber */
   JPPassportNumber = "JPPassportNumber",
+  /** JPResidentRegistrationNumber */
   JPResidentRegistrationNumber = "JPResidentRegistrationNumber",
+  /** JPSocialInsuranceNumber */
   JPSocialInsuranceNumber = "JPSocialInsuranceNumber",
+  /** JPMyNumberCorporate */
   JPMyNumberCorporate = "JPMyNumberCorporate",
+  /** JPMyNumberPersonal */
   JPMyNumberPersonal = "JPMyNumberPersonal",
+  /** JPResidenceCardNumber */
   JPResidenceCardNumber = "JPResidenceCardNumber",
+  /** LVPersonalCode */
   LVPersonalCode = "LVPersonalCode",
+  /** LTPersonalCode */
   LTPersonalCode = "LTPersonalCode",
+  /** LUNationalIdentificationNumberNatural */
   LUNationalIdentificationNumberNatural = "LUNationalIdentificationNumberNatural",
+  /** LUNationalIdentificationNumberNonNatural */
   LUNationalIdentificationNumberNonNatural = "LUNationalIdentificationNumberNonNatural",
+  /** MYIdentityCardNumber */
   MYIdentityCardNumber = "MYIdentityCardNumber",
+  /** MTIdentityCardNumber */
   MTIdentityCardNumber = "MTIdentityCardNumber",
+  /** MTTaxIDNumber */
   MTTaxIDNumber = "MTTaxIDNumber",
+  /** NLCitizensServiceNumber */
   NLCitizensServiceNumber = "NLCitizensServiceNumber",
+  /** NLCitizensServiceNumberV2 */
   NLCitizensServiceNumberV2 = "NLCitizensServiceNumberV2",
+  /** NLTaxIdentificationNumber */
   NLTaxIdentificationNumber = "NLTaxIdentificationNumber",
+  /** NLValueAddedTaxNumber */
   NLValueAddedTaxNumber = "NLValueAddedTaxNumber",
+  /** NZBankAccountNumber */
   NZBankAccountNumber = "NZBankAccountNumber",
+  /** NZDriversLicenseNumber */
   NZDriversLicenseNumber = "NZDriversLicenseNumber",
+  /** NZInlandRevenueNumber */
   NZInlandRevenueNumber = "NZInlandRevenueNumber",
+  /** NZMinistryOfHealthNumber */
   NZMinistryOfHealthNumber = "NZMinistryOfHealthNumber",
+  /** NZSocialWelfareNumber */
   NZSocialWelfareNumber = "NZSocialWelfareNumber",
+  /** NOIdentityNumber */
   NOIdentityNumber = "NOIdentityNumber",
+  /** PHUnifiedMultiPurposeIDNumber */
   PHUnifiedMultiPurposeIDNumber = "PHUnifiedMultiPurposeIDNumber",
+  /** PLIdentityCard */
   PLIdentityCard = "PLIdentityCard",
+  /** PLNationalID */
   PLNationalID = "PLNationalID",
+  /** PLNationalIDV2 */
   PLNationalIDV2 = "PLNationalIDV2",
+  /** PLPassportNumber */
   PLPassportNumber = "PLPassportNumber",
+  /** PLTaxIdentificationNumber */
   PLTaxIdentificationNumber = "PLTaxIdentificationNumber",
+  /** PlregonNumber */
   PlregonNumber = "PLREGONNumber",
+  /** PTCitizenCardNumber */
   PTCitizenCardNumber = "PTCitizenCardNumber",
+  /** PTCitizenCardNumberV2 */
   PTCitizenCardNumberV2 = "PTCitizenCardNumberV2",
+  /** PTTaxIdentificationNumber */
   PTTaxIdentificationNumber = "PTTaxIdentificationNumber",
+  /** ROPersonalNumericalCode */
   ROPersonalNumericalCode = "ROPersonalNumericalCode",
+  /** RUPassportNumberDomestic */
   RUPassportNumberDomestic = "RUPassportNumberDomestic",
+  /** RUPassportNumberInternational */
   RUPassportNumberInternational = "RUPassportNumberInternational",
+  /** SANationalID */
   SANationalID = "SANationalID",
+  /** SGNationalRegistrationIdentityCardNumber */
   SGNationalRegistrationIdentityCardNumber = "SGNationalRegistrationIdentityCardNumber",
+  /** SKPersonalNumber */
   SKPersonalNumber = "SKPersonalNumber",
+  /** SITaxIdentificationNumber */
   SITaxIdentificationNumber = "SITaxIdentificationNumber",
+  /** SIUniqueMasterCitizenNumber */
   SIUniqueMasterCitizenNumber = "SIUniqueMasterCitizenNumber",
+  /** ZAIdentificationNumber */
   ZAIdentificationNumber = "ZAIdentificationNumber",
+  /** KRResidentRegistrationNumber */
   KRResidentRegistrationNumber = "KRResidentRegistrationNumber",
+  /** Esdni */
   Esdni = "ESDNI",
+  /** ESSocialSecurityNumber */
   ESSocialSecurityNumber = "ESSocialSecurityNumber",
+  /** ESTaxIdentificationNumber */
   ESTaxIdentificationNumber = "ESTaxIdentificationNumber",
+  /** SQLServerConnectionString */
   SQLServerConnectionString = "SQLServerConnectionString",
+  /** SENationalID */
   SENationalID = "SENationalID",
+  /** SENationalIDV2 */
   SENationalIDV2 = "SENationalIDV2",
+  /** SEPassportNumber */
   SEPassportNumber = "SEPassportNumber",
+  /** SETaxIdentificationNumber */
   SETaxIdentificationNumber = "SETaxIdentificationNumber",
+  /** SwiftCode */
   SwiftCode = "SWIFTCode",
+  /** CHSocialSecurityNumber */
   CHSocialSecurityNumber = "CHSocialSecurityNumber",
+  /** TWNationalID */
   TWNationalID = "TWNationalID",
+  /** TWPassportNumber */
   TWPassportNumber = "TWPassportNumber",
+  /** TWResidentCertificate */
   TWResidentCertificate = "TWResidentCertificate",
+  /** THPopulationIdentificationCode */
   THPopulationIdentificationCode = "THPopulationIdentificationCode",
+  /** TRNationalIdentificationNumber */
   TRNationalIdentificationNumber = "TRNationalIdentificationNumber",
+  /** UKDriversLicenseNumber */
   UKDriversLicenseNumber = "UKDriversLicenseNumber",
+  /** UKElectoralRollNumber */
   UKElectoralRollNumber = "UKElectoralRollNumber",
+  /** UKNationalHealthNumber */
   UKNationalHealthNumber = "UKNationalHealthNumber",
+  /** UKNationalInsuranceNumber */
   UKNationalInsuranceNumber = "UKNationalInsuranceNumber",
+  /** UKUniqueTaxpayerNumber */
   UKUniqueTaxpayerNumber = "UKUniqueTaxpayerNumber",
+  /** UsukPassportNumber */
   UsukPassportNumber = "USUKPassportNumber",
+  /** USBankAccountNumber */
   USBankAccountNumber = "USBankAccountNumber",
+  /** USDriversLicenseNumber */
   USDriversLicenseNumber = "USDriversLicenseNumber",
+  /** USIndividualTaxpayerIdentification */
   USIndividualTaxpayerIdentification = "USIndividualTaxpayerIdentification",
+  /** USSocialSecurityNumber */
   USSocialSecurityNumber = "USSocialSecurityNumber",
+  /** UAPassportNumberDomestic */
   UAPassportNumberDomestic = "UAPassportNumberDomestic",
+  /** UAPassportNumberInternational */
   UAPassportNumberInternational = "UAPassportNumberInternational",
+  /** Organization */
   Organization = "Organization",
+  /** Email */
   Email = "Email",
+  /** URL */
   URL = "URL",
+  /** Age */
   Age = "Age",
+  /** PhoneNumber */
   PhoneNumber = "PhoneNumber",
+  /** IPAddress */
   IPAddress = "IPAddress",
+  /** Date */
   Date = "Date",
+  /** Person */
   Person = "Person",
+  /** Address */
   Address = "Address",
+  /** All */
   All = "All",
+  /** Default */
   Default = "Default"
 }
 
@@ -1513,7 +1759,9 @@ export type PiiEntityCategory = string;
 
 /** Known values of {@link WarningCode} that the service accepts. */
 export enum KnownWarningCode {
+  /** LongWordsInDocument */
   LongWordsInDocument = "LongWordsInDocument",
+  /** DocumentTruncated */
   DocumentTruncated = "DocumentTruncated"
 }
 
@@ -1529,6 +1777,7 @@ export type WarningCode = string;
 
 /** Known values of {@link FhirVersion} that the service accepts. */
 export enum KnownFhirVersion {
+  /** Four01 */
   Four01 = "4.0.1"
 }
 
@@ -1543,31 +1792,57 @@ export type FhirVersion = string;
 
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {
+  /** BodyStructure */
   BodyStructure = "BODY_STRUCTURE",
+  /** AGE */
   AGE = "AGE",
+  /** Gender */
   Gender = "GENDER",
+  /** ExaminationName */
   ExaminationName = "EXAMINATION_NAME",
+  /** Date */
   Date = "DATE",
+  /** Direction */
   Direction = "DIRECTION",
+  /** Frequency */
   Frequency = "FREQUENCY",
+  /** MeasurementValue */
   MeasurementValue = "MEASUREMENT_VALUE",
+  /** MeasurementUnit */
   MeasurementUnit = "MEASUREMENT_UNIT",
+  /** RelationalOperator */
   RelationalOperator = "RELATIONAL_OPERATOR",
+  /** Time */
   Time = "TIME",
+  /** GeneORProtein */
   GeneORProtein = "GENE_OR_PROTEIN",
+  /** Variant */
   Variant = "VARIANT",
+  /** AdministrativeEvent */
   AdministrativeEvent = "ADMINISTRATIVE_EVENT",
+  /** CareEnvironment */
   CareEnvironment = "CARE_ENVIRONMENT",
+  /** HealthcareProfession */
   HealthcareProfession = "HEALTHCARE_PROFESSION",
+  /** Diagnosis */
   Diagnosis = "DIAGNOSIS",
+  /** SymptomORSign */
   SymptomORSign = "SYMPTOM_OR_SIGN",
+  /** ConditionQualifier */
   ConditionQualifier = "CONDITION_QUALIFIER",
+  /** MedicationClass */
   MedicationClass = "MEDICATION_CLASS",
+  /** MedicationName */
   MedicationName = "MEDICATION_NAME",
+  /** Dosage */
   Dosage = "DOSAGE",
+  /** MedicationForm */
   MedicationForm = "MEDICATION_FORM",
+  /** MedicationRoute */
   MedicationRoute = "MEDICATION_ROUTE",
+  /** FamilyRelation */
   FamilyRelation = "FAMILY_RELATION",
+  /** TreatmentName */
   TreatmentName = "TREATMENT_NAME"
 }
 
@@ -1607,26 +1882,47 @@ export type HealthcareEntityCategory = string;
 
 /** Known values of {@link RelationType} that the service accepts. */
 export enum KnownRelationType {
+  /** Abbreviation */
   Abbreviation = "Abbreviation",
+  /** DirectionOfBodyStructure */
   DirectionOfBodyStructure = "DirectionOfBodyStructure",
+  /** DirectionOfCondition */
   DirectionOfCondition = "DirectionOfCondition",
+  /** DirectionOfExamination */
   DirectionOfExamination = "DirectionOfExamination",
+  /** DirectionOfTreatment */
   DirectionOfTreatment = "DirectionOfTreatment",
+  /** DosageOfMedication */
   DosageOfMedication = "DosageOfMedication",
+  /** FormOfMedication */
   FormOfMedication = "FormOfMedication",
+  /** FrequencyOfMedication */
   FrequencyOfMedication = "FrequencyOfMedication",
+  /** FrequencyOfTreatment */
   FrequencyOfTreatment = "FrequencyOfTreatment",
+  /** QualifierOfCondition */
   QualifierOfCondition = "QualifierOfCondition",
+  /** RelationOfExamination */
   RelationOfExamination = "RelationOfExamination",
+  /** RouteOfMedication */
   RouteOfMedication = "RouteOfMedication",
+  /** TimeOfCondition */
   TimeOfCondition = "TimeOfCondition",
+  /** TimeOfEvent */
   TimeOfEvent = "TimeOfEvent",
+  /** TimeOfExamination */
   TimeOfExamination = "TimeOfExamination",
+  /** TimeOfMedication */
   TimeOfMedication = "TimeOfMedication",
+  /** TimeOfTreatment */
   TimeOfTreatment = "TimeOfTreatment",
+  /** UnitOfCondition */
   UnitOfCondition = "UnitOfCondition",
+  /** UnitOfExamination */
   UnitOfExamination = "UnitOfExamination",
+  /** ValueOfCondition */
   ValueOfCondition = "ValueOfCondition",
+  /** ValueOfExamination */
   ValueOfExamination = "ValueOfExamination"
 }
 

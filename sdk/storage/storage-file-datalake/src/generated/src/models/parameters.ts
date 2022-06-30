@@ -114,7 +114,7 @@ export const timeout: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2021-06-08",
+    defaultValue: "2021-08-06",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -544,6 +544,89 @@ export const encryptionAlgorithm: OperationParameter = {
   }
 };
 
+export const owner: OperationParameter = {
+  parameterPath: ["options", "owner"],
+  mapper: {
+    serializedName: "x-ms-owner",
+    xmlName: "x-ms-owner",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const group: OperationParameter = {
+  parameterPath: ["options", "group"],
+  mapper: {
+    serializedName: "x-ms-group",
+    xmlName: "x-ms-group",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const acl: OperationParameter = {
+  parameterPath: ["options", "acl"],
+  mapper: {
+    serializedName: "x-ms-acl",
+    xmlName: "x-ms-acl",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const proposedLeaseId: OperationParameter = {
+  parameterPath: ["options", "proposedLeaseId"],
+  mapper: {
+    serializedName: "x-ms-proposed-lease-id",
+    xmlName: "x-ms-proposed-lease-id",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const leaseDuration: OperationParameter = {
+  parameterPath: ["options", "leaseDuration"],
+  mapper: {
+    serializedName: "x-ms-lease-duration",
+    xmlName: "x-ms-lease-duration",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const expiryOptions: OperationParameter = {
+  parameterPath: ["options", "expiryOptions"],
+  mapper: {
+    serializedName: "x-ms-expiry-option",
+    xmlName: "x-ms-expiry-option",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "NeverExpire",
+        "RelativeToCreation",
+        "RelativeToNow",
+        "Absolute"
+      ]
+    }
+  }
+};
+
+export const expiresOn: OperationParameter = {
+  parameterPath: ["options", "expiresOn"],
+  mapper: {
+    serializedName: "x-ms-expiry-time",
+    xmlName: "x-ms-expiry-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType1: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -695,39 +778,6 @@ export const contentMD5: OperationParameter = {
   }
 };
 
-export const owner: OperationParameter = {
-  parameterPath: ["options", "owner"],
-  mapper: {
-    serializedName: "x-ms-owner",
-    xmlName: "x-ms-owner",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const group: OperationParameter = {
-  parameterPath: ["options", "group"],
-  mapper: {
-    serializedName: "x-ms-group",
-    xmlName: "x-ms-group",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const acl: OperationParameter = {
-  parameterPath: ["options", "acl"],
-  mapper: {
-    serializedName: "x-ms-acl",
-    xmlName: "x-ms-acl",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const xMsLeaseAction: OperationParameter = {
   parameterPath: "xMsLeaseAction",
   mapper: {
@@ -742,7 +792,7 @@ export const xMsLeaseAction: OperationParameter = {
 };
 
 export const xMsLeaseDuration: OperationParameter = {
-  parameterPath: ["options", "xMsLeaseDuration"],
+  parameterPath: "xMsLeaseDuration",
   mapper: {
     serializedName: "x-ms-lease-duration",
     xmlName: "x-ms-lease-duration",
@@ -759,17 +809,6 @@ export const xMsLeaseBreakPeriod: OperationParameter = {
     xmlName: "x-ms-lease-break-period",
     type: {
       name: "Number"
-    }
-  }
-};
-
-export const proposedLeaseId: OperationParameter = {
-  parameterPath: ["options", "proposedLeaseId"],
-  mapper: {
-    serializedName: "x-ms-proposed-lease-id",
-    xmlName: "x-ms-proposed-lease-id",
-    type: {
-      name: "String"
     }
   }
 };
@@ -913,7 +952,7 @@ export const comp1: OperationQueryParameter = {
   }
 };
 
-export const expiryOptions: OperationParameter = {
+export const expiryOptions1: OperationParameter = {
   parameterPath: "expiryOptions",
   mapper: {
     serializedName: "x-ms-expiry-option",
@@ -927,17 +966,6 @@ export const expiryOptions: OperationParameter = {
         "RelativeToNow",
         "Absolute"
       ]
-    }
-  }
-};
-
-export const expiresOn: OperationParameter = {
-  parameterPath: ["options", "expiresOn"],
-  mapper: {
-    serializedName: "x-ms-expiry-time",
-    xmlName: "x-ms-expiry-time",
-    type: {
-      name: "String"
     }
   }
 };

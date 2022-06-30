@@ -10,6 +10,9 @@
 
 ### Other Changes
 
+- Stop yielding empty page when listing rules using RuleManager.
+- Improves documentation for `maxAutoLockRenewalDurationInMs` with an example to clarify its usage. [#22343](https://github.com/Azure/azure-sdk-for-js/pull/22343)
+
 ## 7.6.0-beta.4 (2022-06-07)
 
 ### Features Added

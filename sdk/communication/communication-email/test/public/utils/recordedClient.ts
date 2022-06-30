@@ -1,76 +1,79 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
-import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import { Context, Test } from "mocha";
+import { Recorder, SanitizerOptions, env } from "@azure-tools/test-recorder";
 import { EmailClient } from "../../../src";
-import { isNode } from "@azure/core-http";
-import { parseConnectionString } from "@azure/communication-common";
-
-if (isNode) {
-  dotenv.config();
-}
 
 export interface RecordedEmailClient {
   client: EmailClient;
   recorder: Recorder;
 }
 
-const replaceableVariables: { [k: string]: string } = {
+const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://someEndpoint/;accesskey=someAccessKeyw==",
   SENDER_ADDRESS: "someSender@contoso.com",
   RECIPIENT_ADDRESS: "someRecipient@domain.com",
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1someEndpoint"),
-    (recording: string): string =>
-      recording.replace(/("sender":)("(.*?)")/, "$1" + '"someSender@contoso.com"'),
-    (recording: string): string =>
-      recording.replace(/("email":)("(.*?)")/g, "$1" + '"someRecipient@domain.com"'),
-    (recording: string): string =>
-      recording.replace(
-        /('Operation-Location',[\r\n] {2})'(.*?)'/,
-        "$1" + '"someOperationLocation"'
-      ),
-    (recording: string): string =>
-      recording.replace(
-        /"operation-location"\s?:\s?"[^"]*"/g,
-        '"operation-location": "someOperationLocation"'
-      ),
-    (recording: string): string =>
-      recording.replace(/('x-ms-request-id',[\r\n] {2})'(.*?)'/, "$1" + '"someRequestId"'),
-    (recording: string): string =>
-      recording.replace(/"x-ms-request-id"\s?:\s?"[^"]*"/g, '"x-ms-request-id": "someRequestId"'),
-    (recording: string): string =>
-      recording.replace(/("messageId":)("(.*?)")/g, "$1" + '"someRequestId"'),
-    (recording: string): string =>
-      recording.replace(/emails\/[^"']*/g, "emails/someRequestId/status"),
+const sanitizerOptions: SanitizerOptions = {
+  connectionStringSanitizers: [
+    {
+      actualConnString: env.COMMUNICATION_CONNECTION_STRING,
+      fakeConnString: envSetupForPlayback["COMMUNICATION_CONNECTION_STRING"],
+    },
   ],
-  queryParametersToSkip: [],
+  headerSanitizers: [
+    { key: "repeatability-first-sent", value: "Sanitized" },
+    { key: "repeatability-request-id", value: "Sanitized" },
+    { key: "x-ms-client-request-id", value: "Sanitized" },
+    { key: "x-ms-date", value: "Sanitized" },
+    { key: "Date", value: "Sanitized" },
+    { key: "Date", value: "Sanitized" },
+    { key: "X-Azure-Ref", value: "Sanitized" },
+    { key: "x-ms-request-id", value: "Sanitized" },
+    { key: "Operation-Location", value: "https://someEndpoint/emails/someMessageId/status" },
+  ],
+  uriSanitizers: [
+    {
+      regex: true,
+      target: `emails/.*/status`,
+      value: "emails/Sanitized/status",
+    },
+  ],
+  bodySanitizers: [
+    {
+      regex: true,
+      target: `"messageId"\\s?:\\s?"[^"]*"`,
+      value: `"messageId":"Sanitized"`,
+    },
+  ],
 };
 
-export function createRecordedEmailClientWithConnectionString(
-  context: Context
-): RecordedEmailClient {
-  const recorder = record(context, environmentSetup);
-
-  return {
-    client: new EmailClient(env.COMMUNICATION_CONNECTION_STRING),
-    recorder,
-  };
+export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start({ envSetupForPlayback });
+  await recorder.addSanitizers(sanitizerOptions, ["record", "playback"]);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: [
+      "Accept-Language", // This is env-dependent
+      "x-ms-content-sha256", // This is dependent on the current datetime
+    ],
+  });
+  return recorder;
 }
 
-export function createRecordedEmailClientWithKeyCredential(context: Context): RecordedEmailClient {
-  const recorder = record(context, environmentSetup);
+export async function createRecordedEmailClientWithConnectionString(
+  context: Context
+): Promise<RecordedEmailClient> {
+  const recorder = await createRecorder(context.currentTest);
 
-  const { endpoint, credential } = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING);
-
+  const client = new EmailClient(
+    env.COMMUNICATION_CONNECTION_STRING ?? "",
+    recorder.configureClientOptions({})
+  );
   return {
-    client: new EmailClient(endpoint, credential),
+    client: client,
     recorder,
   };
 }

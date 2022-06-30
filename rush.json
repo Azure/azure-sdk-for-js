@@ -587,6 +587,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/notification-hubs",
+      "projectFolder": "sdk/notificationhubs/notification-hubs",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/opentelemetry-instrumentation-azure-sdk",
       "projectFolder": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk",
       "versionPolicyName": "client"
@@ -920,6 +925,11 @@
       "packageName": "@azure/arm-appservice",
       "projectFolder": "sdk/appservice/arm-appservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/arm-appservice",
+      "projectFolder": "sdk/appservice/arm-appservice-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-resources-subscriptions",

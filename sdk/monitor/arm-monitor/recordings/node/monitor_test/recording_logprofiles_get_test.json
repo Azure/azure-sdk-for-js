@@ -1,0 +1,61 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Insights/logprofiles/mylogProfilexxx?api-version=2016-03-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "539e3082-7924-42b1-bfa3-c91d620fb8fe"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 14 Jun 2022 07:44:26 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1170c001-a238-4e19-8aa8-5b1060f9161d",
+        "x-ms-ratelimit-remaining-subscription-reads": "11972",
+        "x-ms-request-id": "033e8554-1f16-4fbb-8813-5114a6e07774",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220614T074426Z:1170c001-a238-4e19-8aa8-5b1060f9161d"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/microsoft.insights/logprofiles/mylogProfilexxx",
+        "type": null,
+        "name": "mylogProfilexxx",
+        "location": null,
+        "kind": null,
+        "tags": null,
+        "properties": {
+          "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "serviceBusRuleId": null,
+          "locations": [
+            "global"
+          ],
+          "categories": [
+            "Write",
+            "Delete",
+            "Action"
+          ],
+          "retentionPolicy": {
+            "enabled": true,
+            "days": 3
+          }
+        },
+        "identity": null
+      }
+    }
+  ],
+  "Variables": {}
+}

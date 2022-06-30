@@ -24,9 +24,9 @@ async function putLab() {
   const body: Lab = {
     description: "This is a test lab.",
     autoShutdownProfile: {
-      disconnectDelay: "00:05",
-      idleDelay: "01:00",
-      noConnectDelay: "01:00",
+      disconnectDelay: "P0Y0M0DT0H0M5S",
+      idleDelay: "P0Y0M0DT0H1M0S",
+      noConnectDelay: "P0Y0M0DT0H1M0S",
       shutdownOnDisconnect: "Enabled",
       shutdownOnIdle: "UserAbsence",
       shutdownWhenNotConnected: "Enabled"
@@ -58,7 +58,7 @@ async function putLab() {
         version: "2019.0.20190410"
       },
       sku: { name: "Medium" },
-      usageQuota: "10:00",
+      usageQuota: "P0Y0M0DT0H10M0S",
       useSharedPassword: "Disabled"
     }
   };

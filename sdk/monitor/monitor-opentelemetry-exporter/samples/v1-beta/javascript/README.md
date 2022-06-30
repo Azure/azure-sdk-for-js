@@ -15,6 +15,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | [basicTracerNode.js][basictracernode] | use opentelemetry tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.                    |
 | [httpSample.js][httpsample]           | demonstrates OpenTelemetry http Instrumentation. It is about how OpenTelemetry will instrument the Node.js native http module. |
+| [metricsSample.js][metricssample]     | Basic use of Metrics in Node.js application.                                                                                   |
 
 ## Prerequisites
 
@@ -58,6 +59,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [basictracernode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/javascript/basicTracerNode.js
 [httpsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/javascript/httpSample.js
+[metricssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/javascript/metricsSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/monitor-opentelemetry-exporter
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureapplicationinsightsworkspaceinstance]: https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview

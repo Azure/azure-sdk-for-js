@@ -1,6 +1,6 @@
 # Release History
 
-## 3.16.2 (Unreleased)
+## 3.16.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,11 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.16.2 (2022-06-24)
+
+### Bugs Fixed
+- Added support to run queries with group by over a column with null values.  [#22345](https://github.com/Azure/azure-sdk-for-js/pull/22345)
 
 ## 3.16.1 (2022-05-31)
 

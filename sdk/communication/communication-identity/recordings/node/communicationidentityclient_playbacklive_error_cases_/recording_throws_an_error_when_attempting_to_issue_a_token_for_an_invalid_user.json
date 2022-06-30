@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/identities/sanitized/:issueAccessToken?api-version=2021-10-31-preview",
+      "RequestUri": "https://endpoint/identities/sanitized/:issueAccessToken?api-version=2022-06-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "26",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 Node/v12.22.10 OS/(x64-Windows_NT-10.0.22000)",
+        "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "EqW/vFkRi/EMVlRLG6\u002Bkt0X27SowO7NytIh/miHOZlY=",
-        "x-ms-date": "Mon, 14 Mar 2022 08:16:14 GMT"
+        "x-ms-date": "Wed, 18 May 2022 11:33:42 GMT"
       },
       "RequestBody": {
         "scopes": [
@@ -23,17 +23,17 @@
       },
       "StatusCode": 401,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Type": "application/json",
-        "Date": "Mon, 14 Mar 2022 08:16:16 GMT",
-        "MS-CV": "9cEK/vwioUeDNK0IXMqJLw.0",
+        "Date": "Wed, 18 May 2022 11:33:42 GMT",
+        "MS-CV": "Lb1Z3sulvUehOuOCqP4HAg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "00fkuYgAAAAAnAAzwyVDzSqKsXkvf4iwLUFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0ltmEYgAAAACvtqq7Gp3YSoB/VYqdR\u002B4iTFRTRURHRTEyMTYAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "20ms"
+        "X-Processing-Time": "21ms"
       },
       "ResponseBody": {
         "error": {
