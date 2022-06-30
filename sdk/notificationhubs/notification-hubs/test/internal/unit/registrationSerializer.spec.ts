@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AdmRegistrationDescription, AdmTemplateRegistrationDescription, AppleRegistrationDescription, AppleTemplateRegistrationDescription, BaiduRegistrationDescription, BaiduTemplateRegistrationDescription, BrowserRegistrationDescription, BrowserTemplateRegistrationDescription, FcmRegistrationDescription, FcmTemplateRegistrationDescription, GcmRegistrationDescription, GcmTemplateRegistrationDescription, MpnsRegistrationDescription, MpnsTemplateRegistrationDescription, WindowsRegistrationDescription, WindowsTemplateRegistrationDescription } from "../../../src/models/registration";
+import { AdmRegistrationDescription, AdmTemplateRegistrationDescription, AppleRegistrationDescription, AppleTemplateRegistrationDescription, BaiduRegistrationDescription, BaiduTemplateRegistrationDescription, BrowserRegistrationDescription, BrowserTemplateRegistrationDescription, createAdmRegistrationDescription, createAdmTemplateRegistrationDescription, createAppleRegistrationDescription, createAppleTemplateRegistrationDescription, createBaiduRegistrationDescription, createBaiduTemplateRegistrationDescription, createBrowserRegistrationDescription, createBrowserTemplateRegistrationDescription, createFcmRegistrationDescription, createFcmTemplateRegistrationDescription, createGcmRegistrationDescription, createGcmTemplateRegistrationDescription, createMpnsRegistrationDescription, createMpnsTemplateRegistrationDescription, createWindowsRegistrationDescription, createWindowsTemplateRegistrationDescription, FcmRegistrationDescription, FcmTemplateRegistrationDescription, GcmRegistrationDescription, GcmTemplateRegistrationDescription, MpnsRegistrationDescription, MpnsTemplateRegistrationDescription, WindowsRegistrationDescription, WindowsTemplateRegistrationDescription } from "../../../src/models/registration";
 import { assert } from "@azure/test-utils";
-import {  registrationDescriptionParser } from "../../../src/serializers/registrationSerializer";
+import {  registrationDescriptionParser, registrationDescriptionSerializer } from "../../../src/serializers/registrationSerializer";
 
 const ADM_REGISTEATION = `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
@@ -439,4 +439,282 @@ describe("parseRegistrationFeed", () => {
     assert.equal(appleRegistration.deviceToken, "{DeviceToken}");
     assert.deepEqual(appleRegistration.tags, ["myTag","myOtherTag"]);
   });
+});
+
+describe("serializeRegistrationDescription", () => {
+  it("should serialize an AdmRegistrationDescription", () => {
+    const registration = createAdmRegistrationDescription({
+      admRegistrationId: "{ADM Registration ID}",
+      tags: ["myTag", "myOtherTag"],
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<AdmRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<AdmRegistrationId>{ADM Registration ID}</AdmRegistrationId>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("</AdmRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize an AdmTemplateRegistrationDescription", () => {
+    const registration = createAdmTemplateRegistrationDescription({
+      admRegistrationId: "{ADM Registration ID}",
+      tags: ["myTag", "myOtherTag"],
+      bodyTemplate: "{Template for the body}",
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<AdmTemplateRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<AdmRegistrationId>{ADM Registration ID}</AdmRegistrationId>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1)
+    assert.isTrue(xml.indexOf("</AdmTemplateRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize an AppleRegistrationDescription", () => {
+    const registration = createAppleRegistrationDescription({
+      deviceToken: "{DeviceToken}",
+      tags: ["myTag", "myOtherTag"],
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<AppleRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<DeviceToken>{DeviceToken}</DeviceToken>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("</AppleRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize an AppleTemplateRegistrationDescription", () => {
+    const registration = createAppleTemplateRegistrationDescription({
+      deviceToken: "{DeviceToken}",
+      tags: ["myTag", "myOtherTag"],
+      bodyTemplate: "{Template for the body}",
+      apnsHeaders: {
+        "apns-topic": "com.microsoft.SampleApp",
+        "apns-priority": "10",
+      },
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<AppleTemplateRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<DeviceToken>{DeviceToken}</DeviceToken>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1);
+    assert.isTrue(xml.indexOf("<ApnsHeaders>") !== -1);
+    assert.isTrue(xml.indexOf("<Header>apns-topic</Header>") !== -1);
+    assert.isTrue(xml.indexOf("<Value>com.microsoft.SampleApp</Value>") !== -1);
+    assert.isTrue(xml.indexOf("<Header>apns-priority</Header>") !== -1);
+    assert.isTrue(xml.indexOf("<Value>10</Value>") !== -1);
+    assert.isTrue(xml.indexOf("</ApnsHeaders>") !== -1);
+    assert.isTrue(xml.indexOf("</AppleTemplateRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize a BaiduRegistrationDescription", () => {
+    const registration = createBaiduRegistrationDescription({
+      baiduChannelId: "{Baidu Channel ID}",
+      baiduUserId: "{Baidu User ID}",
+      tags: ["myTag", "myOtherTag"],
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<BaiduRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<BaiduChannelId>{Baidu Channel ID}</BaiduChannelId>") !== -1);
+    assert.isTrue(xml.indexOf("<BaiduUserId>{Baidu User ID}</BaiduUserId>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("</BaiduRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize a BaiduTemplateRegistrationDescription", () => {
+    const registration = createBaiduTemplateRegistrationDescription({
+      baiduChannelId: "{Baidu Channel ID}",
+      baiduUserId: "{Baidu User ID}",
+      tags: ["myTag", "myOtherTag"],
+      bodyTemplate: "{Template for the body}",
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<BaiduTemplateRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<BaiduChannelId>{Baidu Channel ID}</BaiduChannelId>") !== -1);
+    assert.isTrue(xml.indexOf("<BaiduUserId>{Baidu User ID}</BaiduUserId>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1)
+    assert.isTrue(xml.indexOf("</BaiduTemplateRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize a BrowserRegistrationDescription", () => {
+    const registration = createBrowserRegistrationDescription({
+      endpoint: "https://www.microsoft.com/",
+      p256DH: "{P256DH}",
+      auth: "{Auth Secret}",
+      tags: ["myTag", "myOtherTag"],
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<BrowserRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<Endpoint>https://www.microsoft.com/</Endpoint>") !== -1);
+    assert.isTrue(xml.indexOf("<P256DH>{P256DH}</P256DH>") !== -1);
+    assert.isTrue(xml.indexOf("<Auth>{Auth Secret}</Auth>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("</BrowserRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize a BrowserTemplateRegistrationDescription", () => {
+    const registration = createBrowserTemplateRegistrationDescription({
+      endpoint: "https://www.microsoft.com/",
+      p256DH: "{P256DH}",
+      auth: "{Auth Secret}",
+      tags: ["myTag", "myOtherTag"],
+      bodyTemplate: "{Template for the body}",
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<BrowserTemplateRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<Endpoint>https://www.microsoft.com/</Endpoint>") !== -1);
+    assert.isTrue(xml.indexOf("<P256DH>{P256DH}</P256DH>") !== -1);
+    assert.isTrue(xml.indexOf("<Auth>{Auth Secret}</Auth>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1)
+    assert.isTrue(xml.indexOf("</BrowserTemplateRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize a GcmRegistrationDescription", () => {
+    const registration = createGcmRegistrationDescription({
+      gcmRegistrationId: "{GCM Registration ID}",
+      tags: ["myTag", "myOtherTag"],
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<GcmRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<GcmRegistrationId>{GCM Registration ID}</GcmRegistrationId>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("</GcmRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize a GcmTemplateRegistrationDescription", () => {
+    const registration = createGcmTemplateRegistrationDescription({
+      gcmRegistrationId: "{GCM Registration ID}",
+      tags: ["myTag", "myOtherTag"],
+      bodyTemplate: "{Template for the body}",
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<GcmTemplateRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<GcmRegistrationId>{GCM Registration ID}</GcmRegistrationId>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1)
+    assert.isTrue(xml.indexOf("</GcmTemplateRegistrationDescription>") !== -1);
+  });  
+
+  it("should serialize an FcmRegistrationDescription", () => {
+    const registration = createFcmRegistrationDescription({
+      fcmRegistrationId: "{FCM Registration ID}",
+      tags: ["myTag", "myOtherTag"],
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<FcmRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<FcmRegistrationId>{FCM Registration ID}</FcmRegistrationId>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("</FcmRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize an FcmTemplateRegistrationDescription", () => {
+    const registration = createFcmTemplateRegistrationDescription({
+      fcmRegistrationId: "{FCM Registration ID}",
+      tags: ["myTag", "myOtherTag"],
+      bodyTemplate: "{Template for the body}",
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<FcmTemplateRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<FcmRegistrationId>{FCM Registration ID}</FcmRegistrationId>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1)
+    assert.isTrue(xml.indexOf("</FcmTemplateRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize an MpnsRegistrationDescription", () => {
+    const registration = createMpnsRegistrationDescription({
+      channelUri: "https://www.microsoft.com/",
+      tags: ["myTag", "myOtherTag"],
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<MpnsRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<ChannelUri>https://www.microsoft.com/</ChannelUri>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("</MpnsRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize an MpnsTemplateRegistrationDescription", () => {
+    const registration = createMpnsTemplateRegistrationDescription({
+      channelUri: "https://www.microsoft.com/",
+      tags: ["myTag", "myOtherTag"],
+      bodyTemplate: "{Template for the body}",
+      mpnsHeaders: {
+        "X-MPNS-TYPE": "mpns/tile",
+      },
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<MpnsTemplateRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<ChannelUri>https://www.microsoft.com/</ChannelUri>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1);
+    assert.isTrue(xml.indexOf("<MpnsHeaders>") !== -1);
+    assert.isTrue(xml.indexOf("<Header>X-MPNS-TYPE</Header>") !== -1);
+    assert.isTrue(xml.indexOf("<Value>mpns/tile</Value>") !== -1);
+    assert.isTrue(xml.indexOf("</MpnsHeaders>") !== -1);
+    assert.isTrue(xml.indexOf("</MpnsTemplateRegistrationDescription>") !== -1);
+  });  
+
+  it("should serialize an WindowsRegistrationDescription", () => {
+    const registration = createWindowsRegistrationDescription({
+      channelUri: "https://www.microsoft.com/",
+      tags: ["myTag", "myOtherTag"],
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<WindowsRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<ChannelUri>https://www.microsoft.com/</ChannelUri>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("</WindowsRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize an WindowsTemplateRegistrationDescription", () => {
+    const registration = createWindowsTemplateRegistrationDescription({
+      channelUri: "https://www.microsoft.com/",
+      tags: ["myTag", "myOtherTag"],
+      bodyTemplate: "{Template for the body}",
+      wnsHeaders: {
+        "X-WNS-TYPE": "wns/tile",
+      },
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<WindowsTemplateRegistrationDescription") !== -1);
+    assert.isTrue(xml.indexOf("<ChannelUri>https://www.microsoft.com/</ChannelUri>") !== -1);
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1);
+    assert.isTrue(xml.indexOf("<WnsHeaders>") !== -1);
+    assert.isTrue(xml.indexOf("<Header>X-WNS-TYPE</Header>") !== -1);
+    assert.isTrue(xml.indexOf("<Value>wns/tile</Value>") !== -1);
+    assert.isTrue(xml.indexOf("</WnsHeaders>") !== -1);
+    assert.isTrue(xml.indexOf("</WindowsTemplateRegistrationDescription>") !== -1);
+  });  
 });

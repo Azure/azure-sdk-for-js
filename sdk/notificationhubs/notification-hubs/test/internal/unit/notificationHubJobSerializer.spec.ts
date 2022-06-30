@@ -215,8 +215,6 @@ describe("serializeNotificationHubJobEntry", () => {
 
     const xml = serializeNotificationHubJobEntry(job);
 
-    console.log(xml);
-
     assert.isTrue(xml.indexOf("<Type>ImportCreateRegistrations</Type>") !== -1, "Should contain ImportCreateRegistrations type");
     assert.isTrue(xml.indexOf("<OutputContainerUri><![CDATA[https://test.blob.core.windows.net/testjobs]]></OutputContainerUri>") !== -1), "Should contain OutputContainerUri";
     assert.isTrue(xml.indexOf("<ImportFileUri><![CDATA[https://test.blob.core.windows.net/testjobs/CreateFile.txt]]></ImportFileUri>") !== -1, "Should contain ImportFileUri");

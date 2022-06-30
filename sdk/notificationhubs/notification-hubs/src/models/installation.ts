@@ -18,12 +18,12 @@ export interface InstallationCommon {
   /**
    * The installation expiration time.
    */
-  readonly expirationTime: string;
+  readonly expirationTime?: string;
 
   /**
    * The last update date of the installation.
    */
-  readonly lastUpdate: string;
+  readonly lastUpdate?: string;
 
   /**
    * The platform for the installation.

@@ -143,7 +143,7 @@ export interface AppleRegistrationDescription extends RegistrationDescriptionCom
  * @param description - A partial Apple registration description.
  * @returns A created Apple registration description.
  */
-export function createAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "Platform">): AppleRegistrationDescription {
+export function createAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "platform">): AppleRegistrationDescription {
   return {
     ...description,
     platform: "Apple",
@@ -323,6 +323,7 @@ export interface GcmRegistrationDescription extends RegistrationDescriptionCommo
 }
 
 /**
+ * @deprecated Use createFcmRegistrationDescription instead.
  * Creates a GCM registration description.
  * @param description - A partial GCM registration description.
  * @returns A created GCM registration description.
@@ -381,7 +382,7 @@ export interface FcmRegistrationDescription extends RegistrationDescriptionCommo
  * @param description - A partial FCM registration description.
  * @returns A created FCM registration description.
  */
-export function createFcmRegistrationDescription(description: Omit<FcmTemplateRegistrationDescription, "platform">): FcmRegistrationDescription {
+export function createFcmRegistrationDescription(description: Omit<FcmRegistrationDescription, "platform">): FcmRegistrationDescription {
   return {
     ...description,
     platform: "Fcm",

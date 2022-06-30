@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const JSON_CONTENT_TYPE = "application/json;charset=utf-8";
-const XML_CONTENT_TYPE = "application/xml";
-const STREAM_CONTENT_TYPE = "application/octet-stream";
+export const JSON_CONTENT_TYPE = "application/json;charset=utf-8";
+export const XML_CONTENT_TYPE = "application/xml";
+export const STREAM_CONTENT_TYPE = "application/octet-stream";
 
-const WNS_TYPE_NAME = "X-WNS-Type";
-const WNS_RAW = "wns/raw";
-const WNS_BADGE = "wns/badge";
-const WNS_TITLE = "wns/tile";
-const WNS_TOAST = "wns/toast";
+export const WNS_TYPE_NAME = "X-WNS-Type";
+export const WNS_RAW = "wns/raw";
+export const WNS_BADGE = "wns/badge";
+export const WNS_TITLE = "wns/tile";
+export const WNS_TOAST = "wns/toast";
 
 /**
  * Represents a notification hub message.
@@ -209,7 +209,7 @@ export interface WindowsMessage extends NotificationHubMessageCommon {
  * @param message - A partial message used to create a badge message for WNS.
  * @returns A newly created WNS badge message.
  */
-export function createBadgeMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage {
+export function createWindowsBadgeMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage {
   const result: WindowsMessage = {
     ...message,
     platform: "wns",

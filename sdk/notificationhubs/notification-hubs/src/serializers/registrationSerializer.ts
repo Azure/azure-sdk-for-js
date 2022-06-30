@@ -781,6 +781,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
     return {
       ...this.serializeWindowsRegistrationDescription(description),
       ...serializeTemplateRegistrationDescription(description),
+      "WnsHeaders": wnsHeaders,
     };
   }
 }
