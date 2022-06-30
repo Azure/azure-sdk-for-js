@@ -20,7 +20,7 @@ export function throwIfUndefined<T>(
   input: T | undefined,
   options: { errorMessage?: string } = {}
 ): T {
-  if (!input) {
+  if (input === undefined) {
     throw new Error(options.errorMessage ?? "undefined variable");
   }
   return input;
@@ -263,12 +263,11 @@ export function buildResult<TResult, TState extends PollOperationState<TResult>>
 
 /**
  * Creates a callback to be used to initialize the polling operation state.
- * @param state - of the polling operation
- * @param operationSpec - of the LRO
- * @param callback - callback to be called when the operation is done
- * @returns callback that initializes the state of the polling operation
  */
-export function createInitializeState<TResult, TState extends PollOperationState<TResult>>(inputs: {
+export function createStateInitializer<
+  TResult,
+  TState extends PollOperationState<TResult>
+>(inputs: {
   state: ResumablePollOperationState<TResult>;
   requestPath: string;
   requestMethod: string;

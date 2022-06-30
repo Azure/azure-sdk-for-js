@@ -15,8 +15,8 @@ import { PollOperation, PollOperationState } from "../pollOperation";
 import {
   buildResult,
   createGetLroStatusFromResponse,
-  createInitializeState,
   createPoll,
+  createStateInitializer,
   throwIfUndefined,
   updatePollingUrl,
 } from "./impl";
@@ -70,7 +70,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     const state = this.state;
     let lastResponse: LroResponse<TResult> | undefined = undefined;
     if (!state.isStarted) {
-      const initializeState = createInitializeState({
+      const initializeState = createStateInitializer({
         state,
         requestPath: this.lro.requestPath,
         requestMethod: this.lro.requestMethod,
