@@ -4,10 +4,11 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import { credentialLogger } from "../util/logging";
-import { trace } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
+import { CredentialFlowGetTokenOptions } from "../msal/credentials";
 
 const logger = credentialLogger("ClientAssertionCredential");
 
@@ -68,9 +69,9 @@ export class ClientAssertionCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
+    return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async (updatedOptions: CredentialFlowGetTokenOptions | undefined) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow!.getToken(arrayScopes, newOptions);
+      return this.msalFlow!.getToken(arrayScopes, updatedOptions);
     });
   }
 }

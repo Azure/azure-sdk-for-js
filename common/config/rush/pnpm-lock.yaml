@@ -1052,9 +1052,9 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.0.0
       '@azure/logger': 1.0.3
-      '@azure/msal-browser': 2.24.0
+      '@azure/msal-browser': 2.26.0
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.9.0
+      '@azure/msal-node': 1.10.0
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.0
@@ -1062,32 +1062,6 @@ packages:
       tslib: 2.4.0
       uuid: 8.3.2
     transitivePeerDependencies:
-      - debug
-      - supports-color
-    dev: false
-
-  /@azure/identity/2.0.4_debug@4.3.4:
-    resolution: {integrity: sha512-ZgFubAsmo7dji63NLPaot6O7pmDfceAUPY57uphSCr0hmRj+Cakqb4SUz5SohCHFtscrhcmejRU903Fowz6iXg==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.3.2
-      '@azure/core-client': 1.6.0
-      '@azure/core-rest-pipeline': 1.8.1
-      '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/core-util': 1.0.0
-      '@azure/logger': 1.0.3
-      '@azure/msal-browser': 2.24.0
-      '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.9.0_debug@4.3.4
-      events: 3.3.0
-      jws: 4.0.0
-      open: 8.4.0
-      stoppable: 1.1.0
-      tslib: 2.4.0
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - debug
       - supports-color
     dev: false
 
@@ -1195,11 +1169,11 @@ packages:
       - encoding
     dev: false
 
-  /@azure/msal-browser/2.24.0:
-    resolution: {integrity: sha512-P4Z8mQ6hTuA9ss3HCltso7fRmuX1raaU6444G35c0FhaD6hfqViFYRa7hk16AiAs9HkUQHbBaL3gLjKMpX3heA==}
+  /@azure/msal-browser/2.26.0:
+    resolution: {integrity: sha512-mSyZORSgeMEWz5Wo5alUqjxP/HKt/XcViZqc3dnKFM9347qYPIWsAlzHkEmmafNr1VGUo7MeqB0emZCOQrl04w==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 6.3.0
+      '@azure/msal-common': 7.0.0
     dev: false
 
   /@azure/msal-common/4.5.1:
@@ -1222,6 +1196,11 @@ packages:
 
   /@azure/msal-common/6.3.0:
     resolution: {integrity: sha512-ZyLq9GdnLBi/83YpysE86TFKbA0TuvfNAN5Psqu20cdAjLo/4rw4ttiItdh1G//XeGErHk9qn57gi2AYU1b5/Q==}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
+  /@azure/msal-common/7.0.0:
+    resolution: {integrity: sha512-EkaHGjv0kw1RljhboeffM91b+v9d5VtmyG+0a/gvdqjbLu3kDzEfoaS5BNM9QqMzbxgZylsjAjQDtxdHLX/ziA==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -1250,26 +1229,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/msal-node/1.10.0:
+    resolution: {integrity: sha512-oSv9mg199FpRTe+fZ3o9NDYpKShOHqeceaNcCHJcKUaAaCojAbfbxD1Cvsti8BEsLKE6x0HcnjilnM1MKmZekA==}
+    engines: {node: 10 || 12 || 14 || 16 || 18}
+    dependencies:
+      '@azure/msal-common': 7.0.0
+      jsonwebtoken: 8.5.1
+      uuid: 8.3.2
+    dev: false
+
   /@azure/msal-node/1.9.0:
     resolution: {integrity: sha512-lw6ejz1WPqcdjkwp91Gidte98+kfGxHk9eYSmmpUChzrUUrZMFGvrtrvG3Qnr6bp5d4WijVge9LMe+2QQUMhoA==}
     engines: {node: 10 || 12 || 14 || 16 || 18}
     dependencies:
       '@azure/msal-common': 6.3.0
       axios: 0.21.4
-      https-proxy-agent: 5.0.1
-      jsonwebtoken: 8.5.1
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
-    dev: false
-
-  /@azure/msal-node/1.9.0_debug@4.3.4:
-    resolution: {integrity: sha512-lw6ejz1WPqcdjkwp91Gidte98+kfGxHk9eYSmmpUChzrUUrZMFGvrtrvG3Qnr6bp5d4WijVge9LMe+2QQUMhoA==}
-    engines: {node: 10 || 12 || 14 || 16 || 18}
-    dependencies:
-      '@azure/msal-common': 6.3.0
-      axios: 0.21.4_debug@4.3.4
       https-proxy-agent: 5.0.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
@@ -3021,7 +2995,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
+    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
     dev: false
 
   /array-includes/3.1.5:
@@ -3285,7 +3259,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
+    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3426,7 +3400,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
+    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
     dev: false
 
   /check-error/1.0.2:
@@ -3547,7 +3521,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: false
 
   /concurrently/6.5.1:
@@ -3614,7 +3588,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
     dev: false
 
   /cookie/0.4.2:
@@ -3717,7 +3691,7 @@ packages:
     dev: false
 
   /crypt/0.0.2:
-    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
+    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
     dev: false
 
   /csv-parse/5.0.4:
@@ -3941,7 +3915,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220628
+      typescript: 4.8.0-dev.20220629
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -3968,11 +3942,11 @@ packages:
     dev: false
 
   /edge-launcher/1.2.2:
-    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
+    resolution: {integrity: sha1-60Cq+9Bnpup27/+rBke81VCbN7I=}
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
+    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
   /electron-to-chromium/1.4.137:
@@ -4825,7 +4799,7 @@ packages:
     dev: false
 
   /fresh/0.5.2:
-    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
+    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -4978,7 +4952,7 @@ packages:
     dev: false
 
   /github-from-package/0.0.0:
-    resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
+    resolution: {integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=}
     dev: false
 
   /glob-parent/5.1.2:
@@ -6364,7 +6338,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
+    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6374,7 +6348,7 @@ packages:
     dev: false
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
+    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
     dev: false
 
   /merge-source-map/1.1.0:
@@ -6729,7 +6703,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
+    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -8751,8 +8725,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220628:
-    resolution: {integrity: sha512-89n1Fp/JQev/bPPuVferlfw0VguLxr0uFergLfPbhs+6Hlu3M5rLwplGLHL+JZ+0+BsTyWg779TmaMcqa5FB5Q==}
+  /typescript/4.8.0-dev.20220629:
+    resolution: {integrity: sha512-QEp1M6iqlYpQXFF2f9ucXMkXbYcAoXcG0ws0IG8bWd7mjPGf8R5iVCbQVSm1dzV/GoOy0PsvfNe5/uL6D9TSPA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -8813,7 +8787,7 @@ packages:
     dev: false
 
   /unpipe/1.0.0:
-    resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
+    resolution: {integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=}
     engines: {node: '>= 0.8'}
     dev: false
 
@@ -8856,7 +8830,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
+    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -9655,7 +9629,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -9686,7 +9659,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -9714,7 +9686,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -9743,7 +9714,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -9774,7 +9744,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -9802,7 +9771,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -9832,7 +9800,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -9860,7 +9827,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -9889,7 +9855,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -9918,7 +9883,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -9999,7 +9963,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10027,7 +9990,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10073,7 +10035,6 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10102,7 +10063,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10130,7 +10090,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10159,7 +10118,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10188,7 +10146,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10217,7 +10174,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10246,7 +10202,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10275,7 +10230,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10303,7 +10257,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10331,7 +10284,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10362,7 +10314,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -10389,7 +10340,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10417,7 +10367,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10445,7 +10394,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10476,7 +10424,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -10504,7 +10451,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10536,7 +10482,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -10565,7 +10510,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -10593,7 +10537,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10621,7 +10564,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10650,7 +10592,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10679,7 +10620,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10710,7 +10650,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -10738,7 +10677,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10767,7 +10705,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10796,7 +10733,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10825,7 +10761,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10854,7 +10789,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10883,7 +10817,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10912,7 +10845,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10941,7 +10873,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -10970,7 +10901,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11001,7 +10931,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -11029,7 +10958,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11058,7 +10986,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11087,7 +11014,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11115,7 +11041,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11146,7 +11071,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -11175,7 +11099,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -11202,7 +11125,6 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11231,7 +11153,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11262,7 +11183,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -11290,7 +11210,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11319,7 +11238,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11348,7 +11266,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11377,7 +11294,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11406,7 +11322,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11434,7 +11349,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11465,7 +11379,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -11493,7 +11406,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11523,7 +11435,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11550,7 +11461,6 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11578,7 +11488,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11607,7 +11516,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11636,7 +11544,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11665,7 +11572,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11694,7 +11600,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11723,7 +11628,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11752,7 +11656,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11781,7 +11684,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11810,7 +11712,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11843,7 +11744,6 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
-      - debug
       - supports-color
     dev: false
 
@@ -11871,7 +11771,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11900,7 +11799,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11931,7 +11829,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -11959,7 +11856,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -11988,7 +11884,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12017,7 +11912,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12048,7 +11942,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -12078,7 +11971,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -12105,7 +11997,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12134,7 +12025,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12162,7 +12052,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12190,7 +12079,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12218,7 +12106,6 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12247,7 +12134,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12276,7 +12162,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12306,7 +12191,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -12334,7 +12218,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12363,7 +12246,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12392,7 +12274,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12420,7 +12301,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12448,7 +12328,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12477,7 +12356,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12505,7 +12383,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12536,7 +12413,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -12563,7 +12439,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12591,7 +12466,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12620,7 +12494,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12648,7 +12521,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12680,7 +12552,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -12709,7 +12580,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -12737,7 +12607,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12766,7 +12635,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12797,7 +12665,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -12825,7 +12692,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12854,7 +12720,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12883,7 +12748,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12912,7 +12776,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -12943,7 +12806,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -12971,7 +12833,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13002,7 +12863,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -13029,7 +12889,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13057,7 +12916,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13085,7 +12943,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13114,7 +12971,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13142,7 +12998,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13171,7 +13026,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13200,7 +13054,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13229,7 +13082,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13258,7 +13110,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13287,7 +13138,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13316,7 +13166,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13345,7 +13194,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13373,7 +13221,6 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13402,7 +13249,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13431,7 +13277,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13461,7 +13306,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13490,7 +13334,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13519,7 +13362,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13548,7 +13390,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13576,7 +13417,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13604,7 +13444,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13633,7 +13472,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13662,7 +13500,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13690,7 +13527,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13719,7 +13555,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13748,7 +13583,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13777,7 +13611,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13806,7 +13639,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13834,7 +13666,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13862,7 +13693,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13891,7 +13721,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13920,7 +13749,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -13950,7 +13778,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -13978,7 +13805,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14005,7 +13831,6 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14034,7 +13859,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14063,7 +13887,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14094,7 +13917,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -14122,7 +13944,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14153,7 +13974,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - supports-color
     dev: false
 
@@ -14181,7 +14001,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14209,7 +14028,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14238,7 +14056,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14267,7 +14084,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14296,7 +14112,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14325,7 +14140,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14353,7 +14167,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14382,7 +14195,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14411,7 +14223,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14440,7 +14251,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14468,7 +14278,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14497,7 +14306,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14525,7 +14333,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14553,7 +14360,6 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14582,7 +14388,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14611,7 +14416,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14639,7 +14443,6 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14668,7 +14471,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14696,7 +14498,6 @@ packages:
       uglify-js: 3.15.5
     transitivePeerDependencies:
       - '@types/node'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -14854,7 +14655,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-cg+0o/UDZTS8e6Eud4C2ql+IE9FaqPi5QPAtPgjoFTMqsKulijRkLtb1guIK1mJ9SkaqFbUq8JYFsIYkClMmnA==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-AlPbxogx/1TifV283TyuACZ7i4eQcVPCzYNbFkyLanbd95uk97Q+991I7XLxgA9tOIgo1xOrZdGTJO1E6WFXsw==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -14892,7 +14693,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -15738,7 +15538,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0
-      '@azure/identity': 2.0.4_debug@4.3.4
+      '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
@@ -16015,7 +15815,7 @@ packages:
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 2.0.4_debug@4.3.4
+      '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.74.1
@@ -16247,7 +16047,7 @@ packages:
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
-      '@azure/msal-node': 1.9.0
+      '@azure/msal-node': 1.10.0
       '@azure/msal-node-extensions': 1.0.0-alpha.13
       '@microsoft/api-extractor': 7.18.11
       '@types/jws': 3.2.4
@@ -16271,7 +16071,6 @@ packages:
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
-      - debug
       - encoding
       - supports-color
       - utf-8-validate
@@ -16311,14 +16110,14 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-kJKDJxtNZElmK1RS8yeZfosG1keDxMQeT6r6oCBJy/U90oW620OhOMY+PkpxQWzYF7X3OTmmcGoYh4y9z1CliQ==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-wsq8GfkSBHZeJmx8wk3mgejM09TCo6z1AuCiDLiDstEvgRixN2QG1j5R78V41FnPi9HN6EK/dUd+n9uJSjRjOA==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       '@azure/keyvault-keys': 4.2.0
-      '@azure/msal-browser': 2.24.0
-      '@azure/msal-common': 6.3.0
-      '@azure/msal-node': 1.9.0
+      '@azure/msal-browser': 2.26.0
+      '@azure/msal-common': 7.0.0
+      '@azure/msal-node': 1.10.0
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
       '@types/jws': 3.2.4
@@ -16484,7 +16283,6 @@ packages:
       typescript: 4.6.4
       uuid: 8.3.2
     transitivePeerDependencies:
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -16980,7 +16778,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -17023,7 +16820,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - debug
       - supports-color
     dev: false
 
@@ -17172,7 +16968,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - debug
       - supports-color
     dev: false
 
@@ -17196,7 +16991,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -17221,7 +17015,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -17246,7 +17039,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -17268,7 +17060,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - debug
       - supports-color
     dev: false
 
@@ -17289,7 +17080,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - debug
       - supports-color
     dev: false
 
@@ -17311,7 +17101,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - debug
       - supports-color
     dev: false
 
@@ -17427,7 +17216,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - debug
       - encoding
       - supports-color
     dev: false
@@ -17768,7 +17556,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 2.0.4_debug@4.3.4
+      '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
