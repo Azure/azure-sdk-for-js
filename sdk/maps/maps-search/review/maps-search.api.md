@@ -74,10 +74,10 @@ export interface BatchResult<TResult> {
 export type BBox = BBox2D | BBox3D;
 
 // @public
-export type BBox2D = [number, number, number, number];
+export type BBox2D = [southwestLongitude: number, southwestLatitude: number, northeastLongitude: number, northeastLatitude: number];
 
 // @public
-export type BBox3D = [number, number, number, number, number, number];
+export type BBox3D = [southwestLongitude: number, southwestLatitude: number, southwestElevation: number, northeastLongitude: number, northeastLatitude: number, northeastElevation: number];
 
 // @public
 export interface BoundingBox {
@@ -526,10 +526,10 @@ export interface PointOfInterestCategoryTreeResult {
 export type Position = Position2D | Position3D;
 
 // @public
-export type Position2D = [number, number];
+export type Position2D = [longitude: number, latitude: number];
 
 // @public
-export type Position3D = [number, number, number];
+export type Position3D = [longitude: number, latitude: number, elevation: number];
 
 // @public
 export type QueryType = string;
@@ -747,7 +747,6 @@ export interface StructuredAddress {
     streetName?: string;
     streetNumber?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

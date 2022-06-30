@@ -627,8 +627,8 @@ export const energyBudgetInKwH: OperationQueryParameter = {
   }
 };
 
-export const timeBudgetInSec: OperationQueryParameter = {
-  parameterPath: ["options", "timeBudgetInSec"],
+export const timeBudgetInSeconds: OperationQueryParameter = {
+  parameterPath: ["options", "timeBudgetInSeconds"],
   mapper: {
     serializedName: "timeBudgetInSec",
     type: {

@@ -295,7 +295,7 @@ export type RouteRangeBudget =
        * Fuel budget in liters that determines maximal range which can be travelled using the specified Combustion Consumption Model.
        * When fuelBudgetInLiters is used, it is mandatory to specify a detailed Combustion Consumption Model.
        *
-       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
+       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSeconds, or distanceBudgetInMeters) must be used.
        */
       fuelBudgetInLiters: number;
     }
@@ -304,7 +304,7 @@ export type RouteRangeBudget =
        * Electric energy budget in kilowatt hours (kWh) that determines maximal range which can be travelled using the specified Electric Consumption Model.
        * When energyBudgetInkWh is used, it is mandatory to specify a detailed Electric Consumption Model.
        *
-       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
+       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSeconds, or distanceBudgetInMeters) must be used.
        */
       energyBudgetInKwH: number;
     }
@@ -313,16 +313,16 @@ export type RouteRangeBudget =
        * Time budget in seconds that determines maximal range which can be travelled using driving time.
        * The Consumption Model will only affect the range when routeType is eco.
        *
-       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
+       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSeconds, or distanceBudgetInMeters) must be used.
        */
-      timeBudgetInSec: number;
+      timeBudgetInSeconds: number;
     }
   | {
       /**
        * Distance budget in meters that determines maximal range which can be travelled using driving distance.
        * The Consumption Model will only affect the range when routeType is eco.
        *
-       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
+       * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSeconds, or distanceBudgetInMeters) must be used.
        */
       distanceBudgetInMeters: number;
     };
