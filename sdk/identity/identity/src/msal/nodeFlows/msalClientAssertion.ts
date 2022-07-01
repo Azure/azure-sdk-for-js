@@ -23,8 +23,6 @@ export interface MSALClientAssertionOptions extends MsalNodeOptions {
 export class MsalClientAssertion extends MsalNode {
   getAssertion: () => Promise<string>;
   constructor(options: MSALClientAssertionOptions) {
-    console.log("constructor for msal client assertion is called");
-    console.dir(options);
     super(options);
     this.requiresConfidential = true;
     this.getAssertion = options.getAssertion;
@@ -35,8 +33,6 @@ export class MsalClientAssertion extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
-      console.log("inside doget token of MsalClientAssertion");
-      console.dir(this.getAssertion);
       const assertion = await this.getAssertion();
       const result = await this.confidentialApp!.acquireTokenByClientCredential({
         scopes,

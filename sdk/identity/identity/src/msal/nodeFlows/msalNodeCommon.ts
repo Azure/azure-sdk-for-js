@@ -100,8 +100,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
     this.clientId = this.msalConfig.auth.clientId;
-    console.log("Inside constructor of Msal Node, options.getAssertion -");
-    console.log(options.getAssertion);
     if (options?.getAssertion) {
       this.getAssertion = options.getAssertion;
     }
@@ -168,7 +166,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
    * Prepares the MSAL applications.
    */
   async init(options?: CredentialFlowGetTokenOptions): Promise<void> {
-    console.log("inside init");
     if (options?.abortSignal) {
       options.abortSignal.addEventListener("abort", () => {
         // This will abort any pending request in the IdentityClient,
@@ -191,8 +188,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (this.getAssertion) {
       this.msalConfig.auth.clientAssertion = await this.getAssertion();
     }
-    console.log("msalConfig-");
-    console.dir(this.msalConfig);
     // The confidential client requires either a secret, assertion or certificate.
     if (
       this.msalConfig.auth.clientSecret ||

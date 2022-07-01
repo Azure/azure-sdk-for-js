@@ -11,6 +11,11 @@ import Sinon from "sinon";
 import { msalNodeTestSetup, MsalTestCleanup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { ConfidentialClientApplication } from "@azure/msal-node";
+import * as tls from "tls";
+import * as net from "net";
+import * as fs from "fs";
+import * as uuid from "uuid";
+import * as crypto from "crypto";
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -64,13 +69,18 @@ describe("ClientAssertionCredential (internal)", function () {
   });
 
   it("Sends the expected parameters", async function () {
-    async function getAssertion(): Promise<string> {
+    let tenantId = env.IDENTITY_SP_TENANT_ID || "tenant";
+    let clientId =  env.IDENTITY_SP_CLIENT_ID || "client";
+    let certificatePath = env.IDENTITY_SP_CERT_PEM || "certificate-path";
+    const authorityHost = `https://login.microsoftonline.com/${tenantId}`
 
-      return "assertion";
+    async function getAssertion(): Promise<string> {
+      const jwt = await createJWTTokenFromCertificate(authorityHost,clientId, certificatePath);
+      return jwt;
     };
     const credential = new ClientAssertionCredential(
-      env.AZURE_TENANT_ID || "tenant",
-      env.AZURE_CLIENT_ID || "client",
+      tenantId,
+      clientId,
       getAssertion
     );
 
@@ -78,15 +88,60 @@ describe("ClientAssertionCredential (internal)", function () {
       await credential.getToken("https://vault.azure.net/.default");
     } catch (e: any) {
       // We're ignoring errors since our main goal here is to ensure that we send the correct parameters to MSAL.
-      console.log("error");
-      console.log(e);
+      console.log("error",e);
     }
+  
+    assert.equal(getTokenSilentSpy.callCount,1);
+    assert.equal(doGetTokenSpy.callCount,1);
 
-    console.log(getTokenSilentSpy.callCount);
-    console.log(doGetTokenSpy.callCount);
-
-    console.log(doGetTokenSpy.args[0]);
-    const sentConfiguration = doGetTokenSpy.args[0][0];
-    assert.equal(sentConfiguration.clientAssertion, "assertion");
+    // TODO: you can test if this matches
+    // const returnedAssertion = await getAssertion();
+    // const sentConfiguration = doGetTokenSpy.args[0][0];
+    // assert.equal(sentConfiguration.clientAssertion, "assertion");
   });
 });
+
+async function createJWTTokenFromCertificate(authorityHost: string,clientId: string, certificatePath: string){
+  const pemCert = fs.readFileSync(certificatePath)
+  const audience = `${authorityHost}/v2`;
+  let secureContext = tls.createSecureContext({
+    cert: pemCert
+  });
+
+  let secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
+
+  let cert = (secureSocket.getCertificate()) as tls.PeerCertificate;
+  let headerJSON = {
+    "typ": "JWT",
+    "alg": "RS256",
+    "x5t": Buffer.from(cert.fingerprint256, 'hex').toString('base64')
+  }
+  secureSocket.destroy();
+  const currentDate = new Date('2022-07-01T23:28:35.248Z');
+  let payloadJSON = {
+    "jti": uuid.v4(),
+    "aud": audience,
+    "iss": clientId,
+    "sub": clientId,
+    "nbf": Math.floor(+currentDate / 1000),
+    "exp": addMinutes(currentDate, 30)
+  }
+  const headerBuffer = Buffer.from(JSON.stringify(headerJSON),"utf-8");
+  const headerString = headerBuffer.toString('base64');
+  const payloadBuffer = Buffer.from(JSON.stringify(payloadJSON),"utf-8");
+  const payloadString = payloadBuffer.toString('base64');
+  const flattenedJws = headerString + "." + payloadString;
+  // TODO : sign like the .NET equivalent
+  //const pki = forge.pki;
+  //const privateKey = pki.privateKeyFromPem(pemCert.toString());
+  //const signature = privateKey.sign(flattenedJws,"sha256");
+  //clientCertificate.GetRSAPrivateKey().SignData(Encoding.ASCII.GetBytes(flattenedJws), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+  let signatureAlg = crypto.createSign("sha256");
+  signatureAlg.update(flattenedJws);
+  const signature = signatureAlg.sign(pemCert.toString());
+  return flattenedJws + "." + signature.toString("base64");
+}
+
+function addMinutes(date: Date, minutes: number) {
+  return new Date(date.getTime() + minutes*60000);
+}
