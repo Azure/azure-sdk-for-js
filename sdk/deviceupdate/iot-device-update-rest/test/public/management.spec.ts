@@ -40,17 +40,16 @@ describe("device and deployment test", () => {
     assert.equal(response.status, "404");
   });
 
-  // Temporary disabled because the service doesn't properly handle this method yet
-  // it("list groups", async function () {
-  //   const response = await client
-  //     .path("/deviceUpdate/{instanceId}/management/groups", "sdkinstance")
-  //     .get();
-  //   if (response.status !== "200") {
-  //     assert.fail(
-  //       `GET "/deviceUpdate/sdkInstance/management/groups" failed with ${response.status}`
-  //     );
-  //   }
-  // });
+  it("list groups", async function () {
+    const response = await client
+      .path("/deviceUpdate/{instanceId}/management/groups", "sdkinstance")
+      .get();
+    if (response.status !== "200") {
+      assert.fail(
+        `GET "/deviceUpdate/sdkInstance/management/groups" failed with ${response.status}`
+      );
+    }
+  });
 
   it("get group", async function () {
     const response = await client
@@ -70,17 +69,16 @@ describe("device and deployment test", () => {
     assert.equal(response.status, "404");
   });
 
-  // Temporary disabled because the service doesn't properly handle this method yet
-  // it("list device classes", async function () {
-  //   const response = await client
-  //     .path("/deviceUpdate/{instanceId}/management/deviceClasses", "sdkinstance")
-  //     .get();
-  //   if (response.status !== "200") {
-  //     assert.fail(
-  //       `GET "/deviceUpdate/sdkInstance/management/deviceClasses" failed with ${response.status}`
-  //     );
-  //   }
-  // });
+  it("list device classes", async function () {
+    const response = await client
+      .path("/deviceUpdate/{instanceId}/management/deviceClasses", "sdkinstance")
+      .get();
+    if (response.status !== "200") {
+      assert.fail(
+        `GET "/deviceUpdate/sdkInstance/management/deviceClasses" failed with ${response.status}`
+      );
+    }
+  });
 
   it("get device class not found", async function () {
     const response = await client
@@ -93,17 +91,20 @@ describe("device and deployment test", () => {
     assert.equal(response.status, "404");
   });
 
-  // Temporary disabled because the service doesn't properly handle this method yet
-  // it("list best updates for group", async function () {
-  //   const response = await client
-  //     .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates", "sdkinstance", group)
-  //     .get();
-  //   if (response.status !== "200") {
-  //     assert.fail(
-  //       `GET "/deviceUpdate/sdkInstance/management/groups/group/bestUpdates" failed with ${response.status}`
-  //     );
-  //   }
-  // });
+  it("list best updates for group", async function () {
+    const response = await client
+      .path(
+        "/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates",
+        "sdkinstance",
+        group
+      )
+      .get();
+    if (response.status !== "200") {
+      assert.fail(
+        `GET "/deviceUpdate/sdkInstance/management/groups/group/bestUpdates" failed with ${response.status}`
+      );
+    }
+  });
 
   it("list best updates for group not found", async function () {
     const response = await client

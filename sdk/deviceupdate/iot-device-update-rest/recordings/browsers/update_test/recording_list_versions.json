@@ -17,20 +17,22 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "bff3d4f6-45d8-45a3-a019-f8e6ed6cc5ea",
+        "x-ms-client-request-id": "4627bdbb-f9e3-4c75-87a5-fd957ed3c135",
         "x-ms-useragent": "core-rest-pipeline/1.8.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "45",
+        "Content-Length": "81",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Jun 2022 22:52:05 GMT",
-        "mise-correlation-id": "0ab6b193-a521-4c97-8a05-72bef65788e0",
-        "traceparent": "00-e4691fe55662f2875a12b27cbf447376-1e56b78b6fc99255-00"
+        "Date": "Fri, 01 Jul 2022 23:33:04 GMT",
+        "mise-correlation-id": "3aa57175-0dbe-45a4-9b13-0cc33fbc0db8",
+        "traceparent": "00-6c6e9149ca14fd48e5d73750aaf34358-fd6d8df86fcf6a13-00"
       },
       "ResponseBody": {
         "value": [
+          "2022.701.235.32",
+          "2022.609.510.21",
           "2022.608.554.1",
           "2022.401.504.6"
         ]

@@ -9,19 +9,21 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "core-rest-pipeline/1.8.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "86d477d1-65e2-4af7-a998-0b8eb5f1ff00"
+        "x-ms-client-request-id": "068193c6-e97b-4fc8-ae40-4506bae3d354"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "45",
+        "Content-Length": "81",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Jun 2022 22:51:48 GMT",
-        "mise-correlation-id": "a0cc08f3-d3ef-4d23-b2aa-d4157aa07a83",
-        "traceparent": "00-1801b5f330ea320b2cb10fbd92952372-387aeca40d955141-00"
+        "Date": "Fri, 01 Jul 2022 23:32:24 GMT",
+        "mise-correlation-id": "bec7fcae-9bf5-4c01-abe5-f8894ac98d26",
+        "traceparent": "00-34005f37e2d3947916b7712686e300de-3a167a6d87d8eaba-00"
       },
       "ResponseBody": {
         "value": [
+          "2022.701.235.32",
+          "2022.609.510.21",
           "2022.608.554.1",
           "2022.401.504.6"
         ]
