@@ -21,6 +21,56 @@ disable-async-iterators: true
 hide-clients: true
 use-extension:
   "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/modelerfour": "4.21.4"
+  # "@autorest/typescript": "6.0.0-rc.1"
+  # "@autorest/modelerfour": "4.23.7"
 ```
 
-## Customization for Track 2 Generator
+### Define Required Fields
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.MapTileset
+    transform: >
+      $["required"] = [
+        "tilejson",
+        "tiles",
+      ]
+  - from: swagger-document
+    where: $.definitions.MapAttribution
+    transform: >
+      $["required"] = [
+        "copyrights",
+      ]
+  - from: swagger-document
+    where: $.definitions.RegionCopyrights
+    transform: >
+      $["required"] = [
+        "copyrights",
+        "country",
+      ]
+  - from: swagger-document
+    where: $.definitions.RegionCopyrights.properties.country
+    transform: >
+      $["required"] = [
+        "ISO3",
+        "label",
+      ]
+  - from: swagger-document
+    where: $.definitions.CopyrightCaption
+    transform: >
+      $["required"] = [
+        "copyrightsCaption",
+      ]
+```
+
+### Model Rename
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.TilesetId_rv2["x-ms-enum"]
+    transform: >
+      $["name"] = "TilesetId";
+```

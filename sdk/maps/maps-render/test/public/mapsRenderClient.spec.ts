@@ -8,7 +8,7 @@ import { MapsRenderClient } from "src/mapsRenderClient";
 import { assert, use as chaiUse } from "chai";
 import { matrix } from "@azure/test-utils";
 import chaiPromises from "chai-as-promised";
-import { KnownRasterTileFormat, KnownTilesetID } from "../../src";
+import { KnownRasterTileFormat, KnownTilesetId } from "../../src";
 chaiUse(chaiPromises);
 
 matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
@@ -78,7 +78,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
             topLeft: { latitude: 47.668372, longitude: -122.414162 },
           };
           const attribution = await client.getMapAttribution(
-            KnownTilesetID.MicrosoftBase,
+            KnownTilesetId.MicrosoftBase,
             6,
             boundingBox
           );
@@ -113,7 +113,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           const tileIndex = { z: 6, x: 9, y: 22 };
           const mapTileOptions = { tileSize: "512" };
           const mapTile = await client.getMapTile(
-            KnownTilesetID.MicrosoftBase,
+            KnownTilesetId.MicrosoftBase,
             tileIndex,
             mapTileOptions
           );
@@ -125,7 +125,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
 
       describe("#getMapTileset", function () {
         it("should able to retrieve tilest information", async function () {
-          const tileset = await client.getMapTileset(KnownTilesetID.MicrosoftBase);
+          const tileset = await client.getMapTileset(KnownTilesetId.MicrosoftBase);
 
           assert.isNotEmpty(tileset.tilejson);
           assert.isNotEmpty(tileset.tiles);

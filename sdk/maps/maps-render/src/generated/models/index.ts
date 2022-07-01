@@ -60,7 +60,7 @@ export interface ErrorAdditionalInfo {
 /** Metadata for a tileset in the TileJSON format. */
 export interface MapTileset {
   /** Describes the version of the TileJSON spec that is implemented by this JSON object. */
-  tilejson?: string;
+  tilejson: string;
   /** A name describing the tileset. The name can contain any legal character. Implementations SHOULD NOT interpret the name as HTML. */
   name?: string;
   /** Text description of the tileset. The description can contain any legal character. Implementations SHOULD NOT interpret the description as HTML. */
@@ -76,7 +76,7 @@ export interface MapTileset {
   /** Default: "xyz". Either "xyz" or "tms". Influences the y direction of the tile coordinates. The global-mercator (aka Spherical Mercator) profile is assumed. */
   scheme?: string;
   /** An array of tile endpoints. If multiple endpoints are specified, clients may use any combination of endpoints. All endpoints MUST return the same content for the same URL. The array MUST contain at least one endpoint. */
-  tiles?: string[];
+  tiles: string[];
   /** An array of interactivity endpoints. */
   grids?: string[];
   /** An array of data files in GeoJSON format. */
@@ -94,7 +94,7 @@ export interface MapTileset {
 /** Copyright attribution for the requested section of a tileset. */
 export interface MapAttribution {
   /** A list of copyright strings. */
-  copyrights?: string[];
+  copyrights: string[];
 }
 
 /** This object is returned from a successful copyright call */
@@ -108,7 +108,7 @@ export interface CopyrightCaption {
    * Copyrights Caption property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly copyrightsCaption?: string;
+  readonly copyrightsCaption: string;
 }
 
 /** This object is returned from a successful copyright request */
@@ -135,12 +135,12 @@ export interface RegionCopyrights {
    * Copyrights array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly copyrights?: string[];
+  readonly copyrights: string[];
   /**
    * Country property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly country?: RegionCopyrightsCountry;
+  readonly country: RegionCopyrightsCountry;
 }
 
 /** Country property */
@@ -149,12 +149,12 @@ export interface RegionCopyrightsCountry {
    * ISO3 property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly iso3?: string;
+  readonly iso3: string;
   /**
    * Label property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly label?: string;
+  readonly label: string;
 }
 
 /** Defines headers for RenderV2_getMapTile operation. */
@@ -205,8 +205,8 @@ export interface BoundingBox {
   northEast: number[];
 }
 
-/** Known values of {@link TilesetID} that the service accepts. */
-export enum KnownTilesetID {
+/** Known values of {@link TilesetId} that the service accepts. */
+export enum KnownTilesetId {
   /**
    * A base map is a standard map that displays roads, natural and artificial features along with the labels for those features in a vector tile.<br>
    *
@@ -325,8 +325,8 @@ export enum KnownTilesetID {
 }
 
 /**
- * Defines values for TilesetID. \
- * {@link KnownTilesetID} can be used interchangeably with TilesetID,
+ * Defines values for TilesetId. \
+ * {@link KnownTilesetId} can be used interchangeably with TilesetId,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **microsoft.base**: A base map is a standard map that displays roads, natural and artificial features along with the labels for those features in a vector tile.<br>
@@ -391,7 +391,7 @@ export enum KnownTilesetID {
  * **microsoft.traffic.reduced.main**: reduced traffic tiles in raster in our main style \
  * **microsoft.traffic.incident**: incident tiles in vector
  */
-export type TilesetID = string;
+export type TilesetId = string;
 
 /** Known values of {@link MapTileSize} that the service accepts. */
 export enum KnownMapTileSize {
@@ -595,8 +595,6 @@ export interface RenderV2GetMapTileOptionalParams
 
 /** Contains response data for the getMapTile operation. */
 export type RenderV2GetMapTileResponse = RenderV2GetMapTileHeaders & {
-    /** The content-type for the response. */
-    contentType?: string;
   /**
    * BROWSER ONLY
    *

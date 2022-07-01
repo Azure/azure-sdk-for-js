@@ -3,13 +3,7 @@
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { BoundingBox, LatLon } from "./models";
-import {
-  IncludeText,
-  LocalizedMapView,
-  MapImageStyle,
-  MapTileSize,
-  StaticMapLayer,
-} from "../generated/models";
+import { LocalizedMapView, MapImageStyle, MapTileSize, StaticMapLayer } from "../generated/models";
 
 /**
  * Client options used to configure the Maps Render Client
@@ -119,6 +113,6 @@ export interface GetMapStaticImageOptions extends OperationOptions {
  * Options for get copyright
  */
 export interface GetCopyrightOptions extends OperationOptions {
-  /** Yes/no value to exclude textual data from response. Only images and country names will be in response. */
-  includeText?: IncludeText;
+  /** A boolean to include textual data from the response. If set to false, only images and country names will be in response. Default: true */
+  includeText?: boolean;
 }
