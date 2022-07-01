@@ -1,0 +1,147 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2022-05-02-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "a8beda2b-6bd8-4ffc-b034-a1501fd04330"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Fri, 01 Jul 2022 08:15:22 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "nginx",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b25a1f2f-33f4-46b3-9d6a-956ce5483299",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "6095378c-84e6-48b9-92e3-3be9fd341ee3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081523Z:b25a1f2f-33f4-46b3-9d6a-956ce5483299"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
+        "location": "eastus",
+        "name": "myreourcexyz",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+          "provisioningState": "Creating",
+          "powerState": {
+            "code": "Running"
+          },
+          "kubernetesVersion": "1.22.6",
+          "currentKubernetesVersion": "1.22.6",
+          "dnsPrefix": "aksjssdk",
+          "fqdn": "aksjssdk-9c626bc7.hcp.eastus.azmk8s.io",
+          "azurePortalFQDN": "aksjssdk-9c626bc7.portal.hcp.eastus.azmk8s.io",
+          "agentPoolProfiles": [
+            {
+              "name": "aksagent",
+              "count": 1,
+              "vmSize": "Standard_DS2_v2",
+              "osDiskSizeGB": 128,
+              "osDiskType": "Managed",
+              "kubeletDiskType": "OS",
+              "maxPods": 110,
+              "type": "VirtualMachineScaleSets",
+              "maxCount": 100,
+              "minCount": 1,
+              "enableAutoScaling": true,
+              "provisioningState": "Creating",
+              "powerState": {
+                "code": "Running"
+              },
+              "orchestratorVersion": "1.22.6",
+              "currentOrchestratorVersion": "1.22.6",
+              "mode": "System",
+              "osType": "Linux",
+              "osSKU": "Ubuntu",
+              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.13",
+              "enableFIPS": false
+            }
+          ],
+          "servicePrincipalProfile": {
+            "clientId": "azure_client_id"
+          },
+          "nodeResourceGroup": "MC_myjstest_myreourcexyz_eastus",
+          "enableRBAC": true,
+          "networkProfile": {
+            "networkPlugin": "kubenet",
+            "loadBalancerSku": "standard",
+            "loadBalancerProfile": {
+              "managedOutboundIPs": {
+                "count": 1
+              }
+            },
+            "podCidr": "10.244.0.0/16",
+            "serviceCidr": "10.0.0.0/16",
+            "dnsServiceIP": "10.0.0.10",
+            "dockerBridgeCidr": "172.17.0.1/16",
+            "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ]
+          },
+          "maxAgentPools": 100,
+          "autoScalerProfile": {
+            "balance-similar-node-groups": "false",
+            "expander": "random",
+            "max-empty-bulk-delete": "10",
+            "max-graceful-termination-sec": "600",
+            "max-node-provision-time": "15m",
+            "max-total-unready-percentage": "45",
+            "new-pod-scale-up-delay": "0s",
+            "ok-total-unready-count": "3",
+            "scale-down-delay-after-add": "10m",
+            "scale-down-delay-after-delete": "10s",
+            "scale-down-delay-after-failure": "3m",
+            "scale-down-unneeded-time": "10m",
+            "scale-down-unready-time": "20m",
+            "scale-down-utilization-threshold": "0.5",
+            "scan-interval": "10s",
+            "skip-nodes-with-local-storage": "false",
+            "skip-nodes-with-system-pods": "true"
+          },
+          "securityProfile": {},
+          "storageProfile": {
+            "diskCSIDriver": {
+              "enabled": true,
+              "version": "v1"
+            },
+            "fileCSIDriver": {
+              "enabled": true
+            },
+            "snapshotController": {
+              "enabled": true
+            }
+          },
+          "oidcIssuerProfile": {
+            "enabled": false
+          }
+        },
+        "sku": {
+          "name": "Basic",
+          "tier": "Free"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

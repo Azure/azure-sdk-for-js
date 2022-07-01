@@ -14,7 +14,7 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["user_impersonation"]
+      scopes: ["https://management.azure.com/.default"]
     }
   };
 

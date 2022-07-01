@@ -1,0 +1,186 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2022-05-02-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "359",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "37c92e1c-a13b-4347-bc8a-578ada60dd57"
+      },
+      "RequestBody": {
+        "properties": {
+          "dnsPrefix": "aksjssdk",
+          "agentPoolProfiles": [
+            {
+              "name": "aksagent",
+              "count": 1,
+              "vmSize": "Standard_DS2_v2",
+              "maxPods": 110,
+              "minCount": 1,
+              "maxCount": 100,
+              "osType": "Linux",
+              "type": "VirtualMachineScaleSets",
+              "enableAutoScaling": true,
+              "mode": "System"
+            }
+          ],
+          "servicePrincipalProfile": {
+            "clientId": "azure_client_id",
+            "secret": "azure_client_secret"
+          }
+        },
+        "location": "eastus"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/4b8ef99e-2b1d-44ff-8d68-eb076b093e38?api-version=2017-08-31",
+        "Cache-Control": "no-cache",
+        "Content-Length": "2271",
+        "Content-Type": "application/json",
+        "Date": "Fri, 01 Jul 2022 08:15:21 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "nginx",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "112cefd2-0601-40fa-a5c5-6a3e948a2db6",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "4b8ef99e-2b1d-44ff-8d68-eb076b093e38",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081521Z:112cefd2-0601-40fa-a5c5-6a3e948a2db6"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
+        "location": "eastus",
+        "name": "myreourcexyz",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+          "provisioningState": "Creating",
+          "powerState": {
+            "code": "Running"
+          },
+          "kubernetesVersion": "1.22.6",
+          "currentKubernetesVersion": "1.22.6",
+          "dnsPrefix": "aksjssdk",
+          "fqdn": "aksjssdk-9c626bc7.hcp.eastus.azmk8s.io",
+          "azurePortalFQDN": "aksjssdk-9c626bc7.portal.hcp.eastus.azmk8s.io",
+          "agentPoolProfiles": [
+            {
+              "name": "aksagent",
+              "count": 1,
+              "vmSize": "Standard_DS2_v2",
+              "osDiskSizeGB": 128,
+              "osDiskType": "Managed",
+              "kubeletDiskType": "OS",
+              "maxPods": 110,
+              "type": "VirtualMachineScaleSets",
+              "maxCount": 100,
+              "minCount": 1,
+              "enableAutoScaling": true,
+              "provisioningState": "Creating",
+              "powerState": {
+                "code": "Running"
+              },
+              "orchestratorVersion": "1.22.6",
+              "currentOrchestratorVersion": "1.22.6",
+              "mode": "System",
+              "osType": "Linux",
+              "osSKU": "Ubuntu",
+              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.13",
+              "enableFIPS": false
+            }
+          ],
+          "servicePrincipalProfile": {
+            "clientId": "azure_client_id"
+          },
+          "nodeResourceGroup": "MC_myjstest_myreourcexyz_eastus",
+          "enableRBAC": true,
+          "networkProfile": {
+            "networkPlugin": "kubenet",
+            "loadBalancerSku": "standard",
+            "loadBalancerProfile": {
+              "managedOutboundIPs": {
+                "count": 1
+              }
+            },
+            "podCidr": "10.244.0.0/16",
+            "serviceCidr": "10.0.0.0/16",
+            "dnsServiceIP": "10.0.0.10",
+            "dockerBridgeCidr": "172.17.0.1/16",
+            "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ]
+          },
+          "maxAgentPools": 100,
+          "securityProfile": {},
+          "storageProfile": {
+            "diskCSIDriver": {
+              "enabled": true,
+              "version": "v1"
+            },
+            "fileCSIDriver": {
+              "enabled": true
+            },
+            "snapshotController": {
+              "enabled": true
+            }
+          },
+          "oidcIssuerProfile": {
+            "enabled": false
+          }
+        },
+        "sku": {
+          "name": "Basic",
+          "tier": "Free"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/4b8ef99e-2b1d-44ff-8d68-eb076b093e38?api-version=2017-08-31\u0026api-version=2022-05-02-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "b8452072-d2ed-4d17-894c-86414ef073a4"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "337",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 01 Jul 2022 08:15:21 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "68834b67-3a83-4870-b8b2-6099f304b718",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "68834b67-3a83-4870-b8b2-6099f304b718",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081521Z:68834b67-3a83-4870-b8b2-6099f304b718"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027locations/operations\u0027 could not be found in the namespace \u0027Microsoft.ContainerService\u0027 for api version \u00272017-08-31,2022-05-02-preview\u0027. The supported api-versions are \u00272016-03-30,2017-01-31,2017-08-31,2018-10-31,2019-11-27,2016-09-30,2017-07-01,2015-11-01-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

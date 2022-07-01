@@ -1,0 +1,130 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/managedClusters?api-version=2022-05-02-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "cd7aede8-3ea0-4ab8-8007-d4c933c7b934"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1769",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 01 Jul 2022 08:15:25 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c5526dc3-0024-4581-a45c-0c59b5dc0e52",
+        "x-ms-request-id": "c5526dc3-0024-4581-a45c-0c59b5dc0e52",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081525Z:c5526dc3-0024-4581-a45c-0c59b5dc0e52"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
+            "location": "eastus",
+            "name": "myreourcexyz",
+            "type": "Microsoft.ContainerService/ManagedClusters",
+            "properties": {
+              "provisioningState": "Creating",
+              "powerState": {
+                "code": "Running"
+              },
+              "kubernetesVersion": "1.22.6",
+              "currentKubernetesVersion": "1.22.6",
+              "dnsPrefix": "aksjssdk",
+              "fqdn": "aksjssdk-9c626bc7.hcp.eastus.azmk8s.io",
+              "azurePortalFQDN": "aksjssdk-9c626bc7.portal.hcp.eastus.azmk8s.io",
+              "agentPoolProfiles": [
+                {
+                  "name": "aksagent",
+                  "count": 1,
+                  "vmSize": "Standard_DS2_v2",
+                  "osDiskSizeGB": 128,
+                  "osDiskType": "Managed",
+                  "kubeletDiskType": "OS",
+                  "maxPods": 110,
+                  "type": "VirtualMachineScaleSets",
+                  "maxCount": 100,
+                  "minCount": 1,
+                  "enableAutoScaling": true,
+                  "provisioningState": "Creating",
+                  "powerState": {
+                    "code": "Running"
+                  },
+                  "orchestratorVersion": "1.22.6",
+                  "currentOrchestratorVersion": "1.22.6",
+                  "mode": "System",
+                  "osType": "Linux",
+                  "osSKU": "Ubuntu",
+                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.13",
+                  "enableFIPS": false
+                }
+              ],
+              "servicePrincipalProfile": {
+                "clientId": "azure_client_id"
+              },
+              "nodeResourceGroup": "MC_myjstest_myreourcexyz_eastus",
+              "enableRBAC": true,
+              "networkProfile": {
+                "networkPlugin": "kubenet",
+                "loadBalancerSku": "standard",
+                "loadBalancerProfile": {
+                  "managedOutboundIPs": {
+                    "count": 1
+                  }
+                },
+                "podCidr": "10.244.0.0/16",
+                "serviceCidr": "10.0.0.0/16",
+                "dnsServiceIP": "10.0.0.10",
+                "dockerBridgeCidr": "172.17.0.1/16",
+                "outboundType": "loadBalancer",
+                "podCidrs": [
+                  "10.244.0.0/16"
+                ],
+                "serviceCidrs": [
+                  "10.0.0.0/16"
+                ],
+                "ipFamilies": [
+                  "IPv4"
+                ]
+              },
+              "maxAgentPools": 100,
+              "securityProfile": {},
+              "storageProfile": {
+                "diskCSIDriver": {
+                  "enabled": true,
+                  "version": "v1"
+                },
+                "fileCSIDriver": {
+                  "enabled": true
+                },
+                "snapshotController": {
+                  "enabled": true
+                }
+              },
+              "oidcIssuerProfile": {
+                "enabled": false
+              }
+            },
+            "sku": {
+              "name": "Basic",
+              "tier": "Free"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

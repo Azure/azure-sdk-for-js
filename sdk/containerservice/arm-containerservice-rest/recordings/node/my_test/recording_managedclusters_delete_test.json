@@ -1,0 +1,70 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2022-05-02-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "5fa7cc49-7296-4c47-b2f3-e39fa61fa7de"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/1b088eee-c0c0-4886-a847-4b963392df2e?api-version=2017-08-31",
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Fri, 01 Jul 2022 08:15:38 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operationresults/1b088eee-c0c0-4886-a847-4b963392df2e?api-version=2017-08-31",
+        "Pragma": "no-cache",
+        "Server": "nginx",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "36dd2ebc-fa3e-4435-b4f1-b081a513452c",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "1b088eee-c0c0-4886-a847-4b963392df2e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081539Z:36dd2ebc-fa3e-4435-b4f1-b081a513452c"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/1b088eee-c0c0-4886-a847-4b963392df2e?api-version=2017-08-31\u0026api-version=2022-05-02-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "7dd495ec-f34d-48d8-a340-5f72ce044d12"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "337",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 01 Jul 2022 08:15:38 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2fd4b037-9c34-42f7-a7b1-3bc34e90361f",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "2fd4b037-9c34-42f7-a7b1-3bc34e90361f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081539Z:2fd4b037-9c34-42f7-a7b1-3bc34e90361f"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027locations/operations\u0027 could not be found in the namespace \u0027Microsoft.ContainerService\u0027 for api version \u00272017-08-31,2022-05-02-preview\u0027. The supported api-versions are \u00272016-03-30,2017-01-31,2017-08-31,2018-10-31,2019-11-27,2016-09-30,2017-07-01,2015-11-01-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
