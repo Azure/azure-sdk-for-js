@@ -1,11 +1,18 @@
 # Release History
     
-## 2.0.2 (2022-07-01)
+## 3.0.0 (2022-07-01)
     
 **Features**
 
-  - Bug fix
-        
+  - Added Type Alias ErrorResponseCode
+  - Added Enum KnownErrorResponseCode
+
+**Breaking Changes**
+
+  - Class ACEProvisioningManagementPartnerAPI has a new signature
+  - Interface ErrorModel no longer has parameter code
+  - Interface ErrorModel no longer has parameter message
+    
 ## 2.0.1 (2022-04-24)
 
 **Features**
