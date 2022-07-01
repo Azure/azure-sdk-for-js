@@ -4,6 +4,7 @@
 
 ```ts
 
+import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
@@ -11,7 +12,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 export class ACEProvisioningManagementPartnerAPI extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(options?: ACEProvisioningManagementPartnerAPIOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ACEProvisioningManagementPartnerAPIOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -44,7 +45,9 @@ export interface ExtendedErrorInfo {
 
 // @public
 export enum KnownManagementPartnerState {
+    // (undocumented)
     Active = "Active",
+    // (undocumented)
     Deleted = "Deleted"
 }
 

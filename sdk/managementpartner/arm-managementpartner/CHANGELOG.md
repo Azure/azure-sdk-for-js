@@ -1,11 +1,11 @@
 # Release History
     
-## 3.0.0 (2022-06-30)
+## 2.0.2 (2022-07-01)
     
-**Breaking Changes**
+**Features**
 
-  - Class ACEProvisioningManagementPartnerAPI has a new signature
-    
+  - Bug fix
+        
 ## 2.0.1 (2022-04-24)
 
 **Features**
