@@ -43,7 +43,28 @@ export type CloudOfferingUnion =
   | CspmMonitorAwsOffering
   | DefenderForContainersAwsOffering
   | DefenderForServersAwsOffering
-  | InformationProtectionAwsOffering;
+  | DefenderFoDatabasesAwsOffering
+  | InformationProtectionAwsOffering
+  | CspmMonitorGcpOffering
+  | DefenderForServersGcpOffering
+  | DefenderForDatabasesGcpOffering
+  | DefenderForContainersGcpOffering
+  | CspmMonitorGithubOffering
+  | CspmMonitorAzureDevOpsOffering;
+export type EnvironmentDataUnion =
+  | EnvironmentData
+  | AWSEnvironmentData
+  | GcpProjectEnvironmentData
+  | GithubScopeEnvironmentData
+  | AzureDevOpsScopeEnvironmentData;
+export type AwsOrganizationalDataUnion =
+  | AwsOrganizationalData
+  | AwsOrganizationalDataMaster
+  | AwsOrganizationalDataMember;
+export type GcpOrganizationalDataUnion =
+  | GcpOrganizationalData
+  | GcpOrganizationalDataOrganization
+  | GcpOrganizationalDataMember;
 export type ExternalSecuritySolutionUnion =
   | ExternalSecuritySolution
   | CefExternalSecuritySolution
@@ -971,7 +992,7 @@ export interface SecurityAssessmentPartnerData {
   secret: string;
 }
 
-/** Represents a list of machine groups and set of rules that are recommended by Azure Security Center to be allowed */
+/** Represents a list of VM/server groups and set of rules that are Recommended by Microsoft Defender for Cloud to be allowed */
 export interface AdaptiveApplicationControlGroups {
   value?: AdaptiveApplicationControlGroup[];
 }
@@ -1744,7 +1765,14 @@ export interface CloudOffering {
     | "CspmMonitorAws"
     | "DefenderForContainersAws"
     | "DefenderForServersAws"
-    | "InformationProtectionAws";
+    | "DefenderForDatabasesAws"
+    | "InformationProtectionAws"
+    | "CspmMonitorGcp"
+    | "DefenderForServersGcp"
+    | "DefenderForDatabasesGcp"
+    | "DefenderForContainersGcp"
+    | "CspmMonitorGithub"
+    | "CspmMonitorAzureDevOps";
   /**
    * The offering description.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1752,16 +1780,99 @@ export interface CloudOffering {
   readonly description?: string;
 }
 
-/** The multi cloud account's organizational data */
-export interface SecurityConnectorPropertiesOrganizationalData {
-  /** The multi cloud account's membership type in the organization */
-  organizationMembershipType?: OrganizationMembershipType;
-  /** If the multi cloud account is not of membership type organization, this will be the ID of the account's parent */
-  parentHierarchyId?: string;
-  /** If the multi cloud account is of membership type organization, this will be the name of the onboarding stackset */
-  stacksetName?: string;
-  /** If the multi cloud account is of membership type organization, list of accounts excluded from offering */
-  excludedAccountIds?: string[];
+/** The security connector environment data. */
+export interface EnvironmentData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType:
+    | "AwsAccount"
+    | "GcpProject"
+    | "GithubScope"
+    | "AzureDevOpsScope";
+}
+
+/** Page of a security governanceRules list */
+export interface GovernanceRuleList {
+  /**
+   * Collection of governanceRules in this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: GovernanceRule[];
+  /**
+   * The URI to fetch the next page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Describe the owner source of governance rule */
+export interface GovernanceRuleOwnerSource {
+  /** The owner type for the governance rule owner source */
+  type?: GovernanceRuleOwnerSourceType;
+  /** The source value e.g. tag key like owner name or email address */
+  value?: string;
+}
+
+/** The governance email weekly notification configuration. */
+export interface GovernanceRuleEmailNotification {
+  /** Defines whether manager email notifications are disabled. */
+  disableManagerEmailNotification?: boolean;
+  /** Defines whether owner email notifications are disabled. */
+  disableOwnerEmailNotification?: boolean;
+}
+
+/** Governance rule execution parameters */
+export interface ExecuteGovernanceRuleParams {
+  /** Describe if governance rule should be override */
+  override?: boolean;
+}
+
+/** Execute status of Security GovernanceRule over a given scope */
+export interface ExecuteRuleStatus {
+  /**
+   * Unique key for the execution of GovernanceRule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationId?: string;
+}
+
+/** Page of a security governance assignments list */
+export interface GovernanceAssignmentsList {
+  /**
+   * Collection of governance assignments in this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: GovernanceAssignment[];
+  /**
+   * The URI to fetch the next page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The ETA (estimated time of arrival) for remediation */
+export interface RemediationEta {
+  /** ETA for remediation. */
+  eta: Date;
+  /** Justification for change of Eta. */
+  justification: string;
+}
+
+/** The governance email weekly notification configuration. */
+export interface GovernanceEmailNotification {
+  /** Exclude manager from weekly email notification. */
+  disableManagerEmailNotification?: boolean;
+  /** Exclude  owner from weekly email notification. */
+  disableOwnerEmailNotification?: boolean;
+}
+
+/** Describe the additional data of GovernanceAssignment - optional */
+export interface GovernanceAssignmentAdditionalData {
+  /** Ticket number associated with this GovernanceAssignment */
+  ticketNumber?: number;
+  /** Ticket link associated with this GovernanceAssignment - for example: https://snow.com */
+  ticketLink?: string;
+  /** The ticket status associated with this GovernanceAssignment - for example: Active */
+  ticketStatus?: string;
 }
 
 /** CVSS details */
@@ -1842,6 +1953,31 @@ export interface SecureScoreControlScore {
   readonly percentage?: number;
 }
 
+/** The awsOrganization data */
+export interface AwsOrganizationalData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  organizationMembershipType: "Organization" | "Member";
+}
+
+/** The gcpOrganization data */
+export interface GcpOrganizationalData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  organizationMembershipType: "Organization" | "Member";
+}
+
+/** The details about the project represented by the security connector */
+export interface GcpProjectDetails {
+  /** The unique GCP Project number */
+  projectNumber?: string;
+  /** The GCP Project id */
+  projectId?: string;
+  /**
+   * The GCP workload identity federation pool id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workloadIdentityPoolId?: string;
+}
+
 /** The native cloud connection configuration */
 export interface CspmMonitorAwsOfferingNativeCloudConnection {
   /** The cloud role ARN in AWS for this feature */
@@ -1850,24 +1986,36 @@ export interface CspmMonitorAwsOfferingNativeCloudConnection {
 
 /** The kubernetes service connection configuration */
 export interface DefenderForContainersAwsOfferingKubernetesService {
-  /** The cloud role ARN in AWS for this feature */
+  /** The cloud role ARN in AWS for this feature used for provisioning resources */
   cloudRoleArn?: string;
 }
 
 /** The kubernetes to scuba connection configuration */
 export interface DefenderForContainersAwsOfferingKubernetesScubaReader {
-  /** The cloud role ARN in AWS for this feature */
+  /** The cloud role ARN in AWS for this feature used for reading data */
   cloudRoleArn?: string;
 }
 
 /** The cloudwatch to kinesis connection configuration */
 export interface DefenderForContainersAwsOfferingCloudWatchToKinesis {
-  /** The cloud role ARN in AWS for this feature */
+  /** The cloud role ARN in AWS used by CloudWatch to transfer data into Kinesis */
   cloudRoleArn?: string;
 }
 
 /** The kinesis to s3 connection configuration */
 export interface DefenderForContainersAwsOfferingKinesisToS3 {
+  /** The cloud role ARN in AWS used by Kinesis to transfer data into S3 */
+  cloudRoleArn?: string;
+}
+
+/** The container vulnerability assessment configuration */
+export interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessment {
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** The container vulnerability assessment task configuration */
+export interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask {
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
 }
@@ -1882,6 +2030,8 @@ export interface DefenderForServersAwsOfferingDefenderForServers {
 export interface DefenderForServersAwsOfferingArcAutoProvisioning {
   /** Is arc auto provisioning enabled */
   enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
   /** Metadata of Service Principal secret for autoprovisioning */
   servicePrincipalSecretMetadata?: DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
 }
@@ -1896,10 +2046,186 @@ export interface DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipa
   parameterNameInStore?: string;
 }
 
+/** The Vulnerability Assessment autoprovisioning configuration */
+export interface DefenderForServersAwsOfferingVaAutoProvisioning {
+  /** Is Vulnerability Assessment auto provisioning enabled */
+  enabled?: boolean;
+  /** configuration for Vulnerability Assessment autoprovisioning */
+  configuration?: DefenderForServersAwsOfferingVaAutoProvisioningConfiguration;
+}
+
+/** configuration for Vulnerability Assessment autoprovisioning */
+export interface DefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
+  /** The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys' */
+  type?: Type;
+}
+
+/** The Microsoft Defender for Endpoint autoprovisioning configuration */
+export interface DefenderForServersAwsOfferingMdeAutoProvisioning {
+  /** Is Microsoft Defender for Endpoint auto provisioning enabled */
+  enabled?: boolean;
+  /** configuration for Microsoft Defender for Endpoint autoprovisioning */
+  configuration?: Record<string, unknown>;
+}
+
+/** configuration for the servers offering subPlan */
+export interface DefenderForServersAwsOfferingSubPlan {
+  /** The available sub plans */
+  type?: SubPlan;
+}
+
+/** The Microsoft Defender for Server VM scanning configuration */
+export interface DefenderForServersAwsOfferingVmScanners {
+  /** Is Microsoft Defender for Server VM scanning enabled */
+  enabled?: boolean;
+  /** configuration for Microsoft Defender for Server VM scanning */
+  configuration?: DefenderForServersAwsOfferingVmScannersConfiguration;
+}
+
+/** configuration for Microsoft Defender for Server VM scanning */
+export interface DefenderForServersAwsOfferingVmScannersConfiguration {
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+  /** The scanning mode for the vm scan. */
+  scanningMode?: ScanningMode;
+  /** VM tags that indicates that VM should not be scanned */
+  exclusionTags?: Record<string, unknown>;
+}
+
+/** The ARC autoprovisioning configuration */
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
+  /** Is arc auto provisioning enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+  /** Metadata of Service Principal secret for autoprovisioning */
+  servicePrincipalSecretMetadata?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
+}
+
+/** Metadata of Service Principal secret for autoprovisioning */
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
+  /** expiration date of service principal secret */
+  expiryDate?: Date;
+  /** region of parameter store where secret is kept */
+  parameterStoreRegion?: string;
+  /** name of secret resource in parameter store */
+  parameterNameInStore?: string;
+}
+
 /** The native cloud connection configuration */
 export interface InformationProtectionAwsOfferingInformationProtection {
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
+}
+
+/** The native cloud connection configuration */
+export interface CspmMonitorGcpOfferingNativeCloudConnection {
+  /** The GCP workload identity provider id for the offering */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for this offering */
+  serviceAccountEmailAddress?: string;
+}
+
+/** The Defender for servers connection configuration */
+export interface DefenderForServersGcpOfferingDefenderForServers {
+  /** The workload identity provider id in GCP for this feature */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for this feature */
+  serviceAccountEmailAddress?: string;
+}
+
+/** The ARC autoprovisioning configuration */
+export interface DefenderForServersGcpOfferingArcAutoProvisioning {
+  /** Is arc auto provisioning enabled */
+  enabled?: boolean;
+  /** Configuration for ARC autoprovisioning */
+  configuration?: DefenderForServersGcpOfferingArcAutoProvisioningConfiguration;
+}
+
+/** Configuration for ARC autoprovisioning */
+export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
+  /** The Azure service principal client id for agent onboarding */
+  clientId?: string;
+  /** The agent onboarding service account numeric id */
+  agentOnboardingServiceAccountNumericId?: string;
+}
+
+/** The Vulnerability Assessment autoprovisioning configuration */
+export interface DefenderForServersGcpOfferingVaAutoProvisioning {
+  /** Is Vulnerability Assessment auto provisioning enabled */
+  enabled?: boolean;
+  /** configuration for Vulnerability Assessment autoprovisioning */
+  configuration?: DefenderForServersGcpOfferingVaAutoProvisioningConfiguration;
+}
+
+/** configuration for Vulnerability Assessment autoprovisioning */
+export interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
+  /** The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys' */
+  type?: Type;
+}
+
+/** The Microsoft Defender for Endpoint autoprovisioning configuration */
+export interface DefenderForServersGcpOfferingMdeAutoProvisioning {
+  /** Is Microsoft Defender for Endpoint auto provisioning enabled */
+  enabled?: boolean;
+  /** configuration for Microsoft Defender for Endpoint autoprovisioning */
+  configuration?: Record<string, unknown>;
+}
+
+/** configuration for the servers offering subPlan */
+export interface DefenderForServersGcpOfferingSubPlan {
+  /** The available sub plans */
+  type?: SubPlan;
+}
+
+/** The ARC autoprovisioning configuration */
+export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
+  /** Is arc auto provisioning enabled */
+  enabled?: boolean;
+  /** Configuration for ARC autoprovisioning */
+  configuration?: DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration;
+}
+
+/** Configuration for ARC autoprovisioning */
+export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
+  /** The Azure service principal client id for agent onboarding */
+  clientId?: string;
+  /** The agent onboarding service account numeric id */
+  agentOnboardingServiceAccountNumericId?: string;
+}
+
+/** The native cloud connection configuration */
+export interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
+  /** The service account email address in GCP for this offering */
+  serviceAccountEmailAddress?: string;
+  /** The GCP workload identity provider id for this offering */
+  workloadIdentityProviderId?: string;
+}
+
+/** The native cloud connection configuration */
+export interface DefenderForContainersGcpOfferingNativeCloudConnection {
+  /** The service account email address in GCP for this offering */
+  serviceAccountEmailAddress?: string;
+  /** The GCP workload identity provider id for this offering */
+  workloadIdentityProviderId?: string;
+}
+
+/** The native cloud connection configuration */
+export interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection {
+  /** The data collection service account email address in GCP for this offering */
+  serviceAccountEmailAddress?: string;
+  /** The data collection GCP workload identity provider id for this offering */
+  workloadIdentityProviderId?: string;
+}
+
+/** Governance rule's condition */
+export interface Condition {
+  /** The governance rule Condition's Property, e.g. Severity or AssessmentKey, see examples */
+  property?: string;
+  /** The governance rule Condition's Value like severity Low, High or assessments keys, see examples */
+  value?: string;
+  /** The governance rule Condition's Operator, for example Equals for severity or In for list of assessments, see examples */
+  operator?: GovernanceRuleConditionOperator;
 }
 
 /** The resource of the configuration or data needed to onboard the machine to MDE */
@@ -1971,9 +2297,9 @@ export type ComplianceResult = Resource & {
   readonly resourceStatus?: ResourceStatus;
 };
 
-/** Azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
+/** Microsoft Defender for Cloud is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
 export type Pricing = Resource & {
-  /** The pricing tier value. Azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
+  /** The pricing tier value. Microsoft Defender for Cloud is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
   pricingTier?: PricingTier;
   /** The sub-plan selected for a Standard pricing configuration, when more than one sub-plan is available. Each sub-plan enables a set of security features. When not specified, full plan is applied. */
   subPlan?: string;
@@ -2424,7 +2750,7 @@ export type TrackedResource = Resource &
   AzureTrackedResourceLocation &
   KindAutoGenerated &
   ETag &
-  Tags & {};
+  Tags;
 
 /** Describes the suppression rule */
 export type AlertsSuppressionRule = Resource & {
@@ -2646,10 +2972,10 @@ export type SecuritySolutionsReferenceData = Resource &
     template: string;
   };
 
-/** Represents a security solution external to Azure Security Center which sends information to an OMS workspace and whose data is displayed by Azure Security Center. */
+/** Represents a security solution external to Microsoft Defender for Cloud which sends information to an OMS workspace and whose data is displayed by Microsoft Defender for Cloud. */
 export type ExternalSecuritySolution = Resource &
   ExternalSecuritySolutionKindAutoGenerated &
-  Location & {};
+  Location;
 
 /** Secure score item data model */
 export type SecureScoreItem = Resource & {
@@ -2943,6 +3269,48 @@ export type Software = Resource & {
   firstSeenAt?: string;
 };
 
+/** Security GovernanceRule over a given scope */
+export type GovernanceRule = Resource & {
+  /** display name of the governanceRule */
+  displayName?: string;
+  /** description of the governanceRule */
+  description?: string;
+  /** Governance rule remediation timeframe - this is the time that will affect on the grace-period duration e.g. 7.00:00:00 - means 7 days */
+  remediationTimeframe?: string;
+  /** Defines whether there is a grace period on the governance rule */
+  isGracePeriod?: boolean;
+  /** The governance rule priority, priority to the lower number. Rules with the same priority on the same subscription will not be allowed */
+  rulePriority?: number;
+  /** Defines whether the rule is active/inactive */
+  isDisabled?: boolean;
+  /** The rule type of the governance rule, defines the source of the rule e.g. Integrated */
+  ruleType?: GovernanceRuleType;
+  /** The governance rule source, what the rule affects, e.g. Assessments */
+  sourceResourceType?: GovernanceRuleSourceResourceType;
+  /** The governance rule conditionSets - see examples */
+  conditionSets?: Record<string, unknown>[];
+  /** The Owner source for the governance rule - e.g. Manually by user@contoso.com - see example */
+  ownerSource?: GovernanceRuleOwnerSource;
+  /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
+  governanceEmailNotification?: GovernanceRuleEmailNotification;
+};
+
+/** Security GovernanceAssignment over a given scope */
+export type GovernanceAssignment = Resource & {
+  /** The Owner for the governance assignment - e.g. user@contoso.com - see example */
+  owner?: string;
+  /** The remediation due-date - after this date Secure Score will be affected (in case of  active grace-period) */
+  remediationDueDate?: Date;
+  /** The ETA (estimated time of arrival) for remediation (optional), see example */
+  remediationEta?: RemediationEta;
+  /** Defines whether there is a grace period on the governance assignment */
+  isGracePeriod?: boolean;
+  /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
+  governanceEmailNotification?: GovernanceEmailNotification;
+  /** The additional data for the governance assignment - e.g. links to ticket (optional), see example */
+  additionalData?: GovernanceAssignmentAdditionalData;
+};
+
 /** Security assessment metadata */
 export type SecurityAssessmentMetadata = Resource & {
   /** User friendly display name of the assessment */
@@ -3147,7 +3515,7 @@ export type ServerVulnerabilityProperties = AdditionalData & {
   readonly vendorReferences?: VendorReference[];
 };
 
-/** The logic app action that should be triggered. To learn more about Security Center's Workflow Automation capabilities, visit https://aka.ms/ASCWorkflowAutomationLearnMore */
+/** The logic app action that should be triggered. To learn more about Microsoft Defender for Cloud's Workflow Automation capabilities, visit https://aka.ms/ASCWorkflowAutomationLearnMore */
 export type AutomationActionLogicApp = AutomationAction & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "LogicApp";
@@ -3157,7 +3525,7 @@ export type AutomationActionLogicApp = AutomationAction & {
   uri?: string;
 };
 
-/** The target Event Hub to which event data will be exported. To learn more about Security Center continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
+/** The target Event Hub to which event data will be exported. To learn more about Microsoft Defender for Cloud continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
 export type AutomationActionEventHub = AutomationAction & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "EventHub";
@@ -3172,7 +3540,7 @@ export type AutomationActionEventHub = AutomationAction & {
   connectionString?: string;
 };
 
-/** The Log Analytics Workspace to which event data will be exported. Security alerts data will reside in the 'SecurityAlert' table and the assessments data will reside in the 'SecurityRecommendation' table (under the 'Security'/'SecurityCenterFree' solutions). Note that in order to view the data in the workspace, the Security Center Log Analytics free/standard solution needs to be enabled on that workspace. To learn more about Security Center continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
+/** The Log Analytics Workspace to which event data will be exported. Security alerts data will reside in the 'SecurityAlert' table and the assessments data will reside in the 'SecurityRecommendation' table (under the 'Security'/'SecurityCenterFree' solutions). Note that in order to view the data in the workspace, the Security Center Log Analytics free/standard solution needs to be enabled on that workspace. To learn more about Microsoft Defender for Cloud continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
 export type AutomationActionWorkspace = AutomationAction & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "Workspace";
@@ -3317,7 +3685,7 @@ export type AlertSimulatorBundlesRequestProperties = AlertSimulatorRequestProper
   bundles?: BundleType[];
 };
 
-/** The CSPM monitoring for AWS offering configurations */
+/** The CSPM monitoring for AWS offering */
 export type CspmMonitorAwsOffering = CloudOffering & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   offeringType: "CspmMonitorAws";
@@ -3325,7 +3693,7 @@ export type CspmMonitorAwsOffering = CloudOffering & {
   nativeCloudConnection?: CspmMonitorAwsOfferingNativeCloudConnection;
 };
 
-/** The Defender for Containers AWS offering configurations */
+/** The Defender for Containers AWS offering */
 export type DefenderForContainersAwsOffering = CloudOffering & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   offeringType: "DefenderForContainersAws";
@@ -3337,9 +3705,21 @@ export type DefenderForContainersAwsOffering = CloudOffering & {
   cloudWatchToKinesis?: DefenderForContainersAwsOfferingCloudWatchToKinesis;
   /** The kinesis to s3 connection configuration */
   kinesisToS3?: DefenderForContainersAwsOfferingKinesisToS3;
+  /** The container vulnerability assessment configuration */
+  containerVulnerabilityAssessment?: DefenderForContainersAwsOfferingContainerVulnerabilityAssessment;
+  /** The container vulnerability assessment task configuration */
+  containerVulnerabilityAssessmentTask?: DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask;
+  /** Enable container vulnerability assessment feature */
+  enableContainerVulnerabilityAssessment?: boolean;
+  /** Is audit logs pipeline auto provisioning enabled */
+  autoProvisioning?: boolean;
+  /** The retention time in days of kube audit logs set on the CloudWatch log group */
+  kubeAuditRetentionTime?: number;
+  /** The externalId used by the data reader to prevent the confused deputy attack */
+  scubaExternalId?: string;
 };
 
-/** The Defender for Servers AWS offering configurations */
+/** The Defender for Servers AWS offering */
 export type DefenderForServersAwsOffering = CloudOffering & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   offeringType: "DefenderForServersAws";
@@ -3347,14 +3727,122 @@ export type DefenderForServersAwsOffering = CloudOffering & {
   defenderForServers?: DefenderForServersAwsOfferingDefenderForServers;
   /** The ARC autoprovisioning configuration */
   arcAutoProvisioning?: DefenderForServersAwsOfferingArcAutoProvisioning;
+  /** The Vulnerability Assessment autoprovisioning configuration */
+  vaAutoProvisioning?: DefenderForServersAwsOfferingVaAutoProvisioning;
+  /** The Microsoft Defender for Endpoint autoprovisioning configuration */
+  mdeAutoProvisioning?: DefenderForServersAwsOfferingMdeAutoProvisioning;
+  /** configuration for the servers offering subPlan */
+  subPlan?: DefenderForServersAwsOfferingSubPlan;
+  /** The Microsoft Defender for Server VM scanning configuration */
+  vmScanners?: DefenderForServersAwsOfferingVmScanners;
 };
 
-/** The information protection for AWS offering configurations */
+/** The Defender for Databases AWS offering */
+export type DefenderFoDatabasesAwsOffering = CloudOffering & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForDatabasesAws";
+  /** The ARC autoprovisioning configuration */
+  arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
+};
+
+/** The information protection for AWS offering */
 export type InformationProtectionAwsOffering = CloudOffering & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   offeringType: "InformationProtectionAws";
   /** The native cloud connection configuration */
   informationProtection?: InformationProtectionAwsOfferingInformationProtection;
+};
+
+/** The CSPM monitoring for GCP offering */
+export type CspmMonitorGcpOffering = CloudOffering & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "CspmMonitorGcp";
+  /** The native cloud connection configuration */
+  nativeCloudConnection?: CspmMonitorGcpOfferingNativeCloudConnection;
+};
+
+/** The Defender for Servers GCP offering configurations */
+export type DefenderForServersGcpOffering = CloudOffering & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForServersGcp";
+  /** The Defender for servers connection configuration */
+  defenderForServers?: DefenderForServersGcpOfferingDefenderForServers;
+  /** The ARC autoprovisioning configuration */
+  arcAutoProvisioning?: DefenderForServersGcpOfferingArcAutoProvisioning;
+  /** The Vulnerability Assessment autoprovisioning configuration */
+  vaAutoProvisioning?: DefenderForServersGcpOfferingVaAutoProvisioning;
+  /** The Microsoft Defender for Endpoint autoprovisioning configuration */
+  mdeAutoProvisioning?: DefenderForServersGcpOfferingMdeAutoProvisioning;
+  /** configuration for the servers offering subPlan */
+  subPlan?: DefenderForServersGcpOfferingSubPlan;
+};
+
+/** The Defender for Databases GCP offering configurations */
+export type DefenderForDatabasesGcpOffering = CloudOffering & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForDatabasesGcp";
+  /** The ARC autoprovisioning configuration */
+  arcAutoProvisioning?: DefenderForDatabasesGcpOfferingArcAutoProvisioning;
+  /** The native cloud connection configuration */
+  defenderForDatabasesArcAutoProvisioning?: DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning;
+};
+
+/** The containers GCP offering */
+export type DefenderForContainersGcpOffering = CloudOffering & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForContainersGcp";
+  /** The native cloud connection configuration */
+  nativeCloudConnection?: DefenderForContainersGcpOfferingNativeCloudConnection;
+  /** The native cloud connection configuration */
+  dataPipelineNativeCloudConnection?: DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
+  /** Is audit logs data collection enabled */
+  auditLogsAutoProvisioningFlag?: boolean;
+  /** Is Microsoft Defender for Cloud Kubernetes agent auto provisioning enabled */
+  defenderAgentAutoProvisioningFlag?: boolean;
+  /** Is Policy Kubernetes agent auto provisioning enabled */
+  policyAgentAutoProvisioningFlag?: boolean;
+};
+
+/** The CSPM monitoring for github offering */
+export type CspmMonitorGithubOffering = CloudOffering & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "CspmMonitorGithub";
+};
+
+/** The CSPM monitoring for AzureDevOps offering */
+export type CspmMonitorAzureDevOpsOffering = CloudOffering & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "CspmMonitorAzureDevOps";
+};
+
+/** The aws connector environment data */
+export type AWSEnvironmentData = EnvironmentData & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType: "AwsAccount";
+  /** The AWS account's organizational data */
+  organizationalData?: AwsOrganizationalDataUnion;
+};
+
+/** The GCP project connector environment data */
+export type GcpProjectEnvironmentData = EnvironmentData & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType: "GcpProject";
+  /** The Gcp project's organizational data */
+  organizationalData?: GcpOrganizationalDataUnion;
+  /** The Gcp project's details */
+  projectDetails?: GcpProjectDetails;
+};
+
+/** The github scope connector's environment data */
+export type GithubScopeEnvironmentData = EnvironmentData & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType: "GithubScope";
+};
+
+/** The AzureDevOps scope connector's environment data */
+export type AzureDevOpsScopeEnvironmentData = EnvironmentData & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType: "AzureDevOpsScope";
 };
 
 /** The external security solution properties for CEF solutions */
@@ -3371,7 +3859,47 @@ export type AtaSolutionProperties = ExternalSecuritySolutionProperties & {
 
 /** The external security solution properties for AAD solutions */
 export type AadSolutionProperties = ExternalSecuritySolutionProperties &
-  AadConnectivityStateAutoGenerated & {};
+  AadConnectivityStateAutoGenerated;
+
+/** The awsOrganization data for the master account */
+export type AwsOrganizationalDataMaster = AwsOrganizationalData & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  organizationMembershipType: "Organization";
+  /** If the multi cloud account is of membership type organization, this will be the name of the onboarding stackset */
+  stacksetName?: string;
+  /** If the multi cloud account is of membership type organization, list of accounts excluded from offering */
+  excludedAccountIds?: string[];
+};
+
+/** The awsOrganization data for the member account */
+export type AwsOrganizationalDataMember = AwsOrganizationalData & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  organizationMembershipType: "Member";
+  /** If the multi cloud account is not of membership type organization, this will be the ID of the account's parent */
+  parentHierarchyId?: string;
+};
+
+/** The gcpOrganization data for the parent account */
+export type GcpOrganizationalDataOrganization = GcpOrganizationalData & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  organizationMembershipType: "Organization";
+  /** If the multi cloud account is of membership type organization, list of accounts excluded from offering */
+  excludedProjectNumbers?: string[];
+  /** The service account email address which represents the organization level permissions container. */
+  serviceAccountEmailAddress?: string;
+  /** The GCP workload identity provider id which represents the permissions required to auto provision security connectors */
+  workloadIdentityProviderId?: string;
+};
+
+/** The gcpOrganization data for the member account */
+export type GcpOrganizationalDataMember = GcpOrganizationalData & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  organizationMembershipType: "Member";
+  /** If the multi cloud account is not of membership type organization, this will be the ID of the project's parent */
+  parentHierarchyId?: string;
+  /** The GCP management project number from organizational onboarding */
+  managementProjectNumber?: string;
+};
 
 /** The security automation resource. */
 export type Automation = TrackedResource & {
@@ -3394,14 +3922,19 @@ export type SecurityConnector = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** The multi cloud resource identifier (account id in case of AWS connector). */
+  /** The multi cloud resource identifier (account id in case of AWS connector, project number in case of GCP connector). */
   hierarchyIdentifier?: string;
+  /**
+   * The date on which the trial period will end, if applicable. Trial period exists for 30 days after upgrading to payed offerings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hierarchyIdentifierTrialEndDate?: Date;
   /** The multi cloud resource's cloud name. */
-  cloudName?: CloudName;
+  environmentName?: CloudName;
   /** A collection of offerings for the security connector. */
   offerings?: CloudOfferingUnion[];
-  /** The multi cloud account's organizational data */
-  organizationalData?: SecurityConnectorPropertiesOrganizationalData;
+  /** The security connector environment data. */
+  environmentData?: EnvironmentDataUnion;
 };
 
 /** Represents a security solution which sends CEF logs to an OMS workspace */
@@ -3610,6 +4143,30 @@ export type ProcessNotAllowed = AllowlistCustomAlertRule & {
   ruleType: "ProcessNotAllowed";
 };
 
+/** Defines headers for GovernanceRules_ruleIdExecuteSingleSubscription operation. */
+export interface GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders {
+  /** Location URL for the execution status */
+  location?: string;
+}
+
+/** Defines headers for GovernanceRules_ruleIdExecuteSingleSecurityConnector operation. */
+export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders {
+  /** Location URL for the execution status */
+  location?: string;
+}
+
+/** Defines headers for SubscriptionGovernanceRulesExecuteStatus_get operation. */
+export interface SubscriptionGovernanceRulesExecuteStatusGetHeaders {
+  /** Location URL for the execution status */
+  location?: string;
+}
+
+/** Defines headers for SecurityConnectorGovernanceRulesExecuteStatus_get operation. */
+export interface SecurityConnectorGovernanceRulesExecuteStatusGetHeaders {
+  /** Location URL for the execution status */
+  location?: string;
+}
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   User = "User",
@@ -3690,9 +4247,9 @@ export type ResourceStatus = string;
 
 /** Known values of {@link PricingTier} that the service accepts. */
 export enum KnownPricingTier {
-  /** Get free Azure security center experience with basic security features */
+  /** Get free Microsoft Defender for Cloud experience with basic security features */
   Free = "Free",
-  /** Get the standard Azure security center experience with advanced security features */
+  /** Get the standard Microsoft Defender for Cloud experience with advanced security features */
   Standard = "Standard"
 }
 
@@ -3701,8 +4258,8 @@ export enum KnownPricingTier {
  * {@link KnownPricingTier} can be used interchangeably with PricingTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Free**: Get free Azure security center experience with basic security features \
- * **Standard**: Get the standard Azure security center experience with advanced security features
+ * **Free**: Get free Microsoft Defender for Cloud experience with basic security features \
+ * **Standard**: Get the standard Microsoft Defender for Cloud experience with advanced security features
  */
 export type PricingTier = string;
 
@@ -4589,11 +5146,11 @@ export type Threats = string;
 
 /** Known values of {@link AssessmentType} that the service accepts. */
 export enum KnownAssessmentType {
-  /** Azure Security Center managed assessments */
+  /** Microsoft Defender for Cloud managed assessments */
   BuiltIn = "BuiltIn",
-  /** User defined policies that are automatically ingested from Azure Policy to Azure Security Center */
+  /** User defined policies that are automatically ingested from Azure Policy to Microsoft Defender for Cloud */
   CustomPolicy = "CustomPolicy",
-  /** User assessments pushed directly by the user or other third party to Azure Security Center */
+  /** User assessments pushed directly by the user or other third party to Microsoft Defender for Cloud */
   CustomerManaged = "CustomerManaged",
   /** An assessment that was created by a verified 3rd party if the user connected it to ASC */
   VerifiedPartner = "VerifiedPartner"
@@ -4604,9 +5161,9 @@ export enum KnownAssessmentType {
  * {@link KnownAssessmentType} can be used interchangeably with AssessmentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **BuiltIn**: Azure Security Center managed assessments \
- * **CustomPolicy**: User defined policies that are automatically ingested from Azure Policy to Azure Security Center \
- * **CustomerManaged**: User assessments pushed directly by the user or other third party to Azure Security Center \
+ * **BuiltIn**: Microsoft Defender for Cloud managed assessments \
+ * **CustomPolicy**: User defined policies that are automatically ingested from Azure Policy to Microsoft Defender for Cloud \
+ * **CustomerManaged**: User assessments pushed directly by the user or other third party to Microsoft Defender for Cloud \
  * **VerifiedPartner**: An assessment that was created by a verified 3rd party if the user connected it to ASC
  */
 export type AssessmentType = string;
@@ -4971,9 +5528,9 @@ export type ExpandControlsEnum = string;
 
 /** Known values of {@link ControlType} that the service accepts. */
 export enum KnownControlType {
-  /** Azure Security Center managed assessments */
+  /** Microsoft Defender for Cloud managed assessments */
   BuiltIn = "BuiltIn",
-  /** Non Azure Security Center managed assessments */
+  /** Non Microsoft Defender for Cloud managed assessments */
   Custom = "Custom"
 }
 
@@ -4982,8 +5539,8 @@ export enum KnownControlType {
  * {@link KnownControlType} can be used interchangeably with ControlType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **BuiltIn**: Azure Security Center managed assessments \
- * **Custom**: Non Azure Security Center managed assessments
+ * **BuiltIn**: Microsoft Defender for Cloud managed assessments \
+ * **Custom**: Non Microsoft Defender for Cloud managed assessments
  */
 export type ControlType = string;
 
@@ -5368,6 +5925,7 @@ export enum KnownSettingName {
   Mcas = "MCAS",
   Wdatp = "WDATP",
   WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW",
+  WdatpUnifiedSolution = "WDATP_UNIFIED_SOLUTION",
   Sentinel = "Sentinel"
 }
 
@@ -5379,6 +5937,7 @@ export enum KnownSettingName {
  * **MCAS** \
  * **WDATP** \
  * **WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW** \
+ * **WDATP_UNIFIED_SOLUTION** \
  * **Sentinel**
  */
 export type SettingName = string;
@@ -5409,7 +5968,9 @@ export type EndOfSupportStatus = string;
 export enum KnownCloudName {
   Azure = "Azure",
   AWS = "AWS",
-  GCP = "GCP"
+  GCP = "GCP",
+  Github = "Github",
+  AzureDevOps = "AzureDevOps"
 }
 
 /**
@@ -5419,7 +5980,9 @@ export enum KnownCloudName {
  * ### Known values supported by the service
  * **Azure** \
  * **AWS** \
- * **GCP**
+ * **GCP** \
+ * **Github** \
+ * **AzureDevOps**
  */
 export type CloudName = string;
 
@@ -5428,7 +5991,14 @@ export enum KnownOfferingType {
   CspmMonitorAws = "CspmMonitorAws",
   DefenderForContainersAws = "DefenderForContainersAws",
   DefenderForServersAws = "DefenderForServersAws",
-  InformationProtectionAws = "InformationProtectionAws"
+  DefenderForDatabasesAws = "DefenderForDatabasesAws",
+  InformationProtectionAws = "InformationProtectionAws",
+  CspmMonitorGcp = "CspmMonitorGcp",
+  CspmMonitorGithub = "CspmMonitorGithub",
+  CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
+  DefenderForServersGcp = "DefenderForServersGcp",
+  DefenderForContainersGcp = "DefenderForContainersGcp",
+  DefenderForDatabasesGcp = "DefenderForDatabasesGcp"
 }
 
 /**
@@ -5439,25 +6009,87 @@ export enum KnownOfferingType {
  * **CspmMonitorAws** \
  * **DefenderForContainersAws** \
  * **DefenderForServersAws** \
- * **InformationProtectionAws**
+ * **DefenderForDatabasesAws** \
+ * **InformationProtectionAws** \
+ * **CspmMonitorGcp** \
+ * **CspmMonitorGithub** \
+ * **CspmMonitorAzureDevOps** \
+ * **DefenderForServersGcp** \
+ * **DefenderForContainersGcp** \
+ * **DefenderForDatabasesGcp**
  */
 export type OfferingType = string;
 
-/** Known values of {@link OrganizationMembershipType} that the service accepts. */
-export enum KnownOrganizationMembershipType {
-  Member = "Member",
-  Organization = "Organization"
+/** Known values of {@link EnvironmentType} that the service accepts. */
+export enum KnownEnvironmentType {
+  AwsAccount = "AwsAccount",
+  GcpProject = "GcpProject",
+  GithubScope = "GithubScope",
+  AzureDevOpsScope = "AzureDevOpsScope"
 }
 
 /**
- * Defines values for OrganizationMembershipType. \
- * {@link KnownOrganizationMembershipType} can be used interchangeably with OrganizationMembershipType,
+ * Defines values for EnvironmentType. \
+ * {@link KnownEnvironmentType} can be used interchangeably with EnvironmentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Member** \
- * **Organization**
+ * **AwsAccount** \
+ * **GcpProject** \
+ * **GithubScope** \
+ * **AzureDevOpsScope**
  */
-export type OrganizationMembershipType = string;
+export type EnvironmentType = string;
+
+/** Known values of {@link GovernanceRuleType} that the service accepts. */
+export enum KnownGovernanceRuleType {
+  /** The source of the rule type definition is integrated */
+  Integrated = "Integrated",
+  /** The source of the rule type definition is ServiceNow */
+  ServiceNow = "ServiceNow"
+}
+
+/**
+ * Defines values for GovernanceRuleType. \
+ * {@link KnownGovernanceRuleType} can be used interchangeably with GovernanceRuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Integrated**: The source of the rule type definition is integrated \
+ * **ServiceNow**: The source of the rule type definition is ServiceNow
+ */
+export type GovernanceRuleType = string;
+
+/** Known values of {@link GovernanceRuleSourceResourceType} that the service accepts. */
+export enum KnownGovernanceRuleSourceResourceType {
+  /** The source of the governance rule is assessments */
+  Assessments = "Assessments"
+}
+
+/**
+ * Defines values for GovernanceRuleSourceResourceType. \
+ * {@link KnownGovernanceRuleSourceResourceType} can be used interchangeably with GovernanceRuleSourceResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Assessments**: The source of the governance rule is assessments
+ */
+export type GovernanceRuleSourceResourceType = string;
+
+/** Known values of {@link GovernanceRuleOwnerSourceType} that the service accepts. */
+export enum KnownGovernanceRuleOwnerSourceType {
+  /** The rule source type defined using resource tag */
+  ByTag = "ByTag",
+  /** The rule source type defined manually */
+  Manually = "Manually"
+}
+
+/**
+ * Defines values for GovernanceRuleOwnerSourceType. \
+ * {@link KnownGovernanceRuleOwnerSourceType} can be used interchangeably with GovernanceRuleOwnerSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ByTag**: The rule source type defined using resource tag \
+ * **Manually**: The rule source type defined manually
+ */
+export type GovernanceRuleOwnerSourceType = string;
 
 /** Known values of {@link AadConnectivityState} that the service accepts. */
 export enum KnownAadConnectivityState {
@@ -5504,6 +6136,86 @@ export enum KnownBundleType {
  * **VirtualMachines**
  */
 export type BundleType = string;
+
+/** Known values of {@link OrganizationMembershipType} that the service accepts. */
+export enum KnownOrganizationMembershipType {
+  Member = "Member",
+  Organization = "Organization"
+}
+
+/**
+ * Defines values for OrganizationMembershipType. \
+ * {@link KnownOrganizationMembershipType} can be used interchangeably with OrganizationMembershipType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Member** \
+ * **Organization**
+ */
+export type OrganizationMembershipType = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  Qualys = "Qualys",
+  TVM = "TVM"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Qualys** \
+ * **TVM**
+ */
+export type Type = string;
+
+/** Known values of {@link SubPlan} that the service accepts. */
+export enum KnownSubPlan {
+  P1 = "P1",
+  P2 = "P2"
+}
+
+/**
+ * Defines values for SubPlan. \
+ * {@link KnownSubPlan} can be used interchangeably with SubPlan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **P1** \
+ * **P2**
+ */
+export type SubPlan = string;
+
+/** Known values of {@link ScanningMode} that the service accepts. */
+export enum KnownScanningMode {
+  Default = "Default"
+}
+
+/**
+ * Defines values for ScanningMode. \
+ * {@link KnownScanningMode} can be used interchangeably with ScanningMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**
+ */
+export type ScanningMode = string;
+
+/** Known values of {@link GovernanceRuleConditionOperator} that the service accepts. */
+export enum KnownGovernanceRuleConditionOperator {
+  /** Checks that the string value of the data defined in Property equals the given value - exact fit */
+  Equals = "Equals",
+  /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
+  In = "In"
+}
+
+/**
+ * Defines values for GovernanceRuleConditionOperator. \
+ * {@link KnownGovernanceRuleConditionOperator} can be used interchangeably with GovernanceRuleConditionOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals**: Checks that the string value of the data defined in Property equals the given value - exact fit \
+ * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
+ */
+export type GovernanceRuleConditionOperator = string;
 /** Defines values for Rank. */
 export type Rank = "None" | "Low" | "Medium" | "High" | "Critical";
 /** Defines values for RuleState. */
@@ -7197,6 +7909,154 @@ export interface SecurityConnectorsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type SecurityConnectorsListByResourceGroupNextResponse = SecurityConnectorsList;
+
+/** Optional parameters. */
+export interface GovernanceRuleListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GovernanceRuleListResponse = GovernanceRuleList;
+
+/** Optional parameters. */
+export interface GovernanceRuleListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GovernanceRuleListNextResponse = GovernanceRuleList;
+
+/** Optional parameters. */
+export interface GovernanceRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GovernanceRulesGetResponse = GovernanceRule;
+
+/** Optional parameters. */
+export interface GovernanceRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GovernanceRulesCreateOrUpdateResponse = GovernanceRule;
+
+/** Optional parameters. */
+export interface GovernanceRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** GovernanceRule over a subscription scope */
+  executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the ruleIdExecuteSingleSubscription operation. */
+export type GovernanceRulesRuleIdExecuteSingleSubscriptionResponse = GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders;
+
+/** Optional parameters. */
+export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
+  extends coreClient.OperationOptions {
+  /** GovernanceRule over a subscription scope */
+  executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the ruleIdExecuteSingleSecurityConnector operation. */
+export type GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse = GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders;
+
+/** Optional parameters. */
+export interface SecurityConnectorGovernanceRuleListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SecurityConnectorGovernanceRuleListResponse = GovernanceRuleList;
+
+/** Optional parameters. */
+export interface SecurityConnectorGovernanceRuleListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecurityConnectorGovernanceRuleListNextResponse = GovernanceRuleList;
+
+/** Optional parameters. */
+export interface SecurityConnectorGovernanceRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SecurityConnectorGovernanceRulesGetResponse = GovernanceRule;
+
+/** Optional parameters. */
+export interface SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SecurityConnectorGovernanceRulesCreateOrUpdateResponse = GovernanceRule;
+
+/** Optional parameters. */
+export interface SecurityConnectorGovernanceRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SubscriptionGovernanceRulesExecuteStatusGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the get operation. */
+export type SubscriptionGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
+
+/** Optional parameters. */
+export interface SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the get operation. */
+export type SecurityConnectorGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
+
+/** Optional parameters. */
+export interface GovernanceAssignmentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GovernanceAssignmentsListResponse = GovernanceAssignmentsList;
+
+/** Optional parameters. */
+export interface GovernanceAssignmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GovernanceAssignmentsGetResponse = GovernanceAssignment;
+
+/** Optional parameters. */
+export interface GovernanceAssignmentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GovernanceAssignmentsCreateOrUpdateResponse = GovernanceAssignment;
+
+/** Optional parameters. */
+export interface GovernanceAssignmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GovernanceAssignmentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GovernanceAssignmentsListNextResponse = GovernanceAssignmentsList;
 
 /** Optional parameters. */
 export interface SecurityCenterOptionalParams

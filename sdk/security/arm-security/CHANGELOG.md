@@ -1,15 +1,166 @@
 # Release History
+    
+## 6.0.0-beta.1 (2022-07-01)
+    
+**Features**
 
-## 5.0.1 (Unreleased)
+  - Added operation group GovernanceAssignments
+  - Added operation group GovernanceRuleOperations
+  - Added operation group GovernanceRules
+  - Added operation group SecurityConnectorGovernanceRule
+  - Added operation group SecurityConnectorGovernanceRules
+  - Added operation group SecurityConnectorGovernanceRulesExecuteStatus
+  - Added operation group SubscriptionGovernanceRulesExecuteStatus
+  - Added Interface AwsOrganizationalData
+  - Added Interface Condition
+  - Added Interface CspmMonitorGcpOfferingNativeCloudConnection
+  - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning
+  - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata
+  - Added Interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessment
+  - Added Interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask
+  - Added Interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection
+  - Added Interface DefenderForContainersGcpOfferingNativeCloudConnection
+  - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioning
+  - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration
+  - Added Interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning
+  - Added Interface DefenderForServersAwsOfferingMdeAutoProvisioning
+  - Added Interface DefenderForServersAwsOfferingSubPlan
+  - Added Interface DefenderForServersAwsOfferingVaAutoProvisioning
+  - Added Interface DefenderForServersAwsOfferingVaAutoProvisioningConfiguration
+  - Added Interface DefenderForServersAwsOfferingVmScanners
+  - Added Interface DefenderForServersAwsOfferingVmScannersConfiguration
+  - Added Interface DefenderForServersGcpOfferingArcAutoProvisioning
+  - Added Interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration
+  - Added Interface DefenderForServersGcpOfferingDefenderForServers
+  - Added Interface DefenderForServersGcpOfferingMdeAutoProvisioning
+  - Added Interface DefenderForServersGcpOfferingSubPlan
+  - Added Interface DefenderForServersGcpOfferingVaAutoProvisioning
+  - Added Interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration
+  - Added Interface EnvironmentData
+  - Added Interface ExecuteGovernanceRuleParams
+  - Added Interface ExecuteRuleStatus
+  - Added Interface GcpOrganizationalData
+  - Added Interface GcpProjectDetails
+  - Added Interface GovernanceAssignmentAdditionalData
+  - Added Interface GovernanceAssignmentsCreateOrUpdateOptionalParams
+  - Added Interface GovernanceAssignmentsDeleteOptionalParams
+  - Added Interface GovernanceAssignmentsGetOptionalParams
+  - Added Interface GovernanceAssignmentsList
+  - Added Interface GovernanceAssignmentsListNextOptionalParams
+  - Added Interface GovernanceAssignmentsListOptionalParams
+  - Added Interface GovernanceEmailNotification
+  - Added Interface GovernanceRuleEmailNotification
+  - Added Interface GovernanceRuleList
+  - Added Interface GovernanceRuleListNextOptionalParams
+  - Added Interface GovernanceRuleListOptionalParams
+  - Added Interface GovernanceRuleOwnerSource
+  - Added Interface GovernanceRulesCreateOrUpdateOptionalParams
+  - Added Interface GovernanceRulesDeleteOptionalParams
+  - Added Interface GovernanceRulesGetOptionalParams
+  - Added Interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders
+  - Added Interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
+  - Added Interface GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders
+  - Added Interface GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
+  - Added Interface RemediationEta
+  - Added Interface SecurityConnectorGovernanceRuleListNextOptionalParams
+  - Added Interface SecurityConnectorGovernanceRuleListOptionalParams
+  - Added Interface SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams
+  - Added Interface SecurityConnectorGovernanceRulesDeleteOptionalParams
+  - Added Interface SecurityConnectorGovernanceRulesExecuteStatusGetHeaders
+  - Added Interface SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams
+  - Added Interface SecurityConnectorGovernanceRulesGetOptionalParams
+  - Added Interface SubscriptionGovernanceRulesExecuteStatusGetHeaders
+  - Added Interface SubscriptionGovernanceRulesExecuteStatusGetOptionalParams
+  - Added Type Alias AWSEnvironmentData
+  - Added Type Alias AwsOrganizationalDataMaster
+  - Added Type Alias AwsOrganizationalDataMember
+  - Added Type Alias AwsOrganizationalDataUnion
+  - Added Type Alias AzureDevOpsScopeEnvironmentData
+  - Added Type Alias CspmMonitorAzureDevOpsOffering
+  - Added Type Alias CspmMonitorGcpOffering
+  - Added Type Alias CspmMonitorGithubOffering
+  - Added Type Alias DefenderFoDatabasesAwsOffering
+  - Added Type Alias DefenderForContainersGcpOffering
+  - Added Type Alias DefenderForDatabasesGcpOffering
+  - Added Type Alias DefenderForServersGcpOffering
+  - Added Type Alias EnvironmentDataUnion
+  - Added Type Alias EnvironmentType
+  - Added Type Alias GcpOrganizationalDataMember
+  - Added Type Alias GcpOrganizationalDataOrganization
+  - Added Type Alias GcpOrganizationalDataUnion
+  - Added Type Alias GcpProjectEnvironmentData
+  - Added Type Alias GithubScopeEnvironmentData
+  - Added Type Alias GovernanceAssignment
+  - Added Type Alias GovernanceAssignmentsCreateOrUpdateResponse
+  - Added Type Alias GovernanceAssignmentsGetResponse
+  - Added Type Alias GovernanceAssignmentsListNextResponse
+  - Added Type Alias GovernanceAssignmentsListResponse
+  - Added Type Alias GovernanceRule
+  - Added Type Alias GovernanceRuleConditionOperator
+  - Added Type Alias GovernanceRuleListNextResponse
+  - Added Type Alias GovernanceRuleListResponse
+  - Added Type Alias GovernanceRuleOwnerSourceType
+  - Added Type Alias GovernanceRulesCreateOrUpdateResponse
+  - Added Type Alias GovernanceRulesGetResponse
+  - Added Type Alias GovernanceRuleSourceResourceType
+  - Added Type Alias GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse
+  - Added Type Alias GovernanceRulesRuleIdExecuteSingleSubscriptionResponse
+  - Added Type Alias GovernanceRuleType
+  - Added Type Alias ScanningMode
+  - Added Type Alias SecurityConnectorGovernanceRuleListNextResponse
+  - Added Type Alias SecurityConnectorGovernanceRuleListResponse
+  - Added Type Alias SecurityConnectorGovernanceRulesCreateOrUpdateResponse
+  - Added Type Alias SecurityConnectorGovernanceRulesExecuteStatusGetResponse
+  - Added Type Alias SecurityConnectorGovernanceRulesGetResponse
+  - Added Type Alias SubPlan
+  - Added Type Alias SubscriptionGovernanceRulesExecuteStatusGetResponse
+  - Added Type Alias Type
+  - Interface DefenderForServersAwsOfferingArcAutoProvisioning has a new optional parameter cloudRoleArn
+  - Class SecurityCenter has a new parameter governanceAssignments
+  - Class SecurityCenter has a new parameter governanceRuleOperations
+  - Class SecurityCenter has a new parameter governanceRules
+  - Class SecurityCenter has a new parameter securityConnectorGovernanceRule
+  - Class SecurityCenter has a new parameter securityConnectorGovernanceRules
+  - Class SecurityCenter has a new parameter securityConnectorGovernanceRulesExecuteStatus
+  - Class SecurityCenter has a new parameter subscriptionGovernanceRulesExecuteStatus
+  - Type Alias DefenderForContainersAwsOffering has a new parameter containerVulnerabilityAssessment
+  - Type Alias DefenderForContainersAwsOffering has a new parameter containerVulnerabilityAssessmentTask
+  - Type Alias DefenderForContainersAwsOffering has a new parameter enableContainerVulnerabilityAssessment
+  - Type Alias DefenderForContainersAwsOffering has a new parameter autoProvisioning
+  - Type Alias DefenderForContainersAwsOffering has a new parameter kubeAuditRetentionTime
+  - Type Alias DefenderForContainersAwsOffering has a new parameter scubaExternalId
+  - Type Alias DefenderForServersAwsOffering has a new parameter vaAutoProvisioning
+  - Type Alias DefenderForServersAwsOffering has a new parameter mdeAutoProvisioning
+  - Type Alias DefenderForServersAwsOffering has a new parameter subPlan
+  - Type Alias DefenderForServersAwsOffering has a new parameter vmScanners
+  - Type Alias SecurityConnector has a new parameter hierarchyIdentifierTrialEndDate
+  - Type Alias SecurityConnector has a new parameter environmentName
+  - Type Alias SecurityConnector has a new parameter environmentData
+  - Added Enum KnownEnvironmentType
+  - Added Enum KnownGovernanceRuleConditionOperator
+  - Added Enum KnownGovernanceRuleOwnerSourceType
+  - Added Enum KnownGovernanceRuleSourceResourceType
+  - Added Enum KnownGovernanceRuleType
+  - Added Enum KnownScanningMode
+  - Added Enum KnownSubPlan
+  - Added Enum KnownType
+  - Enum KnownCloudName has a new value AzureDevOps
+  - Enum KnownCloudName has a new value Github
+  - Enum KnownOfferingType has a new value CspmMonitorAzureDevOps
+  - Enum KnownOfferingType has a new value CspmMonitorGcp
+  - Enum KnownOfferingType has a new value CspmMonitorGithub
+  - Enum KnownOfferingType has a new value DefenderForContainersGcp
+  - Enum KnownOfferingType has a new value DefenderForDatabasesAws
+  - Enum KnownOfferingType has a new value DefenderForDatabasesGcp
+  - Enum KnownOfferingType has a new value DefenderForServersGcp
+  - Enum KnownSettingName has a new value WdatpUnifiedSolution
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type Alias SecurityConnector no longer has parameter cloudName
+  - Type Alias SecurityConnector no longer has parameter organizationalData
+    
+    
 ## 5.0.0 (2022-03-30)
     
 **Features**

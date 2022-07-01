@@ -12,9 +12,9 @@ import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets a provided Security Center pricing configuration in the subscription.
+ * This sample demonstrates how to Gets a provided Microsoft Defender for Cloud pricing configuration in the subscription.
  *
- * @summary Gets a provided Security Center pricing configuration in the subscription.
+ * @summary Gets a provided Microsoft Defender for Cloud pricing configuration in the subscription.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2022-03-01/examples/Pricings/GetPricingByName_example.json
  */
 async function getPricingsOnSubscription() {

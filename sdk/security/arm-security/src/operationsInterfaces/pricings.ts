@@ -19,12 +19,12 @@ import {
 /** Interface representing a Pricings. */
 export interface Pricings {
   /**
-   * Lists Security Center pricing configurations in the subscription.
+   * Lists Microsoft Defender for Cloud pricing configurations in the subscription.
    * @param options The options parameters.
    */
   list(options?: PricingsListOptionalParams): Promise<PricingsListResponse>;
   /**
-   * Gets a provided Security Center pricing configuration in the subscription.
+   * Gets a provided Microsoft Defender for Cloud pricing configuration in the subscription.
    * @param pricingName name of the pricing configuration
    * @param options The options parameters.
    */
@@ -33,7 +33,7 @@ export interface Pricings {
     options?: PricingsGetOptionalParams
   ): Promise<PricingsGetResponse>;
   /**
-   * Updates a provided Security Center pricing configuration in the subscription.
+   * Updates a provided Microsoft Defender for Cloud pricing configuration in the subscription.
    * @param pricingName name of the pricing configuration
    * @param pricing Pricing object
    * @param options The options parameters.
