@@ -95,7 +95,9 @@ export interface OperationDisplay {
 
 /** Known values of {@link ManagementPartnerState} that the service accepts. */
 export enum KnownManagementPartnerState {
+  /** Active */
   Active = "Active",
+  /** Deleted */
   Deleted = "Deleted"
 }
 

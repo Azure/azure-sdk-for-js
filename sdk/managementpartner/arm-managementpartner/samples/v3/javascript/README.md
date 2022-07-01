@@ -54,17 +54,17 @@ npx cross-env  node deletePartnerDetails.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[deletepartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/deletePartnerDetails.js
-[getoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/getOperations.js
-[getpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/getPartnerDetails.js
-[operationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/operationListSample.js
-[partnercreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/partnerCreateSample.js
-[partnerdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/partnerDeleteSample.js
-[partnergetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/partnerGetSample.js
-[partnerupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/partnerUpdateSample.js
-[partnersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/partnersGetSample.js
-[patchpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/patchPartnerDetails.js
-[putpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/putPartnerDetails.js
+[deletepartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/deletePartnerDetails.js
+[getoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/getOperations.js
+[getpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/getPartnerDetails.js
+[operationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/operationListSample.js
+[partnercreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/partnerCreateSample.js
+[partnerdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/partnerDeleteSample.js
+[partnergetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/partnerGetSample.js
+[partnerupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/partnerUpdateSample.js
+[partnersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/partnersGetSample.js
+[patchpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/patchPartnerDetails.js
+[putpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/putPartnerDetails.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-managementpartner?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managementpartner/arm-managementpartner/README.md

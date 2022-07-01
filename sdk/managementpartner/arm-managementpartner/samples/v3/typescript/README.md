@@ -66,17 +66,17 @@ npx cross-env  node dist/deletePartnerDetails.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[deletepartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/deletePartnerDetails.ts
-[getoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/getOperations.ts
-[getpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/getPartnerDetails.ts
-[operationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/operationListSample.ts
-[partnercreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/partnerCreateSample.ts
-[partnerdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/partnerDeleteSample.ts
-[partnergetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/partnerGetSample.ts
-[partnerupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/partnerUpdateSample.ts
-[partnersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/partnersGetSample.ts
-[patchpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/patchPartnerDetails.ts
-[putpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/typescript/src/putPartnerDetails.ts
+[deletepartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/deletePartnerDetails.ts
+[getoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/getOperations.ts
+[getpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/getPartnerDetails.ts
+[operationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/operationListSample.ts
+[partnercreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/partnerCreateSample.ts
+[partnerdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/partnerDeleteSample.ts
+[partnergetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/partnerGetSample.ts
+[partnerupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/partnerUpdateSample.ts
+[partnersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/partnersGetSample.ts
+[patchpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/patchPartnerDetails.ts
+[putpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/typescript/src/putPartnerDetails.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-managementpartner?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managementpartner/arm-managementpartner/README.md

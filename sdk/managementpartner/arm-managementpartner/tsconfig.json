@@ -23,9 +23,7 @@
     }
   },
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "samples-dev/**/*.ts"
+    "./src/**/*.ts"
   ],
   "exclude": [
     "node_modules"
