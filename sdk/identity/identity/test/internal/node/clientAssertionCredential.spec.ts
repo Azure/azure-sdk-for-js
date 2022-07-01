@@ -85,13 +85,8 @@ describe("ClientAssertionCredential (internal)", function () {
     console.log(getTokenSilentSpy.callCount);
     console.log(doGetTokenSpy.callCount);
 
-    // console.dir(spy.calledWith({
-    //   assertion: await getAssertion(),
-    //   assertionType: "jwt_bearer"
-    // }));
     console.log(doGetTokenSpy.args[0]);
     const sentConfiguration = doGetTokenSpy.args[0][0];
-    assert.equal(sentConfiguration.clientAssertion.assertion, "assertion");
-    assert.equal(sentConfiguration.clientAssertion.assertionType, "urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
+    assert.equal(sentConfiguration.clientAssertion, "assertion");
   });
 });
