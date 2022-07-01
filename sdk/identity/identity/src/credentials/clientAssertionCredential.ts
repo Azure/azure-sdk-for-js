@@ -12,18 +12,13 @@ import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
 const logger = credentialLogger("ClientAssertionCredential");
 
 /**
- * Optional parameters for the {@link ClientAssertionCredential} class.
- */
-export interface ClientAssertionCredentialOptions extends TokenCredentialOptions { }
-
-/**
  * Authenticates a service principal with a JWT assertion.
  */
 export class ClientAssertionCredential implements TokenCredential {
   private msalFlow: MsalFlow;
   private tenantId: string;
   private clientId: string;
-  private options: ClientAssertionCredentialOptions;
+  private options: TokenCredentialOptions;
 
   /**
    * Creates an instance of the ClientAssertionCredential with the details
@@ -39,7 +34,7 @@ export class ClientAssertionCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     getAssertion: () => Promise<string>,
-    options: ClientAssertionCredentialOptions = {}
+    options: TokenCredentialOptions = {}
   ) {
     if (!tenantId || !clientId || !getAssertion) {
       throw new Error(
@@ -70,7 +65,7 @@ export class ClientAssertionCredential implements TokenCredential {
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow!.getToken(arrayScopes, newOptions);
+      return this.msalFlow.getToken(arrayScopes, newOptions);
     });
   }
 }

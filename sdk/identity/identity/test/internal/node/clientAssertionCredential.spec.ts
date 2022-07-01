@@ -40,17 +40,17 @@ describe("ClientAssertionCredential (internal)", function () {
   it("Should throw if the parameteres are not correctly specified", async function () {
     const errors: Error[] = [];
     try {
-      new ClientAssertionCredential(undefined as any, env.AZURE_CLIENT_ID || "client", async () => "assertion");
+      new ClientAssertionCredential(undefined as any, env.AZURE_CLIENT_ID ?? "client", async () => "assertion");
     } catch (e: any) {
       errors.push(e);
     }
     try {
-      new ClientAssertionCredential(env.AZURE_TENANT_ID || "tenant", undefined as any, async () => "assertion");
+      new ClientAssertionCredential(env.AZURE_TENANT_ID ?? "tenant", undefined as any, async () => "assertion");
     } catch (e: any) {
       errors.push(e);
     }
     try {
-      new ClientAssertionCredential(env.AZURE_TENANT_ID || "tenant", env.AZURE_CLIENT_ID || "client", undefined as any);
+      new ClientAssertionCredential(env.AZURE_TENANT_ID ?? "tenant", env.AZURE_CLIENT_ID ?? "client", undefined as any);
     } catch (e: any) {
       errors.push(e);
     }
@@ -69,9 +69,9 @@ describe("ClientAssertionCredential (internal)", function () {
   });
 
   it("Sends the expected parameters", async function () {
-    let tenantId = env.IDENTITY_SP_TENANT_ID || "tenant";
-    let clientId =  env.IDENTITY_SP_CLIENT_ID || "client";
-    let certificatePath = env.IDENTITY_SP_CERT_PEM || "certificate-path";
+    let tenantId = env.IDENTITY_SP_TENANT_ID ?? "tenant";
+    let clientId =  env.IDENTITY_SP_CLIENT_ID ?? "client";
+    let certificatePath = env.IDENTITY_SP_CERT_PEM ?? "certificate-path";
     const authorityHost = `https://login.microsoftonline.com/${tenantId}`
 
     async function getAssertion(): Promise<string> {
