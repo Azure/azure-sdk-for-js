@@ -7,7 +7,7 @@
  */
 
 import {
-  TilesetID,
+  TilesetId,
   TileIndex,
   RenderV2GetMapTileOptionalParams,
   RenderV2GetMapTileResponse,
@@ -51,7 +51,7 @@ export interface RenderV2 {
    * @param options The options parameters.
    */
   getMapTile(
-    tilesetId: TilesetID,
+    tilesetId: TilesetId,
     tileIndex: TileIndex,
     options?: RenderV2GetMapTileOptionalParams
   ): Promise<RenderV2GetMapTileResponse>;
@@ -67,7 +67,7 @@ export interface RenderV2 {
    * @param options The options parameters.
    */
   getMapTileset(
-    tilesetId: TilesetID,
+    tilesetId: TilesetId,
     options?: RenderV2GetMapTilesetOptionalParams
   ): Promise<RenderV2GetMapTilesetResponse>;
   /**
@@ -89,7 +89,7 @@ export interface RenderV2 {
    * @param options The options parameters.
    */
   getMapAttribution(
-    tilesetId: TilesetID,
+    tilesetId: TilesetId,
     zoom: number,
     bounds: number[],
     options?: RenderV2GetMapAttributionOptionalParams

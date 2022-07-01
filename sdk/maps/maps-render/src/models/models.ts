@@ -5,7 +5,7 @@ import { CopyrightCaption as CopyrightCaptionResult } from "../generated/models"
 import { BoundingBox, LatLon } from "../../../maps-common/src";
 export { BoundingBox, LatLon };
 export {
-  TilesetID,
+  TilesetId,
   LocalizedMapView,
   MapTileSize,
   TileIndex,
@@ -18,7 +18,7 @@ export {
   RegionCopyrights,
   RegionCopyrightsCountry,
   MapTileset,
-  KnownTilesetID,
+  KnownTilesetId,
   KnownLocalizedMapView,
   KnownMapTileSize,
   KnownRasterTileFormat,
