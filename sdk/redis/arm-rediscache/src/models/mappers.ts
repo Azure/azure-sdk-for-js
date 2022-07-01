@@ -522,6 +522,12 @@ export const RedisCommonPropertiesRedisConfiguration: coreClient.CompositeMapper
           name: "String"
         }
       },
+      aofBackupEnabled: {
+        serializedName: "aof-backup-enabled",
+        type: {
+          name: "String"
+        }
+      },
       aofStorageConnectionString0: {
         serializedName: "aof-storage-connection-string-0",
         type: {
@@ -582,6 +588,12 @@ export const RedisCommonPropertiesRedisConfiguration: coreClient.CompositeMapper
       zonalConfiguration: {
         serializedName: "zonal-configuration",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      authnotrequired: {
+        serializedName: "authnotrequired",
         type: {
           name: "String"
         }

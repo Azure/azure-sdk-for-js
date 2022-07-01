@@ -1,15 +1,13 @@
 # Release History
+    
+## 6.2.0 (2022-07-01)
+    
+**Features**
 
-## 6.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter aofBackupEnabled
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter authnotrequired
+    
+    
 ## 6.1.0 (2022-03-07)
     
 **Features**

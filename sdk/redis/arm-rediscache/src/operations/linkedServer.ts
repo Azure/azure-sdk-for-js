@@ -164,10 +164,12 @@ export class LinkedServerImpl implements LinkedServer {
       { resourceGroupName, name, linkedServerName, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

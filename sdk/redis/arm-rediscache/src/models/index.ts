@@ -206,6 +206,8 @@ export interface RedisCommonPropertiesRedisConfiguration {
   rdbBackupMaxSnapshotCount?: string;
   /** The storage account connection string for storing rdb file */
   rdbStorageConnectionString?: string;
+  /** Specifies whether the aof backup is enabled */
+  aofBackupEnabled?: string;
   /** First storage account connection string */
   aofStorageConnectionString0?: string;
   /** Second storage account connection string */
@@ -238,6 +240,8 @@ export interface RedisCommonPropertiesRedisConfiguration {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly zonalConfiguration?: string;
+  /** Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view. */
+  authnotrequired?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
