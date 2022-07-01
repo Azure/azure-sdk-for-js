@@ -36,22 +36,22 @@ describe("ClientAssertionCredential (internal)", function () {
     const errors: Error[] = [];
     try {
       new ClientAssertionCredential(undefined as any, env.AZURE_CLIENT_ID || "client", async () => "assertion");
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
       new ClientAssertionCredential(env.AZURE_TENANT_ID || "tenant", undefined as any, async () => "assertion");
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
       new ClientAssertionCredential(env.AZURE_TENANT_ID || "tenant", env.AZURE_CLIENT_ID || "client", undefined as any);
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     try {
       new ClientAssertionCredential(undefined as any, undefined as any, undefined as any);
-    } catch (e) {
+    } catch (e: any) {
       errors.push(e);
     }
     assert.equal(errors.length, 4);
@@ -76,7 +76,7 @@ describe("ClientAssertionCredential (internal)", function () {
 
     try {
       await credential.getToken("https://vault.azure.net/.default");
-    } catch (e) {
+    } catch (e: any) {
       // We're ignoring errors since our main goal here is to ensure that we send the correct parameters to MSAL.
       console.log("error");
       console.log(e);

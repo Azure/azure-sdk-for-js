@@ -38,22 +38,18 @@ export class MsalClientAssertion extends MsalNode {
       console.log("inside doget token of MsalClientAssertion");
       console.dir(this.getAssertion);
       const assertion = await this.getAssertion();
-      const JWT_BEARER_ASSERTION = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
       const result = await this.confidentialApp!.acquireTokenByClientCredential({
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,
         authority: options.authority,
         claims: options.claims,
-        clientAssertion: {
-          assertion: assertion,
-          assertionType: JWT_BEARER_ASSERTION,
-        }
+        clientAssertion: assertion
       });
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }
