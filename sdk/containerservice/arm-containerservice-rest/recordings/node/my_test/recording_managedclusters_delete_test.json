@@ -9,30 +9,30 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
-        "x-ms-client-request-id": "5fa7cc49-7296-4c47-b2f3-e39fa61fa7de"
+        "x-ms-client-request-id": "7bb1537f-c5db-44bf-baca-c8aeb0e9e448"
       },
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/1b088eee-c0c0-4886-a847-4b963392df2e?api-version=2017-08-31",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/17fa0091-c18a-45fc-9efd-fbe61e06ae49?api-version=2017-08-31",
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Fri, 01 Jul 2022 08:15:38 GMT",
+        "Date": "Fri, 01 Jul 2022 08:43:57 GMT",
         "Expires": "-1",
-        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operationresults/1b088eee-c0c0-4886-a847-4b963392df2e?api-version=2017-08-31",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operationresults/17fa0091-c18a-45fc-9efd-fbe61e06ae49?api-version=2017-08-31",
         "Pragma": "no-cache",
         "Server": "nginx",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "36dd2ebc-fa3e-4435-b4f1-b081a513452c",
+        "x-ms-correlation-request-id": "6ae35bf9-e347-4a92-a0fc-4d21a28fb3b0",
         "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "1b088eee-c0c0-4886-a847-4b963392df2e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081539Z:36dd2ebc-fa3e-4435-b4f1-b081a513452c"
+        "x-ms-request-id": "17fa0091-c18a-45fc-9efd-fbe61e06ae49",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T084358Z:6ae35bf9-e347-4a92-a0fc-4d21a28fb3b0"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/1b088eee-c0c0-4886-a847-4b963392df2e?api-version=2017-08-31\u0026api-version=2022-05-02-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/17fa0091-c18a-45fc-9efd-fbe61e06ae49?api-version=2017-08-31\u0026api-version=2022-05-02-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -40,7 +40,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
-        "x-ms-client-request-id": "7dd495ec-f34d-48d8-a340-5f72ce044d12"
+        "x-ms-client-request-id": "46a367fe-b7ec-4242-95df-1a4fc854f005"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -48,15 +48,15 @@
         "Cache-Control": "no-cache",
         "Content-Length": "337",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 01 Jul 2022 08:15:38 GMT",
+        "Date": "Fri, 01 Jul 2022 08:43:58 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "2fd4b037-9c34-42f7-a7b1-3bc34e90361f",
+        "x-ms-correlation-request-id": "408cc566-dd5e-4f6e-8829-73cc30e38970",
         "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "2fd4b037-9c34-42f7-a7b1-3bc34e90361f",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081539Z:2fd4b037-9c34-42f7-a7b1-3bc34e90361f"
+        "x-ms-request-id": "408cc566-dd5e-4f6e-8829-73cc30e38970",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T084358Z:408cc566-dd5e-4f6e-8829-73cc30e38970"
       },
       "ResponseBody": {
         "error": {

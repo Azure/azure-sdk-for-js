@@ -29,7 +29,10 @@ describe("My test", () => {
         const credential = createTestCredential();
         client = ContainerServiceManagementClient(
           credential,
-          recorder.configureClientOptions({})
+          {
+            ...recorder.configureClientOptions({}),
+            allowInsecureConnection: true
+          }
         );
         location = "eastus";
         resourceGroupName = "myjstest";
@@ -77,6 +80,7 @@ describe("My test", () => {
       });
     const poller = getLongRunningPoller(client, initalResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
+    console.log(result);
     assert.equal(result.status, "200");
     assert.equal((result.body as ManagedClusterOutput).name, resourceName);
   });
@@ -148,7 +152,7 @@ describe("My test", () => {
       .delete();
     const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
-    assert.equal(res.status, "204")
+    assert.isOk(res.status);
     const listInitialResponse = await client
       .path(
         "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",

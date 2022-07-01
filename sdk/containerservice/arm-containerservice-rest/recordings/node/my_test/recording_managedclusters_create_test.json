@@ -11,7 +11,7 @@
         "Content-Length": "359",
         "Content-Type": "application/json; charset=UTF-8",
         "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
-        "x-ms-client-request-id": "37c92e1c-a13b-4347-bc8a-578ada60dd57"
+        "x-ms-client-request-id": "d9cb00fc-14a6-443e-87b8-b41dbf86b582"
       },
       "RequestBody": {
         "properties": {
@@ -39,20 +39,20 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/4b8ef99e-2b1d-44ff-8d68-eb076b093e38?api-version=2017-08-31",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/61cc8ac4-d705-4d79-9ba4-dfe5d4f32a12?api-version=2017-08-31",
         "Cache-Control": "no-cache",
         "Content-Length": "2271",
         "Content-Type": "application/json",
-        "Date": "Fri, 01 Jul 2022 08:15:21 GMT",
+        "Date": "Fri, 01 Jul 2022 08:43:39 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "112cefd2-0601-40fa-a5c5-6a3e948a2db6",
+        "x-ms-correlation-request-id": "a1143904-3ded-457a-a241-5b2ae904b813",
         "x-ms-ratelimit-remaining-subscription-writes": "1199",
-        "x-ms-request-id": "4b8ef99e-2b1d-44ff-8d68-eb076b093e38",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081521Z:112cefd2-0601-40fa-a5c5-6a3e948a2db6"
+        "x-ms-request-id": "61cc8ac4-d705-4d79-9ba4-dfe5d4f32a12",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T084340Z:a1143904-3ded-457a-a241-5b2ae904b813"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
@@ -67,8 +67,8 @@
           "kubernetesVersion": "1.22.6",
           "currentKubernetesVersion": "1.22.6",
           "dnsPrefix": "aksjssdk",
-          "fqdn": "aksjssdk-9c626bc7.hcp.eastus.azmk8s.io",
-          "azurePortalFQDN": "aksjssdk-9c626bc7.portal.hcp.eastus.azmk8s.io",
+          "fqdn": "aksjssdk-a9ab484c.hcp.eastus.azmk8s.io",
+          "azurePortalFQDN": "aksjssdk-a9ab484c.portal.hcp.eastus.azmk8s.io",
           "agentPoolProfiles": [
             {
               "name": "aksagent",
@@ -148,7 +148,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/4b8ef99e-2b1d-44ff-8d68-eb076b093e38?api-version=2017-08-31\u0026api-version=2022-05-02-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/61cc8ac4-d705-4d79-9ba4-dfe5d4f32a12?api-version=2017-08-31\u0026api-version=2022-05-02-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -156,7 +156,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
-        "x-ms-client-request-id": "b8452072-d2ed-4d17-894c-86414ef073a4"
+        "x-ms-client-request-id": "99a65e60-bdd0-4a0d-bda9-4ffeede5a2f1"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -164,15 +164,15 @@
         "Cache-Control": "no-cache",
         "Content-Length": "337",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 01 Jul 2022 08:15:21 GMT",
+        "Date": "Fri, 01 Jul 2022 08:43:39 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "68834b67-3a83-4870-b8b2-6099f304b718",
+        "x-ms-correlation-request-id": "a0e43bdd-5d0b-4788-a5ed-e4b9b4817fb6",
         "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "68834b67-3a83-4870-b8b2-6099f304b718",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T081521Z:68834b67-3a83-4870-b8b2-6099f304b718"
+        "x-ms-request-id": "a0e43bdd-5d0b-4788-a5ed-e4b9b4817fb6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T084340Z:a0e43bdd-5d0b-4788-a5ed-e4b9b4817fb6"
       },
       "ResponseBody": {
         "error": {
