@@ -541,8 +541,10 @@ export interface RedisCommonProperties {
 // @public
 export interface RedisCommonPropertiesRedisConfiguration {
     [property: string]: any;
+    aofBackupEnabled?: string;
     aofStorageConnectionString0?: string;
     aofStorageConnectionString1?: string;
+    authnotrequired?: string;
     readonly maxclients?: string;
     maxfragmentationmemoryReserved?: string;
     maxmemoryDelta?: string;
