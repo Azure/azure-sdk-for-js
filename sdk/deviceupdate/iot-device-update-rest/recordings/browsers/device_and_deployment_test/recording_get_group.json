@@ -17,23 +17,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "23555471-85a6-4af6-8bf2-9cb939cc342e",
+        "x-ms-client-request-id": "9770065c-169b-476d-9635-b48723478bd2",
         "x-ms-useragent": "core-rest-pipeline/1.8.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "162",
+        "Content-Length": "296",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Jun 2022 22:52:02 GMT",
-        "mise-correlation-id": "4c311d7f-d281-43f5-be2b-fe8d39c98305",
-        "traceparent": "00-fe8da621abd9886431c50825529d0759-8b51086afa087c07-00"
+        "Date": "Fri, 01 Jul 2022 23:33:02 GMT",
+        "mise-correlation-id": "a9ca574d-023d-4e68-abc5-f4b431d7c7a3",
+        "traceparent": "00-cad34671d85465323cd91683743a5a67-a2ab937261d3afba-00"
       },
       "ResponseBody": {
         "groupId": "dpokluda-test",
         "groupType": "IoTHubTag",
         "createdDateTime": "2022-06-09T00:08:48.4487\u002B00:00",
         "deviceCount": 1,
+        "subgroupsWithNewUpdatesAvailableCount": 1,
+        "subgroupsWithUpdatesInProgressCount": 0,
+        "subgroupsWithOnLatestUpdateCount": 0,
         "deployments": []
       }
     }

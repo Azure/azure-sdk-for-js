@@ -17,17 +17,17 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "15a5fb2b-d60e-4950-9b72-feba691049c9",
+        "x-ms-client-request-id": "f7e2ff78-8936-4977-b15a-13d386c62627",
         "x-ms-useragent": "core-rest-pipeline/1.8.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "384",
+        "Content-Length": "701",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Jun 2022 22:52:02 GMT",
-        "mise-correlation-id": "0bfbac0a-1551-49bb-90c6-480681592b58",
-        "traceparent": "00-ac12315758f798adaaaf222de4362d99-ba172bfb3abfad96-00"
+        "Date": "Fri, 01 Jul 2022 23:33:02 GMT",
+        "mise-correlation-id": "871429ec-f1ab-4d38-946b-89c75518e826",
+        "traceparent": "00-e65c0fe784f1baeb9d14f851ea68b0cf-4ffc0bcb44e2f0cb-00"
       },
       "ResponseBody": {
         "value": [
@@ -35,6 +35,10 @@
             "groupId": "$default",
             "groupType": "DefaultNoTag",
             "createdDateTime": "2022-06-08T23:58:17.7255595\u002B00:00",
+            "deviceCount": 0,
+            "subgroupsWithNewUpdatesAvailableCount": 0,
+            "subgroupsWithUpdatesInProgressCount": 0,
+            "subgroupsWithOnLatestUpdateCount": 0,
             "deployments": []
           },
           {
@@ -42,6 +46,9 @@
             "groupType": "IoTHubTag",
             "createdDateTime": "2022-06-09T00:08:48.4487\u002B00:00",
             "deviceCount": 1,
+            "subgroupsWithNewUpdatesAvailableCount": 1,
+            "subgroupsWithUpdatesInProgressCount": 0,
+            "subgroupsWithOnLatestUpdateCount": 0,
             "deployments": []
           }
         ]

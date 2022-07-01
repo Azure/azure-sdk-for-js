@@ -1,0 +1,42 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups/dpokluda-test/bestUpdates?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.8.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "93c778f0-d044-4815-a127-560ee42df8b6"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "331",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 01 Jul 2022 23:32:21 GMT",
+        "mise-correlation-id": "e2209229-42d7-4a31-a884-20d2ef3f73ab",
+        "traceparent": "00-cfcee37a6e72027fff9ceb3915069058-8372e4cd495ee6e1-00"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "groupId": "dpokluda-test",
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
+            "update": {
+              "updateId": {
+                "provider": "fabrikam",
+                "name": "vacuum",
+                "version": "2022.701.235.32"
+              }
+            },
+            "deviceCount": 1
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

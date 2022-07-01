@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/deviceClasses/foo?api-version=2022-07-01-preview",
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups/dpokluda-test/bestUpdates?api-version=2022-07-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,23 +17,33 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "0367ef04-b4b2-4306-ac3e-e77bc4b95ea2",
+        "x-ms-client-request-id": "4d5db66e-71a4-4063-940a-027052d1aef4",
         "x-ms-useragent": "core-rest-pipeline/1.8.1 OS/Win32"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "183",
-        "Content-Type": "application/problem\u002Bjson; charset=utf-8",
+        "Content-Length": "331",
+        "Content-Type": "application/json; charset=utf-8",
         "Date": "Fri, 01 Jul 2022 23:33:03 GMT",
-        "mise-correlation-id": "7c6ee6fb-a16f-4851-9664-56f01fe7b5c6",
-        "traceparent": "00-157d310465e347efe5d2108fac485c63-d66b901fb841b6f1-00"
+        "mise-correlation-id": "8c5830c7-3230-4762-a589-fb55fc3c95eb",
+        "traceparent": "00-3c55ba77395f2e67612e2ee8ad171c2f-009a2581f86c060e-00"
       },
       "ResponseBody": {
-        "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-        "title": "Not Found",
-        "status": 404,
-        "traceId": "00-157d310465e347efe5d2108fac485c63-a695c0e5ddd3bb40-00"
+        "value": [
+          {
+            "groupId": "dpokluda-test",
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
+            "update": {
+              "updateId": {
+                "provider": "fabrikam",
+                "name": "vacuum",
+                "version": "2022.701.235.32"
+              }
+            },
+            "deviceCount": 1
+          }
+        ]
       }
     }
   ],
