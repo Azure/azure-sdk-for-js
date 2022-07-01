@@ -114,6 +114,7 @@ export const MapTileset: coreClient.CompositeMapper = {
           Pattern: new RegExp("\\d+\\.\\d+\\.\\d+\\w?[\\w\\d]*")
         },
         serializedName: "tilejson",
+        required: true,
         type: {
           name: "String"
         }
@@ -165,6 +166,7 @@ export const MapTileset: coreClient.CompositeMapper = {
       },
       tiles: {
         serializedName: "tiles",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -249,6 +251,7 @@ export const MapAttribution: coreClient.CompositeMapper = {
     modelProperties: {
       copyrights: {
         serializedName: "copyrights",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -276,6 +279,7 @@ export const CopyrightCaption: coreClient.CompositeMapper = {
       },
       copyrightsCaption: {
         serializedName: "copyrightsCaption",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -333,6 +337,7 @@ export const RegionCopyrights: coreClient.CompositeMapper = {
     modelProperties: {
       copyrights: {
         serializedName: "copyrights",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -361,6 +366,7 @@ export const RegionCopyrightsCountry: coreClient.CompositeMapper = {
     modelProperties: {
       iso3: {
         serializedName: "ISO3",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -368,6 +374,7 @@ export const RegionCopyrightsCountry: coreClient.CompositeMapper = {
       },
       label: {
         serializedName: "label",
+        required: true,
         readOnly: true,
         type: {
           name: "String"

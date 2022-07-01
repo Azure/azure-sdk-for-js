@@ -28,7 +28,7 @@ export interface Copyright {
 
 // @public
 export interface CopyrightCaptionResult {
-    readonly copyrightsCaption?: string;
+    readonly copyrightsCaption: string;
     readonly formatVersion?: string;
 }
 
@@ -42,7 +42,7 @@ export interface GetCopyrightCaptionOptions extends OperationOptions {
 
 // @public
 export interface GetCopyrightOptions extends OperationOptions {
-    includeText?: IncludeText;
+    includeText?: boolean;
 }
 
 // @public
@@ -132,7 +132,7 @@ export enum KnownStaticMapLayer {
 }
 
 // @public
-export enum KnownTilesetID {
+export enum KnownTilesetId {
     MicrosoftBase = "microsoft.base",
     MicrosoftBaseDarkgrey = "microsoft.base.darkgrey",
     MicrosoftBaseHybrid = "microsoft.base.hybrid",
@@ -172,7 +172,7 @@ export type LocalizedMapView = string;
 
 // @public
 export interface MapAttribution {
-    copyrights?: string[];
+    copyrights: string[];
 }
 
 // @public
@@ -186,11 +186,11 @@ export class MapsRenderClient {
     getCopyrightForTile(tileIndex: TileIndex, options?: GetCopyrightOptions): Promise<Copyright>;
     getCopyrightForWorld(options?: GetCopyrightOptions): Promise<Copyright>;
     getCopyrightFromBoundingBox(boundingBox: BoundingBox, options?: GetCopyrightOptions): Promise<Copyright>;
-    getMapAttribution(tilesetId: TilesetID, zoom: number, boundingBox: BoundingBox, options?: GetAttributionOptions): Promise<MapAttribution>;
+    getMapAttribution(tilesetId: TilesetId, zoom: number, boundingBox: BoundingBox, options?: GetAttributionOptions): Promise<MapAttribution>;
     getMapStateTile(statesetId: string, tileIndex: TileIndex, options?: GetMapStateTileOptions): Promise<MapTile>;
     getMapStaticImage(format: RasterTileFormat, options?: GetMapStaticImageOptions): Promise<MapTile>;
-    getMapTile(tilesetId: TilesetID, tileIndex: TileIndex, options?: GetMapTileOptions): Promise<MapTile>;
-    getMapTileset(tilesetId: TilesetID, options?: GetMapTilesetOptions): Promise<MapTileset>;
+    getMapTile(tilesetId: TilesetId, tileIndex: TileIndex, options?: GetMapTileOptions): Promise<MapTile>;
+    getMapTileset(tilesetId: TilesetId, options?: GetMapTilesetOptions): Promise<MapTileset>;
 }
 
 // @public
@@ -217,8 +217,8 @@ export interface MapTileset {
     name?: string;
     scheme?: string;
     template?: string;
-    tilejson?: string;
-    tiles?: string[];
+    tilejson: string;
+    tiles: string[];
     version?: string;
 }
 
@@ -230,14 +230,14 @@ export type RasterTileFormat = string;
 
 // @public (undocumented)
 export interface RegionCopyrights {
-    readonly copyrights?: string[];
-    readonly country?: RegionCopyrightsCountry;
+    readonly copyrights: string[];
+    readonly country: RegionCopyrightsCountry;
 }
 
 // @public
 export interface RegionCopyrightsCountry {
-    readonly iso3?: string;
-    readonly label?: string;
+    readonly iso3: string;
+    readonly label: string;
 }
 
 // @public
@@ -251,7 +251,7 @@ export interface TileIndex {
 }
 
 // @public
-export type TilesetID = string;
+export type TilesetId = string;
 
 // (No @packageDocumentation comment for this package)
 

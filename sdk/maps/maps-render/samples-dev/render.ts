@@ -8,7 +8,7 @@
 import fs from "fs";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { MapsRenderClient, KnownTilesetID, KnownRasterTileFormat } from "@azure/maps-render";
+import { MapsRenderClient, KnownTilesetId, KnownRasterTileFormat } from "@azure/maps-render";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -86,20 +86,20 @@ async function main() {
 
   console.log(" --- Get map tile v2:");
   const mapTileOptions = { tileSize: "512" };
-  result = await client.getMapTile(KnownTilesetID.MicrosoftBase, tileIndex, mapTileOptions);
+  result = await client.getMapTile(KnownTilesetId.MicrosoftBase, tileIndex, mapTileOptions);
   // use result.blobBody for Browser, readableStreamBody for Node.js:
   result.readableStreamBody &&
     result.readableStreamBody.pipe(fs.createWriteStream("tmp/tile_v2.vector.pbf"));
 
   console.log(" --- Get attribution:");
-  const attribution = await client.getMapAttribution(KnownTilesetID.MicrosoftBase, 6, {
+  const attribution = await client.getMapAttribution(KnownTilesetId.MicrosoftBase, 6, {
     bottomRight: { latitude: 47.57949, longitude: -122.247157 },
     topLeft: { latitude: 47.668372, longitude: -122.414162 },
   });
   console.log(attribution);
 
   console.log(" --- Get tileset metadata:");
-  const metadata = await client.getMapTileset(KnownTilesetID.MicrosoftBase);
+  const metadata = await client.getMapTileset(KnownTilesetId.MicrosoftBase);
   console.log(metadata);
 }
 

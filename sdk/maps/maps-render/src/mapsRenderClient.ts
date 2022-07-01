@@ -18,9 +18,9 @@ import {
   MapTileset,
   RasterTileFormat,
   TileIndex,
-  TilesetID,
+  TilesetId,
 } from "./generated";
-import { BoundingBox } from "./models/models";
+import { BoundingBox, KnownIncludeText } from "./models/models";
 import {
   GetAttributionOptions,
   GetCopyrightCaptionOptions,
@@ -127,7 +127,7 @@ export class MapsRenderClient {
    * @param options - Optional parameters for the operation
    */
   public async getMapTile(
-    tilesetId: TilesetID,
+    tilesetId: TilesetId,
     tileIndex: TileIndex,
     options: GetMapTileOptions = {}
   ): Promise<MapTile> {
@@ -153,7 +153,7 @@ export class MapsRenderClient {
    * @param options - Optional parameters for the operation
    */
   public async getMapTileset(
-    tilesetId: TilesetID,
+    tilesetId: TilesetId,
     options: GetMapTilesetOptions = {}
   ): Promise<MapTileset> {
     const { span, updatedOptions } = createSpan("MapsRenderClient-getMapTileset", options);
@@ -180,7 +180,7 @@ export class MapsRenderClient {
    * @param options - Optional parameters for the operation
    */
   public async getMapAttribution(
-    tilesetId: TilesetID,
+    tilesetId: TilesetId,
     zoom: number,
     boundingBox: BoundingBox,
     options: GetAttributionOptions = {}
@@ -326,7 +326,11 @@ export class MapsRenderClient {
           southWest: [boundingBox.bottomRight.latitude, boundingBox.topLeft.longitude],
           northEast: [boundingBox.topLeft.latitude, boundingBox.bottomRight.longitude],
         },
-        updatedOptions
+        {
+          ...updatedOptions,
+          includeText:
+            updatedOptions.includeText === false ? KnownIncludeText.No : KnownIncludeText.Yes,
+        }
       );
       return result;
     } catch (e) {
@@ -352,11 +356,11 @@ export class MapsRenderClient {
   ): Promise<Copyright> {
     const { span, updatedOptions } = createSpan("MapsRenderClient-getCopyrightForTile", options);
     try {
-      const result = await this.client.renderV2.getCopyrightForTile(
-        this.defaultFormat,
-        tileIndex,
-        updatedOptions
-      );
+      const result = await this.client.renderV2.getCopyrightForTile(this.defaultFormat, tileIndex, {
+        ...updatedOptions,
+        includeText:
+          updatedOptions.includeText === false ? KnownIncludeText.No : KnownIncludeText.Yes,
+      });
       return result;
     } catch (e) {
       span.setStatus({
@@ -377,10 +381,11 @@ export class MapsRenderClient {
   public async getCopyrightForWorld(options: GetCopyrightOptions = {}): Promise<Copyright> {
     const { span, updatedOptions } = createSpan("MapsRenderClient-getCopyrightForWorld", options);
     try {
-      const result = await this.client.renderV2.getCopyrightForWorld(
-        this.defaultFormat,
-        updatedOptions
-      );
+      const result = await this.client.renderV2.getCopyrightForWorld(this.defaultFormat, {
+        ...updatedOptions,
+        includeText:
+          updatedOptions.includeText === false ? KnownIncludeText.No : KnownIncludeText.Yes,
+      });
       return result;
     } catch (e) {
       span.setStatus({
