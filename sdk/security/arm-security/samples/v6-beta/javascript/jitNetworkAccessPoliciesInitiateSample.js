@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  JitNetworkAccessPolicyInitiateRequest,
-  SecurityCenter
-} from "@azure/arm-security";
-import { DefaultAzureCredential } from "@azure/identity";
+const { SecurityCenter } = require("@azure/arm-security");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Initiate a JIT access from a specific Just-in-Time policy configuration.
@@ -25,15 +22,16 @@ async function initiateAnActionOnAJitNetworkAccessPolicy() {
   const resourceGroupName = "myRg1";
   const ascLocation = "westeurope";
   const jitNetworkAccessPolicyName = "default";
-  const body: JitNetworkAccessPolicyInitiateRequest = {
+  const body = {
     justification: "testing a new version of the product",
     virtualMachines: [
       {
-        id:
-          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
-        ports: [{ allowedSourceAddressPrefix: "192.127.0.2", number: 3389, "endTimeUtc": new Date() }]
-      }
-    ]
+        id: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
+        ports: [
+          { allowedSourceAddressPrefix: "192.127.0.2", number: 3389, endTimeUtc: new Date() },
+        ],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
