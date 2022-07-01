@@ -28,7 +28,7 @@ export interface InstallationCommon {
   /**
    * The platform for the installation.
    */
-  platform: string;
+  platform: "apns" | "adm" | "baidu" | "browser" | "gcm" | "wns";
 
   /**
    * The tags used for targeting this installation.
@@ -58,7 +58,7 @@ export interface AppleInstallation extends DeviceTokenInstallation {
   /**
    * The platform for the installation.
    */
-  platform: "apple";
+  platform: "apns";
 }
 
 /**
@@ -69,7 +69,7 @@ export interface AppleInstallation extends DeviceTokenInstallation {
 export function createAppleInstallation(installation: Omit<AppleInstallation, "platform">): AppleInstallation {
   return {
     ...installation,
-    platform: "apple",
+    platform: "apns",
   };
 }
 

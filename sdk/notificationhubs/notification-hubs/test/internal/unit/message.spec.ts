@@ -13,15 +13,8 @@ import {
   createWindowsRawMessage, 
   createWindowsTileMessage, 
   createWindowsToastMessage, 
-  JSON_CONTENT_TYPE, 
-  STREAM_CONTENT_TYPE,
-  WNS_BADGE,
-  WNS_RAW,
-  WNS_TITLE,
-  WNS_TOAST,
-  WNS_TYPE_NAME,
-  XML_CONTENT_TYPE
 } from "../../../src/models/message";
+import * as Constants from "../../../src/utils/constants";
 
 describe("createAppleMessage", () => {
   it("should create an apple message with defaults", () => {
@@ -29,7 +22,7 @@ describe("createAppleMessage", () => {
       body: `{"aps":{"alert":"Hello"}}`
     });
 
-    assert.equal(message.contentType, JSON_CONTENT_TYPE);
+    assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(message.platform, "apple");
     assert.equal(message.body, `{"aps":{"alert":"Hello"}}`);
   });
@@ -41,7 +34,7 @@ describe("createAdmMessage", () => {
       body: `{"data":{"message":"Hello}}`
     });
 
-    assert.equal(message.contentType, JSON_CONTENT_TYPE);
+    assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(message.platform, "adm");
     assert.equal(message.body, `{"data":{"message":"Hello}}`);
   });
@@ -53,7 +46,7 @@ describe("createBaiduMessage", () => {
       body: `{"title":"(Hello title)","description":"Hello"}`
     });
 
-    assert.equal(message.contentType, JSON_CONTENT_TYPE);
+    assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(message.platform, "baidu");
     assert.equal(message.body, `{"title":"(Hello title)","description":"Hello"}`);
   });
@@ -65,7 +58,7 @@ describe("createBrowserMessage", () => {
       body: `{"title":"(Hello title)","body":"Hello"}`
     });
 
-    assert.equal(message.contentType, JSON_CONTENT_TYPE);
+    assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(message.platform, "browser");
     assert.equal(message.body, `{"title":"(Hello title)","body":"Hello"}`);
   });
@@ -77,7 +70,7 @@ describe("createFirebaseLegacyMessage", () => {
       body: `{"notification":{"title":"mytitle","body":"Hello}}`
     });
 
-    assert.equal(message.contentType, JSON_CONTENT_TYPE);
+    assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(message.platform, "gcm");
     assert.equal(message.body, `{"notification":{"title":"mytitle","body":"Hello}}`);
   });
@@ -89,7 +82,7 @@ describe("createTemplateMessage", () => {
       body: `{"title":"(Hello title)","body":"Hello"}`
     });
 
-    assert.equal(message.contentType, JSON_CONTENT_TYPE);
+    assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(message.platform, "template");
     assert.equal(message.body, `{"title":"(Hello title)","body":"Hello"}`);
   });
@@ -101,10 +94,10 @@ describe("createWindowsBadgeMessage", () => {
       body: `badge WNS Message`
     });
 
-    assert.equal(message.contentType, XML_CONTENT_TYPE);
+    assert.equal(message.contentType, Constants.XML_CONTENT_TYPE);
     assert.equal(message.platform, "wns");
     assert.equal(message.body, `badge WNS Message`);
-    assert.equal(message.headers![WNS_TYPE_NAME], WNS_BADGE);
+    assert.equal(message.headers![Constants.WNS_TYPE_NAME], Constants.WNS_BADGE);
   });
 });
 
@@ -114,10 +107,10 @@ describe("createWindowsTileMessage", () => {
       body: `tile WNS Message`
     });
 
-    assert.equal(message.contentType, XML_CONTENT_TYPE);
+    assert.equal(message.contentType, Constants.XML_CONTENT_TYPE);
     assert.equal(message.platform, "wns");
     assert.equal(message.body, `tile WNS Message`);
-    assert.equal(message.headers![WNS_TYPE_NAME], WNS_TITLE);
+    assert.equal(message.headers![Constants.WNS_TYPE_NAME], Constants.WNS_TITLE);
   });
 });
 
@@ -127,10 +120,10 @@ describe("createWindowsToastMessage", () => {
       body: `toast WNS Message`
     });
 
-    assert.equal(message.contentType, XML_CONTENT_TYPE);
+    assert.equal(message.contentType, Constants.XML_CONTENT_TYPE);
     assert.equal(message.platform, "wns");
     assert.equal(message.body, `toast WNS Message`);
-    assert.equal(message.headers![WNS_TYPE_NAME], WNS_TOAST);
+    assert.equal(message.headers![Constants.WNS_TYPE_NAME], Constants.WNS_TOAST);
   });
 });
 
@@ -140,9 +133,9 @@ describe("createWindowsRawMessage", () => {
       body: `raw WNS Message`
     });
 
-    assert.equal(message.contentType, STREAM_CONTENT_TYPE);
+    assert.equal(message.contentType, Constants.STREAM_CONTENT_TYPE);
     assert.equal(message.platform, "wns");
     assert.equal(message.body, `raw WNS Message`);
-    assert.equal(message.headers![WNS_TYPE_NAME], WNS_RAW);
+    assert.equal(message.headers![Constants.WNS_TYPE_NAME], Constants.WNS_RAW);
   });
 });

@@ -5,6 +5,10 @@ import { parseXML } from "@azure/core-xml";
 import { NotificationDetails, NotificationOutcomeCollectionItem, NotificationOutcomeState } from "../models/notificationDetails";
 import { getDateOrUndefined, getInteger, getStringOrUndefined, isDefined } from "../utils/xmlUtils";
 
+/**
+ * @internal
+ * Parses a NotificationDetails from incoming XML.
+ */
 export async function parseNotificationDetails(bodyText: string): Promise<NotificationDetails> {
   const xml = await parseXML(bodyText, { includeRoot: true, stopNodes: ["NotificationDetails.NotificationBody"] });
   const notificationDetails = xml["NotificationDetails"];

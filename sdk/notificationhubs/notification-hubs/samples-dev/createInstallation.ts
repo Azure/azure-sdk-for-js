@@ -1,0 +1,40 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { 
+  clientFromConnectionString, createAppleInstallation 
+} from "@azure/notification-hubs";
+import { v4 } from "uuid";
+
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
+// Define connection string and hub name
+const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
+const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
+
+// Define message constants
+const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
+
+async function main() {
+  const client = clientFromConnectionString(connectionString, hubName);
+
+  const installation = createAppleInstallation({
+    installationId: v4(),
+    pushChannel: deviceToken,
+    tags: ["likes_hockey", "likes_football"],
+  });
+
+  const result = await client.createOrUpdateInstallation(installation);
+
+  console.log(`Create installation Tracking ID: ${result.trackingId}`);
+  console.log(`Create installation Correlation ID: ${result.correlationId}`);
+}
+
+main()
+  .catch((err) => {
+    console.log("createInstallation Sample: Error occurred: ", err);
+    process.exit(1);
+  });

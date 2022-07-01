@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { NotificationHubsClient } from "./notificationHubsClient";
+export { NotificationHubsClient, clientFromConnectionString } from "./notificationHubsClient";
 export * from "./models/installation";
 export * from "./models/message";
 export * from "./models/notificationDetails";

@@ -32,6 +32,16 @@ import { parseNotificationHubJobEntry, parseNotificationHubJobFeed, serializeNot
 const API_VERSION = "2020-06";
 
 /**
+ * Creates a NotificationHubClient from the Access Policy connection string and hub name.
+ * @param connectionString - The Access Policy connection string for the notification hub.
+ * @param hubName - The notification hub name.
+ * @returns A NotificationHubsClient initialized from the connection string and hub name.
+ */
+export function clientFromConnectionString(connectionString: string, hubName: string): NotificationHubsClient {
+  return new NotificationHubsClient(connectionString, hubName);
+}
+
+/**
  * This represents a client for Azure Notification Hubs to manage installations and send
  * messages to devices.
  */
@@ -659,7 +669,7 @@ export class NotificationHubsClient extends ServiceClient {
     pushHandle: PushHandle,
     message: NotificationHubMessage,
     options: SendOperationOptions = {}
-  ): Promise<NotificationHubResponse> {
+  ): Promise<NotificationHubMessageResponse> {
     return this.sendNotificationMessage(
       message,
       "sendDirectNotification",
@@ -681,7 +691,7 @@ export class NotificationHubsClient extends ServiceClient {
     tags: string[] | string,
     message: NotificationHubMessage,
     options: SendOperationOptions = {}
-  ): Promise<NotificationHubResponse> {
+  ): Promise<NotificationHubMessageResponse> {
     return this.sendNotificationMessage(
       message,
       "sendNotification",

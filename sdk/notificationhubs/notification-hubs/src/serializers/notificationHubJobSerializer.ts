@@ -20,6 +20,7 @@ import {
 } from "../utils/xmlUtils";
 
 /**
+ * @internal
  * Serializes a NotificationHubJob into an Atom XML entry.
  * @param entry - The NotificationHubJob to turn into an Atom XML entry.
  * @returns An Atom XML entry containing the notification hub job.

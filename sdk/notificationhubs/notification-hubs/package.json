@@ -42,7 +42,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "npm run integration-test:browser",
+    "unit-test:browser": "echo skipped",
     "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register --timeout 1200000 --full-trace --exclude \"test/**/browser/*.spec.ts\" \"test/internal/unit/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
@@ -79,8 +79,10 @@
     "@types/chai": "^4.3.1",
     "@types/mocha": "^9.1.1",
     "@types/node": "^12.0.0",
+    "@types/uuid": "^8.3.4",
     "chai": "^4.3.6",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1",
     "downlevel-dts": "^0.10.0",
     "eslint": "^8.16.0",
     "esm": "^3.2.25",
@@ -101,7 +103,9 @@
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
     "ts-node": "^10.8.1",
-    "typescript": "^4.7.2"
+    "typescript": "^4.7.2",
+    "util": "^0.12.4",
+    "uuid": "^8.3.2"
   },
   "dependencies": {
     "@azure/abort-controller": "^1.1.0",

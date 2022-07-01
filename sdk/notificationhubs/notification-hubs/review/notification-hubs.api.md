@@ -32,7 +32,7 @@ export interface AdmTemplateRegistrationDescription extends Omit<AdmRegistration
 
 // @public
 export interface AppleInstallation extends DeviceTokenInstallation {
-    platform: "apple";
+    platform: "apns";
 }
 
 // @public
@@ -106,6 +106,9 @@ export interface BrowserRegistrationDescription extends RegistrationDescriptionC
 export interface BrowserTemplateRegistrationDescription extends Omit<BrowserRegistrationDescription, "platform">, TemplateRegistrationDescription {
     platform: "BrowserTemplate";
 }
+
+// @public
+export function clientFromConnectionString(connectionString: string, hubName: string): NotificationHubsClient;
 
 // @public
 export function createAdmInstallation(installation: Omit<AdmInstallation, "platform">): AdmInstallation;
@@ -253,7 +256,7 @@ export interface InstallationCommon {
     readonly expirationTime?: string;
     installationId: string;
     readonly lastUpdate?: string;
-    platform: string;
+    platform: "apns" | "adm" | "baidu" | "browser" | "gcm" | "wns";
     tags?: string[];
     templates?: Record<string, InstallationTemplate>;
     userId?: string;
@@ -273,9 +276,6 @@ export interface InstallationTemplate {
     headers: Record<string, string>;
     tags?: string[];
 }
-
-// @public (undocumented)
-export const JSON_CONTENT_TYPE = "application/json;charset=utf-8";
 
 // @public
 export interface JsonNotificationMessage extends NotificationHubMessageCommon {
@@ -421,8 +421,8 @@ export class NotificationHubsClient extends ServiceClient {
     listRegistrationsByTag(tag: string, options: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     patchInstallation(installationId: string, installationPatches: InstallationPatch[], options?: OperationOptions): Promise<NotificationHubResponse>;
     scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessage, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
-    sendDirectNotification(pushHandle: PushHandle, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
-    sendNotification(tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubResponse>;
+    sendDirectNotification(pushHandle: PushHandle, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
+    sendNotification(tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
 }
@@ -480,9 +480,6 @@ export interface SendOperationOptions extends OperationOptions {
     enableTestSend?: boolean;
 }
 
-// @public (undocumented)
-export const STREAM_CONTENT_TYPE = "application/octet-stream";
-
 // @public
 export interface TemplateMessage extends JsonNotificationMessage {
     platform: "template";
@@ -519,24 +516,6 @@ export interface WindowsTemplateRegistrationDescription extends Omit<WindowsRegi
     platform: "WindowsTemplate";
     wnsHeaders?: Record<string, string>;
 }
-
-// @public (undocumented)
-export const WNS_BADGE = "wns/badge";
-
-// @public (undocumented)
-export const WNS_RAW = "wns/raw";
-
-// @public (undocumented)
-export const WNS_TITLE = "wns/tile";
-
-// @public (undocumented)
-export const WNS_TOAST = "wns/toast";
-
-// @public (undocumented)
-export const WNS_TYPE_NAME = "X-WNS-Type";
-
-// @public (undocumented)
-export const XML_CONTENT_TYPE = "application/xml";
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const JSON_CONTENT_TYPE = "application/json;charset=utf-8";
-export const XML_CONTENT_TYPE = "application/xml";
-export const STREAM_CONTENT_TYPE = "application/octet-stream";
-
-export const WNS_TYPE_NAME = "X-WNS-Type";
-export const WNS_RAW = "wns/raw";
-export const WNS_BADGE = "wns/badge";
-export const WNS_TITLE = "wns/tile";
-export const WNS_TOAST = "wns/toast";
+import * as Constants from "../utils/constants";
 
 /**
  * Represents a notification hub message.
@@ -65,7 +57,7 @@ export function createAppleMessage(message: Omit<AppleMessage, "platform" | "con
   return {
     ...message,
     platform: "apple",
-    contentType: JSON_CONTENT_TYPE,
+    contentType: Constants.JSON_CONTENT_TYPE,
   };
 }
 
@@ -88,7 +80,7 @@ export function createAdmMessage(message: Omit<AdmMessage, "platform" | "content
   return {
     ...message,
     platform: "adm",
-    contentType: JSON_CONTENT_TYPE,
+    contentType: Constants.JSON_CONTENT_TYPE,
   };
 }
 
@@ -111,7 +103,7 @@ export function createBaiduMessage(message: Omit<BaiduMessage, "platform" | "con
   return {
     ...message,
     platform: "baidu",
-    contentType: JSON_CONTENT_TYPE,
+    contentType: Constants.JSON_CONTENT_TYPE,
   };
 }
 
@@ -134,7 +126,7 @@ export function createBrowserMessage(message: Omit<BrowserMessage, "platform" | 
   return {
     ...message,
     platform: "browser",
-    contentType: JSON_CONTENT_TYPE,
+    contentType: Constants.JSON_CONTENT_TYPE,
   };
 }
 
@@ -157,7 +149,7 @@ export function createFirebaseLegacyMessage(message: Omit<FirebaseLegacyMessage,
   return {
     ...message,
     platform: "gcm",
-    contentType: JSON_CONTENT_TYPE,
+    contentType: Constants.JSON_CONTENT_TYPE,
   };
 }
 
@@ -180,7 +172,7 @@ export function createTemplateMessage(message: Omit<TemplateMessage, "platform" 
   return {
     ...message,
     platform: "template",
-    contentType: JSON_CONTENT_TYPE,
+    contentType: Constants.JSON_CONTENT_TYPE,
   };
 }
 
@@ -213,14 +205,14 @@ export function createWindowsBadgeMessage(message: Omit<WindowsMessage, "platfor
   const result: WindowsMessage = {
     ...message,
     platform: "wns",
-    contentType: XML_CONTENT_TYPE,
+    contentType: Constants.XML_CONTENT_TYPE,
   };
 
   if (!result.headers) {
     result.headers = {};
   }
 
-  result.headers[WNS_TYPE_NAME] = WNS_BADGE; 
+  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_BADGE; 
 
   return result;
 }
@@ -234,14 +226,14 @@ export function createWindowsTileMessage(message: Omit<WindowsMessage, "platform
   const result: WindowsMessage = {
     ...message,
     platform: "wns",
-    contentType: XML_CONTENT_TYPE,
+    contentType: Constants.XML_CONTENT_TYPE,
   };
 
   if (!result.headers) {
     result.headers = {};
   }
 
-  result.headers[WNS_TYPE_NAME] = WNS_TITLE; 
+  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_TITLE; 
 
   return result;
 }
@@ -255,14 +247,14 @@ export function createWindowsToastMessage(message: Omit<WindowsMessage, "platfor
   const result: WindowsMessage = {
     ...message,
     platform: "wns",
-    contentType: XML_CONTENT_TYPE,
+    contentType: Constants.XML_CONTENT_TYPE,
   };
 
   if (!result.headers) {
     result.headers = {};
   }
 
-  result.headers[WNS_TYPE_NAME] = WNS_TOAST; 
+  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_TOAST; 
 
   return result;
 }
@@ -276,14 +268,14 @@ export function createWindowsRawMessage(message: Omit<WindowsMessage, "platform"
   const result: WindowsMessage = {
     ...message,
     platform: "wns",
-    contentType: STREAM_CONTENT_TYPE,
+    contentType: Constants.STREAM_CONTENT_TYPE,
   };
 
   if (!result.headers) {
     result.headers = {};
   }
 
-  result.headers[WNS_TYPE_NAME] = WNS_RAW; 
+  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_RAW; 
 
   return result;
 }
