@@ -10,6 +10,7 @@
 - Fixed a bug that would break the AzureCliCredential if the Azure CLI reported a warning. See: [21075](https://github.com/Azure/azure-sdk-for-js/issues/21075).
 - Fixed a bug in `AuthorizationCodeCredential` where the tenant id was not being used. The `common` tenant was the only tenant being used by this credential.
 - Fixed a bug in `AuthorizationCodeCredential` where the public client was not being used. Due to this bug, without passing in the client secret, this credential would fail.
+- Fixed a bug in `DefaultAzureCredential` and `AzureCLICredential` where the errors thrown by the latter credential were not of type `CredentialUnavailableError`. This caused only the error of `AzureCLICredential` being thrown and the other chained errors of `DefaultAzureCredential` were not thrown. See: [22066](https://github.com/Azure/azure-sdk-for-js/issues/22066)
 
 ### Other Changes
 
