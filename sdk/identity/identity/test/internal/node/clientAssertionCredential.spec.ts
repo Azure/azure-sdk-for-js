@@ -8,7 +8,7 @@ import { env } from "@azure-tools/test-recorder";
 import { ClientAssertionCredential } from "../../../src";
 import { Context } from "mocha";
 import Sinon from "sinon";
-import { msalNodeTestSetup, MsalTestCleanup } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import * as tls from "tls";
@@ -81,9 +81,9 @@ describe("ClientAssertionCredential (internal)", function () {
   });
 
   it("Sends the expected parameters", async function () {
-    let tenantId = env.IDENTITY_SP_TENANT_ID ?? "tenant";
-    let clientId = env.IDENTITY_SP_CLIENT_ID ?? "client";
-    let certificatePath = env.IDENTITY_SP_CERT_PEM ?? "certificate-path";
+    const tenantId = env.IDENTITY_SP_TENANT_ID ?? "tenant";
+    const clientId = env.IDENTITY_SP_CLIENT_ID ?? "client";
+    const certificatePath = env.IDENTITY_SP_CERT_PEM ?? "certificate-path";
     const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
 
     async function getAssertion(): Promise<string> {
@@ -116,21 +116,21 @@ async function createJWTTokenFromCertificate(
 ) {
   const pemCert = fs.readFileSync(certificatePath);
   const audience = `${authorityHost}/v2`;
-  let secureContext = tls.createSecureContext({
+  const secureContext = tls.createSecureContext({
     cert: pemCert,
   });
 
-  let secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
+  const secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
 
-  let cert = secureSocket.getCertificate() as tls.PeerCertificate;
-  let headerJSON = {
+  const cert = secureSocket.getCertificate() as tls.PeerCertificate;
+  const headerJSON = {
     typ: "JWT",
     alg: "RS256",
     x5t: Buffer.from(cert.fingerprint256, "hex").toString("base64"),
   };
   secureSocket.destroy();
   const currentDate = new Date("2022-07-01T23:28:35.248Z");
-  let payloadJSON = {
+  const payloadJSON = {
     jti: uuid.v4(),
     aud: audience,
     iss: clientId,
@@ -144,11 +144,11 @@ async function createJWTTokenFromCertificate(
   const payloadString = payloadBuffer.toString("base64");
   const flattenedJws = headerString + "." + payloadString;
   // TODO : sign like the .NET equivalent
-  //const pki = forge.pki;
-  //const privateKey = pki.privateKeyFromPem(pemCert.toString());
-  //const signature = privateKey.sign(flattenedJws,"sha256");
-  //clientCertificate.GetRSAPrivateKey().SignData(Encoding.ASCII.GetBytes(flattenedJws), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-  let signatureAlg = crypto.createSign("sha256");
+  // const pki = forge.pki;
+  // const privateKey = pki.privateKeyFromPem(pemCert.toString());
+  // const signature = privateKey.sign(flattenedJws,"sha256");
+  // clientCertificate.GetRSAPrivateKey().SignData(Encoding.ASCII.GetBytes(flattenedJws), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+  const signatureAlg = crypto.createSign("sha256");
   signatureAlg.update(flattenedJws);
   const signature = signatureAlg.sign(pemCert.toString());
   return flattenedJws + "." + signature.toString("base64");

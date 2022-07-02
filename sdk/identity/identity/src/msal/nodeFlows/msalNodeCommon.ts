@@ -16,10 +16,10 @@ import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";
 import {
+  MsalBaseUtilities,
   defaultLoggerCallback,
   getAuthority,
   getKnownAuthorities,
-  MsalBaseUtilities,
   msalToPublic,
   publicToMsal,
 } from "../utils";
