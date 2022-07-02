@@ -105,12 +105,8 @@ export class ChainedTokenCredential implements TokenCredential {
 
 // @public
 export class ClientAssertionCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, getAssertion: () => Promise<string>, options?: ClientAssertionCredentialOptions);
+    constructor(tenantId: string, clientId: string, getAssertion: () => Promise<string>, options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-}
-
-// @public
-export interface ClientAssertionCredentialOptions extends TokenCredentialOptions {
 }
 
 // @public
