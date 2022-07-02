@@ -31,7 +31,7 @@ export interface CredentialFlowGetTokenOptions extends GetTokenOptions {
   /**
    * Client Assertion
    */
-  getAssertion?:()=> Promise<string>;
+  getAssertion?: () => Promise<string>;
 }
 
 /**

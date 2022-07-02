@@ -50,7 +50,7 @@ export class ClientAssertionCredential implements TokenCredential {
       clientId: this.clientId,
       tenantId: this.tenantId,
       tokenCredentialOptions: this.options,
-      getAssertion
+      getAssertion,
     });
   }
 
@@ -63,9 +63,13 @@ export class ClientAssertionCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow.getToken(arrayScopes, newOptions);
-    });
+    return tracingClient.withSpan(
+      `${this.constructor.name}.getToken`,
+      options,
+      async (newOptions) => {
+        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        return this.msalFlow.getToken(arrayScopes, newOptions);
+      }
+    );
   }
 }

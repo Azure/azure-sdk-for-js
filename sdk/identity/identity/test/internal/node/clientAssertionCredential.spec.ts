@@ -40,17 +40,29 @@ describe("ClientAssertionCredential (internal)", function () {
   it("Should throw if the parameteres are not correctly specified", async function () {
     const errors: Error[] = [];
     try {
-      new ClientAssertionCredential(undefined as any, env.AZURE_CLIENT_ID ?? "client", async () => "assertion");
+      new ClientAssertionCredential(
+        undefined as any,
+        env.AZURE_CLIENT_ID ?? "client",
+        async () => "assertion"
+      );
     } catch (e: any) {
       errors.push(e);
     }
     try {
-      new ClientAssertionCredential(env.AZURE_TENANT_ID ?? "tenant", undefined as any, async () => "assertion");
+      new ClientAssertionCredential(
+        env.AZURE_TENANT_ID ?? "tenant",
+        undefined as any,
+        async () => "assertion"
+      );
     } catch (e: any) {
       errors.push(e);
     }
     try {
-      new ClientAssertionCredential(env.AZURE_TENANT_ID ?? "tenant", env.AZURE_CLIENT_ID ?? "client", undefined as any);
+      new ClientAssertionCredential(
+        env.AZURE_TENANT_ID ?? "tenant",
+        env.AZURE_CLIENT_ID ?? "client",
+        undefined as any
+      );
     } catch (e: any) {
       errors.push(e);
     }
@@ -70,29 +82,25 @@ describe("ClientAssertionCredential (internal)", function () {
 
   it("Sends the expected parameters", async function () {
     let tenantId = env.IDENTITY_SP_TENANT_ID ?? "tenant";
-    let clientId =  env.IDENTITY_SP_CLIENT_ID ?? "client";
+    let clientId = env.IDENTITY_SP_CLIENT_ID ?? "client";
     let certificatePath = env.IDENTITY_SP_CERT_PEM ?? "certificate-path";
-    const authorityHost = `https://login.microsoftonline.com/${tenantId}`
+    const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
 
     async function getAssertion(): Promise<string> {
-      const jwt = await createJWTTokenFromCertificate(authorityHost,clientId, certificatePath);
+      const jwt = await createJWTTokenFromCertificate(authorityHost, clientId, certificatePath);
       return jwt;
-    };
-    const credential = new ClientAssertionCredential(
-      tenantId,
-      clientId,
-      getAssertion
-    );
+    }
+    const credential = new ClientAssertionCredential(tenantId, clientId, getAssertion);
 
     try {
       await credential.getToken("https://vault.azure.net/.default");
     } catch (e: any) {
       // We're ignoring errors since our main goal here is to ensure that we send the correct parameters to MSAL.
-      console.log("error",e);
+      console.log("error", e);
     }
-  
-    assert.equal(getTokenSilentSpy.callCount,1);
-    assert.equal(doGetTokenSpy.callCount,1);
+
+    assert.equal(getTokenSilentSpy.callCount, 1);
+    assert.equal(doGetTokenSpy.callCount, 1);
 
     // TODO: you can test if this matches
     // const returnedAssertion = await getAssertion();
@@ -101,35 +109,39 @@ describe("ClientAssertionCredential (internal)", function () {
   });
 });
 
-async function createJWTTokenFromCertificate(authorityHost: string,clientId: string, certificatePath: string){
-  const pemCert = fs.readFileSync(certificatePath)
+async function createJWTTokenFromCertificate(
+  authorityHost: string,
+  clientId: string,
+  certificatePath: string
+) {
+  const pemCert = fs.readFileSync(certificatePath);
   const audience = `${authorityHost}/v2`;
   let secureContext = tls.createSecureContext({
-    cert: pemCert
+    cert: pemCert,
   });
 
   let secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
 
-  let cert = (secureSocket.getCertificate()) as tls.PeerCertificate;
+  let cert = secureSocket.getCertificate() as tls.PeerCertificate;
   let headerJSON = {
-    "typ": "JWT",
-    "alg": "RS256",
-    "x5t": Buffer.from(cert.fingerprint256, 'hex').toString('base64')
-  }
+    typ: "JWT",
+    alg: "RS256",
+    x5t: Buffer.from(cert.fingerprint256, "hex").toString("base64"),
+  };
   secureSocket.destroy();
-  const currentDate = new Date('2022-07-01T23:28:35.248Z');
+  const currentDate = new Date("2022-07-01T23:28:35.248Z");
   let payloadJSON = {
-    "jti": uuid.v4(),
-    "aud": audience,
-    "iss": clientId,
-    "sub": clientId,
-    "nbf": Math.floor(+currentDate / 1000),
-    "exp": addMinutes(currentDate, 30)
-  }
-  const headerBuffer = Buffer.from(JSON.stringify(headerJSON),"utf-8");
-  const headerString = headerBuffer.toString('base64');
-  const payloadBuffer = Buffer.from(JSON.stringify(payloadJSON),"utf-8");
-  const payloadString = payloadBuffer.toString('base64');
+    jti: uuid.v4(),
+    aud: audience,
+    iss: clientId,
+    sub: clientId,
+    nbf: Math.floor(+currentDate / 1000),
+    exp: addMinutes(currentDate, 30),
+  };
+  const headerBuffer = Buffer.from(JSON.stringify(headerJSON), "utf-8");
+  const headerString = headerBuffer.toString("base64");
+  const payloadBuffer = Buffer.from(JSON.stringify(payloadJSON), "utf-8");
+  const payloadString = payloadBuffer.toString("base64");
   const flattenedJws = headerString + "." + payloadString;
   // TODO : sign like the .NET equivalent
   //const pki = forge.pki;
@@ -143,5 +155,5 @@ async function createJWTTokenFromCertificate(authorityHost: string,clientId: str
 }
 
 function addMinutes(date: Date, minutes: number) {
-  return new Date(date.getTime() + minutes*60000);
+  return new Date(date.getTime() + minutes * 60000);
 }
