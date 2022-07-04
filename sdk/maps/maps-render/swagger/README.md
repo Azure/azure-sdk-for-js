@@ -77,4 +77,10 @@ directive:
     where: $.definitions.MapTileset
     transform: >
       $["x-ms-client-name"] = "TileJson";
+  - from: swagger-document
+    where: $.paths["/map/tile"].get.parameters[*]
+    transform: >
+      if ($["name"] == "timeStamp") {
+        $["x-ms-client-name"] = "dateTimeOfTile";
+      };
 ```

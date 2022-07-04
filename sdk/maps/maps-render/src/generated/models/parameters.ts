@@ -103,8 +103,8 @@ export const y: OperationQueryParameter = {
   }
 };
 
-export const timeStamp: OperationQueryParameter = {
-  parameterPath: ["options", "timeStamp"],
+export const dateTimeOfTile: OperationQueryParameter = {
+  parameterPath: ["options", "dateTimeOfTile"],
   mapper: {
     serializedName: "timeStamp",
     type: {

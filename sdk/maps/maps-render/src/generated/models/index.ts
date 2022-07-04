@@ -576,7 +576,7 @@ export interface RenderV2GetMapTileOptionalParams
    * * microsoft.weather.infrared.main: We provide tiles up to 3 hours in the past. Tiles are available in 10-minute intervals. We round the timeStamp value to the nearest 10-minute time frame.
    * * microsoft.weather.radar.main: We provide tiles up to 1.5 hours in the past and up to 2 hours in the future. Tiles are available in 5-minute intervals. We round the timeStamp value to the nearest 5-minute time frame.
    */
-  timeStamp?: Date;
+  dateTimeOfTile?: Date;
   /** The size of the returned map tile in pixels. */
   tileSize?: MapTileSize;
   /**

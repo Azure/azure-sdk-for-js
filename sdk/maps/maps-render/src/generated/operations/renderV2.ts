@@ -329,7 +329,7 @@ const getMapTileOperationSpec: coreClient.OperationSpec = {
     Parameters.z,
     Parameters.x,
     Parameters.y,
-    Parameters.timeStamp,
+    Parameters.dateTimeOfTile,
     Parameters.tileSize,
     Parameters.language,
     Parameters.localizedMapView

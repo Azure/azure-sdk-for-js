@@ -51,29 +51,32 @@ export interface GetMapStateTileOptions extends OperationOptions {
 
 // @public
 export interface GetMapStaticImageOptions extends OperationOptions {
-    boundingBox?: BoundingBox;
-    center?: LatLon;
-    height?: number;
     language?: string;
     layer?: StaticMapLayer;
     localizedMapView?: LocalizedMapView;
     path?: string[];
     pins?: string[];
     style?: MapImageStyle;
-    width?: number;
     zoom?: number;
 }
 
 // @public
 export interface GetMapTileOptions extends OperationOptions {
+    dateTimeOfTile?: Date;
     language?: string;
     localizedMapView?: LocalizedMapView;
     tileSize?: MapTileSize;
-    timeStamp?: Date;
 }
 
 // @public
 export interface GetMapTilesetOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface ImageRange {
+    center: LatLon;
+    height?: number;
+    width?: number;
 }
 
 // @public
@@ -188,7 +191,7 @@ export class MapsRenderClient {
     getCopyrightFromBoundingBox(boundingBox: BoundingBox, options?: GetCopyrightOptions): Promise<Copyright>;
     getMapAttribution(tilesetId: TilesetId, zoom: number, boundingBox: BoundingBox, options?: GetAttributionOptions): Promise<MapAttribution>;
     getMapStateTile(statesetId: string, tileIndex: TileIndex, options?: GetMapStateTileOptions): Promise<MapTile>;
-    getMapStaticImage(format: RasterTileFormat, options?: GetMapStaticImageOptions): Promise<MapTile>;
+    getMapStaticImage(format: RasterTileFormat, range: ImageRange | BoundingBox, options?: GetMapStaticImageOptions): Promise<MapTile>;
     getMapTile(tilesetId: TilesetId, tileIndex: TileIndex, options?: GetMapTileOptions): Promise<MapTile>;
     getMapTileset(tilesetId: TilesetId, options?: GetMapTilesetOptions): Promise<TileJson>;
 }

@@ -52,7 +52,7 @@ async function main() {
   console.log(await client.getCopyrightForWorld());
 
   console.log(" --- Get copyright from bounding box:");
-  const boundingBox = {
+  let boundingBox = {
     bottomRight: { latitude: 52.41064, longitude: 4.84239 },
     topLeft: { latitude: 52.41072, longitude: 4.84228 },
   };
@@ -74,12 +74,16 @@ async function main() {
     layer: "basic",
     style: "dark",
     zoom: 2,
-    boundingBox: {
-      bottomRight: { latitude: 42.982261, longitude: 24.980233 },
-      topLeft: { latitude: 56.526017, longitude: 1.355233 },
-    },
   };
-  let result = await client.getMapStaticImage(KnownRasterTileFormat.Png, mapStaticImageOptions);
+  boundingBox = {
+    bottomRight: { latitude: 42.982261, longitude: 24.980233 },
+    topLeft: { latitude: 56.526017, longitude: 1.355233 },
+  };
+  let result = await client.getMapStaticImage(
+    KnownRasterTileFormat.Png,
+    boundingBox,
+    mapStaticImageOptions
+  );
   // use result.blobBody for Browser, readableStreamBody for Node.js:
   result.readableStreamBody &&
     result.readableStreamBody.pipe(fs.createWriteStream("tmp/static_image.png"));
