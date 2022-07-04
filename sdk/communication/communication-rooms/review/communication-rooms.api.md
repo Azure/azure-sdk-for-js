@@ -12,20 +12,10 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface AddParticipantsOptions extends OperationOptions {
-    // (undocumented)
-    participants: RoomParticipant[];
 }
 
 // @public (undocumented)
 export interface CreateRoomOptions extends OperationOptions {
-    // (undocumented)
-    participants?: RoomParticipant[];
-    // (undocumented)
-    roomJoinPolicy?: string;
-    // (undocumented)
-    validFrom?: Date;
-    // (undocumented)
-    validUntil?: Date;
 }
 
 // @public (undocumented)
@@ -33,12 +23,6 @@ export type DeleteRoomOptions = OperationOptions;
 
 // @public (undocumented)
 export type GetParticipantsOptions = OperationOptions;
-
-// @public (undocumented)
-export interface GetParticipiantsResult {
-    // (undocumented)
-    participants?: RoomParticipant[];
-}
 
 // @public (undocumented)
 export type GetRoomOptions = OperationOptions;
@@ -51,8 +35,6 @@ export interface ParticipantsCollection {
 
 // @public (undocumented)
 export interface RemoveParticipantsOptions extends OperationOptions {
-    // (undocumented)
-    participants: (RoomParticipant | CommunicationIdentifier)[];
 }
 
 // @public (undocumented)
@@ -85,26 +67,35 @@ export interface RoomParticipant {
     role?: Role;
 }
 
-// @public (undocumented)
+// @public
 export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: RoomsClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: RoomsClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
+    // Warning: (ae-forgotten-export) The symbol "AddParticipantsRequest" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    addParticipants(roomId: string, options: AddParticipantsOptions): Promise<ParticipantsCollection>;
-    // (undocumented)
-    createRoom(options?: CreateRoomOptions): Promise<RoomModel>;
+    addParticipants(roomId: string, request: AddParticipantsRequest, options?: AddParticipantsOptions): Promise<ParticipantsCollection>;
+    // Warning: (ae-forgotten-export) The symbol "CreateRoomRequest" needs to be exported by the entry point index.d.ts
+    createRoom(request: CreateRoomRequest, options?: CreateRoomOptions): Promise<RoomModel>;
     // (undocumented)
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
     // (undocumented)
     getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<ParticipantsCollection>;
     // (undocumented)
     getRoom(roomId: string, options?: GetRoomOptions): Promise<RoomModel>;
+    // Warning: (ae-forgotten-export) The symbol "RemoveParticipantsRequest" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    removeParticipants(roomId: string, options: RemoveParticipantsOptions): Promise<ParticipantsCollection>;
+    removeParticipants(roomId: string, request: RemoveParticipantsRequest, options?: RemoveParticipantsOptions): Promise<ParticipantsCollection>;
+    // Warning: (ae-forgotten-export) The symbol "UpdateParticipantsRequest" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    updateParticipants(roomId: string, options: UpdateParticipantsOptions): Promise<ParticipantsCollection>;
+    updateParticipants(roomId: string, request: UpdateParticipantsRequest, options?: UpdateParticipantsOptions): Promise<ParticipantsCollection>;
+    // Warning: (ae-forgotten-export) The symbol "PatchRoomRequest" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    updateRoom(roomId: string, options: UpdateRoomOptions): Promise<RoomModel>;
+    updateRoom(roomId: string, request: PatchRoomRequest, options?: UpdateRoomOptions): Promise<RoomModel>;
 }
 
 // @public (undocumented)
@@ -113,20 +104,10 @@ export interface RoomsClientOptions extends CommonClientOptions {
 
 // @public (undocumented)
 export interface UpdateParticipantsOptions extends OperationOptions {
-    // (undocumented)
-    participants: RoomParticipant[];
 }
 
 // @public (undocumented)
 export interface UpdateRoomOptions extends OperationOptions {
-    // (undocumented)
-    participants?: RoomParticipant[];
-    // (undocumented)
-    roomJoinPolicy?: string;
-    // (undocumented)
-    validFrom?: Date;
-    // (undocumented)
-    validUntil?: Date;
 }
 
 // (No @packageDocumentation comment for this package)

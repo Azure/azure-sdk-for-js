@@ -22,6 +22,13 @@ import {
   UpdateRoomOptions 
 } from "./models/options";
 import {
+  CreateRoomRequest,
+  PatchRoomRequest,
+  AddParticipantsRequest,
+  UpdateParticipantsRequest,
+  RemoveParticipantsRequest
+} from "./models/requests";
+import {
   InternalClientPipelineOptions
 } from "@azure/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -33,15 +40,42 @@ import {
 import { SpanStatusCode } from "@azure/core-tracing";
 import { generateUuid } from "./models/uuid";
 
-const isRoomClientOptions = (options: any): options is RoomsClientOptions =>
+/**
+ * Checks whether the type of a value is RoomsClientOptions or not.
+ * 
+ * @param options - The value being checked.
+ */
+const isRoomsClientOptions = (options: any): options is RoomsClientOptions =>
   !!options && !isKeyCredential(options);
 
+/**
+ * The Rooms service client.
+ */
 export class RoomsClient {
   private readonly client: RoomsApiClient;
 
+  /**
+   * Initializes a new instance of the RoomsClient class.
+   * @param connectionString - Connection string to connect to an Azure Communication Service resource.
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   */
   constructor(connectionString: string, options?: RoomsClientOptions);
 
-  constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: RoomsClientOptions);
+  /**
+   * Initializes a new instance of the RoomsClient using an Azure KeyCredential
+   * @param endpoint - The url of the Communication Services resource
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   */
+  constructor(endpoint: string, credential: KeyCredential, options?: RoomsClientOptions);
+
+  /**
+   * Initializes a new instance of the RoomsClient using a TokenCredential
+   * @param endpoint - The url of the Communication Services resource
+   * @param credential - An object that is used to authenticate requests to the service. Use the AzureCommunicationTokenCredential from @azure/communication-common to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   */
+  constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
 
   constructor(
     connectionStringOrUrl: string,
@@ -49,7 +83,7 @@ export class RoomsClient {
     maybeOptions: RoomsClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const options = isRoomClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
+    const options = isRoomsClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
 
     const internalPipelineOptions: InternalClientPipelineOptions = {
       ...options,
@@ -66,8 +100,13 @@ export class RoomsClient {
 
     this.client.pipeline.addPolicy(authPolicy);
   }
-
+/**
+ * Creates a new room asynchronously
+ * @param options 
+ * @returns 
+ */
   public async createRoom(
+    request: CreateRoomRequest,
     options: CreateRoomOptions = {}
   ): Promise<RoomModel> {
     const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
@@ -76,10 +115,8 @@ export class RoomsClient {
       const repeatabilityFirstSent = new Date();
       const result = await this.client.rooms.createRoom(
         {
-          validFrom: options.validFrom,
-          validUntil: options.validUntil,
-          roomJoinPolicy: options.roomJoinPolicy,
-          participants: options.participants?.map((participant) =>
+          ...request,
+          participants: request.participants?.map((participant) =>
             mapToRoomParticipantRestModel(participant)
           ),
         },
@@ -104,7 +141,8 @@ export class RoomsClient {
 
   public async updateRoom(
     roomId: string,
-    options: UpdateRoomOptions
+    request: PatchRoomRequest,
+    options: UpdateRoomOptions = {}
   ): Promise<RoomModel> {
     const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
     try {
@@ -112,10 +150,8 @@ export class RoomsClient {
         roomId,
         {
           patchRoomRequest: {
-            validFrom: options.validFrom,
-            validUntil: options.validUntil,
-            roomJoinPolicy: options.roomJoinPolicy,
-            participants: options.participants?.map((participant) =>
+            ...request,
+            participants: request.participants?.map((participant) =>
               mapToRoomParticipantRestModel(participant)
             ),
           },
@@ -198,14 +234,15 @@ export class RoomsClient {
 
   public async addParticipants(
     roomId: string,
-    options: AddParticipantsOptions
+    request: AddParticipantsRequest,
+    options: AddParticipantsOptions = {}
   ): Promise<ParticipantsCollection> {
     const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
     try {
       const result = await this.client.rooms.addParticipants(
         roomId,
         {
-          participants: options.participants?.map((participant) =>
+          participants: request.participants?.map((participant) =>
             mapToRoomParticipantRestModel(participant)),
         },
         updatedOptions
@@ -227,14 +264,15 @@ export class RoomsClient {
 
   public async updateParticipants(
     roomId: string,
-    options: UpdateParticipantsOptions
+    request: UpdateParticipantsRequest,
+    options: UpdateParticipantsOptions = {}
   ): Promise<ParticipantsCollection> {
     const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
     try {
       const result = await this.client.rooms.updateParticipants(
         roomId,
         {
-          participants: options.participants?.map((participant) =>
+          participants: request.participants?.map((participant) =>
             mapToRoomParticipantRestModel(participant)),
         },
         updatedOptions
@@ -256,14 +294,15 @@ export class RoomsClient {
 
   public async removeParticipants(
     roomId: string,
-    options: RemoveParticipantsOptions
+    request: RemoveParticipantsRequest,
+    options: RemoveParticipantsOptions = {}
   ): Promise<ParticipantsCollection> {
     const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
     try {
       const result = await this.client.rooms.removeParticipants(
         roomId,
         {
-          participants: options.participants!.map((participant: any) =>
+          participants: request.participants!.map((participant: any) =>
             mapToRoomParticipantRestModel(participant)),
         },
         updatedOptions
