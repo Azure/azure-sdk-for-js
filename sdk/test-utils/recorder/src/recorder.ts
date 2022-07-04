@@ -44,6 +44,21 @@ import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
 
 /**
+ * Skip mode to be passed to Recorder#setSkipMode.
+ *
+ * There are 3 possible modes:
+ * - "skip-recording": Skips recording all requests and responses until the skip mode is changed.
+ * - "skip-request-body": Skips recording the request body of requests until the skip mode is changed.
+ * - "default": Record all requests and responses as normal.
+ */
+export type SkipMode = "skip-recording" | "skip-request-body" | "default";
+
+const skipModeToHeaderValue: { [k in SkipMode]?: string } = {
+  "skip-recording": "request-response",
+  "skip-request-body": "request-body",
+};
+
+/**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
  * eventually save them in record mode and playing them back in playback mode.
  *
@@ -61,6 +76,7 @@ export class Recorder {
   private httpClient?: HttpClient;
   private sessionFile?: string;
   private variables: Record<string, string>;
+  private skipMode: SkipMode = "default";
 
   constructor(private testContext?: Test | undefined) {
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
@@ -121,6 +137,22 @@ export class Recorder {
 
       request.headers.set("x-recording-id", this.recordingId);
       request.headers.set("x-recording-mode", getTestMode());
+
+      const skipHeaderValue = skipModeToHeaderValue[this.skipMode];
+      if (skipHeaderValue) {
+        logger.verbose(
+          `[Recorder#redirectRequest] Setting x-recording-skip header to ${skipHeaderValue}`
+        );
+        request.headers.set("x-recording-skip", skipHeaderValue);
+      }
+
+      // Drop request body in playback mode if we skipped recording it
+      if (isPlaybackMode() && this.skipMode === "skip-request-body") {
+        logger.verbose(
+          "[Recorder#redirectRequest] Setting request body to null for playback of recording with skipped body"
+        );
+        request.body = null;
+      }
 
       redirectedUrl.host = testProxyUrl.host;
       redirectedUrl.port = testProxyUrl.port;
@@ -487,5 +519,17 @@ export class Recorder {
     }
 
     return this.variables[name];
+  }
+
+  /**
+   * Set the current skip mode that the recorder should use. All requests made through the recorder
+   * following a call to setSkipMode will be recorded according to the provided skip mode. To
+   * return to recording everything as usual, call setSkipMode("default").
+   *
+   * @param skipMode - the new skip mode to use
+   */
+  setSkipMode(skipMode: SkipMode) {
+    logger.info(`[Recorder#setSkipMode] setting skip mode to ${skipMode}`);
+    this.skipMode = skipMode;
   }
 }
