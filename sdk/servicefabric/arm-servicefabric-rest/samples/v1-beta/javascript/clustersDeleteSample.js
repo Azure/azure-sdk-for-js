@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const ServiceFabricManagementClient = require("@azure-rest/arm-servicefabric").default;
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Delete a Service Fabric cluster resource with the specified name.

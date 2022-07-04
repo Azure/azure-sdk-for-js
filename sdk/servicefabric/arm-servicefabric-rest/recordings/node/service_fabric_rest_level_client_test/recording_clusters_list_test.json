@@ -1,0 +1,113 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceFabric/clusters?api-version=2021-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-servicefabric-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "4eca1df6-d0a8-4e65-bcc1-e4ec1efce54b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1883",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 04 Jul 2022 05:14:08 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1ff90db6-9886-483c-9480-ecd5b03c20a6",
+        "x-ms-request-id": "1ff90db6-9886-483c-9480-ecd5b03c20a6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220704T051409Z:1ff90db6-9886-483c-9480-ecd5b03c20a6"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "type": "Microsoft.ServiceFabric/clusters",
+            "location": "eastus",
+            "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ServiceFabric/clusters/myclusterxxxy",
+            "name": "myclusterxxxy",
+            "etag": "W/\u0022637925084436984970\u0022",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2022-07-04T05:14:02.437028\u002B00:00",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2022-07-04T05:14:02.437028\u002B00:00"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "clusterId": "16f02636-b698-472d-97f9-27512f6d6fff",
+              "clusterCodeVersion": "9.0.1028.9590",
+              "clusterState": "WaitingForNodes",
+              "managementEndpoint": "http://myCluster.eastus.cloudapp.azure.com:19080",
+              "clusterEndpoint": "https://eastus.servicefabric.azure.com/runtime/clusters/16f02636-b698-472d-97f9-27512f6d6fff",
+              "clientCertificateThumbprints": [],
+              "clientCertificateCommonNames": [],
+              "fabricSettings": [
+                {
+                  "name": "UpgradeService",
+                  "parameters": [
+                    {
+                      "name": "AppPollIntervalInSeconds",
+                      "value": "60"
+                    }
+                  ]
+                }
+              ],
+              "reliabilityLevel": "Silver",
+              "nodeTypes": [
+                {
+                  "name": "nt1vm",
+                  "clientConnectionEndpointPort": 19000,
+                  "httpGatewayEndpointPort": 19007,
+                  "applicationPorts": {
+                    "startPort": 20000,
+                    "endPort": 30000
+                  },
+                  "ephemeralPorts": {
+                    "startPort": 49000,
+                    "endPort": 64000
+                  },
+                  "isPrimary": true,
+                  "durabilityLevel": "Bronze",
+                  "vmInstanceCount": 5,
+                  "isStateless": false
+                }
+              ],
+              "diagnosticsStorageAccountConfig": {
+                "storageAccountName": "diag",
+                "primaryAccessKey": "",
+                "secondaryAccessKey": "",
+                "protectedAccountKeyName": "StorageAccountKey1",
+                "blobEndpoint": "https://diag.blob.core.windows.net/",
+                "queueEndpoint": "https://diag.queue.core.windows.net/",
+                "tableEndpoint": "https://diag.table.core.windows.net/",
+                "protectedAccountKeyName2": ""
+              },
+              "upgradeMode": "Automatic",
+              "availableClusterVersions": [
+                {
+                  "codeVersion": "9.0.1028.9590",
+                  "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
+                  "environment": "Windows"
+                }
+              ],
+              "upgradeWave": "Wave0"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

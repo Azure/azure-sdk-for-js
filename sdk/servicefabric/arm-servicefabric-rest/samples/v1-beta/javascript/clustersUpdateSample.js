@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient, {
-  ClustersUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const ServiceFabricManagementClient = require("@azure-rest/arm-servicefabric").default,
+  { getLongRunningPoller } = require("@azure-rest/arm-servicefabric");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Update the configuration of a Service Fabric cluster resource with the specified name.
@@ -24,7 +22,7 @@ async function patchACluster() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const clusterName = "myCluster";
-  const parameters: ClustersUpdateParameters = {
+  const parameters = {
     body: {
       properties: {
         eventStoreServiceEnabled: true,

@@ -8,16 +8,16 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const ServiceFabricManagementClient = require("@azure-rest/arm-servicefabric").default;
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Delete a Service Fabric cluster resource with the specified name.
+ * This sample demonstrates how to Get a Service Fabric cluster resource created or in the process of being created in the specified resource group.
  *
- * @summary Delete a Service Fabric cluster resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterDeleteOperation_example.json
+ * @summary Get a Service Fabric cluster resource created or in the process of being created in the specified resource group.
+ * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterGetOperation_example.json
  */
-async function deleteACluster() {
+async function getACluster() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const clusterName = "myCluster";
@@ -30,8 +30,8 @@ async function deleteACluster() {
       resourceGroupName,
       clusterName
     )
-    .delete();
+    .get();
   console.log(result);
 }
 
-deleteACluster().catch(console.error);
+getACluster().catch(console.error);

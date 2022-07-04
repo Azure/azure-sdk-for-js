@@ -710,8 +710,7 @@ export interface ServiceResource extends ProxyResource {
   properties?: ServiceResourceProperties;
 }
 
-export interface ServiceResourcePropertiesBase
-  extends ServiceResourcePropertiesBase {
+export interface ServiceResourcePropertiesBase {
   /** The current deployment or provisioning state, which only appears in the response */
   provisioningState?: string;
   /** The name of the service type */
@@ -722,7 +721,6 @@ export interface ServiceResourcePropertiesBase
   servicePackageActivationMode?: "SharedProcess" | "ExclusiveProcess";
   /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
   serviceDnsName?: string;
-  serviceKind: "ServiceResourceProperties" | "Stateful" | "Stateless";
 }
 
 export interface PartitionSchemeDescriptionBase {
@@ -777,7 +775,7 @@ export interface ServiceResourceUpdate extends ProxyResource {
 
 export interface ServiceResourceUpdatePropertiesBase
   extends ServiceResourcePropertiesBase {
-  serviceKind: "ServiceResourceUpdateProperties" | "Stateful" | "Stateless";
+  serviceKind: "Invalid" | "Stateful" | "Stateless";
 }
 
 export interface NamedPartitionSchemeDescription

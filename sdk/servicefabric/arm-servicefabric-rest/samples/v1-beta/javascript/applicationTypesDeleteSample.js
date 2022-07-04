@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient, { getLongRunningPoller } from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const ServiceFabricManagementClient = require("@azure-rest/arm-servicefabric").default,
+  { getLongRunningPoller } = require("@azure-rest/arm-servicefabric");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Delete a Service Fabric application type name resource with the specified name.

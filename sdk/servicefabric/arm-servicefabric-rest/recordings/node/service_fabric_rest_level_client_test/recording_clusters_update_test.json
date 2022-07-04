@@ -1,0 +1,212 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ServiceFabric/clusters/myclusterxxxy?api-version=2021-06-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "640",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-arm-servicefabric-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "48761e46-1c60-410d-8c36-5c3b632d555e"
+      },
+      "RequestBody": {
+        "tags": {
+          "a": "b"
+        },
+        "properties": {
+          "nodeTypes": [
+            {
+              "name": "nt1vm",
+              "clientConnectionEndpointPort": 19000,
+              "httpGatewayEndpointPort": 19007,
+              "applicationPorts": {
+                "startPort": 20000,
+                "endPort": 30000
+              },
+              "ephemeralPorts": {
+                "startPort": 49000,
+                "endPort": 64000
+              },
+              "isPrimary": true,
+              "vmInstanceCount": 5,
+              "durabilityLevel": "Bronze"
+            },
+            {
+              "name": "testnt1",
+              "clientConnectionEndpointPort": 0,
+              "httpGatewayEndpointPort": 0,
+              "applicationPorts": {
+                "startPort": 1000,
+                "endPort": 2000
+              },
+              "ephemeralPorts": {
+                "startPort": 3000,
+                "endPort": 4000
+              },
+              "isPrimary": false,
+              "vmInstanceCount": 3,
+              "durabilityLevel": "Bronze"
+            }
+          ],
+          "reliabilityLevel": "Bronze",
+          "upgradeMode": "Automatic",
+          "eventStoreServiceEnabled": true
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceFabric/locations/eastus/operations/175f5347-f1ed-4a6e-a519-e670b71aeeaa?api-version=2021-06-01",
+        "Cache-Control": "no-cache",
+        "Content-Length": "3026",
+        "Content-Type": "application/json",
+        "Date": "Mon, 04 Jul 2022 05:14:12 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/175f5347-f1ed-4a6e-a519-e670b71aeeaa?api-version=2021-06-01",
+        "Pragma": "no-cache",
+        "Retry-After": "60",
+        "Server": "Microsoft-HTTPAPI/2.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2e6a8f88-de25-4c63-8c2b-ad15139fa4a6",
+        "x-ms-ratelimit-remaining-subscription-writes": "1197",
+        "x-ms-request-id": "2e6a8f88-de25-4c63-8c2b-ad15139fa4a6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220704T051413Z:2e6a8f88-de25-4c63-8c2b-ad15139fa4a6"
+      },
+      "ResponseBody": {
+        "type": "Microsoft.ServiceFabric/clusters",
+        "location": "eastus",
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ServiceFabric/clusters/myclusterxxxy",
+        "name": "myclusterxxxy",
+        "tags": {
+          "a": "b"
+        },
+        "etag": "W/\u0022637925084436984971\u0022",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-07-04T05:14:02.437028\u002B00:00",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-07-04T05:14:12.9370638\u002B00:00"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "clusterId": "16f02636-b698-472d-97f9-27512f6d6fff",
+          "clusterCodeVersion": "9.0.1028.9590",
+          "clusterState": "WaitingForNodes",
+          "managementEndpoint": "http://myCluster.eastus.cloudapp.azure.com:19080",
+          "clusterEndpoint": "https://eastus.servicefabric.azure.com/runtime/clusters/16f02636-b698-472d-97f9-27512f6d6fff",
+          "clientCertificateThumbprints": [],
+          "clientCertificateCommonNames": [],
+          "fabricSettings": [
+            {
+              "name": "UpgradeService",
+              "parameters": [
+                {
+                  "name": "AppPollIntervalInSeconds",
+                  "value": "60"
+                }
+              ]
+            }
+          ],
+          "reliabilityLevel": "Bronze",
+          "nodeTypes": [
+            {
+              "name": "nt1vm",
+              "clientConnectionEndpointPort": 19000,
+              "httpGatewayEndpointPort": 19007,
+              "applicationPorts": {
+                "startPort": 20000,
+                "endPort": 30000
+              },
+              "ephemeralPorts": {
+                "startPort": 49000,
+                "endPort": 64000
+              },
+              "isPrimary": true,
+              "durabilityLevel": "Bronze",
+              "vmInstanceCount": 5,
+              "isStateless": false
+            },
+            {
+              "name": "testnt1",
+              "clientConnectionEndpointPort": 0,
+              "httpGatewayEndpointPort": 0,
+              "applicationPorts": {
+                "startPort": 1000,
+                "endPort": 2000
+              },
+              "ephemeralPorts": {
+                "startPort": 3000,
+                "endPort": 4000
+              },
+              "isPrimary": false,
+              "durabilityLevel": "Bronze",
+              "vmInstanceCount": 3,
+              "isStateless": false
+            }
+          ],
+          "diagnosticsStorageAccountConfig": {
+            "storageAccountName": "diag",
+            "primaryAccessKey": "",
+            "secondaryAccessKey": "",
+            "protectedAccountKeyName": "StorageAccountKey1",
+            "blobEndpoint": "https://diag.blob.core.windows.net/",
+            "queueEndpoint": "https://diag.queue.core.windows.net/",
+            "tableEndpoint": "https://diag.table.core.windows.net/",
+            "protectedAccountKeyName2": ""
+          },
+          "upgradeMode": "Automatic",
+          "availableClusterVersions": [
+            {
+              "codeVersion": "9.0.1028.9590",
+              "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
+              "environment": "Windows"
+            }
+          ],
+          "eventStoreServiceEnabled": true,
+          "upgradeWave": "Wave0"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceFabric/locations/eastus/operations/175f5347-f1ed-4a6e-a519-e670b71aeeaa?api-version=2021-06-01\u0026api-version=2021-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-servicefabric-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "078369cc-57fc-4ed2-bae5-1a28b4b7da56"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "611",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 04 Jul 2022 05:14:12 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f9e78d03-8c37-4d9d-a0e4-65d5714edfd6",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "f9e78d03-8c37-4d9d-a0e4-65d5714edfd6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220704T051413Z:f9e78d03-8c37-4d9d-a0e4-65d5714edfd6"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027locations/operations\u0027 could not be found in the namespace \u0027Microsoft.ServiceFabric\u0027 for api version \u00272021-06-01,2021-06-01\u0027. The supported api-versions are \u00272016-03-01,2016-09-01,2017-07-01-preview,2017-07-01-privatepreview,2018-02-01,2018-02-01-privatepreview,2019-03-01-privatepreview,2019-03-01-preview,2019-03-01,2019-06-01-preview,2019-11-01-preview,2019-11-01-privatepreview,2020-02-01-preview,2020-02-01-privatepreview,2020-03-01,2020-12-01-preview,2020-12-01-privatepreview,2020-12-15-preview,2020-12-15-privatepreview,2021-06-01\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

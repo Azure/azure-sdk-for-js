@@ -1,0 +1,73 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ServiceFabric/clusters/myclusterxxxy/applicationTypes/myapplicationtypexxxy?api-version=2021-06-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-servicefabric-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "3b01eb29-4644-466d-bb23-6a206ce53a6a"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Date": "Mon, 04 Jul 2022 05:14:14 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": [
+          "Microsoft-HTTPAPI/2.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "55b71a9c-3952-453b-989d-ad0cde7df8fc",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "55b71a9c-3952-453b-989d-ad0cde7df8fc",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220704T051414Z:55b71a9c-3952-453b-989d-ad0cde7df8fc"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ServiceFabric/clusters/myclusterxxxy/applicationTypes?api-version=2021-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-servicefabric-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
+        "x-ms-client-request-id": "fa6e0c07-78fb-40a4-bcf3-2fd77904e16a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Mon, 04 Jul 2022 05:14:14 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": [
+          "Microsoft-HTTPAPI/2.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2543ffee-8c7e-4615-945b-3b94e5355b8d",
+        "x-ms-ratelimit-remaining-subscription-reads": "11994",
+        "x-ms-request-id": "2543ffee-8c7e-4615-945b-3b94e5355b8d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220704T051415Z:2543ffee-8c7e-4615-945b-3b94e5355b8d"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {}
+}

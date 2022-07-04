@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient, {
-  ClustersListUpgradableVersionsParameters,
-} from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const ServiceFabricManagementClient = require("@azure-rest/arm-servicefabric").default;
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to If a target is not provided, it will get the minimum and maximum versions available from the current cluster version. If a target is given, it will provide the required path to get from the current cluster version to the target version.
@@ -25,12 +23,14 @@ async function getMinimumAndMaximumCodeVersions() {
   const clusterName = "myCluster";
   const credential = new DefaultAzureCredential();
   const client = ServiceFabricManagementClient(credential);
-  const result = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/listUpgradableVersions",
-    subscriptionId,
-    resourceGroupName,
-    clusterName
-  ).post();
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/listUpgradableVersions",
+      subscriptionId,
+      resourceGroupName,
+      clusterName
+    )
+    .post();
   console.log(result);
 }
 
@@ -46,7 +46,7 @@ async function getUpgradePath() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const clusterName = "myCluster";
-  const options: ClustersListUpgradableVersionsParameters = {
+  const options = {
     body: {
       targetVersion: "7.2.432.9590",
     },

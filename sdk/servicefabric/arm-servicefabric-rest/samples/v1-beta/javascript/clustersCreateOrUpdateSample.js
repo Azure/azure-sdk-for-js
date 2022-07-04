@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient, {
-  ClustersCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const ServiceFabricManagementClient = require("@azure-rest/arm-servicefabric").default,
+  { getLongRunningPoller } = require("@azure-rest/arm-servicefabric");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Create or update a Service Fabric cluster resource with the specified name.
@@ -24,7 +22,7 @@ async function putAClusterWithMaximumParameters() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const clusterName = "myCluster";
-  const parameters: ClustersCreateOrUpdateParameters = {
+  const parameters = {
     body: {
       location: "eastus",
       properties: {
@@ -184,12 +182,14 @@ async function putAClusterWithMaximumParameters() {
   };
   const credential = new DefaultAzureCredential();
   const client = ServiceFabricManagementClient(credential);
-  const initialResponse = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
-    subscriptionId,
-    resourceGroupName,
-    clusterName
-  ).put(parameters);
+  const initialResponse = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
+      subscriptionId,
+      resourceGroupName,
+      clusterName
+    )
+    .put(parameters);
   const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
@@ -207,7 +207,7 @@ async function putAClusterWithMinimumParameters() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const clusterName = "myCluster";
-  const parameters: ClustersCreateOrUpdateParameters = {
+  const parameters = {
     body: {
       location: "eastus",
       properties: {

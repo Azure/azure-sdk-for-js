@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const ServiceFabricManagementClient = require("@azure-rest/arm-servicefabric").default;
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Gets all application type name resources created or in the process of being created in the Service Fabric cluster resource.
@@ -23,12 +23,14 @@ async function getAListOfApplicationTypeNameResources() {
   const clusterName = "myCluster";
   const credential = new DefaultAzureCredential();
   const client = ServiceFabricManagementClient(credential);
-  const result = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes",
-    subscriptionId,
-    resourceGroupName,
-    clusterName
-  ).get();
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes",
+      subscriptionId,
+      resourceGroupName,
+      clusterName
+    )
+    .get();
   console.log(result);
 }
 

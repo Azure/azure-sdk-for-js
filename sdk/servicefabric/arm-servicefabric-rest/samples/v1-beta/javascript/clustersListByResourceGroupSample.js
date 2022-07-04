@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const ServiceFabricManagementClient = require("@azure-rest/arm-servicefabric").default;
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Gets all Service Fabric cluster resources created or in the process of being created in the resource group.
@@ -22,11 +22,13 @@ async function listClusterByResourceGroup() {
   const resourceGroupName = "resRg";
   const credential = new DefaultAzureCredential();
   const client = ServiceFabricManagementClient(credential);
-  const result = await client.path(
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters",
-    subscriptionId,
-    resourceGroupName
-  ).get();
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters",
+      subscriptionId,
+      resourceGroupName
+    )
+    .get();
   console.log(result);
 }
 

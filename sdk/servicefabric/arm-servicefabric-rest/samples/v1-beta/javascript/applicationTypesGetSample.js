@@ -8,23 +8,23 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient, { getLongRunningPoller } from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const ServiceFabricManagementClient = require("@azure-rest/arm-servicefabric").default;
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Delete a Service Fabric application type name resource with the specified name.
+ * This sample demonstrates how to Get a Service Fabric application type name resource created or in the process of being created in the Service Fabric cluster resource.
  *
- * @summary Delete a Service Fabric application type name resource with the specified name.
- * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationTypeNameDeleteOperation_example.json
+ * @summary Get a Service Fabric application type name resource created or in the process of being created in the Service Fabric cluster resource.
+ * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationTypeNameGetOperation_example.json
  */
-async function deleteAnApplicationType() {
+async function getAnApplicationType() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const clusterName = "myCluster";
   const applicationTypeName = "myAppType";
   const credential = new DefaultAzureCredential();
   const client = ServiceFabricManagementClient(credential);
-  const initialResponse = await client
+  const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}",
       subscriptionId,
@@ -32,10 +32,8 @@ async function deleteAnApplicationType() {
       clusterName,
       applicationTypeName
     )
-    .delete();
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+    .get();
   console.log(result);
 }
 
-deleteAnApplicationType().catch(console.error);
+getAnApplicationType().catch(console.error);
