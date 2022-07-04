@@ -29,6 +29,7 @@ import {
   GetMapStaticImageOptions,
   GetMapTileOptions,
   GetMapTilesetOptions,
+  ImageRange,
   MapsRenderClientOptions,
 } from "./models/options";
 import { logger } from "./utils/logger";
@@ -40,6 +41,8 @@ const isMapsRenderClientOptions = (
   clientIdOrOptions: any
 ): clientIdOrOptions is MapsRenderClientOptions =>
   clientIdOrOptions && typeof clientIdOrOptions !== "string";
+
+const isBoundingBox = (obj: any): obj is BoundingBox => "topLeft" in obj && "bottomRight" in obj;
 
 /**
  * Client class for interacting with Azure Maps Render Service.
@@ -269,29 +272,36 @@ export class MapsRenderClient {
 
   /**
    * Renders a user-defined, rectangular image containing a map section
+   * Either center or boundingBox are required parameters. They are
+   * mutually exclusive.
    *
    * @param format - Desired format of the response. Possible value: png.
    * @param options - Optional parameters for the operation
    */
   public async getMapStaticImage(
     format: RasterTileFormat,
+    range: ImageRange | BoundingBox,
     options: GetMapStaticImageOptions = {}
   ): Promise<MapTile> {
     const { span, updatedOptions } = createSpan("MapsRenderClient-getMapStaticImage", options);
     try {
+      const rangeOptions = isBoundingBox(range)
+        ? {
+            boundingBoxPrivate: [
+              (range as BoundingBox).topLeft.longitude,
+              (range as BoundingBox).bottomRight.latitude,
+              (range as BoundingBox).bottomRight.longitude,
+              (range as BoundingBox).topLeft.latitude,
+            ],
+          }
+        : {
+            ...(range as ImageRange),
+            center: [(range as ImageRange).center.longitude, (range as ImageRange).center.latitude],
+          };
+
       const result = await this.client.renderV2.getMapStaticImage(format, {
         ...updatedOptions,
-        center: updatedOptions.center
-          ? [updatedOptions.center.longitude, updatedOptions.center.latitude]
-          : undefined,
-        boundingBoxPrivate: updatedOptions.boundingBox
-          ? [
-              updatedOptions.boundingBox.topLeft.longitude,
-              updatedOptions.boundingBox.bottomRight.latitude,
-              updatedOptions.boundingBox.bottomRight.longitude,
-              updatedOptions.boundingBox.topLeft.latitude,
-            ]
-          : undefined,
+        ...rangeOptions,
       });
       return result;
     } catch (e) {
