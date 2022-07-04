@@ -21,6 +21,7 @@ export interface TestChallenge {
 }
 
 let cachedChallenge: string | undefined;
+let cachedPreviousToken: AccessToken | null;
 
 /**
  * Converts a uint8Array to a string.
@@ -68,6 +69,7 @@ function parseCAEChallenge(challenges: string): any[] {
 async function authorizeRequestOnChallenge(
   options: AuthorizeRequestOnChallengeOptions
 ): Promise<boolean> {
+
   const { scopes } = options;
 
   const challenge = options.response.headers.get("WWW-Authenticate");
@@ -94,6 +96,9 @@ async function authorizeRequestOnChallenge(
 
   if (!accessToken) {
     return false;
+  }
+  if (!!cachedPreviousToken) {
+    cachedPreviousToken = accessToken;
   }
 
   options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
@@ -259,17 +264,22 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
         request: pipelineRequest,
         status: 200,
       },
+      {
+        headers: createHttpHeaders(),
+        request: pipelineRequest,
+        status: 200,
+      },
     ];
 
     const getTokenResponses = [
       { token: "mock-token", expiresOnTimestamp: Date.now() + 5000 },
-      { token: "mock-token2", expiresOnTimestamp: Date.now() + 10000 },
+      { token: "mock-token2", expiresOnTimestamp: Date.now() + 100000 },
+      { token: "mock-token3", expiresOnTimestamp: Date.now() + 100000 },
     ];
     const credential = new MockRefreshAzureCredential([...getTokenResponses]);
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
-    let previousToken: AccessToken | null;
     const bearerPolicy = bearerTokenAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
@@ -280,13 +290,13 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
             firstRequest = false;
             // send first request without the Authorization header
           } else {
-            if (!previousToken) {
-              previousToken = await getAccessToken([], {});
-              if (!previousToken) {
+            if (!cachedPreviousToken) {
+              cachedPreviousToken = await getAccessToken([], {});
+              if (!cachedPreviousToken) {
                 throw new Error("Failed to retrieve an access token");
               }
             }
-            request.headers.set("Authorization", `Bearer ${previousToken.token}`);
+            request.headers.set("Authorization", `Bearer ${cachedPreviousToken.token}`);
           }
         },
         authorizeRequestOnChallenge,
@@ -308,8 +318,14 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       },
     };
 
+    // Will refresh token once as the first time token is empty 
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     clock.tick(5000);
+    // Will refresh token twice
+    // - 1st refreshing because the token is epxired
+    // - 2nd refreshing because the response with old token has 401 error with claim details so we need refresh token again
+    await pipeline.sendRequest(testHttpsClient, pipelineRequest);
+    // Token is still valid and no need to refresh it
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
 
     // Our goal is to test that:
@@ -334,7 +350,8 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       undefined,
       `Bearer ${getTokenResponses[0].token}`,
       `Bearer ${getTokenResponses[1].token}`,
-      `Bearer ${getTokenResponses[1].token}`,
+      `Bearer ${getTokenResponses[2].token}`,
+      `Bearer ${getTokenResponses[2].token}`,
     ]);
   });
 
