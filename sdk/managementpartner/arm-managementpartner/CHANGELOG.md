@@ -1,6 +1,6 @@
 # Release History
     
-## 3.0.0 (2022-07-01)
+## 3.0.0 (2022-07-04)
     
 **Features**
 
@@ -9,7 +9,6 @@
 
 **Breaking Changes**
 
-  - Class ACEProvisioningManagementPartnerAPI has a new signature
   - Interface ErrorModel no longer has parameter code
   - Interface ErrorModel no longer has parameter message
     

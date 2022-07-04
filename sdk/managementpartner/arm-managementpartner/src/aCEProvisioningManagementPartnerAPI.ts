@@ -13,6 +13,7 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
+import * as coreAuth from "@azure/core-auth";
 import { PartnerImpl, OperationImpl, PartnersImpl } from "./operations";
 import { Partner, Operation, Partners } from "./operationsInterfaces";
 import { ACEProvisioningManagementPartnerAPIOptionalParams } from "./models";
@@ -23,23 +24,35 @@ export class ACEProvisioningManagementPartnerAPI extends coreClient.ServiceClien
 
   /**
    * Initializes a new instance of the ACEProvisioningManagementPartnerAPI class.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param options The parameter options
    */
-  constructor(options?: ACEProvisioningManagementPartnerAPIOptionalParams) {
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ACEProvisioningManagementPartnerAPIOptionalParams
+  ) {
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+
     // Initializing default values for options
     if (!options) {
       options = {};
     }
     const defaults: ACEProvisioningManagementPartnerAPIOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-managementpartner/2.0.2`;
+    const packageDetails = `azsdk-js-arm-managementpartner/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
