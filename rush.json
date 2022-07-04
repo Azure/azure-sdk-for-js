@@ -1062,6 +1062,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/arm-servicefabric",
+      "projectFolder": "sdk/servicefabric/arm-servicefabric-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-mysql",
       "projectFolder": "sdk/mysql/arm-mysql",
       "versionPolicyName": "management"

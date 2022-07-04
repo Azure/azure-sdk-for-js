@@ -158,6 +158,7 @@ specifiers:
   '@rush-temp/arm-serialconsole': file:./projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
+  '@rush-temp/arm-servicefabric-1': file:./projects/arm-servicefabric-1.tgz
   '@rush-temp/arm-servicefabricmesh': file:./projects/arm-servicefabricmesh.tgz
   '@rush-temp/arm-servicelinker': file:./projects/arm-servicelinker.tgz
   '@rush-temp/arm-servicemap': file:./projects/arm-servicemap.tgz
@@ -446,6 +447,7 @@ dependencies:
   '@rush-temp/arm-serialconsole': file:projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
+  '@rush-temp/arm-servicefabric-1': file:projects/arm-servicefabric-1.tgz
   '@rush-temp/arm-servicefabricmesh': file:projects/arm-servicefabricmesh.tgz
   '@rush-temp/arm-servicelinker': file:projects/arm-servicelinker.tgz
   '@rush-temp/arm-servicemap': file:projects/arm-servicemap.tgz
@@ -3945,7 +3947,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220629
+      typescript: 4.8.0-dev.20220701
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8755,8 +8757,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220629:
-    resolution: {integrity: sha512-QEp1M6iqlYpQXFF2f9ucXMkXbYcAoXcG0ws0IG8bWd7mjPGf8R5iVCbQVSm1dzV/GoOy0PsvfNe5/uL6D9TSPA==}
+  /typescript/4.8.0-dev.20220701:
+    resolution: {integrity: sha512-nPs71QQeYHtxH98HFGRSLsWE8XHUFfghDUv8boDUVUmtv7hEtjqZrYsFci4sDV0kiP16AmdTub2tFcpzGK0GiQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13929,9 +13931,9 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-servicefabric.tgz:
-    resolution: {integrity: sha512-lo4zPYR+XPmDcK9Anc+1kZTXATJ6UUwGVtLlWIeQC7eiFujuFcSrFUqw0Sl25m9VSQey46fBsI6XnqEA5ZCajQ==, tarball: file:projects/arm-servicefabric.tgz}
-    name: '@rush-temp/arm-servicefabric'
+  file:projects/arm-servicefabric-1.tgz:
+    resolution: {integrity: sha512-OWzmtKkmLBxVmtiyay3i0t06OM9LCL1ajcWD+JeE1jCi4GsQtFCqQ+E3oW3JVCCxLz0eF/EdUwaTsSbOAPoCng==, tarball: file:projects/arm-servicefabric-1.tgz}
+    name: '@rush-temp/arm-servicefabric-1'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -13956,6 +13958,57 @@ packages:
       - debug
       - encoding
       - supports-color
+    dev: false
+
+  file:projects/arm-servicefabric.tgz:
+    resolution: {integrity: sha512-L/YYSug01to6818m81GsbkBVga2Or6XuXz6mhCJEbhmJacTKK89kmA+BnjUpETAygrlhu2DQVL47FAK8zXmeFw==, tarball: file:projects/arm-servicefabric.tgz}
+    name: '@rush-temp/arm-servicefabric'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-lro': 2.2.4
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      '@types/node': 12.20.52
+      autorest: 3.6.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.3.20
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.20
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.20
+      karma-junit-reporter: 2.0.1_karma@6.3.20
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.20
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      rollup: 2.74.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.74.1
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/arm-servicefabricmesh.tgz:
