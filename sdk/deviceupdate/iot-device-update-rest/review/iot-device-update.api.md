@@ -15,7 +15,12 @@ import { PollOperationState } from '@azure/core-lro';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public (undocumented)
+function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): DeviceUpdateClient;
+export default createClient;
 
 // @public (undocumented)
 export interface Deployment {
@@ -23,7 +28,7 @@ export interface Deployment {
     groupId: string;
     isCanceled?: boolean;
     isRetried?: boolean;
-    startDateTime: string;
+    startDateTime: Date | string;
     updateId: UpdateId;
 }
 
@@ -83,8 +88,8 @@ export interface DeviceClassOutput {
 
 // @public (undocumented)
 export interface DeviceManagementCollectLogs {
-    get(options?: DeviceManagementGetLogCollectionOperationParameters): Promise<DeviceManagementGetLogCollectionOperation200Response | DeviceManagementGetLogCollectionOperationdefaultResponse>;
-    put(options: DeviceManagementCollectLogsParameters): Promise<DeviceManagementCollectLogs201Response | DeviceManagementCollectLogsdefaultResponse>;
+    get(options?: DeviceManagementGetLogCollectionOperationParameters): StreamableMethod<DeviceManagementGetLogCollectionOperation200Response | DeviceManagementGetLogCollectionOperationdefaultResponse>;
+    put(options: DeviceManagementCollectLogsParameters): StreamableMethod<DeviceManagementCollectLogs201Response | DeviceManagementCollectLogsdefaultResponse>;
 }
 
 // @public
@@ -105,7 +110,7 @@ export interface DeviceManagementCollectLogsdefaultResponse extends HttpResponse
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -134,7 +139,7 @@ export interface DeviceManagementCreateOrUpdateDeploymentdefaultResponse extends
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -163,7 +168,7 @@ export interface DeviceManagementCreateOrUpdateGroupdefaultResponse extends Http
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -187,7 +192,7 @@ export interface DeviceManagementDeleteDeploymentdefaultResponse extends HttpRes
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -206,7 +211,7 @@ export interface DeviceManagementDeleteGroupdefaultResponse extends HttpResponse
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -214,10 +219,10 @@ export type DeviceManagementDeleteGroupParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementGetDeployment {
-    delete(options?: DeviceManagementDeleteDeploymentParameters): Promise<DeviceManagementDeleteDeployment204Response | DeviceManagementDeleteDeploymentdefaultResponse>;
-    get(options?: DeviceManagementGetDeploymentParameters): Promise<DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentdefaultResponse>;
-    post(options: DeviceManagementStopDeploymentParameters | DeviceManagementRetryDeploymentParameters): Promise<DeviceManagementStopDeployment200Response | DeviceManagementStopDeploymentdefaultResponse> | Promise<DeviceManagementRetryDeployment200Response | DeviceManagementRetryDeploymentdefaultResponse>;
-    put(options: DeviceManagementCreateOrUpdateDeploymentParameters): Promise<DeviceManagementCreateOrUpdateDeployment200Response | DeviceManagementCreateOrUpdateDeploymentdefaultResponse>;
+    delete(options?: DeviceManagementDeleteDeploymentParameters): StreamableMethod<DeviceManagementDeleteDeployment204Response | DeviceManagementDeleteDeploymentdefaultResponse>;
+    get(options?: DeviceManagementGetDeploymentParameters): StreamableMethod<DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentdefaultResponse>;
+    post(options: DeviceManagementStopDeploymentParameters | DeviceManagementRetryDeploymentParameters): StreamableMethod<DeviceManagementStopDeployment200Response | DeviceManagementStopDeploymentdefaultResponse> | StreamableMethod<DeviceManagementRetryDeployment200Response | DeviceManagementRetryDeploymentdefaultResponse>;
+    put(options: DeviceManagementCreateOrUpdateDeploymentParameters): StreamableMethod<DeviceManagementCreateOrUpdateDeployment200Response | DeviceManagementCreateOrUpdateDeploymentdefaultResponse>;
 }
 
 // @public
@@ -233,7 +238,7 @@ export interface DeviceManagementGetDeploymentdefaultResponse extends HttpRespon
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -241,7 +246,7 @@ export type DeviceManagementGetDeploymentParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementGetDeploymentStatus {
-    get(options?: DeviceManagementGetDeploymentStatusParameters): Promise<DeviceManagementGetDeploymentStatus200Response | DeviceManagementGetDeploymentStatusdefaultResponse>;
+    get(options?: DeviceManagementGetDeploymentStatusParameters): StreamableMethod<DeviceManagementGetDeploymentStatus200Response | DeviceManagementGetDeploymentStatusdefaultResponse>;
 }
 
 // @public
@@ -257,7 +262,7 @@ export interface DeviceManagementGetDeploymentStatusdefaultResponse extends Http
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -265,7 +270,7 @@ export type DeviceManagementGetDeploymentStatusParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementGetDevice {
-    get(options?: DeviceManagementGetDeviceParameters): Promise<DeviceManagementGetDevice200Response | DeviceManagementGetDevicedefaultResponse>;
+    get(options?: DeviceManagementGetDeviceParameters): StreamableMethod<DeviceManagementGetDevice200Response | DeviceManagementGetDevicedefaultResponse>;
 }
 
 // @public
@@ -278,7 +283,7 @@ export interface DeviceManagementGetDevice200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DeviceManagementGetDeviceClass {
-    get(options?: DeviceManagementGetDeviceClassParameters): Promise<DeviceManagementGetDeviceClass200Response | DeviceManagementGetDeviceClassdefaultResponse>;
+    get(options?: DeviceManagementGetDeviceClassParameters): StreamableMethod<DeviceManagementGetDeviceClass200Response | DeviceManagementGetDeviceClassdefaultResponse>;
 }
 
 // @public
@@ -294,7 +299,7 @@ export interface DeviceManagementGetDeviceClassdefaultResponse extends HttpRespo
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -305,12 +310,12 @@ export interface DeviceManagementGetDevicedefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
 export interface DeviceManagementGetDeviceModule {
-    get(options?: DeviceManagementGetDeviceModuleParameters): Promise<DeviceManagementGetDeviceModule200Response | DeviceManagementGetDeviceModuledefaultResponse>;
+    get(options?: DeviceManagementGetDeviceModuleParameters): StreamableMethod<DeviceManagementGetDeviceModule200Response | DeviceManagementGetDeviceModuledefaultResponse>;
 }
 
 // @public
@@ -326,7 +331,7 @@ export interface DeviceManagementGetDeviceModuledefaultResponse extends HttpResp
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -337,7 +342,7 @@ export type DeviceManagementGetDeviceParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementGetDeviceTag {
-    get(options?: DeviceManagementGetDeviceTagParameters): Promise<DeviceManagementGetDeviceTag200Response | DeviceManagementGetDeviceTagdefaultResponse>;
+    get(options?: DeviceManagementGetDeviceTagParameters): StreamableMethod<DeviceManagementGetDeviceTag200Response | DeviceManagementGetDeviceTagdefaultResponse>;
 }
 
 // @public
@@ -353,7 +358,7 @@ export interface DeviceManagementGetDeviceTagdefaultResponse extends HttpRespons
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -361,9 +366,9 @@ export type DeviceManagementGetDeviceTagParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementGetGroup {
-    delete(options?: DeviceManagementDeleteGroupParameters): Promise<DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupdefaultResponse>;
-    get(options?: DeviceManagementGetGroupParameters): Promise<DeviceManagementGetGroup200Response | DeviceManagementGetGroupdefaultResponse>;
-    put(options: DeviceManagementCreateOrUpdateGroupParameters): Promise<DeviceManagementCreateOrUpdateGroup200Response | DeviceManagementCreateOrUpdateGroupdefaultResponse>;
+    delete(options?: DeviceManagementDeleteGroupParameters): StreamableMethod<DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupdefaultResponse>;
+    get(options?: DeviceManagementGetGroupParameters): StreamableMethod<DeviceManagementGetGroup200Response | DeviceManagementGetGroupdefaultResponse>;
+    put(options: DeviceManagementCreateOrUpdateGroupParameters): StreamableMethod<DeviceManagementCreateOrUpdateGroup200Response | DeviceManagementCreateOrUpdateGroupdefaultResponse>;
 }
 
 // @public
@@ -379,7 +384,7 @@ export interface DeviceManagementGetGroupdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -387,7 +392,7 @@ export type DeviceManagementGetGroupParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementGetGroupUpdateCompliance {
-    get(options?: DeviceManagementGetGroupUpdateComplianceParameters): Promise<DeviceManagementGetGroupUpdateCompliance200Response | DeviceManagementGetGroupUpdateCompliancedefaultResponse>;
+    get(options?: DeviceManagementGetGroupUpdateComplianceParameters): StreamableMethod<DeviceManagementGetGroupUpdateCompliance200Response | DeviceManagementGetGroupUpdateCompliancedefaultResponse>;
 }
 
 // @public
@@ -403,7 +408,7 @@ export interface DeviceManagementGetGroupUpdateCompliancedefaultResponse extends
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -422,12 +427,12 @@ export interface DeviceManagementGetLogCollectionOperationdefaultResponse extend
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
 export interface DeviceManagementGetLogCollectionOperationDetailedStatus {
-    get(options?: DeviceManagementGetLogCollectionOperationDetailedStatusParameters): Promise<DeviceManagementGetLogCollectionOperationDetailedStatus200Response | DeviceManagementGetLogCollectionOperationDetailedStatusdefaultResponse>;
+    get(options?: DeviceManagementGetLogCollectionOperationDetailedStatusParameters): StreamableMethod<DeviceManagementGetLogCollectionOperationDetailedStatus200Response | DeviceManagementGetLogCollectionOperationDetailedStatusdefaultResponse>;
 }
 
 // @public
@@ -443,7 +448,7 @@ export interface DeviceManagementGetLogCollectionOperationDetailedStatusdefaultR
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -454,7 +459,7 @@ export type DeviceManagementGetLogCollectionOperationParameters = RequestParamet
 
 // @public (undocumented)
 export interface DeviceManagementGetOperation {
-    get(options?: DeviceManagementGetOperationParameters): Promise<DeviceManagementGetOperation200Response | DeviceManagementGetOperation304Response | DeviceManagementGetOperationdefaultResponse>;
+    get(options?: DeviceManagementGetOperationParameters): StreamableMethod<DeviceManagementGetOperation200Response | DeviceManagementGetOperation304Response | DeviceManagementGetOperationdefaultResponse>;
 }
 
 // @public (undocumented)
@@ -485,7 +490,7 @@ export interface DeviceManagementGetOperationdefaultResponse extends HttpRespons
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -504,7 +509,7 @@ export type DeviceManagementGetOperationParameters = DeviceManagementGetOperatio
 
 // @public (undocumented)
 export interface DeviceManagementGetUpdateCompliance {
-    get(options?: DeviceManagementGetUpdateComplianceParameters): Promise<DeviceManagementGetUpdateCompliance200Response | DeviceManagementGetUpdateCompliancedefaultResponse>;
+    get(options?: DeviceManagementGetUpdateComplianceParameters): StreamableMethod<DeviceManagementGetUpdateCompliance200Response | DeviceManagementGetUpdateCompliancedefaultResponse>;
 }
 
 // @public
@@ -520,7 +525,7 @@ export interface DeviceManagementGetUpdateCompliancedefaultResponse extends Http
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -551,7 +556,7 @@ export interface DeviceManagementImportDevicesdefaultResponse extends HttpRespon
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -575,7 +580,7 @@ export interface DeviceManagementImportDevicesQueryParamProperties {
 
 // @public (undocumented)
 export interface DeviceManagementListBestUpdatesForGroup {
-    get(options?: DeviceManagementListBestUpdatesForGroupParameters): Promise<DeviceManagementListBestUpdatesForGroup200Response | DeviceManagementListBestUpdatesForGroupdefaultResponse>;
+    get(options?: DeviceManagementListBestUpdatesForGroupParameters): StreamableMethod<DeviceManagementListBestUpdatesForGroup200Response | DeviceManagementListBestUpdatesForGroupdefaultResponse>;
 }
 
 // @public
@@ -591,7 +596,7 @@ export interface DeviceManagementListBestUpdatesForGroupdefaultResponse extends 
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -610,7 +615,7 @@ export interface DeviceManagementListBestUpdatesForGroupQueryParamProperties {
 
 // @public (undocumented)
 export interface DeviceManagementListDeploymentDevices {
-    get(options?: DeviceManagementListDeploymentDevicesParameters): Promise<DeviceManagementListDeploymentDevices200Response | DeviceManagementListDeploymentDevicesdefaultResponse>;
+    get(options?: DeviceManagementListDeploymentDevicesParameters): StreamableMethod<DeviceManagementListDeploymentDevices200Response | DeviceManagementListDeploymentDevicesdefaultResponse>;
 }
 
 // @public
@@ -626,7 +631,7 @@ export interface DeviceManagementListDeploymentDevicesdefaultResponse extends Ht
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -645,7 +650,7 @@ export interface DeviceManagementListDeploymentDevicesQueryParamProperties {
 
 // @public (undocumented)
 export interface DeviceManagementListDeploymentsForGroup {
-    get(options?: DeviceManagementListDeploymentsForGroupParameters): Promise<DeviceManagementListDeploymentsForGroup200Response | DeviceManagementListDeploymentsForGroupdefaultResponse>;
+    get(options?: DeviceManagementListDeploymentsForGroupParameters): StreamableMethod<DeviceManagementListDeploymentsForGroup200Response | DeviceManagementListDeploymentsForGroupdefaultResponse>;
 }
 
 // @public
@@ -661,7 +666,7 @@ export interface DeviceManagementListDeploymentsForGroupdefaultResponse extends 
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -680,7 +685,7 @@ export interface DeviceManagementListDeploymentsForGroupQueryParamProperties {
 
 // @public (undocumented)
 export interface DeviceManagementListDeviceClasses {
-    get(options?: DeviceManagementListDeviceClassesParameters): Promise<DeviceManagementListDeviceClasses200Response | DeviceManagementListDeviceClassesdefaultResponse>;
+    get(options?: DeviceManagementListDeviceClassesParameters): StreamableMethod<DeviceManagementListDeviceClasses200Response | DeviceManagementListDeviceClassesdefaultResponse>;
 }
 
 // @public
@@ -696,7 +701,7 @@ export interface DeviceManagementListDeviceClassesdefaultResponse extends HttpRe
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -704,8 +709,8 @@ export type DeviceManagementListDeviceClassesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementListDevices {
-    get(options?: DeviceManagementListDevicesParameters): Promise<DeviceManagementListDevices200Response | DeviceManagementListDevicesdefaultResponse>;
-    post(options: DeviceManagementImportDevicesParameters): Promise<DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse>;
+    get(options?: DeviceManagementListDevicesParameters): StreamableMethod<DeviceManagementListDevices200Response | DeviceManagementListDevicesdefaultResponse>;
+    post(options: DeviceManagementImportDevicesParameters): StreamableMethod<DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse>;
 }
 
 // @public
@@ -721,7 +726,7 @@ export interface DeviceManagementListDevicesdefaultResponse extends HttpResponse
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -740,7 +745,7 @@ export interface DeviceManagementListDevicesQueryParamProperties {
 
 // @public (undocumented)
 export interface DeviceManagementListDeviceTags {
-    get(options?: DeviceManagementListDeviceTagsParameters): Promise<DeviceManagementListDeviceTags200Response | DeviceManagementListDeviceTagsdefaultResponse>;
+    get(options?: DeviceManagementListDeviceTagsParameters): StreamableMethod<DeviceManagementListDeviceTags200Response | DeviceManagementListDeviceTagsdefaultResponse>;
 }
 
 // @public
@@ -756,7 +761,7 @@ export interface DeviceManagementListDeviceTagsdefaultResponse extends HttpRespo
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -764,7 +769,7 @@ export type DeviceManagementListDeviceTagsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementListGroups {
-    get(options?: DeviceManagementListGroupsParameters): Promise<DeviceManagementListGroups200Response | DeviceManagementListGroupsdefaultResponse>;
+    get(options?: DeviceManagementListGroupsParameters): StreamableMethod<DeviceManagementListGroups200Response | DeviceManagementListGroupsdefaultResponse>;
 }
 
 // @public
@@ -780,7 +785,7 @@ export interface DeviceManagementListGroupsdefaultResponse extends HttpResponse 
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -788,7 +793,7 @@ export type DeviceManagementListGroupsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementListInstallableUpdatesForDeviceClass {
-    get(options?: DeviceManagementListInstallableUpdatesForDeviceClassParameters): Promise<DeviceManagementListInstallableUpdatesForDeviceClass200Response | DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse>;
+    get(options?: DeviceManagementListInstallableUpdatesForDeviceClassParameters): StreamableMethod<DeviceManagementListInstallableUpdatesForDeviceClass200Response | DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse>;
 }
 
 // @public
@@ -804,7 +809,7 @@ export interface DeviceManagementListInstallableUpdatesForDeviceClassdefaultResp
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -812,7 +817,7 @@ export type DeviceManagementListInstallableUpdatesForDeviceClassParameters = Req
 
 // @public (undocumented)
 export interface DeviceManagementListLogCollectionOperations {
-    get(options?: DeviceManagementListLogCollectionOperationsParameters): Promise<DeviceManagementListLogCollectionOperations200Response | DeviceManagementListLogCollectionOperationsdefaultResponse>;
+    get(options?: DeviceManagementListLogCollectionOperationsParameters): StreamableMethod<DeviceManagementListLogCollectionOperations200Response | DeviceManagementListLogCollectionOperationsdefaultResponse>;
 }
 
 // @public
@@ -828,7 +833,7 @@ export interface DeviceManagementListLogCollectionOperationsdefaultResponse exte
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -836,7 +841,7 @@ export type DeviceManagementListLogCollectionOperationsParameters = RequestParam
 
 // @public (undocumented)
 export interface DeviceManagementListOperations {
-    get(options?: DeviceManagementListOperationsParameters): Promise<DeviceManagementListOperations200Response | DeviceManagementListOperationsdefaultResponse>;
+    get(options?: DeviceManagementListOperationsParameters): StreamableMethod<DeviceManagementListOperations200Response | DeviceManagementListOperationsdefaultResponse>;
 }
 
 // @public
@@ -852,7 +857,7 @@ export interface DeviceManagementListOperationsdefaultResponse extends HttpRespo
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -883,7 +888,7 @@ export interface DeviceManagementRetryDeploymentdefaultResponse extends HttpResp
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -913,7 +918,7 @@ export interface DeviceManagementStopDeploymentdefaultResponse extends HttpRespo
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -982,10 +987,6 @@ export interface DeviceTagsListOutput {
 }
 
 // @public (undocumented)
-function DeviceUpdate(endpoint: string, credentials: TokenCredential, options?: ClientOptions): DeviceUpdateRestClient;
-export default DeviceUpdate;
-
-// @public (undocumented)
 export interface DeviceUpdateAgentId {
     deviceId: string;
     moduleId?: string;
@@ -996,6 +997,11 @@ export interface DeviceUpdateAgentIdOutput {
     deviceId: string;
     moduleId?: string;
 }
+
+// @public (undocumented)
+export type DeviceUpdateClient = Client & {
+    path: Routes;
+};
 
 // @public (undocumented)
 export interface DeviceUpdateDeleteUpdate202Headers {
@@ -1017,7 +1023,7 @@ export interface DeviceUpdateDeleteUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1025,7 +1031,7 @@ export type DeviceUpdateDeleteUpdateParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceUpdateGetFile {
-    get(options?: DeviceUpdateGetFileParameters): Promise<DeviceUpdateGetFile200Response | DeviceUpdateGetFile304Response | DeviceUpdateGetFiledefaultResponse>;
+    get(options?: DeviceUpdateGetFileParameters): StreamableMethod<DeviceUpdateGetFile200Response | DeviceUpdateGetFile304Response | DeviceUpdateGetFiledefaultResponse>;
 }
 
 // @public
@@ -1049,7 +1055,7 @@ export interface DeviceUpdateGetFiledefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1068,7 +1074,7 @@ export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam & Req
 
 // @public (undocumented)
 export interface DeviceUpdateGetOperation {
-    get(options?: DeviceUpdateGetOperationParameters): Promise<DeviceUpdateGetOperation200Response | DeviceUpdateGetOperation304Response | DeviceUpdateGetOperationdefaultResponse>;
+    get(options?: DeviceUpdateGetOperationParameters): StreamableMethod<DeviceUpdateGetOperation200Response | DeviceUpdateGetOperation304Response | DeviceUpdateGetOperationdefaultResponse>;
 }
 
 // @public (undocumented)
@@ -1099,7 +1105,7 @@ export interface DeviceUpdateGetOperationdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1118,8 +1124,8 @@ export type DeviceUpdateGetOperationParameters = DeviceUpdateGetOperationHeaderP
 
 // @public (undocumented)
 export interface DeviceUpdateGetUpdate {
-    delete(options?: DeviceUpdateDeleteUpdateParameters): Promise<DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse>;
-    get(options?: DeviceUpdateGetUpdateParameters): Promise<DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdate304Response | DeviceUpdateGetUpdatedefaultResponse>;
+    delete(options?: DeviceUpdateDeleteUpdateParameters): StreamableMethod<DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse>;
+    get(options?: DeviceUpdateGetUpdateParameters): StreamableMethod<DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdate304Response | DeviceUpdateGetUpdatedefaultResponse>;
 }
 
 // @public
@@ -1143,7 +1149,7 @@ export interface DeviceUpdateGetUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1162,8 +1168,8 @@ export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam &
 
 // @public (undocumented)
 export interface DeviceUpdateImportUpdate {
-    get(options?: DeviceUpdateListUpdatesParameters): Promise<DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse>;
-    post(options: DeviceUpdateImportUpdateParameters): Promise<DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse>;
+    get(options?: DeviceUpdateListUpdatesParameters): StreamableMethod<DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse>;
+    post(options: DeviceUpdateImportUpdateParameters): StreamableMethod<DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse>;
 }
 
 // @public (undocumented)
@@ -1191,7 +1197,7 @@ export interface DeviceUpdateImportUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1215,7 +1221,7 @@ export interface DeviceUpdateImportUpdateQueryParamProperties {
 
 // @public (undocumented)
 export interface DeviceUpdateListFiles {
-    get(options?: DeviceUpdateListFilesParameters): Promise<DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse>;
+    get(options?: DeviceUpdateListFilesParameters): StreamableMethod<DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse>;
 }
 
 // @public
@@ -1231,7 +1237,7 @@ export interface DeviceUpdateListFilesdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1239,7 +1245,7 @@ export type DeviceUpdateListFilesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceUpdateListNames {
-    get(options?: DeviceUpdateListNamesParameters): Promise<DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse>;
+    get(options?: DeviceUpdateListNamesParameters): StreamableMethod<DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse>;
 }
 
 // @public
@@ -1255,7 +1261,7 @@ export interface DeviceUpdateListNamesdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1263,7 +1269,7 @@ export type DeviceUpdateListNamesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceUpdateListOperations {
-    get(options?: DeviceUpdateListOperationsParameters): Promise<DeviceUpdateListOperations200Response | DeviceUpdateListOperationsdefaultResponse>;
+    get(options?: DeviceUpdateListOperationsParameters): StreamableMethod<DeviceUpdateListOperations200Response | DeviceUpdateListOperationsdefaultResponse>;
 }
 
 // @public
@@ -1279,7 +1285,7 @@ export interface DeviceUpdateListOperationsdefaultResponse extends HttpResponse 
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1299,7 +1305,7 @@ export interface DeviceUpdateListOperationsQueryParamProperties {
 
 // @public (undocumented)
 export interface DeviceUpdateListProviders {
-    get(options?: DeviceUpdateListProvidersParameters): Promise<DeviceUpdateListProviders200Response | DeviceUpdateListProvidersdefaultResponse>;
+    get(options?: DeviceUpdateListProvidersParameters): StreamableMethod<DeviceUpdateListProviders200Response | DeviceUpdateListProvidersdefaultResponse>;
 }
 
 // @public
@@ -1315,7 +1321,7 @@ export interface DeviceUpdateListProvidersdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1334,7 +1340,7 @@ export interface DeviceUpdateListUpdatesdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1354,7 +1360,7 @@ export interface DeviceUpdateListUpdatesQueryParamProperties {
 
 // @public (undocumented)
 export interface DeviceUpdateListVersions {
-    get(options?: DeviceUpdateListVersionsParameters): Promise<DeviceUpdateListVersions200Response | DeviceUpdateListVersionsdefaultResponse>;
+    get(options?: DeviceUpdateListVersionsParameters): StreamableMethod<DeviceUpdateListVersions200Response | DeviceUpdateListVersionsdefaultResponse>;
 }
 
 // @public
@@ -1370,7 +1376,7 @@ export interface DeviceUpdateListVersionsdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1386,11 +1392,6 @@ export interface DeviceUpdateListVersionsQueryParam {
 export interface DeviceUpdateListVersionsQueryParamProperties {
     $filter?: string;
 }
-
-// @public (undocumented)
-export type DeviceUpdateRestClient = Client & {
-    path: Routes;
-};
 
 // @public (undocumented)
 export interface ErrorModelOutput {
@@ -1487,6 +1488,126 @@ export interface InstallResultOutput {
 export interface InstructionsOutput {
     steps: Array<StepOutput>;
 }
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse): response is DeviceUpdateImportUpdatedefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse): response is DeviceUpdateListUpdatesdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateGetUpdate200Response | DeviceUpdateGetUpdate304Response | DeviceUpdateGetUpdatedefaultResponse): response is DeviceUpdateGetUpdatedefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse): response is DeviceUpdateDeleteUpdatedefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateListProviders200Response | DeviceUpdateListProvidersdefaultResponse): response is DeviceUpdateListProvidersdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse): response is DeviceUpdateListNamesdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateListVersions200Response | DeviceUpdateListVersionsdefaultResponse): response is DeviceUpdateListVersionsdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse): response is DeviceUpdateListFilesdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateGetFile200Response | DeviceUpdateGetFile304Response | DeviceUpdateGetFiledefaultResponse): response is DeviceUpdateGetFiledefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateListOperations200Response | DeviceUpdateListOperationsdefaultResponse): response is DeviceUpdateListOperationsdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceUpdateGetOperation200Response | DeviceUpdateGetOperation304Response | DeviceUpdateGetOperationdefaultResponse): response is DeviceUpdateGetOperationdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementListDeviceClasses200Response | DeviceManagementListDeviceClassesdefaultResponse): response is DeviceManagementListDeviceClassesdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetDeviceClass200Response | DeviceManagementGetDeviceClassdefaultResponse): response is DeviceManagementGetDeviceClassdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementListInstallableUpdatesForDeviceClass200Response | DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse): response is DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementListDevices200Response | DeviceManagementListDevicesdefaultResponse): response is DeviceManagementListDevicesdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse): response is DeviceManagementImportDevicesdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetDevice200Response | DeviceManagementGetDevicedefaultResponse): response is DeviceManagementGetDevicedefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetDeviceModule200Response | DeviceManagementGetDeviceModuledefaultResponse): response is DeviceManagementGetDeviceModuledefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetUpdateCompliance200Response | DeviceManagementGetUpdateCompliancedefaultResponse): response is DeviceManagementGetUpdateCompliancedefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementListDeviceTags200Response | DeviceManagementListDeviceTagsdefaultResponse): response is DeviceManagementListDeviceTagsdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetDeviceTag200Response | DeviceManagementGetDeviceTagdefaultResponse): response is DeviceManagementGetDeviceTagdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementListGroups200Response | DeviceManagementListGroupsdefaultResponse): response is DeviceManagementListGroupsdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetGroup200Response | DeviceManagementGetGroupdefaultResponse): response is DeviceManagementGetGroupdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementCreateOrUpdateGroup200Response | DeviceManagementCreateOrUpdateGroupdefaultResponse): response is DeviceManagementCreateOrUpdateGroupdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupdefaultResponse): response is DeviceManagementDeleteGroupdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetGroupUpdateCompliance200Response | DeviceManagementGetGroupUpdateCompliancedefaultResponse): response is DeviceManagementGetGroupUpdateCompliancedefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementListBestUpdatesForGroup200Response | DeviceManagementListBestUpdatesForGroupdefaultResponse): response is DeviceManagementListBestUpdatesForGroupdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementListDeploymentsForGroup200Response | DeviceManagementListDeploymentsForGroupdefaultResponse): response is DeviceManagementListDeploymentsForGroupdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentdefaultResponse): response is DeviceManagementGetDeploymentdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementCreateOrUpdateDeployment200Response | DeviceManagementCreateOrUpdateDeploymentdefaultResponse): response is DeviceManagementCreateOrUpdateDeploymentdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementDeleteDeployment204Response | DeviceManagementDeleteDeploymentdefaultResponse): response is DeviceManagementDeleteDeploymentdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementStopDeployment200Response | DeviceManagementStopDeploymentdefaultResponse): response is DeviceManagementStopDeploymentdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetDeploymentStatus200Response | DeviceManagementGetDeploymentStatusdefaultResponse): response is DeviceManagementGetDeploymentStatusdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementListDeploymentDevices200Response | DeviceManagementListDeploymentDevicesdefaultResponse): response is DeviceManagementListDeploymentDevicesdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetOperation200Response | DeviceManagementGetOperation304Response | DeviceManagementGetOperationdefaultResponse): response is DeviceManagementGetOperationdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementListOperations200Response | DeviceManagementListOperationsdefaultResponse): response is DeviceManagementListOperationsdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementCollectLogs201Response | DeviceManagementCollectLogsdefaultResponse): response is DeviceManagementCollectLogsdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetLogCollectionOperation200Response | DeviceManagementGetLogCollectionOperationdefaultResponse): response is DeviceManagementGetLogCollectionOperationdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementListLogCollectionOperations200Response | DeviceManagementListLogCollectionOperationsdefaultResponse): response is DeviceManagementListLogCollectionOperationsdefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeviceManagementGetLogCollectionOperationDetailedStatus200Response | DeviceManagementGetLogCollectionOperationDetailedStatusdefaultResponse): response is DeviceManagementGetLogCollectionOperationDetailedStatusdefaultResponse;
 
 // @public (undocumented)
 export interface LogCollectionOperation {

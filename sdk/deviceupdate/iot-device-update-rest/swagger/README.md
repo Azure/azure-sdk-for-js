@@ -8,7 +8,9 @@
 package-name: "@azure-rest/iot-device-update"
 title: DeviceUpdate
 description: Iot Device Update Client
-generate-metadata: false
+generate-metadata: true
+generate-test: true
+generate-sample: true
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
@@ -18,5 +20,5 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: https://api.adu.microsoft.com/.default
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.0-rc.1"
 ```

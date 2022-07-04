@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { DeviceUpdateRestClient } from "../../src";
+import { DeviceUpdateClient } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient, startRecorder } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient";
 
 describe("device tags test", () => {
   let recorder: Recorder;
-  let client: DeviceUpdateRestClient;
+  let client: DeviceUpdateClient;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    await startRecorder(recorder);
     client = createRecordedClient(recorder);
   });
 

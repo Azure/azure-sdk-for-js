@@ -3,9 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "paths": {
-      "@azure-rest/iot-device-update": ["./src/index"]
-    }
+    "paths": { "@azure-rest/iot-device-update": ["./src/index"] }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

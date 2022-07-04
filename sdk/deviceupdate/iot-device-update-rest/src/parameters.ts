@@ -3,7 +3,7 @@
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import { Deployment, Group, ImportUpdateInputItem, LogCollectionOperation } from "./models";
+import { ImportUpdateInputItem, Group, Deployment, LogCollectionOperation } from "./models";
 
 export interface DeviceUpdateImportUpdateBodyParam {
   /** The update to be imported. */
