@@ -41,14 +41,14 @@ We are working on to automatically generate everything right now, but currently 
     input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/683e3f4849ee1d84629d0d0fa17789e80a9cee08/specification/agfood/data-plane/Microsoft.AgFoodPlatform/preview/2021-03-31-preview/agfood.json
     package-version: 1.0.0-beta.2
     rest-level-client: true
-    add-credentials: true
-    credential-scopes: https://farmbeats.azure.net/.default
+    security: AADToken
+    security-scopes: https://farmbeats.azure.net/.default
     use-extension:
       "@autorest/typescript": "6.0.0-rc.1"
     ```
     ~~~
 
-    Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`, `credential-scopes` into **your own service's** `package-name`, `title`, `description` etc.
+    Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`,  `security`,`security-scopes` into **your own service's** `package-name`, `title`, `description` etc. See [security configurations](#how-to-configure-authentication) for more details.
 
     ---
     **NOTE**
@@ -234,3 +234,32 @@ You may also want to create API View when submitting a PR. You can do it easily 
 There is many information about the SDK that AutoRest will never know, so you may want to do your customizations based on generated code. 
 
 We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.
+
+# How to configure authentication
+Autorest only support two types of authentication: Azure Key Credential(AzureKey) and Token credential(AADToken), any other will need to be handled manually. 
+
+This could be either configured in OpenAPI spec or configuration file e.g `README.md`. You could learn more in [Authentication in AutoRest](https://github.com/Azure/autorest/blob/main/docs/generate/authentication.md).
+
+Here are the details if we configure in README.md file.
+- Support AAD token authentication
+```yaml
+security: AzureKey
+security-header-name: Your-Subscription-Key
+```
+- Support key authentication
+```yaml
+security: AADToken
+security-scopes: https://yourendpoint.azure.com/.default
+```
+- Support both credentials
+```yaml
+security:
+  - AADToken
+  - AzureKey
+security-header-name: Your-Subscription-Key
+security-scopes: https://yourendpoint.azure.com/.default
+```
+- Disable neither authentications
+```yaml
+add-credentials: false
+```
