@@ -17,7 +17,10 @@ export function apiVersionPolicy(options: ClientOptions): PipelinePolicy {
     sendRequest: (req, next) => {
       if (options.apiVersion) {
         const url = new URL(req.url);
-        url.searchParams.append("api-version", options.apiVersion);
+        // Do not append customized api-version if url already has one e.g LRO/paging URL returned by the service 
+        if(!url.searchParams.has("api-version")) {
+          url.searchParams.append("api-version", options.apiVersion);
+        }
         req.url = url.toString();
       }
 
