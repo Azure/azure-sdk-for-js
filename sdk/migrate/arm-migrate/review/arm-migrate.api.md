@@ -705,975 +705,548 @@ export type ImportCollectorsListByProjectResponse = ImportCollectorsListByProjec
 
 // @public
 export enum KnownAssessmentSizingCriterion {
-    // (undocumented)
     AsOnPremises = "AsOnPremises",
-    // (undocumented)
     PerformanceBased = "PerformanceBased"
 }
 
 // @public
 export enum KnownAssessmentStage {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     UnderReview = "UnderReview"
 }
 
 // @public
 export enum KnownAssessmentStatus {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     OutDated = "OutDated",
-    // (undocumented)
     OutOfSync = "OutOfSync",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Updated = "Updated"
 }
 
 // @public
 export enum KnownAzureDiskSize {
-    // (undocumented)
     PremiumP10 = "Premium_P10",
-    // (undocumented)
     PremiumP15 = "Premium_P15",
-    // (undocumented)
     PremiumP20 = "Premium_P20",
-    // (undocumented)
     PremiumP30 = "Premium_P30",
-    // (undocumented)
     PremiumP4 = "Premium_P4",
-    // (undocumented)
     PremiumP40 = "Premium_P40",
-    // (undocumented)
     PremiumP50 = "Premium_P50",
-    // (undocumented)
     PremiumP6 = "Premium_P6",
-    // (undocumented)
     PremiumP60 = "Premium_P60",
-    // (undocumented)
     PremiumP70 = "Premium_P70",
-    // (undocumented)
     PremiumP80 = "Premium_P80",
-    // (undocumented)
     StandardS10 = "Standard_S10",
-    // (undocumented)
     StandardS15 = "Standard_S15",
-    // (undocumented)
     StandardS20 = "Standard_S20",
-    // (undocumented)
     StandardS30 = "Standard_S30",
-    // (undocumented)
     StandardS4 = "Standard_S4",
-    // (undocumented)
     StandardS40 = "Standard_S40",
-    // (undocumented)
     StandardS50 = "Standard_S50",
-    // (undocumented)
     StandardS6 = "Standard_S6",
-    // (undocumented)
     StandardS60 = "Standard_S60",
-    // (undocumented)
     StandardS70 = "Standard_S70",
-    // (undocumented)
     StandardS80 = "Standard_S80",
-    // (undocumented)
     StandardSSDE10 = "StandardSSD_E10",
-    // (undocumented)
     StandardSSDE15 = "StandardSSD_E15",
-    // (undocumented)
     StandardSSDE20 = "StandardSSD_E20",
-    // (undocumented)
     StandardSSDE30 = "StandardSSD_E30",
-    // (undocumented)
     StandardSSDE4 = "StandardSSD_E4",
-    // (undocumented)
     StandardSSDE40 = "StandardSSD_E40",
-    // (undocumented)
     StandardSSDE50 = "StandardSSD_E50",
-    // (undocumented)
     StandardSSDE6 = "StandardSSD_E6",
-    // (undocumented)
     StandardSSDE60 = "StandardSSD_E60",
-    // (undocumented)
     StandardSSDE70 = "StandardSSD_E70",
-    // (undocumented)
     StandardSSDE80 = "StandardSSD_E80",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownAzureDiskSuitabilityDetail {
-    // (undocumented)
     DiskGigabytesConsumedMissing = "DiskGigabytesConsumedMissing",
-    // (undocumented)
     DiskGigabytesConsumedOutOfRange = "DiskGigabytesConsumedOutOfRange",
-    // (undocumented)
     DiskGigabytesProvisionedMissing = "DiskGigabytesProvisionedMissing",
-    // (undocumented)
     DiskGigabytesProvisionedOutOfRange = "DiskGigabytesProvisionedOutOfRange",
-    // (undocumented)
     MegabytesPerSecondOfReadMissing = "MegabytesPerSecondOfReadMissing",
-    // (undocumented)
     MegabytesPerSecondOfReadOutOfRange = "MegabytesPerSecondOfReadOutOfRange",
-    // (undocumented)
     MegabytesPerSecondOfWriteMissing = "MegabytesPerSecondOfWriteMissing",
-    // (undocumented)
     MegabytesPerSecondOfWriteOutOfRange = "MegabytesPerSecondOfWriteOutOfRange",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     NumberOfReadOperationsPerSecondMissing = "NumberOfReadOperationsPerSecondMissing",
-    // (undocumented)
     NumberOfReadOperationsPerSecondOutOfRange = "NumberOfReadOperationsPerSecondOutOfRange",
-    // (undocumented)
     NumberOfWriteOperationsPerSecondMissing = "NumberOfWriteOperationsPerSecondMissing",
-    // (undocumented)
     NumberOfWriteOperationsPerSecondOutOfRange = "NumberOfWriteOperationsPerSecondOutOfRange"
 }
 
 // @public
 export enum KnownAzureDiskSuitabilityExplanation {
-    // (undocumented)
     DiskSizeGreaterThanSupported = "DiskSizeGreaterThanSupported",
-    // (undocumented)
     InternalErrorOccurredForDiskEvaluation = "InternalErrorOccurredForDiskEvaluation",
-    // (undocumented)
     NoDiskSizeFoundForSelectedRedundancy = "NoDiskSizeFoundForSelectedRedundancy",
-    // (undocumented)
     NoDiskSizeFoundInSelectedLocation = "NoDiskSizeFoundInSelectedLocation",
-    // (undocumented)
     NoEaPriceFoundForDiskSize = "NoEaPriceFoundForDiskSize",
-    // (undocumented)
     NoSuitableDiskSizeForIops = "NoSuitableDiskSizeForIops",
-    // (undocumented)
     NoSuitableDiskSizeForThroughput = "NoSuitableDiskSizeForThroughput",
-    // (undocumented)
     NotApplicable = "NotApplicable",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownAzureDiskType {
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard",
-    // (undocumented)
     StandardOrPremium = "StandardOrPremium",
-    // (undocumented)
     StandardSSD = "StandardSSD",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownAzureHybridUseBenefit {
-    // (undocumented)
     No = "No",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Yes = "Yes"
 }
 
 // @public
 export enum KnownAzureLocation {
-    // (undocumented)
     AustraliaEast = "AustraliaEast",
-    // (undocumented)
     AustraliaSoutheast = "AustraliaSoutheast",
-    // (undocumented)
     BrazilSouth = "BrazilSouth",
-    // (undocumented)
     CanadaCentral = "CanadaCentral",
-    // (undocumented)
     CanadaEast = "CanadaEast",
-    // (undocumented)
     CentralIndia = "CentralIndia",
-    // (undocumented)
     CentralUs = "CentralUs",
-    // (undocumented)
     ChinaEast = "ChinaEast",
-    // (undocumented)
     ChinaNorth = "ChinaNorth",
-    // (undocumented)
     EastAsia = "EastAsia",
-    // (undocumented)
     EastUs = "EastUs",
-    // (undocumented)
     EastUs2 = "EastUs2",
-    // (undocumented)
     GermanyCentral = "GermanyCentral",
-    // (undocumented)
     GermanyNortheast = "GermanyNortheast",
-    // (undocumented)
     JapanEast = "JapanEast",
-    // (undocumented)
     JapanWest = "JapanWest",
-    // (undocumented)
     KoreaCentral = "KoreaCentral",
-    // (undocumented)
     KoreaSouth = "KoreaSouth",
-    // (undocumented)
     NorthCentralUs = "NorthCentralUs",
-    // (undocumented)
     NorthEurope = "NorthEurope",
-    // (undocumented)
     SouthCentralUs = "SouthCentralUs",
-    // (undocumented)
     SoutheastAsia = "SoutheastAsia",
-    // (undocumented)
     SouthIndia = "SouthIndia",
-    // (undocumented)
     UkSouth = "UkSouth",
-    // (undocumented)
     UkWest = "UkWest",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     USDoDCentral = "USDoDCentral",
-    // (undocumented)
     USDoDEast = "USDoDEast",
-    // (undocumented)
     USGovArizona = "USGovArizona",
-    // (undocumented)
     USGovIowa = "USGovIowa",
-    // (undocumented)
     USGovTexas = "USGovTexas",
-    // (undocumented)
     USGovVirginia = "USGovVirginia",
-    // (undocumented)
     WestCentralUs = "WestCentralUs",
-    // (undocumented)
     WestEurope = "WestEurope",
-    // (undocumented)
     WestIndia = "WestIndia",
-    // (undocumented)
     WestUs = "WestUs",
-    // (undocumented)
     WestUs2 = "WestUs2"
 }
 
 // @public
 export enum KnownAzureNetworkAdapterSuitabilityDetail {
-    // (undocumented)
     MegabytesOfDataTransmittedMissing = "MegabytesOfDataTransmittedMissing",
-    // (undocumented)
     MegabytesOfDataTransmittedOutOfRange = "MegabytesOfDataTransmittedOutOfRange",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownAzureNetworkAdapterSuitabilityExplanation {
-    // (undocumented)
     InternalErrorOccurred = "InternalErrorOccurred",
-    // (undocumented)
     NotApplicable = "NotApplicable",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownAzureOfferCode {
-    // (undocumented)
     EA = "EA",
-    // (undocumented)
     Msazr0003P = "MSAZR0003P",
-    // (undocumented)
     Msazr0022P = "MSAZR0022P",
-    // (undocumented)
     Msazr0023P = "MSAZR0023P",
-    // (undocumented)
     Msazr0025P = "MSAZR0025P",
-    // (undocumented)
     Msazr0029P = "MSAZR0029P",
-    // (undocumented)
     Msazr0036P = "MSAZR0036P",
-    // (undocumented)
     Msazr0044P = "MSAZR0044P",
-    // (undocumented)
     Msazr0059P = "MSAZR0059P",
-    // (undocumented)
     Msazr0060P = "MSAZR0060P",
-    // (undocumented)
     Msazr0062P = "MSAZR0062P",
-    // (undocumented)
     Msazr0063P = "MSAZR0063P",
-    // (undocumented)
     Msazr0064P = "MSAZR0064P",
-    // (undocumented)
     Msazr0111P = "MSAZR0111P",
-    // (undocumented)
     Msazr0120P = "MSAZR0120P",
-    // (undocumented)
     Msazr0121P = "MSAZR0121P",
-    // (undocumented)
     Msazr0122P = "MSAZR0122P",
-    // (undocumented)
     Msazr0123P = "MSAZR0123P",
-    // (undocumented)
     Msazr0124P = "MSAZR0124P",
-    // (undocumented)
     Msazr0125P = "MSAZR0125P",
-    // (undocumented)
     Msazr0126P = "MSAZR0126P",
-    // (undocumented)
     Msazr0127P = "MSAZR0127P",
-    // (undocumented)
     Msazr0128P = "MSAZR0128P",
-    // (undocumented)
     Msazr0129P = "MSAZR0129P",
-    // (undocumented)
     Msazr0130P = "MSAZR0130P",
-    // (undocumented)
     Msazr0144P = "MSAZR0144P",
-    // (undocumented)
     Msazr0148P = "MSAZR0148P",
-    // (undocumented)
     Msazr0149P = "MSAZR0149P",
-    // (undocumented)
     Msazrde0003P = "MSAZRDE0003P",
-    // (undocumented)
     Msazrde0044P = "MSAZRDE0044P",
-    // (undocumented)
     Msazrusgov0003P = "MSAZRUSGOV0003P",
-    // (undocumented)
     Msmcazr0044P = "MSMCAZR0044P",
-    // (undocumented)
     Msmcazr0059P = "MSMCAZR0059P",
-    // (undocumented)
     Msmcazr0060P = "MSMCAZR0060P",
-    // (undocumented)
     Msmcazr0063P = "MSMCAZR0063P",
-    // (undocumented)
     Msmcazr0120P = "MSMCAZR0120P",
-    // (undocumented)
     Msmcazr0121P = "MSMCAZR0121P",
-    // (undocumented)
     Msmcazr0125P = "MSMCAZR0125P",
-    // (undocumented)
     Msmcazr0128P = "MSMCAZR0128P",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownAzurePricingTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownAzureStorageRedundancy {
-    // (undocumented)
     GeoRedundant = "GeoRedundant",
-    // (undocumented)
     LocallyRedundant = "LocallyRedundant",
-    // (undocumented)
     ReadAccessGeoRedundant = "ReadAccessGeoRedundant",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     ZoneRedundant = "ZoneRedundant"
 }
 
 // @public
 export enum KnownAzureVmFamily {
-    // (undocumented)
     Av2Series = "Av2_series",
-    // (undocumented)
     BasicA0A4 = "Basic_A0_A4",
-    // (undocumented)
     DCSeries = "DC_Series",
-    // (undocumented)
     DSeries = "D_series",
-    // (undocumented)
     DSSeries = "DS_series",
-    // (undocumented)
     DSv2Series = "DSv2_series",
-    // (undocumented)
     Dsv3Series = "Dsv3_series",
-    // (undocumented)
     Dv2Series = "Dv2_series",
-    // (undocumented)
     Dv3Series = "Dv3_series",
-    // (undocumented)
     Esv3Series = "Esv3_series",
-    // (undocumented)
     Ev3Series = "Ev3_series",
-    // (undocumented)
     FSeries = "F_series",
-    // (undocumented)
     FsSeries = "Fs_series",
-    // (undocumented)
     Fsv2Series = "Fsv2_series",
-    // (undocumented)
     GSeries = "G_series",
-    // (undocumented)
     GSSeries = "GS_series",
-    // (undocumented)
     HSeries = "H_series",
-    // (undocumented)
     LsSeries = "Ls_series",
-    // (undocumented)
     MSeries = "M_series",
-    // (undocumented)
     StandardA0A7 = "Standard_A0_A7",
-    // (undocumented)
     StandardA8A11 = "Standard_A8_A11",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownAzureVmSize {
-    // (undocumented)
     BasicA0 = "Basic_A0",
-    // (undocumented)
     BasicA1 = "Basic_A1",
-    // (undocumented)
     BasicA2 = "Basic_A2",
-    // (undocumented)
     BasicA3 = "Basic_A3",
-    // (undocumented)
     BasicA4 = "Basic_A4",
-    // (undocumented)
     StandardA0 = "Standard_A0",
-    // (undocumented)
     StandardA1 = "Standard_A1",
-    // (undocumented)
     StandardA10 = "Standard_A10",
-    // (undocumented)
     StandardA11 = "Standard_A11",
-    // (undocumented)
     StandardA1V2 = "Standard_A1_v2",
-    // (undocumented)
     StandardA2 = "Standard_A2",
-    // (undocumented)
     StandardA2MV2 = "Standard_A2m_v2",
-    // (undocumented)
     StandardA2V2 = "Standard_A2_v2",
-    // (undocumented)
     StandardA3 = "Standard_A3",
-    // (undocumented)
     StandardA4 = "Standard_A4",
-    // (undocumented)
     StandardA4MV2 = "Standard_A4m_v2",
-    // (undocumented)
     StandardA4V2 = "Standard_A4_v2",
-    // (undocumented)
     StandardA5 = "Standard_A5",
-    // (undocumented)
     StandardA6 = "Standard_A6",
-    // (undocumented)
     StandardA7 = "Standard_A7",
-    // (undocumented)
     StandardA8 = "Standard_A8",
-    // (undocumented)
     StandardA8MV2 = "Standard_A8m_v2",
-    // (undocumented)
     StandardA8V2 = "Standard_A8_v2",
-    // (undocumented)
     StandardA9 = "Standard_A9",
-    // (undocumented)
     StandardD1 = "Standard_D1",
-    // (undocumented)
     StandardD11 = "Standard_D11",
-    // (undocumented)
     StandardD11V2 = "Standard_D11_v2",
-    // (undocumented)
     StandardD12 = "Standard_D12",
-    // (undocumented)
     StandardD12V2 = "Standard_D12_v2",
-    // (undocumented)
     StandardD13 = "Standard_D13",
-    // (undocumented)
     StandardD13V2 = "Standard_D13_v2",
-    // (undocumented)
     StandardD14 = "Standard_D14",
-    // (undocumented)
     StandardD14V2 = "Standard_D14_v2",
-    // (undocumented)
     StandardD15V2 = "Standard_D15_v2",
-    // (undocumented)
     StandardD16SV3 = "Standard_D16s_v3",
-    // (undocumented)
     StandardD16V3 = "Standard_D16_v3",
-    // (undocumented)
     StandardD1V2 = "Standard_D1_v2",
-    // (undocumented)
     StandardD2 = "Standard_D2",
-    // (undocumented)
     StandardD2SV3 = "Standard_D2s_v3",
-    // (undocumented)
     StandardD2V2 = "Standard_D2_v2",
-    // (undocumented)
     StandardD2V3 = "Standard_D2_v3",
-    // (undocumented)
     StandardD3 = "Standard_D3",
-    // (undocumented)
     StandardD32SV3 = "Standard_D32s_v3",
-    // (undocumented)
     StandardD32V3 = "Standard_D32_v3",
-    // (undocumented)
     StandardD3V2 = "Standard_D3_v2",
-    // (undocumented)
     StandardD4 = "Standard_D4",
-    // (undocumented)
     StandardD4SV3 = "Standard_D4s_v3",
-    // (undocumented)
     StandardD4V2 = "Standard_D4_v2",
-    // (undocumented)
     StandardD4V3 = "Standard_D4_v3",
-    // (undocumented)
     StandardD5V2 = "Standard_D5_v2",
-    // (undocumented)
     StandardD64SV3 = "Standard_D64s_v3",
-    // (undocumented)
     StandardD64V3 = "Standard_D64_v3",
-    // (undocumented)
     StandardD8SV3 = "Standard_D8s_v3",
-    // (undocumented)
     StandardD8V3 = "Standard_D8_v3",
-    // (undocumented)
     StandardDS1 = "Standard_DS1",
-    // (undocumented)
     StandardDS11 = "Standard_DS11",
-    // (undocumented)
     StandardDS11V2 = "Standard_DS11_v2",
-    // (undocumented)
     StandardDS12 = "Standard_DS12",
-    // (undocumented)
     StandardDS12V2 = "Standard_DS12_v2",
-    // (undocumented)
     StandardDS13 = "Standard_DS13",
-    // (undocumented)
     StandardDS13V2 = "Standard_DS13_v2",
-    // (undocumented)
     StandardDS14 = "Standard_DS14",
-    // (undocumented)
     StandardDS14V2 = "Standard_DS14_v2",
-    // (undocumented)
     StandardDS15V2 = "Standard_DS15_v2",
-    // (undocumented)
     StandardDS1V2 = "Standard_DS1_v2",
-    // (undocumented)
     StandardDS2 = "Standard_DS2",
-    // (undocumented)
     StandardDS2V2 = "Standard_DS2_v2",
-    // (undocumented)
     StandardDS3 = "Standard_DS3",
-    // (undocumented)
     StandardDS3V2 = "Standard_DS3_v2",
-    // (undocumented)
     StandardDS4 = "Standard_DS4",
-    // (undocumented)
     StandardDS4V2 = "Standard_DS4_v2",
-    // (undocumented)
     StandardDS5V2 = "Standard_DS5_v2",
-    // (undocumented)
     StandardE16SV3 = "Standard_E16s_v3",
-    // (undocumented)
     StandardE16V3 = "Standard_E16_v3",
-    // (undocumented)
     StandardE2SV3 = "Standard_E2s_v3",
-    // (undocumented)
     StandardE2V3 = "Standard_E2_v3",
-    // (undocumented)
     StandardE32SV3 = "Standard_E32s_v3",
-    // (undocumented)
     StandardE32V3 = "Standard_E32_v3",
-    // (undocumented)
     StandardE4SV3 = "Standard_E4s_v3",
-    // (undocumented)
     StandardE4V3 = "Standard_E4_v3",
-    // (undocumented)
     StandardE64SV3 = "Standard_E64s_v3",
-    // (undocumented)
     StandardE64V3 = "Standard_E64_v3",
-    // (undocumented)
     StandardE8SV3 = "Standard_E8s_v3",
-    // (undocumented)
     StandardE8V3 = "Standard_E8_v3",
-    // (undocumented)
     StandardF1 = "Standard_F1",
-    // (undocumented)
     StandardF16 = "Standard_F16",
-    // (undocumented)
     StandardF16S = "Standard_F16s",
-    // (undocumented)
     StandardF16SV2 = "Standard_F16s_v2",
-    // (undocumented)
     StandardF1S = "Standard_F1s",
-    // (undocumented)
     StandardF2 = "Standard_F2",
-    // (undocumented)
     StandardF2S = "Standard_F2s",
-    // (undocumented)
     StandardF2SV2 = "Standard_F2s_v2",
-    // (undocumented)
     StandardF32SV2 = "Standard_F32s_v2",
-    // (undocumented)
     StandardF4 = "Standard_F4",
-    // (undocumented)
     StandardF4S = "Standard_F4s",
-    // (undocumented)
     StandardF4SV2 = "Standard_F4s_v2",
-    // (undocumented)
     StandardF64SV2 = "Standard_F64s_v2",
-    // (undocumented)
     StandardF72SV2 = "Standard_F72s_v2",
-    // (undocumented)
     StandardF8 = "Standard_F8",
-    // (undocumented)
     StandardF8S = "Standard_F8s",
-    // (undocumented)
     StandardF8SV2 = "Standard_F8s_v2",
-    // (undocumented)
     StandardG1 = "Standard_G1",
-    // (undocumented)
     StandardG2 = "Standard_G2",
-    // (undocumented)
     StandardG3 = "Standard_G3",
-    // (undocumented)
     StandardG4 = "Standard_G4",
-    // (undocumented)
     StandardG5 = "Standard_G5",
-    // (undocumented)
     StandardGS1 = "Standard_GS1",
-    // (undocumented)
     StandardGS2 = "Standard_GS2",
-    // (undocumented)
     StandardGS3 = "Standard_GS3",
-    // (undocumented)
     StandardGS4 = "Standard_GS4",
-    // (undocumented)
     StandardGS5 = "Standard_GS5",
-    // (undocumented)
     StandardH16 = "Standard_H16",
-    // (undocumented)
     StandardH16M = "Standard_H16m",
-    // (undocumented)
     StandardH16Mr = "Standard_H16mr",
-    // (undocumented)
     StandardH16R = "Standard_H16r",
-    // (undocumented)
     StandardH8 = "Standard_H8",
-    // (undocumented)
     StandardH8M = "Standard_H8m",
-    // (undocumented)
     StandardL16S = "Standard_L16s",
-    // (undocumented)
     StandardL32S = "Standard_L32s",
-    // (undocumented)
     StandardL4S = "Standard_L4s",
-    // (undocumented)
     StandardL8S = "Standard_L8s",
-    // (undocumented)
     StandardM128Ms = "Standard_M128ms",
-    // (undocumented)
     StandardM128S = "Standard_M128s",
-    // (undocumented)
     StandardM64Ms = "Standard_M64ms",
-    // (undocumented)
     StandardM64S = "Standard_M64s",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownAzureVmSuitabilityDetail {
-    // (undocumented)
     CannotReportBandwidthCosts = "CannotReportBandwidthCosts",
-    // (undocumented)
     CannotReportComputeCost = "CannotReportComputeCost",
-    // (undocumented)
     CannotReportStorageCost = "CannotReportStorageCost",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     PercentageOfCoresUtilizedMissing = "PercentageOfCoresUtilizedMissing",
-    // (undocumented)
     PercentageOfCoresUtilizedOutOfRange = "PercentageOfCoresUtilizedOutOfRange",
-    // (undocumented)
     PercentageOfMemoryUtilizedMissing = "PercentageOfMemoryUtilizedMissing",
-    // (undocumented)
     PercentageOfMemoryUtilizedOutOfRange = "PercentageOfMemoryUtilizedOutOfRange",
-    // (undocumented)
     RecommendedSizeHasLessNetworkAdapters = "RecommendedSizeHasLessNetworkAdapters"
 }
 
 // @public
 export enum KnownAzureVmSuitabilityExplanation {
-    // (undocumented)
     BootTypeNotSupported = "BootTypeNotSupported",
-    // (undocumented)
     BootTypeUnknown = "BootTypeUnknown",
-    // (undocumented)
     CheckCentOsVersion = "CheckCentOsVersion",
-    // (undocumented)
     CheckCoreOsLinuxVersion = "CheckCoreOsLinuxVersion",
-    // (undocumented)
     CheckDebianLinuxVersion = "CheckDebianLinuxVersion",
-    // (undocumented)
     CheckOpenSuseLinuxVersion = "CheckOpenSuseLinuxVersion",
-    // (undocumented)
     CheckOracleLinuxVersion = "CheckOracleLinuxVersion",
-    // (undocumented)
     CheckRedHatLinuxVersion = "CheckRedHatLinuxVersion",
-    // (undocumented)
     CheckSuseLinuxVersion = "CheckSuseLinuxVersion",
-    // (undocumented)
     CheckUbuntuLinuxVersion = "CheckUbuntuLinuxVersion",
-    // (undocumented)
     CheckWindowsServer2008R2Version = "CheckWindowsServer2008R2Version",
-    // (undocumented)
     EndorsedWithConditionsLinuxDistributions = "EndorsedWithConditionsLinuxDistributions",
-    // (undocumented)
     GuestOperatingSystemArchitectureNotSupported = "GuestOperatingSystemArchitectureNotSupported",
-    // (undocumented)
     GuestOperatingSystemNotSupported = "GuestOperatingSystemNotSupported",
-    // (undocumented)
     GuestOperatingSystemUnknown = "GuestOperatingSystemUnknown",
-    // (undocumented)
     InternalErrorOccurredDuringComputeEvaluation = "InternalErrorOccurredDuringComputeEvaluation",
-    // (undocumented)
     InternalErrorOccurredDuringNetworkEvaluation = "InternalErrorOccurredDuringNetworkEvaluation",
-    // (undocumented)
     InternalErrorOccurredDuringStorageEvaluation = "InternalErrorOccurredDuringStorageEvaluation",
-    // (undocumented)
     MoreDisksThanSupported = "MoreDisksThanSupported",
-    // (undocumented)
     NoGuestOperatingSystemConditionallySupported = "NoGuestOperatingSystemConditionallySupported",
-    // (undocumented)
     NoSuitableVmSizeFound = "NoSuitableVmSizeFound",
-    // (undocumented)
     NotApplicable = "NotApplicable",
-    // (undocumented)
     NoVmSizeForBasicPricingTier = "NoVmSizeForBasicPricingTier",
-    // (undocumented)
     NoVmSizeForSelectedAzureLocation = "NoVmSizeForSelectedAzureLocation",
-    // (undocumented)
     NoVmSizeForSelectedPricingTier = "NoVmSizeForSelectedPricingTier",
-    // (undocumented)
     NoVmSizeForStandardPricingTier = "NoVmSizeForStandardPricingTier",
-    // (undocumented)
     NoVmSizeSupportsNetworkPerformance = "NoVmSizeSupportsNetworkPerformance",
-    // (undocumented)
     NoVmSizeSupportsStoragePerformance = "NoVmSizeSupportsStoragePerformance",
-    // (undocumented)
     OneOrMoreAdaptersNotSuitable = "OneOrMoreAdaptersNotSuitable",
-    // (undocumented)
     OneOrMoreDisksNotSuitable = "OneOrMoreDisksNotSuitable",
-    // (undocumented)
     UnendorsedLinuxDistributions = "UnendorsedLinuxDistributions",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     WindowsClientVersionsConditionallySupported = "WindowsClientVersionsConditionallySupported",
-    // (undocumented)
     WindowsOSNoLongerUnderMSSupport = "WindowsOSNoLongerUnderMSSupport",
-    // (undocumented)
     WindowsServerVersionConditionallySupported = "WindowsServerVersionConditionallySupported",
-    // (undocumented)
     WindowsServerVersionsSupportedWithCaveat = "WindowsServerVersionsSupportedWithCaveat"
 }
 
 // @public
 export enum KnownCloudSuitability {
-    // (undocumented)
     ConditionallySuitable = "ConditionallySuitable",
-    // (undocumented)
     NotSuitable = "NotSuitable",
-    // (undocumented)
     ReadinessUnknown = "ReadinessUnknown",
-    // (undocumented)
     Suitable = "Suitable",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownCurrency {
-    // (undocumented)
     ARS = "ARS",
-    // (undocumented)
     AUD = "AUD",
-    // (undocumented)
     BRL = "BRL",
-    // (undocumented)
     CAD = "CAD",
-    // (undocumented)
     CHF = "CHF",
-    // (undocumented)
     CNY = "CNY",
-    // (undocumented)
     DKK = "DKK",
-    // (undocumented)
     EUR = "EUR",
-    // (undocumented)
     GBP = "GBP",
-    // (undocumented)
     HKD = "HKD",
-    // (undocumented)
     IDR = "IDR",
-    // (undocumented)
     INR = "INR",
-    // (undocumented)
     JPY = "JPY",
-    // (undocumented)
     KRW = "KRW",
-    // (undocumented)
     MXN = "MXN",
-    // (undocumented)
     MYR = "MYR",
-    // (undocumented)
     NOK = "NOK",
-    // (undocumented)
     NZD = "NZD",
-    // (undocumented)
     RUB = "RUB",
-    // (undocumented)
     SAR = "SAR",
-    // (undocumented)
     SEK = "SEK",
-    // (undocumented)
     TRY = "TRY",
-    // (undocumented)
     TWD = "TWD",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     USD = "USD",
-    // (undocumented)
     ZAR = "ZAR"
 }
 
 // @public
 export enum KnownGroupStatus {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Updated = "Updated"
 }
 
 // @public
 export enum KnownGroupUpdateOperation {
-    // (undocumented)
     Add = "Add",
-    // (undocumented)
     Remove = "Remove"
 }
 
 // @public
 export enum KnownMachineBootType {
-    // (undocumented)
     Bios = "BIOS",
-    // (undocumented)
     EFI = "EFI",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownPercentile {
-    // (undocumented)
     Percentile50 = "Percentile50",
-    // (undocumented)
     Percentile90 = "Percentile90",
-    // (undocumented)
     Percentile95 = "Percentile95",
-    // (undocumented)
     Percentile99 = "Percentile99"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionPropertiesProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStateStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProjectStatus {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Inactive = "Inactive"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownReservedInstance {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     RI1Year = "RI1Year",
-    // (undocumented)
     RI3Year = "RI3Year"
 }
 
 // @public
 export enum KnownTimeRange {
-    // (undocumented)
     Custom = "Custom",
-    // (undocumented)
     Day = "Day",
-    // (undocumented)
     Month = "Month",
-    // (undocumented)
     Week = "Week"
 }
 
