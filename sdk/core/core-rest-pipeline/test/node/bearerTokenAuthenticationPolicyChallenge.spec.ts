@@ -69,7 +69,6 @@ function parseCAEChallenge(challenges: string): any[] {
 async function authorizeRequestOnChallenge(
   options: AuthorizeRequestOnChallengeOptions
 ): Promise<boolean> {
-
   const { scopes } = options;
 
   const challenge = options.response.headers.get("WWW-Authenticate");
@@ -318,7 +317,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       },
     };
 
-    // Will refresh token once as the first time token is empty 
+    // Will refresh token once as the first time token is empty
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     clock.tick(5000);
     // Will refresh token twice

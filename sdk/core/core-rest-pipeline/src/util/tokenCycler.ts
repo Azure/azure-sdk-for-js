@@ -204,7 +204,8 @@ export function createTokenCycler(
     // If the tenantId passed in token options is different to the one we have
     // Or if we are in claim challenge and the token was rejected and a new access token need to be issued, we need to
     // refresh the token with the new tenantId or token.
-    const mustRefresh = tenantId !== tokenOptions.tenantId || Boolean(tokenOptions.claims) || cycler.mustRefresh;
+    const mustRefresh =
+      tenantId !== tokenOptions.tenantId || Boolean(tokenOptions.claims) || cycler.mustRefresh;
 
     if (mustRefresh) return refresh(scopes, tokenOptions);
 
