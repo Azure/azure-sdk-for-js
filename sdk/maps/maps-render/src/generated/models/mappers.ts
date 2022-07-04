@@ -104,10 +104,10 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const MapTileset: coreClient.CompositeMapper = {
+export const TileJson: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MapTileset",
+    className: "TileJson",
     modelProperties: {
       tilejson: {
         constraints: {

@@ -343,7 +343,7 @@ const getMapTilesetOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MapTileset
+      bodyMapper: Mappers.TileJson
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
