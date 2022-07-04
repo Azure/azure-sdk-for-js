@@ -15,7 +15,7 @@ import {
   CopyrightCaption,
   GeneratedClient,
   MapAttribution,
-  MapTileset,
+  TileJson,
   RasterTileFormat,
   TileIndex,
   TilesetId,
@@ -155,7 +155,7 @@ export class MapsRenderClient {
   public async getMapTileset(
     tilesetId: TilesetId,
     options: GetMapTilesetOptions = {}
-  ): Promise<MapTileset> {
+  ): Promise<TileJson> {
     const { span, updatedOptions } = createSpan("MapsRenderClient-getMapTileset", options);
     try {
       const result = await this.client.renderV2.getMapTileset(tilesetId, updatedOptions);

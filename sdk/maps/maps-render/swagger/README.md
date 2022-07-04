@@ -73,4 +73,8 @@ directive:
     where: $.parameters.TilesetId_rv2["x-ms-enum"]
     transform: >
       $["name"] = "TilesetId";
+  - from: swagger-document
+    where: $.definitions.MapTileset
+    transform: >
+      $["x-ms-client-name"] = "TileJson";
 ```

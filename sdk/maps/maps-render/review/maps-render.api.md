@@ -190,7 +190,7 @@ export class MapsRenderClient {
     getMapStateTile(statesetId: string, tileIndex: TileIndex, options?: GetMapStateTileOptions): Promise<MapTile>;
     getMapStaticImage(format: RasterTileFormat, options?: GetMapStaticImageOptions): Promise<MapTile>;
     getMapTile(tilesetId: TilesetId, tileIndex: TileIndex, options?: GetMapTileOptions): Promise<MapTile>;
-    getMapTileset(tilesetId: TilesetId, options?: GetMapTilesetOptions): Promise<MapTileset>;
+    getMapTileset(tilesetId: TilesetId, options?: GetMapTilesetOptions): Promise<TileJson>;
 }
 
 // @public
@@ -201,25 +201,6 @@ export interface MapTile {
     blobBody?: Promise<Blob>;
     contentType?: string;
     readableStreamBody?: NodeJS.ReadableStream;
-}
-
-// @public
-export interface MapTileset {
-    attribution?: string;
-    bounds?: number[];
-    center?: number[];
-    data?: string[];
-    description?: string;
-    grids?: string[];
-    legend?: string;
-    maxZoom?: number;
-    minZoom?: number;
-    name?: string;
-    scheme?: string;
-    template?: string;
-    tilejson: string;
-    tiles: string[];
-    version?: string;
 }
 
 // @public
@@ -248,6 +229,25 @@ export interface TileIndex {
     x: number;
     y: number;
     z: number;
+}
+
+// @public
+export interface TileJson {
+    attribution?: string;
+    bounds?: number[];
+    center?: number[];
+    data?: string[];
+    description?: string;
+    grids?: string[];
+    legend?: string;
+    maxZoom?: number;
+    minZoom?: number;
+    name?: string;
+    scheme?: string;
+    template?: string;
+    tilejson: string;
+    tiles: string[];
+    version?: string;
 }
 
 // @public

@@ -17,7 +17,7 @@ export {
   Copyright,
   RegionCopyrights,
   RegionCopyrightsCountry,
-  MapTileset,
+  TileJson,
   KnownTilesetId,
   KnownLocalizedMapView,
   KnownMapTileSize,
