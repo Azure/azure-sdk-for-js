@@ -3945,7 +3945,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220629
+      typescript: 4.8.0-dev.20220630
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8755,8 +8755,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220629:
-    resolution: {integrity: sha512-QEp1M6iqlYpQXFF2f9ucXMkXbYcAoXcG0ws0IG8bWd7mjPGf8R5iVCbQVSm1dzV/GoOy0PsvfNe5/uL6D9TSPA==}
+  /typescript/4.8.0-dev.20220630:
+    resolution: {integrity: sha512-wyFZIoUdTqDrKU3XfDx+pylAEIhlmpbsbicFXuvggpKeSWiPeUrMiSRqeXBnAjXiD6kn2Anmw+c3eyX3A2WdUw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12402,7 +12402,7 @@ packages:
     dev: false
 
   file:projects/arm-managementpartner.tgz:
-    resolution: {integrity: sha512-sP7x1wf3eZSkxtXqWPCZ0HA4c3dzLfT4/PzPx2cZGlGQWhZAFQduhN52I2AX9voHqLStRUp/gVNWX7ODTqCW5w==, tarball: file:projects/arm-managementpartner.tgz}
+    resolution: {integrity: sha512-JtmaYcTbaFscO53An8VISC1K+XjKl6Fd69Z4QqVumlJxDwmD2svTNFqNIFutWwRGhzYtuC740SHeKxX0SPx7TQ==, tarball: file:projects/arm-managementpartner.tgz}
     name: '@rush-temp/arm-managementpartner'
     version: 0.0.0
     dependencies:
@@ -12413,6 +12413,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.74.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12425,7 +12427,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
