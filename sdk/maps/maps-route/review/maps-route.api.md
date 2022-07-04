@@ -629,10 +629,13 @@ export interface RouteRange {
 
 // @public
 export type RouteRangeBudget = {
-    fuelBudgetInLiters?: number;
-    energyBudgetInKwH?: number;
-    timeBudgetInSeconds?: number;
-    distanceBudgetInMeters?: number;
+    fuelBudgetInLiters: number;
+} | {
+    energyBudgetInKwH: number;
+} | {
+    timeBudgetInSeconds: number;
+} | {
+    distanceBudgetInMeters: number;
 };
 
 // @public
