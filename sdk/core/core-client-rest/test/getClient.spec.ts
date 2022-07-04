@@ -25,11 +25,20 @@ describe("getClient", () => {
     });
 
     const apiVersion = "2021-11-18";
-    const client = getClient("https://example.org?api-version=1233321", { apiVersion });
-    const validationPolicy: PipelinePolicy = {
+    let client = getClient("https://example.org", { apiVersion });
+    let validationPolicy: PipelinePolicy = {
       name: "validationPolicy",
       sendRequest: (req, next) => {
         assert.include(req.url, `api-version=${apiVersion}`);
+        return next(req);
+      },
+    };
+
+    client = getClient("https://example.org?api-version=1233321", { apiVersion });
+    validationPolicy = {
+      name: "validationPolicy",
+      sendRequest: (req, next) => {
+        assert.include(req.url, `api-version=1233321`);
         return next(req);
       },
     };
