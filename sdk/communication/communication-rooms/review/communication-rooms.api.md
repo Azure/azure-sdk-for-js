@@ -15,7 +15,25 @@ export interface AddParticipantsOptions extends OperationOptions {
 }
 
 // @public (undocumented)
+export interface AddParticipantsRequest {
+    // (undocumented)
+    participants: RoomParticipant[];
+}
+
+// @public (undocumented)
 export interface CreateRoomOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface CreateRoomRequest {
+    // (undocumented)
+    participants?: RoomParticipant[];
+    // (undocumented)
+    roomJoinPolicy?: string;
+    // (undocumented)
+    validFrom?: Date;
+    // (undocumented)
+    validUntil?: Date;
 }
 
 // @public (undocumented)
@@ -34,7 +52,25 @@ export interface ParticipantsCollection {
 }
 
 // @public (undocumented)
+export interface PatchRoomRequest {
+    // (undocumented)
+    participants?: RoomParticipant[];
+    // (undocumented)
+    roomJoinPolicy?: string;
+    // (undocumented)
+    validFrom?: Date;
+    // (undocumented)
+    validUntil?: Date;
+}
+
+// @public (undocumented)
 export interface RemoveParticipantsOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface RemoveParticipantsRequest {
+    // (undocumented)
+    participants: (RoomParticipant | CommunicationIdentifier)[];
 }
 
 // @public (undocumented)
@@ -72,11 +108,8 @@ export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "AddParticipantsRequest" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     addParticipants(roomId: string, request: AddParticipantsRequest, options?: AddParticipantsOptions): Promise<ParticipantsCollection>;
-    // Warning: (ae-forgotten-export) The symbol "CreateRoomRequest" needs to be exported by the entry point index.d.ts
     createRoom(request: CreateRoomRequest, options?: CreateRoomOptions): Promise<RoomModel>;
     // (undocumented)
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
@@ -84,16 +117,10 @@ export class RoomsClient {
     getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<ParticipantsCollection>;
     // (undocumented)
     getRoom(roomId: string, options?: GetRoomOptions): Promise<RoomModel>;
-    // Warning: (ae-forgotten-export) The symbol "RemoveParticipantsRequest" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     removeParticipants(roomId: string, request: RemoveParticipantsRequest, options?: RemoveParticipantsOptions): Promise<ParticipantsCollection>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateParticipantsRequest" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     updateParticipants(roomId: string, request: UpdateParticipantsRequest, options?: UpdateParticipantsOptions): Promise<ParticipantsCollection>;
-    // Warning: (ae-forgotten-export) The symbol "PatchRoomRequest" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     updateRoom(roomId: string, request: PatchRoomRequest, options?: UpdateRoomOptions): Promise<RoomModel>;
 }
@@ -104,6 +131,12 @@ export interface RoomsClientOptions extends CommonClientOptions {
 
 // @public (undocumented)
 export interface UpdateParticipantsOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface UpdateParticipantsRequest {
+    // (undocumented)
+    participants: RoomParticipant[];
 }
 
 // @public (undocumented)
