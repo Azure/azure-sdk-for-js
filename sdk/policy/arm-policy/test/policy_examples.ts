@@ -17,7 +17,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PolicyClient } from "../src/policyClient";
-import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
+//import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -67,10 +67,10 @@ describe("Policy test", () => {
   });
 
   it("policyDefinitions create test", async function () {
-    const result = await managementclient.managementGroups.beginCreateOrUpdateAndWait(
-      groupId,
-      { name: groupId }
-    )
+    //const result = await managementclient.managementGroups.beginCreateOrUpdateAndWait(
+      //groupId,
+      //{ name: groupId }
+    //)
 
     const res = await client.policyDefinitions.createOrUpdateAtManagementGroup(policyName, groupId, {
       policyType: "Custom",
