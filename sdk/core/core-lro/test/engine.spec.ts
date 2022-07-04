@@ -67,58 +67,48 @@ describe("Lro Engine", function () {
     it("should handle post202NoRetry204", async () => {
       const path = "/post/202/noretry/204";
       const pollingPath = "/post/newuri/202/noretry/204";
-      await assertError(
-        runLro({
-          routes: [
-            {
-              method: "POST",
-              path,
-              status: 202,
-              headers: {
-                location: path,
-              },
+      const response = await runLro({
+        routes: [
+          {
+            method: "POST",
+            path,
+            status: 202,
+            headers: {
+              location: path,
             },
-            {
-              method: "GET",
-              path,
-              status: 202,
-              headers: {
-                location: pollingPath,
-              },
+          },
+          {
+            method: "GET",
+            path,
+            status: 202,
+            headers: {
+              location: pollingPath,
             },
-            {
-              method: "GET",
-              path: pollingPath,
-              status: 204,
-            },
-          ],
-        }),
-        {
-          messagePattern:
-            /Received unexpected HTTP status code 204 while polling. This may indicate a server issue./,
-        }
-      );
+          },
+          {
+            method: "GET",
+            path: pollingPath,
+            status: 204,
+          },
+        ],
+      });
+      assert.equal(response.statusCode, 204);
     });
 
     it("should handle deleteNoHeaderInRetry", async () => {
       const pollingPath = "/delete/noheader/operationresults/123";
-      await assertError(
-        runLro({
-          routes: [
-            {
-              method: "DELETE",
-              status: 200,
-              headers: { Location: pollingPath },
-            },
-            { method: "GET", path: pollingPath, status: 202 },
-            { method: "GET", path: pollingPath, status: 204 },
-          ],
-        }),
-        {
-          messagePattern:
-            /Received unexpected HTTP status code 204 while polling. This may indicate a server issue./,
-        }
-      );
+      const response = await runLro({
+        routes: [
+          {
+            method: "DELETE",
+            status: 200,
+            headers: { Location: pollingPath },
+          },
+          { method: "GET", path: pollingPath, status: 202 },
+          { method: "GET", path: pollingPath, status: 204 },
+        ],
+      });
+      assert.equal(response.statusCode, 204);
     });
 
     it("should handle put202Retry200", async () => {
@@ -241,37 +231,32 @@ describe("Lro Engine", function () {
     it("should handle delete202NoRetry204", async () => {
       const path = "/delete/202/noretry/204";
       const newPath = "/delete/newuri/202/noretry/204";
-      await assertError(
-        runLro({
-          routes: [
-            {
-              method: "DELETE",
-              path,
-              status: 202,
-              headers: {
-                location: path,
-              },
+      const response = await runLro({
+        routes: [
+          {
+            method: "DELETE",
+            path,
+            status: 202,
+            headers: {
+              location: path,
             },
-            {
-              method: "GET",
-              path,
-              status: 202,
-              headers: {
-                location: newPath,
-              },
+          },
+          {
+            method: "GET",
+            path,
+            status: 202,
+            headers: {
+              location: newPath,
             },
-            {
-              method: "GET",
-              path: newPath,
-              status: 204,
-            },
-          ],
-        }),
-        {
-          messagePattern:
-            /Received unexpected HTTP status code 204 while polling. This may indicate a server issue./,
-        }
-      );
+          },
+          {
+            method: "GET",
+            path: newPath,
+            status: 204,
+          },
+        ],
+      });
+      assert.equal(response.statusCode, 204);
     });
 
     it("should handle deleteProvisioning202Accepted200Succeeded", async () => {
@@ -300,7 +285,7 @@ describe("Lro Engine", function () {
 
     it("should handle deleteProvisioning202DeletingFailed200", async () => {
       const path = "/delete/provisioning/202/deleting/200/failed";
-      const result = await runLro({
+      const response = await runLro({
         routes: [
           {
             method: "DELETE",
@@ -320,12 +305,13 @@ describe("Lro Engine", function () {
           },
         ],
       });
-      assert.equal(result.properties?.provisioningState, "Failed");
+      assert.equal(response.statusCode, 200);
+      assert.equal(response.properties?.provisioningState, "Failed");
     });
 
     it("should handle deleteProvisioning202Deletingcanceled200", async () => {
       const path = "/delete/provisioning/202/deleting/200/canceled";
-      const result = await runLro({
+      const response = await runLro({
         routes: [
           {
             method: "DELETE",
@@ -345,7 +331,8 @@ describe("Lro Engine", function () {
           },
         ],
       });
-      assert.equal(result.properties?.provisioningState, "Canceled");
+      assert.equal(response.statusCode, 200);
+      assert.equal(response.properties?.provisioningState, "Canceled");
     });
   });
 
@@ -599,6 +586,39 @@ describe("Lro Engine", function () {
                 method: "GET",
                 status: 200,
                 body: `{ "id": "100", "name": "foo" }`,
+              },
+            ],
+          });
+          assert.equal(result.id, "100");
+          assert.equal(result.name, "foo");
+        });
+
+        it("should handle postUpdatedPollingUrl", async () => {
+          const operationLocationPath1 = "path1";
+          const operationLocationPath2 = "path2";
+          const result = await runLro({
+            routes: [
+              {
+                method: "POST",
+                status: 200,
+                headers: {
+                  [headerName]: operationLocationPath1,
+                },
+              },
+              {
+                method: "GET",
+                path: operationLocationPath1,
+                status: 200,
+                body: `{ "status": "running" }`,
+                headers: {
+                  [headerName]: operationLocationPath2,
+                },
+              },
+              {
+                method: "GET",
+                path: operationLocationPath2,
+                status: 200,
+                body: `{ "status": "succeeded", "id": "100", "name": "foo" }`,
               },
             ],
           });
@@ -2008,7 +2028,7 @@ describe("Lro Engine", function () {
   });
 
   describe("process result", () => {
-    it("The final result can be processed using processResult", async () => {
+    it("From a location response", async () => {
       const locationPath = "/postlocation/noretry/succeeded/operationResults/foo/200/";
       const pollingPath = "/postasync/noretry/succeeded/operationResults/foo/200/";
       const headerName = "Operation-Location";
@@ -2051,6 +2071,28 @@ describe("Lro Engine", function () {
           assert.equal(serializedState, poller.toString());
           assert.ok(state.initialRawResponse);
           assert.ok(state.pollingURL);
+          assert.ok(state.config.pollingUrl);
+          assert.equal((result as any).id, "100");
+          return { ...(result as any), id: "200" };
+        },
+      });
+      const result = await poller.pollUntilDone();
+      assert.deepInclude(result, { id: "200", name: "foo" });
+    });
+
+    it("From the initial response", async () => {
+      const poller = createPoller({
+        routes: [
+          {
+            method: "PUT",
+            status: 200,
+            body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+          },
+        ],
+        processResult: (result: unknown, state: any) => {
+          const serializedState = JSON.stringify({ state: state });
+          assert.equal(serializedState, poller.toString());
+          assert.ok(state.initialRawResponse);
           assert.equal((result as any).id, "100");
           return { ...(result as any), id: "200" };
         },
