@@ -146,7 +146,7 @@ There are several ways to authenticate to Azure and most common ways are AzureAD
 
 #### AzureAD OAuth2 Authentication
 
-If your service uses AzureAD OAuth2 token for authentication. A common solution is to provide [an application and its service principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals) and to provide RBAC to the service principal for the access to the Azure resource of your service.
+If your service uses AzureAD OAuth2 token for authentication. A common solution is to provide [an application and its service principal](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals) and to provide RBAC to the service principal for the access to the Azure resource of your service.
 
 Client requires following three variables for the service principal using client ID/secret for authentication:
 
