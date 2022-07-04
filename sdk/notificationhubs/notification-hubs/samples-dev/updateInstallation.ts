@@ -2,21 +2,21 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how the createOrUpdateInstallation() method can be used to create or overwrite an
- * installation in place.
+ * This sample demonstrates how the updateInstallation() method can be used to update an installation using
+ * the JSON Patch (https://datatracker.ietf.org/doc/html/rfc6902).  This sends discrete updates using the standard
+ * operation type, path and value if necessary.
  *
  * See https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about installations.
  *
  *
- * @summary Demonstrates how to create or overwrite an installation using Azure Notification Hubs
+ * @summary Demonstrates how to update an installation using Azure Notification Hubs
  * @azsdk-weight 100
  */
 
 import { 
-  clientFromConnectionString, createAppleInstallation 
+  clientFromConnectionString, InstallationPatch 
 } from "@azure/notification-hubs";
-import { v4 } from "uuid";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -26,20 +26,18 @@ dotenv.config();
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
-// Define message constants
-const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
+// Define an existing Installation ID.
+const installationId = process.env.INSTALLATION_ID || "<installation id>";
 
 async function main() {
   const client = clientFromConnectionString(connectionString, hubName);
 
-  const installation = createAppleInstallation({
-    installationId: v4(),
-    pushChannel: deviceToken,
-    tags: ["likes_hockey", "likes_football"],
-  });
+  const updates: InstallationPatch[] = [ 
+    { "op": "add", "path": "/tags", "value": "likes_baseball" },
+    { "op": "add", "path": "/userId", "value": "bob@contoso.com" } 
+  ];
 
-  const result = await client.createOrUpdateInstallation(installation);
+  const result = await client.patchInstallation(installationId, updates);
 
   // TODO: return installation
   console.log(`Create installation Tracking ID: ${result.trackingId}`);
@@ -48,6 +46,6 @@ async function main() {
 
 main()
   .catch((err) => {
-    console.log("createInstallation Sample: Error occurred: ", err);
+    console.log("updateInstallation Sample: Error occurred: ", err);
     process.exit(1);
   });
