@@ -2,8 +2,12 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { assertEnvironmentVariable, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { createTestCredential } from '@azure-tools/test-credential'
+import {
+  assertEnvironmentVariable,
+  Recorder,
+  RecorderStartOptions,
+} from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 import DeviceUpdate, { DeviceUpdateClient } from "../../../src/index";
 import "./env";
 
@@ -29,7 +33,6 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
-
 
 export function createRecordedClient(recorder: Recorder): DeviceUpdateClient {
   const credential = createTestCredential();
