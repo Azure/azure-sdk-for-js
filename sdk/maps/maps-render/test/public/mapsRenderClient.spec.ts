@@ -89,17 +89,18 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
 
       describe("#getMapStaticImage", function () {
         it("should stream response body on successful request", async function () {
+          const boundingBox = {
+            bottomRight: { latitude: 42.982261, longitude: 24.980233 },
+            topLeft: { latitude: 56.526017, longitude: 1.355233 },
+          };
           const mapStaticImageOptions = {
             layer: "basic",
             style: "dark",
             zoom: 2,
-            boundingBox: {
-              bottomRight: { latitude: 42.982261, longitude: 24.980233 },
-              topLeft: { latitude: 56.526017, longitude: 1.355233 },
-            },
           };
           const mapTile = await client.getMapStaticImage(
             KnownRasterTileFormat.Png,
+            boundingBox,
             mapStaticImageOptions
           );
 

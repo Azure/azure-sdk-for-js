@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { BoundingBox, LatLon } from "./models";
+import { LatLon } from "./models";
 import { LocalizedMapView, MapImageStyle, MapTileSize, StaticMapLayer } from "../generated/models";
 
 /**
@@ -20,7 +20,7 @@ export interface GetMapTileOptions extends OperationOptions {
    * * microsoft.weather.infrared.main: We provide tiles up to 3 hours in the past. Tiles are available in 10-minute intervals. We round the timeStamp value to the nearest 10-minute time frame.
    * * microsoft.weather.radar.main: We provide tiles up to 1.5 hours in the past and up to 2 hours in the future. Tiles are available in 5-minute intervals. We round the timeStamp value to the nearest 5-minute time frame.
    */
-  timeStamp?: Date;
+  dateTimeOfTile?: Date;
   /** The size of the returned map tile in pixels. */
   tileSize?: MapTileSize;
   /**
@@ -57,6 +57,21 @@ export interface GetMapStateTileOptions extends OperationOptions {}
  */
 export interface GetCopyrightCaptionOptions extends OperationOptions {}
 
+export interface ImageRange {
+  /**
+   * Coordinates of the center point.
+   */
+  center: LatLon;
+  /**
+   * Height of the resulting image in pixels. Range is 1 to 8192. Default is 512.
+   */
+  height?: number;
+  /**
+   * Width of the resulting image in pixels. Range is 1 to 8192. Default is 512.
+   */
+  width?: number;
+}
+
 /**
  * Options for get static image
  */
@@ -77,26 +92,6 @@ export interface GetMapStaticImageOptions extends OperationOptions {
   style?: MapImageStyle;
   /** Desired zoom level of the map. Zoom value must be in the range: 0-20 (inclusive). Default value is 12. */
   zoom?: number;
-  /**
-   * Coordinates of the center point.
-   * Note: Either center or boundingBox are required parameters. They are
-   * mutually exclusive.
-   */
-  center?: LatLon;
-  /**
-   * Bounding box
-   *
-   * Note: Either boundingBox or center are required
-   * parameters. They are mutually exclusive. It shouldn’t be used with
-   * height or width.
-   */
-  boundingBox?: BoundingBox;
-  /**
-   * Height of the resulting image in pixels. Range is 1 to 8192. Default is 512. It shouldn’t be used with boundingBox.
-   */
-  height?: number;
-  /** Width of the resulting image in pixels. Range is 1 to 8192. Default is 512. It shouldn’t be used with boundingBox. */
-  width?: number;
   /**
    * Pushpin style and instances. Use this parameter to optionally add pushpins to the image.
    * Please refer to [Render V2 - Get Map Static Image](https://docs.microsoft.com/rest/api/maps/render-v2/get-map-static-image) for details.
