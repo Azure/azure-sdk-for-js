@@ -58,7 +58,7 @@ export interface ErrorAdditionalInfo {
 }
 
 /** Metadata for a tileset in the TileJSON format. */
-export interface MapTileset {
+export interface TileJson {
   /** Describes the version of the TileJSON spec that is implemented by this JSON object. */
   tilejson: string;
   /** A name describing the tileset. The name can contain any legal character. Implementations SHOULD NOT interpret the name as HTML. */
@@ -616,7 +616,7 @@ export interface RenderV2GetMapTilesetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMapTileset operation. */
-export type RenderV2GetMapTilesetResponse = MapTileset;
+export type RenderV2GetMapTilesetResponse = TileJson;
 
 /** Optional parameters. */
 export interface RenderV2GetMapAttributionOptionalParams
