@@ -4,14 +4,14 @@ import { DeviceUpdateClient } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 
 describe("device tags test", () => {
   let recorder: Recorder;
   let client: DeviceUpdateClient;
 
   beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+    recorder = await createRecorder(this);
     client = createRecordedClient(recorder);
   });
 
