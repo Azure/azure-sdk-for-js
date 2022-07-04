@@ -44,7 +44,7 @@ describe("Policy test", () => {
   let policyName: string;
   let scope: string;
   let policyAssignmentName: string;
-  let managementclient: ManagementGroupsAPI;
+  //let managementclient: ManagementGroupsAPI;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
