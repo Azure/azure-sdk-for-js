@@ -13,23 +13,20 @@ const { getIdentifierKind } = require("@azure/communication-common");
 dotenv.config();
 
 async function main() {
-  console.log("TEST");
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
 
   const roomsClient = new RoomsClient(connectionString);
   const identityClient = new CommunicationIdentityClient(connectionString);
-
   const user1 = await identityClient.createUserAndToken(["voip"]);
   const user2 = await identityClient.createUserAndToken(["voip"]);
-  const user3 = await identityClient.createUserAndToken(["voip"]);
+  const validFrom = new Date();
+  const validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
 
-  const today = new Date();
-  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
   const createRoomRequest = {
-    validFrom: today,
-    validUntil: tomorrow,
+    validFrom: validFrom,
+    validUntil: validUntil,
     participants: [
       {
         id: user1.user,

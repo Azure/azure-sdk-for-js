@@ -22,8 +22,11 @@ async function main() {
 
   const user1 = await identityClient.createUserAndToken(["voip"]);
   const user2 = await identityClient.createUserAndToken(["voip"]);
-
+  var validFrom = new Date(Date.now());
+  var validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
   const createRoomRequest = {
+    validFrom: validFrom,
+    validUntil: validUntil,
     participants: [
       {
         id: user1.user,
@@ -40,12 +43,12 @@ async function main() {
   const getRoom = await roomsClient.getRoom(roomId);
   console.log(`Retrieved Room with ID ${roomId}`);
   printRoom(getRoom);
-  const from = new Date(new Date().setDate(new Date().getDate() + 1));
-  const until = new Date(new Date().setDate(new Date().getDate() + 2));
 
+  validFrom.setTime(validUntil.getTime());
+  validUntil.setTime(validFrom.getTime() + 5 * 60 * 1000);
   const updateRoomRequest = {
-    validFrom: from,
-    validUntil: until,
+    validFrom: validFrom,
+    validUntil: validUntil,
     roomJoinPolicy: "CommunicationServiceUsers",
     participants: [
       {
