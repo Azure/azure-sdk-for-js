@@ -53,7 +53,7 @@ describe("Policy test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new PolicyClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    managementclient = new ManagementGroupsAPI(credential)
+    //managementclient = new ManagementGroupsAPI(credential)
     location = "eastus";
     resourceGroup = "myjstest";
     groupId = "20000000-0001-0000-0000-000000000123";
