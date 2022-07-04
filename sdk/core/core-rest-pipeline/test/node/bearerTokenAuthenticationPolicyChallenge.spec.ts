@@ -96,7 +96,7 @@ async function authorizeRequestOnChallenge(
   if (!accessToken) {
     return false;
   }
-  if (!!cachedPreviousToken) {
+  if (cachedPreviousToken) {
     cachedPreviousToken = accessToken;
   }
 
