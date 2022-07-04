@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "Azure client library for Azure Communication Rooms services",
-  "version": "1.0",
+  "version": "1.0.0",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -67,23 +67,12 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "dist-esm/**/*.js",
-    "dist-esm/**/*.js.map",
-    "dist-esm/**/*.d.ts",
-    "dist-esm/**/*.d.ts.map",
-    "src/**/*.ts",
+ "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/communication-chat.d.ts",
     "README.md",
-    "LICENSE",
-    "rollup.config.js",
-    "tsconfig.json",
-    "review/*",
-    "CHANGELOG.md",
-    "types/*"
+    "LICENSE"
   ],
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
