@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions } from "@azure/core-http";
+import { CommonClientOptions } from "@azure/core-client";
 
 /**
  * Client options used to configure SMS Client API requests.
  */
-export interface EmailClientOptions extends PipelineOptions {}
+export interface EmailClientOptions extends CommonClientOptions {}
 
 /**
  * Results of a sent email.

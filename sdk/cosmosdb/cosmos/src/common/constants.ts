@@ -179,8 +179,10 @@ export const Constants = {
   ThrottleRetryCount: "x-ms-throttle-retry-count",
   ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
 
+  // Platform
   CurrentVersion: "2020-07-15",
-
+  AzureNamespace: "Azure.Cosmos",
+  AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
   SDKVersion: "3.16.3",
 

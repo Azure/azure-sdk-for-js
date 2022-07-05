@@ -212,16 +212,6 @@ export async function msalNodeTestSetup(
   const stub = sandbox.stub(MsalBaseUtilities.prototype, "generateUuid");
   stub.returns(playbackValues.correlationId);
 
-  recorder.configureClientOptions = (options: any) => ({
-    ...options,
-    additionalPolicies: [
-      {
-        policy: recorder["recorderHttpPolicy"](),
-        position: "perRetry",
-      },
-    ],
-  });
-
   return {
     sandbox,
     recorder,
