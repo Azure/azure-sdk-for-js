@@ -57,7 +57,8 @@
     "uglify-js": "^3.4.9",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
-    "chai": "~4.3.6"
+    "@azure-tools/test-credential": "~1.0.0",
+    "@azure/test-utils": "~1.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms",
   "repository": {
