@@ -40,8 +40,12 @@ const executeTestCase = async function (scenario: TestScenario) {
     const response = await container.items.create(createPayload(scenario.id));
     assert.strictEqual(response.statusCode, scenario.expectedCreateStatusCode);
     assert.strictEqual(response.item.id, scenario.id);
-    assert.strictEqual(response.resource.id, scenario.id);
-    assert.strictEqual(response.resource.pk, scenario.id);
+    if (response.resource) {
+      assert.strictEqual(response.resource.id, scenario.id);
+      assert.strictEqual(response.resource.pk, scenario.id);
+    } else {
+      assert.fail("response.resource should not be null");
+    }
   } catch (err: any) {
     if (err.code) {
       if (err.code === "ERR_ASSERTION") {
@@ -61,8 +65,12 @@ const executeTestCase = async function (scenario: TestScenario) {
     const response = await container.item(scenario.id, scenario.id).read<ItemPayload>();
     assert.strictEqual(response.statusCode, scenario.expectedReadStatusCode);
     assert.strictEqual(response.item.id, scenario.id);
-    assert.strictEqual(response.resource.id, scenario.id);
-    assert.strictEqual(response.resource.pk, scenario.id);
+    if (response.resource) {
+      assert.strictEqual(response.resource.id, scenario.id);
+      assert.strictEqual(response.resource.pk, scenario.id);
+    } else {
+      assert.fail("response.resource should not be null");
+    }
   } catch (err: any) {
     console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
     assert.strictEqual(err.code, scenario.expectedReadStatusCode);
