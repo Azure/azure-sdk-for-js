@@ -5,6 +5,8 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { ShortCodesClient } from "../../../src";
 import { USProgramBrief } from "../../../src";
 import { assert } from "chai";
+import { ProgramDetails, MessageDetails, CompanyInformation, TrafficDetails } from "../../../src/generated/src/models/mappers";
+import { CompositeMapper } from "@azure/core-client"
 
 export function getTestUSProgramBrief(): USProgramBrief {
   const testUSProgramBrief: USProgramBrief = {
@@ -83,26 +85,62 @@ export function assertEditableFieldsAreEqual(
   messageContext: string
 ): void {
   assert.equal(expected.id, actual.id, `Program brief Id is incorrect - ${messageContext}`);
-  assert.deepEqual(
-    expected.programDetails,
-    actual.programDetails,
-    `Program Details do not match - ${messageContext}`
+
+  assertDeepEqualKnownFields(
+    actual,
+    expected,
+    messageContext,
+    [
+      [x => x.programDetails, ProgramDetails, "Program Details do not match"],
+      [x => x.companyInformation, CompanyInformation, "Company Information does not match"],
+      [x => x.messageDetails, MessageDetails, "Message Details do not match"],
+      [x => x.trafficDetails, TrafficDetails, "Traffic Details do not match"],
+    ]
   );
+}
+
+/**
+ * The API may return additional fields, other than the ones present in the swagger file.
+ * This leads the call to assert.deepEqual to fail, since the two objects aren't the same
+ * (one will have more properties than the other). This method ensures that, when comparing
+ * two objects, only the fields present in BOTH objects are used for the comparison.
+ */
+function assertDeepEqualKnownFields(
+  actual: any,
+  expected: any,
+  messageContext: string,
+  comparisons: [propertyToCompareExtractor: (object: any) => any, mapper: CompositeMapper, errorMessage: string][]) {
+  for (const comparison of comparisons) {
+    assertDeepEqualKnownFieldsInternal(actual, expected, comparison[1], comparison[0], comparison[2], messageContext);
+  }
+}
+
+function assertDeepEqualKnownFieldsInternal(
+  actual: any,
+  expected: any,
+  mapper: CompositeMapper,
+  propertyToCompareExtractor: (object: any) => any,
+  errorMessage: string,
+  messageContext: string) {
+  const mappedActual = mapKnownFields(propertyToCompareExtractor(actual), mapper);
+  const mappedExpected = mapKnownFields(propertyToCompareExtractor(expected), mapper);
+
   assert.deepEqual(
-    expected.companyInformation,
-    actual.companyInformation,
-    `Company Information does not match - ${messageContext}`
+    mappedActual,
+    mappedExpected,
+    `${errorMessage} - ${messageContext}`
   );
-  assert.deepEqual(
-    expected.messageDetails,
-    actual.messageDetails,
-    `Message Details do not match - ${messageContext}`
-  );
-  assert.deepEqual(
-    expected.trafficDetails,
-    actual.trafficDetails,
-    `Traffic Details do not match - ${messageContext}`
-  );
+}
+
+function mapKnownFields<TMapper extends CompositeMapper>(object: any, mapper: TMapper): any {
+  const mapped: any = {};
+  const keys = Object.keys(<any>mapper.type.modelProperties);
+
+  for (const modelPropertyName of keys) {
+    mapped[modelPropertyName] = object[modelPropertyName];
+  }
+
+  return mapped;
 }
 
 export async function doesProgramBriefExist(
