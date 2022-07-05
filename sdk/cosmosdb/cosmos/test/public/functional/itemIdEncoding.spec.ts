@@ -74,8 +74,8 @@ const executeTestCase = async function (scenario: TestScenario) {
       .replace<ItemPayload>(createPayload(scenario.id));
     assert.strictEqual(response.statusCode, scenario.expectedReplaceStatusCode);
     assert.strictEqual(response.item.id, scenario.id);
-    assert.strictEqual(response.resource.id, scenario.id);
     if (response.resource) {
+      assert.strictEqual(response.resource.id, scenario.id);
       assert.strictEqual(response.resource.pk, scenario.id);
     } else {
       assert.fail("response.resource should not be null");
