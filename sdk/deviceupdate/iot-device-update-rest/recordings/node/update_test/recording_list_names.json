@@ -1,0 +1,31 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/updates/providers/fabrikam/names?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "caa91d7a-b4da-4414-87ea-4ef16ae2de46"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "20",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:23:34 GMT",
+        "mise-correlation-id": "36a63942-c751-4e29-8b15-aab27f6bd4cc",
+        "traceparent": "00-d1fb4132e1e0e78cc26bc8c966196abe-ac1473d63a5e9e18-00"
+      },
+      "ResponseBody": {
+        "value": [
+          "vacuum"
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

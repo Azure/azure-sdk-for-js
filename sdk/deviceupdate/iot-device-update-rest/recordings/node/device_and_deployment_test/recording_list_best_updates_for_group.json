@@ -1,0 +1,42 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups/dpokluda-test/bestUpdates?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "c347407a-72b8-418f-8aee-2ce969e6fc40"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "331",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:23:32 GMT",
+        "mise-correlation-id": "07e72313-c7bc-495e-85ee-7c9d79f22450",
+        "traceparent": "00-964dca69f4a5ff08065a2946fb6b98d1-54caf2e4c80257a3-00"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "groupId": "dpokluda-test",
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
+            "update": {
+              "updateId": {
+                "provider": "fabrikam",
+                "name": "vacuum",
+                "version": "2022.701.235.32"
+              }
+            },
+            "deviceCount": 1
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

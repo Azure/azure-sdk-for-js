@@ -1,0 +1,50 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/deviceClasses?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "f803e6f0-87aa-4441-b971-ffb98c2e1c43"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "586",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:23:32 GMT",
+        "mise-correlation-id": "adc48253-7deb-4353-91f3-8caba02ad26a",
+        "traceparent": "00-0ce0c4c1fbe8a02af3cda58b228639b8-4e23448558ead929-00"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
+            "deviceClassProperties": {
+              "compatProperties": {
+                "manufacturer": "fabrikam",
+                "model": "vacuum"
+              },
+              "contractModel": {
+                "id": "dtmi:azure:iot:deviceUpdateContractModel;1",
+                "name": "Device Update Model V1"
+              }
+            },
+            "bestCompatibleUpdate": {
+              "updateId": {
+                "provider": "fabrikam",
+                "name": "vacuum",
+                "version": "2022.701.235.32"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

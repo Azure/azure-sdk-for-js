@@ -4,52 +4,37 @@
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
 import {
-  DeploymentDeviceStatesListOutput,
+  UpdateListOutput,
+  ErrorResponseOutput,
+  UpdateOutput,
+  StringsListOutput,
+  UpdateFileOutput,
+  UpdateOperationsListOutput,
+  UpdateOperationOutput,
+  DeviceClassesListOutput,
+  DeviceClassOutput,
+  UpdateInfoListOutput,
+  DevicesListOutput,
+  DeviceOutput,
+  UpdateComplianceOutput,
+  GroupsListOutput,
+  GroupOutput,
+  DeviceClassSubgroupUpdatableDevicesListOutput,
+  DeploymentsListOutput,
   DeploymentOutput,
   DeploymentStatusOutput,
-  DeploymentsListOutput,
-  DeviceClassOutput,
-  DeviceClassesListOutput,
+  DeviceClassSubgroupsListOutput,
+  DeviceClassSubgroupOutput,
+  DeviceClassSubgroupUpdatableDevicesOutput,
+  DeviceClassSubgroupDeploymentStatusOutput,
+  DeploymentDeviceStatesListOutput,
   DeviceOperationOutput,
   DeviceOperationsListOutput,
-  DeviceOutput,
-  DeviceTagOutput,
-  DeviceTagsListOutput,
-  DevicesListOutput,
-  ErrorResponseOutput,
-  GroupOutput,
-  GroupsListOutput,
+  LogCollectionOutput,
+  LogCollectionListOutput,
   LogCollectionOperationDetailedStatusOutput,
-  LogCollectionOperationListOutput,
-  LogCollectionOperationOutput,
-  StringsListOutput,
-  UpdatableDevicesListOutput,
-  UpdateComplianceOutput,
-  UpdateFileOutput,
-  UpdateIdsListOutput,
-  UpdateListOutput,
-  UpdateOperationOutput,
-  UpdateOperationsListOutput,
-  UpdateOutput,
+  DeviceHealthListOutput,
 } from "./outputModels";
-
-export interface DeviceUpdateImportUpdate202Headers {
-  /** Url to retrieve the import operation status. */
-  "operation-location"?: string;
-}
-
-/** Import new update version. */
-export interface DeviceUpdateImportUpdate202Response extends HttpResponse {
-  status: "202";
-  body: UpdateOutput;
-  headers: RawHttpHeaders & DeviceUpdateImportUpdate202Headers;
-}
-
-/** Import new update version. */
-export interface DeviceUpdateImportUpdatedefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseOutput;
-}
 
 /** Get a list of all updates that have been imported to Device Update for IoT Hub. */
 export interface DeviceUpdateListUpdates200Response extends HttpResponse {
@@ -59,7 +44,25 @@ export interface DeviceUpdateListUpdates200Response extends HttpResponse {
 
 /** Get a list of all updates that have been imported to Device Update for IoT Hub. */
 export interface DeviceUpdateListUpdatesdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+export interface DeviceUpdateImportUpdate202Headers {
+  /** Url to retrieve the import operation status. */
+  "operation-location"?: string;
+}
+
+/** Import new update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
+export interface DeviceUpdateImportUpdate202Response extends HttpResponse {
+  status: "202";
+  body: Record<string, unknown>;
+  headers: RawHttpHeaders & DeviceUpdateImportUpdate202Headers;
+}
+
+/** Import new update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
+export interface DeviceUpdateImportUpdatedefaultResponse extends HttpResponse {
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -77,7 +80,7 @@ export interface DeviceUpdateGetUpdate304Response extends HttpResponse {
 
 /** Get a specific update version. */
 export interface DeviceUpdateGetUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -86,16 +89,16 @@ export interface DeviceUpdateDeleteUpdate202Headers {
   "operation-location"?: string;
 }
 
-/** Delete a specific update version. */
+/** Delete a specific update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
 export interface DeviceUpdateDeleteUpdate202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
   headers: RawHttpHeaders & DeviceUpdateDeleteUpdate202Headers;
 }
 
-/** Delete a specific update version. */
+/** Delete a specific update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
 export interface DeviceUpdateDeleteUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -107,7 +110,7 @@ export interface DeviceUpdateListProviders200Response extends HttpResponse {
 
 /** Get a list of all update providers that have been imported to Device Update for IoT Hub. */
 export interface DeviceUpdateListProvidersdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -119,7 +122,7 @@ export interface DeviceUpdateListNames200Response extends HttpResponse {
 
 /** Get a list of all update names that match the specified provider. */
 export interface DeviceUpdateListNamesdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -131,7 +134,7 @@ export interface DeviceUpdateListVersions200Response extends HttpResponse {
 
 /** Get a list of all update versions that match the specified provider and name. */
 export interface DeviceUpdateListVersionsdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -143,7 +146,7 @@ export interface DeviceUpdateListFiles200Response extends HttpResponse {
 
 /** Get a list of all update file identifiers for the specified version. */
 export interface DeviceUpdateListFilesdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -161,7 +164,7 @@ export interface DeviceUpdateGetFile304Response extends HttpResponse {
 
 /** Get a specific update file from the version. */
 export interface DeviceUpdateGetFiledefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -173,7 +176,7 @@ export interface DeviceUpdateListOperations200Response extends HttpResponse {
 
 /** Get a list of all import update operations. Completed operations are kept for 7 days before auto-deleted. Delete operations are not returned by this API version. */
 export interface DeviceUpdateListOperationsdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -197,7 +200,7 @@ export interface DeviceUpdateGetOperation304Response extends HttpResponse {
 
 /** Retrieve operation status. */
 export interface DeviceUpdateGetOperationdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -209,7 +212,7 @@ export interface DeviceManagementListDeviceClasses200Response extends HttpRespon
 
 /** Gets a list of all device classes (unique combinations of device manufacturer and model) for all devices connected to Device Update for IoT Hub. */
 export interface DeviceManagementListDeviceClassesdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -221,7 +224,31 @@ export interface DeviceManagementGetDeviceClass200Response extends HttpResponse 
 
 /** Gets the properties of a device class. */
 export interface DeviceManagementGetDeviceClassdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Update device class details. */
+export interface DeviceManagementUpdateDeviceClass200Response extends HttpResponse {
+  status: "200";
+  body: DeviceClassOutput;
+}
+
+/** Update device class details. */
+export interface DeviceManagementUpdateDeviceClassdefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Deletes a device class. Device classes are created automatically when Device Update-enabled devices are connected to the hub but are not automatically cleaned up since they are referenced by DeviceClassSubgroups. If the user has deleted all DeviceClassSubgroups for a device class they can also delete the device class to remove the records from the system and to stop checking the compatibility of this device class with new updates. If a device is ever reconnected for this device class it will be re-created. */
+export interface DeviceManagementDeleteDeviceClass204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Deletes a device class. Device classes are created automatically when Device Update-enabled devices are connected to the hub but are not automatically cleaned up since they are referenced by DeviceClassSubgroups. If the user has deleted all DeviceClassSubgroups for a device class they can also delete the device class to remove the records from the system and to stop checking the compatibility of this device class with new updates. If a device is ever reconnected for this device class it will be re-created. */
+export interface DeviceManagementDeleteDeviceClassdefaultResponse extends HttpResponse {
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -229,13 +256,13 @@ export interface DeviceManagementGetDeviceClassdefaultResponse extends HttpRespo
 export interface DeviceManagementListInstallableUpdatesForDeviceClass200Response
   extends HttpResponse {
   status: "200";
-  body: UpdateIdsListOutput;
+  body: UpdateInfoListOutput;
 }
 
 /** Gets a list of installable updates for a device class. */
 export interface DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -247,7 +274,7 @@ export interface DeviceManagementListDevices200Response extends HttpResponse {
 
 /** Gets a list of devices connected to Device Update for IoT Hub. */
 export interface DeviceManagementListDevicesdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -256,16 +283,16 @@ export interface DeviceManagementImportDevices202Headers {
   "operation-location"?: string;
 }
 
-/** Import existing devices from IoT Hub. */
+/** Import existing devices from IoT Hub. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
 export interface DeviceManagementImportDevices202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
   headers: RawHttpHeaders & DeviceManagementImportDevices202Headers;
 }
 
-/** Import existing devices from IoT Hub. */
+/** Import existing devices from IoT Hub. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
 export interface DeviceManagementImportDevicesdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -277,7 +304,7 @@ export interface DeviceManagementGetDevice200Response extends HttpResponse {
 
 /** Gets the device properties and latest deployment status for a device connected to Device Update for IoT Hub. */
 export interface DeviceManagementGetDevicedefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -289,7 +316,7 @@ export interface DeviceManagementGetDeviceModule200Response extends HttpResponse
 
 /** Gets the device module properties and latest deployment status for a device module connected to Device Update for IoT Hub. */
 export interface DeviceManagementGetDeviceModuledefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -301,127 +328,91 @@ export interface DeviceManagementGetUpdateCompliance200Response extends HttpResp
 
 /** Gets the breakdown of how many devices are on their latest update, have new updates available, or are in progress receiving new updates. */
 export interface DeviceManagementGetUpdateCompliancedefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Gets a list of available group device tags for all devices connected to Device Update for IoT Hub. */
-export interface DeviceManagementListDeviceTags200Response extends HttpResponse {
-  status: "200";
-  body: DeviceTagsListOutput;
-}
-
-/** Gets a list of available group device tags for all devices connected to Device Update for IoT Hub. */
-export interface DeviceManagementListDeviceTagsdefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseOutput;
-}
-
-/** Gets a count of how many devices have a device tag. */
-export interface DeviceManagementGetDeviceTag200Response extends HttpResponse {
-  status: "200";
-  body: DeviceTagOutput;
-}
-
-/** Gets a count of how many devices have a device tag. */
-export interface DeviceManagementGetDeviceTagdefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseOutput;
-}
-
-/** Gets a list of all device groups. */
+/** Gets a list of all device groups.  The $default group will always be returned first. */
 export interface DeviceManagementListGroups200Response extends HttpResponse {
   status: "200";
   body: GroupsListOutput;
 }
 
-/** Gets a list of all device groups. */
+/** Gets a list of all device groups.  The $default group will always be returned first. */
 export interface DeviceManagementListGroupsdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Gets the properties of a group. */
+/** Gets the device group properties. */
 export interface DeviceManagementGetGroup200Response extends HttpResponse {
   status: "200";
   body: GroupOutput;
 }
 
-/** Gets the properties of a group. */
+/** Gets the device group properties. */
 export interface DeviceManagementGetGroupdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Create or update a device group. */
-export interface DeviceManagementCreateOrUpdateGroup200Response extends HttpResponse {
-  status: "200";
-  body: GroupOutput;
-}
-
-/** Create or update a device group. */
-export interface DeviceManagementCreateOrUpdateGroupdefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseOutput;
-}
-
-/** Deletes a device group. */
+/** Deletes a device group. This group is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a group if they do not need to retain any of the history of the group and no longer need it. If a device is ever connected again for this group after the group was deleted it will be automatically re-created but there will be no history. */
 export interface DeviceManagementDeleteGroup204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-/** Deletes a device group. */
+/** Deletes a device group. This group is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a group if they do not need to retain any of the history of the group and no longer need it. If a device is ever connected again for this group after the group was deleted it will be automatically re-created but there will be no history. */
 export interface DeviceManagementDeleteGroupdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Get group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
-export interface DeviceManagementGetGroupUpdateCompliance200Response extends HttpResponse {
+/** Get device group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
+export interface DeviceManagementGetUpdateComplianceForGroup200Response extends HttpResponse {
   status: "200";
   body: UpdateComplianceOutput;
 }
 
-/** Get group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
-export interface DeviceManagementGetGroupUpdateCompliancedefaultResponse extends HttpResponse {
-  status: "500";
+/** Get device group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
+export interface DeviceManagementGetUpdateComplianceForGroupdefaultResponse extends HttpResponse {
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Get the best available updates for a group and a count of how many devices need each update. */
+/** Get the best available updates for a device group and a count of how many devices need each update. */
 export interface DeviceManagementListBestUpdatesForGroup200Response extends HttpResponse {
   status: "200";
-  body: UpdatableDevicesListOutput;
+  body: DeviceClassSubgroupUpdatableDevicesListOutput;
 }
 
-/** Get the best available updates for a group and a count of how many devices need each update. */
+/** Get the best available updates for a device group and a count of how many devices need each update. */
 export interface DeviceManagementListBestUpdatesForGroupdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Gets a list of deployments for a group. */
+/** Gets a list of deployments for a device group. */
 export interface DeviceManagementListDeploymentsForGroup200Response extends HttpResponse {
   status: "200";
   body: DeploymentsListOutput;
 }
 
-/** Gets a list of deployments for a group. */
+/** Gets a list of deployments for a device group. */
 export interface DeviceManagementListDeploymentsForGroupdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Gets the properties of a deployment. */
+/** Gets the deployment properties. */
 export interface DeviceManagementGetDeployment200Response extends HttpResponse {
   status: "200";
   body: DeploymentOutput;
 }
 
-/** Gets the properties of a deployment. */
+/** Gets the deployment properties. */
 export interface DeviceManagementGetDeploymentdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -433,7 +424,7 @@ export interface DeviceManagementCreateOrUpdateDeployment200Response extends Htt
 
 /** Creates or updates a deployment. */
 export interface DeviceManagementCreateOrUpdateDeploymentdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -445,7 +436,7 @@ export interface DeviceManagementDeleteDeployment204Response extends HttpRespons
 
 /** Deletes a deployment. */
 export interface DeviceManagementDeleteDeploymentdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -457,19 +448,166 @@ export interface DeviceManagementGetDeploymentStatus200Response extends HttpResp
 
 /** Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed. */
 export interface DeviceManagementGetDeploymentStatusdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Get the device class subgroups for the group. */
+export interface DeviceManagementListDeviceClassSubgroupsForGroup200Response extends HttpResponse {
+  status: "200";
+  body: DeviceClassSubgroupsListOutput;
+}
+
+/** Get the device class subgroups for the group. */
+export interface DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Gets device class subgroup details. */
+export interface DeviceManagementGetDeviceClassSubgroup200Response extends HttpResponse {
+  status: "200";
+  body: DeviceClassSubgroupOutput;
+}
+
+/** Gets device class subgroup details. */
+export interface DeviceManagementGetDeviceClassSubgroupdefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Deletes a device class subgroup. */
+export interface DeviceManagementDeleteDeviceClassSubgroup204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Deletes a device class subgroup. */
+export interface DeviceManagementDeleteDeviceClassSubgroupdefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Get device class subgroup update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
+export interface DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response
+  extends HttpResponse {
+  status: "200";
+  body: UpdateComplianceOutput;
+}
+
+/** Get device class subgroup update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
+export interface DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Get the best available update for a device class subgroup and a count of how many devices need this update. */
+export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroup200Response
+  extends HttpResponse {
+  status: "200";
+  body: DeviceClassSubgroupUpdatableDevicesOutput;
+}
+
+/** Get the best available update for a device class subgroup and a count of how many devices need this update. */
+export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Gets a list of deployments for a device class subgroup. */
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroup200Response
+  extends HttpResponse {
+  status: "200";
+  body: DeploymentsListOutput;
+}
+
+/** Gets a list of deployments for a device class subgroup. */
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Gets the deployment properties. */
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroup200Response
+  extends HttpResponse {
+  status: "200";
+  body: DeploymentOutput;
+}
+
+/** Gets the deployment properties. */
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Deletes a device class subgroup deployment. */
+export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Response
+  extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Deletes a device class subgroup deployment. */
+export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Stops a deployment. */
+export interface DeviceManagementStopDeployment200Response extends HttpResponse {
+  status: "200";
+  body: DeploymentOutput;
+}
+
+/** Stops a deployment. */
+export interface DeviceManagementStopDeploymentdefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Retries a deployment with failed devices. */
+export interface DeviceManagementRetryDeployment200Response extends HttpResponse {
+  status: "200";
+  body: DeploymentOutput;
+}
+
+/** Retries a deployment with failed devices. */
+export interface DeviceManagementRetryDeploymentdefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed. */
+export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response
+  extends HttpResponse {
+  status: "200";
+  body: DeviceClassSubgroupDeploymentStatusOutput;
+}
+
+/** Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed. */
+export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse
+  extends HttpResponse {
+  status: string;
   body: ErrorResponseOutput;
 }
 
 /** Gets a list of devices in a deployment along with their state. Useful for getting a list of failed devices. */
-export interface DeviceManagementListDeploymentDevices200Response extends HttpResponse {
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response
+  extends HttpResponse {
   status: "200";
   body: DeploymentDeviceStatesListOutput;
 }
 
 /** Gets a list of devices in a deployment along with their state. Useful for getting a list of failed devices. */
-export interface DeviceManagementListDeploymentDevicesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse
+  extends HttpResponse {
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -493,7 +631,7 @@ export interface DeviceManagementGetOperation304Response extends HttpResponse {
 
 /** Retrieve operation status. */
 export interface DeviceManagementGetOperationdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
@@ -505,80 +643,67 @@ export interface DeviceManagementListOperations200Response extends HttpResponse 
 
 /** Get a list of all device import operations. Completed operations are kept for 7 days before auto-deleted. */
 export interface DeviceManagementListOperationsdefaultResponse extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Start the device diagnostics log collection operation on specified devices. */
-export interface DeviceManagementCollectLogs201Response extends HttpResponse {
+/** Start the device diagnostics log collection on specified devices. */
+export interface DeviceManagementStartLogCollection201Response extends HttpResponse {
   status: "201";
-  body: LogCollectionOperationOutput;
+  body: LogCollectionOutput;
 }
 
-/** Start the device diagnostics log collection operation on specified devices. */
-export interface DeviceManagementCollectLogsdefaultResponse extends HttpResponse {
-  status: "500";
+/** Start the device diagnostics log collection on specified devices. */
+export interface DeviceManagementStartLogCollectiondefaultResponse extends HttpResponse {
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Get the device diagnostics log collection operation */
-export interface DeviceManagementGetLogCollectionOperation200Response extends HttpResponse {
+/** Get the device diagnostics log collection */
+export interface DeviceManagementGetLogCollection200Response extends HttpResponse {
   status: "200";
-  body: LogCollectionOperationOutput;
+  body: LogCollectionOutput;
 }
 
-/** Get the device diagnostics log collection operation */
-export interface DeviceManagementGetLogCollectionOperationdefaultResponse extends HttpResponse {
-  status: "500";
+/** Get the device diagnostics log collection */
+export interface DeviceManagementGetLogCollectiondefaultResponse extends HttpResponse {
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Get all device diagnostics log collection operations */
-export interface DeviceManagementListLogCollectionOperations200Response extends HttpResponse {
+/** Get all device diagnostics log collections */
+export interface DeviceManagementListLogCollections200Response extends HttpResponse {
   status: "200";
-  body: LogCollectionOperationListOutput;
+  body: LogCollectionListOutput;
 }
 
-/** Get all device diagnostics log collection operations */
-export interface DeviceManagementListLogCollectionOperationsdefaultResponse extends HttpResponse {
-  status: "500";
+/** Get all device diagnostics log collections */
+export interface DeviceManagementListLogCollectionsdefaultResponse extends HttpResponse {
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Get device diagnostics log collection operation with detailed status */
-export interface DeviceManagementGetLogCollectionOperationDetailedStatus200Response
-  extends HttpResponse {
+/** Get log collection with detailed status */
+export interface DeviceManagementGetLogCollectionDetailedStatus200Response extends HttpResponse {
   status: "200";
   body: LogCollectionOperationDetailedStatusOutput;
 }
 
-/** Get device diagnostics log collection operation with detailed status */
-export interface DeviceManagementGetLogCollectionOperationDetailedStatusdefaultResponse
+/** Get log collection with detailed status */
+export interface DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: ErrorResponseOutput;
 }
 
-/** Stops a deployment. */
-export interface DeviceManagementStopDeployment200Response extends HttpResponse {
+/** Get list of device health */
+export interface DeviceManagementListDeviceHealth200Response extends HttpResponse {
   status: "200";
-  body: DeploymentOutput;
+  body: DeviceHealthListOutput;
 }
 
-/** Stops a deployment. */
-export interface DeviceManagementStopDeploymentdefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseOutput;
-}
-
-/** Retries a deployment with failed devices. */
-export interface DeviceManagementRetryDeployment200Response extends HttpResponse {
-  status: "200";
-  body: DeploymentOutput;
-}
-
-/** Retries a deployment with failed devices. */
-export interface DeviceManagementRetryDeploymentdefaultResponse extends HttpResponse {
-  status: "500";
+/** Get list of device health */
+export interface DeviceManagementListDeviceHealthdefaultResponse extends HttpResponse {
+  status: string;
   body: ErrorResponseOutput;
 }

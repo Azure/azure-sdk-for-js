@@ -1,0 +1,31 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/updates/providers/fabrikam/names/vacuum/versions/2022.401.504.6/files?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "5b938d18-f4a8-43ba-9403-f15148e88b04"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "31",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:23:37 GMT",
+        "mise-correlation-id": "b225764b-e734-4c62-9ad9-aef88d11a4c8",
+        "traceparent": "00-13f40fe2ac0e295d6a4da69b617ea3c2-0736502bc271a9a3-00"
+      },
+      "ResponseBody": {
+        "value": [
+          "f8599abf8f60aab5f"
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
