@@ -10,10 +10,19 @@ import {
   CommunicationIdentifier
 } from "@azure/communication-common"
 
+/**
+ * @internal
+ * Checks whether the type of a value is RoomParticipant or not.
+ * @param participant - The value being checked.
+ */
 function isRoomParticipant (participant: RoomParticipant | CommunicationIdentifier): participant is RoomParticipant {
   return (<RoomParticipant>participant).role !== undefined;
 }
 
+/**
+ * @internal
+ * Mapping room participant customer model to room participant REST model.
+ */
 export const mapToRoomParticipantRestModel = (
   roomParticipant: RoomParticipant | CommunicationIdentifier
 ): RestModel.RoomParticipant => {
@@ -31,6 +40,10 @@ export const mapToRoomParticipantRestModel = (
   }
 };
 
+/**
+ * @internal
+ * Mapping room participant REST model to room participant SDK model.
+ */
 export const mapToRoomParticipantSdkModel = (
   roomParticipant: RestModel.RoomParticipant
 ): RoomParticipant => {
@@ -43,6 +56,10 @@ export const mapToRoomParticipantSdkModel = (
   }
 }
 
+/**
+ * @internal
+ * Mapping room REST model to room SDK model.
+ */
 export const mapToRoomSdkModel = (
   result: RestModel.RoomModel
 ): RoomModel => {

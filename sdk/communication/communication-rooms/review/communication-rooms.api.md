@@ -10,96 +10,78 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export interface AddParticipantsOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface AddParticipantsRequest {
-    // (undocumented)
     participants: RoomParticipant[];
 }
 
-// @public (undocumented)
+// @public
 export interface CreateRoomOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface CreateRoomRequest {
-    // (undocumented)
     participants?: RoomParticipant[];
-    // (undocumented)
-    roomJoinPolicy?: string;
-    // (undocumented)
+    roomJoinPolicy?: RoomJoinPolicy;
     validFrom?: Date;
-    // (undocumented)
     validUntil?: Date;
 }
 
-// @public (undocumented)
+// @public
 export type DeleteRoomOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export type GetParticipantsOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export type GetRoomOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export interface ParticipantsCollection {
     // (undocumented)
     participants: RoomParticipant[];
 }
 
-// @public (undocumented)
+// @public
 export interface PatchRoomRequest {
-    // (undocumented)
     participants?: RoomParticipant[];
-    // (undocumented)
-    roomJoinPolicy?: string;
-    // (undocumented)
+    roomJoinPolicy?: RoomJoinPolicy;
     validFrom?: Date;
-    // (undocumented)
     validUntil?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface RemoveParticipantsOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface RemoveParticipantsRequest {
-    // (undocumented)
     participants: (RoomParticipant | CommunicationIdentifier)[];
 }
 
-// @public (undocumented)
+// @public
 export type Role = string;
 
-// @public (undocumented)
+// @public
 export type RoomJoinPolicy = string;
 
-// @public (undocumented)
+// @public
 export interface RoomModel {
-    // (undocumented)
     createdDateTime?: Date;
-    // (undocumented)
     id: string;
-    // (undocumented)
     participants?: RoomParticipant[];
-    // (undocumented)
     roomJoinPolicy?: RoomJoinPolicy;
-    // (undocumented)
     validFrom?: Date;
-    // (undocumented)
     validUntil?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface RoomParticipant {
-    // (undocumented)
     id: CommunicationIdentifier;
-    // (undocumented)
     role?: Role;
 }
 
@@ -108,38 +90,30 @@ export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
-    // (undocumented)
     addParticipants(roomId: string, request: AddParticipantsRequest, options?: AddParticipantsOptions): Promise<ParticipantsCollection>;
     createRoom(request: CreateRoomRequest, options?: CreateRoomOptions): Promise<RoomModel>;
-    // (undocumented)
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
-    // (undocumented)
     getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<ParticipantsCollection>;
-    // (undocumented)
     getRoom(roomId: string, options?: GetRoomOptions): Promise<RoomModel>;
-    // (undocumented)
     removeParticipants(roomId: string, request: RemoveParticipantsRequest, options?: RemoveParticipantsOptions): Promise<ParticipantsCollection>;
-    // (undocumented)
     updateParticipants(roomId: string, request: UpdateParticipantsRequest, options?: UpdateParticipantsOptions): Promise<ParticipantsCollection>;
-    // (undocumented)
     updateRoom(roomId: string, request: PatchRoomRequest, options?: UpdateRoomOptions): Promise<RoomModel>;
 }
 
-// @public (undocumented)
+// @public
 export interface RoomsClientOptions extends CommonClientOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateParticipantsOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateParticipantsRequest {
-    // (undocumented)
     participants: RoomParticipant[];
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateRoomOptions extends OperationOptions {
 }
 

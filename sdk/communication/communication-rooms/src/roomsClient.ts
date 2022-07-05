@@ -41,8 +41,8 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { generateUuid } from "./models/uuid";
 
 /**
+ * @internal
  * Checks whether the type of a value is RoomsClientOptions or not.
- * 
  * @param options - The value being checked.
  */
 const isRoomsClientOptions = (options: any): options is RoomsClientOptions =>
@@ -100,11 +100,13 @@ export class RoomsClient {
 
     this.client.pipeline.addPolicy(authPolicy);
   }
-/**
- * Creates a new room asynchronously
- * @param options 
- * @returns 
- */
+
+  /**
+   * Creates a new room asynchronously.
+   * @param request - Request for creating a room.
+   * @param options - Operation options.
+   * @returns a RoomModel object with the values of the created room.
+   */
   public async createRoom(
     request: CreateRoomRequest,
     options: CreateRoomOptions = {}
@@ -139,6 +141,13 @@ export class RoomsClient {
     }
   }
 
+  /**
+   * Updates a room asynchronously.
+   * @param roomId - ID of the room.
+   * @param request - Request for updating a room.
+   * @param options - Operational options.
+   * @returns a RoomModel object with the values of the created room.
+   */
   public async updateRoom(
     roomId: string,
     request: PatchRoomRequest,
@@ -171,6 +180,12 @@ export class RoomsClient {
     }
   }
 
+  /**
+   * Gets a room by id asynchronously.
+   * @param roomId - ID of the room.
+   * @param options - Operational options.
+   * @returns a RoomModel object with the values of the created room.
+   */
   public async getRoom(
     roomId: string,
     options: GetRoomOptions = {}
@@ -191,6 +206,11 @@ export class RoomsClient {
     }
   }
 
+  /**
+   * Deletes a room by id asynchronously.
+   * @param roomId - ID of the room.
+   * @param options - Operational options.
+   */
   public async deleteRoom(
     roomId: string,
     options: DeleteRoomOptions = {}
@@ -210,6 +230,12 @@ export class RoomsClient {
     }
   }
 
+  /**
+   * Gets the participants of a room asynchronously.
+   * @param roomId - ID of the room.
+   * @param options - Operational options.
+   * @returns a list of all the participants in the room.
+   */
   public async getParticipants(
     roomId: string,
     options: GetParticipantsOptions = {}
@@ -232,6 +258,13 @@ export class RoomsClient {
     }
   }
 
+  /**
+   * Adds Participants to a room asynchronously
+   * @param roomId - ID of the room.
+   * @param request - Request for adding participants to a room.
+   * @param options - Operational options.
+   * @returns a list of all the participants in the room.
+   */
   public async addParticipants(
     roomId: string,
     request: AddParticipantsRequest,
@@ -262,6 +295,13 @@ export class RoomsClient {
     }
   }
 
+  /**
+   * Updates the Participants in a Room asynchronously.
+   * @param roomId - ID of the room.
+   * @param request - Request for updating participants in a room.
+   * @param options - Operational options.
+   * @returns a list of all the participants in the room.
+   */
   public async updateParticipants(
     roomId: string,
     request: UpdateParticipantsRequest,
@@ -292,6 +332,13 @@ export class RoomsClient {
     }
   }
 
+  /**
+   * Deletes Participants from a Room asynchronously.
+   * @param roomId - ID of the room.
+   * @param request - Request for deleting participants in a room.
+   * @param options - Operational options.
+   * @returns a list of all the participants in the room.
+   */
   public async removeParticipants(
     roomId: string,
     request: RemoveParticipantsRequest,

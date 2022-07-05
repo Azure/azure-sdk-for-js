@@ -7,23 +7,27 @@
 
 const { RoomsClient } = require("@azure/communication-rooms");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
-
-const dotenv = require("dotenv");
 const { getIdentifierKind } = require("@azure/communication-common");
-dotenv.config();
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
 
-  const roomsClient = new RoomsClient(connectionString);
   const identityClient = new CommunicationIdentityClient(connectionString);
-
   const user1 = await identityClient.createUserAndToken(["voip"]);
   const user2 = await identityClient.createUserAndToken(["voip"]);
+
+  // create RoomsClient
+  const roomsClient = new RoomsClient(connectionString);
+
   var validFrom = new Date(Date.now());
   var validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
+
+  // request payload to create a room
   const createRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
@@ -35,17 +39,21 @@ async function main() {
     ],
   };
 
+  // create a room with the request payload
   const createRoom = await roomsClient.createRoom(createRoomRequest);
   const roomId = createRoom.id;
   console.log(`Created Room`);
   printRoom(createRoom);
 
+  // retrieves the room with corresponding ID
   const getRoom = await roomsClient.getRoom(roomId);
   console.log(`Retrieved Room with ID ${roomId}`);
   printRoom(getRoom);
 
   validFrom.setTime(validUntil.getTime());
   validUntil.setTime(validFrom.getTime() + 5 * 60 * 1000);
+
+  // request payload to update a room
   const updateRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
@@ -61,13 +69,20 @@ async function main() {
       },
     ],
   };
+
+  // updates the specified room with the request payload
   const updateRoom = await roomsClient.updateRoom(roomId, updateRoomRequest);
   console.log(`Updated Room`);
   printRoom(updateRoom);
 
+  // deletes the specified room
   await roomsClient.deleteRoom(roomId);
 }
 
+/**
+ * Outputs the details of a Room to console.
+ * @param room - The Room being printed to console.
+ */
 function printRoom(room) {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
