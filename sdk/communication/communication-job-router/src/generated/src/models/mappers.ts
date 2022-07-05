@@ -719,7 +719,8 @@ export const WorkerSelector: coreHttp.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       ttlSeconds: {
@@ -732,21 +733,6 @@ export const WorkerSelector: coreHttp.CompositeMapper = {
         serializedName: "expedite",
         type: {
           name: "Boolean"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["active", "expired"]
-        }
-      },
-      expireTime: {
-        serializedName: "expireTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -786,199 +772,6 @@ export const JobAssignment: coreHttp.CompositeMapper = {
       },
       closeTime: {
         serializedName: "closeTime",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const RouterWorker: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RouterWorker",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      queueAssignments: {
-        serializedName: "queueAssignments",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      totalCapacity: {
-        serializedName: "totalCapacity",
-        type: {
-          name: "Number"
-        }
-      },
-      labels: {
-        serializedName: "labels",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      channelConfigurations: {
-        serializedName: "channelConfigurations",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "ChannelConfiguration" }
-          }
-        }
-      },
-      offers: {
-        serializedName: "offers",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "JobOffer"
-            }
-          }
-        }
-      },
-      assignedJobs: {
-        serializedName: "assignedJobs",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "WorkerAssignment"
-            }
-          }
-        }
-      },
-      loadRatio: {
-        serializedName: "loadRatio",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      availableForOffers: {
-        serializedName: "availableForOffers",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ChannelConfiguration: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChannelConfiguration",
-    modelProperties: {
-      capacityCostPerJob: {
-        serializedName: "capacityCostPerJob",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const JobOffer: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "JobOffer",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      jobId: {
-        serializedName: "jobId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      capacityCost: {
-        serializedName: "capacityCost",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      offerTimeUtc: {
-        serializedName: "offerTimeUtc",
-        type: {
-          name: "DateTime"
-        }
-      },
-      expiryTimeUtc: {
-        serializedName: "expiryTimeUtc",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const WorkerAssignment: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WorkerAssignment",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      jobId: {
-        serializedName: "jobId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      capacityCost: {
-        serializedName: "capacityCost",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      assignTime: {
-        serializedName: "assignTime",
-        required: true,
         type: {
           name: "DateTime"
         }
@@ -1288,29 +1081,6 @@ export const JobPositionDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const UnassignJobResponse: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UnassignJobResponse",
-    modelProperties: {
-      jobId: {
-        serializedName: "jobId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      unassignmentCount: {
-        serializedName: "unassignmentCount",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const AcceptJobOfferResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1361,6 +1131,7 @@ export const JobQueue: coreHttp.CompositeMapper = {
       },
       distributionPolicyId: {
         serializedName: "distributionPolicyId",
+        required: true,
         type: {
           name: "String"
         }
@@ -1488,6 +1259,201 @@ export const QueueStatistics: coreHttp.CompositeMapper = {
   }
 };
 
+export const RouterWorker: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RouterWorker",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "state",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      queueAssignments: {
+        serializedName: "queueAssignments",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
+      },
+      totalCapacity: {
+        serializedName: "totalCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      labels: {
+        serializedName: "labels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      channelConfigurations: {
+        serializedName: "channelConfigurations",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "ChannelConfiguration" }
+          }
+        }
+      },
+      offers: {
+        serializedName: "offers",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "JobOffer"
+            }
+          }
+        }
+      },
+      assignedJobs: {
+        serializedName: "assignedJobs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WorkerAssignment"
+            }
+          }
+        }
+      },
+      loadRatio: {
+        serializedName: "loadRatio",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      availableForOffers: {
+        serializedName: "availableForOffers",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ChannelConfiguration: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChannelConfiguration",
+    modelProperties: {
+      capacityCostPerJob: {
+        serializedName: "capacityCostPerJob",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const JobOffer: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "JobOffer",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      jobId: {
+        serializedName: "jobId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      capacityCost: {
+        serializedName: "capacityCost",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      offerTimeUtc: {
+        serializedName: "offerTimeUtc",
+        type: {
+          name: "DateTime"
+        }
+      },
+      expiryTimeUtc: {
+        serializedName: "expiryTimeUtc",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const WorkerAssignment: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkerAssignment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      jobId: {
+        serializedName: "jobId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      capacityCost: {
+        serializedName: "capacityCost",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      assignTime: {
+        serializedName: "assignTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const WorkerCollection: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1540,7 +1506,9 @@ export const PagedWorker: coreHttp.CompositeMapper = {
         serializedName: "queueAssignments",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
         }
       },
       totalCapacity: {
@@ -1744,7 +1712,8 @@ export const QueueSelector: coreHttp.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -2034,7 +2003,8 @@ export const StaticRule: coreHttp.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }

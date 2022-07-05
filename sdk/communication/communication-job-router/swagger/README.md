@@ -17,7 +17,7 @@ model-date-time-as-string: false
 optional-response-headers: true
 use-extension:
   "@autorest/typescript": "latest"
-  "@autorest/modelerfour": "4.15.442"
+  "@autorest/modelerfour": "latest"
 azure-arm: false
 add-credentials: false
 use-core-v2: false

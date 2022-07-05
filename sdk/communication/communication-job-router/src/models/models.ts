@@ -76,6 +76,10 @@ export {
   JobRouterUpsertQueueOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobRouterReclassifyJobActionOptionalParams,
-  JobRouterUnassignJobActionOptionalParams,
-  WorkerSelectorState
+  PagedExceptionPolicy,
+  PagedClassificationPolicy,
+  PagedDistributionPolicy,
+  PagedJob,
+  PagedQueue,
+  PagedWorker
 } from "../generated/src/models";

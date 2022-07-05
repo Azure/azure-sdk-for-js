@@ -1,5 +1,5 @@
 import {
-  // DistributionPolicy,
+  DistributionPolicy,
   ExceptionPolicy,
   ClassificationPolicy,
   JobQueue,
@@ -40,27 +40,27 @@ export var classificationPolicyRequest: ClassificationPolicy = {
         {
           key: "foo",
           labelOperator: "equal",
-          value: "bar"
+          value: { "default": 10 }
         }
       ]
     }
   ],
   prioritizationRule: {
     kind: "static-rule",
-    value: "2"
+    value: { "default": 2 }
   }
 };
 
-// export var distributionPolicyRequest: DistributionPolicy = {
-//   name: "Main",
-//   mode: {
-//     kind: "longest-idle",
-//     minConcurrentOffers: 1,
-//     maxConcurrentOffers: 5,
-//     bypassSelectors: false
-//   },
-//   offerTTLSeconds: 120
-// };
+export var distributionPolicyRequest: DistributionPolicy = {
+  name: "distribution-policy-123",
+  mode: {
+    kind: "longest-idle",
+    minConcurrentOffers: 1,
+    maxConcurrentOffers: 5,
+    bypassSelectors: false
+  },
+  offerTtlSeconds: 120
+};
 
 export var queueRequest: JobQueue = {
   id: "queue-123",

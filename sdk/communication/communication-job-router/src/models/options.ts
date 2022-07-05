@@ -3,7 +3,7 @@
 
 import { PipelineOptions } from "@azure/core-http";
 import {
-  JobRouterReclassifyJobActionOptionalParams, JobRouterUnassignJobActionOptionalParams,
+  JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertClassificationPolicyOptionalParams,
   JobRouterUpsertDistributionPolicyOptionalParams,
   JobRouterUpsertExceptionPolicyOptionalParams,
@@ -27,12 +27,14 @@ export interface RouterClientOptions extends PipelineOptions {
 /**
  * Options to create a classification policy.
  */
-export interface CreateClassificationPolicyOptions extends JobRouterUpsertClassificationPolicyOptionalParams {}
+export interface CreateClassificationPolicyOptions
+  extends JobRouterUpsertClassificationPolicyOptionalParams {}
 
 /**
  * Options to update a classification policy.
  */
-export interface UpdateClassificationPolicyOptions extends JobRouterUpsertClassificationPolicyOptionalParams {}
+export interface UpdateClassificationPolicyOptions
+  extends JobRouterUpsertClassificationPolicyOptionalParams {}
 
 /**
  * Options to get a classification policy.
@@ -55,13 +57,14 @@ export interface ListClassificationPoliciesOptions extends coreHttp.OperationOpt
 /**
  * Options to create a distribution policy.
  */
-export interface CreateDistributionPolicyOptions extends JobRouterUpsertDistributionPolicyOptionalParams {}
+export interface CreateDistributionPolicyOptions
+  extends JobRouterUpsertDistributionPolicyOptionalParams {}
 
 /**
  * Options to update a distribution policy.
  */
-export interface UpdateDistributionPolicyOptions extends JobRouterUpsertDistributionPolicyOptionalParams {}
-
+export interface UpdateDistributionPolicyOptions
+  extends JobRouterUpsertDistributionPolicyOptionalParams {}
 
 /**
  * Options to get a distribution policy.
@@ -84,12 +87,14 @@ export interface ListDistributionPoliciesOptions extends coreHttp.OperationOptio
 /**
  * Options to create a exception policy.
  */
-export interface CreateExceptionPolicyOptions extends JobRouterUpsertExceptionPolicyOptionalParams {}
+export interface CreateExceptionPolicyOptions
+  extends JobRouterUpsertExceptionPolicyOptionalParams {}
 
 /**
  * Options to update a exception policy.
  */
-export interface UpdateExceptionPolicyOptions extends JobRouterUpsertExceptionPolicyOptionalParams {}
+export interface UpdateExceptionPolicyOptions
+  extends JobRouterUpsertExceptionPolicyOptionalParams {}
 
 /**
  * Options to get a exception policy.
@@ -125,11 +130,6 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {}
 export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams {}
 
 /**
- * Options to unassign a job.
- */
-export interface UnassignJobOptions extends JobRouterUnassignJobActionOptionalParams {}
-
-/**
  * Options to update or insert a job's labels.
  */
 export interface UpdateJobLabelsOptions extends coreHttp.OperationOptions {
@@ -148,7 +148,6 @@ export interface UpdateJobClassificationOptions extends coreHttp.OperationOption
   /** If set to true, will force classification. Defaults to false. */
   forceClassification?: boolean;
 }
-
 
 /**
  * Options to get a job's position details.
@@ -244,7 +243,6 @@ export interface RegisterWorkerOptions extends JobRouterUpsertWorkerOptionalPara
  * Options to update a worker.
  */
 export interface DeregisterWorkerOptions extends JobRouterUpsertWorkerOptionalParams {}
-
 
 /**
  * Options to get a worker.

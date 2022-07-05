@@ -18,7 +18,8 @@ export interface RecordedRouterClient {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://someEndpoint/;accesskey=someAccessKeyw==",
+  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING:
+    "endpoint=https://someEndpoint/;accesskey=someAccessKeyw=="
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -46,9 +47,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string =>
       recording.replace(/("messageId":)("(.*?)")/g, "$1" + '"someRequestId"'),
     (recording: string): string =>
-      recording.replace(/Routers\/[^"']*/g, "Routers/someRequestId/status"),
+      recording.replace(/Routers\/[^"']*/g, "Routers/someRequestId/status")
   ],
-  queryParametersToSkip: [],
+  queryParametersToSkip: []
 };
 
 export function createRecordedRouterClientWithConnectionString(
@@ -58,17 +59,21 @@ export function createRecordedRouterClientWithConnectionString(
 
   return {
     client: new RouterClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING),
-    recorder,
+    recorder
   };
 }
 
-export function createRecordedRouterClientWithKeyCredential(context: Context): RecordedRouterClient {
+export function createRecordedRouterClientWithKeyCredential(
+  context: Context
+): RecordedRouterClient {
   const recorder = record(context, environmentSetup);
 
-  const { endpoint, credential } = parseConnectionString(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
+  const { endpoint, credential } = parseConnectionString(
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING
+  );
 
   return {
     client: new RouterClient(endpoint, credential),
-    recorder,
+    recorder
   };
 }
