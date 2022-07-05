@@ -81,9 +81,9 @@ describe("ClientAssertionCredential (internal)", function () {
   });
 
   it("Sends the expected parameters", async function () {
-    const tenantId = env.IDENTITY_SP_TENANT_ID ?? "tenant";
-    const clientId = env.IDENTITY_SP_CLIENT_ID ?? "client";
-    const certificatePath = env.IDENTITY_SP_CERT_PEM ?? "certificate-path";
+    const tenantId = env.AZURE_TENANT_ID ?? "tenant";
+    const clientId = env.AZURE_CLIENT_ID ?? "client";
+    const certificatePath = env.AZURE_CLIENT_CERTIFICATE_PATH ?? "certificate-path";
     const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
 
     async function getAssertion(): Promise<string> {
