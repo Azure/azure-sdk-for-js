@@ -15,7 +15,7 @@ input-file:
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e2ef44b87405b412403ccb005bfb3975411adf60/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.3/backuprestore.json
 output-folder: ../
 source-code-folder-path: ./src/generated
-package-version: 4.3.0-beta.1
+package-version: 4.2.1
 use-extension:
   "@autorest/typescript": "6.0.0-beta.15"
 ```
