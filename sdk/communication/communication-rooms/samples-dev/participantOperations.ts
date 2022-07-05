@@ -21,7 +21,7 @@ export async function main() {
   const identityClient = new CommunicationIdentityClient(connectionString);
   const user1 = await identityClient.createUserAndToken(["voip"]);
   const user2 = await identityClient.createUserAndToken(["voip"]);
-  
+
   // create RoomsClient
   const roomsClient: RoomsClient = new RoomsClient(connectionString);
 
@@ -40,7 +40,7 @@ export async function main() {
     ]
   };
 
-  // create a room with prior request payload
+  // create a room with the request payload
   const createRoom = await roomsClient.createRoom(createRoomRequest);
   const roomId = createRoom.id;
   console.log(`Created Room with ID ${roomId}`);
