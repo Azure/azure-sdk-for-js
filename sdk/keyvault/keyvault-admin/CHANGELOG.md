@@ -1,12 +1,14 @@
 # Release History
 
-## 4.3.0-beta.1 (Unreleased)
+## 4.2.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- The scope of the token used for authentication now reflects the scope required by the service in the WWW-Authenticate header.
 
 ### Other Changes
 
