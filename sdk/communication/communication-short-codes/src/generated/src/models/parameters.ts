@@ -120,17 +120,17 @@ export const id: OperationParameter = {
 };
 
 export const type: OperationParameter = {
-  parameterPath: ["options", "type"],
+  parameterPath: "type",
   mapper: ProgramBriefAttachmentMapper
 };
 
 export const fileName: OperationParameter = {
-  parameterPath: ["options", "fileName"],
+  parameterPath: "fileName",
   mapper: ProgramBriefAttachmentMapper
 };
 
-export const fileSize: OperationParameter = {
-  parameterPath: ["options", "fileSize"],
+export const fileSizeInBytes: OperationParameter = {
+  parameterPath: ["options", "fileSizeInBytes"],
   mapper: ProgramBriefAttachmentMapper
 };
 
@@ -139,8 +139,8 @@ export const fileType: OperationParameter = {
   mapper: ProgramBriefAttachmentMapper
 };
 
-export const fileContent: OperationParameter = {
-  parameterPath: "fileContent",
+export const fileContentBase64: OperationParameter = {
+  parameterPath: "fileContentBase64",
   mapper: ProgramBriefAttachmentMapper
 };
 

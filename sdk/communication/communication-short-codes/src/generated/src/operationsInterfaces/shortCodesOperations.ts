@@ -101,9 +101,9 @@ export interface ShortCodesOperations {
    *                 e.g. 'myFile01'
    * @param fileType The type of file being attached
    *                 e.g. 'pdf', 'jpg', 'png'
-   * @param fileContent File content as base 64 encoded string
-   * @param typeParam Attachment type describing the purpose of the attachment
-   *                  e.g. 'callToAction', 'termsOfService'
+   * @param fileContentBase64 File content as base 64 encoded string
+   * @param type Attachment type describing the purpose of the attachment
+   *             e.g. 'callToAction', 'termsOfService'
    * @param options The options parameters.
    */
   createOrReplaceUSProgramBriefAttachment(
@@ -112,8 +112,8 @@ export interface ShortCodesOperations {
     id: string,
     fileName: string,
     fileType: FileType,
-    fileContent: string,
-    typeParam: AttachmentType,
+    fileContentBase64: string,
+    type: AttachmentType,
     options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
   ): Promise<ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse>;
   /**

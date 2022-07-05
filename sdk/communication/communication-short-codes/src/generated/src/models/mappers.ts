@@ -509,32 +509,32 @@ export const MessageDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      helpMessage: {
-        serializedName: "helpMessage",
+      helpAnswerToUser: {
+        serializedName: "helpAnswerToUser",
         type: {
           name: "String"
         }
       },
-      optOutMessage: {
-        serializedName: "optOutMessage",
+      optOutAnswerToUser: {
+        serializedName: "optOutAnswerToUser",
         type: {
           name: "String"
         }
       },
-      optInMessage: {
-        serializedName: "optInMessage",
+      optInMessageToUser: {
+        serializedName: "optInMessageToUser",
         type: {
           name: "String"
         }
       },
-      optInReply: {
-        serializedName: "optInReply",
+      optInAnswerFromUser: {
+        serializedName: "optInAnswerFromUser",
         type: {
           name: "String"
         }
       },
-      confirmationMessage: {
-        serializedName: "confirmationMessage",
+      optInConfirmationMessageToUser: {
+        serializedName: "optInConfirmationMessageToUser",
         type: {
           name: "String"
         }
@@ -772,12 +772,13 @@ export const ProgramBriefAttachment: coreClient.CompositeMapper = {
       },
       fileName: {
         serializedName: "fileName",
+        required: true,
         type: {
           name: "String"
         }
       },
-      fileSize: {
-        serializedName: "fileSize",
+      fileSizeInBytes: {
+        serializedName: "fileSizeInBytes",
         type: {
           name: "Number"
         }
@@ -789,8 +790,8 @@ export const ProgramBriefAttachment: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      fileContent: {
-        serializedName: "fileContent",
+      fileContentBase64: {
+        serializedName: "fileContentBase64",
         required: true,
         type: {
           name: "String"

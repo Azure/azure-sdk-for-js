@@ -298,9 +298,9 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    *                 e.g. 'myFile01'
    * @param fileType The type of file being attached
    *                 e.g. 'pdf', 'jpg', 'png'
-   * @param fileContent File content as base 64 encoded string
-   * @param typeParam Attachment type describing the purpose of the attachment
-   *                  e.g. 'callToAction', 'termsOfService'
+   * @param fileContentBase64 File content as base 64 encoded string
+   * @param type Attachment type describing the purpose of the attachment
+   *             e.g. 'callToAction', 'termsOfService'
    * @param options The options parameters.
    */
   createOrReplaceUSProgramBriefAttachment(
@@ -309,8 +309,8 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
     id: string,
     fileName: string,
     fileType: FileType,
-    fileContent: string,
-    typeParam: AttachmentType,
+    fileContentBase64: string,
+    type: AttachmentType,
     options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
   ): Promise<ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse> {
     return this.client.sendOperationRequest(
@@ -320,8 +320,8 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
         id,
         fileName,
         fileType,
-        fileContent,
-        typeParam,
+        fileContentBase64,
+        type,
         options
       },
       createOrReplaceUSProgramBriefAttachmentOperationSpec
@@ -545,11 +545,11 @@ const createOrReplaceUSProgramBriefAttachmentOperationSpec: coreClient.Operation
   requestBody: {
     parameterPath: {
       id: ["id"],
-      type: ["options", "type"],
-      fileName: ["options", "fileName"],
-      fileSize: ["options", "fileSize"],
+      type: ["type"],
+      fileName: ["fileName"],
+      fileSizeInBytes: ["options", "fileSizeInBytes"],
       fileType: ["fileType"],
-      fileContent: ["fileContent"]
+      fileContentBase64: ["fileContentBase64"]
     },
     mapper: { ...Mappers.ProgramBriefAttachment, required: true }
   },

@@ -5,8 +5,8 @@ import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-
 import {
   AttachmentType,
   DeleteUSProgramBriefOptions,
-  GetUSProgramBriefOptions,
   FileType,
+  GetUSProgramBriefOptions,
   ListShortCodesOptions,
   ListUSProgramBriefsOptions,
   ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,

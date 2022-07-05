@@ -11,6 +11,7 @@ export function getTestProgramBriefAttachment(): ProgramBriefAttachment {
     fileType: "png",
     type: "callToAction",
     fileName: "testFriendlyName",
+    fileContentBase64: "iVBORw0KGgoAAAANSUhEUgAAAAYAAAAHCAIAAACk8qu6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAALEoAACxKAXd6dE0AAAAjSURBVBhXY/iPAXALrVixorW1FcKGCgH5DAxQNklmIcD//wCoTHalyfy2/AAAAABJRU5ErkJggg=="
   };
 
   return testProgramBriefAttachment;

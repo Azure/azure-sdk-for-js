@@ -68,14 +68,14 @@ export type MessageContentType = "accountNotificationInformationalAlerts" | "age
 
 // @public (undocumented)
 export interface MessageDetails {
-    // (undocumented)
-    confirmationMessage?: string;
     directionality?: MessageDirectionality;
-    helpMessage?: string;
+    helpAnswerToUser?: string;
+    optInAnswerFromUser?: string;
     // (undocumented)
-    optInMessage?: string;
-    optInReply?: string;
-    optOutMessage?: string;
+    optInConfirmationMessageToUser?: string;
+    // (undocumented)
+    optInMessageToUser?: string;
+    optOutAnswerToUser?: string;
     recurrence?: Recurrence;
     supportedProtocol?: MessageProtocol;
     useCases?: UseCase[];
@@ -106,10 +106,10 @@ export type NumberType = "shortCode" | "alphaId";
 
 // @public
 export interface ProgramBriefAttachment {
-    fileContent?: string;
-    fileName?: string;
-    fileSize?: number;
-    fileType?: FileType;
+    fileContentBase64: string;
+    fileName: string;
+    fileSizeInBytes?: number;
+    fileType: FileType;
     id: string;
     type: AttachmentType;
 }
@@ -199,11 +199,7 @@ export interface ShortCodesClientOptions extends CommonClientOptions {
 
 // @public
 export interface ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams extends coreClient.OperationOptions {
-    fileContent?: string;
-    fileName?: string;
-    fileSize?: number;
-    fileType?: FileType;
-    type?: AttachmentType;
+    fileSizeInBytes?: number;
 }
 
 // @public

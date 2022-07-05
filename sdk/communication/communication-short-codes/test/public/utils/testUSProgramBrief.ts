@@ -53,14 +53,14 @@ export function getTestUSProgramBrief(): USProgramBrief {
           examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }],
         },
       ],
-      optInMessage:
+      optInMessageToUser:
         "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
-      optInReply: "JOIN",
-      confirmationMessage:
+      optInAnswerFromUser: "JOIN",
+      optInConfirmationMessageToUser:
         "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
       directionality: "twoWay",
-      helpMessage: "Send 'Stop' to unsubscribe, send 'Start' to resubscribe.",
-      optOutMessage:
+      helpAnswerToUser: "Send 'Stop' to unsubscribe, send 'Start' to resubscribe.",
+      optOutAnswerToUser:
         "You've been unsubscribed from these messages.  Send 'Start' if you want to resubscribe.",
     },
     trafficDetails: {

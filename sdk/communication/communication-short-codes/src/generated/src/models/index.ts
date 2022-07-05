@@ -188,16 +188,16 @@ export interface MessageDetails {
    * Message text for mobile terminated message associated with HELP keyword
    * e.g 'This is the HELP message test.'.
    */
-  helpMessage?: string;
+  helpAnswerToUser?: string;
   /**
    * "Message text for mobile terminated message associated with STOP keyword
    * e.g. 'This is the STOP message test.'.
    */
-  optOutMessage?: string;
-  optInMessage?: string;
+  optOutAnswerToUser?: string;
+  optInMessageToUser?: string;
   /** Keyword used to confirm double Opt-In method e.g. 'JOIN'. */
-  optInReply?: string;
-  confirmationMessage?: string;
+  optInAnswerFromUser?: string;
+  optInConfirmationMessageToUser?: string;
   /** Describes directionality e.g. oneWay or twoWay */
   directionality?: MessageDirectionality;
   /** Provides message exchange examples from and to end user for each supported message content type. */
@@ -283,16 +283,16 @@ export interface ProgramBriefAttachment {
    * The name of the file being attached
    * e.g. 'myFile01'
    */
-  fileName?: string;
+  fileName: string;
   /** File size in bytes. */
-  fileSize?: number;
+  fileSizeInBytes?: number;
   /**
    * The type of file being attached
    * e.g. 'pdf', 'jpg', 'png'
    */
   fileType: FileType;
   /** File content as base 64 encoded string */
-  fileContent: string;
+  fileContentBase64: string;
 }
 
 /** A wrapper for a list of ProgramBriefAttachment entities. */
@@ -384,18 +384,18 @@ export type ShortCodesUpsertUSProgramBriefResponse = USProgramBrief;
 
 /** Optional parameters. */
 export interface ShortCodesDeleteUSProgramBriefOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ShortCodesGetUSProgramBriefOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUSProgramBrief operation. */
 export type ShortCodesGetUSProgramBriefResponse = USProgramBrief;
 
 /** Optional parameters. */
 export interface ShortCodesSubmitUSProgramBriefOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the submitUSProgramBrief operation. */
 export type ShortCodesSubmitUSProgramBriefResponse = USProgramBrief;
@@ -415,18 +415,8 @@ export type ShortCodesGetUSProgramBriefsResponse = USProgramBriefs;
 /** Optional parameters. */
 export interface ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
   extends coreClient.OperationOptions {
-  /**
-   * Attachment type describing the purpose of the attachment
-   * e.g. 'callToAction', 'termsOfService'
-   */
-  type?: AttachmentType;
-  /**
-   * A friendly name to refer to the attachment
-   * e.g. 'myFile01'
-   */
-  fileName?: string;
   /** File size in bytes. */
-  fileSize?: number;
+  fileSizeInBytes?: number;
 }
 
 /** Contains response data for the createOrReplaceUSProgramBriefAttachment operation. */
@@ -434,14 +424,14 @@ export type ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse = ProgramB
 
 /** Optional parameters. */
 export interface ShortCodesGetUSProgramBriefAttachmentOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUSProgramBriefAttachment operation. */
 export type ShortCodesGetUSProgramBriefAttachmentResponse = ProgramBriefAttachment;
 
 /** Optional parameters. */
 export interface ShortCodesDeleteUSProgramBriefAttachmentOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ShortCodesGetUSProgramBriefAttachmentsOptionalParams

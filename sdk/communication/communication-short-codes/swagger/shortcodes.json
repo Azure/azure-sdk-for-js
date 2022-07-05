@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "ShortCodesNumbersClient",
+    "title": "ShortCodesClient",
     "description": "The short codes client uses Azure Communication Services to purchase and manage short codes.",
     "version": "2021-10-25-preview"
   },
@@ -891,22 +891,22 @@
             "modelAsString": true
           }
         },
-        "helpMessage": {
+        "helpAnswerToUser": {
           "description": "Message text for mobile terminated message associated with HELP keyword\r\ne.g 'This is the HELP message test.'.",
           "type": "string"
         },
-        "optOutMessage": {
+        "optOutAnswerToUser": {
           "description": "\"Message text for mobile terminated message associated with STOP keyword\r\ne.g. 'This is the STOP message test.'.",
           "type": "string"
         },
-        "optInMessage": {
+        "optInMessageToUser": {
           "type": "string"
         },
-        "optInReply": {
+        "optInAnswerFromUser": {
           "description": "Keyword used to confirm double Opt-In method e.g. 'JOIN'.",
           "type": "string"
         },
-        "confirmationMessage": {
+        "optInConfirmationMessageToUser": {
           "type": "string"
         },
         "directionality": {
@@ -1097,7 +1097,7 @@
     "ProgramBriefAttachment": {
       "description": "A File Attachment for a Program Brief",
       "required": [
-        "fileContent",
+        "fileContentBase64",
         "fileName",
         "fileType",
         "id",
@@ -1125,10 +1125,10 @@
           }
         },
         "fileName": {
-          "description": "A friendly name to refer to the attachment\r\ne.g. 'myFile01'",
+          "description": "The name of the file being attached\r\ne.g. 'myFile01'",
           "type": "string"
         },
-        "fileSize": {
+        "fileSizeInBytes": {
           "format": "int32",
           "description": "File size in bytes.",
           "type": "integer"
@@ -1147,7 +1147,7 @@
             "modelAsString": true
           }
         },
-        "fileContent": {
+        "fileContentBase64": {
           "description": "File content as base 64 encoded string",
           "type": "string"
         }

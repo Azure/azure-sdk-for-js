@@ -75,10 +75,10 @@ export async function main() {
             examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }],
           },
         ],
-        optInMessage:
+        optInMessageToUser:
           "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
-        optInReply: "JOIN",
-        confirmationMessage:
+        optInAnswerFromUser: "JOIN",
+        optInConfirmationMessageToUser:
           "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
         directionality: "twoWay",
       },
@@ -99,16 +99,16 @@ export async function main() {
     ...programBriefRequest,
     onResponse:
       (response) =>
-      (res = response) => {
-        if (!res || res.status != 201) {
-          throw new Error(
-            `Program brief creation failed.
+        (res = response) => {
+          if (!res || res.status != 201) {
+            throw new Error(
+              `Program brief creation failed.
           Status code: ${res.status}; 
           Error: ${res.bodyAsText}; 
           CV: ${res.headers.get("MS-CV")}`
-          );
-        }
-      },
+            );
+          }
+        },
   });
   console.log(`Successfully created a new program brief with Id ${createResponse.id}`);
 
@@ -116,16 +116,16 @@ export async function main() {
   var deleteResponse = client.deleteUSProgramBrief(programBriefId, {
     onResponse:
       (response) =>
-      (res = response) => {
-        if (!res || res.status != 204) {
-          throw new Error(
-            `Program brief deletion failed.
+        (res = response) => {
+          if (!res || res.status != 204) {
+            throw new Error(
+              `Program brief deletion failed.
           Status code: ${res.status}; 
           Error: ${res.bodyAsText}; 
           CV: ${res.headers.get("MS-CV")}`
-          );
-        }
-      },
+            );
+          }
+        },
   });
   console.log(
     `Successfully deleted draft program brief with Id ${programBriefId} ${deleteResponse}`
