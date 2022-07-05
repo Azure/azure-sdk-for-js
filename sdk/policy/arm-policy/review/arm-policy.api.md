@@ -61,7 +61,7 @@ export type CreatedByType = string;
 
 // @public
 export interface DataEffect {
-    detailsSchema?: Record<string, unknown>;
+    detailsSchema?: any;
     name?: string;
 }
 
@@ -128,7 +128,7 @@ export type EnforcementMode = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -174,13 +174,9 @@ export enum KnownAliasPathTokenType {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -198,31 +194,20 @@ export enum KnownExemptionCategory {
 
 // @public
 export enum KnownParameterType {
-    // (undocumented)
     Array = "Array",
-    // (undocumented)
     Boolean = "Boolean",
-    // (undocumented)
     DateTime = "DateTime",
-    // (undocumented)
     Float = "Float",
-    // (undocumented)
     Integer = "Integer",
-    // (undocumented)
     Object = "Object",
-    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownPolicyType {
-    // (undocumented)
     BuiltIn = "BuiltIn",
-    // (undocumented)
     Custom = "Custom",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Static = "Static"
 }
 
@@ -234,8 +219,8 @@ export interface NonComplianceMessage {
 
 // @public
 export interface ParameterDefinitionsValue {
-    allowedValues?: Record<string, unknown>[];
-    defaultValue?: Record<string, unknown>;
+    allowedValues?: any[];
+    defaultValue?: any;
     metadata?: ParameterDefinitionsValueMetadata;
     type?: ParameterType;
 }
@@ -254,7 +239,7 @@ export type ParameterType = string;
 
 // @public
 export interface ParameterValuesValue {
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -265,7 +250,7 @@ export interface PolicyAssignment {
     readonly id?: string;
     identity?: Identity;
     location?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     readonly name?: string;
     nonComplianceMessages?: NonComplianceMessage[];
     notScopes?: string[];
@@ -464,13 +449,13 @@ export interface PolicyDefinition {
     description?: string;
     displayName?: string;
     readonly id?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     mode?: string;
     readonly name?: string;
     parameters?: {
         [propertyName: string]: ParameterDefinitionsValue;
     };
-    policyRule?: Record<string, unknown>;
+    policyRule?: any;
     policyType?: PolicyType;
     readonly systemData?: SystemData;
     readonly type?: string;
@@ -619,7 +604,7 @@ export interface PolicyExemption {
     exemptionCategory: ExemptionCategory;
     expiresOn?: Date;
     readonly id?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     readonly name?: string;
     policyAssignmentId: string;
     policyDefinitionReferenceIds?: string[];
@@ -731,7 +716,7 @@ export interface PolicySetDefinition {
     description?: string;
     displayName?: string;
     readonly id?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     readonly name?: string;
     parameters?: {
         [propertyName: string]: ParameterDefinitionsValue;

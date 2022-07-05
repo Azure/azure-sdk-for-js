@@ -5,7 +5,7 @@
  * @summary Checks the message status of a sent email
  */
 
-import { EmailClient, EmailMessage } from "@azure/communication-email"
+import { EmailClient, EmailMessage } from "@azure/communication-email";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -29,10 +29,7 @@ const getMessageStatusFromEmail = async (): Promise<void> => {
     },
     recipients: {
       to: [
-        {
-          email: recipientAddress,
-          displayName: "Customer Name",
-        },
+        { email: recipientAddress, displayName: "Customer Name" },
       ],
     },
   };

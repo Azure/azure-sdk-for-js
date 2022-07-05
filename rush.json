@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -585,6 +585,11 @@
       "packageName": "@azure/logger",
       "projectFolder": "sdk/core/logger",
       "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/notification-hubs",
+      "projectFolder": "sdk/notificationhubs/notification-hubs",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/opentelemetry-instrumentation-azure-sdk",
@@ -1707,6 +1712,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-workloads",
+      "projectFolder": "sdk/workloads/arm-workloads",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-dynatrace",
       "projectFolder": "sdk/dynatrace/arm-dynatrace",
       "versionPolicyName": "management"
@@ -1734,6 +1744,11 @@
     {
       "packageName": "@azure/arm-confidentialledger",
       "projectFolder": "sdk/confidentialledger/arm-confidentialledger",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourceconnector",
+      "projectFolder": "sdk/resourceconnector/arm-resourceconnector",
       "versionPolicyName": "management"
     }
   ]

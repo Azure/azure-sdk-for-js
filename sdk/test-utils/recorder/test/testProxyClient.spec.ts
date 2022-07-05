@@ -11,13 +11,7 @@ import { expect } from "chai";
 import { env, Recorder } from "../src";
 import { createRecordingRequest } from "../src/utils/createRecordingRequest";
 import { paths } from "../src/utils/paths";
-import {
-  getTestMode,
-  isLiveMode,
-  isRecordMode,
-  RecorderError,
-  RecordingStateManager,
-} from "../src/utils/utils";
+import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils";
 
 const testRedirectedRequest = (
   client: Recorder,
@@ -322,34 +316,5 @@ describe("TestProxyClient functions", () => {
         expect(isLiveMode()).to.equal(testMode.toLowerCase() === "live");
       });
     });
-  });
-});
-
-describe("State Manager", function () {
-  it("throws error if started twice", function () {
-    const manager = new RecordingStateManager();
-    manager.state = "started";
-    try {
-      manager.state = "started";
-      throw new Error("should not have reached here, previous assignment should have failed");
-    } catch (error: any) {
-      expect((error as RecorderError).name).to.equal("RecorderError");
-      expect((error as RecorderError).message).to.equal(
-        "Already started, should not have called start again."
-      );
-    }
-  });
-
-  it("throws error if stopped twice", function () {
-    const manager = new RecordingStateManager();
-    try {
-      manager.state = "stopped";
-      throw new Error("should not have reached here, previous assignment should have failed");
-    } catch (error: any) {
-      expect((error as RecorderError).name).to.equal("RecorderError");
-      expect((error as RecorderError).message).to.equal(
-        "Already stopped, should not have called stop again."
-      );
-    }
   });
 });
