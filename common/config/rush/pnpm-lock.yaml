@@ -14014,7 +14014,7 @@ packages:
     dev: false
 
   file:projects/arm-support.tgz:
-    resolution: {integrity: sha512-efMpKY2glU/uZqk1/xeuzybF2X/I9lsnwtZky6vn3+xgQINShd0MJykG/NB8R4fnNlIC/VBl1Lw1aFD6ukzrnw==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-HuSqP3T8mZgvA+Qv3dZraQRK5EFlVsYmb40Z0lA2LWBeCjsINDxMK3xQmZ/ps8HSUpYxvyZiOYwvh58P3nINOw==, tarball: file:projects/arm-support.tgz}
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
@@ -14026,6 +14026,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.75.7
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14037,7 +14039,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
