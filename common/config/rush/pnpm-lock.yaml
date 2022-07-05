@@ -13819,7 +13819,7 @@ packages:
     dev: false
 
   file:projects/arm-storageimportexport.tgz:
-    resolution: {integrity: sha512-KfIxGWCFpi0AIMwMWDeOVCU/+GihtFAwjRiERc5DPBEozcDUTXYgkwjH+U8HeBGEJmq7k8GBw72oyQfvSk3yng==, tarball: file:projects/arm-storageimportexport.tgz}
+    resolution: {integrity: sha512-I3e7NzXrySw7sfLrqPfT4xZ7UUJWJFMnjj2BWySqWkfPtl+QLdNeVmrXkHKpgmUawJfqUzxNAUxG7EPRV/R7Ng==, tarball: file:projects/arm-storageimportexport.tgz}
     name: '@rush-temp/arm-storageimportexport'
     version: 0.0.0
     dependencies:
@@ -13830,6 +13830,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.75.7
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13841,7 +13843,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
