@@ -7,9 +7,9 @@
 package-name: "@azure-rest/arm-servicefabric"
 title: ServiceFabricClient
 description: Service Fabric Client
-generate-metadata: true
-generate-test: true
-generate-sample: true
+generate-metadata: false
+generate-test: false
+generate-sample: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
@@ -18,6 +18,4 @@ package-version: 1.0.0-beta.1
 rest-level-client: true
 security: AADToken
 security-scopes: "https://management.azure.com/.default"
-use-extension:
-  "@autorest/typescript": "6.0.0-rc.1"
 ```

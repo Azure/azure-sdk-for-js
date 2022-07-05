@@ -1359,7 +1359,7 @@ export interface ManagedIdentityOutput {
 }
 
 // @public (undocumented)
-export interface NamedPartitionSchemeDescription extends PartitionSchemeDescriptionBase {
+export interface NamedPartitionSchemeDescription extends PartitionSchemeDescriptionParent {
     count: number;
     names: Array<string>;
     // (undocumented)
@@ -1367,7 +1367,7 @@ export interface NamedPartitionSchemeDescription extends PartitionSchemeDescript
 }
 
 // @public (undocumented)
-export interface NamedPartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputBase {
+export interface NamedPartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputParent {
     count: number;
     names: Array<string>;
     // (undocumented)
@@ -1494,16 +1494,16 @@ export interface PagingOptions<TResponse> {
 export type PartitionSchemeDescription = NamedPartitionSchemeDescription | SingletonPartitionSchemeDescription | UniformInt64RangePartitionSchemeDescription;
 
 // @public (undocumented)
-export interface PartitionSchemeDescriptionBase {
+export type PartitionSchemeDescriptionOutput = NamedPartitionSchemeDescriptionOutput | SingletonPartitionSchemeDescriptionOutput | UniformInt64RangePartitionSchemeDescriptionOutput;
+
+// @public (undocumented)
+export interface PartitionSchemeDescriptionOutputParent {
     // (undocumented)
     partitionScheme: "PartitionSchemeDescription" | "Named" | "Singleton" | "UniformInt64Range";
 }
 
 // @public (undocumented)
-export type PartitionSchemeDescriptionOutput = NamedPartitionSchemeDescriptionOutput | SingletonPartitionSchemeDescriptionOutput | UniformInt64RangePartitionSchemeDescriptionOutput;
-
-// @public (undocumented)
-export interface PartitionSchemeDescriptionOutputBase {
+export interface PartitionSchemeDescriptionParent {
     // (undocumented)
     partitionScheme: "PartitionSchemeDescription" | "Named" | "Singleton" | "UniformInt64Range";
 }
@@ -1666,15 +1666,6 @@ export type ServiceResourceProperties = StatefulServiceProperties | StatelessSer
 
 // @public (undocumented)
 export interface ServiceResourcePropertiesBase {
-    partitionDescription?: PartitionSchemeDescription;
-    provisioningState?: string;
-    serviceDnsName?: string;
-    servicePackageActivationMode?: "SharedProcess" | "ExclusiveProcess";
-    serviceTypeName?: string;
-}
-
-// @public (undocumented)
-export interface ServiceResourcePropertiesBase {
     correlationScheme?: Array<ServiceCorrelationDescription>;
     defaultMoveCost?: "Zero" | "Low" | "Medium" | "High";
     placementConstraints?: string;
@@ -1695,8 +1686,19 @@ export interface ServiceResourcePropertiesBaseOutput {
 export type ServiceResourcePropertiesOutput = StatefulServicePropertiesOutput | StatelessServicePropertiesOutput;
 
 // @public (undocumented)
-export interface ServiceResourcePropertiesOutputBase extends ServiceResourcePropertiesBaseOutput {
+export interface ServiceResourcePropertiesOutputParent extends ServiceResourcePropertiesBaseOutput {
     partitionDescription?: PartitionSchemeDescriptionOutput;
+    provisioningState?: string;
+    serviceDnsName?: string;
+    // (undocumented)
+    serviceKind: "ServiceResourceProperties" | "Stateful" | "Stateless";
+    servicePackageActivationMode?: "SharedProcess" | "ExclusiveProcess";
+    serviceTypeName?: string;
+}
+
+// @public (undocumented)
+export interface ServiceResourcePropertiesParent extends ServiceResourcePropertiesBase {
+    partitionDescription?: PartitionSchemeDescription;
     provisioningState?: string;
     serviceDnsName?: string;
     // (undocumented)
@@ -1719,16 +1721,16 @@ export interface ServiceResourceUpdateOutput extends ProxyResourceOutput {
 export type ServiceResourceUpdateProperties = StatefulServiceUpdateProperties | StatelessServiceUpdateProperties;
 
 // @public (undocumented)
-export interface ServiceResourceUpdatePropertiesBase extends ServiceResourcePropertiesBase {
-    // (undocumented)
-    serviceKind: "Invalid" | "Stateful" | "Stateless";
-}
-
-// @public (undocumented)
 export type ServiceResourceUpdatePropertiesOutput = StatefulServiceUpdatePropertiesOutput | StatelessServiceUpdatePropertiesOutput;
 
 // @public (undocumented)
-export interface ServiceResourceUpdatePropertiesOutputBase extends ServiceResourcePropertiesBaseOutput {
+export interface ServiceResourceUpdatePropertiesOutputParent extends ServiceResourcePropertiesBaseOutput {
+    // (undocumented)
+    serviceKind: "ServiceResourceUpdateProperties" | "Stateful" | "Stateless";
+}
+
+// @public (undocumented)
+export interface ServiceResourceUpdatePropertiesParent extends ServiceResourcePropertiesBase {
     // (undocumented)
     serviceKind: "ServiceResourceUpdateProperties" | "Stateful" | "Stateless";
 }
@@ -1914,19 +1916,19 @@ export interface SettingsSectionDescriptionOutput {
 }
 
 // @public (undocumented)
-export interface SingletonPartitionSchemeDescription extends PartitionSchemeDescriptionBase {
+export interface SingletonPartitionSchemeDescription extends PartitionSchemeDescriptionParent {
     // (undocumented)
     partitionScheme: "Singleton";
 }
 
 // @public (undocumented)
-export interface SingletonPartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputBase {
+export interface SingletonPartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputParent {
     // (undocumented)
     partitionScheme: "Singleton";
 }
 
 // @public (undocumented)
-export interface StatefulServiceProperties extends ServiceResourcePropertiesBase {
+export interface StatefulServiceProperties extends ServiceResourcePropertiesParent {
     hasPersistedState?: boolean;
     minReplicaSetSize?: number;
     quorumLossWaitDuration?: Date | string;
@@ -1938,7 +1940,7 @@ export interface StatefulServiceProperties extends ServiceResourcePropertiesBase
 }
 
 // @public (undocumented)
-export interface StatefulServicePropertiesOutput extends ServiceResourcePropertiesOutputBase {
+export interface StatefulServicePropertiesOutput extends ServiceResourcePropertiesOutputParent {
     hasPersistedState?: boolean;
     minReplicaSetSize?: number;
     quorumLossWaitDuration?: string;
@@ -1950,7 +1952,7 @@ export interface StatefulServicePropertiesOutput extends ServiceResourceProperti
 }
 
 // @public (undocumented)
-export interface StatefulServiceUpdateProperties extends ServiceResourceUpdatePropertiesBase {
+export interface StatefulServiceUpdateProperties extends ServiceResourceUpdatePropertiesParent {
     minReplicaSetSize?: number;
     quorumLossWaitDuration?: Date | string;
     replicaRestartWaitDuration?: Date | string;
@@ -1961,7 +1963,7 @@ export interface StatefulServiceUpdateProperties extends ServiceResourceUpdatePr
 }
 
 // @public (undocumented)
-export interface StatefulServiceUpdatePropertiesOutput extends ServiceResourceUpdatePropertiesOutputBase {
+export interface StatefulServiceUpdatePropertiesOutput extends ServiceResourceUpdatePropertiesOutputParent {
     minReplicaSetSize?: number;
     quorumLossWaitDuration?: string;
     replicaRestartWaitDuration?: string;
@@ -1972,7 +1974,7 @@ export interface StatefulServiceUpdatePropertiesOutput extends ServiceResourceUp
 }
 
 // @public (undocumented)
-export interface StatelessServiceProperties extends ServiceResourcePropertiesBase {
+export interface StatelessServiceProperties extends ServiceResourcePropertiesParent {
     instanceCloseDelayDuration?: string;
     instanceCount?: number;
     // (undocumented)
@@ -1980,7 +1982,7 @@ export interface StatelessServiceProperties extends ServiceResourcePropertiesBas
 }
 
 // @public (undocumented)
-export interface StatelessServicePropertiesOutput extends ServiceResourcePropertiesOutputBase {
+export interface StatelessServicePropertiesOutput extends ServiceResourcePropertiesOutputParent {
     instanceCloseDelayDuration?: string;
     instanceCount?: number;
     // (undocumented)
@@ -1988,7 +1990,7 @@ export interface StatelessServicePropertiesOutput extends ServiceResourcePropert
 }
 
 // @public (undocumented)
-export interface StatelessServiceUpdateProperties extends ServiceResourceUpdatePropertiesBase {
+export interface StatelessServiceUpdateProperties extends ServiceResourceUpdatePropertiesParent {
     instanceCloseDelayDuration?: string;
     instanceCount?: number;
     // (undocumented)
@@ -1996,7 +1998,7 @@ export interface StatelessServiceUpdateProperties extends ServiceResourceUpdateP
 }
 
 // @public (undocumented)
-export interface StatelessServiceUpdatePropertiesOutput extends ServiceResourceUpdatePropertiesOutputBase {
+export interface StatelessServiceUpdatePropertiesOutput extends ServiceResourceUpdatePropertiesOutputParent {
     instanceCloseDelayDuration?: string;
     instanceCount?: number;
     // (undocumented)
@@ -2024,7 +2026,7 @@ export interface SystemDataOutput {
 }
 
 // @public (undocumented)
-export interface UniformInt64RangePartitionSchemeDescription extends PartitionSchemeDescriptionBase {
+export interface UniformInt64RangePartitionSchemeDescription extends PartitionSchemeDescriptionParent {
     count: number;
     highKey: string;
     lowKey: string;
@@ -2033,7 +2035,7 @@ export interface UniformInt64RangePartitionSchemeDescription extends PartitionSc
 }
 
 // @public (undocumented)
-export interface UniformInt64RangePartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputBase {
+export interface UniformInt64RangePartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputParent {
     count: number;
     highKey: string;
     lowKey: string;

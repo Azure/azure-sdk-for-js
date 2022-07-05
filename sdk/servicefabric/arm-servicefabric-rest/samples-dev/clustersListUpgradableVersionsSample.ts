@@ -25,12 +25,14 @@ async function getMinimumAndMaximumCodeVersions() {
   const clusterName = "myCluster";
   const credential = new DefaultAzureCredential();
   const client = ServiceFabricManagementClient(credential);
-  const result = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/listUpgradableVersions",
-    subscriptionId,
-    resourceGroupName,
-    clusterName
-  ).post();
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/listUpgradableVersions",
+      subscriptionId,
+      resourceGroupName,
+      clusterName
+    )
+    .post();
   console.log(result);
 }
 

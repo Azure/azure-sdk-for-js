@@ -68,105 +68,103 @@ import {
   ServicesDelete204Response,
   ServicesDeletedefaultResponse,
   ServicesList200Response,
-  ServicesListdefaultResponse
+  ServicesListdefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}": [
     "200",
-    "202"
+    "202",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}": [
     "200",
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/listUpgradableVersions": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/clusterVersions/{clusterVersion}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/environments/{environment}/clusterVersions/{clusterVersion}": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/clusterVersions": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/environments/{environment}/clusterVersions": [
-    "200"
+    "200",
   ],
   "GET /providers/Microsoft.ServiceFabric/operations": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}": [
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}": [
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}": [
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}/versions": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}": [
-    "202"
+    "202",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}": [
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}": [
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}/services/{serviceName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}/services/{serviceName}": [
-    "202"
+    "202",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}/services/{serviceName}": [
-    "202"
+    "202",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}/services/{serviceName}": [
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}/services": [
-    "200"
-  ]
+    "200",
+  ],
 };
 
 export function isUnexpected(
@@ -179,21 +177,13 @@ export function isUnexpected(
     | ClustersCreateOrUpdatedefaultResponse
 ): response is ClustersCreateOrUpdatedefaultResponse;
 export function isUnexpected(
-  response:
-    | ClustersUpdate200Response
-    | ClustersUpdate202Response
-    | ClustersUpdatedefaultResponse
+  response: ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdatedefaultResponse
 ): response is ClustersUpdatedefaultResponse;
 export function isUnexpected(
-  response:
-    | ClustersDelete200Response
-    | ClustersDelete204Response
-    | ClustersDeletedefaultResponse
+  response: ClustersDelete200Response | ClustersDelete204Response | ClustersDeletedefaultResponse
 ): response is ClustersDeletedefaultResponse;
 export function isUnexpected(
-  response:
-    | ClustersListByResourceGroup200Response
-    | ClustersListByResourceGroupdefaultResponse
+  response: ClustersListByResourceGroup200Response | ClustersListByResourceGroupdefaultResponse
 ): response is ClustersListByResourceGroupdefaultResponse;
 export function isUnexpected(
   response: ClustersList200Response | ClustersListdefaultResponse
@@ -237,14 +227,10 @@ export function isUnexpected(
     | ApplicationTypesDeletedefaultResponse
 ): response is ApplicationTypesDeletedefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationTypesList200Response
-    | ApplicationTypesListdefaultResponse
+  response: ApplicationTypesList200Response | ApplicationTypesListdefaultResponse
 ): response is ApplicationTypesListdefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationTypeVersionsGet200Response
-    | ApplicationTypeVersionsGetdefaultResponse
+  response: ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetdefaultResponse
 ): response is ApplicationTypeVersionsGetdefaultResponse;
 export function isUnexpected(
   response:
@@ -258,17 +244,13 @@ export function isUnexpected(
     | ApplicationTypeVersionsDeletedefaultResponse
 ): response is ApplicationTypeVersionsDeletedefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationTypeVersionsList200Response
-    | ApplicationTypeVersionsListdefaultResponse
+  response: ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListdefaultResponse
 ): response is ApplicationTypeVersionsListdefaultResponse;
 export function isUnexpected(
   response: ApplicationsGet200Response | ApplicationsGetdefaultResponse
 ): response is ApplicationsGetdefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationsCreateOrUpdate202Response
-    | ApplicationsCreateOrUpdatedefaultResponse
+  response: ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdatedefaultResponse
 ): response is ApplicationsCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response: ApplicationsUpdate202Response | ApplicationsUpdatedefaultResponse
@@ -286,18 +268,13 @@ export function isUnexpected(
   response: ServicesGet200Response | ServicesGetdefaultResponse
 ): response is ServicesGetdefaultResponse;
 export function isUnexpected(
-  response:
-    | ServicesCreateOrUpdate202Response
-    | ServicesCreateOrUpdatedefaultResponse
+  response: ServicesCreateOrUpdate202Response | ServicesCreateOrUpdatedefaultResponse
 ): response is ServicesCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response: ServicesUpdate202Response | ServicesUpdatedefaultResponse
 ): response is ServicesUpdatedefaultResponse;
 export function isUnexpected(
-  response:
-    | ServicesDelete202Response
-    | ServicesDelete204Response
-    | ServicesDeletedefaultResponse
+  response: ServicesDelete202Response | ServicesDelete204Response | ServicesDeletedefaultResponse
 ): response is ServicesDeletedefaultResponse;
 export function isUnexpected(
   response: ServicesList200Response | ServicesListdefaultResponse
@@ -425,17 +402,11 @@ function geParametrizedPathSuccess(path: string): string[] {
 
     // If the candidate and actual paths don't match in size
     // we move on to the next candidate path
-    if (
-      candidateParts.length === pathParts.length &&
-      hasParametrizedPath(key)
-    ) {
+    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
       // track if we have found a match to return the values found.
       let found = true;
       for (let i = 0; i < candidateParts.length; i++) {
-        if (
-          candidateParts[i].startsWith("{") &&
-          candidateParts[i].endsWith("}")
-        ) {
+        if (candidateParts[i].startsWith("{") && candidateParts[i].endsWith("}")) {
           // If the current part of the candidate is a "template" part
           // it is a match with the actual path part on hand
           // skip as the parameterized part can match anything

@@ -9,10 +9,7 @@ export interface ClusterOutput extends ResourceOutput {
 export interface ClusterPropertiesOutput {
   /** The list of add-on features to enable in the cluster. */
   addOnFeatures?: Array<
-    | "RepairManager"
-    | "DnsService"
-    | "BackupRestoreService"
-    | "ResourceMonitorService"
+    "RepairManager" | "DnsService" | "BackupRestoreService" | "ResourceMonitorService"
   >;
   /** The Service Fabric runtime versions available for this cluster. */
   availableClusterVersions?: Array<ClusterVersionDetailsOutput>;
@@ -342,20 +339,14 @@ export interface ClusterUpgradeDeltaHealthPolicyOutput {
    */
   maxPercentDeltaUnhealthyApplications: number;
   /** Defines the application delta health policy map used to evaluate the health of an application or one of its child entities when upgrading the cluster. */
-  applicationDeltaHealthPolicies?: Record<
-    string,
-    ApplicationDeltaHealthPolicyOutput
-  >;
+  applicationDeltaHealthPolicies?: Record<string, ApplicationDeltaHealthPolicyOutput>;
 }
 
 export interface ApplicationDeltaHealthPolicyOutput {
   /** The delta health policy used by default to evaluate the health of a service type when upgrading the cluster. */
   defaultServiceTypeDeltaHealthPolicy?: ServiceTypeDeltaHealthPolicyOutput;
   /** The map with service type delta health policy per service type name. The map is empty by default. */
-  serviceTypeDeltaHealthPolicies?: Record<
-    string,
-    ServiceTypeDeltaHealthPolicyOutput
-  >;
+  serviceTypeDeltaHealthPolicies?: Record<string, ServiceTypeDeltaHealthPolicyOutput>;
 }
 
 export interface ServiceTypeDeltaHealthPolicyOutput {
@@ -526,8 +517,7 @@ export interface ApplicationTypeResourceListOutput {
   nextLink?: string;
 }
 
-export interface ApplicationTypeVersionResourceOutput
-  extends ProxyResourceOutput {
+export interface ApplicationTypeVersionResourceOutput extends ProxyResourceOutput {
   /** The properties of the application type version resource. */
   properties?: ApplicationTypeVersionResourcePropertiesOutput;
 }
@@ -560,11 +550,7 @@ export interface ManagedIdentityOutput {
   /** The tenant id of the managed identity. This property will only be provided for a system assigned identity. */
   tenantId?: string;
   /** The type of managed identity for the resource. */
-  type?:
-    | "SystemAssigned"
-    | "UserAssigned"
-    | "SystemAssigned, UserAssigned"
-    | "None";
+  type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /**
    * The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
@@ -620,11 +606,7 @@ export interface ApplicationUpgradePolicyOutput {
    */
   applicationHealthPolicy?: ArmApplicationHealthPolicyOutput;
   /** The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored. */
-  upgradeMode?:
-    | "Invalid"
-    | "UnmonitoredAuto"
-    | "UnmonitoredManual"
-    | "Monitored";
+  upgradeMode?: "Invalid" | "UnmonitoredAuto" | "UnmonitoredManual" | "Monitored";
   /** Determines whether the application should be recreated on update. If value=true, the rest of the upgrade policy parameters are not allowed and it will result in availability loss. */
   recreateApplication?: boolean;
 }
@@ -732,8 +714,7 @@ export interface ServiceResourceOutput extends ProxyResourceOutput {
   properties?: ServiceResourcePropertiesOutput;
 }
 
-export interface ServiceResourcePropertiesOutputBase
-  extends ServiceResourcePropertiesBaseOutput {
+export interface ServiceResourcePropertiesOutputParent extends ServiceResourcePropertiesBaseOutput {
   /** The current deployment or provisioning state, which only appears in the response */
   provisioningState?: string;
   /** The name of the service type */
@@ -747,12 +728,8 @@ export interface ServiceResourcePropertiesOutputBase
   serviceKind: "ServiceResourceProperties" | "Stateful" | "Stateless";
 }
 
-export interface PartitionSchemeDescriptionOutputBase {
-  partitionScheme:
-    | "PartitionSchemeDescription"
-    | "Named"
-    | "Singleton"
-    | "UniformInt64Range";
+export interface PartitionSchemeDescriptionOutputParent {
+  partitionScheme: "PartitionSchemeDescription" | "Named" | "Singleton" | "UniformInt64Range";
 }
 
 export interface ServiceResourcePropertiesBaseOutput {
@@ -797,7 +774,7 @@ export interface ServiceResourceUpdateOutput extends ProxyResourceOutput {
   properties?: ServiceResourceUpdatePropertiesOutput;
 }
 
-export interface ServiceResourceUpdatePropertiesOutputBase
+export interface ServiceResourceUpdatePropertiesOutputParent
   extends ServiceResourcePropertiesBaseOutput {
   serviceKind: "ServiceResourceUpdateProperties" | "Stateful" | "Stateless";
 }
@@ -809,7 +786,7 @@ export interface ServiceResourceListOutput {
 }
 
 export interface NamedPartitionSchemeDescriptionOutput
-  extends PartitionSchemeDescriptionOutputBase {
+  extends PartitionSchemeDescriptionOutputParent {
   /** The number of partitions. */
   count: number;
   /** Array of size specified by the ‘count’ parameter, for the names of the partitions. */
@@ -818,12 +795,11 @@ export interface NamedPartitionSchemeDescriptionOutput
 }
 
 export interface SingletonPartitionSchemeDescriptionOutput
-  extends PartitionSchemeDescriptionOutputBase {
+  extends PartitionSchemeDescriptionOutputParent {
   partitionScheme: "Singleton";
 }
 
-export interface StatefulServicePropertiesOutput
-  extends ServiceResourcePropertiesOutputBase {
+export interface StatefulServicePropertiesOutput extends ServiceResourcePropertiesOutputParent {
   /** A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false. */
   hasPersistedState?: boolean;
   /** The target replica set size as a number. */
@@ -840,7 +816,7 @@ export interface StatefulServicePropertiesOutput
 }
 
 export interface StatefulServiceUpdatePropertiesOutput
-  extends ServiceResourceUpdatePropertiesOutputBase {
+  extends ServiceResourceUpdatePropertiesOutputParent {
   /** The target replica set size as a number. */
   targetReplicaSetSize?: number;
   /** The minimum replica set size as a number. */
@@ -854,8 +830,7 @@ export interface StatefulServiceUpdatePropertiesOutput
   serviceKind: "Stateful";
 }
 
-export interface StatelessServicePropertiesOutput
-  extends ServiceResourcePropertiesOutputBase {
+export interface StatelessServicePropertiesOutput extends ServiceResourcePropertiesOutputParent {
   /** The instance count. */
   instanceCount?: number;
   /** Delay duration for RequestDrain feature to ensures that the endpoint advertised by the stateless instance is removed before the delay starts prior to closing the instance. This delay enables existing requests to drain gracefully before the instance actually goes down (https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-application-upgrade-advanced#avoid-connection-drops-during-stateless-service-planned-downtime-preview). It is represented in ISO 8601 format (hh:mm:ss.s). */
@@ -864,7 +839,7 @@ export interface StatelessServicePropertiesOutput
 }
 
 export interface StatelessServiceUpdatePropertiesOutput
-  extends ServiceResourceUpdatePropertiesOutputBase {
+  extends ServiceResourceUpdatePropertiesOutputParent {
   /** The instance count. */
   instanceCount?: number;
   /** Delay duration for RequestDrain feature to ensures that the endpoint advertised by the stateless instance is removed before the delay starts prior to closing the instance. This delay enables existing requests to drain gracefully before the instance actually goes down (https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-application-upgrade-advanced#avoid-connection-drops-during-stateless-service-planned-downtime-preview). It is first interpreted as a string representing an ISO 8601 duration. It is represented in ISO 8601 format (hh:mm:ss.s). */
@@ -873,7 +848,7 @@ export interface StatelessServiceUpdatePropertiesOutput
 }
 
 export interface UniformInt64RangePartitionSchemeDescriptionOutput
-  extends PartitionSchemeDescriptionOutputBase {
+  extends PartitionSchemeDescriptionOutputParent {
   /** The number of partitions. */
   count: number;
   /**

@@ -184,12 +184,14 @@ async function putAClusterWithMaximumParameters() {
   };
   const credential = new DefaultAzureCredential();
   const client = ServiceFabricManagementClient(credential);
-  const initialResponse = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
-    subscriptionId,
-    resourceGroupName,
-    clusterName
-  ).put(parameters);
+  const initialResponse = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
+      subscriptionId,
+      resourceGroupName,
+      clusterName
+    )
+    .put(parameters);
   const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
