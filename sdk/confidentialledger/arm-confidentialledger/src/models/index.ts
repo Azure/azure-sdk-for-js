@@ -225,16 +225,16 @@ export interface ConfidentialLedgerList {
 }
 
 /** Confidential Ledger. Contains the properties of Confidential Ledger Resource. */
-export type ConfidentialLedger = Resource &
-  ResourceLocation &
-  Tags & {
-    /** Properties of Confidential Ledger Resource. */
-    properties?: LedgerProperties;
-  };
+export interface ConfidentialLedger extends Resource, ResourceLocation, Tags {
+  /** Properties of Confidential Ledger Resource. */
+  properties?: LedgerProperties;
+}
 
 /** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
 export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -250,8 +250,11 @@ export type CheckNameAvailabilityReason = string;
 
 /** Known values of {@link LedgerType} that the service accepts. */
 export enum KnownLedgerType {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Public */
   Public = "Public",
+  /** Private */
   Private = "Private"
 }
 
@@ -268,12 +271,19 @@ export type LedgerType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -294,8 +304,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link LedgerRoleName} that the service accepts. */
 export enum KnownLedgerRoleName {
+  /** Reader */
   Reader = "Reader",
+  /** Contributor */
   Contributor = "Contributor",
+  /** Administrator */
   Administrator = "Administrator"
 }
 
@@ -312,9 +325,13 @@ export type LedgerRoleName = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
