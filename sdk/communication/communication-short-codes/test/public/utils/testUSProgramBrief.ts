@@ -5,8 +5,13 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { ShortCodesClient } from "../../../src";
 import { USProgramBrief } from "../../../src";
 import { assert } from "chai";
-import { ProgramDetails, MessageDetails, CompanyInformation, TrafficDetails } from "../../../src/generated/src/models/mappers";
-import { CompositeMapper } from "@azure/core-client"
+import {
+  CompanyInformation,
+  MessageDetails,
+  ProgramDetails,
+  TrafficDetails,
+} from "../../../src/generated/src/models/mappers";
+import { CompositeMapper } from "@azure/core-client";
 
 export function getTestUSProgramBrief(): USProgramBrief {
   const testUSProgramBrief: USProgramBrief = {
@@ -86,17 +91,12 @@ export function assertEditableFieldsAreEqual(
 ): void {
   assert.equal(expected.id, actual.id, `Program brief Id is incorrect - ${messageContext}`);
 
-  assertDeepEqualKnownFields(
-    actual,
-    expected,
-    messageContext,
-    [
-      [x => x.programDetails, ProgramDetails, "Program Details do not match"],
-      [x => x.companyInformation, CompanyInformation, "Company Information does not match"],
-      [x => x.messageDetails, MessageDetails, "Message Details do not match"],
-      [x => x.trafficDetails, TrafficDetails, "Traffic Details do not match"],
-    ]
-  );
+  assertDeepEqualKnownFields(actual, expected, messageContext, [
+    [(x) => x.programDetails, ProgramDetails, "Program Details do not match"],
+    [(x) => x.companyInformation, CompanyInformation, "Company Information does not match"],
+    [(x) => x.messageDetails, MessageDetails, "Message Details do not match"],
+    [(x) => x.trafficDetails, TrafficDetails, "Traffic Details do not match"],
+  ]);
 }
 
 /**
@@ -109,9 +109,21 @@ function assertDeepEqualKnownFields(
   actual: any,
   expected: any,
   messageContext: string,
-  comparisons: [propertyToCompareExtractor: (object: any) => any, mapper: CompositeMapper, errorMessage: string][]) {
+  comparisons: [
+    propertyToCompareExtractor: (object: any) => any,
+    mapper: CompositeMapper,
+    errorMessage: string
+  ][]
+) {
   for (const comparison of comparisons) {
-    assertDeepEqualKnownFieldsInternal(actual, expected, comparison[1], comparison[0], comparison[2], messageContext);
+    assertDeepEqualKnownFieldsInternal(
+      actual,
+      expected,
+      comparison[1],
+      comparison[0],
+      comparison[2],
+      messageContext
+    );
   }
 }
 
@@ -121,15 +133,12 @@ function assertDeepEqualKnownFieldsInternal(
   mapper: CompositeMapper,
   propertyToCompareExtractor: (object: any) => any,
   errorMessage: string,
-  messageContext: string) {
+  messageContext: string
+) {
   const mappedActual = mapKnownFields(propertyToCompareExtractor(actual), mapper);
   const mappedExpected = mapKnownFields(propertyToCompareExtractor(expected), mapper);
 
-  assert.deepEqual(
-    mappedActual,
-    mappedExpected,
-    `${errorMessage} - ${messageContext}`
-  );
+  assert.deepEqual(mappedActual, mappedExpected, `${errorMessage} - ${messageContext}`);
 }
 
 function mapKnownFields<TMapper extends CompositeMapper>(object: any, mapper: TMapper): any {
