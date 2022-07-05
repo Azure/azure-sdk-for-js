@@ -137,6 +137,8 @@ export interface ProgramDetails {
     numberType?: NumberType;
     preferredVanityNumbers?: string[];
     privacyPolicyUrl?: string;
+    signUpTypes?: CallToActionType[];
+    signUpUrl?: string;
     termsOfServiceUrl?: string;
     url?: string;
 }

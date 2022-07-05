@@ -9,7 +9,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "2038",
+        "Content-Length": "2112",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -18,10 +18,10 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-content-sha256": "WeoIh/ilgHWeWJA9Uh1c/dh2cqn1EmkgJMjuReNrBqI=",
-        "x-ms-date": "Tue, 05 Jul 2022 20:34:27 GMT",
+        "x-ms-content-sha256": "j3e6K/gRmDUAhyGCvYB7yrAUdaooXDD3rrBVRrPu8ZA=",
+        "x-ms-date": "Tue, 05 Jul 2022 23:27:39 GMT",
         "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -33,10 +33,15 @@
           "name": "Contoso Loyalty Program",
           "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
           "url": "https://endpoint/loyalty-program",
+          "signUpTypes": [
+            "sms",
+            "website"
+          ],
           "callToActionTypes": [
             "sms",
             "website"
           ],
+          "signUpUrl": "https://contoso.com/sign-up",
           "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
@@ -119,14 +124,14 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Jul 2022 20:34:36 GMT",
+        "Date": "Tue, 05 Jul 2022 23:27:49 GMT",
         "Location": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000",
-        "MS-CV": "ORYhZiwB10GIDtvuSSlOOQ.0",
+        "MS-CV": "XENRfIrA0kSNKdT0oWZaYw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0UqDEYgAAAACUnm65CejrQ4z\u002BudJey/1/R1JVMzBFREdFMDcxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "06sjEYgAAAAAyhUxqCuI4ToYkNrmJxEzOR1JVMzBFREdFMDgwNwBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "10898ms"
+        "X-Processing-Time": "11517ms"
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -143,7 +148,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-07-05T20:34:27\u002B00:00",
+        "statusUpdatedDate": "2022-07-05T23:27:40\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -256,7 +261,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "1945",
+        "Content-Length": "2019",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -265,10 +270,10 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-content-sha256": "9UeM8KvRV9BO/tK\u002Bj1nMxbsqw8fh7SLRjt4gGtGyark=",
-        "x-ms-date": "Tue, 05 Jul 2022 20:34:38 GMT",
+        "x-ms-content-sha256": "ZBJVsI/tQvWzU8Y61tpkMghPkl5LGC\u002BFpxjqs9I2mLQ=",
+        "x-ms-date": "Tue, 05 Jul 2022 23:27:51 GMT",
         "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -280,10 +285,15 @@
           "name": "Contoso Loyalty Program",
           "description": "TEST UPDATE",
           "url": "https://endpoint/loyalty-program",
+          "signUpTypes": [
+            "sms",
+            "website"
+          ],
           "callToActionTypes": [
             "sms",
             "website"
           ],
+          "signUpUrl": "https://contoso.com/sign-up",
           "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
@@ -366,13 +376,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Jul 2022 20:34:38 GMT",
-        "MS-CV": "O2UmCwb4HE2JCU8jtk/tPw.0",
+        "Date": "Tue, 05 Jul 2022 23:27:51 GMT",
+        "MS-CV": "\u002BJXIQLjHw0K5PgRQ2inTzQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0XaDEYgAAAAB1HQCqOMqXRrdG\u002BKwmFjaWR1JVMzBFREdFMDcxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "09sjEYgAAAAAEf\u002BBuoeKNSYoJrNaNxiz3R1JVMzBFREdFMDgwNwBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1221ms"
+        "X-Processing-Time": "1265ms"
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -389,7 +399,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-07-05T20:34:27\u002B00:00",
+        "statusUpdatedDate": "2022-07-05T23:27:40\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",

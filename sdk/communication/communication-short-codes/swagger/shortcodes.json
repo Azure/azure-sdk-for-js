@@ -680,6 +680,24 @@
           "description": "URL for the program or company.",
           "type": "string"
         },
+        "signUpTypes": {
+          "description": "Indicates how the consumer can sign up to the program e.g. 'website', 'pointOfSale' and/or 'sms'.",
+          "type": "array",
+          "items": {
+            "description": "Indicates how a program will be discoverable by the consumer.",
+            "enum": [
+              "website",
+              "pointOfSale",
+              "sms",
+              "interactiveVoiceResponse"
+            ],
+            "type": "string",
+            "x-ms-enum": {
+              "name": "CallToActionType",
+              "modelAsString": true
+            }
+          }
+        },
         "callToActionTypes": {
           "description": "Indicates how the consumer can sign up to the program e.g. 'website', 'pointOfSale' and/or 'sms'.",
           "type": "array",
@@ -697,6 +715,11 @@
               "modelAsString": true
             }
           }
+        },
+        "signUpUrl": {
+          "format": "uri",
+          "description": "URL for \"call to action\" image for the program.",
+          "type": "string"
         },
         "callToActionUrl": {
           "format": "uri",

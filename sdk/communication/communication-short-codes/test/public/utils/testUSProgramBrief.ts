@@ -25,9 +25,11 @@ export function getTestUSProgramBrief(): USProgramBrief {
       numberType: "shortCode",
       privacyPolicyUrl: "https://contoso.com/privacy",
       callToActionTypes: ["sms", "website"],
+      signUpTypes: ["sms", "website"],
       termsOfServiceUrl: "https://contoso.com/terms",
       url: "https://endpoint/loyalty-program",
       callToActionUrl: "https://contoso.com/sign-up",
+      signUpUrl: "https://contoso.com/sign-up",
     },
     companyInformation: {
       address: "1 Contoso Way Redmond, WA 98052",

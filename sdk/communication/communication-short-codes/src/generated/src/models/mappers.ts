@@ -352,6 +352,23 @@ export const ProgramDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      signUpTypes: {
+        serializedName: "signUpTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "website",
+                "pointOfSale",
+                "sms",
+                "interactiveVoiceResponse"
+              ]
+            }
+          }
+        }
+      },
       callToActionTypes: {
         serializedName: "callToActionTypes",
         type: {
@@ -367,6 +384,12 @@ export const ProgramDetails: coreClient.CompositeMapper = {
               ]
             }
           }
+        }
+      },
+      signUpUrl: {
+        serializedName: "signUpUrl",
+        type: {
+          name: "String"
         }
       },
       callToActionUrl: {
