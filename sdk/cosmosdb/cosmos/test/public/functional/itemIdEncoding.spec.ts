@@ -76,7 +76,9 @@ const executeTestCase = async function (scenario: TestScenario) {
     assert.strictEqual(response.item.id, scenario.id);
     assert.strictEqual(response.resource.id, scenario.id);
     assert.strictEqual(response.resource, true);
-    assert.strictEqual(response.resource.pk, scenario.id);
+    if (response.resource) {
+      assert.strictEqual(response.resource.pk, scenario.id);
+    }
   } catch (err: any) {
     console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
     assert.strictEqual(err.code, scenario.expectedReplaceStatusCode);
