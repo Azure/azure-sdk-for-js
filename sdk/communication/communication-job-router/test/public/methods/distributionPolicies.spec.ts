@@ -24,14 +24,14 @@ describe("RouterClient", function() {
         // unused
       }
 
-      await client.deleteDistributionPolicy(distributionPolicyRequest.id!, {});
+      await client.deleteDistributionPolicy(distributionPolicyRequest.id!);
     });
 
     it("should create a distribution policy", async function() {
       const result = await client.createDistributionPolicy(request.id!, request);
 
       assert.isDefined(result);
-      assert.isDefined(result.id);
+      assert.isDefined(result?.id);
       assert.equal(result.name, request.name);
     }).timeout(timeoutMs);
 

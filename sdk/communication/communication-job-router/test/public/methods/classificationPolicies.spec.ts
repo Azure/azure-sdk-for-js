@@ -23,13 +23,12 @@ describe("RouterClient", function() {
     this.beforeAll(async function(this: Context) {
       ({ client, recorder } = createRecordedRouterClientWithConnectionString(this));
 
-      await client.createDistributionPolicy(distributionPolicyRequest.id!, {
-        patch: distributionPolicyRequest
-      });
-      await client.createExceptionPolicy(exceptionPolicyRequest.id!, {
-        patch: exceptionPolicyRequest
-      });
-      await client.createQueue(queueRequest.id!, { patch: queueRequest });
+      await client.createDistributionPolicy(
+        distributionPolicyRequest.id!,
+        distributionPolicyRequest
+      );
+      await client.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
+      await client.createQueue(queueRequest.id!, queueRequest);
     });
 
     afterEach(async function(this: Context) {
@@ -48,7 +47,7 @@ describe("RouterClient", function() {
     });
 
     it("should create a classification policy", async function() {
-      const result = await client.createClassificationPolicy(request.id!, { patch: request });
+      const result = await client.createClassificationPolicy(request.id!, request);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
@@ -56,30 +55,26 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should get a classification policy", async function() {
-      const response: ClassificationPolicy = await client.createClassificationPolicy(request.id!, {
-        patch: request
-      });
+      const response: ClassificationPolicy = await client.createClassificationPolicy(
+        request.id!,
+        request
+      );
 
       const result = await client.getClassificationPolicy(request.id!);
 
       assert.equal(result.id, response.id);
       assert.equal(result.name, response.name);
       assert.equal(result.fallbackQueueId, response.fallbackQueueId);
-      assert.deepEqual(result.queueSelectors, response.queueSelectors);
-      assert.deepEqual(result.prioritizationRule, response.prioritizationRule);
-      assert.deepEqual(result.workerSelectors, response.workerSelectors);
-
-      // Should we just do this instead?
-      //     assert.deepEqual(result, response);
     }).timeout(timeoutMs);
 
     it("should update a classification policy", async function() {
-      var response: ClassificationPolicy = await client.createClassificationPolicy(request.id!, {
-        patch: request
-      });
+      var response: ClassificationPolicy = await client.createClassificationPolicy(
+        request.id!,
+        request
+      );
 
-      const patch = { ...response, name: "new name" };
-      const result = await client.updateClassificationPolicy(response.id!, { patch });
+      const patch: ClassificationPolicy = { ...response, name: "new name" };
+      const result = await client.updateClassificationPolicy(response.id!, patch);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
@@ -87,17 +82,18 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should delete a classification policy", async function() {
-      const response: ClassificationPolicy = await client.createClassificationPolicy(request.id!, {
-        patch: request
-      });
+      const response: ClassificationPolicy = await client.createClassificationPolicy(
+        request.id!,
+        request
+      );
 
-      const result = await client.deleteClassificationPolicy(response.id!, {});
+      const result = await client.deleteClassificationPolicy(response.id!);
 
-      assert.isDefined(result); // TODO: What validation criteria are there for a delete call?
+      assert.isDefined(result);
     }).timeout(timeoutMs);
 
     it("should list classification policies", async function() {
-      await client.createClassificationPolicy(request.id!, { patch: request });
+      await client.createClassificationPolicy(request.id!, request);
 
       const result = await client.listClassificationPolicies({
         maxpagesize: 1

@@ -28,6 +28,8 @@ describe("RouterClient", function() {
       if (!this.currentTest?.isPending() && recorder) {
         // unused
       }
+
+      await client.deleteExceptionPolicy(exceptionPolicyRequest.id!);
     });
 
     it("should create an exception policy", async function() {
@@ -60,16 +62,16 @@ describe("RouterClient", function() {
     }).timeout(timeoutMs);
 
     it("should delete an exception policy", async function() {
-      await client.deleteQueue(queueRequest.id!, {});
-      await client.deleteExceptionPolicy(exceptionPolicyRequest.id!, {});
-      await client.deleteDistributionPolicy(distributionPolicyRequest.id!, {});
-      await client.deleteClassificationPolicy(classificationPolicyRequest.id!, {});
+      await client.deleteQueue(queueRequest.id!);
+      await client.deleteExceptionPolicy(exceptionPolicyRequest.id!);
+      await client.deleteDistributionPolicy(distributionPolicyRequest.id!);
+      await client.deleteClassificationPolicy(classificationPolicyRequest.id!);
 
       const response: ExceptionPolicy = await client.createExceptionPolicy(request.id!, request);
 
-      const result = await client.deleteExceptionPolicy(response.id!, {});
+      const result = await client.deleteExceptionPolicy(response.id!);
 
-      assert.isDefined(result); // TODO: What validation criteria are there for a delete call?
+      assert.isDefined(result);
     }).timeout(timeoutMs);
 
     it("should list exception policies", async function() {

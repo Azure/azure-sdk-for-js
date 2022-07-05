@@ -32,27 +32,7 @@ export var exceptionPolicyRequest: ExceptionPolicy = {
 export var classificationPolicyRequest: ClassificationPolicy = {
   id: "test-c-policy",
   name: "test-c-policy",
-  fallbackQueueId: "test-queue",
-  queueSelectors: [
-    {
-      kind: "conditional",
-      condition: {
-        kind: "static-rule",
-        value: { value: true }
-      },
-      labelSelectors: [
-        {
-          key: "foo",
-          labelOperator: "equal",
-          value: { value: "bar" }
-        }
-      ]
-    }
-  ],
-  prioritizationRule: {
-    kind: "static-rule",
-    value: { value: 1 }
-  }
+  fallbackQueueId: "test-queue"
 };
 
 export var distributionPolicyRequest: DistributionPolicy = {
