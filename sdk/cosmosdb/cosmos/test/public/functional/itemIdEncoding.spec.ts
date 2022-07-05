@@ -78,7 +78,7 @@ const executeTestCase = async function (scenario: TestScenario) {
     if (response.resource) {
       assert.strictEqual(response.resource.pk, scenario.id);
     } else {
-      assert.fail("response.resource should not be null");  
+      assert.fail("response.resource should not be null");
     }
   } catch (err: any) {
     console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
