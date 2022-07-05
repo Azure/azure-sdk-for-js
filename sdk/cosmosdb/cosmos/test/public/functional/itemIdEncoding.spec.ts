@@ -15,7 +15,7 @@ interface ItemPayload {
 
 interface TestScenario {
     name?: string;
-    id?: string;
+    id: string;
     expectedCreateStatusCode: number;
     expectedReadStatusCode?: number;
     expectedReplaceStatusCode?: number;
