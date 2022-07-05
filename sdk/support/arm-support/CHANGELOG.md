@@ -2,13 +2,9 @@
 
 ## 2.0.2 (Unreleased)
 
-### Features Added
+**Features**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Bug fix
 
 ## 2.0.1 (2022-05-05)
 
