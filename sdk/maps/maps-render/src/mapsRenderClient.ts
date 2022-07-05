@@ -295,8 +295,9 @@ export class MapsRenderClient {
             ],
           }
         : {
-            ...(range as ImageRange),
             center: [(range as ImageRange).center.longitude, (range as ImageRange).center.latitude],
+            height: (range as ImageRange).height,
+            width: (range as ImageRange).width,
           };
 
       const result = await this.client.renderV2.getMapStaticImage(format, {
