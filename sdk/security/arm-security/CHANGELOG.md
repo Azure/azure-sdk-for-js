@@ -1,6 +1,6 @@
 # Release History
     
-## 6.0.0-beta.1 (2022-07-01)
+## 5.1.0-beta.1 (2022-07-05)
     
 **Features**
 
@@ -11,24 +11,78 @@
   - Added operation group SecurityConnectorGovernanceRules
   - Added operation group SecurityConnectorGovernanceRulesExecuteStatus
   - Added operation group SubscriptionGovernanceRulesExecuteStatus
+  - Added Interface AadExternalSecuritySolution
+  - Added Interface AadSolutionProperties
+  - Added Interface ActiveConnectionsNotInAllowedRange
+  - Added Interface AdaptiveApplicationControlGroup
+  - Added Interface AdaptiveNetworkHardening
+  - Added Interface AdvancedThreatProtectionSetting
+  - Added Interface Alert
+  - Added Interface AlertSimulatorBundlesRequestProperties
+  - Added Interface AlertsSuppressionRule
+  - Added Interface AlertSyncSettings
+  - Added Interface AllowedConnectionsResource
+  - Added Interface AllowlistCustomAlertRule
+  - Added Interface AmqpC2DMessagesNotInAllowedRange
+  - Added Interface AmqpC2DRejectedMessagesNotInAllowedRange
+  - Added Interface AmqpD2CMessagesNotInAllowedRange
+  - Added Interface AscLocation
+  - Added Interface AssessmentStatusResponse
+  - Added Interface AtaExternalSecuritySolution
+  - Added Interface AtaSolutionProperties
+  - Added Interface Automation
+  - Added Interface AutomationActionEventHub
+  - Added Interface AutomationActionLogicApp
+  - Added Interface AutomationActionWorkspace
+  - Added Interface AutoProvisioningSetting
+  - Added Interface AwAssumeRoleAuthenticationDetailsProperties
+  - Added Interface AwsCredsAuthenticationDetailsProperties
+  - Added Interface AWSEnvironmentData
   - Added Interface AwsOrganizationalData
+  - Added Interface AwsOrganizationalDataMaster
+  - Added Interface AwsOrganizationalDataMember
+  - Added Interface AzureDevOpsScopeEnvironmentData
+  - Added Interface AzureResourceDetails
+  - Added Interface AzureResourceIdentifier
+  - Added Interface CefExternalSecuritySolution
+  - Added Interface CefSolutionProperties
+  - Added Interface Compliance
+  - Added Interface ComplianceResult
   - Added Interface Condition
+  - Added Interface ConnectionFromIpNotAllowed
+  - Added Interface ConnectionToIpNotAllowed
+  - Added Interface ConnectorSetting
+  - Added Interface ContainerRegistryVulnerabilityProperties
+  - Added Interface CspmMonitorAwsOffering
+  - Added Interface CspmMonitorAzureDevOpsOffering
+  - Added Interface CspmMonitorGcpOffering
   - Added Interface CspmMonitorGcpOfferingNativeCloudConnection
+  - Added Interface CspmMonitorGithubOffering
+  - Added Interface CustomAssessmentAutomation
+  - Added Interface CustomAssessmentAutomationRequest
+  - Added Interface CustomEntityStoreAssignment
+  - Added Interface DataExportSettings
+  - Added Interface DefenderFoDatabasesAwsOffering
   - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning
   - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata
+  - Added Interface DefenderForContainersAwsOffering
   - Added Interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessment
   - Added Interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask
+  - Added Interface DefenderForContainersGcpOffering
   - Added Interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection
   - Added Interface DefenderForContainersGcpOfferingNativeCloudConnection
+  - Added Interface DefenderForDatabasesGcpOffering
   - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioning
   - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration
   - Added Interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning
+  - Added Interface DefenderForServersAwsOffering
   - Added Interface DefenderForServersAwsOfferingMdeAutoProvisioning
   - Added Interface DefenderForServersAwsOfferingSubPlan
   - Added Interface DefenderForServersAwsOfferingVaAutoProvisioning
   - Added Interface DefenderForServersAwsOfferingVaAutoProvisioningConfiguration
   - Added Interface DefenderForServersAwsOfferingVmScanners
   - Added Interface DefenderForServersAwsOfferingVmScannersConfiguration
+  - Added Interface DefenderForServersGcpOffering
   - Added Interface DefenderForServersGcpOfferingArcAutoProvisioning
   - Added Interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration
   - Added Interface DefenderForServersGcpOfferingDefenderForServers
@@ -36,11 +90,24 @@
   - Added Interface DefenderForServersGcpOfferingSubPlan
   - Added Interface DefenderForServersGcpOfferingVaAutoProvisioning
   - Added Interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration
+  - Added Interface DenylistCustomAlertRule
+  - Added Interface DeviceSecurityGroup
+  - Added Interface DirectMethodInvokesNotInAllowedRange
+  - Added Interface DiscoveredSecuritySolution
   - Added Interface EnvironmentData
   - Added Interface ExecuteGovernanceRuleParams
   - Added Interface ExecuteRuleStatus
+  - Added Interface ExternalSecuritySolution
+  - Added Interface FailedLocalLoginsNotInAllowedRange
+  - Added Interface FileUploadsNotInAllowedRange
+  - Added Interface GcpCredentialsDetailsProperties
   - Added Interface GcpOrganizationalData
+  - Added Interface GcpOrganizationalDataMember
+  - Added Interface GcpOrganizationalDataOrganization
   - Added Interface GcpProjectDetails
+  - Added Interface GcpProjectEnvironmentData
+  - Added Interface GithubScopeEnvironmentData
+  - Added Interface GovernanceAssignment
   - Added Interface GovernanceAssignmentAdditionalData
   - Added Interface GovernanceAssignmentsCreateOrUpdateOptionalParams
   - Added Interface GovernanceAssignmentsDeleteOptionalParams
@@ -49,6 +116,7 @@
   - Added Interface GovernanceAssignmentsListNextOptionalParams
   - Added Interface GovernanceAssignmentsListOptionalParams
   - Added Interface GovernanceEmailNotification
+  - Added Interface GovernanceRule
   - Added Interface GovernanceRuleEmailNotification
   - Added Interface GovernanceRuleList
   - Added Interface GovernanceRuleListNextOptionalParams
@@ -61,7 +129,47 @@
   - Added Interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams
   - Added Interface GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders
   - Added Interface GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams
+  - Added Interface HttpC2DMessagesNotInAllowedRange
+  - Added Interface HttpC2DRejectedMessagesNotInAllowedRange
+  - Added Interface HttpD2CMessagesNotInAllowedRange
+  - Added Interface InformationProtectionAwsOffering
+  - Added Interface InformationProtectionPolicy
+  - Added Interface IngestionSetting
+  - Added Interface IoTSecurityAggregatedAlert
+  - Added Interface IoTSecurityAggregatedRecommendation
+  - Added Interface IoTSecuritySolutionAnalyticsModel
+  - Added Interface IoTSecuritySolutionModel
+  - Added Interface JitNetworkAccessPolicy
+  - Added Interface ListCustomAlertRule
+  - Added Interface LocalUserNotAllowed
+  - Added Interface LogAnalyticsIdentifier
+  - Added Interface MdeOnboardingData
+  - Added Interface MqttC2DMessagesNotInAllowedRange
+  - Added Interface MqttC2DRejectedMessagesNotInAllowedRange
+  - Added Interface MqttD2CMessagesNotInAllowedRange
+  - Added Interface OnPremiseResourceDetails
+  - Added Interface OnPremiseSqlResourceDetails
+  - Added Interface Pricing
+  - Added Interface ProcessNotAllowed
+  - Added Interface QueuePurgesNotInAllowedRange
+  - Added Interface RegulatoryComplianceAssessment
+  - Added Interface RegulatoryComplianceControl
+  - Added Interface RegulatoryComplianceStandard
   - Added Interface RemediationEta
+  - Added Interface RuleResults
+  - Added Interface Scan
+  - Added Interface ScanResult
+  - Added Interface SecureScoreControlDefinitionItem
+  - Added Interface SecureScoreControlDetails
+  - Added Interface SecureScoreItem
+  - Added Interface SecurityAssessment
+  - Added Interface SecurityAssessmentMetadata
+  - Added Interface SecurityAssessmentMetadataPropertiesResponse
+  - Added Interface SecurityAssessmentMetadataResponse
+  - Added Interface SecurityAssessmentProperties
+  - Added Interface SecurityAssessmentPropertiesResponse
+  - Added Interface SecurityAssessmentResponse
+  - Added Interface SecurityConnector
   - Added Interface SecurityConnectorGovernanceRuleListNextOptionalParams
   - Added Interface SecurityConnectorGovernanceRuleListOptionalParams
   - Added Interface SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams
@@ -69,33 +177,34 @@
   - Added Interface SecurityConnectorGovernanceRulesExecuteStatusGetHeaders
   - Added Interface SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams
   - Added Interface SecurityConnectorGovernanceRulesGetOptionalParams
+  - Added Interface SecurityContact
+  - Added Interface SecuritySolution
+  - Added Interface SecuritySolutionsReferenceData
+  - Added Interface SecuritySubAssessment
+  - Added Interface SecurityTask
+  - Added Interface ServerVulnerabilityAssessment
+  - Added Interface ServerVulnerabilityProperties
+  - Added Interface Setting
+  - Added Interface Software
+  - Added Interface SqlServerVulnerabilityProperties
   - Added Interface SubscriptionGovernanceRulesExecuteStatusGetHeaders
   - Added Interface SubscriptionGovernanceRulesExecuteStatusGetOptionalParams
-  - Added Type Alias AWSEnvironmentData
-  - Added Type Alias AwsOrganizationalDataMaster
-  - Added Type Alias AwsOrganizationalDataMember
+  - Added Interface ThresholdCustomAlertRule
+  - Added Interface TimeWindowCustomAlertRule
+  - Added Interface TopologyResource
+  - Added Interface TrackedResource
+  - Added Interface TwinUpdatesNotInAllowedRange
+  - Added Interface UnauthorizedOperationsNotInAllowedRange
+  - Added Interface UpdateIotSecuritySolutionData
+  - Added Interface WorkspaceSetting
   - Added Type Alias AwsOrganizationalDataUnion
-  - Added Type Alias AzureDevOpsScopeEnvironmentData
-  - Added Type Alias CspmMonitorAzureDevOpsOffering
-  - Added Type Alias CspmMonitorGcpOffering
-  - Added Type Alias CspmMonitorGithubOffering
-  - Added Type Alias DefenderFoDatabasesAwsOffering
-  - Added Type Alias DefenderForContainersGcpOffering
-  - Added Type Alias DefenderForDatabasesGcpOffering
-  - Added Type Alias DefenderForServersGcpOffering
   - Added Type Alias EnvironmentDataUnion
   - Added Type Alias EnvironmentType
-  - Added Type Alias GcpOrganizationalDataMember
-  - Added Type Alias GcpOrganizationalDataOrganization
   - Added Type Alias GcpOrganizationalDataUnion
-  - Added Type Alias GcpProjectEnvironmentData
-  - Added Type Alias GithubScopeEnvironmentData
-  - Added Type Alias GovernanceAssignment
   - Added Type Alias GovernanceAssignmentsCreateOrUpdateResponse
   - Added Type Alias GovernanceAssignmentsGetResponse
   - Added Type Alias GovernanceAssignmentsListNextResponse
   - Added Type Alias GovernanceAssignmentsListResponse
-  - Added Type Alias GovernanceRule
   - Added Type Alias GovernanceRuleConditionOperator
   - Added Type Alias GovernanceRuleListNextResponse
   - Added Type Alias GovernanceRuleListResponse
@@ -123,19 +232,6 @@
   - Class SecurityCenter has a new parameter securityConnectorGovernanceRules
   - Class SecurityCenter has a new parameter securityConnectorGovernanceRulesExecuteStatus
   - Class SecurityCenter has a new parameter subscriptionGovernanceRulesExecuteStatus
-  - Type Alias DefenderForContainersAwsOffering has a new parameter containerVulnerabilityAssessment
-  - Type Alias DefenderForContainersAwsOffering has a new parameter containerVulnerabilityAssessmentTask
-  - Type Alias DefenderForContainersAwsOffering has a new parameter enableContainerVulnerabilityAssessment
-  - Type Alias DefenderForContainersAwsOffering has a new parameter autoProvisioning
-  - Type Alias DefenderForContainersAwsOffering has a new parameter kubeAuditRetentionTime
-  - Type Alias DefenderForContainersAwsOffering has a new parameter scubaExternalId
-  - Type Alias DefenderForServersAwsOffering has a new parameter vaAutoProvisioning
-  - Type Alias DefenderForServersAwsOffering has a new parameter mdeAutoProvisioning
-  - Type Alias DefenderForServersAwsOffering has a new parameter subPlan
-  - Type Alias DefenderForServersAwsOffering has a new parameter vmScanners
-  - Type Alias SecurityConnector has a new parameter hierarchyIdentifierTrialEndDate
-  - Type Alias SecurityConnector has a new parameter environmentName
-  - Type Alias SecurityConnector has a new parameter environmentData
   - Added Enum KnownEnvironmentType
   - Added Enum KnownGovernanceRuleConditionOperator
   - Added Enum KnownGovernanceRuleOwnerSourceType
@@ -154,11 +250,6 @@
   - Enum KnownOfferingType has a new value DefenderForDatabasesGcp
   - Enum KnownOfferingType has a new value DefenderForServersGcp
   - Enum KnownSettingName has a new value WdatpUnifiedSolution
-
-**Breaking Changes**
-
-  - Type Alias SecurityConnector no longer has parameter cloudName
-  - Type Alias SecurityConnector no longer has parameter organizationalData
     
     
 ## 5.0.0 (2022-03-30)
