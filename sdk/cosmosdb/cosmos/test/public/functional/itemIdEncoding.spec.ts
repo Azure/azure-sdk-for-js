@@ -23,9 +23,15 @@ interface TestScenario {
     expectedCreateErrorMessage?: string;
 }
 
+const createPayload = function(id:string): ItemPayload {
+    return  {
+        id: id,
+        pk: id,
+      };
+}
+
 const executeTestCase = async function (scenario: TestScenario) {
-    let container: Container;
-    container = await getTestContainer(scenario.name, undefined, {
+    const container: Container = await getTestContainer(scenario.name, undefined, {
         partitionKey: {
           paths: ["/pk"],
           version: undefined,
@@ -83,13 +89,6 @@ const executeTestCase = async function (scenario: TestScenario) {
         console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack)
         assert.strictEqual(err.code, scenario.expectedDeleteStatusCode);
       }
-}
-
-const createPayload = function(id:string): ItemPayload {
-    return  {
-        id: id,
-        pk: id,
-      };
 }
 
 describe("Id encoding", function (this: Suite) {
