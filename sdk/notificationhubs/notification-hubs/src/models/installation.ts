@@ -66,7 +66,9 @@ export interface AppleInstallation extends DeviceTokenInstallation {
  * @param installation - A partial installation used to create the Apple installation.
  * @returns The newly created Apple installation.
  */
-export function createAppleInstallation(installation: Omit<AppleInstallation, "platform">): AppleInstallation {
+export function createAppleInstallation(
+  installation: Omit<AppleInstallation, "platform">
+): AppleInstallation {
   return {
     ...installation,
     platform: "apns",
@@ -88,7 +90,9 @@ export interface AdmInstallation extends DeviceTokenInstallation {
  * @param installation - A partial installation used to create the ADM installation.
  * @returns The newly created ADM installation.
  */
-export function createAdmInstallation(installation: Omit<AdmInstallation, "platform">): AdmInstallation {
+export function createAdmInstallation(
+  installation: Omit<AdmInstallation, "platform">
+): AdmInstallation {
   return {
     ...installation,
     platform: "adm",
@@ -110,7 +114,9 @@ export interface BaiduInstallation extends DeviceTokenInstallation {
  * @param installation - A partial installation used to create the Baidu installation.
  * @returns The newly created Baidu installation.
  */
-export function createBaiduInstallation(installation: Omit<BaiduInstallation, "platform">): BaiduInstallation {
+export function createBaiduInstallation(
+  installation: Omit<BaiduInstallation, "platform">
+): BaiduInstallation {
   return {
     ...installation,
     platform: "baidu",
@@ -132,7 +138,9 @@ export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
  * @param installation - A partial installation used to create the Firebase Legacy HTTP installation.
  * @returns The newly created Baidu installation.
  */
-export function createFirebaseLegacyInstallation(installation: Omit<FirebaseLegacyInstallation, "platform">): FirebaseLegacyInstallation {
+export function createFirebaseLegacyInstallation(
+  installation: Omit<FirebaseLegacyInstallation, "platform">
+): FirebaseLegacyInstallation {
   return {
     ...installation,
     platform: "gcm",
@@ -154,7 +162,9 @@ export interface WindowsInstallation extends DeviceTokenInstallation {
  * @param installation - A partial installation used to create the WNS installation.
  * @returns The newly created WNS installation.
  */
-export function createWindowsInstallation(installation: Omit<WindowsInstallation, "platform">): WindowsInstallation {
+export function createWindowsInstallation(
+  installation: Omit<WindowsInstallation, "platform">
+): WindowsInstallation {
   return {
     ...installation,
     platform: "wns",
@@ -185,7 +195,6 @@ export interface BrowserPushChannel {
  * Represents a Browser/Web Push based installation.
  */
 export interface BrowserInstallation extends InstallationCommon {
-
   /**
    * The push channel for the Web Push API.
    */
@@ -202,7 +211,9 @@ export interface BrowserInstallation extends InstallationCommon {
  * @param installation - A partial installation used to create the Web Push installation.
  * @returns The newly created Web Push installation.
  */
-export function createBrowserInstallation(installation: Omit<BrowserInstallation, "platform">): BrowserInstallation {
+export function createBrowserInstallation(
+  installation: Omit<BrowserInstallation, "platform">
+): BrowserInstallation {
   return {
     ...installation,
     platform: "browser",

@@ -13,9 +13,7 @@
  * @azsdk-weight 100
  */
 
-import {
-  clientFromConnectionString 
-} from "@azure/notification-hubs";
+import { clientFromConnectionString } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -45,8 +43,7 @@ async function main() {
   console.log(`Registration ID: ${registrationResponse.registrationId}`);
 }
 
-main()
-  .catch((err) => {
-    console.log("updateRegistration Sample: Error occurred: ", err);
-    process.exit(1);
-  });
+main().catch((err) => {
+  console.log("updateRegistration Sample: Error occurred: ", err);
+  process.exit(1);
+});

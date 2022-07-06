@@ -4,15 +4,15 @@
 /**
  * Represents the notification outcome states.
  */
-export type NotificationOutcomeState = 
-  "Enqueued" |
-  "DetailedStateAvailable" |
-  "Processing" |
-  "Completed" |
-  "Abandoned" |
-  "Unknown" |
-  "NoTargetFound" |
-  "Cancelled";
+export type NotificationOutcomeState =
+  | "Enqueued"
+  | "DetailedStateAvailable"
+  | "Processing"
+  | "Completed"
+  | "Abandoned"
+  | "Unknown"
+  | "NoTargetFound"
+  | "Cancelled";
 
 /**
  * The per platform count per state.
@@ -90,7 +90,7 @@ export interface NotificationDetails {
 
   /**
    * WNS outcomes counts per state.
-   */  
+   */
   wnsOutcomeCounts?: NotificationOutcomeCollectionItem[];
 
   /**
@@ -100,16 +100,16 @@ export interface NotificationDetails {
 
   /**
    * ADM outcome counts per state.
-   */  
+   */
   admOutcomeCounts?: NotificationOutcomeCollectionItem[];
 
   /**
    * Baidu outcome counts per state.
-   */    
+   */
   baiduOutcomeCounts?: NotificationOutcomeCollectionItem[];
 
   /**
    * Web Push outcome counts per state.
-   */    
+   */
   browserOutcomeCounts?: NotificationOutcomeCollectionItem[];
 }

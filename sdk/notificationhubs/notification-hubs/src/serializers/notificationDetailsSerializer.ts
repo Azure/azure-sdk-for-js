@@ -1,16 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseXML } from "@azure/core-xml";
-import { NotificationDetails, NotificationOutcomeCollectionItem, NotificationOutcomeState } from "../models/notificationDetails";
+import {
+  NotificationDetails,
+  NotificationOutcomeCollectionItem,
+  NotificationOutcomeState,
+} from "../models/notificationDetails";
 import { getDateOrUndefined, getInteger, getStringOrUndefined, isDefined } from "../utils/xmlUtils";
+import { parseXML } from "@azure/core-xml";
 
 /**
  * @internal
  * Parses a NotificationDetails from incoming XML.
  */
 export async function parseNotificationDetails(bodyText: string): Promise<NotificationDetails> {
-  const xml = await parseXML(bodyText, { includeRoot: true, stopNodes: ["NotificationDetails.NotificationBody"] });
+  const xml = await parseXML(bodyText, {
+    includeRoot: true,
+    stopNodes: ["NotificationDetails.NotificationBody"],
+  });
   const notificationDetails = xml["NotificationDetails"];
 
   let apnsOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
@@ -62,4 +69,4 @@ function parseOutcomeCounts(counts: Record<string, any>[]): NotificationOutcomeC
   }
 
   return results;
-};
+}

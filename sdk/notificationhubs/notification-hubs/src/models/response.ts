@@ -40,7 +40,7 @@ export interface RegistrationQueryResponse {
   /**
    * The list of registrations.
    */
-  registrations: RegistrationDescription[],
+  registrations: RegistrationDescription[];
   /**
    * A continuation token to get more results.
    */

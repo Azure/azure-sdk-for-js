@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubJob, 
-  NotificationHubJobStatus, 
-  NotificationHubJobType 
+import {
+  NotificationHubJob,
+  NotificationHubJobStatus,
+  NotificationHubJobType,
 } from "../models/notificationHubJob";
-import { 
-  parseXML, 
-  stringifyXML 
-} from "@azure/core-xml";
-import { 
-  getDateOrUndefined, 
+import {
+  getDateOrUndefined,
   getFloatOrUndefined,
-  getString, 
-  getStringOrUndefined, 
+  getString,
+  getStringOrUndefined,
   isDefined,
-  serializeToAtomXmlRequest
+  serializeToAtomXmlRequest,
 } from "../utils/xmlUtils";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 /**
  * @internal
@@ -27,14 +24,14 @@ import {
  */
 export function serializeNotificationHubJobEntry(entry: NotificationHubJob): string {
   const job: Record<string, any> = {
-    "Type": entry.type,
-    "OutputContainerUri": { "__cdata": entry.outputContainerUrl },
-    "ImportFileUri": isDefined(entry.importFileUrl) ? { "__cdata": entry.importFileUrl } : undefined,
+    Type: entry.type,
+    OutputContainerUri: { __cdata: entry.outputContainerUrl },
+    ImportFileUri: isDefined(entry.importFileUrl) ? { __cdata: entry.importFileUrl } : undefined,
   };
 
   const requestObject = serializeToAtomXmlRequest("NotificationHubJob", job);
 
-  return stringifyXML(requestObject, { "rootName": "entry", cdataPropName: "__cdata" });
+  return stringifyXML(requestObject, { rootName: "entry", cdataPropName: "__cdata" });
 }
 
 /**

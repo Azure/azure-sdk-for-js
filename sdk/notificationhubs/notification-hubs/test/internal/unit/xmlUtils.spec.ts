@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
-import { 
+import {
   getDate,
   getDateOrUndefined,
   getFloat,
   getFloatOrUndefined,
   getInteger,
   getIntegerOrUndefined,
-  getString, 
-  getStringOrUndefined, 
-  getTagsOrUndefined, 
-  isDefined, 
+  getString,
+  getStringOrUndefined,
+  getTagsOrUndefined,
+  isDefined,
 } from "../../../src/utils/xmlUtils";
+import { assert } from "@azure/test-utils";
 
 describe("xmlUtils", () => {
   describe("isDefined", () => {
@@ -24,21 +24,21 @@ describe("xmlUtils", () => {
     });
 
     it("should return true for a value that isn't undefined", () => {
-      let value = "42";
+      const value = "42";
       const actual = isDefined(value);
       assert.isTrue(actual);
-    })
+    });
   });
 
   describe("getString", () => {
     it("should get a string with a defined string", () => {
-      let value = "42";
+      const value = "42";
       const actual = getString(value, "value");
       assert.equal(actual, value);
     });
 
     it("should get a string with a defined number", () => {
-      let value = 42;
+      const value = 42;
       const actual = getString(value, "value");
       assert.equal(actual, value.toString());
     });
@@ -53,13 +53,13 @@ describe("xmlUtils", () => {
 
   describe("getStringOrUndefined", () => {
     it("should get a string with a defined string", () => {
-      let value = "42";
+      const value = "42";
       const actual = getStringOrUndefined(value);
       assert.equal(actual, value);
     });
 
     it("should get a string with a defined number", () => {
-      let value = 42;
+      const value = 42;
       const actual = getStringOrUndefined(value);
       assert.equal(actual, value.toString());
     });
@@ -73,19 +73,19 @@ describe("xmlUtils", () => {
 
   describe("getInteger", () => {
     it("should return a number from a number input", () => {
-      let value = 42;
+      const value = 42;
       const actual = getInteger(value, "value");
       assert.equal(actual, value);
     });
 
     it("should return a number from a string number input", () => {
-      let value = "42";
+      const value = "42";
       const actual = getInteger(value, "value");
       assert.equal(actual, 42);
     });
 
     it("should throw with a non-number input", () => {
-      let value = "foobarbaz";
+      const value = "foobarbaz";
       assert.throws(() => {
         getInteger(value, "value");
       });
@@ -101,19 +101,19 @@ describe("xmlUtils", () => {
 
   describe("getIntegerOrUndefined", () => {
     it("should return a number from a number input", () => {
-      let value = 42;
+      const value = 42;
       const actual = getIntegerOrUndefined(value);
       assert.equal(actual, value);
     });
 
     it("should return a number from a string number input", () => {
-      let value = "42";
+      const value = "42";
       const actual = getIntegerOrUndefined(value);
       assert.equal(actual, 42);
     });
 
     it("should return undefined with a non-number input", () => {
-      let value = "foobarbaz";
+      const value = "foobarbaz";
       const actual = getIntegerOrUndefined(value);
       assert.isUndefined(actual);
     });
@@ -127,19 +127,19 @@ describe("xmlUtils", () => {
 
   describe("getFloat", () => {
     it("should return a number from a number input", () => {
-      let value = 42.2;
+      const value = 42.2;
       const actual = getFloat(value, "value");
       assert.equal(actual, value);
     });
 
     it("should return a number from a string number input", () => {
-      let value = "42.2";
+      const value = "42.2";
       const actual = getFloat(value, "value");
       assert.equal(actual, 42.2);
     });
 
     it("should throw with a non-number input", () => {
-      let value = "foobarbaz";
+      const value = "foobarbaz";
       assert.throws(() => {
         getFloat(value, "value");
       });
@@ -176,7 +176,7 @@ describe("xmlUtils", () => {
       let value: string | undefined;
       const actual = getFloatOrUndefined(value);
       assert.isUndefined(actual);
-    });      
+    });
   });
 
   describe("getDate", () => {
@@ -225,7 +225,6 @@ describe("xmlUtils", () => {
       let value: string | undefined;
       const actual = getTagsOrUndefined(value);
       assert.isUndefined(actual);
-    })
+    });
   });
-
 });

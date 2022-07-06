@@ -14,9 +14,9 @@
  * @azsdk-weight 100
  */
 
-import { 
+import {
   createAppleRegistrationDescription,
-  clientFromConnectionString 
+  clientFromConnectionString,
 } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
@@ -39,7 +39,7 @@ async function main() {
   const registration = createAppleRegistrationDescription({
     registrationId,
     deviceToken,
-    tags: [ "likes_football", "likes_hockey" ],
+    tags: ["likes_football", "likes_hockey"],
   });
 
   const registrationResponse = await client.createOrUpdateRegistration(registration);
@@ -47,8 +47,7 @@ async function main() {
   console.log(`Registration ID: ${registrationResponse.registrationId}`);
 }
 
-main()
-  .catch((err) => {
-    console.log("createRegistration Sample: Error occurred: ", err);
-    process.exit(1);
-  });
+main().catch((err) => {
+  console.log("createRegistration Sample: Error occurred: ", err);
+  process.exit(1);
+});

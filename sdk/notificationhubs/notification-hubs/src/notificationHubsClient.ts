@@ -1,33 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { BrowserPushChannel, Installation, JsonPatch, PushHandle } from "./models/installation";
+import {
+  EntityOperationOptions,
+  NotificationHubsClientOptions,
+  RegistrationQueryLimitOptions,
+  RegistrationQueryOptions,
+  SendOperationOptions,
+} from "./models/options";
 import {
   HttpHeaders,
   HttpMethods,
   PipelineRequest,
   PipelineResponse,
+  RestError,
   createHttpHeaders,
   createPipelineRequest,
-  RestError,
 } from "@azure/core-rest-pipeline";
+import {
+  NotificationHubMessageResponse,
+  NotificationHubResponse,
+  RegistrationQueryResponse,
+} from "./models/response";
 import { OperationOptions, ServiceClient } from "@azure/core-client";
-import { registrationDescriptionParser, registrationDescriptionSerializer } from "./serializers/registrationSerializer";
 import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
 } from "./utils/connectionStringUtils";
-import { SasTokenProvider } from "@azure/core-amqp";
-import { tracingClient } from "./utils/tracing";
-import { Installation, JsonPatch, PushHandle, BrowserPushChannel } from "./models/installation";
-import { NotificationHubMessage } from "./models/message";
-import { EntityOperationOptions, NotificationHubsClientOptions, RegistrationQueryLimitOptions, RegistrationQueryOptions, SendOperationOptions } from "./models/options";
-import { NotificationHubMessageResponse, NotificationHubResponse, RegistrationQueryResponse } from "./models/response";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RegistrationDescription } from "./models/registration";
-import { parseNotificationDetails } from "./serializers/notificationDetailsSerializer";
+import {
+  parseNotificationHubJobEntry,
+  parseNotificationHubJobFeed,
+  serializeNotificationHubJobEntry,
+} from "./serializers/notificationHubJobSerializer";
+import {
+  registrationDescriptionParser,
+  registrationDescriptionSerializer,
+} from "./serializers/registrationSerializer";
 import { NotificationDetails } from "./models/notificationDetails";
 import { NotificationHubJob } from "./models/notificationHubJob";
-import { parseNotificationHubJobEntry, parseNotificationHubJobFeed, serializeNotificationHubJobEntry } from "./serializers/notificationHubJobSerializer";
+import { NotificationHubMessage } from "./models/message";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { RegistrationDescription } from "./models/registration";
+import { SasTokenProvider } from "@azure/core-amqp";
+import { parseNotificationDetails } from "./serializers/notificationDetailsSerializer";
+import { tracingClient } from "./utils/tracing";
 
 const API_VERSION = "2020-06";
 
@@ -37,7 +54,10 @@ const API_VERSION = "2020-06";
  * @param hubName - The notification hub name.
  * @returns A NotificationHubsClient initialized from the connection string and hub name.
  */
-export function clientFromConnectionString(connectionString: string, hubName: string): NotificationHubsClient {
+export function clientFromConnectionString(
+  connectionString: string,
+  hubName: string
+): NotificationHubsClient {
   return new NotificationHubsClient(connectionString, hubName);
 }
 
@@ -94,12 +114,10 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 204) {
-          throw new RestError(
-            `deleteInstallation failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`deleteInstallation failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return this.parseNotificationResponse(response);
@@ -130,12 +148,10 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          throw new RestError(
-            `getInstallation failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`getInstallation failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return JSON.parse(response.bodyAsText!) as Installation;
@@ -168,12 +184,10 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          throw new RestError(
-            `createOrUpdateInstallation failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`createOrUpdateInstallation failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return JSON.parse(response.bodyAsText!) as Installation;
@@ -208,12 +222,10 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          throw new RestError(
-            `patchInstallation failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`patchInstallation failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return JSON.parse(response.bodyAsText!) as Installation;
@@ -240,12 +252,10 @@ export class NotificationHubsClient extends ServiceClient {
         const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          throw new RestError(
-            `getFeedbackContainerURL failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`getFeedbackContainerURL failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return response.bodyAsText!;
@@ -272,12 +282,10 @@ export class NotificationHubsClient extends ServiceClient {
         const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
         const response = await this.sendRequest(request);
         if (response.status !== 201) {
-          throw new RestError(
-            `createRegistrationId failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`createRegistrationId failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         // In the form: https://{namespace}.servicebus.windows.net/{NotificationHub}/registrations/<registrationId>
@@ -286,7 +294,8 @@ export class NotificationHubsClient extends ServiceClient {
         const registrationId = locationUrl.pathname.split("/")[3];
 
         return registrationId;
-      });
+      }
+    );
   }
 
   /**
@@ -312,16 +321,15 @@ export class NotificationHubsClient extends ServiceClient {
         const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          throw new RestError(
-            `getRegistration failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`getRegistration failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return registrationDescriptionParser.parseRegistrationEntry(response.bodyAsText!);
-      });
+      }
+    );
   }
 
   /**
@@ -348,20 +356,19 @@ export class NotificationHubsClient extends ServiceClient {
         const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          throw new RestError(
-            `deleteRegistration failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`deleteRegistration failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return this.parseNotificationResponse(response);
-      });
+      }
+    );
   }
 
   /**
-   * Creates a new registration. This method generates a registration ID, 
+   * Creates a new registration. This method generates a registration ID,
    * which you can subsequently use to retrieve, update, and delete this registration.
    * @param registration - The registration to create.
    * @param options - Options for creating a new registration.
@@ -376,7 +383,9 @@ export class NotificationHubsClient extends ServiceClient {
       options,
       async (updatedOptions) => {
         if (registration.registrationId) {
-          throw new RestError("registrationId must not be set during a create operation", { statusCode: 400 });
+          throw new RestError("registrationId must not be set during a create operation", {
+            statusCode: 400,
+          });
         }
 
         return this.createOrUpdateRegistrationDescription(
@@ -385,7 +394,8 @@ export class NotificationHubsClient extends ServiceClient {
           "*",
           updatedOptions
         );
-      });
+      }
+    );
   }
 
   /**
@@ -408,7 +418,8 @@ export class NotificationHubsClient extends ServiceClient {
           "*",
           updatedOptions
         );
-      });
+      }
+    );
   }
 
   /**
@@ -434,14 +445,15 @@ export class NotificationHubsClient extends ServiceClient {
           `"${registration.eTag}"`,
           updatedOptions
         );
-      });
+      }
+    );
   }
 
   private async createOrUpdateRegistrationDescription(
     registration: RegistrationDescription,
     operationName: "create" | "createOrUpdate" | "update",
     eTag: string,
-    options: OperationOptions,
+    options: OperationOptions
   ): Promise<RegistrationDescription> {
     const endpoint = this.getBaseURL();
     endpoint.pathname += "/registrations";
@@ -464,12 +476,10 @@ export class NotificationHubsClient extends ServiceClient {
     request.body = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
     const response = await this.sendRequest(request);
     if (response.status !== 200 && response.status !== 201) {
-      throw new RestError(
-        `${operationName}Registration failed with ${response.status}`,
-        {
-          statusCode: response.status,
-          response: response
-        });
+      throw new RestError(`${operationName}Registration failed with ${response.status}`, {
+        statusCode: response.status,
+        response: response,
+      });
     }
 
     return registrationDescriptionParser.parseRegistrationEntry(response.bodyAsText!);
@@ -483,7 +493,10 @@ export class NotificationHubsClient extends ServiceClient {
   public listRegistrations(
     options: RegistrationQueryOptions = {}
   ): PagedAsyncIterableIterator<RegistrationDescription> {
-    const { span, updatedOptions } = tracingClient.startSpan("NotificationHubsClient-listRegistrations", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "NotificationHubsClient-listRegistrations",
+      options
+    );
     try {
       const iter = this.listRegistrationsAll(updatedOptions);
       return {
@@ -495,7 +508,7 @@ export class NotificationHubsClient extends ServiceClient {
         },
         byPage: () => {
           return this.listRegistrationPagingPage(options);
-        }
+        },
       };
     } catch (e: any) {
       span.setStatus({ status: "error", error: e });
@@ -527,7 +540,7 @@ export class NotificationHubsClient extends ServiceClient {
   }
 
   private async _listRegistrations(
-    options: RegistrationQueryOptions, 
+    options: RegistrationQueryOptions,
     continuationToken?: string
   ): Promise<RegistrationQueryResponse> {
     const endpoint = this.getBaseURL();
@@ -549,19 +562,19 @@ export class NotificationHubsClient extends ServiceClient {
     const request = this.createRequest(endpoint, "GET", headers, options);
     const response = await this.sendRequest(request);
     if (response.status !== 200) {
-      throw new RestError(
-        `listRegistrations failed with ${response.status}`,
-        {
-          statusCode: response.status,
-          response: response
-        });
+      throw new RestError(`listRegistrations failed with ${response.status}`, {
+        statusCode: response.status,
+        response: response,
+      });
     }
 
-    const registrations = await registrationDescriptionParser.parseRegistrationFeed(response.bodyAsText!);
+    const registrations = await registrationDescriptionParser.parseRegistrationFeed(
+      response.bodyAsText!
+    );
     const nextToken = response.headers.get("x-ms-continuationtoken");
     return {
       registrations,
-      continuationToken: nextToken
+      continuationToken: nextToken,
     };
   }
 
@@ -573,9 +586,12 @@ export class NotificationHubsClient extends ServiceClient {
    */
   public listRegistrationsByTag(
     tag: string,
-    options: RegistrationQueryLimitOptions
+    options: RegistrationQueryLimitOptions = {}
   ): PagedAsyncIterableIterator<RegistrationDescription> {
-    const { span, updatedOptions } = tracingClient.startSpan("NotificationHubsClient-listRegistrationsByTag", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "NotificationHubsClient-listRegistrationsByTag",
+      options
+    );
     try {
       const iter = this.listRegistrationsByTagAll(tag, updatedOptions);
       return {
@@ -587,7 +603,7 @@ export class NotificationHubsClient extends ServiceClient {
         },
         byPage: () => {
           return this.listRegistrationsByTagPagingPage(tag, options);
-        }
+        },
       };
     } catch (e: any) {
       span.setStatus({ status: "error", error: e });
@@ -622,7 +638,7 @@ export class NotificationHubsClient extends ServiceClient {
 
   private async _listRegistrationsByTag(
     tag: string,
-    options: RegistrationQueryLimitOptions, 
+    options: RegistrationQueryLimitOptions,
     continuationToken?: string
   ): Promise<RegistrationQueryResponse> {
     const endpoint = this.getBaseURL();
@@ -640,19 +656,19 @@ export class NotificationHubsClient extends ServiceClient {
     const request = this.createRequest(endpoint, "GET", headers, options);
     const response = await this.sendRequest(request);
     if (response.status !== 200) {
-      throw new RestError(
-        `listRegistrations failed with ${response.status}`,
-        {
-          statusCode: response.status,
-          response: response
-        });
+      throw new RestError(`listRegistrations failed with ${response.status}`, {
+        statusCode: response.status,
+        response: response,
+      });
     }
 
-    const registrations = await registrationDescriptionParser.parseRegistrationFeed(response.bodyAsText!);
+    const registrations = await registrationDescriptionParser.parseRegistrationFeed(
+      response.bodyAsText!
+    );
     const nextToken = response.headers.get("x-ms-continuationtoken");
     return {
       registrations,
-      continuationToken: nextToken
+      continuationToken: nextToken,
     };
   }
 
@@ -691,13 +707,7 @@ export class NotificationHubsClient extends ServiceClient {
     message: NotificationHubMessage,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubMessageResponse> {
-    return this.sendNotificationMessage(
-      message,
-      "sendNotification",
-      undefined,
-      tags,
-      options
-    );
+    return this.sendNotificationMessage(message, "sendNotification", undefined, tags, options);
   }
 
   /**
@@ -750,16 +760,15 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 201) {
-          throw new RestError(
-            `scheduleNotification failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`scheduleNotification failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return this.parseNotificationSendResponse(response);
-      });
+      }
+    );
   }
 
   /**
@@ -784,16 +793,15 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          throw new RestError(
-            `cancelScheduledNotification failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`cancelScheduledNotification failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return this.parseNotificationSendResponse(response);
-      });
+      }
+    );
   }
 
   private sendNotificationMessage(
@@ -808,7 +816,7 @@ export class NotificationHubsClient extends ServiceClient {
       options,
       async (updatedOptions) => {
         const endpoint = this.getBaseURL();
-        endpoint.pathname += "/messages/";;
+        endpoint.pathname += "/messages/";
 
         if (options.enableTestSend) {
           endpoint.searchParams.append("debug", "true");
@@ -853,12 +861,10 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 201) {
-          throw new RestError(
-            `${method} failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`${method} failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return this.parseNotificationSendResponse(response);
@@ -867,7 +873,7 @@ export class NotificationHubsClient extends ServiceClient {
   }
 
   /**
-   * Retrieves the results of a send operation. This can retrieve intermediate results if the send is being processed 
+   * Retrieves the results of a send operation. This can retrieve intermediate results if the send is being processed
    * or final results if the Send* has completed. This API can only be called for Standard SKU and above.
    * @param notificationId - The notification ID returned from the send operation.
    * @param options - The operation options.
@@ -875,7 +881,7 @@ export class NotificationHubsClient extends ServiceClient {
    */
   public async getNotificationOutcomeDetails(
     notificationId: string,
-    options: OperationOptions = {},
+    options: OperationOptions = {}
   ): Promise<NotificationDetails> {
     return tracingClient.withSpan(
       "NotificationHubsClient-getNotificationOutcomeDetails",
@@ -889,16 +895,15 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          throw new RestError(
-            `getNotificationOutcomeDetails failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`getNotificationOutcomeDetails failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return parseNotificationDetails(response.bodyAsText!);
-      });
+      }
+    );
   }
 
   /**
@@ -926,16 +931,15 @@ export class NotificationHubsClient extends ServiceClient {
 
         const response = await this.sendRequest(request);
         if (response.status !== 201) {
-          throw new RestError(
-            `submitNotificationHubJob failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`submitNotificationHubJob failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return parseNotificationHubJobEntry(response.bodyAsText!);
-      });
+      }
+    );
   }
 
   /**
@@ -946,7 +950,7 @@ export class NotificationHubsClient extends ServiceClient {
    */
   public getNotificationHubJob(
     jobId: string,
-    options: OperationOptions = {},
+    options: OperationOptions = {}
   ): Promise<NotificationHubJob> {
     return tracingClient.withSpan(
       "NotificationHubsClient-getNotificationHubJob",
@@ -961,16 +965,15 @@ export class NotificationHubsClient extends ServiceClient {
         const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          throw new RestError(
-            `getNotificationHubJob failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`getNotificationHubJob failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return parseNotificationHubJobEntry(response.bodyAsText!);
-      });
+      }
+    );
   }
 
   /**
@@ -978,7 +981,9 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The operation options.
    * @returns An array of all Notification Hub Jobs for this Notification Hub.
    */
-  public async getNotificationHubJobs(options: OperationOptions = {}): Promise<NotificationHubJob[]> {
+  public async getNotificationHubJobs(
+    options: OperationOptions = {}
+  ): Promise<NotificationHubJob[]> {
     return tracingClient.withSpan(
       "NotificationHubsClient-getNotificationHubJobs",
       options,
@@ -992,16 +997,15 @@ export class NotificationHubsClient extends ServiceClient {
         const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
-          throw new RestError(
-            `getNotificationHubJobs failed with ${response.status}`,
-            {
-              statusCode: response.status,
-              response: response
-            });
+          throw new RestError(`getNotificationHubJobs failed with ${response.status}`, {
+            statusCode: response.status,
+            response: response,
+          });
         }
 
         return parseNotificationHubJobFeed(response.bodyAsText!);
-      });
+      }
+    );
   }
 
   private createHeaders(): HttpHeaders {
@@ -1041,7 +1045,9 @@ export class NotificationHubsClient extends ServiceClient {
     };
   }
 
-  private parseNotificationSendResponse(response: PipelineResponse): NotificationHubMessageResponse {
+  private parseNotificationSendResponse(
+    response: PipelineResponse
+  ): NotificationHubMessageResponse {
     const result = this.parseNotificationResponse(response);
     let notificationId: string | undefined;
     if (result.location) {
@@ -1051,8 +1057,8 @@ export class NotificationHubsClient extends ServiceClient {
 
     return {
       ...result,
-      notificationId
-    }
+      notificationId,
+    };
   }
 
   private getBaseURL(): URL {

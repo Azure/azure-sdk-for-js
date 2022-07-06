@@ -15,13 +15,13 @@
  */
 
 import { delay } from "@azure/core-amqp";
-import { 
-  createAppleMessage, 
-  clientFromConnectionString, 
+import {
+  createAppleMessage,
+  clientFromConnectionString,
   SendOperationOptions,
   NotificationDetails,
   NotificationHubsClient,
-  NotificationOutcomeState
+  NotificationOutcomeState,
 } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
@@ -43,7 +43,7 @@ async function main() {
     headers: {
       "apns-priority": "10",
       "apns-push-type": "alert",
-    }
+    },
   });
 
   // Not required but can set test send to true for debugging purposes.
@@ -64,14 +64,17 @@ async function main() {
   }
 }
 
-async function getNotificationDetails(client: NotificationHubsClient, notificationId: string): Promise<NotificationDetails | undefined> {
+async function getNotificationDetails(
+  client: NotificationHubsClient,
+  notificationId: string
+): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
   let count = 0;
   let result: NotificationDetails | undefined;
   while ((state === "Enqueued" || state === "Processing") && count++ < 10) {
     try {
       result = await client.getNotificationOutcomeDetails(notificationId);
-      state =  result.state!;
+      state = result.state!;
     } catch (e) {
       // Possible to get 404 for when it doesn't exist yet.
     }
@@ -82,8 +85,7 @@ async function getNotificationDetails(client: NotificationHubsClient, notificati
   return result;
 }
 
-main()
-  .catch((err) => {
-    console.log("sendTagExpression Sample: Error occurred: ", err);
-    process.exit(1);
-  });
+main().catch((err) => {
+  console.log("sendTagExpression Sample: Error occurred: ", err);
+  process.exit(1);
+});

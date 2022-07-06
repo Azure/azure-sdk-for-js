@@ -339,44 +339,44 @@ export type NotificationHubJobStatus =
 /**
 * Indicates that the NotificationHubJob was accepted.
 */
-"Started" |
+"Started"
 /**
 * Indicates that the NotificationHubJob is currently running. Depending on the amount of data,
 * a job may stay in this state for several hours.
 */
-"Running" |
+| "Running"
 /**
 * Indicates that the NotificationHubJob was completed successfully. Any output
 * will be ready where configured via the NotificationHubJob object.
 */
-"Completed" |
+| "Completed"
 /**
 * Indicates that the NotificationHubJob has failed.
 */
-"Failed";
+| "Failed";
 
 // @public
 export type NotificationHubJobType =
 /**
 * Job type to bulk get registrations.
 */
-"ExportRegistrations" |
+"ExportRegistrations"
 /**
 * Job type to bulk create registrations.
 */
-"ImportCreateRegistrations" |
+| "ImportCreateRegistrations"
 /**
 * Job type to bulk update registrations.
 */
-"ImportUpdateRegistrations" |
+| "ImportUpdateRegistrations"
 /**
 * Job type to bulk delete registrations.
 */
-"ImportDeleteRegistrations" |
+| "ImportDeleteRegistrations"
 /**
 * Job type to bulk upsert registrations.
 */
-"ImportUpsertRegistrations";
+| "ImportUpsertRegistrations";
 
 // @public
 export type NotificationHubMessage = AppleMessage | AdmMessage | BaiduMessage | BrowserMessage | FirebaseLegacyMessage | WindowsMessage | TemplateMessage;
@@ -418,7 +418,7 @@ export class NotificationHubsClient extends ServiceClient {
     getNotificationOutcomeDetails(notificationId: string, options?: OperationOptions): Promise<NotificationDetails>;
     getRegistration(registrationId: string, options?: OperationOptions): Promise<RegistrationDescription>;
     listRegistrations(options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
-    listRegistrationsByTag(tag: string, options: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
+    listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessage, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
     sendDirectNotification(pushHandle: PushHandle, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
     sendNotification(tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;

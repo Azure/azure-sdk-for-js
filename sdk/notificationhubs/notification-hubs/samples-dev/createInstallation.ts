@@ -13,9 +13,7 @@
  * @azsdk-weight 100
  */
 
-import { 
-  clientFromConnectionString, createAppleInstallation 
-} from "@azure/notification-hubs";
+import { clientFromConnectionString, createAppleInstallation } from "@azure/notification-hubs";
 import { v4 } from "uuid";
 
 // Load the .env file if it exists
@@ -43,8 +41,7 @@ async function main() {
   console.log(`Installation last update: ${updatedInstallation.lastUpdate}`);
 }
 
-main()
-  .catch((err) => {
-    console.log("createInstallation Sample: Error occurred: ", err);
-    process.exit(1);
-  });
+main().catch((err) => {
+  console.log("createInstallation Sample: Error occurred: ", err);
+  process.exit(1);
+});

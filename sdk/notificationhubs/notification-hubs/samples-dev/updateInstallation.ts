@@ -14,9 +14,7 @@
  * @azsdk-weight 100
  */
 
-import { 
-  clientFromConnectionString, JsonPatch 
-} from "@azure/notification-hubs";
+import { clientFromConnectionString, JsonPatch } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -32,17 +30,16 @@ const installationId = process.env.INSTALLATION_ID || "<installation id>";
 async function main() {
   const client = clientFromConnectionString(connectionString, hubName);
 
-  const updates: JsonPatch[] = [ 
-    { "op": "add", "path": "/tags", "value": "likes_baseball" },
-    { "op": "add", "path": "/userId", "value": "bob@contoso.com" } 
+  const updates: JsonPatch[] = [
+    { op: "add", path: "/tags", value: "likes_baseball" },
+    { op: "add", path: "/userId", value: "bob@contoso.com" },
   ];
 
   const updatedInstallation = await client.updateInstallation(installationId, updates);
   console.log(`Installation last update: ${updatedInstallation.lastUpdate}`);
 }
 
-main()
-  .catch((err) => {
-    console.log("updateInstallation Sample: Error occurred: ", err);
-    process.exit(1);
-  });
+main().catch((err) => {
+  console.log("updateInstallation Sample: Error occurred: ", err);
+  process.exit(1);
+});

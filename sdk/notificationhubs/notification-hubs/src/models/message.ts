@@ -53,7 +53,9 @@ export interface AppleMessage extends JsonNotificationMessage {
  * @param message - A partial message used to create a message for Apple.
  * @returns A newly created Apple message.
  */
-export function createAppleMessage(message: Omit<AppleMessage, "platform" | "contentType">): AppleMessage {
+export function createAppleMessage(
+  message: Omit<AppleMessage, "platform" | "contentType">
+): AppleMessage {
   return {
     ...message,
     platform: "apple",
@@ -76,7 +78,9 @@ export interface AdmMessage extends JsonNotificationMessage {
  * @param message - A partial message used to create a message for Amazon Device Messaging.
  * @returns A newly created Amazon Device Messaging message.
  */
-export function createAdmMessage(message: Omit<AdmMessage, "platform" | "contentType">): AdmMessage {
+export function createAdmMessage(
+  message: Omit<AdmMessage, "platform" | "contentType">
+): AdmMessage {
   return {
     ...message,
     platform: "adm",
@@ -99,7 +103,9 @@ export interface BaiduMessage extends JsonNotificationMessage {
  * @param message - A partial message used to create a message for Baidu.
  * @returns A newly created Baidu message.
  */
-export function createBaiduMessage(message: Omit<BaiduMessage, "platform" | "contentType">): BaiduMessage {
+export function createBaiduMessage(
+  message: Omit<BaiduMessage, "platform" | "contentType">
+): BaiduMessage {
   return {
     ...message,
     platform: "baidu",
@@ -122,7 +128,9 @@ export interface BrowserMessage extends JsonNotificationMessage {
  * @param message - A partial message used to create a message for a browser.
  * @returns A newly created Web Push browser message.
  */
-export function createBrowserMessage(message: Omit<BrowserMessage, "platform" | "contentType">): BrowserMessage {
+export function createBrowserMessage(
+  message: Omit<BrowserMessage, "platform" | "contentType">
+): BrowserMessage {
   return {
     ...message,
     platform: "browser",
@@ -145,7 +153,9 @@ export interface FirebaseLegacyMessage extends JsonNotificationMessage {
  * @param message - A partial message used to create a message for Firebase.
  * @returns A newly created Firebase message.
  */
-export function createFirebaseLegacyMessage(message: Omit<FirebaseLegacyMessage, "platform" | "contentType">): FirebaseLegacyMessage {
+export function createFirebaseLegacyMessage(
+  message: Omit<FirebaseLegacyMessage, "platform" | "contentType">
+): FirebaseLegacyMessage {
   return {
     ...message,
     platform: "gcm",
@@ -168,7 +178,9 @@ export interface TemplateMessage extends JsonNotificationMessage {
  * @param message - A partial message used to create a message for Firebase.
  * @returns A newly created Firebase message.
  */
-export function createTemplateMessage(message: Omit<TemplateMessage, "platform" | "contentType">): TemplateMessage {
+export function createTemplateMessage(
+  message: Omit<TemplateMessage, "platform" | "contentType">
+): TemplateMessage {
   return {
     ...message,
     platform: "template",
@@ -201,7 +213,9 @@ export interface WindowsMessage extends NotificationHubMessageCommon {
  * @param message - A partial message used to create a badge message for WNS.
  * @returns A newly created WNS badge message.
  */
-export function createWindowsBadgeMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage {
+export function createWindowsBadgeMessage(
+  message: Omit<WindowsMessage, "platform" | "contentType">
+): WindowsMessage {
   const result: WindowsMessage = {
     ...message,
     platform: "wns",
@@ -212,7 +226,7 @@ export function createWindowsBadgeMessage(message: Omit<WindowsMessage, "platfor
     result.headers = {};
   }
 
-  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_BADGE; 
+  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_BADGE;
 
   return result;
 }
@@ -222,7 +236,9 @@ export function createWindowsBadgeMessage(message: Omit<WindowsMessage, "platfor
  * @param message - A partial message used to create a tile message for WNS.
  * @returns A newly created WNS tile message.
  */
-export function createWindowsTileMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage {
+export function createWindowsTileMessage(
+  message: Omit<WindowsMessage, "platform" | "contentType">
+): WindowsMessage {
   const result: WindowsMessage = {
     ...message,
     platform: "wns",
@@ -233,7 +249,7 @@ export function createWindowsTileMessage(message: Omit<WindowsMessage, "platform
     result.headers = {};
   }
 
-  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_TITLE; 
+  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_TITLE;
 
   return result;
 }
@@ -243,7 +259,9 @@ export function createWindowsTileMessage(message: Omit<WindowsMessage, "platform
  * @param message - A partial message used to create a toast message for WNS.
  * @returns A newly created WNS toast message.
  */
-export function createWindowsToastMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage {
+export function createWindowsToastMessage(
+  message: Omit<WindowsMessage, "platform" | "contentType">
+): WindowsMessage {
   const result: WindowsMessage = {
     ...message,
     platform: "wns",
@@ -254,7 +272,7 @@ export function createWindowsToastMessage(message: Omit<WindowsMessage, "platfor
     result.headers = {};
   }
 
-  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_TOAST; 
+  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_TOAST;
 
   return result;
 }
@@ -264,7 +282,9 @@ export function createWindowsToastMessage(message: Omit<WindowsMessage, "platfor
  * @param message - A partial message used to create a message for WNS in XML format.
  * @returns A newly created WNS message using XML.
  */
-export function createWindowsRawMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage {
+export function createWindowsRawMessage(
+  message: Omit<WindowsMessage, "platform" | "contentType">
+): WindowsMessage {
   const result: WindowsMessage = {
     ...message,
     platform: "wns",
@@ -275,7 +295,7 @@ export function createWindowsRawMessage(message: Omit<WindowsMessage, "platform"
     result.headers = {};
   }
 
-  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_RAW; 
+  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_RAW;
 
   return result;
 }

@@ -8,53 +8,53 @@ export type NotificationHubJobType =
   /**
    * Job type to bulk get registrations.
    */
-  "ExportRegistrations" |
+  | "ExportRegistrations"
 
   /**
    * Job type to bulk create registrations.
    */
-  "ImportCreateRegistrations" |
+  | "ImportCreateRegistrations"
 
   /**
    * Job type to bulk update registrations.
    */
-  "ImportUpdateRegistrations" |
+  | "ImportUpdateRegistrations"
 
   /**
    * Job type to bulk delete registrations.
    */
-  "ImportDeleteRegistrations" |
+  | "ImportDeleteRegistrations"
 
   /**
    * Job type to bulk upsert registrations.
    */
-  "ImportUpsertRegistrations";
+  | "ImportUpsertRegistrations";
 
 /**
  * Describes the types of notification hub job statuses.
- */  
+ */
 export type NotificationHubJobStatus =
   /**
    * Indicates that the NotificationHubJob was accepted.
    */
-  "Started" |
+  | "Started"
 
   /**
-   * Indicates that the NotificationHubJob is currently running. Depending on the amount of data, 
+   * Indicates that the NotificationHubJob is currently running. Depending on the amount of data,
    * a job may stay in this state for several hours.
    */
-  "Running" |
+  | "Running"
 
   /**
    * Indicates that the NotificationHubJob was completed successfully. Any output
    * will be ready where configured via the NotificationHubJob object.
-  */
-  "Completed" |
+   */
+  | "Completed"
 
   /**
    * Indicates that the NotificationHubJob has failed.
-  */
-  "Failed";
+   */
+  | "Failed";
 
 /**
  * Represents a Notification Hub Job.
@@ -83,12 +83,12 @@ export interface NotificationHubJob {
   /**
    * The type of job.
    */
-  type: NotificationHubJobType,
+  type: NotificationHubJobType;
 
   /**
    * The status of the job.
    */
-  status?: NotificationHubJobStatus,
+  status?: NotificationHubJobStatus;
 
   /**
    * The output container URL.

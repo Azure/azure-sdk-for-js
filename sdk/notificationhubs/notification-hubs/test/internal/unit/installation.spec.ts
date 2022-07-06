@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  createAdmInstallation,
+  createAppleInstallation,
+  createBaiduInstallation,
+  createBrowserInstallation,
+  createFirebaseLegacyInstallation,
+  createWindowsInstallation,
+} from "../../../src/models/installation";
 import { assert } from "@azure/test-utils";
-import { createAdmInstallation, createAppleInstallation, createBaiduInstallation, createBrowserInstallation, createFirebaseLegacyInstallation, createWindowsInstallation } from "../../../src/models/installation";
 
 describe("createAppleInstallation", () => {
   it("should set the default properties", () => {
@@ -12,7 +19,10 @@ describe("createAppleInstallation", () => {
     });
 
     assert.equal(installation.installationId, "abc123");
-    assert.equal(installation.pushChannel, "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0");
+    assert.equal(
+      installation.pushChannel,
+      "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0"
+    );
     assert.equal(installation.platform, "apns");
   });
 });

@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
-import { 
-  createAdmMessage, 
-  createAppleMessage, 
-  createBaiduMessage, 
-  createBrowserMessage, 
-  createFirebaseLegacyMessage, 
-  createTemplateMessage, 
-  createWindowsBadgeMessage, 
-  createWindowsRawMessage, 
-  createWindowsTileMessage, 
-  createWindowsToastMessage, 
-} from "../../../src/models/message";
 import * as Constants from "../../../src/utils/constants";
+import {
+  createAdmMessage,
+  createAppleMessage,
+  createBaiduMessage,
+  createBrowserMessage,
+  createFirebaseLegacyMessage,
+  createTemplateMessage,
+  createWindowsBadgeMessage,
+  createWindowsRawMessage,
+  createWindowsTileMessage,
+  createWindowsToastMessage,
+} from "../../../src/models/message";
+import { assert } from "@azure/test-utils";
 
 describe("createAppleMessage", () => {
   it("should create an apple message with defaults", () => {
     const message = createAppleMessage({
-      body: `{"aps":{"alert":"Hello"}}`
+      body: `{"aps":{"alert":"Hello"}}`,
     });
 
     assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
@@ -31,7 +31,7 @@ describe("createAppleMessage", () => {
 describe("createAdmMessage", () => {
   it("should create an ADM message with defaults", () => {
     const message = createAdmMessage({
-      body: `{"data":{"message":"Hello}}`
+      body: `{"data":{"message":"Hello}}`,
     });
 
     assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
@@ -43,7 +43,7 @@ describe("createAdmMessage", () => {
 describe("createBaiduMessage", () => {
   it("should create a Baidu message with defaults", () => {
     const message = createBaiduMessage({
-      body: `{"title":"(Hello title)","description":"Hello"}`
+      body: `{"title":"(Hello title)","description":"Hello"}`,
     });
 
     assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
@@ -55,7 +55,7 @@ describe("createBaiduMessage", () => {
 describe("createBrowserMessage", () => {
   it("should create a Baidu message with defaults", () => {
     const message = createBrowserMessage({
-      body: `{"title":"(Hello title)","body":"Hello"}`
+      body: `{"title":"(Hello title)","body":"Hello"}`,
     });
 
     assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
@@ -67,7 +67,7 @@ describe("createBrowserMessage", () => {
 describe("createFirebaseLegacyMessage", () => {
   it("should create a Firebase message with defaults", () => {
     const message = createFirebaseLegacyMessage({
-      body: `{"notification":{"title":"mytitle","body":"Hello}}`
+      body: `{"notification":{"title":"mytitle","body":"Hello}}`,
     });
 
     assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
@@ -79,7 +79,7 @@ describe("createFirebaseLegacyMessage", () => {
 describe("createTemplateMessage", () => {
   it("should create a Template message with defaults", () => {
     const message = createTemplateMessage({
-      body: `{"title":"(Hello title)","body":"Hello"}`
+      body: `{"title":"(Hello title)","body":"Hello"}`,
     });
 
     assert.equal(message.contentType, Constants.JSON_CONTENT_TYPE);
@@ -91,7 +91,7 @@ describe("createTemplateMessage", () => {
 describe("createWindowsBadgeMessage", () => {
   it("should create a badge Windows message with defaults", () => {
     const message = createWindowsBadgeMessage({
-      body: `badge WNS Message`
+      body: `badge WNS Message`,
     });
 
     assert.equal(message.contentType, Constants.XML_CONTENT_TYPE);
@@ -104,7 +104,7 @@ describe("createWindowsBadgeMessage", () => {
 describe("createWindowsTileMessage", () => {
   it("should create a tile Windows message with defaults", () => {
     const message = createWindowsTileMessage({
-      body: `tile WNS Message`
+      body: `tile WNS Message`,
     });
 
     assert.equal(message.contentType, Constants.XML_CONTENT_TYPE);
@@ -117,7 +117,7 @@ describe("createWindowsTileMessage", () => {
 describe("createWindowsToastMessage", () => {
   it("should create a toast Windows message with defaults", () => {
     const message = createWindowsToastMessage({
-      body: `toast WNS Message`
+      body: `toast WNS Message`,
     });
 
     assert.equal(message.contentType, Constants.XML_CONTENT_TYPE);
@@ -130,7 +130,7 @@ describe("createWindowsToastMessage", () => {
 describe("createWindowsRawMessage", () => {
   it("should create a raw Windows message with defaults", () => {
     const message = createWindowsRawMessage({
-      body: `raw WNS Message`
+      body: `raw WNS Message`,
     });
 
     assert.equal(message.contentType, Constants.STREAM_CONTENT_TYPE);

@@ -115,6 +115,7 @@ export function getDate(value: string, nameOfProperty: string): Date {
  * Helper utility to convert ISO-8601 time into Date type,
  * or undefined if not passed in.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getDateOrUndefined(value: any): Date | undefined {
   const stringValue = getStringOrUndefined(value);
   if (stringValue === undefined) {
@@ -128,6 +129,7 @@ export function getDateOrUndefined(value: any): Date | undefined {
  * @internal
  * Helper utility to parse tags from a comma separated string.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getTagsOrUndefined(value?: any): string[] | undefined {
   const result = getStringOrUndefined(value);
   if (result === undefined) {

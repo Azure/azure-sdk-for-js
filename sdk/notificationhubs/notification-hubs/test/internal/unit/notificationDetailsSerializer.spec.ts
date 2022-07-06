@@ -33,7 +33,10 @@ describe("parseNotificationDetails", () => {
     assert.equal(parsedXML.wnsOutcomeCounts?.length, 2);
     assert.equal(parsedXML.pnsErrorDetailsUrl, "{Blob uri}");
     assert.equal(parsedXML.targetPlatforms, "windows");
-    assert.equal(parsedXML.location, "sb://{Your namespace}.servicebus.windows.net/{your hub name}/messages/{your message id}?api-version=2015-04");
+    assert.equal(
+      parsedXML.location,
+      "sb://{Your namespace}.servicebus.windows.net/{your hub name}/messages/{your message id}?api-version=2015-04"
+    );
     assert.equal(parsedXML.state, "Completed");
     assert.equal(parsedXML.notificationId, "{Your message id}");
     assert.isUndefined(parsedXML.admOutcomeCounts);

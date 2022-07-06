@@ -6,7 +6,8 @@ import { parseNotificationHubsConnectionString } from "../../../src/utils/connec
 
 describe("parseNotificationHubsConnectionString", () => {
   it("should parse a well formed connection string", () => {
-    const connectionString = "Endpoint=sb://xxx.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XXX";
+    const connectionString =
+      "Endpoint=sb://xxx.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XXX";
     const parsedConnection = parseNotificationHubsConnectionString(connectionString);
 
     assert.equal(parsedConnection.endpoint, "sb://xxx.servicebus.windows.net/");
@@ -15,7 +16,8 @@ describe("parseNotificationHubsConnectionString", () => {
   });
 
   it("should throw if there is no endpoint", () => {
-    const connectionString = "SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XXX";
+    const connectionString =
+      "SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XXX";
     assert.throws(() => parseNotificationHubsConnectionString(connectionString));
   });
 

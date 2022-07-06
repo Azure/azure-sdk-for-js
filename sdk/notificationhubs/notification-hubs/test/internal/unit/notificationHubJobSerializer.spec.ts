@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import {
+  parseNotificationHubJobEntry,
+  parseNotificationHubJobFeed,
+  serializeNotificationHubJobEntry,
+} from "../../../src/serializers/notificationHubJobSerializer";
 import { NotificationHubJob } from "../../../src/models/notificationHubJob";
-import { parseNotificationHubJobEntry, parseNotificationHubJobFeed, serializeNotificationHubJobEntry } from "../../../src/serializers/notificationHubJobSerializer";
+import { assert } from "@azure/test-utils";
 
 const HUB_JOB_OUTGOING = `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
@@ -150,7 +154,10 @@ describe("parseNotificationHubJobEntry", () => {
 
     assert.equal(parsed.type, "ImportCreateRegistrations");
     assert.equal(parsed.outputContainerUrl, "https://test.blob.core.windows.net/testjobs");
-    assert.equal(parsed.importFileUrl, "https://test.blob.core.windows.net/testjobs/CreateFile.txt");
+    assert.equal(
+      parsed.importFileUrl,
+      "https://test.blob.core.windows.net/testjobs/CreateFile.txt"
+    );
   });
 
   it("should parse an incoming entry", async () => {
@@ -161,7 +168,10 @@ describe("parseNotificationHubJobEntry", () => {
     assert.equal(parsed.type, "ImportCreateRegistrations");
     assert.equal(parsed.status, "Completed");
     assert.equal(parsed.outputContainerUrl, "https://test.blob.core.windows.net/testjobs");
-    assert.equal(parsed.importFileUrl, "https://test.blob.core.windows.net/testjobs/CreateFile.txt");
+    assert.equal(
+      parsed.importFileUrl,
+      "https://test.blob.core.windows.net/testjobs/CreateFile.txt"
+    );
     assert.equal(parsed.outputProperties!["OutputFilePath"], "test//hub/1/Output.txt");
     assert.equal(parsed.outputProperties!["FailedFilePath"], "test//hub/1/Failed.txt");
   });
@@ -189,7 +199,10 @@ describe("parseNotificationHubJobFeed", () => {
     assert.equal(second.type, "ImportCreateRegistrations");
     assert.equal(second.status, "Completed");
     assert.equal(second.outputContainerUrl, "https://test.blob.core.windows.net/testjobs");
-    assert.equal(second.importFileUrl, "https://test.blob.core.windows.net/testjobs/CreateFile.txt");
+    assert.equal(
+      second.importFileUrl,
+      "https://test.blob.core.windows.net/testjobs/CreateFile.txt"
+    );
     assert.equal(second.outputProperties!["OutputFilePath"], "test//hub/2/Output.txt");
     assert.equal(second.outputProperties!["FailedFilePath"], "test//hub/2/Failed.txt");
 
@@ -210,13 +223,26 @@ describe("serializeNotificationHubJobEntry", () => {
     const job: NotificationHubJob = {
       outputContainerUrl: "https://test.blob.core.windows.net/testjobs",
       importFileUrl: "https://test.blob.core.windows.net/testjobs/CreateFile.txt",
-      type: "ImportCreateRegistrations"
+      type: "ImportCreateRegistrations",
     };
 
     const xml = serializeNotificationHubJobEntry(job);
 
-    assert.isTrue(xml.indexOf("<Type>ImportCreateRegistrations</Type>") !== -1, "Should contain ImportCreateRegistrations type");
-    assert.isTrue(xml.indexOf("<OutputContainerUri><![CDATA[https://test.blob.core.windows.net/testjobs]]></OutputContainerUri>") !== -1), "Should contain OutputContainerUri";
-    assert.isTrue(xml.indexOf("<ImportFileUri><![CDATA[https://test.blob.core.windows.net/testjobs/CreateFile.txt]]></ImportFileUri>") !== -1, "Should contain ImportFileUri");
+    assert.isTrue(
+      xml.indexOf("<Type>ImportCreateRegistrations</Type>") !== -1,
+      "Should contain ImportCreateRegistrations type"
+    );
+    assert.isTrue(
+      xml.indexOf(
+        "<OutputContainerUri><![CDATA[https://test.blob.core.windows.net/testjobs]]></OutputContainerUri>"
+      ) !== -1,
+      "Should contain OutputContainerUri"
+    );
+    assert.isTrue(
+      xml.indexOf(
+        "<ImportFileUri><![CDATA[https://test.blob.core.windows.net/testjobs/CreateFile.txt]]></ImportFileUri>"
+      ) !== -1,
+      "Should contain ImportFileUri"
+    );
   });
-})
+});
