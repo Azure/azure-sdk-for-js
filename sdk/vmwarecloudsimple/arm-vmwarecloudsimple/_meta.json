@@ -1,5 +1,5 @@
 {
-  "commit": "fc2245b8f0fe6f17628e3b5a306b4b150c73cff0",
+  "commit": "58a1320584b1d26bf7dab969a2593cd22b39caec",
   "readme": "specification/vmwarecloudsimple/resource-manager/readme.md",
   "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\vmwarecloudsimple\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-rc.1 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
