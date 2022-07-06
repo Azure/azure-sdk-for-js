@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import { DeletionRecoveryLevel } from "./generated/models";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
 /**
  * The latest supported KeyVault service API version
@@ -12,7 +13,7 @@ export const LATEST_API_VERSION = "7.3";
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
  */
-export interface SecretClientOptions extends coreHttp.PipelineOptions {
+export interface SecretClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
@@ -197,7 +198,7 @@ export interface DeletedSecret {
  * An interface representing the optional parameters that can be
  * passed to {@link beginDeleteSecret} and {@link beginRecoverDeletedKey}.
  */
-export interface SecretPollerOptions extends coreHttp.OperationOptions {
+export interface SecretPollerOptions extends coreClient.OperationOptions {
   /**
    * Time between each polling in milliseconds.
    */
@@ -223,7 +224,7 @@ export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {}
 /**
  * Options for {@link setSecret}.
  */
-export interface SetSecretOptions extends coreHttp.OperationOptions {
+export interface SetSecretOptions extends coreClient.OperationOptions {
   /**
    * Application specific metadata in the form of key-value pairs.
    */
@@ -249,7 +250,7 @@ export interface SetSecretOptions extends coreHttp.OperationOptions {
 /**
  * Options for {@link updateSecretProperties}.
  */
-export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions {
+export interface UpdateSecretPropertiesOptions extends coreClient.OperationOptions {
   /**
    * Type of the secret value such as a password.
    */
@@ -275,7 +276,7 @@ export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions
 /**
  * Options for {@link getSecret}.
  */
-export interface GetSecretOptions extends coreHttp.OperationOptions {
+export interface GetSecretOptions extends coreClient.OperationOptions {
   /**
    * The version of the secret to retrieve. If not
    * specified the latest version of the secret will be retrieved.
@@ -286,46 +287,46 @@ export interface GetSecretOptions extends coreHttp.OperationOptions {
 /**
  * Options for {@link getDeletedSecret}.
  */
-export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {}
+export interface GetDeletedSecretOptions extends coreClient.OperationOptions {}
 
 /**
  * Options for {@link purgeDeletedSecret}.
  */
-export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {}
+export interface PurgeDeletedSecretOptions extends coreClient.OperationOptions {}
 
 /**
  * Options for {@link backupSecretOptions}.
  */
-export interface BackupSecretOptions extends coreHttp.OperationOptions {}
+export interface BackupSecretOptions extends coreClient.OperationOptions {}
 
 /**
  * Options for {@link restoreSecretBackup}.
  */
-export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
+export interface RestoreSecretBackupOptions extends coreClient.OperationOptions {}
 
 /**
  * @internal
  * Options for {@link recoverDeletedSecret}.
  */
-export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {}
+export interface RecoverDeletedSecretOptions extends coreClient.OperationOptions {}
 
 /**
  * @internal
  * Options for {@link deleteSecret}.
  */
-export interface DeleteSecretOptions extends coreHttp.OperationOptions {}
+export interface DeleteSecretOptions extends coreClient.OperationOptions {}
 
 /**
  * Options for {@link listPropertiesOfSecretVersions}.
  */
-export interface ListPropertiesOfSecretVersionsOptions extends coreHttp.OperationOptions {}
+export interface ListPropertiesOfSecretVersionsOptions extends coreClient.OperationOptions {}
 
 /**
  * Options for {@link listPropertiesOfSecrets}.
  */
-export interface ListPropertiesOfSecretsOptions extends coreHttp.OperationOptions {}
+export interface ListPropertiesOfSecretsOptions extends coreClient.OperationOptions {}
 
 /**
  * Options for {@link listDeletedSecrets}.
  */
-export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {}
+export interface ListDeletedSecretsOptions extends coreClient.OperationOptions {}

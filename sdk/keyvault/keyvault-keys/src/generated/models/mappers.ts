@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const KeyCreateParameters: coreHttp.CompositeMapper = {
+export const KeyCreateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyCreateParameters",
@@ -74,7 +74,7 @@ export const KeyCreateParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const Attributes: coreHttp.CompositeMapper = {
+export const Attributes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Attributes",
@@ -115,7 +115,7 @@ export const Attributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyReleasePolicy: coreHttp.CompositeMapper = {
+export const KeyReleasePolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyReleasePolicy",
@@ -143,7 +143,7 @@ export const KeyReleasePolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyBundle: coreHttp.CompositeMapper = {
+export const KeyBundle: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyBundle",
@@ -187,7 +187,7 @@ export const KeyBundle: coreHttp.CompositeMapper = {
   }
 };
 
-export const JsonWebKey: coreHttp.CompositeMapper = {
+export const JsonWebKey: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JsonWebKey",
@@ -297,7 +297,7 @@ export const JsonWebKey: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVaultError: coreHttp.CompositeMapper = {
+export const KeyVaultError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultError",
@@ -313,7 +313,7 @@ export const KeyVaultError: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorModel: coreHttp.CompositeMapper = {
+export const ErrorModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorModel",
@@ -343,7 +343,7 @@ export const ErrorModel: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyImportParameters: coreHttp.CompositeMapper = {
+export const KeyImportParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyImportParameters",
@@ -386,7 +386,7 @@ export const KeyImportParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyUpdateParameters: coreHttp.CompositeMapper = {
+export const KeyUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyUpdateParameters",
@@ -427,7 +427,7 @@ export const KeyUpdateParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyListResult: coreHttp.CompositeMapper = {
+export const KeyListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyListResult",
@@ -456,7 +456,7 @@ export const KeyListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyItem: coreHttp.CompositeMapper = {
+export const KeyItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyItem",
@@ -492,7 +492,7 @@ export const KeyItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const BackupKeyResult: coreHttp.CompositeMapper = {
+export const BackupKeyResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BackupKeyResult",
@@ -508,7 +508,7 @@ export const BackupKeyResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyRestoreParameters: coreHttp.CompositeMapper = {
+export const KeyRestoreParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyRestoreParameters",
@@ -524,7 +524,7 @@ export const KeyRestoreParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyOperationsParameters: coreHttp.CompositeMapper = {
+export const KeyOperationsParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyOperationsParameters",
@@ -565,7 +565,7 @@ export const KeyOperationsParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyOperationResult: coreHttp.CompositeMapper = {
+export const KeyOperationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyOperationResult",
@@ -609,7 +609,7 @@ export const KeyOperationResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeySignParameters: coreHttp.CompositeMapper = {
+export const KeySignParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeySignParameters",
@@ -632,7 +632,7 @@ export const KeySignParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVerifyParameters: coreHttp.CompositeMapper = {
+export const KeyVerifyParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVerifyParameters",
@@ -662,7 +662,7 @@ export const KeyVerifyParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVerifyResult: coreHttp.CompositeMapper = {
+export const KeyVerifyResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVerifyResult",
@@ -678,7 +678,7 @@ export const KeyVerifyResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyReleaseParameters: coreHttp.CompositeMapper = {
+export const KeyReleaseParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyReleaseParameters",
@@ -709,7 +709,7 @@ export const KeyReleaseParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyReleaseResult: coreHttp.CompositeMapper = {
+export const KeyReleaseResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyReleaseResult",
@@ -725,7 +725,7 @@ export const KeyReleaseResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeletedKeyListResult: coreHttp.CompositeMapper = {
+export const DeletedKeyListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeletedKeyListResult",
@@ -754,7 +754,7 @@ export const DeletedKeyListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyRotationPolicy: coreHttp.CompositeMapper = {
+export const KeyRotationPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyRotationPolicy",
@@ -789,7 +789,7 @@ export const KeyRotationPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const LifetimeActions: coreHttp.CompositeMapper = {
+export const LifetimeActions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LifetimeActions",
@@ -812,7 +812,7 @@ export const LifetimeActions: coreHttp.CompositeMapper = {
   }
 };
 
-export const LifetimeActionsTrigger: coreHttp.CompositeMapper = {
+export const LifetimeActionsTrigger: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LifetimeActionsTrigger",
@@ -833,7 +833,7 @@ export const LifetimeActionsTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const LifetimeActionsType: coreHttp.CompositeMapper = {
+export const LifetimeActionsType: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LifetimeActionsType",
@@ -849,7 +849,7 @@ export const LifetimeActionsType: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyRotationPolicyAttributes: coreHttp.CompositeMapper = {
+export const KeyRotationPolicyAttributes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyRotationPolicyAttributes",
@@ -878,7 +878,7 @@ export const KeyRotationPolicyAttributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const GetRandomBytesRequest: coreHttp.CompositeMapper = {
+export const GetRandomBytesRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "GetRandomBytesRequest",
@@ -898,7 +898,7 @@ export const GetRandomBytesRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const RandomBytes: coreHttp.CompositeMapper = {
+export const RandomBytes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RandomBytes",
@@ -914,7 +914,7 @@ export const RandomBytes: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyProperties: coreHttp.CompositeMapper = {
+export const KeyProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyProperties",
@@ -953,7 +953,7 @@ export const KeyProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyExportParameters: coreHttp.CompositeMapper = {
+export const KeyExportParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyExportParameters",
@@ -981,7 +981,7 @@ export const KeyExportParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyAttributes: coreHttp.CompositeMapper = {
+export const KeyAttributes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyAttributes",
@@ -1011,7 +1011,7 @@ export const KeyAttributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeletedKeyBundle: coreHttp.CompositeMapper = {
+export const DeletedKeyBundle: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeletedKeyBundle",
@@ -1041,7 +1041,7 @@ export const DeletedKeyBundle: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeletedKeyItem: coreHttp.CompositeMapper = {
+export const DeletedKeyItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeletedKeyItem",
