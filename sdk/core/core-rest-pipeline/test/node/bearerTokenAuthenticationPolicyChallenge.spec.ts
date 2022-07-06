@@ -361,7 +361,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
         challengeClaims: JSON.stringify({
           access_token: { foo: "bar" },
         }),
-      }
+      },
     ];
 
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
@@ -434,7 +434,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
 
     // Our goal is to test that:
-    // - After a challenge is received and processed and once the token is valid, we'll use it in future calls 
+    // - After a challenge is received and processed and once the token is valid, we'll use it in future calls
     assert.equal(credential.authCount, 2);
     assert.deepEqual(credential.scopesAndClaims, [
       {
