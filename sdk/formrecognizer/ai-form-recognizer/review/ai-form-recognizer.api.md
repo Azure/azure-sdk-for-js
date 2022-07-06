@@ -80,12 +80,16 @@ export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<
 export { AzureKeyCredential }
 
 // @public
-export interface BoundingRegion extends HasBoundingPolygon {
-    pageNumber: number;
+export interface BeginBuildModelOptions extends CreateModelOptions {
 }
 
 // @public
-export interface BuildModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<TrainingPollOperationState> {
+export interface BeginComposeModelOptions extends CreateModelOptions {
+}
+
+// @public
+export interface BoundingRegion extends HasBoundingPolygon {
+    pageNumber: number;
 }
 
 // @public
@@ -198,6 +202,10 @@ export interface CopyAuthorization {
 
 // @public
 export interface CopyModelOptions extends OperationOptions, PollerOptions<TrainingPollOperationState> {
+}
+
+// @public
+export interface CreateModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<TrainingPollOperationState> {
 }
 
 // @public
@@ -377,14 +385,15 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
-    beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BuildModelOptions): Promise<TrainingPoller>;
-    beginComposeModel(modelId: string, componentModelIds: Iterable<string>, options?: BuildModelOptions): Promise<TrainingPoller>;
-    beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<TrainingPoller>;
+    beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildModelOptions): Promise<DocumentModelPoller>;
+    beginComposeModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeModelOptions): Promise<DocumentModelPoller>;
+    beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<DocumentModelPoller>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
     getInfo(options?: GetInfoOptions): Promise<GetInfoResponse>;
     getModel(modelId: string, options?: GetModelOptions): Promise<ModelInfo>;
-    getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationInfo>;
+    // Warning: (ae-forgotten-export) The symbol "GetOperationResponse" needs to be exported by the entry point index.d.ts
+    getOperation(operationId: string, options?: GetOperationOptions): Promise<GetOperationResponse>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelSummary>;
     listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationInfo>;
 }
@@ -401,6 +410,9 @@ export const DocumentModelBuildMode: {
     readonly Template: "template";
     readonly Neural: "neural";
 };
+
+// @public
+export type DocumentModelPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
 
 // @public
 export interface DocumentNumberField extends DocumentValueField<number> {
@@ -1648,9 +1660,6 @@ export const TaxUsW2Schema: {
         };
     };
 };
-
-// @public
-export type TrainingPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
 
 // @public
 export interface TrainingPollOperationState extends PollOperationState<ModelInfo> {

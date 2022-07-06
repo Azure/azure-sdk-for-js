@@ -24,7 +24,6 @@ import {
 } from "./lro/training";
 import { lro } from "./lro/util/poller";
 import {
-  BuildModelOptions,
   CopyModelOptions,
   DeleteModelOptions,
   DocumentModelAdministrationClientOptions,
@@ -35,7 +34,11 @@ import {
   ListModelsOptions,
   ListOperationsOptions,
 } from "./options";
-import { DocumentModelBuildMode } from "./options/BuildModelOptions";
+import {
+  BeginBuildModelOptions,
+  BeginComposeModelOptions,
+  DocumentModelBuildMode,
+} from "./options/BuildModelOptions";
 import { Mappers, SERIALIZER, makeServiceClient } from "./util";
 
 /**
@@ -191,7 +194,7 @@ export class DocumentModelAdministrationClient {
     modelId: string,
     containerUrl: string,
     buildMode: DocumentModelBuildMode,
-    options: BuildModelOptions = {}
+    options: BeginBuildModelOptions = {}
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginBuildModel",
@@ -257,7 +260,7 @@ export class DocumentModelAdministrationClient {
   public async beginComposeModel(
     modelId: string,
     componentModelIds: Iterable<string>,
-    options: BuildModelOptions = {}
+    options: BeginComposeModelOptions = {}
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginComposeModel",
@@ -388,49 +391,49 @@ export class DocumentModelAdministrationClient {
     const toInit =
       resumeFrom === undefined
         ? () =>
-          this._tracing.withSpan(
-            "DocumentModelAdministrationClient.createDocumentModelPoller-start",
-            definition.options,
-            async (options) => {
-              const { operationLocation } = await definition.start();
+            this._tracing.withSpan(
+              "DocumentModelAdministrationClient.createDocumentModelPoller-start",
+              definition.options,
+              async (options) => {
+                const { operationLocation } = await definition.start();
 
-              if (operationLocation === undefined) {
-                throw new Error(
-                  "Unable to start model creation operation: no Operation-Location received."
-                );
-              }
-
-              return this._restClient.sendOperationRequest(
-                {
-                  options,
-                },
-                {
-                  path: operationLocation,
-                  httpMethod: "GET",
-                  responses: {
-                    200: {
-                      bodyMapper: Mappers.GetOperationResponse,
-                    },
-                    default: {
-                      bodyMapper: Mappers.ErrorResponse,
-                    },
-                  },
-                  headerParameters: [accept1],
-                  serializer: SERIALIZER,
+                if (operationLocation === undefined) {
+                  throw new Error(
+                    "Unable to start model creation operation: no Operation-Location received."
+                  );
                 }
-              ) as Promise<GetOperationResponse>;
-            }
-          )
-        : () =>
-          this._tracing.withSpan(
-            "DocumentModelAdministrationClient.createDocumentModelPoller-resume",
-            definition.options,
-            (options) => {
-              const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
 
-              return this._restClient.getOperation(operationId, options);
-            }
-          );
+                return this._restClient.sendOperationRequest(
+                  {
+                    options,
+                  },
+                  {
+                    path: operationLocation,
+                    httpMethod: "GET",
+                    responses: {
+                      200: {
+                        bodyMapper: Mappers.GetOperationResponse,
+                      },
+                      default: {
+                        bodyMapper: Mappers.ErrorResponse,
+                      },
+                    },
+                    headerParameters: [accept1],
+                    serializer: SERIALIZER,
+                  }
+                ) as Promise<GetOperationResponse>;
+              }
+            )
+        : () =>
+            this._tracing.withSpan(
+              "DocumentModelAdministrationClient.createDocumentModelPoller-resume",
+              definition.options,
+              (options) => {
+                const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
+
+                return this._restClient.getOperation(operationId, options);
+              }
+            );
 
     const poller = await lro<ModelInfo, TrainingPollOperationState>(
       {

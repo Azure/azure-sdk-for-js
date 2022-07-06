@@ -3,9 +3,11 @@
 
 import { AnalyzeDocumentOptions } from "./AnalyzeDocumentsOptions";
 import {
-  BuildModelOptions,
+  CreateModelOptions,
   CommonModelCreationOptions,
   DocumentModelBuildMode,
+  BeginBuildModelOptions,
+  BeginComposeModelOptions,
 } from "./BuildModelOptions";
 import { CopyModelOptions } from "./CopyModelOptions";
 import { DeleteModelOptions } from "./DeleteModelOptions";
@@ -26,7 +28,9 @@ import { PollerOptions } from "./PollerOptions";
 
 export {
   AnalyzeDocumentOptions,
-  BuildModelOptions,
+  CreateModelOptions,
+  BeginBuildModelOptions,
+  BeginComposeModelOptions,
   CommonModelCreationOptions,
   CopyModelOptions,
   DocumentModelBuildMode,
