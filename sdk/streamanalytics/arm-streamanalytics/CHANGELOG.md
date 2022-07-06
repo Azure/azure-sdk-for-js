@@ -1,15 +1,26 @@
 # Release History
+    
+## 4.1.0 (2022-07-06)
+    
+**Features**
 
-## 4.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface GatewayMessageBusSourceProperties
+  - Added Type Alias AggregateFunctionProperties
+  - Added Type Alias AzureFunctionOutputDataSource
+  - Added Type Alias FileReferenceInputDataSource
+  - Added Type Alias GatewayMessageBusOutputDataSource
+  - Added Type Alias GatewayMessageBusOutputDataSourceProperties
+  - Added Type Alias GatewayMessageBusStreamInputDataSource
+  - Added Type Alias GatewayMessageBusStreamInputDataSourceProperties
+  - Interface BlobDataSourceProperties has a new optional parameter authenticationMode
+  - Interface FunctionProperties has a new optional parameter binding
+  - Interface FunctionProperties has a new optional parameter inputs
+  - Interface FunctionProperties has a new optional parameter output
+  - Type Alias BlobOutputDataSource has a new parameter blobPathPrefix
+  - Type Alias BlobOutputDataSourceProperties has a new parameter blobPathPrefix
+  - Type Alias BlobReferenceInputDataSource has a new parameter authenticationMode
+  - Type Alias BlobStreamInputDataSource has a new parameter authenticationMode
+    
 ## 4.0.1 (2022-05-05)
 
 **Features**

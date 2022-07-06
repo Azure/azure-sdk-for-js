@@ -11,6 +11,11 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type AggregateFunctionProperties = FunctionProperties & {
+    type: "Aggregate";
+};
+
+// @public
 export type AuthenticationMode = string;
 
 // @public
@@ -41,6 +46,16 @@ export type AzureDataLakeStoreOutputDataSourceProperties = OAuthBasedDataSourceP
     dateFormat?: string;
     timeFormat?: string;
     authenticationMode?: AuthenticationMode;
+};
+
+// @public
+export type AzureFunctionOutputDataSource = OutputDataSource & {
+    type: "Microsoft.AzureFunction";
+    functionAppName?: string;
+    functionName?: string;
+    apiKey?: string;
+    maxBatchSize?: number;
+    maxBatchCount?: number;
 };
 
 // @public
@@ -157,6 +172,7 @@ export type AzureTableOutputDataSource = OutputDataSource & {
 
 // @public
 export interface BlobDataSourceProperties {
+    authenticationMode?: AuthenticationMode;
     container?: string;
     dateFormat?: string;
     pathPattern?: string;
@@ -173,11 +189,12 @@ export type BlobOutputDataSource = OutputDataSource & {
     dateFormat?: string;
     timeFormat?: string;
     authenticationMode?: AuthenticationMode;
+    blobPathPrefix?: string;
 };
 
 // @public
 export type BlobOutputDataSourceProperties = BlobDataSourceProperties & {
-    authenticationMode?: AuthenticationMode;
+    blobPathPrefix?: string;
 };
 
 // @public
@@ -188,6 +205,7 @@ export type BlobReferenceInputDataSource = ReferenceInputDataSource & {
     pathPattern?: string;
     dateFormat?: string;
     timeFormat?: string;
+    authenticationMode?: AuthenticationMode;
 };
 
 // @public
@@ -201,6 +219,7 @@ export type BlobStreamInputDataSource = StreamInputDataSource & {
     pathPattern?: string;
     dateFormat?: string;
     timeFormat?: string;
+    authenticationMode?: AuthenticationMode;
     sourcePartitionCount?: number;
 };
 
@@ -488,6 +507,12 @@ export type EventSerializationType = string;
 export type EventsOutOfOrderPolicy = string;
 
 // @public
+export type FileReferenceInputDataSource = ReferenceInputDataSource & {
+    type: "File";
+    path?: string;
+};
+
+// @public
 export interface FunctionBinding {
     type: "Microsoft.MachineLearning/WebService" | "Microsoft.StreamAnalytics/JavascriptUdf";
 }
@@ -519,12 +544,16 @@ export interface FunctionOutput {
 
 // @public
 export interface FunctionProperties {
+    binding?: FunctionBindingUnion;
     readonly etag?: string;
-    type: "Scalar";
+    // (undocumented)
+    inputs?: FunctionInput[];
+    output?: FunctionOutput;
+    type: "Scalar" | "Aggregate";
 }
 
 // @public (undocumented)
-export type FunctionPropertiesUnion = FunctionProperties | ScalarFunctionProperties;
+export type FunctionPropertiesUnion = FunctionProperties | ScalarFunctionProperties | AggregateFunctionProperties;
 
 // @public
 export interface FunctionRetrieveDefaultDefinitionParameters {
@@ -624,9 +653,32 @@ export interface FunctionsUpdateOptionalParams extends coreClient.OperationOptio
 export type FunctionsUpdateResponse = FunctionsUpdateHeaders & FunctionModel;
 
 // @public
+export type GatewayMessageBusOutputDataSource = OutputDataSource & {
+    type: "GatewayMessageBus";
+    topic?: string;
+};
+
+// @public
+export type GatewayMessageBusOutputDataSourceProperties = GatewayMessageBusSourceProperties & {};
+
+// @public
+export interface GatewayMessageBusSourceProperties {
+    topic?: string;
+}
+
+// @public
+export type GatewayMessageBusStreamInputDataSource = StreamInputDataSource & {
+    type: "GatewayMessageBus";
+    topic?: string;
+};
+
+// @public
+export type GatewayMessageBusStreamInputDataSourceProperties = GatewayMessageBusSourceProperties & {};
+
+// @public
 export interface Identity {
-    principalId?: string;
-    tenantId?: string;
+    readonly principalId?: string;
+    readonly tenantId?: string;
     type?: string;
 }
 
@@ -976,11 +1028,11 @@ export type Output = SubResource & {
 
 // @public
 export interface OutputDataSource {
-    type: "Microsoft.Storage/Blob" | "Microsoft.Storage/Table" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Sql/Server/Database" | "Microsoft.Sql/Server/DataWarehouse" | "Microsoft.Storage/DocumentDB" | "Microsoft.ServiceBus/Queue" | "Microsoft.ServiceBus/Topic" | "PowerBI" | "Microsoft.DataLake/Accounts";
+    type: "Microsoft.Storage/Blob" | "Microsoft.Storage/Table" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Sql/Server/Database" | "Microsoft.Sql/Server/DataWarehouse" | "Microsoft.Storage/DocumentDB" | "Microsoft.AzureFunction" | "Microsoft.ServiceBus/Queue" | "Microsoft.ServiceBus/Topic" | "PowerBI" | "Microsoft.DataLake/Accounts" | "GatewayMessageBus";
 }
 
 // @public (undocumented)
-export type OutputDataSourceUnion = OutputDataSource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
+export type OutputDataSourceUnion = OutputDataSource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | AzureFunctionOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource | GatewayMessageBusOutputDataSource;
 
 // @public
 export type OutputErrorPolicy = string;
@@ -1180,11 +1232,11 @@ export type ProxyResource = Resource & {};
 
 // @public
 export interface ReferenceInputDataSource {
-    type: "Microsoft.Storage/Blob" | "Microsoft.Sql/Server/Database";
+    type: "File" | "Microsoft.Storage/Blob" | "Microsoft.Sql/Server/Database";
 }
 
 // @public (undocumented)
-export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | BlobReferenceInputDataSource | AzureSqlReferenceInputDataSource;
+export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | FileReferenceInputDataSource | BlobReferenceInputDataSource | AzureSqlReferenceInputDataSource;
 
 // @public
 export type ReferenceInputProperties = InputProperties & {
@@ -1211,9 +1263,6 @@ export interface ResourceTestStatus {
 // @public
 export type ScalarFunctionProperties = FunctionProperties & {
     type: "Scalar";
-    inputs?: FunctionInput[];
-    output?: FunctionOutput;
-    binding?: FunctionBindingUnion;
 };
 
 // @public
@@ -1489,11 +1538,11 @@ export type StreamingJobsUpdateResponse = StreamingJobsUpdateHeaders & Streaming
 
 // @public
 export interface StreamInputDataSource {
-    type: "Microsoft.Storage/Blob" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Devices/IotHubs";
+    type: "Microsoft.Storage/Blob" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Devices/IotHubs" | "GatewayMessageBus";
 }
 
 // @public (undocumented)
-export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource;
+export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource | GatewayMessageBusStreamInputDataSource;
 
 // @public
 export type StreamInputProperties = InputProperties & {
