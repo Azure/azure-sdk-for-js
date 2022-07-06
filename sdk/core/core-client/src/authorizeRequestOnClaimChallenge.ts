@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
-import { GetTokenOptions } from "@azure/core-auth";
 import { logger as coreClientLogger } from "./log";
 import { decodeStringToString } from "./base64";
 
