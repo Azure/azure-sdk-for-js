@@ -1,0 +1,118 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx?api-version=2022-03-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "126",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-appservice/13.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "1aa425c1-6283-45c8-9529-674d90fb19eb"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "sku": {
+          "name": "S1",
+          "tier": "STANDARD",
+          "capacity": 1
+        },
+        "properties": {
+          "perSiteScaling": false,
+          "isXenon": false
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Thu, 30 Jun 2022 03:00:25 GMT",
+        "ETag": "\u00221D88C2D8AD59620\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-AspNet-Version": "4.0.30319",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7215fd95-6b84-440d-8266-38e3d33908b1",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "82abdd80-2a2a-43b1-a380-a952b45062c4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220630T030025Z:7215fd95-6b84-440d-8266-38e3d33908b1",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
+        "name": "myappserviceplanxxx",
+        "type": "Microsoft.Web/serverfarms",
+        "kind": "app",
+        "location": "eastus",
+        "properties": {
+          "serverFarmId": 4259,
+          "name": "myappserviceplanxxx",
+          "sku": {
+            "name": "S1",
+            "tier": "Standard",
+            "size": "S1",
+            "family": "S",
+            "capacity": 1
+          },
+          "workerSize": "Default",
+          "workerSizeId": 0,
+          "workerTierName": null,
+          "numberOfWorkers": 1,
+          "currentWorkerSize": "Default",
+          "currentWorkerSizeId": 0,
+          "currentNumberOfWorkers": 1,
+          "status": "Ready",
+          "webSpace": "myjstest-EastUSwebspace",
+          "subscription": "azure_subscription_id",
+          "adminSiteName": null,
+          "hostingEnvironment": null,
+          "hostingEnvironmentProfile": null,
+          "maximumNumberOfWorkers": 0,
+          "planName": "VirtualDedicatedPlan",
+          "adminRuntimeSiteName": null,
+          "computeMode": "Dedicated",
+          "siteMode": null,
+          "geoRegion": "East US",
+          "perSiteScaling": false,
+          "elasticScaleEnabled": false,
+          "maximumElasticWorkerCount": 1,
+          "numberOfSites": 0,
+          "hostingEnvironmentId": null,
+          "isSpot": false,
+          "spotExpirationTime": null,
+          "freeOfferExpirationTime": null,
+          "tags": null,
+          "kind": "app",
+          "resourceGroup": "myjstest",
+          "reserved": false,
+          "isXenon": false,
+          "hyperV": false,
+          "mdmId": "waws-prod-blu-355_4259",
+          "targetWorkerCount": 0,
+          "targetWorkerSizeId": 0,
+          "provisioningState": "Succeeded",
+          "webSiteId": null,
+          "existingServerFarmIds": null,
+          "kubeEnvironmentProfile": null,
+          "zoneRedundant": false
+        },
+        "sku": {
+          "name": "S1",
+          "tier": "Standard",
+          "size": "S1",
+          "family": "S",
+          "capacity": 1
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
