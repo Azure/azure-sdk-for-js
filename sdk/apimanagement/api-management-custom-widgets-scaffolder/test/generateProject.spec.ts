@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TWidgetConfig, displayNameToName, technologies } from "../src/scaffolding";
+import { TWidgetConfig, displayNameToName, TECHNOLOGIES } from "../src/scaffolding";
 
 import { assert } from "chai";
 import { generateProject } from "../src";
@@ -18,7 +18,7 @@ const deployConfig = {
     "/subscriptions/c6a33fd3-e442-48a4-b82d-bcc4ad8a71d7/resourceGroups/mibudz-test/providers/Microsoft.ApiManagement/service/contoso",
 };
 
-technologies.forEach((tech) => {
+TECHNOLOGIES.forEach((tech) => {
   describe("Custom widget scaffolder - " + tech, () => {
     let sandbox: sinon.SinonSandbox;
     let writeFileSpy: sinon.SinonStub;

@@ -14,7 +14,8 @@ export const OVERRIDE_DEFAULT_PORT = 3000;
 export type TScaffoldTech = "typescript" | "react"; // | "vue";
 // export type TScaffoldSourceControl = "git" | "azure" | "none" | null;
 
-export const technologies: TScaffoldTech[] = ["typescript", "react"];
+/** List of all supported technologies to scaffold a widget in. */
+export const TECHNOLOGIES: TScaffoldTech[] = ["typescript", "react"];
 
 /** Main data which DevPortal needs for every custom widget.  */
 export interface TWidgetConfig {
@@ -59,4 +60,9 @@ export const displayNameToName = (displayName: string): string =>
       .replace(/[^a-z0-9-]/g, "-")
   );
 
+/**
+ * Returns name of the folder for widget project.
+ *
+ * @param name - name of the widget
+ */
 export const widgetFolderName = (name: string): string => `azure-api-management-widget-${name}`;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TConfigs, TDeploymentConfig, TOptions, TWidgetConfig, technologies } from "../scaffolding";
+import { TConfigs, TDeploymentConfig, TOptions, TWidgetConfig, TECHNOLOGIES } from "../scaffolding";
 
 import inquirer from "inquirer";
 
@@ -37,8 +37,8 @@ export const validateWidgetConfig: TValidate<TWidgetConfig> = {
     const required = validateRequired()(input);
     if (required !== true) return required;
 
-    if (technologies.includes(input as any)) return true;
-    else return "Invalid tech. Must be one of: " + technologies.join(", ");
+    if (TECHNOLOGIES.includes(input as any)) return true;
+    else return "Invalid tech. Must be one of: " + TECHNOLOGIES.join(", ");
   },
 };
 

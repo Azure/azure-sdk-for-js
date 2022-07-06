@@ -698,7 +698,8 @@ const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
  */
 const OVERRIDE_DEFAULT_PORT = 3000;
 // export type TScaffoldSourceControl = "git" | "azure" | "none" | null;
-const technologies = ["typescript", "react"];
+/** List of all supported technologies to scaffold a widget in. */
+const TECHNOLOGIES = ["typescript", "react"];
 /**
  * Converts user defined name of a custom widget to a unique ID, which is in context of Dev Portal known as "name".
  *
@@ -709,6 +710,11 @@ const displayNameToName = (displayName) => encodeURIComponent(displayName
     .toLowerCase()
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9-]/g, "-"));
+/**
+ * Returns name of the folder for widget project.
+ *
+ * @param name - name of the widget
+ */
 const widgetFolderName = (name) => `azure-api-management-widget-${name}`;
 
 // Copyright (c) Microsoft Corporation.
@@ -729,10 +735,10 @@ const validateWidgetConfig = {
         const required = validateRequired()(input);
         if (required !== true)
             return required;
-        if (technologies.includes(input))
+        if (TECHNOLOGIES.includes(input))
             return true;
         else
-            return "Invalid tech. Must be one of: " + technologies.join(", ");
+            return "Invalid tech. Must be one of: " + TECHNOLOGIES.join(", ");
     },
 };
 const validateDeployConfig = {

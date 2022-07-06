@@ -5,6 +5,9 @@
 ```ts
 
 // @public
+export const displayNameToName: (displayName: string) => string;
+
+// @public
 export function generateProject(widgetConfig: TCustomWidgetCommonConfig, deploymentConfig: TDeploymentConfig, options?: TOptions): Promise<void>;
 
 // @public
@@ -28,11 +31,17 @@ export interface TDeploymentConfig {
 }
 
 // @public
+export const TECHNOLOGIES: TScaffoldTech[];
+
+// @public
 export interface TOptions {
     openUrl?: string;
 }
 
 // @public
 export type TScaffoldTech = "typescript" | "react";
+
+// @public
+export const widgetFolderName: (name: string) => string;
 
 ```
