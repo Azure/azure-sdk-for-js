@@ -6,7 +6,11 @@ import { ConnectionContext } from "./connectionContext";
 import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import { CorrelationRuleFilter } from "./core/managementClient";
 import { ruleManagerLogger as logger } from "./log";
-import { isSqlRuleAction, RuleProperties, SqlRuleAction } from "./serializers/ruleResourceSerializer";
+import {
+  isSqlRuleAction,
+  RuleProperties,
+  SqlRuleAction,
+} from "./serializers/ruleResourceSerializer";
 import { getUniqueName } from "./util/utils";
 import { throwErrorIfConnectionClosed } from "./util/errors";
 import { SqlRuleFilter } from "./serializers/ruleResourceSerializer";
