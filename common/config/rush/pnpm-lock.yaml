@@ -9819,7 +9819,7 @@ packages:
     dev: false
 
   file:projects/arm-avs.tgz:
-    resolution: {integrity: sha512-Vn0YFUrpzQPQPnxlk/6kGHTKE+cTH4cZJRaUFewbHZrCdOBE8FDzmsy8zLZMUCpMmtJ+TGWJmSLQJ++78PezBg==, tarball: file:projects/arm-avs.tgz}
+    resolution: {integrity: sha512-XlaucRpTOZFFAcZXj7B+ImgkaC9umzh+02gXZ/lTLvoIWkwZg44XXlDjExXa3k7mW/EOnva3otg/+oukbOGd6g==, tarball: file:projects/arm-avs.tgz}
     name: '@rush-temp/arm-avs'
     version: 0.0.0
     dependencies:
@@ -9827,21 +9827,23 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.0.5
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.75.7
+      '@rollup/plugin-json': 4.1.0_rollup@2.75.7
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.75.7
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.75.7
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.75.7
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.2
     transitivePeerDependencies:
-      - encoding
+      - '@types/node'
       - supports-color
     dev: false
 
