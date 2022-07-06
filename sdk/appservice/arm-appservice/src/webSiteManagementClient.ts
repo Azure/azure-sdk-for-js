@@ -7,6 +7,12 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
@@ -29,7 +35,16 @@ import {
   RecommendationsImpl,
   ResourceHealthMetadataOperationsImpl,
   StaticSitesImpl,
-  WebAppsImpl
+  WebAppsImpl,
+  WorkflowsImpl,
+  WorkflowRunsImpl,
+  WorkflowRunActionsImpl,
+  WorkflowRunActionRepetitionsImpl,
+  WorkflowRunActionRepetitionsRequestHistoriesImpl,
+  WorkflowRunActionScopeRepetitionsImpl,
+  WorkflowTriggersImpl,
+  WorkflowTriggerHistoriesImpl,
+  WorkflowVersionsImpl
 } from "./operations";
 import {
   AppServiceCertificateOrders,
@@ -51,7 +66,16 @@ import {
   Recommendations,
   ResourceHealthMetadataOperations,
   StaticSites,
-  WebApps
+  WebApps,
+  Workflows,
+  WorkflowRuns,
+  WorkflowRunActions,
+  WorkflowRunActionRepetitions,
+  WorkflowRunActionRepetitionsRequestHistories,
+  WorkflowRunActionScopeRepetitions,
+  WorkflowTriggers,
+  WorkflowTriggerHistories,
+  WorkflowVersions
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -149,7 +173,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/12.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/13.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -168,12 +192,35 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-03-01";
+    this.apiVersion = options.apiVersion || "2022-03-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this
     );
@@ -202,6 +249,50 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     );
     this.staticSites = new StaticSitesImpl(this);
     this.webApps = new WebAppsImpl(this);
+    this.workflows = new WorkflowsImpl(this);
+    this.workflowRuns = new WorkflowRunsImpl(this);
+    this.workflowRunActions = new WorkflowRunActionsImpl(this);
+    this.workflowRunActionRepetitions = new WorkflowRunActionRepetitionsImpl(
+      this
+    );
+    this.workflowRunActionRepetitionsRequestHistories = new WorkflowRunActionRepetitionsRequestHistoriesImpl(
+      this
+    );
+    this.workflowRunActionScopeRepetitions = new WorkflowRunActionScopeRepetitionsImpl(
+      this
+    );
+    this.workflowTriggers = new WorkflowTriggersImpl(this);
+    this.workflowTriggerHistories = new WorkflowTriggerHistoriesImpl(this);
+    this.workflowVersions = new WorkflowVersionsImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -838,6 +929,15 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   resourceHealthMetadataOperations: ResourceHealthMetadataOperations;
   staticSites: StaticSites;
   webApps: WebApps;
+  workflows: Workflows;
+  workflowRuns: WorkflowRuns;
+  workflowRunActions: WorkflowRunActions;
+  workflowRunActionRepetitions: WorkflowRunActionRepetitions;
+  workflowRunActionRepetitionsRequestHistories: WorkflowRunActionRepetitionsRequestHistories;
+  workflowRunActionScopeRepetitions: WorkflowRunActionScopeRepetitions;
+  workflowTriggers: WorkflowTriggers;
+  workflowTriggerHistories: WorkflowTriggerHistories;
+  workflowVersions: WorkflowVersions;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -984,7 +1084,7 @@ const listCustomHostNameSitesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.hostname],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1215,7 +1315,7 @@ const listCustomHostNameSitesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.hostname],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
