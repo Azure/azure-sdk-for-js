@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/avs/ci.mgmt.yml
-      - sdk/avs/arm-avs/
       - sdk/avs/arm-avs
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/avs/ci.mgmt.yml
-      - sdk/avs/arm-avs/
       - sdk/avs/arm-avs
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
