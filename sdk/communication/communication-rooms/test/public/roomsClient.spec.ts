@@ -28,19 +28,20 @@ describe("RoomsClient", function () {
 
     it("successfully creates a room", async function () {
       const request = {
-        validUntil : new Date(),
+        //validUntil : new Date(),
       };
       await client
         .createRoom(request)
         .then((result) => {
-          assert.isDefined(result);
+          console.log("pass");
+          assert.isUndefined(result);
+          console.log("why");
         })
         .catch((error) => {
+          console.log("fail");
           console.error(error);
           assert.isUndefined(error);
-        }
-        );
-
+        });
     });
   });
 });

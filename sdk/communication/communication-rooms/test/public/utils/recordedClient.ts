@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
+import {
   Recorder,
   SanitizerOptions,
   env,
   RecorderStartOptions,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/core-auth";
 import { parseConnectionString } from "@azure/communication-common";
@@ -27,15 +27,15 @@ const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
       actualConnString: env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || undefined,
-      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"]
+      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
     },
-  ]
-}
+  ],
+};
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
-  sanitizerOptions: sanitizerOptions
-}
+  sanitizerOptions: sanitizerOptions,
+};
 
 export async function createRecorder(context: Test | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
@@ -52,10 +52,12 @@ export async function createRecordedRoomsClient(
     env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
     recorder.configureClientOptions({})
   );
+  console.log(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
+  console.log("WHY ME");
   return {
     client,
     recorder,
-  }
+  };
 }
 
 export async function createRecordedRoomsClientWithToken(
@@ -82,5 +84,5 @@ export async function createRecordedRoomsClientWithToken(
   return {
     client,
     recorder,
-  }
+  };
 }
