@@ -44,8 +44,6 @@ export interface DeletedSecret {
 // @public
 export type DeletionRecoveryLevel = string;
 
-export { ExtendedCommonClientOptions }
-
 // @public
 export interface GetDeletedSecretOptions extends coreClient.OperationOptions {
 }

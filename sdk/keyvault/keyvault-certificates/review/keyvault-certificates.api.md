@@ -260,8 +260,6 @@ export interface ErrorModel {
     readonly message?: string;
 }
 
-export { ExtendedCommonClientOptions }
-
 // @public
 export type GetCertificateOperationOptions = CertificatePollerOptions;
 

@@ -6,8 +6,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { InternalClientPipelineOptions } from "@azure/core-client";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import { TokenCredential } from "@azure/core-auth";
@@ -194,7 +192,6 @@ export {
   ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
-  ExtendedCommonClientOptions,
   PurgeDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
   SetContactsOptions,

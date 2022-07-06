@@ -171,8 +171,6 @@ export interface EncryptResult {
     result: Uint8Array;
 }
 
-export { ExtendedCommonClientOptions }
-
 // @public
 export interface GetCryptographyClientOptions {
     keyVersion?: string;
