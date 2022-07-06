@@ -725,8 +725,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.13:
-    resolution: {integrity: sha512-WNB3kewT2unIMVSzN/NkVf0EiPvXJh31pbsfatykU/Z6jfTsnKb0fDW7LhujeLnDIJfhAE0IC1xpW1msGYfsmg==}
+  /@azure/communication-signaling/1.0.0-beta.14:
+    resolution: {integrity: sha512-DuieDUq82DyTpgRIXBJPArtNoyj25WtrznsjaN6w4EgcqDnrTfccD8AO6lZiAO2GqEmMAYB3M1JztrXdoToAVQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.2.5
@@ -3836,7 +3836,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220705
+      typescript: 4.8.0-dev.20220706
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -6557,7 +6557,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
+    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -8533,8 +8533,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220705:
-    resolution: {integrity: sha512-sRnXrV4EzqJhcVnlve3h6S99jIT7cF40ECs+qm0hMMy9r2aZiZdIN7gU30oZeYSexUPXYoybp6L5FxK7ndxd2A==}
+  /typescript/4.8.0-dev.20220706:
+    resolution: {integrity: sha512-kQGVsx25I0KFyzMwrZTm+umjHRDA31SUH4WBtJfCaSmr67CH0vKu8XSaPCl84zb39cAnfHpI4S8qLvkgDaAmqQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14402,11 +14402,11 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-AoSPcMHBXAVeamPVYjXyf5CfrHn7kAQVEUftOXX50Alnc1H2q75OOUnKFZqBbRNufhLqHqSyxp5h6S5OWUQ5vg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-5+7M1NSrQcd2NZXeqZcmwNk/jX9Ap1OBRzRCmidp3KXG+7aOmAQhO65zWb2lohOmKZYrSjwdF2MfGtldNUivhg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
-      '@azure/communication-signaling': 1.0.0-beta.13
+      '@azure/communication-signaling': 1.0.0-beta.14
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1

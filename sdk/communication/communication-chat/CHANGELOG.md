@@ -4,11 +4,8 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Updated to @azure/communication-signaling@1.0.0-beta.14.
+- Updated to @azure/communication-common@2.1.0.
 
 ## 1.2.0 (2022-04-05)
 
