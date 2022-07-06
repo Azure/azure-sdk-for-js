@@ -1,6 +1,6 @@
 # Release History
 
-## 7.6.0 (2022-07-09)
+## 7.6.0 (2022-07-07)
 
 ### Other Changes
 
