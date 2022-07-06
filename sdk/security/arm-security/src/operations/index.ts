@@ -62,3 +62,7 @@ export * from "./securityConnectorGovernanceRules";
 export * from "./subscriptionGovernanceRulesExecuteStatus";
 export * from "./securityConnectorGovernanceRulesExecuteStatus";
 export * from "./governanceAssignments";
+export * from "./applications";
+export * from "./applicationOperations";
+export * from "./securityConnectorApplications";
+export * from "./securityConnectorApplication";

@@ -65,7 +65,11 @@ import {
   SecurityConnectorGovernanceRulesImpl,
   SubscriptionGovernanceRulesExecuteStatusImpl,
   SecurityConnectorGovernanceRulesExecuteStatusImpl,
-  GovernanceAssignmentsImpl
+  GovernanceAssignmentsImpl,
+  ApplicationsImpl,
+  ApplicationOperationsImpl,
+  SecurityConnectorApplicationsImpl,
+  SecurityConnectorApplicationImpl
 } from "./operations";
 import {
   MdeOnboardings,
@@ -123,7 +127,11 @@ import {
   SecurityConnectorGovernanceRules,
   SubscriptionGovernanceRulesExecuteStatus,
   SecurityConnectorGovernanceRulesExecuteStatus,
-  GovernanceAssignments
+  GovernanceAssignments,
+  Applications,
+  ApplicationOperations,
+  SecurityConnectorApplications,
+  SecurityConnectorApplication
 } from "./operationsInterfaces";
 import { SecurityCenterOptionalParams } from "./models";
 
@@ -303,6 +311,14 @@ export class SecurityCenter extends coreClient.ServiceClient {
       this
     );
     this.governanceAssignments = new GovernanceAssignmentsImpl(this);
+    this.applications = new ApplicationsImpl(this);
+    this.applicationOperations = new ApplicationOperationsImpl(this);
+    this.securityConnectorApplications = new SecurityConnectorApplicationsImpl(
+      this
+    );
+    this.securityConnectorApplication = new SecurityConnectorApplicationImpl(
+      this
+    );
   }
 
   mdeOnboardings: MdeOnboardings;
@@ -361,4 +377,8 @@ export class SecurityCenter extends coreClient.ServiceClient {
   subscriptionGovernanceRulesExecuteStatus: SubscriptionGovernanceRulesExecuteStatus;
   securityConnectorGovernanceRulesExecuteStatus: SecurityConnectorGovernanceRulesExecuteStatus;
   governanceAssignments: GovernanceAssignments;
+  applications: Applications;
+  applicationOperations: ApplicationOperations;
+  securityConnectorApplications: SecurityConnectorApplications;
+  securityConnectorApplication: SecurityConnectorApplication;
 }

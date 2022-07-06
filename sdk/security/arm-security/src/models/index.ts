@@ -1870,6 +1870,20 @@ export interface GovernanceAssignmentAdditionalData {
   ticketStatus?: string;
 }
 
+/** Page of a security applications list */
+export interface ApplicationsList {
+  /**
+   * Collection of applications in this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Application[];
+  /**
+   * The URI to fetch the next page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** CVSS details */
 export interface Cvss {
   /**
@@ -2221,6 +2235,16 @@ export interface Condition {
   value?: string;
   /** The governance rule Condition's Operator, for example Equals for severity or In for list of assessments, see examples */
   operator?: GovernanceRuleConditionOperator;
+}
+
+/** Application's condition */
+export interface ApplicationCondition {
+  /** The application Condition's Property, e.g. ID, see examples */
+  property?: string;
+  /** The application Condition's Value like IDs that contain some string, see examples */
+  value?: string;
+  /** The application Condition's Operator, for example Contains for id or In for list of possible IDs, see examples */
+  operator?: ApplicationConditionOperator;
 }
 
 /** The resource of the configuration or data needed to onboard the machine to MDE */
@@ -3300,6 +3324,18 @@ export interface GovernanceAssignment extends Resource {
   governanceEmailNotification?: GovernanceEmailNotification;
   /** The additional data for the governance assignment - e.g. links to ticket (optional), see example */
   additionalData?: GovernanceAssignmentAdditionalData;
+}
+
+/** Security Application over a given scope */
+export interface Application extends Resource {
+  /** display name of the application */
+  displayName?: string;
+  /** description of the application */
+  description?: string;
+  /** The application source, what it affects, e.g. Assessments */
+  sourceResourceType?: ApplicationSourceResourceType;
+  /** The application conditionSets - see examples */
+  conditionSets?: Record<string, unknown>[];
 }
 
 /** Security assessment metadata */
@@ -6397,6 +6433,21 @@ export enum KnownGovernanceRuleOwnerSourceType {
  */
 export type GovernanceRuleOwnerSourceType = string;
 
+/** Known values of {@link ApplicationSourceResourceType} that the service accepts. */
+export enum KnownApplicationSourceResourceType {
+  /** The source of the application is assessments */
+  Assessments = "Assessments"
+}
+
+/**
+ * Defines values for ApplicationSourceResourceType. \
+ * {@link KnownApplicationSourceResourceType} can be used interchangeably with ApplicationSourceResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Assessments**: The source of the application is assessments
+ */
+export type ApplicationSourceResourceType = string;
+
 /** Known values of {@link AadConnectivityState} that the service accepts. */
 export enum KnownAadConnectivityState {
   /** Discovered */
@@ -6540,6 +6591,24 @@ export enum KnownGovernanceRuleConditionOperator {
  * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
  */
 export type GovernanceRuleConditionOperator = string;
+
+/** Known values of {@link ApplicationConditionOperator} that the service accepts. */
+export enum KnownApplicationConditionOperator {
+  /** Checks that the string value of the data defined in Property contains the given value */
+  Contains = "Contains",
+  /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
+  In = "In"
+}
+
+/**
+ * Defines values for ApplicationConditionOperator. \
+ * {@link KnownApplicationConditionOperator} can be used interchangeably with ApplicationConditionOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Contains**: Checks that the string value of the data defined in Property contains the given value \
+ * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
+ */
+export type ApplicationConditionOperator = string;
 /** Defines values for Rank. */
 export type Rank = "None" | "Low" | "Medium" | "High" | "Critical";
 /** Defines values for RuleState. */
@@ -8381,6 +8450,70 @@ export interface GovernanceAssignmentsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type GovernanceAssignmentsListNextResponse = GovernanceAssignmentsList;
+
+/** Optional parameters. */
+export interface ApplicationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApplicationsListResponse = ApplicationsList;
+
+/** Optional parameters. */
+export interface ApplicationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApplicationsListNextResponse = ApplicationsList;
+
+/** Optional parameters. */
+export interface ApplicationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApplicationGetResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApplicationCreateOrUpdateResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SecurityConnectorApplicationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SecurityConnectorApplicationsListResponse = ApplicationsList;
+
+/** Optional parameters. */
+export interface SecurityConnectorApplicationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecurityConnectorApplicationsListNextResponse = ApplicationsList;
+
+/** Optional parameters. */
+export interface SecurityConnectorApplicationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SecurityConnectorApplicationGetResponse = Application;
+
+/** Optional parameters. */
+export interface SecurityConnectorApplicationCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SecurityConnectorApplicationCreateOrUpdateResponse = Application;
+
+/** Optional parameters. */
+export interface SecurityConnectorApplicationDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SecurityCenterOptionalParams

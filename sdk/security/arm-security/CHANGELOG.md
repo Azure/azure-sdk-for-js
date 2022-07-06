@@ -1,12 +1,16 @@
 # Release History
     
-## 5.1.0-beta.1 (2022-07-05)
+## 5.1.0-beta.1 (2022-07-06)
     
 **Features**
 
+  - Added operation group ApplicationOperations
+  - Added operation group Applications
   - Added operation group GovernanceAssignments
   - Added operation group GovernanceRuleOperations
   - Added operation group GovernanceRules
+  - Added operation group SecurityConnectorApplication
+  - Added operation group SecurityConnectorApplications
   - Added operation group SecurityConnectorGovernanceRule
   - Added operation group SecurityConnectorGovernanceRules
   - Added operation group SecurityConnectorGovernanceRulesExecuteStatus
@@ -26,6 +30,14 @@
   - Added Interface AmqpC2DMessagesNotInAllowedRange
   - Added Interface AmqpC2DRejectedMessagesNotInAllowedRange
   - Added Interface AmqpD2CMessagesNotInAllowedRange
+  - Added Interface Application
+  - Added Interface ApplicationCondition
+  - Added Interface ApplicationCreateOrUpdateOptionalParams
+  - Added Interface ApplicationDeleteOptionalParams
+  - Added Interface ApplicationGetOptionalParams
+  - Added Interface ApplicationsList
+  - Added Interface ApplicationsListNextOptionalParams
+  - Added Interface ApplicationsListOptionalParams
   - Added Interface AscLocation
   - Added Interface AssessmentStatusResponse
   - Added Interface AtaExternalSecuritySolution
@@ -170,6 +182,11 @@
   - Added Interface SecurityAssessmentPropertiesResponse
   - Added Interface SecurityAssessmentResponse
   - Added Interface SecurityConnector
+  - Added Interface SecurityConnectorApplicationCreateOrUpdateOptionalParams
+  - Added Interface SecurityConnectorApplicationDeleteOptionalParams
+  - Added Interface SecurityConnectorApplicationGetOptionalParams
+  - Added Interface SecurityConnectorApplicationsListNextOptionalParams
+  - Added Interface SecurityConnectorApplicationsListOptionalParams
   - Added Interface SecurityConnectorGovernanceRuleListNextOptionalParams
   - Added Interface SecurityConnectorGovernanceRuleListOptionalParams
   - Added Interface SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams
@@ -197,6 +214,12 @@
   - Added Interface UnauthorizedOperationsNotInAllowedRange
   - Added Interface UpdateIotSecuritySolutionData
   - Added Interface WorkspaceSetting
+  - Added Type Alias ApplicationConditionOperator
+  - Added Type Alias ApplicationCreateOrUpdateResponse
+  - Added Type Alias ApplicationGetResponse
+  - Added Type Alias ApplicationsListNextResponse
+  - Added Type Alias ApplicationsListResponse
+  - Added Type Alias ApplicationSourceResourceType
   - Added Type Alias AwsOrganizationalDataUnion
   - Added Type Alias EnvironmentDataUnion
   - Added Type Alias EnvironmentType
@@ -216,6 +239,10 @@
   - Added Type Alias GovernanceRulesRuleIdExecuteSingleSubscriptionResponse
   - Added Type Alias GovernanceRuleType
   - Added Type Alias ScanningMode
+  - Added Type Alias SecurityConnectorApplicationCreateOrUpdateResponse
+  - Added Type Alias SecurityConnectorApplicationGetResponse
+  - Added Type Alias SecurityConnectorApplicationsListNextResponse
+  - Added Type Alias SecurityConnectorApplicationsListResponse
   - Added Type Alias SecurityConnectorGovernanceRuleListNextResponse
   - Added Type Alias SecurityConnectorGovernanceRuleListResponse
   - Added Type Alias SecurityConnectorGovernanceRulesCreateOrUpdateResponse
@@ -225,13 +252,19 @@
   - Added Type Alias SubscriptionGovernanceRulesExecuteStatusGetResponse
   - Added Type Alias Type
   - Interface DefenderForServersAwsOfferingArcAutoProvisioning has a new optional parameter cloudRoleArn
+  - Class SecurityCenter has a new parameter applicationOperations
+  - Class SecurityCenter has a new parameter applications
   - Class SecurityCenter has a new parameter governanceAssignments
   - Class SecurityCenter has a new parameter governanceRuleOperations
   - Class SecurityCenter has a new parameter governanceRules
+  - Class SecurityCenter has a new parameter securityConnectorApplication
+  - Class SecurityCenter has a new parameter securityConnectorApplications
   - Class SecurityCenter has a new parameter securityConnectorGovernanceRule
   - Class SecurityCenter has a new parameter securityConnectorGovernanceRules
   - Class SecurityCenter has a new parameter securityConnectorGovernanceRulesExecuteStatus
   - Class SecurityCenter has a new parameter subscriptionGovernanceRulesExecuteStatus
+  - Added Enum KnownApplicationConditionOperator
+  - Added Enum KnownApplicationSourceResourceType
   - Added Enum KnownEnvironmentType
   - Added Enum KnownGovernanceRuleConditionOperator
   - Added Enum KnownGovernanceRuleOwnerSourceType

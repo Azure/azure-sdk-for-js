@@ -4602,6 +4602,35 @@ export const GovernanceAssignmentAdditionalData: coreClient.CompositeMapper = {
   }
 };
 
+export const ApplicationsList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApplicationsList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Application"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Cvss: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5486,6 +5515,33 @@ export const Condition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Condition",
+    modelProperties: {
+      property: {
+        serializedName: "property",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationCondition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApplicationCondition",
     modelProperties: {
       property: {
         serializedName: "property",
@@ -8032,6 +8088,46 @@ export const GovernanceAssignment: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "GovernanceAssignmentAdditionalData"
+        }
+      }
+    }
+  }
+};
+
+export const Application: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Application",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      sourceResourceType: {
+        serializedName: "properties.sourceResourceType",
+        type: {
+          name: "String"
+        }
+      },
+      conditionSets: {
+        serializedName: "properties.conditionSets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
+          }
         }
       }
     }

@@ -533,6 +533,77 @@ export interface AmqpD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertR
 }
 
 // @public
+export interface Application extends Resource {
+    conditionSets?: Record<string, unknown>[];
+    description?: string;
+    displayName?: string;
+    sourceResourceType?: ApplicationSourceResourceType;
+}
+
+// @public
+export interface ApplicationCondition {
+    operator?: ApplicationConditionOperator;
+    property?: string;
+    value?: string;
+}
+
+// @public
+export type ApplicationConditionOperator = string;
+
+// @public
+export interface ApplicationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationCreateOrUpdateResponse = Application;
+
+// @public
+export interface ApplicationDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ApplicationGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationGetResponse = Application;
+
+// @public
+export interface ApplicationOperations {
+    createOrUpdate(applicationId: string, application: Application, options?: ApplicationCreateOrUpdateOptionalParams): Promise<ApplicationCreateOrUpdateResponse>;
+    delete(applicationId: string, options?: ApplicationDeleteOptionalParams): Promise<void>;
+    get(applicationId: string, options?: ApplicationGetOptionalParams): Promise<ApplicationGetResponse>;
+}
+
+// @public
+export interface Applications {
+    list(options?: ApplicationsListOptionalParams): PagedAsyncIterableIterator<Application>;
+}
+
+// @public
+export interface ApplicationsList {
+    readonly nextLink?: string;
+    readonly value?: Application[];
+}
+
+// @public
+export interface ApplicationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationsListNextResponse = ApplicationsList;
+
+// @public
+export interface ApplicationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationsListResponse = ApplicationsList;
+
+// @public
+export type ApplicationSourceResourceType = string;
+
+// @public
 export interface AscLocation extends Resource {
     properties?: Record<string, unknown>;
 }
@@ -2914,6 +2985,17 @@ export enum KnownAlertsToAdmins {
 }
 
 // @public
+export enum KnownApplicationConditionOperator {
+    Contains = "Contains",
+    In = "In"
+}
+
+// @public
+export enum KnownApplicationSourceResourceType {
+    Assessments = "Assessments"
+}
+
+// @public
 export enum KnownAssessedResourceType {
     ContainerRegistryVulnerability = "ContainerRegistryVulnerability",
     ServerVulnerability = "ServerVulnerability",
@@ -4567,6 +4649,10 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     allowedConnections: AllowedConnections;
     // (undocumented)
+    applicationOperations: ApplicationOperations;
+    // (undocumented)
+    applications: Applications;
+    // (undocumented)
     assessments: Assessments;
     // (undocumented)
     assessmentsMetadata: AssessmentsMetadata;
@@ -4631,6 +4717,10 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     secureScores: SecureScores;
     // (undocumented)
+    securityConnectorApplication: SecurityConnectorApplication;
+    // (undocumented)
+    securityConnectorApplications: SecurityConnectorApplications;
+    // (undocumented)
     securityConnectorGovernanceRule: SecurityConnectorGovernanceRule;
     // (undocumented)
     securityConnectorGovernanceRules: SecurityConnectorGovernanceRules;
@@ -4685,6 +4775,50 @@ export interface SecurityConnector extends TrackedResource {
     offerings?: CloudOfferingUnion[];
     readonly systemData?: SystemData;
 }
+
+// @public
+export interface SecurityConnectorApplication {
+    createOrUpdate(resourceGroupName: string, securityConnectorName: string, applicationId: string, application: Application, options?: SecurityConnectorApplicationCreateOrUpdateOptionalParams): Promise<SecurityConnectorApplicationCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, securityConnectorName: string, applicationId: string, options?: SecurityConnectorApplicationDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, securityConnectorName: string, applicationId: string, options?: SecurityConnectorApplicationGetOptionalParams): Promise<SecurityConnectorApplicationGetResponse>;
+}
+
+// @public
+export interface SecurityConnectorApplicationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorApplicationCreateOrUpdateResponse = Application;
+
+// @public
+export interface SecurityConnectorApplicationDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SecurityConnectorApplicationGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorApplicationGetResponse = Application;
+
+// @public
+export interface SecurityConnectorApplications {
+    list(resourceGroupName: string, securityConnectorName: string, options?: SecurityConnectorApplicationsListOptionalParams): PagedAsyncIterableIterator<Application>;
+}
+
+// @public
+export interface SecurityConnectorApplicationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorApplicationsListNextResponse = ApplicationsList;
+
+// @public
+export interface SecurityConnectorApplicationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorApplicationsListResponse = ApplicationsList;
 
 // @public
 export interface SecurityConnectorGovernanceRule {

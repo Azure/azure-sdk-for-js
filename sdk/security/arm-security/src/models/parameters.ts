@@ -40,7 +40,8 @@ import {
   SecurityConnector as SecurityConnectorMapper,
   GovernanceRule as GovernanceRuleMapper,
   ExecuteGovernanceRuleParams as ExecuteGovernanceRuleParamsMapper,
-  GovernanceAssignment as GovernanceAssignmentMapper
+  GovernanceAssignment as GovernanceAssignmentMapper,
+  Application as ApplicationMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -1164,4 +1165,32 @@ export const assignmentKey: OperationURLParameter = {
 export const governanceAssignment: OperationParameter = {
   parameterPath: "governanceAssignment",
   mapper: GovernanceAssignmentMapper
+};
+
+export const apiVersion19: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-07-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const applicationId: OperationURLParameter = {
+  parameterPath: "applicationId",
+  mapper: {
+    serializedName: "applicationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const application: OperationParameter = {
+  parameterPath: "application",
+  mapper: ApplicationMapper
 };
