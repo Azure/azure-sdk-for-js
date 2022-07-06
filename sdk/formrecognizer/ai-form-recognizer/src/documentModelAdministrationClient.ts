@@ -19,7 +19,7 @@ import { accept1 } from "./generated/models/parameters";
 import {
   TrainingOperationDefinition,
   TrainingPollOperationState,
-  TrainingPoller,
+  DocumentModelPoller,
   toTrainingPollOperationState,
 } from "./lro/training";
 import { lro } from "./lro/util/poller";
@@ -192,12 +192,12 @@ export class DocumentModelAdministrationClient {
     containerUrl: string,
     buildMode: DocumentModelBuildMode,
     options: BuildModelOptions = {}
-  ): Promise<TrainingPoller> {
+  ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginBuildModel",
       options,
       (finalOptions) =>
-        this.createTrainingPoller({
+        this.createDocumentModelPoller({
           options: finalOptions,
           start: () =>
             this._restClient.buildDocumentModel(
@@ -258,12 +258,12 @@ export class DocumentModelAdministrationClient {
     modelId: string,
     componentModelIds: Iterable<string>,
     options: BuildModelOptions = {}
-  ): Promise<TrainingPoller> {
+  ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginComposeModel",
       options,
       (finalOptions) =>
-        this.createTrainingPoller({
+        this.createDocumentModelPoller({
           options: finalOptions,
           start: () =>
             this._restClient.composeDocumentModel(
@@ -359,12 +359,12 @@ export class DocumentModelAdministrationClient {
     sourceModelId: string,
     authorization: CopyAuthorization,
     options: CopyModelOptions = {}
-  ): Promise<TrainingPoller> {
+  ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginCopyModel",
       options,
       (finalOptions) =>
-        this.createTrainingPoller({
+        this.createDocumentModelPoller({
           options: finalOptions,
           start: () =>
             this._restClient.copyDocumentModelTo(sourceModelId, authorization, finalOptions),
@@ -380,64 +380,64 @@ export class DocumentModelAdministrationClient {
    * @param definition - operation definition (start operation method, request options)
    * @returns a training poller that produces a ModelInfo
    */
-  private async createTrainingPoller(
+  private async createDocumentModelPoller(
     definition: TrainingOperationDefinition
-  ): Promise<TrainingPoller> {
+  ): Promise<DocumentModelPoller> {
     const { resumeFrom } = definition.options;
 
     const toInit =
       resumeFrom === undefined
         ? () =>
-            this._tracing.withSpan(
-              "DocumentModelAdministrationClient.createTrainingPoller-start",
-              definition.options,
-              async (options) => {
-                const { operationLocation } = await definition.start();
+          this._tracing.withSpan(
+            "DocumentModelAdministrationClient.createDocumentModelPoller-start",
+            definition.options,
+            async (options) => {
+              const { operationLocation } = await definition.start();
 
-                if (operationLocation === undefined) {
-                  throw new Error(
-                    "Unable to start model creation operation: no Operation-Location received."
-                  );
-                }
+              if (operationLocation === undefined) {
+                throw new Error(
+                  "Unable to start model creation operation: no Operation-Location received."
+                );
+              }
 
-                return this._restClient.sendOperationRequest(
-                  {
-                    options,
-                  },
-                  {
-                    path: operationLocation,
-                    httpMethod: "GET",
-                    responses: {
-                      200: {
-                        bodyMapper: Mappers.GetOperationResponse,
-                      },
-                      default: {
-                        bodyMapper: Mappers.ErrorResponse,
-                      },
+              return this._restClient.sendOperationRequest(
+                {
+                  options,
+                },
+                {
+                  path: operationLocation,
+                  httpMethod: "GET",
+                  responses: {
+                    200: {
+                      bodyMapper: Mappers.GetOperationResponse,
                     },
-                    headerParameters: [accept1],
-                    serializer: SERIALIZER,
-                  }
-                ) as Promise<GetOperationResponse>;
-              }
-            )
+                    default: {
+                      bodyMapper: Mappers.ErrorResponse,
+                    },
+                  },
+                  headerParameters: [accept1],
+                  serializer: SERIALIZER,
+                }
+              ) as Promise<GetOperationResponse>;
+            }
+          )
         : () =>
-            this._tracing.withSpan(
-              "DocumentModelAdministrationClient.createTrainingPoller-resume",
-              definition.options,
-              (options) => {
-                const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
+          this._tracing.withSpan(
+            "DocumentModelAdministrationClient.createDocumentModelPoller-resume",
+            definition.options,
+            (options) => {
+              const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
 
-                return this._restClient.getOperation(operationId, options);
-              }
-            );
+              return this._restClient.getOperation(operationId, options);
+            }
+          );
 
     const poller = await lro<ModelInfo, TrainingPollOperationState>(
       {
         init: async () => toTrainingPollOperationState(await toInit()),
         poll: async ({ operationId }) =>
           this._tracing.withSpan(
-            "DocumentModelAdminstrationClient.createTrainingPoller-poll",
+            "DocumentModelAdminstrationClient.createDocumentModelPoller-poll",
             definition.options,
             async (options) => {
               const res = await this._restClient.getOperation(operationId, options);
@@ -627,7 +627,8 @@ export class DocumentModelAdministrationClient {
   public getOperation(
     operationId: string,
     options: GetOperationOptions = {}
-  ): Promise<OperationInfo> {
+  ): Promise<GetOperationResponse> {
+    // TODO: Add the error and result in the returned object. How?
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getOperation",
       options,

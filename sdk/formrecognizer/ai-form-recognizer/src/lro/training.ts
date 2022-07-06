@@ -80,7 +80,7 @@ export async function toTrainingPollOperationState(
  * A long-running operation (poller) that tracks the state of a model creation operation, eventually producing a
  * {@link ModelInfo}.
  */
-export type TrainingPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
+export type DocumentModelPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
 
 /**
  * Defines a training operation.

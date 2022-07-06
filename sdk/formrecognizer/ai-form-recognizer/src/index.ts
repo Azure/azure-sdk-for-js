@@ -46,7 +46,7 @@ export {
   AnalyzedDocument,
   FormRecognizerRequestBody,
 } from "./lro/analyze";
-export { TrainingPoller, TrainingPollOperationState } from "./lro/training";
+export { DocumentModelPoller, TrainingPollOperationState } from "./lro/training";
 export * from "./models";
 export * from "./options";
 export * from "./prebuilt";
