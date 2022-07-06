@@ -85,7 +85,7 @@ export async function authorizeRequestOnClaimChallenge(
     parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
       claims: decodeStringToString(parsedChallenge.claims),
-    } as GetTokenOptions
+    }
   );
 
   if (!accessToken) {
