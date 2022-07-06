@@ -15,7 +15,7 @@
  */
 
 import { 
-  clientFromConnectionString, InstallationPatch 
+  clientFromConnectionString, JsonPatch 
 } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
@@ -32,16 +32,13 @@ const installationId = process.env.INSTALLATION_ID || "<installation id>";
 async function main() {
   const client = clientFromConnectionString(connectionString, hubName);
 
-  const updates: InstallationPatch[] = [ 
+  const updates: JsonPatch[] = [ 
     { "op": "add", "path": "/tags", "value": "likes_baseball" },
     { "op": "add", "path": "/userId", "value": "bob@contoso.com" } 
   ];
 
-  const result = await client.patchInstallation(installationId, updates);
-
-  // TODO: return installation
-  console.log(`Create installation Tracking ID: ${result.trackingId}`);
-  console.log(`Create installation Correlation ID: ${result.correlationId}`);
+  const updatedInstallation = await client.updateInstallation(installationId, updates);
+  console.log(`Installation last update: ${updatedInstallation.lastUpdate}`);
 }
 
 main()

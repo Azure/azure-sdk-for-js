@@ -18,7 +18,7 @@ import {
 } from "./utils/connectionStringUtils";
 import { SasTokenProvider } from "@azure/core-amqp";
 import { tracingClient } from "./utils/tracing";
-import { Installation, InstallationPatch, PushHandle, BrowserPushChannel } from "./models/installation";
+import { Installation, JsonPatch, PushHandle, BrowserPushChannel } from "./models/installation";
 import { NotificationHubMessage } from "./models/message";
 import { EntityOperationOptions, NotificationHubsClientOptions, RegistrationQueryLimitOptions, RegistrationQueryOptions, SendOperationOptions } from "./models/options";
 import { NotificationHubMessageResponse, NotificationHubResponse, RegistrationQueryResponse } from "./models/response";
@@ -138,8 +138,7 @@ export class NotificationHubsClient extends ServiceClient {
             });
         }
 
-        const installation = JSON.parse(response.bodyAsText!) as Installation;
-        return installation;
+        return JSON.parse(response.bodyAsText!) as Installation;
       }
     );
   }
@@ -148,12 +147,12 @@ export class NotificationHubsClient extends ServiceClient {
    * Creates or overwrites an installation to a Notification Hub.
    * @param installation - The installation to create or overwrite.
    * @param options - Configuration options for the create or update installation operation.
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   * @returns The created or overwritten installation.
    */
   public createOrUpdateInstallation(
     installation: Installation,
     options: OperationOptions = {}
-  ): Promise<NotificationHubResponse> {
+  ): Promise<Installation> {
     return tracingClient.withSpan(
       "NotificationHubsClient-createOrUpdateInstallation",
       options,
@@ -177,25 +176,25 @@ export class NotificationHubsClient extends ServiceClient {
             });
         }
 
-        return this.parseNotificationResponse(response);
+        return JSON.parse(response.bodyAsText!) as Installation;
       }
     );
   }
 
   /**
-   * Patches an installation using the JSON-Patch standard in RFC6902.
+   * Updates an installation using the JSON-Patch standard in RFC6902.
    * @param installationId - The ID of the installation to update.
    * @param installationPatches - An array of patches following the JSON-Patch standard.
    * @param options - Configuration options for the patch installation operation.
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   * @returns The updated installation.
    */
-  public patchInstallation(
+  public updateInstallation(
     installationId: string,
-    installationPatches: InstallationPatch[],
+    installationPatches: JsonPatch[],
     options: OperationOptions = {}
-  ): Promise<NotificationHubResponse> {
+  ): Promise<Installation> {
     return tracingClient.withSpan(
-      "NotificationHubsClient-patchInstallation",
+      "NotificationHubsClient-updateInstallation",
       options,
       async (updatedOptions) => {
         const endpoint = this.getBaseURL();
@@ -217,7 +216,7 @@ export class NotificationHubsClient extends ServiceClient {
             });
         }
 
-        return this.parseNotificationResponse(response);
+        return JSON.parse(response.bodyAsText!) as Installation;
       }
     );
   }
@@ -228,7 +227,7 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The options for getting the push notification feedback container URL.
    * @returns The URL of the Azure Storage Container containing the feedback data.
    */
-  public getFeedbackContainerURL(options: OperationOptions = {}): Promise<string> {
+  public getFeedbackContainerUrl(options: OperationOptions = {}): Promise<string> {
     return tracingClient.withSpan(
       "NotificationHubsClient-getFeedbackContainerURL",
       options,
@@ -296,12 +295,12 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The options for getting a registration by ID.
    * @returns A RegistrationDescription that has the given registration ID.
    */
-  public async getRegistrationById(
+  public async getRegistration(
     registrationId: string,
     options: OperationOptions = {}
   ): Promise<RegistrationDescription> {
     return tracingClient.withSpan(
-      "NotificationHubsClient-getRegistrationById",
+      "NotificationHubsClient-getRegistration",
       options,
       async (updatedOptions) => {
         const endpoint = this.getBaseURL();
@@ -314,7 +313,7 @@ export class NotificationHubsClient extends ServiceClient {
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
           throw new RestError(
-            `getRegistrationById failed with ${response.status}`,
+            `getRegistration failed with ${response.status}`,
             {
               statusCode: response.status,
               response: response
@@ -331,12 +330,12 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The options for delete operations including the ETag
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
-  public deleteRegistrationById(
+  public deleteRegistration(
     registrationId: string,
     options: EntityOperationOptions = {}
   ): Promise<NotificationHubResponse> {
     return tracingClient.withSpan(
-      "NotificationHubsClient-deleteRegistrationById",
+      "NotificationHubsClient-deleteRegistration",
       options,
       async (updatedOptions) => {
         const endpoint = this.getBaseURL();
@@ -350,7 +349,7 @@ export class NotificationHubsClient extends ServiceClient {
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
           throw new RestError(
-            `deleteRegistrationById failed with ${response.status}`,
+            `deleteRegistration failed with ${response.status}`,
             {
               statusCode: response.status,
               response: response

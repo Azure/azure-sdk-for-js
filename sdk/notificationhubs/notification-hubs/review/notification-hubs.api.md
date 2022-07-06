@@ -263,13 +263,6 @@ export interface InstallationCommon {
 }
 
 // @public
-export interface InstallationPatch {
-    op: JsonPatchOperation;
-    path: string;
-    value?: string;
-}
-
-// @public
 export interface InstallationTemplate {
     body: string;
     expiry?: string;
@@ -280,6 +273,13 @@ export interface InstallationTemplate {
 // @public
 export interface JsonNotificationMessage extends NotificationHubMessageCommon {
     contentType: "application/json;charset=utf-8";
+}
+
+// @public
+export interface JsonPatch {
+    op: JsonPatchOperation;
+    path: string;
+    value?: string;
 }
 
 // @public
@@ -405,25 +405,25 @@ export interface NotificationHubResponse {
 export class NotificationHubsClient extends ServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
     cancelScheduledNotification(notificationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
-    createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubResponse>;
+    createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<Installation>;
     createOrUpdateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
     createRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
     createRegistrationId(options?: OperationOptions): Promise<string>;
     deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
-    deleteRegistrationById(registrationId: string, options?: EntityOperationOptions): Promise<NotificationHubResponse>;
-    getFeedbackContainerURL(options?: OperationOptions): Promise<string>;
+    deleteRegistration(registrationId: string, options?: EntityOperationOptions): Promise<NotificationHubResponse>;
+    getFeedbackContainerUrl(options?: OperationOptions): Promise<string>;
     getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
     getNotificationHubJob(jobId: string, options?: OperationOptions): Promise<NotificationHubJob>;
     getNotificationHubJobs(options?: OperationOptions): Promise<NotificationHubJob[]>;
     getNotificationOutcomeDetails(notificationId: string, options?: OperationOptions): Promise<NotificationDetails>;
-    getRegistrationById(registrationId: string, options?: OperationOptions): Promise<RegistrationDescription>;
+    getRegistration(registrationId: string, options?: OperationOptions): Promise<RegistrationDescription>;
     listRegistrations(options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
-    patchInstallation(installationId: string, installationPatches: InstallationPatch[], options?: OperationOptions): Promise<NotificationHubResponse>;
     scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessage, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
     sendDirectNotification(pushHandle: PushHandle, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
     sendNotification(tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
+    updateInstallation(installationId: string, installationPatches: JsonPatch[], options?: OperationOptions): Promise<Installation>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
 }
 

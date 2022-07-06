@@ -14,10 +14,14 @@
  * @azsdk-weight 100
  */
 
+import { delay } from "@azure/core-amqp";
 import { 
   createAppleMessage, 
   clientFromConnectionString, 
-  SendOperationOptions
+  SendOperationOptions,
+  NotificationDetails,
+  NotificationHubsClient,
+  NotificationOutcomeState
 } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
@@ -51,8 +55,31 @@ async function main() {
 
   // Only available in Standard SKU and above
   if (result.notificationId) {
-    console.log(`Tag Expression Notification ID: ${result.notificationId}`);
+    console.log(`Direct send Notification ID: ${result.notificationId}`);
+
+    const results = await getNotificationDetails(client, result.notificationId);
+    if (results) {
+      console.log(JSON.stringify(results, null, 2));
+    }
   }
+}
+
+async function getNotificationDetails(client: NotificationHubsClient, notificationId: string): Promise<NotificationDetails | undefined> {
+  let state: NotificationOutcomeState = "Enqueued";
+  let count = 0;
+  let result: NotificationDetails | undefined;
+  while ((state === "Enqueued" || state === "Processing") && count++ < 10) {
+    try {
+      result = await client.getNotificationOutcomeDetails(notificationId);
+      state =  result.state!;
+    } catch (e) {
+      // Possible to get 404 for when it doesn't exist yet.
+    }
+
+    await delay(1000);
+  }
+  
+  return result;
 }
 
 main()

@@ -31,7 +31,7 @@ const registrationId = process.env.INSTALLATION_ID || "<registrationId>";
 async function main() {
   const client = clientFromConnectionString(connectionString, hubName);
 
-  const registration = await client.getRegistrationById(registrationId);
+  const registration = await client.getRegistration(registrationId);
 
   // Add some tags
   if (!registration.tags) {

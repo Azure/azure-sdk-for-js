@@ -251,9 +251,9 @@ export interface InstallationTemplate {
 export type JsonPatchOperation = "add" | "remove" | "replace";
 
 /**
- * Represents a patch operation for the installation.
+ * Represents a patch operation.
  */
-export interface InstallationPatch {
+export interface JsonPatch {
   /**
    * The patch operation.
    */
