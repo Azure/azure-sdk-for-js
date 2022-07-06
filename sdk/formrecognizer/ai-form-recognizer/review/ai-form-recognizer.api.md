@@ -52,13 +52,13 @@ export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>
 
 // @public
 export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResultCommon {
-    documents: Document[];
-    keyValuePairs: DocumentKeyValuePair[];
-    languages: DocumentLanguage[];
-    pages: DocumentPage[];
-    paragraphs: DocumentParagraph[];
-    styles: DocumentStyle[];
-    tables: DocumentTable[];
+    documents?: Document[];
+    keyValuePairs?: DocumentKeyValuePair[];
+    languages?: DocumentLanguage[];
+    pages?: DocumentPage[];
+    paragraphs?: DocumentParagraph[];
+    styles?: DocumentStyle[];
+    tables?: DocumentTable[];
 }
 
 // @public
@@ -564,7 +564,7 @@ export type FormRecognizerRequestBody = NodeJS.ReadableStream | Blob | ArrayBuff
 
 // @public
 export interface GeneralDocumentResult extends LayoutResult {
-    keyValuePairs: DocumentKeyValuePair[];
+    keyValuePairs?: DocumentKeyValuePair[];
 }
 
 // @public
@@ -826,9 +826,9 @@ export const InvoiceSchema: {
 
 // @public
 export interface LayoutResult {
-    pages: DocumentPage[];
-    styles: DocumentStyle[];
-    tables: DocumentTable[];
+    pages?: DocumentPage[];
+    styles?: DocumentStyle[];
+    tables?: DocumentTable[];
 }
 
 // @public
@@ -1110,9 +1110,9 @@ export const PrebuiltModels: {
 
 // @public
 export interface ReadResult extends AnalyzeResultCommon {
-    languages: DocumentLanguage[];
-    pages: DocumentPage[];
-    styles: DocumentStyle[];
+    languages?: DocumentLanguage[];
+    pages?: DocumentPage[];
+    styles?: DocumentStyle[];
 }
 
 // @public

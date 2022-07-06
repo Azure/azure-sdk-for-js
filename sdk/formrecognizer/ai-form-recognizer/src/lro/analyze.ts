@@ -123,37 +123,37 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
   /**
    * Extracted pages.
    */
-  pages: DocumentPage[];
+  pages?: DocumentPage[];
 
   /**
    * Extracted tables.
    */
-  tables: DocumentTable[];
+  tables?: DocumentTable[];
 
   /**
    * Extracted key-value pairs.
    */
-  keyValuePairs: DocumentKeyValuePair[];
+  keyValuePairs?: DocumentKeyValuePair[];
 
   /**
    * Extracted text languages.
    */
-  languages: DocumentLanguage[];
+  languages?: DocumentLanguage[];
 
   /**
    * Extracted font styles.
    */
-  styles: DocumentStyle[];
+  styles?: DocumentStyle[];
 
   /**
    * Extracted documents (instances of any of the model's document types and corresponding field schemas).
    */
-  documents: Document[];
+  documents?: Document[];
 
   /**
    * Extracted document paragraphs.
    */
-  paragraphs: DocumentParagraph[];
+  paragraphs?: DocumentParagraph[];
 }
 
 /**
@@ -369,16 +369,15 @@ export function toAnalyzeResultFromGenerated<
     modelId: result.modelId,
     content: result.content,
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
-    tables: result.tables?.map((table) => toDocumentTableFromGenerated(table)) ?? [],
-    keyValuePairs: result.keyValuePairs?.map((pair) => toKeyValuePairFromGenerated(pair)) ?? [],
-    languages: result.languages ?? [],
-    styles: result.styles ?? [],
-    documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],
-    paragraphs:
-      result.paragraphs?.map((para) => ({
-        ...para,
-        boundingRegions: toBoundingRegions(para.boundingRegions),
-      })) ?? [],
+    tables: result.tables?.map((table) => toDocumentTableFromGenerated(table)),
+    keyValuePairs: result.keyValuePairs?.map((pair) => toKeyValuePairFromGenerated(pair)),
+    languages: result.languages,
+    styles: result.styles,
+    documents: result.documents?.map((doc) => mapDocuments(doc)) as Document[],
+    paragraphs: result.paragraphs?.map((para) => ({
+      ...para,
+      boundingRegions: toBoundingRegions(para.boundingRegions),
+    })),
   };
 }
 

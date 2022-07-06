@@ -152,9 +152,9 @@ matrix(
               const { documents, tables } = await poller.pollUntilDone();
 
               assert.isNotEmpty(documents);
-              const document = documents[0];
+              const document = documents?.[0];
 
-              assert.isNotEmpty(document.boundingRegions);
+              assert.isNotEmpty(document?.boundingRegions);
 
               assert.isNotEmpty(tables);
               const [table] = tables!;
@@ -162,12 +162,12 @@ matrix(
               assert.ok(table.boundingRegions?.[0].polygon);
               assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
-              assert.ok(document.fields);
-              assert.ok(document.fields["Merchant"]);
-              assert.ok(document.fields["DatedAs"]);
-              assert.ok(document.fields["CompanyPhoneNumber"]);
-              assert.ok(document.fields["CompanyName"]);
-              assert.ok(document.fields["Signature"]);
+              assert.ok(document?.fields);
+              assert.ok(document?.fields["Merchant"]);
+              assert.ok(document?.fields["DatedAs"]);
+              assert.ok(document?.fields["CompanyPhoneNumber"]);
+              assert.ok(document?.fields["CompanyName"]);
+              assert.ok(document?.fields["Signature"]);
             });
           });
 
