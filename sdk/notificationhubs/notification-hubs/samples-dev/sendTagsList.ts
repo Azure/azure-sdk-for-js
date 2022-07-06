@@ -14,7 +14,6 @@
  * @azsdk-weight 100
  */
 
-import { delay } from "@azure/core-amqp";
 import {
   createAppleMessage,
   clientFromConnectionString,
@@ -23,6 +22,7 @@ import {
   NotificationHubsClient,
   NotificationOutcomeState,
 } from "@azure/notification-hubs";
+import { delay } from "@azure/core-amqp";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
