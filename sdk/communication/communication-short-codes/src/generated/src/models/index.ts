@@ -131,11 +131,7 @@ export interface ProgramDetails {
   /** URL for the program or company. */
   url?: string;
   /** Indicates how the consumer can sign up to the program e.g. 'website', 'pointOfSale' and/or 'sms'. */
-  signUpTypes?: CallToActionType[];
-  /** Indicates how the consumer can sign up to the program e.g. 'website', 'pointOfSale' and/or 'sms'. */
   callToActionTypes?: CallToActionType[];
-  /** URL for "call to action" image for the program. */
-  signUpUrl?: string;
   /** URL for "call to action" image for the program. */
   callToActionUrl?: string;
   /** Call to action text. To be provided when InteractiveVoiceResponse is specified as call to action type */
