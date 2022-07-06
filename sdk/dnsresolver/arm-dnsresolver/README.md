@@ -6,7 +6,7 @@ The DNS Resolver Management Client.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dnsresolver/arm-dnsresolver) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-dnsresolver) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-dnsresolver?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-dnsresolver) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
