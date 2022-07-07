@@ -38,7 +38,7 @@ export function getObjects(logsCount: number): LogData[] {
 
   for (let i = 0; i < logsCount; i++) {
     const logData: LogData = {
-      Time: new Date(1655957386799),
+      Time: new Date(1655957386799), // Wed Jun 22 2022 21:09:46 GMT-0700 (Pacific Daylight Time)
       AdditionalContext: `additional logs context`,
     };
     logs.push(logData);
