@@ -23,6 +23,8 @@ describe("List Document Formats", () => {
   it("should list all available document formats", async function () {
     const result = await client.path("/app/collections").get();
 
+    console.log(result);
+    
     assert.equal(result.status, "200");
 
     if (isUnexpected(result)) {

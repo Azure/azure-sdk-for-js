@@ -64,7 +64,7 @@ describe("Post transaction", () => {
       .get();
     assert(
       transactionResponse.status === "200" ||
-      (transactionResponse.status === "406" && status.body.state === "Pending")
+        (transactionResponse.status === "406" && status.body.state === "Pending")
     );
   });
 
@@ -109,7 +109,7 @@ describe("Post transaction", () => {
       .get();
     assert(
       transactionResponse.status === "200" ||
-      (transactionResponse.status === "406" && status.body.state === "Pending")
+        (transactionResponse.status === "406" && status.body.state === "Pending")
     );
   });
 });

@@ -15,7 +15,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
-import { ClientSecretCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
@@ -24,6 +24,7 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   LEDGER_IDENTITY: "FAKE_CERT",
+  IDENTITY_SERVICE_URL: "https://identity.confidential-ledger-staging.core.azure.com"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -47,11 +48,14 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 export async function createClient(): Promise<ConfidentialLedgerClient> {
   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
+  /*
   const clientCredential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET
   );
+  */
+  const clientCredential = new DefaultAzureCredential();
 
   // const credential = new DefaultAzureCredential({ httpClient });
   const { ledgerIdentityCertificate } = await getLedgerIdentity(
