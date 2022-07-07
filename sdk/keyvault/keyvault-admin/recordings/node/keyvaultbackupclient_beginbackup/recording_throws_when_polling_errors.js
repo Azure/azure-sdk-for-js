@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "40dccd6bcc532afe69e7bcf11e8925e2";
+module.exports.hash = "1167801577fba0d0e71fb0021c7799dd";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,7 +11,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-server-latency',
-  '0',
+  '2',
   'x-content-type-options',
   'nosniff',
   'www-authenticate',
@@ -21,7 +21,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '0',
   'x-ms-request-id',
-  '9e74958c-c315-11eb-b644-000d3aded99f',
+  '296df738-fc8f-11ec-9410-00224878775b',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -49,26 +49,30 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8cb41f22-4aa1-4220-890a-53b42b66c500',
+  '6eaeb414-bb8b-4a19-9189-ae1ed5a9a700',
   'x-ms-ests-server',
-  '2.1.11722.26 - SCUS ProdSlices',
+  '2.1.13156.10 - WUS2 ProdSlices',
+  'Content-Security-Policy-Report-Only',
+  "script-src 'self' 'nonce-aN3BtxidwesqVAeQtMeYlQ' 'unsafe-eval' 'unsafe-inline'; object-src 'none'; base-uri 'none'; report-uri https://csp.microsoft.com/report/ESTS-UX-All",
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=AoRx8shS4OZDtNBWPQq9pko; expires=Thu, 01-Jul-2021 20:11:58 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoIhC7fGz21Fox_9Sb-npEk; expires=Thu, 04-Aug-2022 18:20:35 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr4K4o7I--5A0inino15Y5BEHcqP0jGmG3dTbACNRQpRvxsDdBRz9QgaPcQ3d3zCEpzNz35Rdrb7mlH0ZrVkRI28JiuQBsncknwlJIlksf-1apTanb7cgH1nqgke3v3sCJJe5WOaNBwvsmebrt5LT8UAm1aHqKnt7sxBVv1-1AvvUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrwlL0rwsehIS4VeuUtNtOg7g7WyxpD2j1YVQ29v4LyUlz-O6ZY8E7eWbib6AqLAGK3zwQyIm264KZ8FpBslOUW8l2SYnsLwTUkkwl_czC4qz9XSEK_PyuR0qe3ig4h8gLVzye90CVGhjlRpRaafc2JbOPUeAVd_UIjlhMcb-RF-8gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 01 Jun 2021 20:11:58 GMT',
+  'Tue, 05 Jul 2022 18:20:34 GMT',
   'Content-Length',
   '980'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .get('/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration')
-  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
+  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"kerberos_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/kerberos","tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
   'Cache-Control',
   'max-age=86400, private',
   'Content-Type',
@@ -84,32 +88,32 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'ed26eee1-354e-4546-93c3-d88ffb107f00',
+  'c079d5c6-81f7-4308-812f-024ce755d300',
   'x-ms-ests-server',
-  '2.1.11722.26 - SCUS ProdSlices',
+  '2.1.13156.10 - SCUS ProdSlices',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=AoRx8shS4OZDtNBWPQq9pko; expires=Thu, 01-Jul-2021 20:11:58 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AiYW9AtIzxJHm5ISukUwrfc; expires=Thu, 04-Aug-2022 18:20:35 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrD_qE7-ehdTNJ09wp5M9Ei94gDR9JhODId3lSI9rBM6oW_DHaQfHQRAqJ4jxivaaTpYOh8PG4-mSq5eL4J8eIWGzELNCg_MuMWBy7FX1z-KyQA-Sc9ZwFqUxXkve7AKtuABZJhC5hy-xtdcD2nJ1KgO7g2EbKfbBAPBc6V71TncEgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrVM3kmlMXw08Xt_3q9D1TYDyni7C6QpivG-x_pjWNLEiMM4pLqzjQDxQ5vSemc5J-YR5yf9nI5ACvwQFwl_QaZbpWQrYnbdA4sOi3O9xqzWLBdbCFbOPwdtYeF4Vsjk_S3fv9h_kyeMmvHzfVM9OTT33_aYjacwMOm8e7fSBllasgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 01 Jun 2021 20:11:58 GMT',
+  'Tue, 05 Jul 2022 18:20:34 GMT',
   'Content-Length',
-  '1651'
+  '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&client-request-id=285a1de3-9482-4b88-9bb7-c9ab1428b824&client_secret=azure_client_secret")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.10.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=8ee6c8f6-ec62-4952-a466-585b3a8282d3&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1322',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -121,75 +125,47 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f3e3a3d2-f88b-4bb8-a10d-c234ad45a900',
+  '6eaeb414-bb8b-4a19-9189-ae1edda9a700',
   'x-ms-ests-server',
-  '2.1.11722.26 - EUS ProdSlices',
+  '2.1.13156.10 - WUS2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
+  'Content-Security-Policy-Report-Only',
+  "script-src 'self' 'nonce-1wbmB-R18DIR4eGbBekSjw' 'unsafe-eval' 'unsafe-inline'; object-src 'none'; base-uri 'none'; report-uri https://csp.microsoft.com/report/ESTS-UX-All",
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=AoRx8shS4OZDtNBWPQq9pkrn3_GsAQAAAI6LSNgOAAAA; expires=Thu, 01-Jul-2021 20:11:59 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhpLUvSXVhxGpMwfYVE61rGvhfReAQAAAPJ3VtoOAAAA; expires=Thu, 04-Aug-2022 18:20:35 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 01 Jun 2021 20:11:58 GMT'
+  'Tue, 05 Jul 2022 18:20:35 GMT',
+  'Content-Length',
+  '1322'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .post('/backup', {"storageResourceUri":"https://uri.blob.core.windows.net/uri","token":"invalid_sas_token"})
   .query(true)
-  .reply(202, {"status":"InProgress","statusDetails":null,"error":null,"startTime":1622578321,"endTime":null,"jobId":"6d1d80e7cd084061ad37edbd731b4880","azureStorageBlobContainerUri":null}, [
-  'server',
-  'Kestrel',
+  .reply(400, {"error":{"code":"BadRequest","message":"The customer provided SAS token is malformed. The SAS token does not contain the expiry field","innererror":null}}, [
   'date',
-  'Tue, 01 Jun 2021 20:12:01 GMT',
+  'Tue, 05 Jul 2022 18:20:37 GMT',
   'cache-control',
   'no-cache',
   'x-content-type-options',
   'nosniff',
-  'azure-asyncoperation',
-  'https://azure_managedhsm.managedhsm.azure.net/backup/6d1d80e7cd084061ad37edbd731b4880/pending',
-  'x-ms-keyvault-region',
-  'eastus2',
-  'Retry-After',
-  '0',
-  'x-ms-request-id',
-  '9ed046fc-c315-11eb-b644-000d3aded99f',
-  'content-type',
-  'application/json; charset=utf-8',
-  'x-frame-options',
-  'SAMEORIGIN',
+  'server',
+  'Kestrel',
+  'api-supported-versions',
+  '20180927, 20211111',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;',
-  'x-ms-server-latency',
-  '2625',
-  'content-length',
-  '174',
-  'strict-transport-security',
-  'max-age=31536000; includeSubDomains',
-  'content-security-policy',
-  "default-src 'self'"
-]);
-
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .get('/backup/6d1d80e7cd084061ad37edbd731b4880/pending')
-  .query(true)
-  .reply(400, {"error":{"code":"BadRequest","innererror":null,"message":"The customer provided SAS token is malformed. The SAS token does not contain the expiry field"}}, [
-  'server',
-  'Kestrel',
-  'x-ms-build-version',
-  '1.0.20210407-3-27236ed1-develop',
-  'date',
-  'Tue, 01 Jun 2021 20:12:05 GMT',
-  'cache-control',
-  'no-cache',
-  'x-content-type-options',
-  'nosniff',
+  'conn_type=Ipv4;addr=167.220.70.94;act_addr_fam=Ipv4;',
   'x-ms-keyvault-region',
-  'eastus2',
+  'westus2',
   'x-ms-request-id',
-  'a06d0bd0-c315-11eb-b644-000d3aded99f',
+  '29e5e680-fc8f-11ec-9410-00224878775b',
   'content-type',
   'application/json; charset=utf-8',
   'x-frame-options',
@@ -198,10 +174,8 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   '155',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;',
   'x-ms-server-latency',
-  '3759',
+  '2413',
   'content-security-policy',
   "default-src 'self'"
 ]);

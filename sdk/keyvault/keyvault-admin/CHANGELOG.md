@@ -1,16 +1,10 @@
 # Release History
 
-## 4.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.2.1 (2022-07-05)
 
 ### Bugs Fixed
 
 - The scope of the token used for authentication now reflects the scope required by the service in the WWW-Authenticate header.
-
-### Other Changes
 
 ## 4.2.0 (2022-03-24)
 

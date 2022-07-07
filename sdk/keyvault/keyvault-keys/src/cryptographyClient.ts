@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, TokenCredential } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
+import { TokenCredential } from "@azure/core-auth";
 import {
   CryptographyClientOptions,
   GetKeyOptions,
