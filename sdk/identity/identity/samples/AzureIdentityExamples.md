@@ -288,7 +288,7 @@ You'll need to implement your own `getAssertion()` callback function that will r
 
 ##### Creating a callback function to return assertion
 
-This example demonstrates a callback function for creating an assertion from a client certificate. The default value of authority host should be `https://login.microsoftonline.com/${tenantId}`
+This example demonstrates a callback function for creating an assertion from a client certificate. The default value of authority host should be `https://login.microsoftonline.com/${tenantId}`.
 
 ```ts
  async function getAssertion(): Promise<string> {
