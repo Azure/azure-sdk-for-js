@@ -29,7 +29,7 @@ import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import { OnMessage } from "../../../src/core/messageReceiver";
 import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
 import { MessageSession } from "../../../src/session/messageSession";
-import { instrumentMessage } from "../../../src/diagnostics/tracing";
+import { instrumentMessage } from "../../../src/diagnostics/instrumentServiceBusMessage";
 import { MessageHandlers } from "../../../src";
 const should = chai.should();
 const assert = chai.assert;
