@@ -192,7 +192,7 @@ After that, you shouldn't need to specify a client secret to authenticate with t
 
 #### Client Id
 
-The Client ID is the app ID of the registered app / service principal in Azure AD. It's a required parameter for `ClientSecretCredential`, `ClientCertificateCredential` and `ClientAssertionCredential`. If you've already created your service principal, you can retrieve the client/app ID by following the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in).
+The Client ID is the app ID of the registered app / service principal in Azure AD. It's a required parameter for `ClientSecretCredential`, `ClientCertificateCredential`, and `ClientAssertionCredential`. If you've already created your service principal, you can retrieve the client/app ID by following the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in).
 
 #### Tenant Id
 
