@@ -38,7 +38,7 @@ export var classificationPolicyRequest: ClassificationPolicy = {
 export var distributionPolicyRequest: DistributionPolicy = {
   id: "test-d-policy",
   name: "test-d-policy",
-  offerTtlSeconds: 120,
+  offerTtlSeconds: 600,
   mode: {
     kind: "longest-idle",
     minConcurrentOffers: 1,
@@ -59,16 +59,14 @@ export var workerRequest: RouterWorker = {
   id: "test-worker",
   state: "active",
   loadRatio: 1,
-  totalCapacity: 100,
+  totalCapacity: 1,
+  availableForOffers: true,
   queueAssignments: {
     "test-queue": { QueueId: "test-queue" }
   },
   channelConfigurations: {
-    CustomChatChannel: {
-      capacityCostPerJob: 10
-    },
-    CustomVoiceChannel: {
-      capacityCostPerJob: 100
+    "test-channel": {
+      capacityCostPerJob: 1
     }
   },
   labels: {}

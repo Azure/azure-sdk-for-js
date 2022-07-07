@@ -28,10 +28,10 @@
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:browser": "npm run build:test && npm run unit-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
+    "unit-test:browser": "npm run build:test && karma start --single-run",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js \"dist-test/index.node.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
@@ -70,10 +70,10 @@
     "@azure/core-client": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.13",
+    "@azure/core-paging": "^1.1.1",
     "@azure/logger": "^1.0.0",
     "events": "^3.0.0",
     "tslib": "^2.2.0",
-    "@azure/core-paging": "^1.1.1",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
