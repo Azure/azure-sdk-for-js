@@ -7,12 +7,14 @@ import {
   env,
   RecorderStartOptions,
   isPlaybackMode,
+  assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/core-auth";
-import { parseConnectionString } from "@azure/communication-common";
+import { CommunicationUserIdentifier, parseConnectionString } from "@azure/communication-common";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Context, Test } from "mocha";
 import { RoomsClient } from "../../../src";
+import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
 
 export interface RecordedClient<T> {
   client: T;
@@ -83,4 +85,21 @@ export async function createRecordedRoomsClientWithToken(
     client,
     recorder,
   };
+}
+
+export async function createTestUser(recorder: Recorder): Promise<CommunicationUserToken> {
+  const identityClient = new CommunicationIdentityClient(
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
+    recorder.configureClientOptions({})
+  );
+  return identityClient.createUserAndToken(["voip"]);
+}
+
+export async function deleteTestUser(testUser: CommunicationUserIdentifier): Promise<void> {
+  if (testUser) {
+    const identityClient = new CommunicationIdentityClient(
+      assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
+    );
+    await identityClient.deleteUser(testUser);
+  }
 }
