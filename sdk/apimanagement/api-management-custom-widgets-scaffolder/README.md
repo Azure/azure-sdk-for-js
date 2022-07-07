@@ -40,11 +40,11 @@ If you'd like to contribute to this library, please read the [contributing guide
 To execute the tests you'll need to run:
 
 1. `rush update`
-2. `rush build -t @azure/apimanagement-custom-widget-scaffolder`
-3. `cd sdk\apimanagement\apimanagement-custom-widget-scaffolder`
+2. `rush build -t @azure/api-management-custom-widgets-scaffolder`
+3. `cd sdk\apimanagement\api-management-custom-widgets-scaffolder`
 4. `npm run test`
 
-View our [tests](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/apimanagement-custom-widget-scaffolder/test)
+View our [tests](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/api-management-custom-widgets-scaffolder/test)
 folder for more details.
 
 ## Related projects
