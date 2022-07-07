@@ -297,7 +297,7 @@ This example demonstrates a callback function for creating an assertion from a c
 }
 ```
 
-An example function creating an encoded and signed JWT assertion token from client certificate -
+For example, the following function creates an encoded and signed JWT assertion token from the client certificate:
 
 ```ts
 import * as tls from "tls";
