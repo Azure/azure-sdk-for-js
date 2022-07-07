@@ -3,7 +3,7 @@
 ## 2.1.0 (2022-07-07)
 
 ### Features Added
-- Added support for new credential `ClientAssertionCredential` which accepts a callback function for the signed JWT assertion for a client certificate. See [MSAL Client Assertion for more information](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/initialize-confidential-client-application.md).
+- Added support for new credential `ClientAssertionCredential`, which accepts a callback function for the signed JWT assertion for a client certificate. See [MSAL Client Assertion for more information](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/initialize-confidential-client-application.md).
 
 ### Bugs Fixed
 
