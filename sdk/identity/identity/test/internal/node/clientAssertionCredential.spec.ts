@@ -117,14 +117,11 @@ async function createJWTTokenFromCertificate(authorityHost: string,
 
   const privateKeyPemCert = fs.readFileSync(certificatePath);
   const audience = `${authorityHost}/v2.0`;
-  console.log(audience);
   const secureContext = tls.createSecureContext({
     cert: privateKeyPemCert,
   });
   const secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
   const cert = secureSocket.getCertificate() as tls.PeerCertificate;
-  console.log("issuer=");
-  console.log(JSON.stringify(cert.issuer))
   const signedCert = jwt.sign({},privateKeyPemCert,{
     header: {
       alg:"RS256",
