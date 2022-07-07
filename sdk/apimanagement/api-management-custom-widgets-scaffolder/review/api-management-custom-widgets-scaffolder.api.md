@@ -20,7 +20,7 @@ export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
 export interface TCustomWidgetCommonConfig {
     displayName: string;
     iconUrl?: string;
-    tech: TScaffoldTech;
+    technology: TScaffoldTech;
 }
 
 // @public

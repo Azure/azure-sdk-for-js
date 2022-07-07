@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TWidgetConfig, displayNameToName, TECHNOLOGIES } from "../src/scaffolding";
+import { TECHNOLOGIES, TWidgetConfig, displayNameToName } from "../src/scaffolding";
 
 import { assert } from "chai";
 import { generateProject } from "../src";
 import { promises } from "fs";
 import sinon from "sinon";
 
-const widgetConfig: Omit<TWidgetConfig, "tech"> = {
+const widgetConfig: Omit<TWidgetConfig, "technology"> = {
   displayName: "Contoso App",
 };
 const deployConfig = {
@@ -18,8 +18,8 @@ const deployConfig = {
     "/subscriptions/c6a33fd3-e442-48a4-b82d-bcc4ad8a71d7/resourceGroups/mibudz-test/providers/Microsoft.ApiManagement/service/contoso",
 };
 
-TECHNOLOGIES.forEach((tech) => {
-  describe("Custom widget scaffolder - " + tech, () => {
+TECHNOLOGIES.forEach((technology) => {
+  describe("Custom widget scaffolder - " + technology, () => {
     let sandbox: sinon.SinonSandbox;
     let writeFileSpy: sinon.SinonStub;
     const writtenFiles: { name: string; content: string }[] = [];
@@ -38,7 +38,7 @@ TECHNOLOGIES.forEach((tech) => {
       writeFileSpy.callsFake((name, content) => {
         writtenFiles.push({ name, content });
       });
-      await generateProject({ ...widgetConfig, tech }, deployConfig);
+      await generateProject({ ...widgetConfig, technology }, deployConfig);
 
       assert.ok(writtenFiles.length);
     });

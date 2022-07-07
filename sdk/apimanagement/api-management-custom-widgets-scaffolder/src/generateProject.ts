@@ -61,7 +61,7 @@ export async function generateProject(
     }
     relativePath = relativePath
       .replace(joinPath(__dirname, "templates", "_shared"), "")
-      .replace(joinPath(__dirname, "templates", widgetConfig.tech), "")
+      .replace(joinPath(__dirname, "templates", widgetConfig.technology), "")
       .replace(templateSuffix, "");
     const newFilePath = joinPath(process.cwd(), widgetFolderName(name), relativePath);
     const dir = parsePath(newFilePath).dir;
@@ -70,7 +70,7 @@ export async function generateProject(
     await fs.writeFile(newFilePath, fileData, { encoding });
   };
 
-  const templates = await getTemplates(widgetConfig.tech);
+  const templates = await getTemplates(widgetConfig.technology);
   for (const file of Object.values(templates)) {
     await renderTemplate(file);
   }

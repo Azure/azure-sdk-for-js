@@ -24,15 +24,15 @@ const red: TLog = (msg) => log(chalk.red(msg));
 const gray: TLog = (msg) => log(chalk.gray(msg));
 
 async function main(): Promise<void> {
-  green("\nWelcome to generator of Custom Widgets for Azure API Management service!\n");
+  green("\nThis tool generates code scaffold for custom widgets in the Azure API Management’s developer portal. Learn more at https://aka.ms/apimdocs/portal/customwidgets.\n");
 
   const getConfig = buildGetConfig(gray, red);
 
-  white("First, basic information about your widget");
+  white("Specify the custom widget configuration.");
   const widgetConfig = await getConfig(promptWidgetConfig, validateWidgetConfig);
-  white("Now information about your DevPortal");
+  white("Specify the Azure API Management service configuration.");
   const deployConfig = await getConfig(promptDeployConfig, validateDeployConfig);
-  white("Optional open url");
+  white("Specify other options");
   const miscConfig = await getConfig(promptMiscConfig, validateMiscConfig);
 
   if (deployConfig.resourceId[0] === "/") {
@@ -49,7 +49,7 @@ async function main(): Promise<void> {
     : miscConfig.openUrl;
 
   return generateProject(widgetConfig, deployConfig, miscConfig)
-    .then(() => green("\nYour project has been generated successfully!\n"))
+    .then(() => green("\nThe custom widget’s code scaffold has been successfully generated.\n"))
     .catch(console.error);
 }
 

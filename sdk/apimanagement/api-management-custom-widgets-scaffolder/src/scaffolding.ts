@@ -22,7 +22,7 @@ export interface TWidgetConfig {
   /** Name of the custom widget which is displayed in DevPortal. */
   displayName: string;
   /** Technology to use to scaffold the widget. */
-  tech: TScaffoldTech;
+  technology: TScaffoldTech;
   // control?: TScaffoldSourceControl;
   /** Optional URL for a custom icon, which will be displayed in DevPortal widget list. */
   iconUrl?: string;

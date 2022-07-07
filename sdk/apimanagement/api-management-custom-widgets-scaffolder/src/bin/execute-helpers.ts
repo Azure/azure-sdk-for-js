@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ReplaceTypesPreserveOptional, TValidate, TValidateFnc } from "./execute-configs";
+import {ReplaceTypesPreserveOptional, TValidate, TValidateFnc, fieldIdToName} from "./execute-configs";
 
 import { TConfigs } from "../scaffolding";
 import { hideBin } from "yargs/helpers";
@@ -53,9 +53,9 @@ export const buildGetConfig = (gray: TLog, red: TLog): Config => {
     if (missing || !Object.values(configPartial).length) {
       return promptForConfig(configPartial);
     } else {
-      gray("Using config from command line");
+      gray("Retrieved from the command parameters");
       Object.entries(configPartial).forEach(
-        ([key, value]) => value != null && gray(`${key}: ${value}`)
+        ([key, value]) => value != null && gray(`${fieldIdToName[key] ?? key}: ${value}`)
       );
       return configPartial as TConfig;
     }
