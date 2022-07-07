@@ -24,7 +24,7 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   LEDGER_IDENTITY: "FAKE_CERT",
-  IDENTITY_SERVICE_URL: "https://identity.confidential-ledger-staging.core.azure.com"
+  IDENTITY_SERVICE_URL: "https://identity.confidential-ledger.core.azure.com/"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {

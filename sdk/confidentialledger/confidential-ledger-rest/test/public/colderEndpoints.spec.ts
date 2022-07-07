@@ -54,7 +54,7 @@ describe("Colder endpoints", () => {
     });
   });
 
-  it("should retrieve a list of cenclve quotes", async function () {
+  it("should retrieve a list of enclave quotes", async function () {
     const result = await client.path("/app/enclaveQuotes").get();
 
     assert.equal(result.status, "200");
