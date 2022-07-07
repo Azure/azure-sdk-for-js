@@ -319,7 +319,7 @@ async function createJWTTokenFromCertificate(authorityHost: string,
   const secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
   secureSocket.destroy();
   const cert = secureSocket.getCertificate() as tls.PeerCertificate;
-  const signedCert = jwt.sign({},privateKeyPemCert,{
+  const signedCert = jwt.sign({}, privateKeyPemCert, {
     header: {
       alg:"RS256",
       typ: "JWT",
