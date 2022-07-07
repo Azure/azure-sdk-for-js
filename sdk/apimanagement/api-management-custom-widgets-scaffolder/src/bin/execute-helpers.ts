@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {ReplaceTypesPreserveOptional, TValidate, TValidateFnc, fieldIdToName} from "./execute-configs";
+import {
+  ReplaceTypesPreserveOptional,
+  TValidate,
+  TValidateFnc,
+  fieldIdToName,
+} from "./execute-configs";
 
 import { TConfigs } from "../scaffolding";
 import { hideBin } from "yargs/helpers";
@@ -37,7 +42,7 @@ export const extractConfigFromArgs = <TConfig extends TConfigs>(
 };
 
 export type TLog = (msg: string) => void;
- type Config = <TConfig extends TConfigs>(
+type Config = <TConfig extends TConfigs>(
   promptForConfig: (partial: Partial<TConfig>) => Promise<TConfig>,
   validateConfig: ReplaceTypesPreserveOptional<TConfig, TValidateFnc>
 ) => Promise<TConfig>;

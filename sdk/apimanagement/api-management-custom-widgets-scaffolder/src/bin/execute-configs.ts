@@ -5,7 +5,10 @@ import { TConfigs, TDeploymentConfig, TECHNOLOGIES, TOptions, TWidgetConfig } fr
 
 import inquirer from "inquirer";
 
-export const fieldIdToName: Record<keyof (TWidgetConfig & TDeploymentConfig & TOptions) | string, string> = {
+export const fieldIdToName: Record<
+  keyof (TWidgetConfig & TDeploymentConfig & TOptions) | string,
+  string
+> = {
   displayName: "Widget display name",
   technology: "Technology",
   iconUrl: "iconUrl",
@@ -15,7 +18,7 @@ export const fieldIdToName: Record<keyof (TWidgetConfig & TDeploymentConfig & TO
   apiVersion: "Management API version",
 
   openUrl: "Developer portal URL",
-}
+};
 
 export const prefixUrlProtocol = (value: string): string =>
   /https?:\/\//.test(value) ? value : `https://${value}`;
@@ -26,7 +29,13 @@ const validateRequired =
     (input != null && input !== "") || msg;
 
 const validateUrl =
-  (name: string, msg = (input: string) => `Provided “${name}” parameter value (“${prefixUrlProtocol(input)}”) isn’t a valid URL. Use the correct URL format, e.g., https://contoso.com.`) =>
+  (
+    name: string,
+    msg = (input: string) =>
+      `Provided “${name}” parameter value (“${prefixUrlProtocol(
+        input
+      )}”) isn’t a valid URL. Use the correct URL format, e.g., https://contoso.com.`
+  ) =>
   (input: string) => {
     try {
       new URL(prefixUrlProtocol(input));
@@ -49,8 +58,14 @@ export const validateWidgetConfig: TValidate<TWidgetConfig> = {
     const required = validateRequired(fieldIdToName.technology)(input);
     if (required !== true) return required;
 
-    if (TECHNOLOGIES.includes(input as any)) return true;
-    else return "Provided “technology” parameter value isn’t correct. Use one of the following: " + TECHNOLOGIES.join(", ");
+    if (TECHNOLOGIES.includes(input as any)) {
+      return true;
+    } else {
+      return (
+        "Provided “technology” parameter value isn’t correct. Use one of the following: " +
+        TECHNOLOGIES.join(", ")
+      );
+    }
   },
 };
 
@@ -136,7 +151,9 @@ export const promptMiscConfig = (partial: Partial<TOptions>): Promise<TOptions> 
       {
         name: "openUrl",
         type: "input",
-        message: fieldIdToName.openUrl + " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or https://localhost:8080)",
+        message:
+          fieldIdToName.openUrl +
+          " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or https://localhost:8080)",
         transformer: prefixUrlProtocol,
         validate: validateMiscConfig.openUrl,
       },

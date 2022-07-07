@@ -24,7 +24,9 @@ const red: TLog = (msg) => log(chalk.red(msg));
 const gray: TLog = (msg) => log(chalk.gray(msg));
 
 async function main(): Promise<void> {
-  green("\nThis tool generates code scaffold for custom widgets in the Azure API Management’s developer portal. Learn more at https://aka.ms/apimdocs/portal/customwidgets.\n");
+  green(
+    "\nThis tool generates code scaffold for custom widgets in the Azure API Management’s developer portal. Learn more at https://aka.ms/apimdocs/portal/customwidgets.\n"
+  );
 
   const getConfig = buildGetConfig(gray, red);
 
