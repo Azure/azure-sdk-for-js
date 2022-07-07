@@ -294,7 +294,7 @@ This example demonstrates a callback function for creating an assertion from a c
  async function getAssertion(): Promise<string> {
       const jwtoken = await createJWTTokenFromCertificate("<AUTHORITY_HOST>", "<YOUR_CLIENT_ID>", "<YOUR_CERTIFICATE_PATH>");
       return jwtoken;
-    }
+}
 ```
 
 An example function creating an encoded and signed JWT assertion token from client certificate -
