@@ -172,7 +172,7 @@ export class ShortCodesClient {
     constructor(endpoint: string, credential: KeyCredential, options?: ShortCodesClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: ShortCodesClientOptions);
     // (undocumented)
-    createOrReplaceUSProgramBriefAttachment(programBriefId: string, attachmentId: string, fileName: string, fileType: FileType, fileContent: string, attachmentType: AttachmentType, options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams): Promise<USProgramBrief>;
+    createOrReplaceUSProgramBriefAttachment(programBriefId: string, attachmentId: string, fileName: string, fileType: FileType, fileContent: string, attachmentType: AttachmentType, options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams): Promise<ProgramBriefAttachment>;
     // (undocumented)
     deleteUSProgramBrief(programBriefId: string, options?: DeleteUSProgramBriefOptions): Promise<void>;
     // (undocumented)
