@@ -23,10 +23,10 @@ import {
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-import { SpanStatusCode, Link, SpanKind } from "@azure/core-tracing";
+import { TracingSpanLink } from "@azure/core-tracing";
 import { senderLogger as logger } from "./log";
 import { ServiceBusError } from "./serviceBusError";
-import { createServiceBusSpan } from "./diagnostics/tracing";
+import { createServiceBusSpan } from "./diagnostics/instrumentServiceBusMessage";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -213,9 +213,9 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       }
     }
 
-    const links: Link[] = batch._messageSpanContexts.map((context) => {
+    const spanLinks: TracingSpanLink[] = batch._messageSpanContexts.map((tracingContext) => {
       return {
-        context,
+        tracingContext,
       };
     });
 
@@ -225,19 +225,19 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       this.entityPath,
       this._context.config.host,
       {
-        kind: SpanKind.CLIENT,
-        links,
+        spanKind: "client",
+        spanLinks,
       }
     );
 
     try {
       const result = await this._sender.sendBatch(batch, options);
-      sendSpan.setStatus({ code: SpanStatusCode.OK });
+      sendSpan.setStatus({ status: "success" });
       return result;
     } catch (error: any) {
       sendSpan.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
+        status: "error",
+        error,
       });
       throw error;
     } finally {
