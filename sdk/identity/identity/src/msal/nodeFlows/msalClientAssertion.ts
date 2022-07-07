@@ -45,8 +45,11 @@ export class MsalClientAssertion extends MsalNode {
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (err: any) {
-      throw this.handleError(scopes, err, options);
+    } catch (err: unknown) {
+      if (!(err instanceof Error)) {
+        err = new Error((err as any).toString())
+      }
+      throw this.handleError(scopes, err as Error, options);
     }
   }
 }
