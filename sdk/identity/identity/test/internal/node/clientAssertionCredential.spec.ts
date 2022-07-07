@@ -138,55 +138,5 @@ async function createJWTTokenFromCertificate(authorityHost: string,
     subject: clientId,
     issuer: clientId
   })  
-return signedCert;  
+  return signedCert;  
 }
-/*
-async function createJWTTokenFromCertificate(
-  authorityHost: string,
-  clientId: string,
-  certificatePath: string
-) {
-  const pemCert = fs.readFileSync(certificatePath);
-  const audience = `${authorityHost}/v2`;
-  const secureContext = tls.createSecureContext({
-    cert: pemCert,
-  });
-
-  const secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
-
-  const cert = secureSocket.getCertificate() as tls.PeerCertificate;
-  const headerJSON = {
-    typ: "JWT",
-    alg: "RS256",
-    x5t: Buffer.from(cert.fingerprint256, "hex").toString("base64"),
-  };
-  secureSocket.destroy();
-  const currentDate = new Date("2022-07-01T23:28:35.248Z");
-  const payloadJSON = {
-    jti: uuid.v4(),
-    aud: audience,
-    iss: clientId,
-    sub: clientId,
-    nbf: Math.floor(+currentDate / 1000),
-    exp: addMinutes(currentDate, 30),
-  };
-  const headerBuffer = Buffer.from(JSON.stringify(headerJSON), "utf-8");
-  const headerString = headerBuffer.toString("base64");
-  const payloadBuffer = Buffer.from(JSON.stringify(payloadJSON), "utf-8");
-  const payloadString = payloadBuffer.toString("base64");
-  const flattenedJws = headerString + "." + payloadString;
-  // TODO : sign like the .NET equivalent
-  // const pki = forge.pki;
-  // const privateKey = pki.privateKeyFromPem(pemCert.toString());
-  // const signature = privateKey.sign(flattenedJws,"sha256");
-  // clientCertificate.GetRSAPrivateKey().SignData(Encoding.ASCII.GetBytes(flattenedJws), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-  const signatureAlg = crypto.createSign("sha256");
-  signatureAlg.update(flattenedJws);
-  const signature = signatureAlg.sign(pemCert.toString());
-  return flattenedJws + "." + signature.toString("base64");
-}
-*/
-
-// function addMinutes(date: Date, minutes: number) {
-//   return new Date(date.getTime() + minutes * 60000);
-// }
