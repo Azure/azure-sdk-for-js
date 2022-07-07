@@ -11,20 +11,20 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 07 Jul 2022 19:01:41 GMT"
+        "x-ms-date": "Thu, 07 Jul 2022 21:45:08 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 07 Jul 2022 19:01:40 GMT",
-        "MS-CV": "D5llJgXcukyuES10j9QShg.0",
+        "Date": "Thu, 07 Jul 2022 21:45:08 GMT",
+        "MS-CV": "6FY9\u002BH0NgU6wOp9Qi9rp5w.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0lC3HYgAAAACfGcYKE\u002BpeTKaQCgXX\u002BmwvU0FPMzFFREdFMTExOABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "041PHYgAAAADBY0BbVTqoRogy92Qu7UaUU0FPMzFFREdFMTIyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "442ms"
+        "X-Processing-Time": "371ms"
       },
       "ResponseBody": {
         "shortCodes": []

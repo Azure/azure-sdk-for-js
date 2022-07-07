@@ -282,7 +282,7 @@ export class ShortCodesClient {
     fileContent: string,
     attachmentType: AttachmentType,
     options: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams = {}
-  ): Promise<USProgramBrief> {
+  ): Promise<ProgramBriefAttachment> {
     const { span, updatedOptions } = createSpan(
       "ShortCodesClient-createOrReplaceUSProgramBriefAttachment",
       options
