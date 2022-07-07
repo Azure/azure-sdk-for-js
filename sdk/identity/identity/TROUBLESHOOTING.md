@@ -235,7 +235,7 @@ These errors will be thrown by the JS Identity SDK and thus will have no error c
 |---|---|---|
 |AADSTS700021| Client assertion application identifier doesn't match 'client_id' parameter. Review the documentation at https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials | Ensure the JWT assertion created has the correct values specified for the `sub` and `issuer` value of the payload, both of these should have the value be equal to `clientId`. Refer documentation for [client assertion format](https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials)|
 |AADSTS700023| Client assertion audience claim does not match Realm issuer. Review the documentation at https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials. | Ensure the audience `aud` field in the JWT assertion created has the correct value for the audience specified in the payload. This should be set to `https://login.microsoftonline.com/{tenantId}/v2`.|
-|AADSTS50027| JWT token is invalid or malformed. | Ensure the JWT assertion token is in the valid format.Refer documentation for [client assertion format](https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials).|
+|AADSTS50027| JWT token is invalid or malformed. | Ensure the JWT assertion token is in the valid format. Refer to the documentation for [client assertion format](https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials).|
 
 ## Troubleshoot Managed Identity authentication issues
 
