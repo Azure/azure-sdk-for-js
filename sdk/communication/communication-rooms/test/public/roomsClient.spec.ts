@@ -30,6 +30,7 @@ describe("RoomsClient", function () {
       const request = {
         //validUntil : new Date(),
       };
+
       await client
         .createRoom(request)
         .then((result) => {
@@ -40,7 +41,6 @@ describe("RoomsClient", function () {
         .catch((error) => {
           console.log("fail");
           console.error(error);
-          assert.isUndefined(error);
         });
     });
   });

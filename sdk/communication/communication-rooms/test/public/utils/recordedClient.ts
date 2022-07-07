@@ -52,8 +52,6 @@ export async function createRecordedRoomsClient(
     env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
     recorder.configureClientOptions({})
   );
-  console.log(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
-  console.log("WHY ME");
   return {
     client,
     recorder,
