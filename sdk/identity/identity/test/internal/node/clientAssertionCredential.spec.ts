@@ -15,7 +15,8 @@ import * as tls from "tls";
 import * as net from "net";
 import * as fs from "fs";
 import * as uuid from "uuid";
-import * as crypto from "crypto";
+import * as jwt from "jsonwebtoken";
+import ms from 'ms';
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -87,8 +88,8 @@ describe("ClientAssertionCredential (internal)", function () {
     const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
 
     async function getAssertion(): Promise<string> {
-      const jwt = await createJWTTokenFromCertificate(authorityHost, clientId, certificatePath);
-      return jwt;
+      const jwtoken = await createJWTTokenFromCertificate(authorityHost, clientId, certificatePath);
+      return jwtoken;
     }
     const credential = new ClientAssertionCredential(tenantId, clientId, getAssertion);
 
@@ -109,6 +110,37 @@ describe("ClientAssertionCredential (internal)", function () {
   });
 });
 
+
+async function createJWTTokenFromCertificate(authorityHost: string,
+  clientId: string,
+  certificatePath: string) {
+
+  const privateKeyPemCert = fs.readFileSync(certificatePath);
+  const audience = `${authorityHost}/v2.0`;
+  console.log(audience);
+  const secureContext = tls.createSecureContext({
+    cert: privateKeyPemCert,
+  });
+  const secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
+  const cert = secureSocket.getCertificate() as tls.PeerCertificate;
+  console.log("issuer=");
+  console.log(JSON.stringify(cert.issuer))
+  const signedCert = jwt.sign({},privateKeyPemCert,{
+    header: {
+      alg:"RS256",
+      typ: "JWT",
+      x5t: Buffer.from(cert.fingerprint256, "hex").toString("base64")
+    },
+    algorithm: "RS256",
+    audience: audience,
+    jwtid: uuid.v4(),
+    expiresIn: ms('1 h'),
+    subject: clientId,
+    issuer: clientId
+  })  
+return signedCert;  
+}
+/*
 async function createJWTTokenFromCertificate(
   authorityHost: string,
   clientId: string,
@@ -153,7 +185,8 @@ async function createJWTTokenFromCertificate(
   const signature = signatureAlg.sign(pemCert.toString());
   return flattenedJws + "." + signature.toString("base64");
 }
+*/
 
-function addMinutes(date: Date, minutes: number) {
-  return new Date(date.getTime() + minutes * 60000);
-}
+// function addMinutes(date: Date, minutes: number) {
+//   return new Date(date.getTime() + minutes * 60000);
+// }
