@@ -1,0 +1,45 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups/dpokluda-test?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "390140a5-6e0e-412e-becd-89ab17af5d2d",
+        "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "296",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:39:22 GMT",
+        "mise-correlation-id": "99b01378-724d-434f-8e62-964ec7a50e69",
+        "traceparent": "00-58e09e7fecbf64f33fd6cfe9d8f91f9f-1b51110f4d5edfa7-00"
+      },
+      "ResponseBody": {
+        "groupId": "dpokluda-test",
+        "groupType": "IoTHubTag",
+        "createdDateTime": "2022-06-09T00:08:48.4487\u002B00:00",
+        "deviceCount": 1,
+        "subgroupsWithNewUpdatesAvailableCount": 1,
+        "subgroupsWithUpdatesInProgressCount": 0,
+        "subgroupsWithOnLatestUpdateCount": 0,
+        "deployments": []
+      }
+    }
+  ],
+  "Variables": {}
+}

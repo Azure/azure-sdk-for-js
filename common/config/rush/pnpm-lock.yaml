@@ -16005,7 +16005,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-Y7jL5l5on48mhEC/QhefUi4ie7CiLocHtjBU2ix+s7EE5pdJue1/dS8Idid2Zgcb8Td3DOghlYwQF36JXLGSOA==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-9ZOqXmjExQ3ekVaetR01iZpn4v75Yle2psKLViMFSfcug9ESh8YEpYV6N6KQ1RczpTJnm5VOQH9fwYJBVWNLew==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:

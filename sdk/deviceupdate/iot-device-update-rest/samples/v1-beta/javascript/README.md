@@ -2,9 +2,11 @@
 
 These sample programs show how to use the JavaScript client libraries for Azure IoT Hub Device Update rest in some common scenarios.
 
-| **File Name**       | **Description**                                                                                          |
-| ------------------- | -------------------------------------------------------------------------------------------------------- |
-| [device.js][device] | Demonstrates the use of a DeviceUpdateClient to list all devices connected to Device Update for IoT Hub. |
+| **File Name**                 | **Description**                                                                                                 |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| [getDevice.js][getdevice]     | Demonstrates the use of a DeviceUpdateClient to get a specific device information in Device Update for IoT Hub. |
+| [getUpdate.js][getupdate]     | Demonstrates the use of a DeviceUpdateClient to get a specific update version in Device Update for IoT Hub.     |
+| [listUpdates.js][listupdates] | Demonstrates the use of a DeviceUpdateClient to list all updates in Device Update for IoT Hub.                  |
 
 ## Prerequisites
 
@@ -33,20 +35,22 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node device.js
+node getDevice.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" INSTANCE_ID="<instance id>" node device.js
+npx cross-env ENDPOINT="<endpoint>" INSTANCE_ID="<instance id>" DEVICEUPDATE_DEVICE="<deviceupdate device>" node getDevice.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[device]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1-beta/javascript/device.js
+[getdevice]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1-beta/javascript/getDevice.js
+[getupdate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1-beta/javascript/getUpdate.js
+[listupdates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1-beta/javascript/listUpdates.js
 [apiref]: https://docs.microsoft.com/rest/api/deviceupdate/2021-06-01-preview/device-update
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureiotdeviceupdateinstance]: https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update

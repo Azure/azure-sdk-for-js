@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how get a list of devices
+ * This sample demonstrates how get a specific device information
  *
- * @summary Demonstrates the use of a DeviceUpdateClient to list all devices connected to Device Update for IoT Hub.
- * @azsdk-weight 40
+ * @summary Demonstrates the use of a DeviceUpdateClient to get a specific device information in Device Update for IoT Hub.
  */
 
 import DeviceUpdate from "@azure-rest/iot-device-update";
@@ -18,17 +17,18 @@ const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
 async function main() {
-  console.log("== List devices ==");
+  console.log("== Get device ==");
+  const device = process.env["DEVICEUPDATE_DEVICE"] || "";
 
   const credentials = new DefaultAzureCredential();
 
   const client = DeviceUpdate(endpoint, credentials);
 
   const result = await client
-    .path("/deviceupdate/{instanceId}/management/devices", instanceId)
+    .path("/deviceUpdate/{instanceId}/management/devices/{deviceId}", instanceId, device)
     .get();
 
-  console.log(result);
+  console.log(result.body);
 }
 
 main().catch(console.error);
