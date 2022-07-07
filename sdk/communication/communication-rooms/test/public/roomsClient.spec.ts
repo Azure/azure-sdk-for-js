@@ -16,6 +16,7 @@ describe("RoomsClient", function () {
   const validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
   let testUser: CommunicationUserIdentifier;
   let testUser2: CommunicationUserIdentifier;
+  let roomId = "";
 
   describe("Room Operations", function () {
     beforeEach(async function (this: Context) {
@@ -23,9 +24,11 @@ describe("RoomsClient", function () {
     });
 
     afterEach(async function () {
-      if (!this.currentTest?.isPending()) {
-        await recorder.stop();
+      if (roomId !== "") {
+        await client.deleteRoom(roomId);
+        roomId = "";
       }
+      await recorder.stop();
       if (isPlaybackMode()) {
         sinon.restore();
       }
@@ -33,13 +36,13 @@ describe("RoomsClient", function () {
 
     it("successfully creates a room with empty request", async function () {
       const request = {
-        //validUntil : new Date(),
       };
 
       const createRoomResult = await client.createRoom(request);
       assert.isDefined(createRoomResult);
       assert.isDefined(createRoomResult?.id);
       assert.isEmpty(createRoomResult.participants);
+      roomId = createRoomResult?.id;
     });
 
     it("successfully creates a room with payload", async function () {
@@ -106,6 +109,108 @@ describe("RoomsClient", function () {
       const roomId = createRoom.id;
 
       await client.deleteRoom(roomId);
+    });
+  });
+
+   describe("Participants Operations", function () {
+    beforeEach(async function (this: Context) {
+      ({ client, recorder } = await createRecordedRoomsClient(this));
+    });
+
+    afterEach(async function () {
+      if (roomId !== "") {
+        await client.deleteRoom(roomId);
+        roomId = "";
+      }
+      await recorder.stop();
+      if (isPlaybackMode()) {
+        sinon.restore();
+      }
+    });
+
+    it("successfully adds a participant to the room", async function () {
+      testUser = (await createTestUser(recorder)).user;
+      const request = {
+        participants: [{ id: testUser, role: "Presenter" }],
+      };
+
+      const createRoomResult = await client.createRoom({});
+      assert.isDefined(createRoomResult);
+      assert.isEmpty(createRoomResult.participants);
+      roomId = createRoomResult.id;
+
+      const updateRoomResult = await client.addParticipants(roomId, request);
+      assert.isDefined(updateRoomResult);
+      assert.isNotEmpty(updateRoomResult.participants);
+      assert.equal((updateRoomResult.participants[0].id as CommunicationUserIdentifier).communicationUserId, request.participants[0].id.communicationUserId);
+      assert.equal(updateRoomResult.participants[0].role, request.participants[0].role);
+    });
+
+    it("successfully removes a participant from the room", async function () {
+      testUser = (await createTestUser(recorder)).user;
+      testUser2 = (await createTestUser(recorder)).user;
+
+      const request = {
+        participants: [
+          { id: testUser, role: "Presenter" },
+          { id: testUser2, role: "Presenter" },
+      ],};
+
+      const createRoomResult = await client.createRoom(request);
+      assert.isDefined(createRoomResult);
+      assert.isNotEmpty(createRoomResult.participants);
+      
+      roomId = createRoomResult.id;
+
+      const removeParticipants = {
+        participants: [
+          { id: testUser, role: "Presenter" },
+           testUser2
+        ],};
+      const removeParticipantsResult = await client.removeParticipants(roomId, removeParticipants);
+      assert.isDefined(removeParticipantsResult);
+      assert.isEmpty(removeParticipantsResult.participants);
+     
+    });
+
+
+    it("successfully updates a participant", async function () {
+      testUser = (await createTestUser(recorder)).user;
+      const request = {
+        participants: [{ id: testUser, role: "Presenter" }],
+      };
+
+      const createRoomResult = await client.createRoom(request);
+      assert.isDefined(createRoomResult);
+      assert.isNotEmpty(createRoomResult.participants);
+      roomId = createRoomResult.id;
+
+      const updateParticipants = {
+        participants: [
+          { id: testUser, role: "Consumer" },
+        ],};
+
+      const updateParticipantResult = await client.updateParticipants(roomId, updateParticipants);
+      assert.isDefined(updateParticipantResult);
+      assert.isNotEmpty(updateParticipantResult.participants);
+      assert.equal((updateParticipantResult.participants[0].id as CommunicationUserIdentifier).communicationUserId, updateParticipants.participants[0].id.communicationUserId);
+      assert.equal(updateParticipantResult.participants[0].role, updateParticipants.participants[0].role);
+    });
+
+    it("unsuccessfully creates a room with invalid role", async function () {
+      testUser = (await createTestUser(recorder)).user;
+      const request = {
+        participants: [{ id: testUser, role: "Dummy" }],
+      };
+
+      await client
+      .createRoom(request)
+        .then((result) => {
+          roomId = result.id;
+        })
+        .catch((error) => {
+          assert.equal(error.statusCode, 400);
+        });
     });
   });
 });
