@@ -42,6 +42,7 @@
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:test": "echo Skipped.",
     "bundle:bin": "rollup -c rollup.config.bin.js",
+    "build:samples": "echo skip",
     "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && npm run bundle:bin && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/templates/**\" \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",

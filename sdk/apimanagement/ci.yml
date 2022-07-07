@@ -30,5 +30,5 @@ extends:
   parameters:
     ServiceDirectory: apimanagement
     Artifacts:
-      - name: azure-apimanagement-custom-widget-scaffolder
-        safeName: azureapimanagementcustomwidgetscaffolder
+      - name: azure-api-management-custom-widgets-scaffolder
+        safeName: azureapimanagementcustomwidgetsscaffolder
