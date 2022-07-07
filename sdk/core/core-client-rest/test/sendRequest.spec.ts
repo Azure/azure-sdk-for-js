@@ -49,7 +49,6 @@ describe("sendRequest", () => {
       };
       const response = await sendRequest("POST", mockBaseUrl, mockPipeline, {
         body: "foo",
-        binaryResponse: true,
       });
 
       assert.deepEqual(response.body, foo);
