@@ -227,6 +227,7 @@ These errors will be thrown by the JS Identity SDK and thus will have no error c
 |---|---|---|
 |No error code| ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.| The `ClientCertificateCredential` accepts PEM certificates and the path for the certificate needs to be provided(`pfx` certificates aren't supported by the JavaScript library for now). The certificate needs to be associated with your registered app/service principal. To create and associate a certificate with your registered app, follow the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#option-1-upload-a-certificate).|
 |No error code| The file at the specified path doesn't contain a PEM-encoded certificate.| Provide only PEM certificates for `ClientCertificateCredential`. `pfx` certificates aren't supported by the JavaScript library for now.|
+
 ### Client assertion credential issues
 
 #### AuthenticationRequiredError
