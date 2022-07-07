@@ -303,7 +303,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
   ): BrowserRegistrationDescription {
     return {
       endpoint: getString(rawRegistrationDescription["Endpoint"], "endpoint"),
-      p256DH: getString(rawRegistrationDescription["P256DH"], "p256DH"),
+      p256dh: getString(rawRegistrationDescription["P256DH"], "p256dh"),
       auth: getString(rawRegistrationDescription["Auth"], "auth"),
       ...createRegistrationDescription(rawRegistrationDescription),
       platform: "Browser",
@@ -737,7 +737,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
       ...serializeRegistrationDescription(description),
       Endpoint: description.endpoint,
       Auth: description.auth,
-      P256DH: description.p256DH,
+      P256DH: description.p256dh,
     };
   },
 

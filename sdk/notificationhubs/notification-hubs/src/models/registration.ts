@@ -269,7 +269,7 @@ export interface BrowserRegistrationDescription extends RegistrationDescriptionC
   /**
    * The Browser push P256DH.
    */
-  p256DH: string;
+  p256dh: string;
 
   /**
    * The Browser push auth secret.

@@ -50,12 +50,12 @@ async function main() {
   const sendOptions: SendOperationOptions = { enableTestSend: false };
   const result = await client.sendNotification(tags, message, sendOptions);
 
-  console.log(`Tag Expression send Tracking ID: ${result.trackingId}`);
-  console.log(`Tag Expression Correlation ID: ${result.correlationId}`);
+  console.log(`Tag List send Tracking ID: ${result.trackingId}`);
+  console.log(`Tag List Correlation ID: ${result.correlationId}`);
 
   // Only available in Standard SKU and above
   if (result.notificationId) {
-    console.log(`Direct send Notification ID: ${result.notificationId}`);
+    console.log(`Tag List send Notification ID: ${result.notificationId}`);
 
     const results = await getNotificationDetails(client, result.notificationId);
     if (results) {

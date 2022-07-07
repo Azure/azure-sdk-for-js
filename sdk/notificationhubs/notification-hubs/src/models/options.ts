@@ -25,7 +25,7 @@ export interface EntityOperationOptions extends OperationOptions {
   /**
    * ETag as returned by creation, update, and retrieval, or ‘*’ (overwrite).
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**

@@ -98,7 +98,7 @@ export interface BrowserPushChannel {
 export interface BrowserRegistrationDescription extends RegistrationDescriptionCommon {
     auth: string;
     endpoint: string;
-    p256DH: string;
+    p256dh: string;
     platform: "Browser";
 }
 
@@ -213,7 +213,7 @@ export interface DeviceTokenInstallation extends InstallationCommon {
 
 // @public
 export interface EntityOperationOptions extends OperationOptions {
-    eTag?: string;
+    etag?: string;
 }
 
 // @public
@@ -265,7 +265,6 @@ export interface InstallationCommon {
 // @public
 export interface InstallationTemplate {
     body: string;
-    expiry?: string;
     headers: Record<string, string>;
     tags?: string[];
 }

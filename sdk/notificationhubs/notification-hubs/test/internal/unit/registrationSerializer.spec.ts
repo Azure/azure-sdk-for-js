@@ -343,7 +343,7 @@ describe("parseRegistrationEntry", () => {
     assert.equal(registration.platform, "Browser");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.endpoint, "{Endpoint}");
-    assert.equal(registration.p256DH, "{P256DH}");
+    assert.equal(registration.p256dh, "{P256DH}");
     assert.equal(registration.auth, "{Auth Secret}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
   });
@@ -356,7 +356,7 @@ describe("parseRegistrationEntry", () => {
     assert.equal(registration.platform, "BrowserTemplate");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.endpoint, "{Endpoint}");
-    assert.equal(registration.p256DH, "{P256DH}");
+    assert.equal(registration.p256dh, "{P256DH}");
     assert.equal(registration.auth, "{Auth Secret}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
     assert.equal(registration.bodyTemplate, "{Template for the body}");
@@ -629,7 +629,7 @@ describe("serializeRegistrationDescription", () => {
   it("should serialize a BrowserRegistrationDescription", () => {
     const registration = createBrowserRegistrationDescription({
       endpoint: "https://www.microsoft.com/",
-      p256DH: "{P256DH}",
+      p256dh: "{P256DH}",
       auth: "{Auth Secret}",
       tags: ["myTag", "myOtherTag"],
     });
@@ -647,7 +647,7 @@ describe("serializeRegistrationDescription", () => {
   it("should serialize a BrowserTemplateRegistrationDescription", () => {
     const registration = createBrowserTemplateRegistrationDescription({
       endpoint: "https://www.microsoft.com/",
-      p256DH: "{P256DH}",
+      p256dh: "{P256DH}",
       auth: "{Auth Secret}",
       tags: ["myTag", "myOtherTag"],
       bodyTemplate: "{Template for the body}",

@@ -249,11 +249,6 @@ export interface InstallationTemplate {
    * The tags to include for the template.
    */
   tags?: string[];
-
-  /**
-   * The expiration date for the template.
-   */
-  expiry?: string;
 }
 
 /**

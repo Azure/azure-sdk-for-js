@@ -55,7 +55,7 @@ async function main() {
 
   // Only available in Standard SKU and above
   if (result.notificationId) {
-    console.log(`Direct send Notification ID: ${result.notificationId}`);
+    console.log(`Tag Expression send Notification ID: ${result.notificationId}`);
 
     const results = await getNotificationDetails(client, result.notificationId);
     if (results) {

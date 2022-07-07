@@ -24,7 +24,7 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 // Define an existing Registration ID.
-const registrationId = process.env.INSTALLATION_ID || "<registrationId>";
+const registrationId = process.env.REGISTRATION_ID || "<registrationId>";
 
 async function main() {
   const client = clientFromConnectionString(connectionString, hubName);

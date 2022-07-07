@@ -56,9 +56,10 @@ const API_VERSION = "2020-06";
  */
 export function clientFromConnectionString(
   connectionString: string,
-  hubName: string
+  hubName: string,
+  options: NotificationHubsClientOptions = {},
 ): NotificationHubsClient {
-  return new NotificationHubsClient(connectionString, hubName);
+  return new NotificationHubsClient(connectionString, hubName, options);
 }
 
 /**
@@ -351,7 +352,7 @@ export class NotificationHubsClient extends ServiceClient {
 
         const headers = this.createHeaders();
         headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
-        headers.set("If-Match", options.eTag ?? "*");
+        headers.set("If-Match", options.etag ?? "*");
 
         const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
         const response = await this.sendRequest(request);
