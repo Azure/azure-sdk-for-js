@@ -125,7 +125,7 @@ describe("AzureCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "CredentialUnavailableError: Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
         );
       }
     } else {
@@ -138,7 +138,7 @@ describe("AzureCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "CredentialUnavailableError: Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
         );
       }
     }
@@ -154,7 +154,7 @@ describe("AzureCliCredential (internal)", function () {
     } catch (error: any) {
       assert.equal(
         error.message,
-        "Please run 'az login' from a command prompt to authenticate before using this credential."
+        "CredentialUnavailableError: Please run 'az login' from a command prompt to authenticate before using this credential."
       );
     }
   });
@@ -166,14 +166,14 @@ describe("AzureCliCredential (internal)", function () {
     try {
       await credential.getToken("https://service/.default");
     } catch (error: any) {
-      assert.equal(error.message, "mock other access token error");
+      assert.equal(error.message, "CredentialUnavailableError: mock other access token error");
     }
   });
 
   // Reported by https://github.com/Azure/azure-sdk-for-js/issues/21151
   it("get access token when having an error about an unknown platform", async () => {
     stdout = "";
-    stderr = `ERROR: AADSTS50005: User tried to log in to a device from a platform (Unknown) that's currently not supported through Conditional Access policy. Supported device platforms are: iOS, Android, Mac, and Windows flavors.
+    stderr = `CredentialUnavailableError: ERROR: AADSTS50005: User tried to log in to a device from a platform (Unknown) that's currently not supported through Conditional Access policy. Supported device platforms are: iOS, Android, Mac, and Windows flavors.
 Trace ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 Correlation ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 Timestamp: 2022-02-22 10:11:12Z
@@ -189,7 +189,7 @@ az login --scope https://database.windows.net//.default`;
 
   it("get access token when having an error about a resource principal not found", async () => {
     stdout = "";
-    stderr = `ERROR: AADSTS500011: The resource principal named https://test.windows.net was not found in the tenant named Default Directory. This can happen if the application has not been installed by the administrator of the tenant or consented to by any user in the tenant. You might have sent your authentication request to the wrong tenant.
+    stderr = `CredentialUnavailableError: ERROR: AADSTS500011: The resource principal named https://test.windows.net was not found in the tenant named Default Directory. This can happen if the application has not been installed by the administrator of the tenant or consented to by any user in the tenant. You might have sent your authentication request to the wrong tenant.
 Trace ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 Correlation ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 Timestamp: 2022-04-20 22:10:51Z
