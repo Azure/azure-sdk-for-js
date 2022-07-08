@@ -41,7 +41,7 @@ describe(`Tracing for send`, function (): void {
         for (let i = 0; i < 2; i++) {
           batch.tryAddMessage({ body: `${list[i].name}` }, options);
         }
-        return await sender.sendMessages(batch, options);
+        return sender.sendMessages(batch, options);
       },
       ["message", "ServiceBusSender.send"]
     );
@@ -54,8 +54,8 @@ describe(`Tracing for send`, function (): void {
     }
 
     await assert.supportsTracing(
-      async (options) => {
-        await sender.sendMessages(messages, {
+      (options) => {
+        return sender.sendMessages(messages, {
           tracingOptions: options.tracingOptions,
         });
       },

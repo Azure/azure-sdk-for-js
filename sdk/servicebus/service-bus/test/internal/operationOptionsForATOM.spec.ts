@@ -12,9 +12,6 @@ import { AbortController } from "@azure/abort-controller";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
-// import { SpanGraph } from "@azure/test-utils";
-// import { setSpan, context } from "@azure/core-tracing";
-// import { setTracerForTest } from "../public/utils/misc";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);

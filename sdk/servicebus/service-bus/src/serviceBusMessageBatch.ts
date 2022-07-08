@@ -15,7 +15,6 @@ import {
   Message as RheaMessage,
 } from "rhea-promise";
 import { TracingContext } from "@azure/core-tracing";
-//import { convertTryAddOptionsForCompatibility, instrumentMessage } from "./diagnostics/tracing";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { defaultDataTransformer } from "./dataTransformer";
