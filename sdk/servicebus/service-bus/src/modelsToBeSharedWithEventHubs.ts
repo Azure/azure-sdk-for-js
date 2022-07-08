@@ -3,7 +3,7 @@
 
 // TODO: this code is a straight-copy from EventHubs. Need to merge.
 
-import { OperationTracingOptions, TracingSpan, TracingContext } from "@azure/core-tracing";
+import { OperationTracingOptions, TracingSpan } from "@azure/core-tracing";
 import { OperationOptions } from "@azure/core-client";
 
 /**
@@ -21,11 +21,6 @@ export interface TryAddOptions {
    * The options to use when creating Spans for tracing.
    */
   tracingOptions?: OperationTracingOptions;
-
-  /**
-   * @deprecated Tracing options have been moved to the `tracingOptions` property.
-   */
-  parentSpan?: TracingSpan | TracingContext | null;
 }
 
 /**
