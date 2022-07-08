@@ -9,28 +9,24 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-containerinstance/8.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "6c821b94-77ec-4ab7-be41-f968761707b4"
+        "x-ms-client-request-id": "2f3d4855-b334-450c-a88b-700f07b545c1"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "1797",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 08 Jul 2022 06:36:56 GMT",
+        "Date": "Fri, 08 Jul 2022 08:39:49 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": [
-          "Accept-Encoding",
-          "Accept-Encoding"
-        ],
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "c59d6e5c-699e-46bd-aa1b-13072da17d2b",
-        "x-ms-ratelimit-remaining-subscription-reads": "11528",
-        "x-ms-request-id": "eastus:ca83c0c0-ead2-4149-8d27-299ab1701e4b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220708T063657Z:c59d6e5c-699e-46bd-aa1b-13072da17d2b"
+        "x-ms-correlation-request-id": "8f3cb5dd-f727-4d95-b65e-765546ef1461",
+        "x-ms-ratelimit-remaining-subscription-reads": "11529",
+        "x-ms-request-id": "eastus:08b6a91f-5225-45b6-b5a8-110b48922aa9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220708T083950Z:8f3cb5dd-f727-4d95-b65e-765546ef1461"
       },
       "ResponseBody": {
         "properties": {
@@ -52,38 +48,38 @@
                   "restartCount": 0,
                   "currentState": {
                     "state": "Running",
-                    "startTime": "2022-07-08T06:36:43Z",
+                    "startTime": "2022-07-08T08:39:43Z",
                     "detailStatus": ""
                   },
                   "events": [
                     {
                       "count": 1,
-                      "firstTimestamp": "2022-07-08T06:36:28Z",
-                      "lastTimestamp": "2022-07-08T06:36:28Z",
+                      "firstTimestamp": "2022-07-08T08:39:30Z",
+                      "lastTimestamp": "2022-07-08T08:39:30Z",
                       "name": "Pulling",
                       "message": "Pulling image \u0022nginx\u0022",
                       "type": "Normal"
                     },
                     {
                       "count": 1,
-                      "firstTimestamp": "2022-07-08T06:36:42Z",
-                      "lastTimestamp": "2022-07-08T06:36:42Z",
+                      "firstTimestamp": "2022-07-08T08:39:42Z",
+                      "lastTimestamp": "2022-07-08T08:39:42Z",
                       "name": "Pulled",
-                      "message": "Successfully pulled image \u0022nginx\u0022 in 14.465904081s",
+                      "message": "Successfully pulled image \u0022nginx\u0022 in 11.433519976s",
                       "type": "Normal"
                     },
                     {
                       "count": 1,
-                      "firstTimestamp": "2022-07-08T06:36:43Z",
-                      "lastTimestamp": "2022-07-08T06:36:43Z",
+                      "firstTimestamp": "2022-07-08T08:39:42Z",
+                      "lastTimestamp": "2022-07-08T08:39:42Z",
                       "name": "Created",
                       "message": "Created container my-containerinstancexx",
                       "type": "Normal"
                     },
                     {
                       "count": 1,
-                      "firstTimestamp": "2022-07-08T06:36:43Z",
-                      "lastTimestamp": "2022-07-08T06:36:43Z",
+                      "firstTimestamp": "2022-07-08T08:39:43Z",
+                      "lastTimestamp": "2022-07-08T08:39:43Z",
                       "name": "Started",
                       "message": "Started container my-containerinstancexx",
                       "type": "Normal"
@@ -129,7 +125,7 @@
           }
         },
         "identity": {
-          "principalId": "f2db5574-8b3a-4d7e-945e-5b480caa72c3",
+          "principalId": "4745ff18-8463-4e01-84b0-8629da1eba57",
           "tenantId": "88888888-8888-8888-8888-888888888888",
           "type": "SystemAssigned"
         },

@@ -9,28 +9,24 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-containerinstance/8.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "65865c2c-9116-4592-8c11-9453e1e5f316"
+        "x-ms-client-request-id": "2d706598-09e0-4b8e-8bc9-85a9584be4d9"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "927",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 08 Jul 2022 06:36:57 GMT",
+        "Date": "Fri, 08 Jul 2022 08:39:50 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": [
-          "Accept-Encoding",
-          "Accept-Encoding"
-        ],
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "bba50147-5322-4932-bd3a-9f429b21b704",
-        "x-ms-ratelimit-remaining-subscription-reads": "11527",
-        "x-ms-request-id": "eastus:53b29752-3f2e-43c0-81be-ccfa63f2524d",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220708T063658Z:bba50147-5322-4932-bd3a-9f429b21b704"
+        "x-ms-correlation-request-id": "7a0b0dad-9ea9-4c2c-b522-40c0d9836f89",
+        "x-ms-ratelimit-remaining-subscription-reads": "11528",
+        "x-ms-request-id": "eastus:e07a9e13-d5c0-4432-8262-6e41fa926340",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220708T083950Z:7a0b0dad-9ea9-4c2c-b522-40c0d9836f89"
       },
       "ResponseBody": {
         "value": [
@@ -85,7 +81,7 @@
               }
             },
             "identity": {
-              "principalId": "f2db5574-8b3a-4d7e-945e-5b480caa72c3",
+              "principalId": "4745ff18-8463-4e01-84b0-8629da1eba57",
               "tenantId": "88888888-8888-8888-8888-888888888888",
               "type": "SystemAssigned"
             },

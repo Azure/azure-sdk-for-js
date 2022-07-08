@@ -9,30 +9,26 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-containerinstance/8.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "4a9a4509-74e3-42e7-a02b-375a0c7c37fa"
+        "x-ms-client-request-id": "70d18f10-0cf2-49cf-9009-1055c51a53e7"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "1797",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 08 Jul 2022 06:37:03 GMT",
+        "Date": "Fri, 08 Jul 2022 08:39:55 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": [
-          "Accept-Encoding",
-          "Accept-Encoding"
-        ],
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "bab51ef5-a57f-49c7-b436-4ed3f370135d",
+        "x-ms-correlation-request-id": "b29a1dc4-8324-451b-894e-1f8dbb57f62a",
         "x-ms-ratelimit-remaining-subscription-deletes": "14999",
         "x-ms-ratelimit-remaining-subscription-resource-requests-pt1h": "299",
         "x-ms-ratelimit-remaining-subscription-resource-requests-pt5m": "99",
-        "x-ms-request-id": "eastus:2b5dca35-2539-4b58-936f-bc9d14328323",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220708T063703Z:bab51ef5-a57f-49c7-b436-4ed3f370135d"
+        "x-ms-request-id": "eastus:8ad86a5d-ede2-4f5e-9e85-9438703d2a9d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220708T083955Z:b29a1dc4-8324-451b-894e-1f8dbb57f62a"
       },
       "ResponseBody": {
         "properties": {
@@ -54,38 +50,38 @@
                   "restartCount": 0,
                   "currentState": {
                     "state": "Running",
-                    "startTime": "2022-07-08T06:36:43Z",
+                    "startTime": "2022-07-08T08:39:43Z",
                     "detailStatus": ""
                   },
                   "events": [
                     {
                       "count": 1,
-                      "firstTimestamp": "2022-07-08T06:36:28Z",
-                      "lastTimestamp": "2022-07-08T06:36:28Z",
+                      "firstTimestamp": "2022-07-08T08:39:30Z",
+                      "lastTimestamp": "2022-07-08T08:39:30Z",
                       "name": "Pulling",
                       "message": "Pulling image \u0022nginx\u0022",
                       "type": "Normal"
                     },
                     {
                       "count": 1,
-                      "firstTimestamp": "2022-07-08T06:36:42Z",
-                      "lastTimestamp": "2022-07-08T06:36:42Z",
+                      "firstTimestamp": "2022-07-08T08:39:42Z",
+                      "lastTimestamp": "2022-07-08T08:39:42Z",
                       "name": "Pulled",
-                      "message": "Successfully pulled image \u0022nginx\u0022 in 14.465904081s",
+                      "message": "Successfully pulled image \u0022nginx\u0022 in 11.433519976s",
                       "type": "Normal"
                     },
                     {
                       "count": 1,
-                      "firstTimestamp": "2022-07-08T06:36:43Z",
-                      "lastTimestamp": "2022-07-08T06:36:43Z",
+                      "firstTimestamp": "2022-07-08T08:39:42Z",
+                      "lastTimestamp": "2022-07-08T08:39:42Z",
                       "name": "Created",
                       "message": "Created container my-containerinstancexx",
                       "type": "Normal"
                     },
                     {
                       "count": 1,
-                      "firstTimestamp": "2022-07-08T06:36:43Z",
-                      "lastTimestamp": "2022-07-08T06:36:43Z",
+                      "firstTimestamp": "2022-07-08T08:39:43Z",
+                      "lastTimestamp": "2022-07-08T08:39:43Z",
                       "name": "Started",
                       "message": "Started container my-containerinstancexx",
                       "type": "Normal"
@@ -131,7 +127,7 @@
           }
         },
         "identity": {
-          "principalId": "f2db5574-8b3a-4d7e-945e-5b480caa72c3",
+          "principalId": "4745ff18-8463-4e01-84b0-8629da1eba57",
           "tenantId": "88888888-8888-8888-8888-888888888888",
           "type": "SystemAssigned"
         },
@@ -150,25 +146,23 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-containerinstance/8.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "6fe8a29d-fbc0-4dea-906e-5d0556c73be2"
+        "x-ms-client-request-id": "447a6972-86d9-4faa-adb8-efd7e5d7fe93"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
         "Content-Length": "12",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 08 Jul 2022 06:37:03 GMT",
+        "Date": "Fri, 08 Jul 2022 08:39:55 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ad90c193-5f29-4e38-8ca7-55050338107a",
-        "x-ms-ratelimit-remaining-subscription-reads": "11526",
-        "x-ms-request-id": "ad90c193-5f29-4e38-8ca7-55050338107a",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220708T063703Z:ad90c193-5f29-4e38-8ca7-55050338107a"
+        "x-ms-correlation-request-id": "f3efe5aa-2c8e-477f-a333-42385f7786e0",
+        "x-ms-ratelimit-remaining-subscription-reads": "11527",
+        "x-ms-request-id": "f3efe5aa-2c8e-477f-a333-42385f7786e0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220708T083955Z:f3efe5aa-2c8e-477f-a333-42385f7786e0"
       },
       "ResponseBody": {
         "value": []
