@@ -334,26 +334,26 @@ The following samples show you the various ways you can interact with Azure Noti
 **Device Management:**
 
 - Installations API
-  - [Create Or Update Installation](samples-dev/createInstallation.ts)
-  - [Update Installation](samples-dev/updateInstallation.ts)
+  - [Create Or Update Installation](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/createInstallation.ts)
+  - [Update Installation](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/updateInstallation.ts)
 - Registration API
-  - [Create Registration](samples-dev/createRegistration.ts)
-  - [Create Or Update Registration](samples-dev/createOrUpdateRegistration.ts)
-  - [Update Registration](samples-dev/updateRegistration.ts)
-  - [List Registrations](samples-dev/listRegistrations.ts)
-  - [List Registration By Tag](samples-dev/listRegistrationsByTag.ts)
+  - [Create Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/createRegistration.ts)
+  - [Create Or Update Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/createOrUpdateRegistration.ts)
+  - [Update Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/updateRegistration.ts)
+  - [List Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/listRegistrations.ts)
+  - [List Registration By Tag](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/listRegistrationsByTag.ts)
 
 **Send Operations:**
 
-- [Direct Send](samples-dev/sendDirectNotification.ts)
-- [Audience Send With Tags List](samples-dev/sendTagsList.ts)
-- [Audience Send With Tag Expression](samples-dev/sendTagExpression.ts)
-- [Scheduled Send](samples-dev/scheduledSendNotification.ts)
+- [Direct Send](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/sendDirectNotification.ts)
+- [Audience Send With Tags List](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/sendTagsList.ts)
+- [Audience Send With Tag Expression](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/sendTagExpression.ts)
+- [Scheduled Send](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/scheduledSendNotification.ts)
 
 **Management Operations:**
 
-- [Export Registrations](samples-dev/exportRegistrationsJob.ts)
-- [Import Registrations](samples-dev/importRegistrationsJob.ts)
+- [Export Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/exportRegistrationsJob.ts)
+- [Import Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/importRegistrationsJob.ts)
 
 ## Contributing
 
