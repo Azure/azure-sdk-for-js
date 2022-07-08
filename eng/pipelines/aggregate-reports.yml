@@ -32,11 +32,11 @@ stages:
               pwsh: true
             displayName: Spell check public API
 
-          # - template: ../common/pipelines/templates/steps/verify-links.yml
-          #   parameters:
-          #     Directory: ""
-          #     CheckLinkGuidance: $true
-          #     Condition: succeededOrFailed()
+          - template: ../common/pipelines/templates/steps/verify-links.yml
+            parameters:
+              Directory: ""
+              CheckLinkGuidance: $true
+              Condition: succeededOrFailed()
 
           - script: 'npm ci'
             workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
