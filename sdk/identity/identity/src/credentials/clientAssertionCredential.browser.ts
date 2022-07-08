@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 
 import { AccessToken, TokenCredential } from "@azure/core-auth";
-
 import { credentialLogger, formatError } from "../util/logging";
 
-const BrowserNotSupportedError = new Error("DeviceCodeCredential is not supported in the browser.");
-const logger = credentialLogger("DeviceCodeCredential");
+const BrowserNotSupportedError = new Error(
+  "ClientAssertionCredential is not supported in the browser."
+);
+const logger = credentialLogger("ClientAssertionCredential");
 
 /**
- * Enables authentication to Azure Active Directory using a device code
- * that the user can enter into https://microsoft.com/devicelogin.
+ * Authenticates a service principal with a JWT assertion.
  */
-export class DeviceCodeCredential implements TokenCredential {
+export class ClientAssertionCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */

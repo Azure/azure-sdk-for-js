@@ -161,7 +161,7 @@ Follow the troubleshooting guidelines below for the respective authentication ty
 
 | Authentication Type            | Troubleshooting Guide                                                                     |
 | ------------------------------ | ----------------------------------------------------------------------------------------- |
-| ClientSecret/ClientCertificate | [Service principal auth guide](#troubleshoot-service-principal-authentication-issues)     |
+| ClientSecret/ClientCertificate/ClientAssertion | [Service principal auth guide](#troubleshoot-service-principal-authentication-issues)     |
 | Username and password          | [Username and password auth guide](#troubleshoot-username-password-authentication-issues) |
 
 ## Troubleshoot username and password authentication issues
@@ -192,11 +192,11 @@ After that, you shouldn't need to specify a client secret to authenticate with t
 
 #### Client Id
 
-The Client ID is the app ID of the registered app / service principal in Azure AD. It's a required parameter for `ClientSecretCredential` and `ClientCertificateCredential`. If you've already created your service principal, you can retrieve the client/app ID by following the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in).
+The Client ID is the app ID of the registered app / service principal in Azure AD. It's a required parameter for `ClientSecretCredential`, `ClientCertificateCredential`, and `ClientAssertionCredential`. If you've already created your service principal, you can retrieve the client/app ID by following the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in).
 
 #### Tenant Id
 
-The tenant ID is the Global Unique Identifier (GUID) that identifies your organization. It's a required parameter for `ClientSecretCredential` and `ClientCertificateCredential`. If you've already created your service principal, you can retrieve the client/app ID by following the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in).
+The tenant ID is the Global Unique Identifier (GUID) that identifies your organization. It's a required parameter for `ClientSecretCredential`, `ClientCertificateCredential` and `ClientAssertionCredential`. If you've already created your service principal, you can retrieve the client/app ID by following the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in).
 
 | Error Code | Description | Mitigation |
 |---|---|---|
@@ -227,6 +227,17 @@ These errors will be thrown by the JS Identity SDK and thus will have no error c
 |---|---|---|
 |No error code| ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.| The `ClientCertificateCredential` accepts PEM certificates and the path for the certificate needs to be provided(`pfx` certificates aren't supported by the JavaScript library for now). The certificate needs to be associated with your registered app/service principal. To create and associate a certificate with your registered app, follow the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#option-1-upload-a-certificate).|
 |No error code| The file at the specified path doesn't contain a PEM-encoded certificate.| Provide only PEM certificates for `ClientCertificateCredential`. `pfx` certificates aren't supported by the JavaScript library for now.|
+
+### Client assertion credential issues
+
+#### AuthenticationRequiredError
+
+| Error Code | Description | Mitigation |
+|---|---|---|
+|AADSTS700021| Client assertion application identifier doesn't match 'client_id' parameter. Review the documentation at https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials | Ensure the JWT assertion created has the correct values specified for the `sub` and `issuer` value of the payload, both of these should have the value be equal to `clientId`. Refer documentation for [client assertion format](https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials)|
+|AADSTS700023| Client assertion audience claim does not match Realm issuer. Review the documentation at https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials. | Ensure the audience `aud` field in the JWT assertion created has the correct value for the audience specified in the payload. This should be set to `https://login.microsoftonline.com/{tenantId}/v2`.|
+|AADSTS50027| JWT token is invalid or malformed. | Ensure the JWT assertion token is in the valid format. Refer to the documentation for [client assertion format](https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials).|
+
 ## Troubleshoot Managed Identity authentication issues
 
 The `ManagedIdentityCredential` is designed to work on a variety of Azure hosts that provide [managed identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview). Configuring the managed identity and troubleshooting failures varies from hosts. The below table lists the Azure hosts that can be assigned a managed identity, and are supported by the `ManagedIdentityCredential`. Ensure you're running your app on one of these resources and have enabled the managed identity on them by following the instructions at their configuration links below.

@@ -2,30 +2,31 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-auth";
-
+import { isError } from "@azure/core-util";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 
 /**
- * Options that can be passed to configure MSAL to handle client secrets.
+ * Options that can be passed to configure MSAL to handle client assertions.
  * @internal
  */
-export interface MSALClientSecretOptions extends MsalNodeOptions {
+export interface MSALClientAssertionOptions extends MsalNodeOptions {
   /**
-   * A client secret that was generated for the App Registration.
+   * A function that retrieves the assertion for the credential to use.
    */
-  clientSecret: string;
+  getAssertion: () => Promise<string>;
 }
 
 /**
- * MSAL client secret client. Calls to MSAL's confidential application's `acquireTokenByClientCredential` during `doGetToken`.
+ * MSAL client assertion client. Calls to MSAL's confidential application's `acquireTokenByClientCredential` during `doGetToken`.
  * @internal
  */
-export class MsalClientSecret extends MsalNode {
-  constructor(options: MSALClientSecretOptions) {
+export class MsalClientAssertion extends MsalNode {
+  getAssertion: () => Promise<string>;
+  constructor(options: MSALClientAssertionOptions) {
     super(options);
     this.requiresConfidential = true;
-    this.msalConfig.auth.clientSecret = options.clientSecret;
+    this.getAssertion = options.getAssertion;
   }
 
   protected async doGetToken(
@@ -33,18 +34,26 @@ export class MsalClientSecret extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
+      const assertion = await this.getAssertion();
       const result = await this.confidentialApp!.acquireTokenByClientCredential({
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,
         authority: options.authority,
         claims: options.claims,
+        clientAssertion: assertion,
       });
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (err: any) {
-      throw this.handleError(scopes, err, options);
+    } catch (err: unknown) {
+      let err2 = err;
+      if (err === null || err === undefined) {
+        err2 = new Error(JSON.stringify(err));
+      } else {
+        err2 = isError(err) ? err : new Error(String(err));
+      }
+      throw this.handleError(scopes, err2 as Error, options);
     }
   }
 }

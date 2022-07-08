@@ -6,15 +6,15 @@ import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { ServiceClient } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import {
-  createHttpHeaders,
-  createPipelineRequest,
   PipelineRequest,
   PipelineResponse,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { SDK_VERSION, DefaultAuthorityHost } from "../constants";
+import { DefaultAuthorityHost, SDK_VERSION } from "../constants";
 import { tracingClient } from "../util/tracing";
 import { logger } from "../util/logging";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";

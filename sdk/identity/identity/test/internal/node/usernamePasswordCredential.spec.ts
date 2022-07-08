@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { GetTokenOptions } from "@azure/core-auth";
-import { env, isPlaybackMode, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
 import { AzureLogger, setLogLevel } from "@azure/logger";
 import { UsernamePasswordCredential } from "../../../src";
