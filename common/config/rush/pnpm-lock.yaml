@@ -13133,7 +13133,7 @@ packages:
     dev: false
 
   file:projects/arm-relay.tgz:
-    resolution: {integrity: sha512-BZwNmIqiRhcjqE/MrR7Tdm9Ut62aY0SGojZ8eXkh96VSSJrO7L4XNCjFZUKICC1dLtDJC/B7ZgLhk5w8xsa8Fw==, tarball: file:projects/arm-relay.tgz}
+    resolution: {integrity: sha512-2y6NoWrmtnt0l5+PPJmcGCjNggTcXTd8QMdfz3nh9BmZhGatb1gPjyZ2NXOQ+C5Vsj+zM5ru5pJuFcy4ZdpFaw==, tarball: file:projects/arm-relay.tgz}
     name: '@rush-temp/arm-relay'
     version: 0.0.0
     dependencies:
@@ -13145,6 +13145,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.75.7
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13156,7 +13158,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
