@@ -304,6 +304,17 @@ console.log(`Notification ID: ${result.notificationId}`);
 
 ## Troubleshooting
 
+### Diagnose Dropped Notifications
+
+Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).  
+
+[Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the send methods with the `enableTestSend` option:
+
+```typescript
+const sendOptions: SendOperationOptions = { enableTestSend: true };
+const result = await client.sendDirectNotification(devicetoken, message, sendOptions);
+```
+
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
