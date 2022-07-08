@@ -149,13 +149,13 @@ export class AzureCliCredential implements TokenCredential {
           if (obj.stderr) {
             throw new CredentialUnavailableError(obj.stderr);
           }
-          throw new CredentialUnavailableError(e);
+          throw e;
         }
       } catch (err: any) {
         const error =
           err.name === "CredentialUnavailableError"
             ? err
-            : new Error(
+            : new CredentialUnavailableError(
                 (err as Error).message || "Unknown error while trying to retrieve the access token"
               );
         logger.getToken.info(formatError(scopes, error));
