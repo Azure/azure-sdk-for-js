@@ -586,6 +586,18 @@ packages:
       '@jridgewell/trace-mapping': 0.3.13
     dev: false
 
+  /@azure-rest/core-client/1.0.0-beta.10:
+    resolution: {integrity: sha512-qsiepIEskvu+J815SFZ+u0wh0pPHtQVGtyT+yKbLN1YCIFtfM0L5XdaegfwMBWDG/NIXwF2fmqjM75Sqz8dAwA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-rest-pipeline': 1.8.1
+      '@azure/core-util': 1.0.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure-rest/core-client/1.0.0-beta.9:
     resolution: {integrity: sha512-zerHAy25S9T8+4DcLKdea/olxGceb9tZMBlw7KWmeasHk1IEdlutVeckKzSt4nQaX4Fm1gnX47TaDEt4VGBTbw==}
     engines: {node: '>=12.0.0'}
@@ -3945,7 +3957,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220629
+      typescript: 4.8.0-dev.20220706
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -6733,7 +6745,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
+    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -8755,8 +8767,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220629:
-    resolution: {integrity: sha512-QEp1M6iqlYpQXFF2f9ucXMkXbYcAoXcG0ws0IG8bWd7mjPGf8R5iVCbQVSm1dzV/GoOy0PsvfNe5/uL6D9TSPA==}
+  /typescript/4.8.0-dev.20220706:
+    resolution: {integrity: sha512-kQGVsx25I0KFyzMwrZTm+umjHRDA31SUH4WBtJfCaSmr67CH0vKu8XSaPCl84zb39cAnfHpI4S8qLvkgDaAmqQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15206,10 +15218,11 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-BPYKhcbHAYhyJRlkHOAk4JMErAMx6lfAAwMVCwlDuGq/U4VbDsjX2h0LXH1e1bHyh82UIbAXnoxScDTMPvaXJg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-o9mogiPhj1KIcffJeejRNUsLALsf2qDFw68bpv1fnIvZLzhtFU9NGWoRTXhyoug/f2M6NlVgBMm5fF2QhpAbPg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
