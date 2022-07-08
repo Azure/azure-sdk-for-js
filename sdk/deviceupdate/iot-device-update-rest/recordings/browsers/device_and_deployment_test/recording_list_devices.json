@@ -1,0 +1,98 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/devices?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "3f23092d-f1e7-42a1-b0e0-1744df8e9d40",
+        "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "1161",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:39:00 GMT",
+        "mise-correlation-id": "8f4e63e3-cece-457c-aec8-f733a2fe4ba0",
+        "traceparent": "00-e99ef4b3f12dd116806f42037180e02f-c62f657e24191063-00"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "deviceId": "adu-sdk-test-device-1",
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
+            "groupId": "testgroup",
+            "onLatestUpdate": false,
+            "deploymentStatus": "Succeeded",
+            "lastInstallResult": {
+              "resultCode": 700,
+              "extendedResultCode": 0,
+              "resultDetails": ""
+            }
+          },
+          {
+            "deviceId": "joseph-edgevm2",
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
+            "groupId": "joegroup",
+            "installedUpdate": {
+              "updateId": {
+                "provider": "fabrikam",
+                "name": "vacuum",
+                "version": "2022.128.1751.30"
+              }
+            },
+            "onLatestUpdate": false,
+            "lastAttemptedUpdate": {
+              "updateId": {
+                "provider": "fabrikam",
+                "name": "vacuum",
+                "version": "2022.128.1751.30"
+              }
+            },
+            "deploymentStatus": "Succeeded",
+            "lastDeploymentId": "joegroup-2022-128-1751-30-0129015341",
+            "lastInstallResult": {
+              "resultCode": 700,
+              "extendedResultCode": 0,
+              "resultDetails": ""
+            }
+          },
+          {
+            "deviceId": "dpokluda-test",
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
+            "groupId": "dpokluda-test",
+            "onLatestUpdate": false,
+            "lastAttemptedUpdate": {
+              "updateId": {
+                "provider": "fabrikam",
+                "name": "vacuum",
+                "version": "2022.608.554.1"
+              }
+            },
+            "deploymentStatus": "Failed",
+            "lastDeploymentId": "test0609070108",
+            "lastInstallResult": {
+              "resultCode": 0,
+              "extendedResultCode": 805306371,
+              "resultDetails": ""
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
