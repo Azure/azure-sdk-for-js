@@ -3,14 +3,14 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { KeyClient } from "../../src";
-import { authenticate } from "./utils/testAuthentication";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels";
 import { getServiceVersion, onVersions } from "./utils/common";
 import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
-import { DefaultHttpClient, WebResource } from "@azure/core-http";
+import { createPipelineRequest, createDefaultHttpClient } from "@azure/core-rest-pipeline";
 
 onVersions({ minVer: "7.2" }).describe(
   "Keys client - create, read, update and delete operations for managed HSM",
@@ -22,9 +22,14 @@ onVersions({ minVer: "7.2" }).describe(
     let recorder: Recorder;
 
     beforeEach(async function (this: Context) {
-      const authentication = await authenticate(this, getServiceVersion());
-      recorder = authentication.recorder;
+      recorder = new Recorder(this.currentTest);
 
+      // These tests rely on the attestation URI inside the Release Policy, which is sanitized by the test recorder.
+      // Using a bodiless matcher to ignore the differences that this causes.
+      recorder.setMatcher("BodilessMatcher");
+      await recorder.start(envSetupForPlayback);
+
+      const authentication = await authenticate(getServiceVersion(), recorder);
       if (!authentication.hsmClient) {
         // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
         // This is only necessary while Managed HSM is in preview.
@@ -92,16 +97,26 @@ onVersions({ minVer: "7.2" }).describe(
           ],
           version: "1.0",
         };
+
         encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
-        const client = new DefaultHttpClient();
-        const response = await client.sendRequest(
-          new WebResource(`${attestationUri}/generate-test-token`)
-        );
-        attestation = JSON.parse(response.bodyAsText!).token;
+
+        if (!isPlaybackMode()) {
+          const client = createDefaultHttpClient();
+          const response = await client.sendRequest(
+            createPipelineRequest({ url: `${attestationUri}/generate-test-token` })
+          );
+          attestation = JSON.parse(response.bodyAsText!).token;
+          recorder.variable("attestation", attestation);
+        } else {
+          attestation = recorder.variable("attestation", attestation);
+        }
       });
 
       it("can create an exportable key and release it", async () => {
-        const keyName = recorder.getUniqueName("exportkey");
+        const keyName = recorder.variable(
+          "exportkey",
+          `exportkey-${Math.floor(Math.random() * 100000)}`
+        );
         const createdKey = await hsmClient.createKey(keyName, "RSA", {
           exportable: true,
           releasePolicy: { encodedPolicy: encodedReleasePolicy },
@@ -119,7 +134,10 @@ onVersions({ minVer: "7.2" }).describe(
       });
 
       it("can import an exportable key and release it", async () => {
-        const keyName = recorder.getUniqueName("importreleasekey");
+        const keyName = recorder.variable(
+          "importreleasekey",
+          `importreleasekey-${Math.floor(Math.random() * 100000)}`
+        );
 
         const importedKey = await hsmClient.importKey(keyName, createRsaKey(), {
           exportable: true,
@@ -140,7 +158,11 @@ onVersions({ minVer: "7.2" }).describe(
       });
 
       it("can update a key's release policy", async () => {
-        const keyName = recorder.getUniqueName("exportkey");
+        const keyName = recorder.variable(
+          "exportkey",
+          `exportkey-${Math.floor(Math.random() * 100000)}`
+        );
+
         const createdKey = await hsmClient.createKey(keyName, "RSA", {
           exportable: true,
           releasePolicy: { encodedPolicy: encodedReleasePolicy },
@@ -174,7 +196,10 @@ onVersions({ minVer: "7.2" }).describe(
       });
 
       it("errors when key is exportable without a release policy", async () => {
-        const keyName = recorder.getUniqueName("exportablenopolicy");
+        const keyName = recorder.variable(
+          "exportablenopolicy",
+          `exportablenopolicy-${Math.floor(Math.random() * 100000)}`
+        );
         await assert.isRejected(
           hsmClient.createRsaKey(keyName, { exportable: true }),
           /exportable/i
@@ -182,7 +207,10 @@ onVersions({ minVer: "7.2" }).describe(
       });
 
       it("errors when a key has a release policy but is not exportable", async () => {
-        const keyName = recorder.getUniqueName("policynonexportable");
+        const keyName = recorder.variable(
+          "policynonexportable",
+          `policynonexportable-${Math.floor(Math.random() * 100000)}`
+        );
         await assert.isRejected(
           hsmClient.createRsaKey(keyName, {
             releasePolicy: { encodedPolicy: encodedReleasePolicy },

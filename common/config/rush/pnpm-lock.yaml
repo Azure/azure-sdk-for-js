@@ -15732,7 +15732,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-xAZ9H/WV8P/t4EqPJWO7b+O95t5kK5Wfk54F7jWfE+e3dQ8Elc021geOUkxfZ4je5Vo+z6bC0KFS2l5OOmtW2A==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-X+ncC9GxNL+JhmU0TrXf5GWYEUr8K7zpL4xWFd1Lq37z2t/9WTcJHm4g+fQRB7EQFALu9pNINUp+rwgvs8/Aqw==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -15776,7 +15776,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16006,7 +16005,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-Y7jL5l5on48mhEC/QhefUi4ie7CiLocHtjBU2ix+s7EE5pdJue1/dS8Idid2Zgcb8Td3DOghlYwQF36JXLGSOA==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-9ZOqXmjExQ3ekVaetR01iZpn4v75Yle2psKLViMFSfcug9ESh8YEpYV6N6KQ1RczpTJnm5VOQH9fwYJBVWNLew==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -16131,14 +16130,14 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-1WRm6EunvVfj+/6yBBHgF3OWbg93buDBMEnRpG8SZQw85F+LwH+hqACeQDG/N5iihPNgLjqSm/ijNfFo2v21fA==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-u+a4JL81qkaCvvXg6n6VX0oSW83uiEXYmoobb+OwAwJwFi2EiV/g4GwGvRqIwhKCw/StLh351Hozz179AW877g==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
       '@azure/keyvault-secrets': 4.4.0
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.28.2
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
@@ -16179,7 +16178,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-nt/Wgkqyz6l6D9vuhMPos0guj+44gtS5P1ayys31F5S2boOtqVv4HArC7gSksOVIt7Y4Qxp/HxMspUlfqeWTGQ==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-hZAm0bQoRO+7kRxQpO6U5Sraze0Y7MiXOQTGj3y+goLkry41BZpV7ephTj1Z47LW1hg3hU93RX+RcNZxA3D5BQ==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
@@ -16193,13 +16192,13 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-9oCz8rzlWx3x17WTB59FKuNCHhJMvMHNGk0Y+yIMQiIm32mmraOGdGzdLwJCTONTNTmndCx1kuS/GMydZUsfHQ==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-VxHuYtZwZFMJO5AdTjkAk6QPxzkIEXBDF3fVmVyQTSBbpeh10zWXfe8VDCi5FJSGqJdVl+rz190XdZhhblO0ZQ==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.28.2
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
@@ -16241,7 +16240,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-Q4wXDvOh4T2RecX+UWBI+i6i+Bz1KQXqUro0lvqBkKuEpJVgvTdATyyPJmRG7SGrmtcQ/CDvhB5nr7M6cx0a2A==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-YFV+mIYdDfrdalPGsYTxTiFNQsE5Nx0qQDOIWfkv7arRxbKKvoiO0hz8OrL7+phDUCYWMOaXQQsSd5PlVbgDmg==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -16946,7 +16945,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-tms1HERRqEXAg93JeYuqnobFGNDo8sRUUcYLYJKX+hm1BcojBBUqEd21hlYH8f/xDGrA7NQ3Qm6VghPFqlxPzQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-d557v2rwri9dpDEuQAG4AbMwHjWNeZAWQToPgPikzumTkyEjFfS8DVn+H/RpS3qBS8iuzS2gsfYot16H4kKagw==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
@@ -16964,7 +16963,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
@@ -17342,7 +17340,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-5oyKMlHVsKOjUCZrX5KfcZQhU5HOdSLhgUPNVPVgbBy76MSbQID1Oz+S5uizzgjjrgFUIEMWziEPpP/Nc36Oxg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-wpwEVOkYPKxhFBDd6yPeHAZUlqDC0DEMaaXrGDWOGYq9rb5iVf6O5/Yy/NUq3Rwd2nBwvH11ftepho2ykcoD3w==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
