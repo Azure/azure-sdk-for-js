@@ -6,7 +6,7 @@
 ################
 
 # Git Hub integration and bot rules
-/.github/ @jsquire
+/.github/ @jsquire @ronniegeraghty
 
 ###########
 # SDK
@@ -71,7 +71,7 @@
 /sdk/cosmosdb/ @jay-most @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @sajeetharan
 
 # ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/ @sajeetharan @simorenoh
+#/<NotInRepo>/ @sajeetharan @simorenoh @pjohari-ms
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo @YoDaMa @olivakar @sjiherzig

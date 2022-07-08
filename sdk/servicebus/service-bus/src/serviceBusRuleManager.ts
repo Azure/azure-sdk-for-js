@@ -6,7 +6,11 @@ import { ConnectionContext } from "./connectionContext";
 import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import { CorrelationRuleFilter } from "./core/managementClient";
 import { ruleManagerLogger as logger } from "./log";
-import { RuleProperties, SqlRuleAction } from "./serializers/ruleResourceSerializer";
+import {
+  isSqlRuleAction,
+  RuleProperties,
+  SqlRuleAction,
+} from "./serializers/ruleResourceSerializer";
 import { getUniqueName } from "./util/utils";
 import { throwErrorIfConnectionClosed } from "./util/errors";
 import { SqlRuleFilter } from "./serializers/ruleResourceSerializer";
@@ -26,7 +30,20 @@ export interface ServiceBusRuleManager {
    *
    * @param ruleName - the name of the rule
    * @param filter - the filter expression that the rule evaluates.
+   * @param options - The options that can be used to abort, trace and control other configurations on the request.
+   */
+  createRule(
+    ruleName: string,
+    filter: SqlRuleFilter | CorrelationRuleFilter,
+    options?: OperationOptionsBase
+  ): Promise<void>;
+  /**
+   * Adds a rule to the current subscription to filter the messages reaching from topic to the subscription.
+   *
+   * @param ruleName - the name of the rule
+   * @param filter - the filter expression that the rule evaluates.
    * @param ruleAction - The SQL like expression that can be executed on the message should the associated filter apply.
+   * @param options - The options that can be used to abort, trace and control other configurations on the request.
    */
   createRule(
     ruleName: string,
@@ -88,17 +105,48 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
    *
    * @param ruleName - the name of the rule
    * @param filter - the filter expression that the rule evaluates.
-   * @param ruleAction - The SQL like expression that can be executed on the message should the associated filter apply.
+   * @param options - The options that can be used to abort, trace and control other configurations on the request.
    */
+  createRule(
+    ruleName: string,
+    filter: SqlRuleFilter | CorrelationRuleFilter,
+    options?: OperationOptionsBase
+  ): Promise<void>;
+  /**
+   * Adds a rule to the current subscription to filter the messages reaching from topic to the subscription.
+   *
+   * @param ruleName - the name of the rule
+   * @param filter - the filter expression that the rule evaluates.
+   * @param ruleAction - The SQL like expression that can be executed on the message should the associated filter apply.
+   * @param options - The options that can be used to abort, trace and control other configurations on the request.
+   */
+  createRule(
+    ruleName: string,
+    filter: SqlRuleFilter | CorrelationRuleFilter,
+    ruleAction?: SqlRuleAction,
+    options?: OperationOptionsBase
+  ): Promise<void>;
   async createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
-    sqlRuleAction?: SqlRuleAction,
+    ruleActionOrOperationOptions?: SqlRuleAction | OperationOptionsBase,
     options?: OperationOptionsBase
   ): Promise<void> {
+    let sqlRuleAction: SqlRuleAction | undefined = undefined;
+    let operOptions: OperationOptionsBase | undefined;
+    if (ruleActionOrOperationOptions) {
+      if (isSqlRuleAction(ruleActionOrOperationOptions)) {
+        // Overload#2 - where the sqlExpression in the ruleAction is defined
+        sqlRuleAction = ruleActionOrOperationOptions;
+        operOptions = options;
+      } else {
+        // Overload#1 - where the sqlExpression in the ruleAction is undefined
+        operOptions = { ...ruleActionOrOperationOptions, ...options };
+      }
+    }
     const { span } = createServiceBusSpan(
       "ServiceBusRuleManager.createRule",
-      options,
+      operOptions,
       this.entityPath,
       this._context.config.host,
       {
@@ -111,7 +159,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
         return this._context
           .getManagementClient(this._entityPath)
           .addRule(ruleName, filter, sqlRuleAction?.sqlExpression, {
-            ...options,
+            ...operOptions,
             associatedLinkName: this.name,
             requestName: "addRule",
             timeoutInMs: this._retryOptions.timeoutInMs,
@@ -122,7 +170,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
         retryOptions: this._retryOptions,
-        abortSignal: options?.abortSignal,
+        abortSignal: operOptions?.abortSignal,
       };
       const result = retry<void>(config);
       span.setStatus({ code: SpanStatusCode.OK });

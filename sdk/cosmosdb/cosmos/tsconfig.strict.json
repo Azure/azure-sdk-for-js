@@ -124,6 +124,7 @@
     "src/common/index.ts",
     "src/routing/index.ts",
     "src/utils/SasToken.ts",
+    "src/utils/tracing.ts",
     "src/client/SasToken/SasTokenProperties.ts",
     "src/client/SasToken/PermissionScopeValues.ts",
     "test/public/common/TestHelpers.ts",

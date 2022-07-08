@@ -14,6 +14,7 @@ dotenv.config();
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 const senderAddress = process.env["SENDER_ADDRESS"] || "";
 const recipientAddress = process.env["RECIPIENT_ADDRESS"] || "";
+const secondRecipientAddress = process.env["SECOND_RECIPIENT_ADDRESS"] || "";
 
 const sendEmailMultipleRecipients = async (): Promise<void> => {
   // Create the Email Client
@@ -29,27 +30,11 @@ const sendEmailMultipleRecipients = async (): Promise<void> => {
     },
     recipients: {
       to: [
-        {
-          email: recipientAddress,
-          displayName: "Customer Name",
-        },
-        {
-          email: recipientAddress,
-          displayName: "Customer Name",
-        },
+        { email: recipientAddress, displayName: "Customer Name" },
+        { email: secondRecipientAddress, displayName: "Customer Name 2" },
       ],
-      cC: [
-        {
-          email: recipientAddress,
-          displayName: "Customer Name",
-        },
-      ],
-      bCC: [
-        {
-          email: recipientAddress,
-          displayName: "Customer Name",
-        },
-      ],
+      cc: [{ email: recipientAddress, displayName: "Customer Name" }],
+      bcc: [{ email: secondRecipientAddress, displayName: "Customer Name 2" }],
     },
   };
 

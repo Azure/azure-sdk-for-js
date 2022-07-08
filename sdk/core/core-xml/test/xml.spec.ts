@@ -162,9 +162,10 @@ describe("XML serializer", function () {
 
     it("should not parse field in stop node", async function () {
       const xml = `<NotificationDetails><NotificationBody>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;toast&gt;&lt;visual&gt;&lt;binding template="ToastText01"&gt;&lt;text id="1"&gt;Hello from a .NET App!&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;</NotificationBody></NotificationDetails>`;
-      const json = await parseXML(xml, { stopNodes: [ "NotificationDetails.NotificationBody" ] });
+      const json = await parseXML(xml, { stopNodes: ["NotificationDetails.NotificationBody"] });
       assert.deepStrictEqual(json, {
-        "NotificationBody": "<?xml version=\"1.0\" encoding=\"utf-16\"?><toast><visual><binding template=\"ToastText01\"><text id=\"1\">Hello from a .NET App!</text></binding></visual></toast>"
+        NotificationBody:
+          '<?xml version="1.0" encoding="utf-16"?><toast><visual><binding template="ToastText01"><text id="1">Hello from a .NET App!</text></binding></visual></toast>',
       });
     });
   });
@@ -340,11 +341,15 @@ describe("XML serializer", function () {
 
     it("should not parse field in stop node", async function () {
       const xml = `<NotificationDetails><NotificationBody>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;toast&gt;&lt;visual&gt;&lt;binding template="ToastText01"&gt;&lt;text id="1"&gt;Hello from a .NET App!&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;</NotificationBody></NotificationDetails>`;
-      const json = await parseXML(xml, { includeRoot: true, stopNodes: [ "NotificationDetails.NotificationBody" ] });
+      const json = await parseXML(xml, {
+        includeRoot: true,
+        stopNodes: ["NotificationDetails.NotificationBody"],
+      });
       assert.deepStrictEqual(json, {
-        "NotificationDetails": {
-          "NotificationBody": "<?xml version=\"1.0\" encoding=\"utf-16\"?><toast><visual><binding template=\"ToastText01\"><text id=\"1\">Hello from a .NET App!</text></binding></visual></toast>",
-        }
+        NotificationDetails: {
+          NotificationBody:
+            '<?xml version="1.0" encoding="utf-16"?><toast><visual><binding template="ToastText01"><text id="1">Hello from a .NET App!</text></binding></visual></toast>',
+        },
       });
     });
   });
@@ -519,15 +524,17 @@ describe("XML serializer", function () {
       );
     });
 
-    
     it("should handle CDATA sections with default value", function () {
-      const xml = stringifyXML({
-        "BodyTemplate": { __cdata: "{Template for the body}" }
-      }, { cdataPropName: "__cdata", rootName: "entry" });
+      const xml = stringifyXML(
+        {
+          BodyTemplate: { __cdata: "{Template for the body}" },
+        },
+        { cdataPropName: "__cdata", rootName: "entry" }
+      );
       assert.deepStrictEqual(
         xml,
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry><BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate></entry>`
-      )
+      );
     });
 
     it("with underscore element", async function () {
