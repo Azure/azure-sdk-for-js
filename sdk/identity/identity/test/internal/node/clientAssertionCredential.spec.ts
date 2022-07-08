@@ -16,7 +16,7 @@ import * as net from "net";
 import * as fs from "fs";
 import * as uuid from "uuid";
 import * as jwt from "jsonwebtoken";
-import ms from 'ms';
+import ms from "ms";
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -110,11 +110,11 @@ describe("ClientAssertionCredential (internal)", function () {
   });
 });
 
-
-async function createJWTTokenFromCertificate(authorityHost: string,
+async function createJWTTokenFromCertificate(
+  authorityHost: string,
   clientId: string,
-  certificatePath: string) {
-
+  certificatePath: string
+) {
   const privateKeyPemCert = fs.readFileSync(certificatePath);
   const audience = `${authorityHost}/v2.0`;
   const secureContext = tls.createSecureContext({
@@ -127,14 +127,14 @@ async function createJWTTokenFromCertificate(authorityHost: string,
     header: {
       alg: "RS256",
       typ: "JWT",
-      x5t: Buffer.from(cert.fingerprint256, "hex").toString("base64")
+      x5t: Buffer.from(cert.fingerprint256, "hex").toString("base64"),
     },
     algorithm: "RS256",
     audience: audience,
     jwtid: uuid.v4(),
-    expiresIn: ms('1 h'),
+    expiresIn: ms("1 h"),
     subject: clientId,
-    issuer: clientId
-  })
+    issuer: clientId,
+  });
   return signedCert;
 }

@@ -47,13 +47,13 @@ export class MsalClientAssertion extends MsalNode {
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
     } catch (err: unknown) {
+      let err2 = err;
       if (err === null || err === undefined) {
-        err = new Error(JSON.stringify(err))
+        err2 = new Error(JSON.stringify(err));
+      } else {
+        err2 = isError(err) ? err : new Error(String(err));
       }
-      else {
-        err = isError(err) ? err : new Error(String(err))
-      }
-      throw this.handleError(scopes, err as Error, options);
+      throw this.handleError(scopes, err2 as Error, options);
     }
   }
 }
