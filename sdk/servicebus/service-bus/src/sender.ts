@@ -26,7 +26,7 @@ import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import { TracingSpanLink } from "@azure/core-tracing";
 import { senderLogger as logger } from "./log";
 import { ServiceBusError } from "./serviceBusError";
-import { createServiceBusSpan } from "./diagnostics/instrumentServiceBusMessage";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -219,30 +219,18 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       };
     });
 
-    const { span: sendSpan } = createServiceBusSpan(
-      "send",
-      options,
-      this.entityPath,
-      this._context.config.host,
+    return tracingClient.withSpan(
+      "ServiceBusSender.send",
+      options ?? {},
+      (updatedOptions) => this._sender.sendBatch(batch, updatedOptions),
       {
-        spanKind: "client",
         spanLinks,
+        ...toSpanOptions(
+          { entityPath: this.entityPath, host: this._context.config.host },
+          "client"
+        ),
       }
     );
-
-    try {
-      const result = await this._sender.sendBatch(batch, options);
-      sendSpan.setStatus({ status: "success" });
-      return result;
-    } catch (error: any) {
-      sendSpan.setStatus({
-        status: "error",
-        error,
-      });
-      throw error;
-    } finally {
-      sendSpan.end();
-    }
   }
 
   async createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {

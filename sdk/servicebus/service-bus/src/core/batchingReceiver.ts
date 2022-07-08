@@ -18,9 +18,10 @@ import { throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
+import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { tracingClient } from "../diagnostics/tracing";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -238,11 +239,6 @@ interface ReceiveMessageArgs extends OperationOptionsBase {
  * @internal
  */
 export class BatchingReceiverLite {
-  /**
-   * NOTE: exists only to make unit testing possible.
-   */
-  private _createAndEndProcessingSpan: typeof createAndEndProcessingSpan;
-
   constructor(
     private _connectionContext: ConnectionContext,
     public entityPath: string,
@@ -252,8 +248,6 @@ export class BatchingReceiverLite {
     private _receiveMode: ReceiveMode,
     _skipParsingBodyAsJson: boolean
   ) {
-    this._createAndEndProcessingSpan = createAndEndProcessingSpan;
-
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
         context.message!,
@@ -301,8 +295,12 @@ export class BatchingReceiverLite {
       const messages = await new Promise<ServiceBusMessageImpl[]>((resolve, reject) =>
         this._receiveMessagesImpl(receiver, args, resolve, reject)
       );
-      this._createAndEndProcessingSpan(messages, this, this._connectionContext.config, args);
-      return messages;
+      return tracingClient.withSpan(
+        "BatchingReceiverLite.process",
+        args,
+        () => messages,
+        toProcessingSpanOptions(messages, this, this._connectionContext.config)
+      );
     } finally {
       this._closeHandler = undefined;
       this.isReceivingMessages = false;

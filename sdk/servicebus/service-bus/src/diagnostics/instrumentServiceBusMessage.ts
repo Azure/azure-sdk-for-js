@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TracingContext,
-  TracingSpan,
-  TracingSpanLink,
-  TracingSpanOptions,
-} from "@azure/core-tracing";
+import { TracingContext, TracingSpanLink, TracingSpanOptions } from "@azure/core-tracing";
 import { ConnectionContext } from "../connectionContext";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceiver } from "../receivers/receiver";
@@ -136,92 +131,28 @@ function* getReceivedMessages(
 }
 
 /**
- * Creates a Service Bus specific span, with peer.address and message_bus.destination filled out.
  * @internal
  */
-export function createServiceBusSpan(
-  operationName: string,
-  options: OperationOptionsBase | undefined,
-  entityPath: string,
-  host: string,
-  additionalSpanOptions?: TracingSpanOptions
-): { span: TracingSpan; updatedOptions: OperationOptionsBase } {
-  const { span, updatedOptions } = tracingClient.startSpan(operationName, options, {
-    ...toSpanOptions({ entityPath, host }, additionalSpanOptions?.spanKind),
-    ...additionalSpanOptions,
-  });
-
-  return {
-    span,
-    updatedOptions,
-  };
-}
-
-/**
- * A span that encompasses the period when the message has been received and
- * is being processed.
- *
- * NOTE: The amount of time the user would be considered processing the message is
- * not always clear - in that case the span will have a very short lifetime
- * since we'll start the span when we receive the message and end it when we
- * give the message to the user.
- *
- * @internal
- */
-export function createProcessingSpan(
+export function toProcessingSpanOptions(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
-  // NOTE: the connectionConfig also has an entityPath property but that only
-  // represents the optional entityPath in their connection string which is NOT
-  // what we want for tracing.
   receiver: Pick<ServiceBusReceiver, "entityPath">,
-  connectionConfig: Pick<ConnectionContext["config"], "host">,
-  options?: OperationOptionsBase
-): TracingSpan {
+  connectionConfig: Pick<ConnectionContext["config"], "host">
+): TracingSpanOptions {
   const spanLinks: TracingSpanLink[] = [];
-
   for (const receivedMessage of getReceivedMessages(receivedMessages)) {
-    const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
-
-    if (spanContext == null) {
-      continue;
+    const tracingContext = extractSpanContextFromServiceBusMessage(receivedMessage);
+    if (tracingContext) {
+      spanLinks.push({
+        tracingContext,
+        attributes: {
+          enqueuedTime: receivedMessage.enqueuedTimeUtc?.getTime(),
+        },
+      });
     }
-
-    spanLinks.push({
-      tracingContext: spanContext,
-      attributes: {
-        enqueuedTime: receivedMessage.enqueuedTimeUtc?.getTime(),
-      },
-    });
   }
-
-  const { span } = createServiceBusSpan(
-    "process",
-    options,
-    receiver.entityPath,
-    connectionConfig.host,
-    {
-      spanKind: "consumer",
-      spanLinks,
-    }
-  );
-
-  return span;
-}
-
-/**
- * Creates and immediately ends a processing span. Used when
- * the 'processing' occurs outside of our control so we don't
- * know the scope.
- *
- * @internal
- */
-export function createAndEndProcessingSpan(
-  receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
-  receiver: Pick<ServiceBusReceiver, "entityPath">,
-  connectionConfig: Pick<ConnectionContext["config"], "host">,
-  options?: OperationOptionsBase
-): void {
-  const span = createProcessingSpan(receivedMessages, receiver, connectionConfig, options);
-  span.setStatus({ status: "success" });
-  span.end();
+  return {
+    spanLinks,
+    spanKind: "consumer",
+    ...toSpanOptions({ host: connectionConfig.host, entityPath: receiver.entityPath }),
+  };
 }
