@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-auth";
+import { isError } from "@azure/core-util";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 
@@ -46,8 +47,11 @@ export class MsalClientAssertion extends MsalNode {
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
     } catch (err: unknown) {
-      if (!(err instanceof Error)) {
-        err = new Error((err as any).toString())
+      if (err === null || err === undefined) {
+        err = new Error(JSON.stringify(err))
+      }
+      else {
+        err = isError(err) ? err : new Error(String(err))
       }
       throw this.handleError(scopes, err as Error, options);
     }
