@@ -12158,17 +12158,19 @@ packages:
     dev: false
 
   file:projects/arm-marketplaceordering.tgz:
-    resolution: {integrity: sha512-NcIqniDcDxHPhTjVbwA/cfQ/03lwT1wtGmg4E1l58actTgyBEdCmADTIk9DRlQlbg6VXbNGUkHXFdyXeAvcceA==, tarball: file:projects/arm-marketplaceordering.tgz}
+    resolution: {integrity: sha512-C+3yh+95qlmslModiXGmKdFr9pNRMWmWQffvSQ+JuG8dkW0PJJaVH+uWww1KtIAi8c1o+dOy6E1WXsy4sD7xkw==, tarball: file:projects/arm-marketplaceordering.tgz}
     name: '@rush-temp/arm-marketplaceordering'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.5
-      '@microsoft/api-extractor': 7.28.2
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.75.7
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.75.7
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12180,7 +12182,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
