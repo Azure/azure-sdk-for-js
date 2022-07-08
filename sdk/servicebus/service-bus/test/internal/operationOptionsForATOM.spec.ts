@@ -236,18 +236,13 @@ describe("Operation Options", () => {
 
   describe("Tracing", () => {
     it("getNamespaceProperties with tracing", async () => {
-      // const { tracer, resetTracer } = setTracerForTest();
-      try {
-        assert.supportsTracing(
-          (options) =>
-            serviceBusAtomManagementClient.getNamespaceProperties({
-              tracingOptions: options.tracingOptions,
-            }),
-          ["ServiceBusAdministrationClient.getNamespaceProperties"]
-        );
-      } finally {
-        // resetTracer();
-      }
+      await assert.supportsTracing(
+        (options) =>
+          serviceBusAtomManagementClient.getNamespaceProperties({
+            tracingOptions: options.tracingOptions,
+          }),
+        ["ServiceBusAdministrationClient.getNamespaceProperties"]
+      );
     });
   });
 });
