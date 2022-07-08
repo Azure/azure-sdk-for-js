@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
-describe("List Document Formats", () => {
+describe("Get Collections", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
@@ -24,7 +24,7 @@ describe("List Document Formats", () => {
     const result = await client.path("/app/collections").get();
 
     console.log(result);
-    
+
     assert.equal(result.status, "200");
 
     if (isUnexpected(result)) {

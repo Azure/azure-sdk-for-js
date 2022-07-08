@@ -8,7 +8,7 @@ nock('https://identity.confidential-ledger.core.azure.com:443', {"encodedQueryPa
   .get('/ledgerIdentity/FAKE_CERT')
   .reply(200, {"ledgerTlsCertificate":"-----BEGIN CERTIFICATE-----\nMIIBejCCASCgAwIBAgIQMNwF270tS2Ex6jsW6jP46TAKBggqhkjOPQQDAjAWMRQw\nEgYDVQQDDAtDQ0YgTmV0d29yazAeFw0yMjA3MDYyMTA0NDBaFw0yMjEwMDQyMTA0\nMzlaMBYxFDASBgNVBAMMC0NDRiBOZXR3b3JrMFkwEwYHKoZIzj0CAQYIKoZIzj0D\nAQcDQgAEDUWr/JYiEUnNS+4Ndfcci6yGRXhVWSnabgvShqrdxW4RBmsKZ+qsAWJP\nnavsVjf8Zgd8gghMm1y4Zl4PoHzTxKNQME4wDAYDVR0TBAUwAwEB/zAdBgNVHQ4E\nFgQUiIlVb/2YkHp4mXRhBuLaadG82zYwHwYDVR0jBBgwFoAUiIlVb/2YkHp4mXRh\nBuLaadG82zYwCgYIKoZIzj0EAwIDSAAwRQIgfYFw63rQ8RrH0BBs6yWbYbm+OWCq\nwyWR8oAT90gwHtACIQDNJ3eIewMJNDtUSJaRYhOIOu10evuW63wBLP/kftLAmw==\n-----END CERTIFICATE-----\n","ledgerId":"FAKE_CERT"}, [
   'Date',
-  'Thu, 07 Jul 2022 19:06:39 GMT',
+  'Fri, 08 Jul 2022 18:37:43 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -16,11 +16,11 @@ nock('https://identity.confidential-ledger.core.azure.com:443', {"encodedQueryPa
   'Transfer-Encoding',
   'chunked',
   'x-ms-correlation-request-id',
-  '44f7701c-6c57-4f1f-a904-1855d7b2913d',
+  '3b682d83-6ee4-4034-82e8-51507e2d7043',
   'x-ms-client-request-id',
-  'dfc4f901-f555-4b90-be11-165f6f4984f5',
+  '15ddd303-6a21-469a-b1d5-7ee7b9fc628c',
   'x-ms-machineName',
-  'identityservice-6499ffbf45-jjspj',
+  'identityservice-6499ffbf45-pnv6t',
   'x-ms-image-digest',
   'sha256:7a76c9097c3450987501c23e71a3e16b89f727059ab6de727807ac97b808810e',
   'x-ms-image-tag',
@@ -36,9 +36,9 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'content-type',
   'application/json',
   'x-ms-ccf-transaction-id',
-  '2.8998',
+  '2.14250',
   'x-ms-client-request-id',
-  '04201e3b-3102-4490-ae26-e3cfffd78649',
+  'e147ace4-6199-43d0-b457-37f71ea5324b',
   'x-ms-request-id',
-  '1296546397'
+  '1478643223'
 ]);

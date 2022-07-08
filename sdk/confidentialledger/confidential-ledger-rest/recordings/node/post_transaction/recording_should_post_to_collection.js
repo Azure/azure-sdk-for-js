@@ -8,7 +8,7 @@ nock('https://identity.confidential-ledger.core.azure.com:443', {"encodedQueryPa
   .get('/ledgerIdentity/FAKE_CERT')
   .reply(200, {"ledgerTlsCertificate":"-----BEGIN CERTIFICATE-----\nMIIBejCCASCgAwIBAgIQMNwF270tS2Ex6jsW6jP46TAKBggqhkjOPQQDAjAWMRQw\nEgYDVQQDDAtDQ0YgTmV0d29yazAeFw0yMjA3MDYyMTA0NDBaFw0yMjEwMDQyMTA0\nMzlaMBYxFDASBgNVBAMMC0NDRiBOZXR3b3JrMFkwEwYHKoZIzj0CAQYIKoZIzj0D\nAQcDQgAEDUWr/JYiEUnNS+4Ndfcci6yGRXhVWSnabgvShqrdxW4RBmsKZ+qsAWJP\nnavsVjf8Zgd8gghMm1y4Zl4PoHzTxKNQME4wDAYDVR0TBAUwAwEB/zAdBgNVHQ4E\nFgQUiIlVb/2YkHp4mXRhBuLaadG82zYwHwYDVR0jBBgwFoAUiIlVb/2YkHp4mXRh\nBuLaadG82zYwCgYIKoZIzj0EAwIDSAAwRQIgfYFw63rQ8RrH0BBs6yWbYbm+OWCq\nwyWR8oAT90gwHtACIQDNJ3eIewMJNDtUSJaRYhOIOu10evuW63wBLP/kftLAmw==\n-----END CERTIFICATE-----\n","ledgerId":"FAKE_CERT"}, [
   'Date',
-  'Thu, 07 Jul 2022 19:12:07 GMT',
+  'Fri, 08 Jul 2022 18:42:19 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -16,11 +16,11 @@ nock('https://identity.confidential-ledger.core.azure.com:443', {"encodedQueryPa
   'Transfer-Encoding',
   'chunked',
   'x-ms-correlation-request-id',
-  '8cc18f08-1c11-4811-8c90-8a60ff4f193b',
+  '30d43733-726e-4be9-8121-437c7cc1babe',
   'x-ms-client-request-id',
-  'efd056aa-03f5-4f45-ac38-63b56b5cc9a2',
+  '1d70dcab-0036-44bc-80cb-0c3472677786',
   'x-ms-machineName',
-  'identityservice-6499ffbf45-pnv6t',
+  'identityservice-6499ffbf45-bt47c',
   'x-ms-image-digest',
   'sha256:7a76c9097c3450987501c23e71a3e16b89f727059ab6de727807ac97b808810e',
   'x-ms-image-tag',
@@ -36,39 +36,39 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'content-type',
   'application/json',
   'x-ms-ccf-transaction-id',
-  '2.11284',
+  '2.16484',
   'x-ms-client-request-id',
-  '233daef8-45e7-4902-bc58-d6cce8c55ce0',
+  'bb89fa9e-6c1e-4cdf-b686-82d5288a7a4d',
   'x-ms-request-id',
-  '1460552392'
+  '1573350601'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/app/transactions/2.11284/status')
+  .get('/app/transactions/2.16484/status')
   .query(true)
-  .reply(200, {"state":"Pending","transactionId":"2.11284"}, [
+  .reply(200, {"state":"Pending","transactionId":"2.16484"}, [
   'content-length',
   '45',
   'content-type',
   'application/json',
   'x-ms-ccf-transaction-id',
-  '2.11284',
+  '2.16484',
   'x-ms-client-request-id',
-  'b273c757-b8e1-483c-bece-ee4da5a60221',
+  '25d7ea64-ed2f-4c46-8678-f3e7dbe035be',
   'x-ms-request-id',
-  '1379827811'
+  '149544907'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/app/transactions/2.11284/receipt')
+  .get('/app/transactions/2.16484/receipt')
   .query(true)
-  .reply(406, {"error":{"code":"UncommittedLedgerEntry","message":"The specified transaction (2.11284) is not committed yet, please wait until the service reports a transaction id at least as high."}}, [
+  .reply(406, {"error":{"code":"UncommittedLedgerEntry","message":"The specified transaction (2.16484) is not committed yet, please wait until the service reports a transaction id at least as high."}}, [
   'content-length',
   '186',
   'content-type',
   'application/json',
   'x-ms-client-request-id',
-  'c57c826a-0d86-4bbe-856b-7b3e273fcb6a',
+  '6119b3a4-06f5-48d1-8040-acd5b591efd8',
   'x-ms-request-id',
-  '2124618138'
+  '2020018347'
 ]);

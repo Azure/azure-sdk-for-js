@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
-describe("List Document Formats", () => {
+describe("List Enclaves", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 

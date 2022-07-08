@@ -15,7 +15,6 @@ import {
 } from "@azure-tools/test-recorder";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
-import { DefaultAzureCredential } from "@azure/identity";
 import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
@@ -24,7 +23,7 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   LEDGER_IDENTITY: "FAKE_CERT",
-  IDENTITY_SERVICE_URL: "https://identity.confidential-ledger.core.azure.com/"
+  IDENTITY_SERVICE_URL: "https://identity.confidential-ledger.core.azure.com/",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -55,7 +54,7 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
     env.AZURE_CLIENT_SECRET
   );
   */
-  const clientCredential = new DefaultAzureCredential();
+  // const clientCredential = new DefaultAzureCredential();
 
   // const credential = new DefaultAzureCredential({ httpClient });
   const { ledgerIdentityCertificate } = await getLedgerIdentity(
@@ -63,8 +62,15 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
     env.IDENTITY_SERVICE_URL
   );
 
-  return ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, clientCredential, {
+  const cert = env.PUBLIC_KEY;
+  const key = env.PRIVATE_KEY;
+
+  return ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, {
     httpClient,
+    tlsOptions: {
+      cert,
+      key,
+    },
   });
 }
 

@@ -5,7 +5,7 @@ import { env } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -20,7 +20,7 @@ describe("Test user authentications", () => {
     await recorder.stop();
   });
 
-  it("should authenticate using AAD", async function () {
+  it.skip("should authenticate using AAD", async function () {
     const { ledgerIdentityCertificate } = await getLedgerIdentity(
       env.LEDGER_IDENTITY,
       env.IDENTITY_SERVICE_URL
@@ -35,18 +35,7 @@ describe("Test user authentications", () => {
   });
 
   it("should authenticate using a certificate", async function () {
-    const { ledgerIdentityCertificate } = await getLedgerIdentity(
-      env.LEDGER_IDENTITY,
-      env.IDENTITY_SERVICE_URL
-    );
-    const cert = env.PUBLIC_KEY;
-    const key = env.PRIVATE_KEY;
-    const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, {
-      tlsOptions: {
-        cert,
-        key,
-      },
-    });
+    const ledgerClient = await createClient();
     assert.isDefined(ledgerClient);
     const result = await ledgerClient.path("/app/governance/constitution").get();
 

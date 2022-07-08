@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "0841e642fa9dae211b547a34cd92e9d4";
+module.exports.hash = "e9336727156236ec4d53c87f4ec8e53b";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -8,7 +8,7 @@ nock('https://identity.confidential-ledger.core.azure.com:443', {"encodedQueryPa
   .get('/ledgerIdentity/FAKE_CERT')
   .reply(200, {"ledgerTlsCertificate":"-----BEGIN CERTIFICATE-----\nMIIBejCCASCgAwIBAgIQMNwF270tS2Ex6jsW6jP46TAKBggqhkjOPQQDAjAWMRQw\nEgYDVQQDDAtDQ0YgTmV0d29yazAeFw0yMjA3MDYyMTA0NDBaFw0yMjEwMDQyMTA0\nMzlaMBYxFDASBgNVBAMMC0NDRiBOZXR3b3JrMFkwEwYHKoZIzj0CAQYIKoZIzj0D\nAQcDQgAEDUWr/JYiEUnNS+4Ndfcci6yGRXhVWSnabgvShqrdxW4RBmsKZ+qsAWJP\nnavsVjf8Zgd8gghMm1y4Zl4PoHzTxKNQME4wDAYDVR0TBAUwAwEB/zAdBgNVHQ4E\nFgQUiIlVb/2YkHp4mXRhBuLaadG82zYwHwYDVR0jBBgwFoAUiIlVb/2YkHp4mXRh\nBuLaadG82zYwCgYIKoZIzj0EAwIDSAAwRQIgfYFw63rQ8RrH0BBs6yWbYbm+OWCq\nwyWR8oAT90gwHtACIQDNJ3eIewMJNDtUSJaRYhOIOu10evuW63wBLP/kftLAmw==\n-----END CERTIFICATE-----\n","ledgerId":"FAKE_CERT"}, [
   'Date',
-  'Thu, 07 Jul 2022 19:12:09 GMT',
+  'Fri, 08 Jul 2022 18:42:20 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -16,11 +16,11 @@ nock('https://identity.confidential-ledger.core.azure.com:443', {"encodedQueryPa
   'Transfer-Encoding',
   'chunked',
   'x-ms-correlation-request-id',
-  '65ab506a-5e3b-44aa-9e35-3d2fe9529cb7',
+  'ea8436e2-e9d7-4cf7-a3b1-e15864ab5d40',
   'x-ms-client-request-id',
-  '5e99823e-04ad-49f6-b65c-69a88c5d5d97',
+  '88d534a0-0127-4075-a284-4600a6d4ccc9',
   'x-ms-machineName',
-  'identityservice-6499ffbf45-pnv6t',
+  'identityservice-6499ffbf45-bt47c',
   'x-ms-image-digest',
   'sha256:7a76c9097c3450987501c23e71a3e16b89f727059ab6de727807ac97b808810e',
   'x-ms-image-tag',
@@ -36,9 +36,9 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'content-type',
   'application/json',
   'x-ms-ccf-transaction-id',
-  '2.11285',
+  '2.16485',
   'x-ms-client-request-id',
-  'bf187adc-2e76-4daa-8dce-d266940b72f0',
+  '7e78e133-4842-4af8-aa85-34261d2523ee',
   'x-ms-request-id',
-  '1385066829'
+  '2105701324'
 ]);
