@@ -725,8 +725,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.13:
-    resolution: {integrity: sha512-WNB3kewT2unIMVSzN/NkVf0EiPvXJh31pbsfatykU/Z6jfTsnKb0fDW7LhujeLnDIJfhAE0IC1xpW1msGYfsmg==}
+  /@azure/communication-signaling/1.0.0-beta.14:
+    resolution: {integrity: sha512-DuieDUq82DyTpgRIXBJPArtNoyj25WtrznsjaN6w4EgcqDnrTfccD8AO6lZiAO2GqEmMAYB3M1JztrXdoToAVQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.2.5
@@ -14367,11 +14367,11 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-AoSPcMHBXAVeamPVYjXyf5CfrHn7kAQVEUftOXX50Alnc1H2q75OOUnKFZqBbRNufhLqHqSyxp5h6S5OWUQ5vg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-5+7M1NSrQcd2NZXeqZcmwNk/jX9Ap1OBRzRCmidp3KXG+7aOmAQhO65zWb2lohOmKZYrSjwdF2MfGtldNUivhg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
-      '@azure/communication-signaling': 1.0.0-beta.13
+      '@azure/communication-signaling': 1.0.0-beta.14
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
