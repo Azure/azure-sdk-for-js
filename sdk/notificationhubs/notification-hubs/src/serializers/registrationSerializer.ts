@@ -472,7 +472,7 @@ function createRegistrationDescription(
   return {
     registrationId: getStringOrUndefined(rawRegistrationDescription["RegistrationId"]),
     expirationTime: getDateOrUndefined(rawRegistrationDescription["ExpirationTime"]),
-    eTag: getStringOrUndefined(rawRegistrationDescription["ETag"]),
+    etag: getStringOrUndefined(rawRegistrationDescription["ETag"]),
     tags: getTagsOrUndefined(rawRegistrationDescription["Tags"]),
     pushVariables: pushVariables,
   };

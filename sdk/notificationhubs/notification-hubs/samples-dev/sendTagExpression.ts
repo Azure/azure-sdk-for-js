@@ -15,7 +15,7 @@
  */
 
 import {
-  createAppleMessage,
+  createAppleNotification,
   clientFromConnectionString,
   SendOperationOptions,
   NotificationDetails,
@@ -38,7 +38,7 @@ async function main() {
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
   const tagExpression = "likes_hockey && likes_football";
 
-  const message = createAppleMessage({
+  const notification = createAppleNotification({
     body: messageBody,
     headers: {
       "apns-priority": "10",
@@ -48,7 +48,7 @@ async function main() {
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await client.sendNotification(tagExpression, message, sendOptions);
+  const result = await client.sendNotification(tagExpression, notification, sendOptions);
 
   console.log(`Tag Expression send Tracking ID: ${result.trackingId}`);
   console.log(`Tag Expression Correlation ID: ${result.correlationId}`);

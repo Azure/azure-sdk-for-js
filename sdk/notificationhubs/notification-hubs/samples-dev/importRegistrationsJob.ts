@@ -13,10 +13,7 @@
  * @azsdk-weight 100
  */
 
-import {
-  clientFromConnectionString, 
-  NotificationHubJob,
-} from "@azure/notification-hubs";
+import { clientFromConnectionString, NotificationHubJob } from "@azure/notification-hubs";
 import { delay } from "@azure/core-amqp";
 
 // Load the .env file if it exists
@@ -41,7 +38,7 @@ async function main() {
   };
 
   importJob = await client.submitNotificationHubJob(importJob);
-  
+
   let count = 0;
   while (importJob.status !== "Completed" && importJob.status !== "Failed" && count++ < 10) {
     importJob = await client.getNotificationHubJob(importJob.jobId!);

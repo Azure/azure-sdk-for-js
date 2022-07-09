@@ -3,7 +3,7 @@
 
 export { NotificationHubsClient, clientFromConnectionString } from "./notificationHubsClient";
 export * from "./models/installation";
-export * from "./models/message";
+export * from "./models/notification";
 export * from "./models/notificationDetails";
 export * from "./models/notificationHubJob";
 export * from "./models/options";

@@ -15,7 +15,7 @@ export interface AdmInstallation extends DeviceTokenInstallation {
 }
 
 // @public
-export interface AdmMessage extends JsonNotificationMessage {
+export interface AdmNotification extends JsonNotification {
     platform: "adm";
 }
 
@@ -36,7 +36,7 @@ export interface AppleInstallation extends DeviceTokenInstallation {
 }
 
 // @public
-export interface AppleMessage extends JsonNotificationMessage {
+export interface AppleNotification extends JsonNotification {
     platform: "apple";
 }
 
@@ -60,7 +60,7 @@ export interface BaiduInstallation extends DeviceTokenInstallation {
 }
 
 // @public
-export interface BaiduMessage extends JsonNotificationMessage {
+export interface BaiduNotification extends JsonNotification {
     platform: "baidu";
 }
 
@@ -83,7 +83,7 @@ export interface BrowserInstallation extends InstallationCommon {
 }
 
 // @public
-export interface BrowserMessage extends JsonNotificationMessage {
+export interface BrowserNotification extends JsonNotification {
     platform: "browser";
 }
 
@@ -108,13 +108,13 @@ export interface BrowserTemplateRegistrationDescription extends Omit<BrowserRegi
 }
 
 // @public
-export function clientFromConnectionString(connectionString: string, hubName: string): NotificationHubsClient;
+export function clientFromConnectionString(connectionString: string, hubName: string, options?: NotificationHubsClientOptions): NotificationHubsClient;
 
 // @public
 export function createAdmInstallation(installation: Omit<AdmInstallation, "platform">): AdmInstallation;
 
 // @public
-export function createAdmMessage(message: Omit<AdmMessage, "platform" | "contentType">): AdmMessage;
+export function createAdmNotification(notification: Omit<AdmNotification, "platform" | "contentType">): AdmNotification;
 
 // @public
 export function createAdmRegistrationDescription(description: Omit<AdmRegistrationDescription, "platform">): AdmRegistrationDescription;
@@ -126,7 +126,7 @@ export function createAdmTemplateRegistrationDescription(description: Omit<AdmTe
 export function createAppleInstallation(installation: Omit<AppleInstallation, "platform">): AppleInstallation;
 
 // @public
-export function createAppleMessage(message: Omit<AppleMessage, "platform" | "contentType">): AppleMessage;
+export function createAppleNotification(notification: Omit<AppleNotification, "platform" | "contentType">): AppleNotification;
 
 // @public
 export function createAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "platform">): AppleRegistrationDescription;
@@ -138,7 +138,7 @@ export function createAppleTemplateRegistrationDescription(description: Omit<App
 export function createBaiduInstallation(installation: Omit<BaiduInstallation, "platform">): BaiduInstallation;
 
 // @public
-export function createBaiduMessage(message: Omit<BaiduMessage, "platform" | "contentType">): BaiduMessage;
+export function createBaiduNotification(notification: Omit<BaiduNotification, "platform" | "contentType">): BaiduNotification;
 
 // @public
 export function createBaiduRegistrationDescription(description: Omit<BaiduRegistrationDescription, "platform">): BaiduRegistrationDescription;
@@ -150,7 +150,7 @@ export function createBaiduTemplateRegistrationDescription(description: Omit<Bai
 export function createBrowserInstallation(installation: Omit<BrowserInstallation, "platform">): BrowserInstallation;
 
 // @public
-export function createBrowserMessage(message: Omit<BrowserMessage, "platform" | "contentType">): BrowserMessage;
+export function createBrowserNotification(notification: Omit<BrowserNotification, "platform" | "contentType">): BrowserNotification;
 
 // @public
 export function createBrowserRegistrationDescription(description: Omit<BrowserRegistrationDescription, "platform">): BrowserRegistrationDescription;
@@ -168,7 +168,7 @@ export function createFcmTemplateRegistrationDescription(description: Omit<FcmTe
 export function createFirebaseLegacyInstallation(installation: Omit<FirebaseLegacyInstallation, "platform">): FirebaseLegacyInstallation;
 
 // @public
-export function createFirebaseLegacyMessage(message: Omit<FirebaseLegacyMessage, "platform" | "contentType">): FirebaseLegacyMessage;
+export function createFirebaseLegacyNotification(notification: Omit<FirebaseLegacyNotification, "platform" | "contentType">): FirebaseLegacyNotification;
 
 // @public @deprecated (undocumented)
 export function createGcmRegistrationDescription(description: Omit<GcmRegistrationDescription, "platform">): GcmRegistrationDescription;
@@ -183,16 +183,16 @@ export function createMpnsRegistrationDescription(description: Omit<MpnsRegistra
 export function createMpnsTemplateRegistrationDescription(description: Omit<MpnsTemplateRegistrationDescription, "platform">): MpnsTemplateRegistrationDescription;
 
 // @public
-export function createTemplateMessage(message: Omit<TemplateMessage, "platform" | "contentType">): TemplateMessage;
+export function createTemplateNotification(notification: Omit<TemplateNotification, "platform" | "contentType">): TemplateNotification;
 
 // @public
-export function createWindowsBadgeMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage;
+export function createWindowsBadgeNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
 
 // @public
 export function createWindowsInstallation(installation: Omit<WindowsInstallation, "platform">): WindowsInstallation;
 
 // @public
-export function createWindowsRawMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage;
+export function createWindowsRawNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
 
 // @public
 export function createWindowsRegistrationDescription(description: Omit<WindowsRegistrationDescription, "platform">): WindowsRegistrationDescription;
@@ -201,10 +201,10 @@ export function createWindowsRegistrationDescription(description: Omit<WindowsRe
 export function createWindowsTemplateRegistrationDescription(description: Omit<WindowsTemplateRegistrationDescription, "platform">): WindowsTemplateRegistrationDescription;
 
 // @public
-export function createWindowsTileMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage;
+export function createWindowsTileNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
 
 // @public
-export function createWindowsToastMessage(message: Omit<WindowsMessage, "platform" | "contentType">): WindowsMessage;
+export function createWindowsToastNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
 
 // @public
 export interface DeviceTokenInstallation extends InstallationCommon {
@@ -233,7 +233,7 @@ export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
 }
 
 // @public
-export interface FirebaseLegacyMessage extends JsonNotificationMessage {
+export interface FirebaseLegacyNotification extends JsonNotification {
     platform: "gcm";
 }
 
@@ -270,7 +270,7 @@ export interface InstallationTemplate {
 }
 
 // @public
-export interface JsonNotificationMessage extends NotificationHubMessageCommon {
+export interface JsonNotification extends NotificationCommon {
     contentType: "application/json;charset=utf-8";
 }
 
@@ -294,6 +294,17 @@ export interface MpnsRegistrationDescription extends RegistrationDescriptionComm
 export interface MpnsTemplateRegistrationDescription extends Omit<MpnsRegistrationDescription, "platform">, TemplateRegistrationDescription {
     mpnsHeaders?: Record<string, string>;
     platform: "MpnsTemplate";
+}
+
+// @public
+export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FirebaseLegacyNotification | WindowsNotification | TemplateNotification;
+
+// @public
+export interface NotificationCommon {
+    body: string;
+    contentType: string;
+    headers?: Record<string, string>;
+    platform: string;
 }
 
 // @public
@@ -378,17 +389,6 @@ export type NotificationHubJobType =
 | "ImportUpsertRegistrations";
 
 // @public
-export type NotificationHubMessage = AppleMessage | AdmMessage | BaiduMessage | BrowserMessage | FirebaseLegacyMessage | WindowsMessage | TemplateMessage;
-
-// @public
-export interface NotificationHubMessageCommon {
-    body: string;
-    contentType: string;
-    headers?: Record<string, string>;
-    platform: string;
-}
-
-// @public
 export interface NotificationHubMessageResponse extends NotificationHubResponse {
     notificationId?: string;
 }
@@ -418,9 +418,9 @@ export class NotificationHubsClient extends ServiceClient {
     getRegistration(registrationId: string, options?: OperationOptions): Promise<RegistrationDescription>;
     listRegistrations(options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
-    scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessage, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
-    sendDirectNotification(pushHandle: PushHandle, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
-    sendNotification(tags: string[] | string, message: NotificationHubMessage, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
+    scheduleNotification(scheduledTime: Date, tags: string[] | string, notification: Notification, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
+    sendDirectNotification(pushHandle: PushHandle, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
+    sendNotification(tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
     updateInstallation(installationId: string, installationPatches: JsonPatch[], options?: OperationOptions): Promise<Installation>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
@@ -447,7 +447,7 @@ export type RegistrationDescription = AdmRegistrationDescription | AdmTemplateRe
 
 // @public
 export interface RegistrationDescriptionCommon {
-    eTag?: string;
+    etag?: string;
     expirationTime?: Date;
     platform: RegistrationType;
     pushVariables?: Record<string, string>;
@@ -480,7 +480,7 @@ export interface SendOperationOptions extends OperationOptions {
 }
 
 // @public
-export interface TemplateMessage extends JsonNotificationMessage {
+export interface TemplateNotification extends JsonNotification {
     platform: "template";
 }
 
@@ -499,7 +499,7 @@ export interface WindowsInstallation extends DeviceTokenInstallation {
 }
 
 // @public
-export interface WindowsMessage extends NotificationHubMessageCommon {
+export interface WindowsNotification extends NotificationCommon {
     contentType: WindowsContentType;
     platform: "wns";
 }

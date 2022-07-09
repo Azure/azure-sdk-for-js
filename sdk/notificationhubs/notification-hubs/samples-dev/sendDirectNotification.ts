@@ -15,7 +15,7 @@
  */
 
 import {
-  createAppleMessage,
+  createAppleNotification,
   clientFromConnectionString,
   SendOperationOptions,
   NotificationDetails,
@@ -41,7 +41,7 @@ async function main() {
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
-  const message = createAppleMessage({
+  const notification = createAppleNotification({
     body: messageBody,
     headers: {
       "apns-priority": "10",
@@ -51,7 +51,7 @@ async function main() {
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await client.sendDirectNotification(devicetoken, message, sendOptions);
+  const result = await client.sendDirectNotification(devicetoken, notification, sendOptions);
 
   console.log(`Direct send Tracking ID: ${result.trackingId}`);
   console.log(`Direct send Correlation ID: ${result.correlationId}`);

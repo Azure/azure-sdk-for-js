@@ -16,7 +16,7 @@
  */
 
 import {
-  createAppleMessage,
+  createAppleNotification,
   clientFromConnectionString,
   SendOperationOptions,
 } from "@azure/notification-hubs";
@@ -35,7 +35,7 @@ async function main() {
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
   const tagExpression = "likes_hockey && likes_football";
 
-  const message = createAppleMessage({
+  const notification = createAppleNotification({
     body: messageBody,
     headers: {
       "apns-priority": "10",
@@ -44,11 +44,16 @@ async function main() {
   });
 
   // Schedule 8 hours from nows
-  const scheduledTime = new Date(Date.now() + (8 * 60 * 60 * 1000));
+  const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await client.scheduleNotification(scheduledTime, tagExpression, message, sendOptions);
+  const result = await client.scheduleNotification(
+    scheduledTime,
+    tagExpression,
+    notification,
+    sendOptions
+  );
 
   console.log(`Scheduled send Tracking ID: ${result.trackingId}`);
   console.log(`Scheduled send Correlation ID: ${result.correlationId}`);

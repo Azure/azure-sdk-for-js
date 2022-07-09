@@ -39,7 +39,7 @@ export interface RegistrationDescriptionCommon {
   /**
    * The ETag associated with this description.
    */
-  eTag?: string;
+  etag?: string;
 
   /**
    * The tags associated with the registration.

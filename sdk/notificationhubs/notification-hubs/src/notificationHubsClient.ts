@@ -37,9 +37,9 @@ import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
 } from "./serializers/registrationSerializer";
+import { Notification } from "./models/notification";
 import { NotificationDetails } from "./models/notificationDetails";
 import { NotificationHubJob } from "./models/notificationHubJob";
-import { NotificationHubMessage } from "./models/message";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "./models/registration";
 import { SasTokenProvider } from "@azure/core-amqp";
@@ -57,7 +57,7 @@ const API_VERSION = "2020-06";
 export function clientFromConnectionString(
   connectionString: string,
   hubName: string,
-  options: NotificationHubsClientOptions = {},
+  options: NotificationHubsClientOptions = {}
 ): NotificationHubsClient {
   return new NotificationHubsClient(connectionString, hubName, options);
 }
@@ -437,13 +437,13 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-updateRegistration",
       options,
       async (updatedOptions) => {
-        if (!registration.eTag) {
+        if (!registration.etag) {
           throw new RestError("ETag is required for registration update", { statusCode: 400 });
         }
         return this.createOrUpdateRegistrationDescription(
           registration,
           "update",
-          `"${registration.eTag}"`,
+          `"${registration.etag}"`,
           updatedOptions
         );
       }
@@ -453,7 +453,7 @@ export class NotificationHubsClient extends ServiceClient {
   private async createOrUpdateRegistrationDescription(
     registration: RegistrationDescription,
     operationName: "create" | "createOrUpdate" | "update",
-    eTag: string,
+    etag: string,
     options: OperationOptions
   ): Promise<RegistrationDescription> {
     const endpoint = this.getBaseURL();
@@ -467,11 +467,11 @@ export class NotificationHubsClient extends ServiceClient {
 
     // Clear out readonly properties
     registration.registrationId = undefined;
-    registration.eTag = undefined;
+    registration.etag = undefined;
 
     const headers = this.createHeaders();
     headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
-    headers.set("If-Match", eTag);
+    headers.set("If-Match", etag);
 
     const request = this.createRequest(endpoint, httpMethod, headers, options);
     request.body = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
@@ -676,18 +676,18 @@ export class NotificationHubsClient extends ServiceClient {
   /**
    * Sends a direct push notification to a device with the given push handle.
    * @param pushHandle - The push handle which is the unique identifier for the device.
-   * @param message - The message to send to the device.
+   * @param notification - The notification to send to the device.
    * @param options - Configuration options for the direct send operation which can contain custom headers
    * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   public sendDirectNotification(
     pushHandle: PushHandle,
-    message: NotificationHubMessage,
+    notification: Notification,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubMessageResponse> {
-    return this.sendNotificationMessage(
-      message,
+    return this.sendNotificationPayload(
+      notification,
       "sendDirectNotification",
       pushHandle,
       undefined,
@@ -698,17 +698,17 @@ export class NotificationHubsClient extends ServiceClient {
   /**
    * Sends push notifications to devices that match the given tags or tag expression.
    * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
-   * @param message - The message to send to the matching devices.
+   * @param notification - The notification to send to the matching devices.
    * @param options - Configuration options for the direct send operation which can contain custom headers
    * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   public sendNotification(
     tags: string[] | string,
-    message: NotificationHubMessage,
+    notification: Notification,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubMessageResponse> {
-    return this.sendNotificationMessage(message, "sendNotification", undefined, tags, options);
+    return this.sendNotificationPayload(notification, "sendNotification", undefined, tags, options);
   }
 
   /**
@@ -716,7 +716,7 @@ export class NotificationHubsClient extends ServiceClient {
    * NOTE: This is only available in Standard SKU Azure Notification Hubs.
    * @param scheduledTime - The Date to send the push notification.
    * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
-   * @param message - The message to send to the matching devices.
+   * @param message - The notification to send to the matching devices.
    * @param options - Configuration options for the direct send operation which can contain custom headers
    * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
@@ -724,7 +724,7 @@ export class NotificationHubsClient extends ServiceClient {
   public scheduleNotification(
     scheduledTime: Date,
     tags: string[] | string,
-    message: NotificationHubMessage,
+    notification: Notification,
     options: OperationOptions = {}
   ): Promise<NotificationHubMessageResponse> {
     return tracingClient.withSpan(
@@ -735,15 +735,15 @@ export class NotificationHubsClient extends ServiceClient {
         endpoint.pathname += "/schedulednotifications/";
 
         const headers = this.createHeaders();
-        if (message.headers) {
-          for (const headerName of Object.keys(message.headers)) {
-            headers.set(headerName, message.headers[headerName]);
+        if (notification.headers) {
+          for (const headerName of Object.keys(notification.headers)) {
+            headers.set(headerName, notification.headers[headerName]);
           }
         }
 
         headers.set("ServiceBusNotification-ScheduleTime", scheduledTime.toISOString());
-        headers.set("Content-Type", message.contentType);
-        headers.set("ServiceBusNotification-Format", message.platform);
+        headers.set("Content-Type", notification.contentType);
+        headers.set("ServiceBusNotification-Format", notification.platform);
 
         if (tags) {
           let tagExpression = null;
@@ -757,7 +757,7 @@ export class NotificationHubsClient extends ServiceClient {
 
         const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
 
-        request.body = message.body;
+        request.body = notification.body;
 
         const response = await this.sendRequest(request);
         if (response.status !== 201) {
@@ -805,8 +805,8 @@ export class NotificationHubsClient extends ServiceClient {
     );
   }
 
-  private sendNotificationMessage(
-    message: NotificationHubMessage,
+  private sendNotificationPayload(
+    notification: Notification,
     method: string,
     pushHandle?: PushHandle,
     tags?: string | string[],
@@ -824,16 +824,16 @@ export class NotificationHubsClient extends ServiceClient {
         }
 
         const headers = this.createHeaders();
-        if (message.headers) {
-          for (const headerName of Object.keys(message.headers)) {
-            headers.set(headerName, message.headers[headerName]);
+        if (notification.headers) {
+          for (const headerName of Object.keys(notification.headers)) {
+            headers.set(headerName, notification.headers[headerName]);
           }
         }
 
         if (pushHandle) {
           endpoint.searchParams.append("direct", "true");
 
-          if (message.platform === "browser") {
+          if (notification.platform === "browser") {
             const browserHandle = pushHandle as BrowserPushChannel;
             headers.set("ServiceBusNotification-DeviceHandle", browserHandle.endpoint);
             headers.set("Auth", browserHandle.auth);
@@ -843,8 +843,8 @@ export class NotificationHubsClient extends ServiceClient {
           }
         }
 
-        headers.set("Content-Type", message.contentType);
-        headers.set("ServiceBusNotification-Format", message.platform);
+        headers.set("Content-Type", notification.contentType);
+        headers.set("ServiceBusNotification-Format", notification.platform);
 
         if (tags) {
           let tagExpression = null;
@@ -858,7 +858,7 @@ export class NotificationHubsClient extends ServiceClient {
 
         const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
 
-        request.body = message.body;
+        request.body = notification.body;
 
         const response = await this.sendRequest(request);
         if (response.status !== 201) {
