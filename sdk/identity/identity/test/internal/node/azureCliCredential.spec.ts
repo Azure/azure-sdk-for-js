@@ -125,7 +125,7 @@ describe("AzureCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "CredentialUnavailableError: Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
         );
       }
     } else {
@@ -138,7 +138,7 @@ describe("AzureCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "CredentialUnavailableError: Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
         );
       }
     }
@@ -154,7 +154,7 @@ describe("AzureCliCredential (internal)", function () {
     } catch (error: any) {
       assert.equal(
         error.message,
-        "CredentialUnavailableError: Please run 'az login' from a command prompt to authenticate before using this credential."
+        "Please run 'az login' from a command prompt to authenticate before using this credential."
       );
     }
   });
@@ -166,7 +166,7 @@ describe("AzureCliCredential (internal)", function () {
     try {
       await credential.getToken("https://service/.default");
     } catch (error: any) {
-      assert.equal(error.message, "CredentialUnavailableError: mock other access token error");
+      assert.equal(error.message, "mock other access token error");
     }
   });
 
