@@ -159,7 +159,7 @@ export class AzureCliCredential implements TokenCredential {
                 (err as Error).message || "Unknown error while trying to retrieve the access token"
               );
         logger.getToken.info(formatError(scopes, error));
-        throw new CredentialUnavailableError(error);
+        throw error;
       }
     });
   }
