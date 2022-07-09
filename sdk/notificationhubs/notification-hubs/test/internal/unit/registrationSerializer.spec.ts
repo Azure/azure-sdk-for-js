@@ -267,7 +267,7 @@ describe("parseRegistrationEntry", () => {
       ADM_REGISTEATION
     )) as AdmRegistrationDescription;
 
-    assert.equal(registration.platform, "Adm");
+    assert.equal(registration.type, "Adm");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.admRegistrationId, "{ADM Registration Id}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -278,7 +278,7 @@ describe("parseRegistrationEntry", () => {
       ADM_TEMPLATE_REGISTRATION
     )) as AdmTemplateRegistrationDescription;
 
-    assert.equal(registration.platform, "AdmTemplate");
+    assert.equal(registration.type, "AdmTemplate");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.admRegistrationId, "{ADM Registration Id}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -290,7 +290,7 @@ describe("parseRegistrationEntry", () => {
       APPLE_REGISTRATION
     )) as AppleRegistrationDescription;
 
-    assert.equal(registration.platform, "Apple");
+    assert.equal(registration.type, "Apple");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.deviceToken, "{DeviceToken}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -301,7 +301,7 @@ describe("parseRegistrationEntry", () => {
       APPLE_TEMPLATE_REGISTRATION
     )) as AppleTemplateRegistrationDescription;
 
-    assert.equal(registration.platform, "AppleTemplate");
+    assert.equal(registration.type, "AppleTemplate");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.deviceToken, "{DeviceToken}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -315,7 +315,7 @@ describe("parseRegistrationEntry", () => {
       BAIDU_REGISTRATION
     )) as BaiduRegistrationDescription;
 
-    assert.equal(registration.platform, "Baidu");
+    assert.equal(registration.type, "Baidu");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.baiduChannelId, "{Baidu Channel Id}");
     assert.equal(registration.baiduUserId, "{Baidu User Id}");
@@ -327,7 +327,7 @@ describe("parseRegistrationEntry", () => {
       BAIDU_TEMPLATE_REGISTRATION
     )) as BaiduTemplateRegistrationDescription;
 
-    assert.equal(registration.platform, "BaiduTemplate");
+    assert.equal(registration.type, "BaiduTemplate");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.baiduChannelId, "{Baidu Channel Id}");
     assert.equal(registration.baiduUserId, "{Baidu User Id}");
@@ -340,7 +340,7 @@ describe("parseRegistrationEntry", () => {
       BROWSER_REGISTRATION
     )) as BrowserRegistrationDescription;
 
-    assert.equal(registration.platform, "Browser");
+    assert.equal(registration.type, "Browser");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.endpoint, "{Endpoint}");
     assert.equal(registration.p256dh, "{P256DH}");
@@ -353,7 +353,7 @@ describe("parseRegistrationEntry", () => {
       BROWSER_TEMPLATE_REGISTRATION
     )) as BrowserTemplateRegistrationDescription;
 
-    assert.equal(registration.platform, "BrowserTemplate");
+    assert.equal(registration.type, "BrowserTemplate");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.endpoint, "{Endpoint}");
     assert.equal(registration.p256dh, "{P256DH}");
@@ -367,7 +367,7 @@ describe("parseRegistrationEntry", () => {
       GCM_REGISTRATION
     )) as GcmRegistrationDescription;
 
-    assert.equal(registration.platform, "Gcm");
+    assert.equal(registration.type, "Gcm");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.gcmRegistrationId, "{GCM Registration Id}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -378,7 +378,7 @@ describe("parseRegistrationEntry", () => {
       GCM_TEMPLATE_REGISTRATION
     )) as GcmTemplateRegistrationDescription;
 
-    assert.equal(registration.platform, "GcmTemplate");
+    assert.equal(registration.type, "GcmTemplate");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.gcmRegistrationId, "{GCM Registration Id}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -390,7 +390,7 @@ describe("parseRegistrationEntry", () => {
       FCM_REGISTRATION
     )) as FcmRegistrationDescription;
 
-    assert.equal(registration.platform, "Fcm");
+    assert.equal(registration.type, "Fcm");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.fcmRegistrationId, "{FCM Registration Id}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -401,7 +401,7 @@ describe("parseRegistrationEntry", () => {
       FCM_TEMPLATE_REGISTRATION
     )) as FcmTemplateRegistrationDescription;
 
-    assert.equal(registration.platform, "FcmTemplate");
+    assert.equal(registration.type, "FcmTemplate");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.fcmRegistrationId, "{FCM Registration Id}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -413,7 +413,7 @@ describe("parseRegistrationEntry", () => {
       MPNS_REGISTRATION
     )) as MpnsRegistrationDescription;
 
-    assert.equal(registration.platform, "Mpns");
+    assert.equal(registration.type, "Mpns");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.channelUri, "https://www.microsoft.com/");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -424,7 +424,7 @@ describe("parseRegistrationEntry", () => {
       MPNS_TEMPLATE_REGISTRATION
     )) as MpnsTemplateRegistrationDescription;
 
-    assert.equal(registration.platform, "MpnsTemplate");
+    assert.equal(registration.type, "MpnsTemplate");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.channelUri, "https://www.microsoft.com/");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -438,7 +438,7 @@ describe("parseRegistrationEntry", () => {
       WNS_REGISTRATION
     )) as WindowsRegistrationDescription;
 
-    assert.equal(registration.platform, "Windows");
+    assert.equal(registration.type, "Windows");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.channelUri, "https://www.microsoft.com/");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -449,7 +449,7 @@ describe("parseRegistrationEntry", () => {
       WINDOWS_TEMPLATE_REGISTRATION
     )) as WindowsTemplateRegistrationDescription;
 
-    assert.equal(registration.platform, "WindowsTemplate");
+    assert.equal(registration.type, "WindowsTemplate");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.channelUri, "https://www.microsoft.com/");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -498,13 +498,13 @@ describe("parseRegistrationFeed", () => {
     );
 
     const windowsRegistration = registrations[0] as WindowsRegistrationDescription;
-    assert.equal(windowsRegistration.platform, "Windows");
+    assert.equal(windowsRegistration.type, "Windows");
     assert.equal(windowsRegistration.registrationId, "{Registration Id}");
     assert.equal(windowsRegistration.channelUri, "https://www.microsoft.com/");
     assert.deepEqual(windowsRegistration.tags, ["myTag", "myOtherTag"]);
 
     const appleRegistration = registrations[1] as AppleTemplateRegistrationDescription;
-    assert.equal(appleRegistration.platform, "AppleTemplate");
+    assert.equal(appleRegistration.type, "AppleTemplate");
     assert.equal(appleRegistration.registrationId, "{Registration Id}");
     assert.equal(appleRegistration.deviceToken, "{DeviceToken}");
     assert.deepEqual(appleRegistration.tags, ["myTag", "myOtherTag"]);
