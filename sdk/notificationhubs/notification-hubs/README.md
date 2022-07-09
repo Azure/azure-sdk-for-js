@@ -334,26 +334,26 @@ The following samples show you the various ways you can interact with Azure Noti
 **Device Management:**
 
 - Installations API
-  - [Create Or Update Installation](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/createInstallation.ts)
-  - [Update Installation](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/updateInstallation.ts)
+  - [Create Or Update Installation](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/createInstallation.ts)
+  - [Update Installation](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/updateInstallation.ts)
 - Registration API
-  - [Create Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/createRegistration.ts)
-  - [Create Or Update Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/createOrUpdateRegistration.ts)
-  - [Update Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/updateRegistration.ts)
-  - [List Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/listRegistrations.ts)
-  - [List Registration By Tag](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/listRegistrationsByTag.ts)
+  - [Create Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/createRegistration.ts)s
+  - [Create Or Update Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/createOrUpdateRegistration.ts)
+  - [Update Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/updateRegistration.ts)
+  - [List Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/listRegistrations.ts)
+  - [List Registration By Tag](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/listRegistrationsByTag.ts)
 
 **Send Operations:**
 
-- [Direct Send](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/sendDirectNotification.ts)
-- [Audience Send With Tags List](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/sendTagsList.ts)
-- [Audience Send With Tag Expression](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/sendTagExpression.ts)
-- [Scheduled Send](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/samples-dev/scheduledSendNotification.ts)
+- [Direct Send](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/sendDirectNotification.ts)
+- [Audience Send With Tags List](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/sendTagsList.ts)
+- [Audience Send With Tag Expression](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/sendTagExpression.ts)
+- [Scheduled Send](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/scheduledSendNotification.ts)
 
 **Management Operations:**
 
-- [Export Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/exportRegistrationsJob.ts)
-- [Import Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xmlsamples-dev/importRegistrationsJob.ts)
+- [Export Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/blob/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/exportRegistrationsJob.ts)
+- [Import Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/importRegistrationsJob.ts)
 
 ## Contributing
 
