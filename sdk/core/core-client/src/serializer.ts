@@ -1113,9 +1113,14 @@ function getPolymorphicMapper(
       }
       const discriminatorValue = object[discriminatorName];
       if (discriminatorValue !== undefined && discriminatorValue !== null) {
-        const indexDiscriminator = getIndexDiscriminator(discriminatorValue, serializer, mapper);   
-        if (indexDiscriminator) {
-          const polymorphicMapper = serializer.modelMappers.discriminators[indexDiscriminator];
+        const indexDiscriminator = getIndexDiscriminator(
+          discriminatorValue,
+          serializer.modelMappers.discriminators,
+          mapper,
+          false
+        );
+        const polymorphicMapper = serializer.modelMappers.discriminators[indexDiscriminator];
+        if (polymorphicMapper) {
           mapper = polymorphicMapper;
         }
       }
@@ -1127,25 +1132,37 @@ function getPolymorphicMapper(
 // To found out the correct mapper.
 function getIndexDiscriminator(
   discriminatorValue: string,
-  serializer: Serializer,
-  mapper: CompositeMapper
-): string | undefined {
-  const typeName = mapper.type.uberParent || mapper.type.className;
-  const indexDiscriminator =
+  discriminators: any,
+  mapper: CompositeMapper,
+  useClassName: boolean
+): string {
+  const typeName =
+    mapper.type.uberParent && !useClassName ? mapper.type.uberParent : mapper.type.className;
+  let indexDiscriminator =
     discriminatorValue === typeName ? discriminatorValue : typeName + "." + discriminatorValue;
-  const discriminators = serializer.modelMappers.discriminators;
   if (discriminators.hasOwnProperty(indexDiscriminator)) {
     return indexDiscriminator;
   } else {
-    Object.entries(discriminators)
-      .filter((item) => {
-        !(item[0].startsWith(typeName + ".") && (item[1] as CompositeMapper).type.uberParent === typeName)
-      })
-      .forEach((item) => {
-        return getIndexDiscriminator(discriminatorValue, serializer, item[1] as CompositeMapper);
-      });
+    const discriminatorsToFound = Object.entries(discriminators).filter((item) => {
+      return (
+        item[0].startsWith(typeName + ".") &&
+        (item[1] as CompositeMapper).type.uberParent === typeName
+      );
+    });
+    discriminatorsToFound.forEach((item) => {
+      const index = getIndexDiscriminator(
+        discriminatorValue,
+        discriminatorsToFound,
+        item[1] as CompositeMapper,
+        true
+      );
+      if (index) {
+        indexDiscriminator = index;
+        return;
+      }
+    });
   }
-  return undefined;
+  return indexDiscriminator;
 }
 
 function getPolymorphicDiscriminatorRecursively(
