@@ -12,24 +12,24 @@ import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets a setting.
+ * This sample demonstrates how to Gets the Security ML Analytics Settings.
  *
- * @summary Gets a setting.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/settings/GetEyesOnSetting.json
+ * @summary Gets the Security ML Analytics Settings.
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/securityMLAnalyticsSettings/GetAnomalySecurityMLAnalyticsSetting.json
  */
-async function getEyesOnSettings() {
+async function getAAnomalySecurityMlAnalyticsSettings() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = "myRg";
   const workspaceName = "myWorkspace";
-  const settingsName = "EyesOn";
+  const settingsResourceName = "myFirstAnomalySettings";
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.productSettings.get(
+  const result = await client.securityMLAnalyticsSettings.get(
     resourceGroupName,
     workspaceName,
-    settingsName
+    settingsResourceName
   );
   console.log(result);
 }
 
-getEyesOnSettings().catch(console.error);
+getAAnomalySecurityMlAnalyticsSettings().catch(console.error);

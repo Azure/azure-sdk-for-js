@@ -25,7 +25,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates the data connector.
  *
  * @summary Creates or updates the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/CreateAPIPolling.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CreateAPIPolling.json
  */
 async function createsOrUpdatesAApiPollingDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -145,7 +145,7 @@ createsOrUpdatesAApiPollingDataConnector().catch(console.error);
  * This sample demonstrates how to Creates or updates the data connector.
  *
  * @summary Creates or updates the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/CreateDynamics365DataConnetor.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CreateDynamics365DataConnetor.json
  */
 async function createsOrUpdatesADynamics365DataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -175,7 +175,7 @@ createsOrUpdatesADynamics365DataConnector().catch(console.error);
  * This sample demonstrates how to Creates or updates the data connector.
  *
  * @summary Creates or updates the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/CreateGenericUI.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CreateGenericUI.json
  */
 async function createsOrUpdatesAGenericUiDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -333,7 +333,7 @@ createsOrUpdatesAGenericUiDataConnector().catch(console.error);
  * This sample demonstrates how to Creates or updates the data connector.
  *
  * @summary Creates or updates the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/CreateThreatIntelligenceTaxiiDataConnector.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CreateThreatIntelligenceTaxiiDataConnector.json
  */
 async function createsOrUpdatesAThreatIntelligenceTaxiiDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -371,7 +371,7 @@ createsOrUpdatesAThreatIntelligenceTaxiiDataConnector().catch(console.error);
  * This sample demonstrates how to Creates or updates the data connector.
  *
  * @summary Creates or updates the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/CreateOfficePowerBIDataConnector.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CreateOfficePowerBIDataConnector.json
  */
 async function createsOrUpdatesAnOfficePowerBiDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -401,7 +401,7 @@ createsOrUpdatesAnOfficePowerBiDataConnector().catch(console.error);
  * This sample demonstrates how to Creates or updates the data connector.
  *
  * @summary Creates or updates the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/CreateOffice365ProjectDataConnetor.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CreateOffice365ProjectDataConnetor.json
  */
 async function createsOrUpdatesAnOffice365ProjectDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -431,7 +431,7 @@ createsOrUpdatesAnOffice365ProjectDataConnector().catch(console.error);
  * This sample demonstrates how to Creates or updates the data connector.
  *
  * @summary Creates or updates the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/CreateOfficeDataConnetor.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CreateOfficeDataConnetor.json
  */
 async function createsOrUpdatesAnOffice365DataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -465,7 +465,7 @@ createsOrUpdatesAnOffice365DataConnector().catch(console.error);
  * This sample demonstrates how to Creates or updates the data connector.
  *
  * @summary Creates or updates the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/CreateThreatIntelligenceDataConnector.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CreateThreatIntelligenceDataConnector.json
  */
 async function createsOrUpdatesAnThreatIntelligencePlatformDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
