@@ -1,25 +1,12 @@
 {
+  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
     "lib": [
-      "ESNext",
-      "DOM"
+      "dom"
     ],
-    "moduleResolution": "Node",
-    "strict": true,
-    "sourceMap": true,
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "outDir": "dist",
-    "declaration": true,
-    "jsx": "react-jsx"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

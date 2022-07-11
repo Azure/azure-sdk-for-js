@@ -1,4 +1,4 @@
-# Custom widget tools for developer portal of Azure API Management service
+# Tools for working with custom widgets of Developer portal of Azure API Management service
 
 This repository is managed by the [Microsoft Azure API Management](https://aka.ms/apimrocks) team and contains the
 source code of tools for scaffolding and development of custom widgets for the developer portal. Refer to

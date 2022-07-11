@@ -1,3 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+/**
+ * @packageDocumentation https://aka.ms/apimdocs/portal/customwidgets
+ */
+
 export {
   EDITOR_DATA_KEY,
   ON_CHANGE_MESSAGE_KEY,
@@ -13,5 +20,6 @@ export type {
   TOnChange,
   TSecrets,
   TTargetModule,
-  TValuesBase
+  TValuesBase,
+  TEnvironment
 } from "./utils"

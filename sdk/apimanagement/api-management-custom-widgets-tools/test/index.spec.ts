@@ -1,6 +1,6 @@
-import {assert, describe, it} from "vitest"
+import {assert} from "chai";
 import {getEditorData, getEditorValues, TEditorData} from "../src"
-import {buildOnChange, TOnChange} from "../src/utils"
+import {buildOnChange, TOnChange} from "../src"
 import valuesUrl from "./valuesUrl.json"
 
 const valuesDefault = {

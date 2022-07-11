@@ -11,16 +11,24 @@ export const ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM"
  */
 export const ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM"
 
-export type TValuesBase = Record<string, unknown>
-type TEnvironment = "development" | "runtime" | "error" | string
-
 /**
- * JSON object with all the data you'll receive from the Dev Portal.
+ * Base of a values obj
  */
+export type TValuesBase = Record<string, unknown>
+/**
+ * All possible runtime environments
+ */
+export type TEnvironment = "development" | "publishing" | "runtime" | "error"
+
+/** JSON object with all the data you'll receive from the Dev Portal */
 export interface TEditorData<TValues extends TValuesBase> {
+  /** values you've set in the admin editor window */
   values: TValues
+  /** web content's origin (URL) of your Dev Portal */
   origin: string
+  /** current runtime environment */
   environment: TEnvironment
+  /** ID of this particular instance of the widget */
   instanceId: string
 }
 
@@ -54,8 +62,18 @@ export function getEditorValues<TValues extends TValuesBase>(valuesDefault: TVal
   return getEditorData(valuesDefault).values
 }
 
+/**
+ * Type of the onChange function.
+ */
 export type TOnChange<TValues extends TValuesBase> = (values: Partial<TValues>) => void
 
+/**
+ * The onChange function itself with 'origin' provided as a param.
+ *
+ * @param origin web content's origin (URL) of your Dev Portal to send changes to
+ * @param instanceId ID of this particular instance of the widget
+ * @param values values that changed
+ */
 export function onChangeWithOrigin<TValues extends TValuesBase>(
   origin: TEditorData<TValues>["origin"],
   instanceId: TEditorData<TValues>["instanceId"],
@@ -76,8 +94,24 @@ export function buildOnChange<TValues extends TValuesBase>(valuesDefault: TValue
   return (values: Partial<TValues>) => onChangeWithOrigin(origin, instanceId, values)
 }
 
+/**
+ * Possible target modules
+ * "app" for main application which is embedded in your Dev Portal
+ * "editor" for form in admin panel
+ */
 export type TTargetModule = "app" | "editor"
+/**
+ * Secrets needed for communication with Dev Portal back-end
+ */
 export type TSecrets = {token: string; userId: string}
+/**
+ * Request secrets - token & userId, from the Dev portal parent window.
+ *
+ * @param targetOrigin web content's origin (URL) of your Dev Portal to send changes to
+ * @param instanceId ID of this particular instance of the widget
+ * @param targetModule is the function invoke from the main "app" window or the admin "editor"?
+ * @param environment what environment is it running on
+ */
 export const askForSecrets = async (
   targetOrigin: string,
   instanceId: string,
