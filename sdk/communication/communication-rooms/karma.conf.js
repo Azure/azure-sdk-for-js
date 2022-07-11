@@ -50,6 +50,8 @@ module.exports = function (config) {
       "TEST_MODE",
       "COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING",
       "BASE_URL",
+      "COMMUNICATION_ENDPOINT",
+      "COMMUNICATION_CONNECTION_STRING",
       "RECORDINGS_RELATIVE_PATH",
     ],
 
@@ -100,7 +102,7 @@ module.exports = function (config) {
     customLaunchers: {
       HeadlessChrome: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"],
+        flags: ["--no-sandbox", "--disable-web-security"],
       },
     },
 

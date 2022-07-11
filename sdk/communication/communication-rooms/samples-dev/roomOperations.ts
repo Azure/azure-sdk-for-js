@@ -5,8 +5,8 @@
  * @summary Perform room operations using the RoomsClient.
  */
 
-import { RoomsClient, RoomModel } from "@azure/communication-rooms";
-import { CommunicationIdentityClient} from "@azure/communication-identity";
+import { RoomsClient, RoomModel, KnownRole } from "@azure/communication-rooms";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { getIdentifierKind } from "@azure/communication-common";
 
 // Load the .env file if it exists
@@ -14,7 +14,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
-  const connectionString = 
+  const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
 
@@ -35,9 +35,9 @@ export async function main() {
     participants: [
       {
         id: user1.user,
-        role: "attendee"
-      }
-    ]
+        role: KnownRole.Attendee,
+      },
+    ],
   };
 
   // create a room with the request payload
@@ -50,11 +50,11 @@ export async function main() {
   const getRoom = await roomsClient.getRoom(roomId);
   console.log(`Retrieved Room with ID ${roomId}`);
   printRoom(getRoom);
-  
+
   validFrom.setTime(validUntil.getTime());
   validUntil.setTime(validFrom.getTime() + 5 * 60 * 1000);
 
-  // request payload to update a room 
+  // request payload to update a room
   const updateRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
@@ -62,13 +62,13 @@ export async function main() {
     participants: [
       {
         id: user1.user,
-        role: "consumer"
+        role: KnownRole.Consumer,
       },
       {
         id: user2.user,
-        role: "presenter"
-      }
-    ]
+        role: KnownRole.Presenter,
+      },
+    ],
   };
 
   // updates the specified room with the request payload
@@ -84,7 +84,7 @@ export async function main() {
  * Outputs the details of a Room to console.
  * @param room - The Room being printed to console.
  */
-function printRoom (room: RoomModel): void {
+function printRoom(room: RoomModel): void {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
   console.log(`Valid Until: ${room.validUntil}`);

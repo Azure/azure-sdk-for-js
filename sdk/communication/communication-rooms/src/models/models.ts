@@ -35,5 +35,16 @@ export interface ParticipantsCollection {
 /** The room join policy for a room. */
 export type RoomJoinPolicy = string;
 
-/** The role name of a participant. */
+/** The role name of a participant.
+ * {@link Role}
+ */
+export enum KnownRole {
+  Presenter = "Presenter",
+  Attendee = "Attendee",
+  Consumer = "Consumer",
+}
+
+/**
+ * {@link KnownRole}
+ */
 export type Role = string;

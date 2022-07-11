@@ -35,13 +35,13 @@ describe("RoomsClient", function () {
     });
 
     it("successfully creates a room with empty request", async function () {
-      const request = {
-      };
+      const request = {};
 
       const createRoomResult = await client.createRoom(request);
       assert.isDefined(createRoomResult);
       assert.isDefined(createRoomResult?.id);
       assert.isEmpty(createRoomResult.participants);
+      assert.equal(createRoomResult.roomJoinPolicy, "InviteOnly");
       roomId = createRoomResult?.id;
     });
 
@@ -55,19 +55,23 @@ describe("RoomsClient", function () {
         participants: [{ id: testUser, role: "Presenter" }],
       };
 
-      await client.createRoom(request);
+      const createRoomResult = await client.createRoom(request);
+      assert.isDefined(createRoomResult);
+      assert.isDefined(createRoomResult.id);
+      assert.equal(createRoomResult.roomJoinPolicy, "CommunicationServiceIsers");
+      assert.equal(createRoomResult.participants?.length, 1);
     });
 
     it("successfully gets a room", async function () {
       const createRoom = await client.createRoom({});
-      const roomId = createRoom.id;
+      roomId = createRoom.id;
 
       await client.getRoom(roomId);
     });
 
     it("successfully updates a default room", async function () {
       const createRoom = await client.createRoom({});
-      const roomId = createRoom.id;
+      roomId = createRoom.id;
       testUser = (await createTestUser(recorder)).user;
 
       const request = {
@@ -89,7 +93,7 @@ describe("RoomsClient", function () {
         roomJoinPolicy: "CommunicationServiceUsers",
         participants: [{ id: testUser, role: "Presenter" }],
       });
-      const roomId = createRoom.id;
+      roomId = createRoom.id;
 
       const request = {
         validFrom: new Date(validFrom.getTime() + 5 * 60 * 1000),
@@ -106,13 +110,14 @@ describe("RoomsClient", function () {
 
     it("successfully deletes a room", async function () {
       const createRoom = await client.createRoom({});
-      const roomId = createRoom.id;
+      roomId = createRoom.id;
 
       await client.deleteRoom(roomId);
+      roomId = "";
     });
   });
 
-   describe("Participants Operations", function () {
+  describe("Participants Operations", function () {
     beforeEach(async function (this: Context) {
       ({ client, recorder } = await createRecordedRoomsClient(this));
     });
@@ -142,7 +147,10 @@ describe("RoomsClient", function () {
       const updateRoomResult = await client.addParticipants(roomId, request);
       assert.isDefined(updateRoomResult);
       assert.isNotEmpty(updateRoomResult.participants);
-      assert.equal((updateRoomResult.participants[0].id as CommunicationUserIdentifier).communicationUserId, request.participants[0].id.communicationUserId);
+      assert.equal(
+        (updateRoomResult.participants[0].id as CommunicationUserIdentifier).communicationUserId,
+        request.participants[0].id.communicationUserId
+      );
       assert.equal(updateRoomResult.participants[0].role, request.participants[0].role);
     });
 
@@ -154,25 +162,22 @@ describe("RoomsClient", function () {
         participants: [
           { id: testUser, role: "Presenter" },
           { id: testUser2, role: "Presenter" },
-      ],};
+        ],
+      };
 
       const createRoomResult = await client.createRoom(request);
       assert.isDefined(createRoomResult);
       assert.isNotEmpty(createRoomResult.participants);
-      
+
       roomId = createRoomResult.id;
 
       const removeParticipants = {
-        participants: [
-          { id: testUser, role: "Presenter" },
-           testUser2
-        ],};
+        participants: [{ id: testUser, role: "Presenter" }, testUser2],
+      };
       const removeParticipantsResult = await client.removeParticipants(roomId, removeParticipants);
       assert.isDefined(removeParticipantsResult);
       assert.isEmpty(removeParticipantsResult.participants);
-     
     });
-
 
     it("successfully updates a participant", async function () {
       testUser = (await createTestUser(recorder)).user;
@@ -186,15 +191,21 @@ describe("RoomsClient", function () {
       roomId = createRoomResult.id;
 
       const updateParticipants = {
-        participants: [
-          { id: testUser, role: "Consumer" },
-        ],};
+        participants: [{ id: testUser, role: "Consumer" }],
+      };
 
       const updateParticipantResult = await client.updateParticipants(roomId, updateParticipants);
       assert.isDefined(updateParticipantResult);
       assert.isNotEmpty(updateParticipantResult.participants);
-      assert.equal((updateParticipantResult.participants[0].id as CommunicationUserIdentifier).communicationUserId, updateParticipants.participants[0].id.communicationUserId);
-      assert.equal(updateParticipantResult.participants[0].role, updateParticipants.participants[0].role);
+      assert.equal(
+        (updateParticipantResult.participants[0].id as CommunicationUserIdentifier)
+          .communicationUserId,
+        updateParticipants.participants[0].id.communicationUserId
+      );
+      assert.equal(
+        updateParticipantResult.participants[0].role,
+        updateParticipants.participants[0].role
+      );
     });
 
     it("unsuccessfully creates a room with invalid role", async function () {
@@ -204,7 +215,7 @@ describe("RoomsClient", function () {
       };
 
       await client
-      .createRoom(request)
+        .createRoom(request)
         .then((result) => {
           roomId = result.id;
         })
