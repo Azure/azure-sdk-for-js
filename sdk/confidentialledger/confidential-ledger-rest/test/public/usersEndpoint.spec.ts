@@ -20,7 +20,7 @@ describe("Get user", () => {
     await recorder.stop();
   });
 
-  it("should obtain user data", async function () {
+  it.skip("should obtain user data", async function () {
     // if the ledger in the .env changes, so should this
     const userId = env.USER_ID;
     let result = await client.path("/app/users/{userId}", userId).get();
