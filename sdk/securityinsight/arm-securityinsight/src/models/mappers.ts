@@ -1567,7 +1567,7 @@ export const GetInsightsResultsMetadata: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GetInsightsErrorKind"
+              className: "GetInsightsError"
             }
           }
         }
@@ -1576,14 +1576,15 @@ export const GetInsightsResultsMetadata: coreClient.CompositeMapper = {
   }
 };
 
-export const GetInsightsErrorKind: coreClient.CompositeMapper = {
+export const GetInsightsError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GetInsightsErrorKind",
+    className: "GetInsightsError",
     modelProperties: {
       kind: {
+        defaultValue: "Insight",
+        isConstant: true,
         serializedName: "kind",
-        required: true,
         type: {
           name: "String"
         }
@@ -1939,6 +1940,7 @@ export const IncidentOwnerInfo: coreClient.CompositeMapper = {
       },
       ownerType: {
         serializedName: "ownerType",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -2456,35 +2458,6 @@ export const SentinelOnboardingStatesList: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SentinelOnboardingState"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const SecurityMLAnalyticsSettingsList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SecurityMLAnalyticsSettingsList",
-    modelProperties: {
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SecurityMLAnalyticsSetting"
             }
           }
         }
@@ -3376,24 +3349,6 @@ export const DataConnectorConnectBody: coreClient.CompositeMapper = {
       },
       apiKey: {
         serializedName: "apiKey",
-        type: {
-          name: "String"
-        }
-      },
-      dataCollectionEndpoint: {
-        serializedName: "dataCollectionEndpoint",
-        type: {
-          name: "String"
-        }
-      },
-      dataCollectionRuleImmutableId: {
-        serializedName: "dataCollectionRuleImmutableId",
-        type: {
-          name: "String"
-        }
-      },
-      outputStream: {
-        serializedName: "outputStream",
         type: {
           name: "String"
         }
@@ -4326,65 +4281,6 @@ export const IncidentPropertiesAction: coreClient.CompositeMapper = {
   }
 };
 
-export const AutomationRulePropertyArrayChangedValuesCondition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AutomationRulePropertyArrayChangedValuesCondition",
-    modelProperties: {
-      arrayType: {
-        serializedName: "arrayType",
-        type: {
-          name: "String"
-        }
-      },
-      changeType: {
-        serializedName: "changeType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AutomationRulePropertyValuesChangedCondition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AutomationRulePropertyValuesChangedCondition",
-    modelProperties: {
-      propertyName: {
-        serializedName: "propertyName",
-        type: {
-          name: "String"
-        }
-      },
-      changeType: {
-        serializedName: "changeType",
-        type: {
-          name: "String"
-        }
-      },
-      operator: {
-        serializedName: "operator",
-        type: {
-          name: "String"
-        }
-      },
-      propertyValues: {
-        serializedName: "propertyValues",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const AutomationRulePropertyValuesCondition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4735,26 +4631,21 @@ export const DataTypeDefinitions: coreClient.CompositeMapper = {
   }
 };
 
-export const SecurityMLAnalyticsSettingsDataSource: coreClient.CompositeMapper = {
+export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SecurityMLAnalyticsSettingsDataSource",
+    className: "Sku",
     modelProperties: {
-      connectorId: {
-        serializedName: "connectorId",
+      name: {
+        serializedName: "name",
         type: {
           name: "String"
         }
       },
-      dataTypes: {
-        serializedName: "dataTypes",
+      capacityReservationLevel: {
+        serializedName: "capacityReservationLevel",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "Number"
         }
       }
     }
@@ -6004,48 +5895,6 @@ export const ActionRequestProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const PropertyArrayChangedConditionProperties: coreClient.CompositeMapper = {
-  serializedName: "PropertyArrayChanged",
-  type: {
-    name: "Composite",
-    className: "PropertyArrayChangedConditionProperties",
-    uberParent: "AutomationRuleCondition",
-    polymorphicDiscriminator:
-      AutomationRuleCondition.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AutomationRuleCondition.type.modelProperties,
-      conditionProperties: {
-        serializedName: "conditionProperties",
-        type: {
-          name: "Composite",
-          className: "AutomationRulePropertyArrayChangedValuesCondition"
-        }
-      }
-    }
-  }
-};
-
-export const PropertyChangedConditionProperties: coreClient.CompositeMapper = {
-  serializedName: "PropertyChanged",
-  type: {
-    name: "Composite",
-    className: "PropertyChangedConditionProperties",
-    uberParent: "AutomationRuleCondition",
-    polymorphicDiscriminator:
-      AutomationRuleCondition.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AutomationRuleCondition.type.modelProperties,
-      conditionProperties: {
-        serializedName: "conditionProperties",
-        type: {
-          name: "Composite",
-          className: "AutomationRulePropertyValuesChangedCondition"
-        }
-      }
-    }
-  }
-};
-
 export const PropertyConditionProperties: coreClient.CompositeMapper = {
   serializedName: "Property",
   type: {
@@ -6226,100 +6075,6 @@ export const BookmarkTimelineItem: coreClient.CompositeMapper = {
       },
       labels: {
         serializedName: "labels",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const AnomalyTimelineItem: coreClient.CompositeMapper = {
-  serializedName: "Anomaly",
-  type: {
-    name: "Composite",
-    className: "AnomalyTimelineItem",
-    uberParent: "EntityTimelineItem",
-    polymorphicDiscriminator: EntityTimelineItem.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...EntityTimelineItem.type.modelProperties,
-      azureResourceId: {
-        serializedName: "azureResourceId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      productName: {
-        serializedName: "productName",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      endTimeUtc: {
-        serializedName: "endTimeUtc",
-        required: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      startTimeUtc: {
-        serializedName: "startTimeUtc",
-        required: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      timeGenerated: {
-        serializedName: "timeGenerated",
-        required: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      vendor: {
-        serializedName: "vendor",
-        type: {
-          name: "String"
-        }
-      },
-      intent: {
-        serializedName: "intent",
-        type: {
-          name: "String"
-        }
-      },
-      techniques: {
-        serializedName: "techniques",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      reasons: {
-        serializedName: "reasons",
         type: {
           name: "Sequence",
           element: {
@@ -7414,92 +7169,6 @@ export const IoTDeviceEntityProperties: coreClient.CompositeMapper = {
             }
           }
         }
-      },
-      owners: {
-        serializedName: "owners",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      nicEntityIds: {
-        serializedName: "nicEntityIds",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      site: {
-        serializedName: "site",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      zone: {
-        serializedName: "zone",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sensor: {
-        serializedName: "sensor",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      deviceSubType: {
-        serializedName: "deviceSubType",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      importance: {
-        serializedName: "importance",
-        type: {
-          name: "String"
-        }
-      },
-      purdueLayer: {
-        serializedName: "purdueLayer",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isAuthorized: {
-        serializedName: "isAuthorized",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      isProgramming: {
-        serializedName: "isProgramming",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      isScanner: {
-        serializedName: "isScanner",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -8228,42 +7897,6 @@ export const UrlEntityProperties: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NicEntityProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NicEntityProperties",
-    modelProperties: {
-      ...EntityCommonProperties.type.modelProperties,
-      macAddress: {
-        serializedName: "macAddress",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      ipAddressEntityId: {
-        serializedName: "ipAddressEntityId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      vlans: {
-        serializedName: "vlans",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -10430,29 +10063,6 @@ export const SentinelOnboardingState: coreClient.CompositeMapper = {
   }
 };
 
-export const SecurityMLAnalyticsSetting: coreClient.CompositeMapper = {
-  serializedName: "SecurityMLAnalyticsSetting",
-  type: {
-    name: "Composite",
-    className: "SecurityMLAnalyticsSetting",
-    uberParent: "Resource",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind"
-    },
-    modelProperties: {
-      ...ResourceWithEtag.type.modelProperties,
-      kind: {
-        serializedName: "kind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Settings: coreClient.CompositeMapper = {
   serializedName: "Settings",
   type: {
@@ -10692,6 +10302,12 @@ export const Watchlist: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      sasUri: {
+        serializedName: "properties.sasUri",
+        type: {
+          name: "String"
+        }
+      },
       itemsSearchKey: {
         serializedName: "properties.itemsSearchKey",
         type: {
@@ -10706,6 +10322,13 @@ export const Watchlist: coreClient.CompositeMapper = {
       },
       uploadStatus: {
         serializedName: "properties.uploadStatus",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -12445,92 +12068,6 @@ export const IoTDeviceEntity: coreClient.CompositeMapper = {
             }
           }
         }
-      },
-      owners: {
-        serializedName: "properties.owners",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      nicEntityIds: {
-        serializedName: "properties.nicEntityIds",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      site: {
-        serializedName: "properties.site",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      zone: {
-        serializedName: "properties.zone",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sensor: {
-        serializedName: "properties.sensor",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      deviceSubType: {
-        serializedName: "properties.deviceSubType",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      importance: {
-        serializedName: "properties.importance",
-        type: {
-          name: "String"
-        }
-      },
-      purdueLayer: {
-        serializedName: "properties.purdueLayer",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isAuthorized: {
-        serializedName: "properties.isAuthorized",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      isProgramming: {
-        serializedName: "properties.isProgramming",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      isScanner: {
-        serializedName: "properties.isScanner",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -13479,62 +13016,6 @@ export const UrlEntity: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NicEntity: coreClient.CompositeMapper = {
-  serializedName: "Nic",
-  type: {
-    name: "Composite",
-    className: "NicEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...Entity.type.modelProperties,
-      additionalData: {
-        serializedName: "properties.additionalData",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
-        }
-      },
-      friendlyName: {
-        serializedName: "properties.friendlyName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      macAddress: {
-        serializedName: "properties.macAddress",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      ipAddressEntityId: {
-        serializedName: "properties.ipAddressEntityId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      vlans: {
-        serializedName: "properties.vlans",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -14548,121 +14029,6 @@ export const ActivityCustomEntityQuery: coreClient.CompositeMapper = {
   }
 };
 
-export const AnomalySecurityMLAnalyticsSettings: coreClient.CompositeMapper = {
-  serializedName: "Anomaly",
-  type: {
-    name: "Composite",
-    className: "AnomalySecurityMLAnalyticsSettings",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SecurityMLAnalyticsSetting.type.modelProperties,
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String"
-        }
-      },
-      enabled: {
-        serializedName: "properties.enabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      lastModifiedUtc: {
-        serializedName: "properties.lastModifiedUtc",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      requiredDataConnectors: {
-        serializedName: "properties.requiredDataConnectors",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SecurityMLAnalyticsSettingsDataSource"
-            }
-          }
-        }
-      },
-      tactics: {
-        serializedName: "properties.tactics",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      techniques: {
-        serializedName: "properties.techniques",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      anomalyVersion: {
-        serializedName: "properties.anomalyVersion",
-        type: {
-          name: "String"
-        }
-      },
-      customizableObservations: {
-        serializedName: "properties.customizableObservations",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      frequency: {
-        serializedName: "properties.frequency",
-        type: {
-          name: "TimeSpan"
-        }
-      },
-      settingsStatus: {
-        serializedName: "properties.settingsStatus",
-        type: {
-          name: "String"
-        }
-      },
-      isDefaultSettings: {
-        serializedName: "properties.isDefaultSettings",
-        type: {
-          name: "Boolean"
-        }
-      },
-      anomalySettingsVersion: {
-        serializedName: "properties.anomalySettingsVersion",
-        type: {
-          name: "Number"
-        }
-      },
-      settingsDefinitionId: {
-        serializedName: "properties.settingsDefinitionId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
-  }
-};
-
 export const Anomalies: coreClient.CompositeMapper = {
   serializedName: "Anomalies",
   type: {
@@ -14712,15 +14078,11 @@ export const EntityAnalytics: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...Settings.type.modelProperties,
-      entityProviders: {
-        serializedName: "properties.entityProviders",
+      isEnabled: {
+        serializedName: "properties.isEnabled",
+        readOnly: true,
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "Boolean"
         }
       }
     }
@@ -15627,14 +14989,11 @@ export let discriminators = {
   "Resource.AlertRuleTemplate": AlertRuleTemplate,
   "Resource.Entity": Entity,
   "Resource.EntityQueryTemplate": EntityQueryTemplate,
-  "AutomationRuleCondition.PropertyArrayChanged": PropertyArrayChangedConditionProperties,
-  "AutomationRuleCondition.PropertyChanged": PropertyChangedConditionProperties,
   "AutomationRuleCondition.Property": PropertyConditionProperties,
   "AutomationRuleAction.ModifyProperties": AutomationRuleModifyPropertiesAction,
   "AutomationRuleAction.RunPlaybook": AutomationRuleRunPlaybookAction,
   "EntityTimelineItem.Activity": ActivityTimelineItem,
   "EntityTimelineItem.Bookmark": BookmarkTimelineItem,
-  "EntityTimelineItem.Anomaly": AnomalyTimelineItem,
   "EntityTimelineItem.SecurityAlert": SecurityAlertTimelineItem,
   "EntityQueryItem.Insight": InsightQueryItem,
   "DataConnectorsCheckRequirements.AzureActiveDirectory": AADCheckRequirements,
@@ -15657,7 +15016,6 @@ export let discriminators = {
   "Resource.AlertRule": AlertRule,
   "Resource.EntityQuery": EntityQuery,
   "Resource.CustomEntityQuery": CustomEntityQuery,
-  "Resource.SecurityMLAnalyticsSetting": SecurityMLAnalyticsSetting,
   "Resource.Settings": Settings,
   "Resource.ThreatIntelligenceInformation": ThreatIntelligenceInformation,
   "Resource.DataConnector": DataConnector,
@@ -15688,10 +15046,8 @@ export let discriminators = {
   "Resource.SecurityGroup": SecurityGroupEntity,
   "Resource.SubmissionMail": SubmissionMailEntity,
   "Resource.Url": UrlEntity,
-  "Resource.Nic": NicEntity,
   "Resource.Activity": ActivityCustomEntityQuery,
   "Resource.Expansion": ExpansionEntityQuery,
-  "Resource.Anomaly": AnomalySecurityMLAnalyticsSettings,
   "Resource.Anomalies": Anomalies,
   "Resource.EyesOn": EyesOn,
   "Resource.EntityAnalytics": EntityAnalytics,
