@@ -1,4 +1,4 @@
-import {buildOnChange, getEditorValues} from "@azure/apimanagement-custom-widget-tools"
+import {buildOnChange, getEditorValues} from "@azure/api-management-custom-widgets-tools"
 import {valuesDefault} from "./values"
 
 export const onChange = buildOnChange(valuesDefault)

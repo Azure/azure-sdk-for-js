@@ -1,4 +1,4 @@
-import {getEditorData} from "@azure/apimanagement-custom-widget-tools"
+import {getEditorData} from "@azure/api-management-custom-widgets-tools"
 import {valuesDefault} from "./values"
 
 function initialize() {

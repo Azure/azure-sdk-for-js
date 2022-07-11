@@ -1,5 +1,5 @@
 import {useCallback, useContext} from "react"
-import {onChangeWithOrigin, TOnChange} from "@azure/apimanagement-custom-widget-tools"
+import {onChangeWithOrigin, TOnChange} from "@azure/api-management-custom-widgets-tools"
 
 import {TValues} from "./values"
 import {EditorDataContext, SecretsContext} from "./Providers"

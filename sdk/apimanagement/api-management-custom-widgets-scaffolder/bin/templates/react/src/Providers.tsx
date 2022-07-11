@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from "react"
-import {askForSecrets, getEditorData, TSecrets, TTargetModule} from "@azure/apimanagement-custom-widget-tools"
+import {askForSecrets, getEditorData, TSecrets, TTargetModule} from "@azure/api-management-custom-widgets-tools"
 
 import {valuesDefault} from "./values"
 import {useEditorData} from "./hooks"
