@@ -30,7 +30,7 @@
     "dist/",
     "bin/",
     "dist-esm/src/",
-    "types/letest/api-management-custom-widgets-scaffolder.d.ts",
+    "types/latest/api-management-custom-widgets-scaffolder.d.ts",
     "LICENSE"
   ],
   "main": "dist/index.js",
