@@ -4,11 +4,10 @@ This repository is managed by the [Microsoft Azure API Management](https://aka.m
 source code for scaffolding a custom widgets for the Developer portal. Refer to
 the [official Azure documentation](https://aka.ms/apimdocs/portal/customwidgets) for more information and instructions.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/app-configuration) |
-[Product documentation](https://docs.microsoft.com/azure/azure-app-configuration/)
-// TODO
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/api-management-custom-widgets-scaffolder/) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/api-management-custom-widgets-scaffolder) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/api-management-custom-widgets-scaffolder) |
+[Product documentation](https://aka.ms/apimdocs/portal/)
 
 ## Getting started
 
