@@ -3,12 +3,12 @@
 
 import { assert } from "chai";
 import {
-  ChainedTokenCredential,
-  TokenCredential,
   AccessToken,
   AggregateAuthenticationError,
-  CredentialUnavailableError,
   AuthenticationRequiredError,
+  ChainedTokenCredential,
+  CredentialUnavailableError,
+  TokenCredential,
 } from "../../src";
 import { getError } from "../authTestUtils";
 
