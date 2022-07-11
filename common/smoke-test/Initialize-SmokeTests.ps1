@@ -148,7 +148,7 @@ function Update-SampleDependencies {
   # some @azure/ packages are not managed in our repo thus should not be overriden
   $packagesToSkip = @("@azure/msal-node")
   foreach ($dep in $packageSpec.dependencies.Keys) {
-    if ($dep.StartsWith('@azure/') -and (-not ($dep -in $packagesToSkip))) {
+    if ($dep.StartsWith('@azure/') -and ($dep -notin $packagesToSkip)) {
       if ($Daily) {
         $dependencies[$dep] = "dev"
       } elseif ($dep -in $TagOverridePackages) {
