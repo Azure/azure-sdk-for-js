@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
-describe("List Enclaves", () => {
+describe("Get Collections", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
@@ -21,7 +21,9 @@ describe("List Enclaves", () => {
   });
 
   it("should list all available document formats", async function () {
-    const result = await client.path("/app/enclaveQuotes").get();
+    const result = await client.path("/app/collections").get();
+
+    console.log(result);
 
     assert.equal(result.status, "200");
 
@@ -29,7 +31,13 @@ describe("List Enclaves", () => {
       throw result.body;
     }
 
-    assert.typeOf(result.body.currentNodeId, "string");
-    assert.equal(Object.keys(result.body.enclaveQuotes).length, 3);
+    let collections = result.body.collections;
+
+    // the range query adds collections [0..4]
+    const collectionVals = ["0", "1", "2", "3", "4"];
+
+    collections = collections.filter((col: any) => collectionVals.includes(col.collectionId));
+
+    assert.equal(collections.length, 5);
   });
 });

@@ -23,7 +23,7 @@ async function main() {
   const ledgerIdentity = await getLedgerIdentity(ledgerId);
 
   // Create the Confidential Ledger Client
-  const confidentialLedger = ConfidentialLedger(endpoint, ledgerIdentity.ledgerTlsCertificate, {
+  const confidentialLedger = ConfidentialLedger(endpoint, ledgerIdentity.ledgerIdentityCertificate, {
     cert,
     certKey,
   });

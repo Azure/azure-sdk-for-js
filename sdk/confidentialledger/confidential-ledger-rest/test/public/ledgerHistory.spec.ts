@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
-describe("List Enclaves", () => {
+describe("Get ledger history", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
@@ -20,16 +20,21 @@ describe("List Enclaves", () => {
     await recorder.stop();
   });
 
-  it("should list all available document formats", async function () {
-    const result = await client.path("/app/enclaveQuotes").get();
+  it("should obtain ledger entries from ledger", async function () {
+    const result = await client.path("/app/transactions").get();
 
     assert.equal(result.status, "200");
 
-    if (isUnexpected(result)) {
+    const currentTransactionsResult = await client.path("/app/transactions/current").get();
+
+    assert.equal(result.status, "200");
+
+    if (isUnexpected(currentTransactionsResult)) {
       throw result.body;
     }
 
-    assert.typeOf(result.body.currentNodeId, "string");
-    assert.equal(Object.keys(result.body.enclaveQuotes).length, 3);
+    assert.typeOf(currentTransactionsResult.body.contents, "string");
+    assert.typeOf(currentTransactionsResult.body.collectionId, "string");
+    assert.typeOf(currentTransactionsResult.body.transactionId, "string");
   });
 });

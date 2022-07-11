@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, isUnexpected } from "../../src";
+import { ConfidentialLedgerClient, GetUser200Response } from "../../src";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
-describe("List Enclaves", () => {
+describe("Get user", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
@@ -20,16 +20,15 @@ describe("List Enclaves", () => {
     await recorder.stop();
   });
 
-  it("should list all available document formats", async function () {
-    const result = await client.path("/app/enclaveQuotes").get();
-
+  it("should obtain user data", async function () {
+    // if the ledger in the .env changes, so should this
+    const userId = env.USER_ID;
+    let result = await client.path("/app/users/{userId}", userId).get();
     assert.equal(result.status, "200");
 
-    if (isUnexpected(result)) {
-      throw result.body;
-    }
+    // this cast is still required
+    result = result as GetUser200Response;
 
-    assert.typeOf(result.body.currentNodeId, "string");
-    assert.equal(Object.keys(result.body.enclaveQuotes).length, 3);
+    assert.equal(result.body.userId, userId);
   });
 });
