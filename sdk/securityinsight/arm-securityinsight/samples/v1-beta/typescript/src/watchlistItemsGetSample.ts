@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a watchlist, without its watchlist items.
  *
  * @summary Gets a watchlist, without its watchlist items.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/watchlists/GetWatchlistItemById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/watchlists/GetWatchlistItemById.json
  */
 async function getAWatchlistItem() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

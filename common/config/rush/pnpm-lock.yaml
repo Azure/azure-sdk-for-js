@@ -13431,7 +13431,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-G/ip//81zAbkaRHGIO2x+c0MjzuzV+b6zp9MG/r0YSt1qPl/1brMnvyMx8d0+TS9awBhrbzD8Q6jAbEJAVEEDw==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-rhuuHYITpUpRgLM3CY2tlPe362uAD19EO7xJ8tzktbocajzjM8a2MTJN7R9KPrnnCss7ySXDIZsi42w+xeQAfQ==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
@@ -13442,6 +13442,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.75.7
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13453,8 +13455,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-serialconsole.tgz:
