@@ -115,22 +115,53 @@ export interface ConditionalWorkerSelector extends WorkerSelectorAttachment {
 
 // @public
 export interface CreateClassificationPolicyOptions extends JobRouterUpsertClassificationPolicyOptionalParams {
+    fallbackQueueId?: string;
+    name?: string;
+    queueSelectors?: QueueSelectorAttachmentUnion[];
 }
 
 // @public
 export interface CreateDistributionPolicyOptions extends JobRouterUpsertDistributionPolicyOptionalParams {
+    mode?: DistributionModeUnion;
+    name?: string;
+    offerTtlSeconds?: number;
 }
 
 // @public
 export interface CreateExceptionPolicyOptions extends JobRouterUpsertExceptionPolicyOptionalParams {
+    exceptionRules?: {
+        [propertyName: string]: ExceptionRule;
+    };
+    name?: string;
 }
 
 // @public
 export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
+    channelId?: string;
+    channelReference?: string;
+    classificationPolicyId?: string;
+    dispositionCode?: string;
+    labels?: {
+        [propertyName: string]: any;
+    };
+    notes?: {
+        [propertyName: string]: string;
+    };
+    priority?: number;
+    queueId?: string;
+    requestedWorkerSelectors?: WorkerSelector[];
+    tags?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
 export interface CreateQueueOptions extends JobRouterUpsertQueueOptionalParams {
+    exceptionPolicyId?: string;
+    labels?: {
+        [propertyName: string]: any;
+    };
+    name?: string;
 }
 
 // @public
@@ -140,6 +171,20 @@ export const createSetHeadersPolicy: (headers: {
 
 // @public
 export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {
+    availableForOffers?: boolean;
+    channelConfigurations?: {
+        [propertyName: string]: ChannelConfiguration;
+    };
+    labels?: {
+        [propertyName: string]: any;
+    };
+    queueAssignments?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    tags?: {
+        [propertyName: string]: any;
+    };
+    totalCapacity?: number;
 }
 
 // @public
@@ -582,12 +627,12 @@ export class RouterClient {
     cancelJob(jobId: string, options?: CancelJobOptions): Promise<JobRouterCancelJobActionResponse>;
     closeJob(jobId: string, assignmentId: string, options?: CloseJobOptions): Promise<JobRouterCloseJobActionResponse>;
     completeJob(jobId: string, assignmentId: string, options?: CompleteJobOptions): Promise<JobRouterCompleteJobActionResponse>;
-    createClassificationPolicy(classificationPolicyId: string, classificationPolicy: ClassificationPolicy, options?: CreateClassificationPolicyOptions): Promise<ClassificationPolicy>;
-    createDistributionPolicy(distributionPolicyId: string, distributionPolicy: DistributionPolicy, options?: CreateDistributionPolicyOptions): Promise<DistributionPolicy>;
-    createExceptionPolicy(exceptionPolicyId: string, exceptionPolicy: ExceptionPolicy, options?: CreateExceptionPolicyOptions): Promise<ExceptionPolicy>;
-    createJob(jobId: string, job: RouterJob, options?: CreateJobOptions): Promise<RouterJob>;
-    createQueue(queueId: string, queue: JobQueue, options?: CreateQueueOptions): Promise<JobQueue>;
-    createWorker(workerId: string, worker: RouterWorker, options?: CreateWorkerOptions): Promise<RouterWorker>;
+    createClassificationPolicy(classificationPolicyId: string, options?: CreateClassificationPolicyOptions): Promise<ClassificationPolicy>;
+    createDistributionPolicy(distributionPolicyId: string, options?: CreateDistributionPolicyOptions): Promise<DistributionPolicy>;
+    createExceptionPolicy(exceptionPolicyId: string, options?: CreateExceptionPolicyOptions): Promise<ExceptionPolicy>;
+    createJob(jobId: string, options?: CreateJobOptions): Promise<RouterJob>;
+    createQueue(queueId: string, distributionPolicyId: string, options?: CreateQueueOptions): Promise<JobQueue>;
+    createWorker(workerId: string, options?: CreateWorkerOptions): Promise<RouterWorker>;
     declineJobOffer(workerId: string, offerId: string, options?: DeclineJobOptions): Promise<JobRouterDeclineJobActionResponse>;
     deleteClassificationPolicy(classificationPolicyId: string, options?: DeleteClassificationPolicyOptions): Promise<RestResponse>;
     deleteDistributionPolicy(distributionPolicyId: string, options?: DeleteDistributionPolicyOptions): Promise<RestResponse>;
@@ -595,7 +640,7 @@ export class RouterClient {
     deleteJob(jobId: string, options?: DeleteJobOptions): Promise<RestResponse>;
     deleteQueue(queueId: string, options?: DeleteQueueOptions): Promise<RestResponse>;
     deleteWorker(workerId: string, options?: DeleteWorkerOptions): Promise<RestResponse>;
-    deregisterWorker(workerId: string, worker: RouterWorker, options?: DeregisterWorkerOptions): Promise<RouterWorker>;
+    deregisterWorker(workerId: string, options?: DeregisterWorkerOptions): Promise<RouterWorker>;
     getClassificationPolicy(classificationPolicyId: string, options?: GetClassificationPolicyOptions): Promise<ClassificationPolicy>;
     getDistributionPolicy(distributionPolicyId: string, options?: GetDistributionPolicyOptions): Promise<DistributionPolicy>;
     getExceptionPolicy(exceptionPolicyId: string, options?: GetExceptionPolicyOptions): Promise<ExceptionPolicy>;
@@ -610,13 +655,13 @@ export class RouterClient {
     listQueues(options?: ListQueuesOptions): PagedAsyncIterableIterator<PagedQueue>;
     listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<PagedWorker>;
     reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<RestResponse>;
-    registerWorker(workerId: string, worker: RouterWorker, options?: RegisterWorkerOptions): Promise<RouterWorker>;
-    updateClassificationPolicy(classificationPolicyId: string, classificationPolicy: ClassificationPolicy, options?: UpdateClassificationPolicyOptions): Promise<ClassificationPolicy>;
-    updateDistributionPolicy(distributionPolicyId: string, distributionPolicy: DistributionPolicy, options?: UpdateDistributionPolicyOptions): Promise<DistributionPolicy>;
-    updateExceptionPolicy(exceptionPolicyId: string, exceptionPolicy: ExceptionPolicy, options?: UpdateExceptionPolicyOptions): Promise<ExceptionPolicy>;
-    updateJob(jobId: string, job: RouterJob, options?: UpdateJobOptions): Promise<RouterJob>;
-    updateQueue(queueId: string, queue: JobQueue, options?: UpdateQueueOptions): Promise<JobQueue>;
-    updateWorker(workerId: string, worker: RouterWorker, options?: UpdateWorkerOptions): Promise<RouterWorker>;
+    registerWorker(workerId: string, options?: RegisterWorkerOptions): Promise<RouterWorker>;
+    updateClassificationPolicy(classificationPolicyId: string, options?: UpdateClassificationPolicyOptions): Promise<ClassificationPolicy>;
+    updateDistributionPolicy(distributionPolicyId: string, options?: UpdateDistributionPolicyOptions): Promise<DistributionPolicy>;
+    updateExceptionPolicy(exceptionPolicyId: string, options?: UpdateExceptionPolicyOptions): Promise<ExceptionPolicy>;
+    updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJob>;
+    updateQueue(queueId: string, options?: UpdateQueueOptions): Promise<JobQueue>;
+    updateWorker(workerId: string, options?: UpdateWorkerOptions): Promise<RouterWorker>;
 }
 
 // @public
@@ -730,14 +775,24 @@ export interface StaticWorkerSelector extends WorkerSelectorAttachment {
 
 // @public
 export interface UpdateClassificationPolicyOptions extends JobRouterUpsertClassificationPolicyOptionalParams {
+    fallbackQueueId?: string;
+    name?: string;
+    queueSelectors?: QueueSelectorAttachmentUnion[];
 }
 
 // @public
 export interface UpdateDistributionPolicyOptions extends JobRouterUpsertDistributionPolicyOptionalParams {
+    mode?: DistributionModeUnion;
+    name?: string;
+    offerTtlSeconds?: number;
 }
 
 // @public
 export interface UpdateExceptionPolicyOptions extends JobRouterUpsertExceptionPolicyOptionalParams {
+    exceptionRules?: {
+        [propertyName: string]: ExceptionRule;
+    };
+    name?: string;
 }
 
 // @public
@@ -754,14 +809,50 @@ export interface UpdateJobLabelsOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
+    channelId?: string;
+    channelReference?: string;
+    classificationPolicyId?: string;
+    dispositionCode?: string;
+    labels?: {
+        [propertyName: string]: any;
+    };
+    notes?: {
+        [propertyName: string]: string;
+    };
+    priority?: number;
+    queueId?: string;
+    requestedWorkerSelectors?: WorkerSelector[];
+    tags?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
 export interface UpdateQueueOptions extends JobRouterUpsertQueueOptionalParams {
+    distributionPolicyId?: string;
+    exceptionPolicyId?: string;
+    labels?: {
+        [propertyName: string]: any;
+    };
+    name?: string;
 }
 
 // @public
 export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {
+    availableForOffers?: boolean;
+    channelConfigurations?: {
+        [propertyName: string]: ChannelConfiguration;
+    };
+    labels?: {
+        [propertyName: string]: any;
+    };
+    queueAssignments?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    tags?: {
+        [propertyName: string]: any;
+    };
+    totalCapacity?: number;
 }
 
 // @public

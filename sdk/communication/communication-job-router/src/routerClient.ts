@@ -176,10 +176,9 @@ export class RouterClient {
    */
   public async createClassificationPolicy(
     classificationPolicyId: string,
-    classificationPolicy: ClassificationPolicy,
     options: CreateClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
-    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, classificationPolicy, options);
+    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, options, options);
   }
 
   /**
@@ -190,10 +189,9 @@ export class RouterClient {
    */
   public async updateClassificationPolicy(
     classificationPolicyId: string,
-    classificationPolicy: ClassificationPolicy,
     options: UpdateClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
-    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, classificationPolicy, options);
+    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, options, options);
   }
 
   /**
@@ -240,10 +238,9 @@ export class RouterClient {
    */
   public async createDistributionPolicy(
     distributionPolicyId: string,
-    distributionPolicy: DistributionPolicy,
     options: CreateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, distributionPolicy, options);
+    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, options, options);
   }
 
   /**
@@ -254,10 +251,9 @@ export class RouterClient {
    */
   public async updateDistributionPolicy(
     distributionPolicyId: string,
-    distributionPolicy: DistributionPolicy,
     options: UpdateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, distributionPolicy, options);
+    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, options, options);
   }
 
   /**
@@ -304,10 +300,9 @@ export class RouterClient {
    */
   public async createExceptionPolicy(
     exceptionPolicyId: string,
-    exceptionPolicy: ExceptionPolicy,
     options: CreateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, exceptionPolicy, options);
+    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, options, options);
   }
 
   /**
@@ -318,10 +313,9 @@ export class RouterClient {
    */
   public async updateExceptionPolicy(
     exceptionPolicyId: string,
-    exceptionPolicy: ExceptionPolicy,
     options: UpdateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, exceptionPolicy, options);
+    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, options, options);
   }
 
   /**
@@ -368,9 +362,9 @@ export class RouterClient {
    */
   public async createJob(
     jobId: string,
-    job: RouterJob,
     options: CreateJobOptions = {}): Promise<RouterJob> {
-    return this.client.jobRouter.upsertJob(jobId, job, options);
+    const jobModel = options;
+    return this.client.jobRouter.upsertJob(jobId, jobModel, options);
   }
 
   /**
@@ -380,9 +374,9 @@ export class RouterClient {
    */
   public async updateJob(
     jobId: string,
-    job: RouterJob,
     options: UpdateJobOptions = {}): Promise<RouterJob> {
-    return this.client.jobRouter.upsertJob(jobId, job, options);
+    const jobModel = options;
+    return this.client.jobRouter.upsertJob(jobId, jobModel, options);
   }
 
   /**
@@ -522,9 +516,11 @@ export class RouterClient {
    */
   public async createQueue(
     queueId: string,
-    queue: JobQueue,
+    distributionPolicyId: string,
     options: CreateQueueOptions = {}): Promise<JobQueue> {
-    return this.client.jobRouter.upsertQueue(queueId, queue, options);
+    const queueModel = <JobQueue>options;
+    queueModel.distributionPolicyId = distributionPolicyId;
+    return this.client.jobRouter.upsertQueue(queueId, <JobQueue>queueModel, options);
   }
 
   /**
@@ -535,9 +531,9 @@ export class RouterClient {
    */
   public async updateQueue(
     queueId: string,
-    queue: JobQueue,
     options: UpdateQueueOptions = {}): Promise<JobQueue> {
-    return this.client.jobRouter.upsertQueue(queueId, queue, options);
+    const queueModel = options;
+    return this.client.jobRouter.upsertQueue(queueId, <JobQueue>queueModel, options);
   }
 
   /**
@@ -579,10 +575,10 @@ export class RouterClient {
    */
   public async createWorker(
     workerId: string,
-    worker: RouterWorker,
     options: CreateWorkerOptions = {}
   ): Promise<RouterWorker> {
-    return this.client.jobRouter.upsertWorker(workerId, worker, options);
+    const workerModel = options;
+    return this.client.jobRouter.upsertWorker(workerId, workerModel, options);
   }
 
   /**
@@ -592,10 +588,10 @@ export class RouterClient {
    */
   public async updateWorker(
     workerId: string,
-    worker: RouterWorker,
     options: UpdateWorkerOptions = {}
   ): Promise<RouterWorker> {
-    return this.client.jobRouter.upsertWorker(workerId, worker, options);
+    const workerModel = options;
+    return this.client.jobRouter.upsertWorker(workerId, workerModel, options);
   }
 
   /**
@@ -606,10 +602,11 @@ export class RouterClient {
    */
   public async registerWorker(
     workerId: string,
-    worker: RouterWorker,
     options: RegisterWorkerOptions = {}
   ): Promise<RouterWorker> {
-    worker.availableForOffers = true
+    const worker = {
+      availableForOffers : true
+    }
     return this.client.jobRouter.upsertWorker(workerId, worker, options);
   }
 
@@ -621,11 +618,11 @@ export class RouterClient {
    */
   public async deregisterWorker(
     workerId: string,
-    worker: RouterWorker,
     options: DeregisterWorkerOptions = {}
   ): Promise<RouterWorker> {
-    worker.availableForOffers = false
-
+    const worker = {
+      availableForOffers : false
+    }
     return this.client.jobRouter.upsertWorker(workerId, worker, options);
   }
 

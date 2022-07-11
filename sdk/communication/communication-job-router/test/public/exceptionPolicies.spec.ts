@@ -26,7 +26,7 @@ describe("RouterClient", function() {
     it("should successfully create a exception policy", async function() {
       const request = exceptionPolicyRequest;
 
-      const result = await client.createExceptionPolicy(request.id!, request, { });
+      const result = await client.createExceptionPolicy(request.id!, request);
 
       assert.isDefined(result);
       assert.isDefined(result?.id);

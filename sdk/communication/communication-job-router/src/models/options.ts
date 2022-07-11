@@ -3,6 +3,7 @@
 
 import { PipelineOptions } from "@azure/core-http";
 import {
+  ChannelConfiguration, DistributionModeUnion, ExceptionRule,
   JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertClassificationPolicyOptionalParams,
   JobRouterUpsertDistributionPolicyOptionalParams,
@@ -10,8 +11,9 @@ import {
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertQueueOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
-  JobStateSelector,
+  JobStateSelector, QueueSelectorAttachmentUnion,
   RouterJob,
+  WorkerSelector,
   WorkerStateSelector
 } from "../generated/src";
 import * as coreHttp from "@azure/core-http";
@@ -28,13 +30,27 @@ export interface RouterClientOptions extends PipelineOptions {
  * Options to create a classification policy.
  */
 export interface CreateClassificationPolicyOptions
-  extends JobRouterUpsertClassificationPolicyOptionalParams {}
+  extends JobRouterUpsertClassificationPolicyOptionalParams {
+  /** Friendly name of this policy. */
+  name?: string;
+  /** The fallback queue to select if the queue selector doesn't find a match. */
+  fallbackQueueId?: string;
+  /** The queue selectors to resolve a queue for a given job. */
+  queueSelectors?: QueueSelectorAttachmentUnion[];
+}
 
 /**
  * Options to update a classification policy.
  */
 export interface UpdateClassificationPolicyOptions
-  extends JobRouterUpsertClassificationPolicyOptionalParams {}
+  extends JobRouterUpsertClassificationPolicyOptionalParams {
+  /** Friendly name of this policy. */
+  name?: string;
+  /** The fallback queue to select if the queue selector doesn't find a match. */
+  fallbackQueueId?: string;
+  /** The queue selectors to resolve a queue for a given job. */
+  queueSelectors?: QueueSelectorAttachmentUnion[];
+}
 
 /**
  * Options to get a classification policy.
@@ -58,13 +74,27 @@ export interface ListClassificationPoliciesOptions extends coreHttp.OperationOpt
  * Options to create a distribution policy.
  */
 export interface CreateDistributionPolicyOptions
-  extends JobRouterUpsertDistributionPolicyOptionalParams {}
+  extends JobRouterUpsertDistributionPolicyOptionalParams {
+  /** The human readable name of the policy. */
+  name?: string;
+  /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
+  offerTtlSeconds?: number;
+  /** Abstract base class for defining a distribution mode */
+  mode?: DistributionModeUnion;
+}
 
 /**
  * Options to update a distribution policy.
  */
 export interface UpdateDistributionPolicyOptions
-  extends JobRouterUpsertDistributionPolicyOptionalParams {}
+  extends JobRouterUpsertDistributionPolicyOptionalParams {
+  /** The human readable name of the policy. */
+  name?: string;
+  /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
+  offerTtlSeconds?: number;
+  /** Abstract base class for defining a distribution mode */
+  mode?: DistributionModeUnion;
+}
 
 /**
  * Options to get a distribution policy.
@@ -88,13 +118,23 @@ export interface ListDistributionPoliciesOptions extends coreHttp.OperationOptio
  * Options to create a exception policy.
  */
 export interface CreateExceptionPolicyOptions
-  extends JobRouterUpsertExceptionPolicyOptionalParams {}
+  extends JobRouterUpsertExceptionPolicyOptionalParams {
+  /** (Optional) The name of the exception policy. */
+  name?: string;
+  /** (Optional) A dictionary collection of exception rules on the exception policy. Key is the Id of each exception rule. */
+  exceptionRules?: { [propertyName: string]: ExceptionRule };
+}
 
 /**
  * Options to update a exception policy.
  */
 export interface UpdateExceptionPolicyOptions
-  extends JobRouterUpsertExceptionPolicyOptionalParams {}
+  extends JobRouterUpsertExceptionPolicyOptionalParams {
+  /** (Optional) The name of the exception policy. */
+  name?: string;
+  /** (Optional) A dictionary collection of exception rules on the exception policy. Key is the Id of each exception rule. */
+  exceptionRules?: { [propertyName: string]: ExceptionRule };
+}
 
 /**
  * Options to get a exception policy.
@@ -117,12 +157,54 @@ export interface ListExceptionPoliciesOptions extends coreHttp.OperationOptions 
 /**
  * Options to create a job.
  */
-export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {}
+export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
+  /** Reference to an external parent context, eg. call ID. */
+  channelReference?: string;
+  /** The channel identifier. eg. voice, chat, etc. */
+  channelId?: string;
+  /** The Id of the Classification policy used for classifying a job. */
+  classificationPolicyId?: string;
+  /** The Id of the Queue that this job is queued to. */
+  queueId?: string;
+  /** The priority of this job. */
+  priority?: number;
+  /** Reason code for cancelled or closed jobs. */
+  dispositionCode?: string;
+  /** A collection of manually specified label selectors, which a worker must satisfy in order to process this job. */
+  requestedWorkerSelectors?: WorkerSelector[];
+  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
+  labels?: { [propertyName: string]: any };
+  /** A set of non-identifying attributes attached to this job */
+  tags?: { [propertyName: string]: any };
+  /** Notes attached to a job, sorted by timestamp */
+  notes?: { [propertyName: string]: string };
+}
 
 /**
  * Options to update a job.
  */
-export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {}
+export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
+  /** Reference to an external parent context, eg. call ID. */
+  channelReference?: string;
+  /** The channel identifier. eg. voice, chat, etc. */
+  channelId?: string;
+  /** The Id of the Classification policy used for classifying a job. */
+  classificationPolicyId?: string;
+  /** The Id of the Queue that this job is queued to. */
+  queueId?: string;
+  /** The priority of this job. */
+  priority?: number;
+  /** Reason code for cancelled or closed jobs. */
+  dispositionCode?: string;
+  /** A collection of manually specified label selectors, which a worker must satisfy in order to process this job. */
+  requestedWorkerSelectors?: WorkerSelector[];
+  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
+  labels?: { [propertyName: string]: any };
+  /** A set of non-identifying attributes attached to this job */
+  tags?: { [propertyName: string]: any };
+  /** Notes attached to a job, sorted by timestamp */
+  notes?: { [propertyName: string]: string };
+}
 
 /**
  * Options to reclassify a job.
@@ -227,12 +309,38 @@ export interface DeleteJobOptions extends coreHttp.OperationOptions {}
 /**
  * Options to create a worker.
  */
-export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {}
+export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {
+  /** The queue(s) that this worker can receive work from. */
+  queueAssignments?: { [propertyName: string]: Record<string, unknown> };
+  /** The total capacity score this worker has to manage multiple concurrent jobs. */
+  totalCapacity?: number;
+  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
+  labels?: { [propertyName: string]: any };
+  /** A set of non-identifying attributes attached to this worker. */
+  tags?: { [propertyName: string]: any };
+  /** The channel(s) this worker can handle and their impact on the workers capacity. */
+  channelConfigurations?: { [propertyName: string]: ChannelConfiguration };
+  /** A flag indicating this worker is open to receive offers or not. */
+  availableForOffers?: boolean;
+}
 
 /**
  * Options to update a worker.
  */
-export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {}
+export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {
+  /** The queue(s) that this worker can receive work from. */
+  queueAssignments?: { [propertyName: string]: Record<string, unknown> };
+  /** The total capacity score this worker has to manage multiple concurrent jobs. */
+  totalCapacity?: number;
+  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
+  labels?: { [propertyName: string]: any };
+  /** A set of non-identifying attributes attached to this worker. */
+  tags?: { [propertyName: string]: any };
+  /** The channel(s) this worker can handle and their impact on the workers capacity. */
+  channelConfigurations?: { [propertyName: string]: ChannelConfiguration };
+  /** A flag indicating this worker is open to receive offers or not. */
+  availableForOffers?: boolean;
+}
 
 /**
  * Options to update a worker.
@@ -276,12 +384,28 @@ export interface DeleteWorkerOptions extends coreHttp.OperationOptions {}
 /**
  * Options to create a queue.
  */
-export interface CreateQueueOptions extends JobRouterUpsertQueueOptionalParams {}
+export interface CreateQueueOptions extends JobRouterUpsertQueueOptionalParams {
+  /** The name of this queue. */
+  name?: string;
+  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
+  labels?: { [propertyName: string]: any };
+  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
+  exceptionPolicyId?: string;
+}
 
 /**
  * Options to update a queue.
  */
-export interface UpdateQueueOptions extends JobRouterUpsertQueueOptionalParams {}
+export interface UpdateQueueOptions extends JobRouterUpsertQueueOptionalParams {
+  /** The name of this queue. */
+  name?: string;
+  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
+  distributionPolicyId?: string;
+  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
+  labels?: { [propertyName: string]: any };
+  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
+  exceptionPolicyId?: string;
+}
 
 /**
  * Options to get a queue.
