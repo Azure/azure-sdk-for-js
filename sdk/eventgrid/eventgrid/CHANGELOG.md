@@ -1,14 +1,14 @@
 # Release History
 
-## 4.10.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.10.0 (2022-07-11)
 
 ### Bugs Fixed
 
+- Fixed an issue where `generateSharedAccessSignature` would generate an invalid signature if the experation time was between 12:00pm and 1:00pm.  Thank you to @donut87 for discovering the issue and providing the fix.
+
 ### Other Changes
+
+- The channel name feature added in 4.10.0-beta.1 is now stable. There were no changes in this feature between 4.10.0-beta.1 and 4.10.0
 
 ## 4.10.0-beta.1 (2022-04-14)
 
