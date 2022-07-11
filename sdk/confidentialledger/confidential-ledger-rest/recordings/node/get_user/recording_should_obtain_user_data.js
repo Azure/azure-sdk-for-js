@@ -8,7 +8,7 @@ nock('https://identity.confidential-ledger.core.azure.com:443', {"encodedQueryPa
   .get('/ledgerIdentity/FAKE_CERT')
   .reply(200, {"ledgerTlsCertificate":"-----BEGIN CERTIFICATE-----\nMIIBejCCASCgAwIBAgIQMNwF270tS2Ex6jsW6jP46TAKBggqhkjOPQQDAjAWMRQw\nEgYDVQQDDAtDQ0YgTmV0d29yazAeFw0yMjA3MDYyMTA0NDBaFw0yMjEwMDQyMTA0\nMzlaMBYxFDASBgNVBAMMC0NDRiBOZXR3b3JrMFkwEwYHKoZIzj0CAQYIKoZIzj0D\nAQcDQgAEDUWr/JYiEUnNS+4Ndfcci6yGRXhVWSnabgvShqrdxW4RBmsKZ+qsAWJP\nnavsVjf8Zgd8gghMm1y4Zl4PoHzTxKNQME4wDAYDVR0TBAUwAwEB/zAdBgNVHQ4E\nFgQUiIlVb/2YkHp4mXRhBuLaadG82zYwHwYDVR0jBBgwFoAUiIlVb/2YkHp4mXRh\nBuLaadG82zYwCgYIKoZIzj0EAwIDSAAwRQIgfYFw63rQ8RrH0BBs6yWbYbm+OWCq\nwyWR8oAT90gwHtACIQDNJ3eIewMJNDtUSJaRYhOIOu10evuW63wBLP/kftLAmw==\n-----END CERTIFICATE-----\n","ledgerId":"FAKE_CERT"}, [
   'Date',
-  'Sun, 10 Jul 2022 20:30:26 GMT',
+  'Mon, 11 Jul 2022 20:28:41 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -16,15 +16,15 @@ nock('https://identity.confidential-ledger.core.azure.com:443', {"encodedQueryPa
   'Transfer-Encoding',
   'chunked',
   'x-ms-correlation-request-id',
-  '6bad9093-f8f7-4357-ba6f-f1e988e4cdb2',
+  'b4b8eea4-cc39-47bf-a6b1-ff3a1cd9bcdc',
   'x-ms-client-request-id',
-  'd4b67428-a763-41be-9cd8-f3a91a7ff695',
+  '5d6ce643-c031-472f-8749-08929f161f02',
   'x-ms-machineName',
-  'identityservice-6499ffbf45-bt47c',
+  'identityservice-555869b65b-t46r5',
   'x-ms-image-digest',
-  'sha256:7a76c9097c3450987501c23e71a3e16b89f727059ab6de727807ac97b808810e',
+  'sha256:882aaa027c6a13390418cc070e29736d7255c85700ea0a3bde9eb7f85430c4b8',
   'x-ms-image-tag',
-  '1.0.01999.541-e02672ed644876c9cf10c5494e0203a0dc9da070'
+  '1.0.02013.15-4a5efc93f503a8000a23b4c5112a67c7be116764'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -36,9 +36,9 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'content-type',
   'application/json',
   'x-ms-ccf-transaction-id',
-  '2.16681',
+  '2.16777',
   'x-ms-client-request-id',
-  '6f7d5bd0-144b-489a-b000-c98f5f5c7cbc',
+  'ccc26df1-174e-40af-8738-86bc42404f8b',
   'x-ms-request-id',
-  '499235230'
+  '121609897'
 ]);

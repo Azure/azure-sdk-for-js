@@ -64,7 +64,7 @@ module.exports = function (config) {
       "LEDGER_IDENTITY",
       "PUBLIC_KEY",
       "PRIVATE_KEY",
-      "IDENTITY_SERVICE_URL"
+      "IDENTITY_SERVICE_URL",
     ],
 
     // test results reporter to use
