@@ -4,7 +4,7 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "sdk-type": "utility",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/apimanagement-custom-widget-scaffolder/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/api-management-custom-widgets-scaffolder/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "browser": {
     "./dist-esm/src/generateProject.js": "./dist-esm/src/generateProject.browser.js"
