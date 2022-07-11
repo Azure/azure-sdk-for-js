@@ -1,73 +1,72 @@
-// // Copyright (c) Microsoft Corporation. All rights reserved.
-// // Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-// using System;
-// using System.Linq;
-// using System.Threading.Tasks;
-// using Azure.Communication.JobRouter.Tests.Infrastructure;
-// using NUnit.Framework;
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
+import { RouterClient, RouterJob } from "../../../src";
+import { Context } from "mocha";
+import {
+  classificationPolicyRequest,
+  distributionPolicyRequest,
+  exceptionPolicyRequest,
+  jobRequest,
+  queueRequest
+} from "../../internal/utils/testData";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
+import { timeoutMs } from "../../internal/utils/constants";
 
-// namespace Azure.Communication.JobRouter.Tests.Scenarios
-// {
-//     public class CancellationScenario : RouterLiveTestBase
-//     {
-//         public CancellationScenario(bool isAsync)
-//             : base(isAsync)
-//         {
-//         }
+describe("RouterClient", function() {
+  const sleepMs: number = 1500;
+  let client: RouterClient;
+  let recorder: Recorder;
 
-//         [Test]
-//         public async Task Scenario()
-//         {
-//             RouterClient client = CreateRouterClientWithConnectionString();
+  // HACK: Intentionally block to avoid 'duplicate sequence number' error from service
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
-//             var dispositionCode = "dispositionCode";
-//             var channelResponse = GenerateUniqueId($"Channel-{IdPrefix}-{nameof(CancellationScenario)}");
+  describe("Cancellation Scenario", function() {
+    this.beforeAll(async function(this: Context) {
+      ({ client, recorder } = createRecordedRouterClientWithConnectionString(this));
 
-//             var distributionPolicyId = GenerateUniqueId($"{IdPrefix}-dist-policy");
-//             var distributionPolicyResponse = await client.CreateDistributionPolicyAsync(
-//                 distributionPolicyId,
-//                 10 * 60,
-//                 new LongestIdleMode(1, 1),
-//                 new CreateDistributionPolicyOptions()
-//                 {
-//                     Name = "test",
-//                 });
-//             AddForCleanup(new Task(async () => await client.DeleteDistributionPolicyAsync(distributionPolicyId)));
+      await client.createDistributionPolicy(
+        distributionPolicyRequest.id!,
+        distributionPolicyRequest
+      );
+      await client.createExceptionPolicy(exceptionPolicyRequest.id!, exceptionPolicyRequest);
+      await client.createQueue(queueRequest.id!, queueRequest);
+      await client.createClassificationPolicy(
+        classificationPolicyRequest.id!,
+        classificationPolicyRequest
+      );
+      await client.createJob(jobRequest.id!, jobRequest);
+    });
 
-//             var queueResponse = await client.CreateQueueAsync(
-//                 $"{IdPrefix}-queue",
-//                 distributionPolicyResponse.Value.Id,
-//                 new CreateQueueOptions()
-//                 {
-//                     Name = "test",
-//                 });
+    this.afterAll(async function(this: Context) {
+      await sleep(sleepMs);
+      await client.deleteJob(jobRequest.id!);
+      await client.deleteClassificationPolicy(classificationPolicyRequest.id!);
+      await client.deleteQueue(queueRequest.id!);
+      await client.deleteExceptionPolicy(exceptionPolicyRequest.id!);
+      await client.deleteDistributionPolicy(distributionPolicyRequest.id!);
+    });
 
-//             var jobId = $"JobId-{IdPrefix}-{nameof(CancellationScenario)}";
-//             var createJob = await client.CreateJobAsync(
-//                 id: jobId,
-//                 channelId: channelResponse,
-//                 queueId: queueResponse.Value.Id,
-//                 new CreateJobOptions()
-//                 {
-//                     Priority = 1,
-//                 });
-//             AddForCleanup(new Task(async () => await client.CancelJobAsync(jobId)));
-//             AddForCleanup(new Task(async () => await client.DeleteJobAsync(jobId)));
+    it("should complete cancellation scenario", async () => {
+      const dispositionCode = "dispositionCode";
+      const jobStatusQueued = "queued";
+      const jobStatusCancelled = "cancelled";
 
-//             var job = await Poll(async () => await client.GetJobAsync(createJob.Value.Id),
-//                 x => x.Value.JobStatus == JobStatus.Queued,
-//                 TimeSpan.FromSeconds(10));
-//             Assert.AreEqual(JobStatus.Queued, job.Value.JobStatus);
+      let job: RouterJob = jobRequest;
+      while (job.jobStatus !== jobStatusQueued) {
+        job = await client.getJob(job.id!);
+      }
+      assert.equal(job.jobStatus, jobStatusQueued);
 
-//             await client.CancelJobAsync(job.Value.Id, new CancelJobOptions()
-//             {
-//                 DispositionCode = dispositionCode,
-//             });
+      await client.cancelJob(job.id!, { dispositionCode });
 
-//             var finalJobState = await client.GetJobAsync(createJob.Value.Id);
-//             Assert.AreEqual(JobStatus.Cancelled, finalJobState.Value.JobStatus);
-//             Assert.AreEqual(dispositionCode, finalJobState.Value.DispositionCode);
-//         }
-//     }
-// }
+      var result = await client.getJob(job.id!);
+      assert.equal(result.jobStatus, jobStatusCancelled);
+      assert.equal(result.dispositionCode, dispositionCode);
+    }).timeout(timeoutMs);
+  });
+});

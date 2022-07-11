@@ -18,8 +18,8 @@ import { timeoutMs } from "../../internal/utils/constants";
 
 describe("RouterClient", function() {
   const sleepMs: number = 1500;
-  let recorder: Recorder;
   let client: RouterClient;
+  let recorder: Recorder;
 
   // HACK: Intentionally block to avoid 'duplicate sequence number' error from service
   function sleep(ms: number) {
@@ -48,7 +48,9 @@ describe("RouterClient", function() {
       await sleep(sleepMs);
       await client.deleteJob(jobRequest.id!);
       await client.deleteWorker(workerRequest.id!);
+      await client.deleteClassificationPolicy(classificationPolicyRequest.id!);
       await client.deleteQueue(queueRequest.id!);
+      await client.deleteExceptionPolicy(exceptionPolicyRequest.id!);
       await client.deleteDistributionPolicy(distributionPolicyRequest.id!);
     });
 
