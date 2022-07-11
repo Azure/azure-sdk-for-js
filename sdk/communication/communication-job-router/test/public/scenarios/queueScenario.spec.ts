@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import {  RouterClient, RouterJob, } from "../../../src";
+import { RouterClient, RouterJob, } from "../../../src";
 import { Context } from "mocha";
 import {
   classificationPolicyRequest,
@@ -11,7 +10,6 @@ import {
   exceptionPolicyRequest,
   jobRequest,
   queueRequest,
-  workerRequest,
   classificationPolicyConditional,
   conditionalScenarioJob,
   classificationPolicyPassthrough,
@@ -28,7 +26,6 @@ import { timeoutMs } from "../../internal/utils/constants";
 describe("RouterClient", function() {
   const sleepMs: number = 1500;
   let client: RouterClient;
-  let recorder: Recorder;
 
   // HACK: Intentionally block to avoid 'duplicate sequence number' error from service
   function sleep(ms: number) {
@@ -37,7 +34,7 @@ describe("RouterClient", function() {
 
   describe("Queue Scenario", function() {
     this.beforeAll(async function(this: Context) {
-      ({ client, recorder } = createRecordedRouterClientWithConnectionString(this));
+      ({ client } = createRecordedRouterClientWithConnectionString(this));
 
       await client.createDistributionPolicy(
         distributionPolicyRequest.id!,

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { RouterClient, RouterJob } from "../../../src";
 import { Context } from "mocha";
@@ -18,7 +17,6 @@ import { timeoutMs } from "../../internal/utils/constants";
 describe("RouterClient", function() {
   const sleepMs: number = 1500;
   let client: RouterClient;
-  let recorder: Recorder;
 
   // HACK: Intentionally block to avoid 'duplicate sequence number' error from service
   function sleep(ms: number) {
@@ -27,7 +25,7 @@ describe("RouterClient", function() {
 
   describe("Cancellation Scenario", function() {
     this.beforeAll(async function(this: Context) {
-      ({ client, recorder } = createRecordedRouterClientWithConnectionString(this));
+      ({ client } = createRecordedRouterClientWithConnectionString(this));
 
       await client.createDistributionPolicy(
         distributionPolicyRequest.id!,
