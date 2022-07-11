@@ -47,8 +47,7 @@ import {
   CreateClassificationPolicyOptions,
   ReclassifyJobOptions,
   RegisterWorkerOptions,
-  DeregisterWorkerOptions,
-  UnassignJobOptions
+  DeregisterWorkerOptions
 } from "./models/options";
 import {
   ClassificationPolicy,
@@ -64,7 +63,13 @@ import {
   JobRouterCancelJobActionResponse,
   JobRouterCompleteJobActionResponse,
   JobRouterCloseJobActionResponse,
-  JobRouterDeclineJobActionResponse
+  JobRouterDeclineJobActionResponse,
+  PagedQueue,
+  PagedExceptionPolicy,
+  PagedJob,
+  PagedWorker,
+  PagedClassificationPolicy,
+  PagedDistributionPolicy
 } from "./generated/src";
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -173,7 +178,7 @@ export class RouterClient {
     classificationPolicyId: string,
     options: CreateClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
-    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, options);
+    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, options, options);
   }
 
   /**
@@ -186,7 +191,7 @@ export class RouterClient {
     classificationPolicyId: string,
     options: UpdateClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
-    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, options);
+    return this.client.jobRouter.upsertClassificationPolicy(classificationPolicyId, options, options);
   }
 
   /**
@@ -195,7 +200,7 @@ export class RouterClient {
    */
   public listClassificationPolicies(
     options: ListClassificationPoliciesOptions = {}
-  ): PagedAsyncIterableIterator<ClassificationPolicy> {
+  ): PagedAsyncIterableIterator<PagedClassificationPolicy> {
     return this.client.jobRouter.listClassificationPolicies(options);
   }
 
@@ -235,7 +240,7 @@ export class RouterClient {
     distributionPolicyId: string,
     options: CreateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, options);
+    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, options, options);
   }
 
   /**
@@ -248,7 +253,7 @@ export class RouterClient {
     distributionPolicyId: string,
     options: UpdateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, options);
+    return this.client.jobRouter.upsertDistributionPolicy(distributionPolicyId, options, options);
   }
 
   /**
@@ -257,7 +262,7 @@ export class RouterClient {
    */
   public listDistributionPolicies(
     options: ListDistributionPoliciesOptions = {}
-  ): PagedAsyncIterableIterator<DistributionPolicy> {
+  ): PagedAsyncIterableIterator<PagedDistributionPolicy> {
     return this.client.jobRouter.listDistributionPolicies(options);
   }
 
@@ -297,7 +302,7 @@ export class RouterClient {
     exceptionPolicyId: string,
     options: CreateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, options);
+    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, options, options);
   }
 
   /**
@@ -310,7 +315,7 @@ export class RouterClient {
     exceptionPolicyId: string,
     options: UpdateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, options);
+    return this.client.jobRouter.upsertExceptionPolicy(exceptionPolicyId, options, options);
   }
 
   /**
@@ -319,7 +324,7 @@ export class RouterClient {
    */
   public listExceptionPolicies(
     options: ListExceptionPoliciesOptions = {}
-  ): PagedAsyncIterableIterator<ExceptionPolicy> {
+  ): PagedAsyncIterableIterator<PagedExceptionPolicy> {
     return this.client.jobRouter.listExceptionPolicies(options);
   }
 
@@ -357,9 +362,9 @@ export class RouterClient {
    */
   public async createJob(
     jobId: string,
-    options: CreateJobOptions = {}
-  ): Promise<RouterJob> {
-    return this.client.jobRouter.upsertJob(jobId, options);
+    options: CreateJobOptions = {}): Promise<RouterJob> {
+    const jobModel = options;
+    return this.client.jobRouter.upsertJob(jobId, jobModel, options);
   }
 
   /**
@@ -369,9 +374,9 @@ export class RouterClient {
    */
   public async updateJob(
     jobId: string,
-    options: UpdateJobOptions = {}
-  ): Promise<RouterJob> {
-    return this.client.jobRouter.upsertJob(jobId, options);
+    options: UpdateJobOptions = {}): Promise<RouterJob> {
+    const jobModel = options;
+    return this.client.jobRouter.upsertJob(jobId, jobModel, options);
   }
 
   /**
@@ -392,7 +397,7 @@ export class RouterClient {
   public listJobs(
     status?: JobStateSelector,
     options: ListJobsOptions = {}
-  ): PagedAsyncIterableIterator<RouterJob> {
+  ): PagedAsyncIterableIterator<PagedJob> {
     if (status) {
       options.status = status;
     }
@@ -448,21 +453,6 @@ export class RouterClient {
     options: ReclassifyJobOptions = {}
   ): Promise<RestResponse> {
     return this.client.jobRouter.reclassifyJobAction(jobId, options);
-  }
-
-  /**
-   * Unassign a job.
-   * @param jobId - The ID of the job to unassign.
-   * @param assignmentId - The assignment within which the job is to be unassigned.
-   * @param options -  Operation options.
-   */
-  public async unassignJob(
-    jobId: string,
-    assignmentId: string,
-    options: UnassignJobOptions = {}
-  ): Promise<RestResponse> {
-
-    return this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
   }
 
   /**
@@ -526,8 +516,11 @@ export class RouterClient {
    */
   public async createQueue(
     queueId: string,
+    distributionPolicyId: string,
     options: CreateQueueOptions = {}): Promise<JobQueue> {
-    return this.client.jobRouter.upsertQueue(queueId, options);
+    const queueModel = <JobQueue>options;
+    queueModel.distributionPolicyId = distributionPolicyId;
+    return this.client.jobRouter.upsertQueue(queueId, <JobQueue>queueModel, options);
   }
 
   /**
@@ -538,16 +531,16 @@ export class RouterClient {
    */
   public async updateQueue(
     queueId: string,
-    options: UpdateQueueOptions = {}
-  ): Promise<JobQueue> {
-    return this.client.jobRouter.upsertQueue(queueId, options);
+    options: UpdateQueueOptions = {}): Promise<JobQueue> {
+    const queueModel = options;
+    return this.client.jobRouter.upsertQueue(queueId, <JobQueue>queueModel, options);
   }
 
   /**
    * Gets the list of queues.
    * @param options - List queues options.
    */
-  public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<JobQueue> {
+  public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<PagedQueue> {
     return this.client.jobRouter.listQueues(options);
   }
 
@@ -584,7 +577,8 @@ export class RouterClient {
     workerId: string,
     options: CreateWorkerOptions = {}
   ): Promise<RouterWorker> {
-    return this.client.jobRouter.upsertWorker(workerId, options);
+    const workerModel = options;
+    return this.client.jobRouter.upsertWorker(workerId, workerModel, options);
   }
 
   /**
@@ -596,7 +590,8 @@ export class RouterClient {
     workerId: string,
     options: UpdateWorkerOptions = {}
   ): Promise<RouterWorker> {
-    return this.client.jobRouter.upsertWorker(workerId, options);
+    const workerModel = options;
+    return this.client.jobRouter.upsertWorker(workerId, workerModel, options);
   }
 
   /**
@@ -609,14 +604,10 @@ export class RouterClient {
     workerId: string,
     options: RegisterWorkerOptions = {}
   ): Promise<RouterWorker> {
-    if (!options.patch) {
-      options.patch = {
-        id: workerId
-      }
+    const worker = {
+      availableForOffers : true
     }
-
-    options.patch.availableForOffers = true;
-    return this.client.jobRouter.upsertWorker(workerId, options);
+    return this.client.jobRouter.upsertWorker(workerId, worker, options);
   }
 
   /**
@@ -629,14 +620,10 @@ export class RouterClient {
     workerId: string,
     options: DeregisterWorkerOptions = {}
   ): Promise<RouterWorker> {
-    if (!options.patch) {
-      options.patch = {
-        id: workerId
-      }
+    const worker = {
+      availableForOffers : false
     }
-
-    options.patch.availableForOffers = false;
-    return this.client.jobRouter.upsertWorker(workerId, options);
+    return this.client.jobRouter.upsertWorker(workerId, worker, options);
   }
 
   /**
@@ -645,9 +632,7 @@ export class RouterClient {
    * @param workerId - The ID of the worker to get.
    * @param options - Operation options.
    */
-  public async getWorker(
-    workerId: string,
-    options: GetWorkerOptions = {}): Promise<RouterWorker> {
+  public async getWorker(workerId: string, options: GetWorkerOptions = {}): Promise<RouterWorker> {
     return this.client.jobRouter.getWorker(workerId, options);
   }
 
@@ -655,9 +640,7 @@ export class RouterClient {
    * Gets the list of workers.
    * @param options - List workers options.
    */
-  public listWorkers(
-    options: ListWorkersOptions = {}
-  ): PagedAsyncIterableIterator<RouterWorker> {
+  public listWorkers(options: ListWorkersOptions = {}): PagedAsyncIterableIterator<PagedWorker> {
     return this.client.jobRouter.listWorkers(options);
   }
 

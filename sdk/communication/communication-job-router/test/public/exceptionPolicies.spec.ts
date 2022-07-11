@@ -8,8 +8,6 @@ import { Context } from "mocha";
 import { exceptionPolicyRequest } from "./utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../internal/utils/mockClient";
 
-
-
 describe("RouterClient", function() {
   let recorder: Recorder;
   let client: RouterClient;
@@ -21,16 +19,14 @@ describe("RouterClient", function() {
 
     afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending() && recorder) {
-
       }
     });
 
     // exception policy actions
     it("should successfully create a exception policy", async function() {
-      
       const request = exceptionPolicyRequest;
-      
-      const result = await client.createExceptionPolicy(request.id!, { patch: request });
+
+      const result = await client.createExceptionPolicy(request.id!, request);
 
       assert.isDefined(result);
       assert.isDefined(result?.id);

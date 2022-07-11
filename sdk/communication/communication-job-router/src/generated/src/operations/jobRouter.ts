@@ -31,24 +31,28 @@ import {
   PagedWorker,
   JobRouterListWorkersNextOptionalParams,
   JobRouterListWorkersOptionalParams,
+  ClassificationPolicy,
   JobRouterUpsertClassificationPolicyOptionalParams,
   JobRouterUpsertClassificationPolicyResponse,
   JobRouterGetClassificationPolicyOptionalParams,
   JobRouterGetClassificationPolicyResponse,
   JobRouterDeleteClassificationPolicyOptionalParams,
   JobRouterListClassificationPoliciesResponse,
+  DistributionPolicy,
   JobRouterUpsertDistributionPolicyOptionalParams,
   JobRouterUpsertDistributionPolicyResponse,
   JobRouterGetDistributionPolicyOptionalParams,
   JobRouterGetDistributionPolicyResponse,
   JobRouterDeleteDistributionPolicyOptionalParams,
   JobRouterListDistributionPoliciesResponse,
+  ExceptionPolicy,
   JobRouterUpsertExceptionPolicyOptionalParams,
   JobRouterUpsertExceptionPolicyResponse,
   JobRouterGetExceptionPolicyOptionalParams,
   JobRouterGetExceptionPolicyResponse,
   JobRouterDeleteExceptionPolicyOptionalParams,
   JobRouterListExceptionPoliciesResponse,
+  RouterJob,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertJobResponse,
   JobRouterGetJobOptionalParams,
@@ -65,12 +69,11 @@ import {
   JobRouterListJobsResponse,
   JobRouterGetInQueuePositionOptionalParams,
   JobRouterGetInQueuePositionResponse,
-  JobRouterUnassignJobActionOptionalParams,
-  JobRouterUnassignJobActionResponse,
   JobRouterAcceptJobActionOptionalParams,
   JobRouterAcceptJobActionResponse,
   JobRouterDeclineJobActionOptionalParams,
   JobRouterDeclineJobActionResponse,
+  JobQueue,
   JobRouterUpsertQueueOptionalParams,
   JobRouterUpsertQueueResponse,
   JobRouterGetQueueOptionalParams,
@@ -79,6 +82,7 @@ import {
   JobRouterListQueuesResponse,
   JobRouterGetQueueStatisticsOptionalParams,
   JobRouterGetQueueStatisticsResponse,
+  RouterWorker,
   JobRouterUpsertWorkerOptionalParams,
   JobRouterUpsertWorkerResponse,
   JobRouterGetWorkerOptionalParams,
@@ -370,16 +374,20 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Creates or updates a classification policy.
+   * Upsert a classification policy.
    * @param id Id of the classification policy
+   * @param patch Model of classification policy properties to be patched. See also:
+   *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
   upsertClassificationPolicy(
     id: string,
+    patch: ClassificationPolicy,
     options?: JobRouterUpsertClassificationPolicyOptionalParams
   ): Promise<JobRouterUpsertClassificationPolicyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       id,
+      patch,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -443,16 +451,20 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Creates or updates a distribution policy.
+   * Upsert a distribution policy.
    * @param id Id of the distribution policy
+   * @param patch Model of distribution policy properties to be patched. See also:
+   *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
   upsertDistributionPolicy(
     id: string,
+    patch: DistributionPolicy,
     options?: JobRouterUpsertDistributionPolicyOptionalParams
   ): Promise<JobRouterUpsertDistributionPolicyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       id,
+      patch,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -516,16 +528,20 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Creates or updates a exception policy.
+   * Upsert a exception policy.
    * @param id Id of the exception policy
+   * @param patch Model of exception policy properties to be patched. See also:
+   *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
   upsertExceptionPolicy(
     id: string,
+    patch: ExceptionPolicy,
     options?: JobRouterUpsertExceptionPolicyOptionalParams
   ): Promise<JobRouterUpsertExceptionPolicyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       id,
+      patch,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -589,15 +605,20 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * @param jobId
+   * Upsert a job.
+   * @param id Id of the job
+   * @param patch Model of job properties to be created or patched. See also:
+   *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
   upsertJob(
-    jobId: string,
+    id: string,
+    patch: RouterJob,
     options?: JobRouterUpsertJobOptionalParams
   ): Promise<JobRouterUpsertJobResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      jobId,
+      id,
+      patch,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -627,7 +648,7 @@ export class JobRouterImpl implements JobRouter {
 
   /**
    * Deletes a job and all of its traces.
-   * @param id
+   * @param id Id of the job
    * @param options The options parameters.
    */
   deleteJob(
@@ -762,28 +783,6 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Unassigns a job.
-   * @param jobId Id of the job to unassign
-   * @param assignmentId Id of the assignment to unassign
-   * @param options The options parameters.
-   */
-  unassignJobAction(
-    jobId: string,
-    assignmentId: string,
-    options?: JobRouterUnassignJobActionOptionalParams
-  ): Promise<JobRouterUnassignJobActionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      jobId,
-      assignmentId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      unassignJobActionOperationSpec
-    ) as Promise<JobRouterUnassignJobActionResponse>;
-  }
-
-  /**
    * Accepts an offer to work on a job and returns a 409/Conflict if another agent accepted the job
    * already.
    * @param workerId Id of the worker
@@ -829,16 +828,20 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Creates or updates a queue.
-   * @param queueId
+   * Upsert a queue.
+   * @param id Id of the queue
+   * @param patch Model of queue properties to be patched. See also:
+   *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
   upsertQueue(
-    queueId: string,
+    id: string,
+    patch: JobQueue,
     options?: JobRouterUpsertQueueOptionalParams
   ): Promise<JobRouterUpsertQueueResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      queueId,
+      id,
+      patch,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -921,16 +924,20 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Creates or updates a worker.
+   * Upsert a worker.
    * @param workerId Id of the worker
+   * @param patch Model of worker properties to be patched. See also:
+   *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
   upsertWorker(
     workerId: string,
+    patch: RouterWorker,
     options?: JobRouterUpsertWorkerOptionalParams
   ): Promise<JobRouterUpsertWorkerResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       workerId,
+      patch,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -1305,11 +1312,11 @@ const listExceptionPoliciesOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const upsertJobOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/jobs/{jobId}",
+  path: "/routing/jobs/{id}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RouterWorker
+      bodyMapper: Mappers.RouterJob
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -1317,7 +1324,7 @@ const upsertJobOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.patch3,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
+  urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -1357,7 +1364,9 @@ const reclassifyJobActionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } }
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -1375,7 +1384,9 @@ const cancelJobActionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } }
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -1399,7 +1410,9 @@ const completeJobActionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } }
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -1423,10 +1436,14 @@ const closeJobActionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } }
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     202: {
-      bodyMapper: { type: { name: "any" } }
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -1485,26 +1502,6 @@ const getInQueuePositionOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const unassignJobActionOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/jobs/{jobId}/assignments/{assignmentId}:unassign",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.UnassignJobResponse
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.jobId,
-    Parameters.assignmentId2
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const acceptJobActionOperationSpec: coreHttp.OperationSpec = {
   path: "/routing/workers/{workerId}/offers/{offerId}:accept",
   httpMethod: "POST",
@@ -1526,7 +1523,9 @@ const declineJobActionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } }
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -1538,7 +1537,7 @@ const declineJobActionOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const upsertQueueOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/queues/{queueId}",
+  path: "/routing/queues/{id}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -1550,7 +1549,7 @@ const upsertQueueOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.patch4,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.queueId1],
+  urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer

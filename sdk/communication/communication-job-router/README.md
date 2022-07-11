@@ -23,7 +23,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 
 
-# Tutorial: Route customer support requests to workers using the Azure Communication Services (ACS) Router SDK (WIP)
+# Tutorial: Route customer support requests to workers using the Azure Communication Services (ACS) Router SDK
 
 In this tutorial, you will learn:
 
@@ -72,13 +72,13 @@ Create a new resource or use existing resource. If creating a resource, select `
 
 ###Install the Azure Communication Services Router SDK
 In the application directory, install the Azure Communication Services Router client library for JavaScript package by using the `npm install --save` command
-`npm install --save @azure-ccaap/communication-router`
+`npm install --save @azure/communication-job-router`
 
 ## Examples
 ###Initialize Router Client
 First we need to initialize a Router client.
 ```js
-import { RouterClient } from '@azure/communication-router';
+import { RouterClient } from '@azure/communication-job-router';
 
 const acsConnectionString = 'endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>'
 const routerClient = new RouterClient(acsConnectionString );
@@ -102,8 +102,8 @@ const salesQueueResponse = await routerClient.CreateQueue({
 Register workers “Bob” and “Alice” with various abilities.
 ```js
 // Register worker Bob
-const bobWorkerResponse = await routerClient.RegisterWorker({
-  "id": "21837c88-6967-4078-86b9-1207821a8392",
+const workerId = "21837c88-6967-4078-86b9-1207821a8392";
+const bobWorkerResponse = await routerClient.RegisterWorker(workerId, {
   "totalCapacityScore": 100,
   "abilities": {
     "Xbox": 5,
@@ -121,8 +121,8 @@ const bobWorkerResponse = await routerClient.RegisterWorker({
 });
 
 // Register worker Alice
-const aliceWorkerResponse = await routerClient.RegisterWorker({
-  "id": "773accfb-476e-42f9-a202-b211b41a4ea4",
+const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
+const aliceWorkerResponse = await routerClient.RegisterWorker(workerAliceId, {
   "totalCapacityScore": 120,
   "abilities": {
     "Xbox": 5,
@@ -148,14 +148,6 @@ await routerClient.JoinQueue(bobWorkerResponse.Id, salesQueueResponse.Id);
 await routerClient.JoinQueue(aliceWorkerResponse.Id, salesQueueResponse.Id);
 ```
 Note: Workers may also be assigned to queues via [Azure Communication Services Worker Management SDK](https://skype.visualstudio.com/SPOOL/_wiki/wikis/SPOOL.wiki/21323/Worker-Management-DevX-JS?anchor=associate-group-to-a-queue)
-
-###Set worker states to active
-Update workers Bob and Alice's states to `Active` to enable them to receive new jobs from any queue on which they are assigned.
-```js
-await routerClient.UpdateWorker(bobWorkerResponse.Id, { state: "Active" });
-await routerClient.UpdateWorker(aliceWorkerResponse.Id, { state: "Active" });
-```
-Note: Workers may also be activated by signing them in via [Azure Communication Services Worker Management SDK](https://skype.visualstudio.com/SPOOL/_wiki/wikis/SPOOL.wiki/21323/Worker-Management-DevX-JS?anchor=sign-in-a-worker)
 
 ###Configure classification policy
 Create a classification policy that will house skills policy, prioritization policy and queue selection policy in order to classify incoming jobs.
@@ -216,17 +208,6 @@ await routerClient.CreateDistributionPolicy({
         ]
       }
     ]
-  }
-});
-```
-
-###Add new custom channels (Optional)
-In addition to the ACS channels provided by default (i.e. Calling, Chat, SMS), we can create new channels for custom non-ACS communication modalities (e.g. WhatsApp, Messenger, etc)
-```js
-await routerClient.CreateChannel({
-  {
-    "name": "WhatsApp",
-    "id": "WhatsApp"
   }
 });
 ```
@@ -367,7 +348,7 @@ The following is a list of possible router events:
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication)
+[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-job-router/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
