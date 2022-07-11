@@ -1,0 +1,42 @@
+{
+  "name": "@azure/api-management-custom-widgets-tools",
+  "private": true,
+  "version": "0.1.0",
+  "files": [
+    "*"
+  ],
+  "main": "./index.umd.js",
+  "module": "./index.es.js",
+  "exports": {
+    ".": {
+      "import": "./index.es.js",
+      "require": "./index.umd.js"
+    },
+    "./node/deploy": {
+      "require": "./node/deploy.js"
+    }
+  },
+  "types": "./index.d.ts",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "pack": "npm run build && cp src/node dist -r && cp package.json dist && cd dist && npm pack",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/mime": "^2.0.3",
+    "@types/mustache": "^4.1.2",
+    "@types/node": "^17.0.21",
+    "jsdom": "^19.0.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0",
+    "vitest": "^0.14.2"
+  },
+  "dependencies": {
+    "@azure/core-rest-pipeline": "^1.8.1",
+    "@azure/storage-blob": "^12.9.0",
+    "mime": "^3.0.0",
+    "mustache": "^4.2.0",
+    "prettier": "^2.5.1"
+  }
+}

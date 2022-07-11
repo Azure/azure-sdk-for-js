@@ -1,0 +1,7 @@
+{
+  "origin": "http://localhost:8000",
+  "instanceId": "42",
+  "values": {
+    "foo": "from url"
+  }
+}
