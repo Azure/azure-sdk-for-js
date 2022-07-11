@@ -6,7 +6,7 @@ import { AccessToken } from "@azure/core-auth";
 
 import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through device codes.

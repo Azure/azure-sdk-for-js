@@ -1,34 +1,10 @@
 {
  "recordings": [
   {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1325",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:33 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - NCUS ProdSlices",
-    "x-ms-request-id": "6bc9daae-ff4e-4325-9724-2a9c54852e01"
-   }
-  },
-  {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -36,16 +12,17 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:33 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:09 GMT",
+    "mise-correlation-id": "bc2fc68b-5eb6-48b2-843a-06e53104c160",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-a9d0773bddc56149b1adedefe0509f6b-bf19fd0e243b9848-01"
+    "traceresponse": "00-43a893c588eb431874ca4f8059333eab-671cb39880328e57-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -53,16 +30,17 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:33 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:09 GMT",
+    "mise-correlation-id": "28dbad41-1a0f-4fe1-ba58-96600ed851a4",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-4fa3f162230a484c966b791bf71eb5d7-782bdc59dd07484f-01"
+    "traceresponse": "00-d2e4c6dd0cf19d63c7cb4a0d9385ce3f-64dce1e7e9f5e62f-01"
    }
   },
   {
    "method": "GET",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2020-10-31",
+    "api-version": "2022-05-31",
     "includeModelDefinition": "false"
    },
    "requestBody": null,
@@ -71,9 +49,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:33 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:09 GMT",
+    "mise-correlation-id": "1bb69b1a-109f-4a31-b499-006cbfc3a266",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-fe3e460376ff2748a53aa7519efe7262-8756ba9f1068aa48-01"
+    "traceresponse": "00-6535a23020558f2f5537215922c3e1f2-580e0c45f9c1fe48-01"
    }
   }
  ],
@@ -81,5 +60,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "9d6bf1a28fb91d04e4b52a2043995ece"
+ "hash": "e57d0d315040eb4c707eb86486db6a7f"
 }
