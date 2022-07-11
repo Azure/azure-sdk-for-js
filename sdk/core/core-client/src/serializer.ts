@@ -1116,18 +1116,23 @@ function getPolymorphicMapper(
         discriminatorName = discriminatorName.replace(/\\/gi, "");
       }
       const discriminatorValue = object[discriminatorName];
-      function getIndexDiscriminator(mapper: CompositeMapper, useClassName: boolean): void {
+      const getIndexDiscriminator = function (
+        discriminatorMapper: CompositeMapper,
+        useClassName: boolean
+      ): void {
         if (foundIndexMapper) {
           return;
         }
         const typeName =
-          mapper.type.uberParent && !useClassName ? mapper.type.uberParent : mapper.type.className;
-        let indexDiscriminator =
+          discriminatorMapper.type.uberParent && !useClassName
+            ? discriminatorMapper.type.uberParent
+            : discriminatorMapper.type.className;
+        const indexDiscriminator =
           discriminatorValue === typeName
             ? discriminatorValue
             : typeName + "." + discriminatorValue;
         const discriminators = serializer.modelMappers.discriminators;
-        if (discriminators.hasOwnProperty(indexDiscriminator)) {
+        if (Object.prototype.hasOwnProperty.call(discriminators, indexDiscriminator)) {
           foundIndexMapper = true;
           indexMapDiscriminator = indexDiscriminator;
           return;
@@ -1145,7 +1150,7 @@ function getPolymorphicMapper(
             }
           }
         }
-      }
+      };
       if (discriminatorValue !== undefined && discriminatorValue !== null) {
         getIndexDiscriminator(mapper, false);
         if (foundIndexMapper) {
