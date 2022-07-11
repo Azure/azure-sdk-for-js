@@ -1104,6 +1104,10 @@ function getPolymorphicMapper(
   polymorphicPropertyName: "clientName" | "serializedName"
 ): CompositeMapper {
   const polymorphicDiscriminator = getPolymorphicDiscriminatorRecursively(serializer, mapper);
+  // To found out the correct mapper.
+  let foundIndexMapper = false;
+  let indexMapDiscriminator = "";
+
   if (polymorphicDiscriminator) {
     let discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
     if (discriminatorName) {
@@ -1112,57 +1116,57 @@ function getPolymorphicMapper(
         discriminatorName = discriminatorName.replace(/\\/gi, "");
       }
       const discriminatorValue = object[discriminatorName];
+      function getIndexDiscriminator(
+        mapper: CompositeMapper,
+        useClassName: boolean
+      ): void {
+        if (foundIndexMapper) {
+          return;
+        }
+        const typeName =
+          mapper.type.uberParent && !useClassName
+            ? mapper.type.uberParent
+            : mapper.type.className;
+        let indexDiscriminator =
+          discriminatorValue === typeName
+            ? discriminatorValue
+            : typeName + "." + discriminatorValue;
+        const discriminators = serializer.modelMappers.discriminators;
+        if (discriminators.hasOwnProperty(indexDiscriminator)) {
+          foundIndexMapper = true;
+          indexMapDiscriminator = indexDiscriminator;
+          return;
+        } else {
+          const discriminatorsToFound = Object.entries(discriminators).filter((item) => {
+            return (
+              item[0].startsWith(typeName + ".") &&
+              (item[1] as CompositeMapper).type.uberParent === typeName
+            );
+          });
+          for (const item of discriminatorsToFound) {
+            getIndexDiscriminator(
+              item[1] as CompositeMapper,
+              true
+            );
+            if (foundIndexMapper) {
+              break;
+            }
+          }
+        }
+      }
       if (discriminatorValue !== undefined && discriminatorValue !== null) {
-        const indexDiscriminator = getIndexDiscriminator(
-          discriminatorValue,
-          serializer.modelMappers.discriminators,
+        getIndexDiscriminator(
           mapper,
           false
         );
-        const polymorphicMapper = serializer.modelMappers.discriminators[indexDiscriminator];
-        if (polymorphicMapper) {
+        if (foundIndexMapper) {
+          const polymorphicMapper = serializer.modelMappers.discriminators[indexMapDiscriminator];
           mapper = polymorphicMapper;
         }
       }
     }
   }
   return mapper;
-}
-
-// To found out the correct mapper.
-function getIndexDiscriminator(
-  discriminatorValue: string,
-  discriminators: any,
-  mapper: CompositeMapper,
-  useClassName: boolean
-): string {
-  const typeName =
-    mapper.type.uberParent && !useClassName ? mapper.type.uberParent : mapper.type.className;
-  let indexDiscriminator =
-    discriminatorValue === typeName ? discriminatorValue : typeName + "." + discriminatorValue;
-  if (discriminators.hasOwnProperty(indexDiscriminator)) {
-    return indexDiscriminator;
-  } else {
-    const discriminatorsToFound = Object.entries(discriminators).filter((item) => {
-      return (
-        item[0].startsWith(typeName + ".") &&
-        (item[1] as CompositeMapper).type.uberParent === typeName
-      );
-    });
-    discriminatorsToFound.forEach((item) => {
-      const index = getIndexDiscriminator(
-        discriminatorValue,
-        discriminatorsToFound,
-        item[1] as CompositeMapper,
-        true
-      );
-      if (index) {
-        indexDiscriminator = index;
-        return;
-      }
-    });
-  }
-  return indexDiscriminator;
 }
 
 function getPolymorphicDiscriminatorRecursively(
