@@ -9,18 +9,18 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export type AgreementTerms = Resource & {
-    readonly systemData?: SystemData;
-    publisher?: string;
-    product?: string;
-    plan?: string;
+export interface AgreementTerms extends Resource {
+    accepted?: boolean;
     licenseTextLink?: string;
-    privacyPolicyLink?: string;
     marketplaceTermsLink?: string;
+    plan?: string;
+    privacyPolicyLink?: string;
+    product?: string;
+    publisher?: string;
     retrieveDatetime?: string;
     signature?: string;
-    accepted?: boolean;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type CreatedByType = string;
@@ -38,19 +38,14 @@ export interface ErrorResponseError {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownOfferType {
-    // (undocumented)
     Virtualmachine = "virtualmachine"
 }
 

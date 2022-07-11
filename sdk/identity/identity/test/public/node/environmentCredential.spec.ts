@@ -5,7 +5,7 @@
 
 import sinon from "sinon";
 import { assert } from "@azure/test-utils";
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { Context } from "mocha";
