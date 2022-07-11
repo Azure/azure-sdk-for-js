@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets all incidents.
  *
  * @summary Gets all incidents.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/incidents/GetIncidents.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/incidents/GetIncidents.json
  */
 async function getAllIncidents() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

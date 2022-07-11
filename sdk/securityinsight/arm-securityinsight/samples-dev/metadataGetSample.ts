@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get a Metadata.
  *
  * @summary Get a Metadata.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/metadata/GetMetadata.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/metadata/GetMetadata.json
  */
 async function getSingleMetadataByName() {
   const subscriptionId = "2e1dc338-d04d-4443-b721-037eff4fdcac";
