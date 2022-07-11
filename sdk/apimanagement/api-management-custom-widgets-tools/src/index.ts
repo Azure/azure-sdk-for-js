@@ -13,13 +13,15 @@ export {
   getEditorValues,
   askForSecrets,
   buildOnChange,
-  onChangeWithOrigin
-} from "./utils"
+  onChangeWithOrigin,
+} from "./utils";
 export type {
   TEditorData,
   TOnChange,
   TSecrets,
   TTargetModule,
   TValuesBase,
-  TEnvironment
-} from "./utils"
+  TEnvironment,
+} from "./utils";
+import node from "./node"
+export {node}

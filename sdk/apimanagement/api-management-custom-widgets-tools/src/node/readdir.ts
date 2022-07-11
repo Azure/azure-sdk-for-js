@@ -1,8 +1,11 @@
-const fs = require("fs")
-const path = require("path")
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-function readdir(dir, root) {
-  const results = []
+import fs from "fs"
+import path from "path"
+
+function readdir(dir: string, root: string): string[] {
+  const results: string[] = []
 
   fs.readdirSync(root + dir).forEach(file => {
     const stat = fs.statSync(root + dir + path.sep + file)
@@ -16,4 +19,4 @@ function readdir(dir, root) {
   return results
 }
 
-module.exports = readdir
+export default readdir

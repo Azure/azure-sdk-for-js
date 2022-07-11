@@ -146,7 +146,9 @@ export const askForSecrets = async (
       [ASK_FOR_SECRETS_MESSAGE_KEY]: { instanceId, origin: self.location.origin, targetModule },
     };
 
-    if (targetModule === "app" && environment === "development")
+    if (targetModule === "app" && environment === "development") {
       self.parent.parent.postMessage(message, targetOrigin);
-    else self.parent.postMessage(message, targetOrigin);
+    } else {
+      self.parent.postMessage(message, targetOrigin);
+    }
   });

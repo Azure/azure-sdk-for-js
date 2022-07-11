@@ -25,9 +25,8 @@
   "sideEffects": false,
   "files": [
     "dist/",
-    "bin/",
     "dist-esm/src/",
-    "types/letest/api-management-custom-widgets-tools.d.ts",
+    "types/latest/api-management-custom-widgets-tools.d.ts",
     "LICENSE"
   ],
   "main": "dist/index.js",
@@ -62,6 +61,7 @@
     "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
+    "@types/mime": "~2.0.3",
     "@types/node": "^12.0.0",
     "@types/glob": "^7.1.1",
     "@types/inquirer": "^8.2.1",

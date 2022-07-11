@@ -22,6 +22,11 @@ export function getEditorData<TValues extends TValuesBase>(valuesDefault: TValue
 // @public
 export function getEditorValues<TValues extends TValuesBase>(valuesDefault: TValues): TValues;
 
+// @public (undocumented)
+export const node: {
+    deploy: typeof deploy;
+};
+
 // @public
 export const ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
 
@@ -53,5 +58,9 @@ export type TTargetModule = "app" | "editor";
 
 // @public
 export type TValuesBase = Record<string, unknown>;
+
+// Warnings were encountered during analysis:
+//
+// src/node/index.ts:1:30 - (ae-forgotten-export) The symbol "deploy" needs to be exported by the entry point index.d.ts
 
 ```
