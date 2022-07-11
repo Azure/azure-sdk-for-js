@@ -84,7 +84,7 @@ describe("ClientAssertionCredential (internal)", function () {
 
   it("Sends the expected parameters", async function () {
     const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
-    const clientId =  env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
+    const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
     const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join("assets", "fake-cert.pem");
     const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
 
