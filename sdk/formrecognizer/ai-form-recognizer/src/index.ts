@@ -37,6 +37,7 @@ export {
   SelectionMarkState,
   ParagraphRole,
   DocumentPageKind,
+  GetOperationResponse
 } from "./generated";
 export {
   AnalysisPoller,
