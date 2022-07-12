@@ -32,5 +32,5 @@ export interface GeneralDocumentResult extends LayoutResult {
    *
    * For example, a labeled entry box may consist of the label (key) and the entry box text (value).
    */
-  keyValuePairs: DocumentKeyValuePair[];
+  keyValuePairs?: DocumentKeyValuePair[];
 }
