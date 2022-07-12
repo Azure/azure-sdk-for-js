@@ -57,7 +57,7 @@ const executeTestCase = async function (scenario: TestScenario) {
     } else {
       assert.strictEqual(400, scenario.expectedCreateStatusCode);
       if (err) {
-         assert.strictEqual(err.message, scenario.expectedCreateErrorMessage);
+        assert.strictEqual(err.message, scenario.expectedCreateErrorMessage);
       }
     }
     return;
