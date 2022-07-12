@@ -194,10 +194,7 @@ export function isResourceValid(resource: { id?: string }, err: { message?: stri
       return false;
     }
 
-    if (
-      resource.id.indexOf("/") !== -1 ||
-      resource.id.indexOf("\\") !== -1
-    ) {
+    if (resource.id.indexOf("/") !== -1 || resource.id.indexOf("\\") !== -1) {
       err.message = "Id contains illegal chars.";
       return false;
     }

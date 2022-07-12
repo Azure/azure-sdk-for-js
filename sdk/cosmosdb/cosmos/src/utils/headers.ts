@@ -33,7 +33,7 @@ function getEffectiveResourceIdForSignature(resourceId: string) {
     return resourceId;
   }
 
-  const prefix: string = resourceId.substring(0, lastSlashPosition)
+  const prefix: string = resourceId.substring(0, lastSlashPosition);
   if (!prefix.endsWith("/docs")) {
     return resourceId;
   }
