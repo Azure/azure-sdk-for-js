@@ -155,6 +155,7 @@
     "test/public/functional/databaseaccount.spec.ts",
     "test/public/functional/globalEndpointManager.spec.ts",
     "test/public/functional/item.spec.ts",
+    "test/public/functional/itemIdEncoding.spec.ts",
     "test/public/functional/npcontainer.spec.ts",
     "test/public/functional/offer.spec.ts",
     "test/public/functional/permission.spec.ts",
