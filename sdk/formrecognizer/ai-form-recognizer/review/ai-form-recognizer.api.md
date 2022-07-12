@@ -88,6 +88,10 @@ export interface BeginComposeModelOptions extends CreateModelOptions {
 }
 
 // @public
+export interface BeginCopyModelOptions extends OperationOptions, PollerOptions<TrainingPollOperationState> {
+}
+
+// @public
 export interface BoundingRegion extends HasBoundingPolygon {
     pageNumber: number;
 }
@@ -198,10 +202,6 @@ export interface CopyAuthorization {
     targetModelLocation: string;
     targetResourceId: string;
     targetResourceRegion: string;
-}
-
-// @public
-export interface CopyModelOptions extends OperationOptions, PollerOptions<TrainingPollOperationState> {
 }
 
 // @public
@@ -387,12 +387,12 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
     beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildModelOptions): Promise<DocumentModelPoller>;
     beginComposeModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeModelOptions): Promise<DocumentModelPoller>;
-    beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<DocumentModelPoller>;
+    beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
     getModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelInfo>;
-    getOperation(operationId: string, options?: GetOperationOptions): Promise<GetOperationResponse>;
-    getResourceInfo(options?: GetInfoOptions): Promise<ResourceInfo>;
+    getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationInfo>;
+    getResourceInfo(options?: GetResourceInfoOptions): Promise<ResourceInfo>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
     listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationSummary>;
 }
@@ -598,10 +598,6 @@ export interface GetCopyAuthorizationOptions extends OperationOptions, CommonMod
 }
 
 // @public
-export interface GetInfoOptions extends OperationOptions {
-}
-
-// @public
 export interface GetModelOptions extends OperationOptions {
 }
 
@@ -611,6 +607,10 @@ export interface GetOperationOptions extends OperationOptions {
 
 // @public
 export type GetOperationResponse = OperationInfo;
+
+// @public
+export interface GetResourceInfoOptions extends OperationOptions {
+}
 
 // @public
 export interface HasBoundingPolygon {
