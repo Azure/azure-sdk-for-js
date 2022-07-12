@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.1",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "sdk-type": "utility",
+  "sdk-type": "client",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/api-management-custom-widgets-scaffolder/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "browser": {
