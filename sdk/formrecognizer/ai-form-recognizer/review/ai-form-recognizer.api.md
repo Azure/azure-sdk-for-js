@@ -194,8 +194,8 @@ export interface CommonModelCreationOptions {
 export interface CopyAuthorization {
     accessToken: string;
     expirationDateTime: Date;
-    targetDocumentModelId: string;
-    targetDocumentModelLocation: string;
+    targetModelId: string;
+    targetModelLocation: string;
     targetResourceId: string;
     targetResourceRegion: string;
 }
@@ -390,10 +390,10 @@ export class DocumentModelAdministrationClient {
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<DocumentModelPoller>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
-    getInfo(options?: GetInfoOptions): Promise<ResourceInfo>;
     getModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelInfo>;
     // Warning: (ae-forgotten-export) The symbol "GetOperationResponse" needs to be exported by the entry point index.d.ts
     getOperation(operationId: string, options?: GetOperationOptions): Promise<GetOperationResponse>;
+    getResourceInfo(options?: GetInfoOptions): Promise<ResourceInfo>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
     listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationSummary>;
 }
