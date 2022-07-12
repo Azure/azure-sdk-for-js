@@ -7,7 +7,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/api-management-custom-widgets-tools/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "browser": {
-    "./dist-esm/src/generateProject.js": "./dist-esm/src/generateProject.browser.js"
+    "./dist-esm/src/node/deploy.js": "./dist-esm/src/node/deploy.browser.js"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -36,7 +36,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && dev-tool run bundle --browser-test=false",
     "build:node": "tsc -p . && dev-tool run bundle",
-    "build:test": "echo skip",
+    "build:test": "npm run clean && tsc -p . && dev-tool run bundle",
     "build:samples": "echo skip",
     "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/templates/**\" \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
+    "@azure-tools/test-recorder": "^2.0.0",
     "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
@@ -82,7 +83,18 @@
     "@azure/test-utils": "^1.0.0",
     "@types/mustache": "4.1.2",
     "sinon": "^9.0.4",
-    "karma": "^6.4.0",
+    "karma": "^6.2.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-coverage": "^2.0.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
     "@types/sinon": "^9.0.4"
   },
   "dependencies": {

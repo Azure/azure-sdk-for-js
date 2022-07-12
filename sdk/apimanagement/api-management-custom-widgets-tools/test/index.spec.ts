@@ -7,8 +7,8 @@ import {
   TOnChange,
   buildOnChange,
   getEditorData,
-  getEditorValues,
-} from "../src";
+  getEditorValues, EDITOR_DATA_KEY,
+} from "../src"
 import { assert } from "chai";
 import sinon from "sinon";
 import valuesUrl from "./valuesUrl.json";
@@ -17,6 +17,9 @@ const valuesDefault = {
   foo: "from const",
   bar: 42,
 };
+
+const searchParams = new URLSearchParams("https://localhost:3000");
+searchParams.set(EDITOR_DATA_KEY, JSON.stringify(valuesUrl));
 
 describe("getEditorData", () => {
   let editorData: TEditorData<typeof valuesDefault>;
@@ -27,6 +30,7 @@ describe("getEditorData", () => {
   });
 
   it("contains origin", () => {
+    console.log({editorData, valuesUrl})
     assert.deepEqual(Object.keys(editorData), Object.keys(valuesUrl));
   });
 });
@@ -44,6 +48,7 @@ describe("getEditorValues", () => {
   });
 
   it("contains correct foo value", () => {
+    console.log(editorValues.foo, valuesUrl.values.foo)
     assert.equal(editorValues.foo, valuesUrl.values.foo);
   });
 

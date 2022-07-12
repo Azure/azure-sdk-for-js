@@ -44,6 +44,7 @@ export function getEditorData<TValues extends TValuesBase>(
   valuesDefault: TValues
 ): TEditorData<TValues> {
   try {
+    console.log("self.location.search", self.location.search)
     const urlEditorParams = JSON.parse(
       decodeURIComponent(new URLSearchParams(self.location.search).get(EDITOR_DATA_KEY) ?? "")
     );
