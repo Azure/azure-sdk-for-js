@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-### 4.5.0-beta.1 (2022-07-07)
+## 4.5.0-beta.1 (2022-07-07)
 
 ### Breaking Changes
 
