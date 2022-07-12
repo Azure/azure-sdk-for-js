@@ -14,6 +14,7 @@ import {
   DocumentModelInfo,
   DocumentModelSummary,
   OperationSummary,
+  OperationInfo,
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
 import {
@@ -24,11 +25,11 @@ import {
 } from "./lro/training";
 import { lro } from "./lro/util/poller";
 import {
-  CopyModelOptions,
+  BeginCopyModelOptions,
   DeleteModelOptions,
   DocumentModelAdministrationClientOptions,
   GetCopyAuthorizationOptions,
-  GetInfoOptions,
+  GetResourceInfoOptions,
   GetModelOptions,
   GetOperationOptions,
   ListModelsOptions,
@@ -361,7 +362,7 @@ export class DocumentModelAdministrationClient {
   public async beginCopyModelTo(
     sourceModelId: string,
     authorization: CopyAuthorization,
-    options: CopyModelOptions = {}
+    options: BeginCopyModelOptions = {}
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginCopyModel",
@@ -485,7 +486,7 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for the request
    * @returns basic information about this client's resource
    */
-  public getResourceInfo(options: GetInfoOptions = {}): Promise<ResourceInfo> {
+  public getResourceInfo(options: GetResourceInfoOptions = {}): Promise<ResourceInfo> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getResourceInfo",
       options,
@@ -630,8 +631,7 @@ export class DocumentModelAdministrationClient {
   public getOperation(
     operationId: string,
     options: GetOperationOptions = {}
-  ): Promise<GetOperationResponse> {
-    // TODO: Add the error and result in the returned object. How?
+  ): Promise<OperationInfo> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getOperation",
       options,

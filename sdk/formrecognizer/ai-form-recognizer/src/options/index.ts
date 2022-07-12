@@ -9,7 +9,7 @@ import {
   BeginBuildModelOptions,
   BeginComposeModelOptions,
 } from "./BuildModelOptions";
-import { CopyModelOptions } from "./CopyModelOptions";
+import { BeginCopyModelOptions } from "./BeginCopyModelOptions";
 import { DeleteModelOptions } from "./DeleteModelOptions";
 import {
   DocumentAnalysisClientOptions,
@@ -19,7 +19,7 @@ import {
   StringIndexType,
 } from "./FormRecognizerClientOptions";
 import { GetCopyAuthorizationOptions } from "./GetCopyAuthorizationOptions";
-import { GetInfoOptions } from "./GetInfoOptions";
+import { GetResourceInfoOptions } from "./GetResourceInfoOptions";
 import { GetModelOptions } from "./GetModelOptions";
 import { GetOperationOptions } from "./GetOperationOptions";
 import { ListModelsOptions } from "./ListModelsOptions";
@@ -32,13 +32,13 @@ export {
   BeginBuildModelOptions,
   BeginComposeModelOptions,
   CommonModelCreationOptions,
-  CopyModelOptions,
+  BeginCopyModelOptions,
   DocumentModelBuildMode,
   FormRecognizerCommonClientOptions,
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,
   GetCopyAuthorizationOptions,
-  GetInfoOptions,
+  GetResourceInfoOptions,
   GetModelOptions,
   GetOperationOptions,
   DeleteModelOptions,

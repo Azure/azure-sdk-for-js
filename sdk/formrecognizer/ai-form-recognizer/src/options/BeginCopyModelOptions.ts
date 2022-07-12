@@ -8,6 +8,6 @@ import { PollerOptions } from "./PollerOptions";
 /**
  * Options for the copy model operation.
  */
-export interface CopyModelOptions
+export interface BeginCopyModelOptions
   extends OperationOptions,
-    PollerOptions<TrainingPollOperationState> {}
+  PollerOptions<TrainingPollOperationState> { }

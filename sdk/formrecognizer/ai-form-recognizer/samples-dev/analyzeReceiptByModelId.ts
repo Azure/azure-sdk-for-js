@@ -40,7 +40,7 @@ async function main() {
 
   const { documents } = await poller.pollUntilDone();
 
-  const result = documents?.[0];
+  const result = documents && documents[0];
   if (result) {
     const receipt = result.fields;
     console.log("=== Receipt Information ===");

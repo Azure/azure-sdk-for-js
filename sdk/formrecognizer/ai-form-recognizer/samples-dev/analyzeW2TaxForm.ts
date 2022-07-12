@@ -36,7 +36,7 @@ async function main() {
 
   const { documents } = await poller.pollUntilDone();
 
-  const result = documents?.[0];
+  const result = documents && documents[0];
   if (result) {
     const { employee, employer, controlNumber, taxYear, additionalInfo } = result.fields;
 

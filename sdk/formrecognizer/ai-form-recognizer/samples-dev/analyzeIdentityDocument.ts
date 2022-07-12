@@ -35,7 +35,7 @@ async function main() {
   );
 
   const { documents } = await poller.pollUntilDone();
-  const result = documents?.[0];
+  const result = documents && documents[0];
   // Use of PrebuiltModels.Receipt above (rather than the raw model ID), adds strong typing of the model's output
   if (result) {
     // The identity document model has multiple document types, so we need to know which document type was actually

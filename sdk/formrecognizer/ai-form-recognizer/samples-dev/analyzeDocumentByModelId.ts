@@ -26,7 +26,7 @@ async function main() {
   );
 
   const { documents } = await poller.pollUntilDone();
-  const document = documents?.[0];
+  const document = documents && documents[0];
   if (!document) {
     throw new Error("Expected at least one document in the result.");
   }
