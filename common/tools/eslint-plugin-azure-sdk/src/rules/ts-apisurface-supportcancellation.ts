@@ -39,6 +39,9 @@ const getDefinedType = (type: any): Type => {
  * @returns if the Symbol is or contains AbortSignalLike.
  */
 const isValidSymbol = (symbol: TSSymbol, typeChecker: TypeChecker): boolean => {
+  if (!symbol.valueDeclaration) {
+    return false;
+  }
   const type = getDefinedType(typeChecker.getTypeAtLocation(symbol.valueDeclaration));
   const typeSymbol = type.getSymbol();
   if (typeSymbol === undefined) {
