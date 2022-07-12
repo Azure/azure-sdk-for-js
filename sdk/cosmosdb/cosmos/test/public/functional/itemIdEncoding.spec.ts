@@ -47,7 +47,7 @@ const executeTestCase = async function (scenario: TestScenario) {
       assert.fail("response.resource should not be null");
     }
   } catch (err: any) {
-    if (err.code) {
+    if (err && err.code) {
       if (err.code === "ERR_ASSERTION") {
         throw err;
       }
@@ -56,7 +56,9 @@ const executeTestCase = async function (scenario: TestScenario) {
       assert.strictEqual(err.code, scenario.expectedCreateStatusCode);
     } else {
       assert.strictEqual(400, scenario.expectedCreateStatusCode);
-      assert.strictEqual(err.message, scenario.expectedCreateErrorMessage);
+      if (err) {
+         assert.strictEqual(err.message, scenario.expectedCreateErrorMessage);
+      }
     }
     return;
   }
@@ -210,7 +212,8 @@ describe("Id encoding", function (this: Suite) {
 
   it("idWithBase64EncodedIdCharacters", async function () {
     const base64EncodedId =
-      "BQE1D3PdG4N4bzU9TKaCIM3qc0TVcZ2/Y3jnsRfwdHC1ombkX3F1dot/SG0/UTq9AbgdX3kOWoP6qL6lJqWeKgV3zwWWPZO/t5X0ehJzv9LGkWld07LID2rhWhGT6huBM6Q=";
+      "BQE1D3PdG4N4bzU9TKaCIM3qc0TVcZ2/Y3jnsRfwdHC1ombkX3F1dot/SG0/UTq9AbgdX3" +
+      "kOWoP6qL6lJqWeKgV3zwWWPZO/t5X0ehJzv9LGkWld07LID2rhWhGT6huBM6Q=";
     const safeBase64EncodedId = base64EncodedId.replace(/\//g, "-");
 
     const scenario: TestScenario = {
