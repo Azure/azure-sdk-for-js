@@ -71,7 +71,7 @@ export async function main() {
 
         return poller.pollUntilDone();
       })
-      .map(async (model) => (await model).modelId)
+      .map(async (model) => (await model).documentModelId)
   );
 
   // Finally, create the composed model.
@@ -87,7 +87,7 @@ export async function main() {
 
   const composedModel = await poller.pollUntilDone();
 
-  console.log("Model ID:", composedModel.modelId);
+  console.log("Model ID:", composedModel.documentModelId);
   console.log("Description:", composedModel.description);
   console.log("Created:", composedModel.createdDateTime);
 

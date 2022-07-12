@@ -41,7 +41,7 @@ async function main() {
   );
   const model = await poller.pollUntilDone();
 
-  console.log("Model ID:", model.modelId);
+  console.log("Model ID:", model.documentModelId);
   console.log("Description:", model.description);
   console.log("Created:", model.createdDateTime);
 

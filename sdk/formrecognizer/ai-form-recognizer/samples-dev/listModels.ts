@@ -19,12 +19,12 @@ async function main() {
   const client = new DocumentModelAdministrationClient(endpoint, credential);
 
   for await (const modelSummary of client.listModels()) {
-    console.log("- ID", modelSummary.modelId);
+    console.log("- ID", modelSummary.documentModelId);
     console.log("  Created:", modelSummary.createdDateTime);
     console.log("  Description: ", modelSummary.description || "<none>");
 
     // The model summary does not include `docTypes`, so we must additionally call `getModel` to retrieve them
-    const { docTypes } = await client.getModel(modelSummary.modelId);
+    const { docTypes } = await client.getModel(modelSummary.documentModelId);
 
     console.log("  Document Types:");
     for (const docType of Object.keys(docTypes || {})) {

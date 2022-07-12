@@ -10,11 +10,11 @@ import { DocumentPage } from "./documentElements";
  * @internal
  */
 export function toReadResult(analyzeResult: AnalyzeResult<unknown>): ReadResult {
-  const { apiVersion, modelId, content, pages, languages, styles } = analyzeResult;
+  const { apiVersion, documentModelId, content, pages, languages, styles } = analyzeResult;
 
   return {
     apiVersion,
-    modelId,
+    documentModelId,
     content,
     pages,
     languages,

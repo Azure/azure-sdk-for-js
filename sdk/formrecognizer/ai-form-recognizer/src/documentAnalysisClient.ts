@@ -646,67 +646,15 @@ export class DocumentAnalysisClient {
       // If the user gave us a stored token, we'll poll it again
       resumeFrom !== undefined
         ? async () =>
-            this._tracing.withSpan(
-              "DocumentAnalysisClient.createAnalysisPoller-resume",
-              definition.options,
-              async () => {
-                const { operationLocation, modelId } = JSON.parse(resumeFrom) as {
-                  operationLocation: string;
-                  modelId: string;
-                };
-
-                const result = await getAnalyzeResult(operationLocation);
-
-                return toDocumentAnalysisPollOperationState(
-                  definition,
-                  modelId,
-                  operationLocation,
-                  result
-                );
-              }
-            )
-        : // Otherwise, we'll start a new operation from the initialModelId
-          async () =>
-            this._tracing.withSpan(
-              "DocumentAnalysisClient.createAnalysisPoller-start",
-              definition.options,
-              async () => {
-                const [contentType, analyzeRequest] = toAnalyzeRequest(input);
-
-                const { operationLocation } = await this._restClient.analyzeDocument(
-                  definition.initialModelId,
-                  contentType as any,
-                  {
-                    ...definition.options,
-                    analyzeRequest,
-                  }
-                );
-
-                if (operationLocation === undefined) {
-                  throw new Error(
-                    "Unable to start analysis operation: no Operation-Location received."
-                  );
-                }
-
-                const result = await getAnalyzeResult(operationLocation);
-
-                return toDocumentAnalysisPollOperationState(
-                  definition,
-                  definition.initialModelId,
-                  operationLocation,
-                  result
-                );
-              }
-            );
-
-    const poller = await lro<Result, DocumentAnalysisPollOperationState<Result>>(
-      {
-        init: toInit,
-        poll: async ({ operationLocation, modelId }) =>
           this._tracing.withSpan(
-            "DocumentAnalysisClient.createAnalysisPoller-poll",
-            {},
+            "DocumentAnalysisClient.createAnalysisPoller-resume",
+            definition.options,
             async () => {
+              const { operationLocation, modelId } = JSON.parse(resumeFrom) as {
+                operationLocation: string;
+                modelId: string;
+              };
+
               const result = await getAnalyzeResult(operationLocation);
 
               return toDocumentAnalysisPollOperationState(
@@ -716,9 +664,61 @@ export class DocumentAnalysisClient {
                 result
               );
             }
+          )
+        : // Otherwise, we'll start a new operation from the initialModelId
+        async () =>
+          this._tracing.withSpan(
+            "DocumentAnalysisClient.createAnalysisPoller-start",
+            definition.options,
+            async () => {
+              const [contentType, analyzeRequest] = toAnalyzeRequest(input);
+
+              const { operationLocation } = await this._restClient.analyzeDocument(
+                definition.initialModelId,
+                contentType as any,
+                {
+                  ...definition.options,
+                  analyzeRequest,
+                }
+              );
+
+              if (operationLocation === undefined) {
+                throw new Error(
+                  "Unable to start analysis operation: no Operation-Location received."
+                );
+              }
+
+              const result = await getAnalyzeResult(operationLocation);
+
+              return toDocumentAnalysisPollOperationState(
+                definition,
+                definition.initialModelId,
+                operationLocation,
+                result
+              );
+            }
+          );
+
+    const poller = await lro<Result, DocumentAnalysisPollOperationState<Result>>(
+      {
+        init: toInit,
+        poll: async ({ operationLocation, documentModelId }) =>
+          this._tracing.withSpan(
+            "DocumentAnalysisClient.createAnalysisPoller-poll",
+            {},
+            async () => {
+              const result = await getAnalyzeResult(operationLocation);
+
+              return toDocumentAnalysisPollOperationState(
+                definition,
+                documentModelId,
+                operationLocation,
+                result
+              );
+            }
           ),
-        serialize: ({ operationLocation, modelId }) =>
-          JSON.stringify({ modelId, operationLocation }),
+        serialize: ({ operationLocation, documentModelId }) =>
+          JSON.stringify({ documentModelId, operationLocation }),
       },
       definition.options.updateIntervalInMs
     );

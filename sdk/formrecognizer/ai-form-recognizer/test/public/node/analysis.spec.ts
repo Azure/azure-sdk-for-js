@@ -13,7 +13,7 @@ import {
   DocumentModelAdministrationClient,
   DocumentTable,
   IdentityDocument,
-  ModelInfo,
+  DocumentModelInfo,
   PrebuiltModels,
 } from "../../../src";
 import { DocumentSelectionMarkField } from "../../../src/models/fields";
@@ -262,14 +262,14 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           },
         ],
       });
-      let _model: ModelInfo;
+      let _model: DocumentModelInfo;
       let modelName: string;
 
       // We only want to create the model once, but because of the recorder's
       // precedence, we have to create it in a test, so one test will end up
       // recording the entire creation and the other tests will still be able
       // to use it.
-      async function requireModel(): Promise<ModelInfo> {
+      async function requireModel(): Promise<DocumentModelInfo> {
         if (!_model) {
           const trainingClient = new DocumentModelAdministrationClient(
             endpoint(),
@@ -288,19 +288,19 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           );
           _model = await poller.pollUntilDone();
 
-          assert.ok(_model.modelId);
+          assert.ok(_model.documentModelId);
         }
 
         return _model;
       }
 
       it("with selection marks", async () => {
-        const { modelId } = await requireModel();
+        const { documentModelId } = await requireModel();
 
         const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginAnalyzeDocument(modelId, stream, testPollingOptions);
+        const poller = await client.beginAnalyzeDocument(documentModelId, stream, testPollingOptions);
         const { pages, documents } = await poller.pollUntilDone();
 
         assert.ok(documents);

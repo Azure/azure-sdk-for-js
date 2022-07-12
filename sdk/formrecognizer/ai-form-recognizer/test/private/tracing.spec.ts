@@ -165,8 +165,8 @@ describe("supports tracing", function () {
           await dmac.beginCopyModelTo(
             "test",
             {
-              targetModelId: "test",
-              targetModelLocation: "test",
+              targetDocumentModelId: "test",
+              targetDocumentModelLocation: "test",
               targetResourceId: "test",
               targetResourceRegion: "test",
               accessToken: "test",

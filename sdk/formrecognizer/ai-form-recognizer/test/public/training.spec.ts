@@ -15,7 +15,7 @@ import {
   testPollingOptions,
 } from "../utils/recordedClients";
 
-import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";
+import { DocumentAnalysisClient, DocumentModelAdministrationClient, DocumentModelInfo } from "../../src";
 import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
@@ -73,7 +73,7 @@ matrix(
         });
 
         describe(`custom model from trainingdata-v3 (${buildMode})`, async () => {
-          let _model: ModelInfo;
+          let _model: DocumentModelInfo;
 
           let modelId: string;
 
@@ -81,7 +81,7 @@ matrix(
           // precedence, we have to create it in a test, so one test will end up
           // recording the entire creation and the other tests will still be able
           // to use it
-          async function requireModel(): Promise<ModelInfo> {
+          async function requireModel(): Promise<DocumentModelInfo> {
             if (!_model) {
               // Compute a unique name for the model
               modelId = recorder.variable(getId().toString(), `modelName${getRandomNumber()}`);
@@ -93,9 +93,9 @@ matrix(
               );
               _model = await poller.pollUntilDone();
 
-              assert.equal(_model.modelId, modelId);
+              assert.equal(_model.documentModelId, modelId);
 
-              allModels.push(_model.modelId);
+              allModels.push(_model.documentModelId);
             }
 
             return _model;
@@ -109,10 +109,10 @@ matrix(
             const model = await requireModel();
 
             assert.ok(model, "Expecting valid response");
-            assert.ok(model.modelId);
+            assert.ok(model.documentModelId);
 
             assert.isNotEmpty(model.docTypes);
-            const submodel = model.docTypes![model.modelId];
+            const submodel = model.docTypes![model.documentModelId];
 
             // When training with labels, we will have expectations for the names
             assert.ok(
@@ -145,7 +145,7 @@ matrix(
               const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
               const poller = await recognizerClient.beginAnalyzeDocument(
-                model.modelId,
+                model.documentModelId,
                 url,
                 testPollingOptions
               );
@@ -174,9 +174,9 @@ matrix(
           it("getModel() verification", async () => {
             const model = await requireModel();
 
-            const modelInfo = await client.getModel(model.modelId);
+            const modelInfo = await client.getModel(model.documentModelId);
 
-            assert.strictEqual(modelInfo.modelId, model.modelId);
+            assert.strictEqual(modelInfo.documentModelId, model.documentModelId);
             assert.strictEqual(modelInfo.description, model.description);
             assert.ok(modelInfo.docTypes);
           });
@@ -205,8 +205,8 @@ matrix(
           it("iterate models in account", async () => {
             const modelsInAccount = [];
             for await (const model of client.listModels()) {
-              assert.ok(model.modelId);
-              modelsInAccount.push(model.modelId);
+              assert.ok(model.documentModelId);
+              modelsInAccount.push(model.documentModelId);
             }
 
             for (const modelId of allModels) {
@@ -218,7 +218,7 @@ matrix(
             const iter = client.listModels();
             const item = getYieldedValue(await iter.next());
             assert.ok(item, `Expecting a model but got ${item}`);
-            assert.ok(item.modelId, `Expecting a model id but got ${item.modelId}`);
+            assert.ok(item.documentModelId, `Expecting a model id but got ${item.documentModelId}`);
           });
 
           it("delete models from the account", async () => {
@@ -261,11 +261,11 @@ matrix(
           );
           const model = await poller.pollUntilDone();
 
-          assert.equal(model.modelId, modelId);
-          assert.equal(model.modelId, modelId);
+          assert.equal(model.documentModelId, modelId);
+          assert.equal(model.documentModelId, modelId);
           assert.ok(model.docTypes);
 
-          return model.modelId;
+          return model.documentModelId;
         }
 
         const componentModelIds = await Promise.all([makeModel("input1"), makeModel("input2")]);
@@ -281,8 +281,8 @@ matrix(
         );
 
         const composedModel = await composePoller.pollUntilDone();
-        assert.ok(composedModel.modelId);
-        assert.equal(composedModel.modelId, modelId);
+        assert.ok(composedModel.documentModelId);
+        assert.equal(composedModel.documentModelId, modelId);
         assert.ok(composedModel.docTypes);
 
         // Submodels
@@ -318,27 +318,27 @@ matrix(
         );
         const sourceModel = await trainingPoller.pollUntilDone();
 
-        assert.equal(sourceModel.modelId, modelId);
+        assert.equal(sourceModel.documentModelId, modelId);
 
         const targetModelId = recorder.variable("copyTarget", `copyTarget${getRandomNumber()}`);
         const targetAuth = await trainingClient.getCopyAuthorization(targetModelId);
 
         const poller = await trainingClient.beginCopyModelTo(
-          sourceModel.modelId,
+          sourceModel.documentModelId,
           targetAuth,
           testPollingOptions
         );
         const copyResult = await poller.pollUntilDone();
 
         assert.ok(copyResult, "Expecting valid copy result");
-        assert.equal(copyResult.modelId, targetAuth.targetModelId);
+        assert.equal(copyResult.documentModelId, targetAuth.targetDocumentModelId);
 
         assert.ok(copyResult.createdDateTime, "Expecting valid 'trainingStartedOn' property");
 
-        const targetModel = await trainingClient.getModel(copyResult.modelId);
+        const targetModel = await trainingClient.getModel(copyResult.documentModelId);
 
-        assert.equal(targetModel.modelId, targetAuth.targetModelId);
-        assert.equal(targetModel.modelId, copyResult.modelId);
+        assert.equal(targetModel.documentModelId, targetAuth.targetDocumentModelId);
+        assert.equal(targetModel.documentModelId, copyResult.documentModelId);
       });
     }).timeout(60000);
   }
