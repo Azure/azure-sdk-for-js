@@ -391,7 +391,6 @@ export class DocumentModelAdministrationClient {
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
     getModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelInfo>;
-    // Warning: (ae-forgotten-export) The symbol "GetOperationResponse" needs to be exported by the entry point index.d.ts
     getOperation(operationId: string, options?: GetOperationOptions): Promise<GetOperationResponse>;
     getResourceInfo(options?: GetInfoOptions): Promise<ResourceInfo>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
@@ -562,6 +561,15 @@ export interface DocumentWord extends HasBoundingPolygon {
 export type EnglishCapitalLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z";
 
 // @public
+export interface ErrorModel {
+    code: string;
+    details?: ErrorModel[];
+    innererror?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
 export type FieldSchema = StringLikeFieldSchema | NumberFieldSchema | DateFieldSchema | ArrayFieldSchema | ObjectFieldSchema | StructuredStringFieldSchema | WellKnownObjectFieldSchema;
 
 // @public
@@ -600,6 +608,9 @@ export interface GetModelOptions extends OperationOptions {
 // @public
 export interface GetOperationOptions extends OperationOptions {
 }
+
+// @public
+export type GetOperationResponse = OperationInfo;
 
 // @public
 export interface HasBoundingPolygon {
@@ -693,6 +704,13 @@ export const IdentityDocumentSchema: {
         };
     };
 };
+
+// @public
+export interface InnerError {
+    code: string;
+    innererror?: InnerError;
+    message?: string;
+}
 
 // @public
 export type Invoice = ReifyPrebuiltSchema<typeof InvoiceSchema>;
@@ -880,6 +898,12 @@ export interface ObjectFieldSchema<Properties extends {
 }> {
     readonly properties: Properties;
     readonly type: "object";
+}
+
+// @public
+export interface OperationInfo extends OperationSummary {
+    error?: ErrorModel;
+    result?: Record<string, unknown>;
 }
 
 // @public

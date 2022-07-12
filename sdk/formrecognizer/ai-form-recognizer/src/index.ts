@@ -37,7 +37,10 @@ export {
   SelectionMarkState,
   ParagraphRole,
   DocumentPageKind,
-  GetOperationResponse
+  GetOperationResponse,
+  OperationInfo,
+  ErrorModel,
+  InnerError
 } from "./generated";
 export {
   AnalysisPoller,
