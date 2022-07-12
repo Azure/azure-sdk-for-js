@@ -75,7 +75,7 @@ import {
   GetCertificateVersionsNextOptionalParams,
   GetCertificateVersionsNextResponse,
   GetDeletedCertificatesNextOptionalParams,
-  GetDeletedCertificatesNextResponse,
+  GetDeletedCertificatesNextResponse
 } from "./models";
 
 /** @internal */
@@ -87,7 +87,10 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * @param apiVersion Api Version
    * @param options The parameter options
    */
-  constructor(apiVersion: ApiVersion73, options?: KeyVaultClientOptionalParams) {
+  constructor(
+    apiVersion: ApiVersion73,
+    options?: KeyVaultClientOptionalParams
+  ) {
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }
@@ -97,7 +100,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: KeyVaultClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8",
+      requestContentType: "application/json; charset=utf-8"
     };
 
     const packageDetails = `azsdk-js-keyvault-certificates/4.5.0-beta.2`;
@@ -110,9 +113,9 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix,
+        userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{vaultBaseUrl}",
+      baseUri: options.endpoint ?? options.baseUri ?? "{vaultBaseUrl}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -129,7 +132,10 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
     vaultBaseUrl: string,
     options?: GetCertificatesOptionalParams
   ): Promise<GetCertificatesResponse> {
-    return this.sendOperationRequest({ vaultBaseUrl, options }, getCertificatesOperationSpec);
+    return this.sendOperationRequest(
+      { vaultBaseUrl, options },
+      getCertificatesOperationSpec
+    );
   }
 
   /**
@@ -211,7 +217,10 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
     vaultBaseUrl: string,
     options?: GetCertificateIssuersOptionalParams
   ): Promise<GetCertificateIssuersResponse> {
-    return this.sendOperationRequest({ vaultBaseUrl, options }, getCertificateIssuersOperationSpec);
+    return this.sendOperationRequest(
+      { vaultBaseUrl, options },
+      getCertificateIssuersOperationSpec
+    );
   }
 
   /**
@@ -693,218 +702,222 @@ const getCertificatesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateListResult,
+      bodyMapper: Mappers.CertificateListResult
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
-  queryParameters: [Parameters.maxresults, Parameters.includePending, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.includePending,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.vaultBaseUrl],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedCertificateBundle,
+      bodyMapper: Mappers.DeletedCertificateBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const setCertificateContactsOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/contacts",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Contacts,
+      bodyMapper: Mappers.Contacts
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   requestBody: Parameters.contacts,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getCertificateContactsOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/contacts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Contacts,
+      bodyMapper: Mappers.Contacts
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteCertificateContactsOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/contacts",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.Contacts,
+      bodyMapper: Mappers.Contacts
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getCertificateIssuersOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/issuers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateIssuerListResult,
+      bodyMapper: Mappers.CertificateIssuerListResult
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const setCertificateIssuerOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/issuers/{issuer-name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IssuerBundle,
+      bodyMapper: Mappers.IssuerBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   requestBody: {
     parameterPath: {
       provider: ["provider"],
       credentials: ["options", "credentials"],
       organizationDetails: ["options", "organizationDetails"],
-      attributes: ["options", "attributes"],
+      attributes: ["options", "attributes"]
     },
-    mapper: { ...Mappers.CertificateIssuerSetParameters, required: true },
+    mapper: { ...Mappers.CertificateIssuerSetParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const updateCertificateIssuerOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/issuers/{issuer-name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IssuerBundle,
+      bodyMapper: Mappers.IssuerBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   requestBody: {
     parameterPath: {
       provider: ["options", "provider"],
       credentials: ["options", "credentials"],
       organizationDetails: ["options", "organizationDetails"],
-      attributes: ["options", "attributes"],
+      attributes: ["options", "attributes"]
     },
-    mapper: { ...Mappers.CertificateIssuerUpdateParameters, required: true },
+    mapper: { ...Mappers.CertificateIssuerUpdateParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getCertificateIssuerOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/issuers/{issuer-name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IssuerBundle,
+      bodyMapper: Mappers.IssuerBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteCertificateIssuerOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/issuers/{issuer-name}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.IssuerBundle,
+      bodyMapper: Mappers.IssuerBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/create",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.CertificateOperation,
+      bodyMapper: Mappers.CertificateOperation
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   requestBody: {
     parameterPath: {
       certificatePolicy: ["options", "certificatePolicy"],
       certificateAttributes: ["options", "certificateAttributes"],
-      tags: ["options", "tags"],
+      tags: ["options", "tags"]
     },
-    mapper: { ...Mappers.CertificateCreateParameters, required: true },
+    mapper: { ...Mappers.CertificateCreateParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName1],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const importCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/import",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateBundle,
+      bodyMapper: Mappers.CertificateBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   requestBody: {
     parameterPath: {
@@ -912,261 +925,265 @@ const importCertificateOperationSpec: coreClient.OperationSpec = {
       password: ["options", "password"],
       certificatePolicy: ["options", "certificatePolicy"],
       certificateAttributes: ["options", "certificateAttributes"],
-      tags: ["options", "tags"],
+      tags: ["options", "tags"]
     },
-    mapper: { ...Mappers.CertificateImportParameters, required: true },
+    mapper: { ...Mappers.CertificateImportParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName1],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getCertificateVersionsOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateListResult,
+      bodyMapper: Mappers.CertificateListResult
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getCertificatePolicyOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/policy",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificatePolicy,
+      bodyMapper: Mappers.CertificatePolicy
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const updateCertificatePolicyOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/policy",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificatePolicy,
+      bodyMapper: Mappers.CertificatePolicy
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   requestBody: Parameters.certificatePolicy2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const updateCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/{certificate-version}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateBundle,
+      bodyMapper: Mappers.CertificateBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   requestBody: {
     parameterPath: {
       certificatePolicy: ["options", "certificatePolicy"],
       certificateAttributes: ["options", "certificateAttributes"],
-      tags: ["options", "tags"],
+      tags: ["options", "tags"]
     },
-    mapper: { ...Mappers.CertificateUpdateParameters, required: true },
+    mapper: { ...Mappers.CertificateUpdateParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.vaultBaseUrl,
     Parameters.certificateName,
-    Parameters.certificateVersion,
+    Parameters.certificateVersion
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/{certificate-version}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateBundle,
+      bodyMapper: Mappers.CertificateBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.vaultBaseUrl,
     Parameters.certificateName,
-    Parameters.certificateVersion,
+    Parameters.certificateVersion
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const updateCertificateOperationOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/pending",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateOperation,
+      bodyMapper: Mappers.CertificateOperation
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   requestBody: {
     parameterPath: { cancellationRequested: ["cancellationRequested"] },
-    mapper: { ...Mappers.CertificateOperationUpdateParameter, required: true },
+    mapper: { ...Mappers.CertificateOperationUpdateParameter, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getCertificateOperationOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/pending",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateOperation,
+      bodyMapper: Mappers.CertificateOperation
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteCertificateOperationOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/pending",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateOperation,
+      bodyMapper: Mappers.CertificateOperation
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const mergeCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/pending/merge",
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.CertificateBundle,
+      bodyMapper: Mappers.CertificateBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   requestBody: {
     parameterPath: {
       x509Certificates: ["x509Certificates"],
       certificateAttributes: ["options", "certificateAttributes"],
-      tags: ["options", "tags"],
+      tags: ["options", "tags"]
     },
-    mapper: { ...Mappers.CertificateMergeParameters, required: true },
+    mapper: { ...Mappers.CertificateMergeParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const backupCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/{certificate-name}/backup",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupCertificateResult,
+      bodyMapper: Mappers.BackupCertificateResult
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const restoreCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/certificates/restore",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateBundle,
+      bodyMapper: Mappers.CertificateBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   requestBody: {
     parameterPath: { certificateBundleBackup: ["certificateBundleBackup"] },
-    mapper: { ...Mappers.CertificateRestoreParameters, required: true },
+    mapper: { ...Mappers.CertificateRestoreParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getDeletedCertificatesOperationSpec: coreClient.OperationSpec = {
   path: "/deletedcertificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedCertificateListResult,
+      bodyMapper: Mappers.DeletedCertificateListResult
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
-  queryParameters: [Parameters.maxresults, Parameters.includePending, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.includePending,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.vaultBaseUrl],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getDeletedCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/deletedcertificates/{certificate-name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedCertificateBundle,
+      bodyMapper: Mappers.DeletedCertificateBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const purgeDeletedCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/deletedcertificates/{certificate-name}",
@@ -1174,91 +1191,103 @@ const purgeDeletedCertificateOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const recoverDeletedCertificateOperationSpec: coreClient.OperationSpec = {
   path: "/deletedcertificates/{certificate-name}/recover",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateBundle,
+      bodyMapper: Mappers.CertificateBundle
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getCertificatesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateListResult,
+      bodyMapper: Mappers.CertificateListResult
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
-  queryParameters: [Parameters.maxresults, Parameters.includePending, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.includePending,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getCertificateIssuersNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateIssuerListResult,
+      bodyMapper: Mappers.CertificateIssuerListResult
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getCertificateVersionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateListResult,
+      bodyMapper: Mappers.CertificateListResult
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName, Parameters.nextLink],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName,
+    Parameters.nextLink
+  ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getDeletedCertificatesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedCertificateListResult,
+      bodyMapper: Mappers.DeletedCertificateListResult
     },
     default: {
-      bodyMapper: Mappers.KeyVaultError,
-    },
+      bodyMapper: Mappers.KeyVaultError
+    }
   },
-  queryParameters: [Parameters.maxresults, Parameters.includePending, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.includePending,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
