@@ -6,7 +6,6 @@ the [official Azure documentation](https://aka.ms/apimdocs/portal/customwidgets)
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/api-management-custom-widgets-scaffolder/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/api-management-custom-widgets-scaffolder) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/api-management-custom-widgets-scaffolder) |
 [Product documentation](https://aka.ms/apimdocs/portal/)
 
 ## Getting started
