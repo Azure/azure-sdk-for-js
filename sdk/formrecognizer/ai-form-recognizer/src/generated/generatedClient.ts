@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -19,12 +18,12 @@ import * as Mappers from "./models/mappers";
 import {
   StringIndexType,
   GeneratedClientOptionalParams,
-  OperationInfo,
+  OperationSummary,
   GetOperationsNextOptionalParams,
   GetOperationsOptionalParams,
-  ModelSummary,
-  GetModelsNextOptionalParams,
-  GetModelsOptionalParams,
+  DocumentModelSummary,
+  GetDocumentModelsNextOptionalParams,
+  GetDocumentModelsOptionalParams,
   ContentType,
   AnalyzeDocument$binaryOptionalParams,
   AnalyzeDocument$textOptionalParams,
@@ -47,14 +46,14 @@ import {
   GetOperationsOperationResponse,
   GetOperationOptionalParams,
   GetOperationOperationResponse,
-  GetModelsOperationResponse,
-  GetModelOptionalParams,
-  GetModelResponse,
-  DeleteModelOptionalParams,
-  GetInfoOptionalParams,
-  GetInfoOperationResponse,
+  GetDocumentModelsOperationResponse,
+  GetDocumentModelOptionalParams,
+  GetDocumentModelResponse,
+  DeleteDocumentModelOptionalParams,
+  GetResourceInfoOptionalParams,
+  GetResourceInfoResponse,
   GetOperationsNextResponse,
-  GetModelsNextResponse
+  GetDocumentModelsNextResponse
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -98,29 +97,6 @@ export class GeneratedClient extends coreClient.ServiceClient {
         options.endpoint ?? options.baseUri ?? "{endpoint}/formrecognizer"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.endpoint = endpoint;
 
@@ -163,7 +139,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
    */
   public listOperations(
     options?: GetOperationsOptionalParams
-  ): PagedAsyncIterableIterator<OperationInfo> {
+  ): PagedAsyncIterableIterator<OperationSummary> {
     const iter = this.getOperationsPagingAll(options);
     return {
       next() {
@@ -180,7 +156,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
 
   private async *getOperationsPagingPage(
     options?: GetOperationsOptionalParams
-  ): AsyncIterableIterator<OperationInfo[]> {
+  ): AsyncIterableIterator<OperationSummary[]> {
     let result = await this._getOperations(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -193,20 +169,20 @@ export class GeneratedClient extends coreClient.ServiceClient {
 
   private async *getOperationsPagingAll(
     options?: GetOperationsOptionalParams
-  ): AsyncIterableIterator<OperationInfo> {
+  ): AsyncIterableIterator<OperationSummary> {
     for await (const page of this.getOperationsPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List all models
+   * List all document models
    * @param options The options parameters.
    */
-  public listModels(
-    options?: GetModelsOptionalParams
-  ): PagedAsyncIterableIterator<ModelSummary> {
-    const iter = this.getModelsPagingAll(options);
+  public listDocumentModels(
+    options?: GetDocumentModelsOptionalParams
+  ): PagedAsyncIterableIterator<DocumentModelSummary> {
+    const iter = this.getDocumentModelsPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -215,67 +191,67 @@ export class GeneratedClient extends coreClient.ServiceClient {
         return this;
       },
       byPage: () => {
-        return this.getModelsPagingPage(options);
+        return this.getDocumentModelsPagingPage(options);
       }
     };
   }
 
-  private async *getModelsPagingPage(
-    options?: GetModelsOptionalParams
-  ): AsyncIterableIterator<ModelSummary[]> {
-    let result = await this._getModels(options);
+  private async *getDocumentModelsPagingPage(
+    options?: GetDocumentModelsOptionalParams
+  ): AsyncIterableIterator<DocumentModelSummary[]> {
+    let result = await this._getDocumentModels(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getModelsNext(continuationToken, options);
+      result = await this._getDocumentModelsNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *getModelsPagingAll(
-    options?: GetModelsOptionalParams
-  ): AsyncIterableIterator<ModelSummary> {
-    for await (const page of this.getModelsPagingPage(options)) {
+  private async *getDocumentModelsPagingAll(
+    options?: GetDocumentModelsOptionalParams
+  ): AsyncIterableIterator<DocumentModelSummary> {
+    for await (const page of this.getDocumentModelsPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Analyzes document with model.
-   * @param modelId Unique model name.
+   * Analyzes document with document model.
+   * @param documentModelId Unique document model name.
    * @param contentType Upload file type
    * @param options The options parameters.
    */
   analyzeDocument(
-    modelId: string,
+    documentModelId: string,
     contentType: ContentType,
     options?: AnalyzeDocument$binaryOptionalParams
   ): Promise<AnalyzeDocumentResponse>;
   /**
-   * Analyzes document with model.
-   * @param modelId Unique model name.
+   * Analyzes document with document model.
+   * @param documentModelId Unique document model name.
    * @param contentType Upload file type
    * @param options The options parameters.
    */
   analyzeDocument(
-    modelId: string,
+    documentModelId: string,
     contentType: "text/html",
     options?: AnalyzeDocument$textOptionalParams
   ): Promise<AnalyzeDocumentResponse>;
   /**
-   * Analyzes document with model.
-   * @param modelId Unique model name.
+   * Analyzes document with document model.
+   * @param documentModelId Unique document model name.
    * @param contentType Body Parameter content-type
    * @param options The options parameters.
    */
   analyzeDocument(
-    modelId: string,
+    documentModelId: string,
     contentType: "application/json",
     options?: AnalyzeDocument$jsonOptionalParams
   ): Promise<AnalyzeDocumentResponse>;
   /**
-   * Analyzes document with model.
+   * Analyzes document with document model.
    * @param args Includes all the parameters for this operation.
    */
   analyzeDocument(
@@ -304,7 +280,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
     ) {
       operationSpec = analyzeDocument$binaryOperationSpec;
       operationArguments = {
-        modelId: args[0],
+        documentModelId: args[0],
         contentType: args[1],
         options: args[2]
       };
@@ -312,7 +288,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
     } else if (args[1] === "text/html") {
       operationSpec = analyzeDocument$textOperationSpec;
       operationArguments = {
-        modelId: args[0],
+        documentModelId: args[0],
         contentType: args[1],
         options: args[2]
       };
@@ -320,7 +296,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
     } else if (args[1] === "application/json") {
       operationSpec = analyzeDocument$jsonOperationSpec;
       operationArguments = {
-        modelId: args[0],
+        documentModelId: args[0],
         contentType: args[1],
         options: args[2]
       };
@@ -336,17 +312,17 @@ export class GeneratedClient extends coreClient.ServiceClient {
 
   /**
    * Gets the result of document analysis.
-   * @param modelId Unique model name.
+   * @param documentModelId Unique document model name.
    * @param resultId Analyze operation result ID.
    * @param options The options parameters.
    */
   getAnalyzeDocumentResult(
-    modelId: string,
+    documentModelId: string,
     resultId: string,
     options?: GetAnalyzeDocumentResultOptionalParams
   ): Promise<GetAnalyzeDocumentResultResponse> {
     return this.sendOperationRequest(
-      { modelId, resultId, options },
+      { documentModelId, resultId, options },
       getAnalyzeDocumentResultOperationSpec
     );
   }
@@ -367,7 +343,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Creates a new model from document types of existing models.
+   * Creates a new document model from document types of existing document models.
    * @param composeRequest Compose request parameters.
    * @param options The options parameters.
    */
@@ -382,8 +358,8 @@ export class GeneratedClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Generates authorization to copy a model to this location with specified modelId and optional
-   * description.
+   * Generates authorization to copy a document model to this location with specified documentModelId and
+   * optional description.
    * @param authorizeCopyRequest Authorize copy request parameters.
    * @param options The options parameters.
    */
@@ -398,18 +374,18 @@ export class GeneratedClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Copies model to the target resource, region, and modelId.
-   * @param modelId Unique model name.
+   * Copies document model to the target resource, region, and documentModelId.
+   * @param documentModelId Unique document model name.
    * @param copyToRequest Copy to request parameters.
    * @param options The options parameters.
    */
   copyDocumentModelTo(
-    modelId: string,
+    documentModelId: string,
     copyToRequest: CopyAuthorization,
     options?: CopyDocumentModelToOptionalParams
   ): Promise<CopyDocumentModelToResponse> {
     return this.sendOperationRequest(
-      { modelId, copyToRequest, options },
+      { documentModelId, copyToRequest, options },
       copyDocumentModelToOperationSpec
     );
   }
@@ -440,51 +416,56 @@ export class GeneratedClient extends coreClient.ServiceClient {
   }
 
   /**
-   * List all models
+   * List all document models
    * @param options The options parameters.
    */
-  private _getModels(
-    options?: GetModelsOptionalParams
-  ): Promise<GetModelsOperationResponse> {
-    return this.sendOperationRequest({ options }, getModelsOperationSpec);
-  }
-
-  /**
-   * Gets detailed model information.
-   * @param modelId Unique model name.
-   * @param options The options parameters.
-   */
-  getModel(
-    modelId: string,
-    options?: GetModelOptionalParams
-  ): Promise<GetModelResponse> {
+  private _getDocumentModels(
+    options?: GetDocumentModelsOptionalParams
+  ): Promise<GetDocumentModelsOperationResponse> {
     return this.sendOperationRequest(
-      { modelId, options },
-      getModelOperationSpec
+      { options },
+      getDocumentModelsOperationSpec
     );
   }
 
   /**
-   * Deletes model.
-   * @param modelId Unique model name.
+   * Gets detailed document model information.
+   * @param documentModelId Unique document model name.
    * @param options The options parameters.
    */
-  deleteModel(
-    modelId: string,
-    options?: DeleteModelOptionalParams
+  getDocumentModel(
+    documentModelId: string,
+    options?: GetDocumentModelOptionalParams
+  ): Promise<GetDocumentModelResponse> {
+    return this.sendOperationRequest(
+      { documentModelId, options },
+      getDocumentModelOperationSpec
+    );
+  }
+
+  /**
+   * Deletes document model.
+   * @param documentModelId Unique document model name.
+   * @param options The options parameters.
+   */
+  deleteDocumentModel(
+    documentModelId: string,
+    options?: DeleteDocumentModelOptionalParams
   ): Promise<void> {
     return this.sendOperationRequest(
-      { modelId, options },
-      deleteModelOperationSpec
+      { documentModelId, options },
+      deleteDocumentModelOperationSpec
     );
   }
 
   /**
-   * Return basic info about the current resource.
+   * Return information about the current resource.
    * @param options The options parameters.
    */
-  getInfo(options?: GetInfoOptionalParams): Promise<GetInfoOperationResponse> {
-    return this.sendOperationRequest({ options }, getInfoOperationSpec);
+  getResourceInfo(
+    options?: GetResourceInfoOptionalParams
+  ): Promise<GetResourceInfoResponse> {
+    return this.sendOperationRequest({ options }, getResourceInfoOperationSpec);
   }
 
   /**
@@ -503,17 +484,17 @@ export class GeneratedClient extends coreClient.ServiceClient {
   }
 
   /**
-   * GetModelsNext
-   * @param nextLink The nextLink from the previous successful call to the GetModels method.
+   * GetDocumentModelsNext
+   * @param nextLink The nextLink from the previous successful call to the GetDocumentModels method.
    * @param options The options parameters.
    */
-  private _getModelsNext(
+  private _getDocumentModelsNext(
     nextLink: string,
-    options?: GetModelsNextOptionalParams
-  ): Promise<GetModelsNextResponse> {
+    options?: GetDocumentModelsNextOptionalParams
+  ): Promise<GetDocumentModelsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      getModelsNextOperationSpec
+      getDocumentModelsNextOperationSpec
     );
   }
 }
@@ -521,7 +502,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const analyzeDocument$binaryOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{modelId}:analyze",
+  path: "/documentModels/{documentModelId}:analyze",
   httpMethod: "POST",
   responses: {
     202: {
@@ -538,13 +519,13 @@ const analyzeDocument$binaryOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.apiVersion
   ],
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "binary",
   serializer
 };
 const analyzeDocument$textOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{modelId}:analyze",
+  path: "/documentModels/{documentModelId}:analyze",
   httpMethod: "POST",
   responses: {
     202: {
@@ -561,13 +542,13 @@ const analyzeDocument$textOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.apiVersion
   ],
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
   headerParameters: [Parameters.contentType1, Parameters.accept1],
   mediaType: "text",
   serializer
 };
 const analyzeDocument$jsonOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{modelId}:analyze",
+  path: "/documentModels/{documentModelId}:analyze",
   httpMethod: "POST",
   responses: {
     202: {
@@ -584,13 +565,13 @@ const analyzeDocument$jsonOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.apiVersion
   ],
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
   headerParameters: [Parameters.contentType2, Parameters.accept2],
   mediaType: "json",
   serializer
 };
 const getAnalyzeDocumentResultOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{modelId}/analyzeResults/{resultId}",
+  path: "/documentModels/{documentModelId}/analyzeResults/{resultId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -601,7 +582,11 @@ const getAnalyzeDocumentResultOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.modelId, Parameters.resultId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.documentModelId,
+    Parameters.resultId
+  ],
   headerParameters: [Parameters.accept2],
   serializer
 };
@@ -660,7 +645,7 @@ const authorizeCopyDocumentModelOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const copyDocumentModelToOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{modelId}:copyTo",
+  path: "/documentModels/{documentModelId}:copyTo",
   httpMethod: "POST",
   responses: {
     202: {
@@ -672,7 +657,7 @@ const copyDocumentModelToOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.copyToRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
   headerParameters: [Parameters.accept2, Parameters.contentType3],
   mediaType: "json",
   serializer
@@ -709,12 +694,12 @@ const getOperationOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept2],
   serializer
 };
-const getModelsOperationSpec: coreClient.OperationSpec = {
+const getDocumentModelsOperationSpec: coreClient.OperationSpec = {
   path: "/documentModels",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetModelsResponse
+      bodyMapper: Mappers.GetDocumentModelsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -725,24 +710,24 @@ const getModelsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept2],
   serializer
 };
-const getModelOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{modelId}",
+const getDocumentModelOperationSpec: coreClient.OperationSpec = {
+  path: "/documentModels/{documentModelId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelInfo
+      bodyMapper: Mappers.DocumentModelInfo
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
   headerParameters: [Parameters.accept2],
   serializer
 };
-const deleteModelOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{modelId}",
+const deleteDocumentModelOperationSpec: coreClient.OperationSpec = {
+  path: "/documentModels/{documentModelId}",
   httpMethod: "DELETE",
   responses: {
     204: {},
@@ -751,16 +736,16 @@ const deleteModelOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
   headerParameters: [Parameters.accept2],
   serializer
 };
-const getInfoOperationSpec: coreClient.OperationSpec = {
+const getResourceInfoOperationSpec: coreClient.OperationSpec = {
   path: "/info",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetInfoResponse
+      bodyMapper: Mappers.ResourceInfo
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -787,12 +772,12 @@ const getOperationsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept2],
   serializer
 };
-const getModelsNextOperationSpec: coreClient.OperationSpec = {
+const getDocumentModelsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetModelsResponse
+      bodyMapper: Mappers.GetDocumentModelsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

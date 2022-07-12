@@ -139,13 +139,13 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const modelId: OperationURLParameter = {
-  parameterPath: "modelId",
+export const documentModelId: OperationURLParameter = {
+  parameterPath: "documentModelId",
   mapper: {
     constraints: {
       Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
     },
-    serializedName: "modelId",
+    serializedName: "documentModelId",
     required: true,
     type: {
       name: "String"
