@@ -3,24 +3,17 @@
 
 import {
   ON_CHANGE_MESSAGE_KEY,
-  TEditorData,
-  TOnChange,
-  buildOnChange,
-  getEditorData,
-  getEditorValues, EDITOR_DATA_KEY,
+  EDITOR_DATA_KEY,
+  onChangeWithOrigin,
 } from "../src"
 import { assert } from "chai";
 import sinon from "sinon";
 import valuesUrl from "./valuesUrl.json";
 
-const valuesDefault = {
-  foo: "from const",
-  bar: 42,
-};
-
 const searchParams = new URLSearchParams("https://localhost:3000");
 searchParams.set(EDITOR_DATA_KEY, JSON.stringify(valuesUrl));
 
+/*
 describe("getEditorData", () => {
   let editorData: TEditorData<typeof valuesDefault>;
 
@@ -64,14 +57,14 @@ describe("buildOnChange", () => {
     onChange = buildOnChange(valuesDefault);
     assert.isFunction(onChange);
   });
+*/
 
+describe("onChangeWithOrigin", () => {
   it("reports values in valid form", () => {
     const changedValueKey = "foo";
     const changedValues = { [changedValueKey]: "new value" };
 
     sinon.stub(self.parent, "postMessage").callsFake((msg, targetOrigin: any) => {
-      console.log({ msg, targetOrigin }); // TODO
-
       const data = msg[ON_CHANGE_MESSAGE_KEY];
       assert.equal(valuesUrl.instanceId, data.instanceId);
       assert.equal(changedValueKey, data.key);
@@ -79,6 +72,6 @@ describe("buildOnChange", () => {
 
       assert.equal(valuesUrl.origin, targetOrigin);
     });
-    onChange(changedValues);
+    onChangeWithOrigin(valuesUrl.origin, valuesUrl.instanceId, changedValues);
   });
 });
