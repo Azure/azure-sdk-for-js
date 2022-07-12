@@ -15,7 +15,11 @@ import {
   testPollingOptions,
 } from "../utils/recordedClients";
 
-import { DocumentAnalysisClient, DocumentModelAdministrationClient, DocumentModelInfo } from "../../src";
+import {
+  DocumentAnalysisClient,
+  DocumentModelAdministrationClient,
+  DocumentModelInfo,
+} from "../../src";
 import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");

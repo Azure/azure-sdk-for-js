@@ -391,7 +391,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-  AnalyzeDocumentOptions<Result>;
+    AnalyzeDocumentOptions<Result>;
 }
 
 /**

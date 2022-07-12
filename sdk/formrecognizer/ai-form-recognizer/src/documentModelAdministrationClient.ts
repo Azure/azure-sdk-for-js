@@ -392,49 +392,49 @@ export class DocumentModelAdministrationClient {
     const toInit =
       resumeFrom === undefined
         ? () =>
-          this._tracing.withSpan(
-            "DocumentModelAdministrationClient.createDocumentModelPoller-start",
-            definition.options,
-            async (options) => {
-              const { operationLocation } = await definition.start();
+            this._tracing.withSpan(
+              "DocumentModelAdministrationClient.createDocumentModelPoller-start",
+              definition.options,
+              async (options) => {
+                const { operationLocation } = await definition.start();
 
-              if (operationLocation === undefined) {
-                throw new Error(
-                  "Unable to start model creation operation: no Operation-Location received."
-                );
-              }
-
-              return this._restClient.sendOperationRequest(
-                {
-                  options,
-                },
-                {
-                  path: operationLocation,
-                  httpMethod: "GET",
-                  responses: {
-                    200: {
-                      bodyMapper: Mappers.OperationInfo,
-                    },
-                    default: {
-                      bodyMapper: Mappers.ErrorResponse,
-                    },
-                  },
-                  headerParameters: [accept1],
-                  serializer: SERIALIZER,
+                if (operationLocation === undefined) {
+                  throw new Error(
+                    "Unable to start model creation operation: no Operation-Location received."
+                  );
                 }
-              ) as Promise<GetOperationResponse>;
-            }
-          )
-        : () =>
-          this._tracing.withSpan(
-            "DocumentModelAdministrationClient.createDocumentModelPoller-resume",
-            definition.options,
-            (options) => {
-              const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
 
-              return this._restClient.getOperation(operationId, options);
-            }
-          );
+                return this._restClient.sendOperationRequest(
+                  {
+                    options,
+                  },
+                  {
+                    path: operationLocation,
+                    httpMethod: "GET",
+                    responses: {
+                      200: {
+                        bodyMapper: Mappers.OperationInfo,
+                      },
+                      default: {
+                        bodyMapper: Mappers.ErrorResponse,
+                      },
+                    },
+                    headerParameters: [accept1],
+                    serializer: SERIALIZER,
+                  }
+                ) as Promise<GetOperationResponse>;
+              }
+            )
+        : () =>
+            this._tracing.withSpan(
+              "DocumentModelAdministrationClient.createDocumentModelPoller-resume",
+              definition.options,
+              (options) => {
+                const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
+
+                return this._restClient.getOperation(operationId, options);
+              }
+            );
 
     const poller = await lro<DocumentModelInfo, TrainingPollOperationState>(
       {
@@ -599,7 +599,9 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for the model requests
    * @returns an async iterable of model summaries that supports paging
    */
-  public listModels(options: ListModelsOptions = {}): PagedAsyncIterableIterator<DocumentModelSummary> {
+  public listModels(
+    options: ListModelsOptions = {}
+  ): PagedAsyncIterableIterator<DocumentModelSummary> {
     return this._restClient.listDocumentModels(options);
   }
 

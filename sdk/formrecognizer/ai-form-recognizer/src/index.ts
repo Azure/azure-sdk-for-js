@@ -40,7 +40,7 @@ export {
   GetOperationResponse,
   OperationInfo,
   ErrorModel,
-  InnerError
+  InnerError,
 } from "./generated";
 export {
   AnalysisPoller,

@@ -10,4 +10,4 @@ import { PollerOptions } from "./PollerOptions";
  */
 export interface BeginCopyModelOptions
   extends OperationOptions,
-  PollerOptions<TrainingPollOperationState> { }
+    PollerOptions<TrainingPollOperationState> {}
