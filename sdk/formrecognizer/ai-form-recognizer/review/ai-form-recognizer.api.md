@@ -65,7 +65,7 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
 export interface AnalyzeResultCommon {
     apiVersion: FormRecognizerApiVersion;
     content: string;
-    modelId: string;
+    documentModelId: string;
 }
 
 // @public
@@ -194,8 +194,8 @@ export interface CommonModelCreationOptions {
 export interface CopyAuthorization {
     accessToken: string;
     expirationDateTime: Date;
-    targetModelId: string;
-    targetModelLocation: string;
+    targetDocumentModelId: string;
+    targetDocumentModelLocation: string;
     targetResourceId: string;
     targetResourceRegion: string;
 }
@@ -270,8 +270,8 @@ export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClien
 // @public
 export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<AnalyzedDocument>> extends PollOperationState<Result> {
     createdOn: Date;
+    documentModelId: string;
     lastUpdatedOn: Date;
-    modelId: string;
     operationLocation: string;
     status: AnalyzeResultOperationStatus;
 }
@@ -385,17 +385,17 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
-    beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildModelOptions): Promise<DocumentModelPoller>;
-    beginComposeModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeModelOptions): Promise<DocumentModelPoller>;
+    beginBuildModel(documentModelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildModelOptions): Promise<DocumentModelPoller>;
+    beginComposeModel(documentModelId: string, componentModelIds: Iterable<string>, options?: BeginComposeModelOptions): Promise<DocumentModelPoller>;
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<DocumentModelPoller>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
-    getInfo(options?: GetInfoOptions): Promise<GetInfoResponse>;
-    getModel(modelId: string, options?: GetModelOptions): Promise<ModelInfo>;
+    getInfo(options?: GetInfoOptions): Promise<ResourceInfo>;
+    getModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelInfo>;
     // Warning: (ae-forgotten-export) The symbol "GetOperationResponse" needs to be exported by the entry point index.d.ts
     getOperation(operationId: string, options?: GetOperationOptions): Promise<GetOperationResponse>;
-    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelSummary>;
-    listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationInfo>;
+    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
+    listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationSummary>;
 }
 
 // @public
@@ -412,7 +412,25 @@ export const DocumentModelBuildMode: {
 };
 
 // @public
-export type DocumentModelPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
+export interface DocumentModelInfo extends DocumentModelSummary {
+    docTypes?: {
+        [propertyName: string]: DocTypeInfo;
+    };
+}
+
+// @public
+export type DocumentModelPoller = PollerLike<TrainingPollOperationState, DocumentModelInfo>;
+
+// @public
+export interface DocumentModelSummary {
+    apiVersion?: string;
+    createdDateTime: Date;
+    description?: string;
+    documentModelId: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface DocumentNumberField extends DocumentValueField<number> {
@@ -573,11 +591,6 @@ export interface GetCopyAuthorizationOptions extends OperationOptions, CommonMod
 
 // @public
 export interface GetInfoOptions extends OperationOptions {
-}
-
-// @public
-export interface GetInfoResponse {
-    customDocumentModels: CustomDocumentModelsInfo;
 }
 
 // @public
@@ -843,13 +856,6 @@ export interface ListOperationsOptions extends OperationOptions {
 }
 
 // @public
-export interface ModelInfo extends ModelSummary {
-    docTypes?: {
-        [propertyName: string]: DocTypeInfo;
-    };
-}
-
-// @public
 export interface ModelSchema {
     docTypes: {
         [type: string]: {
@@ -859,17 +865,6 @@ export interface ModelSchema {
         };
     };
     modelId: string;
-}
-
-// @public
-export interface ModelSummary {
-    apiVersion?: string;
-    createdDateTime: Date;
-    description?: string;
-    modelId: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -888,7 +883,13 @@ export interface ObjectFieldSchema<Properties extends {
 }
 
 // @public
-export interface OperationInfo {
+export type OperationKind = string;
+
+// @public
+export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
+
+// @public
+export interface OperationSummary {
     apiVersion?: string;
     createdDateTime: Date;
     kind: OperationKind;
@@ -901,12 +902,6 @@ export interface OperationInfo {
         [propertyName: string]: string;
     };
 }
-
-// @public
-export type OperationKind = string;
-
-// @public
-export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
 
 // @public
 export type ParagraphRole = string;
@@ -1485,6 +1480,11 @@ export type ReifyPrebuiltSchema<Schema extends Readonly<ModelSchema>> = {
 }[keyof Schema["docTypes"]];
 
 // @public
+export interface ResourceInfo {
+    customDocumentModels: CustomDocumentModelsInfo;
+}
+
+// @public
 export type SelectionMarkState = string;
 
 // @public
@@ -1662,7 +1662,7 @@ export const TaxUsW2Schema: {
 };
 
 // @public
-export interface TrainingPollOperationState extends PollOperationState<ModelInfo> {
+export interface TrainingPollOperationState extends PollOperationState<DocumentModelInfo> {
     apiVersion?: string;
     createdOn: Date;
     lastUpdatedOn: Date;
