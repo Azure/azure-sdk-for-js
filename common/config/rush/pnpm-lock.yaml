@@ -11195,7 +11195,7 @@ packages:
     dev: false
 
   file:projects/arm-dynatrace.tgz:
-    resolution: {integrity: sha512-3cyDwVuDOAB62wTwYz/VYVfZa1xSyyGKHO5zUaYUfvRUqYQQLr1UalDcqdVpiBxCtGi0+/tiFBHNmgZbiRxJ4Q==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-Law6qDqvQ6JNxHBi5CNgZ6DEXrl4sas91ENbrLYro5yEkE/MGK+FCiviHV1P0Ria8yjPNnb9j/iqrnl9aQWyjQ==, tarball: file:projects/arm-dynatrace.tgz}
     name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
@@ -11206,6 +11206,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11217,8 +11219,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-education.tgz:
