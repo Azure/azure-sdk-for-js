@@ -25,7 +25,7 @@ async function main() {
   const modelId = "prebuilt-idDocument";
   const model = await client.getModel(modelId);
 
-  console.log("ID", model.documentModelId);
+  console.log("ID", model.modelId);
   console.log("Created:", model.createdDateTime);
   console.log("Description: ", model.description || "<none>");
 

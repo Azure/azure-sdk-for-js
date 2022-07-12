@@ -191,7 +191,7 @@ export class DocumentModelAdministrationClient {
    * @returns a long-running operation (poller) that will eventually produce the created model information or an error
    */
   public async beginBuildModel(
-    documentModelId: string,
+    modelId: string,
     containerUrl: string,
     buildMode: DocumentModelBuildMode,
     options: BeginBuildModelOptions = {}
@@ -205,7 +205,7 @@ export class DocumentModelAdministrationClient {
           start: () =>
             this._restClient.buildDocumentModel(
               {
-                documentModelId,
+                modelId,
                 description: finalOptions.description,
                 azureBlobSource: {
                   containerUrl,
@@ -258,7 +258,7 @@ export class DocumentModelAdministrationClient {
    * @returns a long-running operation (poller) that will eventually produce the created model information or an error
    */
   public async beginComposeModel(
-    documentModelId: string,
+    modelId: string,
     componentModelIds: Iterable<string>,
     options: BeginComposeModelOptions = {}
   ): Promise<DocumentModelPoller> {
@@ -271,9 +271,9 @@ export class DocumentModelAdministrationClient {
           start: () =>
             this._restClient.composeDocumentModel(
               {
-                documentModelId,
-                componentDocumentModels: [...componentModelIds].map((submodelId) => ({
-                  documentModelId: submodelId,
+                modelId,
+                componentModels: [...componentModelIds].map((submodelId) => ({
+                  modelId: submodelId,
                 })),
                 description: finalOptions.description,
                 tags: finalOptions.tags,
@@ -312,7 +312,7 @@ export class DocumentModelAdministrationClient {
       (finalOptions) =>
         this._restClient.authorizeCopyDocumentModel(
           {
-            documentModelId: destinationModelId,
+            modelId: destinationModelId,
             description: finalOptions.description,
             tags: finalOptions.tags,
           },

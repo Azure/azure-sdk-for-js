@@ -219,34 +219,34 @@ export class GeneratedClient extends coreClient.ServiceClient {
 
   /**
    * Analyzes document with document model.
-   * @param documentModelId Unique document model name.
+   * @param modelId Unique document model name.
    * @param contentType Upload file type
    * @param options The options parameters.
    */
   analyzeDocument(
-    documentModelId: string,
+    modelId: string,
     contentType: ContentType,
     options?: AnalyzeDocument$binaryOptionalParams
   ): Promise<AnalyzeDocumentResponse>;
   /**
    * Analyzes document with document model.
-   * @param documentModelId Unique document model name.
+   * @param modelId Unique document model name.
    * @param contentType Upload file type
    * @param options The options parameters.
    */
   analyzeDocument(
-    documentModelId: string,
+    modelId: string,
     contentType: "text/html",
     options?: AnalyzeDocument$textOptionalParams
   ): Promise<AnalyzeDocumentResponse>;
   /**
    * Analyzes document with document model.
-   * @param documentModelId Unique document model name.
+   * @param modelId Unique document model name.
    * @param contentType Body Parameter content-type
    * @param options The options parameters.
    */
   analyzeDocument(
-    documentModelId: string,
+    modelId: string,
     contentType: "application/json",
     options?: AnalyzeDocument$jsonOptionalParams
   ): Promise<AnalyzeDocumentResponse>;
@@ -280,7 +280,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
     ) {
       operationSpec = analyzeDocument$binaryOperationSpec;
       operationArguments = {
-        documentModelId: args[0],
+        modelId: args[0],
         contentType: args[1],
         options: args[2]
       };
@@ -288,7 +288,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
     } else if (args[1] === "text/html") {
       operationSpec = analyzeDocument$textOperationSpec;
       operationArguments = {
-        documentModelId: args[0],
+        modelId: args[0],
         contentType: args[1],
         options: args[2]
       };
@@ -296,7 +296,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
     } else if (args[1] === "application/json") {
       operationSpec = analyzeDocument$jsonOperationSpec;
       operationArguments = {
-        documentModelId: args[0],
+        modelId: args[0],
         contentType: args[1],
         options: args[2]
       };
@@ -312,17 +312,17 @@ export class GeneratedClient extends coreClient.ServiceClient {
 
   /**
    * Gets the result of document analysis.
-   * @param documentModelId Unique document model name.
+   * @param modelId Unique document model name.
    * @param resultId Analyze operation result ID.
    * @param options The options parameters.
    */
   getAnalyzeDocumentResult(
-    documentModelId: string,
+    modelId: string,
     resultId: string,
     options?: GetAnalyzeDocumentResultOptionalParams
   ): Promise<GetAnalyzeDocumentResultResponse> {
     return this.sendOperationRequest(
-      { documentModelId, resultId, options },
+      { modelId, resultId, options },
       getAnalyzeDocumentResultOperationSpec
     );
   }
@@ -358,7 +358,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Generates authorization to copy a document model to this location with specified documentModelId and
+   * Generates authorization to copy a document model to this location with specified modelId and
    * optional description.
    * @param authorizeCopyRequest Authorize copy request parameters.
    * @param options The options parameters.
@@ -374,18 +374,18 @@ export class GeneratedClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Copies document model to the target resource, region, and documentModelId.
-   * @param documentModelId Unique document model name.
+   * Copies document model to the target resource, region, and modelId.
+   * @param modelId Unique document model name.
    * @param copyToRequest Copy to request parameters.
    * @param options The options parameters.
    */
   copyDocumentModelTo(
-    documentModelId: string,
+    modelId: string,
     copyToRequest: CopyAuthorization,
     options?: CopyDocumentModelToOptionalParams
   ): Promise<CopyDocumentModelToResponse> {
     return this.sendOperationRequest(
-      { documentModelId, copyToRequest, options },
+      { modelId, copyToRequest, options },
       copyDocumentModelToOperationSpec
     );
   }
@@ -430,30 +430,30 @@ export class GeneratedClient extends coreClient.ServiceClient {
 
   /**
    * Gets detailed document model information.
-   * @param documentModelId Unique document model name.
+   * @param modelId Unique document model name.
    * @param options The options parameters.
    */
   getDocumentModel(
-    documentModelId: string,
+    modelId: string,
     options?: GetDocumentModelOptionalParams
   ): Promise<GetDocumentModelResponse> {
     return this.sendOperationRequest(
-      { documentModelId, options },
+      { modelId, options },
       getDocumentModelOperationSpec
     );
   }
 
   /**
    * Deletes document model.
-   * @param documentModelId Unique document model name.
+   * @param modelId Unique document model name.
    * @param options The options parameters.
    */
   deleteDocumentModel(
-    documentModelId: string,
+    modelId: string,
     options?: DeleteDocumentModelOptionalParams
   ): Promise<void> {
     return this.sendOperationRequest(
-      { documentModelId, options },
+      { modelId, options },
       deleteDocumentModelOperationSpec
     );
   }
@@ -502,7 +502,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const analyzeDocument$binaryOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{documentModelId}:analyze",
+  path: "/documentModels/{modelId}:analyze",
   httpMethod: "POST",
   responses: {
     202: {
@@ -519,13 +519,13 @@ const analyzeDocument$binaryOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.apiVersion
   ],
-  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "binary",
   serializer
 };
 const analyzeDocument$textOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{documentModelId}:analyze",
+  path: "/documentModels/{modelId}:analyze",
   httpMethod: "POST",
   responses: {
     202: {
@@ -542,13 +542,13 @@ const analyzeDocument$textOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.apiVersion
   ],
-  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType1, Parameters.accept1],
   mediaType: "text",
   serializer
 };
 const analyzeDocument$jsonOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{documentModelId}:analyze",
+  path: "/documentModels/{modelId}:analyze",
   httpMethod: "POST",
   responses: {
     202: {
@@ -565,13 +565,13 @@ const analyzeDocument$jsonOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.apiVersion
   ],
-  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType2, Parameters.accept2],
   mediaType: "json",
   serializer
 };
 const getAnalyzeDocumentResultOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{documentModelId}/analyzeResults/{resultId}",
+  path: "/documentModels/{modelId}/analyzeResults/{resultId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -582,11 +582,7 @@ const getAnalyzeDocumentResultOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.documentModelId,
-    Parameters.resultId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.modelId, Parameters.resultId],
   headerParameters: [Parameters.accept2],
   serializer
 };
@@ -645,7 +641,7 @@ const authorizeCopyDocumentModelOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const copyDocumentModelToOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{documentModelId}:copyTo",
+  path: "/documentModels/{modelId}:copyTo",
   httpMethod: "POST",
   responses: {
     202: {
@@ -657,7 +653,7 @@ const copyDocumentModelToOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.copyToRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.accept2, Parameters.contentType3],
   mediaType: "json",
   serializer
@@ -711,7 +707,7 @@ const getDocumentModelsOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const getDocumentModelOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{documentModelId}",
+  path: "/documentModels/{modelId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -722,12 +718,12 @@ const getDocumentModelOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.accept2],
   serializer
 };
 const deleteDocumentModelOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{documentModelId}",
+  path: "/documentModels/{modelId}",
   httpMethod: "DELETE",
   responses: {
     204: {},
@@ -736,7 +732,7 @@ const deleteDocumentModelOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.documentModelId],
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.accept2],
   serializer
 };

@@ -65,7 +65,7 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
 export interface AnalyzeResultCommon {
     apiVersion: FormRecognizerApiVersion;
     content: string;
-    documentModelId: string;
+    modelId: string;
 }
 
 // @public
@@ -270,8 +270,8 @@ export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClien
 // @public
 export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<AnalyzedDocument>> extends PollOperationState<Result> {
     createdOn: Date;
-    documentModelId: string;
     lastUpdatedOn: Date;
+    modelId: string;
     operationLocation: string;
     status: AnalyzeResultOperationStatus;
 }
@@ -385,8 +385,8 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
-    beginBuildModel(documentModelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildModelOptions): Promise<DocumentModelPoller>;
-    beginComposeModel(documentModelId: string, componentModelIds: Iterable<string>, options?: BeginComposeModelOptions): Promise<DocumentModelPoller>;
+    beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildModelOptions): Promise<DocumentModelPoller>;
+    beginComposeModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeModelOptions): Promise<DocumentModelPoller>;
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<DocumentModelPoller>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
@@ -426,7 +426,7 @@ export interface DocumentModelSummary {
     apiVersion?: string;
     createdDateTime: Date;
     description?: string;
-    documentModelId: string;
+    modelId: string;
     tags?: {
         [propertyName: string]: string;
     };

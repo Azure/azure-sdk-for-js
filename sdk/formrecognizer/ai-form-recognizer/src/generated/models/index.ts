@@ -66,7 +66,7 @@ export interface AnalyzeResult {
   /** API version used to produce this result. */
   apiVersion: ApiVersion;
   /** Document Model ID used to produce this result. */
-  documentModelId: string;
+  modelId: string;
   /** Method used to compute string offset and length. */
   stringIndexType: StringIndexType;
   /** Concatenate string representation of all textual and visual elements in reading order. */
@@ -359,7 +359,7 @@ export interface AddressValue {
 /** Request body to build a new custom document model. */
 export interface BuildDocumentModelRequest {
   /** Unique document model name. */
-  documentModelId: string;
+  modelId: string;
   /** Document Model description. */
   description?: string;
   /** Custom document model build mode. */
@@ -381,11 +381,11 @@ export interface AzureBlobContentSource {
 /** Request body to create a composed document model from component document models. */
 export interface ComposeDocumentModelRequest {
   /** Unique document model name. */
-  documentModelId?: string;
+  modelId: string;
   /** Document Model description. */
   description?: string;
   /** List of component document models to compose. */
-  componentDocumentModels?: ComponentDocumentModelInfo[];
+  componentModels: ComponentDocumentModelInfo[];
   /** List of key-value tag attributes associated with the document model. */
   tags?: { [propertyName: string]: string };
 }
@@ -393,20 +393,20 @@ export interface ComposeDocumentModelRequest {
 /** A component of a composed document model. */
 export interface ComponentDocumentModelInfo {
   /** Unique document model name. */
-  documentModelId: string;
+  modelId: string;
 }
 
 /** Request body to authorize document model copy. */
 export interface AuthorizeCopyRequest {
   /** Unique document model name. */
-  documentModelId: string;
+  modelId: string;
   /** Document Model description. */
   description?: string;
   /** List of key-value tag attributes associated with the document model. */
   tags?: { [propertyName: string]: string };
 }
 
-/** Authorization to copy a document model to the specified target resource and documentModelId. */
+/** Authorization to copy a document model to the specified target resource and modelId. */
 export interface CopyAuthorization {
   /** ID of the target Azure resource where the document model should be copied to. */
   targetResourceId: string;
@@ -463,7 +463,7 @@ export interface GetDocumentModelsResponse {
 /** Document Model summary. */
 export interface DocumentModelSummary {
   /** Unique document model name. */
-  documentModelId: string;
+  modelId: string;
   /** Document Model description. */
   description?: string;
   /** Date and time (UTC) when the document model was created. */

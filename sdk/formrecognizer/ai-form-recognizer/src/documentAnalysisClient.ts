@@ -702,7 +702,7 @@ export class DocumentAnalysisClient {
     const poller = await lro<Result, DocumentAnalysisPollOperationState<Result>>(
       {
         init: toInit,
-        poll: async ({ operationLocation, documentModelId }) =>
+        poll: async ({ operationLocation, modelId }) =>
           this._tracing.withSpan(
             "DocumentAnalysisClient.createAnalysisPoller-poll",
             {},
@@ -711,14 +711,14 @@ export class DocumentAnalysisClient {
 
               return toDocumentAnalysisPollOperationState(
                 definition,
-                documentModelId,
+                modelId,
                 operationLocation,
                 result
               );
             }
           ),
-        serialize: ({ operationLocation, documentModelId }) =>
-          JSON.stringify({ documentModelId, operationLocation }),
+        serialize: ({ operationLocation, modelId }) =>
+          JSON.stringify({ modelId, operationLocation }),
       },
       definition.options.updateIntervalInMs
     );

@@ -37,7 +37,7 @@ async function main() {
   const copyPoller = await sourceClient.beginCopyModelTo(sourceModelId, authorization);
   const model = await copyPoller.pollUntilDone();
 
-  console.log("Model ID:", model.documentModelId);
+  console.log("Model ID:", model.modelId);
   console.log("Description:", model.description);
   console.log("Created:", model.createdDateTime);
 }

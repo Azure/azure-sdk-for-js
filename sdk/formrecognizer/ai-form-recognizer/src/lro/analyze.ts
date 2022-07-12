@@ -106,7 +106,7 @@ export interface AnalyzeResultCommon {
   /**
    * The unique ID of the model that was used to produce this result.
    */
-  documentModelId: string;
+  modelId: string;
 
   /**
    * A string representation of all textual and visual elements in the input, concatenated by reading order (the order
@@ -326,7 +326,7 @@ export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<Analy
   /**
    * The model ID that the analysis operation will use to produce the result.
    */
-  documentModelId: string;
+  modelId: string;
 
   /**
    * The URL to the operation.
@@ -366,7 +366,7 @@ export function toAnalyzeResultFromGenerated<
   type Document = Mapper extends (...args: never) => infer ThisDocument ? ThisDocument : never;
   return {
     apiVersion: result.apiVersion as FormRecognizerApiVersion,
-    documentModelId: result.documentModelId,
+    modelId: result.modelId,
     content: result.content,
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
     tables: result.tables?.map((table) => toDocumentTableFromGenerated(table)),
@@ -400,13 +400,13 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
  */
 export function toDocumentAnalysisPollOperationState<Result>(
   definition: AnalysisOperationDefinition<Result>,
-  documentModelId: string,
+  modelId: string,
   operationLocation: string,
   response: AnalyzeResultOperation
 ): DocumentAnalysisPollOperationState<Result> {
   return {
     status: response.status,
-    documentModelId: documentModelId,
+    modelId: modelId,
     lastUpdatedOn: response.lastUpdatedDateTime,
     createdOn: response.createdDateTime,
     operationLocation,

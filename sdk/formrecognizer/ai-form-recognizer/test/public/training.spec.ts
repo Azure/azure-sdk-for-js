@@ -93,9 +93,9 @@ matrix(
               );
               _model = await poller.pollUntilDone();
 
-              assert.equal(_model.documentModelId, modelId);
+              assert.equal(_model.modelId, modelId);
 
-              allModels.push(_model.documentModelId);
+              allModels.push(_model.modelId);
             }
 
             return _model;
@@ -109,10 +109,10 @@ matrix(
             const model = await requireModel();
 
             assert.ok(model, "Expecting valid response");
-            assert.ok(model.documentModelId);
+            assert.ok(model.modelId);
 
             assert.isNotEmpty(model.docTypes);
-            const submodel = model.docTypes![model.documentModelId];
+            const submodel = model.docTypes![model.modelId];
 
             // When training with labels, we will have expectations for the names
             assert.ok(
@@ -145,7 +145,7 @@ matrix(
               const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
               const poller = await recognizerClient.beginAnalyzeDocument(
-                model.documentModelId,
+                model.modelId,
                 url,
                 testPollingOptions
               );
@@ -174,9 +174,9 @@ matrix(
           it("getModel() verification", async () => {
             const model = await requireModel();
 
-            const modelInfo = await client.getModel(model.documentModelId);
+            const modelInfo = await client.getModel(model.modelId);
 
-            assert.strictEqual(modelInfo.documentModelId, model.documentModelId);
+            assert.strictEqual(modelInfo.modelId, model.modelId);
             assert.strictEqual(modelInfo.description, model.description);
             assert.ok(modelInfo.docTypes);
           });
@@ -205,8 +205,8 @@ matrix(
           it("iterate models in account", async () => {
             const modelsInAccount = [];
             for await (const model of client.listModels()) {
-              assert.ok(model.documentModelId);
-              modelsInAccount.push(model.documentModelId);
+              assert.ok(model.modelId);
+              modelsInAccount.push(model.modelId);
             }
 
             for (const modelId of allModels) {
@@ -218,7 +218,7 @@ matrix(
             const iter = client.listModels();
             const item = getYieldedValue(await iter.next());
             assert.ok(item, `Expecting a model but got ${item}`);
-            assert.ok(item.documentModelId, `Expecting a model id but got ${item.documentModelId}`);
+            assert.ok(item.modelId, `Expecting a model id but got ${item.modelId}`);
           });
 
           it("delete models from the account", async () => {
@@ -261,11 +261,11 @@ matrix(
           );
           const model = await poller.pollUntilDone();
 
-          assert.equal(model.documentModelId, modelId);
-          assert.equal(model.documentModelId, modelId);
+          assert.equal(model.modelId, modelId);
+          assert.equal(model.modelId, modelId);
           assert.ok(model.docTypes);
 
-          return model.documentModelId;
+          return model.modelId;
         }
 
         const componentModelIds = await Promise.all([makeModel("input1"), makeModel("input2")]);
@@ -281,8 +281,8 @@ matrix(
         );
 
         const composedModel = await composePoller.pollUntilDone();
-        assert.ok(composedModel.documentModelId);
-        assert.equal(composedModel.documentModelId, modelId);
+        assert.ok(composedModel.modelId);
+        assert.equal(composedModel.modelId, modelId);
         assert.ok(composedModel.docTypes);
 
         // Submodels
@@ -318,27 +318,27 @@ matrix(
         );
         const sourceModel = await trainingPoller.pollUntilDone();
 
-        assert.equal(sourceModel.documentModelId, modelId);
+        assert.equal(sourceModel.modelId, modelId);
 
         const targetModelId = recorder.variable("copyTarget", `copyTarget${getRandomNumber()}`);
         const targetAuth = await trainingClient.getCopyAuthorization(targetModelId);
 
         const poller = await trainingClient.beginCopyModelTo(
-          sourceModel.documentModelId,
+          sourceModel.modelId,
           targetAuth,
           testPollingOptions
         );
         const copyResult = await poller.pollUntilDone();
 
         assert.ok(copyResult, "Expecting valid copy result");
-        assert.equal(copyResult.documentModelId, targetAuth.targetDocumentModelId);
+        assert.equal(copyResult.modelId, targetAuth.targetDocumentModelId);
 
         assert.ok(copyResult.createdDateTime, "Expecting valid 'trainingStartedOn' property");
 
-        const targetModel = await trainingClient.getModel(copyResult.documentModelId);
+        const targetModel = await trainingClient.getModel(copyResult.modelId);
 
-        assert.equal(targetModel.documentModelId, targetAuth.targetDocumentModelId);
-        assert.equal(targetModel.documentModelId, copyResult.documentModelId);
+        assert.equal(targetModel.modelId, targetAuth.targetDocumentModelId);
+        assert.equal(targetModel.modelId, copyResult.modelId);
       });
     }).timeout(60000);
   }

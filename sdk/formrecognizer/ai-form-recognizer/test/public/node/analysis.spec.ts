@@ -288,19 +288,19 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           );
           _model = await poller.pollUntilDone();
 
-          assert.ok(_model.documentModelId);
+          assert.ok(_model.modelId);
         }
 
         return _model;
       }
 
       it("with selection marks", async () => {
-        const { documentModelId } = await requireModel();
+        const { modelId } = await requireModel();
 
         const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginAnalyzeDocument(documentModelId, stream, testPollingOptions);
+        const poller = await client.beginAnalyzeDocument(modelId, stream, testPollingOptions);
         const { pages, documents } = await poller.pollUntilDone();
 
         assert.ok(documents);
