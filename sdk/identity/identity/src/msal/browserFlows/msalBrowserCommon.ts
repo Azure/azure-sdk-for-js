@@ -9,7 +9,7 @@ import { resolveTenantId } from "../../util/resolveTenantId";
 import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
-import { getAuthority, getKnownAuthorities, MsalBaseUtilities } from "../utils";
+import { MsalBaseUtilities, getAuthority, getKnownAuthorities } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";
 import { CredentialFlowGetTokenOptions } from "../credentials";

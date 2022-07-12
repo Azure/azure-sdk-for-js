@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Service client.
 
-REST APIs for orchestrating deployments using the Azure Deployment Manager (ADM). See https://docs.microsoft.com/en-us/azure/azure-resource-manager/deployment-manager-overview for more information.
+REST APIs for orchestrating deployments using the Azure Deployment Manager (ADM). See https://docs.microsoft.com/azure/azure-resource-manager/deployment-manager-overview for more information.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deploymentmanager/arm-deploymentmanager) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-deploymentmanager) |

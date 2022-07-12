@@ -8,12 +8,12 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "1997",
+        "Content-Length": "2038",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 Node/v16.15.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-content-sha256": "zUYsBqzIkivIwozH0gZDy2m4Tm75n6y/f\u002BiGvnN8x8I=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:05 GMT"
+        "x-ms-content-sha256": "WeoIh/ilgHWeWJA9Uh1c/dh2cqn1EmkgJMjuReNrBqI=",
+        "x-ms-date": "Thu, 07 Jul 2022 21:44:56 GMT"
       },
       "RequestBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -24,11 +24,11 @@
           "name": "Contoso Loyalty Program",
           "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
           "url": "https://endpoint/loyalty-program",
-          "signUpTypes": [
+          "callToActionTypes": [
             "sms",
             "website"
           ],
-          "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -47,19 +47,17 @@
           }
         },
         "messageDetails": {
-          "supportedProtocols": [
-            "sms"
-          ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
-          "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
-          "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
-          "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
-          "optInReply": "JOIN",
-          "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -72,7 +70,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -85,7 +83,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -112,14 +110,14 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 27 May 2022 16:48:08 GMT",
+        "Date": "Thu, 07 Jul 2022 21:45:06 GMT",
         "Location": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000",
-        "MS-CV": "YtMfFZDHn02TnhTDX9PF/A.0",
+        "MS-CV": "DDTc/aHh40yZnbRN020wHQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0xwCRYgAAAAAg5aC/bRDgQKs1WIXe56h0TUVYMzBFREdFMDQxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "011PHYgAAAABM4ftCf1EgQLFl5fisrLXQU0FPMzFFREdFMTIyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1924ms"
+        "X-Processing-Time": "10357ms"
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -136,7 +134,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-05-27T16:48:08\u002B00:00",
+        "statusUpdatedDate": "2022-07-07T21:44:56\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -148,7 +146,12 @@
             "sms",
             "website"
           ],
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
           "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -170,16 +173,22 @@
           "supportedProtocols": [
             "sms"
           ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
           "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
           "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
           "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
           "optInReply": "JOIN",
+          "optInAnswerFromUser": "JOIN",
           "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -192,7 +201,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -205,7 +214,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -237,12 +246,12 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "1904",
+        "Content-Length": "1945",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 Node/v16.15.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-content-sha256": "oBmmAyZv3RIpcK71leZKCjuq5hbM814JhuDb4DtlCeE=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:07 GMT"
+        "x-ms-content-sha256": "9UeM8KvRV9BO/tK\u002Bj1nMxbsqw8fh7SLRjt4gGtGyark=",
+        "x-ms-date": "Thu, 07 Jul 2022 21:45:06 GMT"
       },
       "RequestBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -253,11 +262,11 @@
           "name": "Contoso Loyalty Program",
           "description": "TEST UPDATE",
           "url": "https://endpoint/loyalty-program",
-          "signUpTypes": [
+          "callToActionTypes": [
             "sms",
             "website"
           ],
-          "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -276,19 +285,17 @@
           }
         },
         "messageDetails": {
-          "supportedProtocols": [
-            "sms"
-          ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
-          "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
-          "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
-          "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
-          "optInReply": "JOIN",
-          "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -301,7 +308,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -314,7 +321,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -341,13 +348,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 27 May 2022 16:48:10 GMT",
-        "MS-CV": "EDA0aZUC1EK9f5gH/lPdJw.0",
+        "Date": "Thu, 07 Jul 2022 21:45:07 GMT",
+        "MS-CV": "RFybZZP4y0e1KxwRFTKsdw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0yQCRYgAAAAAgyTfNZmyBQrLV6/hYNUlxTUVYMzBFREdFMDQxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "04lPHYgAAAABaIePx4nUWQ7AK/gS4JXLdU0FPMzFFREdFMTIyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1796ms"
+        "X-Processing-Time": "1033ms"
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -364,7 +371,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-05-27T16:48:08\u002B00:00",
+        "statusUpdatedDate": "2022-07-07T21:44:56\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -376,7 +383,12 @@
             "sms",
             "website"
           ],
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
           "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -398,16 +410,22 @@
           "supportedProtocols": [
             "sms"
           ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
           "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
           "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
           "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
           "optInReply": "JOIN",
+          "optInAnswerFromUser": "JOIN",
           "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -420,7 +438,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -433,7 +451,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [

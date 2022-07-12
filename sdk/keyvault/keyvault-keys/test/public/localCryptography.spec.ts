@@ -3,11 +3,11 @@
 
 import { Context } from "mocha";
 import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../src";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { createHash } from "crypto";
-import { authenticate } from "./utils/testAuthentication";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { getServiceVersion } from "./utils/common";
@@ -27,9 +27,11 @@ describe("Local cryptography public tests", () => {
   }
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(envSetupForPlayback);
+
+    const authentication = await authenticate(getServiceVersion(), recorder);
     client = authentication.client;
-    recorder = authentication.recorder;
     testClient = authentication.testClient;
     credential = authentication.credential;
     keySuffix = authentication.keySuffix;
@@ -117,7 +119,10 @@ describe("Local cryptography public tests", () => {
   });
 
   it("encrypt & decrypt RSA1_5", async function (this: Context) {
-    recorder.skip(undefined, "Local encryption can't be tested on playback");
+    if (!isLiveMode()) {
+      console.log("Skipping test, Local encryption can't be tested on playback");
+      this.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
@@ -131,7 +136,10 @@ describe("Local cryptography public tests", () => {
   });
 
   it("encrypt & decrypt RSA-OAEP", async function (this: Context) {
-    recorder.skip(undefined, "Local encryption can't be tested on playback");
+    if (!isLiveMode()) {
+      console.log("Skipping test, Local encryption can't be tested on playback");
+      this.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
@@ -145,7 +153,10 @@ describe("Local cryptography public tests", () => {
   });
 
   it("wrapKey & unwrapKey RSA1_5", async function (this: Context) {
-    recorder.skip(undefined, "Local encryption can't be tested on playback");
+    if (!isLiveMode()) {
+      console.log("Skipping test, Local encryption can't be tested on playback");
+      this.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
@@ -162,7 +173,10 @@ describe("Local cryptography public tests", () => {
   });
 
   it("wrapKey & unwrapKey RSA-OAEP", async function (this: Context) {
-    recorder.skip(undefined, "Local encryption can't be tested on playback");
+    if (!isLiveMode()) {
+      console.log("Skipping test, Local encryption can't be tested on playback");
+      this.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
@@ -184,14 +198,20 @@ describe("Local cryptography public tests", () => {
 
     for (const localAlgorithmName of localSupportedAlgorithmNames) {
       it(localAlgorithmName, async function (this: Context): Promise<void> {
-        recorder.skip(
-          "browser",
-          `Local sign of algorithm ${localAlgorithmName} is only supported in NodeJS`
-        );
+        if (!isNode) {
+          console.log(
+            `Skipping test, Local sign of algorithm ${localAlgorithmName} is only supported in NodeJS`
+          );
+          this.skip();
+        }
 
         const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
         const keyVaultKey = await client.createKey(keyName, "RSA");
-        const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+        const cryptoClient = new CryptographyClient(
+          keyVaultKey.id!,
+          credential,
+          recorder.configureClientOptions({})
+        );
 
         // Sign is not implemented yet.
         // This boils down to the JWK to PEM conversion, which doesn't support private keys at the moment.

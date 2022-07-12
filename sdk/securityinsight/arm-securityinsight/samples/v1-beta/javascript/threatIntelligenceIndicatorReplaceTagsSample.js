@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Replace tags added to a threat intelligence indicator.
  *
  * @summary Replace tags added to a threat intelligence indicator.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/threatintelligence/ReplaceTagsThreatIntelligence.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/threatintelligence/ReplaceTagsThreatIntelligence.json
  */
 async function replaceTagsToAThreatIntelligence() {
   const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";

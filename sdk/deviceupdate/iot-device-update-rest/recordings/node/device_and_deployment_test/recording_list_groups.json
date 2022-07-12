@@ -1,0 +1,50 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "726054e2-bd68-4b0c-834b-4a55c5cc8f36"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "701",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:37:44 GMT",
+        "mise-correlation-id": "de4d1e14-5d81-4037-a1b9-70c6181ebd80",
+        "traceparent": "00-7717aa03cc7cc1fa6d6fad4333a37533-0c0899126e4ab946-00"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "groupId": "$default",
+            "groupType": "DefaultNoTag",
+            "createdDateTime": "2022-06-08T23:58:17.7255595\u002B00:00",
+            "deviceCount": 0,
+            "subgroupsWithNewUpdatesAvailableCount": 0,
+            "subgroupsWithUpdatesInProgressCount": 0,
+            "subgroupsWithOnLatestUpdateCount": 0,
+            "deployments": []
+          },
+          {
+            "groupId": "dpokluda-test",
+            "groupType": "IoTHubTag",
+            "createdDateTime": "2022-06-09T00:08:48.4487\u002B00:00",
+            "deviceCount": 1,
+            "subgroupsWithNewUpdatesAvailableCount": 1,
+            "subgroupsWithUpdatesInProgressCount": 0,
+            "subgroupsWithOnLatestUpdateCount": 0,
+            "deployments": []
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

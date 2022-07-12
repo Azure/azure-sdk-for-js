@@ -7,7 +7,7 @@ import * as path from "path";
 import fs from "fs";
 import { assert } from "@azure/test-utils";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";

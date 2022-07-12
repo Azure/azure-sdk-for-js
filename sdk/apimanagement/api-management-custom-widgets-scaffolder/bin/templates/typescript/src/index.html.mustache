@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{displayName}}</title>
+  <link rel="stylesheet" href="./styles/shared.css">
+  <link rel="stylesheet" href="./styles/app.css">
+  <script type="module">
+    import initialize from "./index"
+
+    initialize()
+  </script>
+</head>
+<body>
+
+<h1>Hello {{displayName}}!</h1>
+
+<p>field1: <b id="field1"></b></p>
+<p>field2: <b id="field2"></b></p>
+
+</body>
+</html>
