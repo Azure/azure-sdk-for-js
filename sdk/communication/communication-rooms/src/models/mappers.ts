@@ -27,11 +27,10 @@ export const mapToRoomParticipantRestModel = (
   roomParticipant: RoomParticipant | CommunicationIdentifier
 ): RestModel.RoomParticipant => {
   if (isRoomParticipant(roomParticipant)) {
-    const { id, role, ...rest } = roomParticipant;
+    const { id, ...rest } = roomParticipant;
     return {
       ...rest,
       communicationIdentifier: serializeCommunicationIdentifier(id),
-      role: role,
     };
   }
   else {
@@ -48,10 +47,9 @@ export const mapToRoomParticipantRestModel = (
 export const mapToRoomParticipantSdkModel = (
   roomParticipant: RestModel.RoomParticipant
 ): RoomParticipant => {
-  const { communicationIdentifier, role, ...rest } = roomParticipant;
+  const { communicationIdentifier, ...rest } = roomParticipant;
   return {
     ...rest,
-    role: role,
     id: deserializeCommunicationIdentifier(
       communicationIdentifier as SerializedCommunicationIdentifier
     )

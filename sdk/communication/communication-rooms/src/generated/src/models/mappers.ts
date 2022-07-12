@@ -28,7 +28,8 @@ export const CreateRoomRequest: coreClient.CompositeMapper = {
       roomJoinPolicy: {
         serializedName: "roomJoinPolicy",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["InviteOnly", "CommunicationServiceUsers"]
         }
       },
       participants: {
@@ -62,7 +63,8 @@ export const RoomParticipant: coreClient.CompositeMapper = {
       role: {
         serializedName: "role",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Presenter", "Attendee", "Consumer"]
         }
       }
     }
@@ -139,7 +141,8 @@ export const RoomModel: coreClient.CompositeMapper = {
       roomJoinPolicy: {
         serializedName: "roomJoinPolicy",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["InviteOnly", "CommunicationServiceUsers"]
         }
       },
       participants: {
@@ -244,7 +247,8 @@ export const UpdateRoomRequest: coreClient.CompositeMapper = {
       roomJoinPolicy: {
         serializedName: "roomJoinPolicy",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["InviteOnly", "CommunicationServiceUsers"]
         }
       },
       participants: {

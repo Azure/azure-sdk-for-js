@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier } from "@azure/communication-common";
+import { RoomJoinPolicy, RoleType } from "../generated/src";
+
+export { RoomJoinPolicy, RoleType } from "../generated/src/models";
 
 /** The meeting room. */
 export interface RoomModel {
@@ -24,27 +27,10 @@ export interface RoomParticipant {
   /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.  */
   id: CommunicationIdentifier;
   /** Role name. */
-  role?: Role;
+  role?: RoleType;
 }
 
 /** Collection of participants who belong to a room. */
 export interface ParticipantsCollection {
   participants: RoomParticipant[];
 }
-
-/** The room join policy for a room. */
-export type RoomJoinPolicy = string;
-
-/** The role name of a participant.
- * {@link Role}
- */
-export enum KnownRole {
-  Presenter = "Presenter",
-  Attendee = "Attendee",
-  Consumer = "Consumer",
-}
-
-/**
- * {@link KnownRole}
- */
-export type Role = string;

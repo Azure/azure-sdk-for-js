@@ -22,3 +22,25 @@ add-credentials: false
 package-version: 1.2.0-beta.1
 v3: true
 ```
+
+### Disable extensible enums
+
+### Set RoomJoinPolicy Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.RoomJoinPolicy"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+```
+
+### Set RoleType Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.RoleType"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+```

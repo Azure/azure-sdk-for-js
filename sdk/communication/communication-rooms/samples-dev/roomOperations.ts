@@ -5,7 +5,12 @@
  * @summary Perform room operations using the RoomsClient.
  */
 
-import { RoomsClient, RoomModel, KnownRole } from "@azure/communication-rooms";
+import {
+  RoomsClient,
+  RoomModel,
+  CreateRoomRequest,
+  PatchRoomRequest,
+} from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { getIdentifierKind } from "@azure/communication-common";
 
@@ -29,13 +34,13 @@ export async function main() {
   var validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
 
   // request payload to create a room
-  const createRoomRequest = {
+  const createRoomRequest: CreateRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
     participants: [
       {
         id: user1.user,
-        role: KnownRole.Attendee,
+        role: "Attendee",
       },
     ],
   };
@@ -55,18 +60,18 @@ export async function main() {
   validUntil.setTime(validFrom.getTime() + 5 * 60 * 1000);
 
   // request payload to update a room
-  const updateRoomRequest = {
+  const updateRoomRequest: PatchRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
     roomJoinPolicy: "CommunicationServiceUsers",
     participants: [
       {
         id: user1.user,
-        role: KnownRole.Consumer,
+        role: "Consumer",
       },
       {
         id: user2.user,
-        role: KnownRole.Presenter,
+        role: "Presenter",
       },
     ],
   };

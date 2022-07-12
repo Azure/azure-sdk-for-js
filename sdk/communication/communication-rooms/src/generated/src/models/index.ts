@@ -163,39 +163,10 @@ export interface RoomsRemoveParticipantsExceptionHeaders {
   errorCode?: string;
 }
 
-/** Known values of {@link RoomJoinPolicy} that the service accepts. */
-export enum KnownRoomJoinPolicy {
-  InviteOnly = "InviteOnly",
-  CommunicationServiceUsers = "CommunicationServiceUsers"
-}
-
-/**
- * Defines values for RoomJoinPolicy. \
- * {@link KnownRoomJoinPolicy} can be used interchangeably with RoomJoinPolicy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InviteOnly** \
- * **CommunicationServiceUsers**
- */
-export type RoomJoinPolicy = string;
-
-/** Known values of {@link RoleType} that the service accepts. */
-export enum KnownRoleType {
-  Presenter = "Presenter",
-  Attendee = "Attendee",
-  Consumer = "Consumer"
-}
-
-/**
- * Defines values for RoleType. \
- * {@link KnownRoleType} can be used interchangeably with RoleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Presenter** \
- * **Attendee** \
- * **Consumer**
- */
-export type RoleType = string;
+/** Defines values for RoomJoinPolicy. */
+export type RoomJoinPolicy = "InviteOnly" | "CommunicationServiceUsers";
+/** Defines values for RoleType. */
+export type RoleType = "Presenter" | "Attendee" | "Consumer";
 
 /** Optional parameters. */
 export interface RoomsCreateRoomOptionalParams

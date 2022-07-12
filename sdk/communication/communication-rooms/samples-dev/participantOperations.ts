@@ -9,7 +9,9 @@ import {
   RoomsClient,
   RoomParticipant,
   ParticipantsCollection,
-  KnownRole,
+  CreateRoomRequest,
+  AddParticipantsRequest,
+  UpdateParticipantsRequest,
 } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { getIdentifierKind } from "@azure/communication-common";
@@ -34,13 +36,13 @@ export async function main() {
   const validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
 
   // request payload to create a room
-  const createRoomRequest = {
+  const createRoomRequest: CreateRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
     participants: [
       {
         id: user1.user,
-        role: KnownRole.Attendee,
+        role: "Attendee",
       },
     ],
   };
@@ -51,7 +53,7 @@ export async function main() {
   console.log(`Created Room with ID ${roomId}`);
 
   // request payload to add participants
-  const addParticipantsRequest = {
+  const addParticipantsRequest: AddParticipantsRequest = {
     participants: [
       {
         id: user2.user,
@@ -66,11 +68,11 @@ export async function main() {
   printParticipants(addParticipants);
 
   // request payload to update user1 with a new role
-  const updateParticipantsRequest = {
+  const updateParticipantsRequest: UpdateParticipantsRequest = {
     participants: [
       {
         id: user1.user,
-        role: KnownRole.Presenter,
+        role: "Presenter",
       },
     ],
   };
@@ -85,7 +87,7 @@ export async function main() {
 
   const deleteUser = {
     id: user1.user,
-    role: KnownRole.Presenter,
+    role: "Presenter",
   } as RoomParticipant;
 
   // request payload to delete both users from the room
