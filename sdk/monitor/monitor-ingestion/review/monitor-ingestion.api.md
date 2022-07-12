@@ -17,8 +17,6 @@ export class FailedLogsIngestionError extends Error {
 // @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
-    // @internal (undocumented)
-    splitDataToChunks(logs: Record<string, any>[]): any[];
     upload(ruleId: string, streamName: string, logs: Record<string, any>[], options?: UploadOptions): Promise<UploadResult>;
 }
 

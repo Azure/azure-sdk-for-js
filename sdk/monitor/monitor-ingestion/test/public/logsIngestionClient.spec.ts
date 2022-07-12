@@ -12,6 +12,7 @@ import {
   getDcrId,
   getLogsIngestionEndpoint,
   loggerForTest,
+  splitDataToChunks
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -104,7 +105,7 @@ describe("LogsIngestionClient live tests", function () {
         `Data collection rule with immutable Id 'fake-id' not found.`
       );
     });
-    const chunkArray = client.splitDataToChunks(logData);
+    const chunkArray = splitDataToChunks(logData);
     if (chunkArray.length % 2 === 0) {
       assert.equal(result.errors.length, chunkArray.length / 2);
     }
@@ -122,7 +123,7 @@ describe("LogsIngestionClient live tests", function () {
     } catch (e: any) {
       const errorMessage = e.message;
       assert.equal(errorMessage, "All logs failed for ingestion");
-      const chunkArray = client.splitDataToChunks(logData);
+      const chunkArray = splitDataToChunks(logData);
       assert.equal(chunkArray.length, e.errors.length);
       assert.equal(
         e.errors[0].responseError.details.error.message,

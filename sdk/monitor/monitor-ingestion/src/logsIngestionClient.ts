@@ -7,7 +7,6 @@ import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
 import { FailedLogsIngestionError, UploadOptions, UploadResult } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
-import asyncPool from "tiny-async-pool";
 
 /**
  * Options for Montior Logs Ingestion Client
@@ -119,7 +118,7 @@ export class LogsIngestionClient {
   /**
    * @internal
    */
-  splitDataToChunks(logs: Record<string, any>[]): any[] {
+  private splitDataToChunks(logs: Record<string, any>[]): any[] {
     let chunk: any[] = [];
     const chunkArray: any[] = [];
     let size = 0;
