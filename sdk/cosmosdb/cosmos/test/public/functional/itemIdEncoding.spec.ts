@@ -121,6 +121,19 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
+  it("ContainerIdWithUnicode鱀", async function () {
+    const scenario: TestScenario = {
+      name: "ContainerIdWithUnicode鱀",
+      id: "Test",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
+    };
+
+    await executeTestCase(scenario);
+  });
+
   it("idWithWhitespaces", async function () {
     const scenario: TestScenario = {
       name: "IdWithWhitespaces",
