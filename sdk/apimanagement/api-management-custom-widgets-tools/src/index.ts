@@ -23,5 +23,5 @@ export type {
   TValuesBase,
   TEnvironment,
 } from "./utils";
-import node from "./node"
-export {node}
+import node from "./node";
+export { node };
