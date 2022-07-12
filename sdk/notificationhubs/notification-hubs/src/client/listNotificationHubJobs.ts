@@ -1,0 +1,46 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { 
+  NotificationHubsClient, 
+  createRequest,
+} from "./client";
+import { NotificationHubJob } from "../models/notificationHubJob";
+import { OperationOptions } from "@azure/core-client";
+import { RestError } from "@azure/core-rest-pipeline";
+import { parseNotificationHubJobFeed } from "../serializers/notificationHubJobSerializer";
+import { tracingClient } from "../utils/tracing";
+
+/**
+ * Gets all Notification Hub Jobs for this Notification Hub.
+ * @param client - The Notification Hubs client.xs
+ * @param options - The operation options.
+ * @returns An array of all Notification Hub Jobs for this Notification Hub.
+ */
+export function listNotificationHubJobs(
+  client: NotificationHubsClient,
+  options: OperationOptions = {}
+): Promise<NotificationHubJob[]> {
+  return tracingClient.withSpan(
+    "NotificationHubsClient-getNotificationHubJobs",
+    options,
+    async (updatedOptions) => {
+      const endpoint = client.getBaseUrl();
+      endpoint.pathname += "/jobs";
+
+      const headers = client.createHeaders();
+      headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
+
+      const request = createRequest(endpoint, "GET", headers, updatedOptions);
+      const response = await client.sendRequest(request);
+      if (response.status !== 200) {
+        throw new RestError(`getNotificationHubJobs failed with ${response.status}`, {
+          statusCode: response.status,
+          response: response,
+        });
+      }
+
+      return parseNotificationHubJobFeed(response.bodyAsText!);
+    }
+  );
+}

@@ -107,7 +107,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-deleteInstallation",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += `/installations/${installationId}`;
         const headers = this.createHeaders();
 
@@ -140,7 +140,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-getInstallation",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += `/installations/${installationId}`;
         const headers = this.createHeaders();
         headers.set("Content-Type", "application/json");
@@ -174,7 +174,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-createOrUpdateInstallation",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += `/installations/${installation.installationId}`;
         const headers = this.createHeaders();
         headers.set("Content-Type", "application/json");
@@ -212,7 +212,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-updateInstallation",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += `/installations/${installationId}`;
         const headers = this.createHeaders();
         headers.set("Content-Type", "application/json");
@@ -245,7 +245,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-getFeedbackContainerURL",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += "/feedbackcontainer";
         const headers = this.createHeaders();
         headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
@@ -269,12 +269,12 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The options for creating a new registration ID.
    * @returns The newly created registration ID.
    */
-  public async createRegistrationId(options: OperationOptions = {}): Promise<string> {
+  public createRegistrationId(options: OperationOptions = {}): Promise<string> {
     return tracingClient.withSpan(
       "NotificationHubsClient-createRegistrationId",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += "/registrationIDs";
 
         const headers = this.createHeaders();
@@ -313,7 +313,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-getRegistration",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += `/registrations/${registrationId}`;
 
         const headers = this.createHeaders();
@@ -347,7 +347,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-deleteRegistration",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += `/registrations/${registrationId}`;
 
         const headers = this.createHeaders();
@@ -456,7 +456,7 @@ export class NotificationHubsClient extends ServiceClient {
     etag: string,
     options: OperationOptions
   ): Promise<RegistrationDescription> {
-    const endpoint = this.getBaseURL();
+    const endpoint = this.getBaseUrl();
     endpoint.pathname += "/registrations";
     let httpMethod: HttpMethods = "POST";
 
@@ -544,7 +544,7 @@ export class NotificationHubsClient extends ServiceClient {
     options: RegistrationQueryOptions,
     continuationToken?: string
   ): Promise<RegistrationQueryResponse> {
-    const endpoint = this.getBaseURL();
+    const endpoint = this.getBaseUrl();
     endpoint.pathname += "/registrations";
     if (options.top !== undefined) {
       endpoint.searchParams.set("$top", `${options.top}`);
@@ -642,7 +642,7 @@ export class NotificationHubsClient extends ServiceClient {
     options: RegistrationQueryLimitOptions,
     continuationToken?: string
   ): Promise<RegistrationQueryResponse> {
-    const endpoint = this.getBaseURL();
+    const endpoint = this.getBaseUrl();
     endpoint.pathname += `/tags/${tag}/registrations`;
     if (options.top !== undefined) {
       endpoint.searchParams.set("$top", `${options.top}`);
@@ -716,7 +716,7 @@ export class NotificationHubsClient extends ServiceClient {
    * NOTE: This is only available in Standard SKU Azure Notification Hubs.
    * @param scheduledTime - The Date to send the push notification.
    * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
-   * @param message - The notification to send to the matching devices.
+   * @param notification - The notification to send to the matching devices.
    * @param options - Configuration options for the direct send operation which can contain custom headers
    * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
@@ -731,7 +731,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-$scheduleNotification",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += "/schedulednotifications/";
 
         const headers = this.createHeaders();
@@ -786,7 +786,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-cancelScheduledNotification",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += `/schedulednotifications/${notificationId}`;
 
         const headers = this.createHeaders();
@@ -816,7 +816,7 @@ export class NotificationHubsClient extends ServiceClient {
       `NotificationHubsClient-${method}`,
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += "/messages/";
 
         if (options.enableTestSend) {
@@ -888,7 +888,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-getNotificationOutcomeDetails",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += `/messages/${notificationId}`;
 
         const headers = this.createHeaders();
@@ -921,7 +921,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-submitNotificationHubJob",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += "/jobs";
 
         const headers = this.createHeaders();
@@ -957,7 +957,7 @@ export class NotificationHubsClient extends ServiceClient {
       "NotificationHubsClient-getNotificationHubJob",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += `/jobs/${jobId}`;
 
         const headers = this.createHeaders();
@@ -982,14 +982,14 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The operation options.
    * @returns An array of all Notification Hub Jobs for this Notification Hub.
    */
-  public async getNotificationHubJobs(
+  public async listNotificationHubJobs(
     options: OperationOptions = {}
   ): Promise<NotificationHubJob[]> {
     return tracingClient.withSpan(
       "NotificationHubsClient-getNotificationHubJobs",
       options,
       async (updatedOptions) => {
-        const endpoint = this.getBaseURL();
+        const endpoint = this.getBaseUrl();
         endpoint.pathname += "/jobs";
 
         const headers = this.createHeaders();
@@ -1062,7 +1062,7 @@ export class NotificationHubsClient extends ServiceClient {
     };
   }
 
-  private getBaseURL(): URL {
+  private getBaseUrl(): URL {
     // Node doesn't allow change in protocol but browsers do, so doing a string replace
     const url = new URL(this._baseUrl.replace("sb://", "https://"));
     url.pathname = this._hubName;
