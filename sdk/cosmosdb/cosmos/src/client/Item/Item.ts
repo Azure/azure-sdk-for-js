@@ -29,7 +29,7 @@ export class Item {
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url(): string {
-    return createDocumentUri(this.container.database.id, this.container.id, this.id);
+    return createDocumentUri(this.container.database.id, this.container.id, encodeURIComponent(this.id));
   }
 
   /**
@@ -79,8 +79,10 @@ export class Item {
         await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+
+    const resourceUri: string = this.url;
+    const path = getPathFromLink(resourceUri);
+    const id = getIdFromLink(resourceUri);
     let response: Response<T & Resource>;
     try {
       response = await this.clientContext.read<T>({
@@ -148,8 +150,9 @@ export class Item {
       throw err;
     }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    const resourceUri: string = this.url;
+    const path = getPathFromLink(resourceUri);
+    const id = getIdFromLink(resourceUri);
 
     const response = await this.clientContext.replace<T>({
       body,
@@ -185,8 +188,9 @@ export class Item {
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    const resourceUri: string = this.url;
+    const path = getPathFromLink(resourceUri);
+    const id = getIdFromLink(resourceUri);
 
     const response = await this.clientContext.delete<T>({
       path,
@@ -222,8 +226,9 @@ export class Item {
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    const resourceUri: string = this.url;
+    const path = getPathFromLink(resourceUri);
+    const id = getIdFromLink(resourceUri);
 
     const response = await this.clientContext.patch<T>({
       body,

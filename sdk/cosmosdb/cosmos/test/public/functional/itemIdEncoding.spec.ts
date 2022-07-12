@@ -164,8 +164,10 @@ describe("Id encoding", function (this: Suite) {
     const scenario: TestScenario = {
       name: "IdEndingWithWhitespace",
       id: "Test ",
-      expectedCreateStatusCode: 400,
-      expectedCreateErrorMessage: "Id ends with a space.",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -175,8 +177,10 @@ describe("Id encoding", function (this: Suite) {
     const scenario: TestScenario = {
       name: "IdEndingWithWhitespaces",
       id: "Test   ",
-      expectedCreateStatusCode: 400,
-      expectedCreateErrorMessage: "Id ends with a space.",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -230,9 +234,9 @@ describe("Id encoding", function (this: Suite) {
       name: "IdEndingWithPercentEncodedWhitespace",
       id: "IdEndingWithPercentEncodedWhitespace%20",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: 401,
-      expectedReplaceStatusCode: 401,
-      expectedDeleteStatusCode: 401,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -243,9 +247,9 @@ describe("Id encoding", function (this: Suite) {
       name: "IdWithPercentEncodedSpecialChar",
       id: "WithPercentEncodedSpecialChar%E9%B1%80",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: 401,
-      expectedReplaceStatusCode: 401,
-      expectedDeleteStatusCode: 401,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -255,8 +259,10 @@ describe("Id encoding", function (this: Suite) {
     const scenario: TestScenario = {
       name: "IdWithDisallowedCharQuestionMark",
       id: "Disallowed?Chars",
-      expectedCreateStatusCode: 400,
-      expectedCreateErrorMessage: "Id contains illegal chars.",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -288,8 +294,10 @@ describe("Id encoding", function (this: Suite) {
     const scenario: TestScenario = {
       name: "IdWithDisallowedCharPoundSign",
       id: "Disallowed#Chars",
-      expectedCreateStatusCode: 400,
-      expectedCreateErrorMessage: "Id contains illegal chars.",
+      expectedCreateStatusCode: 201,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -300,9 +308,9 @@ describe("Id encoding", function (this: Suite) {
       name: "IdWithCarriageReturn",
       id: "With\rCarriageReturn",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: undefined,
-      expectedReplaceStatusCode: undefined,
-      expectedDeleteStatusCode: undefined,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -313,9 +321,9 @@ describe("Id encoding", function (this: Suite) {
       name: "IdWithTab",
       id: "With\tTab",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: undefined,
-      expectedReplaceStatusCode: undefined,
-      expectedDeleteStatusCode: undefined,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
@@ -326,9 +334,9 @@ describe("Id encoding", function (this: Suite) {
       name: "IdWithLineFeed",
       id: "With\nLineFeed",
       expectedCreateStatusCode: 201,
-      expectedReadStatusCode: undefined,
-      expectedReplaceStatusCode: undefined,
-      expectedDeleteStatusCode: undefined,
+      expectedReadStatusCode: 200,
+      expectedReplaceStatusCode: 200,
+      expectedDeleteStatusCode: 204,
     };
 
     await executeTestCase(scenario);
