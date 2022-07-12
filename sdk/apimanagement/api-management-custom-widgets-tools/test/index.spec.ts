@@ -1,9 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TEditorData, getEditorData, getEditorValues } from "../src";
-import { TOnChange, buildOnChange } from "../src";
+import {
+  ON_CHANGE_MESSAGE_KEY,
+  TEditorData,
+  TOnChange,
+  buildOnChange,
+  getEditorData,
+  getEditorValues,
+} from "../src";
 import { assert } from "chai";
+import sinon from "sinon";
 import valuesUrl from "./valuesUrl.json";
 
 const valuesDefault = {
@@ -54,17 +61,19 @@ describe("buildOnChange", () => {
   });
 
   it("reports values in valid form", () => {
-    /* TODO come up with a solution to test post message
-    const changedValueKey = "foo"
-    const changedValues = {[changedValueKey]: "new value"}
-    onChange(changedValues, (msg: any, targetOrigin) => {
-      const data = msg[ON_CHANGE_MESSAGE_KEY]
-      assert.equal(valuesUrl.instanceId, data.instanceId)
-      assert.equal(changedValueKey, data.key)
-      assert.equal(changedValues[changedValueKey], data.value)
+    const changedValueKey = "foo";
+    const changedValues = { [changedValueKey]: "new value" };
 
-      assert.equal(valuesUrl.origin, targetOrigin)
-    })
-     */
+    sinon.stub(self.parent, "postMessage").callsFake((msg, targetOrigin: any) => {
+      console.log({ msg, targetOrigin }); // TODO
+
+      const data = msg[ON_CHANGE_MESSAGE_KEY];
+      assert.equal(valuesUrl.instanceId, data.instanceId);
+      assert.equal(changedValueKey, data.key);
+      assert.equal(changedValues[changedValueKey], data.value);
+
+      assert.equal(valuesUrl.origin, targetOrigin);
+    });
+    onChange(changedValues);
   });
 });

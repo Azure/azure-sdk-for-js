@@ -23,5 +23,7 @@ export type {
   TValuesBase,
   TEnvironment,
 } from "./utils";
-import node from "./node";
-export { node };
+
+import deployNodeJS from "./node/deploy";
+export { deployNodeJS };
+export type { TServiceInformation } from "./node/deploy";

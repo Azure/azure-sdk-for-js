@@ -51,7 +51,7 @@
     "pack": "npm pack 2>&1",
     "test:browser": "echo skip",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skip",
     "unit-test:node": "npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
@@ -82,10 +82,11 @@
     "@azure/test-utils": "^1.0.0",
     "@types/mustache": "4.1.2",
     "sinon": "^9.0.4",
+    "karma": "^6.4.0",
     "@types/sinon": "^9.0.4"
   },
   "dependencies": {
-    "@azure/core-rest-pipeline": "^1.8.1",
+    "@azure-rest/core-client": "^1.0.0-beta.10",
     "@azure/storage-blob": "^12.9.0",
     "mime": "^3.0.0",
     "mustache": "^4.2.0",

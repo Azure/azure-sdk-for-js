@@ -14,6 +14,9 @@ export const askForSecrets: (targetOrigin: string, instanceId: string, targetMod
 export function buildOnChange<TValues extends TValuesBase>(valuesDefault: TValues): TOnChange<TValues>;
 
 // @public
+export function deployNodeJS(serviceInformation: TServiceInformation, name: string, fallbackConfigPath?: string): Promise<void>;
+
+// @public
 export const EDITOR_DATA_KEY = "editorData";
 
 // @public
@@ -21,11 +24,6 @@ export function getEditorData<TValues extends TValuesBase>(valuesDefault: TValue
 
 // @public
 export function getEditorValues<TValues extends TValuesBase>(valuesDefault: TValues): TValues;
-
-// @public (undocumented)
-export const node: {
-    deploy: typeof deploy;
-};
 
 // @public
 export const ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
@@ -54,13 +52,17 @@ export type TSecrets = {
 };
 
 // @public
+export type TServiceInformation = {
+    resourceId: string;
+    managementApiEndpoint: string;
+    apiVersion?: string;
+    tokenOverride?: string;
+};
+
+// @public
 export type TTargetModule = "app" | "editor";
 
 // @public
 export type TValuesBase = Record<string, unknown>;
-
-// Warnings were encountered during analysis:
-//
-// src/node/index.ts:1:30 - (ae-forgotten-export) The symbol "deploy" needs to be exported by the entry point index.d.ts
 
 ```
