@@ -122,9 +122,9 @@ describe("supports tracing", function () {
     it("getInfo", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.getInfo(options);
+          await dmac.getResourceInfo(options);
         }),
-        ["DocumentModelAdministrationClient.getInfo"]
+        ["DocumentModelAdministrationClient.getResourceInfo"]
       ));
 
     it("deleteModel", () =>
@@ -165,8 +165,8 @@ describe("supports tracing", function () {
           await dmac.beginCopyModelTo(
             "test",
             {
-              targetDocumentModelId: "test",
-              targetDocumentModelLocation: "test",
+              targetModelId: "test",
+              targetModelLocation: "test",
               targetResourceId: "test",
               targetResourceRegion: "test",
               accessToken: "test",

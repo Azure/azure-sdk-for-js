@@ -1534,18 +1534,18 @@ export const CopyAuthorization: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      targetDocumentModelId: {
+      targetModelId: {
         constraints: {
           Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
         },
-        serializedName: "targetDocumentModelId",
+        serializedName: "targetModelId",
         required: true,
         type: {
           name: "String"
         }
       },
-      targetDocumentModelLocation: {
-        serializedName: "targetDocumentModelLocation",
+      targetModelLocation: {
+        serializedName: "targetModelLocation",
         required: true,
         type: {
           name: "String"
@@ -1881,10 +1881,10 @@ export const CustomDocumentModelsInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const GetOperationResponse: coreClient.CompositeMapper = {
+export const OperationInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GetOperationResponse",
+    className: "OperationInfo",
     modelProperties: {
       ...OperationSummary.type.modelProperties,
       error: {

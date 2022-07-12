@@ -413,9 +413,9 @@ export interface CopyAuthorization {
   /** Location of the target Azure resource where the document model should be copied to. */
   targetResourceRegion: string;
   /** Identifier of the target document model. */
-  targetDocumentModelId: string;
+  targetModelId: string;
   /** URL of the copied document model in the target account. */
-  targetDocumentModelLocation: string;
+  targetModelLocation: string;
   /** Token used to authorize the request. */
   accessToken: string;
   /** Date/time when the access token expires. */
@@ -515,7 +515,7 @@ export interface CustomDocumentModelsInfo {
 }
 
 /** Get Operation response object. */
-export interface GetOperationResponse extends OperationSummary {
+export interface OperationInfo extends OperationSummary {
   /** Encountered error. */
   error?: ErrorModel;
   /** Operation result upon success. */
@@ -921,7 +921,7 @@ export interface GetOperationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperation operation. */
-export type GetOperationOperationResponse = GetOperationResponse;
+export type GetOperationResponse = OperationInfo;
 
 /** Optional parameters. */
 export interface GetDocumentModelsOptionalParams

@@ -388,7 +388,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/GetOperationResponse"
+              "$ref": "#/definitions/OperationInfo"
             }
           },
           "default": {
@@ -668,7 +668,7 @@
         }
       }
     },
-    "GetOperationResponse": {
+    "OperationInfo": {
       "description": "Get Operation response object.",
       "type": "object",
       "allOf": [
@@ -830,8 +830,8 @@
       "required": [
         "targetResourceId",
         "targetResourceRegion",
-        "targetDocumentModelId",
-        "targetDocumentModelLocation",
+        "targetModelId",
+        "targetModelLocation",
         "accessToken",
         "expirationDateTime"
       ],
@@ -845,11 +845,11 @@
           "description": "Location of the target Azure resource where the document model should be copied to.",
           "type": "string"
         },
-        "targetDocumentModelId": {
+        "targetModelId": {
           "description": "Identifier of the target document model.",
           "$ref": "#/definitions/DocumentModelId"
         },
-        "targetDocumentModelLocation": {
+        "targetModelLocation": {
           "description": "URL of the copied document model in the target account.",
           "type": "string"
         },

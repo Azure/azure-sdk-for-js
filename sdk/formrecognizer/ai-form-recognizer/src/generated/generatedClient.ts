@@ -45,7 +45,7 @@ import {
   CopyDocumentModelToResponse,
   GetOperationsOperationResponse,
   GetOperationOptionalParams,
-  GetOperationOperationResponse,
+  GetOperationResponse,
   GetDocumentModelsOperationResponse,
   GetDocumentModelOptionalParams,
   GetDocumentModelResponse,
@@ -408,7 +408,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
   getOperation(
     operationId: string,
     options?: GetOperationOptionalParams
-  ): Promise<GetOperationOperationResponse> {
+  ): Promise<GetOperationResponse> {
     return this.sendOperationRequest(
       { operationId, options },
       getOperationOperationSpec
@@ -679,7 +679,7 @@ const getOperationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetOperationResponse
+      bodyMapper: Mappers.OperationInfo
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -412,7 +412,7 @@ export class DocumentModelAdministrationClient {
                   httpMethod: "GET",
                   responses: {
                     200: {
-                      bodyMapper: Mappers.GetOperationResponse,
+                      bodyMapper: Mappers.OperationInfo,
                     },
                     default: {
                       bodyMapper: Mappers.ErrorResponse,
@@ -485,7 +485,7 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for the request
    * @returns basic information about this client's resource
    */
-  public getInfo(options: GetInfoOptions = {}): Promise<ResourceInfo> {
+  public getResourceInfo(options: GetInfoOptions = {}): Promise<ResourceInfo> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getResourceInfo",
       options,

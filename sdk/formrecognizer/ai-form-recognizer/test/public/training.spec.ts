@@ -189,7 +189,7 @@ matrix(
           it("has trained models and limits", async () => {
             const {
               customDocumentModels: { count, limit },
-            } = await client.getInfo();
+            } = await client.getResourceInfo();
 
             // Model count should be >0 because we just trained several models
             assert.isTrue(count > 0);
@@ -331,13 +331,13 @@ matrix(
         const copyResult = await poller.pollUntilDone();
 
         assert.ok(copyResult, "Expecting valid copy result");
-        assert.equal(copyResult.modelId, targetAuth.targetDocumentModelId);
+        assert.equal(copyResult.modelId, targetAuth.targetModelId);
 
         assert.ok(copyResult.createdDateTime, "Expecting valid 'trainingStartedOn' property");
 
         const targetModel = await trainingClient.getModel(copyResult.modelId);
 
-        assert.equal(targetModel.modelId, targetAuth.targetDocumentModelId);
+        assert.equal(targetModel.modelId, targetAuth.targetModelId);
         assert.equal(targetModel.modelId, copyResult.modelId);
       });
     }).timeout(60000);
