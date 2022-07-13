@@ -1,5 +1,5 @@
 {
-  "name": "azure-maps-render-samples-js-beta",
+  "name": "@azure-samples/maps-render-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Maps Render client library samples for JavaScript (Beta)",

@@ -32,8 +32,7 @@
     "@azure/maps-search": "next",
     "dotenv": "latest",
     "@azure/identity": "2.0.0-beta.6",
-    "@azure/core-auth": "^1.3.0",
-    "@azure/maps-common": "1.0.0-beta.1"
+    "@azure/core-auth": "^1.3.0"
   },
   "devDependencies": {
     "@types/node": "^12.0.0",

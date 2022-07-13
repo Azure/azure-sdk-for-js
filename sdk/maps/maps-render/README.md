@@ -22,9 +22,9 @@ Azure Maps Render REST APIs
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An [Azure Maps account](https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys). You can create the resource via [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
+- An [Azure Maps account](https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys). You can create the resource via the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
 
-If you use Azure CLI, replace `<resource-group-name>` and `<account-name>` of your choice, and select a proper [pricing tier](https://docs.microsoft.com/azure/azure-maps/choose-pricing-tier) based on your needs via the `<sku-name>` parameter. Please refer to [this page](https://docs.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create) for more details.
+If you use Azure CLI, replace `<resource-group-name>` and `<map-account-name>` of your choice, and select a proper [pricing tier](https://docs.microsoft.com/azure/azure-maps/choose-pricing-tier) based on your needs via the `<sku-name>` parameter. Please refer to [this page](https://docs.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create) for more details.
 
 ```bash
 az maps account create --resource-group <resource-group-name> --name <map-account-name> --sku <sku-name>
@@ -40,7 +40,7 @@ npm install @azure/maps-render
 
 ### Create and authenticate a `MapsRenderClient`
 
-To create a client object to access the Azure Maps Render API, you will need a `credential` object. The Azure Maps Render client can use an Azure Active Directory credential or an Azure Key credential to authenticate.
+To create a client object to access the Azure Maps Render APIs, you will need a `credential` object. The Azure Maps Render client can use an Azure Active Directory credential or an Azure Key credential to authenticate.
 
 #### Using an Azure Active Directory Credential
 
@@ -57,9 +57,11 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options. The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
 ```javascript
-const { MapsRenderClient } = require("@azure/maps-render");
-const { DefaultAzureCredential } = require("@azure/identity");
-const client = new MapsRenderClient(new DefaultAzureCredential(), "<maps-account-client-id>");
+import { MapsRenderClient } from "@azure/maps-render";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const credential = new DefaultAzureCredential();
+const client = new MapsRenderClient(credential, "<maps-account-client-id>");
 ```
 
 #### Using a Subscription Key Credential
@@ -71,14 +73,15 @@ npm install @azure/core-auth
 ```
 
 ```javascript
-const { MapsRenderClient } = require("@azure/maps-render");
-const { AzureKeyCredential } = require("@azure/core-auth");
-const client = new MapsRenderClient(new AzureKeyCredential("<subscription-key>"));
+import { MapsRenderClient, AzureKeyCredential } from "@azure/maps-render";
+
+const credential = new AzureKeyCredential("<subscription-key>");
+const client = new MapsRenderClient(credential);
 ```
 
 ## Key concepts
 
-### RenderClient
+### MapsRenderClient
 
 `MapsRenderClient` is the primary interface for developers using the Azure Maps Render client library. Explore the methods on this client object to understand the different features of the Azure Maps Render service that you can access.
 
@@ -92,15 +95,19 @@ The following sections provide several code snippets covering some of the most c
 
 ### Request map tiles in vector or raster formats
 
+You can request map tiles in vector or raster formats. These tiles are typically to be integrated into a map control or SDK.
+Some example tiles that can be requested are Azure Maps road tiles, real-time Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://docs.microsoft.com/shows/internet-of-things-show/introducing-azure-maps-creator).
+
 ```javascript
 const tileIndex = { z: 6, x: 9, y: 22 };
 const mapTileOptions = { tileSize: "512" };
 const mapTile = await client.getMapTile(KnownTilesetID.MicrosoftBase, tileIndex, mapTileOptions);
 ```
 
-The response will contain the tile object based on the request parameters.
-
 ### Request map copyright attribution information
+
+You can request map copyright attribution information for a section of a tileset.
+A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset zoom levels. Every tileset has a tilesetId to use when making requests. The supported tilesetIds are listed [here](https://docs.microsoft.com/rest/api/maps/render-v2/get-map-attribution?tabs=HTTP#tilesetid).
 
 ```javascript
 const boundingBox = {
@@ -112,8 +119,10 @@ const attribution = await client.getMapAttribution(KnownTilesetID.MicrosoftBase,
 
 ### Request metadata for a tileset
 
+You can request metadata for a tileset in TileJSON format using the following code snippet.
+
 ```javascript
-const tileset = await client.getMapTileset(KnownTilesetID.MicrosoftBase);
+const tileJson = await client.getMapTileset(KnownTilesetID.MicrosoftBase);
 ```
 
 ## Troubleshooting
@@ -146,5 +155,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
+[azure_powershell]: https://docs.microsoft.com/powershell/module/az.maps/new-azmapsaccount
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

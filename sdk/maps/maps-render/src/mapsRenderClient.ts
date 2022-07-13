@@ -59,8 +59,8 @@ export class MapsRenderClient {
    * @example
    * ```ts
    * import { MapsRenderClient, AzureKeyCredential } from "@azure/maps-Render";
-   * const credential = new AzureKeyCredential("<subscription-key>");
    *
+   * const credential = new AzureKeyCredential("<subscription-key>");
    * const client = new MapsRenderClient(credential);
    *```
    *
@@ -75,8 +75,8 @@ export class MapsRenderClient {
    * ```ts
    * import { MapsRenderClient } from "@azure/maps-render";
    * import { DefaultAzureCredential } from "@azure/identity";
-   * const credential = new DefaultAzureCredential();
    *
+   * const credential = new DefaultAzureCredential();
    * const client = new MapsRenderClient(credential, "<maps-account-client-id>");
    *```
    *

@@ -85,6 +85,7 @@ async function main() {
       }
     });
   }
+
   console.log(" --- Search nearby POI:");
   const searchNearbyCoordinate = { latitude: 40.70627, longitude: -74.011454 };
   const searchNearbyOptions = { radiusInMeters: 8046 };
@@ -161,7 +162,7 @@ async function main() {
   console.log(" --- Get search POI category tree:");
   console.log(await client.getPointOfInterestCategories());
 
-  console.log(" --- List polygons by geometry IDs:");
+  console.log(" --- Get Geometries by geometry IDs:");
   console.log(geometryIds);
   console.log(await client.getGeometries([...geometryIds, "8bceafe8-3d98-4444-b29b-fd81d3e9adf5"]));
 
@@ -286,43 +287,16 @@ async function main() {
     )
   );
 
-  // const searchAddressBatchRequest = {
-  //   batchItems: [
-  //     {
-  //       query: "?query=400 Broad St, Seattle, WA 98109&limit=3"
-  //     },
-  //     {
-  //       query: "?query=One, Microsoft Way, Redmond, WA 98052&limit=3"
-  //     },
-  //     {
-  //       query: "?query=350 5th Ave, New York, NY 10118&limit=1"
-  //     }
-  //   ]
-  // };
+  console.log(" --- Search address batch (long-running):");
   const searchAddressRequests = [
     { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
     { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
     { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
   ];
-
-  console.log(" --- Search address batch (long-running):");
   const searchPoller = await client.beginSearchAddressBatch(searchAddressRequests);
   console.log(await searchPoller.pollUntilDone());
 
-  // const searchAddressReverseBatchRequest = {
-  //   batchItems: [
-  //     {
-  //       query: "?query=48.858561,2.294911"
-  //     },
-  //     {
-  //       query: "?query=47.639765,-122.127896&radius=5000"
-  //     },
-  //     {
-  //       query: "?query=47.621028,-122.348170"
-  //     }
-  //   ]
-  // };
-
+  console.log(" --- Search address reverse batch (long-running):");
   const reverseSearchAddressRequests = [
     { coordinates: { latitude: 148.858561, longitude: 2.294911 } },
     {
@@ -331,27 +305,12 @@ async function main() {
     },
     { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
   ];
-
-  console.log(" --- Search address reverse batch (long-running):");
   const reverseSearchPoller = await client.beginReverseSearchAddressBatch(
     reverseSearchAddressRequests
   );
   console.log(await reverseSearchPoller.pollUntilDone());
 
-  // const searchFuzzyBatchRequest = {
-  //   batchItems: [
-  //     {
-  //       query: "?query=atm&lat=47.639769&lon=-122.128362&radius=5000&limit=5"
-  //     },
-  //     {
-  //       query: "?query=Statue Of Liberty&limit=2"
-  //     },
-  //     {
-  //       query: "?query=Starbucks&lat=47.639769&lon=-122.128362&radius=5000"
-  //     }
-  //   ]
-  // };
-
+  console.log(" --- Search fuzzy batch (long-running):");
   const fuzzySearchRequests = [
     {
       searchQuery: { query: "atm", coordinates: { latitude: 48.858561, longitude: 2.294911 } },
@@ -372,8 +331,6 @@ async function main() {
       options: { radiusInMeters: 5000 },
     },
   ];
-
-  console.log(" --- Search fuzzy batch (long-running):");
   const fuzzySearchPoller = await client.beginFuzzySearchBatch(fuzzySearchRequests);
   console.log(await fuzzySearchPoller.pollUntilDone());
 }

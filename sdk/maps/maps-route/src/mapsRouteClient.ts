@@ -56,8 +56,8 @@ export class MapsRouteClient {
    * @example
    * ```ts
    * import { MapsRouteClient, AzureKeyCredential } from "@azure/maps-route";
-   * const credential = new AzureKeyCredential("<subscription-key>");
    *
+   * const credential = new AzureKeyCredential("<subscription-key>");
    * const client = new MapsRouteClient(credential);
    *```
    *
@@ -72,8 +72,8 @@ export class MapsRouteClient {
    * ```ts
    * import { MapsRouteClient } from "@azure/maps-route";
    * import { DefaultAzureCredential } from "@azure/identity";
-   * const credential = new DefaultAzureCredential();
    *
+   * const credential = new DefaultAzureCredential();
    * const client = new MapsRouteClient(credential, "<maps-account-client-id>");
    *```
    *

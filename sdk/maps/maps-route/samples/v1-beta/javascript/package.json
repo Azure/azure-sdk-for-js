@@ -1,5 +1,5 @@
 {
-  "name": "azure-maps-route-samples-js-beta",
+  "name": "@azure-samples/maps-route-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Maps Route client library samples for JavaScript (Beta)",
