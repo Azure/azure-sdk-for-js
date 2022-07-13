@@ -360,6 +360,8 @@ describe("Message session unit tests", () => {
 
     beforeEach(async () => {
       messageSession = await MessageSession.create(
+        "serviceBusClientId",
+
         createConnectionContextForTestsWithSessionId("session id"),
         "entity path",
         "session id",
