@@ -25,7 +25,6 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
   } catch (e: any) {
     console.log(`name: ${e.name}, message: ${e.message}`);
     assert.equal(e.name, "AbortError");
-    assert.equal(e.message, "The operation was aborted.");
   }
   if (passed) {
     throw new Error("Expected cb to throw an AbortError");
@@ -43,7 +42,10 @@ export const serviceVersions = ["7.0", "7.1", "7.2", "7.3"] as const;
  * @returns - The service version to test
  */
 export function getServiceVersion(): NonNullable<CertificateClientOptions["serviceVersion"]> {
-  return env.SERVICE_VERSION || serviceVersions[serviceVersions.length - 1];
+  return (
+    (env.SERVICE_VERSION as typeof serviceVersions[number] | undefined) ||
+    serviceVersions[serviceVersions.length - 1]
+  );
 }
 
 /**
