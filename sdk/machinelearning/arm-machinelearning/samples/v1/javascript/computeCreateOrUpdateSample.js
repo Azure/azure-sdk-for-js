@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ComputeResource,
-  AzureMachineLearningWorkspaces
-} from "@azure/arm-machinelearning";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
@@ -25,7 +22,7 @@ async function attachAKubernetesCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
-  const parameters: ComputeResource = {
+  const parameters = {
     location: "eastus",
     properties: {
       description: "some compute",
@@ -33,11 +30,11 @@ async function attachAKubernetesCompute() {
       properties: {
         subscriptionId: subscriptionId,
         resourceGroup: resourceGroupName,
-        workspaceName: workspaceName
+        workspaceName: workspaceName,
       },
       resourceId:
-        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2"
-    }
+        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -63,7 +60,7 @@ async function createAAmlCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
-  const parameters: ComputeResource = {
+  const parameters = {
     location: "eastus",
     properties: {
       computeType: "AmlCompute",
@@ -75,16 +72,15 @@ async function createAAmlCompute() {
         scaleSettings: {
           maxNodeCount: 1,
           minNodeCount: 0,
-          nodeIdleTimeBeforeScaleDown: "PT5M"
+          nodeIdleTimeBeforeScaleDown: "PT5M",
         },
         virtualMachineImage: {
-          id:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myImageGallery/images/myImageDefinition/versions/0.0.1"
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myImageGallery/images/myImageDefinition/versions/0.0.1",
         },
         vmPriority: "Dedicated",
-        vmSize: "STANDARD_NC6"
-      }
-    }
+        vmSize: "STANDARD_NC6",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -110,9 +106,9 @@ async function createADataFactoryCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
-  const parameters: ComputeResource = {
+  const parameters = {
     location: "eastus",
-    properties: { computeType: "DataFactory" }
+    properties: { computeType: "DataFactory" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -138,9 +134,9 @@ async function createAnAksCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
-  const parameters: ComputeResource = {
+  const parameters = {
     location: "eastus",
-    properties: { computeType: "AKS" }
+    properties: { computeType: "AKS" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -166,7 +162,7 @@ async function createAnComputeInstanceCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
-  const parameters: ComputeResource = {
+  const parameters = {
     location: "eastus",
     properties: {
       computeType: "ComputeInstance",
@@ -176,14 +172,14 @@ async function createAnComputeInstanceCompute() {
         personalComputeInstanceSettings: {
           assignedUser: {
             objectId: "00000000-0000-0000-0000-000000000000",
-            tenantId: "00000000-0000-0000-0000-000000000000"
-          }
+            tenantId: "00000000-0000-0000-0000-000000000000",
+          },
         },
         sshSettings: { sshPublicAccess: "Disabled" },
         subnet: { id: "test-subnet-resource-id" },
-        vmSize: "STANDARD_NC6"
-      }
-    }
+        vmSize: "STANDARD_NC6",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -209,12 +205,12 @@ async function createAnComputeInstanceComputeWithMinimalInputs() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
-  const parameters: ComputeResource = {
+  const parameters = {
     location: "eastus",
     properties: {
       computeType: "ComputeInstance",
-      properties: { vmSize: "STANDARD_NC6" }
-    }
+      properties: { vmSize: "STANDARD_NC6" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -240,7 +236,7 @@ async function updateAAmlCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
-  const parameters: ComputeResource = {
+  const parameters = {
     location: "eastus",
     properties: {
       description: "some compute",
@@ -249,10 +245,10 @@ async function updateAAmlCompute() {
         scaleSettings: {
           maxNodeCount: 4,
           minNodeCount: 4,
-          nodeIdleTimeBeforeScaleDown: "PT5M"
-        }
-      }
-    }
+          nodeIdleTimeBeforeScaleDown: "PT5M",
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -278,15 +274,15 @@ async function updateAnAksCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
-  const parameters: ComputeResource = {
+  const parameters = {
     location: "eastus",
     properties: {
       description: "some compute",
       computeType: "AKS",
       properties: { agentCount: 4 },
       resourceId:
-        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2"
-    }
+        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
