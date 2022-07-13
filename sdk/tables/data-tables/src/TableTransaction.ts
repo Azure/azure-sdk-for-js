@@ -80,9 +80,10 @@ export class TableTransaction {
    */
   updateEntity<T extends object = Record<string, unknown>>(
     entity: TableEntity<T>,
-    updateMode: UpdateMode = "Merge"
+    updateMode: UpdateMode = "Merge",
+    updateOptions?: UpdateTableEntityOptions
   ): void {
-    this.actions.push(["update", entity, updateMode]);
+    this.actions.push(["update", entity, updateMode, updateOptions]);
   }
 
   /**
