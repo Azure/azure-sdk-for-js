@@ -5,6 +5,7 @@ import { Delivery, ReceiverOptions, Source } from "rhea-promise";
 import { translateServiceBusError } from "../serviceBusError";
 import { receiverLogger } from "../log";
 import { ReceiveMode } from "../models";
+import { Constants } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -85,7 +86,7 @@ export function createReceiverOptions(
   name: string,
   receiveMode: ReceiveMode,
   source: Source,
-  target: string,
+  clientId: string,
   handlers: ReceiverHandlers
 ): ReceiverOptions {
   const rcvrOptions: ReceiverOptions = {
@@ -98,8 +99,9 @@ export function createReceiverOptions(
     // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
     snd_settle_mode: receiveMode === "receiveAndDelete" ? 1 : 0,
     source,
-    target,
+    target: clientId,
     credit_window: 0,
+    properties: { [Constants.receiverIdentifierName]: clientId },
     ...handlers,
   };
 
