@@ -1750,6 +1750,11 @@
       "packageName": "@azure/arm-resourceconnector",
       "projectFolder": "sdk/resourceconnector/arm-resourceconnector",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/api-management-custom-widgets-scaffolder",
+      "projectFolder": "sdk/apimanagement/api-management-custom-widgets-scaffolder",
+      "versionPolicyName": "client"
     }
   ]
 }

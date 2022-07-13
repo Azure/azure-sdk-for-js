@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import { GetTokenOptions } from "@azure/core-auth";
 import { PublicClientApplication } from "@azure/msal-node";
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { DeviceCodeCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";

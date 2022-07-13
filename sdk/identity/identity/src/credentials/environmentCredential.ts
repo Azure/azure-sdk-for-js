@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
-import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
