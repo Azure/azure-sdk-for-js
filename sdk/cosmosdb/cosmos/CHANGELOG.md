@@ -1,15 +1,9 @@
 # Release History
 
-## 3.16.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.16.3 (2022-07-13)
 
 ### Bugs Fixed
 - Fixes issues with "id" encoding when using special characters that should be allowed in the "id" property of a document.  [#22548](https://github.com/Azure/azure-sdk-for-js/pull/22548)
-
-### Other Changes
 
 ## 3.16.2 (2022-06-24)
 
