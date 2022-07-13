@@ -1,107 +1,233 @@
-# Azure Monitor Ingestion client library for JavaScript
+# Azure Monitor Ingestion client library for JS
 
-<!-- NOTE: This README file is a template. Read through it and replace the instructions (keeping an eye out for package names like "@azure/template") with the ones that pertain to your package. For a complete example based on the real Azure App Configuration SDK, see README-TEMPLATE.md in this directory. -->
+The Azure Monitor Ingestion client library is used to send custom logs to [Azure Monitor][azure_monitor_overview].
 
-This project is used as a template package for the Azure SDK for JavaScript. It is intended to help Azure SDK developers bootstrap new packages, and it provides an example of how to organize the code and documentation of a client library for an Azure service.
+This library allows you to send data from virtually any source to supported built-in tables or to custom tables that you create in Log Analytics workspace. You can even extend the schema of built-in tables with custom columns.
+
+**Resources:**
+* [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/src)
+* [Package (NPM)](https://www.npmjs.com/)
+* [Service documentation][azure_monitor_overview]
+* [Change log](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/CHANGELOG.md)
 
 ## Getting started
 
-### Currently supported environments
-
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
-
-See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
-
 ### Prerequisites
 
-- An [Azure subscription][azure_sub].
+- An [Azure subscription](https://azure.microsoft.com/free)
+- A [Data Collection Endpoint](https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview)
+- A [Data Collection Rule](https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview)
+- A [Log Analytics workspace](https://docs.microsoft.com/azure/azure-monitor/logs/log-analytics-workspace-overview)
 
-Usually you'd put a shell command for provisioning the necessary Azure services here.
+### Install the package
 
-### Install the `@azure/template` package
-
-Install the Template client library for JavaScript with `npm`:
+Install the Azure Monitor Ingestion client library for JS with [npm](https://www.npmjs.com/):
 
 ```bash
-npm install @azure/template
+npm install @azure/monitor-ingestion
 ```
 
-### Browser support
+### Authenticate the client
 
-#### JavaScript Bundle
+An authenticated client is required to ingest data. To authenticate, create an instance of a [TokenCredential](https://docs.microsoft.com/en-us/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest) class (see [@azure/identity](https://www.npmjs.com/package/@azure/identity) for `DefaultAzureCredential` and other `TokenCredential` implementations). Pass it to the constructor of your client class.
 
-To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+To authenticate, the following example uses `DefaultAzureCredential` from the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package:
 
-#### CORS
+```ts
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsIngestionClient } from "@azure/monitor-ingestion";
 
-<!--
+import * as dotenv from "dotenv";
+dotenv.config();
 
-NOTE: if your service supports CORS natively please provide instructions for enabling CORS at the service level (similar to the sample below), otherwise replace this section with guidance such as:
+const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
 
-Due to Azure template service CORS limitation this library cannot be used to make direct calls to the template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
-
--->
-
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
-
-For example, you can create the following CORS settings for debugging. But please customize the settings carefully according to your requirements in a production environment.
-
-- Allowed origins: \*
-- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-- Allowed headers: \*
-- Exposed headers: \*
-- Maximum age (seconds): 86400
-
-### Further examples
-
-Top-level examples usually include things like creating and authenticating the main Client. If your service supports multiple means of authenticating (e.g. key-based and Azure Active Directory) you can give a separate example of each.
+const credential = new DefaultAzureCredential();
+const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, credential);
+```
 
 ## Key concepts
 
-### ConfigurationClient
+### Data Collection Endpoint
 
-Describe your primary client here. Talk about what operations it can do and when a developer would want to use it.
+Data Collection Endpoints (DCEs) allow you to uniquely configure ingestion settings for Azure Monitor. [This 
+article][data_collection_endpoint] provides an overview of data collection endpoints including their contents and 
+structure and how you can create and work with them.
 
-### Additional Examples
+### Data Collection Rule
 
-Create a section for each top-level service concept you want to explain.
+Data collection rules (DCR) define data collected by Azure Monitor and specify how and where that data should be sent or
+stored. The REST API call must specify a DCR to use. A single DCE can support multiple DCRs, so you can specify a
+different DCR for different sources and target tables.
+
+The DCR must understand the structure of the input data and the structure of the target table. If the two don't match,
+it can use a transformation to convert the source data to match the target table. You may also use the transform to
+filter source data and perform any other calculations or conversions.
+
+For more details, refer to [Data collection rules in Azure Monitor][data_collection_rule].
+
+### Log Analytics workspace tables
+
+Custom logs can send data to any custom table that you create and to certain built-in tables in your Log Analytics 
+workspace. The target table must exist before you can send data to it. The following built-in tables are currently supported:
+
+- [CommonSecurityLog](https://docs.microsoft.com/azure/azure-monitor/reference/tables/commonsecuritylog)
+- [SecurityEvents](https://docs.microsoft.com/azure/azure-monitor/reference/tables/securityevent)
+- [Syslog](https://docs.microsoft.com/azure/azure-monitor/reference/tables/syslog)
+- [WindowsEvents](https://docs.microsoft.com/azure/azure-monitor/reference/tables/windowsevent)
 
 ## Examples
 
-### First Example
+- [Upload custom logs](#upload-custom-logs)
+- [Verify logs](#verify-logs)
 
-<!-- Examples should showcase the primary, or "champion" scenarios of the client SDK. -->
+You can familiarize yourself with different APIs using [Samples](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/monitor/Azure.Monitor.Ingestion/samples).
 
-Create several code examples for how someone would use your library to accomplish a common task with the service.
+### Upload custom logs
+
+You can create a client and call the client's `Upload` method. Take note of the data ingestion [limits](https://docs.microsoft.com/azure/azure-monitor/service-limits#custom-logs).
+
+
+```ts
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsIngestionClient } from "@azure/monitor-ingestion";
+
+import * as dotenv from "dotenv";
+dotenv.config();
+
+const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
+const dcrId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
+const credential = new DefaultAzureCredential();
+const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, credential);
+const logs = [
+      {
+        "Time": "2021-12-08T23:51:14.1104269Z",
+        "Computer": "Computer1",
+        "AdditionalContext": "context-2"
+      },
+      {
+        "Time": "2021-12-08T23:51:14.1104269Z",
+        "Computer": "Computer2",
+        "AdditionalContext": "context"
+      }
+    ];
+  const result = await client.upload(dcrId, "Custom-MyTableRawData", getObjects(10000), {
+    maxConcurrency: 5,
+  });
+  console.log(result.uploadStatus);
+  if (result.uploadStatus === "Success") {
+    console.log("All the logs provided are successfully ingested");
+  } else {
+    console.log("Some logs have failed to complete ingestion");
+    for (const errors of result.errors) {
+      console.log(`Error - ${JSON.stringify(errors.responseError)}`);
+      console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
+    }
+  }
+
+
+
+```
+
+```C# Snippet:UploadCustomLogs
+var dataCollectionEndpoint = new Uri("...");
+var dataCollectionRuleImmutableId = "...";
+var streamName = "...";
+
+TokenCredential credential = new DefaultAzureCredential();
+LogsIngestionClient client = new(dataCollectionEndpoint, credential);
+
+DateTimeOffset currentTime = DateTimeOffset.UtcNow;
+
+// Use BinaryData to serialize instances of an anonymous type into JSON
+BinaryData data = BinaryData.FromObjectAsJson(
+    new[] {
+        new
+        {
+            Time = currentTime,
+            Computer = "Computer1",
+            AdditionalContext = new
+            {
+                InstanceName = "user1",
+                TimeZone = "Pacific Time",
+                Level = 4,
+                CounterName = "AppMetric1",
+                CounterValue = 15.3
+            }
+        },
+        new
+        {
+            Time = currentTime,
+            Computer = "Computer2",
+            AdditionalContext = new
+            {
+                InstanceName = "user2",
+                TimeZone = "Central Time",
+                Level = 3,
+                CounterName = "AppMetric1",
+                CounterValue = 23.5
+            }
+        },
+    });
+
+// Upload our logs
+Response response = client.Upload(dataCollectionRuleImmutableId, streamName, RequestContent.Create(data));
+```
+
+### Verify logs
+
+You can verify that your data has been uploaded correctly by using the [Azure.Monitor.Query](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/monitor/Azure.Monitor.Query/README.md#install-the-package) library. Run the [Upload custom logs](#upload-custom-logs) sample first before verifying the logs. 
+
+```C# Snippet:VerifyLogs
+var workspaceId = "...";
+var tableName = "...";
+
+TokenCredential credential = new DefaultAzureCredential();
+
+LogsQueryClient logsQueryClient = new(credential);
+LogsBatchQuery batch = new();
+string query = tableName + " | count;";
+string countQueryId = batch.AddWorkspaceQuery(
+    workspaceId,
+    query,
+    new QueryTimeRange(TimeSpan.FromDays(1)));
+
+Response<LogsBatchQueryResultCollection> queryResponse = logsQueryClient.QueryBatch(batch);
+
+Console.WriteLine("Table entry count: " + queryResponse.Value.GetResult<int>(countQueryId).Single());
+```
 
 ## Troubleshooting
 
-### Logging
+### Enabling logging
 
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
-
-```javascript
-import { setLogLevel } from "@azure/logger";
-
-setLogLevel("info");
-```
-
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+Azure SDKs for .Net offer a consistent logging story to help aid in troubleshooting application errors and expedite
+their resolution. The logs produced will capture the flow of an application before reaching the terminal state to help
+locate the root issue. View the [logging][logging] wiki for guidance about enabling logging.
 
 ## Next steps
-
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples) directory for detailed examples that demonstrate how to use the client libraries.
+To learn more about Azure Monitor, see the [Azure Monitor service documentation][azure_monitor_overview].
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
+This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License
+Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution.
+For details, visit [https://cla.microsoft.com](https://cla.microsoft.com).
 
-## Related projects
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the
+PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this
+once across all repos using our CLA.
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
+[opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftemplate%2Ftemplate%2FREADME.png)
+<!-- LINKS -->
+[style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
+[style-guide-cloud]: https://aka.ms/azsdk/cloud-style-guide
+[azure_monitor_overview]: https://docs.microsoft.com/azure/azure-monitor/overview
+[logging]: https://docs.microsoft.com/dotnet/core/extensions/logging
+[data_collection_endpoint]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview
+[data_collection_rule]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-net/sdk/monitor/Azure.Monitor.Ingestion/README.png)
