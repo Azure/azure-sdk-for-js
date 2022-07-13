@@ -20,7 +20,6 @@ const valuesDefault = {
 const searchParams = new URLSearchParams("https://localhost:3000");
 searchParams.set(EDITOR_DATA_KEY, JSON.stringify(valuesUrl));
 
-/*
 describe("getEditorData", () => {
   it("runs", () => {
     const editorData = getEditorData(valuesDefault);
@@ -54,13 +53,6 @@ describe("getEditorValues", () => {
     assert.equal(editorValues.bar, valuesDefault.bar);
   });
 });
-
-describe("buildOnChange", () => {
-  it("runs", () => {
-    const onChange = buildOnChange(valuesDefault);
-    assert.isFunction(onChange);
-  });
-*/
 
 describe("onChangeWithOrigin", () => {
   it("reports values in valid form", () => {
