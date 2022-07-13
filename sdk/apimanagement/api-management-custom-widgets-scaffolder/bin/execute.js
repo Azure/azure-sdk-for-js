@@ -834,7 +834,7 @@ async function getTemplates(template) {
 }
 async function getFiles(path) {
     return new Promise((resolve, reject) => {
-        glob__default["default"](path, (error, matches) => {
+        glob__default["default"](path, { dot: true }, (error, matches) => {
             if (error) {
                 reject(error);
             }
@@ -915,6 +915,9 @@ async function main() {
     }
     if (deployConfig.resourceId.slice(-1) === "/") {
         deployConfig.resourceId = deployConfig.resourceId.slice(0, -1);
+    }
+    if (deployConfig.apiVersion === "") {
+        delete deployConfig.apiVersion;
     }
     deployConfig.managementApiEndpoint = prefixUrlProtocol(deployConfig.managementApiEndpoint);
     miscConfig.openUrl = miscConfig.openUrl

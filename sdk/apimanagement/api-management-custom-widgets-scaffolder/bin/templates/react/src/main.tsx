@@ -1,12 +1,13 @@
 import {StrictMode} from "react"
-import ReactDOM from "react-dom"
+import {createRoot} from "react-dom/client"
 
 import "./styles/shared.css"
 import "./styles/app.css"
 import App from "./app"
-import {EditorDataProvider, SecretsProvider} from "./Providers"
+import {EditorDataProvider, SecretsProvider} from "./providers"
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root")!)
+root.render(
   <StrictMode>
     <EditorDataProvider>
       <SecretsProvider targetModule="app">
@@ -14,5 +15,4 @@ ReactDOM.render(
       </SecretsProvider>
     </EditorDataProvider>
   </StrictMode>,
-  document.getElementById("root")
 )

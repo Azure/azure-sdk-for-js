@@ -4,7 +4,7 @@ import {createRoot} from "react-dom/client"
 import "./styles/shared.css"
 import "./styles/app.css"
 import App from "./app"
-import {EditorDataProvider, SecretsProvider} from "./Providers"
+import {EditorDataProvider, SecretsProvider} from "./providers"
 
 const root = createRoot(document.getElementById("root")!)
 root.render(

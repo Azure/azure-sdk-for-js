@@ -1,16 +1,16 @@
 import {StrictMode} from "react"
-import ReactDOM from "react-dom"
+import {createRoot} from "react-dom/client"
 
 import "./styles/shared.css"
 import "./styles/editor.css"
 import Editor from "./editor"
-import {EditorDataProvider} from "./Providers"
+import {EditorDataProvider} from "./providers"
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root")!)
+root.render(
   <StrictMode>
     <EditorDataProvider>
       <Editor />
     </EditorDataProvider>
   </StrictMode>,
-  document.getElementById("root")
 )
