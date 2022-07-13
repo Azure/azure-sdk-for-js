@@ -25,7 +25,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 If you use Azure CLI, replace `<resource-group-name>` and `<account-name>` of your choice, and select a proper [pricing tier](https://docs.microsoft.com/azure/azure-maps/choose-pricing-tier) based on your needs via the `<sku-name>` parameter. Please refer to [this page](https://docs.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create) for more details.
 
 ```bash
-az maps account create --resource-group <resource-group-name> --account-name <account-name> --sku <sku-name>
+az maps account create --resource-group <resource-group-name> --name <map-account-name> --sku <sku-name>
 ```
 
 ### Install the `@azure/maps-search` package
