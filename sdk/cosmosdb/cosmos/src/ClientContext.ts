@@ -333,6 +333,7 @@ export class ClientContext {
         options,
         plugins: this.cosmosClientOptions.plugins,
         partitionKey,
+        pipeline: this.pipeline
       };
 
       request.headers = await this.buildHeaders(request);
