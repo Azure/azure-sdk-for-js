@@ -85,6 +85,7 @@ export function createReceiverOptions(
   name: string,
   receiveMode: ReceiveMode,
   source: Source,
+  target: string,
   handlers: ReceiverHandlers
 ): ReceiverOptions {
   const rcvrOptions: ReceiverOptions = {
@@ -97,6 +98,7 @@ export function createReceiverOptions(
     // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
     snd_settle_mode: receiveMode === "receiveAndDelete" ? 1 : 0,
     source,
+    target,
     credit_window: 0,
     ...handlers,
   };
