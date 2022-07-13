@@ -194,17 +194,8 @@ export function isResourceValid(resource: { id?: string }, err: { message?: stri
       return false;
     }
 
-    if (
-      resource.id.indexOf("/") !== -1 ||
-      resource.id.indexOf("\\") !== -1 ||
-      resource.id.indexOf("?") !== -1 ||
-      resource.id.indexOf("#") !== -1
-    ) {
+    if (resource.id.indexOf("/") !== -1 || resource.id.indexOf("\\") !== -1) {
       err.message = "Id contains illegal chars.";
-      return false;
-    }
-    if (resource.id[resource.id.length - 1] === " ") {
-      err.message = "Id ends with a space.";
       return false;
     }
   }
@@ -255,14 +246,9 @@ export function validateResourceId(resourceId: string): boolean {
     throw new Error("Resource Id must be a string and cannot be undefined, null or empty");
   }
 
-  // if resourceId starts or ends with space throw an error
-  if (resourceId[resourceId.length - 1] === " ") {
-    throw new Error("Resource Id cannot end with space");
-  }
-
   // if resource id contains illegal characters throw an error
   if (illegalResourceIdCharacters.test(resourceId)) {
-    throw new Error("Illegal characters ['/', '\\', '?', '#'] cannot be used in resourceId");
+    throw new Error("Illegal characters ['/', '\\'] cannot be used in resourceId");
   }
 
   return true;
