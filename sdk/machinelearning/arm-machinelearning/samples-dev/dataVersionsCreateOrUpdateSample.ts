@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  DataVersionBaseData,
+  DataVersionBase,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update version.
  *
  * @summary Create or update version.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/DataVersionBase/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/DataVersionBase/createOrUpdate.json
  */
 async function createOrUpdateDataVersionBase() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -26,10 +26,10 @@ async function createOrUpdateDataVersionBase() {
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const version = "string";
-  const body: DataVersionBaseData = {
+  const body: DataVersionBase = {
     properties: {
       description: "string",
-      dataType: "UriFile",
+      dataType: "uri_file",
       dataUri: "string",
       isAnonymous: false,
       properties: { string: "string" },

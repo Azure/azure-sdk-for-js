@@ -3853,7 +3853,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220711
+      typescript: 4.8.0-dev.20220712
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8663,8 +8663,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220711:
-    resolution: {integrity: sha512-Nz1HlAkzZJ/OYZxqDEdoNV9GMq61xUss3JjveQqtdTiwhouLMa6D69C5K+P/fZD/hfrkMf/iqaF7xqVtX5KvPg==}
+  /typescript/4.8.0-dev.20220712:
+    resolution: {integrity: sha512-hYkF1Ja0C5ILf3+GZdvQLNxmSB1qUc60xrtKqKMvBzRHlew3CD/ZdDP+0J8rRzo33HxDP9kWL7d8SGrfx4QP1Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11968,7 +11968,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-Io2NKJw3oQQPeqxi9w0HiEHG8sPHudfTLFGKNGSeRGzQiZxeD7C4KnZeaL2u8GDQxEKP2k8BO+Xomd8NBhV+kw==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-VORk+2JG0lQfnNfLbpGMDHuI8WlwbHbvOZl3UDUmflkyhIjJ5HzJ3moUEJ3HpPK1iQ/5Z/FiyAA9FuTHeplCnQ==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -11979,6 +11979,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11990,8 +11992,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-machinelearningcompute.tgz:
@@ -15141,7 +15141,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-IKe9R1HsE+DfwW/XeET5QryxhZhKTG0jKFe7nalx8fLRXvE0ZLSgFTekOXWlb0AdWid2fQ4QnK+kJc1hJWcrhw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-ogCKDnbP8OQA8XUr8szudiw3+MbWGrNX5uHd0a3X3EZuzFBJ2HGWCn+ohVXDw1MZxZulZx3I1bDqXKJwD4oTIQ==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -17295,7 +17295,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-XL5lnV88QFKc60QcmhJ8F6n85FefahO8qO1Xz1afTYdOiBE8RZRI8i8Nh9EjeDA9iJ6zikztntX+PzuLJMAleA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-yHc+LXkOeCVnmfa7QywdQvjPGVqFdVOjbjIm2djWCm8u4phrb5anFLNG/AKGAi6hku28fqUY+iekUF5ajz62Kw==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:

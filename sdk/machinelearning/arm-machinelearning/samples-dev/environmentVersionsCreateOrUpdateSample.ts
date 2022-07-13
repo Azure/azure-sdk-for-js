@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  EnvironmentVersionData,
+  EnvironmentVersion,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates an EnvironmentVersion.
  *
  * @summary Creates or updates an EnvironmentVersion.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/EnvironmentVersion/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/EnvironmentVersion/createOrUpdate.json
  */
 async function createOrUpdateEnvironmentVersion() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -26,7 +26,7 @@ async function createOrUpdateEnvironmentVersion() {
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const version = "string";
-  const body: EnvironmentVersionData = {
+  const body: EnvironmentVersion = {
     properties: {
       description: "string",
       build: {

@@ -12,10 +12,10 @@ import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Cancels a Job.
+ * This sample demonstrates how to Cancels a Job (asynchronous).
  *
- * @summary Cancels a Job.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/Job/cancel.json
+ * @summary Cancels a Job (asynchronous).
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Job/cancel.json
  */
 async function cancelJob() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -24,7 +24,11 @@ async function cancelJob() {
   const id = "string";
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
-  const result = await client.jobs.cancel(resourceGroupName, workspaceName, id);
+  const result = await client.jobs.beginCancelAndWait(
+    resourceGroupName,
+    workspaceName,
+    id
+  );
   console.log(result);
 }
 

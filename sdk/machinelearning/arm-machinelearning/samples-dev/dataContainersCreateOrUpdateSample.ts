@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  DataContainerData,
+  DataContainer,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,14 +18,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update container.
  *
  * @summary Create or update container.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/DataContainer/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/DataContainer/createOrUpdate.json
  */
 async function createOrUpdateDataContainer() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "testrg123";
   const workspaceName = "workspace123";
   const name = "datacontainer123";
-  const body: DataContainerData = {
+  const body: DataContainer = {
     properties: {
       description: "string",
       dataType: "UriFile",

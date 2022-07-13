@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  OnlineEndpointData,
+  OnlineEndpoint,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,14 +18,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update Online Endpoint (asynchronous).
  *
  * @summary Create or update Online Endpoint (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/OnlineEndpoint/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/OnlineEndpoint/createOrUpdate.json
  */
 async function createOrUpdateOnlineEndpoint() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
-  const body: OnlineEndpointData = {
+  const body: OnlineEndpoint = {
     identity: {
       type: "SystemAssigned",
       userAssignedIdentities: { string: {} }

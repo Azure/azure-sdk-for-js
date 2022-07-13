@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  DatastoreData,
+  Datastore,
   DatastoresCreateOrUpdateOptionalParams,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/Datastore/AzureDataLakeGen1WServicePrincipal/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Datastore/AzureDataLakeGen1WServicePrincipal/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -27,7 +27,7 @@ async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const skipValidation = false;
-  const body: DatastoreData = {
+  const body: Datastore = {
     properties: {
       description: "string",
       credentials: {
@@ -65,7 +65,7 @@ createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal().catch(
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/Datastore/AzureDataLakeGen2WServicePrincipal/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Datastore/AzureDataLakeGen2WServicePrincipal/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -73,7 +73,7 @@ async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const skipValidation = false;
-  const body: DatastoreData = {
+  const body: Datastore = {
     properties: {
       description: "string",
       accountName: "string",
@@ -114,7 +114,7 @@ createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal().catch(
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/Datastore/AzureFileWAccountKey/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Datastore/AzureFileWAccountKey/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -122,7 +122,7 @@ async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const skipValidation = false;
-  const body: DatastoreData = {
+  const body: Datastore = {
     properties: {
       description: "string",
       accountName: "string",
@@ -157,7 +157,7 @@ createOrUpdateDatastoreAzureFileStoreWOrAccountKey().catch(console.error);
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/Datastore/AzureBlobWAccountKey/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Datastore/AzureBlobWAccountKey/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -165,7 +165,7 @@ async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const skipValidation = false;
-  const body: DatastoreData = {
+  const body: Datastore = {
     properties: {
       description: "string",
       accountName: "string",

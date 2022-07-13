@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  PartialOnlineEndpointPartialTrackedResource,
+  PartialMinimalTrackedResourceWithIdentity,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,27 +18,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update Online Endpoint (asynchronous).
  *
  * @summary Update Online Endpoint (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/OnlineEndpoint/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/OnlineEndpoint/update.json
  */
 async function updateOnlineEndpoint() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
-  const body: PartialOnlineEndpointPartialTrackedResource = {
+  const body: PartialMinimalTrackedResourceWithIdentity = {
     identity: {
       type: "SystemAssigned",
       userAssignedIdentities: { string: {} }
-    },
-    kind: "string",
-    location: "string",
-    properties: { traffic: { string: 1 } },
-    sku: {
-      name: "string",
-      capacity: 1,
-      family: "string",
-      size: "string",
-      tier: "Free"
     },
     tags: {}
   };

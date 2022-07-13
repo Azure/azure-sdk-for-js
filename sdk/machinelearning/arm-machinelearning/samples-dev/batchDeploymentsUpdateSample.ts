@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  PartialBatchDeploymentPartialTrackedResource,
+  PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update a batch inference deployment (asynchronous).
  *
  * @summary Update a batch inference deployment (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/BatchDeployment/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/BatchDeployment/update.json
  */
 async function updateBatchDeployment() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -26,36 +26,8 @@ async function updateBatchDeployment() {
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
-  const body: PartialBatchDeploymentPartialTrackedResource = {
-    identity: {
-      type: "SystemAssigned",
-      userAssignedIdentities: { string: {} }
-    },
-    kind: "string",
-    location: "string",
-    properties: {
-      description: "string",
-      codeConfiguration: { codeId: "string", scoringScript: "string" },
-      compute: "string",
-      environmentId: "string",
-      environmentVariables: { string: "string" },
-      errorThreshold: 1,
-      loggingLevel: "Info",
-      maxConcurrencyPerInstance: 1,
-      miniBatchSize: 1,
-      model: { assetId: "string", referenceType: "Id" },
-      outputAction: "SummaryOnly",
-      outputFileName: "string",
-      properties: { string: "string" },
-      retrySettings: { maxRetries: 1, timeout: "PT5M" }
-    },
-    sku: {
-      name: "string",
-      capacity: 1,
-      family: "string",
-      size: "string",
-      tier: "Free"
-    },
+  const body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties = {
+    properties: { description: "string" },
     tags: {}
   };
   const credential = new DefaultAzureCredential();

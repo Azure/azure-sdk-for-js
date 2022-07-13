@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  ModelVersionData,
+  ModelVersion,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update version.
  *
  * @summary Create or update version.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/ModelVersion/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/ModelVersion/createOrUpdate.json
  */
 async function createOrUpdateModelVersion() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -26,7 +26,7 @@ async function createOrUpdateModelVersion() {
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const version = "string";
-  const body: ModelVersionData = {
+  const body: ModelVersion = {
     properties: {
       description: "string",
       flavors: { string: { data: { string: "string" } } },

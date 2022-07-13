@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  BatchEndpointData,
+  BatchEndpoint,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,14 +18,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates a batch inference endpoint (asynchronous).
  *
  * @summary Creates a batch inference endpoint (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/BatchEndpoint/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/BatchEndpoint/createOrUpdate.json
  */
 async function createOrUpdateBatchEndpoint() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
-  const body: BatchEndpointData = {
+  const body: BatchEndpoint = {
     identity: {
       type: "SystemAssigned",
       userAssignedIdentities: { string: {} }

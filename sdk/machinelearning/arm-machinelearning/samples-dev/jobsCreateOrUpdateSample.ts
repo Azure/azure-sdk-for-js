@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  JobBaseData,
+  JobBase,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,92 +18,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates and executes a Job.
  *
  * @summary Creates and executes a Job.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/Job/AutoMLJob/createOrUpdate.json
- */
-async function createOrUpdateAutoMlJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
-  const workspaceName = "my-aml-workspace";
-  const id = "string";
-  const body: JobBaseData = {
-    properties: {
-      description: "string",
-      computeId: "string",
-      displayName: "string",
-      environmentId: "string",
-      environmentVariables: { string: "string" },
-      experimentName: "string",
-      identity: { identityType: "AMLToken" },
-      isArchived: false,
-      jobType: "AutoML",
-      outputs: {
-        string: {
-          description: "string",
-          jobOutputType: "UriFile",
-          mode: "ReadWriteMount",
-          uri: "string"
-        }
-      },
-      properties: { string: "string" },
-      resources: {
-        instanceCount: 1,
-        instanceType: "string",
-        properties: { string: { "9bec0ab0-c62f-4fa9-a97c-7b24bbcc90ad": null } }
-      },
-      schedule: {
-        endTime: new Date("2020-01-01T12:34:56.999Z"),
-        expression: "string",
-        scheduleStatus: "Disabled",
-        scheduleType: "Cron",
-        startTime: new Date("2020-01-01T12:34:56.999Z"),
-        timeZone: "string"
-      },
-      services: {
-        string: {
-          endpoint: "string",
-          jobServiceType: "string",
-          port: 1,
-          properties: { string: "string" }
-        }
-      },
-      tags: { string: "string" },
-      taskDetails: {
-        dataSettings: {
-          targetColumnName: "string",
-          trainingData: { data: { jobInputType: "MLTable", uri: "string" } }
-        },
-        limitSettings: { maxTrials: 2 },
-        modelSettings: { validationCropSize: 2 },
-        searchSpace: [{ validationCropSize: "choice(2, 360)" }],
-        taskType: "ImageClassification"
-      }
-    }
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
-  const result = await client.jobs.createOrUpdate(
-    resourceGroupName,
-    workspaceName,
-    id,
-    body
-  );
-  console.log(result);
-}
-
-createOrUpdateAutoMlJob().catch(console.error);
-
-/**
- * This sample demonstrates how to Creates and executes a Job.
- *
- * @summary Creates and executes a Job.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/Job/CommandJob/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Job/CommandJob/createOrUpdate.json
  */
 async function createOrUpdateCommandJob() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
-  const body: JobBaseData = {
+  const body: JobBase = {
     properties: {
       description: "string",
       codeId: "string",
@@ -122,7 +44,7 @@ async function createOrUpdateCommandJob() {
       inputs: {
         string: {
           description: "string",
-          jobInputType: "Literal",
+          jobInputType: "literal",
           value: "string"
         }
       },
@@ -131,7 +53,7 @@ async function createOrUpdateCommandJob() {
       outputs: {
         string: {
           description: "string",
-          jobOutputType: "UriFile",
+          jobOutputType: "uri_file",
           mode: "ReadWriteMount",
           uri: "string"
         }
@@ -170,14 +92,14 @@ createOrUpdateCommandJob().catch(console.error);
  * This sample demonstrates how to Creates and executes a Job.
  *
  * @summary Creates and executes a Job.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/Job/PipelineJob/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Job/PipelineJob/createOrUpdate.json
  */
 async function createOrUpdatePipelineJob() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
-  const body: JobBaseData = {
+  const body: JobBase = {
     properties: {
       description: "string",
       computeId: "string",
@@ -186,7 +108,7 @@ async function createOrUpdatePipelineJob() {
       inputs: {
         string: {
           description: "string",
-          jobInputType: "Literal",
+          jobInputType: "literal",
           value: "string"
         }
       },
@@ -194,7 +116,7 @@ async function createOrUpdatePipelineJob() {
       outputs: {
         string: {
           description: "string",
-          jobOutputType: "UriFile",
+          jobOutputType: "uri_file",
           mode: "Upload",
           uri: "string"
         }
@@ -229,14 +151,14 @@ createOrUpdatePipelineJob().catch(console.error);
  * This sample demonstrates how to Creates and executes a Job.
  *
  * @summary Creates and executes a Job.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/Job/SweepJob/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Job/SweepJob/createOrUpdate.json
  */
 async function createOrUpdateSweepJob() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
-  const body: JobBaseData = {
+  const body: JobBase = {
     properties: {
       description: "string",
       computeId: "string",

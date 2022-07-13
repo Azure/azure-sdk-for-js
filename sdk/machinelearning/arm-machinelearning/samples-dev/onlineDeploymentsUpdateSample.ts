@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  PartialOnlineDeploymentPartialTrackedResource,
+  PartialMinimalTrackedResourceWithSku,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update Online Deployment (asynchronous).
  *
  * @summary Update Online Deployment (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/OnlineDeployment/KubernetesOnlineDeployment/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/OnlineDeployment/KubernetesOnlineDeployment/update.json
  */
 async function updateKubernetesOnlineDeployment() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -26,14 +26,7 @@ async function updateKubernetesOnlineDeployment() {
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
-  const body: PartialOnlineDeploymentPartialTrackedResource = {
-    identity: {
-      type: "SystemAssigned",
-      userAssignedIdentities: { string: {} }
-    },
-    kind: "string",
-    location: "string",
-    properties: { endpointComputeType: "Kubernetes" },
+  const body: PartialMinimalTrackedResourceWithSku = {
     sku: {
       name: "string",
       capacity: 1,
@@ -61,7 +54,7 @@ updateKubernetesOnlineDeployment().catch(console.error);
  * This sample demonstrates how to Update Online Deployment (asynchronous).
  *
  * @summary Update Online Deployment (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/OnlineDeployment/ManagedOnlineDeployment/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/OnlineDeployment/ManagedOnlineDeployment/update.json
  */
 async function updateManagedOnlineDeployment() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -69,14 +62,7 @@ async function updateManagedOnlineDeployment() {
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
-  const body: PartialOnlineDeploymentPartialTrackedResource = {
-    identity: {
-      type: "SystemAssigned",
-      userAssignedIdentities: { string: {} }
-    },
-    kind: "string",
-    location: "string",
-    properties: { endpointComputeType: "Managed" },
+  const body: PartialMinimalTrackedResourceWithSku = {
     sku: {
       name: "string",
       capacity: 1,

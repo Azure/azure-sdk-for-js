@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  CodeVersionData,
+  CodeVersion,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update version.
  *
  * @summary Create or update version.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/CodeVersion/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/CodeVersion/createOrUpdate.json
  */
 async function createOrUpdateCodeVersion() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -26,7 +26,7 @@ async function createOrUpdateCodeVersion() {
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const version = "string";
-  const body: CodeVersionData = {
+  const body: CodeVersion = {
     properties: {
       description: "string",
       codeUri: "https://blobStorage/folderName",

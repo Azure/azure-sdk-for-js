@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  OnlineDeploymentData,
+  OnlineDeployment,
   AzureMachineLearningWorkspaces
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update Inference Endpoint Deployment (asynchronous).
  *
  * @summary Create or update Inference Endpoint Deployment (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/OnlineDeployment/KubernetesOnlineDeployment/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/OnlineDeployment/KubernetesOnlineDeployment/createOrUpdate.json
  */
 async function createOrUpdateKubernetesOnlineDeployment() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -26,7 +26,7 @@ async function createOrUpdateKubernetesOnlineDeployment() {
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
-  const body: OnlineDeploymentData = {
+  const body: OnlineDeployment = {
     identity: {
       type: "SystemAssigned",
       userAssignedIdentities: { string: {} }
@@ -89,7 +89,7 @@ createOrUpdateKubernetesOnlineDeployment().catch(console.error);
  * This sample demonstrates how to Create or update Inference Endpoint Deployment (asynchronous).
  *
  * @summary Create or update Inference Endpoint Deployment (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/OnlineDeployment/ManagedOnlineDeployment/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/OnlineDeployment/ManagedOnlineDeployment/createOrUpdate.json
  */
 async function createOrUpdateManagedOnlineDeployment() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -97,7 +97,7 @@ async function createOrUpdateManagedOnlineDeployment() {
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
-  const body: OnlineDeploymentData = {
+  const body: OnlineDeployment = {
     identity: {
       type: "SystemAssigned",
       userAssignedIdentities: { string: {} }
