@@ -34,7 +34,7 @@ async function createASapMonitor() {
   };
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.monitors.beginCreateAndWait(
+  const result = await client.monitors.create(
     resourceGroupName,
     monitorName,
     monitorParameter

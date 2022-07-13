@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Monitor,
   MonitorsListOptionalParams,
@@ -61,25 +60,7 @@ export interface Monitors {
    * @param monitorParameter Request body representing a SAP monitor
    * @param options The options parameters.
    */
-  beginCreate(
-    resourceGroupName: string,
-    monitorName: string,
-    monitorParameter: Monitor,
-    options?: MonitorsCreateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<MonitorsCreateResponse>,
-      MonitorsCreateResponse
-    >
-  >;
-  /**
-   * Creates a SAP monitor for the specified subscription, resource group, and resource name.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Name of the SAP monitor resource.
-   * @param monitorParameter Request body representing a SAP monitor
-   * @param options The options parameters.
-   */
-  beginCreateAndWait(
+  create(
     resourceGroupName: string,
     monitorName: string,
     monitorParameter: Monitor,
@@ -91,23 +72,7 @@ export interface Monitors {
    * @param monitorName Name of the SAP monitor resource.
    * @param options The options parameters.
    */
-  beginDelete(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsDeleteOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<MonitorsDeleteResponse>,
-      MonitorsDeleteResponse
-    >
-  >;
-  /**
-   * Deletes a SAP monitor with the specified subscription, resource group, and SAP monitor name.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Name of the SAP monitor resource.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsDeleteOptionalParams

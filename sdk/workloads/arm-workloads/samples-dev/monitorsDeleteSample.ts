@@ -23,10 +23,7 @@ async function deletesASapMonitor() {
   const monitorName = "mySapMonitor";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.monitors.beginDeleteAndWait(
-    resourceGroupName,
-    monitorName
-  );
+  const result = await client.monitors.delete(resourceGroupName, monitorName);
   console.log(result);
 }
 

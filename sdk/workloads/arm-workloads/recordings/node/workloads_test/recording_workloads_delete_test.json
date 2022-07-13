@@ -1,0 +1,38 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor?api-version=2021-12-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-workloads/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "e7c59940-ecc5-468f-9055-e7c0ddec2d78"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/locations/EASTUS2/operationStatuses/18ae91d0-2681-445d-9744-d76493a4eb75*2474FB2CC4DBECBD5B1A868E144C98D14D7D4E0FF69FAC3B773FAED9FDA4C81B?api-version=2021-12-01-preview",
+        "Cache-Control": "no-cache",
+        "Content-Length": "4",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 13 Jul 2022 01:37:47 GMT",
+        "ETag": "\u0022b903991f-0000-0100-0000-62ce21eb0000\u0022",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/locations/EASTUS2/operationStatuses/18ae91d0-2681-445d-9744-d76493a4eb75*2474FB2CC4DBECBD5B1A868E144C98D14D7D4E0FF69FAC3B773FAED9FDA4C81B?api-version=2021-12-01-preview",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b099941c-2c48-4896-ad78-362440c618fe",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "18ae91d0-2681-445d-9744-d76493a4eb75",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220713T013747Z:b099941c-2c48-4896-ad78-362440c618fe"
+      },
+      "ResponseBody": "null"
+    }
+  ],
+  "Variables": {}
+}

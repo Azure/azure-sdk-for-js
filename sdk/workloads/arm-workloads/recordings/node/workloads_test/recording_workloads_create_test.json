@@ -1,0 +1,89 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor?api-version=2021-12-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "487",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-workloads/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "49d230b5-f46d-4172-aeef-4c65a9c5e171"
+      },
+      "RequestBody": {
+        "tags": {
+          "key": "value"
+        },
+        "location": "eastus2",
+        "properties": {
+          "appLocation": "eastus2",
+          "routingPreference": "RouteAll",
+          "managedResourceGroupConfiguration": {
+            "name": "myManagedRg"
+          },
+          "logAnalyticsWorkspaceArmId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
+          "monitorSubnet": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-12-01-preview",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/locations/EASTUS2/operationStatuses/d682e0c3-b92e-40fb-9d0b-fbed7631483e*2474FB2CC4DBECBD5B1A868E144C98D14D7D4E0FF69FAC3B773FAED9FDA4C81B?api-version=2021-12-01-preview",
+        "Cache-Control": "no-cache",
+        "Content-Length": "1231",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 13 Jul 2022 01:37:42 GMT",
+        "ETag": "\u0022b903c81e-0000-0100-0000-62ce21e60000\u0022",
+        "Expires": "-1",
+        "Location": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7c73328f-2104-4ff7-a797-6103fa06211b",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "d682e0c3-b92e-40fb-9d0b-fbed7631483e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220713T013742Z:7c73328f-2104-4ff7-a797-6103fa06211b"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor",
+        "name": "myMonitor",
+        "type": "microsoft.workloads/monitors",
+        "location": "eastus2",
+        "tags": {
+          "key": "value"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-07-12T09:23:24.1453545Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-07-13T01:37:41.8863331Z"
+        },
+        "properties": {
+          "errors": {
+            "code": "UnhandledException",
+            "message": "An internal error occurred during execution.",
+            "target": null,
+            "details": [],
+            "innerError": null
+          },
+          "appLocation": "eastus2",
+          "routingPreference": "RouteAll",
+          "managedResourceGroupConfiguration": {
+            "name": "myManagedRg"
+          },
+          "logAnalyticsWorkspaceArmId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
+          "monitorSubnet": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet",
+          "msiArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-b2dc3e34b6234e",
+          "provisioningState": "Accepted"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
