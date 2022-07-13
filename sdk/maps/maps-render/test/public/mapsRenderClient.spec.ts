@@ -8,7 +8,7 @@ import { MapsRenderClient } from "src/mapsRenderClient";
 import { assert, use as chaiUse } from "chai";
 import { matrix } from "@azure/test-utils";
 import chaiPromises from "chai-as-promised";
-import { KnownRasterTileFormat, KnownTilesetId } from "../../src";
+import { KnownTilesetId } from "../../src";
 chaiUse(chaiPromises);
 
 matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
@@ -87,7 +87,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         });
       });
 
-      describe("#getMapStaticImage", function () {
+      /*describe("#getMapStaticImage", function () {
         it("should stream response body on successful request", async function () {
           const boundingBox = {
             bottomRight: { latitude: 42.982261, longitude: 24.980233 },
@@ -122,7 +122,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           assert.isNotEmpty(mapTile.contentType);
           assert.ok(mapTile.readableStreamBody);
         });
-      });
+      });*/
 
       describe("#getMapTileset", function () {
         it("should able to retrieve tilest information", async function () {
