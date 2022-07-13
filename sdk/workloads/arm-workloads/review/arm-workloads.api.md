@@ -664,8 +664,10 @@ export interface MonitorPropertiesErrors extends ErrorModel {
 
 // @public
 export interface Monitors {
-    create(resourceGroupName: string, monitorName: string, monitorParameter: Monitor, options?: MonitorsCreateOptionalParams): Promise<MonitorsCreateResponse>;
-    delete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<MonitorsDeleteResponse>;
+    beginCreate(resourceGroupName: string, monitorName: string, monitorParameter: Monitor, options?: MonitorsCreateOptionalParams): Promise<PollerLike<PollOperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, monitorName: string, monitorParameter: Monitor, options?: MonitorsCreateOptionalParams): Promise<MonitorsCreateResponse>;
+    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<MonitorsDeleteResponse>, MonitorsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<MonitorsDeleteResponse>;
     get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
     list(options?: MonitorsListOptionalParams): PagedAsyncIterableIterator<Monitor>;
     listByResourceGroup(resourceGroupName: string, options?: MonitorsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Monitor>;
@@ -674,6 +676,8 @@ export interface Monitors {
 
 // @public
 export interface MonitorsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -681,6 +685,8 @@ export type MonitorsCreateResponse = Monitor;
 
 // @public
 export interface MonitorsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public

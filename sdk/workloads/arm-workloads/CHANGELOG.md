@@ -1,11 +1,9 @@
 # Release History
     
-## 1.0.0-beta.2 (2022-07-12)
+## 1.0.0-beta.2 (2022-07-13)
     
 **Features**
 
-  - Added operation Monitors.create
-  - Added operation Monitors.delete
   - Added Interface DB2ProviderInstanceProperties
   - Added Interface DeploymentConfiguration
   - Added Interface DeploymentWithOSConfiguration
@@ -41,17 +39,6 @@
   - Added Interface VmssNodesProfile
   - Added Interface WindowsConfiguration
   - Added Interface WordpressInstanceResource
-
-**Breaking Changes**
-
-  - Removed operation Monitors.beginCreate
-  - Removed operation Monitors.beginCreateAndWait
-  - Removed operation Monitors.beginDelete
-  - Removed operation Monitors.beginDeleteAndWait
-  - Interface MonitorsCreateOptionalParams no longer has parameter resumeFrom
-  - Interface MonitorsCreateOptionalParams no longer has parameter updateIntervalInMs
-  - Interface MonitorsDeleteOptionalParams no longer has parameter resumeFrom
-  - Interface MonitorsDeleteOptionalParams no longer has parameter updateIntervalInMs
     
     
 ## 1.0.0-beta.1 (2022-06-09)

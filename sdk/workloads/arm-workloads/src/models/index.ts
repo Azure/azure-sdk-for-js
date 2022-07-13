@@ -3259,14 +3259,24 @@ export type MonitorsGetResponse = Monitor;
 
 /** Optional parameters. */
 export interface MonitorsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the create operation. */
 export type MonitorsCreateResponse = Monitor;
 
 /** Optional parameters. */
 export interface MonitorsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the delete operation. */
 export type MonitorsDeleteResponse = OperationStatusResult;

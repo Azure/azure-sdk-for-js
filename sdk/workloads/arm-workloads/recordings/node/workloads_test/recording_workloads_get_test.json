@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-workloads/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "b3c53a5d-c44c-4f02-849e-10ae4614bedd"
+        "x-ms-client-request-id": "dcfc76b2-a335-4c3a-9a43-ff8811343d4c"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,19 +17,19 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 13 Jul 2022 01:37:43 GMT",
-        "ETag": "\u0022b903c81e-0000-0100-0000-62ce21e60000\u0022",
+        "Date": "Wed, 13 Jul 2022 05:50:26 GMT",
+        "ETag": "\u0022c403c014-0000-0100-0000-62ce5d1c0000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "81d821ed-2306-4b8e-be97-e59c523bc24d",
+        "x-ms-correlation-request-id": "aa404746-38a3-4c23-a663-50680778ea3a",
         "x-ms-providerhub-traffic": "True",
-        "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "044149f4-1a17-430b-b584-893f91d48e08",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220713T013743Z:81d821ed-2306-4b8e-be97-e59c523bc24d"
+        "x-ms-ratelimit-remaining-subscription-reads": "11909",
+        "x-ms-request-id": "78249a62-919d-4e07-aac6-15d513de08a5",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220713T055026Z:aa404746-38a3-4c23-a663-50680778ea3a"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor",
@@ -42,19 +42,12 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-07-12T09:23:24.1453545Z",
+          "createdAt": "2022-07-13T05:46:52.545165Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-07-13T01:37:41.8863331Z"
+          "lastModifiedAt": "2022-07-13T05:46:52.545165Z"
         },
         "properties": {
-          "errors": {
-            "code": "UnhandledException",
-            "message": "An internal error occurred during execution.",
-            "target": null,
-            "details": [],
-            "innerError": null
-          },
           "appLocation": "eastus2",
           "routingPreference": "RouteAll",
           "managedResourceGroupConfiguration": {
@@ -62,8 +55,8 @@
           },
           "logAnalyticsWorkspaceArmId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
           "monitorSubnet": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet",
-          "msiArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-b2dc3e34b6234e",
-          "provisioningState": "Accepted"
+          "provisioningState": "Succeeded",
+          "msiArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-2d92a007566acc"
         }
       }
     }

@@ -72,25 +72,28 @@ describe("workloads test", () => {
   //create Workloads
   it("Workloads create test", async function () {
     //create monitors
-    const res = await client.monitors.create(resourceGroup, monitorName, monitorParameter)
+    const res = await client.monitors.beginCreateAndWait(resourceGroup, monitorName, monitorParameter)
     assert.equal(res.name, monitorName);
   });
 
   //get monitors
   it("Workloads get test", async function () {
     const res = await client.monitors.get(resourceGroup, monitorName);
-
   });
 
-  //list monitors
+  //list Workloads
   it("Workloads list test", async function () {
-    const res = await client.monitors.list();
-
+    //create monitors
+    const res = await client.monitors.list()
   });
+
   //delete monitors
   it("Workloads delete test", async function () {
-    const res = await client.monitors.delete(resourceGroup, monitorName);
-
+    const res = await client.monitors.beginDeleteAndWait(resourceGroup, monitorName);
+    const resArray = new Array();
+    for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
   });
-
 });

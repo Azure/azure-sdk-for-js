@@ -12,6 +12,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WorkloadsClient } from "../workloadsClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   Monitor,
   MonitorsListNextOptionalParams,
@@ -192,16 +194,89 @@ export class MonitorsImpl implements Monitors {
    * @param monitorParameter Request body representing a SAP monitor
    * @param options The options parameters.
    */
-  create(
+  async beginCreate(
+    resourceGroupName: string,
+    monitorName: string,
+    monitorParameter: Monitor,
+    options?: MonitorsCreateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<MonitorsCreateResponse>,
+      MonitorsCreateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MonitorsCreateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, monitorName, monitorParameter, options },
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates a SAP monitor for the specified subscription, resource group, and resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the SAP monitor resource.
+   * @param monitorParameter Request body representing a SAP monitor
+   * @param options The options parameters.
+   */
+  async beginCreateAndWait(
     resourceGroupName: string,
     monitorName: string,
     monitorParameter: Monitor,
     options?: MonitorsCreateOptionalParams
   ): Promise<MonitorsCreateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, monitorParameter, options },
-      createOperationSpec
+    const poller = await this.beginCreate(
+      resourceGroupName,
+      monitorName,
+      monitorParameter,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -210,15 +285,85 @@ export class MonitorsImpl implements Monitors {
    * @param monitorName Name of the SAP monitor resource.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsDeleteOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<MonitorsDeleteResponse>,
+      MonitorsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MonitorsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, monitorName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a SAP monitor with the specified subscription, resource group, and SAP monitor name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the SAP monitor resource.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsDeleteOptionalParams
   ): Promise<MonitorsDeleteResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, options },
-      deleteOperationSpec
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      monitorName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -347,6 +492,12 @@ const createOperationSpec: coreClient.OperationSpec = {
     201: {
       bodyMapper: Mappers.Monitor
     },
+    202: {
+      bodyMapper: Mappers.Monitor
+    },
+    204: {
+      bodyMapper: Mappers.Monitor
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -371,8 +522,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationStatusResult
     },
-    202: {},
-    204: {},
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
