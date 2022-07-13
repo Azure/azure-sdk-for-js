@@ -102,8 +102,8 @@ export class MapsSearchClient {
    * @example
    * ```ts
    * import { MapsSearchClient, AzureKeyCredential } from "@azure/maps-search";
-   * const credential = new AzureKeyCredential("<subscription-key>");
    *
+   * const credential = new AzureKeyCredential("<subscription-key>");
    * const client = new MapsSearchClient(credential);
    *```
    *
@@ -118,8 +118,8 @@ export class MapsSearchClient {
    * ```ts
    * import { MapsSearchClient } from "@azure/maps-search";
    * import { DefaultAzureCredential } from "@azure/identity";
-   * const credential = new DefaultAzureCredential();
    *
+   * const credential = new DefaultAzureCredential();
    * const client = new MapsSearchClient(credential, "<maps-account-client-id>");
    *```
    *
