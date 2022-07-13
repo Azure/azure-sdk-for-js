@@ -17,7 +17,7 @@ export async function getTemplates(template: TScaffoldTech): Promise<string[]> {
 
 async function getFiles(path: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
-    glob(path, (error, matches) => {
+    glob(path, { dot: true }, (error, matches) => {
       if (error) {
         reject(error);
       }
