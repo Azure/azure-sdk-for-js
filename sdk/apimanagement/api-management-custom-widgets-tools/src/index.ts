@@ -20,7 +20,7 @@ export type {
   TOnChange,
   TSecrets,
   TTargetModule,
-  TValuesBase,
+  TValuesCommon,
   TEnvironment,
 } from "./utils";
 

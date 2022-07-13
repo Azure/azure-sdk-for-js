@@ -17,14 +17,14 @@ export const ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
 /**
  * Base of a values obj
  */
-export type TValuesBase = Record<string, unknown>;
+export type TValuesCommon = Record<string, unknown>;
 /**
  * All possible runtime environments
  */
 export type TEnvironment = "development" | "publishing" | "runtime" | "error";
 
 /** JSON object with all the data you'll receive from the Dev Portal */
-export interface TEditorData<TValues extends TValuesBase> {
+export interface TEditorData<TValues extends TValuesCommon> {
   /** values you've set in the admin editor window */
   values: TValues;
   /** web content's origin (URL) of your Dev Portal */
@@ -40,7 +40,7 @@ export interface TEditorData<TValues extends TValuesBase> {
  *
  * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
  */
-export function getEditorData<TValues extends TValuesBase>(
+export function getEditorData<TValues extends TValuesCommon>(
   valuesDefault: TValues
 ): TEditorData<TValues> {
   try {
@@ -68,14 +68,14 @@ export function getEditorData<TValues extends TValuesBase>(
  *
  * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
  */
-export function getEditorValues<TValues extends TValuesBase>(valuesDefault: TValues): TValues {
+export function getEditorValues<TValues extends TValuesCommon>(valuesDefault: TValues): TValues {
   return getEditorData(valuesDefault).values;
 }
 
 /**
  * Type of the onChange function.
  */
-export type TOnChange<TValues extends TValuesBase> = (values: Partial<TValues>) => void;
+export type TOnChange<TValues extends TValuesCommon> = (values: Partial<TValues>) => void;
 
 /**
  * The onChange function itself with 'origin' provided as a param.
@@ -84,7 +84,7 @@ export type TOnChange<TValues extends TValuesBase> = (values: Partial<TValues>) 
  * @param instanceId - ID of this particular instance of the widget
  * @param values - values that changed
  */
-export function onChangeWithOrigin<TValues extends TValuesBase>(
+export function onChangeWithOrigin<TValues extends TValuesCommon>(
   origin: TEditorData<TValues>["origin"],
   instanceId: TEditorData<TValues>["instanceId"],
   values: TValues
@@ -99,7 +99,7 @@ export function onChangeWithOrigin<TValues extends TValuesBase>(
  *
  * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
  */
-export function buildOnChange<TValues extends TValuesBase>(
+export function buildOnChange<TValues extends TValuesCommon>(
   valuesDefault: TValues
 ): TOnChange<TValues> {
   const { origin, instanceId } = getEditorData(valuesDefault);
