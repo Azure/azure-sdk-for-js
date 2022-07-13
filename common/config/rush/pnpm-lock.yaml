@@ -121,6 +121,7 @@ specifiers:
   '@rush-temp/arm-netapp': file:./projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkfunction': file:./projects/arm-networkfunction.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
@@ -410,6 +411,7 @@ dependencies:
   '@rush-temp/arm-netapp': file:projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkfunction': file:projects/arm-networkfunction.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
@@ -3853,7 +3855,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220711
+      typescript: 4.8.0-dev.20220712
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8663,8 +8665,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220711:
-    resolution: {integrity: sha512-Nz1HlAkzZJ/OYZxqDEdoNV9GMq61xUss3JjveQqtdTiwhouLMa6D69C5K+P/fZD/hfrkMf/iqaF7xqVtX5KvPg==}
+  /typescript/4.8.0-dev.20220712:
+    resolution: {integrity: sha512-hYkF1Ja0C5ILf3+GZdvQLNxmSB1qUc60xrtKqKMvBzRHlew3CD/ZdDP+0J8rRzo33HxDP9kWL7d8SGrfx4QP1Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12547,6 +12549,32 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-networkfunction.tgz:
+    resolution: {integrity: sha512-0mb3qj6V0dgWWTIkRCsCI1oWsE1My/YTtYtHczCKl2Do3M/yUDmuLmTgk7m0G1wOZNMX3n8aMfJabAI5Dhk3+A==, tarball: file:projects/arm-networkfunction.tgz}
+    name: '@rush-temp/arm-networkfunction'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.76.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.2
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
   file:projects/arm-notificationhubs.tgz:
     resolution: {integrity: sha512-igzfDX+hUTmWr7b9jOHIoe/2mHl4zdsUU40LV2jYudTBnfsWLekFjSwlDVWZM5qhIznelrFZroiygp3tAk/BAw==, tarball: file:projects/arm-notificationhubs.tgz}
     name: '@rush-temp/arm-notificationhubs'
@@ -15141,7 +15169,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-IKe9R1HsE+DfwW/XeET5QryxhZhKTG0jKFe7nalx8fLRXvE0ZLSgFTekOXWlb0AdWid2fQ4QnK+kJc1hJWcrhw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-ogCKDnbP8OQA8XUr8szudiw3+MbWGrNX5uHd0a3X3EZuzFBJ2HGWCn+ohVXDw1MZxZulZx3I1bDqXKJwD4oTIQ==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -17295,7 +17323,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-XL5lnV88QFKc60QcmhJ8F6n85FefahO8qO1Xz1afTYdOiBE8RZRI8i8Nh9EjeDA9iJ6zikztntX+PzuLJMAleA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-yHc+LXkOeCVnmfa7QywdQvjPGVqFdVOjbjIm2djWCm8u4phrb5anFLNG/AKGAi6hku28fqUY+iekUF5ajz62Kw==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
