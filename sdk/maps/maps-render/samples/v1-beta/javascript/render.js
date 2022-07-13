@@ -8,7 +8,7 @@
 const fs = require("fs");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AzureKeyCredential } = require("@azure/core-auth");
-const { MapsRenderClient, KnownTilesetID, KnownRasterTileFormat } = require("@azure/maps-render");
+const { MapsRenderClient, KnownTilesetId, KnownRasterTileFormat } = require("@azure/maps-render");
 require("dotenv").config();
 
 /**
@@ -51,54 +51,48 @@ async function main() {
   console.log(await client.getCopyrightForWorld());
 
   console.log(" --- Get copyright from bounding box:");
-  const boundingBox = {
+  let boundingBox = {
     bottomRight: { latitude: 52.41064, longitude: 4.84239 },
     topLeft: { latitude: 52.41072, longitude: 4.84228 },
   };
   console.log(await client.getCopyrightFromBoundingBox(boundingBox));
 
-  if (!fs.existsSync("tmp")) fs.mkdirSync("tmp");
-
-  const statesetId = process.env.CREATOR_STATESET_ID;
-  if (typeof statesetId === "string" && statesetId.length == 36) {
-    console.log(" --- Get map state tile:");
-    let result = await client.getMapStateTile(statesetId, tileIndex);
-    // use result.blobBody for Browser, readableStreamBody for Node.js:
-    result.readableStreamBody &&
-      result.readableStreamBody.pipe(fs.createWriteStream("tmp/state_tile.pbf"));
-  }
-
   console.log(" --- Get map static image:");
+  if (!fs.existsSync("tmp")) fs.mkdirSync("tmp");
   const mapStaticImageOptions = {
     layer: "basic",
     style: "dark",
     zoom: 2,
-    boundingBox: {
-      bottomRight: { latitude: 42.982261, longitude: 24.980233 },
-      topLeft: { latitude: 56.526017, longitude: 1.355233 },
-    },
   };
-  let result = await client.getMapStaticImage(KnownRasterTileFormat.Png, mapStaticImageOptions);
+  boundingBox = {
+    bottomRight: { latitude: 42.982261, longitude: 24.980233 },
+    topLeft: { latitude: 56.526017, longitude: 1.355233 },
+  };
+  let result = await client.getMapStaticImage(
+    KnownRasterTileFormat.Png,
+    boundingBox,
+    mapStaticImageOptions
+  );
   // use result.blobBody for Browser, readableStreamBody for Node.js:
   result.readableStreamBody &&
     result.readableStreamBody.pipe(fs.createWriteStream("tmp/static_image.png"));
 
-  console.log(" --- Get map tile v2:");
+  console.log(" --- Get map tile:");
   const mapTileOptions = { tileSize: "512" };
-  result = await client.getMapTile(KnownTilesetID.MicrosoftBase, tileIndex, mapTileOptions);
+  result = await client.getMapTile(KnownTilesetId.MicrosoftBase, tileIndex, mapTileOptions);
   // use result.blobBody for Browser, readableStreamBody for Node.js:
   result.readableStreamBody &&
-    result.readableStreamBody.pipe(fs.createWriteStream("tmp/tile_v2.vector.pbf"));
+    result.readableStreamBody.pipe(fs.createWriteStream("tmp/tile.vector.pbf"));
 
   console.log(" --- Get attribution:");
-  const attribution = await client.getMapAttribution(KnownTilesetID.MicrosoftBase, 6, {
+  const attribution = await client.getMapAttribution(KnownTilesetId.MicrosoftBase, 6, {
     bottomRight: { latitude: 47.57949, longitude: -122.247157 },
     topLeft: { latitude: 47.668372, longitude: -122.414162 },
   });
   console.log(attribution);
 
   console.log(" --- Get tileset metadata:");
-  const metadata = await client.getMapTileset(KnownTilesetID.MicrosoftBase);
+  const metadata = await client.getMapTileset(KnownTilesetId.MicrosoftBase);
   console.log(metadata);
 }
 

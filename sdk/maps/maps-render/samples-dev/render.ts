@@ -58,18 +58,8 @@ async function main() {
   };
   console.log(await client.getCopyrightFromBoundingBox(boundingBox));
 
-  if (!fs.existsSync("tmp")) fs.mkdirSync("tmp");
-
-  const statesetId = process.env.CREATOR_STATESET_ID;
-  if (typeof statesetId === "string" && statesetId.length == 36) {
-    console.log(" --- Get map state tile:");
-    let result = await client.getMapStateTile(statesetId, tileIndex);
-    // use result.blobBody for Browser, readableStreamBody for Node.js:
-    result.readableStreamBody &&
-      result.readableStreamBody.pipe(fs.createWriteStream("tmp/state_tile.pbf"));
-  }
-
   console.log(" --- Get map static image:");
+  if (!fs.existsSync("tmp")) fs.mkdirSync("tmp");
   const mapStaticImageOptions = {
     layer: "basic",
     style: "dark",
@@ -88,12 +78,12 @@ async function main() {
   result.readableStreamBody &&
     result.readableStreamBody.pipe(fs.createWriteStream("tmp/static_image.png"));
 
-  console.log(" --- Get map tile v2:");
+  console.log(" --- Get map tile:");
   const mapTileOptions = { tileSize: "512" };
   result = await client.getMapTile(KnownTilesetId.MicrosoftBase, tileIndex, mapTileOptions);
   // use result.blobBody for Browser, readableStreamBody for Node.js:
   result.readableStreamBody &&
-    result.readableStreamBody.pipe(fs.createWriteStream("tmp/tile_v2.vector.pbf"));
+    result.readableStreamBody.pipe(fs.createWriteStream("tmp/tile.vector.pbf"));
 
   console.log(" --- Get attribution:");
   const attribution = await client.getMapAttribution(KnownTilesetId.MicrosoftBase, 6, {

@@ -20,9 +20,9 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An [Azure Maps account](https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys). You can create the resource via [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
+- An [Azure Maps account](https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys). You can create the resource via the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
 
-If you use Azure CLI, replace `<resource-group-name>` and `<account-name>` of your choice, and select a proper [pricing tier](https://docs.microsoft.com/azure/azure-maps/choose-pricing-tier) based on your needs via the `<sku-name>` parameter. Please refer to [this page](https://docs.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create) for more details.
+If you use Azure CLI, replace `<resource-group-name>` and `<map-account-name>` of your choice, and select a proper [pricing tier](https://docs.microsoft.com/azure/azure-maps/choose-pricing-tier) based on your needs via the `<sku-name>` parameter. Please refer to [this page](https://docs.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create) for more details.
 
 ```bash
 az maps account create --resource-group <resource-group-name> --name <map-account-name> --sku <sku-name>
@@ -38,7 +38,7 @@ npm install @azure/maps-search
 
 ### Create and authenticate a `MapsSearchClient`
 
-To create a client object to access the Azure Maps Search API, you will need a `credential` object. The Azure Maps Search client can use an Azure Active Directory credential or an Azure Key credential to authenticate.
+To create a client object to access the Azure Maps Search APIs, you will need a `credential` object. The Azure Maps Search client can use an Azure Active Directory credential or an Azure Key credential to authenticate.
 
 #### Using an Azure Active Directory Credential
 
@@ -56,23 +56,22 @@ You will also need to specify the Azure Maps resource you intend to use by speci
 The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
 ```javascript
-const { MapsSearchClient } = require("@azure/maps-search");
-const { DefaultAzureCredential } = require("@azure/identity");
-const client = new MapsSearchClient(new DefaultAzureCredential(), "<maps-account-client-id>");
+import { MapsSearchClient } from "@azure/maps-search";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const credential = new DefaultAzureCredential();
+const client = new MapsSearchClient(credential, "<maps-account-client-id>");
 ```
 
 #### Using a Subscription Key Credential
 
-You can authenticate with your Azure Maps Subscription Key. Please install the `@azure/core-auth` package:
-
-```bash
-npm install @azure/core-auth
-```
+You can authenticate with your Azure Maps Subscription Key.
 
 ```javascript
-const { MapsSearchClient } = require("@azure/maps-search");
-const { AzureKeyCredential } = require("@azure/core-auth");
-const client = new MapsSearchClient(new AzureKeyCredential("<subscription-key>"));
+import { MapsSearchClient, AzureKeyCredential } from "@azure/maps-search";
+
+const credential = new AzureKeyCredential("<subscription-key>");
+const client = new MapsSearchClient(credential);
 ```
 
 ## Key concepts
@@ -100,7 +99,7 @@ const searchResult = await client.searchAddress("400 Broad, Seattle");
 
 ### Search for an address or Point of Interest
 
-You can use Fuzzy Search to search an address or a point of interest (POI). The following examples demostrate how to search for `pizza` over the scope of a specific country (`France`, in this example).
+You can use Fuzzy Search to search an address or a point of interest (POI). The following example demonstrates how to search for `pizza` over the scope of a specific country (`France`, in this example).
 
 ```javascript
 const fuzzySearchResult = await client.fuzzySearch({ query: "pizza", countryCodeFilter: ["fr"] });
@@ -163,5 +162,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
+[azure_powershell]: https://docs.microsoft.com/powershell/module/az.maps/new-azmapsaccount
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

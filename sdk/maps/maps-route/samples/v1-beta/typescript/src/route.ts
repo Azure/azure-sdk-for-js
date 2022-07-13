@@ -116,13 +116,11 @@ async function main() {
   console.log(getRouteDirectionsResult);
 
   console.log(" --- Get route range:");
-  const routeRangeBudget: RouteRangeBudget = { timeBudgetInSec: 6000 };
-
+  const routeRangeBudget: RouteRangeBudget = { timeBudgetInSeconds: 6000 };
   const routeRangeResult = await client.getRouteRange(
     { latitude: 50.97452, longitude: 5.86605 },
     routeRangeBudget
   );
-
   console.log(routeRangeResult);
 
   console.log(" --- Request route directions batch:");

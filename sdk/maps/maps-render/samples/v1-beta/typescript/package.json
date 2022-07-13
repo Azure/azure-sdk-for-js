@@ -1,5 +1,5 @@
 {
-  "name": "azure-maps-render-samples-ts-beta",
+  "name": "@azure-samples/maps-render-ts-beta",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Maps Render client library samples for TypeScript (Beta)",
