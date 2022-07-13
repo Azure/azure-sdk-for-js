@@ -1,23 +1,17 @@
 let nock = require('nock');
 
-module.exports.hash = "3d6dab34aebbac83ec9c68fe189634d3";
+module.exports.hash = "a7c877e97e5377a15f35abd306f0912a";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
-  .get('/map/copyright/caption/json')
+  .get('/map/attribution')
   .query(true)
-  .reply(200, {"formatVersion":"0.0.1","copyrightsCaption":"© 1992 - 2022 TomTom."}, [
-  'Cache-Control',
-  'max-age=86400',
+  .reply(200, {"copyrights":["<a data-azure-maps-attribution-tileset=\"microsoft.base\">&copy;2022 TomTom</a>"]}, [
   'Content-Length',
-  '83',
+  '98',
   'Content-Type',
   'application/json; charset=utf-8',
-  'Expires',
-  'Wed, 30 Mar 2022 16:20:58 GMT',
-  'ETag',
-  'W/"04edd08d6465990a456b49db47137450"',
   'x-ms-azuremaps-region',
   'West US 2',
   'X-Content-Type-Options',
@@ -27,7 +21,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 29C3183C536D4FEDA3A2F6F177C6A033 Ref B: TPE30EDGE0509 Ref C: 2022-03-30T01:39:07Z',
+  'Ref A: 666CD356CF864680BC8A1DB48A5502BC Ref B: TPE30EDGE0713 Ref C: 2022-07-13T11:09:34Z',
   'Date',
-  'Wed, 30 Mar 2022 01:39:07 GMT'
+  'Wed, 13 Jul 2022 11:09:33 GMT'
 ]);
