@@ -18,8 +18,7 @@ export async function main() {
   console.log(result.uploadStatus);
   if (result.uploadStatus === "Success") {
     console.log("All the logs provided are successfully ingested");
-  }
-  else {
+  } else {
     console.log("Some logs have failed to complete ingestion");
     for (const errors of result.errors) {
       console.log(`Error - ${JSON.stringify(errors.responseError)}`);

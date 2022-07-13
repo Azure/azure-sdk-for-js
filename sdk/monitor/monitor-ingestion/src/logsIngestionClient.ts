@@ -7,6 +7,7 @@ import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
 import { FailedLogsIngestionError, UploadOptions, UploadResult } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
+import { asyncPool } from "./concurrentPoolHelper";
 
 /**
  * Options for Montior Logs Ingestion Client
@@ -132,7 +133,7 @@ export class LogsIngestionClient {
       } else {
         chunkArray.push(chunk);
         chunk = [element];
-        size = 0;
+        size = elementSize;
       }
     }
 

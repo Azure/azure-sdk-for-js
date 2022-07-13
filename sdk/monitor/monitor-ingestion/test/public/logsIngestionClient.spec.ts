@@ -76,12 +76,19 @@ describe("LogsIngestionClient live tests", function () {
     assert.equal(result.errors.length, 0);
   });
 
-  it("Success Test - divides huge data into chunks", async () => {
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
-      maxConcurrency: 5,
-    });
+  it.only("Success Test - divides huge data into chunks", async () => {
+    try{
+      const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
+        maxConcurrency: 3,
+      });
+       
     assert.equal(result.uploadStatus, "Success");
     assert.equal(result.errors.length, 0);
+    }
+    catch(e){
+      console.log(e);
+      
+    }
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async () => {
