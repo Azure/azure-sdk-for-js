@@ -11,7 +11,7 @@ export const ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
 export const askForSecrets: (targetOrigin: string, instanceId: string, targetModule: TTargetModule, environment: TEnvironment) => Promise<TSecrets>;
 
 // @public
-export function buildOnChange<TValues extends TValuesBase>(valuesDefault: TValues): TOnChange<TValues>;
+export function buildOnChange<TValues extends TValuesCommon>(valuesDefault: TValues): TOnChange<TValues>;
 
 // @public
 export function deployNodeJS(serviceInformation: TServiceInformation, name: string, fallbackConfigPath?: string): Promise<void>;
@@ -20,19 +20,19 @@ export function deployNodeJS(serviceInformation: TServiceInformation, name: stri
 export const EDITOR_DATA_KEY = "editorData";
 
 // @public
-export function getEditorData<TValues extends TValuesBase>(valuesDefault: TValues): TEditorData<TValues>;
+export function getEditorData<TValues extends TValuesCommon>(valuesDefault: TValues): TEditorData<TValues>;
 
 // @public
-export function getEditorValues<TValues extends TValuesBase>(valuesDefault: TValues): TValues;
+export function getEditorValues<TValues extends TValuesCommon>(valuesDefault: TValues): TValues;
 
 // @public
 export const ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
 
 // @public
-export function onChangeWithOrigin<TValues extends TValuesBase>(origin: TEditorData<TValues>["origin"], instanceId: TEditorData<TValues>["instanceId"], values: TValues): void;
+export function onChangeWithOrigin<TValues extends TValuesCommon>(origin: TEditorData<TValues>["origin"], instanceId: TEditorData<TValues>["instanceId"], values: TValues): void;
 
 // @public
-export interface TEditorData<TValues extends TValuesBase> {
+export interface TEditorData<TValues extends TValuesCommon> {
     environment: TEnvironment;
     instanceId: string;
     origin: string;
@@ -43,7 +43,7 @@ export interface TEditorData<TValues extends TValuesBase> {
 export type TEnvironment = "development" | "publishing" | "runtime" | "error";
 
 // @public
-export type TOnChange<TValues extends TValuesBase> = (values: Partial<TValues>) => void;
+export type TOnChange<TValues extends TValuesCommon> = (values: Partial<TValues>) => void;
 
 // @public
 export type TSecrets = {
@@ -63,6 +63,6 @@ export type TServiceInformation = {
 export type TTargetModule = "app" | "editor";
 
 // @public
-export type TValuesBase = Record<string, unknown>;
+export type TValuesCommon = Record<string, unknown>;
 
 ```
