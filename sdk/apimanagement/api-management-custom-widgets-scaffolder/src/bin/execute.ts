@@ -43,6 +43,9 @@ async function main(): Promise<void> {
   if (deployConfig.resourceId.slice(-1) === "/") {
     deployConfig.resourceId = deployConfig.resourceId.slice(0, -1);
   }
+  if (deployConfig.apiVersion === "") {
+    delete deployConfig.apiVersion;
+  }
 
   deployConfig.managementApiEndpoint = prefixUrlProtocol(deployConfig.managementApiEndpoint);
 
