@@ -11,7 +11,22 @@ export const ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
 export const askForSecrets: (targetOrigin: string, instanceId: string, targetModule: TTargetModule, environment: TEnvironment) => Promise<TSecrets>;
 
 // @public
+export function buildBlobConfigSrc(name: string): string;
+
+// @public
+export function buildBlobDataSrc(name: string): string;
+
+// @public
 export function buildOnChange<TValues extends TValuesCommon>(valuesDefault: TValues): TOnChange<TValues>;
+
+// @public
+export const CONFIG_FILE_NAME = "config.msapim.json";
+
+// @public
+export const CONFIGS_FOLDER = "configs";
+
+// @public
+export const DATA_FOLDER = "data";
 
 // @public
 export function deployNodeJS(serviceInformation: TServiceInformation, name: string, fallbackConfigPath?: string): Promise<void>;
@@ -30,6 +45,9 @@ export const ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
 
 // @public
 export function onChangeWithOrigin<TValues extends TValuesCommon>(origin: TEditorData<TValues>["origin"], instanceId: TEditorData<TValues>["instanceId"], values: TValues): void;
+
+// @public
+export const ROOT = "custom-widgets";
 
 // @public
 export interface TEditorData<TValues extends TValuesCommon> {

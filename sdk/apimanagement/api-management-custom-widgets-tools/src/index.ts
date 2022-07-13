@@ -23,6 +23,14 @@ export type {
   TValuesCommon,
   TEnvironment,
 } from "./utils";
+export {
+  ROOT,
+  CONFIG_FILE_NAME,
+  DATA_FOLDER,
+  CONFIGS_FOLDER,
+  buildBlobDataSrc,
+  buildBlobConfigSrc,
+} from "./paths"
 
 import deployNodeJS from "./node/deploy";
 export { deployNodeJS };
