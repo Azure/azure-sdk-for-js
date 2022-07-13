@@ -11,15 +11,15 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type Account = TrackedResource & {
-    identity?: ManagedServiceIdentity;
-    readonly provisioningState?: ProvisioningState;
+export interface Account extends TrackedResource {
     readonly hostName?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
-    privateEndpointConnections?: PrivateEndpointConnection[];
-    sku?: Sku;
+    identity?: ManagedServiceIdentity;
     readonly locations?: Location_2[];
-};
+    privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    sku?: Sku;
+}
 
 // @public
 export interface AccountList {
@@ -110,10 +110,10 @@ export interface AccountsUpdateOptionalParams extends coreClient.OperationOption
 export type AccountsUpdateResponse = Account;
 
 // @public
-export type AccountUpdate = TagUpdate & {
+export interface AccountUpdate extends TagUpdate {
     identity?: ManagedServiceIdentity;
     location?: string;
-};
+}
 
 // @public
 export type ActionType = string;
@@ -228,26 +228,26 @@ export interface GroupConnectivityInformation {
 export type GroupIdProvisioningState = string;
 
 // @public
-export type GroupInformation = ProxyResource & {
+export interface GroupInformation extends ProxyResource {
     readonly groupId?: string;
+    readonly provisioningState?: GroupIdProvisioningState;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-    readonly provisioningState?: GroupIdProvisioningState;
-};
+}
 
 // @public
-export type GroupInformationProperties = PrivateLinkResourceProperties & {
+export interface GroupInformationProperties extends PrivateLinkResourceProperties {
     readonly provisioningState?: GroupIdProvisioningState;
-};
+}
 
 // @public
-export type Instance = TrackedResource & {
-    readonly provisioningState?: ProvisioningState;
+export interface Instance extends TrackedResource {
     readonly accountName?: string;
-    iotHubs?: IotHubSettings[];
-    enableDiagnostics?: boolean;
     diagnosticStorageProperties?: DiagnosticStorageProperties;
-};
+    enableDiagnostics?: boolean;
+    iotHubs?: IotHubSettings[];
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
 export interface InstanceList {
@@ -326,139 +326,98 @@ export interface IotHubSettings {
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownAuthenticationType {
-    // (undocumented)
     KeyBased = "KeyBased"
 }
 
 // @public
 export enum KnownCheckNameAvailabilityReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownGroupIdProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProxyProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRole {
-    // (undocumented)
     Failover = "Failover",
-    // (undocumented)
     Primary = "Primary"
 }
 
 // @public
 export enum KnownSku {
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     Standard = "Standard"
 }
 
@@ -534,12 +493,12 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
+    groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-    groupIds?: string[];
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -599,9 +558,9 @@ export interface PrivateEndpointConnectionProxiesValidateOptionalParams extends 
 }
 
 // @public
-export type PrivateEndpointConnectionProxy = ProxyResource & PrivateEndpointConnectionProxyProperties & {
+export interface PrivateEndpointConnectionProxy extends ProxyResource, PrivateEndpointConnectionProxyProperties {
     readonly provisioningState?: PrivateEndpointConnectionProxyProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionProxyListResult {
@@ -726,13 +685,15 @@ export interface PrivateLinkServiceProxy {
 }
 
 // @public
-export type PrivateLinkServiceProxyRemotePrivateEndpointConnection = RemotePrivateEndpointConnection;
+export interface PrivateLinkServiceProxyRemotePrivateEndpointConnection extends RemotePrivateEndpointConnection {
+}
 
 // @public
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccess = string;
@@ -787,12 +748,12 @@ export interface TagUpdate {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface UserAssignedIdentity {

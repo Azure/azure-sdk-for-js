@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-secrets",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.5.0-beta.1",
+  "version": "4.5.0-beta.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's secrets.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/README.md",
@@ -71,8 +71,8 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/keyVaultClientContext.ts",
-        "prefix": "packageVersion"
+        "path": "src/generated/keyVaultClient.ts",
+        "prefix": "packageDetails"
       },
       {
         "path": "src/constants.ts",

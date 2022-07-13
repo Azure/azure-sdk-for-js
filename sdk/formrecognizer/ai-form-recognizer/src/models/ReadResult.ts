@@ -31,17 +31,17 @@ export interface ReadResult extends AnalyzeResultCommon {
   /**
    * Pages extracted from the input document.
    */
-  pages: DocumentPage[];
+  pages?: DocumentPage[];
 
   /**
    * Extracted text languages.
    */
-  languages: DocumentLanguage[];
+  languages?: DocumentLanguage[];
 
   /**
    * The text styles that were observed in the input.
    *
    * For example, this contains information about regions of the input where handwritten text occurs.
    */
-  styles: DocumentStyle[];
+  styles?: DocumentStyle[];
 }
