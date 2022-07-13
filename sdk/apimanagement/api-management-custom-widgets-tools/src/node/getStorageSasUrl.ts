@@ -27,7 +27,7 @@ async function getStorageSasUrl({
   tokenOverride,
 }: TServiceInformation): Promise<string> {
   const httpClient = getClient(`${managementApiEndpoint}/${resourceId}`, { apiVersion });
-  const response = await httpClient.pathUnchecked(`/portalSettings/mediaContent/listSecrets`).post({
+  const response = await httpClient.pathUnchecked(`/portalSettings/mediaContent/listSecrets?apiVersion=${apiVersion}`).post({
     headers: {
       "If-Match": "*",
       "Content-Type": "application/json",
