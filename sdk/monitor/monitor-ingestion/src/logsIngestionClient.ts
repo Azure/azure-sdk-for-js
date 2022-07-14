@@ -3,7 +3,6 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
-import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
 import { UploadLogsError, UploadOptions, UploadResult, UploadStatus } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
@@ -42,19 +41,11 @@ export class LogsIngestionClient {
       credentialScopes: defaultIngestionScope,
     };
     this.endpoint = endpoint;
-    const packageDetails = `azsdk-js-monitor-ingestion/${SDK_VERSION}`;
-    const userAgentPrefix =
-      options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
-        ? `${options?.userAgentOptions.userAgentPrefix} ${packageDetails}`
-        : `${packageDetails}`;
     this._dataClient = new GeneratedDataCollectionClient(tokenCredential, this.endpoint, {
       ...options,
-      credentialScopes: credentialOptions?.credentialScopes ?? defaultIngestionScope,
-      userAgentOptions: {
-        userAgentPrefix,
-      },
+      credentialScopes: credentialOptions?.credentialScopes ?? defaultIngestionScope
     });
-    // adding gziping policy bcz this is a single method client which needs gzipping
+    // adding gziping policy because this is a single method client which needs gzipping
     this._dataClient.pipeline.addPolicy(GZippingPolicy);
   }
 
