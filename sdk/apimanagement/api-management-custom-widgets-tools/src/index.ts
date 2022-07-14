@@ -30,7 +30,7 @@ export {
   CONFIGS_FOLDER,
   buildBlobDataSrc,
   buildBlobConfigSrc,
-} from "./paths"
+} from "./paths";
 
 import deployNodeJS from "./node/deploy";
 export { deployNodeJS };

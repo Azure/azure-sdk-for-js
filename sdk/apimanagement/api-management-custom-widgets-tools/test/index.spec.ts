@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
+  EDITOR_DATA_KEY,
   ON_CHANGE_MESSAGE_KEY,
   getEditorData,
   getEditorValues,
-  EDITOR_DATA_KEY,
   onChangeWithOrigin,
-} from "../src"
+} from "../src";
 import { assert } from "chai";
 import sinon from "sinon";
 import valuesUrl from "./valuesUrl.json";

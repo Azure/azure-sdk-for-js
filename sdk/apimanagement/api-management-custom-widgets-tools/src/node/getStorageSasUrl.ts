@@ -27,13 +27,15 @@ async function getStorageSasUrl({
   tokenOverride,
 }: TServiceInformation): Promise<string> {
   const httpClient = getClient(`${managementApiEndpoint}/${resourceId}`, { apiVersion });
-  const response = await httpClient.pathUnchecked(`/portalSettings/mediaContent/listSecrets?apiVersion=${apiVersion}`).post({
-    headers: {
-      "If-Match": "*",
-      "Content-Type": "application/json",
-      Authorization: tokenOverride ?? getAccessToken(),
-    },
-  });
+  const response = await httpClient
+    .pathUnchecked(`/portalSettings/mediaContent/listSecrets?apiVersion=${apiVersion}`) // TODO
+    .post({
+      headers: {
+        "If-Match": "*",
+        "Content-Type": "application/json",
+        Authorization: tokenOverride ?? getAccessToken(),
+      },
+    });
 
   if (!response?.body?.containerSasUrl) throw new Error("Could not get storage SAS URL");
   return response.body.containerSasUrl;

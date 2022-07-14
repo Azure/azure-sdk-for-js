@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 async function deploy(
-  _serviceInformation: any,
+  _serviceInformation: unknown,
   _name: string,
   _fallbackConfigPath: string
 ): Promise<void> {
