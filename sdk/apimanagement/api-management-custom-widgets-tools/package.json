@@ -98,6 +98,7 @@
     "@types/sinon": "^9.0.4"
   },
   "dependencies": {
+    "@azure/logger": "^1.0.3",
     "@azure-rest/core-client": "^1.0.0-beta.10",
     "@azure/storage-blob": "^12.9.0",
     "mime": "^3.0.0",
