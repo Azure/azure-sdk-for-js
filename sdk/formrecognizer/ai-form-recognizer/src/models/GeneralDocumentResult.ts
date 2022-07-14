@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { DocumentKeyValuePair } from "./documentElements";
-import { AnalyzeResult } from "../lro/analyze";
+import { AnalyzeResult } from "../lro/analysis";
 import { LayoutResult, toLayoutResult } from "./LayoutResult";
 
 /**

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { DocumentLanguage, DocumentStyle } from "../generated";
-import { AnalyzeResult, AnalyzeResultCommon } from "../lro/analyze";
+import { AnalyzeResult, AnalyzeResultCommon } from "../lro/analysis";
 import { DocumentPage } from "./documentElements";
 
 /**
