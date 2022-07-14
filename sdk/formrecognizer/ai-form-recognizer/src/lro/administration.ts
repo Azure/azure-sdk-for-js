@@ -10,7 +10,7 @@ import { PollerOptions } from "../options/PollerOptions";
 /**
  * The state of a model creation operation.
  */
-export interface TrainingPollOperationState extends PollOperationState<DocumentModelInfo> {
+export interface DocumentModelOperationState extends PollOperationState<DocumentModelInfo> {
   /**
    * The status of the operation. One of:
    *
@@ -59,7 +59,7 @@ export interface TrainingPollOperationState extends PollOperationState<DocumentM
  */
 export async function toTrainingPollOperationState(
   response: GetOperationResponse
-): Promise<TrainingPollOperationState> {
+): Promise<DocumentModelOperationState> {
   return {
     operationId: response.operationId,
     status: response.status,
@@ -80,7 +80,7 @@ export async function toTrainingPollOperationState(
  * A long-running operation (poller) that tracks the state of a model creation operation, eventually producing a
  * {@link ModelInfo}.
  */
-export type DocumentModelPoller = PollerLike<TrainingPollOperationState, DocumentModelInfo>;
+export type DocumentModelPoller = PollerLike<DocumentModelOperationState, DocumentModelInfo>;
 
 /**
  * Defines a training operation.
@@ -94,5 +94,5 @@ export interface TrainingOperationDefinition {
   /**
    * Options for the poller and requests.
    */
-  options: PollerOptions<TrainingPollOperationState> & OperationOptions;
+  options: PollerOptions<DocumentModelOperationState> & OperationOptions;
 }

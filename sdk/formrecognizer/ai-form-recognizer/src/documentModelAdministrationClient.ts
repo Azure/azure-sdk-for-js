@@ -19,10 +19,10 @@ import {
 import { accept1 } from "./generated/models/parameters";
 import {
   TrainingOperationDefinition,
-  TrainingPollOperationState,
+  DocumentModelOperationState,
   DocumentModelPoller,
   toTrainingPollOperationState,
-} from "./lro/training";
+} from "./lro/administration";
 import { lro } from "./lro/util/poller";
 import {
   BeginCopyModelOptions,
@@ -377,12 +377,12 @@ export class DocumentModelAdministrationClient {
   }
 
   /**
-   * Create an LRO poller that handles training operations.
+   * Create an LRO poller that handles model creation operations.
    *
-   * This is the meat of all training polling operations.
+   * This is the meat of the above model creation operations.
    *
    * @param definition - operation definition (start operation method, request options)
-   * @returns a training poller that produces a ModelInfo
+   * @returns a model poller (produces a ModelInfo)
    */
   private async createDocumentModelPoller(
     definition: TrainingOperationDefinition
@@ -436,7 +436,7 @@ export class DocumentModelAdministrationClient {
               }
             );
 
-    const poller = await lro<DocumentModelInfo, TrainingPollOperationState>(
+    const poller = await lro<DocumentModelInfo, DocumentModelOperationState>(
       {
         init: async () => toTrainingPollOperationState(await toInit()),
         poll: async ({ operationId }) =>

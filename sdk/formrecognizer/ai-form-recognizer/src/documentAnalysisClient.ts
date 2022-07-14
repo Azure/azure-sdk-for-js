@@ -22,7 +22,7 @@ import {
   toAnalyzeResultFromGenerated,
   toAnalyzedDocumentFromGenerated,
   toDocumentAnalysisPollOperationState,
-} from "./lro/analyze";
+} from "./lro/analysis";
 import { lro } from "./lro/util/poller";
 import { GeneralDocumentResult, toGeneralDocumentResult } from "./models/GeneralDocumentResult";
 import { LayoutResult, toLayoutResult } from "./models/LayoutResult";

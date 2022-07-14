@@ -88,7 +88,7 @@ export interface BeginComposeModelOptions extends CreateModelOptions {
 }
 
 // @public
-export interface BeginCopyModelOptions extends OperationOptions, PollerOptions<TrainingPollOperationState> {
+export interface BeginCopyModelOptions extends OperationOptions, PollerOptions<DocumentModelOperationState> {
 }
 
 // @public
@@ -205,7 +205,7 @@ export interface CopyAuthorization {
 }
 
 // @public
-export interface CreateModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<TrainingPollOperationState> {
+export interface CreateModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<DocumentModelOperationState> {
 }
 
 // @public
@@ -418,7 +418,18 @@ export interface DocumentModelInfo extends DocumentModelSummary {
 }
 
 // @public
-export type DocumentModelPoller = PollerLike<TrainingPollOperationState, DocumentModelInfo>;
+export interface DocumentModelOperationState extends PollOperationState<DocumentModelInfo> {
+    apiVersion?: string;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+    operationId: string;
+    percentCompleted: number;
+    status: OperationStatus;
+    tags?: Record<string, string>;
+}
+
+// @public
+export type DocumentModelPoller = PollerLike<DocumentModelOperationState, DocumentModelInfo>;
 
 // @public
 export interface DocumentModelSummary {
@@ -1684,17 +1695,6 @@ export const TaxUsW2Schema: {
         };
     };
 };
-
-// @public
-export interface TrainingPollOperationState extends PollOperationState<DocumentModelInfo> {
-    apiVersion?: string;
-    createdOn: Date;
-    lastUpdatedOn: Date;
-    operationId: string;
-    percentCompleted: number;
-    status: OperationStatus;
-    tags?: Record<string, string>;
-}
 
 // @public
 export interface WellKnownObjectFieldSchema<Type extends "currency" | "address" = "currency" | "address"> {
