@@ -5,7 +5,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
-import { FailedLogsIngestionError, UploadOptions, UploadResult } from "./models";
+import { UploadLogsError, UploadOptions, UploadResult, UploadStatus } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { asyncPool } from "./concurrentPoolHelper";
 
@@ -81,9 +81,9 @@ export class LogsIngestionClient {
       concurrency = options?.maxConcurrency;
     }
 
-    const uploadResult: UploadResult = {
-      errors: [],
-      uploadStatus: "Success",
+    let uploadResultErrors: Array<UploadLogsError> = [];
+    let uploadResult: UploadResult = {
+      uploadStatus: UploadStatus.Success
     };
 
     const errorsArray: Record<string, any>[] = [];
@@ -101,18 +101,26 @@ export class LogsIngestionClient {
       /* eslint-disable no-empty */
     }
     for (const errorsObj of errorsArray) {
-      uploadResult.errors.push({
+      uploadResultErrors.push({
         responseError: errorsObj.error,
         failedLogs: errorsObj.log,
       });
     }
-    if (uploadResult.errors.length === 0) {
+
+    if (uploadResultErrors.length === 0) {
       return uploadResult;
-    } else if (uploadResult.errors.length < noOfChunks && uploadResult.errors.length > 0) {
-      uploadResult.uploadStatus = "PartialFailure";
+    } else if (uploadResultErrors.length < noOfChunks && uploadResultErrors.length > 0) {
+      uploadResult = {
+        errors: uploadResultErrors,
+        uploadStatus: UploadStatus.PartialFailure
+      }
       return uploadResult;
     } else {
-      throw new FailedLogsIngestionError("All logs failed for ingestion", uploadResult.errors);
+      uploadResult = {
+        errors: uploadResultErrors,
+        uploadStatus: UploadStatus.Failure
+      }
+      return uploadResult;
     }
   }
 

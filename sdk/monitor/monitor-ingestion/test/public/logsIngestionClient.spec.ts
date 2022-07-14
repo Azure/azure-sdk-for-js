@@ -16,6 +16,7 @@ import {
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { UploadStatus } from "../../src/models";
 dotenv.config();
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
@@ -73,7 +74,6 @@ describe("LogsIngestionClient live tests", function () {
       },
     ]);
     assert.equal(result.uploadStatus, "Success");
-    assert.equal(result.errors.length, 0);
   });
 
   it("Success Test - divides huge data into chunks", async () => {
@@ -81,8 +81,7 @@ describe("LogsIngestionClient live tests", function () {
       maxConcurrency: 3,
     });
 
-    assert.equal(result.uploadStatus, "Success");
-    assert.equal(result.errors.length, 0);
+    assert.equal(result.uploadStatus, UploadStatus.Success);
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async () => {
@@ -100,36 +99,38 @@ describe("LogsIngestionClient live tests", function () {
       maxConcurrency: 3,
     });
     assert.equal(result.uploadStatus, "PartialFailure");
-    result.errors.forEach((err) => {
-      assert.equal(
-        err.responseError.message,
-        `Data collection rule with immutable Id 'fake-id' not found.`
-      );
-    });
-    const chunkArray = splitDataToChunks(logData);
-    if (chunkArray.length % 2 === 0) {
-      assert.equal(result.errors.length, chunkArray.length / 2);
-    }
-    if (chunkArray.length % 2 === 1) {
-      assert.equal(result.errors.length, (chunkArray.length - 1) / 2);
+    if (result.uploadStatus !== "Success") {
+      result.errors.forEach((err) => {
+        assert.equal(
+          err.responseError.message,
+          `Data collection rule with immutable Id 'fake-id' not found.`
+        );
+      });
+      const chunkArray = splitDataToChunks(logData);
+      if (chunkArray.length % 2 === 0) {
+        assert.equal(result.errors.length, chunkArray.length / 2);
+      }
+      if (chunkArray.length % 2 === 1) {
+        assert.equal(result.errors.length, (chunkArray.length - 1) / 2);
+      }
     }
   });
 
   it("Throws error when all logs fail", async () => {
     const logData = getObjects(100000);
-    try {
-      await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
-        maxConcurrency: 3,
+    const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
+      maxConcurrency: 3,
+    });
+    assert.equal(result.uploadStatus, "Failure");
+    if (result.uploadStatus !== "Success") {
+      result.errors.forEach((err) => {
+        assert.equal(
+          err.responseError.message,
+          `Data collection rule with immutable Id 'immutable-id-123' not found.`
+        );
       });
-    } catch (e: any) {
-      const errorMessage = e.message;
-      assert.equal(errorMessage, "All logs failed for ingestion");
       const chunkArray = splitDataToChunks(logData);
-      assert.equal(chunkArray.length, e.errors.length);
-      assert.equal(
-        e.errors[0].responseError.details.error.message,
-        "Data collection rule with immutable Id 'immutable-id-123' not found."
-      );
+      assert.equal(chunkArray.length, result.errors.length);
     }
   });
 });

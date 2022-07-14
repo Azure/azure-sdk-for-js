@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// Reference - https://stackoverflow.com/a/60833870/2170938
+
 export async function* asyncPool(
   maxConcurrency: number,
   workerArray: Array<any>,
