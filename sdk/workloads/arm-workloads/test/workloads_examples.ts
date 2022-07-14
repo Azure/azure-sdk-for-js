@@ -80,13 +80,14 @@ describe("workloads test", () => {
   it("Workloads get test", async function () {
     //get monitors from workloads
     const res = await client.monitors.get(resourceGroup, monitorName);
+    assert.equal(res.name, monitorName);
   });
 
   //list Workloads
   it("Workloads list test", async function () {
     //list monitors from workloads
     const res = await client.monitors.list()
-    const resArray = new Array();
+    const resArray = [];
     for await (let item of res) {
       resArray.push(item);
     }
