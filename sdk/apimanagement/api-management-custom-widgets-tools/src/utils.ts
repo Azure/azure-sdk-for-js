@@ -35,17 +35,13 @@ export interface TEditorData<TValues extends TValuesCommon> {
   instanceId: string;
 }
 
-/**
- * Function to get all editor data
- *
- * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
- */
-export function getEditorData<TValues extends TValuesCommon>(
-  valuesDefault: TValues
+export function getEditorDataPure<TValues extends TValuesCommon>(
+  valuesDefault: TValues,
+  urlSearchParams: URLSearchParams
 ): TEditorData<TValues> {
   try {
     const urlEditorParams = JSON.parse(
-      decodeURIComponent(new URLSearchParams(self.location.search).get(EDITOR_DATA_KEY) ?? "")
+      decodeURIComponent(urlSearchParams.get(EDITOR_DATA_KEY) ?? "")
     );
 
     if (!("origin" in urlEditorParams)) {
@@ -64,12 +60,30 @@ export function getEditorData<TValues extends TValuesCommon>(
 }
 
 /**
+ * Function to get all editor data
+ *
+ * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
+ */
+export function getEditorData<TValues extends TValuesCommon>(
+  valuesDefault: TValues
+): TEditorData<TValues> {
+  return getEditorDataPure(valuesDefault, new URLSearchParams(self.location.search));
+}
+
+export function getEditorValuesPure<TValues extends TValuesCommon>(
+  valuesDefault: TValues,
+  urlSearchParams: URLSearchParams
+): TValues {
+  return getEditorDataPure(valuesDefault, urlSearchParams).values;
+}
+
+/**
  * Function to get values you've set in the admin editor window.
  *
  * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
  */
 export function getEditorValues<TValues extends TValuesCommon>(valuesDefault: TValues): TValues {
-  return getEditorData(valuesDefault).values;
+  return getEditorValuesPure(valuesDefault, new URLSearchParams(self.location.search));
 }
 
 /**

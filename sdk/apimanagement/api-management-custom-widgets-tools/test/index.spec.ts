@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  EDITOR_DATA_KEY,
-  ON_CHANGE_MESSAGE_KEY,
-  getEditorData,
-  getEditorValues,
-  onChangeWithOrigin,
-} from "../src";
+import { EDITOR_DATA_KEY, ON_CHANGE_MESSAGE_KEY, onChangeWithOrigin } from "../src";
+import { getEditorDataPure, getEditorValuesPure } from "../src/utils";
 import { assert } from "chai";
 import sinon from "sinon";
 import valuesUrl from "./valuesUrl.json";
@@ -17,39 +12,38 @@ const valuesDefault = {
   bar: 42,
 };
 
-const searchParams = new URLSearchParams("https://localhost:3000");
-searchParams.set(EDITOR_DATA_KEY, JSON.stringify(valuesUrl));
+const urlSearchPrams = new URLSearchParams([[EDITOR_DATA_KEY, JSON.stringify(valuesUrl)]]);
 
 describe("getEditorData", () => {
   it("runs", () => {
-    const editorData = getEditorData(valuesDefault);
+    const editorData = getEditorDataPure(valuesDefault, urlSearchPrams);
     assert.isObject(editorData);
   });
 
   it("contains origin", () => {
-    const editorData = getEditorData(valuesDefault);
+    const editorData = getEditorDataPure(valuesDefault, urlSearchPrams);
     assert.deepEqual(Object.keys(editorData), Object.keys(valuesUrl));
   });
 });
 
 describe("getEditorValues", () => {
   it("runs", () => {
-    const editorValues = getEditorValues(valuesDefault);
+    const editorValues = getEditorValuesPure(valuesDefault, urlSearchPrams);
     assert.isObject(editorValues);
   });
 
   it("contains values", () => {
-    const editorValues = getEditorValues(valuesDefault);
+    const editorValues = getEditorValuesPure(valuesDefault, urlSearchPrams);
     assert.containsAllKeys(editorValues, Object.keys(valuesDefault));
   });
 
   it("contains correct foo value", () => {
-    const editorValues = getEditorValues(valuesDefault);
+    const editorValues = getEditorValuesPure(valuesDefault, urlSearchPrams);
     assert.equal(editorValues.foo, valuesUrl.values.foo);
   });
 
   it("contains correct bar value", () => {
-    const editorValues = getEditorValues(valuesDefault);
+    const editorValues = getEditorValuesPure(valuesDefault, urlSearchPrams);
     assert.equal(editorValues.bar, valuesDefault.bar);
   });
 });
