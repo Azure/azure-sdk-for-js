@@ -1755,6 +1755,11 @@
       "packageName": "@azure/api-management-custom-widgets-scaffolder",
       "projectFolder": "sdk/apimanagement/api-management-custom-widgets-scaffolder",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-networkfunction",
+      "projectFolder": "sdk/networkfunction/arm-networkfunction",
+      "versionPolicyName": "management"
     }
   ]
 }
