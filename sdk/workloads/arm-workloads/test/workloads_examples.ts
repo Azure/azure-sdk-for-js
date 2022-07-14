@@ -52,6 +52,14 @@ describe("workloads test", () => {
     client = new WorkloadsClient(credential, subscriptionId, recorder.configureClientOptions({}));
     resourceGroup = "myjstest";
     monitorName = "myMonitor";
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  //create Workloads
+  it("Workloads create test", async function () {
     monitorParameter = {
       appLocation: "eastus2",
       location: "eastus2",
@@ -63,14 +71,6 @@ describe("workloads test", () => {
       routingPreference: "RouteAll",
       tags: { key: "value" }
     };
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
-  });
-
-  //create Workloads
-  it("Workloads create test", async function () {
     //create monitors
     const res = await client.monitors.beginCreateAndWait(resourceGroup, monitorName, monitorParameter)
     assert.equal(res.name, monitorName);
@@ -78,13 +78,19 @@ describe("workloads test", () => {
 
   //get monitors
   it("Workloads get test", async function () {
+    //get monitors from workloads
     const res = await client.monitors.get(resourceGroup, monitorName);
   });
 
   //list Workloads
   it("Workloads list test", async function () {
-    //create monitors
+    //list monitors from workloads
     const res = await client.monitors.list()
+    const resArray = new Array();
+    for await (let item of res) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
   });
 
   //delete monitors
