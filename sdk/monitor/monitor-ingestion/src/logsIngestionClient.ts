@@ -3,7 +3,7 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
-import { GeneratedDataCollectionClient } from "./generated";
+import { GeneratedMonitorIngestionClient } from "./generated";
 import { UploadLogsError, UploadOptions, UploadResult, UploadStatus } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { asyncPool } from "./utils/concurrentPoolHelper";
@@ -26,7 +26,7 @@ export class LogsIngestionClient {
    * Overrides client endpoint.
    */
   private endpoint: string;
-  private _dataClient: GeneratedDataCollectionClient;
+  private _dataClient: GeneratedMonitorIngestionClient;
   /**
    * Construct a MonitorIngestionClient that can be used to query logs using the Log Analytics Query language.
    *
@@ -42,7 +42,7 @@ export class LogsIngestionClient {
       credentialScopes: defaultIngestionScope,
     };
     this.endpoint = endpoint;
-    this._dataClient = new GeneratedDataCollectionClient(tokenCredential, this.endpoint, {
+    this._dataClient = new GeneratedMonitorIngestionClient(tokenCredential, this.endpoint, {
       ...options,
       credentialScopes: credentialOptions?.credentialScopes ?? defaultIngestionScope
     });

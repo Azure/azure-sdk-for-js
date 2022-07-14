@@ -6,9 +6,9 @@
 
 ```yaml
 v3: true
-package-name: "@azure/data-collection"
-title: GeneratedDataCollectionClient
-description: DataCollectionClient
+package-name: "@azure/monitor-ingestion"
+title: GeneratedMonitorIngestionClient
+description: MonitorIngestionClient
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../

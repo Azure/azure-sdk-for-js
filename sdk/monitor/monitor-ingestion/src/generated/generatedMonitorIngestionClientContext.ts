@@ -8,15 +8,15 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
-import { GeneratedDataCollectionClientOptionalParams } from "./models";
+import { GeneratedMonitorIngestionClientOptionalParams } from "./models";
 
 /** @internal */
-export class GeneratedDataCollectionClientContext extends coreClient.ServiceClient {
+export class GeneratedMonitorIngestionClientContext extends coreClient.ServiceClient {
   endpoint: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the GeneratedDataCollectionClientContext class.
+   * Initializes a new instance of the GeneratedMonitorIngestionClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint The Data Collection Endpoint for the Data Collection Rule, for example
    *                 https://dce-name.eastus-2.ingest.monitor.azure.com.
@@ -25,7 +25,7 @@ export class GeneratedDataCollectionClientContext extends coreClient.ServiceClie
   constructor(
     credentials: coreAuth.TokenCredential,
     endpoint: string,
-    options?: GeneratedDataCollectionClientOptionalParams
+    options?: GeneratedMonitorIngestionClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -38,12 +38,12 @@ export class GeneratedDataCollectionClientContext extends coreClient.ServiceClie
     if (!options) {
       options = {};
     }
-    const defaults: GeneratedDataCollectionClientOptionalParams = {
+    const defaults: GeneratedMonitorIngestionClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-data-collection/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-monitor-ingestion/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

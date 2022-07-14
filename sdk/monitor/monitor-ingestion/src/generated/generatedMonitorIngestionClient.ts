@@ -10,16 +10,16 @@ import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { GeneratedDataCollectionClientContext } from "./generatedDataCollectionClientContext";
+import { GeneratedMonitorIngestionClientContext } from "./generatedMonitorIngestionClientContext";
 import {
-  GeneratedDataCollectionClientOptionalParams,
+  GeneratedMonitorIngestionClientOptionalParams,
   UploadOptionalParams
 } from "./models";
 
 /** @internal */
-export class GeneratedDataCollectionClient extends GeneratedDataCollectionClientContext {
+export class GeneratedMonitorIngestionClient extends GeneratedMonitorIngestionClientContext {
   /**
-   * Initializes a new instance of the GeneratedDataCollectionClient class.
+   * Initializes a new instance of the GeneratedMonitorIngestionClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint The Data Collection Endpoint for the Data Collection Rule, for example
    *                 https://dce-name.eastus-2.ingest.monitor.azure.com.
@@ -28,7 +28,7 @@ export class GeneratedDataCollectionClient extends GeneratedDataCollectionClient
   constructor(
     credentials: coreAuth.TokenCredential,
     endpoint: string,
-    options?: GeneratedDataCollectionClientOptionalParams
+    options?: GeneratedMonitorIngestionClientOptionalParams
   ) {
     super(credentials, endpoint, options);
   }
@@ -62,7 +62,8 @@ const uploadOperationSpec: coreClient.OperationSpec = {
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.GeneratedDataCollectionClientUploadExceptionHeaders
+      headersMapper:
+        Mappers.GeneratedMonitorIngestionClientUploadExceptionHeaders
     }
   },
   requestBody: Parameters.body,

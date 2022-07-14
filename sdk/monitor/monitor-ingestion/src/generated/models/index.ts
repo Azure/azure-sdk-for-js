@@ -57,8 +57,8 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Defines headers for GeneratedDataCollectionClient_upload operation. */
-export interface GeneratedDataCollectionClientUploadExceptionHeaders {
+/** Defines headers for GeneratedMonitorIngestionClient_upload operation. */
+export interface GeneratedMonitorIngestionClientUploadExceptionHeaders {
   /** A value that indicates the ingestion service error code. */
   xMsErrorCode?: string;
 }
@@ -72,7 +72,7 @@ export interface UploadOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Optional parameters. */
-export interface GeneratedDataCollectionClientOptionalParams
+export interface GeneratedMonitorIngestionClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;

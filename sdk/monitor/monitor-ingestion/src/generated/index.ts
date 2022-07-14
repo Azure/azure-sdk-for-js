@@ -7,5 +7,5 @@
  */
 
 export * from "./models";
-export { GeneratedDataCollectionClient } from "./generatedDataCollectionClient";
-export { GeneratedDataCollectionClientContext } from "./generatedDataCollectionClientContext";
+export { GeneratedMonitorIngestionClient } from "./generatedMonitorIngestionClient";
+export { GeneratedMonitorIngestionClientContext } from "./generatedMonitorIngestionClientContext";

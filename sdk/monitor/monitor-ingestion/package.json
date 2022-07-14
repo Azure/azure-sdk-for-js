@@ -11,7 +11,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedDataCollectionClientContext.ts",
+        "path": "src/generated/generatedMonitorIngestionClientContext.ts",
         "prefix": "packageDetails"
       },
       {

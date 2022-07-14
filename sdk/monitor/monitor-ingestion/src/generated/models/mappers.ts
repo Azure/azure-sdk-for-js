@@ -104,10 +104,10 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const GeneratedDataCollectionClientUploadExceptionHeaders: coreClient.CompositeMapper = {
+export const GeneratedMonitorIngestionClientUploadExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedDataCollectionClientUploadExceptionHeaders",
+    className: "GeneratedMonitorIngestionClientUploadExceptionHeaders",
     modelProperties: {
       xMsErrorCode: {
         serializedName: "x-ms-error-code",
