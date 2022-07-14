@@ -61,6 +61,7 @@ specifiers:
   '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
+  '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:./projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:./projects/arm-devspaces.tgz
@@ -350,6 +351,7 @@ dependencies:
   '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
+  '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:projects/arm-devspaces.tgz
@@ -3853,7 +3855,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220711
+      typescript: 4.8.0-dev.20220713
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8663,8 +8665,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220711:
-    resolution: {integrity: sha512-Nz1HlAkzZJ/OYZxqDEdoNV9GMq61xUss3JjveQqtdTiwhouLMa6D69C5K+P/fZD/hfrkMf/iqaF7xqVtX5KvPg==}
+  /typescript/4.8.0-dev.20220713:
+    resolution: {integrity: sha512-bgvBy+eVzJfxLvylV2rp4wK8+UO38/LJXjKZ95F0pOQZU/9BfGEaXmTk0Ar2gsTmq7ewzZ6iTeIbQuumR4jZLA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10953,6 +10955,30 @@ packages:
       - '@types/node'
       - encoding
       - supports-color
+    dev: false
+
+  file:projects/arm-devcenter.tgz:
+    resolution: {integrity: sha512-4qANh0XbxoEUkr7etASuwy3/wCzMAj6xXc81OzInVfXDjOCCU9geMWlrlp3lKN1+tcX9yowdjHvQepJiNg+CvQ==, tarball: file:projects/arm-devcenter.tgz}
+    name: '@rush-temp/arm-devcenter'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.76.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.2
+    transitivePeerDependencies:
+      - '@types/node'
     dev: false
 
   file:projects/arm-deviceprovisioningservices.tgz:
@@ -15141,7 +15167,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-IKe9R1HsE+DfwW/XeET5QryxhZhKTG0jKFe7nalx8fLRXvE0ZLSgFTekOXWlb0AdWid2fQ4QnK+kJc1hJWcrhw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-ogCKDnbP8OQA8XUr8szudiw3+MbWGrNX5uHd0a3X3EZuzFBJ2HGWCn+ohVXDw1MZxZulZx3I1bDqXKJwD4oTIQ==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -17295,7 +17321,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-XL5lnV88QFKc60QcmhJ8F6n85FefahO8qO1Xz1afTYdOiBE8RZRI8i8Nh9EjeDA9iJ6zikztntX+PzuLJMAleA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-yHc+LXkOeCVnmfa7QywdQvjPGVqFdVOjbjIm2djWCm8u4phrb5anFLNG/AKGAi6hku28fqUY+iekUF5ajz62Kw==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:

@@ -1755,6 +1755,11 @@
       "packageName": "@azure/api-management-custom-widgets-scaffolder",
       "projectFolder": "sdk/apimanagement/api-management-custom-widgets-scaffolder",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-devcenter",
+      "projectFolder": "sdk/devcenter/arm-devcenter",
+      "versionPolicyName": "management"
     }
   ]
 }
