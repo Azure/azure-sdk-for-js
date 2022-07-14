@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
 import {
-  ModelVersionData,
+  ModelVersion,
   ModelVersionsListNextOptionalParams,
   ModelVersionsListOptionalParams,
   ModelVersionsListResponse,
@@ -50,7 +50,7 @@ export class ModelVersionsImpl implements ModelVersions {
     workspaceName: string,
     name: string,
     options?: ModelVersionsListOptionalParams
-  ): PagedAsyncIterableIterator<ModelVersionData> {
+  ): PagedAsyncIterableIterator<ModelVersion> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
@@ -80,7 +80,7 @@ export class ModelVersionsImpl implements ModelVersions {
     workspaceName: string,
     name: string,
     options?: ModelVersionsListOptionalParams
-  ): AsyncIterableIterator<ModelVersionData[]> {
+  ): AsyncIterableIterator<ModelVersion[]> {
     let result = await this._list(
       resourceGroupName,
       workspaceName,
@@ -107,7 +107,7 @@ export class ModelVersionsImpl implements ModelVersions {
     workspaceName: string,
     name: string,
     options?: ModelVersionsListOptionalParams
-  ): AsyncIterableIterator<ModelVersionData> {
+  ): AsyncIterableIterator<ModelVersion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -193,7 +193,7 @@ export class ModelVersionsImpl implements ModelVersions {
     workspaceName: string,
     name: string,
     version: string,
-    body: ModelVersionData,
+    body: ModelVersion,
     options?: ModelVersionsCreateOrUpdateOptionalParams
   ): Promise<ModelVersionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -290,7 +290,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelVersionData
+      bodyMapper: Mappers.ModelVersion
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -314,10 +314,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelVersionData
+      bodyMapper: Mappers.ModelVersion
     },
     201: {
-      bodyMapper: Mappers.ModelVersionData
+      bodyMapper: Mappers.ModelVersion
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -9,12 +9,12 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  BatchEndpointData,
+  BatchEndpoint,
   BatchEndpointsListOptionalParams,
   BatchEndpointsDeleteOptionalParams,
   BatchEndpointsGetOptionalParams,
   BatchEndpointsGetResponse,
-  PartialBatchEndpointPartialTrackedResource,
+  PartialMinimalTrackedResourceWithIdentity,
   BatchEndpointsUpdateOptionalParams,
   BatchEndpointsUpdateResponse,
   BatchEndpointsCreateOrUpdateOptionalParams,
@@ -36,7 +36,7 @@ export interface BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     options?: BatchEndpointsListOptionalParams
-  ): PagedAsyncIterableIterator<BatchEndpointData>;
+  ): PagedAsyncIterableIterator<BatchEndpoint>;
   /**
    * Delete Batch Inference Endpoint (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -88,7 +88,7 @@ export interface BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    body: PartialBatchEndpointPartialTrackedResource,
+    body: PartialMinimalTrackedResourceWithIdentity,
     options?: BatchEndpointsUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -108,7 +108,7 @@ export interface BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    body: PartialBatchEndpointPartialTrackedResource,
+    body: PartialMinimalTrackedResourceWithIdentity,
     options?: BatchEndpointsUpdateOptionalParams
   ): Promise<BatchEndpointsUpdateResponse>;
   /**
@@ -123,7 +123,7 @@ export interface BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    body: BatchEndpointData,
+    body: BatchEndpoint,
     options?: BatchEndpointsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -143,7 +143,7 @@ export interface BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    body: BatchEndpointData,
+    body: BatchEndpoint,
     options?: BatchEndpointsCreateOrUpdateOptionalParams
   ): Promise<BatchEndpointsCreateOrUpdateResponse>;
   /**
