@@ -8,41 +8,135 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
-        "x-ms-client-request-id": "6d1256de-f2b3-4b53-9e38-3bbf5221af20"
+        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "a1ab3f60-80ea-453a-8747-c54e7cdb6d60"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "1769",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 01 Jul 2022 08:43:43 GMT",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Thu, 14 Jul 2022 06:18:54 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
+        "Server": "nginx",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "be3eeba8-2f91-4d35-ac3a-3a9cad0ad15c",
-        "x-ms-request-id": "be3eeba8-2f91-4d35-ac3a-3a9cad0ad15c",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T084344Z:be3eeba8-2f91-4d35-ac3a-3a9cad0ad15c"
+        "x-ms-correlation-request-id": "f1853476-74ee-40d7-9328-f8b82a8688f0",
+        "x-ms-ratelimit-remaining-subscription-reads": "11780",
+        "x-ms-request-id": "9aa5f669-5f71-45ee-a2bc-a8747aa09afd",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220714T061855Z:f1853476-74ee-40d7-9328-f8b82a8688f0"
       },
       "ResponseBody": {
         "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/managed_clustersxxyyzz",
+            "location": "eastus",
+            "name": "managed_clustersxxyyzz",
+            "type": "Microsoft.ContainerService/ManagedClusters",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "powerState": {
+                "code": "Running"
+              },
+              "kubernetesVersion": "1.22.6",
+              "currentKubernetesVersion": "1.22.6",
+              "dnsPrefix": "akspythonsdk",
+              "fqdn": "akspythonsdk-acfbbabc.hcp.eastus.azmk8s.io",
+              "azurePortalFQDN": "akspythonsdk-acfbbabc.portal.hcp.eastus.azmk8s.io",
+              "agentPoolProfiles": [
+                {
+                  "name": "aksagent",
+                  "count": 1,
+                  "vmSize": "Standard_DS2_v2",
+                  "osDiskSizeGB": 128,
+                  "osDiskType": "Managed",
+                  "maxPods": 110,
+                  "type": "VirtualMachineScaleSets",
+                  "maxCount": 100,
+                  "minCount": 1,
+                  "enableAutoScaling": true,
+                  "provisioningState": "Succeeded",
+                  "powerState": {
+                    "code": "Running"
+                  },
+                  "orchestratorVersion": "1.22.6",
+                  "currentOrchestratorVersion": "1.22.6",
+                  "mode": "System",
+                  "osType": "Linux",
+                  "osSKU": "Ubuntu",
+                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.22",
+                  "enableFIPS": false
+                }
+              ],
+              "servicePrincipalProfile": {
+                "clientId": "azure_client_id"
+              },
+              "nodeResourceGroup": "MC_myjstest_managed_clustersxxyyzz_eastus",
+              "enableRBAC": true,
+              "networkProfile": {
+                "networkPlugin": "kubenet",
+                "loadBalancerSku": "Standard",
+                "loadBalancerProfile": {
+                  "managedOutboundIPs": {
+                    "count": 1
+                  },
+                  "effectiveOutboundIPs": [
+                    {
+                      "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_managed_clustersxxyyzz_eastus/providers/Microsoft.Network/publicIPAddresses/902bc1cd-a823-434d-bda8-f99fe1d0ef4b"
+                    }
+                  ]
+                },
+                "podCidr": "10.244.0.0/16",
+                "serviceCidr": "10.0.0.0/16",
+                "dnsServiceIP": "10.0.0.10",
+                "dockerBridgeCidr": "172.17.0.1/16",
+                "outboundType": "loadBalancer"
+              },
+              "maxAgentPools": 100,
+              "securityProfile": {},
+              "storageProfile": {
+                "diskCSIDriver": {
+                  "enabled": true,
+                  "version": "v1"
+                },
+                "fileCSIDriver": {
+                  "enabled": true
+                },
+                "snapshotController": {
+                  "enabled": true
+                }
+              },
+              "oidcIssuerProfile": {
+                "enabled": false
+              },
+              "guardrailsProfile": {
+                "level": "Off"
+              }
+            },
+            "sku": {
+              "name": "Basic",
+              "tier": "Free"
+            }
+          },
           {
             "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
             "location": "eastus",
             "name": "myreourcexyz",
             "type": "Microsoft.ContainerService/ManagedClusters",
             "properties": {
-              "provisioningState": "Creating",
+              "provisioningState": "Succeeded",
               "powerState": {
                 "code": "Running"
               },
-              "kubernetesVersion": "1.22.6",
-              "currentKubernetesVersion": "1.22.6",
+              "kubernetesVersion": "1.22.11",
+              "currentKubernetesVersion": "1.22.11",
               "dnsPrefix": "aksjssdk",
-              "fqdn": "aksjssdk-a9ab484c.hcp.eastus.azmk8s.io",
-              "azurePortalFQDN": "aksjssdk-a9ab484c.portal.hcp.eastus.azmk8s.io",
+              "fqdn": "aksjssdk-f148c997.hcp.eastus.azmk8s.io",
+              "azurePortalFQDN": "aksjssdk-f148c997.portal.hcp.eastus.azmk8s.io",
               "agentPoolProfiles": [
                 {
                   "name": "aksagent",
@@ -56,16 +150,16 @@
                   "maxCount": 100,
                   "minCount": 1,
                   "enableAutoScaling": true,
-                  "provisioningState": "Creating",
+                  "provisioningState": "Succeeded",
                   "powerState": {
                     "code": "Running"
                   },
-                  "orchestratorVersion": "1.22.6",
-                  "currentOrchestratorVersion": "1.22.6",
+                  "orchestratorVersion": "1.22.11",
+                  "currentOrchestratorVersion": "1.22.11",
                   "mode": "System",
                   "osType": "Linux",
                   "osSKU": "Ubuntu",
-                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.13",
+                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.29",
                   "enableFIPS": false
                 }
               ],
@@ -76,11 +170,16 @@
               "enableRBAC": true,
               "networkProfile": {
                 "networkPlugin": "kubenet",
-                "loadBalancerSku": "standard",
+                "loadBalancerSku": "Standard",
                 "loadBalancerProfile": {
                   "managedOutboundIPs": {
                     "count": 1
-                  }
+                  },
+                  "effectiveOutboundIPs": [
+                    {
+                      "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/2f022f15-7cfd-4c96-82a6-63063145472d"
+                    }
+                  ]
                 },
                 "podCidr": "10.244.0.0/16",
                 "serviceCidr": "10.0.0.0/16",

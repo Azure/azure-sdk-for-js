@@ -33,7 +33,10 @@ export default function createClient(
   const client = getClient(
     baseUrl,
     credentials,
-    options
+    {
+      ...options,
+      keepApiVersionInUrl: true
+    } as ClientOptions
   ) as ContainerServiceClient;
 
   return client;

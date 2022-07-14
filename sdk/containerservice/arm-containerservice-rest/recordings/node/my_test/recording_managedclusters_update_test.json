@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "39",
         "Content-Type": "application/json; charset=UTF-8",
-        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
-        "x-ms-client-request-id": "03ed81ad-c6a4-4c48-822b-b93e46e9b37f"
+        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "7e976d84-ecd2-4407-9b12-f7d002f80b60"
       },
       "RequestBody": {
         "tags": {
@@ -22,18 +22,20 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "2326",
+        "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Fri, 01 Jul 2022 08:43:54 GMT",
+        "Date": "Thu, 14 Jul 2022 03:59:23 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "f972760c-6c40-4893-aaa3-08926c6c99ca",
+        "x-ms-correlation-request-id": "b6305185-f696-4cba-ace4-fa3c2b13d91e",
         "x-ms-ratelimit-remaining-subscription-writes": "1198",
-        "x-ms-request-id": "691c6945-a121-4d55-a93c-c733cffab7d8",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T084355Z:f972760c-6c40-4893-aaa3-08926c6c99ca"
+        "x-ms-request-id": "4550028b-e580-426a-bea5-6d78a434ea9d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220714T035924Z:b6305185-f696-4cba-ace4-fa3c2b13d91e"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
@@ -45,15 +47,15 @@
         },
         "type": "Microsoft.ContainerService/ManagedClusters",
         "properties": {
-          "provisioningState": "Creating",
+          "provisioningState": "Succeeded",
           "powerState": {
             "code": "Running"
           },
-          "kubernetesVersion": "1.22.6",
-          "currentKubernetesVersion": "1.22.6",
+          "kubernetesVersion": "1.22.11",
+          "currentKubernetesVersion": "1.22.11",
           "dnsPrefix": "aksjssdk",
-          "fqdn": "aksjssdk-a9ab484c.hcp.eastus.azmk8s.io",
-          "azurePortalFQDN": "aksjssdk-a9ab484c.portal.hcp.eastus.azmk8s.io",
+          "fqdn": "aksjssdk-7c9749c7.hcp.eastus.azmk8s.io",
+          "azurePortalFQDN": "aksjssdk-7c9749c7.portal.hcp.eastus.azmk8s.io",
           "agentPoolProfiles": [
             {
               "name": "aksagent",
@@ -67,16 +69,16 @@
               "maxCount": 100,
               "minCount": 1,
               "enableAutoScaling": true,
-              "provisioningState": "Creating",
+              "provisioningState": "Succeeded",
               "powerState": {
                 "code": "Running"
               },
-              "orchestratorVersion": "1.22.6",
-              "currentOrchestratorVersion": "1.22.6",
+              "orchestratorVersion": "1.22.11",
+              "currentOrchestratorVersion": "1.22.11",
               "mode": "System",
               "osType": "Linux",
               "osSKU": "Ubuntu",
-              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.13",
+              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.29",
               "enableFIPS": false
             }
           ],
@@ -87,11 +89,16 @@
           "enableRBAC": true,
           "networkProfile": {
             "networkPlugin": "kubenet",
-            "loadBalancerSku": "standard",
+            "loadBalancerSku": "Standard",
             "loadBalancerProfile": {
               "managedOutboundIPs": {
                 "count": 1
-              }
+              },
+              "effectiveOutboundIPs": [
+                {
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/183af79d-9ae9-4634-99de-cda7b124835b"
+                }
+              ]
             },
             "podCidr": "10.244.0.0/16",
             "serviceCidr": "10.0.0.0/16",

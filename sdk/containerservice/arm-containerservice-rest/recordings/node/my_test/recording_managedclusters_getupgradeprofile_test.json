@@ -8,25 +8,27 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
-        "x-ms-client-request-id": "10b4eaa9-377f-4abc-ac0f-41e4add305e7"
+        "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "61b4849c-9a3d-4aec-8847-0dbb18e922f1"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "527",
+        "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Fri, 01 Jul 2022 08:43:42 GMT",
+        "Date": "Thu, 14 Jul 2022 06:18:52 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ef888741-bfb0-4e47-91b0-b600b4bc3650",
-        "x-ms-ratelimit-remaining-subscription-reads": "11997",
-        "x-ms-request-id": "d8bac6fb-750e-477b-a923-757d614f4e2e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220701T084343Z:ef888741-bfb0-4e47-91b0-b600b4bc3650"
+        "x-ms-correlation-request-id": "cd2a574b-1bdf-42c0-9f0a-d571752e36a1",
+        "x-ms-ratelimit-remaining-subscription-reads": "11781",
+        "x-ms-request-id": "e677b614-f58d-4891-b781-cffb669056ad",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220714T061853Z:cd2a574b-1bdf-42c0-9f0a-d571752e36a1"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeprofiles/default",
@@ -34,14 +36,14 @@
         "type": "Microsoft.ContainerService/managedClusters/upgradeprofiles",
         "properties": {
           "controlPlaneProfile": {
-            "kubernetesVersion": "1.22.6",
+            "kubernetesVersion": "1.22.11",
             "osType": "Linux",
             "upgrades": [
               {
-                "kubernetesVersion": "1.23.3"
+                "kubernetesVersion": "1.23.5"
               },
               {
-                "kubernetesVersion": "1.23.5"
+                "kubernetesVersion": "1.23.8"
               }
             ]
           },
