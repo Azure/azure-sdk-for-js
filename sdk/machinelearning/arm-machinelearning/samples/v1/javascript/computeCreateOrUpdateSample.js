@@ -26,11 +26,19 @@ async function attachAKubernetesCompute() {
     location: "eastus",
     properties: {
       description: "some compute",
-      computeType: "SynapseSpark",
+      computeType: "Kubernetes",
       properties: {
-        subscriptionId: subscriptionId,
-        resourceGroup: resourceGroupName,
-        workspaceName: workspaceName,
+        defaultInstanceType: "defaultInstanceType",
+        instanceTypes: {
+          defaultInstanceType: {
+            nodeSelector: {},
+            resources: {
+              limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" },
+              requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" },
+            },
+          },
+        },
+        namespace: "default",
       },
       resourceId:
         "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2",
