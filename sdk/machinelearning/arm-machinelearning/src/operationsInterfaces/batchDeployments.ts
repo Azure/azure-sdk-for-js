@@ -9,12 +9,12 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  BatchDeploymentData,
+  BatchDeployment,
   BatchDeploymentsListOptionalParams,
   BatchDeploymentsDeleteOptionalParams,
   BatchDeploymentsGetOptionalParams,
   BatchDeploymentsGetResponse,
-  PartialBatchDeploymentPartialTrackedResource,
+  PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
   BatchDeploymentsUpdateOptionalParams,
   BatchDeploymentsUpdateResponse,
   BatchDeploymentsCreateOrUpdateOptionalParams,
@@ -36,7 +36,7 @@ export interface BatchDeployments {
     workspaceName: string,
     endpointName: string,
     options?: BatchDeploymentsListOptionalParams
-  ): PagedAsyncIterableIterator<BatchDeploymentData>;
+  ): PagedAsyncIterableIterator<BatchDeployment>;
   /**
    * Delete Batch Inference deployment (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -96,7 +96,7 @@ export interface BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: PartialBatchDeploymentPartialTrackedResource,
+    body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
     options?: BatchDeploymentsUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -118,7 +118,7 @@ export interface BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: PartialBatchDeploymentPartialTrackedResource,
+    body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
     options?: BatchDeploymentsUpdateOptionalParams
   ): Promise<BatchDeploymentsUpdateResponse>;
   /**
@@ -135,7 +135,7 @@ export interface BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: BatchDeploymentData,
+    body: BatchDeployment,
     options?: BatchDeploymentsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -157,7 +157,7 @@ export interface BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: BatchDeploymentData,
+    body: BatchDeployment,
     options?: BatchDeploymentsCreateOrUpdateOptionalParams
   ): Promise<BatchDeploymentsCreateOrUpdateResponse>;
 }
