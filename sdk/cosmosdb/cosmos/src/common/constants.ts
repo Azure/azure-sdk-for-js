@@ -184,7 +184,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "3.16.3",
+  SDKVersion: "3.16.4",
 
   Quota: {
     CollectionSize: "collectionSize",
