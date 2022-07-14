@@ -215,6 +215,12 @@ export type ClientOptions = PipelineOptions & {
    * Specify a custom HttpClient when making requests.
    */
   httpClient?: HttpClient;
+  /**
+   * According to the guideline we should always use the client api-version - https://azure.github.io/azure-sdk/general_design.html#general-service-apiversion-7
+   * However some services will be broken if we override the existing api-version
+   * For backward compatibility we provide an option for them to ensure their call could be handled correctly
+   */
+  keepApiVersionInUrl?: boolean;
 };
 
 /**
