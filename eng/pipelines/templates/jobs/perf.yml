@@ -26,3 +26,22 @@ parameters:
   - name: additionalArguments
     type: string
     default: ''
+
+extends:
+  template: /eng/common/pipelines/templates/jobs/perf.yml
+  parameters:
+    variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
+    operatingSystems: ${{ parameters.operatingSystems }}
+    language: JS
+    installLanguageSteps:
+      - template: /eng/pipelines/templates/steps/use-node-version.yml
+        parameters:
+          NodeVersion: 14.x
+    serviceDirectory: ${{ parameters.serviceDirectory }}
+    services: ${{ parameters.services }}
+    packageVersions: ${{ parameters.packageVersions }}
+    tests: ${{ parameters.tests }}
+    arguments: ${{ parameters.arguments }}
+    iterations: ${{ parameters.iterations }}
+    additionalArguments: ${{ parameters.additionalArguments }}
