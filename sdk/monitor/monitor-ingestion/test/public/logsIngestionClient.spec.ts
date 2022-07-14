@@ -151,7 +151,7 @@ export function getObjects(logsCount: number): LogData[] {
  * The data fields should match the column names exactly even with the
  * captilization in order for the data to show up in the logs
  */
-export interface LogData {
+export type LogData = {
   Time: Date;
   Computer?: string;
   AdditionalContext: string;

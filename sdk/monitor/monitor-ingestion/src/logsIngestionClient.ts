@@ -59,7 +59,7 @@ export class LogsIngestionClient {
   async upload(
     ruleId: string,
     streamName: string,
-    logs: Record<string, any>[],
+    logs: Record<string, unknown>[],
     options?: UploadOptions
   ): Promise<UploadResult> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
