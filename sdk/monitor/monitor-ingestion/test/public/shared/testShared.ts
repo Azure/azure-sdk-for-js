@@ -61,7 +61,7 @@ export function getDcrId(): string {
   return assertEnvironmentVariable("DATA_COLLECTION_RULE_ID");
 }
 
-export function splitDataToChunks(logs: Record<string, any>[]): any[] {
+export function splitDataToChunks(logs: Record<string, unknown>[]): any[] {
   let chunk: any[] = [];
   const chunkArray: any[] = [];
   let size = 0;

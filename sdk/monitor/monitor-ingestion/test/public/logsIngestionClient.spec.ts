@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LogsIngestionClient } from "../../src/logsIngestionClient";
+import { LogsIngestionClient } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import * as dotenv from "dotenv";
@@ -16,7 +16,7 @@ import {
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { UploadStatus } from "../../src/models";
+import { UploadStatus } from "../../src";
 dotenv.config();
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {

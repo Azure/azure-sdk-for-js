@@ -6,7 +6,8 @@ import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedDataCollectionClient } from "./generated";
 import { UploadLogsError, UploadOptions, UploadResult, UploadStatus } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
-import { asyncPool } from "./concurrentPoolHelper";
+import { asyncPool } from "./utils/concurrentPoolHelper";
+import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
 
 /**
  * Options for Montior Logs Ingestion Client
@@ -65,7 +66,7 @@ export class LogsIngestionClient {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks
-    const chunkArray: any[] = this.splitDataToChunks(logs);
+    const chunkArray: any[] = splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
     let concurrency = 1;
     if (options?.maxConcurrency && options?.maxConcurrency > 1) {
@@ -113,33 +114,5 @@ export class LogsIngestionClient {
       }
       return uploadResult;
     }
-  }
-
-  /**
-   * @internal
-   */
-  private splitDataToChunks(logs: Record<string, any>[]): any[] {
-    let chunk: any[] = [];
-    const chunkArray: any[] = [];
-    let size = 0;
-    const maxBytes = 1000000;
-    for (const element of logs) {
-      const elementSize = JSON.stringify(element).length * 4;
-
-      if (size + elementSize < maxBytes) {
-        chunk.push(element);
-        size += elementSize;
-      } else {
-        chunkArray.push(chunk);
-        chunk = [element];
-        size = elementSize;
-      }
-    }
-
-    if (chunk.length) {
-      chunkArray.push(chunk);
-    }
-
-    return chunkArray;
   }
 }
