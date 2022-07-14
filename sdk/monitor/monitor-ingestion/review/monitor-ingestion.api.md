@@ -7,17 +7,10 @@
 import { CommonClientOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
-export class FailedLogsIngestionError extends Error {
-    constructor(message: string, errors: Array<UploadLogsError>);
-    // (undocumented)
-    errors: Array<UploadLogsError>;
-}
-
 // @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
-    upload(ruleId: string, streamName: string, logs: Record<string, any>[], options?: UploadOptions): Promise<UploadResult>;
+    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: UploadOptions): Promise<UploadResult>;
 }
 
 // @public
@@ -25,7 +18,7 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
     apiVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UploadLogsError {
     failedLogs: Record<string, unknown>[];
     responseError: Error;
@@ -37,16 +30,18 @@ export interface UploadOptions {
 }
 
 // @public
-export interface UploadResult {
+export type UploadResult = {
     errors: Array<UploadLogsError>;
-    uploadStatus: UploadStatus;
-}
+    uploadStatus: UploadStatus.Failure | UploadStatus.PartialFailure;
+} | {
+    uploadStatus: UploadStatus.Success;
+};
 
 // @public
-export type UploadStatus =
-/** Represents Partial Failure scenario where partial logs have failed for processing and the list of indices is returned for the logs failed */
-"PartialFailure"
-/** Represents Success scenario where all logs have succeeded and no index is returned */
-| "Success";
+export enum UploadStatus {
+    Failure = "Failure",
+    PartialFailure = "PartialFailure",
+    Success = "Success"
+}
 
 ```
