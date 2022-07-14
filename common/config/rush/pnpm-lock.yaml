@@ -121,6 +121,7 @@ specifiers:
   '@rush-temp/arm-netapp': file:./projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkfunction': file:./projects/arm-networkfunction.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
@@ -411,6 +412,7 @@ dependencies:
   '@rush-temp/arm-netapp': file:projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkfunction': file:projects/arm-networkfunction.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
@@ -11978,7 +11980,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-Io2NKJw3oQQPeqxi9w0HiEHG8sPHudfTLFGKNGSeRGzQiZxeD7C4KnZeaL2u8GDQxEKP2k8BO+Xomd8NBhV+kw==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-VORk+2JG0lQfnNfLbpGMDHuI8WlwbHbvOZl3UDUmflkyhIjJ5HzJ3moUEJ3HpPK1iQ/5Z/FiyAA9FuTHeplCnQ==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -12002,8 +12004,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-machinelearningcompute.tgz:
@@ -12557,6 +12557,32 @@ packages:
       - '@types/node'
       - encoding
       - supports-color
+    dev: false
+
+  file:projects/arm-networkfunction.tgz:
+    resolution: {integrity: sha512-0mb3qj6V0dgWWTIkRCsCI1oWsE1My/YTtYtHczCKl2Do3M/yUDmuLmTgk7m0G1wOZNMX3n8aMfJabAI5Dhk3+A==, tarball: file:projects/arm-networkfunction.tgz}
+    name: '@rush-temp/arm-networkfunction'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.76.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.2
+    transitivePeerDependencies:
+      - '@types/node'
     dev: false
 
   file:projects/arm-notificationhubs.tgz:
@@ -13384,13 +13410,13 @@ packages:
     dev: false
 
   file:projects/arm-scvmm.tgz:
-    resolution: {integrity: sha512-IGJMqRv/7ERUUcV/pL7XWTza0sVWIN7jIdvOPsX4kxf71ryvcF9pjJLBQvq2fnxWLpzDMpnxFycI5od/fqL+ew==, tarball: file:projects/arm-scvmm.tgz}
+    resolution: {integrity: sha512-pPMaUpO14RdbO7XOyvXwaQZNCYIB0ComeA9PohNQsrtbVxsoE/JrD4qFudBuTNclONThewWd4f4yhQOrCZ41Tg==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
-      '@microsoft/api-extractor': 7.28.4
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
@@ -13408,8 +13434,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-search.tgz:
