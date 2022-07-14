@@ -899,19 +899,20 @@ export interface InventoryItemDetails {
 }
 
 /** The Cloud inventory item. */
-export type CloudInventoryItem = InventoryItemProperties & {
+export interface CloudInventoryItem extends InventoryItemProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   inventoryType: "Cloud";
-};
+}
 
 /** The Virtual network inventory item. */
-export type VirtualNetworkInventoryItem = InventoryItemProperties & {
+export interface VirtualNetworkInventoryItem extends InventoryItemProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   inventoryType: "VirtualNetwork";
-};
+}
 
 /** The Virtual machine template inventory item. */
-export type VirtualMachineTemplateInventoryItem = InventoryItemProperties & {
+export interface VirtualMachineTemplateInventoryItem
+  extends InventoryItemProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   inventoryType: "VirtualMachineTemplate";
   /**
@@ -934,10 +935,10 @@ export type VirtualMachineTemplateInventoryItem = InventoryItemProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osName?: string;
-};
+}
 
 /** The Virtual machine inventory item. */
-export type VirtualMachineInventoryItem = InventoryItemProperties & {
+export interface VirtualMachineInventoryItem extends InventoryItemProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   inventoryType: "VirtualMachine";
   /**
@@ -959,13 +960,13 @@ export type VirtualMachineInventoryItem = InventoryItemProperties & {
   ipAddresses?: string[];
   /** Cloud inventory resource details where the VM is present. */
   cloud?: InventoryItemDetails;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Defines the inventory item. */
-export type InventoryItem = ProxyResource & {
+export interface InventoryItem extends ProxyResource {
   /**
    * The system data.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -995,7 +996,7 @@ export type InventoryItem = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Defines headers for AvailabilitySets_createOrUpdate operation. */
 export interface AvailabilitySetsCreateOrUpdateHeaders {
@@ -1011,9 +1012,13 @@ export interface AvailabilitySetsDeleteHeaders {
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1031,8 +1036,11 @@ export type CreatedByType = string;
 
 /** Known values of {@link OsType} that the service accepts. */
 export enum KnownOsType {
+  /** Windows */
   Windows = "Windows",
+  /** Linux */
   Linux = "Linux",
+  /** Other */
   Other = "Other"
 }
 
@@ -1049,7 +1057,9 @@ export type OsType = string;
 
 /** Known values of {@link LimitCpuForMigration} that the service accepts. */
 export enum KnownLimitCpuForMigration {
+  /** False */
   False = "false",
+  /** True */
   True = "true"
 }
 
@@ -1065,7 +1075,9 @@ export type LimitCpuForMigration = string;
 
 /** Known values of {@link DynamicMemoryEnabled} that the service accepts. */
 export enum KnownDynamicMemoryEnabled {
+  /** False */
   False = "false",
+  /** True */
   True = "true"
 }
 
@@ -1081,7 +1093,9 @@ export type DynamicMemoryEnabled = string;
 
 /** Known values of {@link AllocationMethod} that the service accepts. */
 export enum KnownAllocationMethod {
+  /** Dynamic */
   Dynamic = "Dynamic",
+  /** Static */
   Static = "Static"
 }
 
@@ -1097,7 +1111,9 @@ export type AllocationMethod = string;
 
 /** Known values of {@link CreateDiffDisk} that the service accepts. */
 export enum KnownCreateDiffDisk {
+  /** False */
   False = "false",
+  /** True */
   True = "true"
 }
 
@@ -1113,7 +1129,9 @@ export type CreateDiffDisk = string;
 
 /** Known values of {@link IsCustomizable} that the service accepts. */
 export enum KnownIsCustomizable {
+  /** False */
   False = "false",
+  /** True */
   True = "true"
 }
 
@@ -1129,9 +1147,13 @@ export type IsCustomizable = string;
 
 /** Known values of {@link InventoryType} that the service accepts. */
 export enum KnownInventoryType {
+  /** Cloud */
   Cloud = "Cloud",
+  /** VirtualNetwork */
   VirtualNetwork = "VirtualNetwork",
+  /** VirtualMachineTemplate */
   VirtualMachineTemplate = "VirtualMachineTemplate",
+  /** VirtualMachine */
   VirtualMachine = "VirtualMachine"
 }
 
