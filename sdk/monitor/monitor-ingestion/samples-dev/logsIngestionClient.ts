@@ -9,7 +9,7 @@ dotenv.config();
 
 export async function main() {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
-  const dcrId = process.env.IMMUTABLE_ID || "immutable_dcr_id";
+  const dcrId = process.env.DATA_COLLECTION_RULE_ID || "immutable_dcr_id";
   const credential = new DefaultAzureCredential();
   const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
   const result = await client.upload(dcrId, "Custom-MyTableRawData", getObjects(10000), {

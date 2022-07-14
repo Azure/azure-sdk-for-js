@@ -19,7 +19,7 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   LOGS_INGESTION_ENDPOINT:
     "https://thisurl-logsingestion-somethinglocation123abcrd.monitor.azure.com",
-  IMMUTABLE_ID: "dcr-abcdefghijklmnopqrstuvwxyztyuiop",
+  DATA_COLLECTION_RULE_ID: "dcr-abcdefghijklmnopqrstuvwxyztyuiop",
 };
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
@@ -58,7 +58,7 @@ export function getLogsIngestionEndpoint(): string {
 }
 
 export function getDcrId(): string {
-  return assertEnvironmentVariable("IMMUTABLE_ID");
+  return assertEnvironmentVariable("DATA_COLLECTION_RULE_ID");
 }
 
 export function splitDataToChunks(logs: Record<string, any>[]): any[] {

@@ -50,7 +50,7 @@ module.exports = function (config) {
     envPreprocessor: [
       "TEST_MODE",
       "LOGS_INGESTION_ENDPOINT",
-      "IMMUTABLE_ID",
+      "DATA_COLLECTION_RULE_ID",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
