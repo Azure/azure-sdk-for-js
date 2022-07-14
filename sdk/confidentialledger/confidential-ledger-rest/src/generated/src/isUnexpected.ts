@@ -4,16 +4,16 @@
 import {
   GetConstitution200Response,
   GetConstitutiondefaultResponse,
-  GetConsortiumMembers200Response,
-  GetConsortiumMembersdefaultResponse,
+  ListConsortiumMembers200Response,
+  ListConsortiumMembersdefaultResponse,
   GetEnclaveQuotes200Response,
   GetEnclaveQuotesdefaultResponse,
   ListCollections200Response,
   ListCollectionsdefaultResponse,
   ListLedgerEntries200Response,
   ListLedgerEntriesdefaultResponse,
-  PostLedgerEntry200Response,
-  PostLedgerEntrydefaultResponse,
+  CreateLedgerEntry200Response,
+  CreateLedgerEntrydefaultResponse,
   GetLedgerEntry200Response,
   GetLedgerEntrydefaultResponse,
   GetReceipt200Response,
@@ -51,9 +51,9 @@ export function isUnexpected(
 ): response is GetConstitutiondefaultResponse;
 export function isUnexpected(
   response:
-    | GetConsortiumMembers200Response
-    | GetConsortiumMembersdefaultResponse
-): response is GetConsortiumMembersdefaultResponse;
+    | ListConsortiumMembers200Response
+    | ListConsortiumMembersdefaultResponse
+): response is ListConsortiumMembersdefaultResponse;
 export function isUnexpected(
   response: GetEnclaveQuotes200Response | GetEnclaveQuotesdefaultResponse
 ): response is GetEnclaveQuotesdefaultResponse;
@@ -64,8 +64,8 @@ export function isUnexpected(
   response: ListLedgerEntries200Response | ListLedgerEntriesdefaultResponse
 ): response is ListLedgerEntriesdefaultResponse;
 export function isUnexpected(
-  response: PostLedgerEntry200Response | PostLedgerEntrydefaultResponse
-): response is PostLedgerEntrydefaultResponse;
+  response: CreateLedgerEntry200Response | CreateLedgerEntrydefaultResponse
+): response is CreateLedgerEntrydefaultResponse;
 export function isUnexpected(
   response: GetLedgerEntry200Response | GetLedgerEntrydefaultResponse
 ): response is GetLedgerEntrydefaultResponse;
@@ -95,16 +95,16 @@ export function isUnexpected(
   response:
     | GetConstitution200Response
     | GetConstitutiondefaultResponse
-    | GetConsortiumMembers200Response
-    | GetConsortiumMembersdefaultResponse
+    | ListConsortiumMembers200Response
+    | ListConsortiumMembersdefaultResponse
     | GetEnclaveQuotes200Response
     | GetEnclaveQuotesdefaultResponse
     | ListCollections200Response
     | ListCollectionsdefaultResponse
     | ListLedgerEntries200Response
     | ListLedgerEntriesdefaultResponse
-    | PostLedgerEntry200Response
-    | PostLedgerEntrydefaultResponse
+    | CreateLedgerEntry200Response
+    | CreateLedgerEntrydefaultResponse
     | GetLedgerEntry200Response
     | GetLedgerEntrydefaultResponse
     | GetReceipt200Response
@@ -121,11 +121,11 @@ export function isUnexpected(
     | CreateOrUpdateUserdefaultResponse
 ): response is
   | GetConstitutiondefaultResponse
-  | GetConsortiumMembersdefaultResponse
+  | ListConsortiumMembersdefaultResponse
   | GetEnclaveQuotesdefaultResponse
   | ListCollectionsdefaultResponse
   | ListLedgerEntriesdefaultResponse
-  | PostLedgerEntrydefaultResponse
+  | CreateLedgerEntrydefaultResponse
   | GetLedgerEntrydefaultResponse
   | GetReceiptdefaultResponse
   | GetTransactionStatusdefaultResponse
