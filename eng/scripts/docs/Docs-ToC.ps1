@@ -76,7 +76,7 @@ function Get-javascript-PackageLevelReadme($packageMetadata)
 }
 
 function Get-javascript-DocsMsTocData($packageMetadata, $docRepoLocation) {
-  $packageLevelReadmeName = Get-javascript-PackageLevelReadme -packageMetadata $packageMetadata
+  $packageLevelReadmeName = GetPackageReadmeName -packageMetadata $packageMetadata
   $output = [PSCustomObject]@{
     PackageLevelReadmeHref = "~/docs-ref-services/{moniker}/$packageLevelReadmeName-readme.md"
     PackageTocHeader       = $packageTocHeader
