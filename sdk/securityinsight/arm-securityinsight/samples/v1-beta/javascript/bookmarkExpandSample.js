@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Expand an bookmark
  *
  * @summary Expand an bookmark
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/bookmarks/expand/PostExpandBookmark.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/bookmarks/expand/PostExpandBookmark.json
  */
 async function expandAnBookmark() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

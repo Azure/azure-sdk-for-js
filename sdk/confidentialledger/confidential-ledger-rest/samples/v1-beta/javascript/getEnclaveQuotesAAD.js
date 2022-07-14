@@ -24,7 +24,7 @@ async function main() {
   // Create the Confidential Ledger Client
   const confidentialLedger = ConfidentialLedger(
     endpoint,
-    ledgerIdentity.ledgerTlsCertificate,
+    ledgerIdentity.ledgerIdentityCertificate,
     new DefaultAzureCredential()
   );
 

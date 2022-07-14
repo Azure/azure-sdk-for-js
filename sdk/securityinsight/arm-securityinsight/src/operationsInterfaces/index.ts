@@ -27,6 +27,7 @@ export * from "./incidentRelations";
 export * from "./metadata";
 export * from "./officeConsents";
 export * from "./sentinelOnboardingStates";
+export * from "./securityMLAnalyticsSettings";
 export * from "./productSettings";
 export * from "./sourceControlOperations";
 export * from "./sourceControls";
