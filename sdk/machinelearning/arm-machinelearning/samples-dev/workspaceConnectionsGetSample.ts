@@ -12,10 +12,10 @@ import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Get the detail of a workspace connection.
+ * This sample demonstrates how to
  *
- * @summary Get the detail of a workspace connection.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/WorkspaceConnection/get.json
+ * @summary
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/WorkspaceConnection/get.json
  */
 async function getWorkspaceConnection() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

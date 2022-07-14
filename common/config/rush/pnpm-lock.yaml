@@ -11968,7 +11968,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-Io2NKJw3oQQPeqxi9w0HiEHG8sPHudfTLFGKNGSeRGzQiZxeD7C4KnZeaL2u8GDQxEKP2k8BO+Xomd8NBhV+kw==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-VORk+2JG0lQfnNfLbpGMDHuI8WlwbHbvOZl3UDUmflkyhIjJ5HzJ3moUEJ3HpPK1iQ/5Z/FiyAA9FuTHeplCnQ==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -11979,6 +11979,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11990,8 +11992,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-machinelearningcompute.tgz:
