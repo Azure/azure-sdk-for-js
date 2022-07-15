@@ -25,7 +25,6 @@ describe("getClient", () => {
         return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
       });
 
-      // case 1: keepApiVersionInUrl is undefined;
       const apiVersion = "2021-11-18";
       let client = getClient("https://example.org", { apiVersion });
       let validationPolicy: PipelinePolicy = {
@@ -36,18 +35,6 @@ describe("getClient", () => {
         },
       };
 
-      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
-      await client.pathUnchecked("/foo").get();
-      // case 2: keepApiVersionInUrl = true;
-      const keepApiVersionInUrl = true;
-      client = getClient("https://example.org", { apiVersion, keepApiVersionInUrl });
-      validationPolicy = {
-        name: "validationPolicy",
-        sendRequest: (req, next) => {
-          assert.include(req.url, `api-version=${apiVersion}`);
-          return next(req);
-        },
-      };
       client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
       await client.pathUnchecked("/foo").get();
     });
@@ -65,32 +52,6 @@ describe("getClient", () => {
         sendRequest: (req, next) => {
           assert.include(req.url, `api-version=${apiVersion}`);
           assert.notInclude(req.url, "api-version=1233321");
-          return next(req);
-        },
-      };
-
-      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
-
-      await client.pathUnchecked("/foo").get();
-    });
-
-    it("should not replace existing apiVersion if keepApiVersionInUrl is truthy", async () => {
-      const defaultHttpClient = getCachedDefaultHttpsClient();
-      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
-        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
-      });
-
-      const apiVersion = "2021-11-18",
-        keepApiVersionInUrl = true;
-      const client = getClient("https://example.org?api-version=2017-08-01", {
-        apiVersion,
-        keepApiVersionInUrl,
-      });
-      const validationPolicy: PipelinePolicy = {
-        name: "validationPolicy",
-        sendRequest: (req, next) => {
-          assert.notInclude(req.url, `api-version=${apiVersion}`);
-          assert.include(req.url, "api-version=2017-08-01");
           return next(req);
         },
       };

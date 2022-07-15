@@ -47,7 +47,6 @@ export type ClientOptions = PipelineOptions & {
     allowInsecureConnection?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
-    keepApiVersionInUrl?: boolean;
 };
 
 // @public
