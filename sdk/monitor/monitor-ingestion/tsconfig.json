@@ -4,8 +4,11 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/data-collection": ["./src/index"]
-    }
+      "@azure/monitor-ingestion": ["./src/index"]
+    },
+    "lib": [
+     "DOM" 
+    ]
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

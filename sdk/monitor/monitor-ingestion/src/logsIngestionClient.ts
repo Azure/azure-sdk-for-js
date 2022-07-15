@@ -88,7 +88,6 @@ export class LogsIngestionClient {
       }
     });
 
-
     if (uploadResultErrors.length === 0) {
       return uploadResult;
     } else if (uploadResultErrors.length < noOfChunks && uploadResultErrors.length > 0) {

@@ -12,7 +12,7 @@
         "Content-Length": "1547",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-monitor-ingestion/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "9870032a-75db-4562-b508-af874a7c2d7f"
+        "x-ms-client-request-id": "9e338491-85bc-44f8-879b-edef63f7032a"
       },
       "RequestBody": [
         "\u001F\uFFFD\b\u0000\u0000\u0000\u0000\u0000\u0000\n",
@@ -21,10 +21,10 @@
       ],
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Thu, 14 Jul 2022 23:47:01 GMT",
+        "Date": "Fri, 15 Jul 2022 21:32:39 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
-        "x-ms-client-request-id": "9870032a-75db-4562-b508-af874a7c2d7f",
-        "x-ms-request-id": "e0eecb63-75cd-4988-a4f2-fc04fe7b2fb0"
+        "x-ms-client-request-id": "9e338491-85bc-44f8-879b-edef63f7032a",
+        "x-ms-request-id": "a60c16a5-ba07-4e29-9f3f-76e8cfaa14d0"
       },
       "ResponseBody": null
     },
@@ -40,7 +40,7 @@
         "Content-Length": "1547",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-monitor-ingestion/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "78768d63-aa7c-4edc-a069-96740566729e"
+        "x-ms-client-request-id": "70d53487-0205-4962-8002-348c0039c7b7"
       },
       "RequestBody": [
         "\u001F\uFFFD\b\u0000\u0000\u0000\u0000\u0000\u0000\n",
@@ -49,10 +49,10 @@
       ],
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Thu, 14 Jul 2022 23:47:01 GMT",
+        "Date": "Fri, 15 Jul 2022 21:32:40 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
-        "x-ms-client-request-id": "78768d63-aa7c-4edc-a069-96740566729e",
-        "x-ms-request-id": "c45ee53c-3365-414a-8bd8-02d98cf0507a"
+        "x-ms-client-request-id": "70d53487-0205-4962-8002-348c0039c7b7",
+        "x-ms-request-id": "3f02961a-1e55-4835-be98-c671bf15a837"
       },
       "ResponseBody": null
     },
@@ -68,7 +68,7 @@
         "Content-Length": "515",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-monitor-ingestion/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "ea0f91dd-31be-4359-a77c-75167a368772"
+        "x-ms-client-request-id": "13963334-1e34-436a-95e7-bde82c61f2be"
       },
       "RequestBody": [
         "\u001F\uFFFD\b\u0000\u0000\u0000\u0000\u0000\u0000\n",
@@ -78,10 +78,10 @@
       ],
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Thu, 14 Jul 2022 23:47:02 GMT",
+        "Date": "Fri, 15 Jul 2022 21:32:40 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
-        "x-ms-client-request-id": "ea0f91dd-31be-4359-a77c-75167a368772",
-        "x-ms-request-id": "84259f59-aefe-40bd-80dd-3b2f0645b718"
+        "x-ms-client-request-id": "13963334-1e34-436a-95e7-bde82c61f2be",
+        "x-ms-request-id": "ef3c6721-ac1c-42c7-ba24-95c309979d81"
       },
       "ResponseBody": null
     },
@@ -97,7 +97,7 @@
         "Content-Length": "1547",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-monitor-ingestion/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "ddbd9722-8fd3-42d1-916e-4f3c97e2e420"
+        "x-ms-client-request-id": "d724b327-2454-4c2e-a0f8-baaf5395036a"
       },
       "RequestBody": [
         "\u001F\uFFFD\b\u0000\u0000\u0000\u0000\u0000\u0000\n",
@@ -106,10 +106,10 @@
       ],
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Thu, 14 Jul 2022 23:47:22 GMT",
+        "Date": "Fri, 15 Jul 2022 21:32:42 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
-        "x-ms-client-request-id": "ddbd9722-8fd3-42d1-916e-4f3c97e2e420",
-        "x-ms-request-id": "94c14b26-c6a9-4b54-acd9-11948cc5c678"
+        "x-ms-client-request-id": "d724b327-2454-4c2e-a0f8-baaf5395036a",
+        "x-ms-request-id": "3563fa72-36fc-4163-8a17-822018239c25"
       },
       "ResponseBody": null
     }
