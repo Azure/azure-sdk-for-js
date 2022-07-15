@@ -3,6 +3,8 @@
 
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import * as zlib from "zlib";
+import { promisify } from "util";
+const gzip = promisify(zlib.gzip);
 
 /**
  * Name of the {@link gZippingPolicy}
@@ -13,21 +15,13 @@ export const GZippingPolicy: PipelinePolicy = {
   name: gZippingPolicyName,
   sendRequest: async (req, next) => {
     if (req.body) {
-      const buffer = await gzip(req.body);
+      const buffer = await gzipping(req.body);
       req.body = buffer;
     }
     return next(req);
   },
 };
 
-function gzip(body: any): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    zlib.gzip(body, (err, buffer) => {
-      if (!err) {
-        resolve(buffer);
-      } else {
-        reject(new Error(`Error doing gzipping - ${err}`));
-      }
-    });
-  });
+function gzipping(body: any): Promise<Buffer> {
+  return gzip(body);
 }
