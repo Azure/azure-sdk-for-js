@@ -35,6 +35,7 @@ export interface ApiOperationListResult {
 
 // @public
 export interface ApiOperationPropertiesServiceSpecification {
+    logSpecifications?: LogSpecification[];
     metricSpecifications?: MetricSpecification[];
 }
 
@@ -64,6 +65,25 @@ export interface AscOperationsGetOptionalParams extends coreClient.OperationOpti
 export type AscOperationsGetResponse = AscOperation;
 
 // @public
+export interface AscUsages {
+    list(location: string, options?: AscUsagesListOptionalParams): PagedAsyncIterableIterator<ResourceUsage>;
+}
+
+// @public
+export interface AscUsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AscUsagesListNextResponse = ResourceUsagesListResult;
+
+// @public
+export interface AscUsagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AscUsagesListResponse = ResourceUsagesListResult;
+
+// @public
 export interface BlobNfsTarget {
     target?: string;
     usageModel?: string;
@@ -81,16 +101,20 @@ interface Cache_2 {
     readonly mountAddresses?: string[];
     readonly name?: string;
     networkSettings?: CacheNetworkSettings;
+    readonly primingJobs?: PrimingJob[];
     readonly provisioningState?: ProvisioningStateType;
     securitySettings?: CacheSecuritySettings;
     sku?: CacheSku;
+    readonly spaceAllocation?: StorageTargetSpaceAllocation[];
     subnet?: string;
     readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
     readonly type?: string;
+    upgradeSettings?: CacheUpgradeSettings;
     readonly upgradeStatus?: CacheUpgradeStatus;
+    zones?: string[];
 }
 export { Cache_2 as Cache }
 
@@ -162,10 +186,20 @@ export interface Caches {
     beginDeleteAndWait(resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams): Promise<void>;
     beginFlush(resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginFlushAndWait(resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams): Promise<void>;
+    beginPausePrimingJob(resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesPausePrimingJobResponse>, CachesPausePrimingJobResponse>>;
+    beginPausePrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams): Promise<CachesPausePrimingJobResponse>;
+    beginResumePrimingJob(resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesResumePrimingJobResponse>, CachesResumePrimingJobResponse>>;
+    beginResumePrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams): Promise<CachesResumePrimingJobResponse>;
+    beginSpaceAllocation(resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams): Promise<PollerLike<PollOperationState<CachesSpaceAllocationResponse>, CachesSpaceAllocationResponse>>;
+    beginSpaceAllocationAndWait(resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams): Promise<CachesSpaceAllocationResponse>;
     beginStart(resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams): Promise<void>;
+    beginStartPrimingJob(resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesStartPrimingJobResponse>, CachesStartPrimingJobResponse>>;
+    beginStartPrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams): Promise<CachesStartPrimingJobResponse>;
     beginStop(resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams): Promise<void>;
+    beginStopPrimingJob(resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesStopPrimingJobResponse>, CachesStopPrimingJobResponse>>;
+    beginStopPrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams): Promise<CachesStopPrimingJobResponse>;
     beginUpgradeFirmware(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginUpgradeFirmwareAndWait(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<void>;
     get(resourceGroupName: string, cacheName: string, options?: CachesGetOptionalParams): Promise<CachesGetResponse>;
@@ -254,16 +288,96 @@ export interface CachesListResult {
 }
 
 // @public
+export interface CachesPausePrimingJobHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CachesPausePrimingJobOptionalParams extends coreClient.OperationOptions {
+    primingJobId?: PrimingJobIdParameter;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CachesPausePrimingJobResponse = CachesPausePrimingJobHeaders;
+
+// @public
+export interface CachesResumePrimingJobHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CachesResumePrimingJobOptionalParams extends coreClient.OperationOptions {
+    primingJobId?: PrimingJobIdParameter;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CachesResumePrimingJobResponse = CachesResumePrimingJobHeaders;
+
+// @public
+export interface CachesSpaceAllocationHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CachesSpaceAllocationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    spaceAllocation?: StorageTargetSpaceAllocation[];
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CachesSpaceAllocationResponse = CachesSpaceAllocationHeaders;
+
+// @public
 export interface CachesStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface CachesStartPrimingJobHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CachesStartPrimingJobOptionalParams extends coreClient.OperationOptions {
+    primingjob?: PrimingJob;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CachesStartPrimingJobResponse = CachesStartPrimingJobHeaders;
+
+// @public
 export interface CachesStopOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface CachesStopPrimingJobHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CachesStopPrimingJobOptionalParams extends coreClient.OperationOptions {
+    primingJobId?: PrimingJobIdParameter;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CachesStopPrimingJobResponse = CachesStopPrimingJobHeaders;
 
 // @public
 export interface CachesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -277,6 +391,12 @@ export type CachesUpdateResponse = Cache_2;
 export interface CachesUpgradeFirmwareOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface CacheUpgradeSettings {
+    scheduledTime?: Date;
+    upgradeScheduleEnabled?: boolean;
 }
 
 // @public
@@ -390,11 +510,14 @@ export enum KnownHealthStateType {
     Down = "Down",
     Flushing = "Flushing",
     Healthy = "Healthy",
+    StartFailed = "StartFailed",
     Stopped = "Stopped",
     Stopping = "Stopping",
     Transitioning = "Transitioning",
     Unknown = "Unknown",
-    Upgrading = "Upgrading"
+    UpgradeFailed = "UpgradeFailed",
+    Upgrading = "Upgrading",
+    WaitingForKey = "WaitingForKey"
 }
 
 // @public
@@ -428,6 +551,14 @@ export enum KnownOperationalStateType {
     Flushing = "Flushing",
     Ready = "Ready",
     Suspended = "Suspended"
+}
+
+// @public
+export enum KnownPrimingJobState {
+    Complete = "Complete",
+    Paused = "Paused",
+    Queued = "Queued",
+    Running = "Running"
 }
 
 // @public
@@ -467,6 +598,12 @@ export enum KnownUsernameSource {
     File = "File",
     Ldap = "LDAP",
     None = "None"
+}
+
+// @public
+export interface LogSpecification {
+    displayName?: string;
+    name?: string;
 }
 
 // @public
@@ -553,6 +690,25 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = ApiOperationListResult;
 
 // @public
+export interface PrimingJob {
+    readonly primingJobDetails?: string;
+    readonly primingJobId?: string;
+    primingJobName: string;
+    readonly primingJobPercentComplete?: number;
+    readonly primingJobState?: PrimingJobState;
+    readonly primingJobStatus?: string;
+    primingManifestUrl: string;
+}
+
+// @public
+export interface PrimingJobIdParameter {
+    primingJobId: string;
+}
+
+// @public
+export type PrimingJobState = string;
+
+// @public
 export type ProvisioningStateType = string;
 
 // @public
@@ -584,6 +740,26 @@ export interface ResourceSkuLocationInfo {
 export interface ResourceSkusResult {
     nextLink?: string;
     readonly value?: ResourceSku[];
+}
+
+// @public
+export interface ResourceUsage {
+    readonly currentValue?: number;
+    readonly limit?: number;
+    readonly name?: ResourceUsageName;
+    readonly unit?: string;
+}
+
+// @public
+export interface ResourceUsageName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export interface ResourceUsagesListResult {
+    readonly nextLink?: string;
+    readonly value?: ResourceUsage[];
 }
 
 // @public
@@ -622,6 +798,8 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     ascOperations: AscOperations;
     // (undocumented)
+    ascUsages: AscUsages;
+    // (undocumented)
     caches: Caches;
     // (undocumented)
     operations: Operations;
@@ -646,6 +824,7 @@ export interface StorageCacheManagementClientOptionalParams extends coreClient.S
 
 // @public
 export interface StorageTarget extends StorageTargetResource {
+    readonly allocationPercentage?: number;
     blobNfs?: BlobNfsTarget;
     clfs?: ClfsTarget;
     junctions?: NamespaceJunction[];
@@ -663,9 +842,17 @@ export interface StorageTargetFlushOptionalParams extends coreClient.OperationOp
 }
 
 // @public
+export interface StorageTargetInvalidateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface StorageTargetOperations {
     beginFlush(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginFlushAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<void>;
+    beginInvalidate(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginInvalidateAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<void>;
     beginResume(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginResumeAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<void>;
     beginSuspend(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -742,6 +929,12 @@ export interface StorageTargetsListByCacheOptionalParams extends coreClient.Oper
 
 // @public
 export type StorageTargetsListByCacheResponse = StorageTargetsResult;
+
+// @public
+export interface StorageTargetSpaceAllocation {
+    allocationPercentage?: number;
+    name?: string;
+}
 
 // @public
 export interface StorageTargetsResult {
