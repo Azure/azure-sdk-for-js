@@ -5,47 +5,41 @@ import * as RestModel from "../generated/src/models";
 import { RoomModel, RoomParticipant } from "./models";
 import { CommunicationUserIdentifier } from "@azure/communication-common"
 
-/**
- * @internal
- * Checks whether the type of a value is RoomParticipant or not.
- * @param participant - The value being checked.
- */
-function isRoomParticipant (participant: RoomParticipant | CommunicationUserIdentifier): participant is RoomParticipant {
-  return (<RoomParticipant>participant).role !== undefined;
-}
 
 /**
  * @internal
  * Mapping room participant customer model to room participant REST model.
  */
 export const mapToRoomParticipantRestModel = (
-  roomParticipant: RoomParticipant | CommunicationUserIdentifier
+  roomParticipant: RoomParticipant
 ): RestModel.RoomParticipant => {
-  if (isRoomParticipant(roomParticipant)) {
-    const { communicationIdentifier, ...rest } = roomParticipant;
-    const mri = communicationIdentifier.communicationUser!.communicationUserId;
-    return {
-      communicationIdentifier: {
-        rawId: mri,
-        communicationUser: {
-          id: mri
-        }
-      },
-      ...rest
-    };
-  }
-  else {
-    const mri = roomParticipant.communicationUserId;
-    return {
-      communicationIdentifier: {
-        rawId: mri,
-        communicationUser: {
-          id: mri
-        },
+  const { communicationIdentifier, ...rest } = roomParticipant;
+  const mri = communicationIdentifier.communicationUser!.communicationUserId;
+  return {
+    communicationIdentifier: {
+      rawId: mri,
+      communicationUser: {
+        id: mri
       }
-    };
+    },
+    ...rest
+  };
+}
+
+export const mapCommunicationIdentifierToRoomParticipantRestModel = (
+  communicationIdentifier: CommunicationUserIdentifier
+): RestModel.RoomParticipant => {
+  const mri = communicationIdentifier.communicationUserId;
+  return {
+    communicationIdentifier: {
+      rawId: mri,
+      communicationUser: {
+        id: mri
+      },
+    }
   }
 }
+
 
 /**
  * @internal

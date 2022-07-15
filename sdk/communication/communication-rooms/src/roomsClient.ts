@@ -5,6 +5,7 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { RoomsApiClient } from "./generated/src";
 import {
+  mapCommunicationIdentifierToRoomParticipantRestModel,
   mapToRoomParticipantRestModel,
   mapToRoomParticipantSdkModel,
   mapToRoomSdkModel,
@@ -114,10 +115,9 @@ export class RoomsClient {
     try {
       const repeatabilityRequestId = generateUuid();
       const repeatabilityFirstSent = new Date();
-      const { participants, ...rest } = request;
       const result = await this.client.rooms.createRoom(
         {
-          ...rest,
+          ...request,
           participants: request.participants?.map((participant) =>
             mapToRoomParticipantRestModel(participant)
           ),
@@ -341,8 +341,8 @@ export class RoomsClient {
       const result = await this.client.rooms.removeParticipants(
         roomId,
         {
-          participants: request.participants!.map((participant: any) =>
-            mapToRoomParticipantRestModel(participant)
+          participants: request.participants!.map((participant) =>
+            mapCommunicationIdentifierToRoomParticipantRestModel(participant)
           ),
         },
         updatedOptions

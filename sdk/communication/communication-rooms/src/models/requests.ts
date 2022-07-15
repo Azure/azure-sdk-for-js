@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { RoomParticipant, RoomJoinPolicy } from "./models";
-import { CommunicationIdentifier } from "@azure/communication-common"
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 
 /** Request payload for creating a room. */
 export interface CreateRoomRequest {
@@ -43,5 +43,5 @@ export interface UpdateParticipantsRequest {
 /** Request payload for removing participants from a room. */
 export interface RemoveParticipantsRequest {
   /** Collection of participants being removed from a room. */
-  participants: (RoomParticipant | CommunicationIdentifier)[];
+  participants: CommunicationUserIdentifier[];
 }

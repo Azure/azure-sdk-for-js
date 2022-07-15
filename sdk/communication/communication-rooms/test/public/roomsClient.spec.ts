@@ -181,7 +181,7 @@ describe("RoomsClient", function () {
       roomId = createRoomResult.id;
 
       const removeParticipants: RemoveParticipantsRequest = {
-        participants: [new RoomParticipant(testUser, "Presenter"), testUser2],
+        participants: [testUser, testUser2],
       };
       const removeParticipantsResult = await client.removeParticipants(roomId, removeParticipants);
       assert.isDefined(removeParticipantsResult);
