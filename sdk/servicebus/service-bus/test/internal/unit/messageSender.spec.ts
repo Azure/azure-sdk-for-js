@@ -16,7 +16,6 @@ describe("MessageSender unit tests", () => {
 
     const messageSender = new MessageSender(
       "serviceBusClientId",
-
       createConnectionContextForTests(),
       "entityPath",
       retryOptions
@@ -66,7 +65,6 @@ describe("MessageSender unit tests", () => {
 
     const messageSender = new MessageSender(
       "serviceBusClientId",
-
       createConnectionContextForTests(),
       "entityPath",
       retryOptions

@@ -22,13 +22,31 @@ import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionRec
 import { MessageSession } from "../../../src/session/messageSession";
 import sinon from "sinon";
 import { assertThrows } from "../../public/utils/testUtils";
+import { Constants } from "@azure/core-amqp";
 
 describe("Receiver unit tests", () => {
+  it("Receiver should set target in created receiver options", () => {
+    const batchingReceiver = new BatchingReceiver(
+      "serviceBusClientId",
+      createConnectionContextForTests(),
+      "fakeEntityPath",
+      {
+        lockRenewer: undefined,
+        receiveMode: "peekLock",
+        skipParsingBodyAsJson: false,
+      }
+    );
+    const options = batchingReceiver["_createReceiverOptions"](false, {});
+    assert.equal(options.target, "serviceBusClientId");
+    assert.deepStrictEqual(options.properties, {
+      [Constants.receiverIdentifierName]: "serviceBusClientId",
+    });
+  });
+
   describe("init() and close() interactions", () => {
     it("close() called just after init() but before the next step", async () => {
       const batchingReceiver = new BatchingReceiver(
         "serviceBusClientId",
-
         createConnectionContextForTests(),
         "fakeEntityPath",
         {
@@ -58,7 +76,6 @@ describe("Receiver unit tests", () => {
     it("message receiver init() bails out early if object is closed()", async () => {
       const messageReceiver2 = new StreamingReceiver(
         "serviceBusClientId",
-
         createConnectionContextForTests(),
         "fakeEntityPath",
         {
@@ -103,7 +120,6 @@ describe("Receiver unit tests", () => {
     it("can't subscribe while another subscribe is active", async () => {
       receiverImpl = new ServiceBusReceiverImpl(
         "serviceBusClientId",
-
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
@@ -138,7 +154,6 @@ describe("Receiver unit tests", () => {
 
       receiverImpl = new ServiceBusReceiverImpl(
         "serviceBusClientId",
-
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             (receiver as any).close = () => {
@@ -178,7 +193,6 @@ describe("Receiver unit tests", () => {
     it("can re-subscribe after previous subscription is aborted", async () => {
       receiverImpl = new ServiceBusReceiverImpl(
         "serviceBusClientId",
-
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
@@ -224,7 +238,6 @@ describe("Receiver unit tests", () => {
     it("abortSignal is passed through (receiver)", async () => {
       const impl = new ServiceBusReceiverImpl(
         "serviceBusClientId",
-
         createConnectionContextForTests(),
         "entity path",
         "peekLock",
@@ -252,7 +265,6 @@ describe("Receiver unit tests", () => {
       const connectionContext = createConnectionContextForTestsWithSessionId();
       const messageSession = await MessageSession.create(
         "serviceBusClientId",
-
         connectionContext,
         "entity path",
         undefined,

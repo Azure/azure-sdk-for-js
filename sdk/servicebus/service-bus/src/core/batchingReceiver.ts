@@ -150,13 +150,13 @@ export class BatchingReceiver extends MessageReceiver {
   }
 
   static create(
-    id: string,
+    clientId: string,
     context: ConnectionContext,
     entityPath: string,
     options: ReceiveOptions
   ): BatchingReceiver {
     throwErrorIfConnectionClosed(context);
-    const bReceiver = new BatchingReceiver(id, context, entityPath, options);
+    const bReceiver = new BatchingReceiver(clientId, context, entityPath, options);
     context.messageReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }

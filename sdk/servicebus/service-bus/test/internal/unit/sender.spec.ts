@@ -119,4 +119,9 @@ describe("sender unit tests", () => {
       }
     });
   });
+
+  it("should set source in created sender options", () => {
+    const options = sender["_sender"]["_createSenderOptions"]();
+    assert.equal(options.source, "serviceBusClientId");
+  });
 });

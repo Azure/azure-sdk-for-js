@@ -244,7 +244,6 @@ describe("AbortSignal", () => {
 
       const sender = new MessageSender(
         "serviceBusClientId",
-
         createConnectionContextForTests({
           onCreateAwaitableSenderCalled: () => {
             /** Nothing to do here */
@@ -274,7 +273,6 @@ describe("AbortSignal", () => {
 
       const sender = new MessageSender(
         "serviceBusClientId",
-
         createConnectionContextForTests({
           onCreateAwaitableSenderCalled: () => {
             isAborted = true;
@@ -303,7 +301,6 @@ describe("AbortSignal", () => {
     it("...before first async call", async () => {
       const messageReceiver = new StreamingReceiver(
         "serviceBusClientId",
-
         createConnectionContextForTests(),
         "fakeEntityPath",
         defaultOptions
@@ -324,7 +321,6 @@ describe("AbortSignal", () => {
     it("...after negotiateClaim", async () => {
       const messageReceiver = new StreamingReceiver(
         "serviceBusClientId",
-
         createConnectionContextForTests(),
         "fakeEntityPath",
         defaultOptions
@@ -433,7 +429,6 @@ describe("AbortSignal", () => {
     it("Receiver.subscribe", async () => {
       const receiver = new ServiceBusReceiverImpl(
         "serviceBusClientId",
-
         createConnectionContextForTests(),
         "entityPath",
         "peekLock",

@@ -51,7 +51,6 @@ describe("BatchingReceiver unit tests", () => {
       const origAbortSignal = createAbortSignalForTest();
       const receiver = new ServiceBusReceiverImpl(
         "serviceBusClientId",
-
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
@@ -205,7 +204,6 @@ describe("BatchingReceiver unit tests", () => {
       it("1. We received 'max messages'", async () => {
         const batchingReceiver = new BatchingReceiver(
           "serviceBusClientId",
-
           createConnectionContextForTests(),
           "dummyEntityPath",
           {
@@ -240,7 +238,6 @@ describe("BatchingReceiver unit tests", () => {
       it("2. We've waited 'max wait time'", async () => {
         const receiver = new BatchingReceiver(
           "serviceBusClientId",
-
           createConnectionContextForTests(),
           "dummyEntityPath",
           {
@@ -275,7 +272,6 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           const batchingReceiver = new BatchingReceiver(
             "serviceBusClientId",
-
             createConnectionContextForTests(),
             "dummyEntityPath",
             {
@@ -326,7 +322,6 @@ describe("BatchingReceiver unit tests", () => {
       (lockMode === "receiveAndDelete" ? it : it.skip)(`3b. (without idle timeout)`, async () => {
         const batchingReceiver = new BatchingReceiver(
           "serviceBusClientId",
-
           createConnectionContextForTests(),
           "dummyEntityPath",
           {
@@ -383,7 +378,6 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           const batchingReceiver = new BatchingReceiver(
             "serviceBusClientId",
-
             createConnectionContextForTests(),
             "dummyEntityPath",
             {

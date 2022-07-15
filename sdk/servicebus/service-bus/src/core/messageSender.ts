@@ -64,7 +64,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _retryOptions: RetryOptions;
 
   constructor(
-    private id: string,
+    private clientId: string,
     connectionContext: ConnectionContext,
     entityPath: string,
     retryOptions: RetryOptions
@@ -140,7 +140,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       target: {
         address: this.address,
       },
-      source: this.id,
+      source: this.clientId,
       onError: this._onAmqpError,
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
