@@ -3,20 +3,20 @@
 
 import { HttpResponse } from "@azure-rest/core-client";
 import {
+  ApplicationResourceListOutput,
+  ApplicationResourceOutput,
+  ApplicationTypeResourceListOutput,
+  ApplicationTypeResourceOutput,
+  ApplicationTypeVersionResourceListOutput,
+  ApplicationTypeVersionResourceOutput,
+  ClusterCodeVersionsListResultOutput,
+  ClusterListResultOutput,
   ClusterOutput,
   ErrorModelOutput,
-  ClusterListResultOutput,
-  UpgradableVersionPathResultOutput,
-  ClusterCodeVersionsListResultOutput,
   OperationListResultOutput,
-  ApplicationTypeResourceOutput,
-  ApplicationTypeResourceListOutput,
-  ApplicationTypeVersionResourceOutput,
-  ApplicationTypeVersionResourceListOutput,
-  ApplicationResourceOutput,
-  ApplicationResourceListOutput,
-  ServiceResourceOutput,
   ServiceResourceListOutput,
+  ServiceResourceOutput,
+  UpgradableVersionPathResultOutput,
 } from "./outputModels";
 
 /** Get a Service Fabric cluster resource created or in the process of being created in the specified resource group. */

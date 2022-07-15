@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode, env } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorder, createClient } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import {
   ApplicationTypeResourceListOutput,
@@ -13,8 +13,8 @@ import {
   ClusterOutput,
   ClustersCreateOrUpdateParameters,
   ClustersUpdateParameters,
-  getLongRunningPoller,
   ServiceFabricClient,
+  getLongRunningPoller,
 } from "../../src/index";
 
 export const testPollingOptions = {

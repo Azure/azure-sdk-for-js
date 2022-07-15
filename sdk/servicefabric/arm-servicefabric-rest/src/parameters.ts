@@ -3,15 +3,15 @@
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
-  Cluster,
-  ClusterUpdateParameters,
-  UpgradableVersionsDescription,
-  ApplicationTypeResource,
-  ApplicationTypeVersionResource,
   ApplicationResource,
   ApplicationResourceUpdate,
+  ApplicationTypeResource,
+  ApplicationTypeVersionResource,
+  Cluster,
+  ClusterUpdateParameters,
   ServiceResource,
   ServiceResourceUpdate,
+  UpgradableVersionsDescription,
 } from "./models";
 
 export type ClustersGetParameters = RequestParameters;
