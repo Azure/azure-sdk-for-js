@@ -47,9 +47,9 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 ## Examples
 
-The following section shows you how to initialize and authenticate your client, then list all of your Managed Clusters.
+The following section shows you how to initialize and authenticate your client, then list all of your Clusters.
 
-### List All Managed Clusters
+### List All Clusters
 
 ```typescript
 import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
