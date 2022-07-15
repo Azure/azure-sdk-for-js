@@ -102,9 +102,7 @@ main();
 
 ## Next steps
 
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-alpha-ids/samples)
-directory for detailed examples on how to use this library.
+Please take a look at the samples directory for detailed examples on how to use this library.
 
 ## Contributing
 
