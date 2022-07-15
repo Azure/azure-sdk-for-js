@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import {
   AlphaIdConfiguration,
   GetConfigurationOptions,
   UpsertConfigurationOptions,
 } from "./models";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createSpan, logger } from "./utils";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { AlphaIDsClient as AlphaIDsGeneratedClient } from "./generated/src";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
+import { SpanStatusCode } from "@azure/core-tracing";
 /**
  * Client options used to configure the AlphaIdsClient API requests.
  */
-export interface AlphaIdsClientOptions extends CommonClientOptions {}
+export interface AlphaIdsClientOptions extends CommonClientOptions { }
 
 const isAlphaIdsClientOptions = (options: any): options is AlphaIdsClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);

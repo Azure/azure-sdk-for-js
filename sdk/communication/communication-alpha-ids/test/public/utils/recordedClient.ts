@@ -10,8 +10,8 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
 import { AlphaIdsClient } from "../../../src";
+import { Context } from "mocha";
 import { isNode } from "@azure/test-utils";
 import { parseConnectionString } from "@azure/communication-common";
 
