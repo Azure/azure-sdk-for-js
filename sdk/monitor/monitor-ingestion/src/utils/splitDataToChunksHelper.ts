@@ -1,7 +1,7 @@
   /**
    * @internal
    */
-   export function splitDataToChunks(logs: Record<string, unknown>[]): any[] {
+   export function splitDataToChunks(logs: Record<string, unknown>[]): string[] {
     let chunk: any[] = [];
     const chunkArray: any[] = [];
     let size = 0;

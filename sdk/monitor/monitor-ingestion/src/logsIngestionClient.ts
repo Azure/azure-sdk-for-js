@@ -63,7 +63,7 @@ export class LogsIngestionClient {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks
-    const chunkArray: any[] = splitDataToChunks(logs);
+    const chunkArray: string[] = splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
     let concurrency = 1;
     if (options?.maxConcurrency && options?.maxConcurrency > 1) {
@@ -76,13 +76,13 @@ export class LogsIngestionClient {
     };
 
     const errorsArray: Record<string, any>[] = [];
-    const uploadCallback = async (x: any): Promise<void> => {
+    const uploadCallback = async (eachChunk: any): Promise<void> => {
       try {
-        await this._dataClient.upload(ruleId, streamName, x, {
+        await this._dataClient.upload(ruleId, streamName, eachChunk, {
           contentEncoding: "gzip",
         });
       } catch (e: any) {
-        errorsArray.push({ error: e, log: x });
+        errorsArray.push({ error: e, log: eachChunk });
       }
     };
 
