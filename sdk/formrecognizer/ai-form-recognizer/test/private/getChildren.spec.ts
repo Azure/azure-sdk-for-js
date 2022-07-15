@@ -6,7 +6,7 @@ import {
   contains,
   fastGetChildren,
   iteratorFromFirstMatchBinarySearch,
-} from "../../src/lro/analyze";
+} from "../../src/lro/analysis";
 
 import { assert } from "chai";
 
