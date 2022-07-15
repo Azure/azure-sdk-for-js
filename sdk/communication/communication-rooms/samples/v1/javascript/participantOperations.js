@@ -5,9 +5,8 @@
  * @summary Perform participant operations using the RoomsClient.
  */
 
-const { RoomsClient } = require("@azure/communication-rooms");
+const { RoomsClient, RoomParticipant } = require("@azure/communication-rooms");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
-const { getIdentifierKind } = require("@azure/communication-common");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -31,27 +30,17 @@ async function main() {
   const createRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
-    participants: [
-      {
-        id: user1.user,
-        role: "attendee",
-      },
-    ],
+    participants: [new RoomParticipant(user1.user, "Attendee")],
   };
 
-  // create a room with prior request payload
+  // create a room with the request payload
   const createRoom = await roomsClient.createRoom(createRoomRequest);
   const roomId = createRoom.id;
   console.log(`Created Room with ID ${roomId}`);
 
   // request payload to add participants
   const addParticipantsRequest = {
-    participants: [
-      {
-        id: user2.user,
-        role: "consumer",
-      },
-    ],
+    participants: [new RoomParticipant(user2.user, "Consumer")],
   };
 
   // add user2 to the room with the request payload
@@ -61,12 +50,7 @@ async function main() {
 
   // request payload to update user1 with a new role
   const updateParticipantsRequest = {
-    participants: [
-      {
-        id: user1.user,
-        role: "presenter",
-      },
-    ],
+    participants: [new RoomParticipant(user1.user, "Presenter")],
   };
 
   // update user1 with the request payload
@@ -77,15 +61,10 @@ async function main() {
   console.log(`Updated Participants`);
   printParticipants(updateParticipants);
 
-  const deleteUser = {
-    id: user1.user,
-    role: "presenter",
-  };
-
   // request payload to delete both users from the room
   // this demonstrates both objects that can be used in deleting users from rooms: RoomParticipant or CommunicationIdentifier
   const removeParticipantsRequest = {
-    participants: [deleteUser, user2.user],
+    participants: [user1.user, user2.user],
   };
 
   // remove both users from the room with the request payload
@@ -105,25 +84,10 @@ async function main() {
  * @param pc - The ParticipantsCollection being printed to console.
  */
 function printParticipants(pc) {
+  console.log(`Number of Participants: ${pc.participants.length}`);
   for (const participant of pc.participants) {
-    const identifierKind = getIdentifierKind(participant.id);
-    let id;
+    const id = participant.communicationIdentifier.communicationUser.communicationUserId;
     const role = participant.role;
-    switch (identifierKind.kind) {
-      case "communicationUser":
-        id = identifierKind.communicationUserId;
-        break;
-      case "microsoftTeamsUser":
-        id = identifierKind.microsoftTeamsUserId;
-        break;
-      case "phoneNumber":
-        id = identifierKind.phoneNumber;
-        break;
-      case "unknown":
-        id = identifierKind.id;
-        console.log("Unknown user");
-        break;
-    }
     console.log(`${id} - ${role}`);
   }
 }

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationIdentifier } from "@azure/communication-common";
 import { RoomJoinPolicy, RoleType } from "../generated/src";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 
 export { RoomJoinPolicy, RoleType } from "../generated/src/models";
 
@@ -23,14 +23,28 @@ export interface RoomModel {
 }
 
 /** A participant of the room. */
-export interface RoomParticipant {
+export class RoomParticipant {
   /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.  */
-  id: CommunicationIdentifier;
+  communicationIdentifier: CommunicationIdentifierModel;
   /** Role name. */
   role?: RoleType;
+
+  constructor(participant: CommunicationUserIdentifier, role?: RoleType) {
+    this.communicationIdentifier = {
+      rawId: participant.communicationUserId,
+      communicationUser: participant,
+    };
+    console.log(this.communicationIdentifier.communicationUser?.communicationUserId);
+    this.role = role;
+  }
 }
 
 /** Collection of participants who belong to a room. */
 export interface ParticipantsCollection {
   participants: RoomParticipant[];
+}
+
+export interface CommunicationIdentifierModel {
+  rawId?: string;
+  communicationUser?: CommunicationUserIdentifier;
 }

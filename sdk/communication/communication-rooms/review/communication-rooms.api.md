@@ -6,6 +6,7 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
+import { CommunicationUserIdentifier } from '@azure/communication-common';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
@@ -17,6 +18,14 @@ export interface AddParticipantsOptions extends OperationOptions {
 // @public
 export interface AddParticipantsRequest {
     participants: RoomParticipant[];
+}
+
+// @public (undocumented)
+export interface CommunicationIdentifierModel {
+    // (undocumented)
+    communicationUser?: CommunicationUserIdentifier;
+    // (undocumented)
+    rawId?: string;
 }
 
 // @public
@@ -55,6 +64,10 @@ export interface PatchRoomRequest {
 }
 
 // @public
+export interface RemoveAllParticipantsOptions extends OperationOptions {
+}
+
+// @public
 export interface RemoveParticipantsOptions extends OperationOptions {
 }
 
@@ -64,10 +77,10 @@ export interface RemoveParticipantsRequest {
 }
 
 // @public
-export type Role = string;
+export type RoleType = "Presenter" | "Attendee" | "Consumer";
 
 // @public
-export type RoomJoinPolicy = string;
+export type RoomJoinPolicy = "InviteOnly" | "CommunicationServiceUsers";
 
 // @public
 export interface RoomModel {
@@ -80,9 +93,10 @@ export interface RoomModel {
 }
 
 // @public
-export interface RoomParticipant {
-    id: CommunicationIdentifier;
-    role?: Role;
+export class RoomParticipant {
+    constructor(participant: CommunicationUserIdentifier, role?: RoleType);
+    communicationIdentifier: CommunicationIdentifierModel;
+    role?: RoleType;
 }
 
 // @public
@@ -95,6 +109,7 @@ export class RoomsClient {
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
     getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<ParticipantsCollection>;
     getRoom(roomId: string, options?: GetRoomOptions): Promise<RoomModel>;
+    removeAllParticipants(roomId: string, options?: RemoveAllParticipantsOptions): Promise<RoomModel>;
     removeParticipants(roomId: string, request: RemoveParticipantsRequest, options?: RemoveParticipantsOptions): Promise<ParticipantsCollection>;
     updateParticipants(roomId: string, request: UpdateParticipantsRequest, options?: UpdateParticipantsOptions): Promise<ParticipantsCollection>;
     updateRoom(roomId: string, request: PatchRoomRequest, options?: UpdateRoomOptions): Promise<RoomModel>;

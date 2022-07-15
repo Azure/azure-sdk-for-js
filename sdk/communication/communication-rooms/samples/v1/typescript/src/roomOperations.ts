@@ -5,16 +5,21 @@
  * @summary Perform room operations using the RoomsClient.
  */
 
-import { RoomsClient, RoomModel } from "@azure/communication-rooms";
-import { CommunicationIdentityClient} from "@azure/communication-identity";
-import { getIdentifierKind } from "@azure/communication-common";
+import {
+  RoomsClient,
+  RoomModel,
+  RoomParticipant,
+  CreateRoomRequest,
+  PatchRoomRequest,
+} from "@azure/communication-rooms";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
-  const connectionString = 
+  const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
 
@@ -29,15 +34,10 @@ export async function main() {
   var validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
 
   // request payload to create a room
-  const createRoomRequest = {
+  const createRoomRequest: CreateRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
-    participants: [
-      {
-        id: user1.user,
-        role: "attendee"
-      }
-    ]
+    participants: [new RoomParticipant(user1.user, "Attendee")],
   };
 
   // create a room with the request payload
@@ -50,25 +50,19 @@ export async function main() {
   const getRoom = await roomsClient.getRoom(roomId);
   console.log(`Retrieved Room with ID ${roomId}`);
   printRoom(getRoom);
-  
+
   validFrom.setTime(validUntil.getTime());
   validUntil.setTime(validFrom.getTime() + 5 * 60 * 1000);
 
-  // request payload to update a room 
-  const updateRoomRequest = {
+  // request payload to update a room
+  const updateRoomRequest: PatchRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
     roomJoinPolicy: "CommunicationServiceUsers",
     participants: [
-      {
-        id: user1.user,
-        role: "consumer"
-      },
-      {
-        id: user2.user,
-        role: "presenter"
-      }
-    ]
+      new RoomParticipant(user1.user, "Consumer"),
+      new RoomParticipant(user2.user, "Presenter"),
+    ],
   };
 
   // updates the specified room with the request payload
@@ -84,31 +78,15 @@ export async function main() {
  * Outputs the details of a Room to console.
  * @param room - The Room being printed to console.
  */
-function printRoom (room: RoomModel): void {
+function printRoom(room: RoomModel): void {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
   console.log(`Valid Until: ${room.validUntil}`);
   console.log(`Room Join Policy: ${room.roomJoinPolicy}`);
   console.log(`Participants:`);
   for (const participant of room.participants!) {
-    const identifierKind = getIdentifierKind(participant.id);
-    let id;
+    const id = participant.communicationIdentifier.rawId;
     const role = participant.role;
-    switch (identifierKind.kind) {
-      case "communicationUser":
-        id = identifierKind.communicationUserId;
-        break;
-      case "microsoftTeamsUser":
-        id = identifierKind.microsoftTeamsUserId;
-        break;
-      case "phoneNumber":
-        id = identifierKind.phoneNumber;
-        break;
-      case "unknown":
-        id = identifierKind.id;
-        console.log("Unknown user");
-        break;
-    }
     console.log(`${id} - ${role}`);
   }
 }

@@ -4,38 +4,37 @@
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { RoomsApiClient } from "./generated/src";
-import { 
-  mapToRoomParticipantRestModel, 
-  mapToRoomParticipantSdkModel, 
-  mapToRoomSdkModel 
+import {
+  mapToRoomParticipantRestModel,
+  mapToRoomParticipantSdkModel,
+  mapToRoomSdkModel,
 } from "./models/mappers";
 import { ParticipantsCollection, RoomModel } from "./models/models";
-import { 
-  AddParticipantsOptions, 
-  CreateRoomOptions, 
-  DeleteRoomOptions, 
-  GetParticipantsOptions, 
-  GetRoomOptions, 
-  RemoveParticipantsOptions, 
-  RoomsClientOptions, 
-  UpdateParticipantsOptions, 
-  UpdateRoomOptions 
+import {
+  AddParticipantsOptions,
+  CreateRoomOptions,
+  DeleteRoomOptions,
+  GetParticipantsOptions,
+  GetRoomOptions,
+  RemoveAllParticipantsOptions,
+  RemoveParticipantsOptions,
+  RoomsClientOptions,
+  UpdateParticipantsOptions,
+  UpdateRoomOptions,
 } from "./models/options";
 import {
   CreateRoomRequest,
   PatchRoomRequest,
   AddParticipantsRequest,
   UpdateParticipantsRequest,
-  RemoveParticipantsRequest
+  RemoveParticipantsRequest,
 } from "./models/requests";
-import {
-  InternalClientPipelineOptions
-} from "@azure/core-client";
+import { InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { 
+import {
   createCommunicationAuthPolicy,
   isKeyCredential,
-  parseClientArguments
+  parseClientArguments,
 } from "@azure/communication-common";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { generateUuid } from "./models/uuid";
@@ -94,7 +93,7 @@ export class RoomsClient {
       },
     };
 
-    this.client = new RoomsApiClient(url, {endpoint: url, ...internalPipelineOptions});
+    this.client = new RoomsApiClient(url, { endpoint: url, ...internalPipelineOptions });
 
     const authPolicy = createCommunicationAuthPolicy(credential);
 
@@ -115,9 +114,10 @@ export class RoomsClient {
     try {
       const repeatabilityRequestId = generateUuid();
       const repeatabilityFirstSent = new Date();
+      const { participants, ...rest } = request;
       const result = await this.client.rooms.createRoom(
         {
-          ...request,
+          ...rest,
           participants: request.participants?.map((participant) =>
             mapToRoomParticipantRestModel(participant)
           ),
@@ -125,12 +125,11 @@ export class RoomsClient {
         {
           ...updatedOptions,
           repeatabilityFirstSent: repeatabilityFirstSent,
-          repeatabilityRequestID: repeatabilityRequestId
-        },
+          repeatabilityRequestID: repeatabilityRequestId,
+        }
       );
       return mapToRoomSdkModel(result);
-    }
-    catch (e: any) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -153,23 +152,19 @@ export class RoomsClient {
     request: PatchRoomRequest,
     options: UpdateRoomOptions = {}
   ): Promise<RoomModel> {
-    const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
+    const { span, updatedOptions } = createSpan("RoomsClient-UpdateRoom", options);
     try {
-      const result = await this.client.rooms.updateRoom(
-        roomId,
-        {
-          patchRoomRequest: {
-            ...request,
-            participants: request.participants?.map((participant) =>
-              mapToRoomParticipantRestModel(participant)
-            ),
-          },
-          ...updatedOptions,
+      const result = await this.client.rooms.updateRoom(roomId, {
+        patchRoomRequest: {
+          ...request,
+          participants: request.participants?.map((participant) =>
+            mapToRoomParticipantRestModel(participant)
+          ),
         },
-      );
+        ...updatedOptions,
+      });
       return mapToRoomSdkModel(result);
-    }
-    catch (e: any) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -186,16 +181,12 @@ export class RoomsClient {
    * @param options - Operational options.
    * @returns a RoomModel object with the values of the created room.
    */
-  public async getRoom(
-    roomId: string,
-    options: GetRoomOptions = {}
-  ): Promise<RoomModel> {
-    const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
+  public async getRoom(roomId: string, options: GetRoomOptions = {}): Promise<RoomModel> {
+    const { span, updatedOptions } = createSpan("RoomsClient-GetRoom", options);
     try {
       const result = await this.client.rooms.getRoom(roomId, updatedOptions);
       return mapToRoomSdkModel(result);
-    }
-    catch (e: any) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -211,15 +202,11 @@ export class RoomsClient {
    * @param roomId - ID of the room.
    * @param options - Operational options.
    */
-  public async deleteRoom(
-    roomId: string,
-    options: DeleteRoomOptions = {}
-  ): Promise<void> {
-    const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
+  public async deleteRoom(roomId: string, options: DeleteRoomOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("RoomsClient-DeleteRoom", options);
     try {
       await this.client.rooms.deleteRoom(roomId, updatedOptions);
-    }
-    catch (e: any) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -240,14 +227,15 @@ export class RoomsClient {
     roomId: string,
     options: GetParticipantsOptions = {}
   ): Promise<ParticipantsCollection> {
-    const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
+    const { span, updatedOptions } = createSpan("RoomsClient-GetParticipants", options);
     try {
       const result = await this.client.rooms.getParticipants(roomId, updatedOptions);
       return {
-        participants: result.participants.map((participant) => mapToRoomParticipantSdkModel(participant)),
+        participants: result.participants.map((participant) =>
+          mapToRoomParticipantSdkModel(participant)
+        ),
       };
-    }
-    catch (e: any) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -270,21 +258,23 @@ export class RoomsClient {
     request: AddParticipantsRequest,
     options: AddParticipantsOptions = {}
   ): Promise<ParticipantsCollection> {
-    const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
+    const { span, updatedOptions } = createSpan("RoomsClient-AddParticipants", options);
     try {
       const result = await this.client.rooms.addParticipants(
         roomId,
         {
           participants: request.participants?.map((participant) =>
-            mapToRoomParticipantRestModel(participant)),
+            mapToRoomParticipantRestModel(participant)
+          ),
         },
         updatedOptions
       );
       return {
-        participants: result.participants!.map((participant) => mapToRoomParticipantSdkModel(participant)),
+        participants: result.participants!.map((participant) =>
+          mapToRoomParticipantSdkModel(participant)
+        ),
       };
-    }
-    catch (e: any) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -307,21 +297,23 @@ export class RoomsClient {
     request: UpdateParticipantsRequest,
     options: UpdateParticipantsOptions = {}
   ): Promise<ParticipantsCollection> {
-    const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
+    const { span, updatedOptions } = createSpan("RoomsClient-UpdateParticipants", options);
     try {
       const result = await this.client.rooms.updateParticipants(
         roomId,
         {
           participants: request.participants?.map((participant) =>
-            mapToRoomParticipantRestModel(participant)),
+            mapToRoomParticipantRestModel(participant)
+          ),
         },
         updatedOptions
       );
       return {
-        participants: result.participants!.map((participant) => mapToRoomParticipantSdkModel(participant)),
+        participants: result.participants!.map((participant) =>
+          mapToRoomParticipantSdkModel(participant)
+        ),
       };
-    }
-    catch (e: any) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -333,7 +325,7 @@ export class RoomsClient {
   }
 
   /**
-   * Deletes Participants from a Room asynchronously.
+   * Removes Participants from a Room asynchronously.
    * @param roomId - ID of the room.
    * @param request - Request for deleting participants in a room.
    * @param options - Operational options.
@@ -344,21 +336,23 @@ export class RoomsClient {
     request: RemoveParticipantsRequest,
     options: RemoveParticipantsOptions = {}
   ): Promise<ParticipantsCollection> {
-    const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
+    const { span, updatedOptions } = createSpan("RoomsClient-RemoveParticipants", options);
     try {
       const result = await this.client.rooms.removeParticipants(
         roomId,
         {
           participants: request.participants!.map((participant: any) =>
-            mapToRoomParticipantRestModel(participant)),
+            mapToRoomParticipantRestModel(participant)
+          ),
         },
         updatedOptions
       );
       return {
-        participants: result.participants!.map((participant) => mapToRoomParticipantSdkModel(participant)),
+        participants: result.participants!.map((participant) =>
+          mapToRoomParticipantSdkModel(participant)
+        ),
       };
-    }
-    catch (e: any) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -368,4 +362,34 @@ export class RoomsClient {
       span.end();
     }
   }
-} 
+
+  /**
+   * Removes all Participants from a Room asynchronously.
+   * @param roomId - ID of the room.
+   * @param options - Operational options.
+   * @returns a list of all the participants in the room.
+   */
+  public async removeAllParticipants(
+    roomId: string,
+    options: RemoveAllParticipantsOptions = {}
+  ): Promise<RoomModel> {
+    const { span, updatedOptions } = createSpan("RoomsClient-RemoveAllParticipants", options);
+    try {
+      const result = await this.client.rooms.updateRoom(roomId, {
+        patchRoomRequest: {
+          participants: [],
+        },
+        ...updatedOptions,
+      });
+      return mapToRoomSdkModel(result);
+    } catch (e: any) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+}

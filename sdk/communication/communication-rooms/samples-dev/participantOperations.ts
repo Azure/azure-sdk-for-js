@@ -14,7 +14,6 @@ import {
   UpdateParticipantsRequest,
 } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import { getIdentifierKind } from "@azure/communication-common";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -39,12 +38,7 @@ export async function main() {
   const createRoomRequest: CreateRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
-    participants: [
-      {
-        id: user1.user,
-        role: "Attendee",
-      },
-    ],
+    participants: [new RoomParticipant(user1.user, "Attendee")],
   };
 
   // create a room with the request payload
@@ -54,12 +48,7 @@ export async function main() {
 
   // request payload to add participants
   const addParticipantsRequest: AddParticipantsRequest = {
-    participants: [
-      {
-        id: user2.user,
-        role: "Consumer",
-      },
-    ],
+    participants: [new RoomParticipant(user2.user, "Consumer")],
   };
 
   // add user2 to the room with the request payload
@@ -69,12 +58,7 @@ export async function main() {
 
   // request payload to update user1 with a new role
   const updateParticipantsRequest: UpdateParticipantsRequest = {
-    participants: [
-      {
-        id: user1.user,
-        role: "Presenter",
-      },
-    ],
+    participants: [new RoomParticipant(user1.user, "Presenter")],
   };
 
   // update user1 with the request payload
@@ -85,15 +69,10 @@ export async function main() {
   console.log(`Updated Participants`);
   printParticipants(updateParticipants);
 
-  const deleteUser = {
-    id: user1.user,
-    role: "Presenter",
-  } as RoomParticipant;
-
   // request payload to delete both users from the room
   // this demonstrates both objects that can be used in deleting users from rooms: RoomParticipant or CommunicationIdentifier
   const removeParticipantsRequest = {
-    participants: [deleteUser, user2.user],
+    participants: [user1.user, user2.user],
   };
 
   // remove both users from the room with the request payload
@@ -115,24 +94,8 @@ export async function main() {
 function printParticipants(pc: ParticipantsCollection): void {
   console.log(`Number of Participants: ${pc.participants.length}`);
   for (const participant of pc.participants!) {
-    const identifierKind = getIdentifierKind(participant.id);
-    let id;
+    const id = participant.communicationIdentifier.rawId;
     const role = participant.role;
-    switch (identifierKind.kind) {
-      case "communicationUser":
-        id = identifierKind.communicationUserId;
-        break;
-      case "microsoftTeamsUser":
-        id = identifierKind.microsoftTeamsUserId;
-        break;
-      case "phoneNumber":
-        id = identifierKind.phoneNumber;
-        break;
-      case "unknown":
-        id = identifierKind.id;
-        console.log("Unknown user");
-        break;
-    }
     console.log(`${id} - ${role}`);
   }
 }

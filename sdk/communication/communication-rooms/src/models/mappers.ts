@@ -3,19 +3,14 @@
 
 import * as RestModel from "../generated/src/models";
 import { RoomModel, RoomParticipant } from "./models";
-import { 
-  SerializedCommunicationIdentifier,
-  deserializeCommunicationIdentifier,
-  serializeCommunicationIdentifier, 
-  CommunicationIdentifier
-} from "@azure/communication-common"
+import { CommunicationUserIdentifier } from "@azure/communication-common"
 
 /**
  * @internal
  * Checks whether the type of a value is RoomParticipant or not.
  * @param participant - The value being checked.
  */
-function isRoomParticipant (participant: RoomParticipant | CommunicationIdentifier): participant is RoomParticipant {
+function isRoomParticipant (participant: RoomParticipant | CommunicationUserIdentifier): participant is RoomParticipant {
   return (<RoomParticipant>participant).role !== undefined;
 }
 
@@ -24,21 +19,33 @@ function isRoomParticipant (participant: RoomParticipant | CommunicationIdentifi
  * Mapping room participant customer model to room participant REST model.
  */
 export const mapToRoomParticipantRestModel = (
-  roomParticipant: RoomParticipant | CommunicationIdentifier
+  roomParticipant: RoomParticipant | CommunicationUserIdentifier
 ): RestModel.RoomParticipant => {
   if (isRoomParticipant(roomParticipant)) {
-    const { id, ...rest } = roomParticipant;
+    const { communicationIdentifier, ...rest } = roomParticipant;
+    const mri = communicationIdentifier.rawId!;
     return {
-      ...rest,
-      communicationIdentifier: serializeCommunicationIdentifier(id),
+      communicationIdentifier: {
+        rawId: mri,
+        communicationUser: {
+          id: mri
+        }
+      },
+      ...rest
     };
   }
   else {
+    const mri = roomParticipant.communicationUserId;
     return {
-      communicationIdentifier: serializeCommunicationIdentifier(roomParticipant),
+      communicationIdentifier: {
+        rawId: mri,
+        communicationUser: {
+          id: mri
+        },
+      }
     };
   }
-};
+}
 
 /**
  * @internal
@@ -47,13 +54,16 @@ export const mapToRoomParticipantRestModel = (
 export const mapToRoomParticipantSdkModel = (
   roomParticipant: RestModel.RoomParticipant
 ): RoomParticipant => {
-  const { communicationIdentifier, ...rest } = roomParticipant;
+  const {communicationIdentifier, ...rest } = roomParticipant;
   return {
-    ...rest,
-    id: deserializeCommunicationIdentifier(
-      communicationIdentifier as SerializedCommunicationIdentifier
-    )
-  }
+    communicationIdentifier: {
+      rawId: communicationIdentifier.rawId!,
+      communicationUser: {
+        communicationUserId: communicationIdentifier.rawId!
+      }
+    },
+    ...rest
+  };
 }
 
 /**

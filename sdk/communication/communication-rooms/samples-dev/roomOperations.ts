@@ -8,11 +8,11 @@
 import {
   RoomsClient,
   RoomModel,
+  RoomParticipant,
   CreateRoomRequest,
   PatchRoomRequest,
 } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import { getIdentifierKind } from "@azure/communication-common";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -37,12 +37,7 @@ export async function main() {
   const createRoomRequest: CreateRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
-    participants: [
-      {
-        id: user1.user,
-        role: "Attendee",
-      },
-    ],
+    participants: [new RoomParticipant(user1.user, "Attendee")],
   };
 
   // create a room with the request payload
@@ -65,14 +60,8 @@ export async function main() {
     validUntil: validUntil,
     roomJoinPolicy: "CommunicationServiceUsers",
     participants: [
-      {
-        id: user1.user,
-        role: "Consumer",
-      },
-      {
-        id: user2.user,
-        role: "Presenter",
-      },
+      new RoomParticipant(user1.user, "Consumer"),
+      new RoomParticipant(user2.user, "Presenter"),
     ],
   };
 
@@ -96,24 +85,8 @@ function printRoom(room: RoomModel): void {
   console.log(`Room Join Policy: ${room.roomJoinPolicy}`);
   console.log(`Participants:`);
   for (const participant of room.participants!) {
-    const identifierKind = getIdentifierKind(participant.id);
-    let id;
+    const id = participant.communicationIdentifier.rawId;
     const role = participant.role;
-    switch (identifierKind.kind) {
-      case "communicationUser":
-        id = identifierKind.communicationUserId;
-        break;
-      case "microsoftTeamsUser":
-        id = identifierKind.microsoftTeamsUserId;
-        break;
-      case "phoneNumber":
-        id = identifierKind.phoneNumber;
-        break;
-      case "unknown":
-        id = identifierKind.id;
-        console.log("Unknown user");
-        break;
-    }
     console.log(`${id} - ${role}`);
   }
 }
