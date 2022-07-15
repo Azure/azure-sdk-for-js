@@ -9,8 +9,8 @@ trigger:
   paths:
     include:
       - sdk/servicefabric/ci.mgmt.yml
-      - sdk/servicefabric/arm-servicefabric/
       - sdk/servicefabric/arm-servicefabric
+      - sdk/servicefabric/arm-servicefabric-rest
 pr:
   branches:
     include:
@@ -23,8 +23,8 @@ pr:
   paths:
     include:
       - sdk/servicefabric/ci.mgmt.yml
-      - sdk/servicefabric/arm-servicefabric/
       - sdk/servicefabric/arm-servicefabric
+      - sdk/servicefabric/arm-servicefabric-rest
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -32,3 +32,5 @@ extends:
     Artifacts:
       - name: azure-arm-servicefabric
         safeName: azurearmservicefabric
+      - name: azure-rest-arm-servicefabric
+        safeName: azurerestarmservicefabric

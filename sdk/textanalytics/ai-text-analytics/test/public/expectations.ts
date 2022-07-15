@@ -24,6 +24,13 @@ export const expectation1: AnalyzeBatchResult[] = [
             confidenceScore: 0.05,
           },
           {
+            text: "Accountability",
+            category: "geographic_poi",
+            offset: 34,
+            length: 14,
+            confidenceScore: 0.07,
+          },
+          {
             text: "Office",
             category: "restaurant_name",
             offset: 49,
@@ -37,33 +44,21 @@ export const expectation1: AnalyzeBatchResult[] = [
             length: 3,
             confidenceScore: 0.04,
           },
-          {
-            text: "Accountability",
-            category: "geographic_poi",
-            offset: 34,
-            length: 14,
-            confidenceScore: 0.07,
-          },
-          {
-            text: "natural",
-            category: "geographic_poi",
-            offset: 106,
-            length: 7,
-            confidenceScore: 0.04,
-          },
-          {
-            text: "dramatic",
-            category: "sort",
-            offset: 77,
-            length: 8,
-            confidenceScore: 0.03,
-          },
+          { text: "dramatic", category: "sort", offset: 77, length: 8, confidenceScore: 0.03 },
           {
             text: "oil",
             category: "restaurant_type",
             offset: 98,
             length: 3,
             confidenceScore: 0.03,
+          },
+          { text: "and", category: "served_dish", offset: 102, length: 3, confidenceScore: 0.07 },
+          {
+            text: "natural",
+            category: "geographic_poi",
+            offset: 106,
+            length: 7,
+            confidenceScore: 0.04,
           },
           {
             text: "gas",
@@ -73,42 +68,15 @@ export const expectation1: AnalyzeBatchResult[] = [
             confidenceScore: 0.09,
           },
           {
-            text: "and",
-            category: "served_dish",
-            offset: 102,
-            length: 3,
-            confidenceScore: 0.07,
-          },
-          {
             text: "development",
             category: "object_type",
             offset: 118,
             length: 11,
             confidenceScore: 0.06,
           },
-          {
-            text: "federal",
-            category: "state",
-            offset: 133,
-            length: 7,
-            confidenceScore: 0.07,
-          },
-          {
-            text: "protection",
-            category: "state",
-            offset: 267,
-            length: 10,
-            confidenceScore: 0.05,
-          },
+          { text: "federal", category: "state", offset: 133, length: 7, confidenceScore: 0.07 },
           { text: "lands", category: "poi", offset: 141, length: 5, confidenceScore: 0.04 },
-          { text: "BLM", category: "poi", offset: 202, length: 3, confidenceScore: 0.07 },
-          {
-            text: "the",
-            category: "timeRange",
-            offset: 152,
-            length: 3,
-            confidenceScore: 0.24,
-          },
+          { text: "the", category: "timeRange", offset: 152, length: 3, confidenceScore: 0.24 },
           {
             text: "past six years",
             category: "timeRange",
@@ -116,12 +84,14 @@ export const expectation1: AnalyzeBatchResult[] = [
             length: 14,
             confidenceScore: 0.54,
           },
+          { text: "BLM", category: "poi", offset: 202, length: 3, confidenceScore: 0.07 },
+          { text: "protection", category: "state", offset: 267, length: 10, confidenceScore: 0.05 },
         ],
       },
     ],
+    completedOn,
     deploymentName,
     projectName,
-    completedOn,
   },
 ];
 
@@ -900,7 +870,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,da,fi,nl,pl,ru,sv,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,el,et,hr,hu,id,lv,no,ro,sk,sl,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
         },
       },
       { id: "3", warnings: [], keyPhrases: ["good food", "restaurant"] },
@@ -954,7 +924,7 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,da,fi,nl,pl,ru,sv,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,el,et,hr,hu,id,lv,no,ro,sk,sl,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
@@ -1269,7 +1239,7 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,da,fi,nl,pl,ru,sv,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,el,et,hr,hu,id,lv,no,ro,sk,sl,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
         },
       },
     ],

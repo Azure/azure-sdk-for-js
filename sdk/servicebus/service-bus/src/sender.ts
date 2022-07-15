@@ -157,13 +157,14 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
    * @throws Error if the underlying connection is closed.
    */
   constructor(
+    clientId: string,
     private _context: ConnectionContext,
     private _entityPath: string,
     retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(_context);
     this.entityPath = _entityPath;
-    this._sender = MessageSender.create(this._context, _entityPath, retryOptions);
+    this._sender = MessageSender.create(clientId, this._context, _entityPath, retryOptions);
     this._retryOptions = retryOptions;
   }
 

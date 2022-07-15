@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add Client Identifier support [tracking issue: #21902](https://github.com/Azure/azure-sdk-for-js/issues/21902)
+
 ### Breaking Changes
 
 ### Bugs Fixed

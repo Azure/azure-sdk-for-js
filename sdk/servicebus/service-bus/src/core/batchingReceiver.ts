@@ -35,8 +35,13 @@ export class BatchingReceiver extends MessageReceiver {
    * @param connectionContext - The client entity context.
    * @param options - Options for how you'd like to connect.
    */
-  constructor(connectionContext: ConnectionContext, entityPath: string, options: ReceiveOptions) {
-    super(connectionContext, entityPath, "batching", options);
+  constructor(
+    clientId: string,
+    connectionContext: ConnectionContext,
+    entityPath: string,
+    options: ReceiveOptions
+  ) {
+    super(clientId, connectionContext, entityPath, "batching", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       connectionContext,
@@ -145,12 +150,13 @@ export class BatchingReceiver extends MessageReceiver {
   }
 
   static create(
+    clientId: string,
     context: ConnectionContext,
     entityPath: string,
     options: ReceiveOptions
   ): BatchingReceiver {
     throwErrorIfConnectionClosed(context);
-    const bReceiver = new BatchingReceiver(context, entityPath, options);
+    const bReceiver = new BatchingReceiver(clientId, context, entityPath, options);
     context.messageReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
