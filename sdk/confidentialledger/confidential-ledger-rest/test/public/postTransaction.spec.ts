@@ -3,7 +3,7 @@
 import {
   ConfidentialLedgerClient,
   LedgerEntry,
-  PostLedgerEntryParameters,
+  CreateLedgerEntryParameters,
   isUnexpected,
 } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
@@ -31,7 +31,7 @@ describe("Post transaction", () => {
     const entry: LedgerEntry = {
       contents: contentBody,
     };
-    const ledgerEntry: PostLedgerEntryParameters = {
+    const ledgerEntry: CreateLedgerEntryParameters = {
       contentType: "application/json",
       body: entry,
     };
@@ -75,7 +75,7 @@ describe("Post transaction", () => {
 
     const collectionIdVar = "collectionPost:0";
 
-    const ledgerEntry: PostLedgerEntryParameters = {
+    const ledgerEntry: CreateLedgerEntryParameters = {
       contentType: "application/json",
       body: entry,
       queryParameters: { collectionId: collectionIdVar },

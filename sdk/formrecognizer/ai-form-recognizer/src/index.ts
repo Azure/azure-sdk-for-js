@@ -49,8 +49,8 @@ export {
   DocumentAnalysisPollOperationState,
   AnalyzedDocument,
   FormRecognizerRequestBody,
-} from "./lro/analyze";
-export { DocumentModelPoller, TrainingPollOperationState } from "./lro/training";
+} from "./lro/analysis";
+export { DocumentModelPoller, DocumentModelOperationState } from "./lro/administration";
 export * from "./models";
 export * from "./options";
 export * from "./prebuilt";

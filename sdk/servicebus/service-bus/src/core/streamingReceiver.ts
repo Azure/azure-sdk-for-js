@@ -129,11 +129,17 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
+   * @param clientId - the client id
    * @param connectionContext - The client entity context.
    * @param options - Options for how you'd like to connect.
    */
-  constructor(connectionContext: ConnectionContext, entityPath: string, options: ReceiveOptions) {
-    super(connectionContext, entityPath, "streaming", options);
+  constructor(
+    clientId: string,
+    connectionContext: ConnectionContext,
+    entityPath: string,
+    options: ReceiveOptions
+  ) {
+    super(clientId, connectionContext, entityPath, "streaming", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;

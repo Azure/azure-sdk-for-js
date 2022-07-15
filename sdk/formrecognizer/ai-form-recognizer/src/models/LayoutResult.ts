@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { DocumentPage, DocumentTable } from "./documentElements";
-import { AnalyzeResult } from "../lro/analyze";
+import { AnalyzeResult } from "../lro/analysis";
 import { DocumentStyle } from "../generated";
 
 /**

@@ -335,11 +335,13 @@ export class ServiceBusClient {
     createRuleManager(topicName: string, subscriptionName: string): ServiceBusRuleManager;
     createSender(queueOrTopicName: string): ServiceBusSender;
     fullyQualifiedNamespace: string;
+    identifier: string;
 }
 
 // @public
 export interface ServiceBusClientOptions {
     customEndpointAddress?: string;
+    identifier?: string;
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
     webSocketOptions?: WebSocketOptions;

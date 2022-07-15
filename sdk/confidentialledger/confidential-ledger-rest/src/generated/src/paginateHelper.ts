@@ -50,6 +50,12 @@ export type PaginateReturn<TResult> = TResult extends
       body: { value?: infer TPage };
     }
   | {
+      body: { members?: infer TPage };
+    }
+  | {
+      body: { collections?: infer TPage };
+    }
+  | {
       body: { entries?: infer TPage };
     }
   ? GetArrayType<TPage>
@@ -167,7 +173,7 @@ function getPaginationProperties(initialResponse: PathUncheckedResponse) {
   const nextLinkNames = new Set(["nextLink", "@nextLink"]);
 
   // Build a set with the passed custom set of itemNames
-  const itemNames = new Set(["value", "entries"]);
+  const itemNames = new Set(["value", "members", "collections", "entries"]);
 
   let nextLinkName: string | undefined;
   let itemName: string | undefined;

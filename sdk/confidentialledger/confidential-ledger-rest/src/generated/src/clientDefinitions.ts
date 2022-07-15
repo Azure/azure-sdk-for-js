@@ -3,11 +3,11 @@
 
 import {
   GetConstitutionParameters,
-  GetConsortiumMembersParameters,
+  ListConsortiumMembersParameters,
   GetEnclaveQuotesParameters,
   ListCollectionsParameters,
   ListLedgerEntriesParameters,
-  PostLedgerEntryParameters,
+  CreateLedgerEntryParameters,
   GetLedgerEntryParameters,
   GetReceiptParameters,
   GetTransactionStatusParameters,
@@ -19,16 +19,16 @@ import {
 import {
   GetConstitution200Response,
   GetConstitutiondefaultResponse,
-  GetConsortiumMembers200Response,
-  GetConsortiumMembersdefaultResponse,
+  ListConsortiumMembers200Response,
+  ListConsortiumMembersdefaultResponse,
   GetEnclaveQuotes200Response,
   GetEnclaveQuotesdefaultResponse,
   ListCollections200Response,
   ListCollectionsdefaultResponse,
   ListLedgerEntries200Response,
   ListLedgerEntriesdefaultResponse,
-  PostLedgerEntry200Response,
-  PostLedgerEntrydefaultResponse,
+  CreateLedgerEntry200Response,
+  CreateLedgerEntrydefaultResponse,
   GetLedgerEntry200Response,
   GetLedgerEntrydefaultResponse,
   GetReceipt200Response,
@@ -55,12 +55,12 @@ export interface GetConstitution {
   >;
 }
 
-export interface GetConsortiumMembers {
+export interface ListConsortiumMembers {
   /** Consortium members can manage the Confidential Ledger. */
   get(
-    options?: GetConsortiumMembersParameters
+    options?: ListConsortiumMembersParameters
   ): StreamableMethod<
-    GetConsortiumMembers200Response | GetConsortiumMembersdefaultResponse
+    ListConsortiumMembers200Response | ListConsortiumMembersdefaultResponse
   >;
 }
 
@@ -91,9 +91,9 @@ export interface ListLedgerEntries {
   >;
   /** A collection id may optionally be specified. */
   post(
-    options: PostLedgerEntryParameters
+    options: CreateLedgerEntryParameters
   ): StreamableMethod<
-    PostLedgerEntry200Response | PostLedgerEntrydefaultResponse
+    CreateLedgerEntry200Response | CreateLedgerEntrydefaultResponse
   >;
 }
 
@@ -152,7 +152,7 @@ export interface Routes {
   /** Resource for '/app/governance/constitution' has methods for the following verbs: get */
   (path: "/app/governance/constitution"): GetConstitution;
   /** Resource for '/app/governance/members' has methods for the following verbs: get */
-  (path: "/app/governance/members"): GetConsortiumMembers;
+  (path: "/app/governance/members"): ListConsortiumMembers;
   /** Resource for '/app/enclaveQuotes' has methods for the following verbs: get */
   (path: "/app/enclaveQuotes"): GetEnclaveQuotes;
   /** Resource for '/app/collections' has methods for the following verbs: get */

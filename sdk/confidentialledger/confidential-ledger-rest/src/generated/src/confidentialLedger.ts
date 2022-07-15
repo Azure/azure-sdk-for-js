@@ -6,11 +6,11 @@ import { TokenCredential } from "@azure/core-auth";
 import { ConfidentialLedgerClient } from "./clientDefinitions";
 
 export default function createClient(
-  ledgerUri: string,
+  ledgerEndpoint: string,
   credentials: TokenCredential,
   options: ClientOptions = {}
 ): ConfidentialLedgerClient {
-  const baseUrl = options.baseUrl ?? `${ledgerUri}`;
+  const baseUrl = options.baseUrl ?? `${ledgerEndpoint}`;
   options.apiVersion = options.apiVersion ?? "2022-05-13";
   options = {
     ...options,
