@@ -44,6 +44,34 @@ can be used to authenticate the client.
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
+
+## Examples
+
+The following section shows you how to initialize and authenticate your client, then list all of your Managed Clusters.
+
+### List All Managed Clusters
+
+```typescript
+import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
+import { DefaultAzureCredential } from "@azure/identity";
+
+async function listClusters() {
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const credential = new DefaultAzureCredential();
+  const client = ServiceFabricManagementClient(credential);
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters",
+      subscriptionId
+    )
+    .get();
+  console.log(result);
+}
+
+listClusters().catch(console.error);
+```
+
+
 ## Troubleshooting
 
 ### Logging
