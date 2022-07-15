@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/gZippingPolicy.js": "./dist-esm/src/gZippingPolicy.browser.js"
+    "./dist-esm/src/gZippingPolicy.js": "./dist-esm/src/gZippingPolicy.browser.js",
+    "./dist-esm/src/utils/getBinarySize.js": "./dist-esm/src/utils/getBinarySize.browser.js"
   },
   "//metadata": {
     "constantPaths": [

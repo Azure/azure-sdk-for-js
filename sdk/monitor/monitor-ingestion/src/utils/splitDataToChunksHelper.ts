@@ -1,13 +1,17 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import getBinarySize from "./getBinarySize";
   /**
    * @internal
    */
-   export function splitDataToChunks(logs: Record<string, unknown>[]): string[] {
-    let chunk: any[] = [];
-    const chunkArray: any[] = [];
+   export function splitDataToChunks(logs: Record<string, unknown>[]): Record<string, unknown>[][] {
+    let chunk: Record<string,unknown>[] = [];
+    const chunkArray: Record<string,unknown>[][] = [];
     let size = 0;
     const maxBytes = 1000000;
     for (const element of logs) {
-      const elementSize = JSON.stringify(element).length * 4;
+      const elementSize = getBinarySize(element);
+      // const elementSize = JSON.stringify(element).length * 4;
 
       if (size + elementSize < maxBytes) {
         chunk.push(element);

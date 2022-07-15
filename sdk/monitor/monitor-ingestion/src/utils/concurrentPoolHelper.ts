@@ -1,42 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Reference - https://stackoverflow.com/a/60833870/2170938
 
-export async function* asyncPool(
+export async function concurrentRun<T>(
   maxConcurrency: number,
-  workerArray: Array<any>,
-  iteratorFunc: (args: any) => Promise<void>
-) {
-  yield new Promise((executor) => {
-    const workerQueue = [...workerArray].reverse();
-    let activeCount = 0;
-
-    const promises: Array<any> = [];
-
-    const pollNext = () => {
-      if (workerQueue.length === 0 && activeCount === 0) {
-        executor(promises);
-      } else {
-        while (activeCount < maxConcurrency && workerQueue.length) {
-          // getting the index for the current worker
-          const index = workerArray.length - workerQueue.length;
-          const worker = workerQueue.pop();
-          activeCount++;
-          const currentWorker = iteratorFunc(worker);
-
-          const processCurrentPromise = (currentWorker: any, index: number) => {
-            // This maintains the order of promises and input worker array
-            // Executes the iterator func and stores the result in appropriate index
-            promises[index] = currentWorker;
-            activeCount--;
-            pollNext();
-          };
-          currentWorker.then((currentWorker) => processCurrentPromise(currentWorker, index));
-        }
+  inputData: Array<T>,
+  callback: (args: T) => Promise<void>
+): Promise<void> {
+    const dataQueue = [...inputData].reverse();
+    const promises: Array<Promise<void>> = [];
+    
+    function removePromise(p: Promise<void>) {
+      promises.splice(promises.indexOf(p),1);
+    }
+    while(dataQueue.length) {
+      while(promises.length < maxConcurrency) {
+        const worker = dataQueue.pop();
+        const promise = callback(worker!);
+        promise.finally(() => removePromise(promise));
+        promises.push(promise);
       }
-    };
-
-    pollNext();
-  });
+      if (promises.length === maxConcurrency) {
+        await Promise.race(promises);
+      }
+    }
+    await Promise.all(promises);
 }

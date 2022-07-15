@@ -6,7 +6,7 @@ import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedMonitorIngestionClient } from "./generated";
 import { UploadLogsError, UploadOptions, UploadResult, UploadStatus } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
-import { asyncPool } from "./utils/concurrentPoolHelper";
+import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
 
 /**
@@ -63,38 +63,31 @@ export class LogsIngestionClient {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks
-    const chunkArray: string[] = splitDataToChunks(logs);
+    const chunkArray = splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
     let concurrency = 1;
     if (options?.maxConcurrency && options?.maxConcurrency > 1) {
       concurrency = options?.maxConcurrency;
     }
 
-    let uploadResultErrors: Array<UploadLogsError> = [];
+    const uploadResultErrors: Array<UploadLogsError> = [];
     let uploadResult: UploadResult = {
       uploadStatus: UploadStatus.Success
     };
 
-    const errorsArray: Record<string, any>[] = [];
-    const uploadCallback = async (eachChunk: any): Promise<void> => {
+    await concurrentRun(concurrency, chunkArray, async (eachChunk): Promise<void> => {
       try {
         await this._dataClient.upload(ruleId, streamName, eachChunk, {
           contentEncoding: "gzip",
         });
       } catch (e: any) {
-        errorsArray.push({ error: e, log: eachChunk });
+        uploadResultErrors.push({
+          responseError: e,
+          failedLogs: eachChunk
+        });
       }
-    };
+    });
 
-    for await (const _i of asyncPool(concurrency, chunkArray, uploadCallback)) {
-      /* eslint-disable no-empty */
-    }
-    for (const errorsObj of errorsArray) {
-      uploadResultErrors.push({
-        responseError: errorsObj.error,
-        failedLogs: errorsObj.log,
-      });
-    }
 
     if (uploadResultErrors.length === 0) {
       return uploadResult;
