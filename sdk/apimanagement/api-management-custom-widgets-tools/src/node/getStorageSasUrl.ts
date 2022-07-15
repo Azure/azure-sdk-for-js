@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { InteractiveBrowserCredential } from "@azure/identity";
 import { TServiceInformation } from "./deploy";
-import { execSync } from "child_process";
 import { getClient } from "@azure-rest/core-client";
 
-function getAccessToken(): string {
-  execSync(`az login`);
-  const accessToken = execSync(
-    `az account get-access-token --resource-type arm --output tsv --query accessToken`
-  )
-    .toString()
-    .trim();
-  return `Bearer ${accessToken}`;
+async function getAccessToken(managementApiEndpoint: string): Promise<string> {
+  const credentials = new InteractiveBrowserCredential();
+  const scope = `${managementApiEndpoint}/user_impersonation`;
+  const { token } = await credentials.getToken(scope);
+  return `Bearer ${token}`;
 }
 
 /**
@@ -33,7 +30,7 @@ async function getStorageSasUrl({
       headers: {
         "If-Match": "*",
         "Content-Type": "application/json",
-        Authorization: tokenOverride ?? getAccessToken(),
+        Authorization: tokenOverride ?? (await getAccessToken(managementApiEndpoint)),
       },
     });
 
