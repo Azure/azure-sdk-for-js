@@ -2343,7 +2343,7 @@ packages:
   /@types/eslint/8.4.5:
     resolution: {integrity: sha512-dhsC09y1gpJWnK+Ff4SGvCuSnk9DaU0BJZSzOwa6GVSg65XtTugLBITDAAzRU5duGBoXBHpdR/9jHGxJjNflJQ==}
     dependencies:
-      '@types/estree': 0.0.52
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: false
 
@@ -2351,8 +2351,8 @@ packages:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
     dev: false
 
-  /@types/estree/0.0.52:
-    resolution: {integrity: sha512-BZWrtCU0bMVAIliIV+HJO1f1PR41M7NKjfxrFJwwhKI1KwhwOxYw1SXg9ao+CIMt774nFuGiG6eU+udtbEI9oQ==}
+  /@types/estree/1.0.0:
+    resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
     dev: false
 
   /@types/express-serve-static-core/4.17.29:
@@ -5446,7 +5446,7 @@ packages:
   /is-reference/1.2.1:
     resolution: {integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==}
     dependencies:
-      '@types/estree': 0.0.52
+      '@types/estree': 1.0.0
     dev: false
 
   /is-regex/1.1.4:
@@ -6652,7 +6652,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
+    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -7695,7 +7695,7 @@ packages:
     resolution: {integrity: sha512-/2HA0Ec70TvQnXdzynFffkjA6XN+1e2pEv/uKS5Ulca40g2L7KuOE3riasHoNVHOsFD5KKZgDsMk1CP3Tw9s+A==}
     hasBin: true
     dependencies:
-      '@types/estree': 0.0.52
+      '@types/estree': 1.0.0
       '@types/node': 18.0.3
       acorn: 7.4.1
     dev: false
@@ -15699,13 +15699,13 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-/VrXENUw5C2ayk8FW7AFXtf/kAmMxXGiFDy9RGMOCm953fMccNz0/vySz7o+NDOyHrd/fXwKljyfCpBlkCMEWA==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-+1Ysdv8ft1F889llxmqE50yByPRcPiqk2dGeK2+MEBCIhaL4b+UoCPawz9wNEbSEDTFygMuMkAc8oy076WLyNg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
       '@types/chai': 4.3.1
       '@types/eslint': 8.4.5
-      '@types/estree': 0.0.52
+      '@types/estree': 1.0.0
       '@types/glob': 7.2.0
       '@types/json-schema': 7.0.11
       '@types/mocha': 7.0.2
