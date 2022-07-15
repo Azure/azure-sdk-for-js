@@ -26,6 +26,9 @@ export const mapToRoomParticipantRestModel = (
   };
 }
 
+/**
+ * Mapping CommunicationUserIdentifier to room participant REST model.
+ */
 export const mapCommunicationIdentifierToRoomParticipantRestModel = (
   communicationIdentifier: CommunicationUserIdentifier
 ): RestModel.RoomParticipant => {
