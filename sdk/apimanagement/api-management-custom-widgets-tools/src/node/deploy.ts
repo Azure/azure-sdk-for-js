@@ -3,7 +3,6 @@
 
 import { CONFIG_FILE_NAME } from "../paths";
 import CustomWidgetBlobService from "./CustomWidgetBlobService";
-import { createClientLogger } from "@azure/logger";
 import fs from "fs";
 import getStorageSasUrl from "./getStorageSasUrl";
 import readdir from "./readdir";
@@ -33,32 +32,31 @@ async function deploy(
   name: string,
   fallbackConfigPath = "./static/" + CONFIG_FILE_NAME
 ): Promise<void> {
-  const logger = createClientLogger("deploy");
-  logger.info("\n\n");
-  logger.info("Starting deploy process of custom widget: " + name);
-  logger.info("Please, sign in to your Azure account when prompted\n");
+  console.log("\n\n");
+  console.log("Starting deploy process of custom widget: " + name);
+  console.log("Please, sign in to your Azure account when prompted\n");
 
   const blobStorageUrl = await getStorageSasUrl(serviceInformation);
   const customWidgetBlobService = new CustomWidgetBlobService(blobStorageUrl, name);
 
   let config;
   try {
-    logger.info("Looking for config file in the Azure blob storage");
+    console.log("Looking for config file in the Azure blob storage");
     config = await customWidgetBlobService.getConfig();
   } catch (e) {
-    logger.info("Config not found.");
+    console.log("Config not found.");
   }
   if (!config) {
-    logger.info("Looking for a local config file in: " + fallbackConfigPath);
+    console.log("Looking for a local config file in: " + fallbackConfigPath);
     config = JSON.parse(fs.readFileSync(fallbackConfigPath).toString());
   }
 
-  logger.info("Config file loaded\n");
+  console.log("Config file loaded\n");
 
   const rootLocal = "./dist/";
   const files = readdir("", rootLocal);
 
-  logger.info("Starting upload of data files from the '" + rootLocal + "' folder\n");
+  console.log("Starting upload of data files from the '" + rootLocal + "' folder\n");
 
   await customWidgetBlobService.cleanDataDir();
 
@@ -67,16 +65,16 @@ async function deploy(
     const content = fs.readFileSync(rootLocal + file);
     const promise = customWidgetBlobService
       .uploadWidgetDataFile(file, content)
-      .then(() => logger.info("Uploaded file: " + file));
+      .then(() => console.log("Uploaded file: " + file));
     promises.push(promise);
   });
   await Promise.all(promises);
 
-  logger.info(files.length + " files has been uploaded\n");
+  console.log(files.length + " files has been uploaded\n");
 
   config.deployed = new Date();
   await customWidgetBlobService.uploadConfig(config);
-  logger.info("Uploaded updated config");
+  console.log("Uploaded updated config");
 }
 
 export default deploy;
