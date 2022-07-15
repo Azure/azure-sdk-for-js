@@ -1,15 +1,20 @@
 # Release History
+    
+## 6.0.0 (2022-07-15)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
+  - Added Interface StorageTarget
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AscUsages
+  - Removed operation StorageTargetOperations.beginInvalidate
+  - Removed operation StorageTargetOperations.beginInvalidateAndWait
+  - Interface Cache_2 no longer has parameter zones
+  - Class StorageCacheManagementClient no longer has parameter ascUsages
+    
+    
 ## 5.1.0 (2022-03-15)
     
 **Features**

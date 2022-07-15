@@ -213,52 +213,6 @@ export interface ErrorResponse {
   message?: string;
 }
 
-/** Result of the request to list resource usages. It contains a list of resource usages & limits and a URL link to get the next set of results. */
-export interface ResourceUsagesListResult {
-  /**
-   * URL to get the next set of resource usage list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /**
-   * List of usages and limits for resources controlled by the Microsoft.StorageCache resource provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ResourceUsage[];
-}
-
-/** The usage and limit (quota) for a resource. */
-export interface ResourceUsage {
-  /**
-   * The limit (quota) for this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly limit?: number;
-  /**
-   * Unit that the limit and usages are expressed in, such as 'Count'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly unit?: string;
-  /**
-   * The current usage of this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly currentValue?: number;
-  /**
-   * Naming information for this resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: ResourceUsageName;
-}
-
-/** Naming information for this resource type. */
-export interface ResourceUsageName {
-  /** Canonical name for this resource type. */
-  value?: string;
-  /** Localized name for this resource type. */
-  localizedValue?: string;
-}
-
 /** Result of the request to list Caches. It contains a list of Caches and a URL link to get the next set of results. */
 export interface CachesListResult {
   /** URL to get the next set of Cache list results, if there are any. */
@@ -329,8 +283,6 @@ export interface Cache {
   securitySettings?: CacheSecuritySettings;
   /** Specifies Directory Services settings of the cache. */
   directoryServicesSettings?: CacheDirectorySettings;
-  /** Availability zones for resources. This field should only contain a single element in the array. */
-  zones?: string[];
 }
 
 /** Cache identity properties. */
@@ -671,7 +623,7 @@ export interface StorageTargetResource {
 }
 
 /** Type of the Storage Target. */
-export type StorageTarget = StorageTargetResource & {
+export interface StorageTarget extends StorageTargetResource {
   /** List of Cache namespace junctions to target for namespace associations. */
   junctions?: NamespaceJunction[];
   /** Type of the Storage Target. */
@@ -691,16 +643,23 @@ export type StorageTarget = StorageTargetResource & {
   unknown?: UnknownTarget;
   /** Properties when targetType is blobNfs. */
   blobNfs?: BlobNfsTarget;
-};
+}
 
 /** Known values of {@link MetricAggregationType} that the service accepts. */
 export enum KnownMetricAggregationType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** None */
   None = "None",
+  /** Average */
   Average = "Average",
+  /** Minimum */
   Minimum = "Minimum",
+  /** Maximum */
   Maximum = "Maximum",
+  /** Total */
   Total = "Total",
+  /** Count */
   Count = "Count"
 }
 
@@ -721,7 +680,9 @@ export type MetricAggregationType = string;
 
 /** Known values of {@link ReasonCode} that the service accepts. */
 export enum KnownReasonCode {
+  /** QuotaId */
   QuotaId = "QuotaId",
+  /** NotAvailableForSubscription */
   NotAvailableForSubscription = "NotAvailableForSubscription"
 }
 
@@ -737,9 +698,13 @@ export type ReasonCode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -757,14 +722,23 @@ export type CreatedByType = string;
 
 /** Known values of {@link HealthStateType} that the service accepts. */
 export enum KnownHealthStateType {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Healthy */
   Healthy = "Healthy",
+  /** Degraded */
   Degraded = "Degraded",
+  /** Down */
   Down = "Down",
+  /** Transitioning */
   Transitioning = "Transitioning",
+  /** Stopping */
   Stopping = "Stopping",
+  /** Stopped */
   Stopped = "Stopped",
+  /** Upgrading */
   Upgrading = "Upgrading",
+  /** Flushing */
   Flushing = "Flushing"
 }
 
@@ -787,11 +761,17 @@ export type HealthStateType = string;
 
 /** Known values of {@link ProvisioningStateType} that the service accepts. */
 export enum KnownProvisioningStateType {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -811,7 +791,9 @@ export type ProvisioningStateType = string;
 
 /** Known values of {@link FirmwareStatusType} that the service accepts. */
 export enum KnownFirmwareStatusType {
+  /** Available */
   Available = "available",
+  /** Unavailable */
   Unavailable = "unavailable"
 }
 
@@ -827,8 +809,11 @@ export type FirmwareStatusType = string;
 
 /** Known values of {@link NfsAccessRuleScope} that the service accepts. */
 export enum KnownNfsAccessRuleScope {
+  /** Default */
   Default = "default",
+  /** Network */
   Network = "network",
+  /** Host */
   Host = "host"
 }
 
@@ -845,8 +830,11 @@ export type NfsAccessRuleScope = string;
 
 /** Known values of {@link NfsAccessRuleAccess} that the service accepts. */
 export enum KnownNfsAccessRuleAccess {
+  /** No */
   No = "no",
+  /** Ro */
   Ro = "ro",
+  /** Rw */
   Rw = "rw"
 }
 
@@ -863,8 +851,11 @@ export type NfsAccessRuleAccess = string;
 
 /** Known values of {@link DomainJoinedType} that the service accepts. */
 export enum KnownDomainJoinedType {
+  /** Yes */
   Yes = "Yes",
+  /** No */
   No = "No",
+  /** Error */
   Error = "Error"
 }
 
@@ -881,9 +872,13 @@ export type DomainJoinedType = string;
 
 /** Known values of {@link UsernameSource} that the service accepts. */
 export enum KnownUsernameSource {
+  /** AD */
   AD = "AD",
+  /** Ldap */
   Ldap = "LDAP",
+  /** File */
   File = "File",
+  /** None */
   None = "None"
 }
 
@@ -901,8 +896,11 @@ export type UsernameSource = string;
 
 /** Known values of {@link UsernameDownloadedType} that the service accepts. */
 export enum KnownUsernameDownloadedType {
+  /** Yes */
   Yes = "Yes",
+  /** No */
   No = "No",
+  /** Error */
   Error = "Error"
 }
 
@@ -919,9 +917,13 @@ export type UsernameDownloadedType = string;
 
 /** Known values of {@link StorageTargetType} that the service accepts. */
 export enum KnownStorageTargetType {
+  /** Nfs3 */
   Nfs3 = "nfs3",
+  /** Clfs */
   Clfs = "clfs",
+  /** Unknown */
   Unknown = "unknown",
+  /** BlobNfs */
   BlobNfs = "blobNfs"
 }
 
@@ -939,9 +941,13 @@ export type StorageTargetType = string;
 
 /** Known values of {@link OperationalStateType} that the service accepts. */
 export enum KnownOperationalStateType {
+  /** Ready */
   Ready = "Ready",
+  /** Busy */
   Busy = "Busy",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Flushing */
   Flushing = "Flushing"
 }
 
@@ -1010,20 +1016,6 @@ export interface AscOperationsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type AscOperationsGetResponse = AscOperation;
-
-/** Optional parameters. */
-export interface AscUsagesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AscUsagesListResponse = ResourceUsagesListResult;
-
-/** Optional parameters. */
-export interface AscUsagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AscUsagesListNextResponse = ResourceUsagesListResult;
 
 /** Optional parameters. */
 export interface CachesListOptionalParams extends coreClient.OperationOptions {}
@@ -1208,15 +1200,6 @@ export interface StorageTargetSuspendOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetResumeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface StorageTargetInvalidateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

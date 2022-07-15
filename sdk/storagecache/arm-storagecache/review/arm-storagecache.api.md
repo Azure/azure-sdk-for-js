@@ -64,25 +64,6 @@ export interface AscOperationsGetOptionalParams extends coreClient.OperationOpti
 export type AscOperationsGetResponse = AscOperation;
 
 // @public
-export interface AscUsages {
-    list(location: string, options?: AscUsagesListOptionalParams): PagedAsyncIterableIterator<ResourceUsage>;
-}
-
-// @public
-export interface AscUsagesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AscUsagesListNextResponse = ResourceUsagesListResult;
-
-// @public
-export interface AscUsagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AscUsagesListResponse = ResourceUsagesListResult;
-
-// @public
 export interface BlobNfsTarget {
     target?: string;
     usageModel?: string;
@@ -110,7 +91,6 @@ interface Cache_2 {
     };
     readonly type?: string;
     readonly upgradeStatus?: CacheUpgradeStatus;
-    zones?: string[];
 }
 export { Cache_2 as Cache }
 
@@ -385,161 +365,107 @@ export interface KeyVaultKeyReferenceSourceVault {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDomainJoinedType {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     No = "No",
-    // (undocumented)
     Yes = "Yes"
 }
 
 // @public
 export enum KnownFirmwareStatusType {
-    // (undocumented)
     Available = "available",
-    // (undocumented)
     Unavailable = "unavailable"
 }
 
 // @public
 export enum KnownHealthStateType {
-    // (undocumented)
     Degraded = "Degraded",
-    // (undocumented)
     Down = "Down",
-    // (undocumented)
     Flushing = "Flushing",
-    // (undocumented)
     Healthy = "Healthy",
-    // (undocumented)
     Stopped = "Stopped",
-    // (undocumented)
     Stopping = "Stopping",
-    // (undocumented)
     Transitioning = "Transitioning",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Upgrading = "Upgrading"
 }
 
 // @public
 export enum KnownMetricAggregationType {
-    // (undocumented)
     Average = "Average",
-    // (undocumented)
     Count = "Count",
-    // (undocumented)
     Maximum = "Maximum",
-    // (undocumented)
     Minimum = "Minimum",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Total = "Total"
 }
 
 // @public
 export enum KnownNfsAccessRuleAccess {
-    // (undocumented)
     No = "no",
-    // (undocumented)
     Ro = "ro",
-    // (undocumented)
     Rw = "rw"
 }
 
 // @public
 export enum KnownNfsAccessRuleScope {
-    // (undocumented)
     Default = "default",
-    // (undocumented)
     Host = "host",
-    // (undocumented)
     Network = "network"
 }
 
 // @public
 export enum KnownOperationalStateType {
-    // (undocumented)
     Busy = "Busy",
-    // (undocumented)
     Flushing = "Flushing",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Suspended = "Suspended"
 }
 
 // @public
 export enum KnownProvisioningStateType {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownReasonCode {
-    // (undocumented)
     NotAvailableForSubscription = "NotAvailableForSubscription",
-    // (undocumented)
     QuotaId = "QuotaId"
 }
 
 // @public
 export enum KnownStorageTargetType {
-    // (undocumented)
     BlobNfs = "blobNfs",
-    // (undocumented)
     Clfs = "clfs",
-    // (undocumented)
     Nfs3 = "nfs3",
-    // (undocumented)
     Unknown = "unknown"
 }
 
 // @public
 export enum KnownUsernameDownloadedType {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     No = "No",
-    // (undocumented)
     Yes = "Yes"
 }
 
 // @public
 export enum KnownUsernameSource {
-    // (undocumented)
     AD = "AD",
-    // (undocumented)
     File = "File",
-    // (undocumented)
     Ldap = "LDAP",
-    // (undocumented)
     None = "None"
 }
 
@@ -661,26 +587,6 @@ export interface ResourceSkusResult {
 }
 
 // @public
-export interface ResourceUsage {
-    readonly currentValue?: number;
-    readonly limit?: number;
-    readonly name?: ResourceUsageName;
-    readonly unit?: string;
-}
-
-// @public
-export interface ResourceUsageName {
-    localizedValue?: string;
-    value?: string;
-}
-
-// @public
-export interface ResourceUsagesListResult {
-    readonly nextLink?: string;
-    readonly value?: ResourceUsage[];
-}
-
-// @public
 export interface Restriction {
     reasonCode?: ReasonCode;
     readonly type?: string;
@@ -716,8 +622,6 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     ascOperations: AscOperations;
     // (undocumented)
-    ascUsages: AscUsages;
-    // (undocumented)
     caches: Caches;
     // (undocumented)
     operations: Operations;
@@ -741,16 +645,16 @@ export interface StorageCacheManagementClientOptionalParams extends coreClient.S
 }
 
 // @public
-export type StorageTarget = StorageTargetResource & {
+export interface StorageTarget extends StorageTargetResource {
+    blobNfs?: BlobNfsTarget;
+    clfs?: ClfsTarget;
     junctions?: NamespaceJunction[];
-    targetType?: StorageTargetType;
+    nfs3?: Nfs3Target;
     readonly provisioningState?: ProvisioningStateType;
     state?: OperationalStateType;
-    nfs3?: Nfs3Target;
-    clfs?: ClfsTarget;
+    targetType?: StorageTargetType;
     unknown?: UnknownTarget;
-    blobNfs?: BlobNfsTarget;
-};
+}
 
 // @public
 export interface StorageTargetFlushOptionalParams extends coreClient.OperationOptions {
@@ -759,17 +663,9 @@ export interface StorageTargetFlushOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export interface StorageTargetInvalidateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface StorageTargetOperations {
     beginFlush(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginFlushAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<void>;
-    beginInvalidate(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginInvalidateAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<void>;
     beginResume(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginResumeAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<void>;
     beginSuspend(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
