@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-servicefabric-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.25151)",
-        "x-ms-client-request-id": "3657c597-97a3-47a0-81f5-39f0bb21cb6a"
+        "User-Agent": "azsdk-js-arm-servicefabric-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "15cfb5de-0263-4c0b-9a2f-0c9a9e8cba20"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Mon, 04 Jul 2022 05:14:07 GMT",
+        "Date": "Fri, 15 Jul 2022 05:21:25 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -28,32 +28,32 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "cf0fdb33-0568-40eb-bb39-1e2167c6c2a1",
+        "x-ms-correlation-request-id": "c6fea63b-3286-4716-81a8-4625a036a815",
         "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "cf0fdb33-0568-40eb-bb39-1e2167c6c2a1",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220704T051407Z:cf0fdb33-0568-40eb-bb39-1e2167c6c2a1"
+        "x-ms-request-id": "c6fea63b-3286-4716-81a8-4625a036a815",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220715T052125Z:c6fea63b-3286-4716-81a8-4625a036a815"
       },
       "ResponseBody": {
         "type": "Microsoft.ServiceFabric/clusters",
         "location": "eastus",
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ServiceFabric/clusters/myclusterxxxy",
         "name": "myclusterxxxy",
-        "etag": "W/\u0022637925084436984970\u0022",
+        "etag": "W/\u0022637934592808303430\u0022",
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-07-04T05:14:02.437028\u002B00:00",
+          "createdAt": "2022-07-15T05:21:19.5403058\u002B00:00",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-07-04T05:14:02.437028\u002B00:00"
+          "lastModifiedAt": "2022-07-15T05:21:19.5403058\u002B00:00"
         },
         "properties": {
           "provisioningState": "Succeeded",
-          "clusterId": "16f02636-b698-472d-97f9-27512f6d6fff",
+          "clusterId": "15629705-2c28-4ac6-b7cb-8c4807e5fe68",
           "clusterCodeVersion": "9.0.1028.9590",
           "clusterState": "WaitingForNodes",
           "managementEndpoint": "http://myCluster.eastus.cloudapp.azure.com:19080",
-          "clusterEndpoint": "https://eastus.servicefabric.azure.com/runtime/clusters/16f02636-b698-472d-97f9-27512f6d6fff",
+          "clusterEndpoint": "https://eastus.servicefabric.azure.com/runtime/clusters/15629705-2c28-4ac6-b7cb-8c4807e5fe68",
           "clientCertificateThumbprints": [],
           "clientCertificateCommonNames": [],
           "fabricSettings": [

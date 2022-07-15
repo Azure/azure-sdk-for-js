@@ -4,6 +4,7 @@
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { ServiceFabricClient } from "./clientDefinitions";
+import { customizedApiVersionPolicy } from "./customizedApiVersionPolicy";
 
 export default function createClient(
   credentials: TokenCredential,
@@ -31,6 +32,11 @@ export default function createClient(
   };
 
   const client = getClient(baseUrl, credentials, options) as ServiceFabricClient;
+  // Considering ApiVersionPolicy in core has bugs so we replace with our customized one
+  client.pipeline.removePolicy({
+    name: "ApiVersionPolicy"
+  });
+  client.pipeline.addPolicy(customizedApiVersionPolicy(options));
 
   return client;
 }
