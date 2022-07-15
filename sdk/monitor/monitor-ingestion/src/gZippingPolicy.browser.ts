@@ -11,6 +11,7 @@ export const gZippingPolicyName = "GzippingPolicyForBrowser";
 export const GZippingPolicy: PipelinePolicy = {
   name: gZippingPolicyName,
   sendRequest: async (req, next) => {
+    //This is a no-op for now, will be implementing gzipping for browser using pako https://github.com/Azure/azure-sdk-for-js/issues/22593
     return next(req);
   },
 };
