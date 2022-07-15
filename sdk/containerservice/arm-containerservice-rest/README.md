@@ -44,6 +44,35 @@ can be used to authenticate the client.
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
+## Examples
+
+The following section shows you how to initialize and authenticate your client, then list all of your Managed Clusters.
+
+### List All Managed Clusters
+
+```typescript
+import ContainerServiceManagementClient, { paginate } from "@azure-rest/arm-containerservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
+async function listManagedClusters() {
+  const subscriptionId = process.env.SUBSCRIPTION_ID as string;
+  const credential = new DefaultAzureCredential();
+  const client = ContainerServiceManagementClient(credential);
+  const initialResponse = await client.path(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
+    subscriptionId
+  ).get();
+  const result = paginate(client, initialResponse);
+  const resArray = new Array();
+  for await (let item of result) {
+    resArray.push(item);
+  }
+  console.log(resArray);
+}
+
+listManagedClusters().catch(console.error);
+```
+
 ## Troubleshooting
 
 ### Logging
