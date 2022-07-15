@@ -871,10 +871,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createSegmentsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -972,10 +974,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updateSegmentsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1060,10 +1064,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, privateCloudName, segmentId, options },
       deleteSegmentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1194,10 +1200,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createDhcpOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1295,10 +1303,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updateDhcpOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1383,10 +1393,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, privateCloudName, dhcpId, options },
       deleteDhcpOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1555,10 +1567,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createPortMirroringOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1658,10 +1672,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updatePortMirroringOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1748,10 +1764,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, portMirroringId, privateCloudName, options },
       deletePortMirroringOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1883,10 +1901,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createVMGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1984,10 +2004,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updateVMGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2072,10 +2094,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, vmGroupId, privateCloudName, options },
       deleteVMGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2242,10 +2266,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createDnsServiceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2343,10 +2369,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updateDnsServiceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2431,10 +2459,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, dnsServiceId, privateCloudName, options },
       deleteDnsServiceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2565,10 +2595,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createDnsZoneOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2666,10 +2698,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updateDnsZoneOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2754,10 +2788,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, dnsZoneId, privateCloudName, options },
       deleteDnsZoneOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2890,10 +2926,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createPublicIPOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2980,10 +3018,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, publicIPId, privateCloudName, options },
       deletePublicIPOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

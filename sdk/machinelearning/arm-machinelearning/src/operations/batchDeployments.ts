@@ -15,14 +15,14 @@ import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspace
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  BatchDeploymentData,
+  BatchDeployment,
   BatchDeploymentsListNextOptionalParams,
   BatchDeploymentsListOptionalParams,
   BatchDeploymentsListResponse,
   BatchDeploymentsDeleteOptionalParams,
   BatchDeploymentsGetOptionalParams,
   BatchDeploymentsGetResponse,
-  PartialBatchDeploymentPartialTrackedResource,
+  PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
   BatchDeploymentsUpdateOptionalParams,
   BatchDeploymentsUpdateResponse,
   BatchDeploymentsCreateOrUpdateOptionalParams,
@@ -55,7 +55,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     options?: BatchDeploymentsListOptionalParams
-  ): PagedAsyncIterableIterator<BatchDeploymentData> {
+  ): PagedAsyncIterableIterator<BatchDeployment> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
@@ -85,7 +85,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     options?: BatchDeploymentsListOptionalParams
-  ): AsyncIterableIterator<BatchDeploymentData[]> {
+  ): AsyncIterableIterator<BatchDeployment[]> {
     let result = await this._list(
       resourceGroupName,
       workspaceName,
@@ -112,7 +112,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     options?: BatchDeploymentsListOptionalParams
-  ): AsyncIterableIterator<BatchDeploymentData> {
+  ): AsyncIterableIterator<BatchDeployment> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -281,7 +281,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: PartialBatchDeploymentPartialTrackedResource,
+    body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
     options?: BatchDeploymentsUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -362,7 +362,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: PartialBatchDeploymentPartialTrackedResource,
+    body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
     options?: BatchDeploymentsUpdateOptionalParams
   ): Promise<BatchDeploymentsUpdateResponse> {
     const poller = await this.beginUpdate(
@@ -390,7 +390,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: BatchDeploymentData,
+    body: BatchDeployment,
     options?: BatchDeploymentsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -471,7 +471,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: BatchDeploymentData,
+    body: BatchDeployment,
     options?: BatchDeploymentsCreateOrUpdateOptionalParams
   ): Promise<BatchDeploymentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
@@ -568,7 +568,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchDeploymentData
+      bodyMapper: Mappers.BatchDeployment
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -592,16 +592,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchDeploymentData
+      bodyMapper: Mappers.BatchDeployment
     },
     201: {
-      bodyMapper: Mappers.BatchDeploymentData
+      bodyMapper: Mappers.BatchDeployment
     },
     202: {
-      bodyMapper: Mappers.BatchDeploymentData
+      bodyMapper: Mappers.BatchDeployment
     },
     204: {
-      bodyMapper: Mappers.BatchDeploymentData
+      bodyMapper: Mappers.BatchDeployment
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -627,16 +627,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchDeploymentData
+      bodyMapper: Mappers.BatchDeployment
     },
     201: {
-      bodyMapper: Mappers.BatchDeploymentData
+      bodyMapper: Mappers.BatchDeployment
     },
     202: {
-      bodyMapper: Mappers.BatchDeploymentData
+      bodyMapper: Mappers.BatchDeployment
     },
     204: {
-      bodyMapper: Mappers.BatchDeploymentData
+      bodyMapper: Mappers.BatchDeployment
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -28,14 +28,14 @@ async function createOrUpdateAPolicySetDefinitionAtManagementGroupLevel() {
     policyDefinitions: [
       {
         parameters: {
-          listOfAllowedSKUs: {}
+          listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] }
         },
         policyDefinitionId:
           "/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
         policyDefinitionReferenceId: "Limit_Skus"
       },
       {
-        parameters: { prefix: {}, suffix: {} },
+        parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
         policyDefinitionId:
           "/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
         policyDefinitionReferenceId: "Resource_Naming"
@@ -86,7 +86,7 @@ async function createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLeve
       {
         groupNames: ["CostSaving"],
         parameters: {
-          listOfAllowedSKUs: {}
+          listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] }
         },
         policyDefinitionId:
           "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
@@ -94,7 +94,7 @@ async function createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLeve
       },
       {
         groupNames: ["Organizational"],
-        parameters: { prefix: {}, suffix: {} },
+        parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
         policyDefinitionId:
           "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
         policyDefinitionReferenceId: "Resource_Naming"

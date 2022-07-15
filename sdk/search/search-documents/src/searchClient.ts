@@ -17,7 +17,6 @@ import {
   IndexDocumentsResult,
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { deserialize, serialize } from "./serialization";
 import {
   CountDocumentsOptions,
@@ -204,8 +203,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return documentsCount;
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -249,8 +248,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return result;
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -302,8 +301,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return deserialize<SearchDocumentsPageResult<Pick<T, Fields>>>(converted);
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -399,8 +398,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       };
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -450,8 +449,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return deserialize<SuggestDocumentsResult<Pick<T, Fields>>>(modifiedResult);
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -474,8 +473,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return deserialize<T>(result);
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -516,8 +515,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return result;
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -543,8 +542,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -571,8 +570,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -599,8 +598,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {
@@ -648,8 +647,8 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e.message,
       });
       throw e;
     } finally {

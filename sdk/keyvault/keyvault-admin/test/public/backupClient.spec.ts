@@ -60,12 +60,10 @@ describe("KeyVaultBackupClient", () => {
     });
 
     it("throws when polling errors", async function () {
-      const backupPoller = await client.beginBackup(
-        blobStorageUri,
-        "invalid_sas_token",
-        testPollerProperties
+      await assert.isRejected(
+        client.beginBackup(blobStorageUri, "invalid_sas_token", testPollerProperties),
+        /SAS token/
       );
-      await assert.isRejected(backupPoller.pollUntilDone(), /SAS token/);
     });
   });
 
@@ -163,12 +161,10 @@ describe("KeyVaultBackupClient", () => {
     });
 
     it("throws when polling errors", async function () {
-      const restorePoller = await client.beginRestore(
-        blobStorageUri,
-        "bad_token",
-        testPollerProperties
+      await assert.isRejected(
+        client.beginRestore(blobStorageUri, "bad_token", testPollerProperties),
+        /SAS token is malformed/
       );
-      await assert.isRejected(restorePoller.pollUntilDone(), /SAS token is malformed/);
     });
   });
 });

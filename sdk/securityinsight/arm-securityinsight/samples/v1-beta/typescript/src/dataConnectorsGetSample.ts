@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetAPIPolling.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetAPIPolling.json
  */
 async function getAApiPollingDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -38,7 +38,7 @@ getAApiPollingDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetAzureSecurityCenterById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetAzureSecurityCenterById.json
  */
 async function getAAscDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -61,7 +61,7 @@ getAAscDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetDynamics365DataConnectorById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetDynamics365DataConnectorById.json
  */
 async function getADynamics365DataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -84,7 +84,7 @@ getADynamics365DataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetGenericUI.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetGenericUI.json
  */
 async function getAGenericUiDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -107,7 +107,7 @@ getAGenericUiDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetIoTById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetIoTById.json
  */
 async function getAIoTDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -130,7 +130,7 @@ getAIoTDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetMicrosoftCloudAppSecurityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetMicrosoftCloudAppSecurityById.json
  */
 async function getAMcasDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -153,7 +153,7 @@ getAMcasDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetMicrosoftDefenderAdvancedThreatProtectionById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetMicrosoftDefenderAdvancedThreatProtectionById.json
  */
 async function getAMdatpDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -176,7 +176,7 @@ getAMdatpDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetMicrosoftThreatIntelligenceById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetMicrosoftThreatIntelligenceById.json
  */
 async function getAMicrosoftThreatIntelligenceDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -199,7 +199,7 @@ getAMicrosoftThreatIntelligenceDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetMicrosoftThreatProtectionById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetMicrosoftThreatProtectionById.json
  */
 async function getAMicrosoftThreatProtectionDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -222,7 +222,7 @@ getAMicrosoftThreatProtectionDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetThreatIntelligenceTaxiiById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetThreatIntelligenceTaxiiById.json
  */
 async function getATiTaxiiDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -245,7 +245,7 @@ getATiTaxiiDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetThreatIntelligenceById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetThreatIntelligenceById.json
  */
 async function getATiDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -268,7 +268,7 @@ getATiDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetAzureActiveDirectoryById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetAzureActiveDirectoryById.json
  */
 async function getAnAadDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -291,7 +291,7 @@ getAnAadDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetAzureAdvancedThreatProtectionById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetAzureAdvancedThreatProtectionById.json
  */
 async function getAnAatpDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -314,7 +314,7 @@ getAnAatpDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetAmazonWebServicesS3ById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetAmazonWebServicesS3ById.json
  */
 async function getAnAwsS3DataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -337,7 +337,7 @@ getAnAwsS3DataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetAmazonWebServicesCloudTrailById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetAmazonWebServicesCloudTrailById.json
  */
 async function getAnAwsCloudTrailDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -360,7 +360,7 @@ getAnAwsCloudTrailDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetOffice365AdvancedThreatProtectionById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetOffice365AdvancedThreatProtectionById.json
  */
 async function getAnOfficeAtpDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -383,7 +383,7 @@ getAnOfficeAtpDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetMicrosoftInsiderRiskManagementById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetMicrosoftInsiderRiskManagementById.json
  */
 async function getAnOfficeIrmDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -406,7 +406,7 @@ getAnOfficeIrmDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetOfficePowerBIDataConnetorById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetOfficePowerBIDataConnetorById.json
  */
 async function getAnOffice365PowerBiDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -429,7 +429,7 @@ getAnOffice365PowerBiDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetOffice365ProjectDataConnetorById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetOffice365ProjectDataConnetorById.json
  */
 async function getAnOffice365ProjectDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -452,7 +452,7 @@ getAnOffice365ProjectDataConnector().catch(console.error);
  * This sample demonstrates how to Gets a data connector.
  *
  * @summary Gets a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/GetOfficeDataConnetorById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/GetOfficeDataConnetorById.json
  */
 async function getAnOffice365DataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
