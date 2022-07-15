@@ -21,11 +21,6 @@ export interface CollectionOutput {
 }
 
 // @public (undocumented)
-export interface CollectionsOutput {
-    collections: Array<CollectionOutput>;
-}
-
-// @public (undocumented)
 function ConfidentialLedger(ledgerBaseUrl: string, ledgerIdentityCertificate: string, options?: ClientOptions): ConfidentialLedgerClient;
 
 // @public (undocumented)
@@ -64,12 +59,60 @@ export interface ConsortiumMemberOutput {
 export interface ConsortiumOutput {
     // (undocumented)
     members: Array<ConsortiumMemberOutput>;
+    nextLink?: string;
 }
 
 // @public (undocumented)
 export interface ConstitutionOutput {
     digest: string;
     script: string;
+}
+
+// @public (undocumented)
+export interface CreateLedgerEntry200Headers {
+    "x-ms-ccf-transaction-id"?: string;
+}
+
+// @public
+export interface CreateLedgerEntry200Response extends HttpResponse {
+    // (undocumented)
+    body: LedgerWriteResultOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & CreateLedgerEntry200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface CreateLedgerEntryBodyParam {
+    body: LedgerEntry;
+}
+
+// @public
+export interface CreateLedgerEntrydefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface CreateLedgerEntryMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type CreateLedgerEntryParameters = CreateLedgerEntryQueryParam & CreateLedgerEntryMediaTypesParam & CreateLedgerEntryBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface CreateLedgerEntryQueryParam {
+    // (undocumented)
+    queryParameters?: CreateLedgerEntryQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface CreateLedgerEntryQueryParamProperties {
+    collectionId?: string;
 }
 
 // @public
@@ -137,30 +180,6 @@ export interface EnclaveQuoteOutput {
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
-
-// @public (undocumented)
-export interface GetConsortiumMembers {
-    get(options?: GetConsortiumMembersParameters): StreamableMethod<GetConsortiumMembers200Response | GetConsortiumMembersdefaultResponse>;
-}
-
-// @public
-export interface GetConsortiumMembers200Response extends HttpResponse {
-    // (undocumented)
-    body: ConsortiumOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface GetConsortiumMembersdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ConfidentialLedgerErrorOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type GetConsortiumMembersParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GetConstitution {
@@ -360,7 +379,7 @@ export type GetUserParameters = RequestParameters;
 export function isUnexpected(response: GetConstitution200Response | GetConstitutiondefaultResponse): response is GetConstitutiondefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GetConsortiumMembers200Response | GetConsortiumMembersdefaultResponse): response is GetConsortiumMembersdefaultResponse;
+export function isUnexpected(response: ListConsortiumMembers200Response | ListConsortiumMembersdefaultResponse): response is ListConsortiumMembersdefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetEnclaveQuotes200Response | GetEnclaveQuotesdefaultResponse): response is GetEnclaveQuotesdefaultResponse;
@@ -372,7 +391,7 @@ export function isUnexpected(response: ListCollections200Response | ListCollecti
 export function isUnexpected(response: ListLedgerEntries200Response | ListLedgerEntriesdefaultResponse): response is ListLedgerEntriesdefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PostLedgerEntry200Response | PostLedgerEntrydefaultResponse): response is PostLedgerEntrydefaultResponse;
+export function isUnexpected(response: CreateLedgerEntry200Response | CreateLedgerEntrydefaultResponse): response is CreateLedgerEntrydefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetLedgerEntry200Response | GetLedgerEntrydefaultResponse): response is GetLedgerEntrydefaultResponse;
@@ -451,7 +470,7 @@ export interface ListCollections {
 // @public
 export interface ListCollections200Response extends HttpResponse {
     // (undocumented)
-    body: CollectionsOutput;
+    body: PagedCollectionsOutput;
     // (undocumented)
     status: "200";
 }
@@ -468,9 +487,33 @@ export interface ListCollectionsdefaultResponse extends HttpResponse {
 export type ListCollectionsParameters = RequestParameters;
 
 // @public (undocumented)
+export interface ListConsortiumMembers {
+    get(options?: ListConsortiumMembersParameters): StreamableMethod<ListConsortiumMembers200Response | ListConsortiumMembersdefaultResponse>;
+}
+
+// @public
+export interface ListConsortiumMembers200Response extends HttpResponse {
+    // (undocumented)
+    body: ConsortiumOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface ListConsortiumMembersdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ListConsortiumMembersParameters = RequestParameters;
+
+// @public (undocumented)
 export interface ListLedgerEntries {
     get(options?: ListLedgerEntriesParameters): StreamableMethod<ListLedgerEntries200Response | ListLedgerEntriesdefaultResponse>;
-    post(options: PostLedgerEntryParameters): StreamableMethod<PostLedgerEntry200Response | PostLedgerEntrydefaultResponse>;
+    post(options: CreateLedgerEntryParameters): StreamableMethod<CreateLedgerEntry200Response | CreateLedgerEntrydefaultResponse>;
 }
 
 // @public
@@ -506,6 +549,13 @@ export interface ListLedgerEntriesQueryParamProperties {
 }
 
 // @public (undocumented)
+export interface PagedCollectionsOutput {
+    // (undocumented)
+    collections: Array<CollectionOutput>;
+    nextLink?: string;
+}
+
+// @public (undocumented)
 export interface PagedLedgerEntriesOutput {
     entries: Array<LedgerEntryOutput>;
     nextLink?: string;
@@ -522,6 +572,14 @@ export type PaginateReturn<TResult> = TResult extends {
     };
 } | {
     body: {
+        members?: infer TPage;
+    };
+} | {
+    body: {
+        collections?: infer TPage;
+    };
+} | {
+    body: {
         entries?: infer TPage;
     };
 } ? GetArrayType<TPage> : Array<unknown>;
@@ -529,53 +587,6 @@ export type PaginateReturn<TResult> = TResult extends {
 // @public
 export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
-}
-
-// @public (undocumented)
-export interface PostLedgerEntry200Headers {
-    "x-ms-ccf-transaction-id"?: string;
-}
-
-// @public
-export interface PostLedgerEntry200Response extends HttpResponse {
-    // (undocumented)
-    body: LedgerWriteResultOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & PostLedgerEntry200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface PostLedgerEntryBodyParam {
-    body: LedgerEntry;
-}
-
-// @public
-export interface PostLedgerEntrydefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ConfidentialLedgerErrorOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface PostLedgerEntryMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type PostLedgerEntryParameters = PostLedgerEntryQueryParam & PostLedgerEntryMediaTypesParam & PostLedgerEntryBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface PostLedgerEntryQueryParam {
-    // (undocumented)
-    queryParameters?: PostLedgerEntryQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface PostLedgerEntryQueryParamProperties {
-    collectionId?: string;
 }
 
 // @public (undocumented)
@@ -619,7 +630,7 @@ export interface ReceiptLeafComponentsOutput {
 // @public (undocumented)
 export interface Routes {
     (path: "/app/governance/constitution"): GetConstitution;
-    (path: "/app/governance/members"): GetConsortiumMembers;
+    (path: "/app/governance/members"): ListConsortiumMembers;
     (path: "/app/enclaveQuotes"): GetEnclaveQuotes;
     (path: "/app/collections"): ListCollections;
     (path: "/app/transactions"): ListLedgerEntries;

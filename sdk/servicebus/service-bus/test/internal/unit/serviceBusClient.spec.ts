@@ -17,6 +17,8 @@ import {
   ServiceBusSessionReceiverImpl,
 } from "../../../src/receivers/sessionReceiver";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { ServiceBusSenderImpl } from "../../../src/sender";
+import { MessageReceiver } from "../../../src/core/messageReceiver";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -290,6 +292,36 @@ describe("serviceBusClient unit tests", () => {
       } catch (error: any) {
         assert.equal(error.message, entityPathMisMatchError);
       }
+    });
+  });
+
+  describe("client identifier option", () => {
+    const connectionString =
+      "Endpoint=sb://testnamespace/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=testKey;EntityPath=testEntityPath";
+    it("message sender created with client identifier", () => {
+      const client = new ServiceBusClient(connectionString, { identifier: "sbClientIdentifier" });
+      const sender = client.createSender("testEntityPath");
+
+      assert.equal((sender as ServiceBusSenderImpl)["_sender"]["clientId"], "sbClientIdentifier");
+    });
+
+    it("message receiver created with client identifier", () => {
+      const client = new ServiceBusClient(connectionString, { identifier: "sbClientIdentifier" });
+      const sender = client.createReceiver("testEntityPath");
+
+      assert.equal((sender as unknown as MessageReceiver)["clientId"], "sbClientIdentifier");
+    });
+
+    it("unique client identifier is created if not specified via options", () => {
+      const client1 = new ServiceBusClient(connectionString);
+      const client2 = new ServiceBusClient(connectionString);
+      assert.ok(client1.identifier, "expect valid identifier for client1");
+      assert.ok(client2.identifier, "expect valid identifier for client2");
+      assert.notEqual(client1.identifier, client2.identifier, "client identifier should be unique");
+      const uuidRegex =
+        /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+      assert.ok(uuidRegex.test(client1.identifier), "expect uuid identifer for client1");
+      assert.ok(uuidRegex.test(client2.identifier), "expect uuid identifer for client2");
     });
   });
 

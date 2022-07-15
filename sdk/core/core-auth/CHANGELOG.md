@@ -1,6 +1,8 @@
 # Release History
 
-## 1.3.3 (2022-07-06)
+## 1.4.0 (Unreleased)
+
+### Features Added
 
 - Added `claims` optional property to the `GetTokenOptions` interface. If `claims` is set, it indicates that we are in challenge process and force to refresh the token.
 

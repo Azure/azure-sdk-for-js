@@ -3,7 +3,7 @@
 import {
   ConfidentialLedgerClient,
   LedgerEntry,
-  PostLedgerEntryParameters,
+  CreateLedgerEntryParameters,
   isUnexpected,
   paginate,
 } from "../../src";
@@ -37,7 +37,7 @@ describe("Range query should be successful", () => {
         contents: "" + i,
       };
 
-      const ledgerEntry: PostLedgerEntryParameters = {
+      const ledgerEntry: CreateLedgerEntryParameters = {
         contentType: "application/json",
         body: entry,
         queryParameters: { collectionId: "" + (i % modulus) },

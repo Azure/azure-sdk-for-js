@@ -14,11 +14,11 @@ import {
   message as RheaMessageUtil,
   Message as RheaMessage,
 } from "rhea-promise";
-import { SpanContext } from "@azure/core-tracing";
-import { convertTryAddOptionsForCompatibility, instrumentMessage } from "./diagnostics/tracing";
+import { TracingContext } from "@azure/core-tracing";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { defaultDataTransformer } from "./dataTransformer";
+import { instrumentMessage } from "./diagnostics/instrumentServiceBusMessage";
 
 /**
  * @internal
@@ -92,7 +92,7 @@ export interface ServiceBusMessageBatch {
    * @internal
    * @hidden
    */
-  readonly _messageSpanContexts: SpanContext[];
+  readonly _messageSpanContexts: TracingContext[];
 }
 
 /**
@@ -112,7 +112,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
    * List of 'message' span contexts.
    */
-  private _spanContexts: SpanContext[] = [];
+  private _spanContexts: TracingContext[] = [];
   /**
    * ServiceBusMessageBatch should not be constructed using `new ServiceBusMessageBatch()`
    * Use the `createBatch()` method on your `Sender` instead.
@@ -154,7 +154,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @internal
    * @hidden
    */
-  get _messageSpanContexts(): SpanContext[] {
+  get _messageSpanContexts(): TracingContext[] {
     return this._spanContexts;
   }
 
@@ -239,8 +239,6 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   ): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", originalMessage);
     throwIfNotValidServiceBusMessage(originalMessage, errorInvalidMessageTypeSingle);
-
-    options = convertTryAddOptionsForCompatibility(options);
 
     const { message, spanContext } = instrumentMessage(
       originalMessage,

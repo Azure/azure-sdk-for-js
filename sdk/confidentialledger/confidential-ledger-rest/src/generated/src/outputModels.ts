@@ -22,6 +22,8 @@ export interface ConfidentialLedgerErrorBodyOutput {
 
 export interface ConsortiumOutput {
   members: Array<ConsortiumMemberOutput>;
+  /** Path from which to retrieve the next page of results. */
+  nextLink?: string;
 }
 
 export interface ConsortiumMemberOutput {
@@ -49,9 +51,10 @@ export interface EnclaveQuoteOutput {
   raw: string;
 }
 
-export interface CollectionsOutput {
-  /** A list of identifiers for ledger collections. */
+export interface PagedCollectionsOutput {
   collections: Array<CollectionOutput>;
+  /** Path from which to retrieve the next page of results. */
+  nextLink?: string;
 }
 
 export interface CollectionOutput {
