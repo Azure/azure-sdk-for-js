@@ -125,7 +125,7 @@ async function createManagedClusterUsingAManagedClusterSnapshot() {
       },
       location: "location1",
       sku: { name: "Basic", tier: "Free" },
-      tags: { archv2: "", tier: "production" }
+      tags: { archv2: "", tier: "production" },
     },
   };
   const credential = new DefaultAzureCredential();
@@ -1129,7 +1129,7 @@ async function createManagedClusterWithSecurityProfileConfigured() {
       },
       location: "location1",
       sku: { name: "Basic", tier: "Free" },
-      tags: { archv2: "", tier: "production" }
+      tags: { archv2: "", tier: "production" },
     },
   };
   const credential = new DefaultAzureCredential();

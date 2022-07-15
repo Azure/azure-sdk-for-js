@@ -11,7 +11,6 @@
 import ContainerServiceManagementClient, {
   getLongRunningPoller,
   ManagedClustersResetAADProfileParameters,
-  
 } from "@azure-rest/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -36,12 +35,14 @@ async function resetAadProfile() {
   const credential = new DefaultAzureCredential();
 
   const client = ContainerServiceManagementClient(credential);
-  const initialResponse = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile",
-    subscriptionId,
-    resourceGroupName,
-    resourceName
-  ).post(parameters);
+  const initialResponse = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile",
+      subscriptionId,
+      resourceGroupName,
+      resourceName
+    )
+    .post(parameters);
   const poller = getLongRunningPoller(client, initialResponse);
   const result = poller.pollUntilDone();
   console.log(result);

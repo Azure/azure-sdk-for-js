@@ -21,10 +21,12 @@ async function listManagedClusters() {
   const subscriptionId = "subid1";
   const credential = new DefaultAzureCredential();
   const client = ContainerServiceManagementClient(credential);
-  const initialResponse = await client.path(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
-    subscriptionId
-  ).get();
+  const initialResponse = await client
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
+      subscriptionId
+    )
+    .get();
   const result = paginate(client, initialResponse);
   const resArray = new Array();
   for await (let item of result) {

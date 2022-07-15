@@ -15,8 +15,8 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://management.azure.com/.default"]
-    }
+      scopes: ["https://management.azure.com/.default"],
+    },
   };
 
   const userAgentInfo = `azsdk-js-arm-containerservice-rest/1.0.0-beta.1`;
@@ -27,19 +27,15 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as ContainerServiceClient;
+  const client = getClient(baseUrl, credentials, options) as ContainerServiceClient;
 
   // Considering the container service backend only supports the old version so we need to add customized policy
   client.pipeline.removePolicy({
-    name: "ApiVersionPolicy"
+    name: "ApiVersionPolicy",
   });
   client.pipeline.addPolicy(customizedApiVersionPolicy(options));
   return client;

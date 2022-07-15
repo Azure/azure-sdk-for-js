@@ -30,7 +30,7 @@ import {
   ManagedClusterSnapshotOutput,
   TrustedAccessRoleListResultOutput,
   TrustedAccessRoleBindingListResultOutput,
-  TrustedAccessRoleBindingOutput
+  TrustedAccessRoleBindingOutput,
 } from "./outputModels";
 
 /** Gets a list of operations. */
@@ -52,8 +52,7 @@ export interface ManagedClustersGetOSOptions200Response extends HttpResponse {
 }
 
 /** Gets supported OS options in the specified subscription. */
-export interface ManagedClustersGetOSOptionsdefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersGetOSOptionsdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -71,71 +70,61 @@ export interface ManagedClustersListdefaultResponse extends HttpResponse {
 }
 
 /** Lists managed clusters in the specified subscription and resource group. */
-export interface ManagedClustersListByResourceGroup200Response
-  extends HttpResponse {
+export interface ManagedClustersListByResourceGroup200Response extends HttpResponse {
   status: "200";
   body: ManagedClusterListResultOutput;
 }
 
 /** Lists managed clusters in the specified subscription and resource group. */
-export interface ManagedClustersListByResourceGroupdefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersListByResourceGroupdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Gets the upgrade profile of a managed cluster. */
-export interface ManagedClustersGetUpgradeProfile200Response
-  extends HttpResponse {
+export interface ManagedClustersGetUpgradeProfile200Response extends HttpResponse {
   status: "200";
   body: ManagedClusterUpgradeProfileOutput;
 }
 
 /** Gets the upgrade profile of a managed cluster. */
-export interface ManagedClustersGetUpgradeProfiledefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersGetUpgradeProfiledefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** **WARNING**: This API will be deprecated. Instead use [ListClusterUserCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusterusercredentials) or [ListClusterAdminCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusteradmincredentials) . */
-export interface ManagedClustersGetAccessProfile200Response
-  extends HttpResponse {
+export interface ManagedClustersGetAccessProfile200Response extends HttpResponse {
   status: "200";
   body: ManagedClusterAccessProfileOutput;
 }
 
 /** **WARNING**: This API will be deprecated. Instead use [ListClusterUserCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusterusercredentials) or [ListClusterAdminCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusteradmincredentials) . */
-export interface ManagedClustersGetAccessProfiledefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersGetAccessProfiledefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Lists the admin credentials of a managed cluster. */
-export interface ManagedClustersListClusterAdminCredentials200Response
-  extends HttpResponse {
+export interface ManagedClustersListClusterAdminCredentials200Response extends HttpResponse {
   status: "200";
   body: CredentialResultsOutput;
 }
 
 /** Lists the admin credentials of a managed cluster. */
-export interface ManagedClustersListClusterAdminCredentialsdefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersListClusterAdminCredentialsdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Lists the user credentials of a managed cluster. */
-export interface ManagedClustersListClusterUserCredentials200Response
-  extends HttpResponse {
+export interface ManagedClustersListClusterUserCredentials200Response extends HttpResponse {
   status: "200";
   body: CredentialResultsOutput;
 }
 
 /** Lists the user credentials of a managed cluster. */
-export interface ManagedClustersListClusterUserCredentialsdefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersListClusterUserCredentialsdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -179,8 +168,7 @@ export interface ManagedClustersCreateOrUpdate201Response extends HttpResponse {
 }
 
 /** Creates or updates a managed cluster. */
-export interface ManagedClustersCreateOrUpdatedefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersCreateOrUpdatedefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -216,78 +204,67 @@ export interface ManagedClustersDeletedefaultResponse extends HttpResponse {
 }
 
 /** This action cannot be performed on a cluster that is not using a service principal */
-export interface ManagedClustersResetServicePrincipalProfile200Response
-  extends HttpResponse {
+export interface ManagedClustersResetServicePrincipalProfile200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
 
 /** This action cannot be performed on a cluster that is not using a service principal */
-export interface ManagedClustersResetServicePrincipalProfile202Response
-  extends HttpResponse {
+export interface ManagedClustersResetServicePrincipalProfile202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
 }
 
 /** This action cannot be performed on a cluster that is not using a service principal */
-export interface ManagedClustersResetServicePrincipalProfiledefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersResetServicePrincipalProfiledefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Reset the AAD Profile of a managed cluster. */
-export interface ManagedClustersResetAADProfile200Response
-  extends HttpResponse {
+export interface ManagedClustersResetAADProfile200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
 
 /** Reset the AAD Profile of a managed cluster. */
-export interface ManagedClustersResetAADProfile202Response
-  extends HttpResponse {
+export interface ManagedClustersResetAADProfile202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
 }
 
 /** Reset the AAD Profile of a managed cluster. */
-export interface ManagedClustersResetAADProfiledefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersResetAADProfiledefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates. */
-export interface ManagedClustersRotateClusterCertificates202Response
-  extends HttpResponse {
+export interface ManagedClustersRotateClusterCertificates202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
 }
 
 /** See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates. */
-export interface ManagedClustersRotateClusterCertificates204Response
-  extends HttpResponse {
+export interface ManagedClustersRotateClusterCertificates204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates. */
-export interface ManagedClustersRotateClusterCertificatesdefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersRotateClusterCertificatesdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Rotates the service account signing keys of a managed cluster. */
-export interface ManagedClustersRotateServiceAccountSigningKeys202Response
-  extends HttpResponse {
+export interface ManagedClustersRotateServiceAccountSigningKeys202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
 }
 
 /** Rotates the service account signing keys of a managed cluster. */
-export interface ManagedClustersRotateServiceAccountSigningKeys204Response
-  extends HttpResponse {
+export interface ManagedClustersRotateServiceAccountSigningKeys204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
@@ -354,22 +331,19 @@ export interface ManagedClustersRunCommanddefaultResponse extends HttpResponse {
 }
 
 /** Gets the results of a command which has been run on the Managed Cluster. */
-export interface ManagedClustersGetCommandResult200Response
-  extends HttpResponse {
+export interface ManagedClustersGetCommandResult200Response extends HttpResponse {
   status: "200";
   body: RunCommandResultOutput;
 }
 
 /** Gets the results of a command which has been run on the Managed Cluster. */
-export interface ManagedClustersGetCommandResult202Response
-  extends HttpResponse {
+export interface ManagedClustersGetCommandResult202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
 }
 
 /** Gets the results of a command which has been run on the Managed Cluster. */
-export interface ManagedClustersGetCommandResultdefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersGetCommandResultdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -389,15 +363,13 @@ export interface ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultR
 }
 
 /** Gets a list of maintenance configurations in the specified managed cluster. */
-export interface MaintenanceConfigurationsListByManagedCluster200Response
-  extends HttpResponse {
+export interface MaintenanceConfigurationsListByManagedCluster200Response extends HttpResponse {
   status: "200";
   body: MaintenanceConfigurationListResultOutput;
 }
 
 /** Gets a list of maintenance configurations in the specified managed cluster. */
-export interface MaintenanceConfigurationsListByManagedClusterdefaultResponse
-  extends HttpResponse {
+export interface MaintenanceConfigurationsListByManagedClusterdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -409,43 +381,37 @@ export interface MaintenanceConfigurationsGet200Response extends HttpResponse {
 }
 
 /** Gets the specified maintenance configuration of a managed cluster. */
-export interface MaintenanceConfigurationsGetdefaultResponse
-  extends HttpResponse {
+export interface MaintenanceConfigurationsGetdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Creates or updates a maintenance configuration in the specified managed cluster. */
-export interface MaintenanceConfigurationsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface MaintenanceConfigurationsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: MaintenanceConfigurationOutput;
 }
 
 /** Creates or updates a maintenance configuration in the specified managed cluster. */
-export interface MaintenanceConfigurationsCreateOrUpdatedefaultResponse
-  extends HttpResponse {
+export interface MaintenanceConfigurationsCreateOrUpdatedefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Deletes a maintenance configuration. */
-export interface MaintenanceConfigurationsDelete200Response
-  extends HttpResponse {
+export interface MaintenanceConfigurationsDelete200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
 
 /** Deletes a maintenance configuration. */
-export interface MaintenanceConfigurationsDelete204Response
-  extends HttpResponse {
+export interface MaintenanceConfigurationsDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Deletes a maintenance configuration. */
-export interface MaintenanceConfigurationsDeletedefaultResponse
-  extends HttpResponse {
+export interface MaintenanceConfigurationsDeletedefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -517,22 +483,19 @@ export interface AgentPoolsGetUpgradeProfile200Response extends HttpResponse {
 }
 
 /** Gets the upgrade profile for an agent pool. */
-export interface AgentPoolsGetUpgradeProfiledefaultResponse
-  extends HttpResponse {
+export interface AgentPoolsGetUpgradeProfiledefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** See [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle. */
-export interface AgentPoolsGetAvailableAgentPoolVersions200Response
-  extends HttpResponse {
+export interface AgentPoolsGetAvailableAgentPoolVersions200Response extends HttpResponse {
   status: "200";
   body: AgentPoolAvailableVersionsOutput;
 }
 
 /** Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade */
-export interface AgentPoolsUpgradeNodeImageVersion200Response
-  extends HttpResponse {
+export interface AgentPoolsUpgradeNodeImageVersion200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
@@ -543,30 +506,26 @@ export interface AgentPoolsUpgradeNodeImageVersion202Headers {
 }
 
 /** Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade */
-export interface AgentPoolsUpgradeNodeImageVersion202Response
-  extends HttpResponse {
+export interface AgentPoolsUpgradeNodeImageVersion202Response extends HttpResponse {
   status: "202";
   body: AgentPoolOutput;
   headers: RawHttpHeaders & AgentPoolsUpgradeNodeImageVersion202Headers;
 }
 
 /** Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade */
-export interface AgentPoolsUpgradeNodeImageVersiondefaultResponse
-  extends HttpResponse {
+export interface AgentPoolsUpgradeNodeImageVersiondefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters */
-export interface PrivateEndpointConnectionsList200Response
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsList200Response extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionListResultOutput;
 }
 
 /** To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters */
-export interface PrivateEndpointConnectionsListdefaultResponse
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsListdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -578,43 +537,37 @@ export interface PrivateEndpointConnectionsGet200Response extends HttpResponse {
 }
 
 /** To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters */
-export interface PrivateEndpointConnectionsGetdefaultResponse
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsGetdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Updates a private endpoint connection. */
-export interface PrivateEndpointConnectionsUpdate200Response
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsUpdate200Response extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionOutput;
 }
 
 /** Updates a private endpoint connection. */
-export interface PrivateEndpointConnectionsUpdatedefaultResponse
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsUpdatedefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Deletes a private endpoint connection. */
-export interface PrivateEndpointConnectionsDelete200Response
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsDelete200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
 
 /** Deletes a private endpoint connection. */
-export interface PrivateEndpointConnectionsDelete204Response
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Deletes a private endpoint connection. */
-export interface PrivateEndpointConnectionsDeletedefaultResponse
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsDeletedefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -632,15 +585,13 @@ export interface PrivateLinkResourcesListdefaultResponse extends HttpResponse {
 }
 
 /** Gets the private link service ID for the specified managed cluster. */
-export interface ResolvePrivateLinkServiceIdPost200Response
-  extends HttpResponse {
+export interface ResolvePrivateLinkServiceIdPost200Response extends HttpResponse {
   status: "200";
   body: PrivateLinkResourceOutput;
 }
 
 /** Gets the private link service ID for the specified managed cluster. */
-export interface ResolvePrivateLinkServiceIdPostdefaultResponse
-  extends HttpResponse {
+export interface ResolvePrivateLinkServiceIdPostdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -664,8 +615,7 @@ export interface SnapshotsListByResourceGroup200Response extends HttpResponse {
 }
 
 /** Lists snapshots in the specified subscription and resource group. */
-export interface SnapshotsListByResourceGroupdefaultResponse
-  extends HttpResponse {
+export interface SnapshotsListByResourceGroupdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -737,22 +687,19 @@ export interface ManagedClusterSnapshotsList200Response extends HttpResponse {
 }
 
 /** Gets a list of managed cluster snapshots in the specified subscription. */
-export interface ManagedClusterSnapshotsListdefaultResponse
-  extends HttpResponse {
+export interface ManagedClusterSnapshotsListdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Lists managed cluster snapshots in the specified subscription and resource group. */
-export interface ManagedClusterSnapshotsListByResourceGroup200Response
-  extends HttpResponse {
+export interface ManagedClusterSnapshotsListByResourceGroup200Response extends HttpResponse {
   status: "200";
   body: ManagedClusterSnapshotListResultOutput;
 }
 
 /** Lists managed cluster snapshots in the specified subscription and resource group. */
-export interface ManagedClusterSnapshotsListByResourceGroupdefaultResponse
-  extends HttpResponse {
+export interface ManagedClusterSnapshotsListByResourceGroupdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -764,43 +711,37 @@ export interface ManagedClusterSnapshotsGet200Response extends HttpResponse {
 }
 
 /** Gets a managed cluster snapshot. */
-export interface ManagedClusterSnapshotsGetdefaultResponse
-  extends HttpResponse {
+export interface ManagedClusterSnapshotsGetdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Creates or updates a managed cluster snapshot. */
-export interface ManagedClusterSnapshotsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface ManagedClusterSnapshotsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: ManagedClusterSnapshotOutput;
 }
 
 /** Creates or updates a managed cluster snapshot. */
-export interface ManagedClusterSnapshotsCreateOrUpdate201Response
-  extends HttpResponse {
+export interface ManagedClusterSnapshotsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: ManagedClusterSnapshotOutput;
 }
 
 /** Creates or updates a managed cluster snapshot. */
-export interface ManagedClusterSnapshotsCreateOrUpdatedefaultResponse
-  extends HttpResponse {
+export interface ManagedClusterSnapshotsCreateOrUpdatedefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Updates tags on a managed cluster snapshot. */
-export interface ManagedClusterSnapshotsUpdateTags200Response
-  extends HttpResponse {
+export interface ManagedClusterSnapshotsUpdateTags200Response extends HttpResponse {
   status: "200";
   body: ManagedClusterSnapshotOutput;
 }
 
 /** Updates tags on a managed cluster snapshot. */
-export interface ManagedClusterSnapshotsUpdateTagsdefaultResponse
-  extends HttpResponse {
+export interface ManagedClusterSnapshotsUpdateTagsdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -818,8 +759,7 @@ export interface ManagedClusterSnapshotsDelete204Response extends HttpResponse {
 }
 
 /** Deletes a managed cluster snapshot. */
-export interface ManagedClusterSnapshotsDeletedefaultResponse
-  extends HttpResponse {
+export interface ManagedClusterSnapshotsDeletedefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -843,8 +783,7 @@ export interface TrustedAccessRoleBindingsList200Response extends HttpResponse {
 }
 
 /** List trusted access role bindings. */
-export interface TrustedAccessRoleBindingsListdefaultResponse
-  extends HttpResponse {
+export interface TrustedAccessRoleBindingsListdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -856,43 +795,37 @@ export interface TrustedAccessRoleBindingsGet200Response extends HttpResponse {
 }
 
 /** Get a trusted access role binding. */
-export interface TrustedAccessRoleBindingsGetdefaultResponse
-  extends HttpResponse {
+export interface TrustedAccessRoleBindingsGetdefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Create or update a trusted access role binding */
-export interface TrustedAccessRoleBindingsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface TrustedAccessRoleBindingsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: TrustedAccessRoleBindingOutput;
 }
 
 /** Create or update a trusted access role binding */
-export interface TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse
-  extends HttpResponse {
+export interface TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Delete a trusted access role binding. */
-export interface TrustedAccessRoleBindingsDelete200Response
-  extends HttpResponse {
+export interface TrustedAccessRoleBindingsDelete200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
 
 /** Delete a trusted access role binding. */
-export interface TrustedAccessRoleBindingsDelete204Response
-  extends HttpResponse {
+export interface TrustedAccessRoleBindingsDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Delete a trusted access role binding. */
-export interface TrustedAccessRoleBindingsDeletedefaultResponse
-  extends HttpResponse {
+export interface TrustedAccessRoleBindingsDeletedefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }

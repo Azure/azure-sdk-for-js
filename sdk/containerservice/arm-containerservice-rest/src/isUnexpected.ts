@@ -131,237 +131,233 @@ import {
   TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse,
   TrustedAccessRoleBindingsDelete200Response,
   TrustedAccessRoleBindingsDelete204Response,
-  TrustedAccessRoleBindingsDeletedefaultResponse
+  TrustedAccessRoleBindingsDeletedefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /providers/Microsoft.ContainerService/operations": ["200"],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/osOptions/default": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/accessProfiles/{roleName}/listCredential": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterAdminCredential": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterMonitoringUserCredential": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}": [
     "202",
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile": [
     "200",
-    "202"
+    "202",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates": [
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates": [
     "202",
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys": [
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys": [
     "202",
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop": [
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop": [
     "202",
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start": [
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start": [
     "202",
-    "204"
+    "204",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/commandResults/{commandId}": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/outboundNetworkDependenciesEndpoints": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}": [
     "200",
-    "201"
+    "201",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}": [
     "202",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeProfiles/default": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/availableAgentPoolVersions": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion": [
     "200",
-    "202"
+    "202",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateLinkResources": [
-    "200"
+    "200",
   ],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId": [
-    "200"
+    "200",
   ],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots": [
-    "200"
-  ],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots": ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedclustersnapshots": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots/{resourceName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots/{resourceName}": [
     "200",
-    "201"
+    "201",
   ],
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots/{resourceName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots/{resourceName}": [
     "200",
-    "204"
+    "204",
   ],
   "GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/trustedAccessRoles": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings": [
-    "200"
+    "200",
   ],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}": [
-    "200"
+    "200",
   ],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}": [
-    "200"
+    "200",
   ],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}": [
     "200",
-    "204"
-  ]
+    "204",
+  ],
 };
 
 export function isUnexpected(
   response: OperationsList200Response | OperationsListdefaultResponse
 ): response is OperationsListdefaultResponse;
 export function isUnexpected(
-  response:
-    | ManagedClustersGetOSOptions200Response
-    | ManagedClustersGetOSOptionsdefaultResponse
+  response: ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsdefaultResponse
 ): response is ManagedClustersGetOSOptionsdefaultResponse;
 export function isUnexpected(
   response: ManagedClustersList200Response | ManagedClustersListdefaultResponse
@@ -406,9 +402,7 @@ export function isUnexpected(
     | ManagedClustersCreateOrUpdatedefaultResponse
 ): response is ManagedClustersCreateOrUpdatedefaultResponse;
 export function isUnexpected(
-  response:
-    | ManagedClustersUpdateTags200Response
-    | ManagedClustersUpdateTagsdefaultResponse
+  response: ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsdefaultResponse
 ): response is ManagedClustersUpdateTagsdefaultResponse;
 export function isUnexpected(
   response:
@@ -475,9 +469,7 @@ export function isUnexpected(
     | MaintenanceConfigurationsListByManagedClusterdefaultResponse
 ): response is MaintenanceConfigurationsListByManagedClusterdefaultResponse;
 export function isUnexpected(
-  response:
-    | MaintenanceConfigurationsGet200Response
-    | MaintenanceConfigurationsGetdefaultResponse
+  response: MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetdefaultResponse
 ): response is MaintenanceConfigurationsGetdefaultResponse;
 export function isUnexpected(
   response:
@@ -509,9 +501,7 @@ export function isUnexpected(
     | AgentPoolsDeletedefaultResponse
 ): response is AgentPoolsDeletedefaultResponse;
 export function isUnexpected(
-  response:
-    | AgentPoolsGetUpgradeProfile200Response
-    | AgentPoolsGetUpgradeProfiledefaultResponse
+  response: AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfiledefaultResponse
 ): response is AgentPoolsGetUpgradeProfiledefaultResponse;
 export function isUnexpected(
   response:
@@ -525,9 +515,7 @@ export function isUnexpected(
     | PrivateEndpointConnectionsListdefaultResponse
 ): response is PrivateEndpointConnectionsListdefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateEndpointConnectionsGet200Response
-    | PrivateEndpointConnectionsGetdefaultResponse
+  response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetdefaultResponse
 ): response is PrivateEndpointConnectionsGetdefaultResponse;
 export function isUnexpected(
   response:
@@ -541,9 +529,7 @@ export function isUnexpected(
     | PrivateEndpointConnectionsDeletedefaultResponse
 ): response is PrivateEndpointConnectionsDeletedefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateLinkResourcesList200Response
-    | PrivateLinkResourcesListdefaultResponse
+  response: PrivateLinkResourcesList200Response | PrivateLinkResourcesListdefaultResponse
 ): response is PrivateLinkResourcesListdefaultResponse;
 export function isUnexpected(
   response:
@@ -554,9 +540,7 @@ export function isUnexpected(
   response: SnapshotsList200Response | SnapshotsListdefaultResponse
 ): response is SnapshotsListdefaultResponse;
 export function isUnexpected(
-  response:
-    | SnapshotsListByResourceGroup200Response
-    | SnapshotsListByResourceGroupdefaultResponse
+  response: SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupdefaultResponse
 ): response is SnapshotsListByResourceGroupdefaultResponse;
 export function isUnexpected(
   response: SnapshotsGet200Response | SnapshotsGetdefaultResponse
@@ -571,15 +555,10 @@ export function isUnexpected(
   response: SnapshotsUpdateTags200Response | SnapshotsUpdateTagsdefaultResponse
 ): response is SnapshotsUpdateTagsdefaultResponse;
 export function isUnexpected(
-  response:
-    | SnapshotsDelete200Response
-    | SnapshotsDelete204Response
-    | SnapshotsDeletedefaultResponse
+  response: SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeletedefaultResponse
 ): response is SnapshotsDeletedefaultResponse;
 export function isUnexpected(
-  response:
-    | ManagedClusterSnapshotsList200Response
-    | ManagedClusterSnapshotsListdefaultResponse
+  response: ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListdefaultResponse
 ): response is ManagedClusterSnapshotsListdefaultResponse;
 export function isUnexpected(
   response:
@@ -587,9 +566,7 @@ export function isUnexpected(
     | ManagedClusterSnapshotsListByResourceGroupdefaultResponse
 ): response is ManagedClusterSnapshotsListByResourceGroupdefaultResponse;
 export function isUnexpected(
-  response:
-    | ManagedClusterSnapshotsGet200Response
-    | ManagedClusterSnapshotsGetdefaultResponse
+  response: ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetdefaultResponse
 ): response is ManagedClusterSnapshotsGetdefaultResponse;
 export function isUnexpected(
   response:
@@ -609,19 +586,13 @@ export function isUnexpected(
     | ManagedClusterSnapshotsDeletedefaultResponse
 ): response is ManagedClusterSnapshotsDeletedefaultResponse;
 export function isUnexpected(
-  response:
-    | TrustedAccessRolesList200Response
-    | TrustedAccessRolesListdefaultResponse
+  response: TrustedAccessRolesList200Response | TrustedAccessRolesListdefaultResponse
 ): response is TrustedAccessRolesListdefaultResponse;
 export function isUnexpected(
-  response:
-    | TrustedAccessRoleBindingsList200Response
-    | TrustedAccessRoleBindingsListdefaultResponse
+  response: TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListdefaultResponse
 ): response is TrustedAccessRoleBindingsListdefaultResponse;
 export function isUnexpected(
-  response:
-    | TrustedAccessRoleBindingsGet200Response
-    | TrustedAccessRoleBindingsGetdefaultResponse
+  response: TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetdefaultResponse
 ): response is TrustedAccessRoleBindingsGetdefaultResponse;
 export function isUnexpected(
   response:
@@ -845,17 +816,11 @@ function geParametrizedPathSuccess(path: string): string[] {
 
     // If the candidate and actual paths don't match in size
     // we move on to the next candidate path
-    if (
-      candidateParts.length === pathParts.length &&
-      hasParametrizedPath(key)
-    ) {
+    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
       // track if we have found a match to return the values found.
       let found = true;
       for (let i = 0; i < candidateParts.length; i++) {
-        if (
-          candidateParts[i].startsWith("{") &&
-          candidateParts[i].endsWith("}")
-        ) {
+        if (candidateParts[i].startsWith("{") && candidateParts[i].endsWith("}")) {
           // If the current part of the candidate is a "template" part
           // it is a match with the actual path part on hand
           // skip as the parameterized part can match anything
