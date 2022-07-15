@@ -26,8 +26,8 @@ describe("getClient", () => {
       });
 
       const apiVersion = "2021-11-18";
-      let client = getClient("https://example.org", { apiVersion });
-      let validationPolicy: PipelinePolicy = {
+      const client = getClient("https://example.org", { apiVersion });
+      const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
           assert.include(req.url, `api-version=${apiVersion}`);
