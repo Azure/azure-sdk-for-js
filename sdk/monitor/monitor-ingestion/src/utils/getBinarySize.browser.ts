@@ -3,7 +3,6 @@
 
 import {Blob} from "../shims"
 
-export function getBinarySize(stringArray) {
-    new Blob([stringArray])
+export function getBinarySize(stringArray: any) {
     return new Blob([stringArray]).size
 }
