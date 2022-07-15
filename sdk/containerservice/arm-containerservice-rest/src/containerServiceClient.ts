@@ -4,6 +4,7 @@
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { ContainerServiceClient } from "./clientDefinitions";
+import { customizedApiVersionPolicy } from "./customizedApiVersionPolicy";
 
 export default function createClient(
   credentials: TokenCredential,
@@ -33,11 +34,13 @@ export default function createClient(
   const client = getClient(
     baseUrl,
     credentials,
-    {
-      ...options,
-      keepApiVersionInUrl: true
-    } as ClientOptions
+    options
   ) as ContainerServiceClient;
 
+  // Considering the container service backend only supports the old version so we need to add customized policy
+  client.pipeline.removePolicy({
+    name: "ApiVersionPolicy"
+  });
+  client.pipeline.addPolicy(customizedApiVersionPolicy(options));
   return client;
 }
