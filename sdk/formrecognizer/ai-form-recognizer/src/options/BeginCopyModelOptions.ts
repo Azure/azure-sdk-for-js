@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { TrainingPollOperationState } from "../lro/training";
+import { DocumentModelOperationState } from "../lro/administration";
 import { PollerOptions } from "./PollerOptions";
 
 /**
@@ -10,4 +10,4 @@ import { PollerOptions } from "./PollerOptions";
  */
 export interface BeginCopyModelOptions
   extends OperationOptions,
-    PollerOptions<TrainingPollOperationState> {}
+    PollerOptions<DocumentModelOperationState> {}

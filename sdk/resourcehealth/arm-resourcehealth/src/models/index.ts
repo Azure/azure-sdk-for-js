@@ -245,19 +245,22 @@ export interface EmergingIssueListResult {
 }
 
 /** The Get EmergingIssues operation response. */
-export type EmergingIssuesGetResult = Resource & {
+export interface EmergingIssuesGetResult extends Resource {
   /** Timestamp for when last time refreshed for ongoing emerging issue. */
   refreshTimestamp?: Date;
   /** The list of emerging issues of banner type. */
   statusBanners?: StatusBanner[];
   /** The list of emerging issues of active event type. */
   statusActiveEvents?: StatusActiveEvent[];
-};
+}
 
 /** Known values of {@link SeverityValues} that the service accepts. */
 export enum KnownSeverityValues {
+  /** Information */
   Information = "Information",
+  /** Warning */
   Warning = "Warning",
+  /** Error */
   Error = "Error"
 }
 
@@ -274,8 +277,11 @@ export type SeverityValues = string;
 
 /** Known values of {@link StageValues} that the service accepts. */
 export enum KnownStageValues {
+  /** Active */
   Active = "Active",
+  /** Resolve */
   Resolve = "Resolve",
+  /** Archived */
   Archived = "Archived"
 }
 

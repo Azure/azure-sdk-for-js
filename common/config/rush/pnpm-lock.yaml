@@ -121,6 +121,7 @@ specifiers:
   '@rush-temp/arm-netapp': file:./projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkfunction': file:./projects/arm-networkfunction.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
@@ -410,6 +411,7 @@ dependencies:
   '@rush-temp/arm-netapp': file:projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkfunction': file:projects/arm-networkfunction.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
@@ -586,18 +588,6 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.14
-    dev: false
-
-  /@azure-rest/core-client/1.0.0-beta.10:
-    resolution: {integrity: sha512-qsiepIEskvu+J815SFZ+u0wh0pPHtQVGtyT+yKbLN1YCIFtfM0L5XdaegfwMBWDG/NIXwF2fmqjM75Sqz8dAwA==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/core-auth': 1.3.2
-      '@azure/core-rest-pipeline': 1.9.0
-      '@azure/core-util': 1.0.0
-      tslib: 2.4.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@azure-rest/core-client/1.0.0-beta.9:
@@ -2942,7 +2932,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
     dev: false
 
   /array-includes/3.1.5:
@@ -3191,7 +3181,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3336,7 +3326,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: false
 
   /check-error/1.0.2:
@@ -3474,7 +3464,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
     dev: false
 
   /concurrently/6.5.1:
@@ -3537,7 +3527,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
     dev: false
 
   /cookie/0.4.2:
@@ -3639,7 +3629,7 @@ packages:
     dev: false
 
   /crypt/0.0.2:
-    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
+    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
     dev: false
 
   /csv-parse/5.3.0:
@@ -3865,7 +3855,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220712
+      typescript: 4.8.0-dev.20220714
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -3892,11 +3882,11 @@ packages:
     dev: false
 
   /edge-launcher/1.2.2:
-    resolution: {integrity: sha1-60Cq+9Bnpup27/+rBke81VCbN7I=}
+    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
+    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
   /electron-to-chromium/1.4.185:
@@ -4765,7 +4755,7 @@ packages:
     dev: false
 
   /fresh/0.5.2:
-    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
+    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -4905,7 +4895,7 @@ packages:
     dev: false
 
   /github-from-package/0.0.0:
-    resolution: {integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=}
+    resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
     dev: false
 
   /glob-parent/5.1.2:
@@ -6276,7 +6266,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6286,7 +6276,7 @@ packages:
     dev: false
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
+    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
     dev: false
 
   /merge-source-map/1.1.0:
@@ -6646,7 +6636,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
+    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -8675,8 +8665,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220712:
-    resolution: {integrity: sha512-hYkF1Ja0C5ILf3+GZdvQLNxmSB1qUc60xrtKqKMvBzRHlew3CD/ZdDP+0J8rRzo33HxDP9kWL7d8SGrfx4QP1Q==}
+  /typescript/4.8.0-dev.20220714:
+    resolution: {integrity: sha512-wKK9FMpdvwI68PZiQdNTNmX4rpVXJBDOG9aylV9O6nJUO5YX8yv3bQNcyLc5tbI7J3+u7AU48LVY9SF9lYwy5g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -8787,7 +8777,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
+    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -11980,7 +11970,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-Io2NKJw3oQQPeqxi9w0HiEHG8sPHudfTLFGKNGSeRGzQiZxeD7C4KnZeaL2u8GDQxEKP2k8BO+Xomd8NBhV+kw==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-VORk+2JG0lQfnNfLbpGMDHuI8WlwbHbvOZl3UDUmflkyhIjJ5HzJ3moUEJ3HpPK1iQ/5Z/FiyAA9FuTHeplCnQ==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -11991,6 +11981,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12002,8 +11994,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-machinelearningcompute.tgz:
@@ -12557,6 +12547,32 @@ packages:
       - '@types/node'
       - encoding
       - supports-color
+    dev: false
+
+  file:projects/arm-networkfunction.tgz:
+    resolution: {integrity: sha512-0mb3qj6V0dgWWTIkRCsCI1oWsE1My/YTtYtHczCKl2Do3M/yUDmuLmTgk7m0G1wOZNMX3n8aMfJabAI5Dhk3+A==, tarball: file:projects/arm-networkfunction.tgz}
+    name: '@rush-temp/arm-networkfunction'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.76.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.2
+    transitivePeerDependencies:
+      - '@types/node'
     dev: false
 
   file:projects/arm-notificationhubs.tgz:
@@ -13251,7 +13267,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcehealth.tgz:
-    resolution: {integrity: sha512-OXZHWgNxTx7By7Dw3gyYLeU8z+tWUbTgjkM9BUWWsSt6HZbvioNuH2Ow92poGCkOaG9Rf5g98gVw2JP2zDHKiQ==, tarball: file:projects/arm-resourcehealth.tgz}
+    resolution: {integrity: sha512-WbjzUdQHaYXEO+X8i4cQ4YghGoXEfNRPQXNNc2vDXf42vm0DdMiWwPGxhcgVJwmFvTqFenJaM4al0nRjYRDxNw==, tarball: file:projects/arm-resourcehealth.tgz}
     name: '@rush-temp/arm-resourcehealth'
     version: 0.0.0
     dependencies:
@@ -13261,6 +13277,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13272,8 +13290,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-resourcemover.tgz:
@@ -13384,17 +13400,19 @@ packages:
     dev: false
 
   file:projects/arm-scvmm.tgz:
-    resolution: {integrity: sha512-IGJMqRv/7ERUUcV/pL7XWTza0sVWIN7jIdvOPsX4kxf71ryvcF9pjJLBQvq2fnxWLpzDMpnxFycI5od/fqL+ew==, tarball: file:projects/arm-scvmm.tgz}
+    resolution: {integrity: sha512-pPMaUpO14RdbO7XOyvXwaQZNCYIB0ComeA9PohNQsrtbVxsoE/JrD4qFudBuTNclONThewWd4f4yhQOrCZ41Tg==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
-      '@microsoft/api-extractor': 7.28.4
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13406,8 +13424,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-search.tgz:
@@ -14740,11 +14756,10 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-Q7qvqmIGihTBMTPIpCoSkpCCT0ot0IMSe28GtM5vMBu85WKgG1vMxd7wjcJHsUiuvxXMu9UCTDHZBIQ/7rd0xw==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-M3cBGZu+X4CafnlQleQ72gzKVhqC1fVNyrEtaSu7xlvQ345Se+ndmk/KV0fDUgZolnrK+Ago8Finzdkw9uDrUw==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.0.0-beta.10
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
@@ -15954,11 +15969,10 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-Own8y0R5dXpqe+cV79i9HZycHUveewzFKo0SH21ioVDnXkF1AsmofHi+cuQlA/b0HLsH8lHz7ZkdV0/mK3tNeQ==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-YCfYc9EnUrtWmFFZjvasdYvGM2DSxE4smvj/eFSdBJVntn5mO2Ob6UgcAGD1W7g1DMSsuBIIcGy2Kqh5ZLB2eQ==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/core-lro': 2.2.4
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1

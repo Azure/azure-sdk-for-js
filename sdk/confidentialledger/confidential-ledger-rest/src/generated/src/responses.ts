@@ -8,7 +8,7 @@ import {
   ConfidentialLedgerErrorOutput,
   ConsortiumOutput,
   ConfidentialLedgerEnclavesOutput,
-  CollectionsOutput,
+  PagedCollectionsOutput,
   PagedLedgerEntriesOutput,
   LedgerWriteResultOutput,
   LedgerQueryResultOutput,
@@ -31,13 +31,13 @@ export interface GetConstitutiondefaultResponse extends HttpResponse {
 }
 
 /** Consortium members can manage the Confidential Ledger. */
-export interface GetConsortiumMembers200Response extends HttpResponse {
+export interface ListConsortiumMembers200Response extends HttpResponse {
   status: "200";
   body: ConsortiumOutput;
 }
 
 /** Consortium members can manage the Confidential Ledger. */
-export interface GetConsortiumMembersdefaultResponse extends HttpResponse {
+export interface ListConsortiumMembersdefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -57,7 +57,7 @@ export interface GetEnclaveQuotesdefaultResponse extends HttpResponse {
 /** Collection ids are user-created collections of ledger entries */
 export interface ListCollections200Response extends HttpResponse {
   status: "200";
-  body: CollectionsOutput;
+  body: PagedCollectionsOutput;
 }
 
 /** Collection ids are user-created collections of ledger entries */
@@ -78,20 +78,20 @@ export interface ListLedgerEntriesdefaultResponse extends HttpResponse {
   body: ConfidentialLedgerErrorOutput;
 }
 
-export interface PostLedgerEntry200Headers {
+export interface CreateLedgerEntry200Headers {
   /** The transaction id at which this write will become durable. */
   "x-ms-ccf-transaction-id"?: string;
 }
 
 /** A collection id may optionally be specified. */
-export interface PostLedgerEntry200Response extends HttpResponse {
+export interface CreateLedgerEntry200Response extends HttpResponse {
   status: "200";
   body: LedgerWriteResultOutput;
-  headers: RawHttpHeaders & PostLedgerEntry200Headers;
+  headers: RawHttpHeaders & CreateLedgerEntry200Headers;
 }
 
 /** A collection id may optionally be specified. */
-export interface PostLedgerEntrydefaultResponse extends HttpResponse {
+export interface CreateLedgerEntrydefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
