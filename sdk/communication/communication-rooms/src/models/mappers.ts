@@ -23,7 +23,7 @@ export const mapToRoomParticipantRestModel = (
 ): RestModel.RoomParticipant => {
   if (isRoomParticipant(roomParticipant)) {
     const { communicationIdentifier, ...rest } = roomParticipant;
-    const mri = communicationIdentifier.rawId!;
+    const mri = communicationIdentifier.communicationUser!.communicationUserId;
     return {
       communicationIdentifier: {
         rawId: mri,
@@ -55,11 +55,12 @@ export const mapToRoomParticipantSdkModel = (
   roomParticipant: RestModel.RoomParticipant
 ): RoomParticipant => {
   const {communicationIdentifier, ...rest } = roomParticipant;
+  const mri = communicationIdentifier.communicationUser!.id;
   return {
     communicationIdentifier: {
-      rawId: communicationIdentifier.rawId!,
+      rawId: mri,
       communicationUser: {
-        communicationUserId: communicationIdentifier.rawId!
+        communicationUserId: mri
       }
     },
     ...rest

@@ -34,7 +34,6 @@ export class RoomParticipant {
       rawId: participant.communicationUserId,
       communicationUser: participant,
     };
-    console.log(this.communicationIdentifier.communicationUser?.communicationUserId);
     this.role = role;
   }
 }
@@ -44,7 +43,10 @@ export interface ParticipantsCollection {
   participants: RoomParticipant[];
 }
 
+/** Identifies a participant in Azure Communication services. */
 export interface CommunicationIdentifierModel {
+  /** Raw id of the identifier. Optional in requests, required in responses. */
   rawId?: string;
+  /** A user that got created with an Azure Communication Services resource. */
   communicationUser?: CommunicationUserIdentifier;
 }
