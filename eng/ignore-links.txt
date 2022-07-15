@@ -11,3 +11,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-resourceconnector?view=azur
 https://docs.microsoft.com/javascript/api/@azure/arm-networkfunction
 https://docs.microsoft.com/javascript/api/@azure/arm-networkfunction?view=azure-node-preview
 https://docs.microsoft.com/en-us/javascript/api/@azure-rest/arm-containerservice?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure-rest/arm-containerservice?view=azure-node-preview
