@@ -3,17 +3,17 @@
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
-  ManagedCluster,
-  TagsObject,
-  ManagedClusterServicePrincipalProfile,
-  ManagedClusterAADProfile,
-  RunCommandRequest,
-  MaintenanceConfiguration,
   AgentPool,
+  MaintenanceConfiguration,
+  ManagedCluster,
+  ManagedClusterAADProfile,
+  ManagedClusterServicePrincipalProfile,
+  ManagedClusterSnapshot,
   PrivateEndpointConnection,
   PrivateLinkResource,
+  RunCommandRequest,
   Snapshot,
-  ManagedClusterSnapshot,
+  TagsObject,
   TrustedAccessRoleBinding,
 } from "./models";
 

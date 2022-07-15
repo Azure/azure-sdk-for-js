@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
@@ -5,9 +8,9 @@ import { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 import ContainerServiceManagementClient, {
   ContainerServiceClient,
-  getLongRunningPoller,
   ManagedClusterOutput,
   ManagedClusterUpgradeProfileOutput,
+  getLongRunningPoller,
   paginate,
 } from "../../src";
 
@@ -121,7 +124,7 @@ describe("My test", () => {
       .get();
     const result = paginate(client, initialResponse);
     const resArray = new Array();
-    for await (let item of result) {
+    for await (const item of result) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -169,7 +172,7 @@ describe("My test", () => {
       .get();
     const result = paginate(client, listInitialResponse);
     const resArray = new Array();
-    for await (let item of result) {
+    for await (const item of result) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
