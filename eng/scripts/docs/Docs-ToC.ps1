@@ -90,7 +90,7 @@ function Get-javascript-DocsMsTocChildrenForManagementPackages($packageMetadata,
   return @($packageMetadata.Package)
 }
 
-function Get-javascrpt-RepositoryLink ($packageInfo) {
+function Get-javascript-RepositoryLink ($packageInfo) {
   return "$PackageRepositoryUri/$($packageInfo.Package)"
 }
 
