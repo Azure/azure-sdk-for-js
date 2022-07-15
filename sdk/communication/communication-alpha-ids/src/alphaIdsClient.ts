@@ -5,7 +5,7 @@ import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-
 import {
   AlphaIdConfiguration,
   GetConfigurationOptions,
-  UpsertConfigurationOptions
+  UpsertConfigurationOptions,
 } from "./models";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createSpan, logger } from "./utils";
@@ -16,7 +16,7 @@ import { createCommunicationAuthPolicy } from "@azure/communication-common";
 /**
  * Client options used to configure the AlphaIdsClient API requests.
  */
-export interface AlphaIdsClientOptions extends CommonClientOptions { }
+export interface AlphaIdsClientOptions extends CommonClientOptions {}
 
 const isAlphaIdsClientOptions = (options: any): options is AlphaIdsClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -29,11 +29,7 @@ export class AlphaIdsClient {
 
   public constructor(connectionString: string, options?: AlphaIdsClientOptions);
 
-  public constructor(
-    endpoint: string,
-    credential: KeyCredential,
-    options?: AlphaIdsClientOptions
-  );
+  public constructor(endpoint: string, credential: KeyCredential, options?: AlphaIdsClientOptions);
 
   public constructor(
     endpoint: string,
@@ -65,9 +61,7 @@ export class AlphaIdsClient {
     this.client.pipeline.addPolicy(authPolicy);
   }
 
-  public getConfiguration(
-    options: GetConfigurationOptions = {}
-  ): Promise<AlphaIdConfiguration> {
+  public getConfiguration(options: GetConfigurationOptions = {}): Promise<AlphaIdConfiguration> {
     const { span, updatedOptions } = createSpan("AlphaIdsClient-getConfiguration", options);
     try {
       return this.client.alphaIds.getConfiguration(updatedOptions);

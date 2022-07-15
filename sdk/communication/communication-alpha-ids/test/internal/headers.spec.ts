@@ -111,10 +111,7 @@ describe("AlphaIdsClient - headers", function () {
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(
-        `alphaidsclient-headers-test azsdk-js-communication-alpha-ids/${SDK_VERSION}`,
-        "g"
-      )
+      new RegExp(`alphaidsclient-headers-test azsdk-js-communication-alpha-ids/${SDK_VERSION}`, "g")
     );
   });
 });
