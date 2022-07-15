@@ -17,7 +17,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "8509e043-0d51-4ef4-81ed-9b0605f323a5",
+        "x-ms-client-request-id": "91b757cf-471c-4746-8fdb-61a4d6ceacd3",
         "x-ms-useragent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Win32"
       },
       "RequestBody": null,
@@ -26,7 +26,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Thu, 14 Jul 2022 08:35:15 GMT",
+        "Date": "Fri, 15 Jul 2022 03:27:37 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -34,10 +34,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "6788af39-337e-4aa4-8028-f921361230d0",
-        "x-ms-ratelimit-remaining-subscription-reads": "11904",
-        "x-ms-request-id": "c19e8098-bd0f-41c4-8bb5-dde5afc88b88",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220714T083516Z:6788af39-337e-4aa4-8028-f921361230d0"
+        "x-ms-correlation-request-id": "e2c9ad4c-cbff-4351-b6f7-77f9f86eaf71",
+        "x-ms-ratelimit-remaining-subscription-reads": "11882",
+        "x-ms-request-id": "9a14f273-1109-4efc-92e4-6b0e470f8536",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220715T032738Z:e2c9ad4c-cbff-4351-b6f7-77f9f86eaf71"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
@@ -52,8 +52,8 @@
           "kubernetesVersion": "1.22.11",
           "currentKubernetesVersion": "1.22.11",
           "dnsPrefix": "aksjssdk",
-          "fqdn": "aksjssdk-117d711b.hcp.eastus.azmk8s.io",
-          "azurePortalFQDN": "aksjssdk-117d711b.portal.hcp.eastus.azmk8s.io",
+          "fqdn": "aksjssdk-f2940661.hcp.eastus.azmk8s.io",
+          "azurePortalFQDN": "aksjssdk-f2940661.portal.hcp.eastus.azmk8s.io",
           "agentPoolProfiles": [
             {
               "name": "aksagent",
@@ -94,7 +94,7 @@
               },
               "effectiveOutboundIPs": [
                 {
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/e6448a0f-f80d-4fed-88d9-6310bcd97637"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/62d76d46-365f-4137-922f-ff2b5061c783"
                 }
               ]
             },

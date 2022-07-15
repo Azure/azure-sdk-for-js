@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
-        "x-ms-client-request-id": "a67a1080-508c-40ad-8c34-05217f6758e7"
+        "x-ms-client-request-id": "77bef08f-7943-49e9-83c6-a612b4390a38"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Thu, 14 Jul 2022 08:24:51 GMT",
+        "Date": "Fri, 15 Jul 2022 03:15:45 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "dbeeb59e-85ef-4aa5-9612-57144da3280a",
-        "x-ms-ratelimit-remaining-subscription-reads": "11880",
-        "x-ms-request-id": "d634973a-11ba-4f36-89da-0645df5d12d6",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220714T082452Z:dbeeb59e-85ef-4aa5-9612-57144da3280a"
+        "x-ms-correlation-request-id": "85a24489-41a1-4fef-ae06-20e434d23acd",
+        "x-ms-ratelimit-remaining-subscription-reads": "11834",
+        "x-ms-request-id": "34030679-1c10-44f4-bc5e-6ff8f991a2d6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220715T031545Z:85a24489-41a1-4fef-ae06-20e434d23acd"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeprofiles/default",

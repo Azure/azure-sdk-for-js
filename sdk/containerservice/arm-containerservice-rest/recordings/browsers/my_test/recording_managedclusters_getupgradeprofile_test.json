@@ -17,7 +17,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "c1630659-2271-4437-8c36-777e3f99c53f",
+        "x-ms-client-request-id": "bfa52e20-30f0-4c9d-b9e9-609a042590e5",
         "x-ms-useragent": "azsdk-js-arm-containerservice-rest/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Win32"
       },
       "RequestBody": null,
@@ -26,7 +26,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Thu, 14 Jul 2022 08:35:16 GMT",
+        "Date": "Fri, 15 Jul 2022 03:27:39 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -34,10 +34,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a36bc484-499e-40f1-9018-b42c29c3a24c",
-        "x-ms-ratelimit-remaining-subscription-reads": "11903",
-        "x-ms-request-id": "681ff180-15fc-4efa-b19e-772824603f30",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220714T083517Z:a36bc484-499e-40f1-9018-b42c29c3a24c"
+        "x-ms-correlation-request-id": "95cd59f4-b39d-46a5-ba40-edcff91feb5b",
+        "x-ms-ratelimit-remaining-subscription-reads": "11881",
+        "x-ms-request-id": "70955389-3bde-40e2-8c73-f79f08551e76",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220715T032740Z:95cd59f4-b39d-46a5-ba40-edcff91feb5b"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeprofiles/default",
