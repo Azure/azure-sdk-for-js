@@ -2,7 +2,7 @@
   "name": "@azure-samples/arm-containerservice-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for TypeScript (Beta)",
+  "description": "Azure AKS rest client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=12.0.0"
   },

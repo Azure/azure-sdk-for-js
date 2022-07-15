@@ -23,12 +23,14 @@ async function getManagedCluster() {
   const resourceName = "clustername1";
   const credential = new DefaultAzureCredential();
   const client = ContainerServiceManagementClient(credential);
-  const result = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential",
-    subscriptionId,
-    resourceGroupName,
-    resourceName
-  ).post();
+  const result = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential",
+      subscriptionId,
+      resourceGroupName,
+      resourceName
+    )
+    .post();
   console.log(result);
 }
 

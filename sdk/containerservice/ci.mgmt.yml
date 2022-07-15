@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/containerservice/ci.mgmt.yml
       - sdk/containerservice/arm-containerservice
+      - sdk/containerservice/arm-containerservice-rest
 pr:
   branches:
     include:
@@ -23,6 +24,7 @@ pr:
     include:
       - sdk/containerservice/ci.mgmt.yml
       - sdk/containerservice/arm-containerservice
+      - sdk/containerservice/arm-containerservice-rest
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,3 +32,5 @@ extends:
     Artifacts:
       - name: azure-arm-containerservice
         safeName: azurearmcontainerservice
+      - name: azure-rest-arm-containerservice
+        safeName: azurerestarmcontainerservice

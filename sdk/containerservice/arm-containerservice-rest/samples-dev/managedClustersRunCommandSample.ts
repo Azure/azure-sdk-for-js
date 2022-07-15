@@ -33,12 +33,14 @@ async function submitNewCommand() {
   };
   const credential = new DefaultAzureCredential();
   const client = ContainerServiceManagementClient(credential);
-  const initialResponse = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand",
-    subscriptionId,
-    resourceGroupName,
-    resourceName
-  ).post(requestPayload);
+  const initialResponse = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand",
+      subscriptionId,
+      resourceGroupName,
+      resourceName
+    )
+    .post(requestPayload);
   const poller = getLongRunningPoller(client, initialResponse);
   const result = poller.pollUntilDone();
   console.log(result);

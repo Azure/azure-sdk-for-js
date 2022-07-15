@@ -105,10 +105,7 @@ export interface ManagedClusterIdentityOutput {
   /** For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity). */
   type?: "SystemAssigned" | "UserAssigned" | "None";
   /** The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: Record<
-    string,
-    ManagedServiceIdentityUserAssignedIdentitiesValueOutput
-  >;
+  userAssignedIdentities?: Record<string, ManagedServiceIdentityUserAssignedIdentitiesValueOutput>;
 }
 
 export interface ManagedServiceIdentityUserAssignedIdentitiesValueOutput {
@@ -457,8 +454,7 @@ export interface ManagedClusterAddonProfileOutput {
   identity?: ManagedClusterAddonProfileIdentityOutput;
 }
 
-export interface ManagedClusterAddonProfileIdentityOutput
-  extends UserAssignedIdentityOutput {}
+export interface ManagedClusterAddonProfileIdentityOutput extends UserAssignedIdentityOutput {}
 
 export interface UserAssignedIdentityOutput {
   /** The resource ID of the user assigned identity. */
@@ -477,9 +473,7 @@ export interface ManagedClusterPodIdentityProfileOutput {
   /** The pod identities to use in the cluster. */
   userAssignedIdentities?: Array<ManagedClusterPodIdentityOutput>;
   /** The pod identity exceptions to allow. */
-  userAssignedIdentityExceptions?: Array<
-    ManagedClusterPodIdentityExceptionOutput
-  >;
+  userAssignedIdentityExceptions?: Array<ManagedClusterPodIdentityExceptionOutput>;
 }
 
 export interface ManagedClusterPodIdentityOutput {
@@ -888,8 +882,7 @@ export interface ManagedClusterPoolUpgradeProfileUpgradesItemOutput {
   isPreview?: boolean;
 }
 
-export interface ManagedClusterAccessProfileOutput
-  extends TrackedResourceOutput {
+export interface ManagedClusterAccessProfileOutput extends TrackedResourceOutput {
   /** AccessProfile of a managed cluster. */
   properties?: AccessProfileOutput;
 }
@@ -942,14 +935,7 @@ export interface MaintenanceConfigurationPropertiesOutput {
 
 export interface TimeInWeekOutput {
   /** The day of the week. */
-  day?:
-    | "Sunday"
-    | "Monday"
-    | "Tuesday"
-    | "Wednesday"
-    | "Thursday"
-    | "Friday"
-    | "Saturday";
+  day?: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
   /** Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range. */
   hourSlots?: Array<number>;
 }
@@ -1024,9 +1010,7 @@ export interface AgentPoolAvailableVersionsOutput {
 
 export interface AgentPoolAvailableVersionsPropertiesOutput {
   /** List of versions available for agent pool. */
-  agentPoolVersions?: Array<
-    AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItemOutput
-  >;
+  agentPoolVersions?: Array<AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItemOutput>;
 }
 
 export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItemOutput {
