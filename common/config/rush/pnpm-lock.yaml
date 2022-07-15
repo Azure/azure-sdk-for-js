@@ -47,6 +47,7 @@ specifiers:
   '@rush-temp/arm-containerinstance': file:./projects/arm-containerinstance.tgz
   '@rush-temp/arm-containerregistry': file:./projects/arm-containerregistry.tgz
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
+  '@rush-temp/arm-containerservice-1': file:./projects/arm-containerservice-1.tgz
   '@rush-temp/arm-cosmosdb': file:./projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:./projects/arm-customerinsights.tgz
   '@rush-temp/arm-dashboard': file:./projects/arm-dashboard.tgz
@@ -337,6 +338,7 @@ dependencies:
   '@rush-temp/arm-containerinstance': file:projects/arm-containerinstance.tgz
   '@rush-temp/arm-containerregistry': file:projects/arm-containerregistry.tgz
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
+  '@rush-temp/arm-containerservice-1': file:projects/arm-containerservice-1.tgz
   '@rush-temp/arm-cosmosdb': file:projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:projects/arm-customerinsights.tgz
   '@rush-temp/arm-dashboard': file:projects/arm-dashboard.tgz
@@ -588,18 +590,6 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.14
-    dev: false
-
-  /@azure-rest/core-client/1.0.0-beta.10:
-    resolution: {integrity: sha512-qsiepIEskvu+J815SFZ+u0wh0pPHtQVGtyT+yKbLN1YCIFtfM0L5XdaegfwMBWDG/NIXwF2fmqjM75Sqz8dAwA==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/core-auth': 1.3.2
-      '@azure/core-rest-pipeline': 1.9.0
-      '@azure/core-util': 1.0.0
-      tslib: 2.4.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@azure-rest/core-client/1.0.0-beta.9:
@@ -10567,9 +10557,9 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-containerservice.tgz:
-    resolution: {integrity: sha512-MKjfqnghTRzlJCQdYk9hhLahcL533A8u7qo/6plTv7r0QZND+Nfm3I+7wSnpUsbEETaX5aBn7sCbmzBln2glvg==, tarball: file:projects/arm-containerservice.tgz}
-    name: '@rush-temp/arm-containerservice'
+  file:projects/arm-containerservice-1.tgz:
+    resolution: {integrity: sha512-q79AXuF04syQ0GPF7NBiIf3U2v/qZWTmeUyKnBIfKzzy03x5njnwASfhnp75J5RVgJAPj0DwPBUwF+Ug6P/DcQ==, tarball: file:projects/arm-containerservice-1.tgz}
+    name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.2.4
@@ -10591,6 +10581,55 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
+    dev: false
+
+  file:projects/arm-containerservice.tgz:
+    resolution: {integrity: sha512-aiKGYdSpsvlZKEXgm2tA2jYCid5hXUZ7bkfy0J0L5bGwvkVF8pS89QciATkUzH8N8ATJ0u1yPoztf78b+uhVqg==, tarball: file:projects/arm-containerservice.tgz}
+    name: '@rush-temp/arm-containerservice'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      '@types/node': 12.20.55
+      autorest: 3.6.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      rollup: 2.76.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
@@ -14768,11 +14807,10 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-Q7qvqmIGihTBMTPIpCoSkpCCT0ot0IMSe28GtM5vMBu85WKgG1vMxd7wjcJHsUiuvxXMu9UCTDHZBIQ/7rd0xw==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-M3cBGZu+X4CafnlQleQ72gzKVhqC1fVNyrEtaSu7xlvQ345Se+ndmk/KV0fDUgZolnrK+Ago8Finzdkw9uDrUw==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.0.0-beta.10
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
@@ -15982,11 +16020,10 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-Own8y0R5dXpqe+cV79i9HZycHUveewzFKo0SH21ioVDnXkF1AsmofHi+cuQlA/b0HLsH8lHz7ZkdV0/mK3tNeQ==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-YCfYc9EnUrtWmFFZjvasdYvGM2DSxE4smvj/eFSdBJVntn5mO2Ob6UgcAGD1W7g1DMSsuBIIcGy2Kqh5ZLB2eQ==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/core-lro': 2.2.4
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1

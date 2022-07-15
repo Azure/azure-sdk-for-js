@@ -1027,6 +1027,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/arm-containerservice",
+      "projectFolder": "sdk/containerservice/arm-containerservice-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-operations",
       "projectFolder": "sdk/operationsmanagement/arm-operations",
       "versionPolicyName": "management"
