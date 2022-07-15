@@ -592,6 +592,18 @@ packages:
       '@jridgewell/trace-mapping': 0.3.14
     dev: false
 
+  /@azure-rest/core-client/1.0.0-beta.10:
+    resolution: {integrity: sha512-qsiepIEskvu+J815SFZ+u0wh0pPHtQVGtyT+yKbLN1YCIFtfM0L5XdaegfwMBWDG/NIXwF2fmqjM75Sqz8dAwA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-rest-pipeline': 1.9.0
+      '@azure/core-util': 1.0.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure-rest/core-client/1.0.0-beta.9:
     resolution: {integrity: sha512-zerHAy25S9T8+4DcLKdea/olxGceb9tZMBlw7KWmeasHk1IEdlutVeckKzSt4nQaX4Fm1gnX47TaDEt4VGBTbw==}
     engines: {node: '>=12.0.0'}
@@ -10584,10 +10596,11 @@ packages:
     dev: false
 
   file:projects/arm-containerservice.tgz:
-    resolution: {integrity: sha512-aiKGYdSpsvlZKEXgm2tA2jYCid5hXUZ7bkfy0J0L5bGwvkVF8pS89QciATkUzH8N8ATJ0u1yPoztf78b+uhVqg==, tarball: file:projects/arm-containerservice.tgz}
+    resolution: {integrity: sha512-5MDHWMGL9R8LXOQe7EDIS8Z4E7odmDmFPOiF3guRtULnbEf4a9l19C07svZX4wR83ybt1Dkmec31Oml15yt0CA==, tarball: file:projects/arm-containerservice.tgz}
     name: '@rush-temp/arm-containerservice'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/core-lro': 2.2.4
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
@@ -14807,10 +14820,11 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-M3cBGZu+X4CafnlQleQ72gzKVhqC1fVNyrEtaSu7xlvQ345Se+ndmk/KV0fDUgZolnrK+Ago8Finzdkw9uDrUw==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-Q7qvqmIGihTBMTPIpCoSkpCCT0ot0IMSe28GtM5vMBu85WKgG1vMxd7wjcJHsUiuvxXMu9UCTDHZBIQ/7rd0xw==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
@@ -16020,10 +16034,11 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-YCfYc9EnUrtWmFFZjvasdYvGM2DSxE4smvj/eFSdBJVntn5mO2Ob6UgcAGD1W7g1DMSsuBIIcGy2Kqh5ZLB2eQ==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-Own8y0R5dXpqe+cV79i9HZycHUveewzFKo0SH21ioVDnXkF1AsmofHi+cuQlA/b0HLsH8lHz7ZkdV0/mK3tNeQ==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/core-lro': 2.2.4
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
