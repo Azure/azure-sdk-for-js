@@ -8,10 +8,10 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "482",
+        "Content-Length": "480",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "619dddb2-bbf8-40e5-a8a3-02ad2280b432"
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "00f6a602-8a50-4433-826e-375cafc851bb"
       },
       "RequestBody": {
         "analysisInput": {
@@ -35,43 +35,49 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "95928113-4a89-495b-9443-d4a59ac95163",
+        "apim-request-id": "00fb87cd-151d-4282-a93f-90ee1bb00d92",
         "Content-Length": "0",
-        "Date": "Sat, 07 May 2022 06:36:44 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/e9fcfe6d-47bf-47b8-be27-e57673c474c3?api-version=2022-04-01-preview",
+        "Date": "Fri, 15 Jul 2022 14:16:43 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/7bdfb723-ee89-4f48-bd5a-9c6d5a3b19ec?api-version=2022-04-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "114"
+        "x-envoy-upstream-service-time": "530"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e9fcfe6d-47bf-47b8-be27-e57673c474c3?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/7bdfb723-ee89-4f48-bd5a-9c6d5a3b19ec?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "8f51b670-e6e0-4b6e-880e-da03b37079c2"
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4dd58834-1eaf-4383-bfb0-4ed14f7ad202"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "9c98ac17-67f3-4b80-b9b7-b2564337b16d",
+        "apim-request-id": "fb251f68-08c1-4ea4-8954-e3c1abd7a3d5",
         "Content-Length": "282",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 07 May 2022 06:36:44 GMT",
+        "Date": "Fri, 15 Jul 2022 14:16:43 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "8"
+        "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
-        "jobId": "e9fcfe6d-47bf-47b8-be27-e57673c474c3",
-        "lastUpdateDateTime": "2022-05-07T06:36:44Z",
-        "createdDateTime": "2022-05-07T06:36:44Z",
-        "expirationDateTime": "2022-05-08T06:36:44Z",
+        "jobId": "7bdfb723-ee89-4f48-bd5a-9c6d5a3b19ec",
+        "lastUpdateDateTime": "2022-07-15T14:16:43Z",
+        "createdDateTime": "2022-07-15T14:16:43Z",
+        "expirationDateTime": "2022-07-16T14:16:43Z",
         "status": "notStarted",
         "errors": [],
         "tasks": {
@@ -84,32 +90,35 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e9fcfe6d-47bf-47b8-be27-e57673c474c3?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/7bdfb723-ee89-4f48-bd5a-9c6d5a3b19ec?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "d0c06d28-6f40-4d04-afd7-47b54ea1c01c"
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "8566516b-3641-43f2-8ea8-9289abf0c64b"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "70c294ab-2608-4b5d-811e-2b1096e96f27",
+        "apim-request-id": "abeeee94-5ba5-4e52-809c-1080ffff4891",
         "Content-Length": "279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 07 May 2022 06:36:44 GMT",
+        "Date": "Fri, 15 Jul 2022 14:16:43 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "14"
+        "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
-        "jobId": "e9fcfe6d-47bf-47b8-be27-e57673c474c3",
-        "lastUpdateDateTime": "2022-05-07T06:36:44Z",
-        "createdDateTime": "2022-05-07T06:36:44Z",
-        "expirationDateTime": "2022-05-08T06:36:44Z",
+        "jobId": "7bdfb723-ee89-4f48-bd5a-9c6d5a3b19ec",
+        "lastUpdateDateTime": "2022-07-15T14:16:44Z",
+        "createdDateTime": "2022-07-15T14:16:43Z",
+        "expirationDateTime": "2022-07-16T14:16:43Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -122,32 +131,35 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e9fcfe6d-47bf-47b8-be27-e57673c474c3?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/7bdfb723-ee89-4f48-bd5a-9c6d5a3b19ec?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "eef64d7e-1773-4fa8-a1d8-15ce7fea9ee9"
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "9e39723b-cc58-4c22-a436-8212dc92802e"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "e59263e9-f914-4184-9365-d783e7561575",
+        "apim-request-id": "217a8616-b39a-4a28-9eb9-49935fda1f62",
         "Content-Length": "1969",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 07 May 2022 06:36:46 GMT",
+        "Date": "Fri, 15 Jul 2022 14:16:46 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "41"
+        "x-envoy-upstream-service-time": "26"
       },
       "ResponseBody": {
-        "jobId": "e9fcfe6d-47bf-47b8-be27-e57673c474c3",
-        "lastUpdateDateTime": "2022-05-07T06:36:44Z",
-        "createdDateTime": "2022-05-07T06:36:44Z",
-        "expirationDateTime": "2022-05-08T06:36:44Z",
+        "jobId": "7bdfb723-ee89-4f48-bd5a-9c6d5a3b19ec",
+        "lastUpdateDateTime": "2022-07-15T14:16:44Z",
+        "createdDateTime": "2022-07-15T14:16:43Z",
+        "expirationDateTime": "2022-07-16T14:16:43Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -158,7 +170,7 @@
           "items": [
             {
               "kind": "CustomEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-07T06:36:44.3749061Z",
+              "lastUpdateDateTime": "2022-07-15T14:16:44.7604211Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -173,6 +185,13 @@
                         "confidenceScore": 0.05
                       },
                       {
+                        "text": "Accountability",
+                        "category": "geographic_poi",
+                        "offset": 34,
+                        "length": 14,
+                        "confidenceScore": 0.07
+                      },
+                      {
                         "text": "Office",
                         "category": "restaurant_name",
                         "offset": 49,
@@ -184,20 +203,6 @@
                         "category": "restaurant_name",
                         "offset": 57,
                         "length": 3,
-                        "confidenceScore": 0.04
-                      },
-                      {
-                        "text": "Accountability",
-                        "category": "geographic_poi",
-                        "offset": 34,
-                        "length": 14,
-                        "confidenceScore": 0.07
-                      },
-                      {
-                        "text": "natural",
-                        "category": "geographic_poi",
-                        "offset": 106,
-                        "length": 7,
                         "confidenceScore": 0.04
                       },
                       {
@@ -215,18 +220,25 @@
                         "confidenceScore": 0.03
                       },
                       {
-                        "text": "gas",
-                        "category": "restaurant_type",
-                        "offset": 114,
-                        "length": 3,
-                        "confidenceScore": 0.09
-                      },
-                      {
                         "text": "and",
                         "category": "served_dish",
                         "offset": 102,
                         "length": 3,
                         "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "natural",
+                        "category": "geographic_poi",
+                        "offset": 106,
+                        "length": 7,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "gas",
+                        "category": "restaurant_type",
+                        "offset": 114,
+                        "length": 3,
+                        "confidenceScore": 0.09
                       },
                       {
                         "text": "development",
@@ -243,25 +255,11 @@
                         "confidenceScore": 0.07
                       },
                       {
-                        "text": "protection",
-                        "category": "state",
-                        "offset": 267,
-                        "length": 10,
-                        "confidenceScore": 0.05
-                      },
-                      {
                         "text": "lands",
                         "category": "poi",
                         "offset": 141,
                         "length": 5,
                         "confidenceScore": 0.04
-                      },
-                      {
-                        "text": "BLM",
-                        "category": "poi",
-                        "offset": 202,
-                        "length": 3,
-                        "confidenceScore": 0.07
                       },
                       {
                         "text": "the",
@@ -276,6 +274,20 @@
                         "offset": 156,
                         "length": 14,
                         "confidenceScore": 0.54
+                      },
+                      {
+                        "text": "BLM",
+                        "category": "poi",
+                        "offset": 202,
+                        "length": 3,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "protection",
+                        "category": "state",
+                        "offset": 267,
+                        "length": 10,
+                        "confidenceScore": 0.05
                       }
                     ],
                     "warnings": []
@@ -291,32 +303,35 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e9fcfe6d-47bf-47b8-be27-e57673c474c3?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/7bdfb723-ee89-4f48-bd5a-9c6d5a3b19ec?api-version=2022-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "29f247af-bebb-47b1-aff1-9aed9d03fe71"
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e51d2da1-2f10-47dc-b9f4-926717525b21"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "1bedeac3-4138-48e8-a699-76fc5ae0a302",
+        "apim-request-id": "0486e0b9-a4e2-4429-b3e7-a30869f9a763",
         "Content-Length": "1969",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 07 May 2022 06:36:46 GMT",
+        "Date": "Fri, 15 Jul 2022 14:16:46 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "36"
+        "x-envoy-upstream-service-time": "29"
       },
       "ResponseBody": {
-        "jobId": "e9fcfe6d-47bf-47b8-be27-e57673c474c3",
-        "lastUpdateDateTime": "2022-05-07T06:36:44Z",
-        "createdDateTime": "2022-05-07T06:36:44Z",
-        "expirationDateTime": "2022-05-08T06:36:44Z",
+        "jobId": "7bdfb723-ee89-4f48-bd5a-9c6d5a3b19ec",
+        "lastUpdateDateTime": "2022-07-15T14:16:44Z",
+        "createdDateTime": "2022-07-15T14:16:43Z",
+        "expirationDateTime": "2022-07-16T14:16:43Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -327,7 +342,7 @@
           "items": [
             {
               "kind": "CustomEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-05-07T06:36:44.3749061Z",
+              "lastUpdateDateTime": "2022-07-15T14:16:44.7604211Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -342,6 +357,13 @@
                         "confidenceScore": 0.05
                       },
                       {
+                        "text": "Accountability",
+                        "category": "geographic_poi",
+                        "offset": 34,
+                        "length": 14,
+                        "confidenceScore": 0.07
+                      },
+                      {
                         "text": "Office",
                         "category": "restaurant_name",
                         "offset": 49,
@@ -353,20 +375,6 @@
                         "category": "restaurant_name",
                         "offset": 57,
                         "length": 3,
-                        "confidenceScore": 0.04
-                      },
-                      {
-                        "text": "Accountability",
-                        "category": "geographic_poi",
-                        "offset": 34,
-                        "length": 14,
-                        "confidenceScore": 0.07
-                      },
-                      {
-                        "text": "natural",
-                        "category": "geographic_poi",
-                        "offset": 106,
-                        "length": 7,
                         "confidenceScore": 0.04
                       },
                       {
@@ -384,18 +392,25 @@
                         "confidenceScore": 0.03
                       },
                       {
-                        "text": "gas",
-                        "category": "restaurant_type",
-                        "offset": 114,
-                        "length": 3,
-                        "confidenceScore": 0.09
-                      },
-                      {
                         "text": "and",
                         "category": "served_dish",
                         "offset": 102,
                         "length": 3,
                         "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "natural",
+                        "category": "geographic_poi",
+                        "offset": 106,
+                        "length": 7,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "gas",
+                        "category": "restaurant_type",
+                        "offset": 114,
+                        "length": 3,
+                        "confidenceScore": 0.09
                       },
                       {
                         "text": "development",
@@ -412,25 +427,11 @@
                         "confidenceScore": 0.07
                       },
                       {
-                        "text": "protection",
-                        "category": "state",
-                        "offset": 267,
-                        "length": 10,
-                        "confidenceScore": 0.05
-                      },
-                      {
                         "text": "lands",
                         "category": "poi",
                         "offset": 141,
                         "length": 5,
                         "confidenceScore": 0.04
-                      },
-                      {
-                        "text": "BLM",
-                        "category": "poi",
-                        "offset": 202,
-                        "length": 3,
-                        "confidenceScore": 0.07
                       },
                       {
                         "text": "the",
@@ -445,6 +446,20 @@
                         "offset": 156,
                         "length": 14,
                         "confidenceScore": 0.54
+                      },
+                      {
+                        "text": "BLM",
+                        "category": "poi",
+                        "offset": 202,
+                        "length": 3,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "protection",
+                        "category": "state",
+                        "offset": 267,
+                        "length": 10,
+                        "confidenceScore": 0.05
                       }
                     ],
                     "warnings": []
