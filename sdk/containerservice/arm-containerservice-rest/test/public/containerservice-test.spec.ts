@@ -48,7 +48,8 @@ describe("My test", () => {
     await recorder.stop();
   });
 
-  it("managedClusters create test", async function () {
+  // skip this test as test recorder 
+  it.skip("managedClusters create test", async function () {
     const initalResponse = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
