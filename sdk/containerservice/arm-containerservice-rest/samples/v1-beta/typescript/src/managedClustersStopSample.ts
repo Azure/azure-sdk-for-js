@@ -8,7 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ContainerServiceManagementClient, { getLongRunningPoller } from "@azure-rest/arm-containerservice";
+import ContainerServiceManagementClient, {
+  getLongRunningPoller,
+} from "@azure-rest/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -23,12 +25,14 @@ async function stopManagedCluster() {
   const resourceName = "clustername1";
   const credential = new DefaultAzureCredential();
   const client = ContainerServiceManagementClient(credential);
-  const initialResponse = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop",
-    subscriptionId,
-    resourceGroupName,
-    resourceName
-  ).post();
+  const initialResponse = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop",
+      subscriptionId,
+      resourceGroupName,
+      resourceName
+    )
+    .post();
   const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
