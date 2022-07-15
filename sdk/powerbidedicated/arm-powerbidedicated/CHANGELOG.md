@@ -1,15 +1,26 @@
 # Release History
+    
+## 4.0.0 (2022-07-07)
+    
+**Features**
 
-## 3.0.2 (Unreleased)
+  - Added Interface AutoScaleVCore
+  - Added Interface AutoScaleVCoreProperties
+  - Added Interface DedicatedCapacity
+  - Added Interface DedicatedCapacityProperties
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CapacitySku no longer has parameter capacity
+  - Interface DedicatedCapacityMutableProperties no longer has parameter friendlyName
+  - Interface DedicatedCapacityMutableProperties no longer has parameter tenantId
+  - Interface DedicatedCapacityUpdateParameters no longer has parameter friendlyName
+  - Interface DedicatedCapacityUpdateParameters no longer has parameter tenantId
+  - Interface Operation no longer has parameter origin
+  - Interface Operation no longer has parameter properties
+  - Interface OperationDisplay no longer has parameter description
+  - Interface SkuDetailsForExistingResource no longer has parameter resourceType
+    
 ## 3.0.1 (2022-04-28)
 
 **Features**

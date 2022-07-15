@@ -1,0 +1,79 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-failstogenerateabackupofanon-existingkey-/backup?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b100fb3c-65d8-4316-a6bf-df0c17fff552"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "97",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 23:01:07 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.windows.net/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://vault.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "b100fb3c-65d8-4316-a6bf-df0c17fff552",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "96abff4a-b6f4-41b2-b56f-4980a9a4f605"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "Unauthorized",
+          "message": "AKV10000: Request is missing a Bearer or PoP token."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-failstogenerateabackupofanon-existingkey-/backup?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b100fb3c-65d8-4316-a6bf-df0c17fff552"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "350",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 23:01:07 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "b100fb3c-65d8-4316-a6bf-df0c17fff552",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=7388;da_age=7388;rd_age=7388;brd_age=5894;ra_notif_age=8444;dec_lev=1;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "ba4d82cf-e847-49e7-a469-d246b7a00607"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "KeyNotFound",
+          "message": "A key with (name/id) backupRestoreKeyName-failstogenerateabackupofanon-existingkey- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

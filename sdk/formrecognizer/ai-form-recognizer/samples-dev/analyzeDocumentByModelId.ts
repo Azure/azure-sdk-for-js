@@ -25,10 +25,8 @@ async function main() {
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
   );
 
-  const {
-    documents: [document],
-  } = await poller.pollUntilDone();
-
+  const { documents } = await poller.pollUntilDone();
+  const document = documents && documents[0];
   if (!document) {
     throw new Error("Expected at least one document in the result.");
   }

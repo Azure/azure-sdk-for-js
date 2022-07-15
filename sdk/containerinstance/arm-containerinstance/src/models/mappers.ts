@@ -674,7 +674,6 @@ export const ImageRegistryCredential: coreClient.CompositeMapper = {
       },
       username: {
         serializedName: "username",
-        required: true,
         type: {
           name: "String"
         }

@@ -8,31 +8,25 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
+  RecorderStartOptions,
   delay,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { ContainerInstanceManagementClient } from "../src/containerInstanceManagementClient";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
@@ -49,99 +43,96 @@ describe("ContainerInstance test", () => {
   let containerGroupName: string;
   let containerInstanceName: string;
 
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new ContainerInstanceManagementClient(credential, subscriptionId);
+    const credential = createTestCredential();
+    client = new ContainerInstanceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     containerGroupName = "mycontainerGroupxxx";
     containerInstanceName = "my-containerinstancexx";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("containerGroups create test", async function() {
-    const res = await client.containerGroups.beginCreateOrUpdateAndWait(resourceGroup,containerGroupName,{
-        location: location,
-        identity: {
-            type: "SystemAssigned"
-        },
-        containers: [
+  it("containerGroups create test", async function () {
+    const res = await client.containerGroups.beginCreateOrUpdateAndWait(resourceGroup, containerGroupName, {
+      location: location,
+      identity: {
+        type: "SystemAssigned"
+      },
+      containers: [
+        {
+          name: containerInstanceName,
+          command: [],
+          environmentVariables: [],
+          image: "nginx",
+          ports: [
             {
-                name: containerInstanceName,
-                command: [],
-                environmentVariables: [],
-                image: "nginx",
-                ports: [
-                    {
-                        port: 80
-                    }
-                ],
-                resources: {
-                    requests: {
-                        cpu: 1,
-                        memoryInGB: 1.5,
-                        gpu: {
-                            count: 1,
-                            sku: "K80"
-                        }
-                    }
-                },
-                volumeMounts: [
-                    {
-                        name: "empty-volume",
-
-                        mountPath: "mnt/mydir"
-                    }
-                ]
+              port: 80
             }
-        ],
-        diagnostics: {
-            logAnalytics: {
-                workspaceId: "workspaceid",
-                workspaceKey: "workspaceKey"
+          ],
+          resources: {
+            requests: {
+              cpu: 1,
+              memoryInGB: 1.5,
+              gpu: {
+                count: 1,
+                sku: "K80"
+              }
             }
-        },
-        osType: "Linux",
-        restartPolicy: "OnFailure",
-        volumes: [
+          },
+          volumeMounts: [
             {
-                name: "empty-volume",
-                emptyDir: {}
+              name: "empty-volume",
+
+              mountPath: "mnt/mydir"
             }
-        ]
-    },testPollingOptions)
-    assert.equal(res.name,containerGroupName);
+          ]
+        }
+      ],
+      diagnostics: {
+        logAnalytics: {
+          workspaceId: "workspaceid",
+          workspaceKey: "workspaceKey"
+        }
+      },
+      osType: "Linux",
+      restartPolicy: "OnFailure",
+      volumes: [
+        {
+          name: "empty-volume",
+          emptyDir: {}
+        }
+      ]
+    }, testPollingOptions)
+    assert.equal(res.name, containerGroupName);
   });
 
-  it("containerGroups get test", async function() {
-    const res = await client.containerGroups.get(resourceGroup,containerGroupName);
-    assert.equal(res.name,containerGroupName);
+  it("containerGroups get test", async function () {
+    const res = await client.containerGroups.get(resourceGroup, containerGroupName);
+    assert.equal(res.name, containerGroupName);
   });
 
-  it("containerGroups list test", async function() {
+  it("containerGroups list test", async function () {
     const resArray = new Array();
-    for await (let item of client.containerGroups.listByResourceGroup(resourceGroup)){
-        resArray.push(item);
+    for await (let item of client.containerGroups.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("containerGroups delete test", async function() {
-    const res = await client.containerGroups.beginDeleteAndWait(resourceGroup,containerGroupName);
+  it("containerGroups delete test", async function () {
+    const res = await client.containerGroups.beginDeleteAndWait(resourceGroup, containerGroupName);
     const resArray = new Array();
-    for await (let item of client.containerGroups.listByResourceGroup(resourceGroup)){
-        resArray.push(item);
+    for await (let item of client.containerGroups.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 });

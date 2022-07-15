@@ -4,10 +4,10 @@
 import { delay } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import {
-  createHttpHeaders,
-  createPipelineRequest,
   PipelineRequestOptions,
   RestError,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";

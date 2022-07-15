@@ -53,14 +53,15 @@ const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
-const client = new EducationManagementClient(new DefaultAzureCredential());
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new EducationManagementClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new EducationManagementClient(credential);
+// const client = new EducationManagementClient(credential, subscriptionId);
 ```
 
 

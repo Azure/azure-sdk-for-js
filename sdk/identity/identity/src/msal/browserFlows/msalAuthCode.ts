@@ -8,7 +8,7 @@ import { AuthenticationRequiredError } from "../../errors";
 import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
 import { AuthenticationRecord } from "../types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalBrowserFlowOptions, MsalBrowser } from "./msalBrowserCommon";
+import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
 
 // We keep a copy of the redirect hash.
 const redirectHash = self.location.hash;

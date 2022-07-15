@@ -54,7 +54,8 @@ import {
 } from "./generated/models";
 import { tracingClient } from "./tracing";
 import { logger } from "./logger";
-import { SDK_VERSION } from "./constants";
+
+export const SDK_VERSION: string = "1.1.0";
 
 export interface DigitalTwinsClientOptions extends PipelineOptions {
   /**

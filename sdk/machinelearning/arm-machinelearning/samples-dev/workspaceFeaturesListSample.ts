@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all enabled features for a workspace
  *
  * @summary Lists all enabled features for a workspace
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/WorkspaceFeature/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/WorkspaceFeature/list.json
  */
 async function listWorkspaceFeatures() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

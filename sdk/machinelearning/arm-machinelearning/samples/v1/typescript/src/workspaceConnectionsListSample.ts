@@ -15,17 +15,17 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to List all connections under a AML workspace.
+ * This sample demonstrates how to
  *
- * @summary List all connections under a AML workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/examples/WorkspaceConnection/list.json
+ * @summary
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/WorkspaceConnection/list.json
  */
 async function listWorkspaceConnections() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "resourceGroup-1";
   const workspaceName = "workspace-1";
   const target = "www.facebook.com";
-  const category = "ACR";
+  const category = "ContainerRegistry";
   const options: WorkspaceConnectionsListOptionalParams = { target, category };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);

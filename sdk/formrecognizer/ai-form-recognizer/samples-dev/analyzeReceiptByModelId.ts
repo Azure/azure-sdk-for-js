@@ -38,10 +38,9 @@ async function main() {
   );
   poller.onProgress((state) => console.log("Operation:", state.modelId, state.status));
 
-  const {
-    documents: [result],
-  } = await poller.pollUntilDone();
+  const { documents } = await poller.pollUntilDone();
 
+  const result = documents && documents[0];
   if (result) {
     const receipt = result.fields;
     console.log("=== Receipt Information ===");

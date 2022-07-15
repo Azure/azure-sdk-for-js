@@ -11,10 +11,10 @@ import {
   KeyVaultKey,
 } from "../../src";
 import { getKey, stringToUint8Array, uint8ArrayToString } from "../public/utils/crypto";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { AesCryptographyProvider } from "../../src/cryptography/aesCryptographyProvider";
 import TestClient from "../public/utils/testClient";
-import { authenticate } from "../public/utils/testAuthentication";
+import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 import { ClientSecretCredential } from "@azure/identity";
@@ -135,8 +135,10 @@ describe("AesCryptographyProvider internal tests", function () {
         let remoteProvider: RemoteCryptographyProvider;
 
         beforeEach(async function (this: Context) {
-          const authentication = await authenticate(this, getServiceVersion());
-          recorder = authentication.recorder;
+          recorder = new Recorder(this.currentTest);
+          await recorder.start(envSetupForPlayback);
+
+          const authentication = await authenticate(getServiceVersion(), recorder);
 
           if (!authentication.hsmClient) {
             // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
@@ -157,7 +159,11 @@ describe("AesCryptographyProvider internal tests", function () {
         it("encrypts locally and decrypts remotely", async function (this: Context) {
           const keyName = testClient.formatName(`${keyPrefix}-${this.test!.title}-${keySuffix}`);
           keyVaultKey = await client.importKey(keyName, jwk, {});
-          remoteProvider = new RemoteCryptographyProvider(keyVaultKey, credential);
+          remoteProvider = new RemoteCryptographyProvider(
+            keyVaultKey,
+            credential,
+            recorder.configureClientOptions({})
+          );
 
           const text = this.test!.title;
           const iv = getKey(16);
@@ -179,7 +185,11 @@ describe("AesCryptographyProvider internal tests", function () {
         it("encrypts remotely and decrypts locally", async function (this: Context) {
           const keyName = testClient.formatName(`${keyPrefix}-${this.test!.title}-${keySuffix}`);
           keyVaultKey = await client.importKey(keyName, jwk, {});
-          remoteProvider = new RemoteCryptographyProvider(keyVaultKey, credential);
+          remoteProvider = new RemoteCryptographyProvider(
+            keyVaultKey,
+            credential,
+            recorder.configureClientOptions({})
+          );
 
           const text = this.test!.title;
           const iv = getKey(16);

@@ -11,12 +11,12 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AutoScaleVCore = Resource & {
-    sku: AutoScaleVCoreSku;
+export interface AutoScaleVCore extends Resource {
     capacityLimit?: number;
     capacityObjectId?: string;
     readonly provisioningState?: VCoreProvisioningState;
-};
+    sku: AutoScaleVCoreSku;
+}
 
 // @public
 export interface AutoScaleVCoreListResult {
@@ -29,10 +29,10 @@ export interface AutoScaleVCoreMutableProperties {
 }
 
 // @public
-export type AutoScaleVCoreProperties = AutoScaleVCoreMutableProperties & {
+export interface AutoScaleVCoreProperties extends AutoScaleVCoreMutableProperties {
     capacityObjectId?: string;
     readonly provisioningState?: VCoreProvisioningState;
-};
+}
 
 // @public
 export interface AutoScaleVCores {
@@ -202,7 +202,6 @@ export type CapacityProvisioningState = string;
 
 // @public
 export interface CapacitySku {
-    capacity?: number;
     name: string;
     tier?: CapacitySkuTier;
 }
@@ -229,15 +228,13 @@ export interface DedicatedCapacities {
 }
 
 // @public
-export type DedicatedCapacity = Resource & {
-    sku: CapacitySku;
+export interface DedicatedCapacity extends Resource {
     administration?: DedicatedCapacityAdministrators;
     mode?: Mode;
-    readonly tenantId?: string;
-    readonly friendlyName?: string;
-    readonly state?: State;
     readonly provisioningState?: CapacityProvisioningState;
-};
+    sku: CapacitySku;
+    readonly state?: State;
+}
 
 // @public
 export interface DedicatedCapacityAdministrators {
@@ -247,27 +244,23 @@ export interface DedicatedCapacityAdministrators {
 // @public
 export interface DedicatedCapacityMutableProperties {
     administration?: DedicatedCapacityAdministrators;
-    readonly friendlyName?: string;
     mode?: Mode;
-    readonly tenantId?: string;
 }
 
 // @public
-export type DedicatedCapacityProperties = DedicatedCapacityMutableProperties & {
-    readonly state?: State;
+export interface DedicatedCapacityProperties extends DedicatedCapacityMutableProperties {
     readonly provisioningState?: CapacityProvisioningState;
-};
+    readonly state?: State;
+}
 
 // @public
 export interface DedicatedCapacityUpdateParameters {
     administration?: DedicatedCapacityAdministrators;
-    readonly friendlyName?: string;
     mode?: Mode;
     sku?: CapacitySku;
     tags?: {
         [propertyName: string]: string;
     };
-    readonly tenantId?: string;
 }
 
 // @public
@@ -286,124 +279,65 @@ export type IdentityType = string;
 
 // @public
 export enum KnownCapacityProvisioningState {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Paused = "Paused",
-    // (undocumented)
     Pausing = "Pausing",
-    // (undocumented)
     Preparing = "Preparing",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Resuming = "Resuming",
-    // (undocumented)
     Scaling = "Scaling",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownCapacitySkuTier {
-    // (undocumented)
     AutoPremiumHost = "AutoPremiumHost",
-    // (undocumented)
     PbieAzure = "PBIE_Azure",
-    // (undocumented)
     Premium = "Premium"
 }
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownMode {
-    // (undocumented)
     Gen1 = "Gen1",
-    // (undocumented)
     Gen2 = "Gen2"
 }
 
 // @public
 export enum KnownState {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Paused = "Paused",
-    // (undocumented)
     Pausing = "Pausing",
-    // (undocumented)
     Preparing = "Preparing",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Resuming = "Resuming",
-    // (undocumented)
     Scaling = "Scaling",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownVCoreProvisioningState {
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownVCoreSkuTier {
-    // (undocumented)
     AutoScale = "AutoScale"
-}
-
-// @public
-export interface LogSpecification {
-    readonly blobDuration?: string;
-    displayName?: string;
-    readonly name?: string;
-}
-
-// @public
-export interface MetricSpecification {
-    readonly aggregationType?: string;
-    dimensions?: MetricSpecificationDimensionsItem[];
-    displayDescription?: string;
-    displayName?: string;
-    readonly metricFilterPattern?: string;
-    readonly name?: string;
-    readonly unit?: string;
-}
-
-// @public (undocumented)
-export interface MetricSpecificationDimensionsItem {
-    displayName?: string;
-    readonly name?: string;
 }
 
 // @public
@@ -413,13 +347,10 @@ export type Mode = string;
 export interface Operation {
     display?: OperationDisplay;
     readonly name?: string;
-    readonly origin?: string;
-    properties?: OperationProperties;
 }
 
 // @public
 export interface OperationDisplay {
-    description?: string;
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
@@ -429,11 +360,6 @@ export interface OperationDisplay {
 export interface OperationListResult {
     readonly nextLink?: string;
     readonly value?: Operation[];
-}
-
-// @public
-export interface OperationProperties {
-    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
@@ -492,14 +418,7 @@ export interface Resource {
 }
 
 // @public
-export interface ServiceSpecification {
-    logSpecifications?: LogSpecification[];
-    metricSpecifications?: MetricSpecification[];
-}
-
-// @public
 export interface SkuDetailsForExistingResource {
-    resourceType?: string;
     sku?: CapacitySku;
 }
 
