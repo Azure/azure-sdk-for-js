@@ -22,12 +22,14 @@ async function getManagedClustersByResourceGroup() {
   const resourceGroupName = "rg1";
   const credential = new DefaultAzureCredential();
   const client = ContainerServiceManagementClient(credential);
-  const initialResponse = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters",
-    subscriptionId,
-    resourceGroupName
-  ).get();
-  const result = paginate(client, initialResponse)
+  const initialResponse = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters",
+      subscriptionId,
+      resourceGroupName
+    )
+    .get();
+  const result = paginate(client, initialResponse);
   const resArray = new Array();
   for await (let item of result) {
     resArray.push(item);

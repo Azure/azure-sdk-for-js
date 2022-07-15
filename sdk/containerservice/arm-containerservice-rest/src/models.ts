@@ -34,10 +34,7 @@ export interface ManagedClusterIdentity {
   /** For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity). */
   type?: "SystemAssigned" | "UserAssigned" | "None";
   /** The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: Record<
-    string,
-    ManagedServiceIdentityUserAssignedIdentitiesValue
-  >;
+  userAssignedIdentities?: Record<string, ManagedServiceIdentityUserAssignedIdentitiesValue>;
 }
 
 export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
@@ -134,8 +131,7 @@ export interface CreationData {
   sourceResourceId?: string;
 }
 
-export interface ManagedClusterAgentPoolProfile
-  extends ManagedClusterAgentPoolProfileProperties {
+export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolProfileProperties {
   /** Windows agent pool names must be 6 characters or less. */
   name: string;
 }
@@ -386,8 +382,7 @@ export interface ManagedClusterAddonProfile {
   identity?: ManagedClusterAddonProfileIdentity;
 }
 
-export interface ManagedClusterAddonProfileIdentity
-  extends UserAssignedIdentity {}
+export interface ManagedClusterAddonProfileIdentity extends UserAssignedIdentity {}
 
 export interface UserAssignedIdentity {
   /** The resource ID of the user assigned identity. */
@@ -814,14 +809,7 @@ export interface MaintenanceConfigurationProperties {
 
 export interface TimeInWeek {
   /** The day of the week. */
-  day?:
-    | "Sunday"
-    | "Monday"
-    | "Tuesday"
-    | "Wednesday"
-    | "Thursday"
-    | "Friday"
-    | "Saturday";
+  day?: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
   /** Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range. */
   hourSlots?: Array<number>;
 }

@@ -3,18 +3,18 @@
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
-  ManagedCluster,
-  TagsObject,
-  ManagedClusterServicePrincipalProfile,
-  ManagedClusterAADProfile,
-  RunCommandRequest,
-  MaintenanceConfiguration,
   AgentPool,
+  MaintenanceConfiguration,
+  ManagedCluster,
+  ManagedClusterAADProfile,
+  ManagedClusterServicePrincipalProfile,
+  ManagedClusterSnapshot,
   PrivateEndpointConnection,
   PrivateLinkResource,
+  RunCommandRequest,
   Snapshot,
-  ManagedClusterSnapshot,
-  TrustedAccessRoleBinding
+  TagsObject,
+  TrustedAccessRoleBinding,
 } from "./models";
 
 export type OperationsListParameters = RequestParameters;
@@ -111,8 +111,7 @@ export interface ManagedClustersDeleteQueryParam {
   queryParameters?: ManagedClustersDeleteQueryParamProperties;
 }
 
-export type ManagedClustersDeleteParameters = ManagedClustersDeleteQueryParam &
-  RequestParameters;
+export type ManagedClustersDeleteParameters = ManagedClustersDeleteQueryParam & RequestParameters;
 
 export interface ManagedClustersResetServicePrincipalProfileBodyParam {
   /** The service principal profile to set on the managed cluster. */
@@ -204,8 +203,7 @@ export interface AgentPoolsDeleteQueryParam {
   queryParameters?: AgentPoolsDeleteQueryParamProperties;
 }
 
-export type AgentPoolsDeleteParameters = AgentPoolsDeleteQueryParam &
-  RequestParameters;
+export type AgentPoolsDeleteParameters = AgentPoolsDeleteQueryParam & RequestParameters;
 export type AgentPoolsGetUpgradeProfileParameters = RequestParameters;
 export type AgentPoolsGetAvailableAgentPoolVersionsParameters = RequestParameters;
 export type AgentPoolsUpgradeNodeImageVersionParameters = RequestParameters;

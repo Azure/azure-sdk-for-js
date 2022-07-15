@@ -2,195 +2,195 @@
 // Licensed under the MIT license.
 
 import {
-  OperationsListParameters,
-  ManagedClustersGetOSOptionsParameters,
-  ManagedClustersListParameters,
-  ManagedClustersListByResourceGroupParameters,
-  ManagedClustersGetUpgradeProfileParameters,
-  ManagedClustersGetAccessProfileParameters,
-  ManagedClustersListClusterAdminCredentialsParameters,
-  ManagedClustersListClusterUserCredentialsParameters,
-  ManagedClustersListClusterMonitoringUserCredentialsParameters,
-  ManagedClustersGetParameters,
-  ManagedClustersCreateOrUpdateParameters,
-  ManagedClustersUpdateTagsParameters,
-  ManagedClustersDeleteParameters,
-  ManagedClustersResetServicePrincipalProfileParameters,
-  ManagedClustersResetAADProfileParameters,
-  ManagedClustersRotateClusterCertificatesParameters,
-  ManagedClustersRotateServiceAccountSigningKeysParameters,
-  ManagedClustersStopParameters,
-  ManagedClustersStartParameters,
-  ManagedClustersRunCommandParameters,
-  ManagedClustersGetCommandResultParameters,
-  ManagedClustersListOutboundNetworkDependenciesEndpointsParameters,
-  MaintenanceConfigurationsListByManagedClusterParameters,
-  MaintenanceConfigurationsGetParameters,
-  MaintenanceConfigurationsCreateOrUpdateParameters,
-  MaintenanceConfigurationsDeleteParameters,
-  AgentPoolsListParameters,
-  AgentPoolsGetParameters,
   AgentPoolsCreateOrUpdateParameters,
   AgentPoolsDeleteParameters,
-  AgentPoolsGetUpgradeProfileParameters,
   AgentPoolsGetAvailableAgentPoolVersionsParameters,
+  AgentPoolsGetParameters,
+  AgentPoolsGetUpgradeProfileParameters,
+  AgentPoolsListParameters,
   AgentPoolsUpgradeNodeImageVersionParameters,
-  PrivateEndpointConnectionsListParameters,
-  PrivateEndpointConnectionsGetParameters,
-  PrivateEndpointConnectionsUpdateParameters,
+  MaintenanceConfigurationsCreateOrUpdateParameters,
+  MaintenanceConfigurationsDeleteParameters,
+  MaintenanceConfigurationsGetParameters,
+  MaintenanceConfigurationsListByManagedClusterParameters,
+  ManagedClusterSnapshotsCreateOrUpdateParameters,
+  ManagedClusterSnapshotsDeleteParameters,
+  ManagedClusterSnapshotsGetParameters,
+  ManagedClusterSnapshotsListByResourceGroupParameters,
+  ManagedClusterSnapshotsListParameters,
+  ManagedClusterSnapshotsUpdateTagsParameters,
+  ManagedClustersCreateOrUpdateParameters,
+  ManagedClustersDeleteParameters,
+  ManagedClustersGetAccessProfileParameters,
+  ManagedClustersGetCommandResultParameters,
+  ManagedClustersGetOSOptionsParameters,
+  ManagedClustersGetParameters,
+  ManagedClustersGetUpgradeProfileParameters,
+  ManagedClustersListByResourceGroupParameters,
+  ManagedClustersListClusterAdminCredentialsParameters,
+  ManagedClustersListClusterMonitoringUserCredentialsParameters,
+  ManagedClustersListClusterUserCredentialsParameters,
+  ManagedClustersListOutboundNetworkDependenciesEndpointsParameters,
+  ManagedClustersListParameters,
+  ManagedClustersResetAADProfileParameters,
+  ManagedClustersResetServicePrincipalProfileParameters,
+  ManagedClustersRotateClusterCertificatesParameters,
+  ManagedClustersRotateServiceAccountSigningKeysParameters,
+  ManagedClustersRunCommandParameters,
+  ManagedClustersStartParameters,
+  ManagedClustersStopParameters,
+  ManagedClustersUpdateTagsParameters,
+  OperationsListParameters,
   PrivateEndpointConnectionsDeleteParameters,
+  PrivateEndpointConnectionsGetParameters,
+  PrivateEndpointConnectionsListParameters,
+  PrivateEndpointConnectionsUpdateParameters,
   PrivateLinkResourcesListParameters,
   ResolvePrivateLinkServiceIdPostParameters,
-  SnapshotsListParameters,
-  SnapshotsListByResourceGroupParameters,
-  SnapshotsGetParameters,
   SnapshotsCreateOrUpdateParameters,
-  SnapshotsUpdateTagsParameters,
   SnapshotsDeleteParameters,
-  ManagedClusterSnapshotsListParameters,
-  ManagedClusterSnapshotsListByResourceGroupParameters,
-  ManagedClusterSnapshotsGetParameters,
-  ManagedClusterSnapshotsCreateOrUpdateParameters,
-  ManagedClusterSnapshotsUpdateTagsParameters,
-  ManagedClusterSnapshotsDeleteParameters,
-  TrustedAccessRolesListParameters,
-  TrustedAccessRoleBindingsListParameters,
-  TrustedAccessRoleBindingsGetParameters,
+  SnapshotsGetParameters,
+  SnapshotsListByResourceGroupParameters,
+  SnapshotsListParameters,
+  SnapshotsUpdateTagsParameters,
   TrustedAccessRoleBindingsCreateOrUpdateParameters,
-  TrustedAccessRoleBindingsDeleteParameters
+  TrustedAccessRoleBindingsDeleteParameters,
+  TrustedAccessRoleBindingsGetParameters,
+  TrustedAccessRoleBindingsListParameters,
+  TrustedAccessRolesListParameters,
 } from "./parameters";
 import {
-  OperationsList200Response,
-  OperationsListdefaultResponse,
-  ManagedClustersGetOSOptions200Response,
-  ManagedClustersGetOSOptionsdefaultResponse,
-  ManagedClustersList200Response,
-  ManagedClustersListdefaultResponse,
-  ManagedClustersListByResourceGroup200Response,
-  ManagedClustersListByResourceGroupdefaultResponse,
-  ManagedClustersGetUpgradeProfile200Response,
-  ManagedClustersGetUpgradeProfiledefaultResponse,
-  ManagedClustersGetAccessProfile200Response,
-  ManagedClustersGetAccessProfiledefaultResponse,
-  ManagedClustersListClusterAdminCredentials200Response,
-  ManagedClustersListClusterAdminCredentialsdefaultResponse,
-  ManagedClustersListClusterUserCredentials200Response,
-  ManagedClustersListClusterUserCredentialsdefaultResponse,
-  ManagedClustersListClusterMonitoringUserCredentials200Response,
-  ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse,
-  ManagedClustersGet200Response,
-  ManagedClustersGetdefaultResponse,
-  ManagedClustersCreateOrUpdate200Response,
-  ManagedClustersCreateOrUpdate201Response,
-  ManagedClustersCreateOrUpdatedefaultResponse,
-  ManagedClustersUpdateTags200Response,
-  ManagedClustersUpdateTagsdefaultResponse,
-  ManagedClustersDelete202Response,
-  ManagedClustersDelete204Response,
-  ManagedClustersDeletedefaultResponse,
-  ManagedClustersResetServicePrincipalProfile200Response,
-  ManagedClustersResetServicePrincipalProfile202Response,
-  ManagedClustersResetServicePrincipalProfiledefaultResponse,
-  ManagedClustersResetAADProfile200Response,
-  ManagedClustersResetAADProfile202Response,
-  ManagedClustersResetAADProfiledefaultResponse,
-  ManagedClustersRotateClusterCertificates202Response,
-  ManagedClustersRotateClusterCertificates204Response,
-  ManagedClustersRotateClusterCertificatesdefaultResponse,
-  ManagedClustersRotateServiceAccountSigningKeys202Response,
-  ManagedClustersRotateServiceAccountSigningKeys204Response,
-  ManagedClustersRotateServiceAccountSigningKeysdefaultResponse,
-  ManagedClustersStop202Response,
-  ManagedClustersStop204Response,
-  ManagedClustersStopdefaultResponse,
-  ManagedClustersStart202Response,
-  ManagedClustersStart204Response,
-  ManagedClustersStartdefaultResponse,
-  ManagedClustersRunCommand200Response,
-  ManagedClustersRunCommand202Response,
-  ManagedClustersRunCommanddefaultResponse,
-  ManagedClustersGetCommandResult200Response,
-  ManagedClustersGetCommandResult202Response,
-  ManagedClustersGetCommandResultdefaultResponse,
-  ManagedClustersListOutboundNetworkDependenciesEndpoints200Response,
-  ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse,
-  MaintenanceConfigurationsListByManagedCluster200Response,
-  MaintenanceConfigurationsListByManagedClusterdefaultResponse,
-  MaintenanceConfigurationsGet200Response,
-  MaintenanceConfigurationsGetdefaultResponse,
-  MaintenanceConfigurationsCreateOrUpdate200Response,
-  MaintenanceConfigurationsCreateOrUpdatedefaultResponse,
-  MaintenanceConfigurationsDelete200Response,
-  MaintenanceConfigurationsDelete204Response,
-  MaintenanceConfigurationsDeletedefaultResponse,
-  AgentPoolsList200Response,
-  AgentPoolsListdefaultResponse,
-  AgentPoolsGet200Response,
-  AgentPoolsGetdefaultResponse,
   AgentPoolsCreateOrUpdate200Response,
   AgentPoolsCreateOrUpdate201Response,
   AgentPoolsCreateOrUpdatedefaultResponse,
   AgentPoolsDelete202Response,
   AgentPoolsDelete204Response,
   AgentPoolsDeletedefaultResponse,
+  AgentPoolsGet200Response,
+  AgentPoolsGetAvailableAgentPoolVersions200Response,
   AgentPoolsGetUpgradeProfile200Response,
   AgentPoolsGetUpgradeProfiledefaultResponse,
-  AgentPoolsGetAvailableAgentPoolVersions200Response,
+  AgentPoolsGetdefaultResponse,
+  AgentPoolsList200Response,
+  AgentPoolsListdefaultResponse,
   AgentPoolsUpgradeNodeImageVersion200Response,
   AgentPoolsUpgradeNodeImageVersion202Response,
   AgentPoolsUpgradeNodeImageVersiondefaultResponse,
-  PrivateEndpointConnectionsList200Response,
-  PrivateEndpointConnectionsListdefaultResponse,
-  PrivateEndpointConnectionsGet200Response,
-  PrivateEndpointConnectionsGetdefaultResponse,
-  PrivateEndpointConnectionsUpdate200Response,
-  PrivateEndpointConnectionsUpdatedefaultResponse,
+  MaintenanceConfigurationsCreateOrUpdate200Response,
+  MaintenanceConfigurationsCreateOrUpdatedefaultResponse,
+  MaintenanceConfigurationsDelete200Response,
+  MaintenanceConfigurationsDelete204Response,
+  MaintenanceConfigurationsDeletedefaultResponse,
+  MaintenanceConfigurationsGet200Response,
+  MaintenanceConfigurationsGetdefaultResponse,
+  MaintenanceConfigurationsListByManagedCluster200Response,
+  MaintenanceConfigurationsListByManagedClusterdefaultResponse,
+  ManagedClusterSnapshotsCreateOrUpdate200Response,
+  ManagedClusterSnapshotsCreateOrUpdate201Response,
+  ManagedClusterSnapshotsCreateOrUpdatedefaultResponse,
+  ManagedClusterSnapshotsDelete200Response,
+  ManagedClusterSnapshotsDelete204Response,
+  ManagedClusterSnapshotsDeletedefaultResponse,
+  ManagedClusterSnapshotsGet200Response,
+  ManagedClusterSnapshotsGetdefaultResponse,
+  ManagedClusterSnapshotsList200Response,
+  ManagedClusterSnapshotsListByResourceGroup200Response,
+  ManagedClusterSnapshotsListByResourceGroupdefaultResponse,
+  ManagedClusterSnapshotsListdefaultResponse,
+  ManagedClusterSnapshotsUpdateTags200Response,
+  ManagedClusterSnapshotsUpdateTagsdefaultResponse,
+  ManagedClustersCreateOrUpdate200Response,
+  ManagedClustersCreateOrUpdate201Response,
+  ManagedClustersCreateOrUpdatedefaultResponse,
+  ManagedClustersDelete202Response,
+  ManagedClustersDelete204Response,
+  ManagedClustersDeletedefaultResponse,
+  ManagedClustersGet200Response,
+  ManagedClustersGetAccessProfile200Response,
+  ManagedClustersGetAccessProfiledefaultResponse,
+  ManagedClustersGetCommandResult200Response,
+  ManagedClustersGetCommandResult202Response,
+  ManagedClustersGetCommandResultdefaultResponse,
+  ManagedClustersGetOSOptions200Response,
+  ManagedClustersGetOSOptionsdefaultResponse,
+  ManagedClustersGetUpgradeProfile200Response,
+  ManagedClustersGetUpgradeProfiledefaultResponse,
+  ManagedClustersGetdefaultResponse,
+  ManagedClustersList200Response,
+  ManagedClustersListByResourceGroup200Response,
+  ManagedClustersListByResourceGroupdefaultResponse,
+  ManagedClustersListClusterAdminCredentials200Response,
+  ManagedClustersListClusterAdminCredentialsdefaultResponse,
+  ManagedClustersListClusterMonitoringUserCredentials200Response,
+  ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse,
+  ManagedClustersListClusterUserCredentials200Response,
+  ManagedClustersListClusterUserCredentialsdefaultResponse,
+  ManagedClustersListOutboundNetworkDependenciesEndpoints200Response,
+  ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse,
+  ManagedClustersListdefaultResponse,
+  ManagedClustersResetAADProfile200Response,
+  ManagedClustersResetAADProfile202Response,
+  ManagedClustersResetAADProfiledefaultResponse,
+  ManagedClustersResetServicePrincipalProfile200Response,
+  ManagedClustersResetServicePrincipalProfile202Response,
+  ManagedClustersResetServicePrincipalProfiledefaultResponse,
+  ManagedClustersRotateClusterCertificates202Response,
+  ManagedClustersRotateClusterCertificates204Response,
+  ManagedClustersRotateClusterCertificatesdefaultResponse,
+  ManagedClustersRotateServiceAccountSigningKeys202Response,
+  ManagedClustersRotateServiceAccountSigningKeys204Response,
+  ManagedClustersRotateServiceAccountSigningKeysdefaultResponse,
+  ManagedClustersRunCommand200Response,
+  ManagedClustersRunCommand202Response,
+  ManagedClustersRunCommanddefaultResponse,
+  ManagedClustersStart202Response,
+  ManagedClustersStart204Response,
+  ManagedClustersStartdefaultResponse,
+  ManagedClustersStop202Response,
+  ManagedClustersStop204Response,
+  ManagedClustersStopdefaultResponse,
+  ManagedClustersUpdateTags200Response,
+  ManagedClustersUpdateTagsdefaultResponse,
+  OperationsList200Response,
+  OperationsListdefaultResponse,
   PrivateEndpointConnectionsDelete200Response,
   PrivateEndpointConnectionsDelete204Response,
   PrivateEndpointConnectionsDeletedefaultResponse,
+  PrivateEndpointConnectionsGet200Response,
+  PrivateEndpointConnectionsGetdefaultResponse,
+  PrivateEndpointConnectionsList200Response,
+  PrivateEndpointConnectionsListdefaultResponse,
+  PrivateEndpointConnectionsUpdate200Response,
+  PrivateEndpointConnectionsUpdatedefaultResponse,
   PrivateLinkResourcesList200Response,
   PrivateLinkResourcesListdefaultResponse,
   ResolvePrivateLinkServiceIdPost200Response,
   ResolvePrivateLinkServiceIdPostdefaultResponse,
-  SnapshotsList200Response,
-  SnapshotsListdefaultResponse,
-  SnapshotsListByResourceGroup200Response,
-  SnapshotsListByResourceGroupdefaultResponse,
-  SnapshotsGet200Response,
-  SnapshotsGetdefaultResponse,
   SnapshotsCreateOrUpdate200Response,
   SnapshotsCreateOrUpdate201Response,
   SnapshotsCreateOrUpdatedefaultResponse,
-  SnapshotsUpdateTags200Response,
-  SnapshotsUpdateTagsdefaultResponse,
   SnapshotsDelete200Response,
   SnapshotsDelete204Response,
   SnapshotsDeletedefaultResponse,
-  ManagedClusterSnapshotsList200Response,
-  ManagedClusterSnapshotsListdefaultResponse,
-  ManagedClusterSnapshotsListByResourceGroup200Response,
-  ManagedClusterSnapshotsListByResourceGroupdefaultResponse,
-  ManagedClusterSnapshotsGet200Response,
-  ManagedClusterSnapshotsGetdefaultResponse,
-  ManagedClusterSnapshotsCreateOrUpdate200Response,
-  ManagedClusterSnapshotsCreateOrUpdate201Response,
-  ManagedClusterSnapshotsCreateOrUpdatedefaultResponse,
-  ManagedClusterSnapshotsUpdateTags200Response,
-  ManagedClusterSnapshotsUpdateTagsdefaultResponse,
-  ManagedClusterSnapshotsDelete200Response,
-  ManagedClusterSnapshotsDelete204Response,
-  ManagedClusterSnapshotsDeletedefaultResponse,
-  TrustedAccessRolesList200Response,
-  TrustedAccessRolesListdefaultResponse,
-  TrustedAccessRoleBindingsList200Response,
-  TrustedAccessRoleBindingsListdefaultResponse,
-  TrustedAccessRoleBindingsGet200Response,
-  TrustedAccessRoleBindingsGetdefaultResponse,
+  SnapshotsGet200Response,
+  SnapshotsGetdefaultResponse,
+  SnapshotsList200Response,
+  SnapshotsListByResourceGroup200Response,
+  SnapshotsListByResourceGroupdefaultResponse,
+  SnapshotsListdefaultResponse,
+  SnapshotsUpdateTags200Response,
+  SnapshotsUpdateTagsdefaultResponse,
   TrustedAccessRoleBindingsCreateOrUpdate200Response,
   TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse,
   TrustedAccessRoleBindingsDelete200Response,
   TrustedAccessRoleBindingsDelete204Response,
-  TrustedAccessRoleBindingsDeletedefaultResponse
+  TrustedAccessRoleBindingsDeletedefaultResponse,
+  TrustedAccessRoleBindingsGet200Response,
+  TrustedAccessRoleBindingsGetdefaultResponse,
+  TrustedAccessRoleBindingsList200Response,
+  TrustedAccessRoleBindingsListdefaultResponse,
+  TrustedAccessRolesList200Response,
+  TrustedAccessRolesListdefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -198,9 +198,7 @@ export interface OperationsList {
   /** Gets a list of operations. */
   get(
     options?: OperationsListParameters
-  ): StreamableMethod<
-    OperationsList200Response | OperationsListdefaultResponse
-  >;
+  ): StreamableMethod<OperationsList200Response | OperationsListdefaultResponse>;
 }
 
 export interface ManagedClustersGetOSOptions {
@@ -208,8 +206,7 @@ export interface ManagedClustersGetOSOptions {
   get(
     options?: ManagedClustersGetOSOptionsParameters
   ): StreamableMethod<
-    | ManagedClustersGetOSOptions200Response
-    | ManagedClustersGetOSOptionsdefaultResponse
+    ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsdefaultResponse
   >;
 }
 
@@ -217,9 +214,7 @@ export interface ManagedClustersList {
   /** Gets a list of managed clusters in the specified subscription. */
   get(
     options?: ManagedClustersListParameters
-  ): StreamableMethod<
-    ManagedClustersList200Response | ManagedClustersListdefaultResponse
-  >;
+  ): StreamableMethod<ManagedClustersList200Response | ManagedClustersListdefaultResponse>;
 }
 
 export interface ManagedClustersListByResourceGroup {
@@ -237,8 +232,7 @@ export interface ManagedClustersGetUpgradeProfile {
   get(
     options?: ManagedClustersGetUpgradeProfileParameters
   ): StreamableMethod<
-    | ManagedClustersGetUpgradeProfile200Response
-    | ManagedClustersGetUpgradeProfiledefaultResponse
+    ManagedClustersGetUpgradeProfile200Response | ManagedClustersGetUpgradeProfiledefaultResponse
   >;
 }
 
@@ -247,8 +241,7 @@ export interface ManagedClustersGetAccessProfile {
   post(
     options?: ManagedClustersGetAccessProfileParameters
   ): StreamableMethod<
-    | ManagedClustersGetAccessProfile200Response
-    | ManagedClustersGetAccessProfiledefaultResponse
+    ManagedClustersGetAccessProfile200Response | ManagedClustersGetAccessProfiledefaultResponse
   >;
 }
 
@@ -286,9 +279,7 @@ export interface ManagedClustersGet {
   /** Gets a managed cluster. */
   get(
     options?: ManagedClustersGetParameters
-  ): StreamableMethod<
-    ManagedClustersGet200Response | ManagedClustersGetdefaultResponse
-  >;
+  ): StreamableMethod<ManagedClustersGet200Response | ManagedClustersGetdefaultResponse>;
   /** Creates or updates a managed cluster. */
   put(
     options: ManagedClustersCreateOrUpdateParameters
@@ -301,8 +292,7 @@ export interface ManagedClustersGet {
   patch(
     options: ManagedClustersUpdateTagsParameters
   ): StreamableMethod<
-    | ManagedClustersUpdateTags200Response
-    | ManagedClustersUpdateTagsdefaultResponse
+    ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsdefaultResponse
   >;
   /** Deletes a managed cluster. */
   delete(
@@ -427,8 +417,7 @@ export interface MaintenanceConfigurationsGet {
   get(
     options?: MaintenanceConfigurationsGetParameters
   ): StreamableMethod<
-    | MaintenanceConfigurationsGet200Response
-    | MaintenanceConfigurationsGetdefaultResponse
+    MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetdefaultResponse
   >;
   /** Creates or updates a maintenance configuration in the specified managed cluster. */
   put(
@@ -451,9 +440,7 @@ export interface AgentPoolsList {
   /** Gets a list of agent pools in the specified managed cluster. */
   get(
     options?: AgentPoolsListParameters
-  ): StreamableMethod<
-    AgentPoolsList200Response | AgentPoolsListdefaultResponse
-  >;
+  ): StreamableMethod<AgentPoolsList200Response | AgentPoolsListdefaultResponse>;
 }
 
 export interface AgentPoolsGet {
@@ -473,9 +460,7 @@ export interface AgentPoolsGet {
   delete(
     options?: AgentPoolsDeleteParameters
   ): StreamableMethod<
-    | AgentPoolsDelete202Response
-    | AgentPoolsDelete204Response
-    | AgentPoolsDeletedefaultResponse
+    AgentPoolsDelete202Response | AgentPoolsDelete204Response | AgentPoolsDeletedefaultResponse
   >;
 }
 
@@ -484,8 +469,7 @@ export interface AgentPoolsGetUpgradeProfile {
   get(
     options?: AgentPoolsGetUpgradeProfileParameters
   ): StreamableMethod<
-    | AgentPoolsGetUpgradeProfile200Response
-    | AgentPoolsGetUpgradeProfiledefaultResponse
+    AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfiledefaultResponse
   >;
 }
 
@@ -512,8 +496,7 @@ export interface PrivateEndpointConnectionsList {
   get(
     options?: PrivateEndpointConnectionsListParameters
   ): StreamableMethod<
-    | PrivateEndpointConnectionsList200Response
-    | PrivateEndpointConnectionsListdefaultResponse
+    PrivateEndpointConnectionsList200Response | PrivateEndpointConnectionsListdefaultResponse
   >;
 }
 
@@ -522,15 +505,13 @@ export interface PrivateEndpointConnectionsGet {
   get(
     options?: PrivateEndpointConnectionsGetParameters
   ): StreamableMethod<
-    | PrivateEndpointConnectionsGet200Response
-    | PrivateEndpointConnectionsGetdefaultResponse
+    PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetdefaultResponse
   >;
   /** Updates a private endpoint connection. */
   put(
     options: PrivateEndpointConnectionsUpdateParameters
   ): StreamableMethod<
-    | PrivateEndpointConnectionsUpdate200Response
-    | PrivateEndpointConnectionsUpdatedefaultResponse
+    PrivateEndpointConnectionsUpdate200Response | PrivateEndpointConnectionsUpdatedefaultResponse
   >;
   /** Deletes a private endpoint connection. */
   delete(
@@ -547,8 +528,7 @@ export interface PrivateLinkResourcesList {
   get(
     options?: PrivateLinkResourcesListParameters
   ): StreamableMethod<
-    | PrivateLinkResourcesList200Response
-    | PrivateLinkResourcesListdefaultResponse
+    PrivateLinkResourcesList200Response | PrivateLinkResourcesListdefaultResponse
   >;
 }
 
@@ -557,8 +537,7 @@ export interface ResolvePrivateLinkServiceIdPost {
   post(
     options: ResolvePrivateLinkServiceIdPostParameters
   ): StreamableMethod<
-    | ResolvePrivateLinkServiceIdPost200Response
-    | ResolvePrivateLinkServiceIdPostdefaultResponse
+    ResolvePrivateLinkServiceIdPost200Response | ResolvePrivateLinkServiceIdPostdefaultResponse
   >;
 }
 
@@ -574,8 +553,7 @@ export interface SnapshotsListByResourceGroup {
   get(
     options?: SnapshotsListByResourceGroupParameters
   ): StreamableMethod<
-    | SnapshotsListByResourceGroup200Response
-    | SnapshotsListByResourceGroupdefaultResponse
+    SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupdefaultResponse
   >;
 }
 
@@ -595,16 +573,12 @@ export interface SnapshotsGet {
   /** Updates tags on a snapshot. */
   patch(
     options: SnapshotsUpdateTagsParameters
-  ): StreamableMethod<
-    SnapshotsUpdateTags200Response | SnapshotsUpdateTagsdefaultResponse
-  >;
+  ): StreamableMethod<SnapshotsUpdateTags200Response | SnapshotsUpdateTagsdefaultResponse>;
   /** Deletes a snapshot. */
   delete(
     options?: SnapshotsDeleteParameters
   ): StreamableMethod<
-    | SnapshotsDelete200Response
-    | SnapshotsDelete204Response
-    | SnapshotsDeletedefaultResponse
+    SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeletedefaultResponse
   >;
 }
 
@@ -613,8 +587,7 @@ export interface ManagedClusterSnapshotsList {
   get(
     options?: ManagedClusterSnapshotsListParameters
   ): StreamableMethod<
-    | ManagedClusterSnapshotsList200Response
-    | ManagedClusterSnapshotsListdefaultResponse
+    ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListdefaultResponse
   >;
 }
 
@@ -633,8 +606,7 @@ export interface ManagedClusterSnapshotsGet {
   get(
     options?: ManagedClusterSnapshotsGetParameters
   ): StreamableMethod<
-    | ManagedClusterSnapshotsGet200Response
-    | ManagedClusterSnapshotsGetdefaultResponse
+    ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetdefaultResponse
   >;
   /** Creates or updates a managed cluster snapshot. */
   put(
@@ -648,8 +620,7 @@ export interface ManagedClusterSnapshotsGet {
   patch(
     options: ManagedClusterSnapshotsUpdateTagsParameters
   ): StreamableMethod<
-    | ManagedClusterSnapshotsUpdateTags200Response
-    | ManagedClusterSnapshotsUpdateTagsdefaultResponse
+    ManagedClusterSnapshotsUpdateTags200Response | ManagedClusterSnapshotsUpdateTagsdefaultResponse
   >;
   /** Deletes a managed cluster snapshot. */
   delete(
@@ -665,9 +636,7 @@ export interface TrustedAccessRolesList {
   /** List supported trusted access roles. */
   get(
     options?: TrustedAccessRolesListParameters
-  ): StreamableMethod<
-    TrustedAccessRolesList200Response | TrustedAccessRolesListdefaultResponse
-  >;
+  ): StreamableMethod<TrustedAccessRolesList200Response | TrustedAccessRolesListdefaultResponse>;
 }
 
 export interface TrustedAccessRoleBindingsList {
@@ -675,8 +644,7 @@ export interface TrustedAccessRoleBindingsList {
   get(
     options?: TrustedAccessRoleBindingsListParameters
   ): StreamableMethod<
-    | TrustedAccessRoleBindingsList200Response
-    | TrustedAccessRoleBindingsListdefaultResponse
+    TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListdefaultResponse
   >;
 }
 
@@ -685,8 +653,7 @@ export interface TrustedAccessRoleBindingsGet {
   get(
     options?: TrustedAccessRoleBindingsGetParameters
   ): StreamableMethod<
-    | TrustedAccessRoleBindingsGet200Response
-    | TrustedAccessRoleBindingsGetdefaultResponse
+    TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetdefaultResponse
   >;
   /** Create or update a trusted access role binding */
   put(

@@ -1,14 +1,22 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
-import ContainerServiceManagementClient, { ContainerServiceClient, getLongRunningPoller, ManagedClusterOutput, ManagedClusterUpgradeProfileOutput, paginate } from "../../src";
+import ContainerServiceManagementClient, {
+  ContainerServiceClient,
+  ManagedClusterOutput,
+  ManagedClusterUpgradeProfileOutput,
+  getLongRunningPoller,
+  paginate,
+} from "../../src";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
-
 
 describe("My test", () => {
   let recorder: Recorder;
@@ -22,29 +30,26 @@ describe("My test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-        subscriptionId = env.SUBSCRIPTION_ID || "";
-        clientId = env.AZURE_CLIENT_ID || "";
-        secret = env.AZURE_CLIENT_SECRET || "";
-        // This is an example of how the environment variables are used
-        const credential = createTestCredential();
-        client = ContainerServiceManagementClient(
-          credential,
-          {
-            ...recorder.configureClientOptions({}),
-            allowInsecureConnection: true
-          }
-        );
-        location = "eastus";
-        resourceGroupName = "myjstest";
-        resourceName = "myreourcexyz";
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    clientId = env.AZURE_CLIENT_ID || "";
+    secret = env.AZURE_CLIENT_SECRET || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = ContainerServiceManagementClient(credential, {
+      ...recorder.configureClientOptions({}),
+      allowInsecureConnection: true,
+    });
+    location = "eastus";
+    resourceGroupName = "myjstest";
+    resourceName = "myreourcexyz";
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-
-  it("managedClusters create test", async function () {
+  // skip this test as test recorder
+  it.skip("managedClusters create test", async function () {
     const initalResponse = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
@@ -86,23 +91,27 @@ describe("My test", () => {
   });
 
   it("managedClusters get test", async function () {
-    const res = await client.path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
-      subscriptionId,
-      resourceGroupName,
-      resourceName
-    ).get();
-    assert.equal(res.status, "200")
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
+        subscriptionId,
+        resourceGroupName,
+        resourceName
+      )
+      .get();
+    assert.equal(res.status, "200");
     assert.equal((res.body as ManagedClusterOutput).name, resourceName);
   });
 
   it("managedClusters getUpgradeProfile test", async function () {
-    const res = await client.path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default",
-      subscriptionId,
-      resourceGroupName,
-      resourceName
-    ).get();
+    const res = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default",
+        subscriptionId,
+        resourceGroupName,
+        resourceName
+      )
+      .get();
     assert.equal(res.status, "200");
     assert.equal((res.body as ManagedClusterUpgradeProfileOutput).name, "default");
   });
@@ -116,7 +125,7 @@ describe("My test", () => {
       .get();
     const result = paginate(client, initialResponse);
     const resArray = new Array();
-    for await (let item of result) {
+    for await (const item of result) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -137,8 +146,11 @@ describe("My test", () => {
       });
     const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
-    assert.equal(res.status, "200")
-    assert.equal((res.body as ManagedClusterOutput).type, "Microsoft.ContainerService/ManagedClusters");
+    assert.equal(res.status, "200");
+    assert.equal(
+      (res.body as ManagedClusterOutput).type,
+      "Microsoft.ContainerService/ManagedClusters"
+    );
   });
 
   it("managedClusters delete test", async function () {
@@ -161,7 +173,7 @@ describe("My test", () => {
       .get();
     const result = paginate(client, listInitialResponse);
     const resArray = new Array();
-    for await (let item of result) {
+    for await (const item of result) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
