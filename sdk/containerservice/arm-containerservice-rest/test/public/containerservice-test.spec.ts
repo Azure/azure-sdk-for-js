@@ -48,7 +48,7 @@ describe("My test", () => {
     await recorder.stop();
   });
 
-  // skip this test as test recorder 
+  // skip this test as test recorder
   it.skip("managedClusters create test", async function () {
     const initalResponse = await client
       .path(
