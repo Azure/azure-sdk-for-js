@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.11 (2022-07-07)
+
+### Fixes
+
+- Fix the duplicate `api-version` issue in apiVersionPolicy
+
 ## 1.0.0-beta.10 (2022-06-07)
 
 ### Fixes
