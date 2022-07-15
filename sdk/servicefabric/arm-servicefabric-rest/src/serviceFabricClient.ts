@@ -34,7 +34,7 @@ export default function createClient(
   const client = getClient(baseUrl, credentials, options) as ServiceFabricClient;
   // Considering ApiVersionPolicy in core has bugs so we replace with our customized one
   client.pipeline.removePolicy({
-    name: "ApiVersionPolicy"
+    name: "ApiVersionPolicy",
   });
   client.pipeline.addPolicy(customizedApiVersionPolicy(options));
 
