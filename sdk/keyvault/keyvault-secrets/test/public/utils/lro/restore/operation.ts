@@ -3,7 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperation, PollOperationState } from "@azure/core-lro";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { SecretPollerOptions, SecretProperties } from "../../../../../src";
 
 /**

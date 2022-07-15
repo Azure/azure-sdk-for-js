@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { assertClientCredentials } from "../../authTestUtils";
 import { UsernamePasswordCredential } from "../../../src";
-import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
 import { IdentityTestContext } from "../../httpRequests";
 
 describe("UsernamePasswordCredential", function () {

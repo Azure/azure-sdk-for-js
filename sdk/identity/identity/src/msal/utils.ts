@@ -8,7 +8,7 @@ import { AbortError } from "@azure/abort-controller";
 
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
-import { CredentialUnavailableError, AuthenticationRequiredError } from "../errors";
+import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { MsalFlowOptions } from "./flows";

@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ModelContainerData,
+  ModelContainer,
   ModelContainersListOptionalParams,
   ModelContainersDeleteOptionalParams,
   ModelContainersGetOptionalParams,
@@ -30,7 +30,7 @@ export interface ModelContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: ModelContainersListOptionalParams
-  ): PagedAsyncIterableIterator<ModelContainerData>;
+  ): PagedAsyncIterableIterator<ModelContainer>;
   /**
    * Delete container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -69,7 +69,7 @@ export interface ModelContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    body: ModelContainerData,
+    body: ModelContainer,
     options?: ModelContainersCreateOrUpdateOptionalParams
   ): Promise<ModelContainersCreateOrUpdateResponse>;
 }

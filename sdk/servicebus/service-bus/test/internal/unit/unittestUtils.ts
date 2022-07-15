@@ -291,7 +291,12 @@ export function addTestStreamingReceiver(): (
       };
     }
 
-    const streamingReceiver = new StreamingReceiver(connectionContext, entityPath, options);
+    const streamingReceiver = new StreamingReceiver(
+      "serviceBusClientId",
+      connectionContext,
+      entityPath,
+      options
+    );
     closeables.push(streamingReceiver);
     return streamingReceiver;
   }

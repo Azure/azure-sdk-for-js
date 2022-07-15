@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
@@ -70,16 +70,18 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: RecoverDeletedCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "RecoverDeletedCertificatePoller.recoverDeletedCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.recoverDeletedCertificate(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions
-        );
-        return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+        await this.client.recoverDeletedCertificate(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateWithPolicyFromCertificateBundle(parsedBody);
       }
     );
   }

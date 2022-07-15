@@ -4,7 +4,7 @@
 import fs from "fs";
 import { Context } from "mocha";
 import childProcess from "child_process";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";

@@ -1,6 +1,6 @@
-# Azure Service client library for JavaScript
+# AzureVMwareSolutionApi client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Service client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureVMwareSolutionApi client.
 
 Azure VMware Solution API
 
@@ -16,13 +16,15 @@ Azure VMware Solution API
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Latest versions of Safari, Chrome, Edge and Firefox.
 
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
 
 ### Install the `@azure/arm-avs` package
 
-Install the Azure Service client library for JavaScript with `npm`:
+Install the AzureVMwareSolutionApi client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-avs
@@ -30,8 +32,8 @@ npm install @azure/arm-avs
 
 ### Create and authenticate a `AzureVMwareSolutionAPI`
 
-To create a client object to access the Azure Service API, you will need the `endpoint` of your Azure Service resource and a `credential`. The Azure Service client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure Service resource in the [Azure Portal][azure_portal].
+To create a client object to access the AzureVMwareSolutionApi API, you will need the `endpoint` of your AzureVMwareSolutionApi resource and a `credential`. The AzureVMwareSolutionApi client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your AzureVMwareSolutionApi resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -41,7 +43,7 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure Service** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to AzureVMwareSolutionApi** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
@@ -49,8 +51,17 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new AzureVMwareSolutionAPI(new DefaultAzureCredential(), subscriptionId);
+
+// For client-side applications running in the browser, use this code instead:
+// const credential = new InteractiveBrowserCredential({
+//   tenantId: "<YOUR_TENANT_ID>",
+//   clientId: "<YOUR_CLIENT_ID>"
+// });
+// const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
 ```
 
 
@@ -61,7 +72,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### AzureVMwareSolutionAPI
 
-`AzureVMwareSolutionAPI` is the primary interface for developers using the Azure Service client library. Explore the methods on this client object to understand the different features of the Azure Service service that you can access.
+`AzureVMwareSolutionAPI` is the primary interface for developers using the AzureVMwareSolutionApi client library. Explore the methods on this client object to understand the different features of the AzureVMwareSolutionApi service that you can access.
 
 ## Troubleshooting
 

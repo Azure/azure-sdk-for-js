@@ -24,10 +24,9 @@ import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { SASCredential } from '@azure/core-auth';
 import { ServiceClient } from '@azure/core-client';
-import { Span } from '@azure/core-tracing';
-import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
+import { TracingContext } from '@azure/core-tracing';
 import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
@@ -336,11 +335,13 @@ export class ServiceBusClient {
     createRuleManager(topicName: string, subscriptionName: string): ServiceBusRuleManager;
     createSender(queueOrTopicName: string): ServiceBusSender;
     fullyQualifiedNamespace: string;
+    identifier: string;
 }
 
 // @public
 export interface ServiceBusClientOptions {
     customEndpointAddress?: string;
+    identifier?: string;
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
     webSocketOptions?: WebSocketOptions;
@@ -448,7 +449,7 @@ export interface ServiceBusMessageBatch {
     _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
     // @internal
-    readonly _messageSpanContexts: SpanContext[];
+    readonly _messageSpanContexts: TracingContext[];
     readonly sizeInBytes: number;
     tryAddMessage(message: ServiceBusMessage | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
 }
@@ -505,6 +506,7 @@ export interface ServiceBusReceiverOptions {
 
 // @public
 export interface ServiceBusRuleManager {
+    createRule(ruleName: string, filter: SqlRuleFilter | CorrelationRuleFilter, options?: OperationOptionsBase): Promise<void>;
     createRule(ruleName: string, filter: SqlRuleFilter | CorrelationRuleFilter, ruleAction?: SqlRuleAction, options?: OperationOptionsBase): Promise<void>;
     deleteRule(ruleName: string, options?: OperationOptionsBase): Promise<void>;
     listRules(options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties>;
@@ -636,8 +638,6 @@ export type TransferProgressEvent = {
 
 // @public
 export interface TryAddOptions {
-    // @deprecated (undocumented)
-    parentSpan?: Span | SpanContext | null;
     tracingOptions?: OperationTracingOptions;
 }
 
