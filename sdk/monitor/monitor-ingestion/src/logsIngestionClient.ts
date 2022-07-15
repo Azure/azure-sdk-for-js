@@ -38,13 +38,10 @@ export class LogsIngestionClient {
     tokenCredential: TokenCredential,
     options?: LogsIngestionClientOptions
   ) {
-    const credentialOptions = {
-      credentialScopes: defaultIngestionScope,
-    };
     this.endpoint = endpoint;
     this._dataClient = new GeneratedMonitorIngestionClient(tokenCredential, this.endpoint, {
       ...options,
-      credentialScopes: credentialOptions?.credentialScopes ?? defaultIngestionScope
+      credentialScopes: defaultIngestionScope
     });
     // adding gziping policy because this is a single method client which needs gzipping
     this._dataClient.pipeline.addPolicy(GZippingPolicy);

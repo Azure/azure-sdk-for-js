@@ -8,7 +8,7 @@ export async function* asyncPool(
   workerArray: Array<any>,
   iteratorFunc: (args: any) => Promise<void>
 ) {
-  return new Promise((executor) => {
+  yield new Promise((executor) => {
     const workerQueue = [...workerArray].reverse();
     let activeCount = 0;
 
