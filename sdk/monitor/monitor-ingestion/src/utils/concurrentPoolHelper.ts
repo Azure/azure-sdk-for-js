@@ -13,8 +13,8 @@ export async function concurrentRun<T>(
     function removePromise(p: Promise<void>) {
       promises.splice(promises.indexOf(p),1);
     }
-    while(dataQueue.length) {
-      while(promises.length < maxConcurrency) {
+    while(dataQueue.length){
+      while(dataQueue.length && promises.length < maxConcurrency) {
         const worker = dataQueue.pop();
         const promise = callback(worker!);
         promise.finally(() => removePromise(promise));

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { getBinarySize } from "./getBinarySize";
+
   /**
    * @internal
    */
@@ -10,7 +12,7 @@
     let size = 0;
     const maxBytes = 1000000;
     for (const element of logs) {
-      const elementSize = JSON.stringify(element).length * 4;
+     const elementSize = getBinarySize(JSON.stringify(element));
       if (size + elementSize < maxBytes) {
         chunk.push(element);
         size += elementSize;
