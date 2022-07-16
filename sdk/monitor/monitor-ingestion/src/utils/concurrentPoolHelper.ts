@@ -17,6 +17,7 @@ export async function concurrentRun<T>(
       while(dataQueue.length && promises.length < maxConcurrency) {
         const worker = dataQueue.pop();
         const promise = callback(worker!);
+        // eslint-disable-next-line promise/catch-or-return
         promise.finally(() => removePromise(promise));
         promises.push(promise);
       }

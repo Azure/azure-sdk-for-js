@@ -70,10 +70,6 @@ export class LogsIngestionClient {
     const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, DEFAULT_MAX_CONCURRENCY);
 
     const uploadResultErrors: Array<UploadLogsError> = [];
-    let uploadResult: UploadResult = {
-      uploadStatus: UploadStatus.Success
-    };
-
     await concurrentRun(concurrency, chunkArray, async (eachChunk): Promise<void> => {
       try {
         await this._dataClient.upload(ruleId, streamName, eachChunk, {
@@ -88,19 +84,19 @@ export class LogsIngestionClient {
     });
 
     if (uploadResultErrors.length === 0) {
-      return uploadResult;
+      return {
+        uploadStatus: UploadStatus.Success
+      };
     } else if (uploadResultErrors.length < noOfChunks && uploadResultErrors.length > 0) {
-      uploadResult = {
+      return {
         errors: uploadResultErrors,
         uploadStatus: UploadStatus.PartialFailure
-      }
-      return uploadResult;
+      };
     } else {
-      uploadResult = {
+      return {
         errors: uploadResultErrors,
         uploadStatus: UploadStatus.Failure
-      }
-      return uploadResult;
+      };
     }
   }
 }
