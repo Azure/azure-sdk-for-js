@@ -42,7 +42,7 @@ export class LogsIngestionClient {
     this.endpoint = endpoint;
     this._dataClient = new GeneratedMonitorIngestionClient(tokenCredential, this.endpoint, {
       ...options,
-      credentialScopes: defaultIngestionScope
+      credentialScopes: defaultIngestionScope,
     });
     // adding gziping policy because this is a single method client which needs gzipping
     this._dataClient.pipeline.addPolicy(GZippingPolicy);
@@ -67,7 +67,10 @@ export class LogsIngestionClient {
     // This splits logs into 1MB chunks
     const chunkArray = splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
-    const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, DEFAULT_MAX_CONCURRENCY);
+    const concurrency = Math.max(
+      options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY,
+      DEFAULT_MAX_CONCURRENCY
+    );
 
     const uploadResultErrors: Array<UploadLogsError> = [];
     await concurrentRun(concurrency, chunkArray, async (eachChunk): Promise<void> => {
@@ -78,24 +81,24 @@ export class LogsIngestionClient {
       } catch (e: any) {
         uploadResultErrors.push({
           responseError: e,
-          failedLogs: eachChunk
+          failedLogs: eachChunk,
         });
       }
     });
 
     if (uploadResultErrors.length === 0) {
       return {
-        uploadStatus: UploadStatus.Success
+        uploadStatus: UploadStatus.Success,
       };
     } else if (uploadResultErrors.length < noOfChunks && uploadResultErrors.length > 0) {
       return {
         errors: uploadResultErrors,
-        uploadStatus: UploadStatus.PartialFailure
+        uploadStatus: UploadStatus.PartialFailure,
       };
     } else {
       return {
         errors: uploadResultErrors,
-        uploadStatus: UploadStatus.Failure
+        uploadStatus: UploadStatus.Failure,
       };
     }
   }

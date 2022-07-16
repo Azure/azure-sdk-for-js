@@ -57,4 +57,4 @@ export type LogData = {
   Time: Date;
   Computer?: string;
   AdditionalContext: string;
-}
+};

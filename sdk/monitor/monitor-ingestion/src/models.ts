@@ -14,7 +14,12 @@ export interface UploadOptions {
 /**
  * Result type for upload operation
  */
-export type UploadResult = { errors: Array<UploadLogsError>, uploadStatus: UploadStatus.Failure | UploadStatus.PartialFailure } | { uploadStatus: UploadStatus.Success };
+export type UploadResult =
+  | {
+      errors: Array<UploadLogsError>;
+      uploadStatus: UploadStatus.Failure | UploadStatus.PartialFailure;
+    }
+  | { uploadStatus: UploadStatus.Success };
 
 /**
  * Error for each log upload request

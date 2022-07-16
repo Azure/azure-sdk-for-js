@@ -60,4 +60,3 @@ export function getLogsIngestionEndpoint(): string {
 export function getDcrId(): string {
   return assertEnvironmentVariable("DATA_COLLECTION_RULE_ID");
 }
-
