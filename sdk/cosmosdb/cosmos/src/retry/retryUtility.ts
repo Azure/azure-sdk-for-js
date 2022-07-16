@@ -3,6 +3,7 @@
 import { Constants } from "../common/constants";
 import { sleep } from "../common/helper";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
+import { recordDiagnostics } from "../diagnostics/CosmosDiagnostics";
 import { Response } from "../request";
 import { RequestContext } from "../request/RequestContext";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
@@ -99,6 +100,7 @@ export async function execute({
     } else {
       retryPolicy = retryPolicies.defaultRetryPolicy;
     }
+    recordDiagnostics({"cosmos-diagnostics-shouldRetry-error": err.message});
     const results = await retryPolicy.shouldRetry(err, retryContext, requestContext.endpoint);
     if (!results) {
       headers[Constants.ThrottleRetryCount] =
@@ -106,6 +108,7 @@ export async function execute({
       headers[Constants.ThrottleRetryWaitTimeInMs] =
         retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
       err.headers = { ...err.headers, ...headers };
+      recordDiagnostics({"cosmos-diagnostics-retry-error": err});
       throw err;
     } else {
       requestContext.retryCount++;

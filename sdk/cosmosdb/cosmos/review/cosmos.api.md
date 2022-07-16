@@ -763,6 +763,10 @@ export class FeedResponse<TResource> {
     // (undocumented)
     get continuationToken(): string;
     // (undocumented)
+    diagnostics: any;
+    // (undocumented)
+    get diagnosticsToString(): string;
+    // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
     get queryMetrics(): string;
@@ -1497,6 +1501,8 @@ export class ResourceResponse<TResource> {
     constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
     // (undocumented)
     get activityId(): string;
+    // (undocumented)
+    get diagnosticsToString(): string;
     // (undocumented)
     get etag(): string;
     // (undocumented)

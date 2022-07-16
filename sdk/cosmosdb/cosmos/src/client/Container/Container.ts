@@ -23,6 +23,7 @@ import { PartitionKeyRange } from "./PartitionKeyRange";
 import { Offer, OfferDefinition } from "../Offer";
 import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
+import { recordDiagnostics } from "../../diagnostics/CosmosDiagnostics";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -142,6 +143,7 @@ export class Container {
   ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
+      recordDiagnostics({"cosmos-diagnostics-replace-container-error": err});
       throw err;
     }
 

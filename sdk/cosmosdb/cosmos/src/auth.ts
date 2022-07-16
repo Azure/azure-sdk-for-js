@@ -10,6 +10,7 @@ import {
 } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { CosmosHeaders } from "./queryExecutionContext";
+import { recordDiagnostics } from "./diagnostics/CosmosDiagnostics";
 
 /** @hidden */
 export interface RequestInfo {
@@ -38,8 +39,10 @@ export async function setAuthorizationHeader(
     for (const permission of clientOptions.permissionFeed) {
       const id = getResourceIdFromPath(permission.resource);
       if (!id) {
-        throw new Error(`authorization error: ${id} \
+        const err = new Error(`authorization error: ${id} \
                           is an invalid resourceId in permissionFeed`);
+                          recordDiagnostics({ "cosmos-diagnostics-setAuthorizationHeader-error": JSON.stringify(Error(err.message))});
+                          throw err;
       }
 
       clientOptions.resourceTokens[id] = (permission as any)._token; // TODO: any

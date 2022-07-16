@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Constants } from "../common";
+import { diagnosticToString } from "../diagnostics/CosmosDiagnostics";
 import { CosmosHeaders } from "../queryExecutionContext";
 
 export class FeedResponse<TResource> {
+  diagnostics: any;
   constructor(
     public readonly resources: TResource[],
     private readonly headers: CosmosHeaders,
@@ -23,5 +25,8 @@ export class FeedResponse<TResource> {
   }
   public get activityId(): string {
     return this.headers[Constants.HttpHeaders.ActivityId];
+  }
+  get diagnosticsToString(): string {
+    return diagnosticToString();
   }
 }

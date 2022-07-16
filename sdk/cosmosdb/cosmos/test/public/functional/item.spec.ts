@@ -222,8 +222,8 @@ describe("Item CRUD", function (this: Suite) {
   });
 });
 
-describe("bulk/batch item operations", function () {
-  describe("with v1 container", function () {
+describe.only("bulk/batch item operations", function () {
+  describe.only("with v1 container", function () {
     let container: Container;
     let readItemId: string;
     let replaceItemId: string;
@@ -236,12 +236,17 @@ describe("bulk/batch item operations", function () {
         },
         throughput: 25100,
       });
+      afterEach(async function () {
+        //console.log(diagnosticToString);
+      });
+      
       readItemId = addEntropy("item1");
-      await container.items.create({
+      const itemResponse = await container.items.create({
         id: readItemId,
         key: "A",
         class: "2010",
       });
+      console.log(itemResponse.diagnosticsToString);
       deleteItemId = addEntropy("item2");
       await container.items.create({
         id: deleteItemId,

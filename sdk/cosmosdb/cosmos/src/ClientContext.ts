@@ -30,6 +30,7 @@ import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
 import { AzureLogger, createClientLogger } from "@azure/logger";
+import { recordDiagnostics } from "./diagnostics/CosmosDiagnostics";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -86,7 +87,6 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
   }): Promise<Response<T & Resource>> {
-    try {
       const request: RequestContext = {
         globalEndpointManager: this.globalEndpointManager,
         requestAgent: this.cosmosClientOptions.agent,
@@ -102,10 +102,9 @@ export class ClientContext {
         partitionKey,
         pipeline: this.pipeline,
       };
-
+       try {
       request.headers = await this.buildHeaders(request);
       this.applySessionToken(request);
-
       // read will use ReadEndpoint since it uses GET operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
@@ -299,6 +298,7 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      recordDiagnostics({"cosmos-diagnostics-client-upsert-error": (err as ErrorResponse).message});
       throw err;
     }
   }
@@ -757,6 +757,9 @@ export class ClientContext {
             err.substatus !== SubStatusCodes.ReadSessionNotAvailable)))
     ) {
       this.sessionContainer.set(request, resHeaders);
+    }
+    else{
+      recordDiagnostics({"cosmos-diagnostics-capture-session-token-error": (err as ErrorResponse)});
     }
   }
 

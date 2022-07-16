@@ -10,6 +10,7 @@ import {
   StatusCodes,
   SubStatusCodes,
 } from "../common";
+import { recordDiagnostics} from "../diagnostics/CosmosDiagnostics";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
@@ -142,7 +143,7 @@ export class DocumentProducer {
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
-    // TODO: error
+     recordDiagnostics({"cosmos-diagnostics-needPartitionKeyRangeCacheRefresh-error": error});
     return (
       error.code === StatusCodes.Gone &&
       "substatus" in error &&
