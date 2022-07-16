@@ -6,7 +6,8 @@
  */
 export interface UploadOptions {
   /**
-   * Concurrency of parallel requests. Must be greater than or equal to 0.
+   * Concurrency of parallel requests. Must be greater than or equal to 1. 
+   * The default value is 1.
    */
   maxConcurrency?: number;
 }
