@@ -66,10 +66,7 @@ export class LogsIngestionClient {
     // This splits logs into 1MB chunks
     const chunkArray = splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
-    let concurrency = 1;
-    if (options?.maxConcurrency && options?.maxConcurrency > 1) {
-      concurrency = options?.maxConcurrency;
-    }
+    const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, DEFAULT_MAX_CONCURRENCY);
 
     const uploadResultErrors: Array<UploadLogsError> = [];
     let uploadResult: UploadResult = {
