@@ -12,7 +12,7 @@ dotenv.config();
 
 export async function main() {
 const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
-const dcrId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
+const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
 const streamName = process.env.STREAM_NAME || "data_stream_name";
 const credential = new DefaultAzureCredential();
 const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
@@ -28,7 +28,7 @@ const logs = [
         "AdditionalContext": "context"
       }
     ];
-  const result = await client.upload(dcrId, streamName, logs);
+  const result = await client.upload(ruleId, streamName, logs);
   if (result.uploadStatus !== "Success") {
     console.log("Some logs have failed to complete ingestion. Upload status=", result.uploadStatus);
     for (const errors of result.errors) {

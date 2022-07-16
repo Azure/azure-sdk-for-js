@@ -13,11 +13,11 @@ dotenv.config();
 
 export async function main() {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
-  const dcrId = process.env.DATA_COLLECTION_RULE_ID || "immutable_dcr_id";
+  const ruleId = process.env.DATA_COLLECTION_RULE_ID || "immutable_dcr_id";
   const streamName = process.env.STREAM_NAME || "stream_name";
   const credential = new DefaultAzureCredential();
   const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
-  const result = await client.upload(dcrId, streamName, getObjects(10000), {
+  const result = await client.upload(ruleId, streamName, getObjects(10000), {
     maxConcurrency: 5,
   });
   console.log(result.uploadStatus);
