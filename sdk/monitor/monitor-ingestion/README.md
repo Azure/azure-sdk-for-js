@@ -87,31 +87,30 @@ You can familiarize yourself with different APIs using [Samples](https://github.
 
 You can create a client and call the client's `Upload` method. Take note of the data ingestion [limits](https://docs.microsoft.com/azure/azure-monitor/service-limits#custom-logs).
 
+```js
+const { DefaultAzureCredential } = require("@azure/identity");
+const { LogsIngestionClient } = require("@azure/monitor-ingestion");
 
-```ts
-import { DefaultAzureCredential } from "@azure/identity";
-import { LogsIngestionClient } from "@azure/monitor-ingestion";
+require("dotenv").config();
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
-const dcrId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
-const streamName = process.env.STREAM_NAME || "data_stream_name";
-const credential = new DefaultAzureCredential();
-const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, credential);
-const logs = [
-      {
-        "Time": "2021-12-08T23:51:14.1104269Z",
-        "Computer": "Computer1",
-        "AdditionalContext": "context-2"
-      },
-      {
-        "Time": "2021-12-08T23:51:14.1104269Z",
-        "Computer": "Computer2",
-        "AdditionalContext": "context"
-      }
-    ];
+async function main() {
+  const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
+  const dcrId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
+  const streamName = process.env.STREAM_NAME || "data_stream_name";
+  const credential = new DefaultAzureCredential();
+  const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
+  const logs = [
+    {
+      Time: "2021-12-08T23:51:14.1104269Z",
+      Computer: "Computer1",
+      AdditionalContext: "context-2",
+    },
+    {
+      Time: "2021-12-08T23:51:14.1104269Z",
+      Computer: "Computer2",
+      AdditionalContext: "context",
+    },
+  ];
   const result = await client.upload(dcrId, streamName, logs);
   if (result.uploadStatus !== "Success") {
     console.log("Some logs have failed to complete ingestion. Upload status=", result.uploadStatus);
@@ -120,27 +119,62 @@ const logs = [
       console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
     }
   }
+}
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+  process.exit(1);
+});
+
+module.exports = { main };
 ```
 ### Verify logs
 
 You can verify that your data has been uploaded correctly by using the [@azure/monitor-query](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#install-the-package) library. Run the [Upload custom logs](#upload-custom-logs) sample first before verifying the logs. 
 
-```ts
-const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID|| "workspace_id";
-const tableName = process.env.TABLE_NAME || "table_name";
-import * as dotenv from "dotenv";
-dotenv.config();
-const credential = new DefaultAzureCredential();
-const queriesBatch = [
-  {
-    workspaceId: monitorWorkspaceId,
-    query: tableName + " | count;",
-    timespan: { duration: "P1D" }
-  }
-]
+```js
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-const result = await logsQueryClient.queryBatch(queriesBatch);
-console.log("Table entry count: ", JSON.stringify(result[0].tables));
+/**
+ * @summary Demonstrates how to run query against a Log Analytics workspace to verify if the logs were uploaded
+ */
+
+const { DefaultAzureCredential } = require("@azure/identity");
+const { LogsQueryClient } = require("@azure/monitor-query");
+
+const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID || "workspace_id";
+const tableName = process.env.TABLE_NAME || "table_name";
+require("dotenv").config();
+
+async function main() {
+  const credential = new DefaultAzureCredential();
+  const logsQueryClient = new LogsQueryClient(credential);
+  const queriesBatch = [
+    {
+      workspaceId: monitorWorkspaceId,
+      query: tableName + " | count;",
+      timespan: { duration: "P1D" },
+    },
+  ];
+
+  const result = await logsQueryClient.queryBatch(queriesBatch);
+  if (result[0].status === "Success") {
+    console.log("Table entry count: ", JSON.stringify(result[0].tables));
+  } else {
+    console.log(
+      `Some error encountered while retrieving the count. Status = ${result[0].status}`,
+      JSON.stringify(result[0])
+    );
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+  process.exit(1);
+});
+
+module.exports = { main };
+
 ```
 ## Troubleshooting
 

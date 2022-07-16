@@ -5,13 +5,12 @@
  * @summary Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace)
  */
 
-import { LogsIngestionClient } from "@azure/monitor-ingestion";
-import { DefaultAzureCredential } from "@azure/identity";
+const { LogsIngestionClient } = require("@azure/monitor-ingestion");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function main() {
+async function main() {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
   const dcrId = process.env.DATA_COLLECTION_RULE_ID || "immutable_dcr_id";
   const streamName = process.env.STREAM_NAME || "stream_name";
@@ -37,24 +36,17 @@ main().catch((err) => {
   process.exit(1);
 });
 
-export function getObjects(logsCount: number): LogData[] {
-  const logs: LogData[] = [];
+function getObjects(logsCount) {
+  const logs = [];
 
   for (let i = 0; i < logsCount; i++) {
-    const logData: LogData = {
-      Time: new Date(1655957386799), // Wed Jun 22 2022 21:09:46 GMT-0700 (Pacific Daylight Time)
+    const logData = {
+      Time: new Date(1655957386799),
       AdditionalContext: `additional logs context`,
     };
     logs.push(logData);
   }
   return logs;
 }
-/**
- * The data fields should match the column names exactly even with the
- * captilization in order for the data to show up in the logs
- */
-export type LogData = {
-  Time: Date;
-  Computer?: string;
-  AdditionalContext: string;
-}
+
+module.exports = { main, getObjects, LogData };

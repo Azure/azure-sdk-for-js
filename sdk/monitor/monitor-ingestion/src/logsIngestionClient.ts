@@ -10,7 +10,7 @@ import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
 
 /**
- * Options for Montior Logs Ingestion Client
+ * Options for Monitor Logs Ingestion Client
  */
 export interface LogsIngestionClientOptions extends CommonClientOptions {
   /** Api Version */
@@ -48,11 +48,12 @@ export class LogsIngestionClient {
   }
 
   /**
-   * See error response code and error response message for more detail.
+   * Uploads logs to Monitor Resource
    * @param ruleId - The immutable Id of the Data Collection Rule resource.
    * @param streamName - The streamDeclaration name as defined in the Data Collection Rule.
    * @param logs - An array of objects matching the schema defined by the provided stream.
    * @param options - The options parameters.
+   * See error response code and error response message for more detail.
    */
   async upload(
     ruleId: string,
