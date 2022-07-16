@@ -17,9 +17,9 @@ export interface UploadOptions {
 export type UploadResult =
   | {
       errors: Array<UploadLogsError>;
-      uploadStatus: UploadStatus.Failure | UploadStatus.PartialFailure;
+      uploadStatus: "Failure" | "PartialFailure";
     }
-  | { uploadStatus: UploadStatus.Success };
+  | { uploadStatus: "Success" };
 
 /**
  * Error for each log upload request
@@ -38,11 +38,10 @@ export interface UploadLogsError {
 /**
  * Enum representing whether all or few logs succeeded
  */
-export enum UploadStatus {
+export type UploadStatus =
   /** Represents Complete Failure scenario where all logs have failed for processing and the list of logs that failed to upload are returned */
-  Failure = "Failure",
+  | "Failure"
   /** Represents Partial Failure scenario where partial logs have failed for processing and the list of logs that failed to upload are returned */
-  PartialFailure = "PartialFailure",
+  | "PartialFailure"
   /** Represents Success scenario where all logs have succeeded and no index is returned */
-  Success = "Success",
-}
+  | "Success";

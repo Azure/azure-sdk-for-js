@@ -14,7 +14,6 @@ import {
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { UploadStatus } from "../../src";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [
@@ -78,7 +77,7 @@ describe("LogsIngestionClient live tests", function () {
       maxConcurrency: 3,
     });
 
-    assert.equal(result.uploadStatus, UploadStatus.Success);
+    assert.equal(result.uploadStatus, "Success");
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async () => {

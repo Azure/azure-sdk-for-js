@@ -4,7 +4,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedMonitorIngestionClient } from "./generated";
-import { UploadLogsError, UploadOptions, UploadResult, UploadStatus } from "./models";
+import { UploadLogsError, UploadOptions, UploadResult } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
@@ -88,17 +88,17 @@ export class LogsIngestionClient {
 
     if (uploadResultErrors.length === 0) {
       return {
-        uploadStatus: UploadStatus.Success,
+        uploadStatus: "Success",
       };
     } else if (uploadResultErrors.length < noOfChunks && uploadResultErrors.length > 0) {
       return {
         errors: uploadResultErrors,
-        uploadStatus: UploadStatus.PartialFailure,
+        uploadStatus: "PartialFailure",
       };
     } else {
       return {
         errors: uploadResultErrors,
-        uploadStatus: UploadStatus.Failure,
+        uploadStatus: "Failure",
       };
     }
   }
