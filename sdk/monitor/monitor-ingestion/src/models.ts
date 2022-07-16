@@ -36,7 +36,7 @@ export interface UploadLogsError {
 }
 
 /**
- * Enum representing whether all or few logs succeeded
+ * Type representing whether all or few logs succeeded uploading
  */
 export type UploadStatus =
   /** Represents Complete Failure scenario where all logs have failed for processing and the list of logs that failed to upload are returned */
