@@ -12,7 +12,7 @@
         "Content-Length": "4577",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-monitor-ingestion/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "eabff759-cd9e-473c-af21-7f0aab94be9e"
+        "x-ms-client-request-id": "7899afd9-b4d0-45ff-a80b-919b6ca3df8e"
       },
       "RequestBody": [
         "\u001F\uFFFD\b\u0000\u0000\u0000\u0000\u0000\u0000\n",
@@ -22,10 +22,10 @@
       ],
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Fri, 15 Jul 2022 23:15:11 GMT",
+        "Date": "Mon, 18 Jul 2022 18:17:26 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
-        "x-ms-client-request-id": "eabff759-cd9e-473c-af21-7f0aab94be9e",
-        "x-ms-request-id": "24482bdd-5778-45fd-9d61-c1b6283b3ccc"
+        "x-ms-client-request-id": "7899afd9-b4d0-45ff-a80b-919b6ca3df8e",
+        "x-ms-request-id": "e059ec4b-2700-42d8-85fc-880d916ef073"
       },
       "ResponseBody": null
     }
