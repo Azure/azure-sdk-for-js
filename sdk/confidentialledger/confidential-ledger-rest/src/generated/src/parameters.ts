@@ -5,7 +5,7 @@ import { RequestParameters } from "@azure-rest/core-client";
 import { LedgerEntry, LedgerUser } from "./models";
 
 export type GetConstitutionParameters = RequestParameters;
-export type GetConsortiumMembersParameters = RequestParameters;
+export type ListConsortiumMembersParameters = RequestParameters;
 export type GetEnclaveQuotesParameters = RequestParameters;
 export type ListCollectionsParameters = RequestParameters;
 
@@ -25,28 +25,28 @@ export interface ListLedgerEntriesQueryParam {
 export type ListLedgerEntriesParameters = ListLedgerEntriesQueryParam &
   RequestParameters;
 
-export interface PostLedgerEntryBodyParam {
+export interface CreateLedgerEntryBodyParam {
   /** Ledger entry. */
   body: LedgerEntry;
 }
 
-export interface PostLedgerEntryQueryParamProperties {
+export interface CreateLedgerEntryQueryParamProperties {
   /** The collection id. */
   collectionId?: string;
 }
 
-export interface PostLedgerEntryQueryParam {
-  queryParameters?: PostLedgerEntryQueryParamProperties;
+export interface CreateLedgerEntryQueryParam {
+  queryParameters?: CreateLedgerEntryQueryParamProperties;
 }
 
-export interface PostLedgerEntryMediaTypesParam {
+export interface CreateLedgerEntryMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type PostLedgerEntryParameters = PostLedgerEntryQueryParam &
-  PostLedgerEntryMediaTypesParam &
-  PostLedgerEntryBodyParam &
+export type CreateLedgerEntryParameters = CreateLedgerEntryQueryParam &
+  CreateLedgerEntryMediaTypesParam &
+  CreateLedgerEntryBodyParam &
   RequestParameters;
 
 export interface GetLedgerEntryQueryParamProperties {

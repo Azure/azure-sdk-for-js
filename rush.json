@@ -1032,6 +1032,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/arm-containerservice",
+      "projectFolder": "sdk/containerservice/arm-containerservice-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-operations",
       "projectFolder": "sdk/operationsmanagement/arm-operations",
       "versionPolicyName": "management"
@@ -1065,6 +1070,11 @@
       "packageName": "@azure/arm-servicefabric",
       "projectFolder": "sdk/servicefabric/arm-servicefabric",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/arm-servicefabric",
+      "projectFolder": "sdk/servicefabric/arm-servicefabric-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-mysql",
