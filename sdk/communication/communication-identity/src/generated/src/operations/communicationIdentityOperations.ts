@@ -203,7 +203,10 @@ const issueAccessTokenOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: {
-    parameterPath: { scopes: ["scopes"] },
+    parameterPath: {
+      scopes: ["scopes"],
+      expiresInMinutes: ["options", "expiresInMinutes"]
+    },
     mapper: {
       ...Mappers.CommunicationIdentityAccessTokenRequest,
       required: true

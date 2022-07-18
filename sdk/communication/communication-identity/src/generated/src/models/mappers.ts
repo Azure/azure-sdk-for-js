@@ -202,6 +202,12 @@ export const CommunicationIdentityAccessTokenRequest: coreClient.CompositeMapper
             }
           }
         }
+      },
+      expiresInMinutes: {
+        serializedName: "expiresInMinutes",
+        type: {
+          name: "Number"
+        }
       }
     }
   }

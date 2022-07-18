@@ -100,3 +100,8 @@ export const scopes: OperationParameter = {
   parameterPath: "scopes",
   mapper: CommunicationIdentityAccessTokenRequestMapper
 };
+
+export const expiresInMinutes: OperationParameter = {
+  parameterPath: ["options", "expiresInMinutes"],
+  mapper: CommunicationIdentityAccessTokenRequestMapper
+};
