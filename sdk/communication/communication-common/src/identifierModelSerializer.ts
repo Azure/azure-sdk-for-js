@@ -95,7 +95,7 @@ const assertNotNullOrUndefined = <
 };
 
 const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifier): void => {
-  let presentProperties = [];
+  const presentProperties: string[] = [];
   if (identifier.communicationUser !== undefined) {
     presentProperties.push("communicationUser");
   }
