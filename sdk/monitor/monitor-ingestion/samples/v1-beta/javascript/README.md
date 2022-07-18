@@ -2,11 +2,10 @@
 
 These sample programs show how to use the JavaScript client libraries for Monitor Ingestion in some common scenarios.
 
-| **File Name**                                               | **Description**                                                                                     |
-| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [logsIngestionClient.js][logsingestionclient]               | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace)                     |
-| [uploadCustomLogs.js][uploadcustomlogs]                     | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace)                     |
-| [verifyLogsWithMonitorQuery.js][verifylogswithmonitorquery] | Demonstrates how to run query against a Log Analytics workspace to verify if the logs were uploaded |
+| **File Name**                                 | **Description**                                                                 |
+| --------------------------------------------- | ------------------------------------------------------------------------------- |
+| [logsIngestionClient.js][logsingestionclient] | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace) |
+| [uploadCustomLogs.js][uploadcustomlogs]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace) |
 
 ## Prerequisites
 
@@ -50,7 +49,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [logsingestionclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/logsIngestionClient.js
 [uploadcustomlogs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/uploadCustomLogs.js
-[verifylogswithmonitorquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/verifyLogsWithMonitorQuery.js
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremonitor]: https://docs.microsoft.com/azure/azure-monitor/
