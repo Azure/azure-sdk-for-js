@@ -32,9 +32,9 @@ export async function authenticate(
         },
         {
           regex: true,
-          target: `"value":"MII[^"]+"`,
+          target: `"value": "MII[^"]+"`,
           // replace pkcs12 certificate value with base64 encoding of "base64_placeholder"
-          value: `"value":"YmFzZTY0X3BsYWNlaG9sZGVy"`,
+          value: `"value": "YmFzZTY0X3BsYWNlaG9sZGVy"`,
         },
       ],
     },
