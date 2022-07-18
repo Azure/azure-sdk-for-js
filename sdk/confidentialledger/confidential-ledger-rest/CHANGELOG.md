@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2022-06-18)
+## 1.0.0 (2022-07-18)
 - Pageable collections and consortium endpoints
 - Renaming ledgerUri to ledgerEndpoint
 - postLedgerEntry changed to createLedgerEntry
