@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="./styles/shared.css">
   <link rel="stylesheet" href="./styles/app.css">
   <script type="module">
-    import initialize from "./index"
+    import app from "./index"
 
-    initialize()
+    window.appInstance = new app()
   </script>
 </head>
 <body>
@@ -18,6 +18,8 @@
 
 <p>field1: <b id="field1"></b></p>
 <p>field2: <b id="field2"></b></p>
+
+<button onclick="appInstance.sendData({foo: 'bar'})">send</button>
 
 </body>
 </html>
