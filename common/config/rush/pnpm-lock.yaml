@@ -3871,7 +3871,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220715
+      typescript: 4.8.0-dev.20220718
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -4125,11 +4125,11 @@ packages:
       tsconfig-paths: 3.14.1
     dev: false
 
-  /eslint-plugin-markdown/2.2.1_eslint@8.19.0:
-    resolution: {integrity: sha512-FgWp4iyYvTFxPwfbxofTvXxgzPsDuSKHQy2S+a8Ve6savbujey+lgrFFbXQA0HPygISpRYWYBjooPzhYSF81iA==}
-    engines: {node: ^8.10.0 || ^10.12.0 || >= 12.0.0}
+  /eslint-plugin-markdown/3.0.0_eslint@8.19.0:
+    resolution: {integrity: sha512-hRs5RUJGbeHDLfS7ELanT0e29Ocyssf/7kBM+p7KluY5AwngGkDf8Oyu4658/NZSGTTq05FZeWbkxXtbVyHPwg==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
-      eslint: '>=6.0.0'
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
       eslint: 8.19.0
       mdast-util-from-markdown: 0.8.5
@@ -8681,8 +8681,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220715:
-    resolution: {integrity: sha512-N2t+SrXdUM14ZwEM2jxxLqq9nSurmXjxOY/1TSoJlp2oHjHr42cBdThZ3X1kFpBj7oXAyDM9q0yrNtzg67Vhlg==}
+  /typescript/4.8.0-dev.20220718:
+    resolution: {integrity: sha512-B2TGSCNm1UToV38TnZVxcprJJSmakj3DG0ASbRO3MMl19ezUwMzf7oEM7dRYde2wR6cCrNXC6wpZME1vJYPK3g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15044,7 +15044,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-kImfk6hnO7Ql91JjEpETBmWpppHJV6Mgp1Z4Kufq81MFquTOjpukDIC7zSJnZO2/v5gIYcoW9XAmPlfY3fPr0A==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-xlAOKcTcn7drAiTVx828Q2fq6wqQrzf++KaUpW47exuucVwzlZwkf/M0Tkj3gxLRiRXX4qkrma0YK21aRlU03g==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -15699,7 +15699,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-+1Ysdv8ft1F889llxmqE50yByPRcPiqk2dGeK2+MEBCIhaL4b+UoCPawz9wNEbSEDTFygMuMkAc8oy076WLyNg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-WcB08o4UMKY4GEaMDllffa+wuwf712sg6DiTq13uSeYLLYWKlNM45h3MEvk4iDJp2ZLrx/HsssFHgC/yzN0nEQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -15718,7 +15718,7 @@ packages:
       eslint: 8.19.0
       eslint-config-prettier: 8.5.0_eslint@8.19.0
       eslint-plugin-import: 2.26.0_eslint@8.19.0
-      eslint-plugin-markdown: 2.2.1_eslint@8.19.0
+      eslint-plugin-markdown: 3.0.0_eslint@8.19.0
       eslint-plugin-no-only-tests: 2.6.0
       eslint-plugin-promise: 6.0.0_eslint@8.19.0
       eslint-plugin-tsdoc: 0.2.16
