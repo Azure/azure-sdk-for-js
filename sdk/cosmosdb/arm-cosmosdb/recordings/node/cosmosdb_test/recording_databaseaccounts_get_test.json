@@ -1,0 +1,169 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy2?api-version=2022-05-15",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-cosmosdb/15.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "0a662ed3-7ad9-4b02-9b7c-c4dbd1f212d0"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Mon, 18 Jul 2022 07:49:49 GMT",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "71020b89-4415-4407-8a3d-ad1c2bd4a5cf",
+        "x-ms-gatewayversion": "version=2.14.0",
+        "x-ms-ratelimit-remaining-subscription-reads": "11868",
+        "x-ms-request-id": "71020b89-4415-4407-8a3d-ad1c2bd4a5cf",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220718T074949Z:71020b89-4415-4407-8a3d-ad1c2bd4a5cf"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy2",
+        "name": "myaccountxxyy2",
+        "location": "East US",
+        "type": "Microsoft.DocumentDB/databaseAccounts",
+        "kind": "GlobalDocumentDB",
+        "tags": {},
+        "systemData": {
+          "createdAt": "2022-07-18T07:45:54.9928775Z"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "documentEndpoint": "https://myaccountxxyy2.documents.azure.com:443/",
+          "publicNetworkAccess": "Enabled",
+          "enableAutomaticFailover": false,
+          "enableMultipleWriteLocations": false,
+          "enablePartitionKeyMonitor": false,
+          "isVirtualNetworkFilterEnabled": false,
+          "virtualNetworkRules": [],
+          "EnabledApiTypes": "Sql",
+          "disableKeyBasedMetadataWriteAccess": false,
+          "enableFreeTier": false,
+          "enableAnalyticalStorage": false,
+          "analyticalStorageConfiguration": {
+            "schemaType": "WellDefined"
+          },
+          "instanceId": "0dc54d1b-4c18-4065-8a40-16acd32d306f",
+          "databaseAccountOfferType": "Standard",
+          "defaultIdentity": "FirstPartyIdentity",
+          "networkAclBypass": "None",
+          "disableLocalAuth": false,
+          "consistencyPolicy": {
+            "defaultConsistencyLevel": "Session",
+            "maxIntervalInSeconds": 5,
+            "maxStalenessPrefix": 100
+          },
+          "configurationOverrides": {},
+          "writeLocations": [
+            {
+              "id": "myaccountxxyy2-westus",
+              "locationName": "West US",
+              "documentEndpoint": "https://myaccountxxyy2-westus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 0,
+              "isZoneRedundant": false
+            }
+          ],
+          "readLocations": [
+            {
+              "id": "myaccountxxyy2-westus",
+              "locationName": "West US",
+              "documentEndpoint": "https://myaccountxxyy2-westus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 0,
+              "isZoneRedundant": false
+            },
+            {
+              "id": "myaccountxxyy2-eastus",
+              "locationName": "East US",
+              "documentEndpoint": "https://myaccountxxyy2-eastus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 1,
+              "isZoneRedundant": false
+            },
+            {
+              "id": "myaccountxxyy2-southcentralus",
+              "locationName": "South Central US",
+              "documentEndpoint": "https://myaccountxxyy2-southcentralus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 2,
+              "isZoneRedundant": false
+            }
+          ],
+          "locations": [
+            {
+              "id": "myaccountxxyy2-westus",
+              "locationName": "West US",
+              "documentEndpoint": "https://myaccountxxyy2-westus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 0,
+              "isZoneRedundant": false
+            },
+            {
+              "id": "myaccountxxyy2-eastus",
+              "locationName": "East US",
+              "documentEndpoint": "https://myaccountxxyy2-eastus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 1,
+              "isZoneRedundant": false
+            },
+            {
+              "id": "myaccountxxyy2-southcentralus",
+              "locationName": "South Central US",
+              "documentEndpoint": "https://myaccountxxyy2-southcentralus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 2,
+              "isZoneRedundant": false
+            }
+          ],
+          "failoverPolicies": [
+            {
+              "id": "myaccountxxyy2-westus",
+              "locationName": "West US",
+              "failoverPriority": 0
+            },
+            {
+              "id": "myaccountxxyy2-eastus",
+              "locationName": "East US",
+              "failoverPriority": 1
+            },
+            {
+              "id": "myaccountxxyy2-southcentralus",
+              "locationName": "South Central US",
+              "failoverPriority": 2
+            }
+          ],
+          "cors": [],
+          "capabilities": [],
+          "ipRules": [],
+          "backupPolicy": {
+            "type": "Periodic",
+            "periodicModeProperties": {
+              "backupIntervalInMinutes": 240,
+              "backupRetentionIntervalInHours": 8,
+              "backupStorageRedundancy": "Geo"
+            }
+          },
+          "networkAclBypassResourceIds": []
+        },
+        "identity": {
+          "type": "None"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
