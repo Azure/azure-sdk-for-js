@@ -16,6 +16,7 @@ export {
   onChangeWithOrigin,
 } from "./utils";
 export type {
+  TPortalData,
   TEditorData,
   TOnChange,
   TSecrets,

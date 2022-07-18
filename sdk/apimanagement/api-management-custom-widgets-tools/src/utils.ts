@@ -23,16 +23,20 @@ export type TValuesCommon = Record<string, unknown>;
  */
 export type TEnvironment = "development" | "publishing" | "runtime" | "error";
 
-/** JSON object with all the data you'll receive from the Dev Portal */
-export interface TEditorData<TValues extends TValuesCommon> {
-  /** values you've set in the admin editor window */
-  values: TValues;
+/** Information about the widget instance received from the Dev Portal */
+export interface TPortalData {
   /** web content's origin (URL) of your Dev Portal */
   origin: string;
   /** current runtime environment */
   environment: TEnvironment;
   /** ID of this particular instance of the widget */
   instanceId: string;
+}
+
+/** JSON object with all the data you'll receive from the Dev Portal */
+export interface TEditorData<TValues extends TValuesCommon> extends TPortalData {
+  /** values you've set in the admin editor window */
+  values: TValues;
 }
 
 export function getEditorDataPure<TValues extends TValuesCommon>(
@@ -133,16 +137,14 @@ export type TSecrets = { token: string; userId: string };
 /**
  * Request secrets - token & userId, from the Dev portal parent window.
  *
+ * @param targetModule - is the function invoke from the main "app" window or the admin "editor"?
  * @param targetOrigin - web content's origin (URL) of your Dev Portal to send changes to
  * @param instanceId - ID of this particular instance of the widget
- * @param targetModule - is the function invoke from the main "app" window or the admin "editor"?
  * @param environment - what environment is it running on
  */
 export const askForSecrets = async (
-  targetOrigin: string,
-  instanceId: string,
   targetModule: TTargetModule,
-  environment: TEnvironment
+  {origin: targetOrigin, instanceId, environment}: TPortalData,
 ): Promise<TSecrets> =>
   new Promise((resolve) => {
     self.addEventListener("message", ({ data, origin }) => {

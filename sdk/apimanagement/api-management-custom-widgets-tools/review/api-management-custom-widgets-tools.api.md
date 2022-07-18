@@ -8,7 +8,7 @@
 export const ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
 
 // @public
-export const askForSecrets: (targetOrigin: string, instanceId: string, targetModule: TTargetModule, environment: TEnvironment) => Promise<TSecrets>;
+export const askForSecrets: (targetModule: TTargetModule, { origin: targetOrigin, instanceId, environment }: TPortalData) => Promise<TSecrets>;
 
 // @public
 export function buildBlobConfigSrc(name: string): string;
@@ -50,10 +50,7 @@ export function onChangeWithOrigin<TValues extends TValuesCommon>(origin: TEdito
 export const ROOT = "custom-widgets";
 
 // @public
-export interface TEditorData<TValues extends TValuesCommon> {
-    environment: TEnvironment;
-    instanceId: string;
-    origin: string;
+export interface TEditorData<TValues extends TValuesCommon> extends TPortalData {
     values: TValues;
 }
 
@@ -62,6 +59,13 @@ export type TEnvironment = "development" | "publishing" | "runtime" | "error";
 
 // @public
 export type TOnChange<TValues extends TValuesCommon> = (values: Partial<TValues>) => void;
+
+// @public
+export interface TPortalData {
+    environment: TEnvironment;
+    instanceId: string;
+    origin: string;
+}
 
 // @public
 export type TSecrets = {
