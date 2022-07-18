@@ -1,5 +1,24 @@
 # Release History
 
+## 4.0.0-beta.6 (#Unreleased)
+
+### Features Added
+
+- `DocumentModelAdministrationClient#getOperation` returns additional `result`(operation result) and `error`(includes detailed error info) fields.
+
+### Breaking Changes
+
+- Properties such as documents, languages and pages (that are arrays) in the `AnalyzeResult` interface can assume `undefined` now. Previously, would have been empty arrays.
+- In `DocumentModelAdministrationClient` client, method `getInfo` is renamed as `getResourceInfo`.
+
+### Other Changes
+
+- More renames
+  - `TrainingPoller` -> `DocumentModelPoller`
+  - `GetInfoResponse` -> `ResourceInfo`
+  - In instances where we use `Model` as a prefix, updated it to `DocumentModel`. For example, `ModelInfo` -> `DocumentModelInfo`, `ModelSummary` -> `DocumentModelSummary`.
+  - `BuildModelOptions` -> `CreateModelOptions`, the options bag types for `beginComposeModel` and `beginCopyModelTo`, and `beginBuildModel` methods inherit from `CreateModelOptions`.
+
 ## 4.0.0-beta.5 (2022-06-22)
 
 ### Bugs Fixed
