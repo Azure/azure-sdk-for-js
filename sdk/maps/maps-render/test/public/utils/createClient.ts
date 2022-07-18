@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential, TokenCredential } from "@azure/identity";
+// import { ClientSecretCredential, TokenCredential } from "@azure/identity";
 import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
@@ -28,27 +28,10 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 export type AuthMethod = "SubscriptionKey" | "AAD";
 
 export function createClient(
-  authMethod: AuthMethod,
   options?: MapsRenderClientOptions
 ): MapsRenderClient {
-  let credential: AzureKeyCredential | TokenCredential;
-  switch (authMethod) {
-    case "SubscriptionKey": {
-      credential = new AzureKeyCredential(env.MAPS_SUBSCRIPTION_KEY);
-      return new MapsRenderClient(credential, options);
-    }
-    case "AAD": {
-      credential = new ClientSecretCredential(
-        env.AZURE_TENANT_ID,
-        env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET
-      );
-      return new MapsRenderClient(credential, env.MAPS_CLIENT_ID, options);
-    }
-    default: {
-      throw Error(`Unsupported authentication method: ${authMethod}`);
-    }
-  }
+    const credential = new AzureKeyCredential(env.MAPS_SUBSCRIPTION_KEY);
+    return new MapsRenderClient(credential, options);
 }
 
 /**
