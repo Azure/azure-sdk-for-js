@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "a7c877e97e5377a15f35abd306f0912a";
+module.exports.hash = "4ba47d2cea0fcd81354b05de8691dcd7";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -21,7 +21,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 666CD356CF864680BC8A1DB48A5502BC Ref B: TPE30EDGE0713 Ref C: 2022-07-13T11:09:34Z',
+  'Ref A: 688AF4F486FD4ABBA617E5AE7A56D52E Ref B: TPE30EDGE0509 Ref C: 2022-07-18T16:31:35Z',
   'Date',
-  'Wed, 13 Jul 2022 11:09:33 GMT'
+  'Mon, 18 Jul 2022 16:31:34 GMT'
 ]);
