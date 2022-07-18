@@ -13,6 +13,7 @@ export async function ignoreSubscriptionNotEligibleError(
     assert.isOk(configuration);
   } catch (error) {
     if (error instanceof RestError) {
+      console.log(error.response?.bodyAsText);
       if (
         error?.statusCode === 403 &&
         error?.response?.bodyAsText?.includes("is not eligible for Alpha IDs usage")
