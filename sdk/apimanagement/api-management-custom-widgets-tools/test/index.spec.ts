@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EDITOR_DATA_KEY, ON_CHANGE_MESSAGE_KEY, onChangeWithOrigin } from "../src";
+import { APIM_EDITOR_DATA_KEY, APIM_ON_CHANGE_MESSAGE_KEY, onChangeWithOrigin } from "../src";
 import { getEditorDataPure, getEditorValuesPure } from "../src/utils";
 import { assert } from "chai";
 import sinon from "sinon";
@@ -12,7 +12,7 @@ const valuesDefault = {
   bar: 42,
 };
 
-const urlSearchPrams = new URLSearchParams([[EDITOR_DATA_KEY, JSON.stringify(valuesUrl)]]);
+const urlSearchPrams = new URLSearchParams([[APIM_EDITOR_DATA_KEY, JSON.stringify(valuesUrl)]]);
 
 describe("getEditorData", () => {
   it("runs", () => {
@@ -54,7 +54,7 @@ describe("onChangeWithOrigin", () => {
     const changedValues = { [changedValueKey]: "new value" };
 
     sinon.stub(self.parent, "postMessage").callsFake((msg, targetOrigin: any) => {
-      const data = msg[ON_CHANGE_MESSAGE_KEY];
+      const data = msg[APIM_ON_CHANGE_MESSAGE_KEY];
       assert.equal(valuesUrl.instanceId, data.instanceId);
       assert.equal(changedValueKey, data.key);
       assert.equal(changedValues[changedValueKey], data.value);

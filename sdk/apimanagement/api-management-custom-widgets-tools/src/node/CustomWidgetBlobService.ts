@@ -2,19 +2,19 @@
 // Licensed under the MIT license.
 
 import { BlobServiceClient, BlockBlobUploadResponse } from "@azure/storage-blob";
-import { buildBlobConfigSrc, buildBlobDataSrc } from "../paths";
+import { buildBlobConfigPath, buildBlobDataPath } from "../paths";
 import mime from "mime";
 
-type TConfig = Record<string, unknown>;
+export type TConfig = Record<string, unknown>;
 
 /**
  * A service wrapping ContainerClient class to simplify blob handling
  */
-class CustomWidgetBlobService {
-  containerClient;
-  name;
-  pathWidget;
-  pathConfig;
+export class CustomWidgetBlobService {
+  readonly containerClient;
+  readonly name;
+  readonly pathWidget;
+  readonly pathConfig;
 
   /**
    * @param blobStorageUrl - blob storage SAS URL
@@ -25,16 +25,16 @@ class CustomWidgetBlobService {
     const blobServiceClient = new BlobServiceClient(blobStorageUrl.replace(`/${container}`, ""));
     this.containerClient = blobServiceClient.getContainerClient(container);
     this.name = name;
-    this.pathWidget = buildBlobDataSrc(name);
-    this.pathConfig = buildBlobConfigSrc(name);
+    this.pathWidget = buildBlobDataPath(name);
+    this.pathConfig = buildBlobConfigPath(name);
   }
 
-  fileName(path: string): string | undefined {
+  private extractFileName(path: string): string | undefined {
     return path.split("/").pop();
   }
 
   async blobUpload(absolutePath: string, content: Buffer): Promise<BlockBlobUploadResponse> {
-    const fileName = this.fileName(absolutePath);
+    const fileName = this.extractFileName(absolutePath);
     if (!fileName) throw new Error("a fileName was not found in the absolutePath");
     return this.containerClient.getBlockBlobClient(absolutePath).upload(content, content.length, {
       blobHTTPHeaders: { blobContentType: mime.getType(fileName) || "application/octet-stream" },

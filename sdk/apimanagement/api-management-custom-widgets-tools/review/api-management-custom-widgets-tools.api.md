@@ -5,34 +5,40 @@
 ```ts
 
 // @public
-export const ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
+export const APIM_ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
 
 // @public
-export const askForSecrets: (targetModule: TTargetModule, { origin: targetOrigin, instanceId, environment }: TPortalData) => Promise<TSecrets>;
+export const APIM_CONFIG_FILE_NAME = "config.msapim.json";
 
 // @public
-export function buildBlobConfigSrc(name: string): string;
+export const APIM_EDITOR_DATA_KEY = "editorData";
 
 // @public
-export function buildBlobDataSrc(name: string): string;
+export const APIM_ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
+
+// @public
+export function askForSecrets(targetModule: TTargetModule, { origin: targetOrigin, instanceId, environment }: TPortalData): Promise<TSecrets>;
+
+// @public
+export const BLOB_CONFIGS_FOLDER = "configs";
+
+// @public
+export const BLOB_DATA_FOLDER = "data";
+
+// @public
+export const BLOB_ROOT = "custom-widgets";
+
+// @public
+export function buildBlobConfigPath(name: string): string;
+
+// @public
+export function buildBlobDataPath(name: string): string;
 
 // @public
 export function buildOnChange<TValues extends TValuesCommon>(valuesDefault: TValues): TOnChange<TValues>;
 
 // @public
-export const CONFIG_FILE_NAME = "config.msapim.json";
-
-// @public
-export const CONFIGS_FOLDER = "configs";
-
-// @public
-export const DATA_FOLDER = "data";
-
-// @public
-export function deployNodeJS(serviceInformation: TServiceInformation, name: string, fallbackConfigPath?: string): Promise<void>;
-
-// @public
-export const EDITOR_DATA_KEY = "editorData";
+export function deployNodeJS(serviceInformation: TServiceInformation, name: string, fallbackConfigPath?: string, rootLocal?: string): Promise<void>;
 
 // @public
 export function getEditorData<TValues extends TValuesCommon>(valuesDefault: TValues): TEditorData<TValues>;
@@ -41,13 +47,7 @@ export function getEditorData<TValues extends TValuesCommon>(valuesDefault: TVal
 export function getEditorValues<TValues extends TValuesCommon>(valuesDefault: TValues): TValues;
 
 // @public
-export const ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
-
-// @public
-export function onChangeWithOrigin<TValues extends TValuesCommon>(origin: TEditorData<TValues>["origin"], instanceId: TEditorData<TValues>["instanceId"], values: TValues): void;
-
-// @public
-export const ROOT = "custom-widgets";
+export function onChangeWithOrigin<TValues extends TValuesCommon>(origin: string, instanceId: string, values: TValues): void;
 
 // @public
 export interface TEditorData<TValues extends TValuesCommon> extends TPortalData {

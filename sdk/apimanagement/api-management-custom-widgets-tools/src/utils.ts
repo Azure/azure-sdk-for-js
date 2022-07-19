@@ -4,15 +4,15 @@
 /**
  * Key for a search param, from which editor data will be loaded from.
  */
-export const EDITOR_DATA_KEY = "editorData";
+export const APIM_EDITOR_DATA_KEY = "editorData";
 /**
  * Key for a post message object, it's used to propagate changes from editor to the DevPortal. Used to prevent interference with other applications.
  */
-export const ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
+export const APIM_ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
 /**
  * Key for a post message object, it's used to request and send secrets - token and user id, from the DevPortal. Used to prevent interference with other applications.
  */
-export const ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
+export const APIM_ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
 
 /**
  * Base of a values obj
@@ -45,7 +45,7 @@ export function getEditorDataPure<TValues extends TValuesCommon>(
 ): TEditorData<TValues> {
   try {
     const urlEditorParams = JSON.parse(
-      decodeURIComponent(urlSearchParams.get(EDITOR_DATA_KEY) ?? "")
+      decodeURIComponent(urlSearchParams.get(APIM_EDITOR_DATA_KEY) ?? "")
     );
 
     if (!("origin" in urlEditorParams)) {
@@ -56,7 +56,8 @@ export function getEditorDataPure<TValues extends TValuesCommon>(
     return { ...urlEditorParams, values: { ...valuesDefault, ...urlEditorParams.values } };
   } catch (e) {
     console.error(
-      `Could not get '${EDITOR_DATA_KEY}' from the search params of the URL:\n` + self.location,
+      `Could not get '${APIM_EDITOR_DATA_KEY}' from the search params of the URL:\n` +
+        self.location,
       e
     );
     return { values: valuesDefault, environment: "error", origin: "error", instanceId: "error" };
@@ -103,12 +104,12 @@ export type TOnChange<TValues extends TValuesCommon> = (values: Partial<TValues>
  * @param values - values that changed
  */
 export function onChangeWithOrigin<TValues extends TValuesCommon>(
-  origin: TEditorData<TValues>["origin"],
-  instanceId: TEditorData<TValues>["instanceId"],
+  origin: string,
+  instanceId: string,
   values: TValues
 ): void {
   Object.entries(values).forEach(([key, value]) => {
-    self.parent.postMessage({ [ON_CHANGE_MESSAGE_KEY]: { key, value, instanceId } }, origin);
+    self.parent.postMessage({ [APIM_ON_CHANGE_MESSAGE_KEY]: { key, value, instanceId } }, origin);
   });
 }
 
@@ -142,24 +143,28 @@ export type TSecrets = { token: string; userId: string };
  * @param instanceId - ID of this particular instance of the widget
  * @param environment - what environment is it running on
  */
-export const askForSecrets = async (
+export async function askForSecrets(
   targetModule: TTargetModule,
-  {origin: targetOrigin, instanceId, environment}: TPortalData,
-): Promise<TSecrets> =>
-  new Promise((resolve) => {
+  { origin: targetOrigin, instanceId, environment }: TPortalData
+): Promise<TSecrets> {
+  return new Promise((resolve, reject) => {
     self.addEventListener("message", ({ data, origin }) => {
-      if (origin !== targetOrigin || !(ASK_FOR_SECRETS_MESSAGE_KEY in data)) return;
+      if (origin !== targetOrigin || !(APIM_ASK_FOR_SECRETS_MESSAGE_KEY in data)) return;
 
-      const secrets = data[ASK_FOR_SECRETS_MESSAGE_KEY];
+      const secrets = data[APIM_ASK_FOR_SECRETS_MESSAGE_KEY];
       if (typeof secrets !== "object" || !("token" in secrets) || !("userId" in secrets)) {
-        throw new Error("Secrets send by Dev Portal are invalid");
+        reject("Secrets send by Dev Portal are invalid");
       }
 
       resolve(secrets);
     });
 
     const message = {
-      [ASK_FOR_SECRETS_MESSAGE_KEY]: { instanceId, origin: self.location.origin, targetModule },
+      [APIM_ASK_FOR_SECRETS_MESSAGE_KEY]: {
+        instanceId,
+        origin: self.location.origin,
+        targetModule,
+      },
     };
 
     if (targetModule === "app" && environment === "development") {
@@ -168,3 +173,4 @@ export const askForSecrets = async (
       self.parent.postMessage(message, targetOrigin);
     }
   });
+}

@@ -6,9 +6,9 @@
  */
 
 export {
-  EDITOR_DATA_KEY,
-  ON_CHANGE_MESSAGE_KEY,
-  ASK_FOR_SECRETS_MESSAGE_KEY,
+  APIM_EDITOR_DATA_KEY,
+  APIM_ON_CHANGE_MESSAGE_KEY,
+  APIM_ASK_FOR_SECRETS_MESSAGE_KEY,
   getEditorData,
   getEditorValues,
   askForSecrets,
@@ -25,12 +25,12 @@ export type {
   TEnvironment,
 } from "./utils";
 export {
-  ROOT,
-  CONFIG_FILE_NAME,
-  DATA_FOLDER,
-  CONFIGS_FOLDER,
-  buildBlobDataSrc,
-  buildBlobConfigSrc,
+  BLOB_ROOT,
+  APIM_CONFIG_FILE_NAME,
+  BLOB_DATA_FOLDER,
+  BLOB_CONFIGS_FOLDER,
+  buildBlobDataPath,
+  buildBlobConfigPath,
 } from "./paths";
 
 import deployNodeJS from "./node/deploy";
