@@ -322,6 +322,13 @@
         "Neighbourhood",
         "Xstr"
       ]
+    },
+    {
+      "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
+      "words": [
+        "scaffolder",
+        "APIM"
+      ]
     }
   ]
 }
