@@ -1,5 +1,5 @@
 ## Azure Cache for Redis: Azure AD with ioredis client library
-
+Configuration of Role and Role Assignments is required before using the sample code. 
 ### Table of contents
 
 - [ioredis library](#ioredis-library)
@@ -46,20 +46,16 @@ async function main() {
     process.env.AZURE_CLIENT_ID,
     process.env.AZURE_CLIENT_SECRET
   );
+
+  // The scope will be changed for AAD Public Preview
+  const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
+  
   // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
   let accessToken = await credential.getToken(
-    "https://*.cacheinfra.windows.net:10225/appid/.default"
+    redisScope
   );
 
-  // Option 1: Create ioredis client and connect to the Azure Cache for Redis over the non-TLS port using the access token as password.
-  //   const redis = new Redis({
-  //     port:6379,
-  //     host: process.env.REDIS_HOSTNAME,
-  //     username:process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-  //     password: accessToken.token
-  //   });
-
-  // Option 2: Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
+  // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   const redis = new Redis({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
@@ -101,10 +97,11 @@ dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
   try {
+    // The scope will be changed for AAD Public Preview
+    const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
+
     // Fetch an AAD token to be used for authentication. This token will be used as the password.
-    let accessToken = await credential.getToken(
-      "https://*.cacheinfra.windows.net:10225/appid/.default"
-    );
+    let accessToken = await credential.getToken(redisScope);
     return accessToken;
   } catch (e) {
     throw e;

@@ -1,5 +1,5 @@
 ## Azure Cache for Redis: Azure AD with node-redis client library
-
+Configuration of Role and Role Assignments is required before using the sample code.
 ### Table of contents
 
 - [node-redis library](#node-redis-library)
@@ -45,26 +45,20 @@ async function main() {
     process.env.AZURE_CLIENT_SECRET
   );
 
+  // The scope will be changed for AAD Public Preview
+  const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
+
   // Fetch an AAD token to be used for authentication. This token will be used as the password.
-  let accessToken = await credential.getToken(
-    "https://*.cacheinfra.windows.net:10225/appid/.default"
-  );
+  let accessToken = await credential.getToken(redisScope);
   console.log("access Token", accessToken);
 
-  //Option 1 - Create redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
+  // Create redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   const client = createClient({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
     socket: { tls: true },
   });
-
-  //Option 2 - Create redis client and connect to the Azure Cache for Redis over the non-TLS port using the access token as password.
-  //   const client = createClient({
-  //     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-  //     password: accessToken.token,
-  //     url: `redis://${process.env.REDIS_HOSTNAME}:6379`,
-  //   });
 
   client.on("error", (err) => console.log("Redis Client Error", err));
   await client.connect();
@@ -103,8 +97,11 @@ dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
   try {
+    // The scope will be changed for AAD Public Preview
+    const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
+
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-    return credential.getToken("https://*.cacheinfra.windows.net:10225/appid/.default");
+    return credential.getToken(redisScope);
   } catch (e) {
     throw e;
   }
