@@ -246,7 +246,7 @@ describe.only("bulk/batch item operations", function () {
         key: "A",
         class: "2010",
       });
-      console.log(itemResponse.diagnosticsToString);
+      console.log(itemResponse.getDiagnostics);
       deleteItemId = addEntropy("item2");
       await container.items.create({
         id: deleteItemId,

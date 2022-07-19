@@ -5,30 +5,31 @@
 //  *
 //  * @internal
 
-import { CosmosException } from "./CosmosException";
+import { jsonStringifyAndEscapeNonASCII } from "../common";
+import { DiagnosticSpan } from "./CosmosException";
 
-export function diagnosticToString(): string {
-  return JSON.stringify(cosmosException);
+export function getCosmosDiagnostics(): string {
+  return jsonStringifyAndEscapeNonASCII(_diagnosticsSpan);
 };
 
 const _startTime = new Date().getTime();
 
-const startDiagnostics: CosmosException = {
+const _root: DiagnosticSpan  = {
 "cosmosdiagnostics": "Started Cosmos Diagnostics",
 "diagnosticStartTime": new Date().toLocaleString(),
 "durationInMs": (new Date().getTime() - _startTime)
 }
 
-const cosmosException: CosmosException[] = [startDiagnostics];
+const _diagnosticsSpan: DiagnosticSpan[] = [_root];
 
-export function recordDiagnostics(message: CosmosException | string) {
-  if(cosmosException.length === 0){
-recordDiagnostics(startDiagnostics);
+export function recordDiagnostics(message: DiagnosticSpan | string) {
+  if(_diagnosticsSpan.length === 0){
+recordDiagnostics(_diagnosticsSpan);
   }
-  cosmosException.push({"diagnosticsthread": cosmosException.length.toString(),
+  _diagnosticsSpan.push({"diagnosticsthread": _diagnosticsSpan.length.toString(),
   "excpetion": message,
   "durationInMs": (new Date().getTime() - _startTime)},
   )}; 
 export function getdiagnosticsdurationMilliseconds() {
-return (cosmosException[ cosmosException.length - 1 ]);
+return (_diagnosticsSpan[ _diagnosticsSpan.length - 1 ]);
 }

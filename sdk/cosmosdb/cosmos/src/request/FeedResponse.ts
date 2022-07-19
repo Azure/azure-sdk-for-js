@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Constants } from "../common";
-import { diagnosticToString } from "../diagnostics/CosmosDiagnostics";
+import { CosmosException } from "../diagnostics/CosmosException";
 import { CosmosHeaders } from "../queryExecutionContext";
 
 export class FeedResponse<TResource> {
@@ -26,7 +26,7 @@ export class FeedResponse<TResource> {
   public get activityId(): string {
     return this.headers[Constants.HttpHeaders.ActivityId];
   }
-  get diagnosticsToString(): string {
-    return diagnosticToString();
+  get getDiagnostics(): string {
+    return CosmosException.getDiagnostics();
   }
 }

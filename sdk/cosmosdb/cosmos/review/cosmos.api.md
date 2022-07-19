@@ -765,7 +765,7 @@ export class FeedResponse<TResource> {
     // (undocumented)
     diagnostics: any;
     // (undocumented)
-    get diagnosticsToString(): string;
+    get getDiagnostics(): string;
     // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
@@ -1502,9 +1502,9 @@ export class ResourceResponse<TResource> {
     // (undocumented)
     get activityId(): string;
     // (undocumented)
-    get diagnosticsToString(): string;
-    // (undocumented)
     get etag(): string;
+    // (undocumented)
+    get getDiagnostics(): string;
     // (undocumented)
     readonly headers: CosmosHeaders_2;
     // (undocumented)

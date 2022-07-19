@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Constants } from "../common";
-import { diagnosticToString } from "../diagnostics/CosmosDiagnostics";
+import { CosmosException } from "../diagnostics/CosmosException";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { StatusCode, SubStatusCode } from "./StatusCodes";
 
@@ -22,7 +22,7 @@ export class ResourceResponse<TResource> {
   public get etag(): string {
     return this.headers[Constants.HttpHeaders.ETag] as string;
   }
- public get diagnosticsToString(): string {
-    return diagnosticToString();
+  get getDiagnostics(): string {
+    return CosmosException.getDiagnostics();
   }
 }
