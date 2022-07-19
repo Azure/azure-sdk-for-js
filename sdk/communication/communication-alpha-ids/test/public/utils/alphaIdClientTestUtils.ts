@@ -13,9 +13,13 @@ export async function ignoreSubscriptionNotEligibleError(
     assert.isOk(configuration);
   } catch (error) {
     if (error instanceof RestError) {
+      console.log("RestError thrown");
+      console.log(error);
       if (error?.response?.bodyAsText?.includes("is not eligible for Alpha IDs usage")) {
         return;
       }
+    } else {
+      console.log("Not a RestError");
     }
 
     throw error;
