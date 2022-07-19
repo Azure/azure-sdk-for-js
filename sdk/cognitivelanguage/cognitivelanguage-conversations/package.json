@@ -31,7 +31,7 @@
     "uglify-js": "^3.4.9",
     "rimraf": "^3.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/undefined",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/cognitivelanguage-conversations",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
