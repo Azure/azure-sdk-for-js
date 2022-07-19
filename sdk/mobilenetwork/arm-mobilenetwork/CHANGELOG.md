@@ -1,5 +1,86 @@
 # Release History
     
+## 1.0.0-beta.3 (2022-07-19)
+    
+**Features**
+
+  - Added operation group PacketCoreControlPlaneVersions
+  - Added operation group SimGroups
+  - Added operation Sims.listBySimGroup
+  - Added Interface AzureStackEdgeDeviceResourceId
+  - Added Interface ConnectedClusterResourceId
+  - Added Interface KeyVaultCertificate
+  - Added Interface KeyVaultKey
+  - Added Interface LocalDiagnosticsAccessConfiguration
+  - Added Interface ManagedServiceIdentity
+  - Added Interface PacketCoreControlPlaneVersionListResult
+  - Added Interface PacketCoreControlPlaneVersionsGetOptionalParams
+  - Added Interface PacketCoreControlPlaneVersionsListByResourceGroupNextOptionalParams
+  - Added Interface PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams
+  - Added Interface PlatformConfiguration
+  - Added Interface SimGroupListResult
+  - Added Interface SimGroupResourceId
+  - Added Interface SimGroupsCreateOrUpdateOptionalParams
+  - Added Interface SimGroupsDeleteOptionalParams
+  - Added Interface SimGroupsGetOptionalParams
+  - Added Interface SimGroupsListByResourceGroupNextOptionalParams
+  - Added Interface SimGroupsListByResourceGroupOptionalParams
+  - Added Interface SimGroupsListBySubscriptionNextOptionalParams
+  - Added Interface SimGroupsListBySubscriptionOptionalParams
+  - Added Interface SimGroupsUpdateTagsOptionalParams
+  - Added Interface SimsListBySimGroupNextOptionalParams
+  - Added Interface SimsListBySimGroupOptionalParams
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias BillingSku
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias PacketCoreControlPlaneVersion
+  - Added Type Alias PacketCoreControlPlaneVersionsGetResponse
+  - Added Type Alias PacketCoreControlPlaneVersionsListByResourceGroupNextResponse
+  - Added Type Alias PacketCoreControlPlaneVersionsListByResourceGroupResponse
+  - Added Type Alias PlatformType
+  - Added Type Alias ProxyResource
+  - Added Type Alias RecommendedVersion
+  - Added Type Alias SimGroup
+  - Added Type Alias SimGroupsCreateOrUpdateResponse
+  - Added Type Alias SimGroupsGetResponse
+  - Added Type Alias SimGroupsListByResourceGroupNextResponse
+  - Added Type Alias SimGroupsListByResourceGroupResponse
+  - Added Type Alias SimGroupsListBySubscriptionNextResponse
+  - Added Type Alias SimGroupsListBySubscriptionResponse
+  - Added Type Alias SimGroupsUpdateTagsResponse
+  - Added Type Alias SimsListBySimGroupNextResponse
+  - Added Type Alias SimsListBySimGroupResponse
+  - Added Type Alias VersionState
+  - Class MobileNetworkManagementClient has a new parameter packetCoreControlPlaneVersions
+  - Class MobileNetworkManagementClient has a new parameter simGroups
+  - Add parameters of ProxyResource to TypeAlias Sim
+  - Type Alias AttachedDataNetwork has a new parameter dnsAddresses
+  - Type Alias PacketCoreControlPlane has a new parameter identity
+  - Type Alias PacketCoreControlPlane has a new parameter platform
+  - Type Alias PacketCoreControlPlane has a new parameter localDiagnosticsAccess
+  - Type Alias PacketCoreControlPlane has a new parameter interopSettings
+  - Added Enum KnownBillingSku
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownPlatformType
+  - Added Enum KnownRecommendedVersion
+  - Added Enum KnownVersionState
+
+**Breaking Changes**
+
+  - Removed operation Sims.listByResourceGroup
+  - Removed operation Sims.listBySubscription
+  - Removed operation Sims.updateTags
+  - Operation Sims.beginCreateOrUpdate has a new signature
+  - Operation Sims.beginCreateOrUpdateAndWait has a new signature
+  - Operation Sims.beginDelete has a new signature
+  - Operation Sims.beginDeleteAndWait has a new signature
+  - Operation Sims.get has a new signature
+  - Delete parameters of TrackedResource in TypeAlias Sim
+  - Type Alias PacketCoreControlPlane no longer has parameter customLocation
+  - Type Alias Sim no longer has parameter mobileNetwork
+  - Type Alias PacketCoreControlPlane has a new parameter sku
+    
+    
 ## 1.0.0-beta.2 (2022-03-23)
     
 **Features**

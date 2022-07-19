@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PacketCoreControlPlanes } from "../operationsInterfaces";
+import { SimGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,32 +15,32 @@ import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient"
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  PacketCoreControlPlane,
-  PacketCoreControlPlanesListBySubscriptionNextOptionalParams,
-  PacketCoreControlPlanesListBySubscriptionOptionalParams,
-  PacketCoreControlPlanesListByResourceGroupNextOptionalParams,
-  PacketCoreControlPlanesListByResourceGroupOptionalParams,
-  PacketCoreControlPlanesDeleteOptionalParams,
-  PacketCoreControlPlanesGetOptionalParams,
-  PacketCoreControlPlanesGetResponse,
-  PacketCoreControlPlanesCreateOrUpdateOptionalParams,
-  PacketCoreControlPlanesCreateOrUpdateResponse,
+  SimGroup,
+  SimGroupsListBySubscriptionNextOptionalParams,
+  SimGroupsListBySubscriptionOptionalParams,
+  SimGroupsListByResourceGroupNextOptionalParams,
+  SimGroupsListByResourceGroupOptionalParams,
+  SimGroupsDeleteOptionalParams,
+  SimGroupsGetOptionalParams,
+  SimGroupsGetResponse,
+  SimGroupsCreateOrUpdateOptionalParams,
+  SimGroupsCreateOrUpdateResponse,
   TagsObject,
-  PacketCoreControlPlanesUpdateTagsOptionalParams,
-  PacketCoreControlPlanesUpdateTagsResponse,
-  PacketCoreControlPlanesListBySubscriptionResponse,
-  PacketCoreControlPlanesListByResourceGroupResponse,
-  PacketCoreControlPlanesListBySubscriptionNextResponse,
-  PacketCoreControlPlanesListByResourceGroupNextResponse
+  SimGroupsUpdateTagsOptionalParams,
+  SimGroupsUpdateTagsResponse,
+  SimGroupsListBySubscriptionResponse,
+  SimGroupsListByResourceGroupResponse,
+  SimGroupsListBySubscriptionNextResponse,
+  SimGroupsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PacketCoreControlPlanes operations. */
-export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
+/** Class containing SimGroups operations. */
+export class SimGroupsImpl implements SimGroups {
   private readonly client: MobileNetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class PacketCoreControlPlanes class.
+   * Initialize a new instance of the class SimGroups class.
    * @param client Reference to the service client
    */
   constructor(client: MobileNetworkManagementClient) {
@@ -48,12 +48,12 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Lists all the packet core control planes in a subscription.
+   * Gets all the SIM groups in a subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: PacketCoreControlPlanesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<PacketCoreControlPlane> {
+    options?: SimGroupsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<SimGroup> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -69,8 +69,8 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: PacketCoreControlPlanesListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<PacketCoreControlPlane[]> {
+    options?: SimGroupsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<SimGroup[]> {
     let result = await this._listBySubscription(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -82,22 +82,22 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: PacketCoreControlPlanesListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<PacketCoreControlPlane> {
+    options?: SimGroupsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<SimGroup> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists all the packet core control planes in a resource group.
+   * Gets all the SIM groups in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: PacketCoreControlPlanesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<PacketCoreControlPlane> {
+    options?: SimGroupsListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<SimGroup> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -114,8 +114,8 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: PacketCoreControlPlanesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<PacketCoreControlPlane[]> {
+    options?: SimGroupsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<SimGroup[]> {
     let result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -132,8 +132,8 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: PacketCoreControlPlanesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<PacketCoreControlPlane> {
+    options?: SimGroupsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<SimGroup> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -143,15 +143,15 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Deletes the specified packet core control plane.
+   * Deletes the specified SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param simGroupName The name of the SIM Group.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    options?: PacketCoreControlPlanesDeleteOptionalParams
+    simGroupName: string,
+    options?: SimGroupsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -194,7 +194,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, packetCoreControlPlaneName, options },
+      { resourceGroupName, simGroupName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -207,63 +207,63 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Deletes the specified packet core control plane.
+   * Deletes the specified SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param simGroupName The name of the SIM Group.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    options?: PacketCoreControlPlanesDeleteOptionalParams
+    simGroupName: string,
+    options?: SimGroupsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      packetCoreControlPlaneName,
+      simGroupName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets information about the specified packet core control plane.
+   * Gets information about the specified SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param simGroupName The name of the SIM Group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    options?: PacketCoreControlPlanesGetOptionalParams
-  ): Promise<PacketCoreControlPlanesGetResponse> {
+    simGroupName: string,
+    options?: SimGroupsGetOptionalParams
+  ): Promise<SimGroupsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, packetCoreControlPlaneName, options },
+      { resourceGroupName, simGroupName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a packet core control plane.
+   * Creates or updates a SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param parameters Parameters supplied to the create or update packet core control plane operation.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the create or update SIM group operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    parameters: PacketCoreControlPlane,
-    options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams
+    simGroupName: string,
+    parameters: SimGroup,
+    options?: SimGroupsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<PacketCoreControlPlanesCreateOrUpdateResponse>,
-      PacketCoreControlPlanesCreateOrUpdateResponse
+      PollOperationState<SimGroupsCreateOrUpdateResponse>,
+      SimGroupsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<PacketCoreControlPlanesCreateOrUpdateResponse> => {
+    ): Promise<SimGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -301,7 +301,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, packetCoreControlPlaneName, parameters, options },
+      { resourceGroupName, simGroupName, parameters, options },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -314,21 +314,21 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Creates or updates a packet core control plane.
+   * Creates or updates a SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param parameters Parameters supplied to the create or update packet core control plane operation.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the create or update SIM group operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    parameters: PacketCoreControlPlane,
-    options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams
-  ): Promise<PacketCoreControlPlanesCreateOrUpdateResponse> {
+    simGroupName: string,
+    parameters: SimGroup,
+    options?: SimGroupsCreateOrUpdateOptionalParams
+  ): Promise<SimGroupsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      packetCoreControlPlaneName,
+      simGroupName,
       parameters,
       options
     );
@@ -336,31 +336,31 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Updates packet core control planes tags.
+   * Updates SIM group tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param parameters Parameters supplied to update packet core control plane tags.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to update SIM group tags.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
-    packetCoreControlPlaneName: string,
+    simGroupName: string,
     parameters: TagsObject,
-    options?: PacketCoreControlPlanesUpdateTagsOptionalParams
-  ): Promise<PacketCoreControlPlanesUpdateTagsResponse> {
+    options?: SimGroupsUpdateTagsOptionalParams
+  ): Promise<SimGroupsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, packetCoreControlPlaneName, parameters, options },
+      { resourceGroupName, simGroupName, parameters, options },
       updateTagsOperationSpec
     );
   }
 
   /**
-   * Lists all the packet core control planes in a subscription.
+   * Gets all the SIM groups in a subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: PacketCoreControlPlanesListBySubscriptionOptionalParams
-  ): Promise<PacketCoreControlPlanesListBySubscriptionResponse> {
+    options?: SimGroupsListBySubscriptionOptionalParams
+  ): Promise<SimGroupsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -368,14 +368,14 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Lists all the packet core control planes in a resource group.
+   * Gets all the SIM groups in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: PacketCoreControlPlanesListByResourceGroupOptionalParams
-  ): Promise<PacketCoreControlPlanesListByResourceGroupResponse> {
+    options?: SimGroupsListByResourceGroupOptionalParams
+  ): Promise<SimGroupsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -389,8 +389,8 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: PacketCoreControlPlanesListBySubscriptionNextOptionalParams
-  ): Promise<PacketCoreControlPlanesListBySubscriptionNextResponse> {
+    options?: SimGroupsListBySubscriptionNextOptionalParams
+  ): Promise<SimGroupsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -406,8 +406,8 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PacketCoreControlPlanesListByResourceGroupNextOptionalParams
-  ): Promise<PacketCoreControlPlanesListByResourceGroupNextResponse> {
+    options?: SimGroupsListByResourceGroupNextOptionalParams
+  ): Promise<SimGroupsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -419,7 +419,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -435,18 +435,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName
+    Parameters.simGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreControlPlane
+      bodyMapper: Mappers.SimGroup
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -457,39 +457,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName
+    Parameters.simGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreControlPlane
+      bodyMapper: Mappers.SimGroup
     },
     201: {
-      bodyMapper: Mappers.PacketCoreControlPlane
+      bodyMapper: Mappers.SimGroup
     },
     202: {
-      bodyMapper: Mappers.PacketCoreControlPlane
+      bodyMapper: Mappers.SimGroup
     },
     204: {
-      bodyMapper: Mappers.PacketCoreControlPlane
+      bodyMapper: Mappers.SimGroup
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName
+    Parameters.simGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -497,11 +497,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreControlPlane
+      bodyMapper: Mappers.SimGroup
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -513,7 +513,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName
+    Parameters.simGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -521,11 +521,11 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/simGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreControlPlaneListResult
+      bodyMapper: Mappers.SimGroupListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -538,11 +538,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreControlPlaneListResult
+      bodyMapper: Mappers.SimGroupListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -562,7 +562,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreControlPlaneListResult
+      bodyMapper: Mappers.SimGroupListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -582,7 +582,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreControlPlaneListResult
+      bodyMapper: Mappers.SimGroupListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
