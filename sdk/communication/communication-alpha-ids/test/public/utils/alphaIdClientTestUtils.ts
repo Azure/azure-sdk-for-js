@@ -12,12 +12,8 @@ export async function ignoreSubscriptionNotEligibleError(
     const configuration = await call();
     assert.isOk(configuration);
   } catch (error) {
-    if (error instanceof RestError) {
-      console.log("RestError thrown");
-      console.log(error);
-      if (error?.response?.bodyAsText?.includes("is not eligible for Alpha IDs usage")) {
-        return;
-      }
+    if (isNotEligibleError(error)) {
+      return;
     } else {
       console.log("Not a RestError");
       console.log(error);
@@ -25,4 +21,14 @@ export async function ignoreSubscriptionNotEligibleError(
 
     throw error;
   }
+}
+
+function isNotEligibleError(error: any) {
+  let errorMessage = error?.details?.error?.message;
+
+  if (error instanceof RestError) {
+    errorMessage = error?.response?.bodyAsText;
+  }
+
+  return error.statusCode === 403 && errorMessage.includes("is not eligible for Alpha IDs usage");
 }
