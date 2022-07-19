@@ -64,7 +64,12 @@ import {
   JobRouterCompleteJobActionResponse,
   JobRouterCloseJobActionResponse,
   JobRouterDeclineJobActionResponse,
-  PagedQueue
+  PagedQueue,
+  PagedExceptionPolicy,
+  PagedJob,
+  PagedWorker,
+  PagedClassificationPolicy,
+  PagedDistributionPolicy
 } from "./generated/src";
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -199,7 +204,7 @@ export class RouterClient {
    */
   public listClassificationPolicies(
     options: ListClassificationPoliciesOptions = {}
-  ): PagedAsyncIterableIterator<ClassificationPolicy> {
+  ): PagedAsyncIterableIterator<PagedClassificationPolicy> {
     return this.client.jobRouter.listClassificationPolicies(options);
   }
 
@@ -265,7 +270,7 @@ export class RouterClient {
    */
   public listDistributionPolicies(
     options: ListDistributionPoliciesOptions = {}
-  ): PagedAsyncIterableIterator<DistributionPolicy> {
+  ): PagedAsyncIterableIterator<PagedDistributionPolicy> {
     return this.client.jobRouter.listDistributionPolicies(options);
   }
 
@@ -331,7 +336,7 @@ export class RouterClient {
    */
   public listExceptionPolicies(
     options: ListExceptionPoliciesOptions = {}
-  ): PagedAsyncIterableIterator<ExceptionPolicy> {
+  ): PagedAsyncIterableIterator<PagedExceptionPolicy> {
     return this.client.jobRouter.listExceptionPolicies(options);
   }
 
@@ -408,7 +413,7 @@ export class RouterClient {
   public listJobs(
     status?: JobStateSelector,
     options: ListJobsOptions = {}
-  ): PagedAsyncIterableIterator<RouterJob> {
+  ): PagedAsyncIterableIterator<PagedJob> {
     if (status) {
       options.status = status;
     }
@@ -621,8 +626,7 @@ export class RouterClient {
     patch: RouterWorker,
     options: RegisterWorkerOptions = {}
   ): Promise<RouterWorker> {
-    patch = patch ?? { id: workerId };
-    patch.availableForOffers = true;
+    patch = patch ?? { id: workerId, availableForOffers: true };
 
     return this.client.jobRouter.upsertWorker(workerId, patch, options);
   }
@@ -659,7 +663,7 @@ export class RouterClient {
    * Gets the list of workers.
    * @param options - List workers options.
    */
-  public listWorkers(options: ListWorkersOptions = {}): PagedAsyncIterableIterator<RouterWorker> {
+  public listWorkers(options: ListWorkersOptions = {}): PagedAsyncIterableIterator<PagedWorker> {
     return this.client.jobRouter.listWorkers(options);
   }
 
