@@ -20,6 +20,7 @@ export async function ignoreSubscriptionNotEligibleError(
       }
     } else {
       console.log("Not a RestError");
+      console.log(error);
     }
 
     throw error;
