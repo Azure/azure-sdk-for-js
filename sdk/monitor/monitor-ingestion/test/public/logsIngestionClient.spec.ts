@@ -78,7 +78,7 @@ describe("LogsIngestionClient live tests", function () {
     assert.equal(result.uploadStatus, "Success");
   });
 
-  it("Success Test - divides huge data into chunks", async function() {
+  it("Success Test - divides huge data into chunks", async function () {
     if (isPlaybackMode()) this.skip();
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
       maxConcurrency: 3,
@@ -87,7 +87,7 @@ describe("LogsIngestionClient live tests", function () {
     assert.equal(result.uploadStatus, "Success");
   });
 
-  it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function() {
+  it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
     if (isPlaybackMode()) this.skip();
     const noOfElements = 150000;
     const logData = getObjects(noOfElements);
@@ -122,7 +122,7 @@ describe("LogsIngestionClient live tests", function () {
     }
   });
 
-  it("Throws error when all logs fail", async function() {
+  it("Throws error when all logs fail", async function () {
     if (isPlaybackMode()) this.skip();
     const noOfElements = 100000;
     const logData = getObjects(noOfElements);
