@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { env } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
 import { CertificateClientOptions } from "../../../src";
 
