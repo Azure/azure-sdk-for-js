@@ -12,7 +12,7 @@ import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseRequest } from "./DatabaseRequest";
 import { DatabaseResponse } from "./DatabaseResponse";
 import { validateOffer } from "../../utils/offers";
-import { recordDiagnostics } from "../../diagnostics/CosmosDiagnostics";
+import { CosmosException } from "../../diagnostics/CosmosException";
 
 /**
  * Operations for creating new databases, and reading/querying all databases
@@ -102,7 +102,7 @@ export class Databases {
   ): Promise<DatabaseResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
-      recordDiagnostics({"cosmos-diagnostics-isResourceValid-error": err})
+      CosmosException.record({"cosmos-diagnostics-isResourceValid-error": err})
       throw err;
     }
 
@@ -170,7 +170,7 @@ export class Databases {
   ): Promise<DatabaseResponse> {
     if (!body || body.id === null || body.id === undefined) {
       const err = new Error("body parameter must be an object with an id property");
-      recordDiagnostics({"cosmos-diagnostics-isResourceValid-error": err})
+      CosmosException.record({"cosmos-diagnostics-isResourceValid-error": err})
       throw err;
     }
     /*
@@ -185,10 +185,10 @@ export class Databases {
         const createResponse = await this.create(body, options);
         // Must merge the headers to capture RU costskaty
         mergeHeaders(createResponse.headers, err.headers);
-        recordDiagnostics({"cosmos-diagnostics-database-readResponse-substatus-notfound-error": err});
+        CosmosException.record({"cosmos-diagnostics-database-readResponse-substatus-notfound-error": err});
         return createResponse;
       } else {
-        recordDiagnostics({"cosmos-diagnostics-database-readResponse-substatus-notfound-error": err});
+        CosmosException.record({"cosmos-diagnostics-database-readResponse-substatus-notfound-error": err});
         throw err;
       }
     }

@@ -5,7 +5,7 @@
 
 import { ClientContext } from "./ClientContext";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
-import { recordDiagnostics } from "./diagnostics/CosmosDiagnostics";
+import { CosmosException } from "./diagnostics/CosmosException";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -88,10 +88,10 @@ export class QueryIterator<T> {
             response = await this.queryExecutionContext.fetchMore();
           } catch (queryError: any) {
             this.handleSplitError(queryError);
-            recordDiagnostics({"cosmos-diagnostics-getAsyncIterator-error": queryError});
+            CosmosException.record({"cosmos-diagnostics-getAsyncIterator-error": queryError});
           }
         } else {
-          recordDiagnostics({"cosmos-diagnostics-getAsyncIterator-error": error});
+          CosmosException.record({"cosmos-diagnostics-getAsyncIterator-error": error});
           throw error;
         }
       }
@@ -156,7 +156,7 @@ export class QueryIterator<T> {
           this.handleSplitError(queryError);
         }
       } else {
-        recordDiagnostics({"cosmos-diagnostics-response-error": error});
+        CosmosException.record({"cosmos-diagnostics-response-error": error});
         throw error;
       }
     }
@@ -191,9 +191,9 @@ export class QueryIterator<T> {
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           response = await this.queryExecutionContext.nextItem();
-          recordDiagnostics({"cosmos-diagnostics-needsQueryPlan-error": error});
+          CosmosException.record({"cosmos-diagnostics-needsQueryPlan-error": error});
         } else {
-          recordDiagnostics({"cosmos-diagnostics-queryExecutionContext-error": error});
+          CosmosException.record({"cosmos-diagnostics-queryExecutionContext-error": error});
           throw error;
         }
       }
@@ -217,7 +217,7 @@ export class QueryIterator<T> {
 
     // We always coerce queryPlanPromise to resolved. So if it errored, we need to manually inspect the resolved value
     if (queryPlanResponse instanceof Error) {
-      recordDiagnostics({"cosmos-diagnostics-queryPlanResponse-error": queryPlanResponse});
+      CosmosException.record({"cosmos-diagnostics-queryPlanResponse-error": queryPlanResponse});
       throw queryPlanResponse;
     }
 
@@ -225,7 +225,7 @@ export class QueryIterator<T> {
     const queryInfo = queryPlan.queryInfo;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
       const err = new Error("Aggregate queries must use the VALUE keyword");
-      recordDiagnostics({"cosmos-diagnostics-queryInfo-error": err.message});
+      CosmosException.record({"cosmos-diagnostics-queryInfo-error": err.message});
       throw err;
     }
     this.queryExecutionContext = new PipelinedQueryExecutionContext(
@@ -257,10 +257,10 @@ export class QueryIterator<T> {
       error.body?.additionalErrorInfo ||
       error.message.includes("Cross partition query only supports")
     ) {
-      recordDiagnostics({"cosmos-diagnostics-needsQueryPlant-error": error});
+      CosmosException.record({"cosmos-diagnostics-needsQueryPlant-error": error});
       return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
     } else {
-      recordDiagnostics({"cosmos-diagnostics-needsQueryPlant-error": error});
+      CosmosException.record({"cosmos-diagnostics-needsQueryPlant-error": error});
       throw error;
     }
   }
@@ -289,10 +289,10 @@ export class QueryIterator<T> {
       ) as any;
       error.code = 503;
       error.originalError = err;
-     recordDiagnostics({"cosmos-diagnostics-410-error": error});
+     CosmosException.record({"cosmos-diagnostics-410-error": error});
       throw error;
     } else {
-recordDiagnostics({"cosmos-diagnostics-handleSplit-error": err});
+CosmosException.record({"cosmos-diagnostics-handleSplit-error": err});
       throw err;
     }
   }

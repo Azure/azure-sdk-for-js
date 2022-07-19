@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CosmosException } from "../diagnostics/CosmosException";
 import { CosmosHeaders } from "../index";
 
 export interface ErrorBody {
@@ -55,7 +56,7 @@ export interface GroupByAliasToAggregateType {
   [key: string]: AggregateType;
 }
 
-export interface ErrorResponse extends Error {
+export interface ErrorResponse extends CosmosException {
   code?: number;
   substatus?: number;
   body?: ErrorBody;

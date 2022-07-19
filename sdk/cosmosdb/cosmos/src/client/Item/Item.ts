@@ -5,10 +5,11 @@ import {
   createDocumentUri,
   getIdFromLink,
   getPathFromLink,
-  isItemResourceValid,
+  isResourceValid,
   ResourceType,
   StatusCodes,
 } from "../../common";
+import { CosmosException } from "../../diagnostics/CosmosException";
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
@@ -79,7 +80,6 @@ export class Item {
         await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
-
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
     let response: Response<T & Resource>;
@@ -93,6 +93,7 @@ export class Item {
       });
     } catch (error: any) {
       if (error.code !== StatusCodes.NotFound) {
+        CosmosException.record({"cosmos-diagnostics-read-item-response-error": error});
         throw error;
       }
       response = error;
@@ -145,7 +146,8 @@ export class Item {
     }
 
     const err = {};
-    if (!isItemResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
+      CosmosException.record({"cosmos-diagnostics-replace-item-response-error": err});
       throw err;
     }
 

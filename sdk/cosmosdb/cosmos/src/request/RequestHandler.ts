@@ -18,7 +18,7 @@ import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { recordDiagnostics } from "../diagnostics/CosmosDiagnostics";
+import { CosmosException } from "../diagnostics/CosmosException";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
@@ -108,7 +108,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = new Error(result.message);
-      recordDiagnostics({ "cosmos-diagnostics-request-error": JSON.stringify(Error(result.message))});
+      CosmosException.record({ "cosmos-diagnostics-request-error": JSON.stringify(Error(result.message))});
 
     logger.warning(
       response.status +

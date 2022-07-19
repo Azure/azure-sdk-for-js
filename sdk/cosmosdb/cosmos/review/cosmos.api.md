@@ -703,8 +703,10 @@ export interface ErrorBody {
     message: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CosmosException" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export interface ErrorResponse extends Error {
+export interface ErrorResponse extends CosmosException {
     // (undocumented)
     [key: string]: any;
     // (undocumented)

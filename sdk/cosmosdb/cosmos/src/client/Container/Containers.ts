@@ -20,7 +20,7 @@ import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
-import { recordDiagnostics } from "../../diagnostics/CosmosDiagnostics";
+import { CosmosException } from "../../diagnostics/CosmosException";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -108,7 +108,7 @@ export class Containers {
   ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
-      recordDiagnostics({"cosmos-diagnostics-create-container-error": err});
+      CosmosException.record({"cosmos-diagnostics-create-container-error": err});
       throw err;
     }
     const path = getPathFromLink(this.database.url, ResourceType.container);
@@ -148,7 +148,7 @@ export class Containers {
     if (typeof body.partitionKey === "string") {
       if (!body.partitionKey.startsWith("/")) {
         const err = new Error("Partition key must start with '/'");
-        recordDiagnostics({"cosmos-diagnostics-partition-key-error": err});
+        CosmosException.record({"cosmos-diagnostics-partition-key-error": err});
         throw err;
       }
       body.partitionKey = {
@@ -212,10 +212,10 @@ export class Containers {
         const createResponse = await this.create(body, options);
         // Must merge the headers to capture RU costskaty
         mergeHeaders(createResponse.headers, err.headers);
-        recordDiagnostics({"cosmos-diagnostics-container-readResponse-substatus-notfound-error": err});
+        CosmosException.record({"cosmos-diagnostics-container-readResponse-substatus-notfound-error": err});
         return createResponse;
       } else {
-        recordDiagnostics({"cosmos-diagnostics-container-readResponse-error": err});
+        CosmosException.record({"cosmos-diagnostics-container-readResponse-error": err});
         throw err;
       }
     }

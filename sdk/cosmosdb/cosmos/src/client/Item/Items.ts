@@ -5,7 +5,7 @@ const uuid = v4;
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { extractPartitionKey } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -27,6 +27,7 @@ import {
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import { CosmosException } from "../../diagnostics/CosmosException";
 
 /**
  * @hidden
@@ -269,7 +270,8 @@ export class Items {
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     const err = {};
-    if (!isItemResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
+      CosmosException.record({"cosmos-diagnostics-create-item-response-error": err});
       throw err;
     }
 
@@ -341,7 +343,8 @@ export class Items {
     }
 
     const err = {};
-    if (!isItemResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
+      CosmosException.record({"cosmos-diagnostics-upsert-item-response-error": err});
       throw err;
     }
 
@@ -459,10 +462,12 @@ export class Items {
             // and redo the batch request, however, 410 errors occur for unsupported
             // partition key types as well since we don't support them, so for now we throw
             if (err.code === 410) {
+              CosmosException.record({"cosmos-diagnostics-item-builk-410-error": err.message});
               throw new Error(
                 "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type"
               );
             }
+            CosmosException.record({"cosmos-diagnostics-bulk-request-error": err.message});
             throw new Error(`Bulk request errored with: ${err.message}`);
           }
         })

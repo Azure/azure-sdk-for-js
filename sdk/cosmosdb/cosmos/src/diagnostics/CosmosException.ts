@@ -12,8 +12,8 @@ export class CosmosException extends Error{
         return getCosmosDiagnostics();
     }
 
-     static record(m: string){
-      recordDiagnostics(m);
+     static record(m: string | DiagnosticSpan ){
+      recordDiagnostics(jsonStringifyAndEscapeNonASCII(m));
       return new CosmosException(m);
      }
 }

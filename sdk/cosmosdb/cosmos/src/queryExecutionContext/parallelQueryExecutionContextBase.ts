@@ -14,7 +14,7 @@ import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
-import { recordDiagnostics } from "../diagnostics/CosmosDiagnostics";
+import { CosmosException } from "../diagnostics/CosmosException";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -271,7 +271,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
-    recordDiagnostics({"cosmos-diagnostics-needPartitionKeyRangeCacheRefresh-error": error});
+    CosmosException.record({"cosmos-diagnostics-needPartitionKeyRangeCacheRefresh-error": error});
     return (
       error.code === StatusCodes.Gone &&
       "substatus" in error &&

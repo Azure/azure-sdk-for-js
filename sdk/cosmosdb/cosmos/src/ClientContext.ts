@@ -30,7 +30,7 @@ import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { recordDiagnostics } from "./diagnostics/CosmosDiagnostics";
+import { CosmosException } from "./diagnostics/CosmosException";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -298,7 +298,7 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
-      recordDiagnostics({"cosmos-diagnostics-client-upsert-error": (err as ErrorResponse).message});
+      CosmosException.record({"cosmos-diagnostics-client-upsert-error": (err as ErrorResponse).message});
       throw err;
     }
   }
@@ -759,7 +759,7 @@ export class ClientContext {
       this.sessionContainer.set(request, resHeaders);
     }
     else{
-      recordDiagnostics({"cosmos-diagnostics-capture-session-token-error": (err as ErrorResponse)});
+      CosmosException.record({"cosmos-diagnostics-capture-session-token-error": (err as ErrorResponse)});
     }
   }
 
