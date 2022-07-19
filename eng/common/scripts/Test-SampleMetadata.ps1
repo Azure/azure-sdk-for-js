@@ -221,7 +221,7 @@ begin {
         "azure-kubernetes-service",
         "azure-lab-services",
         "azure-language-understanding",
-        "azure-language-service",
+        "language-service",
         "azure-lighthouse",
         "azure-linux-vm",
         "azure-live-ondemand-streaming",
