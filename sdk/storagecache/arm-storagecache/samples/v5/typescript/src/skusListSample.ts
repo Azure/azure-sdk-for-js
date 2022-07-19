@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get the list of StorageCache.Cache SKUs available to this subscription.
  *
  * @summary Get the list of StorageCache.Cache SKUs available to this subscription.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Skus_List.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Skus_List.json
  */
 async function skusList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

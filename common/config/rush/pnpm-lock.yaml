@@ -3873,7 +3873,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220717
+      typescript: 4.8.0-dev.20220718
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -4127,11 +4127,11 @@ packages:
       tsconfig-paths: 3.14.1
     dev: false
 
-  /eslint-plugin-markdown/2.2.1_eslint@8.19.0:
-    resolution: {integrity: sha512-FgWp4iyYvTFxPwfbxofTvXxgzPsDuSKHQy2S+a8Ve6savbujey+lgrFFbXQA0HPygISpRYWYBjooPzhYSF81iA==}
-    engines: {node: ^8.10.0 || ^10.12.0 || >= 12.0.0}
+  /eslint-plugin-markdown/3.0.0_eslint@8.19.0:
+    resolution: {integrity: sha512-hRs5RUJGbeHDLfS7ELanT0e29Ocyssf/7kBM+p7KluY5AwngGkDf8Oyu4658/NZSGTTq05FZeWbkxXtbVyHPwg==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
-      eslint: '>=6.0.0'
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
       eslint: 8.19.0
       mdast-util-from-markdown: 0.8.5
@@ -8683,8 +8683,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220717:
-    resolution: {integrity: sha512-bo+gO8FV250ldGt8AjVHhAwbkSg10X4p7A5yb66/Muq7MQwktPhCy6kduHfgGyfdUmrbKvO4Yq5yTADnsmy/5w==}
+  /typescript/4.8.0-dev.20220718:
+    resolution: {integrity: sha512-B2TGSCNm1UToV38TnZVxcprJJSmakj3DG0ASbRO3MMl19ezUwMzf7oEM7dRYde2wR6cCrNXC6wpZME1vJYPK3g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13940,7 +13940,7 @@ packages:
     dev: false
 
   file:projects/arm-storagecache.tgz:
-    resolution: {integrity: sha512-QuBthcF6XWRCznyZk8rHLMhfwQbOXeHZVzF2sDtmtxYh6RRP2PTBikmPyfODtxrlv55JQBmTc8fLwj1AngNEow==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-desN5BdmcIjREsSSBzAQVP8pADY7LCKqUAi7X2SmCQjC2QJPYYQptsJv/JfVtR7uNKIqWFXTNF3hXh2JM49WEA==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
@@ -13951,6 +13951,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13958,12 +13960,10 @@ packages:
       rollup: 2.76.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-storageimportexport.tgz:
@@ -15726,7 +15726,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-/YfupNNhxAVHHzcR2pJKx+QithunSLyDlh6Zc/MCdtJcgqpEPDe97ROJgMMuzA3cSfkmzPuHFmT6/bdlRwmmAg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-WcB08o4UMKY4GEaMDllffa+wuwf712sg6DiTq13uSeYLLYWKlNM45h3MEvk4iDJp2ZLrx/HsssFHgC/yzN0nEQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -15745,7 +15745,7 @@ packages:
       eslint: 8.19.0
       eslint-config-prettier: 8.5.0_eslint@8.19.0
       eslint-plugin-import: 2.26.0_eslint@8.19.0
-      eslint-plugin-markdown: 2.2.1_eslint@8.19.0
+      eslint-plugin-markdown: 3.0.0_eslint@8.19.0
       eslint-plugin-no-only-tests: 2.6.0
       eslint-plugin-promise: 6.0.0_eslint@8.19.0
       eslint-plugin-tsdoc: 0.2.16
