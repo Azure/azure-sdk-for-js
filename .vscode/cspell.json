@@ -255,6 +255,10 @@
     {
       "filename": "sdk/maps/maps-search/review/maps-search.api.md",
       "words": ["bbox", "Neighbourhood", "Xstr"]
+    },
+    {
+      "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
+      "words": ["scaffolder", "APIM"]
     }
   ]
 }
