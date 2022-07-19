@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AdmNotification, AppleNotification, BaiduNotification, createAdmNotification, createAppleNotification, createBaiduNotification, createFirebaseLegacyNotification, createWindowsBadgeNotification, FirebaseLegacyNotification, WindowsNotification } from "./notification";
 import { isDefined, isString } from "../utils/utils";
-import { AdmNotification, AppleNotification, BaiduNotification, createAdmNotification, createAppleNotification, createBaiduNotification, createFirebaseLegacyNotification, FirebaseLegacyNotification } from "./notification";
+import { stringifyXML } from "@azure/core-xml";
 
 /**
  * Represents what is in the APNs alert body.
@@ -690,5 +691,49 @@ export function createBaiduNativeMessage(
 
   return createBaiduNotification({
     body: JSON.stringify(jsonObj),
+  });
+}
+
+/**
+ * Represents the types of Windows Badge Glyphs
+ */
+export type WindowsBadgeGlyphType = 
+  "none" |
+  "activity" |
+  "alarm" |
+  "alert" |
+  "attention" |
+  "available" |
+  "away" |
+  "busy" |
+  "error" |
+  "newMessage" |
+  "paused" |
+  "playing" |
+  "unavailable";
+
+
+  /**
+   * Represents the Windows Badge Message
+   */
+export interface WindowsBadgeNativeMessage {
+  /**
+   * Either a numeric value or a string value that specifies a predefined badge glyph.
+   */
+  value: WindowsBadgeGlyphType | number;
+}
+
+/**
+ * Builds a WindowsNotification from a Windows Badge.
+ * @param nativeMessage - The Windows Badge Message to build.
+ * @returns A WindowsNotification created with the badge information.
+ */
+export function createWindowsBadgeNativeMessage(nativeMessage: WindowsBadgeNativeMessage): WindowsNotification {
+  const badge = {
+    "$": { value: nativeMessage.value }
+  };
+
+  return createWindowsBadgeNotification({
+    body: stringifyXML(badge, { rootName: "badge" })
   });
 }
