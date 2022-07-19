@@ -1,15 +1,34 @@
 # Release History
+    
+## 7.2.0 (2022-07-19)
+    
+**Features**
 
-## 7.1.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation PrivateEndpointConnectionOperations.beginDelete
+  - Added operation PrivateEndpointConnectionOperations.beginDeleteAndWait
+  - Added Interface Application
+  - Added Interface ApplicationPackage
+  - Added Interface AutoStorageProperties
+  - Added Interface BatchAccount
+  - Added Interface Certificate
+  - Added Interface CertificateCreateOrUpdateParameters
+  - Added Interface CertificateCreateOrUpdateProperties
+  - Added Interface CertificateProperties
+  - Added Interface DetectorResponse
+  - Added Interface EndpointAccessProfile
+  - Added Interface IPRule
+  - Added Interface NetworkProfile
+  - Added Interface Pool
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionDeleteHeaders
+  - Added Interface PrivateEndpointConnectionDeleteOptionalParams
+  - Added Interface PrivateLinkResource
+  - Added Type Alias EndpointAccessDefaultAction
+  - Added Type Alias PrivateEndpointConnectionDeleteResponse
+  - Interface BatchAccountCreateParameters has a new optional parameter networkProfile
+  - Interface BatchAccountUpdateParameters has a new optional parameter networkProfile
+  - Interface BatchAccountUpdateParameters has a new optional parameter publicNetworkAccess
+    
 ## 7.1.1 (2022-04-11)
 
 **features**
