@@ -4,7 +4,7 @@
 import { AccessToken } from "@azure/core-auth";
 import { credentialLogger } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.

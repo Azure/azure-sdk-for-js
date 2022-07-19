@@ -12,10 +12,10 @@ const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning")
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Delete a workspace connection.
+ * This sample demonstrates how to
  *
- * @summary Delete a workspace connection.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/examples/WorkspaceConnection/delete.json
+ * @summary
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/WorkspaceConnection/delete.json
  */
 async function deleteWorkspaceConnection() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

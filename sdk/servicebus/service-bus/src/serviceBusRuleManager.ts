@@ -14,8 +14,7 @@ import {
 import { getUniqueName } from "./util/utils";
 import { throwErrorIfConnectionClosed } from "./util/errors";
 import { SqlRuleFilter } from "./serializers/ruleResourceSerializer";
-import { SpanStatusCode, SpanKind } from "@azure/core-tracing";
-import { createServiceBusSpan } from "./diagnostics/tracing";
+import { tracingClient } from "./diagnostics/tracing";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { OperationOptions } from "@azure/core-client";
 import { ListRequestOptions } from "./serviceBusAtomManagementClient";
@@ -110,7 +109,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
-    options?: OperationOptionsBase
+    options?: OperationOptions
   ): Promise<void>;
   /**
    * Adds a rule to the current subscription to filter the messages reaching from topic to the subscription.
@@ -124,16 +123,16 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
     ruleAction?: SqlRuleAction,
-    options?: OperationOptionsBase
+    options?: OperationOptions
   ): Promise<void>;
   async createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
     ruleActionOrOperationOptions?: SqlRuleAction | OperationOptionsBase,
-    options?: OperationOptionsBase
+    options: OperationOptions = {}
   ): Promise<void> {
     let sqlRuleAction: SqlRuleAction | undefined = undefined;
-    let operOptions: OperationOptionsBase | undefined;
+    let operOptions: OperationOptions | undefined;
     if (ruleActionOrOperationOptions) {
       if (isSqlRuleAction(ruleActionOrOperationOptions)) {
         // Overload#2 - where the sqlExpression in the ruleAction is defined
@@ -144,91 +143,61 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
         operOptions = { ...ruleActionOrOperationOptions, ...options };
       }
     }
-    const { span } = createServiceBusSpan(
+
+    return tracingClient.withSpan(
       "ServiceBusRuleManager.createRule",
-      operOptions,
-      this.entityPath,
-      this._context.config.host,
-      {
-        kind: SpanKind.CLIENT,
+      operOptions ?? {},
+      async (updatedOptions) => {
+        const addRuleOperationPromise = async (): Promise<void> => {
+          return this._context
+            .getManagementClient(this._entityPath)
+            .addRule(ruleName, filter, sqlRuleAction?.sqlExpression, {
+              ...updatedOptions,
+              associatedLinkName: this.name,
+              requestName: "addRule",
+              timeoutInMs: this._retryOptions.timeoutInMs,
+            });
+        };
+        const config: RetryConfig<void> = {
+          operation: addRuleOperationPromise,
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.management,
+          retryOptions: this._retryOptions,
+          abortSignal: updatedOptions?.abortSignal,
+        };
+        return retry<void>(config);
       }
     );
-
-    try {
-      const addRuleOperationPromise = async (): Promise<void> => {
-        return this._context
-          .getManagementClient(this._entityPath)
-          .addRule(ruleName, filter, sqlRuleAction?.sqlExpression, {
-            ...operOptions,
-            associatedLinkName: this.name,
-            requestName: "addRule",
-            timeoutInMs: this._retryOptions.timeoutInMs,
-          });
-      };
-      const config: RetryConfig<void> = {
-        operation: addRuleOperationPromise,
-        connectionId: this._context.connectionId,
-        operationType: RetryOperationType.management,
-        retryOptions: this._retryOptions,
-        abortSignal: operOptions?.abortSignal,
-      };
-      const result = retry<void>(config);
-      span.setStatus({ code: SpanStatusCode.OK });
-      return result;
-    } catch (error: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
    * Get all rules associated with the subscription.
    */
   private async getRules(
-    options?: ListRequestOptions & OperationOptionsBase
+    options?: ListRequestOptions & OperationOptions
   ): Promise<RuleProperties[]> {
-    const { span } = createServiceBusSpan(
+    return tracingClient.withSpan(
       "ServiceBusRuleManager.getRules",
-      options,
-      this.entityPath,
-      this._context.config.host,
-      {
-        kind: SpanKind.CLIENT,
+      options ?? {},
+      async (updatedOptions) => {
+        const getRulesOperationPromise = async (): Promise<RuleProperties[]> => {
+          return this._context.getManagementClient(this._entityPath).getRules({
+            ...updatedOptions,
+            associatedLinkName: this.name,
+            requestName: "getRules",
+            timeoutInMs: this._retryOptions.timeoutInMs,
+          });
+        };
+        const config: RetryConfig<RuleProperties[]> = {
+          operation: getRulesOperationPromise,
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.management,
+          retryOptions: this._retryOptions,
+          abortSignal: updatedOptions?.abortSignal,
+        };
+        return retry<RuleProperties[]>(config);
       }
     );
-    try {
-      const getRulesOperationPromise = async (): Promise<RuleProperties[]> => {
-        return this._context.getManagementClient(this._entityPath).getRules({
-          ...options,
-          associatedLinkName: this.name,
-          requestName: "getRules",
-          timeoutInMs: this._retryOptions.timeoutInMs,
-        });
-      };
-      const config: RetryConfig<RuleProperties[]> = {
-        operation: getRulesOperationPromise,
-        connectionId: this._context.connectionId,
-        operationType: RetryOperationType.management,
-        retryOptions: this._retryOptions,
-        abortSignal: options?.abortSignal,
-      };
-      const result = retry<RuleProperties[]>(config);
-      span.setStatus({ code: SpanStatusCode.OK });
-      return result;
-    } catch (error: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   private async *listRulesPage(
@@ -298,43 +267,28 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   /**
    * Deletes a rule.
    */
-  async deleteRule(ruleName: string, options?: OperationOptionsBase): Promise<void> {
-    const { span } = createServiceBusSpan(
+  async deleteRule(ruleName: string, options: OperationOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
       "ServiceBusRuleManager.deleteRule",
       options,
-      this.entityPath,
-      this._context.config.host,
-      {
-        kind: SpanKind.CLIENT,
+      async (updatedOptions) => {
+        const removeRuleOperationPromise = async (): Promise<void> => {
+          return this._context.getManagementClient(this._entityPath).removeRule(ruleName, {
+            ...updatedOptions,
+            associatedLinkName: this.name,
+            requestName: "removeRule",
+            timeoutInMs: this._retryOptions.timeoutInMs,
+          });
+        };
+        const config: RetryConfig<void> = {
+          operation: removeRuleOperationPromise,
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.management,
+          retryOptions: this._retryOptions,
+          abortSignal: updatedOptions?.abortSignal,
+        };
+        return retry<void>(config);
       }
     );
-    try {
-      const removeRuleOperationPromise = async (): Promise<void> => {
-        return this._context.getManagementClient(this._entityPath).removeRule(ruleName, {
-          ...options,
-          associatedLinkName: this.name,
-          requestName: "removeRule",
-          timeoutInMs: this._retryOptions.timeoutInMs,
-        });
-      };
-      const config: RetryConfig<void> = {
-        operation: removeRuleOperationPromise,
-        connectionId: this._context.connectionId,
-        operationType: RetryOperationType.management,
-        retryOptions: this._retryOptions,
-        abortSignal: options?.abortSignal,
-      };
-      const result = retry<void>(config);
-      span.setStatus({ code: SpanStatusCode.OK });
-      return result;
-    } catch (error: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }

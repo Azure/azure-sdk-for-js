@@ -18,25 +18,48 @@ describe("getClient", () => {
     sinon.restore();
   });
 
-  it("should add apiVersion to requests", async () => {
-    const defaultHttpClient = getCachedDefaultHttpsClient();
-    sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
-      return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
+  describe("#apiVersionPolicy", () => {
+    it("should add apiVersion to requests if apiVersion is absent", async () => {
+      const defaultHttpClient = getCachedDefaultHttpsClient();
+      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
+      });
+
+      const apiVersion = "2021-11-18";
+      const client = getClient("https://example.org", { apiVersion });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.include(req.url, `api-version=${apiVersion}`);
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get();
     });
 
-    const apiVersion = "2021-11-18";
-    const client = getClient("https://example.org?api-version=1233321", { apiVersion });
-    const validationPolicy: PipelinePolicy = {
-      name: "validationPolicy",
-      sendRequest: (req, next) => {
-        assert.include(req.url, `api-version=${apiVersion}`);
-        return next(req);
-      },
-    };
+    it("should replace existing apiVersion to requests with client api-version", async () => {
+      const defaultHttpClient = getCachedDefaultHttpsClient();
+      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
+      });
 
-    client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      const apiVersion = "2021-11-18";
+      const client = getClient("https://example.org?api-version=1233321", { apiVersion });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.include(req.url, `api-version=${apiVersion}`);
+          assert.notInclude(req.url, "api-version=1233321");
+          return next(req);
+        },
+      };
 
-    await client.pathUnchecked("/foo").get();
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+
+      await client.pathUnchecked("/foo").get();
+    });
   });
 
   it("should insert policies in the correct pipeline position", async function () {

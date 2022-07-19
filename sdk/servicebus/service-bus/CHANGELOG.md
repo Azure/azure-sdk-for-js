@@ -1,14 +1,18 @@
 # Release History
 
-## 7.6.1 (Unreleased)
+## 7.7.0 (Unreleased)
 
 ### Features Added
+
+- Add Client Identifier support [tracking issue: #21902](https://github.com/Azure/azure-sdk-for-js/issues/21902)
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (v1.0.0)
 
 ## 7.6.0 (2022-07-07)
 

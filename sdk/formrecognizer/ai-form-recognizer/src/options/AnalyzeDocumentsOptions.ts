@@ -6,7 +6,7 @@ import {
   AnalyzeResult,
   AnalyzedDocument,
   DocumentAnalysisPollOperationState,
-} from "../lro/analyze";
+} from "../lro/analysis";
 import { PollerOptions } from "./PollerOptions";
 
 /**

@@ -1,6 +1,6 @@
 # Release History
 
-## 8.1.1 (Unreleased)
+## 8.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,13 @@
 
 ### Other Changes
 
+## 8.2.0 (2022-07-11)
+    
+**Features**
+
+  - Added Interface ContainerGroup
+    
+    
 ## 8.1.0 (2022-04-06)
     
 **Features**

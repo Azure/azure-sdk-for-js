@@ -512,6 +512,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/monitor-ingestion",
+      "projectFolder": "sdk/monitor/monitor-ingestion",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility"
@@ -1027,6 +1032,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/arm-containerservice",
+      "projectFolder": "sdk/containerservice/arm-containerservice-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-operations",
       "projectFolder": "sdk/operationsmanagement/arm-operations",
       "versionPolicyName": "management"
@@ -1060,6 +1070,11 @@
       "packageName": "@azure/arm-servicefabric",
       "projectFolder": "sdk/servicefabric/arm-servicefabric",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/arm-servicefabric",
+      "projectFolder": "sdk/servicefabric/arm-servicefabric-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-mysql",
@@ -1749,6 +1764,16 @@
     {
       "packageName": "@azure/arm-resourceconnector",
       "projectFolder": "sdk/resourceconnector/arm-resourceconnector",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/api-management-custom-widgets-scaffolder",
+      "projectFolder": "sdk/apimanagement/api-management-custom-widgets-scaffolder",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-networkfunction",
+      "projectFolder": "sdk/networkfunction/arm-networkfunction",
       "versionPolicyName": "management"
     }
   ]
