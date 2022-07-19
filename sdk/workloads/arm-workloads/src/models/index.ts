@@ -1185,37 +1185,39 @@ export interface SkuCapacity {
 }
 
 /** VMSS profile */
-export type VmssNodesProfile = NodeProfile & {
+export interface VmssNodesProfile extends NodeProfile {
   /** Minimum number of nodes for autoscale */
   autoScaleMinCount?: number;
   /** Maximum number of nodes for autoscale */
   autoScaleMaxCount?: number;
-};
+}
 
 /** Search profile */
-export type SearchProfile = NodeProfile & {
+export interface SearchProfile extends NodeProfile {
   /** Search type */
   searchType: SearchType;
-};
+}
 
 /** Identity for the resource. Currently not supported */
-export type PhpWorkloadResourceIdentity = UserAssignedServiceIdentity;
+export interface PhpWorkloadResourceIdentity
+  extends UserAssignedServiceIdentity {}
 
-export type PatchResourceRequestBodyIdentity = UserAssignedServiceIdentity;
+export interface PatchResourceRequestBodyIdentity
+  extends UserAssignedServiceIdentity {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {}
 
 /** Defines the workload operation content. */
-export type OperationsContent = Resource & {
+export interface OperationsContent extends Resource {
   /** Name of the operation. */
   namePropertiesName?: string;
   /** Indicates whether the operation applies to data-plane. */
@@ -1228,18 +1230,20 @@ export type OperationsContent = Resource & {
   actionType?: WorkloadMonitorActionType;
   /** Defines the workload operation properties. */
   properties?: any;
-};
+}
 
 /** The recommended configuration for a single server SAP system. */
-export type SingleServerRecommendationResult = SAPSizingRecommendationResult & {
+export interface SingleServerRecommendationResult
+  extends SAPSizingRecommendationResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   deploymentType: "SingleServer";
   /** The recommended VM SKU for single server. */
   vmSku?: string;
-};
+}
 
 /** The recommended configuration for a three tier SAP system. */
-export type ThreeTierRecommendationResult = SAPSizingRecommendationResult & {
+export interface ThreeTierRecommendationResult
+  extends SAPSizingRecommendationResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   deploymentType: "ThreeTier";
   /** The database VM SKU. */
@@ -1254,10 +1258,10 @@ export type ThreeTierRecommendationResult = SAPSizingRecommendationResult & {
   applicationServerVmSku?: string;
   /** The application server instance count. */
   applicationServerInstanceCount?: number;
-};
+}
 
 /** Discovery Details. */
-export type DiscoveryConfiguration = SAPConfiguration & {
+export interface DiscoveryConfiguration extends SAPConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   configurationType: "Discovery";
   /** The virtual machine ID of the Central Server. */
@@ -1267,10 +1271,10 @@ export type DiscoveryConfiguration = SAPConfiguration & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly appLocation?: string;
-};
+}
 
 /** Deployment Configuration. */
-export type DeploymentConfiguration = SAPConfiguration & {
+export interface DeploymentConfiguration extends SAPConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   configurationType: "Deployment";
   /** The geo-location where the SAP system is to be created. */
@@ -1279,10 +1283,10 @@ export type DeploymentConfiguration = SAPConfiguration & {
   infrastructureConfiguration?: InfrastructureConfigurationUnion;
   /** The software configuration. */
   softwareConfiguration?: SoftwareConfigurationUnion;
-};
+}
 
 /** Deployment along with OS Configuration. */
-export type DeploymentWithOSConfiguration = SAPConfiguration & {
+export interface DeploymentWithOSConfiguration extends SAPConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   configurationType: "DeploymentWithOSConfig";
   /** The geo-location where the SAP system is to be created. */
@@ -1293,16 +1297,17 @@ export type DeploymentWithOSConfiguration = SAPConfiguration & {
   softwareConfiguration?: SoftwareConfigurationUnion;
   /** The OS and SAP configuration. */
   osSapConfiguration?: OsSapConfiguration;
-};
+}
 
 /** Defines the SAP monitor errors. */
-export type MonitorPropertiesErrors = ErrorModel;
+export interface MonitorPropertiesErrors extends ErrorModel {}
 
 /** Defines the provider instance errors. */
-export type ProviderInstancePropertiesErrors = ErrorModel;
+export interface ProviderInstancePropertiesErrors extends ErrorModel {}
 
 /** Gets or sets the provider properties. */
-export type HanaDbProviderInstanceProperties = ProviderSpecificProperties & {
+export interface HanaDbProviderInstanceProperties
+  extends ProviderSpecificProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   providerType: "SapHana";
   /** Gets or sets the target virtual machine size. */
@@ -1323,10 +1328,11 @@ export type HanaDbProviderInstanceProperties = ProviderSpecificProperties & {
   dbSslCertificateUri?: string;
   /** Gets or sets the hostname(s) in the SSL certificate. */
   sslHostNameInCertificate?: string;
-};
+}
 
 /** Gets or sets the provider properties. */
-export type SapNetWeaverProviderInstanceProperties = ProviderSpecificProperties & {
+export interface SapNetWeaverProviderInstanceProperties
+  extends ProviderSpecificProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   providerType: "SapNetWeaver";
   /** Gets or sets the SAP System Identifier */
@@ -1349,18 +1355,20 @@ export type SapNetWeaverProviderInstanceProperties = ProviderSpecificProperties 
   sapPortNumber?: string;
   /** Gets or sets the blob URI to SSL certificate for the SAP system. */
   sapSslCertificateUri?: string;
-};
+}
 
 /** Gets or sets the PrometheusOS provider properties. */
-export type PrometheusOSProviderInstanceProperties = ProviderSpecificProperties & {
+export interface PrometheusOSProviderInstanceProperties
+  extends ProviderSpecificProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   providerType: "PrometheusOS";
   /** URL of the Node Exporter endpoint */
   prometheusUrl?: string;
-};
+}
 
 /** Gets or sets the DB2 provider properties. */
-export type DB2ProviderInstanceProperties = ProviderSpecificProperties & {
+export interface DB2ProviderInstanceProperties
+  extends ProviderSpecificProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   providerType: "Db2";
   /** Gets or sets the target virtual machine name. */
@@ -1377,10 +1385,11 @@ export type DB2ProviderInstanceProperties = ProviderSpecificProperties & {
   dbPasswordUri?: string;
   /** Gets or sets the SAP System Identifier */
   sapSid?: string;
-};
+}
 
 /** Gets or sets the PrometheusHaCluster provider properties. */
-export type PrometheusHaClusterProviderInstanceProperties = ProviderSpecificProperties & {
+export interface PrometheusHaClusterProviderInstanceProperties
+  extends ProviderSpecificProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   providerType: "PrometheusHaCluster";
   /** URL of the Node Exporter endpoint. */
@@ -1391,10 +1400,11 @@ export type PrometheusHaClusterProviderInstanceProperties = ProviderSpecificProp
   sid?: string;
   /** Gets or sets the clusterName. */
   clusterName?: string;
-};
+}
 
 /** Gets or sets the SQL server provider properties. */
-export type MsSqlServerProviderInstanceProperties = ProviderSpecificProperties & {
+export interface MsSqlServerProviderInstanceProperties
+  extends ProviderSpecificProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   providerType: "MsSqlServer";
   /** Gets or sets the SQL server host name. */
@@ -1409,16 +1419,16 @@ export type MsSqlServerProviderInstanceProperties = ProviderSpecificProperties &
   dbPasswordUri?: string;
   /** Gets or sets the SAP System Identifier */
   sapSid?: string;
-};
+}
 
 /** Specifies Windows operating system settings on the virtual machine. */
-export type WindowsConfiguration = OSConfiguration & {
+export interface WindowsConfiguration extends OSConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   osType: "Windows";
-};
+}
 
 /** Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
-export type LinuxConfiguration = OSConfiguration & {
+export interface LinuxConfiguration extends OSConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   osType: "Linux";
   /** Specifies whether password authentication should be disabled. */
@@ -1427,10 +1437,10 @@ export type LinuxConfiguration = OSConfiguration & {
   ssh?: SshConfiguration;
   /** The SSH Key-pair used to authenticate with the VM's. */
   sshKeyPair?: SshKeyPair;
-};
+}
 
 /** Gets or sets the single server configuration. */
-export type SingleServerConfiguration = InfrastructureConfiguration & {
+export interface SingleServerConfiguration extends InfrastructureConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   deploymentType: "SingleServer";
   /** Network configuration for the server */
@@ -1441,10 +1451,10 @@ export type SingleServerConfiguration = InfrastructureConfiguration & {
   subnetId: string;
   /** Gets or sets the virtual machine configuration. */
   virtualMachineConfiguration: VirtualMachineConfiguration;
-};
+}
 
 /** Gets or sets the three tier SAP configuration. */
-export type ThreeTierConfiguration = InfrastructureConfiguration & {
+export interface ThreeTierConfiguration extends InfrastructureConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   deploymentType: "ThreeTier";
   /** Network configuration common to all servers */
@@ -1457,10 +1467,11 @@ export type ThreeTierConfiguration = InfrastructureConfiguration & {
   databaseServer: DatabaseConfiguration;
   /** The high availability configuration. */
   highAvailabilityConfig?: HighAvailabilityConfiguration;
-};
+}
 
 /** The SAP Software configuration Input when the software is to be installed by service. */
-export type ServiceInitiatedSoftwareConfiguration = SoftwareConfiguration & {
+export interface ServiceInitiatedSoftwareConfiguration
+  extends SoftwareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   softwareInstallationType: "ServiceInitiated";
   /** The URL to the SAP Build of Materials(BOM) file. */
@@ -1475,10 +1486,11 @@ export type ServiceInitiatedSoftwareConfiguration = SoftwareConfiguration & {
   sshPrivateKey: string;
   /** Gets or sets the HA software configuration. */
   highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
-};
+}
 
 /** The SAP Software configuration Input when the software is to be installed by service without OS Configurations */
-export type SAPInstallWithoutOSConfigSoftwareConfiguration = SoftwareConfiguration & {
+export interface SAPInstallWithoutOSConfigSoftwareConfiguration
+  extends SoftwareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   softwareInstallationType: "SAPInstallWithoutOSConfig";
   /** The URL to the SAP Build of Materials(BOM) file. */
@@ -1489,13 +1501,14 @@ export type SAPInstallWithoutOSConfigSoftwareConfiguration = SoftwareConfigurati
   softwareVersion: string;
   /** Gets or sets the HA software configuration. */
   highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
-};
+}
 
 /** Display information of the operation. */
-export type OperationsDefinitionDisplay = OperationsDisplayDefinition;
+export interface OperationsDefinitionDisplay
+  extends OperationsDisplayDefinition {}
 
 /** Php workload resource */
-export type PhpWorkloadResource = TrackedResource & {
+export interface PhpWorkloadResource extends TrackedResource {
   /** Indicates which kind of php workload this resource represent e.g WordPress */
   kind: WorkloadKind;
   /** Php workloads SKU */
@@ -1533,10 +1546,10 @@ export type PhpWorkloadResource = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PhpWorkloadProvisioningState;
-};
+}
 
 /** Define the Virtual Instance for SAP. */
-export type SAPVirtualInstance = TrackedResource & {
+export interface SAPVirtualInstance extends TrackedResource {
   /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /** Defines the environment type - Production/Non Production. */
@@ -1572,10 +1585,10 @@ export type SAPVirtualInstance = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: SAPVirtualInstanceError;
-};
+}
 
 /** Define the SAP Central Server Instance. */
-export type SAPCentralServerInstance = TrackedResource & {
+export interface SAPCentralServerInstance extends TrackedResource {
   /**
    * The central server instance id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1629,10 +1642,10 @@ export type SAPCentralServerInstance = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: SAPVirtualInstanceError;
-};
+}
 
 /** Define the SAP Database Instance. */
-export type SAPDatabaseInstance = TrackedResource & {
+export interface SAPDatabaseInstance extends TrackedResource {
   /**
    * The database subnet.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1673,10 +1686,10 @@ export type SAPDatabaseInstance = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: SAPVirtualInstanceError;
-};
+}
 
 /** Define the SAP Application Server Instance. */
-export type SAPApplicationServerInstance = TrackedResource & {
+export interface SAPApplicationServerInstance extends TrackedResource {
   /**
    * The application server instance id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1747,10 +1760,10 @@ export type SAPApplicationServerInstance = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: SAPVirtualInstanceError;
-};
+}
 
 /** SAP monitor info on Azure (ARM properties and SAP monitor properties) */
-export type Monitor = TrackedResource & {
+export interface Monitor extends TrackedResource {
   /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /**
@@ -1778,10 +1791,10 @@ export type Monitor = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly msiArmId?: string;
-};
+}
 
 /** WordPress instance resource */
-export type WordpressInstanceResource = ProxyResource & {
+export interface WordpressInstanceResource extends ProxyResource {
   /** Application version */
   version?: WordpressVersions;
   /** Database name used by the application */
@@ -1798,10 +1811,10 @@ export type WordpressInstanceResource = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ApplicationProvisioningState;
-};
+}
 
 /** A provider instance associated with SAP monitor. */
-export type ProviderInstance = ProxyResource & {
+export interface ProviderInstance extends ProxyResource {
   /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /**
@@ -1816,10 +1829,11 @@ export type ProviderInstance = ProxyResource & {
   readonly errors?: ProviderInstancePropertiesErrors;
   /** Defines the provider instance errors. */
   providerSettings?: ProviderSpecificPropertiesUnion;
-};
+}
 
 /** Known values of {@link OSImagePublisher} that the service accepts. */
 export enum KnownOSImagePublisher {
+  /** Canonical */
   Canonical = "Canonical"
 }
 
@@ -1834,6 +1848,7 @@ export type OSImagePublisher = string;
 
 /** Known values of {@link OSImageOffer} that the service accepts. */
 export enum KnownOSImageOffer {
+  /** UbuntuServer */
   UbuntuServer = "UbuntuServer"
 }
 
@@ -1848,7 +1863,9 @@ export type OSImageOffer = string;
 
 /** Known values of {@link OSImageSku} that the service accepts. */
 export enum KnownOSImageSku {
+  /** Eighteen04LTS */
   Eighteen04LTS = "18.04-LTS",
+  /** Sixteen04LTS */
   Sixteen04LTS = "16.04-LTS"
 }
 
@@ -1864,6 +1881,7 @@ export type OSImageSku = string;
 
 /** Known values of {@link OSImageVersion} that the service accepts. */
 export enum KnownOSImageVersion {
+  /** Latest */
   Latest = "latest"
 }
 
@@ -1878,7 +1896,9 @@ export type OSImageVersion = string;
 
 /** Known values of {@link LoadBalancerType} that the service accepts. */
 export enum KnownLoadBalancerType {
+  /** ApplicationGateway */
   ApplicationGateway = "ApplicationGateway",
+  /** LoadBalancer */
   LoadBalancer = "LoadBalancer"
 }
 
@@ -1894,7 +1914,9 @@ export type LoadBalancerType = string;
 
 /** Known values of {@link AzureFrontDoorEnabled} that the service accepts. */
 export enum KnownAzureFrontDoorEnabled {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1910,6 +1932,7 @@ export type AzureFrontDoorEnabled = string;
 
 /** Known values of {@link DatabaseType} that the service accepts. */
 export enum KnownDatabaseType {
+  /** MySql */
   MySql = "MySql"
 }
 
@@ -1924,7 +1947,9 @@ export type DatabaseType = string;
 
 /** Known values of {@link HAEnabled} that the service accepts. */
 export enum KnownHAEnabled {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1940,7 +1965,9 @@ export type HAEnabled = string;
 
 /** Known values of {@link EnableSslEnforcement} that the service accepts. */
 export enum KnownEnableSslEnforcement {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1956,7 +1983,9 @@ export type EnableSslEnforcement = string;
 
 /** Known values of {@link FileShareType} that the service accepts. */
 export enum KnownFileShareType {
+  /** NfsOnController */
   NfsOnController = "NfsOnController",
+  /** AzureFiles */
   AzureFiles = "AzureFiles"
 }
 
@@ -1972,9 +2001,13 @@ export type FileShareType = string;
 
 /** Known values of {@link FileShareStorageType} that the service accepts. */
 export enum KnownFileShareStorageType {
+  /** StandardLRS */
   StandardLRS = "Standard_LRS",
+  /** StandardGRS */
   StandardGRS = "Standard_GRS",
+  /** StandardZRS */
   StandardZRS = "Standard_ZRS",
+  /** PremiumLRS */
   PremiumLRS = "Premium_LRS"
 }
 
@@ -1992,8 +2025,11 @@ export type FileShareStorageType = string;
 
 /** Known values of {@link PHPVersion} that the service accepts. */
 export enum KnownPHPVersion {
+  /** Seven2 */
   Seven2 = "7.2",
+  /** Seven3 */
   Seven3 = "7.3",
+  /** Seven4 */
   Seven4 = "7.4"
 }
 
@@ -2010,6 +2046,7 @@ export type PHPVersion = string;
 
 /** Known values of {@link SearchType} that the service accepts. */
 export enum KnownSearchType {
+  /** Elastic */
   Elastic = "Elastic"
 }
 
@@ -2024,7 +2061,9 @@ export type SearchType = string;
 
 /** Known values of {@link RedisCacheFamily} that the service accepts. */
 export enum KnownRedisCacheFamily {
+  /** C */
   C = "C",
+  /** P */
   P = "P"
 }
 
@@ -2040,7 +2079,9 @@ export type RedisCacheFamily = string;
 
 /** Known values of {@link EnableBackup} that the service accepts. */
 export enum KnownEnableBackup {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2056,13 +2097,21 @@ export type EnableBackup = string;
 
 /** Known values of {@link PhpWorkloadProvisioningState} that the service accepts. */
 export enum KnownPhpWorkloadProvisioningState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Created */
   Created = "Created",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -2084,6 +2133,7 @@ export type PhpWorkloadProvisioningState = string;
 
 /** Known values of {@link WorkloadKind} that the service accepts. */
 export enum KnownWorkloadKind {
+  /** WordPress */
   WordPress = "WordPress"
 }
 
@@ -2098,7 +2148,9 @@ export type WorkloadKind = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
+  /** None */
   None = "None",
+  /** UserAssigned */
   UserAssigned = "UserAssigned"
 }
 
@@ -2114,9 +2166,13 @@ export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -2134,9 +2190,13 @@ export type CreatedByType = string;
 
 /** Known values of {@link WordpressVersions} that the service accepts. */
 export enum KnownWordpressVersions {
+  /** Five43 */
   Five43 = "5.4.3",
+  /** Five42 */
   Five42 = "5.4.2",
+  /** Five41 */
   Five41 = "5.4.1",
+  /** Five4 */
   Five4 = "5.4"
 }
 
@@ -2154,12 +2214,19 @@ export type WordpressVersions = string;
 
 /** Known values of {@link ApplicationProvisioningState} that the service accepts. */
 export enum KnownApplicationProvisioningState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Created */
   Created = "Created",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Installing */
   Installing = "Installing"
 }
 
@@ -2180,7 +2247,9 @@ export type ApplicationProvisioningState = string;
 
 /** Known values of {@link SAPEnvironmentType} that the service accepts. */
 export enum KnownSAPEnvironmentType {
+  /** NonProd */
   NonProd = "NonProd",
+  /** Prod */
   Prod = "Prod"
 }
 
@@ -2196,8 +2265,11 @@ export type SAPEnvironmentType = string;
 
 /** Known values of {@link SAPProductType} that the service accepts. */
 export enum KnownSAPProductType {
+  /** ECC */
   ECC = "ECC",
+  /** S4Hana */
   S4Hana = "S4HANA",
+  /** Other */
   Other = "Other"
 }
 
@@ -2214,7 +2286,9 @@ export type SAPProductType = string;
 
 /** Known values of {@link SAPDeploymentType} that the service accepts. */
 export enum KnownSAPDeploymentType {
+  /** SingleServer */
   SingleServer = "SingleServer",
+  /** ThreeTier */
   ThreeTier = "ThreeTier"
 }
 
@@ -2230,7 +2304,9 @@ export type SAPDeploymentType = string;
 
 /** Known values of {@link SAPDatabaseType} that the service accepts. */
 export enum KnownSAPDatabaseType {
+  /** Hana */
   Hana = "HANA",
+  /** DB2 */
   DB2 = "DB2"
 }
 
@@ -2246,6 +2322,7 @@ export type SAPDatabaseType = string;
 
 /** Known values of {@link SAPDatabaseScaleMethod} that the service accepts. */
 export enum KnownSAPDatabaseScaleMethod {
+  /** ScaleUp */
   ScaleUp = "ScaleUp"
 }
 
@@ -2260,7 +2337,9 @@ export type SAPDatabaseScaleMethod = string;
 
 /** Known values of {@link SAPHighAvailabilityType} that the service accepts. */
 export enum KnownSAPHighAvailabilityType {
+  /** AvailabilitySet */
   AvailabilitySet = "AvailabilitySet",
+  /** AvailabilityZone */
   AvailabilityZone = "AvailabilityZone"
 }
 
@@ -2276,8 +2355,11 @@ export type SAPHighAvailabilityType = string;
 
 /** Known values of {@link SAPConfigurationType} that the service accepts. */
 export enum KnownSAPConfigurationType {
+  /** Deployment */
   Deployment = "Deployment",
+  /** Discovery */
   Discovery = "Discovery",
+  /** DeploymentWithOSConfig */
   DeploymentWithOSConfig = "DeploymentWithOSConfig"
 }
 
@@ -2294,11 +2376,17 @@ export type SAPConfigurationType = string;
 
 /** Known values of {@link SAPVirtualInstanceStatus} that the service accepts. */
 export enum KnownSAPVirtualInstanceStatus {
+  /** Starting */
   Starting = "Starting",
+  /** Running */
   Running = "Running",
+  /** Stopping */
   Stopping = "Stopping",
+  /** Offline */
   Offline = "Offline",
+  /** PartiallyRunning */
   PartiallyRunning = "PartiallyRunning",
+  /** Unavailable */
   Unavailable = "Unavailable"
 }
 
@@ -2318,9 +2406,13 @@ export type SAPVirtualInstanceStatus = string;
 
 /** Known values of {@link SAPHealthState} that the service accepts. */
 export enum KnownSAPHealthState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Healthy */
   Healthy = "Healthy",
+  /** Unhealthy */
   Unhealthy = "Unhealthy",
+  /** Degraded */
   Degraded = "Degraded"
 }
 
@@ -2338,15 +2430,25 @@ export type SAPHealthState = string;
 
 /** Known values of {@link SAPVirtualInstanceState} that the service accepts. */
 export enum KnownSAPVirtualInstanceState {
+  /** InfrastructureDeploymentPending */
   InfrastructureDeploymentPending = "InfrastructureDeploymentPending",
+  /** InfrastructureDeploymentInProgress */
   InfrastructureDeploymentInProgress = "InfrastructureDeploymentInProgress",
+  /** InfrastructureDeploymentFailed */
   InfrastructureDeploymentFailed = "InfrastructureDeploymentFailed",
+  /** SoftwareInstallationPending */
   SoftwareInstallationPending = "SoftwareInstallationPending",
+  /** SoftwareInstallationInProgress */
   SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
+  /** SoftwareInstallationFailed */
   SoftwareInstallationFailed = "SoftwareInstallationFailed",
+  /** DiscoveryPending */
   DiscoveryPending = "DiscoveryPending",
+  /** DiscoveryInProgress */
   DiscoveryInProgress = "DiscoveryInProgress",
+  /** DiscoveryFailed */
   DiscoveryFailed = "DiscoveryFailed",
+  /** RegistrationComplete */
   RegistrationComplete = "RegistrationComplete"
 }
 
@@ -2370,10 +2472,15 @@ export type SAPVirtualInstanceState = string;
 
 /** Known values of {@link SapVirtualInstanceProvisioningState} that the service accepts. */
 export enum KnownSapVirtualInstanceProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Updating */
   Updating = "Updating",
+  /** Creating */
   Creating = "Creating",
+  /** Failed */
   Failed = "Failed",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -2392,7 +2499,9 @@ export type SapVirtualInstanceProvisioningState = string;
 
 /** Known values of {@link EnqueueReplicationServerType} that the service accepts. */
 export enum KnownEnqueueReplicationServerType {
+  /** EnqueueReplicator1 */
   EnqueueReplicator1 = "EnqueueReplicator1",
+  /** EnqueueReplicator2 */
   EnqueueReplicator2 = "EnqueueReplicator2"
 }
 
@@ -2408,12 +2517,19 @@ export type EnqueueReplicationServerType = string;
 
 /** Known values of {@link CentralServerVirtualMachineType} that the service accepts. */
 export enum KnownCentralServerVirtualMachineType {
+  /** Primary */
   Primary = "Primary",
+  /** Secondary */
   Secondary = "Secondary",
+  /** Unknown */
   Unknown = "Unknown",
+  /** Ascs */
   Ascs = "ASCS",
+  /** ERSInactive */
   ERSInactive = "ERSInactive",
+  /** ERS */
   ERS = "ERS",
+  /** Standby */
   Standby = "Standby"
 }
 
@@ -2434,8 +2550,11 @@ export type CentralServerVirtualMachineType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -2452,6 +2571,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -2466,12 +2586,19 @@ export type ActionType = string;
 
 /** Known values of {@link WorkloadMonitorProvisioningState} that the service accepts. */
 export enum KnownWorkloadMonitorProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Migrating */
   Migrating = "Migrating"
 }
 
@@ -2492,7 +2619,9 @@ export type WorkloadMonitorProvisioningState = string;
 
 /** Known values of {@link RoutingPreference} that the service accepts. */
 export enum KnownRoutingPreference {
+  /** Default */
   Default = "Default",
+  /** RouteAll */
   RouteAll = "RouteAll"
 }
 
@@ -2508,7 +2637,9 @@ export type RoutingPreference = string;
 
 /** Known values of {@link LocationType} that the service accepts. */
 export enum KnownLocationType {
+  /** Region */
   Region = "Region",
+  /** EdgeZone */
   EdgeZone = "EdgeZone"
 }
 
@@ -2524,8 +2655,11 @@ export type LocationType = string;
 
 /** Known values of {@link SkuRestrictionType} that the service accepts. */
 export enum KnownSkuRestrictionType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Location */
   Location = "Location",
+  /** Zone */
   Zone = "Zone"
 }
 
@@ -2542,8 +2676,11 @@ export type SkuRestrictionType = string;
 
 /** Known values of {@link SkuRestrictionReasonCode} that the service accepts. */
 export enum KnownSkuRestrictionReasonCode {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** QuotaId */
   QuotaId = "QuotaId",
+  /** NotAvailableForSubscription */
   NotAvailableForSubscription = "NotAvailableForSubscription"
 }
 
@@ -2560,7 +2697,9 @@ export type SkuRestrictionReasonCode = string;
 
 /** Known values of {@link OSType} that the service accepts. */
 export enum KnownOSType {
+  /** Linux */
   Linux = "Linux",
+  /** Windows */
   Windows = "Windows"
 }
 
@@ -2576,7 +2715,9 @@ export type OSType = string;
 
 /** Known values of {@link SAPSoftwareInstallationType} that the service accepts. */
 export enum KnownSAPSoftwareInstallationType {
+  /** ServiceInitiated */
   ServiceInitiated = "ServiceInitiated",
+  /** SAPInstallWithoutOSConfig */
   SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig"
 }
 
@@ -2592,8 +2733,11 @@ export type SAPSoftwareInstallationType = string;
 
 /** Known values of {@link OperationProperties} that the service accepts. */
 export enum KnownOperationProperties {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** User */
   User = "User",
+  /** System */
   System = "System"
 }
 
@@ -2610,7 +2754,9 @@ export type OperationProperties = string;
 
 /** Known values of {@link WorkloadMonitorActionType} that the service accepts. */
 export enum KnownWorkloadMonitorActionType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -2626,8 +2772,11 @@ export type WorkloadMonitorActionType = string;
 
 /** Known values of {@link SkuScaleType} that the service accepts. */
 export enum KnownSkuScaleType {
+  /** None */
   None = "None",
+  /** Manual */
   Manual = "Manual",
+  /** Automatic */
   Automatic = "Automatic"
 }
 
