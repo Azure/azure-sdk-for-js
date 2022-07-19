@@ -42,7 +42,7 @@ const assertThrowsTooManyProperties = (
 ): void => {
   assert.throws(() => {
     deserializeCommunicationIdentifier(serializedIdentifier);
-  }, /^Only one of the properties in \[[\w\,\"\s]+\] should be present.$/);
+  }, /^Only one of the properties in \[[\w,"\s]+\] should be present.$/);
 };
 
 describe("Identifier model serializer", () => {
