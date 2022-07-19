@@ -59,7 +59,7 @@ describe("Batch test", () => {
     resourceGroup = "myjstest";
     accountName = "myaccountxxx";
     applicationName = "myapplicationxxx";
-    storageaccountName = "mystorageaccountxxx";
+    storageaccountName = "mystorageaccountxxx111";
     certificateName = "sha1-cff2ab63c8c955aaf71989efa641b906558d9fb7";
     poolName = "mypoolxxx";
   });
@@ -97,7 +97,7 @@ describe("Batch test", () => {
   };
 
   it("batchAccountOperations create test", async function () {
-    // await storageAccounts_beginCreateAndWait();
+    //await storageAccounts_beginCreateAndWait();
     const res = await client.batchAccountOperations.beginCreateAndWait(resourceGroup, accountName, {
       location: location,
       autoStorage: {
@@ -281,7 +281,7 @@ describe("Batch test", () => {
     for await (let item of client.privateLinkResourceOperations.listByBatchAccount(resourceGroup, accountName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 0);
+    assert.equal(resArray.length, 1);
   });
 
   it("poolOperations delete test", async function () {
