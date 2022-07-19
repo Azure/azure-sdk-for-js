@@ -12,7 +12,7 @@ import {
   getLogsIngestionEndpoint,
   loggerForTest,
 } from "./shared/testShared";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
@@ -50,7 +50,8 @@ describe("LogsIngestionClient live tests", function () {
     }
   });
 
-  it("sends basic data", async () => {
+  it("sends basic data", async function () {
+    if (isPlaybackMode()) this.skip();
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", [
       {
         Time: "2021-12-08T23:51:14.1104269Z",
@@ -72,7 +73,8 @@ describe("LogsIngestionClient live tests", function () {
     assert.equal(result.uploadStatus, "Success");
   });
 
-  it("Success Test - divides huge data into chunks", async () => {
+  it("Success Test - divides huge data into chunks", async function() {
+    if (isPlaybackMode()) this.skip();
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
       maxConcurrency: 3,
     });
@@ -80,7 +82,8 @@ describe("LogsIngestionClient live tests", function () {
     assert.equal(result.uploadStatus, "Success");
   });
 
-  it("Partial Fail Test - when dcr id is incorrect for alternate requests", async () => {
+  it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function() {
+    if (isPlaybackMode()) this.skip();
     const noOfElements = 150000;
     const logData = getObjects(noOfElements);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
@@ -114,7 +117,8 @@ describe("LogsIngestionClient live tests", function () {
     }
   });
 
-  it("Throws error when all logs fail", async () => {
+  it("Throws error when all logs fail", async function() {
+    if (isPlaybackMode()) this.skip();
     const noOfElements = 100000;
     const logData = getObjects(noOfElements);
     const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
