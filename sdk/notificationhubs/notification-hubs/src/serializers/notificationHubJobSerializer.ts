@@ -12,9 +12,9 @@ import {
   getString,
   getStringOrUndefined,
   isDefined,
-  serializeToAtomXmlRequest,
-} from "../utils/xmlUtils";
+} from "../utils/utils";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+import { serializeToAtomXmlRequest } from "../utils/xmlUtils";
 
 /**
  * @internal

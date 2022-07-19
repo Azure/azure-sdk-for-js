@@ -4,6 +4,7 @@
 import {
   AdmRegistrationDescription,
   AdmTemplateRegistrationDescription,
+  ApplePriority,
   AppleRegistrationDescription,
   AppleTemplateRegistrationDescription,
   BaiduRegistrationDescription,
@@ -28,10 +29,10 @@ import {
   getStringOrUndefined,
   getTagsOrUndefined,
   isDefined,
-  serializeToAtomXmlRequest,
-} from "../utils/xmlUtils";
+} from "../utils/utils";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { RestError } from "@azure/core-rest-pipeline";
+import { serializeToAtomXmlRequest } from "../utils/xmlUtils";
 
 /**
  * Represents a registration description parser from the incoming XML.
@@ -257,7 +258,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     rawRegistrationDescription: Record<string, any>
   ): AppleTemplateRegistrationDescription {
     return {
-      priority: getStringOrUndefined(rawRegistrationDescription["Priority"]),
+      priority: getStringOrUndefined(rawRegistrationDescription["Priority"]) as ApplePriority,
       apnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["ApnsHeaders"]?.["ApnsHeader"]),
       ...this.createAppleRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),

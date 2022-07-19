@@ -15,6 +15,15 @@ export interface AdmInstallation extends DeviceTokenInstallation {
 }
 
 // @public
+export interface AdmNativeMessage {
+    consolidationKey?: string;
+    data?: Record<string, string>;
+    expiresAfter?: number;
+    md5?: string;
+    priority?: "normal" | "high";
+}
+
+// @public
 export interface AdmNotification extends JsonNotification {
     platform: "adm";
 }
@@ -31,14 +40,53 @@ export interface AdmTemplateRegistrationDescription extends Omit<AdmRegistration
 }
 
 // @public
+export interface AppleAlert {
+    body?: string;
+    launchImage?: string;
+    locArgs?: string[];
+    locKey?: string;
+    subtitle?: string;
+    subtitleLocArgs?: string[];
+    subtitleLocKey?: string;
+    title?: string;
+    titleLocArgs?: string[];
+    titleLocKey?: string;
+}
+
+// @public
+export interface AppleCriticalSound {
+    critical: number;
+    name: string;
+    volume: number;
+}
+
+// @public
 export interface AppleInstallation extends DeviceTokenInstallation {
     platform: "apns";
+}
+
+// @public
+export interface AppleNativeMessage extends Record<string, any> {
+    alert?: string | AppleAlert;
+    badge?: number;
+    category?: string;
+    contentAvailable?: number;
+    filterCriteria?: string;
+    interruptionLevel?: "passive" | "active" | "time-sensitive" | "critical";
+    mutableContent?: number;
+    relevanceScore?: number;
+    sound?: string | AppleCriticalSound;
+    targetContentId?: string;
+    threadId?: string;
 }
 
 // @public
 export interface AppleNotification extends JsonNotification {
     platform: "apple";
 }
+
+// @public (undocumented)
+export type ApplePriority = "10" | "5";
 
 // @public
 export interface AppleRegistrationDescription extends RegistrationDescriptionCommon {
@@ -50,13 +98,36 @@ export interface AppleRegistrationDescription extends RegistrationDescriptionCom
 export interface AppleTemplateRegistrationDescription extends Omit<AppleRegistrationDescription, "type">, TemplateRegistrationDescription {
     apnsHeaders?: Record<string, string>;
     expiry?: Date;
-    priority?: string;
+    priority?: ApplePriority;
     type: "AppleTemplate";
+}
+
+// @public
+export interface BaiduAppleNativePayload {
+    alert?: string;
+    badge?: number;
+    sound?: string;
 }
 
 // @public
 export interface BaiduInstallation extends DeviceTokenInstallation {
     platform: "baidu";
+}
+
+// @public
+export interface BaiduNativeMessage extends Record<string, any> {
+    aps?: BaiduAppleNativePayload;
+    customContent?: Record<string, any>;
+    description?: string;
+    netSupport?: number;
+    notificationBasicStyle?: number;
+    notificationBuilderId?: number;
+    openType?: number;
+    pkgContent?: string;
+    pkgVersion?: string;
+    title?: string;
+    url?: string;
+    userConfirm?: number;
 }
 
 // @public
@@ -108,10 +179,16 @@ export interface BrowserTemplateRegistrationDescription extends Omit<BrowserRegi
 }
 
 // @public
+export function buildAppleNativeMessage(nativeMessage: AppleNativeMessage, additionalProperties?: Record<string, any>): AppleNotification;
+
+// @public
 export function clientFromConnectionString(connectionString: string, hubName: string, options?: NotificationHubsClientOptions): NotificationHubsClient;
 
 // @public
 export function createAdmInstallation(installation: Omit<AdmInstallation, "platform">): AdmInstallation;
+
+// @public
+export function createAdmNativeMessage(nativeMessage: AdmNativeMessage): AdmNotification;
 
 // @public
 export function createAdmNotification(notification: Omit<AdmNotification, "platform" | "contentType">): AdmNotification;
@@ -136,6 +213,9 @@ export function createAppleTemplateRegistrationDescription(description: Omit<App
 
 // @public
 export function createBaiduInstallation(installation: Omit<BaiduInstallation, "platform">): BaiduInstallation;
+
+// @public
+export function createBaiduNativeMessage(nativeMessage: BaiduNativeMessage, additionalProperties?: Record<string, any>): BaiduNotification;
 
 // @public
 export function createBaiduNotification(notification: Omit<BaiduNotification, "platform" | "contentType">): BaiduNotification;
@@ -166,6 +246,9 @@ export function createFcmTemplateRegistrationDescription(description: Omit<FcmTe
 
 // @public
 export function createFirebaseLegacyInstallation(installation: Omit<FirebaseLegacyInstallation, "platform">): FirebaseLegacyInstallation;
+
+// @public
+export function createFirebaseLegacyNativeMessage(nativeMessage: FirebaseLegacyNativeMessage): FirebaseLegacyNotification;
 
 // @public
 export function createFirebaseLegacyNotification(notification: Omit<FirebaseLegacyNotification, "platform" | "contentType">): FirebaseLegacyNotification;
@@ -228,13 +311,67 @@ export interface FcmTemplateRegistrationDescription extends Omit<FcmRegistration
 }
 
 // @public
+export interface FirebaseLegacyAndroidNativePayload {
+    androidChannelId?: string;
+    body?: string;
+    bodyLocArgs?: string[];
+    bodyLocKey?: string;
+    clickAction?: string;
+    color?: string;
+    icon?: string;
+    sound?: string;
+    tag?: string;
+    title?: string;
+    titleLocArgs?: string[];
+    titleLocKey?: string;
+}
+
+// @public
+export interface FirebaseLegacyAppleNativePayload {
+    badge?: string;
+    body?: string;
+    bodyLocArgs?: string[];
+    bodyLocKey?: string;
+    clickAction?: string;
+    sound?: string;
+    subtitle?: string;
+    title?: string;
+    titleLocArgs?: string[];
+    titleLocKey?: string;
+}
+
+// @public
 export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
     platform: "gcm";
 }
 
 // @public
+export interface FirebaseLegacyNativeMessage {
+    collapseKey?: string;
+    condition?: string;
+    contentAvailable?: boolean;
+    data?: Record<string, any>;
+    dryRun?: boolean;
+    mutableContent?: number;
+    notification?: FirebaseLegacyAppleNativePayload | FirebaseLegacyAndroidNativePayload | FirebaseLegacyWebNativePayload;
+    priority?: "normal" | "high";
+    registrationIds?: string[];
+    restrictedPackageName?: string;
+    timeToLive?: number;
+    to?: string;
+}
+
+// @public
 export interface FirebaseLegacyNotification extends JsonNotification {
     platform: "gcm";
+}
+
+// @public
+export interface FirebaseLegacyWebNativePayload {
+    body?: string;
+    clickAction?: string;
+    icon?: string;
+    title?: string;
 }
 
 // @public @deprecated

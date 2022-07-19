@@ -156,6 +156,8 @@ export function createAppleRegistrationDescription(
   };
 }
 
+export type ApplePriority = "10" | "5"
+
 /**
  * Represents the description of the Apple template registration.
  */
@@ -170,7 +172,7 @@ export interface AppleTemplateRegistrationDescription
   /**
    * The notification priority.
    */
-  priority?: string;
+  priority?: ApplePriority;
 
   /**
    * The APNS headers.

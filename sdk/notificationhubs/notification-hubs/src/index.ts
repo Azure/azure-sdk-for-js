@@ -4,6 +4,7 @@
 export { NotificationHubsClient, clientFromConnectionString } from "./notificationHubsClient";
 export * from "./models/installation";
 export * from "./models/notification";
+export * from "./models/notificationBuilder";
 export * from "./models/notificationDetails";
 export * from "./models/notificationHubJob";
 export * from "./models/options";

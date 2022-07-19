@@ -6,7 +6,7 @@ import {
   NotificationOutcomeCollectionItem,
   NotificationOutcomeState,
 } from "../models/notificationDetails";
-import { getDateOrUndefined, getInteger, getStringOrUndefined, isDefined } from "../utils/xmlUtils";
+import { getDateOrUndefined, getInteger, getStringOrUndefined, isDefined } from "../utils/utils";
 import { parseXML } from "@azure/core-xml";
 
 /**
