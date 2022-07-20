@@ -11,6 +11,7 @@
 ### Other Changes
 
 - Support LROs with GET as the initial request method.
+- Better logging support for the operation and the poller.
 
 ## 2.3.0-beta.1 (2022-05-18)
 
