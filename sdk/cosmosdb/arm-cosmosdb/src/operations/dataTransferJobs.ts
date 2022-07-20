@@ -21,6 +21,12 @@ import {
   DataTransferJobsCreateResponse,
   DataTransferJobsGetOptionalParams,
   DataTransferJobsGetResponse,
+  DataTransferJobsPauseOptionalParams,
+  DataTransferJobsPauseResponse,
+  DataTransferJobsResumeOptionalParams,
+  DataTransferJobsResumeResponse,
+  DataTransferJobsCancelOptionalParams,
+  DataTransferJobsCancelResponse,
   DataTransferJobsListByDatabaseAccountResponse,
   DataTransferJobsListByDatabaseAccountNextResponse
 } from "../models";
@@ -150,6 +156,63 @@ export class DataTransferJobsImpl implements DataTransferJobs {
   }
 
   /**
+   * Pause a Data Transfer Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param jobName Name of the Data Transfer Job
+   * @param options The options parameters.
+   */
+  pause(
+    resourceGroupName: string,
+    accountName: string,
+    jobName: string,
+    options?: DataTransferJobsPauseOptionalParams
+  ): Promise<DataTransferJobsPauseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, jobName, options },
+      pauseOperationSpec
+    );
+  }
+
+  /**
+   * Resumes a Data Transfer Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param jobName Name of the Data Transfer Job
+   * @param options The options parameters.
+   */
+  resume(
+    resourceGroupName: string,
+    accountName: string,
+    jobName: string,
+    options?: DataTransferJobsResumeOptionalParams
+  ): Promise<DataTransferJobsResumeResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, jobName, options },
+      resumeOperationSpec
+    );
+  }
+
+  /**
+   * Cancels a Data Transfer Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param jobName Name of the Data Transfer Job
+   * @param options The options parameters.
+   */
+  cancel(
+    resourceGroupName: string,
+    accountName: string,
+    jobName: string,
+    options?: DataTransferJobsCancelOptionalParams
+  ): Promise<DataTransferJobsCancelResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, jobName, options },
+      cancelOperationSpec
+    );
+  }
+
+  /**
    * Get a list of Data Transfer jobs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -193,7 +256,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}",
   httpMethod: "PUT",
   responses: {
-    201: {
+    200: {
       bodyMapper: Mappers.DataTransferJobGetResults
     },
     default: {
@@ -217,6 +280,75 @@ const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}",
   httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataTransferJobGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.jobName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const pauseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}/pause",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataTransferJobGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.jobName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const resumeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}/resume",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataTransferJobGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.jobName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const cancelOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}/cancel",
+  httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.DataTransferJobGetResults
