@@ -1,7 +1,7 @@
 import {useEditorValues, useOnChange} from "../hooks"
-import {TValues} from "../values"
+import {Values} from "../values"
 
-function InputField({valueKey}: {valueKey: keyof TValues}) {
+function InputField({valueKey}: {valueKey: keyof Values}) {
   const values = useEditorValues()
   const onChange = useOnChange()
 

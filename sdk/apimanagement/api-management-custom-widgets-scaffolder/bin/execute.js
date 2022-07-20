@@ -30,7 +30,7 @@ const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
  * Default port for running local dev server on.
  */
 const OVERRIDE_DEFAULT_PORT = 3000;
-// export type TScaffoldSourceControl = "git" | "azure" | "none" | null;
+// export type ScaffoldSourceControl = "git" | "azure" | "none" | null;
 /** List of all supported technologies to scaffold a widget in. */
 const TECHNOLOGIES = ["typescript", "react"];
 /**

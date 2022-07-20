@@ -1,9 +1,9 @@
-import {askForSecrets, getEditorData, TSecrets} from "@azure/api-management-custom-widgets-tools"
+import {askForSecrets, getEditorData, Secrets} from "@azure/api-management-custom-widgets-tools"
 import {valuesDefault} from "./values"
 
 class app {
   private readonly editorData
-  private secrets: TSecrets | undefined
+  private secrets: Secrets | undefined
 
   constructor() {
     this.editorData = getEditorData(valuesDefault)

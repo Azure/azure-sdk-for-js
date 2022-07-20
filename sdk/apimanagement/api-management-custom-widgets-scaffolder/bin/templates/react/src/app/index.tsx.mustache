@@ -1,8 +1,8 @@
-import {TEditorData} from "@azure/api-management-custom-widgets-tools"
+import {EditorData} from "@azure/api-management-custom-widgets-tools"
 import {useEditorData, useSecrets} from "../hooks"
 import {TValues} from "../values"
 
-const DataField = ({title, value}: {title: keyof TEditorData<TValues> | keyof TValues; value: string}) => (
+const DataField = ({title, value}: {title: keyof EditorData<TValues> | keyof TValues; value: string}) => (
   <p>
     {title}: <b>{value}</b>
   </p>

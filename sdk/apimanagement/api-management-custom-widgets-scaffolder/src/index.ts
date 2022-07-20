@@ -14,9 +14,9 @@ export {
 } from "./scaffolding";
 export { generateProject } from "./generateProject";
 export type {
-  TWidgetConfig as TCustomWidgetCommonConfig,
-  TDeploymentConfig,
-  TOptions,
-  // TScaffoldSourceControl,
-  TScaffoldTech,
+  WidgetConfig as CustomWidgetCommonConfig,
+  DeploymentConfig,
+  Options,
+  // ScaffoldSourceControl,
+  ScaffoldTech,
 } from "./scaffolding";
