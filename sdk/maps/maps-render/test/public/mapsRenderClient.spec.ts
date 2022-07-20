@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { createClient, createRecorder, testLogger } from "./utils/createClient";
+import { assert, use as chaiUse } from "chai";
 import { Context, Suite } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { MapsRenderClient } from "src/mapsRenderClient";
-import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 import { KnownTilesetId } from "../../src";
 chaiUse(chaiPromises);
@@ -18,7 +18,7 @@ describe(`Render Client Test`, function (this: Suite) {
   beforeEach(async function (this: Context) {
     testLogger.verbose(`Recorder: starting...`);
     recorder = await createRecorder(this);
-    client = createClient();
+    client = createClient(recorder.configureClientOptions({}));
   });
 
   afterEach(async function () {
