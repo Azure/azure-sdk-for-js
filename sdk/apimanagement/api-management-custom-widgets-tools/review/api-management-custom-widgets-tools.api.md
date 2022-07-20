@@ -17,7 +17,7 @@ export const APIM_EDITOR_DATA_KEY = "editorData";
 export const APIM_ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
 
 // @public
-export function askForSecrets(targetModule: TTargetModule, { origin: targetOrigin, instanceId, environment }: TPortalData): Promise<TSecrets>;
+export function askForSecrets(targetModule: TargetModule, { origin: targetOrigin, instanceId, environment }: PortalData): Promise<Secrets>;
 
 // @public
 export const BLOB_CONFIGS_FOLDER = "configs";
@@ -35,46 +35,46 @@ export function buildBlobConfigPath(name: string): string;
 export function buildBlobDataPath(name: string): string;
 
 // @public
-export function buildOnChange<TValues extends TValuesCommon>(valuesDefault: TValues): TOnChange<TValues>;
+export function buildOnChange<Values extends ValuesCommon>(valuesDefault: Values): OnChange<Values>;
 
 // @public
-export function deployNodeJS(serviceInformation: TServiceInformation, name: string, fallbackConfigPath?: string, rootLocal?: string): Promise<void>;
+export function deployNodeJS(serviceInformation: ServiceInformation, name: string, fallbackConfigPath?: string, rootLocal?: string): Promise<void>;
 
 // @public
-export function getEditorData<TValues extends TValuesCommon>(valuesDefault: TValues): TEditorData<TValues>;
-
-// @public
-export function getEditorValues<TValues extends TValuesCommon>(valuesDefault: TValues): TValues;
-
-// @public
-export function onChangeWithOrigin<TValues extends TValuesCommon>(origin: string, instanceId: string, values: TValues): void;
-
-// @public
-export interface TEditorData<TValues extends TValuesCommon> extends TPortalData {
-    values: TValues;
+export interface EditorData<Values extends ValuesCommon> extends PortalData {
+    values: Values;
 }
 
 // @public
-export type TEnvironment = "development" | "publishing" | "runtime" | "error";
+export type Environment = "development" | "publishing" | "runtime" | "error";
 
 // @public
-export type TOnChange<TValues extends TValuesCommon> = (values: Partial<TValues>) => void;
+export function getEditorData<Values extends ValuesCommon>(valuesDefault: Values): EditorData<Values>;
 
 // @public
-export interface TPortalData {
-    environment: TEnvironment;
+export function getEditorValues<Values extends ValuesCommon>(valuesDefault: Values): Values;
+
+// @public
+export type OnChange<Values extends ValuesCommon> = (values: Partial<Values>) => void;
+
+// @public
+export function onChangeWithOrigin<Values extends ValuesCommon>(origin: string, instanceId: string, values: Values): void;
+
+// @public
+export interface PortalData {
+    environment: Environment;
     instanceId: string;
     origin: string;
 }
 
 // @public
-export type TSecrets = {
+export type Secrets = {
     token: string;
     userId: string;
 };
 
 // @public
-export type TServiceInformation = {
+export type ServiceInformation = {
     resourceId: string;
     managementApiEndpoint: string;
     apiVersion?: string;
@@ -82,9 +82,9 @@ export type TServiceInformation = {
 };
 
 // @public
-export type TTargetModule = "app" | "editor";
+export type TargetModule = "app" | "editor";
 
 // @public
-export type TValuesCommon = Record<string, unknown>;
+export type ValuesCommon = Record<string, unknown>;
 
 ```

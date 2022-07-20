@@ -16,13 +16,13 @@ export {
   onChangeWithOrigin,
 } from "./utils";
 export type {
-  TPortalData,
-  TEditorData,
-  TOnChange,
-  TSecrets,
-  TTargetModule,
-  TValuesCommon,
-  TEnvironment,
+  PortalData,
+  EditorData,
+  OnChange,
+  Secrets,
+  TargetModule,
+  ValuesCommon,
+  Environment,
 } from "./utils";
 export {
   BLOB_ROOT,
@@ -35,4 +35,4 @@ export {
 
 import deployNodeJS from "./node/deploy";
 export { deployNodeJS };
-export type { TServiceInformation } from "./node/deploy";
+export type { ServiceInformation } from "./node/deploy";

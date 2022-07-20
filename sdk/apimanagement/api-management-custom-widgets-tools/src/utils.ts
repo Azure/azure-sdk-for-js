@@ -17,32 +17,32 @@ export const APIM_ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
 /**
  * Base of a values obj
  */
-export type TValuesCommon = Record<string, unknown>;
+export type ValuesCommon = Record<string, unknown>;
 /**
  * All possible runtime environments
  */
-export type TEnvironment = "development" | "publishing" | "runtime" | "error";
+export type Environment = "development" | "publishing" | "runtime" | "error";
 
 /** Information about the widget instance received from the Dev Portal */
-export interface TPortalData {
+export interface PortalData {
   /** web content's origin (URL) of your Dev Portal */
   origin: string;
   /** current runtime environment */
-  environment: TEnvironment;
+  environment: Environment;
   /** ID of this particular instance of the widget */
   instanceId: string;
 }
 
 /** JSON object with all the data you'll receive from the Dev Portal */
-export interface TEditorData<TValues extends TValuesCommon> extends TPortalData {
+export interface EditorData<Values extends ValuesCommon> extends PortalData {
   /** values you've set in the admin editor window */
-  values: TValues;
+  values: Values;
 }
 
-export function getEditorDataPure<TValues extends TValuesCommon>(
-  valuesDefault: TValues,
+export function getEditorDataPure<Values extends ValuesCommon>(
+  valuesDefault: Values,
   urlSearchParams: URLSearchParams
-): TEditorData<TValues> {
+): EditorData<Values> {
   try {
     const urlEditorParams = JSON.parse(
       decodeURIComponent(urlSearchParams.get(APIM_EDITOR_DATA_KEY) ?? "")
@@ -69,16 +69,16 @@ export function getEditorDataPure<TValues extends TValuesCommon>(
  *
  * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
  */
-export function getEditorData<TValues extends TValuesCommon>(
-  valuesDefault: TValues
-): TEditorData<TValues> {
+export function getEditorData<Values extends ValuesCommon>(
+  valuesDefault: Values
+): EditorData<Values> {
   return getEditorDataPure(valuesDefault, new URLSearchParams(self.location.search));
 }
 
-export function getEditorValuesPure<TValues extends TValuesCommon>(
-  valuesDefault: TValues,
+export function getEditorValuesPure<Values extends ValuesCommon>(
+  valuesDefault: Values,
   urlSearchParams: URLSearchParams
-): TValues {
+): Values {
   return getEditorDataPure(valuesDefault, urlSearchParams).values;
 }
 
@@ -87,14 +87,14 @@ export function getEditorValuesPure<TValues extends TValuesCommon>(
  *
  * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
  */
-export function getEditorValues<TValues extends TValuesCommon>(valuesDefault: TValues): TValues {
+export function getEditorValues<Values extends ValuesCommon>(valuesDefault: Values): Values {
   return getEditorValuesPure(valuesDefault, new URLSearchParams(self.location.search));
 }
 
 /**
  * Type of the onChange function.
  */
-export type TOnChange<TValues extends TValuesCommon> = (values: Partial<TValues>) => void;
+export type OnChange<Values extends ValuesCommon> = (values: Partial<Values>) => void;
 
 /**
  * The onChange function itself with 'origin' provided as a param.
@@ -103,10 +103,10 @@ export type TOnChange<TValues extends TValuesCommon> = (values: Partial<TValues>
  * @param instanceId - ID of this particular instance of the widget
  * @param values - values that changed
  */
-export function onChangeWithOrigin<TValues extends TValuesCommon>(
+export function onChangeWithOrigin<Values extends ValuesCommon>(
   origin: string,
   instanceId: string,
-  values: TValues
+  values: Values
 ): void {
   Object.entries(values).forEach(([key, value]) => {
     self.parent.postMessage({ [APIM_ON_CHANGE_MESSAGE_KEY]: { key, value, instanceId } }, origin);
@@ -118,11 +118,11 @@ export function onChangeWithOrigin<TValues extends TValuesCommon>(
  *
  * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
  */
-export function buildOnChange<TValues extends TValuesCommon>(
-  valuesDefault: TValues
-): TOnChange<TValues> {
+export function buildOnChange<Values extends ValuesCommon>(
+  valuesDefault: Values
+): OnChange<Values> {
   const { origin, instanceId } = getEditorData(valuesDefault);
-  return (values: Partial<TValues>) => onChangeWithOrigin(origin, instanceId, values);
+  return (values: Partial<Values>) => onChangeWithOrigin(origin, instanceId, values);
 }
 
 /**
@@ -130,11 +130,11 @@ export function buildOnChange<TValues extends TValuesCommon>(
  * "app" for main application which is embedded in your Dev Portal
  * "editor" for form in admin panel
  */
-export type TTargetModule = "app" | "editor";
+export type TargetModule = "app" | "editor";
 /**
  * Secrets needed for communication with Dev Portal back-end
  */
-export type TSecrets = { token: string; userId: string };
+export type Secrets = { token: string; userId: string };
 /**
  * Request secrets - token & userId, from the Dev portal parent window.
  *
@@ -144,9 +144,9 @@ export type TSecrets = { token: string; userId: string };
  * @param environment - what environment is it running on
  */
 export async function askForSecrets(
-  targetModule: TTargetModule,
-  { origin: targetOrigin, instanceId, environment }: TPortalData
-): Promise<TSecrets> {
+  targetModule: TargetModule,
+  { origin: targetOrigin, instanceId, environment }: PortalData
+): Promise<Secrets> {
   return new Promise((resolve, reject) => {
     self.addEventListener("message", ({ data, origin }) => {
       if (origin !== targetOrigin || !(APIM_ASK_FOR_SECRETS_MESSAGE_KEY in data)) return;

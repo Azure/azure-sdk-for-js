@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import CustomWidgetBlobService, { TConfig } from "./CustomWidgetBlobService";
+import CustomWidgetBlobService, { Config } from "./CustomWidgetBlobService";
 import { APIM_CONFIG_FILE_NAME } from "../paths";
 import fs from "fs";
 import getStorageSasUrl from "./getStorageSasUrl";
@@ -13,7 +13,7 @@ import readdir from "./readdir";
  * apiVersion - optional to override default (e.g. "2019-01-01")
  * tokenOverride - optional, provides token to use for auth, instead of 'az login' approach
  */
-export type TServiceInformation = {
+export type ServiceInformation = {
   resourceId: string;
   managementApiEndpoint: string;
   apiVersion?: string;
@@ -29,7 +29,7 @@ export type TServiceInformation = {
  * @param rootLocal - optional, root of the local folder with compiled project to be exported (by default "./dist")
  */
 async function deploy(
-  serviceInformation: TServiceInformation,
+  serviceInformation: ServiceInformation,
   name: string,
   fallbackConfigPath = "./static/" + APIM_CONFIG_FILE_NAME,
   rootLocal: string = "./dist/"
@@ -41,7 +41,7 @@ async function deploy(
   const blobStorageUrl = await getStorageSasUrl(serviceInformation);
   const customWidgetBlobService = new CustomWidgetBlobService(blobStorageUrl, name);
 
-  let config: TConfig | undefined;
+  let config: Config | undefined;
   try {
     console.log("Looking for config file in the Azure blob storage");
     config = await customWidgetBlobService.getConfig();

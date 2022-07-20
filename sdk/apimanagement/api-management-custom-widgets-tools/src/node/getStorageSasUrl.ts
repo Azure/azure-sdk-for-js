@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { TServiceInformation } from "./deploy";
+import { ServiceInformation } from "./deploy";
 import { getClient } from "@azure-rest/core-client";
 
 async function getAccessToken(managementApiEndpoint: string): Promise<string> {
@@ -22,7 +22,7 @@ async function getStorageSasUrl({
   resourceId,
   apiVersion = "2019-01-01",
   tokenOverride,
-}: TServiceInformation): Promise<string> {
+}: ServiceInformation): Promise<string> {
   const httpClient = getClient(`${managementApiEndpoint}/${resourceId}`, { apiVersion });
   const response = await httpClient
     .pathUnchecked(`/portalSettings/mediaContent/listSecrets?apiVersion=${apiVersion}`) // TODO

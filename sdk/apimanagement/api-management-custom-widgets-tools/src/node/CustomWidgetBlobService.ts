@@ -5,7 +5,7 @@ import { BlobServiceClient, BlockBlobUploadResponse } from "@azure/storage-blob"
 import { buildBlobConfigPath, buildBlobDataPath } from "../paths";
 import mime from "mime";
 
-export type TConfig = Record<string, unknown>;
+export type Config = Record<string, unknown>;
 
 /**
  * A service wrapping ContainerClient class to simplify blob handling
@@ -66,12 +66,12 @@ export class CustomWidgetBlobService {
     return this.dirDelete(this.pathWidget);
   }
 
-  async getConfig(): Promise<TConfig> {
+  async getConfig(): Promise<Config> {
     const buffer = await this.blobDownload(this.pathConfig);
     return JSON.parse(buffer.toString());
   }
 
-  async uploadConfig(config: TConfig): Promise<BlockBlobUploadResponse> {
+  async uploadConfig(config: Config): Promise<BlockBlobUploadResponse> {
     return this.jsonUpload(this.pathConfig, config);
   }
 }
