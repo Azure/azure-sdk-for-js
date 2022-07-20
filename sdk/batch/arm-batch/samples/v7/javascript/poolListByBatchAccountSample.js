@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all of the pools in the specified account.
  *
  * @summary Lists all of the pools in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolList.json
  */
 async function listPool() {
   const subscriptionId = "subid";
@@ -36,7 +36,7 @@ listPool().catch(console.error);
  * This sample demonstrates how to Lists all of the pools in the specified account.
  *
  * @summary Lists all of the pools in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolListWithFilter.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolListWithFilter.json
  */
 async function listPoolWithFilter() {
   const subscriptionId = "subid";

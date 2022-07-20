@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets information about the specified application.
  *
  * @summary Gets information about the specified application.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/ApplicationGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/ApplicationGet.json
  */
 async function applicationGet() {
   const subscriptionId = "subid";
