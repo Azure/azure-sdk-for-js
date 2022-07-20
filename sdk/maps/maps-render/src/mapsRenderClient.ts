@@ -15,10 +15,10 @@ import {
   CopyrightCaption,
   GeneratedClient,
   MapAttribution,
-  TileJson,
   RasterTileFormat,
   TileIndex,
-  TilesetId,
+  TileJson,
+  TilesetId
 } from "./generated";
 import { BoundingBox, KnownIncludeText } from "./models/models";
 import {
@@ -141,7 +141,7 @@ export class MapsRenderClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -166,7 +166,7 @@ export class MapsRenderClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -205,7 +205,7 @@ export class MapsRenderClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -236,7 +236,7 @@ export class MapsRenderClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -262,7 +262,7 @@ export class MapsRenderClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -308,7 +308,7 @@ export class MapsRenderClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -347,7 +347,7 @@ export class MapsRenderClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -376,7 +376,7 @@ export class MapsRenderClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -401,7 +401,7 @@ export class MapsRenderClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {

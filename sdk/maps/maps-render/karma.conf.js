@@ -3,13 +3,8 @@
 
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
+process.env.RECORDINGS_RELATIVE_PATH = require("@azure-tools/test-recorder").relativeRecordingsPath();
 require("dotenv").config();
-const {
-  jsonRecordingFilterFunction
-  // isPlaybackMode,
-  // isSoftRecordMode,
-  // isRecordMode
-} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -29,10 +24,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-sourcemap-loader",
-      "karma-junit-reporter",
-      "karma-json-to-file-reporter",
-      "karma-json-preprocessor"
+      "karma-junit-reporter"
     ],
 
     // list of files / patterns to load in the browser
@@ -47,8 +39,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["sourcemap", "env"],
-      "recordings/browsers/**/*.json": ["json"]
+      "**/*.js": ["env"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       //"dist-test/index.browser.js": ["coverage"]
@@ -63,21 +54,20 @@ module.exports = function(config) {
       "MAPS_CLIENT_ID",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
+      "AZURE_TENANT_ID",
+      "RECORDINGS_RELATIVE_PATH"
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "junit"],
 
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
       reporters: [
         { type: "json", subdir: ".", file: "coverage.json" },
-        { type: "lcovonly", subdir: ".", file: "lcov.info" },
-        { type: "html", subdir: "html" },
         { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
       ]
     },
@@ -92,11 +82,6 @@ module.exports = function(config) {
       properties: {} // key value pair of properties to add to the <properties> section of the report
     },
 
-    jsonToFileReporter: {
-      filter: jsonRecordingFilterFunction,
-      outputPath: "."
-    },
-
     // web server port
     port: 9876,
 
@@ -105,7 +90,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
@@ -131,9 +116,6 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    // browserConsoleLogOptions: {
-    //   terminal: !isRecordMode()
-    // },
 
     client: {
       mocha: {
