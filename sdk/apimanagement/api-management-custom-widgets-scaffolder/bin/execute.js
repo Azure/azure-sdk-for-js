@@ -153,7 +153,7 @@ const promptMiscConfig = (partial) => inquirer__default["default"].prompt([
         name: "openUrl",
         type: "input",
         message: fieldIdToName.openUrl +
-            " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or https://localhost:8080)",
+            " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or http://localhost:8080)",
         transformer: prefixUrlProtocol,
         validate: validateMiscConfig.openUrl,
     },
