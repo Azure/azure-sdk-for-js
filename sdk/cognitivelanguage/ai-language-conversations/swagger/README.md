@@ -21,7 +21,7 @@ autorest
 
 ```yaml
 namespace: azure.ai.language.conversations
-package-name: azure-ai-language-conversations
+package-name: "@azure/ai-language-conversations"
 license-header: MICROSOFT_MIT_NO_VERSION
 clear-output-folder: true
 no-namespace-folders: true
@@ -29,7 +29,7 @@ typescript: true
 tag: release_2022_05_15_preview
 openapi-type: data-plane
 version-tolerant: true
-package-version: 1.1.0b2
+package-version: 1.0.0-beta.1
 add-credential: true
 credential-scopes: https://cognitiveservices.azure.com/.default
 black: true
@@ -50,7 +50,7 @@ These settings apply only when `--tag=release_runtime_1_1_preview` is specified 
 
 ```yaml $(tag) == 'release_runtime_1_1_preview'
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e7f37e4e43b1d12fd1988fda3ed39624c4b23303/specification/cognitiveservices/data-plane/Language/preview/2022-05-15-preview/analyzeconversations.json
-output-folder: ../azure/ai/language/conversations
+output-folder: .././
 title: ConversationAnalysisClient
 ```
 

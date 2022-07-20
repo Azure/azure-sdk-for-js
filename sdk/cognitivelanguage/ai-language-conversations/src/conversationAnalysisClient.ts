@@ -59,7 +59,7 @@ export class ConversationAnalysisClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-azure-ai-language-conversations/1.1.0b2`;
+    const packageDetails = `azsdk-js-ai-language-conversations/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
