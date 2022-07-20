@@ -375,6 +375,10 @@
       "packageName": "@azure/ai-text-analytics",
       "projectFolder": "sdk/textanalytics/ai-text-analytics",
       "versionPolicyName": "client"
+    },    {
+      "packageName": "@azure/ai-language-text",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-text",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/ai-metrics-advisor",
