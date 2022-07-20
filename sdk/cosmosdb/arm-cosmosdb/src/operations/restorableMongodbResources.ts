@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
-  DatabaseRestoreResource,
+  RestorableMongodbResourcesGetResult,
   RestorableMongodbResourcesListOptionalParams,
   RestorableMongodbResourcesListResponse
 } from "../models";
@@ -44,7 +44,7 @@ export class RestorableMongodbResourcesImpl
     location: string,
     instanceId: string,
     options?: RestorableMongodbResourcesListOptionalParams
-  ): PagedAsyncIterableIterator<DatabaseRestoreResource> {
+  ): PagedAsyncIterableIterator<RestorableMongodbResourcesGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
       next() {
@@ -63,7 +63,7 @@ export class RestorableMongodbResourcesImpl
     location: string,
     instanceId: string,
     options?: RestorableMongodbResourcesListOptionalParams
-  ): AsyncIterableIterator<DatabaseRestoreResource[]> {
+  ): AsyncIterableIterator<RestorableMongodbResourcesGetResult[]> {
     let result = await this._list(location, instanceId, options);
     yield result.value || [];
   }
@@ -72,7 +72,7 @@ export class RestorableMongodbResourcesImpl
     location: string,
     instanceId: string,
     options?: RestorableMongodbResourcesListOptionalParams
-  ): AsyncIterableIterator<DatabaseRestoreResource> {
+  ): AsyncIterableIterator<RestorableMongodbResourcesGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,

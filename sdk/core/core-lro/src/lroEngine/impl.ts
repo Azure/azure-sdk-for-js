@@ -167,10 +167,10 @@ function getProvisioningState(rawResponse: RawResponse): string {
 
 function isCanceled<TResult, TState extends PollOperationState<TResult>>(operation: {
   state: TState;
-  status: string;
+  operationStatus: string;
 }): boolean {
-  const { state, status } = operation;
-  if (["canceled", "cancelled"].includes(status)) {
+  const { state, operationStatus } = operation;
+  if (["canceled", "cancelled"].includes(operationStatus)) {
     state.isCancelled = true;
     return true;
   }
@@ -179,37 +179,81 @@ function isCanceled<TResult, TState extends PollOperationState<TResult>>(operati
 
 function isTerminal<TResult, TState extends PollOperationState<TResult>>(operation: {
   state: TState;
-  status: string;
+  operationStatus: string;
 }): boolean {
-  const { state, status } = operation;
-  if (status === "failed") {
+  const { state, operationStatus } = operation;
+  if (operationStatus === "failed") {
     throw new Error(`The long-running operation has failed.`);
   }
-  return status === "succeeded" || isCanceled({ state, status });
+  return operationStatus === "succeeded" || isCanceled({ state, operationStatus });
 }
 
-function isDone<TResult, TState extends PollOperationState<TResult>>(result: {
+function getOperationStatus<TResult, TState extends PollOperationState<TResult>>(result: {
+  rawResponse: RawResponse;
+  state: TState;
+  info: LroInfo;
+  responseKind?: "Initial" | "Polling";
+}): {
+  operationStatus?: string | number;
+  shouldStopPolling: boolean;
+} {
+  const { rawResponse, state, info, responseKind = "Polling" } = result;
+  throwIfError(rawResponse);
+  switch (info.mode) {
+    case "OperationLocation": {
+      const operationStatus = getStatus(rawResponse);
+      return {
+        operationStatus,
+        shouldStopPolling: responseKind === "Polling" && isTerminal({ state, operationStatus }),
+      };
+    }
+    case "Body": {
+      const operationStatus = getProvisioningState(rawResponse);
+      return {
+        operationStatus,
+        shouldStopPolling: isTerminal({ state, operationStatus }),
+      };
+    }
+    case "ResourceLocation": {
+      const operationStatus = rawResponse.statusCode;
+      return {
+        operationStatus,
+        shouldStopPolling: responseKind === "Polling" && operationStatus !== 202,
+      };
+    }
+    case "None": {
+      return {
+        shouldStopPolling: true,
+      };
+    }
+  }
+}
+
+function shouldStopPolling<TResult, TState extends PollOperationState<TResult>>(result: {
   rawResponse: RawResponse;
   state: TState;
   info: LroInfo;
   responseKind?: "Initial" | "Polling";
 }): boolean {
   const { rawResponse, state, info, responseKind = "Polling" } = result;
-  throwIfError(rawResponse);
-  switch (info.mode) {
-    case "OperationLocation": {
-      return responseKind === "Polling" && isTerminal({ state, status: getStatus(rawResponse) });
-    }
-    case "Body": {
-      return isTerminal({ state, status: getProvisioningState(rawResponse) });
-    }
-    case "ResourceLocation": {
-      return responseKind === "Polling" && rawResponse.statusCode !== 202;
-    }
-    case "None": {
-      return true;
-    }
+  const { shouldStopPolling: isPollingStopped, operationStatus } = getOperationStatus({
+    info,
+    rawResponse,
+    state,
+    responseKind,
+  });
+  if (operationStatus) {
+    logger.verbose(
+      `LRO: Status:\n\tPolling from: ${
+        info.pollingUrl
+      }\n\tOperation status: ${operationStatus}\n\tPolling status: ${
+        isPollingStopped ? "Stopped" : "Running"
+      }`
+    );
+  } else {
+    logger.verbose(`LRO: Status: Not an LRO`);
   }
+  return isPollingStopped;
 }
 
 /**
@@ -276,18 +320,19 @@ export function createStateInitializer<
 }): (response: LroResponse<TResult>) => void {
   const { requestMethod, requestPath, state, lroResourceLocationConfig, processResult } = inputs;
   return (response: LroResponse<TResult>): void => {
-    state.initialRawResponse = response.rawResponse;
+    const { rawResponse } = response;
     state.isStarted = true;
     state.config = inferLroMode({
-      rawResponse: state.initialRawResponse,
+      rawResponse,
       requestPath,
       requestMethod,
       lroResourceLocationConfig,
     });
+    logger.verbose(`LRO: Operation description:`, state.config);
     /** short circuit before polling */
     if (
-      isDone({
-        rawResponse: state.initialRawResponse,
+      shouldStopPolling({
+        rawResponse,
         state,
         info: state.config,
         responseKind: "Initial",
@@ -300,7 +345,6 @@ export function createStateInitializer<
       });
       state.isCompleted = true;
     }
-    logger.verbose(`LRO: initial state: ${JSON.stringify(state)}`);
   };
 }
 
@@ -315,7 +359,7 @@ export function createGetLroStatusFromResponse<
   const { lro, state, info } = inputs;
   const location = info.resourceLocation;
   return (response: LroResponse<TResult>): LroStatus<TResult> => {
-    const isTerminalStatus = isDone({
+    const isTerminalStatus = shouldStopPolling({
       info,
       rawResponse: response.rawResponse,
       state,

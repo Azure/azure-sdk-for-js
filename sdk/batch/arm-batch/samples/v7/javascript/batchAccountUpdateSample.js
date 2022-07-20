@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates the properties of an existing Batch account.
  *
  * @summary Updates the properties of an existing Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/BatchAccountUpdate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/BatchAccountUpdate.json
  */
 async function batchAccountUpdate() {
   const subscriptionId = "subid";

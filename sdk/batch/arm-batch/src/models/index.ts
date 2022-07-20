@@ -24,6 +24,8 @@ export interface BatchAccountCreateParameters {
   keyVaultReference?: KeyVaultReference;
   /** If not specified, the default value is 'enabled'. */
   publicNetworkAccess?: PublicNetworkAccessType;
+  /** The network profile only takes effect when publicNetworkAccess is enabled. */
+  networkProfile?: NetworkProfile;
   /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
   encryption?: EncryptionProperties;
   /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
@@ -52,6 +54,30 @@ export interface KeyVaultReference {
   id: string;
   /** The URL of the Azure key vault associated with the Batch account. */
   url: string;
+}
+
+/** Network profile for Batch account, which contains network rule settings for each endpoint. */
+export interface NetworkProfile {
+  /** Network access profile for batchAccount endpoint (Batch account data plane API). */
+  accountAccess?: EndpointAccessProfile;
+  /** Network access profile for nodeManagement endpoint (Batch service managing compute nodes for Batch pools). */
+  nodeManagementAccess?: EndpointAccessProfile;
+}
+
+/** Network access profile for Batch endpoint. */
+export interface EndpointAccessProfile {
+  /** Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled. */
+  defaultAction: EndpointAccessDefaultAction;
+  /** Array of IP ranges to filter client IP address. */
+  ipRules?: IPRule[];
+}
+
+/** Rule to filter client IP address. */
+export interface IPRule {
+  /** Action when client IP address is matched. */
+  action: "Allow";
+  /** IPv4 address, or IPv4 address range in CIDR format. */
+  value: string;
 }
 
 /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
@@ -225,6 +251,10 @@ export interface BatchAccountUpdateParameters {
   encryption?: EncryptionProperties;
   /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
   allowedAuthenticationModes?: AuthenticationMode[];
+  /** If not specified, the default value is 'enabled'. */
+  publicNetworkAccess?: PublicNetworkAccessType;
+  /** The network profile only takes effect when publicNetworkAccess is enabled. */
+  networkProfile?: NetworkProfile;
 }
 
 /** Values returned by the List operation. */
@@ -353,7 +383,7 @@ export interface Operation {
   display?: OperationDisplay;
   /** The intended executor of the operation. */
   origin?: string;
-  /** Any object */
+  /** Properties of the operation. */
   properties?: Record<string, unknown>;
 }
 
@@ -595,7 +625,7 @@ export interface VMExtension {
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
-  /** Any object */
+  /** JSON formatted public settings for the extension. */
   settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
   protectedSettings?: Record<string, unknown>;
@@ -1009,26 +1039,34 @@ export interface EndpointDetail {
 }
 
 /** Contains information about the auto-storage account associated with a Batch account. */
-export type AutoStorageProperties = AutoStorageBaseProperties & {
+export interface AutoStorageProperties extends AutoStorageBaseProperties {
   /** The UTC time at which storage keys were last synchronized with the Batch account. */
   lastKeySync: Date;
-};
+}
 
 /** Contains information about a private link resource. */
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
   /**
    * The provisioning state of the private endpoint connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-  /** The private endpoint of the private endpoint connection. */
-  privateEndpoint?: PrivateEndpoint;
+  /**
+   * The private endpoint of the private endpoint connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /**
+   * The value has one and only one group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
   /** The private link service connection state of the private endpoint connection */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-};
+}
 
 /** An application package which represents a particular version of an application. */
-export type ApplicationPackage = ProxyResource & {
+export interface ApplicationPackage extends ProxyResource {
   /**
    * The current state of the application package.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1054,20 +1092,20 @@ export type ApplicationPackage = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastActivationTime?: Date;
-};
+}
 
 /** Contains information about an application in a Batch account. */
-export type Application = ProxyResource & {
+export interface Application extends ProxyResource {
   /** The display name for the application. */
   displayName?: string;
   /** A value indicating whether packages within the application may be overwritten using the same version string. */
   allowUpdates?: boolean;
   /** The package to use if a client requests the application but does not specify a version. This property can only be set to the name of an existing package. */
   defaultVersion?: string;
-};
+}
 
 /** Contains information about a certificate. */
-export type Certificate = ProxyResource & {
+export interface Certificate extends ProxyResource {
   /** This must match the first portion of the certificate name. Currently required to be 'SHA1'. */
   thumbprintAlgorithm?: string;
   /** This must match the thumbprint from the name. */
@@ -1101,10 +1139,10 @@ export type Certificate = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly deleteCertificateError?: DeleteCertificateError;
-};
+}
 
 /** Contains information about a certificate. */
-export type CertificateCreateOrUpdateParameters = ProxyResource & {
+export interface CertificateCreateOrUpdateParameters extends ProxyResource {
   /** This must match the first portion of the certificate name. Currently required to be 'SHA1'. */
   thumbprintAlgorithm?: string;
   /** This must match the thumbprint from the name. */
@@ -1115,16 +1153,16 @@ export type CertificateCreateOrUpdateParameters = ProxyResource & {
   data?: string;
   /** This must not be specified if the certificate format is Cer. */
   password?: string;
-};
+}
 
 /** Contains the information for a detector. */
-export type DetectorResponse = ProxyResource & {
+export interface DetectorResponse extends ProxyResource {
   /** A base64 encoded string that represents the content of a detector. */
   value?: string;
-};
+}
 
 /** Contains information about a private link resource. */
-export type PrivateLinkResource = ProxyResource & {
+export interface PrivateLinkResource extends ProxyResource {
   /**
    * The group id is used to establish the private link connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1140,10 +1178,10 @@ export type PrivateLinkResource = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredZoneNames?: string[];
-};
+}
 
 /** Contains information about a pool. */
-export type Pool = ProxyResource & {
+export interface Pool extends ProxyResource {
   /** The type of identity used for the Batch Pool. */
   identity?: BatchPoolIdentity;
   /** The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
@@ -1226,10 +1264,10 @@ export type Pool = ProxyResource & {
   readonly resizeOperationStatus?: ResizeOperationStatus;
   /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
   mountConfiguration?: MountConfiguration[];
-};
+}
 
 /** Contains information about an Azure Batch account. */
-export type BatchAccount = Resource & {
+export interface BatchAccount extends Resource {
   /** The identity of the Batch account. */
   identity?: BatchAccountIdentity;
   /**
@@ -1237,6 +1275,11 @@ export type BatchAccount = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly accountEndpoint?: string;
+  /**
+   * The endpoint used by compute node to connect to the Batch node management service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeManagementEndpoint?: string;
   /**
    * The provisioned state of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1252,11 +1295,10 @@ export type BatchAccount = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keyVaultReference?: KeyVaultReference;
-  /**
-   * If not specified, the default value is 'enabled'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicNetworkAccess?: PublicNetworkAccessType;
+  /** If not specified, the default value is 'enabled'. */
+  publicNetworkAccess?: PublicNetworkAccessType;
+  /** The network profile only takes effect when publicNetworkAccess is enabled. */
+  networkProfile?: NetworkProfile;
   /**
    * List of private endpoint connections associated with the Batch account
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1288,7 +1330,7 @@ export type BatchAccount = Resource & {
    */
   readonly dedicatedCoreQuotaPerVMFamily?: VirtualMachineFamilyCoreQuota[];
   /**
-   * Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.
+   * If this flag is true, dedicated core quota is enforced via both the dedicatedCoreQuotaPerVMFamily and dedicatedCoreQuota properties on the account. If this flag is false, dedicated core quota is enforced only via the dedicatedCoreQuota property on the account and does not consider Virtual Machine family.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dedicatedCoreQuotaPerVMFamilyEnforced?: boolean;
@@ -1307,10 +1349,10 @@ export type BatchAccount = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allowedAuthenticationModes?: AuthenticationMode[];
-};
+}
 
 /** Certificate properties. */
-export type CertificateProperties = CertificateBaseProperties & {
+export interface CertificateProperties extends CertificateBaseProperties {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly provisioningState?: CertificateProvisioningState;
   /**
@@ -1338,15 +1380,16 @@ export type CertificateProperties = CertificateBaseProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly deleteCertificateError?: DeleteCertificateError;
-};
+}
 
 /** Certificate properties for create operations */
-export type CertificateCreateOrUpdateProperties = CertificateBaseProperties & {
+export interface CertificateCreateOrUpdateProperties
+  extends CertificateBaseProperties {
   /** The maximum size is 10KB. */
   data: string;
   /** This must not be specified if the certificate format is Cer. */
   password?: string;
-};
+}
 
 /** Defines headers for BatchAccount_create operation. */
 export interface BatchAccountCreateHeaders {
@@ -1404,6 +1447,14 @@ export interface PrivateEndpointConnectionUpdateHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for PrivateEndpointConnection_delete operation. */
+export interface PrivateEndpointConnectionDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** Suggested delay to check the status of the asynchronous operation. The value is an integer that specifies the delay in seconds. */
+  retryAfter?: number;
+}
+
 /** Defines headers for Pool_create operation. */
 export interface PoolCreateHeaders {
   /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
@@ -1450,6 +1501,8 @@ export type AutoStorageAuthenticationMode =
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
 /** Defines values for PublicNetworkAccessType. */
 export type PublicNetworkAccessType = "Enabled" | "Disabled";
+/** Defines values for EndpointAccessDefaultAction. */
+export type EndpointAccessDefaultAction = "Allow" | "Deny";
 /** Defines values for KeySource. */
 export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
 /** Defines values for AuthenticationMode. */
@@ -1469,9 +1522,12 @@ export type ProvisioningState =
   | "Cancelled";
 /** Defines values for PrivateEndpointConnectionProvisioningState. */
 export type PrivateEndpointConnectionProvisioningState =
-  | "Succeeded"
+  | "Creating"
   | "Updating"
-  | "Failed";
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled";
 /** Defines values for PrivateLinkServiceConnectionStatus. */
 export type PrivateLinkServiceConnectionStatus =
   | "Approved"
@@ -1957,6 +2013,18 @@ export interface PrivateEndpointConnectionUpdateOptionalParams
 
 /** Contains response data for the update operation. */
 export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams

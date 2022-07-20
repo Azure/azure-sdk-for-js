@@ -516,6 +516,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/monitor-ingestion",
+      "projectFolder": "sdk/monitor/monitor-ingestion",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility"
