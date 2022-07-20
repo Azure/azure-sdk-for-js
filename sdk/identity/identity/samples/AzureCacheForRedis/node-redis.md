@@ -27,9 +27,9 @@ Familiarity with the node-redis and Azure Identity client libraries is assumed. 
 
 ##### Migration guidance
 
-When migrating your existing application code, replace the password input with the Azure AD token. Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code.
+When migrating your existing application code, replace the password input with the Azure AD token. Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code. Azure Redis Cache name, Service Principal Username, AAD Token and using SSL are required while connecting with the cache.
 
-**Note:** The below sample uses `ClientCertificateCredential` from the [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library. The credential can be replaced with any of the other Azure Identity library `TokenCredential` implementations.
+**Note:** The below sample uses `ClientSecretCredential` from the [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library. The credential can be replaced with any of the other Azure Identity library `TokenCredential` implementations.
 
 ```ts
 import { createClient } from "redis";

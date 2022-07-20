@@ -27,7 +27,7 @@ Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Ident
 
 ##### Migration Guidance
 
-When migrating your existing your application code, replace the password input with Azure AD token.
+When migrating your existing your application code, replace the password input with Azure AD token. Azure Redis Cache name, Service Principal Username, AAD Token and using SSL are required while connecting with the cache.
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code.
 
 **Note:** The below sample uses `ClientSecretCredential` from the [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library. The credential can be replaced with any of the other Azure Identity library `TokenCredential` implementations.
@@ -63,6 +63,7 @@ async function main() {
       host: process.env.REDIS_HOSTNAME,
       port: 6380,
     },
+    keepAlive: 0
   });
 
   // Set a value against your key in the Azure Redis Cache.
@@ -132,8 +133,6 @@ async function main() {
       await redis.set("Az:mykey", "value123"); // Returns a promise which resolves to "OK" when the command succeeds.
       // Fetch value of your key in the Azure Redis Cache.
       console.log("redis key:", await redis.get("Az:mykey"));
-      // Close the Ioredis Client Connection
-      redis.disconnect();
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
