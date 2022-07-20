@@ -10,7 +10,7 @@ import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient";
-import { CommunicationIdentityClient } from "../../src";
+import { CommunicationIdentityClient, GetTokenOptions, TokenScope } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
@@ -55,6 +55,19 @@ matrix([[true, false]], async function (useAad: boolean) {
     it("successfully gets a token for a user [multiple scopes]", async function () {
       const user: CommunicationUserIdentifier = await client.createUser();
       const { token, expiresOn } = await client.getToken(user, ["chat", "voip"]);
+      assert.isString(token);
+      assert.instanceOf(expiresOn, Date);
+    });
+
+    it("successfully gets a token with custom expiration", async function () {
+      const user: CommunicationUserIdentifier = await client.createUser();
+      const scopes: TokenScope[] = ["chat"];
+      const options: GetTokenOptions = {
+        user: user,
+        scopes: scopes,
+        expiresInMinutes: 60
+      };
+      const { token, expiresOn } = await client.getToken(options);
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     });

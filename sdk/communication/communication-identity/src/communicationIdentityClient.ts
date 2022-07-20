@@ -7,6 +7,7 @@ import {
   CommunicationUserToken,
   GetTokenForTeamsUserOptions,
   TokenScope,
+  GetTokenOptions
 } from "./models";
 import {
   CommunicationUserIdentifier,
@@ -20,6 +21,7 @@ import { IdentityRestClient } from "./generated/src/identityRestClient";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./common/tracing";
 import { logger } from "./common/logger";
+import { CommunicationIdentityIssueAccessTokenOptionalParams } from "./generated/src/models";
 
 const isCommunicationIdentityClientOptions = (
   options: any
@@ -97,21 +99,53 @@ export class CommunicationIdentityClient {
   /**
    * Creates a scoped user token.
    *
+   * @param getTokenOptions - Options to pass mandatory and configurable parameters including custom expiration time for a token.
+   * @param options - Additional options for the request.
+   */
+  public async getToken(
+    getTokenOptions: GetTokenOptions,
+    options?: OperationOptions
+  ): Promise<CommunicationAccessToken>;
+
+  /**
+   * Creates a scoped user token.
+   *
    * @param user - The user whose tokens are being issued.
    * @param scopes - Scopes to include in the token.
    * @param options - Additional options for the request.
    */
-  public async getToken(
+   public async getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
+    options?: OperationOptions
+  ): Promise<CommunicationAccessToken>
+
+  public async getToken(
+    userOrTokenOptions: CommunicationUserIdentifier | GetTokenOptions,
+    scopesOrOperationOptions?: TokenScope[] | OperationOptions,
     options: OperationOptions = {}
   ): Promise<CommunicationAccessToken> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-issueToken", options);
     try {
+      let communicationUserId: string;
+      let scopes: TokenScope[];
+      let operationOptions: CommunicationIdentityIssueAccessTokenOptionalParams;
+
+      if ("user" in userOrTokenOptions) {
+        communicationUserId = userOrTokenOptions.user.communicationUserId;
+        scopes = userOrTokenOptions.scopes;
+        operationOptions = updatedOptions;
+        operationOptions.expiresInMinutes = userOrTokenOptions.expiresInMinutes;
+      } else {
+        communicationUserId = userOrTokenOptions.communicationUserId;
+        scopes = scopesOrOperationOptions as TokenScope[];
+        operationOptions = updatedOptions;
+      }
+
       return await this.client.communicationIdentityOperations.issueAccessToken(
-        user.communicationUserId,
+        communicationUserId,
         scopes,
-        updatedOptions
+        operationOptions
       );
     } catch (e: any) {
       span.setStatus({

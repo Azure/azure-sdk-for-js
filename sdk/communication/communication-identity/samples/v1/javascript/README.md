@@ -5,18 +5,19 @@ languages:
 products:
   - azure
   - azure-communication-services
-urlFragment: communication-identity-javascript-beta
+urlFragment: communication-identity-javascript
 ---
 
-# Azure Communication Services - Identity client library samples for JavaScript (Beta)
+# Azure Communication Services - Identity client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Identity in some common scenarios.
 
-| **File Name**                                   | **Description**                                                                             |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| [getTokenForTeamsUser.js][gettokenforteamsuser] | Exchange an AAD access token of a Teams user for a new Communication Identity access token. |
-| [issueToken.js][issuetoken]                     | Issue a new user token.                                                                     |
-| [revokeTokens.js][revoketokens]                 | Revoke user tokens.                                                                         |
+| **File Name**                                                     | **Description**                                                                             |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [getTokenForTeamsUser.js][gettokenforteamsuser]                   | Exchange an AAD access token of a Teams user for a new Communication Identity access token. |
+| [issueToken.js][issuetoken]                                       | Issue a new user token.                                                                     |
+| [issueTokenWithGetTokenOptions.js][issuetokenwithgettokenoptions] | Issue a new user token.                                                                     |
+| [revokeTokens.js][revoketokens]                                   | Revoke user tokens.                                                                         |
 
 ## Prerequisites
 
@@ -58,9 +59,10 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[gettokenforteamsuser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1-beta/javascript/getTokenForTeamsUser.js
-[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1-beta/javascript/issueToken.js
-[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1-beta/javascript/revokeTokens.js
+[gettokenforteamsuser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/getTokenForTeamsUser.js
+[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/issueToken.js
+[issuetokenwithgettokenoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/issueTokenWithGetTokenOptions.js
+[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/revokeTokens.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-identity
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
