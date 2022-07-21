@@ -156,11 +156,11 @@
     },
     "SERVICEBUS_SAS_POLICY": {
       "type": "string",
-      "value": "[variables('sasAuthorizationRuleName')]"
+      "value": "SasAccessKey"
     },
     "SERVICEBUS_SAS_KEY": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('baseName'), variables('sasAuthorizationRuleName')), variables('apiVersion')).primaryKey]"
+      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('baseName'), 'SasAccessKey'), variables('apiVersion')).primaryKey]"
     }
   }
 }
