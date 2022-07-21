@@ -187,7 +187,7 @@ export interface BrowserTemplateRegistrationDescription extends Omit<BrowserRegi
 export function buildAppleNativeMessage(nativeMessage: AppleNativeMessage, additionalProperties?: Record<string, any>): AppleNotification;
 
 // @public
-export function cancelScheduledNotification(client: NotificationHubsClient, notificationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
+export function cancelScheduledNotification(client: NotificationHubsClient, notificationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
 
 // @public
 export function clientFromConnectionString(connectionString: string, hubName: string, options?: NotificationHubsClientOptions): NotificationHubsClient;
@@ -313,7 +313,7 @@ export function createWindowsTileNotification(notification: Omit<WindowsNotifica
 export function createWindowsToastNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
 
 // @public
-export function deleteInstallation(client: NotificationHubsClient, installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
+export function deleteInstallation(client: NotificationHubsClient, installationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
 
 // @public
 export interface DeviceTokenInstallation extends InstallationCommon {
@@ -576,18 +576,6 @@ export type NotificationHubJobType =
 | "ImportUpsertRegistrations";
 
 // @public
-export interface NotificationHubMessageResponse extends NotificationHubResponse {
-    notificationId?: string;
-}
-
-// @public
-export interface NotificationHubResponse {
-    correlationId?: string;
-    location?: string;
-    trackingId?: string;
-}
-
-// @public
 export interface NotificationHubsClient {
     baseUrl: string;
     // @internal (undocumented)
@@ -605,14 +593,26 @@ export interface NotificationHubsClientOptions extends CommonClientOptions {
 }
 
 // @public
+export interface NotificationHubsMessageResponse extends NotificationHubsResponse {
+    notificationId?: string;
+}
+
+// @public
+export interface NotificationHubsResponse {
+    correlationId?: string;
+    location?: string;
+    trackingId?: string;
+}
+
+// @public
 export class NotificationHubsServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
-    cancelScheduledNotification(notificationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
+    cancelScheduledNotification(notificationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
     createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<Installation>;
     createOrUpdateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
     createRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
-    createRegistrationId(options: OperationOptions): Promise<string>;
-    deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
+    createRegistrationId(options?: OperationOptions): Promise<string>;
+    deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
     getFeedbackContainerUrl(options?: OperationOptions): Promise<string>;
     getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
     getNotificationHubJob(jobId: string, options?: OperationOptions): Promise<NotificationHubJob>;
@@ -621,11 +621,11 @@ export class NotificationHubsServiceClient {
     listNotificationHubJobs(options?: OperationOptions): Promise<NotificationHubJob[]>;
     listRegistrations(options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
-    scheduleBroadcastNotification(scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
-    scheduleNotification(scheduledTime: Date, tags: string[] | string, notification: Notification, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
-    sendBroadcastNotification(notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
-    sendDirectNotification(pushHandle: PushHandle, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
-    sendNotification(tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
+    scheduleBroadcastNotification(scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
+    scheduleNotification(scheduledTime: Date, tags: string[] | string, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
+    sendBroadcastNotification(notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
+    sendDirectNotification(pushHandle: PushHandle, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
+    sendNotification(tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
     updateInstallation(installationId: string, patches: JsonPatch[], options?: OperationOptions): Promise<Installation>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
@@ -676,19 +676,19 @@ export interface RegistrationQueryResponse {
 export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate" | "Baidu" | "BaiduTemplate" | "Browser" | "BrowserTemplate" | "Gcm" | "GcmTemplate" | "Fcm" | "FcmTemplate" | "Mpns" | "MpnsTemplate" | "Windows" | "WindowsTemplate";
 
 // @public
-export function scheduleBroadcastNotification(client: NotificationHubsClient, scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
+export function scheduleBroadcastNotification(client: NotificationHubsClient, scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
 
 // @public
-export function scheduleNotification(client: NotificationHubsClient, scheduledTime: Date, tags: string[] | string, notification: Notification, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
+export function scheduleNotification(client: NotificationHubsClient, scheduledTime: Date, tags: string[] | string, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
 
 // @public
-export function sendBroadcastNotification(client: NotificationHubsClient, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
+export function sendBroadcastNotification(client: NotificationHubsClient, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
 
 // @public
-export function sendDirectNotification(client: NotificationHubsClient, pushHandle: PushHandle, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
+export function sendDirectNotification(client: NotificationHubsClient, pushHandle: PushHandle, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
 
 // @public
-export function sendNotification(client: NotificationHubsClient, tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
+export function sendNotification(client: NotificationHubsClient, tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
 
 // @public
 export interface SendOperationOptions extends OperationOptions {

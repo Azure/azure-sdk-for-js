@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { NotificationHubsClient, createRequest, parseNotificationSendResponse } from "./client";
-import { NotificationHubResponse } from "../models/response";
+import { NotificationHubsResponse } from "../models/response";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing";
@@ -19,7 +19,7 @@ export function cancelScheduledNotification(
   client: NotificationHubsClient,
   notificationId: string,
   options: OperationOptions = {}
-): Promise<NotificationHubResponse> {
+): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     "NotificationHubsClient-cancelScheduledNotification",
     options,

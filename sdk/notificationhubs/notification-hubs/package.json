@@ -6,6 +6,11 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {},
+  "exports": {
+    ".": "./src/index.js",
+    "./client/*": "./src/client/*.js",
+    "./models/*": "./src/models/*.js"
+  },
   "//metadata": {
     "constantPaths": [
       {

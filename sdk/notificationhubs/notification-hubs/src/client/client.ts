@@ -9,7 +9,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { NotificationHubMessageResponse, NotificationHubResponse } from "../models/response";
+import { NotificationHubsMessageResponse, NotificationHubsResponse } from "../models/response";
 import { OperationOptions, ServiceClient } from "@azure/core-client";
 import {
   createTokenProviderFromConnection,
@@ -131,7 +131,7 @@ export function createRequest(
 /**
  * @internal
  */
-export function parseNotificationResponse(response: PipelineResponse): NotificationHubResponse {
+export function parseNotificationResponse(response: PipelineResponse): NotificationHubsResponse {
   const correlationId = response.headers.get("x-ms-correlation-request-id");
   const trackingId = response.headers.get("TrackingId");
   const location = response.headers.get("Location");
@@ -148,7 +148,7 @@ export function parseNotificationResponse(response: PipelineResponse): Notificat
  */
 export function parseNotificationSendResponse(
   response: PipelineResponse
-): NotificationHubMessageResponse {
+): NotificationHubsMessageResponse {
   const result = parseNotificationResponse(response);
   let notificationId: string | undefined;
   if (result.location) {
