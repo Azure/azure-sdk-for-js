@@ -5,8 +5,9 @@
  * @summary Perform room operations using the RoomsClient.
  */
 
-const { RoomsClient, RoomParticipant } = require("@azure/communication-rooms");
+const { RoomsClient } = require("@azure/communication-rooms");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
+const { getIdentifierRawId } = require("@azure/communication-common");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -30,7 +31,12 @@ async function main() {
   const createRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
-    participants: [new RoomParticipant(user1.user, "Attendee")],
+    participants: [
+      {
+        id: user1.user,
+        role: "Attendee",
+      },
+    ],
   };
 
   // create a room with the request payload
@@ -53,8 +59,14 @@ async function main() {
     validUntil: validUntil,
     roomJoinPolicy: "CommunicationServiceUsers",
     participants: [
-      new RoomParticipant(user1.user, "Consumer"),
-      new RoomParticipant(user2.user, "Presenter"),
+      {
+        id: user1.user,
+        role: "Consumer",
+      },
+      {
+        id: user2.user,
+        role: "Presenter",
+      },
     ],
   };
 
@@ -78,7 +90,7 @@ function printRoom(room) {
   console.log(`Room Join Policy: ${room.roomJoinPolicy}`);
   console.log(`Participants:`);
   for (const participant of room.participants) {
-    const id = participant.communicationIdentifier.rawId;
+    const id = getIdentifierRawId(participant.id);
     const role = participant.role;
     console.log(`${id} - ${role}`);
   }

@@ -5,14 +5,9 @@
  * @summary Perform room operations using the RoomsClient.
  */
 
-import {
-  RoomsClient,
-  RoomModel,
-  RoomParticipant,
-  CreateRoomRequest,
-  PatchRoomRequest,
-} from "@azure/communication-rooms";
+import { RoomsClient, Room, CreateRoomRequest, PatchRoomRequest } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { getIdentifierRawId } from "@azure/communication-common";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -37,7 +32,12 @@ export async function main() {
   const createRoomRequest: CreateRoomRequest = {
     validFrom: validFrom,
     validUntil: validUntil,
-    participants: [new RoomParticipant(user1.user, "Attendee")],
+    participants: [
+      {
+        id: user1.user,
+        role: "Attendee",
+      },
+    ],
   };
 
   // create a room with the request payload
@@ -60,8 +60,14 @@ export async function main() {
     validUntil: validUntil,
     roomJoinPolicy: "CommunicationServiceUsers",
     participants: [
-      new RoomParticipant(user1.user, "Consumer"),
-      new RoomParticipant(user2.user, "Presenter"),
+      {
+        id: user1.user,
+        role: "Consumer",
+      },
+      {
+        id: user2.user,
+        role: "Presenter",
+      },
     ],
   };
 
@@ -78,14 +84,14 @@ export async function main() {
  * Outputs the details of a Room to console.
  * @param room - The Room being printed to console.
  */
-function printRoom(room: RoomModel): void {
+function printRoom(room: Room): void {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
   console.log(`Valid Until: ${room.validUntil}`);
   console.log(`Room Join Policy: ${room.roomJoinPolicy}`);
   console.log(`Participants:`);
   for (const participant of room.participants!) {
-    const id = participant.communicationIdentifier.rawId;
+    const id = getIdentifierRawId(participant.id);
     const role = participant.role;
     console.log(`${id} - ${role}`);
   }

@@ -47,8 +47,3 @@ export interface UpdateParticipantsOptions extends OperationOptions {}
  * Options to remove participants from a room.
  */
 export interface RemoveParticipantsOptions extends OperationOptions {}
-
-/**
- * Options to remove all participants from a room.
- */
-export interface RemoveAllParticipantsOptions extends OperationOptions {}

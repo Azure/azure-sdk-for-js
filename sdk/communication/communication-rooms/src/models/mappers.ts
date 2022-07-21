@@ -2,8 +2,13 @@
 // Licensed under the MIT license.
 
 import * as RestModel from "../generated/src/models";
-import { RoomModel, RoomParticipant } from "./models";
-import { CommunicationUserIdentifier } from "@azure/communication-common"
+import { Room, RoomParticipant } from "./models";
+import { CommunicationUserIdentifier, SerializedCommunicationIdentifier } from "@azure/communication-common"
+import { 
+  deserializeCommunicationIdentifier,
+  serializeCommunicationIdentifier,
+  getIdentifierKind
+} from "@azure/communication-common";
 
 
 /**
@@ -13,15 +18,12 @@ import { CommunicationUserIdentifier } from "@azure/communication-common"
 export const mapToRoomParticipantRestModel = (
   roomParticipant: RoomParticipant
 ): RestModel.RoomParticipant => {
-  const { communicationIdentifier, ...rest } = roomParticipant;
-  const mri = communicationIdentifier.communicationUser!.communicationUserId;
+  const { id, ...rest } = roomParticipant;
+  if (getIdentifierKind(id).kind != "communicationUser") {
+    throwException("We currently only support CommunicationUsers");
+  }
   return {
-    communicationIdentifier: {
-      rawId: mri,
-      communicationUser: {
-        id: mri
-      }
-    },
+    communicationIdentifier: serializeCommunicationIdentifier(id),
     ...rest
   };
 }
@@ -32,14 +34,8 @@ export const mapToRoomParticipantRestModel = (
 export const mapCommunicationIdentifierToRoomParticipantRestModel = (
   communicationIdentifier: CommunicationUserIdentifier
 ): RestModel.RoomParticipant => {
-  const mri = communicationIdentifier.communicationUserId;
   return {
-    communicationIdentifier: {
-      rawId: mri,
-      communicationUser: {
-        id: mri
-      },
-    }
+    communicationIdentifier:serializeCommunicationIdentifier(communicationIdentifier)
   }
 }
 
@@ -52,14 +48,9 @@ export const mapToRoomParticipantSdkModel = (
   roomParticipant: RestModel.RoomParticipant
 ): RoomParticipant => {
   const {communicationIdentifier, ...rest } = roomParticipant;
-  const mri = communicationIdentifier.communicationUser!.id;
   return {
-    communicationIdentifier: {
-      rawId: mri,
-      communicationUser: {
-        communicationUserId: mri
-      }
-    },
+    id: deserializeCommunicationIdentifier(
+      communicationIdentifier as SerializedCommunicationIdentifier),
     ...rest
   };
 }
@@ -70,7 +61,7 @@ export const mapToRoomParticipantSdkModel = (
  */
 export const mapToRoomSdkModel = (
   result: RestModel.RoomModel
-): RoomModel => {
+): Room => {
   const { id, participants, ...rest } = result;
   return {
     id: id ?? throwException("Room ID cannot be null."),

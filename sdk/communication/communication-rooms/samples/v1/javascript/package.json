@@ -30,6 +30,7 @@
   "dependencies": {
     "@azure/communication-rooms": "latest",
     "dotenv": "latest",
-    "@azure/communication-identity": "^1.1.0-beta.2"
+    "@azure/communication-identity": "^1.1.0-beta.2",
+    "@azure/communication-common": "~2.1.0"
   }
 }
