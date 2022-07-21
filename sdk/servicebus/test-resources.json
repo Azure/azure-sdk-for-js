@@ -20,6 +20,7 @@
     "apiVersion": "2017-04-01",
     "location": "[resourceGroup().location]",
     "authorizationRuleName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
+    "sasAuthorizationRuleName": "[concat(parameters('baseName'), '/SasAccessKey')]",
     "serviceBusDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/090c5cfd-751d-490a-894a-3ce6f1109419')]",
     "baseNamePremium":"[concat(parameters('baseName'), 'premium')]",
     "authorizationRuleNamePremium": "[concat(parameters('baseName'), 'premium', '/RootManageSharedAccessKey')]"
@@ -79,6 +80,21 @@
         "rights": [
           "Listen",
           "Manage",
+          "Send"
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
+      "apiVersion": "2015-08-01",
+      "name": "[variables('sasAuthorizationRuleName')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"
+      ],
+      "properties": {
+        "rights": [
+          "Listen",
           "Send"
         ]
       }
@@ -158,6 +174,14 @@
     "QUEUE_NAME_WITH_SESSIONS": {
       "type": "string",
       "value": "testQueueWithSessions"
+    },
+    "SERVICEBUS_SAS_POLICY": {
+      "type": "string",
+      "value": "[variables('sasAuthorizationRuleName')]"
+    },
+    "SERVICEBUS_SAS_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('baseName'), variables('sasAuthorizationRuleName')), variables('apiVersion')).primaryKey]"
     }
   }
 }
