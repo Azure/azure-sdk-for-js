@@ -20,7 +20,7 @@ export async function ignoreSubscriptionNotEligibleError(
   }
 }
 
-function isNotEligibleError(error: any) {
+function isNotEligibleError(error: any): boolean {
   let errorMessage = error?.details?.error?.message;
 
   if (error instanceof RestError) {

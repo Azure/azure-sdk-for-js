@@ -5,7 +5,7 @@
  * @summary Get the Alpha IDs configuration that's applied for the current resource
  */
 
-import { AlphaIdConfiguration } from "@azure-tools/communication-alpha-ids";
+import { AlphaIdConfiguration, AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -20,14 +20,17 @@ export async function main() {
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
   // create new client
-  var config: AlphaIdConfiguration = {
-    enabled: true,
-  };
+  const client = new AlphaIdsClient(connectionString);
 
-  console.log(`Test sample for ${config} ${connectionString}`);
+  // get the applied configuration for the current resource
+  const configuration: AlphaIdConfiguration = await client.getConfiguration();
+
+  console.log(
+    `The usage of Alpha IDs is currently ${configuration.enabled ? "enabled" : "disabled"}`
+  );
 }
 
 main().catch((error) => {
-  console.log("The sample getAndUpdateProgramBriefs encountered an error:", error);
+  console.log("The sample getConfiguration encountered an error:", error);
   process.exit(1);
 });
