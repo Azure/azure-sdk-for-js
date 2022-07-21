@@ -13,7 +13,11 @@
  * @azsdk-weight 100
  */
 
-import { clientFromConnectionString } from "@azure/notification-hubs";
+import { 
+  clientFromConnectionString, 
+  getRegistration, 
+  updateRegistration 
+} from "@azure/notification-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -29,7 +33,7 @@ const registrationId = process.env.REGISTRATION_ID || "<registrationId>";
 async function main() {
   const client = clientFromConnectionString(connectionString, hubName);
 
-  const registration = await client.getRegistration(registrationId);
+  const registration = await getRegistration(client, registrationId);
 
   // Add some tags
   if (!registration.tags) {
@@ -38,7 +42,7 @@ async function main() {
 
   registration.tags.push("likes_sports");
 
-  const registrationResponse = await client.updateRegistration(registration);
+  const registrationResponse = await updateRegistration(client, registration);
 
   console.log(`Registration ID: ${registrationResponse.registrationId}`);
 }

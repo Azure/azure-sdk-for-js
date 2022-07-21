@@ -1,75 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BrowserPushChannel, Installation, JsonPatch, PushHandle } from "./models/installation";
-import {
-  EntityOperationOptions,
-  NotificationHubsClientOptions,
-  RegistrationQueryLimitOptions,
-  RegistrationQueryOptions,
-  SendOperationOptions,
-} from "./models/options";
-import {
-  HttpHeaders,
-  HttpMethods,
-  PipelineRequest,
-  PipelineResponse,
-  RestError,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import {
-  NotificationHubMessageResponse,
-  NotificationHubResponse,
-  RegistrationQueryResponse,
-} from "./models/response";
-import { OperationOptions, ServiceClient } from "@azure/core-client";
-import {
-  createTokenProviderFromConnection,
-  parseNotificationHubsConnectionString,
-} from "./utils/connectionStringUtils";
-import {
-  parseNotificationHubJobEntry,
-  parseNotificationHubJobFeed,
-  serializeNotificationHubJobEntry,
-} from "./serializers/notificationHubJobSerializer";
-import {
-  registrationDescriptionParser,
-  registrationDescriptionSerializer,
-} from "./serializers/registrationSerializer";
+import { Installation, JsonPatch, PushHandle } from "./models/installation";
 import { Notification } from "./models/notification";
 import { NotificationDetails } from "./models/notificationDetails";
+import { NotificationHubsClientOptions, RegistrationQueryLimitOptions, RegistrationQueryOptions, SendOperationOptions } from "./models/options";
 import { NotificationHubJob } from "./models/notificationHubJob";
+import { NotificationHubMessageResponse, NotificationHubResponse } from "./models/response";
+import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "./models/registration";
-import { SasTokenProvider } from "@azure/core-amqp";
-import { parseNotificationDetails } from "./serializers/notificationDetailsSerializer";
-import { tracingClient } from "./utils/tracing";
-
-const API_VERSION = "2020-06";
-
-/**
- * Creates a NotificationHubClient from the Access Policy connection string and hub name.
- * @param connectionString - The Access Policy connection string for the notification hub.
- * @param hubName - The notification hub name.
- * @returns A NotificationHubsClient initialized from the connection string and hub name.
- */
-export function clientFromConnectionString(
-  connectionString: string,
-  hubName: string,
-  options: NotificationHubsClientOptions = {}
-): NotificationHubsClient {
-  return new NotificationHubsClient(connectionString, hubName, options);
-}
+import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./client/cancelScheduledNotification";
+import { clientFromConnectionString, NotificationHubsClient } from "./client/client";
+import { createRegistration as createRegistrationMethod } from "./client/createRegistration";
+import { createRegistrationId as createRegistrationIdMethod } from "./client/createRegistrationId";
+import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./client/createOrUpdateRegistration";
+import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./client/createOrUpdateInstallation";
+import { deleteInstallation as deleteInstallationMethod } from "./client/deleteInstallation";
+import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./client/getFeedbackContainerUrl";
+import { getInstallation as getInstallationMethod } from "./client/getInstallation";
+import { getNotificationHubJob as getNotificationHubJobMethod } from "./client/getNotificationJob";
+import { getNotificationOutcomeDetails as getNotificationOutcomeDetailsMethod } from "./client/getNotificationOutcomeDetails";
+import { getRegistration as getRegistrationMethod } from "./client/getRegistration";
+import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./client/listNotificationHubJobs";
+import { listRegistrations as listRegistrationsMethod } from "./client/listRegistrations";
+import { listRegistrationsByTag as listRegistrationsByTagMethod } from "./client/listRegistrationsByTag";
+import { scheduleBroadcastNotification as scheduleBroadcastNotificationMethod } from "./client/scheduleBroadcastNotification";
+import { scheduleNotification as scheduleNotificationMethod } from "./client/scheduleNotification";
+import { sendBroadcastNotification as sendBroadcastNotificationMethod } from "./client/sendBroadcastNotification";
+import { sendDirectNotification as sendDirectNotificationMethod } from "./client/sendDirectNotification";
+import { sendNotification as sendNotificationMethod } from "./client/sendNotification";
+import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./client/submitNotificationJob";
+import { updateInstallation as updateInstallationMethod } from "./client/updateInstallation";
+import { updateRegistration as updateRegistrationMethod } from "./client/updateRegistration";
 
 /**
  * This represents a client for Azure Notification Hubs to manage installations and send
  * messages to devices.
  */
-export class NotificationHubsClient extends ServiceClient {
-  private _baseUrl: string;
-  private _hubName: string;
-  private _sasTokenProvider: SasTokenProvider;
+export class NotificationHubsServiceClient {
+  private _client: NotificationHubsClient;
 
   /**
    * Creates a new instance of the NotificationClient with a connection string, hub name and options.
@@ -82,82 +52,7 @@ export class NotificationHubsClient extends ServiceClient {
     hubName: string,
     options: NotificationHubsClientOptions = {}
   ) {
-    super(options);
-    this._hubName = hubName;
-
-    const parsedConnection = parseNotificationHubsConnectionString(connectionString);
-    this._baseUrl = parsedConnection.endpoint;
-    this._sasTokenProvider = createTokenProviderFromConnection(
-      parsedConnection.sharedAccessKey,
-      parsedConnection.sharedAccessKeyName
-    );
-  }
-
-  /**
-   * Deletes an installation from a Notification Hub.
-   * @param installationId - The installation ID of the installation to delete.
-   * @param options - Configuration options for the installation delete operation.
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
-   */
-  public deleteInstallation(
-    installationId: string,
-    options: OperationOptions = {}
-  ): Promise<NotificationHubResponse> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-deleteInstallation",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += `/installations/${installationId}`;
-        const headers = this.createHeaders();
-
-        const request = this.createRequest(endpoint, "DELETE", headers, updatedOptions);
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 204) {
-          throw new RestError(`deleteInstallation failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return this.parseNotificationResponse(response);
-      }
-    );
-  }
-
-  /**
-   * Gets an Azure Notification Hub installation by the installation ID.
-   * @param installationId - The ID of the installation to get.
-   * @param options - Configuration options for the get installation operation.
-   * @returns The installation that matches the installation ID.
-   */
-  public getInstallation(
-    installationId: string,
-    options: OperationOptions = {}
-  ): Promise<Installation> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-getInstallation",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += `/installations/${installationId}`;
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/json");
-
-        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          throw new RestError(`getInstallation failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return JSON.parse(response.bodyAsText!) as Installation;
-      }
-    );
+    this._client = clientFromConnectionString(connectionString, hubName, options);
   }
 
   /**
@@ -166,102 +61,52 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - Configuration options for the create or update installation operation.
    * @returns The created or overwritten installation.
    */
-  public createOrUpdateInstallation(
+  createOrUpdateInstallation(
     installation: Installation,
-    options: OperationOptions = {}
+    options?: OperationOptions
   ): Promise<Installation> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-createOrUpdateInstallation",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += `/installations/${installation.installationId}`;
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/json");
+    return createOrUpdateInstallationMethod(this._client, installation, options);
+  }
 
-        const request = this.createRequest(endpoint, "PUT", headers, updatedOptions);
+  /**
+   * Deletes an installation from a Notification Hub.
+   * @param installationId - The installation ID of the installation to delete.
+   * @param options - Configuration options for the installation delete operation.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  deleteInstallation(
+    installationId: string,
+    options?: OperationOptions
+  ): Promise<NotificationHubResponse> {
+    return deleteInstallationMethod(this._client, installationId, options);
+  }
 
-        request.body = JSON.stringify(installation);
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          throw new RestError(`createOrUpdateInstallation failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return JSON.parse(response.bodyAsText!) as Installation;
-      }
-    );
+  /**
+   * Gets an Azure Notification Hub installation by the installation ID.
+   * @param installationId - The ID of the installation to get.
+   * @param options - Configuration options for the get installation operation.
+   * @returns The installation that matches the installation ID.
+   */
+  getInstallation(
+    installationId: string,
+    options?: OperationOptions
+  ): Promise<Installation> {
+    return getInstallationMethod(this._client, installationId, options);
   }
 
   /**
    * Updates an installation using the JSON-Patch standard in RFC6902.
    * @param installationId - The ID of the installation to update.
-   * @param installationPatches - An array of patches following the JSON-Patch standard.
+   * @param patches - An array of patches following the JSON-Patch standard.
    * @param options - Configuration options for the patch installation operation.
    * @returns The updated installation.
    */
-  public updateInstallation(
+  updateInstallation(
     installationId: string,
-    installationPatches: JsonPatch[],
+    patches: JsonPatch[],
     options: OperationOptions = {}
   ): Promise<Installation> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-updateInstallation",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += `/installations/${installationId}`;
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/json");
-
-        const request = this.createRequest(endpoint, "PATCH", headers, updatedOptions);
-
-        request.body = JSON.stringify(installationPatches);
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          throw new RestError(`patchInstallation failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return JSON.parse(response.bodyAsText!) as Installation;
-      }
-    );
-  }
-
-  /**
-   * Retrieves an Azure Storage container URL. The container has feedback data for the notification hub.
-   * The caller can then use the Azure Storage Services SDK to retrieve the contents of the container.
-   * @param options - The options for getting the push notification feedback container URL.
-   * @returns The URL of the Azure Storage Container containing the feedback data.
-   */
-  public getFeedbackContainerUrl(options: OperationOptions = {}): Promise<string> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-getFeedbackContainerURL",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += "/feedbackcontainer";
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
-
-        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          throw new RestError(`getFeedbackContainerURL failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return response.bodyAsText!;
-      }
-    );
+    return updateInstallationMethod(this._client, installationId, patches, options);
   }
 
   /**
@@ -269,103 +114,8 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The options for creating a new registration ID.
    * @returns The newly created registration ID.
    */
-  public createRegistrationId(options: OperationOptions = {}): Promise<string> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-createRegistrationId",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += "/registrationIDs";
-
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
-
-        const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
-        const response = await this.sendRequest(request);
-        if (response.status !== 201) {
-          throw new RestError(`createRegistrationId failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        // In the form: https://{namespace}.servicebus.windows.net/{NotificationHub}/registrations/<registrationId>
-        const locationHeader = response.headers.get("Location");
-        const locationUrl = new URL(locationHeader!);
-        const registrationId = locationUrl.pathname.split("/")[3];
-
-        return registrationId;
-      }
-    );
-  }
-
-  /**
-   * Gets a registration by the given registration ID.
-   * @param registrationId - The ID of the registration to get.
-   * @param options - The options for getting a registration by ID.
-   * @returns A RegistrationDescription that has the given registration ID.
-   */
-  public async getRegistration(
-    registrationId: string,
-    options: OperationOptions = {}
-  ): Promise<RegistrationDescription> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-getRegistration",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += `/registrations/${registrationId}`;
-
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
-
-        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          throw new RestError(`getRegistration failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return registrationDescriptionParser.parseRegistrationEntry(response.bodyAsText!);
-      }
-    );
-  }
-
-  /**
-   * Deletes a registration with the given registration ID.
-   * @param registrationId - The registration ID of the registration to delete.
-   * @param options - The options for delete operations including the ETag
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
-   */
-  public deleteRegistration(
-    registrationId: string,
-    options: EntityOperationOptions = {}
-  ): Promise<NotificationHubResponse> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-deleteRegistration",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += `/registrations/${registrationId}`;
-
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
-        headers.set("If-Match", options.etag ?? "*");
-
-        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          throw new RestError(`deleteRegistration failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return this.parseNotificationResponse(response);
-      }
-    );
+  createRegistrationId(options: OperationOptions): Promise<string> {
+    return createRegistrationIdMethod(this._client, options);
   }
 
   /**
@@ -375,28 +125,11 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - Options for creating a new registration.
    * @returns The newly created registration description.
    */
-  public async createRegistration(
-    registration: RegistrationDescription,
+  createRegistration(
+    registration: RegistrationDescription, 
     options: OperationOptions = {}
   ): Promise<RegistrationDescription> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-createRegistration",
-      options,
-      async (updatedOptions) => {
-        if (registration.registrationId) {
-          throw new RestError("registrationId must not be set during a create operation", {
-            statusCode: 400,
-          });
-        }
-
-        return this.createOrUpdateRegistrationDescription(
-          registration,
-          "create",
-          "*",
-          updatedOptions
-        );
-      }
-    );
+    return createRegistrationMethod(this._client, registration, options);
   }
 
   /**
@@ -405,22 +138,11 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The operation options.
    * @returns The created or updated registration description.
    */
-  public async createOrUpdateRegistration(
+  createOrUpdateRegistration(
     registration: RegistrationDescription,
     options: OperationOptions = {}
   ): Promise<RegistrationDescription> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-createOrUpdateRegistration",
-      options,
-      async (updatedOptions) => {
-        return this.createOrUpdateRegistrationDescription(
-          registration,
-          "createOrUpdate",
-          "*",
-          updatedOptions
-        );
-      }
-    );
+    return createOrUpdateRegistrationMethod(this._client, registration, options);
   }
 
   /**
@@ -429,61 +151,24 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The operation options.
    * @returns The updated registration description.
    */
-  public async updateRegistration(
+  updateRegistration(
     registration: RegistrationDescription,
     options: OperationOptions = {}
   ): Promise<RegistrationDescription> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-updateRegistration",
-      options,
-      async (updatedOptions) => {
-        if (!registration.etag) {
-          throw new RestError("ETag is required for registration update", { statusCode: 400 });
-        }
-        return this.createOrUpdateRegistrationDescription(
-          registration,
-          "update",
-          `"${registration.etag}"`,
-          updatedOptions
-        );
-      }
-    );
+    return updateRegistrationMethod(this._client, registration, options);
   }
 
-  private async createOrUpdateRegistrationDescription(
-    registration: RegistrationDescription,
-    operationName: "create" | "createOrUpdate" | "update",
-    etag: string,
-    options: OperationOptions
+/**
+ * Gets a registration by the given registration ID.
+ * @param registrationId - The ID of the registration to get.
+ * @param options - The options for getting a registration by ID.
+ * @returns A RegistrationDescription that has the given registration ID.
+ */
+  getRegistration(
+    registrationId: string,
+    options: OperationOptions = {}
   ): Promise<RegistrationDescription> {
-    const endpoint = this.getBaseUrl();
-    endpoint.pathname += "/registrations";
-    let httpMethod: HttpMethods = "POST";
-
-    if (operationName === "createOrUpdate" || operationName === "update") {
-      endpoint.pathname += `/${registration.registrationId}`;
-      httpMethod = "PUT";
-    }
-
-    // Clear out readonly properties
-    registration.registrationId = undefined;
-    registration.etag = undefined;
-
-    const headers = this.createHeaders();
-    headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
-    headers.set("If-Match", etag);
-
-    const request = this.createRequest(endpoint, httpMethod, headers, options);
-    request.body = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
-    const response = await this.sendRequest(request);
-    if (response.status !== 200 && response.status !== 201) {
-      throw new RestError(`${operationName}Registration failed with ${response.status}`, {
-        statusCode: response.status,
-        response: response,
-      });
-    }
-
-    return registrationDescriptionParser.parseRegistrationEntry(response.bodyAsText!);
+    return getRegistrationMethod(this._client, registrationId, options);
   }
 
   /**
@@ -491,92 +176,10 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The options for querying the registrations such as $top and $filter.
    * @returns A paged async iterable containing all of the registrations for the notification hub.
    */
-  public listRegistrations(
+  listRegistrations(
     options: RegistrationQueryOptions = {}
   ): PagedAsyncIterableIterator<RegistrationDescription> {
-    const { span, updatedOptions } = tracingClient.startSpan(
-      "NotificationHubsClient-listRegistrations",
-      options
-    );
-    try {
-      const iter = this.listRegistrationsAll(updatedOptions);
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: () => {
-          return this.listRegistrationPagingPage(options);
-        },
-      };
-    } catch (e: any) {
-      span.setStatus({ status: "error", error: e });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  private async *listRegistrationsAll(
-    options: RegistrationQueryOptions
-  ): AsyncIterableIterator<RegistrationDescription> {
-    for await (const page of this.listRegistrationPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  private async *listRegistrationPagingPage(
-    options: RegistrationQueryOptions
-  ): AsyncIterableIterator<RegistrationDescription[]> {
-    let result = await this._listRegistrations(options);
-    yield result.registrations || [];
-    let continuationToken = result.continuationToken;
-    while (continuationToken) {
-      result = await this._listRegistrations(options, continuationToken);
-      continuationToken = result.continuationToken;
-      yield result.registrations || [];
-    }
-  }
-
-  private async _listRegistrations(
-    options: RegistrationQueryOptions,
-    continuationToken?: string
-  ): Promise<RegistrationQueryResponse> {
-    const endpoint = this.getBaseUrl();
-    endpoint.pathname += "/registrations";
-    if (options.top !== undefined) {
-      endpoint.searchParams.set("$top", `${options.top}`);
-    }
-
-    if (options.filter !== undefined) {
-      endpoint.searchParams.set("$filter", options.filter);
-    }
-
-    if (continuationToken !== undefined) {
-      endpoint.searchParams.set("continuationtoken", continuationToken);
-    }
-
-    const headers = this.createHeaders();
-
-    const request = this.createRequest(endpoint, "GET", headers, options);
-    const response = await this.sendRequest(request);
-    if (response.status !== 200) {
-      throw new RestError(`listRegistrations failed with ${response.status}`, {
-        statusCode: response.status,
-        response: response,
-      });
-    }
-
-    const registrations = await registrationDescriptionParser.parseRegistrationFeed(
-      response.bodyAsText!
-    );
-    const nextToken = response.headers.get("x-ms-continuationtoken");
-    return {
-      registrations,
-      continuationToken: nextToken,
-    };
+    return listRegistrationsMethod(this._client, options);
   }
 
   /**
@@ -585,92 +188,11 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The query options such as $top.
    * @returns A paged async iterable containing the matching registrations for the notification hub.
    */
-  public listRegistrationsByTag(
+  listRegistrationsByTag(
     tag: string,
     options: RegistrationQueryLimitOptions = {}
   ): PagedAsyncIterableIterator<RegistrationDescription> {
-    const { span, updatedOptions } = tracingClient.startSpan(
-      "NotificationHubsClient-listRegistrationsByTag",
-      options
-    );
-    try {
-      const iter = this.listRegistrationsByTagAll(tag, updatedOptions);
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: () => {
-          return this.listRegistrationsByTagPagingPage(tag, options);
-        },
-      };
-    } catch (e: any) {
-      span.setStatus({ status: "error", error: e });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  private async *listRegistrationsByTagAll(
-    tag: string,
-    options: RegistrationQueryLimitOptions
-  ): AsyncIterableIterator<RegistrationDescription> {
-    for await (const page of this.listRegistrationsByTagPagingPage(tag, options)) {
-      yield* page;
-    }
-  }
-
-  private async *listRegistrationsByTagPagingPage(
-    tag: string,
-    options: RegistrationQueryLimitOptions
-  ): AsyncIterableIterator<RegistrationDescription[]> {
-    let result = await this._listRegistrationsByTag(tag, options);
-    yield result.registrations || [];
-    let continuationToken = result.continuationToken;
-    while (continuationToken) {
-      result = await this._listRegistrationsByTag(tag, options, continuationToken);
-      continuationToken = result.continuationToken;
-      yield result.registrations || [];
-    }
-  }
-
-  private async _listRegistrationsByTag(
-    tag: string,
-    options: RegistrationQueryLimitOptions,
-    continuationToken?: string
-  ): Promise<RegistrationQueryResponse> {
-    const endpoint = this.getBaseUrl();
-    endpoint.pathname += `/tags/${tag}/registrations`;
-    if (options.top !== undefined) {
-      endpoint.searchParams.set("$top", `${options.top}`);
-    }
-
-    if (continuationToken !== undefined) {
-      endpoint.searchParams.set("continuationtoken", continuationToken);
-    }
-
-    const headers = this.createHeaders();
-
-    const request = this.createRequest(endpoint, "GET", headers, options);
-    const response = await this.sendRequest(request);
-    if (response.status !== 200) {
-      throw new RestError(`listRegistrations failed with ${response.status}`, {
-        statusCode: response.status,
-        response: response,
-      });
-    }
-
-    const registrations = await registrationDescriptionParser.parseRegistrationFeed(
-      response.bodyAsText!
-    );
-    const nextToken = response.headers.get("x-ms-continuationtoken");
-    return {
-      registrations,
-      continuationToken: nextToken,
-    };
+    return listRegistrationsByTagMethod(this._client, tag, options);
   }
 
   /**
@@ -681,18 +203,12 @@ export class NotificationHubsClient extends ServiceClient {
    * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
-  public sendDirectNotification(
+  sendDirectNotification(
     pushHandle: PushHandle,
     notification: Notification,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubMessageResponse> {
-    return this.sendNotificationPayload(
-      notification,
-      "sendDirectNotification",
-      pushHandle,
-      undefined,
-      options
-    );
+    return sendDirectNotificationMethod(this._client, pushHandle, notification, options);
   }
 
   /**
@@ -703,12 +219,26 @@ export class NotificationHubsClient extends ServiceClient {
    * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
-  public sendNotification(
+  sendNotification(
     tags: string[] | string,
     notification: Notification,
     options: SendOperationOptions = {}
   ): Promise<NotificationHubMessageResponse> {
-    return this.sendNotificationPayload(notification, "sendNotification", undefined, tags, options);
+    return sendNotificationMethod(this._client, tags, notification, options);
+  }
+
+/**
+ * Sends push notifications to all devices on the Notification Hub.
+ * @param notification - The notification to send to all devices.
+ * @param options - Configuration options for the direct send operation which can contain custom headers
+ * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+ * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+ */
+  sendBroadcastNotification(
+    notification: Notification,
+    options: SendOperationOptions = {}
+  ): Promise<NotificationHubMessageResponse> {
+    return sendBroadcastNotificationMethod(this._client, notification, options);
   }
 
   /**
@@ -721,56 +251,31 @@ export class NotificationHubsClient extends ServiceClient {
    * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
-  public scheduleNotification(
+  scheduleNotification(
     scheduledTime: Date,
     tags: string[] | string,
     notification: Notification,
     options: OperationOptions = {}
   ): Promise<NotificationHubMessageResponse> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-$scheduleNotification",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += "/schedulednotifications/";
-
-        const headers = this.createHeaders();
-        if (notification.headers) {
-          for (const headerName of Object.keys(notification.headers)) {
-            headers.set(headerName, notification.headers[headerName]);
-          }
-        }
-
-        headers.set("ServiceBusNotification-ScheduleTime", scheduledTime.toISOString());
-        headers.set("Content-Type", notification.contentType);
-        headers.set("ServiceBusNotification-Format", notification.platform);
-
-        if (tags) {
-          let tagExpression = null;
-          if (Array.isArray(tags)) {
-            tagExpression = tags.join("||");
-          } else {
-            tagExpression = tags;
-          }
-          headers.set("ServiceBusNotification-Tags", tagExpression);
-        }
-
-        const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
-
-        request.body = notification.body;
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 201) {
-          throw new RestError(`scheduleNotification failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return this.parseNotificationSendResponse(response);
-      }
-    );
+    return scheduleNotificationMethod(this._client, scheduledTime, tags, notification, options);
   }
+
+/**
+ * Schedules a push notification to all devices registered on the Notification Hub.
+ * NOTE: This is only available in Standard SKU Azure Notification Hubs.
+ * @param scheduledTime - The Date to send the push notification.
+ * @param notification - The notification to send to the matching devices.
+ * @param options - Configuration options for the direct send operation which can contain custom headers
+ * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+ * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+ */
+  scheduleBroadcastNotification(
+    scheduledTime: Date,
+    notification: Notification,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubMessageResponse> {
+    return scheduleBroadcastNotificationMethod(this._client, scheduledTime, notification, options);
+  }  
 
   /**
    * Cancels the scheduled notification with the given notification ID.
@@ -778,99 +283,23 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The operation options.
    * @returns A notification hub response with correlation ID and tracking ID.
    */
-  public async cancelScheduledNotification(
+  cancelScheduledNotification(
     notificationId: string,
     options: OperationOptions = {}
   ): Promise<NotificationHubResponse> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-cancelScheduledNotification",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += `/schedulednotifications/${notificationId}`;
-
-        const headers = this.createHeaders();
-        const request = this.createRequest(endpoint, "DELETE", headers, updatedOptions);
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          throw new RestError(`cancelScheduledNotification failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return this.parseNotificationSendResponse(response);
-      }
-    );
+    return cancelScheduledNotificationMethod(this._client, notificationId, options);
   }
 
-  private sendNotificationPayload(
-    notification: Notification,
-    method: string,
-    pushHandle?: PushHandle,
-    tags?: string | string[],
-    options: SendOperationOptions = {}
-  ): Promise<NotificationHubMessageResponse> {
-    return tracingClient.withSpan(
-      `NotificationHubsClient-${method}`,
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += "/messages/";
-
-        if (options.enableTestSend) {
-          endpoint.searchParams.append("debug", "true");
-        }
-
-        const headers = this.createHeaders();
-        if (notification.headers) {
-          for (const headerName of Object.keys(notification.headers)) {
-            headers.set(headerName, notification.headers[headerName]);
-          }
-        }
-
-        if (pushHandle) {
-          endpoint.searchParams.append("direct", "true");
-
-          if (notification.platform === "browser") {
-            const browserHandle = pushHandle as BrowserPushChannel;
-            headers.set("ServiceBusNotification-DeviceHandle", browserHandle.endpoint);
-            headers.set("Auth", browserHandle.auth);
-            headers.set("P256DH", browserHandle.p256dh);
-          } else {
-            headers.set("ServiceBusNotification-DeviceHandle", pushHandle as string);
-          }
-        }
-
-        headers.set("Content-Type", notification.contentType);
-        headers.set("ServiceBusNotification-Format", notification.platform);
-
-        if (tags) {
-          let tagExpression = null;
-          if (Array.isArray(tags)) {
-            tagExpression = tags.join("||");
-          } else {
-            tagExpression = tags;
-          }
-          headers.set("ServiceBusNotification-Tags", tagExpression);
-        }
-
-        const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
-
-        request.body = notification.body;
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 201) {
-          throw new RestError(`${method} failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return this.parseNotificationSendResponse(response);
-      }
-    );
+  /**
+   * Retrieves an Azure Storage container URL. The container has feedback data for the notification hub.
+   * The caller can then use the Azure Storage Services SDK to retrieve the contents of the container.
+   * @param options - The options for getting the push notification feedback container URL.
+   * @returns The URL of the Azure Storage Container containing the feedback data.
+   */
+  getFeedbackContainerUrl(
+    options: OperationOptions = {},
+  ): Promise<string> {
+    return getFeedbackContainerUrlMethod(this._client, options);
   }
 
   /**
@@ -880,67 +309,11 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The operation options.
    * @returns The results of the send operation.
    */
-  public async getNotificationOutcomeDetails(
+  getNotificationOutcomeDetails(
     notificationId: string,
     options: OperationOptions = {}
   ): Promise<NotificationDetails> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-getNotificationOutcomeDetails",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += `/messages/${notificationId}`;
-
-        const headers = this.createHeaders();
-        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          throw new RestError(`getNotificationOutcomeDetails failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return parseNotificationDetails(response.bodyAsText!);
-      }
-    );
-  }
-
-  /**
-   * Submits a Notification Hub Job.  Note this is available to Standard SKU namespace and above.
-   * @param job - The notification hub job to submit.
-   * @param options - The operation options.
-   * @returns The notification hub job details including job ID and status.
-   */
-  public async submitNotificationHubJob(
-    job: NotificationHubJob,
-    options: OperationOptions = {}
-  ): Promise<NotificationHubJob> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-submitNotificationHubJob",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += "/jobs";
-
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
-
-        const request = this.createRequest(endpoint, "POST", headers, updatedOptions);
-        request.body = serializeNotificationHubJobEntry(job);
-
-        const response = await this.sendRequest(request);
-        if (response.status !== 201) {
-          throw new RestError(`submitNotificationHubJob failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return parseNotificationHubJobEntry(response.bodyAsText!);
-      }
-    );
+    return getNotificationOutcomeDetailsMethod(this._client, notificationId, options);
   }
 
   /**
@@ -949,32 +322,24 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The operation options.
    * @returns The Notification Hub Job with the matching ID.
    */
-  public getNotificationHubJob(
+  getNotificationHubJob(
     jobId: string,
     options: OperationOptions = {}
   ): Promise<NotificationHubJob> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-getNotificationHubJob",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += `/jobs/${jobId}`;
+    return getNotificationHubJobMethod(this._client, jobId, options);
+  }
 
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
-
-        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          throw new RestError(`getNotificationHubJob failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return parseNotificationHubJobEntry(response.bodyAsText!);
-      }
-    );
+  /**
+   * Submits a Notification Hub Job.  Note this is available to Standard SKU namespace and above.
+   * @param job - The notification hub job to submit.
+   * @param options - The operation options.
+   * @returns The notification hub job details including job ID and status.
+   */
+  submitNotificationHubJob(
+    job: NotificationHubJob,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubJob> {
+    return submitNotificationHubJobMethod(this._client, job, options);
   }
 
   /**
@@ -982,92 +347,9 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The operation options.
    * @returns An array of all Notification Hub Jobs for this Notification Hub.
    */
-  public async listNotificationHubJobs(
+  listNotificationHubJobs(
     options: OperationOptions = {}
   ): Promise<NotificationHubJob[]> {
-    return tracingClient.withSpan(
-      "NotificationHubsClient-getNotificationHubJobs",
-      options,
-      async (updatedOptions) => {
-        const endpoint = this.getBaseUrl();
-        endpoint.pathname += "/jobs";
-
-        const headers = this.createHeaders();
-        headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
-
-        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
-        const response = await this.sendRequest(request);
-        if (response.status !== 200) {
-          throw new RestError(`getNotificationHubJobs failed with ${response.status}`, {
-            statusCode: response.status,
-            response: response,
-          });
-        }
-
-        return parseNotificationHubJobFeed(response.bodyAsText!);
-      }
-    );
-  }
-
-  private createHeaders(): HttpHeaders {
-    const authorization = this._sasTokenProvider.getToken(this._baseUrl);
-    const headers = createHttpHeaders();
-    headers.set("Authorization", authorization.token);
-    headers.set("x-ms-version", API_VERSION);
-
-    return headers;
-  }
-
-  private createRequest(
-    endpoint: URL,
-    method: HttpMethods,
-    headers: HttpHeaders,
-    options: OperationOptions
-  ): PipelineRequest {
-    return createPipelineRequest({
-      ...options.tracingOptions,
-      ...options.requestOptions,
-      url: endpoint.toString(),
-      abortSignal: options.abortSignal,
-      method,
-      headers,
-    });
-  }
-
-  private parseNotificationResponse(response: PipelineResponse): NotificationHubResponse {
-    const correlationId = response.headers.get("x-ms-correlation-request-id");
-    const trackingId = response.headers.get("TrackingId");
-    const location = response.headers.get("Location");
-
-    return {
-      correlationId,
-      trackingId,
-      location,
-    };
-  }
-
-  private parseNotificationSendResponse(
-    response: PipelineResponse
-  ): NotificationHubMessageResponse {
-    const result = this.parseNotificationResponse(response);
-    let notificationId: string | undefined;
-    if (result.location) {
-      const locationUrl = new URL(result.location);
-      notificationId = locationUrl.pathname.split("/")[3];
-    }
-
-    return {
-      ...result,
-      notificationId,
-    };
-  }
-
-  private getBaseUrl(): URL {
-    // Node doesn't allow change in protocol but browsers do, so doing a string replace
-    const url = new URL(this._baseUrl.replace("sb://", "https://"));
-    url.pathname = this._hubName;
-    url.searchParams.set("api-version", API_VERSION);
-
-    return url;
+    return listNotificationHubJobsMethod(this._client, options);
   }
 }

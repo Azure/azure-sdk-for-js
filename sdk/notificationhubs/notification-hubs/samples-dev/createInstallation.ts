@@ -13,7 +13,11 @@
  * @azsdk-weight 100
  */
 
-import { clientFromConnectionString, createAppleInstallation } from "@azure/notification-hubs";
+import { 
+  clientFromConnectionString, 
+  createAppleInstallation,
+  createOrUpdateInstallation,
+} from "@azure/notification-hubs";
 import { v4 } from "uuid";
 
 // Load the .env file if it exists
@@ -37,7 +41,7 @@ async function main() {
     tags: ["likes_hockey", "likes_football"],
   });
 
-  const updatedInstallation = await client.createOrUpdateInstallation(installation);
+  const updatedInstallation = await createOrUpdateInstallation(client, installation);
   console.log(`Installation last update: ${updatedInstallation.lastUpdate}`);
 }
 

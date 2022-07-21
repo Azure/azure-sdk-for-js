@@ -17,9 +17,24 @@ import { SasTokenProvider } from "@azure/core-amqp";
 
 const API_VERSION = "2020-06";
 
+/**
+ * Represents the Notification Hubs SDK client.
+ */
 export interface NotificationHubsClient {
+
+  /**
+   * The SAS Token Provider for connecting to Notification Hubs.
+   */
   sasTokenProvider: SasTokenProvider;
+
+  /**
+   * The base URL for the Notification Hub namespace.
+   */
   baseUrl: string;
+
+  /**
+   * The Notification Hub name.
+   */
   hubName: string;
 
   /**

@@ -15,12 +15,14 @@
  */
 
 import {
-  createAppleNotification,
-  clientFromConnectionString,
-  SendOperationOptions,
   NotificationDetails,
   NotificationHubsClient,
   NotificationOutcomeState,
+  SendOperationOptions,
+  createAppleNotification,
+  clientFromConnectionString,
+  getNotificationOutcomeDetails,
+  sendNotification,
 } from "@azure/notification-hubs";
 import { delay } from "@azure/core-amqp";
 
@@ -48,7 +50,7 @@ async function main() {
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await client.sendNotification(tagExpression, notification, sendOptions);
+  const result = await sendNotification(client, tagExpression, notification, sendOptions);
 
   console.log(`Tag Expression send Tracking ID: ${result.trackingId}`);
   console.log(`Tag Expression Correlation ID: ${result.correlationId}`);
@@ -73,7 +75,7 @@ async function getNotificationDetails(
   let result: NotificationDetails | undefined;
   while ((state === "Enqueued" || state === "Processing") && count++ < 10) {
     try {
-      result = await client.getNotificationOutcomeDetails(notificationId);
+      result = await getNotificationOutcomeDetails(client, notificationId);
       state = result.state!;
     } catch (e) {
       // Possible to get 404 for when it doesn't exist yet.

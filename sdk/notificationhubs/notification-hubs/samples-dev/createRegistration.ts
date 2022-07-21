@@ -16,6 +16,7 @@
 import {
   createAppleRegistrationDescription,
   clientFromConnectionString,
+  createRegistration,
 } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
@@ -38,7 +39,7 @@ async function main() {
     tags: ["likes_football", "likes_hockey"],
   });
 
-  const registrationResponse = await client.createRegistration(registration);
+  const registrationResponse = await createRegistration(client, registration);
 
   console.log(`Registration ID: ${registrationResponse.registrationId}`);
 }

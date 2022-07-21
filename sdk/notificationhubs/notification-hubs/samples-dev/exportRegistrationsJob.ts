@@ -13,7 +13,12 @@
  * @azsdk-weight 100
  */
 
-import { clientFromConnectionString, NotificationHubJob } from "@azure/notification-hubs";
+import { 
+  NotificationHubJob, 
+  clientFromConnectionString, 
+  getNotificationHubJob, 
+  submitNotificationHubJob 
+} from "@azure/notification-hubs";
 import { delay } from "@azure/core-amqp";
 
 // Load the .env file if it exists
@@ -35,11 +40,11 @@ async function main() {
     type: "ExportRegistrations",
   };
 
-  exportJob = await client.submitNotificationHubJob(exportJob);
+  exportJob = await submitNotificationHubJob(client, exportJob);
 
   let count = 0;
   while (exportJob.status !== "Completed" && exportJob.status !== "Failed" && count++ < 10) {
-    exportJob = await client.getNotificationHubJob(exportJob.jobId!);
+    exportJob = await getNotificationHubJob(client, exportJob.jobId!);
     await delay(1000);
   }
 

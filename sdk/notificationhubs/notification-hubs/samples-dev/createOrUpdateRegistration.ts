@@ -17,6 +17,8 @@
 import {
   createAppleRegistrationDescription,
   clientFromConnectionString,
+  createRegistrationId,
+  createOrUpdateRegistration,
 } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
@@ -34,7 +36,7 @@ const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 async function main() {
   const client = clientFromConnectionString(connectionString, hubName);
 
-  const registrationId = await client.createRegistrationId();
+  const registrationId = await createRegistrationId(client);
 
   const registration = createAppleRegistrationDescription({
     registrationId,
@@ -42,7 +44,7 @@ async function main() {
     tags: ["likes_football", "likes_hockey"],
   });
 
-  const registrationResponse = await client.createOrUpdateRegistration(registration);
+  const registrationResponse = await createOrUpdateRegistration(client, registration);
 
   console.log(`Registration ID: ${registrationResponse.registrationId}`);
 }

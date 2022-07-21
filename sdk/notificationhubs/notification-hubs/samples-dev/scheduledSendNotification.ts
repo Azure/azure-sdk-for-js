@@ -19,6 +19,7 @@ import {
   createAppleNotification,
   clientFromConnectionString,
   SendOperationOptions,
+  scheduleNotification,
 } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
@@ -48,7 +49,8 @@ async function main() {
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await client.scheduleNotification(
+  const result = await scheduleNotification(
+    client,
     scheduledTime,
     tagExpression,
     notification,

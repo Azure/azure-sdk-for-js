@@ -4,10 +4,15 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { CommonClientOptions } from '@azure/core-client';
+import { HttpHeaders } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { ServiceClient } from '@azure/core-client';
+import { PipelineRequest } from '@azure/core-rest-pipeline';
+import { PipelineResponse } from '@azure/core-rest-pipeline';
+import { SasTokenProvider } from '@azure/core-amqp';
 
 // @public
 export interface AdmInstallation extends DeviceTokenInstallation {
@@ -182,6 +187,9 @@ export interface BrowserTemplateRegistrationDescription extends Omit<BrowserRegi
 export function buildAppleNativeMessage(nativeMessage: AppleNativeMessage, additionalProperties?: Record<string, any>): AppleNotification;
 
 // @public
+export function cancelScheduledNotification(client: NotificationHubsClient, notificationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
+
+// @public
 export function clientFromConnectionString(connectionString: string, hubName: string, options?: NotificationHubsClientOptions): NotificationHubsClient;
 
 // @public
@@ -266,7 +274,22 @@ export function createMpnsRegistrationDescription(description: Omit<MpnsRegistra
 export function createMpnsTemplateRegistrationDescription(description: Omit<MpnsTemplateRegistrationDescription, "type">): MpnsTemplateRegistrationDescription;
 
 // @public
+export function createOrUpdateInstallation(client: NotificationHubsClient, installation: Installation, options?: OperationOptions): Promise<Installation>;
+
+// @public
+export function createOrUpdateRegistration(client: NotificationHubsClient, registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
+
+// @public
+export function createRegistration(client: NotificationHubsClient, registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
+
+// @public
+export function createRegistrationId(client: NotificationHubsClient, options?: OperationOptions): Promise<string>;
+
+// @public
 export function createTemplateNotification(notification: Omit<TemplateNotification, "platform" | "contentType">): TemplateNotification;
+
+// @public
+export function createWindowsBadgeNativeMessage(nativeMessage: WindowsBadgeNativeMessage): WindowsNotification;
 
 // @public
 export function createWindowsBadgeNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
@@ -288,6 +311,9 @@ export function createWindowsTileNotification(notification: Omit<WindowsNotifica
 
 // @public
 export function createWindowsToastNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
+
+// @public
+export function deleteInstallation(client: NotificationHubsClient, installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
 
 // @public
 export interface DeviceTokenInstallation extends InstallationCommon {
@@ -386,6 +412,21 @@ export interface GcmTemplateRegistrationDescription extends Omit<GcmRegistration
 }
 
 // @public
+export function getFeedbackContainerUrl(client: NotificationHubsClient, options?: OperationOptions): Promise<string>;
+
+// @public
+export function getInstallation(client: NotificationHubsClient, installationId: string, options?: OperationOptions): Promise<Installation>;
+
+// @public
+export function getNotificationHubJob(client: NotificationHubsClient, jobId: string, options?: OperationOptions): Promise<NotificationHubJob>;
+
+// @public
+export function getNotificationOutcomeDetails(client: NotificationHubsClient, notificationId: string, options?: OperationOptions): Promise<NotificationDetails>;
+
+// @public
+export function getRegistration(client: NotificationHubsClient, registrationId: string, options?: OperationOptions): Promise<RegistrationDescription>;
+
+// @public
 export type Installation = AppleInstallation | AdmInstallation | BaiduInstallation | BrowserInstallation | FirebaseLegacyInstallation | WindowsInstallation;
 
 // @public
@@ -420,6 +461,15 @@ export interface JsonPatch {
 
 // @public
 export type JsonPatchOperation = "add" | "remove" | "replace";
+
+// @public
+export function listNotificationHubJobs(client: NotificationHubsClient, options?: OperationOptions): Promise<NotificationHubJob[]>;
+
+// @public
+export function listRegistrations(client: NotificationHubsClient, options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
+
+// @public
+export function listRegistrationsByTag(client: NotificationHubsClient, tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
 
 // @public @deprecated
 export interface MpnsRegistrationDescription extends RegistrationDescriptionCommon {
@@ -538,15 +588,31 @@ export interface NotificationHubResponse {
 }
 
 // @public
-export class NotificationHubsClient extends ServiceClient {
+export interface NotificationHubsClient {
+    baseUrl: string;
+    // @internal (undocumented)
+    createHeaders(): HttpHeaders;
+    // @internal (undocumented)
+    getBaseUrl(): URL;
+    hubName: string;
+    sasTokenProvider: SasTokenProvider;
+    // @internal (undocumented)
+    sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
+}
+
+// @public
+export interface NotificationHubsClientOptions extends CommonClientOptions {
+}
+
+// @public
+export class NotificationHubsServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
     cancelScheduledNotification(notificationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
     createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<Installation>;
     createOrUpdateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
     createRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
-    createRegistrationId(options?: OperationOptions): Promise<string>;
+    createRegistrationId(options: OperationOptions): Promise<string>;
     deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
-    deleteRegistration(registrationId: string, options?: EntityOperationOptions): Promise<NotificationHubResponse>;
     getFeedbackContainerUrl(options?: OperationOptions): Promise<string>;
     getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
     getNotificationHubJob(jobId: string, options?: OperationOptions): Promise<NotificationHubJob>;
@@ -555,16 +621,14 @@ export class NotificationHubsClient extends ServiceClient {
     listNotificationHubJobs(options?: OperationOptions): Promise<NotificationHubJob[]>;
     listRegistrations(options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
+    scheduleBroadcastNotification(scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
     scheduleNotification(scheduledTime: Date, tags: string[] | string, notification: Notification, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
+    sendBroadcastNotification(notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
     sendDirectNotification(pushHandle: PushHandle, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
     sendNotification(tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
-    updateInstallation(installationId: string, installationPatches: JsonPatch[], options?: OperationOptions): Promise<Installation>;
+    updateInstallation(installationId: string, patches: JsonPatch[], options?: OperationOptions): Promise<Installation>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
-}
-
-// @public
-export interface NotificationHubsClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -612,9 +676,27 @@ export interface RegistrationQueryResponse {
 export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate" | "Baidu" | "BaiduTemplate" | "Browser" | "BrowserTemplate" | "Gcm" | "GcmTemplate" | "Fcm" | "FcmTemplate" | "Mpns" | "MpnsTemplate" | "Windows" | "WindowsTemplate";
 
 // @public
+export function scheduleBroadcastNotification(client: NotificationHubsClient, scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
+
+// @public
+export function scheduleNotification(client: NotificationHubsClient, scheduledTime: Date, tags: string[] | string, notification: Notification, options?: OperationOptions): Promise<NotificationHubMessageResponse>;
+
+// @public
+export function sendBroadcastNotification(client: NotificationHubsClient, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
+
+// @public
+export function sendDirectNotification(client: NotificationHubsClient, pushHandle: PushHandle, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
+
+// @public
+export function sendNotification(client: NotificationHubsClient, tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubMessageResponse>;
+
+// @public
 export interface SendOperationOptions extends OperationOptions {
     enableTestSend?: boolean;
 }
+
+// @public
+export function submitNotificationHubJob(client: NotificationHubsClient, job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
 
 // @public
 export interface TemplateNotification extends JsonNotification {
@@ -625,6 +707,20 @@ export interface TemplateNotification extends JsonNotification {
 export interface TemplateRegistrationDescription {
     bodyTemplate: string;
     templateName?: string;
+}
+
+// @public
+export function updateInstallation(client: NotificationHubsClient, installationId: string, installationPatches: JsonPatch[], options?: OperationOptions): Promise<Installation>;
+
+// @public
+export function updateRegistration(client: NotificationHubsClient, registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
+
+// @public
+export type WindowsBadgeGlyphType = "none" | "activity" | "alarm" | "alert" | "attention" | "available" | "away" | "busy" | "error" | "newMessage" | "paused" | "playing" | "unavailable";
+
+// @public
+export interface WindowsBadgeNativeMessage {
+    value: WindowsBadgeGlyphType | number;
 }
 
 // @public

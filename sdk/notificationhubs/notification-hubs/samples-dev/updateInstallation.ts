@@ -14,7 +14,7 @@
  * @azsdk-weight 100
  */
 
-import { clientFromConnectionString, JsonPatch } from "@azure/notification-hubs";
+import { JsonPatch, clientFromConnectionString, updateInstallation } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -35,7 +35,7 @@ async function main() {
     { op: "add", path: "/userId", value: "bob@contoso.com" },
   ];
 
-  const updatedInstallation = await client.updateInstallation(installationId, updates);
+  const updatedInstallation = await updateInstallation(client, installationId, updates);
   console.log(`Installation last update: ${updatedInstallation.lastUpdate}`);
 }
 
