@@ -15,7 +15,7 @@ import { createCommunicationAuthPolicy } from "@azure/communication-common";
 /**
  * Client options used to configure the AlphaIdsClient API requests.
  */
-export interface AlphaIdsClientOptions extends CommonClientOptions { }
+export interface AlphaIdsClientOptions extends CommonClientOptions {}
 
 const isAlphaIdsClientOptions = (options: any): options is AlphaIdsClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -65,7 +65,7 @@ export class AlphaIdsClient {
       "AlphaIdsClient-getConfiguration",
       options,
       async (updatedOptions) => {
-        return await this.client.alphaIds.getConfiguration(updatedOptions);
+        return this.client.alphaIds.getConfiguration(updatedOptions);
       }
     );
   }
@@ -78,7 +78,7 @@ export class AlphaIdsClient {
       "AlphaIdsClient-upsertConfiguration",
       options,
       async (updatedOptions) => {
-        return await this.client.alphaIds.upsertConfiguration(enabled, updatedOptions);
+        return this.client.alphaIds.upsertConfiguration(enabled, updatedOptions);
       }
     );
   }
