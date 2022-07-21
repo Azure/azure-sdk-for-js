@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { Notification } from "../models/notification";
-import { NotificationHubMessageResponse } from "../models/response";
 import { NotificationHubsClient } from "./client";
+import { NotificationHubsMessageResponse } from "../models/response";
 import { PushHandle } from "../models/installation";
 import { SendOperationOptions } from "../models/options";
 import { sendNotificationPayload } from "./_sendNotificationPayload";
@@ -22,7 +22,7 @@ export function sendDirectNotification(
   pushHandle: PushHandle,
   notification: Notification,
   options: SendOperationOptions = {}
-): Promise<NotificationHubMessageResponse> {
+): Promise<NotificationHubsMessageResponse> {
   return sendNotificationPayload(
     client,
     notification,

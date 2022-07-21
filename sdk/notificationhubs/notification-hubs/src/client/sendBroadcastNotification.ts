@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { Notification } from "../models/notification";
-import { NotificationHubMessageResponse } from "../models/response";
 import { NotificationHubsClient } from "./client";
+import { NotificationHubsMessageResponse } from "../models/response";
 import { SendOperationOptions } from "../models/options";
 import { sendNotificationPayload } from "./_sendNotificationPayload";
 
@@ -19,6 +19,13 @@ export function sendBroadcastNotification(
   client: NotificationHubsClient,
   notification: Notification,
   options: SendOperationOptions = {}
-): Promise<NotificationHubMessageResponse> {
-  return sendNotificationPayload(client, notification, "sendNotification", undefined, undefined, options);
+): Promise<NotificationHubsMessageResponse> {
+  return sendNotificationPayload(
+    client,
+    notification,
+    "sendNotification",
+    undefined,
+    undefined,
+    options
+  );
 }

@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubsClient, 
-  createRequest, 
-} from "./client";
+import { NotificationHubsClient, createRequest } from "./client";
 import { NotificationHubJob } from "../models/notificationHubJob";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";

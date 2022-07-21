@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubsClient,
-  createRequest,
-  parseNotificationResponse 
-} from "./client"
-import { NotificationHubResponse } from "../models/response";
+import { NotificationHubsClient, createRequest, parseNotificationResponse } from "./client";
+import { NotificationHubsResponse } from "../models/response";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing";
@@ -22,7 +18,7 @@ export function deleteInstallation(
   client: NotificationHubsClient,
   installationId: string,
   options: OperationOptions = {}
-): Promise<NotificationHubResponse> {
+): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     "NotificationHubsClient-deleteInstallation",
     options,

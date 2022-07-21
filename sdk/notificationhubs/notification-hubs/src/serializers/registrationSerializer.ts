@@ -621,7 +621,9 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
     const rootName = `${description.type}RegistrationDescription`;
     const methodName = `serialize${rootName}`;
 
-    const method = (this[methodName as keyof RegistrationDescriptionSerializer]).bind(this) as (description: RegistrationDescription) => Record<string, any>;
+    const method = this[methodName as keyof RegistrationDescriptionSerializer].bind(this) as (
+      description: RegistrationDescription
+    ) => Record<string, any>;
     if (!isDefined(method)) {
       throw new RestError(`Undefined platform ${description.type}`, { statusCode: 400 });
     }

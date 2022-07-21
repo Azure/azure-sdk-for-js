@@ -2,16 +2,12 @@
 // Licensed under the MIT license.
 
 import { BrowserPushChannel, PushHandle } from "../models/installation";
-import { 
-  NotificationHubsClient, 
-  createRequest,
-  parseNotificationSendResponse, 
-} from "./client";
+import { NotificationHubsClient, createRequest, parseNotificationSendResponse } from "./client";
 import { Notification } from "../models/notification";
-import { NotificationHubMessageResponse } from "../models/response";
+import { NotificationHubsMessageResponse } from "../models/response";
+import { RestError } from "@azure/core-rest-pipeline";
 import { SendOperationOptions } from "../models/options";
 import { tracingClient } from "../utils/tracing";
-import { RestError } from "@azure/core-rest-pipeline";
 
 /**
  * @internal
@@ -23,7 +19,7 @@ export function sendNotificationPayload(
   pushHandle?: PushHandle,
   tags?: string | string[],
   options: SendOperationOptions = {}
-): Promise<NotificationHubMessageResponse> {
+): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClient-${method}`,
     options,

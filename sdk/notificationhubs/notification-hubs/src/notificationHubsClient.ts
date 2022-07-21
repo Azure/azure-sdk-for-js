@@ -2,20 +2,25 @@
 // Licensed under the MIT license.
 
 import { Installation, JsonPatch, PushHandle } from "./models/installation";
+import { NotificationHubsClient, clientFromConnectionString } from "./client/client";
+import {
+  NotificationHubsClientOptions,
+  RegistrationQueryLimitOptions,
+  RegistrationQueryOptions,
+  SendOperationOptions,
+} from "./models/options";
+import { NotificationHubsMessageResponse, NotificationHubsResponse } from "./models/response";
 import { Notification } from "./models/notification";
 import { NotificationDetails } from "./models/notificationDetails";
-import { NotificationHubsClientOptions, RegistrationQueryLimitOptions, RegistrationQueryOptions, SendOperationOptions } from "./models/options";
 import { NotificationHubJob } from "./models/notificationHubJob";
-import { NotificationHubMessageResponse, NotificationHubResponse } from "./models/response";
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "./models/registration";
 import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./client/cancelScheduledNotification";
-import { clientFromConnectionString, NotificationHubsClient } from "./client/client";
-import { createRegistration as createRegistrationMethod } from "./client/createRegistration";
-import { createRegistrationId as createRegistrationIdMethod } from "./client/createRegistrationId";
-import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./client/createOrUpdateRegistration";
 import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./client/createOrUpdateInstallation";
+import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./client/createOrUpdateRegistration";
+import { createRegistrationId as createRegistrationIdMethod } from "./client/createRegistrationId";
+import { createRegistration as createRegistrationMethod } from "./client/createRegistration";
 import { deleteInstallation as deleteInstallationMethod } from "./client/deleteInstallation";
 import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./client/getFeedbackContainerUrl";
 import { getInstallation as getInstallationMethod } from "./client/getInstallation";
@@ -23,8 +28,8 @@ import { getNotificationHubJob as getNotificationHubJobMethod } from "./client/g
 import { getNotificationOutcomeDetails as getNotificationOutcomeDetailsMethod } from "./client/getNotificationOutcomeDetails";
 import { getRegistration as getRegistrationMethod } from "./client/getRegistration";
 import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./client/listNotificationHubJobs";
-import { listRegistrations as listRegistrationsMethod } from "./client/listRegistrations";
 import { listRegistrationsByTag as listRegistrationsByTagMethod } from "./client/listRegistrationsByTag";
+import { listRegistrations as listRegistrationsMethod } from "./client/listRegistrations";
 import { scheduleBroadcastNotification as scheduleBroadcastNotificationMethod } from "./client/scheduleBroadcastNotification";
 import { scheduleNotification as scheduleNotificationMethod } from "./client/scheduleNotification";
 import { sendBroadcastNotification as sendBroadcastNotificationMethod } from "./client/sendBroadcastNotification";
@@ -63,7 +68,7 @@ export class NotificationHubsServiceClient {
    */
   createOrUpdateInstallation(
     installation: Installation,
-    options?: OperationOptions
+    options: OperationOptions = {}
   ): Promise<Installation> {
     return createOrUpdateInstallationMethod(this._client, installation, options);
   }
@@ -76,8 +81,8 @@ export class NotificationHubsServiceClient {
    */
   deleteInstallation(
     installationId: string,
-    options?: OperationOptions
-  ): Promise<NotificationHubResponse> {
+    options: OperationOptions = {}
+  ): Promise<NotificationHubsResponse> {
     return deleteInstallationMethod(this._client, installationId, options);
   }
 
@@ -88,8 +93,8 @@ export class NotificationHubsServiceClient {
    * @returns The installation that matches the installation ID.
    */
   getInstallation(
-    installationId: string,
-    options?: OperationOptions
+    installationId: string, 
+    options: OperationOptions = {}
   ): Promise<Installation> {
     return getInstallationMethod(this._client, installationId, options);
   }
@@ -114,7 +119,7 @@ export class NotificationHubsServiceClient {
    * @param options - The options for creating a new registration ID.
    * @returns The newly created registration ID.
    */
-  createRegistrationId(options: OperationOptions): Promise<string> {
+  createRegistrationId(options: OperationOptions = {}): Promise<string> {
     return createRegistrationIdMethod(this._client, options);
   }
 
@@ -126,7 +131,7 @@ export class NotificationHubsServiceClient {
    * @returns The newly created registration description.
    */
   createRegistration(
-    registration: RegistrationDescription, 
+    registration: RegistrationDescription,
     options: OperationOptions = {}
   ): Promise<RegistrationDescription> {
     return createRegistrationMethod(this._client, registration, options);
@@ -158,12 +163,12 @@ export class NotificationHubsServiceClient {
     return updateRegistrationMethod(this._client, registration, options);
   }
 
-/**
- * Gets a registration by the given registration ID.
- * @param registrationId - The ID of the registration to get.
- * @param options - The options for getting a registration by ID.
- * @returns A RegistrationDescription that has the given registration ID.
- */
+  /**
+   * Gets a registration by the given registration ID.
+   * @param registrationId - The ID of the registration to get.
+   * @param options - The options for getting a registration by ID.
+   * @returns A RegistrationDescription that has the given registration ID.
+   */
   getRegistration(
     registrationId: string,
     options: OperationOptions = {}
@@ -207,7 +212,7 @@ export class NotificationHubsServiceClient {
     pushHandle: PushHandle,
     notification: Notification,
     options: SendOperationOptions = {}
-  ): Promise<NotificationHubMessageResponse> {
+  ): Promise<NotificationHubsMessageResponse> {
     return sendDirectNotificationMethod(this._client, pushHandle, notification, options);
   }
 
@@ -223,21 +228,21 @@ export class NotificationHubsServiceClient {
     tags: string[] | string,
     notification: Notification,
     options: SendOperationOptions = {}
-  ): Promise<NotificationHubMessageResponse> {
+  ): Promise<NotificationHubsMessageResponse> {
     return sendNotificationMethod(this._client, tags, notification, options);
   }
 
-/**
- * Sends push notifications to all devices on the Notification Hub.
- * @param notification - The notification to send to all devices.
- * @param options - Configuration options for the direct send operation which can contain custom headers
- * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
- * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
- */
+  /**
+   * Sends push notifications to all devices on the Notification Hub.
+   * @param notification - The notification to send to all devices.
+   * @param options - Configuration options for the direct send operation which can contain custom headers
+   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
   sendBroadcastNotification(
     notification: Notification,
     options: SendOperationOptions = {}
-  ): Promise<NotificationHubMessageResponse> {
+  ): Promise<NotificationHubsMessageResponse> {
     return sendBroadcastNotificationMethod(this._client, notification, options);
   }
 
@@ -256,26 +261,26 @@ export class NotificationHubsServiceClient {
     tags: string[] | string,
     notification: Notification,
     options: OperationOptions = {}
-  ): Promise<NotificationHubMessageResponse> {
+  ): Promise<NotificationHubsMessageResponse> {
     return scheduleNotificationMethod(this._client, scheduledTime, tags, notification, options);
   }
 
-/**
- * Schedules a push notification to all devices registered on the Notification Hub.
- * NOTE: This is only available in Standard SKU Azure Notification Hubs.
- * @param scheduledTime - The Date to send the push notification.
- * @param notification - The notification to send to the matching devices.
- * @param options - Configuration options for the direct send operation which can contain custom headers
- * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
- * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
- */
+  /**
+   * Schedules a push notification to all devices registered on the Notification Hub.
+   * NOTE: This is only available in Standard SKU Azure Notification Hubs.
+   * @param scheduledTime - The Date to send the push notification.
+   * @param notification - The notification to send to the matching devices.
+   * @param options - Configuration options for the direct send operation which can contain custom headers
+   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
   scheduleBroadcastNotification(
     scheduledTime: Date,
     notification: Notification,
     options: OperationOptions = {}
-  ): Promise<NotificationHubMessageResponse> {
+  ): Promise<NotificationHubsMessageResponse> {
     return scheduleBroadcastNotificationMethod(this._client, scheduledTime, notification, options);
-  }  
+  }
 
   /**
    * Cancels the scheduled notification with the given notification ID.
@@ -286,7 +291,7 @@ export class NotificationHubsServiceClient {
   cancelScheduledNotification(
     notificationId: string,
     options: OperationOptions = {}
-  ): Promise<NotificationHubResponse> {
+  ): Promise<NotificationHubsResponse> {
     return cancelScheduledNotificationMethod(this._client, notificationId, options);
   }
 
@@ -296,9 +301,7 @@ export class NotificationHubsServiceClient {
    * @param options - The options for getting the push notification feedback container URL.
    * @returns The URL of the Azure Storage Container containing the feedback data.
    */
-  getFeedbackContainerUrl(
-    options: OperationOptions = {},
-  ): Promise<string> {
+  getFeedbackContainerUrl(options: OperationOptions = {}): Promise<string> {
     return getFeedbackContainerUrlMethod(this._client, options);
   }
 
@@ -347,9 +350,7 @@ export class NotificationHubsServiceClient {
    * @param options - The operation options.
    * @returns An array of all Notification Hub Jobs for this Notification Hub.
    */
-  listNotificationHubJobs(
-    options: OperationOptions = {}
-  ): Promise<NotificationHubJob[]> {
+  listNotificationHubJobs(options: OperationOptions = {}): Promise<NotificationHubJob[]> {
     return listNotificationHubJobsMethod(this._client, options);
   }
 }

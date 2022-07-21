@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubsClient, 
-  createRequest, 
-} from "./client";
+import { NotificationHubsClient, createRequest } from "./client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "../models/registration";
 import { RegistrationQueryLimitOptions } from "../models/options";
@@ -50,7 +47,7 @@ export function listRegistrationsByTag(
   }
 }
 
-async function *listRegistrationsByTagAll(
+async function* listRegistrationsByTagAll(
   client: NotificationHubsClient,
   tag: string,
   options: RegistrationQueryLimitOptions
@@ -60,7 +57,7 @@ async function *listRegistrationsByTagAll(
   }
 }
 
-async function *listRegistrationsByTagPagingPage(
+async function* listRegistrationsByTagPagingPage(
   client: NotificationHubsClient,
   tag: string,
   options: RegistrationQueryLimitOptions

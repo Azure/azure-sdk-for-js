@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubsClient, 
-  createRequest,
-  parseNotificationResponse, 
-} from "./client";
+import { NotificationHubsClient, createRequest, parseNotificationResponse } from "./client";
 import { EntityOperationOptions } from "../models/options";
-import { NotificationHubResponse } from "../models/response";
-import { tracingClient } from "../utils/tracing";
+import { NotificationHubsResponse } from "../models/response";
 import { RestError } from "@azure/core-rest-pipeline";
+import { tracingClient } from "../utils/tracing";
 
 /**
  * Deletes a registration with the given registration ID.
@@ -22,7 +18,7 @@ export function deleteRegistration(
   client: NotificationHubsClient,
   registrationId: string,
   options: EntityOperationOptions = {}
-): Promise<NotificationHubResponse> {
+): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     "NotificationHubsClient-deleteRegistration",
     options,

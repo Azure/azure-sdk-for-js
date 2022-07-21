@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubsClient, 
-  createRequest,
-} from "./client";
+import { NotificationHubsClient, createRequest } from "./client";
 import { NotificationDetails } from "../models/notificationDetails";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-import { tracingClient } from "../utils/tracing";
 import { parseNotificationDetails } from "../serializers/notificationDetailsSerializer";
+import { tracingClient } from "../utils/tracing";
 
 /**
  * Retrieves the results of a send operation. This can retrieve intermediate results if the send is being processed

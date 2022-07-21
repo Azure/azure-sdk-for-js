@@ -3,7 +3,7 @@
 
 import { Notification } from "../models/notification";
 import { NotificationHubsClient } from "./client";
-import { NotificationHubMessageResponse } from "../models/response";
+import { NotificationHubsMessageResponse } from "../models/response";
 import { OperationOptions } from "@azure/core-client";
 import { scheduleNotificationPayload } from "./_scheduleNotificationPayload";
 
@@ -24,6 +24,6 @@ export function scheduleNotification(
   tags: string[] | string,
   notification: Notification,
   options: OperationOptions = {}
-): Promise<NotificationHubMessageResponse> {
+): Promise<NotificationHubsMessageResponse> {
   return scheduleNotificationPayload(client, scheduledTime, tags, notification, options);
 }

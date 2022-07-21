@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignal, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignal } from "@azure/abort-controller";
 import { delay } from "@azure/core-amqp";
 import { isDefined } from "./utils";
 import { isError } from "@azure/core-util";
@@ -18,7 +18,7 @@ function isAbortError(e: unknown): e is AbortError {
 }
 
 /**
- * Represents the retry delay calculation either fixed or exponential. 
+ * Represents the retry delay calculation either fixed or exponential.
  */
 export enum RetryMode {
   /**
@@ -90,7 +90,7 @@ export interface RetryPolicy {
    */
   runOperation<TResult>(
     operation: (signal?: AbortSignal) => Promise<TResult>,
-    signal?: AbortSignal,
+    signal?: AbortSignal
   ): Promise<TResult>;
 }
 
@@ -100,12 +100,11 @@ export interface RetryPolicy {
  * @returns A retry policy with the given calculateRetryDelay method.
  */
 export function createBaseRetryPolicy(
-  calculateRetryDelay: (error: unknown, attempt: number) => number | undefined,
+  calculateRetryDelay: (error: unknown, attempt: number) => number | undefined
 ): RetryPolicy {
-
   async function runOperation<TResult>(
     operation: (signal?: AbortSignal) => Promise<TResult>,
-    signal?: AbortSignal,
+    signal?: AbortSignal
   ): Promise<TResult> {
     let failedAttemptCount = 0;
 
@@ -128,7 +127,7 @@ export function createBaseRetryPolicy(
 
   return {
     calculateRetryDelay,
-    runOperation
+    runOperation,
   };
 }
 
@@ -138,14 +137,14 @@ export function createBaseRetryPolicy(
  * @returns A retry policy configured with the given options.
  */
 export function createDefaultRetryPolicy(options: RetryOptions): RetryPolicy {
-
   function calculateRetryDelay(error: unknown, attempt: number): number | undefined {
-    if (options.maxRetries <= 0 || 
+    if (
+      options.maxRetries <= 0 ||
       options.delay === 0 ||
       options.maxDelay === 0 ||
       attempt > options.maxRetries ||
-      !shouldRetryError(error)) {
-
+      !shouldRetryError(error)
+    ) {
       return undefined;
     }
 
@@ -206,7 +205,12 @@ function shouldRetryError(e: unknown): boolean {
       return true;
     }
     // Network hiccups
-    if (e?.statusCode === 500 || e?.statusCode === 503 || e?.statusCode === 504 || e?.statusCode === 408) {
+    if (
+      e?.statusCode === 500 ||
+      e?.statusCode === 503 ||
+      e?.statusCode === 504 ||
+      e?.statusCode === 408
+    ) {
       return true;
     }
   }
@@ -214,17 +218,14 @@ function shouldRetryError(e: unknown): boolean {
   return false;
 }
 
-function calculateFixedDelay(
-  baseDelaySeconds: number,
-  baseJitterSeconds: number,
-): number {
+function calculateFixedDelay(baseDelaySeconds: number, baseJitterSeconds: number): number {
   return (baseDelaySeconds + Math.random() * baseJitterSeconds) * 1000;
 }
 
 function calculateExponentialDelay(
   attemptCount: number,
   baseDelaySeconds: number,
-  baseJitterSeconds: number,
+  baseJitterSeconds: number
 ): number {
   return (Math.pow(2, attemptCount) * baseDelaySeconds + Math.random() * baseJitterSeconds) * 1000;
 }

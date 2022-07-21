@@ -14,7 +14,11 @@
  * @azsdk-weight 100
  */
 
-import { JsonPatch, clientFromConnectionString, updateInstallation } from "@azure/notification-hubs";
+import {
+  JsonPatch,
+  clientFromConnectionString,
+  updateInstallation,
+} from "@azure/notification-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

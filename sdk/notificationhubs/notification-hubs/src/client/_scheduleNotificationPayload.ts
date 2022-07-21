@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubsClient, 
-  createRequest,
-  parseNotificationSendResponse, 
-} from "./client";
+import { NotificationHubsClient, createRequest, parseNotificationSendResponse } from "./client";
 import { Notification } from "../models/notification";
-import { NotificationHubMessageResponse } from "../models/response";
+import { NotificationHubsMessageResponse } from "../models/response";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing";
@@ -22,7 +18,7 @@ export function scheduleNotificationPayload(
   tags: string[] | string | undefined,
   notification: Notification,
   options: OperationOptions = {}
-): Promise<NotificationHubMessageResponse> {
+): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
     "NotificationHubsClient-$scheduleNotification",
     options,

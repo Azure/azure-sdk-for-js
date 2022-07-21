@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubsClient, 
-  createRequest, 
-} from "./client";
-import { parseNotificationHubJobEntry, serializeNotificationHubJobEntry } from "../serializers/notificationHubJobSerializer";
+import { NotificationHubsClient, createRequest } from "./client";
+import {
+  parseNotificationHubJobEntry,
+  serializeNotificationHubJobEntry,
+} from "../serializers/notificationHubJobSerializer";
 import { NotificationHubJob } from "../models/notificationHubJob";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing";
 
 /**
- * Submits a Notification Hub Job.  
+ * Submits a Notification Hub Job.
  * Note: this is available to Standard SKU namespace and above.
  * @param client - The Notification Hubs client.
  * @param job - The notification hub job to submit.

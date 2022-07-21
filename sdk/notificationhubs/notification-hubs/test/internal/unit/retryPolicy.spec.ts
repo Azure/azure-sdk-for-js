@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import { createDefaultRetryPolicy, createRetryOptions } from "../../../src/utils/retryPolicy";
-import { assert } from "@azure/test-utils";
 import { AbortError } from "@azure/abort-controller";
 import { RestError } from "@azure/core-rest-pipeline";
+import { assert } from "@azure/test-utils";
 
 describe("DefaultRetryPolicy", () => {
   describe("runOperation", () => {
-
     it("should run an operation without error without retrying", async () => {
       const retryOptions = createRetryOptions();
       const retryPolicy = createDefaultRetryPolicy(retryOptions);
@@ -29,10 +28,12 @@ describe("DefaultRetryPolicy", () => {
       const retryPolicy = createDefaultRetryPolicy(retryOptions);
       let operationCount = 0;
 
-      assert.isRejected(retryPolicy.runOperation(async () => {
-        operationCount++;
-        throw new AbortError();
-      }));
+      assert.isRejected(
+        retryPolicy.runOperation(async () => {
+          operationCount++;
+          throw new AbortError();
+        })
+      );
 
       assert.equal(operationCount, 1);
     });
@@ -46,7 +47,7 @@ describe("DefaultRetryPolicy", () => {
         operationCount++;
         if (operationCount === 1) {
           throw new RestError("Error", {
-            statusCode: 429
+            statusCode: 429,
           });
         }
 
@@ -66,7 +67,7 @@ describe("DefaultRetryPolicy", () => {
         await retryPolicy.runOperation(async () => {
           operationCount++;
           throw new RestError("Error", {
-            statusCode: 429
+            statusCode: 429,
           });
         });
       } catch (err) {
@@ -75,6 +76,5 @@ describe("DefaultRetryPolicy", () => {
 
       assert.equal(operationCount, 3);
     });
-
   });
 });

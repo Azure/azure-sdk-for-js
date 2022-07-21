@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubsClient, 
-  createRequest, 
-} from "./client";
+import { NotificationHubsClient, createRequest } from "./client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "../models/registration";
 import { RegistrationQueryOptions } from "../models/options";
@@ -48,7 +45,7 @@ export function listRegistrations(
   }
 }
 
-async function *listRegistrationsAll(
+async function* listRegistrationsAll(
   client: NotificationHubsClient,
   options: RegistrationQueryOptions
 ): AsyncIterableIterator<RegistrationDescription> {
@@ -57,7 +54,7 @@ async function *listRegistrationsAll(
   }
 }
 
-async function *listRegistrationPagingPage(
+async function* listRegistrationPagingPage(
   client: NotificationHubsClient,
   options: RegistrationQueryOptions
 ): AsyncIterableIterator<RegistrationDescription[]> {

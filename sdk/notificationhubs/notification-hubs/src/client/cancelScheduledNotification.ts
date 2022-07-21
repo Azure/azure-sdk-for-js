@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubsClient, 
-  createRequest,
-  parseNotificationSendResponse,
-} from "./client";
+import { NotificationHubsClient, createRequest, parseNotificationSendResponse } from "./client";
 import { NotificationHubResponse } from "../models/response";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";

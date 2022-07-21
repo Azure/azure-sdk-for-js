@@ -156,7 +156,7 @@ export function createAppleRegistrationDescription(
   };
 }
 
-export type ApplePriority = "10" | "5"
+export type ApplePriority = "10" | "5";
 
 /**
  * Represents the description of the Apple template registration.

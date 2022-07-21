@@ -13,11 +13,11 @@
  * @azsdk-weight 100
  */
 
-import { 
-  NotificationHubJob, 
-  clientFromConnectionString, 
-  getNotificationHubJob, 
-  submitNotificationHubJob 
+import {
+  NotificationHubJob,
+  clientFromConnectionString,
+  getNotificationHubJob,
+  submitNotificationHubJob,
 } from "@azure/notification-hubs";
 import { delay } from "@azure/core-amqp";
 

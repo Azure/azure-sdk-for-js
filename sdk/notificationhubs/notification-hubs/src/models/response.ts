@@ -6,7 +6,7 @@ import { RegistrationDescription } from "./registration";
 /**
  * Describes a response from the Notification Hubs which includes a tracking ID, correlation ID and location.
  */
-export interface NotificationHubResponse {
+export interface NotificationHubsResponse {
   /**
    * The Tracking ID of the operation.
    */
@@ -26,7 +26,7 @@ export interface NotificationHubResponse {
 /**
  * Describes a response from the Notification Hubs service for send operations.
  */
-export interface NotificationHubMessageResponse extends NotificationHubResponse {
+export interface NotificationHubsMessageResponse extends NotificationHubsResponse {
   /**
    * The notification ID from the operation.  Note this is only available in Standard SKU and above.
    */

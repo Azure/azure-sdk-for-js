@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  HttpHeaders, 
-  HttpMethods, 
-  PipelineRequest, 
+import {
+  HttpHeaders,
+  HttpMethods,
+  PipelineRequest,
   PipelineResponse,
   createHttpHeaders,
-  createPipelineRequest, 
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { NotificationHubMessageResponse, NotificationHubResponse } from "../models/response";
 import { OperationOptions, ServiceClient } from "@azure/core-client";
-import { createTokenProviderFromConnection, parseNotificationHubsConnectionString } from "../utils/connectionStringUtils";
+import {
+  createTokenProviderFromConnection,
+  parseNotificationHubsConnectionString,
+} from "../utils/connectionStringUtils";
 import { NotificationHubsClientOptions } from "../models/options";
 import { SasTokenProvider } from "@azure/core-amqp";
 
@@ -21,7 +24,6 @@ const API_VERSION = "2020-06";
  * Represents the Notification Hubs SDK client.
  */
 export interface NotificationHubsClient {
-
   /**
    * The SAS Token Provider for connecting to Notification Hubs.
    */

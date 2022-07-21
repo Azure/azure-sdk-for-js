@@ -13,8 +13,8 @@
  * @azsdk-weight 100
  */
 
-import { 
-  clientFromConnectionString, 
+import {
+  clientFromConnectionString,
   createAppleInstallation,
   createOrUpdateInstallation,
 } from "@azure/notification-hubs";

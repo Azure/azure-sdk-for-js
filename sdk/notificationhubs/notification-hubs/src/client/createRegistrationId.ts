@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationHubsClient, 
-  createRequest, 
-} from "./client";
+import { NotificationHubsClient, createRequest } from "./client";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing";
@@ -17,7 +14,8 @@ import { tracingClient } from "../utils/tracing";
  */
 export function createRegistrationId(
   client: NotificationHubsClient,
-  options: OperationOptions = {}): Promise<string> {
+  options: OperationOptions = {}
+): Promise<string> {
   return tracingClient.withSpan(
     "NotificationHubsClient-createRegistrationId",
     options,
