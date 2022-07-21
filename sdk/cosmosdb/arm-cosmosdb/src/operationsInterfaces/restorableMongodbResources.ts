@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  DatabaseRestoreResource,
+  RestorableMongodbResourcesGetResult,
   RestorableMongodbResourcesListOptionalParams
 } from "../models";
 
@@ -27,5 +27,5 @@ export interface RestorableMongodbResources {
     location: string,
     instanceId: string,
     options?: RestorableMongodbResourcesListOptionalParams
-  ): PagedAsyncIterableIterator<DatabaseRestoreResource>;
+  ): PagedAsyncIterableIterator<RestorableMongodbResourcesGetResult>;
 }
