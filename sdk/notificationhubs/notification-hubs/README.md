@@ -49,12 +49,12 @@ Interaction with an Azure Notification Hub starts with the `NotificationHubClien
 
 Listen allows for a client to register itself via the Registration and Installations API. Send allows for the client to send notifications to devices using the send APIs. Finally, Manage allows the user to do Registration and Installation management, such as queries.
 
-A new `NotificationHubClient` client can be created using the `clientFromConnectionString` method with the connection string and Notification Hub name.
+A new `NotificationHubServiceClient` client can be created using the constructor with the connection string and Notification Hub name.
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs";
+import { NotificationHubServiceClient } from "@azure/notification-hubs";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 ```
 
 ## Key concepts
@@ -80,10 +80,10 @@ Installations are a newer and native JSON approach to device management that con
 Installations can be created through the `createOrUpdateInstallation` method such as the following:
 
 ```typescript
-import { clientFromConnectionString, createAppleInstallation } from "@azure/notification-hubs";
+import { NotificationHubServiceClient, createAppleInstallation } from "@azure/notification-hubs";
 import { v4 } from "uuid";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
 // Create an installation for APNs
 let installation = createAppleInstallation({
@@ -98,9 +98,9 @@ installation = await client.createOrUpdateInstallation(installation);
 An update to an installation can be made through the JSON Patch schema such as adding a tag and a user ID using the `updateInstallation` method.
 
 ```typescript
-import { clientFromConnectionString, JsonPatch } from "@azure/notification-hubs";
+import { NotificationHubServiceClient, JsonPatch } from "@azure/notification-hubs";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
 const installationId = "<unique installation ID">;
 
@@ -117,7 +117,7 @@ To retrieve an existing installation, use the `getInstallation` method with your
 ```typescript
 import { clientFromConnectionString } from "@azure/notification-hubs";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
 const installationId = "<unique installation ID">;
 
@@ -132,11 +132,11 @@ An installation may be created in one of two ways, first by getting a registrati
 
 ```typescript
 import {
+  NotificationHubServiceClient,
   createAppleRegistrationDescription,
-  clientFromConnectionString,
 } from "@azure/notification-hubs";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
 const registrationId = await client.getRegistrationId();
 
@@ -152,9 +152,9 @@ registration = await client.createOrUpdateRegistration(registration);
 Updates can be done via the `updateRegistration` method but unlike installations, does not support incremental updates.  Querying for an existing registration can be done with the `getRegistration` method.
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs";
+import { NotificationHubServiceClient } from "@azure/notification-hubs";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
 const registrationId = "<unique Registration ID>";
 
@@ -168,9 +168,9 @@ registration = await client.updateRegistration(registration);
 Registrations, unlike installations, can be queried to get all registrations, matching registrations to a condition, or by tags.  Registrations can be queried using the `listRegistrations` and `listRegistrationsByTag` method.  Both methods support limiting via the `top` option and support asynchronous paging.
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs";
+import { NotificationHubServiceClient } from "@azure/notification-hubs";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
 const top = 100;
 
@@ -197,10 +197,11 @@ To send directly a device, the user can send using the platform provided unique 
 import {
   createAppleMessage,
   clientFromConnectionString,
+  NotificationHubServiceClient,
   SendOperationOptions,
 } from "@azure/notification-hubs";
 
-const client = clientFromConnectionString(connectionString, hubName);
+const client = new NotificationHubServiceClient(connectionString, hubName);
 
 const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
@@ -233,11 +234,11 @@ In addition to targeting a single device, a user can target multiple devices usi
 ```typescript
 import {
   createAppleMessage,
-  clientFromConnectionString,
+  NotificationHubServiceClient,
   SendOperationOptions,
 } from "@azure/notification-hubs";
 
-const client = clientFromConnectionString(connectionString, hubName);
+const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
@@ -271,11 +272,11 @@ Push notifications can be scheduled up to seven days in advance with Standard SK
 ```typescript
 import {
   createAppleMessage,
-  clientFromConnectionString,
+  NotificationHubServiceClient,
   SendOperationOptions,
 } from "@azure/notification-hubs";
 
-const client = clientFromConnectionString(connectionString, hubName);
+const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
