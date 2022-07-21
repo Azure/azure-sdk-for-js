@@ -87,15 +87,10 @@ const { AlphaIdsClient } = require("@azure-tools/communication-alpha-ids");
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new AlphaIdsClient(connectionString);
 
-async main function() {
-  // get the current configuration
-  var configuration = await client.getConfiguration();
+// get the current configuration
+var configuration = await client.getConfiguration();
 
-  // find draft program briefs, and delete them
-  console.log(`EnabledÇ ${configuration.enabled}`);
-}
-
-main();
+console.log(`Usage of Alpha IDs is currently ${(configuration.enabled ? "enabled" : "disabled")}`);
 ```
 
 ## Troubleshooting
