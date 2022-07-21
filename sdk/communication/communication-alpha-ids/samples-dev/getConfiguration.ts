@@ -6,6 +6,7 @@
  */
 
 import { AlphaIdConfiguration, AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
+import { RestError } from "@azure/core-rest-pipeline";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -21,13 +22,23 @@ export async function main() {
 
   // create new client
   const client = new AlphaIdsClient(connectionString);
+  let usageIsEnabled: boolean = false;
 
-  // get the applied configuration for the current resource
-  const configuration: AlphaIdConfiguration = await client.getConfiguration();
+  try {
+    // get the applied configuration for the current resource
+    const configuration: AlphaIdConfiguration = await client.getConfiguration();
+    usageIsEnabled = configuration.enabled;
+  } catch (error) {
+    // 403 errors also mean that the usage is disallowed
+    if (error instanceof RestError && error.statusCode === 403) {
+      usageIsEnabled = false;
+      return;
+    }
 
-  console.log(
-    `The usage of Alpha IDs is currently ${configuration.enabled ? "enabled" : "disabled"}`
-  );
+    throw error;
+  }
+
+  console.log(`The usage of Alpha IDs is currently ${usageIsEnabled ? "enabled" : "disabled"}`);
 }
 
 main().catch((error) => {
