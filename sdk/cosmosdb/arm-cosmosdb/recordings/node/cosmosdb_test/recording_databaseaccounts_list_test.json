@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-cosmosdb/16.0.0-beta.3 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "394c6d3f-3d23-40ac-aebb-270dd058310e"
+        "x-ms-client-request-id": "df530ff2-0143-468f-8d9e-788d249b88db"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,134 +17,21 @@
         "Cache-Control": "no-store, no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Thu, 21 Jul 2022 02:43:56 GMT",
+        "Date": "Thu, 21 Jul 2022 03:22:33 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "6d10ea69-eb5e-4451-8318-330b120c7aa5",
+        "x-ms-correlation-request-id": "a01b8296-4676-4f03-a8f5-b7b680336907",
         "x-ms-gatewayversion": "version=2.14.0",
-        "x-ms-ratelimit-remaining-subscription-reads": "11786",
-        "x-ms-request-id": "6d10ea69-eb5e-4451-8318-330b120c7aa5",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220721T024356Z:6d10ea69-eb5e-4451-8318-330b120c7aa5"
+        "x-ms-ratelimit-remaining-subscription-reads": "11879",
+        "x-ms-request-id": "a01b8296-4676-4f03-a8f5-b7b680336907",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220721T032234Z:a01b8296-4676-4f03-a8f5-b7b680336907"
       },
       "ResponseBody": {
         "value": [
-          {
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy1",
-            "name": "myaccountxxyy1",
-            "location": "East US",
-            "type": "Microsoft.DocumentDB/databaseAccounts",
-            "kind": "GlobalDocumentDB",
-            "tags": {},
-            "systemData": {
-              "createdAt": "2022-07-21T02:37:58.1524213Z"
-            },
-            "properties": {
-              "provisioningState": "Succeeded",
-              "documentEndpoint": "https://myaccountxxyy1.documents.azure.com:443/",
-              "cassandraEndpoint": "https://myaccountxxyy1.cassandra.cosmos.azure.com:443/",
-              "publicNetworkAccess": "Enabled",
-              "enableAutomaticFailover": false,
-              "enableMultipleWriteLocations": false,
-              "enablePartitionKeyMonitor": false,
-              "isVirtualNetworkFilterEnabled": false,
-              "virtualNetworkRules": [],
-              "EnabledApiTypes": "Cassandra",
-              "disableKeyBasedMetadataWriteAccess": false,
-              "enableFreeTier": false,
-              "enableAnalyticalStorage": false,
-              "analyticalStorageConfiguration": {
-                "schemaType": "WellDefined"
-              },
-              "instanceId": "f60dead6-0790-400e-b030-d126f2fa6c22",
-              "databaseAccountOfferType": "Standard",
-              "defaultIdentity": "FirstPartyIdentity",
-              "networkAclBypass": "None",
-              "disableLocalAuth": false,
-              "consistencyPolicy": {
-                "defaultConsistencyLevel": "Session",
-                "maxIntervalInSeconds": 5,
-                "maxStalenessPrefix": 100
-              },
-              "configurationOverrides": {},
-              "writeLocations": [
-                {
-                  "id": "myaccountxxyy1-eastus",
-                  "locationName": "East US",
-                  "documentEndpoint": "https://myaccountxxyy1-eastus.documents.azure.com:443/",
-                  "provisioningState": "Succeeded",
-                  "failoverPriority": 0,
-                  "isZoneRedundant": false
-                }
-              ],
-              "readLocations": [
-                {
-                  "id": "myaccountxxyy1-eastus",
-                  "locationName": "East US",
-                  "documentEndpoint": "https://myaccountxxyy1-eastus.documents.azure.com:443/",
-                  "provisioningState": "Succeeded",
-                  "failoverPriority": 0,
-                  "isZoneRedundant": false
-                }
-              ],
-              "locations": [
-                {
-                  "id": "myaccountxxyy1-eastus",
-                  "locationName": "East US",
-                  "documentEndpoint": "https://myaccountxxyy1-eastus.documents.azure.com:443/",
-                  "provisioningState": "Succeeded",
-                  "failoverPriority": 0,
-                  "isZoneRedundant": false
-                }
-              ],
-              "failoverPolicies": [
-                {
-                  "id": "myaccountxxyy1-eastus",
-                  "locationName": "East US",
-                  "failoverPriority": 0
-                }
-              ],
-              "cors": [],
-              "capabilities": [
-                {
-                  "name": "EnableCassandra"
-                }
-              ],
-              "ipRules": [],
-              "backupPolicy": {
-                "type": "Periodic",
-                "periodicModeProperties": {
-                  "backupIntervalInMinutes": 240,
-                  "backupRetentionIntervalInHours": 8,
-                  "backupStorageRedundancy": "Geo"
-                }
-              },
-              "networkAclBypassResourceIds": [],
-              "diagnosticLogSettings": {
-                "enableFullTextQuery": "None"
-              },
-              "keysMetadata": {
-                "primaryMasterKey": {
-                  "generationTime": "2022-07-21T02:37:58.1524213Z"
-                },
-                "secondaryMasterKey": {
-                  "generationTime": "2022-07-21T02:37:58.1524213Z"
-                },
-                "primaryReadonlyMasterKey": {
-                  "generationTime": "2022-07-21T02:37:58.1524213Z"
-                },
-                "secondaryReadonlyMasterKey": {
-                  "generationTime": "2022-07-21T02:37:58.1524213Z"
-                }
-              }
-            },
-            "identity": {
-              "type": "None"
-            }
-          },
           {
             "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy2",
             "name": "myaccountxxyy2",
@@ -153,7 +40,7 @@
             "kind": "GlobalDocumentDB",
             "tags": {},
             "systemData": {
-              "createdAt": "2022-07-21T02:40:35.1772442Z"
+              "createdAt": "2022-07-21T03:19:06.611222Z"
             },
             "properties": {
               "provisioningState": "Succeeded",
@@ -171,7 +58,7 @@
               "analyticalStorageConfiguration": {
                 "schemaType": "WellDefined"
               },
-              "instanceId": "8acc5974-c400-4d42-85e4-b89bb767a6d9",
+              "instanceId": "d433eb94-7f4a-44d9-b2e8-7ca6a6206ae1",
               "databaseAccountOfferType": "Standard",
               "defaultIdentity": "FirstPartyIdentity",
               "networkAclBypass": "None",
@@ -278,16 +165,16 @@
               },
               "keysMetadata": {
                 "primaryMasterKey": {
-                  "generationTime": "2022-07-21T02:40:35.1772442Z"
+                  "generationTime": "2022-07-21T03:19:06.611222Z"
                 },
                 "secondaryMasterKey": {
-                  "generationTime": "2022-07-21T02:40:35.1772442Z"
+                  "generationTime": "2022-07-21T03:19:06.611222Z"
                 },
                 "primaryReadonlyMasterKey": {
-                  "generationTime": "2022-07-21T02:40:35.1772442Z"
+                  "generationTime": "2022-07-21T03:19:06.611222Z"
                 },
                 "secondaryReadonlyMasterKey": {
-                  "generationTime": "2022-07-21T02:40:35.1772442Z"
+                  "generationTime": "2022-07-21T03:19:06.611222Z"
                 }
               }
             },
