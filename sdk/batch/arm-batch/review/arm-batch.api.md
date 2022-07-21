@@ -22,11 +22,11 @@ export interface ActivateApplicationPackageParameters {
 export type AllocationState = "Steady" | "Resizing" | "Stopping";
 
 // @public
-export type Application = ProxyResource & {
-    displayName?: string;
+export interface Application extends ProxyResource {
     allowUpdates?: boolean;
     defaultVersion?: string;
-};
+    displayName?: string;
+}
 
 // @public
 export interface ApplicationCreateOptionalParams extends coreClient.OperationOptions {
@@ -73,13 +73,13 @@ export interface ApplicationOperations {
 }
 
 // @public
-export type ApplicationPackage = ProxyResource & {
-    readonly state?: PackageState;
+export interface ApplicationPackage extends ProxyResource {
     readonly format?: string;
+    readonly lastActivationTime?: Date;
+    readonly state?: PackageState;
     readonly storageUrl?: string;
     readonly storageUrlExpiry?: Date;
-    readonly lastActivationTime?: Date;
-};
+}
 
 // @public
 export interface ApplicationPackageActivateOptionalParams extends coreClient.OperationOptions {
@@ -179,9 +179,9 @@ export interface AutoStorageBaseProperties {
 }
 
 // @public
-export type AutoStorageProperties = AutoStorageBaseProperties & {
+export interface AutoStorageProperties extends AutoStorageBaseProperties {
     lastKeySync: Date;
-};
+}
 
 // @public
 export type AutoUserScope = "Task" | "Pool";
@@ -213,24 +213,26 @@ export interface AzureFileShareConfiguration {
 }
 
 // @public
-export type BatchAccount = Resource & {
-    identity?: BatchAccountIdentity;
+export interface BatchAccount extends Resource {
     readonly accountEndpoint?: string;
-    readonly provisioningState?: ProvisioningState;
-    readonly poolAllocationMode?: PoolAllocationMode;
-    readonly keyVaultReference?: KeyVaultReference;
-    readonly publicNetworkAccess?: PublicNetworkAccessType;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly autoStorage?: AutoStorageProperties;
-    readonly encryption?: EncryptionProperties;
-    readonly dedicatedCoreQuota?: number;
-    readonly lowPriorityCoreQuota?: number;
-    readonly dedicatedCoreQuotaPerVMFamily?: VirtualMachineFamilyCoreQuota[];
-    readonly dedicatedCoreQuotaPerVMFamilyEnforced?: boolean;
-    readonly poolQuota?: number;
     readonly activeJobAndJobScheduleQuota?: number;
     readonly allowedAuthenticationModes?: AuthenticationMode[];
-};
+    readonly autoStorage?: AutoStorageProperties;
+    readonly dedicatedCoreQuota?: number;
+    readonly dedicatedCoreQuotaPerVMFamily?: VirtualMachineFamilyCoreQuota[];
+    readonly dedicatedCoreQuotaPerVMFamilyEnforced?: boolean;
+    readonly encryption?: EncryptionProperties;
+    identity?: BatchAccountIdentity;
+    readonly keyVaultReference?: KeyVaultReference;
+    readonly lowPriorityCoreQuota?: number;
+    networkProfile?: NetworkProfile;
+    readonly nodeManagementEndpoint?: string;
+    readonly poolAllocationMode?: PoolAllocationMode;
+    readonly poolQuota?: number;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccessType;
+}
 
 // @public
 export interface BatchAccountCreateHeaders {
@@ -252,6 +254,7 @@ export interface BatchAccountCreateParameters {
     identity?: BatchAccountIdentity;
     keyVaultReference?: KeyVaultReference;
     location: string;
+    networkProfile?: NetworkProfile;
     poolAllocationMode?: PoolAllocationMode;
     publicNetworkAccess?: PublicNetworkAccessType;
     tags?: {
@@ -418,6 +421,8 @@ export interface BatchAccountUpdateParameters {
     autoStorage?: AutoStorageBaseProperties;
     encryption?: EncryptionProperties;
     identity?: BatchAccountIdentity;
+    networkProfile?: NetworkProfile;
+    publicNetworkAccess?: PublicNetworkAccessType;
     tags?: {
         [propertyName: string]: string;
     };
@@ -479,17 +484,17 @@ export interface BatchPoolIdentity {
 export type CachingType = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
-export type Certificate = ProxyResource & {
-    thumbprintAlgorithm?: string;
-    thumbprint?: string;
+export interface Certificate extends ProxyResource {
+    readonly deleteCertificateError?: DeleteCertificateError;
     format?: CertificateFormat;
-    readonly provisioningState?: CertificateProvisioningState;
-    readonly provisioningStateTransitionTime?: Date;
     readonly previousProvisioningState?: CertificateProvisioningState;
     readonly previousProvisioningStateTransitionTime?: Date;
+    readonly provisioningState?: CertificateProvisioningState;
+    readonly provisioningStateTransitionTime?: Date;
     readonly publicData?: string;
-    readonly deleteCertificateError?: DeleteCertificateError;
-};
+    thumbprint?: string;
+    thumbprintAlgorithm?: string;
+}
 
 // @public
 export interface CertificateBaseProperties {
@@ -522,19 +527,19 @@ export interface CertificateCreateOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
-export type CertificateCreateOrUpdateParameters = ProxyResource & {
-    thumbprintAlgorithm?: string;
-    thumbprint?: string;
-    format?: CertificateFormat;
+export interface CertificateCreateOrUpdateParameters extends ProxyResource {
     data?: string;
+    format?: CertificateFormat;
     password?: string;
-};
+    thumbprint?: string;
+    thumbprintAlgorithm?: string;
+}
 
 // @public
-export type CertificateCreateOrUpdateProperties = CertificateBaseProperties & {
+export interface CertificateCreateOrUpdateProperties extends CertificateBaseProperties {
     data: string;
     password?: string;
-};
+}
 
 // @public
 export type CertificateCreateResponse = CertificateCreateHeaders & Certificate;
@@ -598,14 +603,14 @@ export interface CertificateOperations {
 }
 
 // @public
-export type CertificateProperties = CertificateBaseProperties & {
-    readonly provisioningState?: CertificateProvisioningState;
-    readonly provisioningStateTransitionTime?: Date;
+export interface CertificateProperties extends CertificateBaseProperties {
+    readonly deleteCertificateError?: DeleteCertificateError;
     readonly previousProvisioningState?: CertificateProvisioningState;
     readonly previousProvisioningStateTransitionTime?: Date;
+    readonly provisioningState?: CertificateProvisioningState;
+    readonly provisioningStateTransitionTime?: Date;
     readonly publicData?: string;
-    readonly deleteCertificateError?: DeleteCertificateError;
-};
+}
 
 // @public
 export type CertificateProvisioningState = "Succeeded" | "Deleting" | "Failed";
@@ -736,9 +741,9 @@ export interface DetectorListResult {
 }
 
 // @public
-export type DetectorResponse = ProxyResource & {
+export interface DetectorResponse extends ProxyResource {
     value?: string;
-};
+}
 
 // @public
 export interface DiffDiskSettings {
@@ -763,6 +768,15 @@ export type ElevationLevel = "NonAdmin" | "Admin";
 export interface EncryptionProperties {
     keySource?: KeySource;
     keyVaultProperties?: KeyVaultProperties;
+}
+
+// @public
+export type EndpointAccessDefaultAction = "Allow" | "Deny";
+
+// @public
+export interface EndpointAccessProfile {
+    defaultAction: EndpointAccessDefaultAction;
+    ipRules?: IPRule[];
 }
 
 // @public
@@ -818,6 +832,12 @@ export type InterNodeCommunicationState = "Enabled" | "Disabled";
 
 // @public
 export type IPAddressProvisioningType = "BatchManaged" | "UserManaged" | "NoPublicIPAddresses";
+
+// @public
+export interface IPRule {
+    action: "Allow";
+    value: string;
+}
 
 // @public
 export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
@@ -964,6 +984,12 @@ export interface NetworkConfiguration {
 }
 
 // @public
+export interface NetworkProfile {
+    accountAccess?: EndpointAccessProfile;
+    nodeManagementAccess?: EndpointAccessProfile;
+}
+
+// @public
 export interface NetworkSecurityGroupRule {
     access: NetworkSecurityGroupRuleAccess;
     priority: number;
@@ -1052,34 +1078,34 @@ export interface OutboundEnvironmentEndpointCollection {
 export type PackageState = "Pending" | "Active";
 
 // @public
-export type Pool = ProxyResource & {
-    identity?: BatchPoolIdentity;
-    displayName?: string;
-    readonly lastModified?: Date;
-    readonly creationTime?: Date;
-    readonly provisioningState?: PoolProvisioningState;
-    readonly provisioningStateTransitionTime?: Date;
+export interface Pool extends ProxyResource {
     readonly allocationState?: AllocationState;
     readonly allocationStateTransitionTime?: Date;
-    vmSize?: string;
-    deploymentConfiguration?: DeploymentConfiguration;
+    applicationLicenses?: string[];
+    applicationPackages?: ApplicationPackageReference[];
+    readonly autoScaleRun?: AutoScaleRun;
+    certificates?: CertificateReference[];
+    readonly creationTime?: Date;
     readonly currentDedicatedNodes?: number;
     readonly currentLowPriorityNodes?: number;
-    scaleSettings?: ScaleSettings;
-    readonly autoScaleRun?: AutoScaleRun;
+    deploymentConfiguration?: DeploymentConfiguration;
+    displayName?: string;
+    identity?: BatchPoolIdentity;
     interNodeCommunication?: InterNodeCommunicationState;
-    networkConfiguration?: NetworkConfiguration;
-    taskSlotsPerNode?: number;
-    taskSchedulingPolicy?: TaskSchedulingPolicy;
-    userAccounts?: UserAccount[];
+    readonly lastModified?: Date;
     metadata?: MetadataItem[];
-    startTask?: StartTask;
-    certificates?: CertificateReference[];
-    applicationPackages?: ApplicationPackageReference[];
-    applicationLicenses?: string[];
-    readonly resizeOperationStatus?: ResizeOperationStatus;
     mountConfiguration?: MountConfiguration[];
-};
+    networkConfiguration?: NetworkConfiguration;
+    readonly provisioningState?: PoolProvisioningState;
+    readonly provisioningStateTransitionTime?: Date;
+    readonly resizeOperationStatus?: ResizeOperationStatus;
+    scaleSettings?: ScaleSettings;
+    startTask?: StartTask;
+    taskSchedulingPolicy?: TaskSchedulingPolicy;
+    taskSlotsPerNode?: number;
+    userAccounts?: UserAccount[];
+    vmSize?: string;
+}
 
 // @public
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
@@ -1208,11 +1234,27 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = ProxyResource & {
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-    privateEndpoint?: PrivateEndpoint;
+export interface PrivateEndpointConnection extends ProxyResource {
+    readonly groupIds?: string[];
+    readonly privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-};
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
 
 // @public
 export interface PrivateEndpointConnectionGetOptionalParams extends coreClient.OperationOptions {
@@ -1239,6 +1281,8 @@ export type PrivateEndpointConnectionListByBatchAccountResponse = ListPrivateEnd
 
 // @public
 export interface PrivateEndpointConnectionOperations {
+    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionDeleteResponse>, PrivateEndpointConnectionDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PrivateEndpointConnectionDeleteResponse>;
     beginUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionUpdateResponse>, PrivateEndpointConnectionUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<PrivateEndpointConnectionUpdateResponse>;
     get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionGetResponse>;
@@ -1246,7 +1290,7 @@ export interface PrivateEndpointConnectionOperations {
 }
 
 // @public
-export type PrivateEndpointConnectionProvisioningState = "Succeeded" | "Updating" | "Failed";
+export type PrivateEndpointConnectionProvisioningState = "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed" | "Cancelled";
 
 // @public
 export interface PrivateEndpointConnectionUpdateHeaders {
@@ -1265,11 +1309,11 @@ export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClien
 export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection;
 
 // @public
-export type PrivateLinkResource = ProxyResource & {
+export interface PrivateLinkResource extends ProxyResource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     readonly requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceGetOptionalParams extends coreClient.OperationOptions {

@@ -95,10 +95,20 @@ const assertNotNullOrUndefined = <
 };
 
 const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifier): void => {
-  const { rawId: _rawId, ...props } = identifier;
-  const keys = Object.keys(props);
-  if (keys.length > 1) {
-    throw new Error(`Only one of the properties in ${JSON.stringify(keys)} should be present.`);
+  const presentProperties: string[] = [];
+  if (identifier.communicationUser !== undefined) {
+    presentProperties.push("communicationUser");
+  }
+  if (identifier.microsoftTeamsUser !== undefined) {
+    presentProperties.push("microsoftTeamsUser");
+  }
+  if (identifier.phoneNumber !== undefined) {
+    presentProperties.push("phoneNumber");
+  }
+  if (presentProperties.length > 1) {
+    throw new Error(
+      `Only one of the properties in ${JSON.stringify(presentProperties)} should be present.`
+    );
   }
 };
 

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets information about the Batch accounts associated with the subscription.
  *
  * @summary Gets information about the Batch accounts associated with the subscription.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/BatchAccountList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/BatchAccountList.json
  */
 async function batchAccountList() {
   const subscriptionId = "subid";

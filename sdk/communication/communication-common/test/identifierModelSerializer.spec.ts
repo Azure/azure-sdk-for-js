@@ -40,10 +40,9 @@ const assertThrowsMissingProperty = <
 const assertThrowsTooManyProperties = (
   serializedIdentifier: SerializedCommunicationIdentifier
 ): void => {
-  const { rawId: _rawId, ...props } = serializedIdentifier;
   assert.throws(() => {
     deserializeCommunicationIdentifier(serializedIdentifier);
-  }, `Only one of the properties in ${JSON.stringify(Object.keys(props))} should be present.`);
+  }, /^Only one of the properties in \[[\w,"\s]+\] should be present.$/);
 };
 
 describe("Identifier model serializer", () => {
@@ -155,6 +154,32 @@ describe("Identifier model serializer", () => {
           id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
         },
       },
+      {
+        kind: "communicationUser",
+        communicationUserId:
+          "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
+      }
+    );
+    assertDeserialize(
+      {
+        kind: "communicationUser",
+        communicationUser: {
+          id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
+        },
+      } as any,
+      {
+        kind: "communicationUser",
+        communicationUserId:
+          "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
+      }
+    );
+    assertDeserialize(
+      {
+        someFutureProperty: "fooBar",
+        communicationUser: {
+          id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
+        },
+      } as any,
       {
         kind: "communicationUser",
         communicationUserId:
