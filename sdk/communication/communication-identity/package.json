@@ -39,7 +39,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/identityRestClientContext.ts",
+        "path": "src/generated/src/identityRestClientContext.ts",
         "prefix": "packageDetails"
       },
       {
