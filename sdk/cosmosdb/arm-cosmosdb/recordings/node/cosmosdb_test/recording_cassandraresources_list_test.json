@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-cosmosdb/15.1.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "9f646b8f-4bde-4b98-86ea-63e3a958d9a5"
+        "User-Agent": "azsdk-js-arm-cosmosdb/16.0.0-beta.3 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "03a724cc-ec1b-4b21-abb9-19eecf7059c5"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,18 +17,18 @@
         "Cache-Control": "no-store, no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Wed, 20 Jul 2022 01:48:52 GMT",
+        "Date": "Thu, 21 Jul 2022 02:38:49 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "d762fdc5-0f93-4176-9b7e-b766f72adae1",
+        "x-ms-correlation-request-id": "2561b776-ec2d-47fe-beb3-a17ab1680fe5",
         "x-ms-gatewayversion": "version=2.14.0",
-        "x-ms-ratelimit-remaining-subscription-reads": "11919",
-        "x-ms-request-id": "d762fdc5-0f93-4176-9b7e-b766f72adae1",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220720T014853Z:d762fdc5-0f93-4176-9b7e-b766f72adae1"
+        "x-ms-ratelimit-remaining-subscription-reads": "11917",
+        "x-ms-request-id": "2561b776-ec2d-47fe-beb3-a17ab1680fe5",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220721T023849Z:2561b776-ec2d-47fe-beb3-a17ab1680fe5"
       },
       "ResponseBody": {
         "value": [
@@ -39,9 +39,9 @@
             "properties": {
               "resource": {
                 "id": "mykeyspacexxx",
-                "_rid": "-Y9gAA==",
-                "_etag": "\u002200005009-0000-0100-0000-62d75ef10000\u0022",
-                "_ts": 1658281713
+                "_rid": "oxUTAA==",
+                "_etag": "\u00220000bb00-0000-0100-0000-62d8bc240000\u0022",
+                "_ts": 1658371108
               }
             }
           }
