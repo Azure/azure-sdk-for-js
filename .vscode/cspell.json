@@ -307,6 +307,21 @@
         "scaffolder",
         "APIM"
       ]
+    },
+    {
+      "filename": "sdk/maps/maps-route/review/maps-route.api.md",
+      "words": [
+        "bbox",
+        "UTURN"
+      ]
+    },
+    {
+      "filename": "sdk/maps/maps-search/review/maps-search.api.md",
+      "words": [
+        "bbox",
+        "Neighbourhood",
+        "Xstr"
+      ]
     }
   ]
 }
