@@ -22,7 +22,7 @@
     "authorizationRuleName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
     "sasAuthorizationRuleName": "[concat(parameters('baseName'), '/SasAccessKey')]",
     "serviceBusDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/090c5cfd-751d-490a-894a-3ce6f1109419')]",
-    "baseNamePremium":"[concat(parameters('baseName'), 'premium')]",
+    "baseNamePremium": "[concat(parameters('baseName'), 'premium')]",
     "authorizationRuleNamePremium": "[concat(parameters('baseName'), 'premium', '/RootManageSharedAccessKey')]"
   },
   "resources": [
@@ -61,11 +61,7 @@
         "[resourceId('Microsoft.ServiceBus/namespaces', variables('baseNamePremium'))]"
       ],
       "properties": {
-        "rights": [
-          "Listen",
-          "Manage",
-          "Send"
-        ]
+        "rights": ["Listen", "Manage", "Send"]
       }
     },
     {
@@ -73,15 +69,9 @@
       "apiVersion": "2015-08-01",
       "name": "[variables('authorizationRuleName')]",
       "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"],
       "properties": {
-        "rights": [
-          "Listen",
-          "Manage",
-          "Send"
-        ]
+        "rights": ["Listen", "Manage", "Send"]
       }
     },
     {
@@ -89,23 +79,16 @@
       "apiVersion": "2015-08-01",
       "name": "[variables('sasAuthorizationRuleName')]",
       "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"],
       "properties": {
-        "rights": [
-          "Listen",
-          "Send"
-        ]
+        "rights": ["Listen", "Send"]
       }
     },
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-01-01-preview",
       "name": "[guid(concat('dataOwnerRoleId', parameters('baseName')))]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"],
       "properties": {
         "roleDefinitionId": "[variables('serviceBusDataOwnerRoleId')]",
         "principalId": "[parameters('testApplicationOid')]"
@@ -115,9 +98,7 @@
       "type": "Microsoft.ServiceBus/namespaces/queues",
       "apiVersion": "2017-04-01",
       "name": "[concat(parameters('baseName'), '/testQueue')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"],
       "properties": {
         "lockDuration": "PT5M",
         "maxSizeInMegabytes": "1024",
@@ -136,9 +117,7 @@
       "type": "Microsoft.ServiceBus/namespaces/queues",
       "apiVersion": "2017-04-01",
       "name": "[concat(parameters('baseName'), '/testQueueWithSessions')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"],
       "properties": {
         "lockDuration": "PT5M",
         "maxSizeInMegabytes": "1024",
