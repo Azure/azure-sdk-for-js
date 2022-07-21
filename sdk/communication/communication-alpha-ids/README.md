@@ -1,6 +1,6 @@
 # Azure Communication Alpha IDs client library for JavaScript
 
-The phone numbers library provides capabilities for Alpha IDs administration.
+The Alpha IDs library provides capabilities for Alpha IDs administration.
 
 ## Getting started
 
@@ -74,7 +74,7 @@ const client = new AlphaIdsClient("<endpoint-from-resource>", credential);
 
 ## Usage
 
-The following sections provide code snippets that cover some of the common tasks using the Azure Communication Services Phone Numbers client. The scenarios that are covered here consist of:
+The following sections provide code snippets that cover some of the common tasks using the Azure Communication Services Alpha IDs client. The scenarios that are covered here consist of:
 
 - [Get the current applied configuration](#get-the-current-applied-configuration)
 
@@ -114,4 +114,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure_identity_readme]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-phone-numbers%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-alpha-ids%2FREADME.png)
