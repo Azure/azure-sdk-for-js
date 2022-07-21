@@ -6,6 +6,7 @@ specifiers:
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
   '@rush-temp/ai-document-translator': file:./projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
+  '@rush-temp/ai-language-text': file:./projects/ai-language-text.tgz
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:./projects/api-management-custom-widgets-scaffolder.tgz
@@ -238,6 +239,7 @@ specifiers:
   '@rush-temp/mixed-reality-authentication': file:./projects/mixed-reality-authentication.tgz
   '@rush-temp/mixed-reality-remote-rendering': file:./projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
+  '@rush-temp/monitor-ingestion': file:./projects/monitor-ingestion.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:./projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:./projects/notification-hubs.tgz
@@ -299,6 +301,7 @@ dependencies:
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
   '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
+  '@rush-temp/ai-language-text': file:projects/ai-language-text.tgz
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:projects/api-management-custom-widgets-scaffolder.tgz
@@ -531,6 +534,7 @@ dependencies:
   '@rush-temp/mixed-reality-authentication': file:projects/mixed-reality-authentication.tgz
   '@rush-temp/mixed-reality-remote-rendering': file:projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
+  '@rush-temp/monitor-ingestion': file:projects/monitor-ingestion.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:projects/notification-hubs.tgz
@@ -1120,6 +1124,21 @@ packages:
       tslib: 2.4.0
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@azure/monitor-query/1.0.2:
+    resolution: {integrity: sha512-wJg6HAjHzO39iokbCAd0wzu5Y7aigQEhJw/b1BWmB64tM1KCYJKLQQppvOKXYRJ5eh68ebinG2n76ogKc6wfmg==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.6.0
+      '@azure/core-paging': 1.3.0
+      '@azure/core-rest-pipeline': 1.9.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.3
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@azure/ms-rest-js/2.6.1:
@@ -2345,7 +2364,7 @@ packages:
   /@types/eslint/8.4.5:
     resolution: {integrity: sha512-dhsC09y1gpJWnK+Ff4SGvCuSnk9DaU0BJZSzOwa6GVSg65XtTugLBITDAAzRU5duGBoXBHpdR/9jHGxJjNflJQ==}
     dependencies:
-      '@types/estree': 0.0.52
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: false
 
@@ -2353,8 +2372,8 @@ packages:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
     dev: false
 
-  /@types/estree/0.0.52:
-    resolution: {integrity: sha512-BZWrtCU0bMVAIliIV+HJO1f1PR41M7NKjfxrFJwwhKI1KwhwOxYw1SXg9ao+CIMt774nFuGiG6eU+udtbEI9oQ==}
+  /@types/estree/1.0.0:
+    resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
     dev: false
 
   /@types/express-serve-static-core/4.17.29:
@@ -4127,11 +4146,11 @@ packages:
       tsconfig-paths: 3.14.1
     dev: false
 
-  /eslint-plugin-markdown/2.2.1_eslint@8.19.0:
-    resolution: {integrity: sha512-FgWp4iyYvTFxPwfbxofTvXxgzPsDuSKHQy2S+a8Ve6savbujey+lgrFFbXQA0HPygISpRYWYBjooPzhYSF81iA==}
-    engines: {node: ^8.10.0 || ^10.12.0 || >= 12.0.0}
+  /eslint-plugin-markdown/3.0.0_eslint@8.19.0:
+    resolution: {integrity: sha512-hRs5RUJGbeHDLfS7ELanT0e29Ocyssf/7kBM+p7KluY5AwngGkDf8Oyu4658/NZSGTTq05FZeWbkxXtbVyHPwg==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
-      eslint: '>=6.0.0'
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
       eslint: 8.19.0
       mdast-util-from-markdown: 0.8.5
@@ -5448,7 +5467,7 @@ packages:
   /is-reference/1.2.1:
     resolution: {integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==}
     dependencies:
-      '@types/estree': 0.0.52
+      '@types/estree': 1.0.0
     dev: false
 
   /is-regex/1.1.4:
@@ -7697,7 +7716,7 @@ packages:
     resolution: {integrity: sha512-/2HA0Ec70TvQnXdzynFffkjA6XN+1e2pEv/uKS5Ulca40g2L7KuOE3riasHoNVHOsFD5KKZgDsMk1CP3Tw9s+A==}
     hasBin: true
     dependencies:
-      '@types/estree': 0.0.52
+      '@types/estree': 1.0.0
       '@types/node': 18.0.3
       acorn: 7.4.1
     dev: false
@@ -9421,6 +9440,55 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/ai-language-text.tgz:
+    resolution: {integrity: sha512-ldEj3yjNL/wnjrXV+bCa78cdb4VDKIgeGD4MA8z0a9m3mb3O3Xb/yup60924shOJAPB8VS7ceWJIG2Ee/s67Wg==, tarball: file:projects/ai-language-text.tgz}
+    name: '@rush-temp/ai-language-text'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.3.0-beta.1
+      '@azure/core-tracing': 1.0.0
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.1
+      '@types/chai-as-promised': 7.1.5
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.55
+      '@types/sinon': 9.0.11
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.19.0
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.7.1
+      rimraf: 3.0.2
+      sinon: 9.2.4
+      source-map-support: 0.5.21
+      ts-node: 10.8.2_b5bd4a8e238709e15d0171692055b18b
+      tslib: 2.4.0
+      typescript: 4.6.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/ai-metrics-advisor.tgz:
     resolution: {integrity: sha512-G0V07SqEBDfyvrQZhQhtGra1ZLDqL/o+Z7ShkE03UE3VnF5x4Tuygz9xev1E6hMhiWuM2bmeIUqQazWEZOxLLw==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
@@ -10097,7 +10165,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-wAPqVdeCCQUp6/oWjgMW9rOR6r6msasyLFxWiFNvxZv78GNafUpHoks2esDrSYtPXgBeUQyitCbEs0LNSI0bMg==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-WvI6renEr2M/hgjEe0QSV9g+KGPKf1dLno1FTDXu7dKWjh51uHZtonOGZ6hNGFtaLUwxM2IY+p73RWsTyI0rBA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -10108,6 +10176,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10119,8 +10189,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-billing.tgz:
@@ -10650,7 +10718,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-xv1sjW8WbeeuxD4mek2JNSflWCQlosw7uMQ1HdwOApcdSeKHdgOCs/xINE6vIdhuUA7ysMGlchtYhRAGbRC7zg==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-FsOYCoGtxS508nCllNNxx0rF6cpj84LnPQF2kf/FsOC5+CiQbATbEjjVj2w4rPRh4xMG01OzcjMUmPaC2JlJnQ==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -10661,6 +10729,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10668,12 +10738,10 @@ packages:
       rollup: 2.76.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-customerinsights.tgz:
@@ -13915,7 +13983,7 @@ packages:
     dev: false
 
   file:projects/arm-storagecache.tgz:
-    resolution: {integrity: sha512-QuBthcF6XWRCznyZk8rHLMhfwQbOXeHZVzF2sDtmtxYh6RRP2PTBikmPyfODtxrlv55JQBmTc8fLwj1AngNEow==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-desN5BdmcIjREsSSBzAQVP8pADY7LCKqUAi7X2SmCQjC2QJPYYQptsJv/JfVtR7uNKIqWFXTNF3hXh2JM49WEA==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
@@ -13926,6 +13994,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13933,12 +14003,10 @@ packages:
       rollup: 2.76.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-storageimportexport.tgz:
@@ -14499,7 +14567,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-o5z7i3kUajKh6+HVQL3iWhi8F40lj4Tc1MhQgOAn8P4XQGUq+kGtVVIgtV9atAooC6e7YhlSBmxdSYi5HcVaVQ==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-t4f+HdqArRHAtKlHUZpohyO9uUVlXHJEEa8alYsOEnj2JOXUl3eBlVudhKJtL/F2yGJLpctHLEP369CVRYhisQ==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -14593,7 +14661,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-QYiz5CiHw4P/K/DUR0a0KfBeFnugs06pbRr7zcYT9sr/2oikwjT6MtQpaxSp1e4Zz4VJkgi38oyGI9cEbDkp0Q==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-mnNckWFQl27y/ndb20JRxFebvSLuJfjv+UsNlY2J9munxANACbabJTEqMylXA6nkUPF8vhNL7qMs4i8PZFXpuA==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -14680,7 +14748,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-aM3fVUeLtsiZaT5CGHhTPtD7QeRL9seCYBukST3IUxv6mwVvnH6O/QsiJgf0ZK3P+t8GMa5EcHvhiYsTHkhIKw==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-7fC8WwtG7OSfUR9UhicT2/i9rdmUxo4yb1M1bXYqqXImOVvNWJCHvnn8JXgBwSyb2XOwUqeOREFksNJyN8INZQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -15642,7 +15710,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-gU+AQjNxOJc60XWlAELpktHbJohW5ICqLYsPDRtLzvh/pOTA8RkYfl/iaQB1EFXu1Em1mmebSQ9tg51gW16H0g==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-l2ZrdSy5xOjnp97H5IIgaS5vYNWvSuelFzC9oF2IS9iHfHd9BxH40eTDij3yHga2o1UMN4+OW/k8OfmjLhYMNw==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -15745,13 +15813,13 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-/VrXENUw5C2ayk8FW7AFXtf/kAmMxXGiFDy9RGMOCm953fMccNz0/vySz7o+NDOyHrd/fXwKljyfCpBlkCMEWA==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-WcB08o4UMKY4GEaMDllffa+wuwf712sg6DiTq13uSeYLLYWKlNM45h3MEvk4iDJp2ZLrx/HsssFHgC/yzN0nEQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
       '@types/chai': 4.3.1
       '@types/eslint': 8.4.5
-      '@types/estree': 0.0.52
+      '@types/estree': 1.0.0
       '@types/glob': 7.2.0
       '@types/json-schema': 7.0.11
       '@types/mocha': 7.0.2
@@ -15764,7 +15832,7 @@ packages:
       eslint: 8.19.0
       eslint-config-prettier: 8.5.0_eslint@8.19.0
       eslint-plugin-import: 2.26.0_eslint@8.19.0
-      eslint-plugin-markdown: 2.2.1_eslint@8.19.0
+      eslint-plugin-markdown: 3.0.0_eslint@8.19.0
       eslint-plugin-no-only-tests: 2.6.0
       eslint-plugin-promise: 6.0.0_eslint@8.19.0
       eslint-plugin-tsdoc: 0.2.16
@@ -16563,6 +16631,51 @@ packages:
       typescript: 4.2.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  file:projects/monitor-ingestion.tgz:
+    resolution: {integrity: sha512-1vjCVHhlyRjjYasvH0QOArh6POzKpgDTPXcYkWF2RKkv+zF3iHz3KvokEJjKGKuHTz0S1ekmK3YBLLz8Bv6pfQ==, tarball: file:projects/monitor-ingestion.tgz}
+    name: '@rush-temp/monitor-ingestion'
+    version: 0.0.0
+    dependencies:
+      '@azure/monitor-query': 1.0.2
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.1
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.55
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      downlevel-dts: 0.8.0
+      eslint: 7.32.0
+      esm: 3.2.25
+      inherits: 2.0.4
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-json-preprocessor: 0.3.3_karma@6.4.0
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.7.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.6.4
+      util: 0.12.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
