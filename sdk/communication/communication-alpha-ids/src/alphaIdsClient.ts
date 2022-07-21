@@ -6,17 +6,16 @@ import {
   GetConfigurationOptions,
   UpsertConfigurationOptions,
 } from "./models";
-import { createSpan, logger } from "./utils";
+import { tracingClient, logger } from "./utils";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { AlphaIDsClient as AlphaIDsGeneratedClient } from "./generated/src";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
-import { SpanStatusCode } from "@azure/core-tracing";
 /**
  * Client options used to configure the AlphaIdsClient API requests.
  */
-export interface AlphaIdsClientOptions extends CommonClientOptions {}
+export interface AlphaIdsClientOptions extends CommonClientOptions { }
 
 const isAlphaIdsClientOptions = (options: any): options is AlphaIdsClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -62,35 +61,25 @@ export class AlphaIdsClient {
   }
 
   public getConfiguration(options: GetConfigurationOptions = {}): Promise<AlphaIdConfiguration> {
-    const { span, updatedOptions } = createSpan("AlphaIdsClient-getConfiguration", options);
-    try {
-      return this.client.alphaIds.getConfiguration(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "AlphaIdsClient-getConfiguration",
+      options,
+      async (updatedOptions) => {
+        return await this.client.alphaIds.getConfiguration(updatedOptions);
+      }
+    );
   }
 
   public upsertConfiguration(
     enabled: boolean,
     options: UpsertConfigurationOptions = {}
   ): Promise<AlphaIdConfiguration> {
-    const { span, updatedOptions } = createSpan("AlphaIdsClient-upsertConfiguration", options);
-    try {
-      return this.client.alphaIds.upsertConfiguration(enabled, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "AlphaIdsClient-upsertConfiguration",
+      options,
+      async (updatedOptions) => {
+        return await this.client.alphaIds.upsertConfiguration(enabled, updatedOptions);
+      }
+    );
   }
 }

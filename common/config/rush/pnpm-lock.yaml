@@ -3026,8 +3026,8 @@ packages:
     hasBin: true
     dev: false
 
-  /autorest/3.6.1:
-    resolution: {integrity: sha512-tTOnfQq+LAyqnxFrOOnyCEaErXnjRTgduUN7a8LUv2u5deqDlI0zoJllHeIEYDZS2o2Kr1s8pDj2NxaFPOWldg==}
+  /autorest/3.6.2:
+    resolution: {integrity: sha512-JRMmAsSG4wplYUkjVOWELidF+P/OG9BjF542aQcbt4Qj85bJ+7EzRCTV09vbf8f4ScOB+I68+9IcskjNTU9UkQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -3873,7 +3873,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220715
+      typescript: 4.8.0-dev.20220720
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8683,8 +8683,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220715:
-    resolution: {integrity: sha512-N2t+SrXdUM14ZwEM2jxxLqq9nSurmXjxOY/1TSoJlp2oHjHr42cBdThZ3X1kFpBj7oXAyDM9q0yrNtzg67Vhlg==}
+  /typescript/4.8.0-dev.20220720:
+    resolution: {integrity: sha512-P2hOKzT3tkfEBDVHQYCA1yQ/1JA6cNEiEuyEavCW7obrlUExBzozuYJpXlp+m63eUxvKzOBHo8WgBD4jycvScw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9887,7 +9887,7 @@ packages:
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
-      autorest: 3.6.1
+      autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10613,7 +10613,7 @@ packages:
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
-      autorest: 3.6.1
+      autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -13668,7 +13668,7 @@ packages:
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
-      autorest: 3.6.1
+      autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -14499,12 +14499,12 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-EAlZpVjI8+BItLv1wPUrSfYZqN0rn113wgV8rGkDLH/qstS50J/aqDUjXLJsLlhP3OFCWD8TxS96omxL9Mafiw==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-o5z7i3kUajKh6+HVQL3iWhi8F40lj4Tc1MhQgOAn8P4XQGUq+kGtVVIgtV9atAooC6e7YhlSBmxdSYi5HcVaVQ==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.2.4
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.1
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
@@ -14929,7 +14929,7 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
-      autorest: 3.6.1
+      autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
