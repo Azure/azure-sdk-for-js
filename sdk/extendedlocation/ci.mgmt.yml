@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/extendedlocation/ci.mgmt.yml
-      - sdk/extendedlocation/arm-extendedlocation/
       - sdk/extendedlocation/arm-extendedlocation
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/extendedlocation/ci.mgmt.yml
-      - sdk/extendedlocation/arm-extendedlocation/
       - sdk/extendedlocation/arm-extendedlocation
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
