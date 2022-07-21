@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
+  DeploymentConfig,
   OVERRIDE_DEFAULT_PORT,
   OVERRIDE_PORT_KEY,
-  DeploymentConfig,
   Options,
   WidgetConfig,
   displayNameToName,

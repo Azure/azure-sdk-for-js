@@ -42,16 +42,16 @@ export const extractConfigFromArgs = <TConfig extends Configs>(
 };
 
 export type Log = (msg: string) => void;
-type Config = <Config extends Configs>(
-  promptForConfig: (partial: Partial<Config>) => Promise<Config>,
-  validateConfig: ReplaceTypesPreserveOptional<Config, ValidateFnc>
-) => Promise<Config>;
+type Config = <C extends Configs>(
+  promptForConfig: (partial: Partial<C>) => Promise<C>,
+  validateConfig: ReplaceTypesPreserveOptional<C, ValidateFnc>
+) => Promise<C>;
 
 export const buildGetConfig = (gray: Log, red: Log): Config => {
   const argv = yargsParser(hideBin(process.argv));
-  return async <Config extends Configs>(
-    promptForConfig: (partial: Partial<Config>) => Promise<Config>,
-    validateConfig: Validate<Config>
+  return async <C extends Configs>(
+    promptForConfig: (partial: Partial<C>) => Promise<C>,
+    validateConfig: Validate<C>
   ) => {
     const { configPartial, missing } = extractConfigFromArgs(argv, validateConfig, red);
 
@@ -62,7 +62,7 @@ export const buildGetConfig = (gray: Log, red: Log): Config => {
       Object.entries(configPartial).forEach(
         ([key, value]) => value != null && gray(`${fieldIdToName[key] ?? key}: ${value}`)
       );
-      return configPartial as Config;
+      return configPartial as C;
     }
   };
 };

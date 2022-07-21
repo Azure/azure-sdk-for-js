@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Configs, DeploymentConfig, TECHNOLOGIES, Options, WidgetConfig } from "../scaffolding";
+import { Configs, DeploymentConfig, Options, TECHNOLOGIES, WidgetConfig } from "../scaffolding";
 
 import inquirer from "inquirer";
 
@@ -117,9 +117,7 @@ export const promptWidgetConfig = (partial: Partial<WidgetConfig>): Promise<Widg
     partial
   );
 
-export const promptDeployConfig = (
-  partial: Partial<DeploymentConfig>
-): Promise<DeploymentConfig> =>
+export const promptDeployConfig = (partial: Partial<DeploymentConfig>): Promise<DeploymentConfig> =>
   inquirer.prompt(
     [
       {
