@@ -375,7 +375,8 @@
       "packageName": "@azure/ai-text-analytics",
       "projectFolder": "sdk/textanalytics/ai-text-analytics",
       "versionPolicyName": "client"
-    },    {
+    },
+    {
       "packageName": "@azure/ai-language-text",
       "projectFolder": "sdk/cognitivelanguage/ai-language-text",
       "versionPolicyName": "client"
@@ -1783,6 +1784,11 @@
     {
       "packageName": "@azure/arm-fluidrelay",
       "projectFolder": "sdk/fluidrelay/arm-fluidrelay",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagemover",
+      "projectFolder": "sdk/storagemover/arm-storagemover",
       "versionPolicyName": "management"
     }
   ]

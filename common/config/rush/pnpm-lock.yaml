@@ -174,6 +174,7 @@ specifiers:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:./projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:./projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:./projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagemover': file:./projects/arm-storagemover.tgz
   '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:./projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:./projects/arm-storsimple8000series.tgz
@@ -469,6 +470,7 @@ dependencies:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagemover': file:projects/arm-storagemover.tgz
   '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:projects/arm-storsimple8000series.tgz
@@ -3892,7 +3894,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220720
+      typescript: 4.8.0-dev.20220721
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8702,8 +8704,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220720:
-    resolution: {integrity: sha512-P2hOKzT3tkfEBDVHQYCA1yQ/1JA6cNEiEuyEavCW7obrlUExBzozuYJpXlp+m63eUxvKzOBHo8WgBD4jycvScw==}
+  /typescript/4.8.0-dev.20220721:
+    resolution: {integrity: sha512-Fj63XtbG9v6ATuu3VEpXuTGsYoiZpdpROiXt9FxAk/pdpKsjjNGEuhAq36Vm4WncG0EoakXXbwm9eaZTt8vcbQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11512,18 +11514,18 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.76.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.76.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
+      rollup: 2.77.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.2
@@ -14023,6 +14025,30 @@ packages:
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
       '@types/chai': 4.3.1
       chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.2
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
+  file:projects/arm-storagemover.tgz:
+    resolution: {integrity: sha512-OwKrUCSwUC6QFqSpeNCpJhSRq9af2Kl2XCT3z0OZHNxcu3Qm9aZy4W4ZLQvA6zFNdMRCtpAlfhGlRz8HIzzXHg==, tarball: file:projects/arm-storagemover.tgz}
+    name: '@rush-temp/arm-storagemover'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
