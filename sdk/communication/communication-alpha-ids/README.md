@@ -35,8 +35,8 @@ Once you have a key, you can authenticate the `AlphaIdsClient` with any of the f
 
 ### Using a connection string
 
-```typescript
-import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
+```javascript
+const { AlphaIdsClient } = require("@azure-tools/communication-alpha-ids");
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new AlphaIdsClient(connectionString);
@@ -46,9 +46,9 @@ const client = new AlphaIdsClient(connectionString);
 
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key and endpoint, you can authenticate with the following code:
 
-```typescript
-import { AzureKeyCredential } from "@azure/core-auth";
-import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
+```javascript
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { AlphaIdsClient } = require("@azure-tools/communication-alpha-ids");
 
 const credential = new AzureKeyCredential("<key-from-resource>");
 const client = new AlphaIdsClient("<endpoint-from-resource>", credential);
@@ -64,9 +64,9 @@ npm install @azure/identity
 
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`][azure_identity_readme] provides more details and samples to get you started.
 
-```typescript
-import { DefaultAzureCredential } from "@azure/identity";
-import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
+```javascript
+const { DefaultAzureCredential } = require ("@azure/identity");
+const { AlphaIdsClient } = require("@azure-tools/communication-alpha-ids");
 
 let credential = new DefaultAzureCredential();
 const client = new AlphaIdsClient("<endpoint-from-resource>", credential);
@@ -81,8 +81,8 @@ The following sections provide code snippets that cover some of the common tasks
 ### Get the current applied configuration
 Use the `getConfiguration` method to obtain the current applied configuration for your resource.
 
-```typescript
-import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
+```javascript
+const { AlphaIdsClient } = require("@azure-tools/communication-alpha-ids");
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new AlphaIdsClient(connectionString);
