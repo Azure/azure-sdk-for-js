@@ -17,7 +17,7 @@ export interface CreateRoomRequest {
 }
 
 /** Request payload for updating a room. */
-export interface PatchRoomRequest {
+export interface UpdateRoomRequest {
   /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */

@@ -11,7 +11,7 @@ import { CommunicationUserIdentifier, getIdentifierRawId } from "@azure/communic
 import {
   AddParticipantsRequest,
   CreateRoomRequest,
-  PatchRoomRequest,
+  UpdateRoomRequest,
   RemoveParticipantsRequest,
   UpdateParticipantsRequest,
 } from "../../src/models/requests";
@@ -86,7 +86,7 @@ describe("RoomsClient", function () {
       roomId = createRoom.id;
       testUser = (await createTestUser(recorder)).user;
 
-      const request: PatchRoomRequest = {
+      const request: UpdateRoomRequest = {
         validFrom: new Date(validFrom.getTime() + 5 * 60 * 1000),
         validUntil: new Date(validUntil.getTime() + 5 * 60 * 1000),
         roomJoinPolicy: "CommunicationServiceUsers",
@@ -117,7 +117,7 @@ describe("RoomsClient", function () {
       });
       roomId = createRoom.id;
 
-      const request: PatchRoomRequest = {
+      const request: UpdateRoomRequest = {
         validFrom: new Date(validFrom.getTime() + 5 * 60 * 1000),
         validUntil: new Date(validUntil.getTime() + 5 * 60 * 1000),
         roomJoinPolicy: "InviteOnly",

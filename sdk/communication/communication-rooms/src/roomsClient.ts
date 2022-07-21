@@ -24,7 +24,7 @@ import {
 } from "./models/options";
 import {
   CreateRoomRequest,
-  PatchRoomRequest,
+  UpdateRoomRequest,
   AddParticipantsRequest,
   UpdateParticipantsRequest,
   RemoveParticipantsRequest,
@@ -148,7 +148,7 @@ export class RoomsClient {
    */
   public async updateRoom(
     roomId: string,
-    request: PatchRoomRequest,
+    request: UpdateRoomRequest,
     options: UpdateRoomOptions = {}
   ): Promise<Room> {
     const { span, updatedOptions } = createSpan("RoomsClient-UpdateRoom", options);
