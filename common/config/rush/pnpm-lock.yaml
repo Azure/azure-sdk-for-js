@@ -6,6 +6,7 @@ specifiers:
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
   '@rush-temp/ai-document-translator': file:./projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
+  '@rush-temp/ai-language-text': file:./projects/ai-language-text.tgz
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:./projects/api-management-custom-widgets-scaffolder.tgz
@@ -299,6 +300,7 @@ dependencies:
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
   '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
+  '@rush-temp/ai-language-text': file:projects/ai-language-text.tgz
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/api-management-custom-widgets-scaffolder': file:projects/api-management-custom-widgets-scaffolder.tgz
@@ -9444,6 +9446,55 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/ai-language-text.tgz:
+    resolution: {integrity: sha512-ldEj3yjNL/wnjrXV+bCa78cdb4VDKIgeGD4MA8z0a9m3mb3O3Xb/yup60924shOJAPB8VS7ceWJIG2Ee/s67Wg==, tarball: file:projects/ai-language-text.tgz}
+    name: '@rush-temp/ai-language-text'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.3.0-beta.1
+      '@azure/core-tracing': 1.0.0
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.1
+      '@types/chai-as-promised': 7.1.5
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.55
+      '@types/sinon': 9.0.11
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.19.0
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.7.1
+      rimraf: 3.0.2
+      sinon: 9.2.4
+      source-map-support: 0.5.21
+      ts-node: 10.8.2_b5bd4a8e238709e15d0171692055b18b
+      tslib: 2.4.0
+      typescript: 4.6.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/ai-metrics-advisor.tgz:
     resolution: {integrity: sha512-G0V07SqEBDfyvrQZhQhtGra1ZLDqL/o+Z7ShkE03UE3VnF5x4Tuygz9xev1E6hMhiWuM2bmeIUqQazWEZOxLLw==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
@@ -10120,7 +10171,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-wAPqVdeCCQUp6/oWjgMW9rOR6r6msasyLFxWiFNvxZv78GNafUpHoks2esDrSYtPXgBeUQyitCbEs0LNSI0bMg==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-WvI6renEr2M/hgjEe0QSV9g+KGPKf1dLno1FTDXu7dKWjh51uHZtonOGZ6hNGFtaLUwxM2IY+p73RWsTyI0rBA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -10131,6 +10182,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10142,8 +10195,6 @@ packages:
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-billing.tgz:
@@ -14572,7 +14623,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-QYiz5CiHw4P/K/DUR0a0KfBeFnugs06pbRr7zcYT9sr/2oikwjT6MtQpaxSp1e4Zz4VJkgi38oyGI9cEbDkp0Q==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-mnNckWFQl27y/ndb20JRxFebvSLuJfjv+UsNlY2J9munxANACbabJTEqMylXA6nkUPF8vhNL7qMs4i8PZFXpuA==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -14659,7 +14710,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-aM3fVUeLtsiZaT5CGHhTPtD7QeRL9seCYBukST3IUxv6mwVvnH6O/QsiJgf0ZK3P+t8GMa5EcHvhiYsTHkhIKw==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-7fC8WwtG7OSfUR9UhicT2/i9rdmUxo4yb1M1bXYqqXImOVvNWJCHvnn8JXgBwSyb2XOwUqeOREFksNJyN8INZQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:

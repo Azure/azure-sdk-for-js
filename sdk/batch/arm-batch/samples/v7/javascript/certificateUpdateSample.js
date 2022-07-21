@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates the properties of an existing certificate.
  *
  * @summary Updates the properties of an existing certificate.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/CertificateUpdate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/CertificateUpdate.json
  */
 async function updateCertificate() {
   const subscriptionId = "subid";

@@ -24,9 +24,7 @@ async function cosmosDbDatabaseAccountOfflineRegion() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const accountName = "ddb1";
-  const regionParameterForOffline: RegionForOnlineOffline = {
-    region: ""
-  };
+  const regionParameterForOffline: RegionForOnlineOffline = {};
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.databaseAccounts.beginOfflineRegionAndWait(
