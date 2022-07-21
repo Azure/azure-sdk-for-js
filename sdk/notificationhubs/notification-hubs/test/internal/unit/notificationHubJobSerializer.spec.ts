@@ -5,8 +5,8 @@ import {
   parseNotificationHubJobEntry,
   parseNotificationHubJobFeed,
   serializeNotificationHubJobEntry,
-} from "../../../src/serializers/notificationHubJobSerializer";
-import { NotificationHubJob } from "../../../src/models/notificationHubJob";
+} from "../../../src/serializers/notificationHubJobSerializer.js";
+import { NotificationHubJob } from "../../../src/models/notificationHubJob.js";
 import { assert } from "@azure/test-utils";
 
 const HUB_JOB_OUTGOING = `<?xml version="1.0" encoding="utf-8"?>

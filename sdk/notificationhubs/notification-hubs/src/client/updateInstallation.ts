@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Installation, JsonPatch } from "../models/installation";
-import { NotificationHubsClient, createRequest } from "./client";
+import { Installation, JsonPatch } from "../models/installation.js";
+import { NotificationHubsClient, createRequest } from "./client.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-import { tracingClient } from "../utils/tracing";
+import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Updates an installation using the JSON-Patch standard in RFC6902.

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Notification } from "../models/notification";
-import { NotificationHubsClient } from "./client";
-import { NotificationHubsMessageResponse } from "../models/response";
-import { SendOperationOptions } from "../models/options";
-import { sendNotificationPayload } from "./_sendNotificationPayload";
+import { Notification } from "../models/notification.js";
+import { NotificationHubsClient } from "./client.js";
+import { NotificationHubsMessageResponse } from "../models/response.js";
+import { SendOperationOptions } from "../models/options.js";
+import { sendNotificationPayload } from "./_sendNotificationPayload.js";
 
 /**
  * Sends push notifications to devices that match the given tags or tag expression.

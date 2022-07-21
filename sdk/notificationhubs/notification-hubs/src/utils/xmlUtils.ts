@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isDefined } from "./utils";
+import { isDefined } from "./utils.js";
 
 /**
  * Marker for atom metadata.

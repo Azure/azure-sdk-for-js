@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient } from "./client";
+import { NotificationHubsClient } from "./client.js";
 import { OperationOptions } from "@azure/core-client";
-import { RegistrationDescription } from "../models/registration";
-import { createOrUpdateRegistrationDescription } from "./_createOrUpdateRegistrationDescription";
-import { tracingClient } from "../utils/tracing";
+import { RegistrationDescription } from "../models/registration.js";
+import { createOrUpdateRegistrationDescription } from "./_createOrUpdateRegistrationDescription.js";
+import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Creates or updates a registration.

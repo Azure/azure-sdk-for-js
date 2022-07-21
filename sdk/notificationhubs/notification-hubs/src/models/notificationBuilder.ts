@@ -12,8 +12,8 @@ import {
   createBaiduNotification,
   createFirebaseLegacyNotification,
   createWindowsBadgeNotification,
-} from "./notification";
-import { isDefined, isString } from "../utils/utils";
+} from "./notification.js";
+import { isDefined, isString } from "../utils/utils.js";
 import { stringifyXML } from "@azure/core-xml";
 
 /**

@@ -34,11 +34,11 @@ import {
   createMpnsTemplateRegistrationDescription,
   createWindowsRegistrationDescription,
   createWindowsTemplateRegistrationDescription,
-} from "../../../src/models/registration";
+} from "../../../src/models/registration.js";
 import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
-} from "../../../src/serializers/registrationSerializer";
+} from "../../../src/serializers/registrationSerializer.js";
 import { assert } from "@azure/test-utils";
 
 const ADM_REGISTEATION = `<?xml version="1.0" encoding="utf-8"?>

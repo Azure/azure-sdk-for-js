@@ -6,10 +6,20 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {},
+  "type": "module",
   "exports": {
-    ".": "./src/index.js",
-    "./client/*": "./src/client/*.js",
-    "./models/*": "./src/models/*.js"
+    ".": {
+      "types": "./types/src/index.d.ts",
+      "import": "./dist-esm/src/index.js"
+    },
+    "./client/*": {
+      "types": "./types/src/client/*.d.ts",
+      "import": "./dist-esm/src/client/*.js"
+    },
+    "./models/*": {
+      "types": "./types/src/models/*.d.ts",
+      "import": "./dist-esm/src/models/*.js"
+    }
   },
   "//metadata": {
     "constantPaths": [
@@ -21,6 +31,12 @@
   },
   "types": "types/latest/notification-hubs.d.ts",
   "typesVersions": {
+    "*": {
+      "*": [
+        "types/src/client/*.d.ts",
+        "types/src/models/*.d.ts"
+      ]
+    },
     "<3.6": {
       "*": [
         "types/3.1/notification-hubs.d.ts"
@@ -54,6 +70,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
+    "types/src",
     "types/latest/",
     "types/3.1/",
     "README.md",

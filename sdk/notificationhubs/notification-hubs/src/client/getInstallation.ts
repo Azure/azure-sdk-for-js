@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient, createRequest } from "./client";
-import { Installation } from "../models/installation";
+import { NotificationHubsClient, createRequest } from "./client.js";
+import { Installation } from "../models/installation.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-import { tracingClient } from "../utils/tracing";
+import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Gets an Azure Notification Hub installation by the installation ID.

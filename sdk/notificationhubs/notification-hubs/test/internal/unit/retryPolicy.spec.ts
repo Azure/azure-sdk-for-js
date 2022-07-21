@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createDefaultRetryPolicy, createRetryOptions } from "../../../src/utils/retryPolicy";
+import { createDefaultRetryPolicy, createRetryOptions } from "../../../src/utils/retryPolicy.js";
 import { AbortError } from "@azure/abort-controller";
 import { RestError } from "@azure/core-rest-pipeline";
 import { assert } from "@azure/test-utils";

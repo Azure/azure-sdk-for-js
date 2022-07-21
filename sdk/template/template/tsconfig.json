@@ -5,7 +5,9 @@
     "declarationDir": "./types",
     "paths": {
       "@azure/template": ["./src/index"]
-    }
+    },
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

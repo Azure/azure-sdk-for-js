@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient, createRequest } from "./client";
+import { NotificationHubsClient, createRequest } from "./client.js";
 import {
   parseNotificationHubJobEntry,
   serializeNotificationHubJobEntry,
-} from "../serializers/notificationHubJobSerializer";
-import { NotificationHubJob } from "../models/notificationHubJob";
+} from "../serializers/notificationHubJobSerializer.js";
+import { NotificationHubJob } from "../models/notificationHubJob.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-import { tracingClient } from "../utils/tracing";
+import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Submits a Notification Hub Job.

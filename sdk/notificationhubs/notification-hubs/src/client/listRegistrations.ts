@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient, createRequest } from "./client";
+import { NotificationHubsClient, createRequest } from "./client.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RegistrationDescription } from "../models/registration";
-import { RegistrationQueryOptions } from "../models/options";
-import { RegistrationQueryResponse } from "../models/response";
+import { RegistrationDescription } from "../models/registration.js";
+import { RegistrationQueryOptions } from "../models/options.js";
+import { RegistrationQueryResponse } from "../models/response.js";
 import { RestError } from "@azure/core-rest-pipeline";
-import { registrationDescriptionParser } from "../serializers/registrationSerializer";
-import { tracingClient } from "../utils/tracing";
+import { registrationDescriptionParser } from "../serializers/registrationSerializer.js";
+import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Gets all registrations for the notification hub with the given query options.

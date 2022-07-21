@@ -9,13 +9,13 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { NotificationHubsMessageResponse, NotificationHubsResponse } from "../models/response";
+import { NotificationHubsMessageResponse, NotificationHubsResponse } from "../models/response.js";
 import { OperationOptions, ServiceClient } from "@azure/core-client";
 import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
-} from "../utils/connectionStringUtils";
-import { NotificationHubsClientOptions } from "../models/options";
+} from "../utils/connectionStringUtils.js";
+import { NotificationHubsClientOptions } from "../models/options.js";
 import { SasTokenProvider } from "@azure/core-amqp";
 
 const API_VERSION = "2020-06";

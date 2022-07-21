@@ -5,8 +5,8 @@ import {
   NotificationDetails,
   NotificationOutcomeCollectionItem,
   NotificationOutcomeState,
-} from "../models/notificationDetails";
-import { getDateOrUndefined, getInteger, getStringOrUndefined, isDefined } from "../utils/utils";
+} from "../models/notificationDetails.js";
+import { getDateOrUndefined, getInteger, getStringOrUndefined, isDefined } from "../utils/utils.js";
 import { parseXML } from "@azure/core-xml";
 
 /**

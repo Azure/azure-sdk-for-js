@@ -8,7 +8,7 @@ import {
   createBrowserInstallation,
   createFirebaseLegacyInstallation,
   createWindowsInstallation,
-} from "../../../src/models/installation";
+} from "../../../src/models/installation.js";
 import { assert } from "@azure/test-utils";
 
 describe("createAppleInstallation", () => {

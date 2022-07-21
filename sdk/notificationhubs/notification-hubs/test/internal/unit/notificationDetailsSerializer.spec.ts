@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { parseNotificationDetails } from "../../../src/serializers/notificationDetailsSerializer";
+import { parseNotificationDetails } from "../../../src/serializers/notificationDetailsSerializer.js";
 
 const NOTIFICATION_DETAILS = `<NotificationDetails xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
   <NotificationId>{Your message id}</NotificationId>

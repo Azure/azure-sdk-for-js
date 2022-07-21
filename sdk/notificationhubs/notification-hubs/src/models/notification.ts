@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as Constants from "../utils/constants";
+import * as Constants from "../utils/constants.js";
 
 /**
  * Represents a notification hub.

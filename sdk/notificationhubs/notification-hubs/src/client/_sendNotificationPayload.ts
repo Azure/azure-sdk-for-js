@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BrowserPushChannel, PushHandle } from "../models/installation";
-import { NotificationHubsClient, createRequest, parseNotificationSendResponse } from "./client";
-import { Notification } from "../models/notification";
-import { NotificationHubsMessageResponse } from "../models/response";
+import { BrowserPushChannel, PushHandle } from "../models/installation.js";
+import { NotificationHubsClient, createRequest, parseNotificationSendResponse } from "./client.js";
+import { Notification } from "../models/notification.js";
+import { NotificationHubsMessageResponse } from "../models/response.js";
 import { RestError } from "@azure/core-rest-pipeline";
-import { SendOperationOptions } from "../models/options";
-import { tracingClient } from "../utils/tracing";
+import { SendOperationOptions } from "../models/options.js";
+import { tracingClient } from "../utils/tracing.js";
 
 /**
  * @internal

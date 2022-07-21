@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RegistrationDescription } from "./registration";
+import { RegistrationDescription } from "./registration.js";
 
 /**
  * Describes a response from the Notification Hubs which includes a tracking ID, correlation ID and location.

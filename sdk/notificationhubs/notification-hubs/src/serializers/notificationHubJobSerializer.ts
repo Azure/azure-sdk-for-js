@@ -5,16 +5,16 @@ import {
   NotificationHubJob,
   NotificationHubJobStatus,
   NotificationHubJobType,
-} from "../models/notificationHubJob";
+} from "../models/notificationHubJob.js";
 import {
   getDateOrUndefined,
   getFloatOrUndefined,
   getString,
   getStringOrUndefined,
   isDefined,
-} from "../utils/utils";
+} from "../utils/utils.js";
 import { parseXML, stringifyXML } from "@azure/core-xml";
-import { serializeToAtomXmlRequest } from "../utils/xmlUtils";
+import { serializeToAtomXmlRequest } from "../utils/xmlUtils.js";
 
 /**
  * @internal

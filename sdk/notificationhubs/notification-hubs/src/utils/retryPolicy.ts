@@ -3,7 +3,7 @@
 
 import { AbortError, AbortSignal } from "@azure/abort-controller";
 import { delay } from "@azure/core-amqp";
-import { isDefined } from "./utils";
+import { isDefined } from "./utils.js";
 import { isError } from "@azure/core-util";
 import { isRestError } from "@azure/core-rest-pipeline";
 

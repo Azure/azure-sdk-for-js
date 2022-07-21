@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient, createRequest } from "./client";
+import { NotificationHubsClient, createRequest } from "./client.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-import { tracingClient } from "../utils/tracing";
+import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Creates a new registration ID.

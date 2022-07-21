@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { HttpMethods, RestError } from "@azure/core-rest-pipeline";
-import { NotificationHubsClient, createRequest } from "./client";
+import { NotificationHubsClient, createRequest } from "./client.js";
 import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
-} from "../serializers/registrationSerializer";
+} from "../serializers/registrationSerializer.js";
 import { OperationOptions } from "@azure/core-client";
-import { RegistrationDescription } from "../models/registration";
+import { RegistrationDescription } from "../models/registration.js";
 
 /**
  * @internal

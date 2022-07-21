@@ -3938,7 +3938,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220719
+      typescript: 4.8.0-dev.20220721
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8901,8 +8901,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220719:
-    resolution: {integrity: sha512-IAZp6IDszN9iZi7R5LOqR5j0Ffy737RVQF7IefH1hNtFE+HiTjfsEYtWD2M0X/2feOCESZEKaa+GmuOVFuFhUQ==}
+  /typescript/4.8.0-dev.20220721:
+    resolution: {integrity: sha512-Fj63XtbG9v6ATuu3VEpXuTGsYoiZpdpROiXt9FxAk/pdpKsjjNGEuhAq36Vm4WncG0EoakXXbwm9eaZTt8vcbQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -18429,17 +18429,17 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-Gy5gM3e1Cn4RjcbMPmF//FzxSPFXH2qgmIEuA3fcizB/lhIH2U3GZlWYmLduckBUlO2X7adJUMZFQcq+etj5Ig==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-JaAk0bNTN6gkkd5tvHdA1zhD+jlJfr28yCnu51rTZwAnFhFk0NeuJcnlSrq2/Je6xuEci7IUd0hnRWBD0dJpsA==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.28.4
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       chai: 4.3.6
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.0.1
       downlevel-dts: 0.8.0
       eslint: 8.19.0
       esm: 3.2.25
@@ -18463,7 +18463,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.7.4
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil

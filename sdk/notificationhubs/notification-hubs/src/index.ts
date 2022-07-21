@@ -1,47 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { NotificationHubsServiceClient } from "./notificationHubsClient";
-export * from "./models/installation";
-export * from "./models/notification";
-export * from "./models/notificationBuilder";
-export * from "./models/notificationDetails";
-export * from "./models/notificationHubJob";
-export * from "./models/options";
-export * from "./models/registration";
-export * from "./models/response";
+export { NotificationHubsServiceClient } from "./notificationHubsClient.js";
+export * from "./models/installation.js";
+export * from "./models/notification.js";
+export * from "./models/notificationBuilder.js";
+export * from "./models/notificationDetails.js";
+export * from "./models/notificationHubJob.js";
+export * from "./models/options.js";
+export * from "./models/registration.js";
+export * from "./models/response.js";
 
 // Client methods
-export { clientFromConnectionString, NotificationHubsClient } from "./client/client";
+export { clientFromConnectionString, NotificationHubsClient } from "./client/client.js";
 
 // Installation methods
-export * from "./client/createOrUpdateInstallation";
-export * from "./client/deleteInstallation";
-export * from "./client/getInstallation";
-export * from "./client/updateInstallation";
+export * from "./client/createOrUpdateInstallation.js";
+export * from "./client/deleteInstallation.js";
+export * from "./client/getInstallation.js";
+export * from "./client/updateInstallation.js";
 
 // Registration methods
-export * from "./client/createRegistration";
-export * from "./client/createRegistrationId";
-export * from "./client/createOrUpdateRegistration";
-export * from "./client/getRegistration";
-export * from "./client/listRegistrations";
-export * from "./client/listRegistrationsByTag";
-export * from "./client/updateRegistration";
+export * from "./client/createRegistration.js";
+export * from "./client/createRegistrationId.js";
+export * from "./client/createOrUpdateRegistration.js";
+export * from "./client/getRegistration.js";
+export * from "./client/listRegistrations.js";
+export * from "./client/listRegistrationsByTag.js";
+export * from "./client/updateRegistration.js";
 
 // Send methods
-export * from "./client/sendBroadcastNotification";
-export * from "./client/sendDirectNotification";
-export * from "./client/sendNotification";
-export * from "./client/scheduleBroadcastNotification";
-export * from "./client/scheduleNotification";
-export * from "./client/cancelScheduledNotification";
+export * from "./client/sendBroadcastNotification.js";
+export * from "./client/sendDirectNotification.js";
+export * from "./client/sendNotification.js";
+export * from "./client/scheduleBroadcastNotification.js";
+export * from "./client/scheduleNotification.js";
+export * from "./client/cancelScheduledNotification.js";
 
 // Feedback
-export * from "./client/getFeedbackContainerUrl";
-export * from "./client/getNotificationOutcomeDetails";
+export * from "./client/getFeedbackContainerUrl.js";
+export * from "./client/getNotificationOutcomeDetails.js";
 
 // Jobs
-export * from "./client/getNotificationJob";
-export * from "./client/listNotificationHubJobs";
-export * from "./client/submitNotificationJob";
+export * from "./client/getNotificationJob.js";
+export * from "./client/listNotificationHubJobs.js";
+export * from "./client/submitNotificationJob.js";

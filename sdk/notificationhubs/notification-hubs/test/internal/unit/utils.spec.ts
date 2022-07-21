@@ -12,7 +12,7 @@ import {
   getStringOrUndefined,
   getTagsOrUndefined,
   isDefined,
-} from "../../../src/utils/utils";
+} from "../../../src/utils/utils.js";
 import { assert } from "@azure/test-utils";
 
 describe("xmlUtils", () => {

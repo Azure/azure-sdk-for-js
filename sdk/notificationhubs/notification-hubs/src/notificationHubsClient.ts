@@ -1,43 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Installation, JsonPatch, PushHandle } from "./models/installation";
-import { NotificationHubsClient, clientFromConnectionString } from "./client/client";
+import { Installation, JsonPatch, PushHandle } from "./models/installation.js"
+import { NotificationHubsClient, clientFromConnectionString } from "./client/client.js"
 import {
   NotificationHubsClientOptions,
   RegistrationQueryLimitOptions,
   RegistrationQueryOptions,
   SendOperationOptions,
-} from "./models/options";
-import { NotificationHubsMessageResponse, NotificationHubsResponse } from "./models/response";
-import { Notification } from "./models/notification";
-import { NotificationDetails } from "./models/notificationDetails";
-import { NotificationHubJob } from "./models/notificationHubJob";
+} from "./models/options.js";
+import { NotificationHubsMessageResponse, NotificationHubsResponse } from "./models/response.js";
+import { Notification } from "./models/notification.js";
+import { NotificationDetails } from "./models/notificationDetails.js"
+import { NotificationHubJob } from "./models/notificationHubJob.js"
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RegistrationDescription } from "./models/registration";
-import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./client/cancelScheduledNotification";
-import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./client/createOrUpdateInstallation";
-import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./client/createOrUpdateRegistration";
-import { createRegistrationId as createRegistrationIdMethod } from "./client/createRegistrationId";
-import { createRegistration as createRegistrationMethod } from "./client/createRegistration";
-import { deleteInstallation as deleteInstallationMethod } from "./client/deleteInstallation";
-import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./client/getFeedbackContainerUrl";
-import { getInstallation as getInstallationMethod } from "./client/getInstallation";
-import { getNotificationHubJob as getNotificationHubJobMethod } from "./client/getNotificationJob";
-import { getNotificationOutcomeDetails as getNotificationOutcomeDetailsMethod } from "./client/getNotificationOutcomeDetails";
-import { getRegistration as getRegistrationMethod } from "./client/getRegistration";
-import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./client/listNotificationHubJobs";
-import { listRegistrationsByTag as listRegistrationsByTagMethod } from "./client/listRegistrationsByTag";
-import { listRegistrations as listRegistrationsMethod } from "./client/listRegistrations";
-import { scheduleBroadcastNotification as scheduleBroadcastNotificationMethod } from "./client/scheduleBroadcastNotification";
-import { scheduleNotification as scheduleNotificationMethod } from "./client/scheduleNotification";
-import { sendBroadcastNotification as sendBroadcastNotificationMethod } from "./client/sendBroadcastNotification";
-import { sendDirectNotification as sendDirectNotificationMethod } from "./client/sendDirectNotification";
-import { sendNotification as sendNotificationMethod } from "./client/sendNotification";
-import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./client/submitNotificationJob";
-import { updateInstallation as updateInstallationMethod } from "./client/updateInstallation";
-import { updateRegistration as updateRegistrationMethod } from "./client/updateRegistration";
+import { RegistrationDescription } from "./models/registration.js";
+import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./client/cancelScheduledNotification.js"
+import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./client/createOrUpdateInstallation.js"
+import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./client/createOrUpdateRegistration.js"
+import { createRegistrationId as createRegistrationIdMethod } from "./client/createRegistrationId.js"
+import { createRegistration as createRegistrationMethod } from "./client/createRegistration.js"
+import { deleteInstallation as deleteInstallationMethod } from "./client/deleteInstallation.js"
+import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./client/getFeedbackContainerUrl.js"
+import { getInstallation as getInstallationMethod } from "./client/getInstallation.js"
+import { getNotificationHubJob as getNotificationHubJobMethod } from "./client/getNotificationJob.js"
+import { getNotificationOutcomeDetails as getNotificationOutcomeDetailsMethod } from "./client/getNotificationOutcomeDetails.js"
+import { getRegistration as getRegistrationMethod } from "./client/getRegistration.js"
+import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./client/listNotificationHubJobs.js"
+import { listRegistrationsByTag as listRegistrationsByTagMethod } from "./client/listRegistrationsByTag.js"
+import { listRegistrations as listRegistrationsMethod } from "./client/listRegistrations.js"
+import { scheduleBroadcastNotification as scheduleBroadcastNotificationMethod } from "./client/scheduleBroadcastNotification.js"
+import { scheduleNotification as scheduleNotificationMethod } from "./client/scheduleNotification.js"
+import { sendBroadcastNotification as sendBroadcastNotificationMethod } from "./client/sendBroadcastNotification.js"
+import { sendDirectNotification as sendDirectNotificationMethod } from "./client/sendDirectNotification.js"
+import { sendNotification as sendNotificationMethod } from "./client/sendNotification.js"
+import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./client/submitNotificationJob.js"
+import { updateInstallation as updateInstallationMethod } from "./client/updateInstallation.js"
+import { updateRegistration as updateRegistrationMethod } from "./client/updateRegistration.js"
 
 /**
  * This represents a client for Azure Notification Hubs to manage installations and send

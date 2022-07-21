@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient, createRequest, parseNotificationResponse } from "./client";
-import { EntityOperationOptions } from "../models/options";
-import { NotificationHubsResponse } from "../models/response";
+import { NotificationHubsClient, createRequest, parseNotificationResponse } from "./client.js";
+import { EntityOperationOptions } from "../models/options.js";
+import { NotificationHubsResponse } from "../models/response.js";
 import { RestError } from "@azure/core-rest-pipeline";
-import { tracingClient } from "../utils/tracing";
+import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Deletes a registration with the given registration ID.

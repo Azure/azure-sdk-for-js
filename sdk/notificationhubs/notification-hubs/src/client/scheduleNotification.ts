@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Notification } from "../models/notification";
-import { NotificationHubsClient } from "./client";
-import { NotificationHubsMessageResponse } from "../models/response";
+import { Notification } from "../models/notification.js";
+import { NotificationHubsClient } from "./client.js";
+import { NotificationHubsMessageResponse } from "../models/response.js";
 import { OperationOptions } from "@azure/core-client";
-import { scheduleNotificationPayload } from "./_scheduleNotificationPayload";
+import { scheduleNotificationPayload } from "./_scheduleNotificationPayload.js";
 
 /**
  * Schedules a push notification to devices that match the given tags or tag expression at the specified time.

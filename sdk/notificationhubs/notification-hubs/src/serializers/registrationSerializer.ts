@@ -22,17 +22,17 @@ import {
   TemplateRegistrationDescription,
   WindowsRegistrationDescription,
   WindowsTemplateRegistrationDescription,
-} from "../models/registration";
+} from "../models/registration.js";
 import {
   getDateOrUndefined,
   getString,
   getStringOrUndefined,
   getTagsOrUndefined,
   isDefined,
-} from "../utils/utils";
+} from "../utils/utils.js";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { RestError } from "@azure/core-rest-pipeline";
-import { serializeToAtomXmlRequest } from "../utils/xmlUtils";
+import { serializeToAtomXmlRequest } from "../utils/xmlUtils.js";
 
 /**
  * Represents a registration description parser from the incoming XML.
