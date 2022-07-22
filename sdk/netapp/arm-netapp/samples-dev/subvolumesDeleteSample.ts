@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Delete subvolume
  *
  * @summary Delete subvolume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-01-01/examples/Subvolumes_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-03-01/examples/Subvolumes_Delete.json
  */
 async function subvolumesDelete() {
   const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
