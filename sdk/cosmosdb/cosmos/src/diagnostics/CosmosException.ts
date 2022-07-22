@@ -1,23 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { jsonStringifyAndEscapeNonASCII } from "../common";
-import { getCosmosDiagnostics, recordDiagnostics } from "./CosmosDiagnostics";
+import {
+  DiagnosticSpan,
+  getCosmosDiagnostics,
+  getdiagnosticsdurationMilliseconds,
+  recordDiagnostics,
+} from "./CosmosDiagnostics";
 
-export class CosmosException extends Error{
+export class CosmosException extends Error {
   constructor(m: string | any) {
-        super(jsonStringifyAndEscapeNonASCII(m));
-        Object.setPrototypeOf(this, CosmosException.prototype);
-    }
+    super(JSON.stringify(m));
+    Object.setPrototypeOf(this, CosmosException.prototype);
+  }
 
-    static getDiagnostics() {
-        return getCosmosDiagnostics();
-    }
+  static getdiagnostics(): string {
+    return getCosmosDiagnostics();
+  }
 
-     static record(m: string | DiagnosticSpan ){
-      recordDiagnostics(jsonStringifyAndEscapeNonASCII(m));
-      return new CosmosException(m);
-     }
-}
+  static getduration() {
+    return getdiagnosticsdurationMilliseconds();
+  }
 
-export interface DiagnosticSpan {
-  [key: string]: string | boolean | number | any;
+  static record(m: string | DiagnosticSpan) {
+    recordDiagnostics(JSON.stringify(m));
+    return new CosmosException(m);
+  }
 }

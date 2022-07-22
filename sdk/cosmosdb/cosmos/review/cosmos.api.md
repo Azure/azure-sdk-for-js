@@ -765,9 +765,9 @@ export class FeedResponse<TResource> {
     // (undocumented)
     get continuationToken(): string;
     // (undocumented)
-    diagnostics: any;
-    // (undocumented)
     get getDiagnostics(): string;
+    // (undocumented)
+    get getDuration(): number;
     // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
@@ -1507,6 +1507,8 @@ export class ResourceResponse<TResource> {
     get etag(): string;
     // (undocumented)
     get getDiagnostics(): string;
+    // (undocumented)
+    get getDuration(): number;
     // (undocumented)
     readonly headers: CosmosHeaders_2;
     // (undocumented)

@@ -23,6 +23,9 @@ export class ResourceResponse<TResource> {
     return this.headers[Constants.HttpHeaders.ETag] as string;
   }
   get getDiagnostics(): string {
-    return CosmosException.getDiagnostics();
+    return CosmosException.getdiagnostics();
+  }
+   public get getDuration() {
+    return CosmosException.getduration();
   }
 }

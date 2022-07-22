@@ -5,7 +5,6 @@ import { CosmosException } from "../diagnostics/CosmosException";
 import { CosmosHeaders } from "../queryExecutionContext";
 
 export class FeedResponse<TResource> {
-  diagnostics: any;
   constructor(
     public readonly resources: TResource[],
     private readonly headers: CosmosHeaders,
@@ -26,7 +25,10 @@ export class FeedResponse<TResource> {
   public get activityId(): string {
     return this.headers[Constants.HttpHeaders.ActivityId];
   }
-  get getDiagnostics(): string {
-    return CosmosException.getDiagnostics();
+  public get getDiagnostics(): string {
+    return CosmosException.getdiagnostics();
+  }
+  public get getDuration() {
+    return CosmosException.getduration();
   }
 }
