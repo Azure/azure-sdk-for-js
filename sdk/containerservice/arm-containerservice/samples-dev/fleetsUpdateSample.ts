@@ -9,30 +9,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  TagsObject,
+  FleetPatch,
+  FleetsUpdateOptionalParams,
   ContainerServiceClient
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Updates tags on a managed cluster snapshot.
+ * This sample demonstrates how to Patches a fleet resource.
  *
- * @summary Updates tags on a managed cluster snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/ManagedClusterSnapshotsUpdateTags.json
+ * @summary Patches a fleet resource.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/Fleets_PatchTags.json
  */
-async function updateManagedClusterSnapshotTags() {
+async function patchesAFleetResource() {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
-  const resourceName = "snapshot1";
-  const parameters: TagsObject = { tags: { key2: "new-val2", key3: "val3" } };
+  const fleetName = "fleet-1";
+  const ifMatch = "dfjkwelr7384";
+  const parameters: FleetPatch = { tags: { env: "prod", tier: "secure" } };
+  const options: FleetsUpdateOptionalParams = { ifMatch, parameters };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.managedClusterSnapshots.updateTags(
+  const result = await client.fleets.update(
     resourceGroupName,
-    resourceName,
-    parameters
+    fleetName,
+    options
   );
   console.log(result);
 }
 
-updateManagedClusterSnapshotTags().catch(console.error);
+patchesAFleetResource().catch(console.error);

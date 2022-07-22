@@ -12,25 +12,24 @@ import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets a list of agent pools in the specified managed cluster.
+ * This sample demonstrates how to Gets a Fleet member.
  *
- * @summary Gets a list of agent pools in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/AgentPoolsList.json
+ * @summary Gets a Fleet member.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/FleetMembers_Get.json
  */
-async function listAgentPoolsByManagedCluster() {
+async function getsAFleetMemberResource() {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
-  const resourceName = "clustername1";
+  const fleetName = "fleet-1";
+  const fleetMemberName = "member-1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.agentPools.list(
+  const result = await client.fleetMembers.get(
     resourceGroupName,
-    resourceName
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    fleetName,
+    fleetMemberName
+  );
+  console.log(result);
 }
 
-listAgentPoolsByManagedCluster().catch(console.error);
+getsAFleetMemberResource().catch(console.error);

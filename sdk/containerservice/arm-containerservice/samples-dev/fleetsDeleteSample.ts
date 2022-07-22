@@ -12,25 +12,22 @@ import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets a list of agent pools in the specified managed cluster.
+ * This sample demonstrates how to Deletes a Fleet.
  *
- * @summary Gets a list of agent pools in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/AgentPoolsList.json
+ * @summary Deletes a Fleet.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/Fleets_Delete.json
  */
-async function listAgentPoolsByManagedCluster() {
+async function deleteAFleetResource() {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
-  const resourceName = "clustername1";
+  const fleetName = "fleet-1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.agentPools.list(
+  const result = await client.fleets.beginDeleteAndWait(
     resourceGroupName,
-    resourceName
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    fleetName
+  );
+  console.log(result);
 }
 
-listAgentPoolsByManagedCluster().catch(console.error);
+deleteAFleetResource().catch(console.error);
