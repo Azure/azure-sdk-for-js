@@ -13,7 +13,7 @@
  * @azsdk-weight 100
  */
 
-import { clientFromConnectionString, listRegistrationsByTag } from "@azure/notification-hubs";
+import { NotificationHubsServiceClient } from "@azure/notification-hubs";
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
@@ -23,10 +23,10 @@ const TOP = 100;
 const TAG = "likes_hockey";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = new NotificationHubsServiceClient(connectionString, hubName);
 
   // Unlimited
-  let allRegistrations = listRegistrationsByTag(client, TAG);
+  let allRegistrations = client.listRegistrationsByTag(TAG);
   let page = 0;
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page}`);
@@ -37,7 +37,7 @@ async function main() {
 
   // Top
   page = 0;
-  allRegistrations = listRegistrationsByTag(client, TAG, { top: TOP });
+  allRegistrations = client.listRegistrationsByTag(TAG, { top: TOP });
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page}`);
     for (const item of pages) {

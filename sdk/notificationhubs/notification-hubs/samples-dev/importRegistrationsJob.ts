@@ -15,9 +15,7 @@
 
 import {
   NotificationHubJob,
-  clientFromConnectionString,
-  getNotificationHubJob,
-  submitNotificationHubJob,
+  NotificationHubsServiceClient,
 } from "@azure/notification-hubs";
 import { delay } from "@azure/core-amqp";
 
@@ -34,7 +32,7 @@ const outputContainerUrl = process.env.OUTPUT_CONTAINER_URL || "<output containe
 const importFileUrl = process.env.IMPORT_FILE_URL || "<import file URL>";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = new NotificationHubsServiceClient(connectionString, hubName);
 
   let importJob: NotificationHubJob = {
     outputContainerUrl,
@@ -42,11 +40,11 @@ async function main() {
     type: "ImportCreateRegistrations",
   };
 
-  importJob = await submitNotificationHubJob(client, importJob);
+  importJob = await client.submitNotificationHubJob(importJob);
 
   let count = 0;
   while (importJob.status !== "Completed" && importJob.status !== "Failed" && count++ < 10) {
-    importJob = await getNotificationHubJob(client, importJob.jobId!);
+    importJob = await client.getNotificationHubJob(importJob.jobId!);
     await delay(1000);
   }
 

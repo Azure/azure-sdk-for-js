@@ -16,13 +16,10 @@
 
 import {
   NotificationDetails,
+  NotificationHubsServiceClient,
   NotificationOutcomeState,
-  NotificationHubsClient,
   SendOperationOptions,
   createAppleNotification,
-  clientFromConnectionString,
-  getNotificationOutcomeDetails,
-  sendDirectNotification,
 } from "@azure/notification-hubs";
 import { delay } from "@azure/core-amqp";
 
@@ -39,7 +36,7 @@ const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c99
 const devicetoken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = new NotificationHubsServiceClient(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
@@ -53,7 +50,7 @@ async function main() {
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await sendDirectNotification(client, devicetoken, notification, sendOptions);
+  const result = await client.sendDirectNotification( devicetoken, notification, sendOptions);
 
   console.log(`Direct send Tracking ID: ${result.trackingId}`);
   console.log(`Direct send Correlation ID: ${result.correlationId}`);
@@ -70,7 +67,7 @@ async function main() {
 }
 
 async function getNotificationDetails(
-  client: NotificationHubsClient,
+  client: NotificationHubsServiceClient,
   notificationId: string
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
@@ -78,7 +75,7 @@ async function getNotificationDetails(
   let result: NotificationDetails | undefined;
   while ((state === "Enqueued" || state === "Processing") && count++ < 10) {
     try {
-      result = await getNotificationOutcomeDetails(client, notificationId);
+      result = await client.getNotificationOutcomeDetails(notificationId);
       state = result.state!;
     } catch (e) {
       // Possible to get 404 for when it doesn't exist yet.

@@ -14,9 +14,7 @@
  */
 
 import {
-  clientFromConnectionString,
-  getRegistration,
-  updateRegistration,
+  NotificationHubsServiceClient
 } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
@@ -31,9 +29,9 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const registrationId = process.env.REGISTRATION_ID || "<registrationId>";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = new NotificationHubsServiceClient(connectionString, hubName);
 
-  const registration = await getRegistration(client, registrationId);
+  const registration = await client.getRegistration(registrationId);
 
   // Add some tags
   if (!registration.tags) {
@@ -42,7 +40,7 @@ async function main() {
 
   registration.tags.push("likes_sports");
 
-  const registrationResponse = await updateRegistration(client, registration);
+  const registrationResponse = await client.updateRegistration(registration);
 
   console.log(`Registration ID: ${registrationResponse.registrationId}`);
 }

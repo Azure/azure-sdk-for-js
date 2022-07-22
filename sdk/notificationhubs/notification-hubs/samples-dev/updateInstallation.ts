@@ -16,8 +16,7 @@
 
 import {
   JsonPatch,
-  clientFromConnectionString,
-  updateInstallation,
+  NotificationHubsServiceClient,
 } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
@@ -32,14 +31,14 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const installationId = process.env.INSTALLATION_ID || "<installation id>";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = new NotificationHubsServiceClient(connectionString, hubName);
 
   const updates: JsonPatch[] = [
     { op: "add", path: "/tags", value: "likes_baseball" },
     { op: "add", path: "/userId", value: "bob@contoso.com" },
   ];
 
-  const updatedInstallation = await updateInstallation(client, installationId, updates);
+  const updatedInstallation = await client.updateInstallation(installationId, updates);
   console.log(`Installation last update: ${updatedInstallation.lastUpdate}`);
 }
 

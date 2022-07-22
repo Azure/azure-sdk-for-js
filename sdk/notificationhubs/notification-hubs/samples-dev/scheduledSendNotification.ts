@@ -16,10 +16,9 @@
  */
 
 import {
-  createAppleNotification,
-  clientFromConnectionString,
+  NotificationHubsServiceClient,
   SendOperationOptions,
-  scheduleNotification,
+  createAppleNotification,
 } from "@azure/notification-hubs";
 
 // Load the .env file if it exists
@@ -31,7 +30,7 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = new NotificationHubsServiceClient(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
   const tagExpression = "likes_hockey && likes_football";
@@ -49,8 +48,7 @@ async function main() {
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await scheduleNotification(
-    client,
+  const result = await client.scheduleNotification(
     scheduledTime,
     tagExpression,
     notification,

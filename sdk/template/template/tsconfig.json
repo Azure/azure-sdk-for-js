@@ -8,6 +8,8 @@
     },
     "module": "NodeNext",
     "moduleResolution": "nodenext",
+    "traceResolution": true,
+    "rootDir": "."
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }
