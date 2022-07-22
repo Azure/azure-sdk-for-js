@@ -219,36 +219,6 @@ export const CustomLocationListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Identity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -338,6 +308,36 @@ export const SystemData: coreClient.CompositeMapper = {
         serializedName: "lastModifiedAt",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -471,6 +471,176 @@ export const EnabledResourceTypePropertiesTypesMetadataItem: coreClient.Composit
   }
 };
 
+export const CustomLocationFindTargetResourceGroupProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomLocationFindTargetResourceGroupProperties",
+    modelProperties: {
+      labels: {
+        serializedName: "labels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const CustomLocationFindTargetResourceGroupResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomLocationFindTargetResourceGroupResult",
+    modelProperties: {
+      matchedResourceSyncRule: {
+        serializedName: "matchedResourceSyncRule",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      targetResourceGroup: {
+        serializedName: "targetResourceGroup",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSyncRuleListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceSyncRuleListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceSyncRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSyncRulePropertiesSelector: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceSyncRulePropertiesSelector",
+    modelProperties: {
+      matchExpressions: {
+        serializedName: "matchExpressions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MatchExpressionsProperties"
+            }
+          }
+        }
+      },
+      matchLabels: {
+        serializedName: "matchLabels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const MatchExpressionsProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MatchExpressionsProperties",
+    modelProperties: {
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PatchableResourceSyncRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchableResourceSyncRule",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      priority: {
+        serializedName: "properties.priority",
+        type: {
+          name: "Number"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      selector: {
+        serializedName: "properties.selector",
+        type: {
+          name: "Composite",
+          className: "ResourceSyncRulePropertiesSelector"
+        }
+      },
+      targetResourceGroup: {
+        serializedName: "properties.targetResourceGroup",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -569,6 +739,49 @@ export const CustomLocation: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSyncRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceSyncRule",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      priority: {
+        serializedName: "properties.priority",
+        type: {
+          name: "Number"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      selector: {
+        serializedName: "properties.selector",
+        type: {
+          name: "Composite",
+          className: "ResourceSyncRulePropertiesSelector"
+        }
+      },
+      targetResourceGroup: {
+        serializedName: "properties.targetResourceGroup",
         type: {
           name: "String"
         }

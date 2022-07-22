@@ -11456,7 +11456,7 @@ packages:
     dev: false
 
   file:projects/arm-extendedlocation.tgz:
-    resolution: {integrity: sha512-qh8KGDnbqoUV6UbWCbFhWA3nCJ0WIhdO4VjeozivtHaTzV9lYUjn5gRIomUnuD/yIJXyKds2jCqOTAXMPxQiRQ==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-doTH4270KxUQxTIvZfYxxS6wUC313p8DxC3amB6xPXoO4Vd7x3EtAHlXNEe0rs123rj5L7V/ouyJCds05SdHZQ==, tarball: file:projects/arm-extendedlocation.tgz}
     name: '@rush-temp/arm-extendedlocation'
     version: 0.0.0
     dependencies:
@@ -11465,19 +11465,21 @@ packages:
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
       '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.77.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.77.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.2
     transitivePeerDependencies:
-      - encoding
-      - supports-color
+      - '@types/node'
     dev: false
 
   file:projects/arm-features.tgz:
