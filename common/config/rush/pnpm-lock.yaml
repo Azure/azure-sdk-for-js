@@ -3890,7 +3890,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220720
+      typescript: 4.8.0-dev.20220721
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8700,8 +8700,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220720:
-    resolution: {integrity: sha512-P2hOKzT3tkfEBDVHQYCA1yQ/1JA6cNEiEuyEavCW7obrlUExBzozuYJpXlp+m63eUxvKzOBHo8WgBD4jycvScw==}
+  /typescript/4.8.0-dev.20220721:
+    resolution: {integrity: sha512-Fj63XtbG9v6ATuu3VEpXuTGsYoiZpdpROiXt9FxAk/pdpKsjjNGEuhAq36Vm4WncG0EoakXXbwm9eaZTt8vcbQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9539,11 +9539,11 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-t4tCPv7xgWBLI54+2cs5a4gUSfXQUAzcdEJ1Z17sgR8zf2MwwLW6GAr8CuIbpLmAy5RUfT0909yxvnLN72HZow==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-AEHfHjsfUhgyJ09wGg+I2WoSQVyrPuGpK4x979fkP961XCm2FMjRYNIB6vwWpLymAYJeVEVIqvqXC4xbOebwcA==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
-      '@azure/core-lro': 2.3.0-beta.1
+      '@azure/core-lro': 2.2.4
       '@azure/core-tracing': 1.0.0
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
@@ -16808,7 +16808,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-text-analytics.tgz:
-    resolution: {integrity: sha512-6hWKG6L0PjQxaMNBVhTr5AsoqeIboWkTqXfiePh9Uq6HV6xQhdyOp/LIJizKJ883G/W/0O8g8Ta7sl/kee4uBA==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-r7/aQ8tf62gJR95pvn12/Nte/86WvTVRGNbqRDklt3xdCeQa+ZogLjLoJaSzGwsdp7gHVjtiS0/n0sTspiCQwA==, tarball: file:projects/perf-ai-text-analytics.tgz}
     name: '@rush-temp/perf-ai-text-analytics'
     version: 0.0.0
     dependencies:
