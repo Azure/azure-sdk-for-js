@@ -1698,18 +1698,6 @@ packages:
     engines: {node: '>=6.0'}
     dev: false
 
-  /@opentelemetry/api-metrics/0.27.0:
-    resolution: {integrity: sha512-tB79288bwjkdhPNpw4UdOEy3bacVwtol6Que7cAu8KEJ9ULjRfSiwpYEwJY/oER3xZ7zNFz0uiJ7N1jSiotpVA==}
-    engines: {node: '>=8.0.0'}
-    dev: false
-
-  /@opentelemetry/api-metrics/0.29.2:
-    resolution: {integrity: sha512-yRdF5beqKuEdsPNoO7ijWCQ9HcyN0Tlgicf8RS6gzGOI54d6Hj7yKquJ6+X9XV+CSRbRWJYb+lOsXyso7uyX2g==}
-    engines: {node: '>=8.12.0'}
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-    dev: false
-
   /@opentelemetry/api-metrics/0.30.0:
     resolution: {integrity: sha512-jSb7iiYPY+DSUKIyzfGt0a5K1QGzWY5fSWtUB8Alfi27NhQGHBeuYYC5n9MaBP/HNWw5GpEIhXGEYCF9Pf8IEg==}
     engines: {node: '>=14'}
@@ -1759,16 +1747,6 @@ packages:
       semver: 7.3.7
     dev: false
 
-  /@opentelemetry/core/1.3.1_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-k7lOC86N7WIyUZsUuSKZfFIrUtINtlauMGQsC1r7jNmcr0vVJGqK1ROBvt7WWMxLbpMnt1q2pXJO8tKu0b9auA==}
-    engines: {node: '>=8.12.0'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.2.0'
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/semantic-conventions': 1.3.1
-    dev: false
-
   /@opentelemetry/core/1.4.0_@opentelemetry+api@1.1.0:
     resolution: {integrity: sha512-faq50VFEdyC7ICAOlhSi+yYZ+peznnGjTJToha9R63i9fVopzpKrkZt7AIdXUmz2+L2OqXrcJs7EIdN/oDyr5w==}
     engines: {node: '>=14'}
@@ -1779,42 +1757,29 @@ packages:
       '@opentelemetry/semantic-conventions': 1.4.0
     dev: false
 
-  /@opentelemetry/instrumentation-http/0.29.2_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-XIF9WCH03rp3vQjwXXVdTxlsXT2AG6LYfFKO8r2QC+w4F4KFuZa4J3VPYJ0L/a/6dWt34DA67eBh3l6Z1rMZrg==}
-    engines: {node: '>=8.12.0'}
+  /@opentelemetry/instrumentation-http/0.30.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-OhiuzR2mhlTcaXD1dYW/dqnC/zjIKHp2NWMUyDHEd4xS6NZAiTU5mNDv57Y9on+/VwYXWUZZ2tB7AOVPsFUIOg==}
+    engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
       '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 1.3.1_@opentelemetry+api@1.1.0
-      '@opentelemetry/instrumentation': 0.29.2_@opentelemetry+api@1.1.0
-      '@opentelemetry/semantic-conventions': 1.3.1
+      '@opentelemetry/core': 1.4.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/instrumentation': 0.30.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/semantic-conventions': 1.4.0
       semver: 7.3.7
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@opentelemetry/instrumentation/0.27.0_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-dUwY/VoDptdK8AYigwS3IKblG+unV5xIdV4VQKy+nX5aT3f7vd5PMYs4arCQSYLbLRe0s7GxK6S9dtjai/TsHQ==}
+  /@opentelemetry/instrumentation/0.30.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-9bjRx81B6wbJ7CGWc/WCUfcb0QIG5UIcjnPTzwYIURjYPd8d0ZzRlrnqEdQG62jn4lSPEvnNqTlyC7qXtn9nAA==}
+    engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
       '@opentelemetry/api': 1.1.0
-      '@opentelemetry/api-metrics': 0.27.0
-      require-in-the-middle: 5.1.0
-      semver: 7.3.7
-      shimmer: 1.2.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@opentelemetry/instrumentation/0.29.2_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-LXx5V0ONNATQFCE8C5uqnxWSm4rcXLssdLHdXjtGdxRmURqj/JO8jYefqXCD0LzsqEQ6yxOx2GZ0dgXvhBVdTw==}
-    peerDependencies:
-      '@opentelemetry/api': ^1.0.0
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/api-metrics': 0.29.2
+      '@opentelemetry/api-metrics': 0.30.0
       require-in-the-middle: 5.1.0
       semver: 7.3.7
       shimmer: 1.2.1
@@ -1907,11 +1872,6 @@ packages:
   /@opentelemetry/semantic-conventions/0.22.0:
     resolution: {integrity: sha512-t4fKikazahwNKmwD+CE/icHyuZldWvNMupJhjxdk9T/KxHFx3zCGjHT3MKavwYP6abzgAAm5WwzD1oHlmj7dyg==}
     engines: {node: '>=8.0.0'}
-    dev: false
-
-  /@opentelemetry/semantic-conventions/1.3.1:
-    resolution: {integrity: sha512-wU5J8rUoo32oSef/rFpOT1HIjLjAv3qIDHkw1QIhODV3OpAVHi5oVzlouozg9obUmZKtbZ0qUe/m7FP0y0yBzA==}
-    engines: {node: '>=8.12.0'}
     dev: false
 
   /@opentelemetry/semantic-conventions/1.4.0:
@@ -15215,7 +15175,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-kFvDGkHgBZKHzAezl+ocDbg2Lv4+skk6kM2wLOd1cTTOoTudrJbDteVmrDs1nZnDHqNSkaCOVQWHsyDiW+kyVA==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-q8baSRFVjzVbDXu9TL5UozdC+Z4cXNEFbv/O43BZTU5EXFtyWOQhair7wtFn2tHMFr16phOKXn9dyFdwkh1+vg==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -15357,7 +15317,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-ogCKDnbP8OQA8XUr8szudiw3+MbWGrNX5uHd0a3X3EZuzFBJ2HGWCn+ohVXDw1MZxZulZx3I1bDqXKJwD4oTIQ==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-y+thlPyXNhomNGbxZ0I3VBzudwNdmKfAZf+TF9MdDMAPQdyYis1DYw8I6/ARq1Avgt+1hrQuUsWTLicdWM+IJg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -16635,7 +16595,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-LI4FhdRIOz83/p7QeiMyu/tUw0A3rRnfc0P+1nQD6anQzyRY15d8VgZZLB22ZdNCMwV4f5120L0n+0nsWLqCJw==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-85QS3CeB6gLRkpYxFgS3ie9vpnhHgTUYzVe+xp4Lj6WLBsYveBoLHo77Jh43sTOjNeSltxTdCacm+zAJ0opeTw==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -16643,8 +16603,8 @@ packages:
       '@opentelemetry/api': 1.1.0
       '@opentelemetry/api-metrics': 0.30.0
       '@opentelemetry/core': 1.4.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/instrumentation': 0.29.2_@opentelemetry+api@1.1.0
-      '@opentelemetry/instrumentation-http': 0.29.2_@opentelemetry+api@1.1.0
+      '@opentelemetry/instrumentation': 0.30.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/instrumentation-http': 0.30.0_@opentelemetry+api@1.1.0
       '@opentelemetry/resources': 1.4.0_@opentelemetry+api@1.1.0
       '@opentelemetry/sdk-metrics-base': 0.30.0_@opentelemetry+api@1.1.0
       '@opentelemetry/sdk-trace-base': 1.4.0_@opentelemetry+api@1.1.0
@@ -16671,7 +16631,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-g95r0TL/faB0ggnrQqUr25inh5ysexRmF0jIOAFz4i8lgev92aBsi5ug4zU8IAfZ4KljkmFRVnQzCpHlVtTc/w==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-c4Q0T2/ym2Sd9Nu+/gx1yLkabEzkW1qIOiEaWUPpKCaFYXsU4Q/OhTD4IqDRUyMZQzySIaK8J8oBTV4qyk8eOA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -16738,7 +16698,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-0WC/DAQ/khFmvfec8e1siUTEMZ6W3/EO7x+cSeLo4KR/BvXuZl1Jb+rk+uSMoc7UVV94yCk+HFTw+JrQyY6T3w==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-f6Cevyerkxia5aCPX6w3pd8jf6CXrPI5bZ/b1cKM5PSPZwbxANTvFqHPY5Q6g1CSaB560wUpQKmN1YmRz3UkoA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -16746,7 +16706,7 @@ packages:
       '@microsoft/api-extractor': 7.18.11
       '@opentelemetry/api': 1.1.0
       '@opentelemetry/core': 1.4.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/instrumentation': 0.30.0_@opentelemetry+api@1.1.0
       '@opentelemetry/sdk-trace-base': 1.4.0_@opentelemetry+api@1.1.0
       '@opentelemetry/sdk-trace-node': 1.4.0_@opentelemetry+api@1.1.0
       '@types/chai': 4.3.1
@@ -18357,7 +18317,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-BD/i68q3yqSP4ALbzBg9q19PdyfdIbAuyKGMPJZGV57sw+hsgQ0O4Zw94VF0Zi7mowf/iH8M918RK0E9VHe2fg==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-dmmQNl4lozwZMOGaUvSwOjwsL/IsQySdKtnxH6PtxNynnibc4rFgot1jpzGwpjONVngMpg9URbuwa8BAQO4Nog==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
