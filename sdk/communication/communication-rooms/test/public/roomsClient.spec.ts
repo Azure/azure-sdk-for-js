@@ -72,6 +72,7 @@ describe("RoomsClient", function () {
       assert.isDefined(createRoomResult.id);
       assert.equal(createRoomResult.roomJoinPolicy, "CommunicationServiceUsers");
       assert.equal(createRoomResult.participants?.length, 1);
+      roomId = createRoomResult.id;
     });
 
     it("successfully gets a room", async function () {

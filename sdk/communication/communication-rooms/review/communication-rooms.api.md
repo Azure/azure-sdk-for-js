@@ -48,14 +48,6 @@ export interface ParticipantsCollection {
 }
 
 // @public
-export interface PatchRoomRequest {
-    participants?: RoomParticipant[];
-    roomJoinPolicy?: RoomJoinPolicy;
-    validFrom?: Date;
-    validUntil?: Date;
-}
-
-// @public
 export interface RemoveParticipantsOptions extends OperationOptions {
 }
 
@@ -101,7 +93,7 @@ export class RoomsClient {
     getRoom(roomId: string, options?: GetRoomOptions): Promise<Room>;
     removeParticipants(roomId: string, request: RemoveParticipantsRequest, options?: RemoveParticipantsOptions): Promise<void>;
     updateParticipants(roomId: string, request: UpdateParticipantsRequest, options?: UpdateParticipantsOptions): Promise<void>;
-    updateRoom(roomId: string, request: PatchRoomRequest, options?: UpdateRoomOptions): Promise<Room>;
+    updateRoom(roomId: string, request: UpdateRoomRequest, options?: UpdateRoomOptions): Promise<Room>;
 }
 
 // @public
@@ -119,6 +111,14 @@ export interface UpdateParticipantsRequest {
 
 // @public
 export interface UpdateRoomOptions extends OperationOptions {
+}
+
+// @public
+export interface UpdateRoomRequest {
+    participants?: RoomParticipant[];
+    roomJoinPolicy?: RoomJoinPolicy;
+    validFrom?: Date;
+    validUntil?: Date;
 }
 
 // (No @packageDocumentation comment for this package)

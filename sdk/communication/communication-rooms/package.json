@@ -62,7 +62,9 @@
     "@types/chai": "~4.3.1",
     "@types/sinon": "~10.0.12",
     "karma": "^6.3.20",
-    "karma-env-preprocessor": "^0.1.1"
+    "karma-env-preprocessor": "^0.1.1",
+    "chai": "^4.2.0",
+    "@types/mocha": "^7.0.2"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms",
   "repository": {
