@@ -1,9 +1,13 @@
-export type Values = {
-  field1: string
-  field2: string
+export type TValues = {
+  label1: string
+  label2: string
+  label3: string
+  actionUrl: string
 }
 
-export const valuesDefault: Values = {
-  field1: "Hello world!",
-  field2: "",
+export const valuesDefault: TValues = {
+  label1: "Email",
+  label2: "Message",
+  label3: "Send",
+  actionUrl: "https://httpbin.org/post",
 }

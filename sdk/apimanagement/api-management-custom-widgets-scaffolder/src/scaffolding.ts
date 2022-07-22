@@ -11,11 +11,11 @@ export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
 export const OVERRIDE_DEFAULT_PORT = 3000;
 
 /** All supported technologies to scaffold a widget in. */
-export type ScaffoldTech = "typescript" | "react"; // | "vue";
+export type ScaffoldTech = "typescript" | "react" | "vue";
 // export type ScaffoldSourceControl = "git" | "azure" | "none" | null;
 
 /** List of all supported technologies to scaffold a widget in. */
-export const TECHNOLOGIES: ScaffoldTech[] = ["typescript", "react"];
+export const TECHNOLOGIES: ScaffoldTech[] = ["typescript", "react", "vue"];
 
 /** Main data which DevPortal needs for every custom widget.  */
 export interface WidgetConfig {

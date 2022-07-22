@@ -32,7 +32,7 @@ const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
 const OVERRIDE_DEFAULT_PORT = 3000;
 // export type ScaffoldSourceControl = "git" | "azure" | "none" | null;
 /** List of all supported technologies to scaffold a widget in. */
-const TECHNOLOGIES = ["typescript", "react"];
+const TECHNOLOGIES = ["typescript", "react", "vue"];
 /**
  * Converts user defined name of a custom widget to a unique ID, which is in context of Dev Portal known as "name".
  *
@@ -124,7 +124,8 @@ const promptWidgetConfig = (partial) => inquirer__default["default"].prompt([
         choices: [
             { name: "TypeScript", value: "typescript" },
             { name: "React", value: "react" },
-        ], // , {name: "Vue", disabled: "Coming soon"}],
+            { name: "Vue", value: "vue" },
+        ],
     },
 ], partial);
 const promptDeployConfig = (partial) => inquirer__default["default"].prompt([

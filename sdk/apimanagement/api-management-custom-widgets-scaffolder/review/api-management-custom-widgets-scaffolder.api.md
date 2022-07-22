@@ -36,7 +36,7 @@ export const OVERRIDE_DEFAULT_PORT = 3000;
 export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
 
 // @public
-export type ScaffoldTech = "typescript" | "react";
+export type ScaffoldTech = "typescript" | "react" | "vue";
 
 // @public
 export const TECHNOLOGIES: ScaffoldTech[];

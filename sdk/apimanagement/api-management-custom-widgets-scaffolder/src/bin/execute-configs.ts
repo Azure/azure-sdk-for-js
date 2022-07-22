@@ -111,7 +111,8 @@ export const promptWidgetConfig = (partial: Partial<WidgetConfig>): Promise<Widg
         choices: [
           { name: "TypeScript", value: "typescript" },
           { name: "React", value: "react" },
-        ], // , {name: "Vue", disabled: "Coming soon"}],
+          { name: "Vue", value: "vue" },
+        ],
       },
     ],
     partial

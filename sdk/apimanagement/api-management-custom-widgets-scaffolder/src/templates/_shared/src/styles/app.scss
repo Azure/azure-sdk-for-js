@@ -1,0 +1,51 @@
+@import "reboot.scss";
+
+body {
+  font-family: "Segoe UI", sans-serif;
+}
+
+.form-label {
+  padding: 5px 0;
+  display: block;
+  font-weight: 400;
+}
+
+.form-group {
+  display: block;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.form-group .form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  padding: 7px;
+}
+
+.form-control {
+  font-family: "OpenSans", sans-serif;
+  font-weight: 500;
+  font-size: 0.9em;
+  color: #252525;
+  border: 1px solid #7f7f7fd9;
+  background-color: #ffffff;
+  display: block;
+  width: 100%;
+}
+
+.button {
+  &.button-primary {
+    border-top: 1px solid rgba(167, 51, 51, 0);
+    box-shadow: 2px 2px 5px 1px rgb(0 0 0 / 13%);
+    font-style: normal;
+    border-left: 1px solid rgba(167, 51, 51, 0);
+    font-weight: 400;
+    border-right: 1px solid rgba(167, 51, 51, 0);
+    border-bottom: 1px solid rgba(167, 51, 51, 0);
+    padding: 9px 50px;
+    background-color: rgba(254, 212.99999999999994, 60.00000000000001, 1);
+    border-radius: 3px;
+  }
+}
