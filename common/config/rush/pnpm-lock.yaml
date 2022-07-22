@@ -1705,6 +1705,13 @@ packages:
       '@opentelemetry/api': 1.1.0
     dev: false
 
+  /@opentelemetry/api-metrics/0.30.0:
+    resolution: {integrity: sha512-jSb7iiYPY+DSUKIyzfGt0a5K1QGzWY5fSWtUB8Alfi27NhQGHBeuYYC5n9MaBP/HNWw5GpEIhXGEYCF9Pf8IEg==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+    dev: false
+
   /@opentelemetry/api/0.10.2:
     resolution: {integrity: sha512-GtpMGd6vkzDMYcpu2t9LlhEgMy/SzBwRnz48EejlRArYqZzqSzAsKmegUK7zHgl+EOIaK9mKHhnRaQu3qw20cA==}
     engines: {node: '>=8.0.0'}
