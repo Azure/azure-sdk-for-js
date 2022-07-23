@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { Notification } from "../models/notification.js";
-import { NotificationHubsClient } from "./client.js";
+import { NotificationHubsClient } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/response.js";
 import { SendOperationOptions } from "../models/options.js";
-import { sendNotificationPayload } from "./_sendNotificationPayload.js";
+import { sendNotificationPayload } from "./internal/_sendNotificationPayload.js";
 
 /**
  * Sends push notifications to all devices on the Notification Hub.

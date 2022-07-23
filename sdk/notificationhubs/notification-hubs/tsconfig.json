@@ -7,7 +7,7 @@
       "@azure/notification-hubs": ["./src/index.js"]
     },
     "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "NodeNext",
     "rootDir": "."
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Installation, JsonPatch } from "../models/installation.js";
-import { NotificationHubsClient, createRequest } from "./client.js";
+import { NotificationHubsClient, createRequest } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing.js";

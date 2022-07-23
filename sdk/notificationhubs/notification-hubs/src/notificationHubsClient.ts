@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Installation, JsonPatch, PushHandle } from "./models/installation.js"
-import { NotificationHubsClient, clientFromConnectionString } from "./client/client.js"
+import { NotificationHubsClient, clientFromConnectionString } from "./client/index.js"
 import {
   NotificationHubsClientOptions,
   RegistrationQueryLimitOptions,

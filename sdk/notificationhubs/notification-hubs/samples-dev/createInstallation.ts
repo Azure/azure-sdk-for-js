@@ -13,10 +13,9 @@
  * @azsdk-weight 100
  */
 
-import {
-  NotificationHubsServiceClient,
-  createAppleInstallation,
-} from "@azure/notification-hubs";
+import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
+import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
 import { v4 } from "uuid";
 
 // Load the .env file if it exists
@@ -32,7 +31,7 @@ const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c99
 const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 async function main() {
-  const client = new NotificationHubsServiceClient(connectionString, hubName);
+  const client = clientFromConnectionString(connectionString, hubName);
 
   const installation = createAppleInstallation({
     installationId: v4(),
@@ -40,7 +39,7 @@ async function main() {
     tags: ["likes_hockey", "likes_football"],
   });
 
-  const updatedInstallation = await client.createOrUpdateInstallation(installation);
+  const updatedInstallation = await createOrUpdateInstallation(client, installation);
   console.log(`Installation last update: ${updatedInstallation.lastUpdate}`);
 }
 

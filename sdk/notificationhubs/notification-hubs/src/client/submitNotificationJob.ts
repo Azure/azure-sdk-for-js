@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient, createRequest } from "./client.js";
+import { NotificationHubsClient, createRequest } from "./index.js";
 import {
   parseNotificationHubJobEntry,
   serializeNotificationHubJobEntry,

@@ -1,35 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BrowserPushChannel, PushHandle } from "../models/installation.js";
-import { NotificationHubsClient, createRequest, parseNotificationSendResponse } from "./client.js";
-import { Notification } from "../models/notification.js";
-import { NotificationHubsMessageResponse } from "../models/response.js";
+import { NotificationHubsClient, createRequest, parseNotificationSendResponse } from "../index.js";
+import { Notification } from "../../models/notification.js";
+import { NotificationHubsMessageResponse } from "../../models/response.js";
+import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-import { SendOperationOptions } from "../models/options.js";
-import { tracingClient } from "../utils/tracing.js";
+import { tracingClient } from "../../utils/tracing.js";
 
 /**
  * @internal
  */
-export function sendNotificationPayload(
+
+export function scheduleNotificationPayload(
   client: NotificationHubsClient,
+  scheduledTime: Date,
+  tags: string[] | string | undefined,
   notification: Notification,
-  method: string,
-  pushHandle?: PushHandle,
-  tags?: string | string[],
-  options: SendOperationOptions = {}
+  options: OperationOptions = {}
 ): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
-    `NotificationHubsClient-${method}`,
+    "NotificationHubsClient-$scheduleNotification",
     options,
     async (updatedOptions) => {
       const endpoint = client.getBaseUrl();
-      endpoint.pathname += "/messages/";
-
-      if (options.enableTestSend) {
-        endpoint.searchParams.append("debug", "true");
-      }
+      endpoint.pathname += "/schedulednotifications/";
 
       const headers = client.createHeaders();
       if (notification.headers) {
@@ -38,19 +33,7 @@ export function sendNotificationPayload(
         }
       }
 
-      if (pushHandle) {
-        endpoint.searchParams.append("direct", "true");
-
-        if (notification.platform === "browser") {
-          const browserHandle = pushHandle as BrowserPushChannel;
-          headers.set("ServiceBusNotification-DeviceHandle", browserHandle.endpoint);
-          headers.set("Auth", browserHandle.auth);
-          headers.set("P256DH", browserHandle.p256dh);
-        } else {
-          headers.set("ServiceBusNotification-DeviceHandle", pushHandle as string);
-        }
-      }
-
+      headers.set("ServiceBusNotification-ScheduleTime", scheduledTime.toISOString());
       headers.set("Content-Type", notification.contentType);
       headers.set("ServiceBusNotification-Format", notification.platform);
 
@@ -70,7 +53,7 @@ export function sendNotificationPayload(
 
       const response = await client.sendRequest(request);
       if (response.status !== 201) {
-        throw new RestError(`${method} failed with ${response.status}`, {
+        throw new RestError(`scheduleNotification failed with ${response.status}`, {
           statusCode: response.status,
           response: response,
         });

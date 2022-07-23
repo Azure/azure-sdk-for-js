@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { Notification } from "../models/notification.js";
-import { NotificationHubsClient } from "./client.js";
+import { NotificationHubsClient } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/response.js";
 import { OperationOptions } from "@azure/core-client";
-import { scheduleNotificationPayload } from "./_scheduleNotificationPayload.js";
+import { scheduleNotificationPayload } from "./internal/_scheduleNotificationPayload.js";
 
 /**
  * Schedules a push notification to all devices registered on the Notification Hub.
