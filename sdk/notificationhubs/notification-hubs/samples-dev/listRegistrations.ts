@@ -5,7 +5,7 @@
  * This sample demonstrates how the listRegistrations() method can be used to find all registrations for
  * the given Notification Hub with an optional set of query parameters such as OData $top and $filter.
  *
- * See https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-push-notification-registration-management
+ * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
  *
@@ -13,7 +13,8 @@
  * @azsdk-weight 100
  */
 
-import { NotificationHubsServiceClient } from "@azure/notification-hubs";
+import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { listRegistrations } from "@azure/notification-hubs/client/listRegistrations";
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
@@ -27,10 +28,10 @@ const FILTER = `DeviceToken eq "${devicetoken}"`;
 const TOP = 100;
 
 async function main() {
-  const client = new NotificationHubsServiceClient(connectionString, hubName);
+  const client = clientFromConnectionString(connectionString, hubName);
 
   // Unlimited
-  let allRegistrations = client.listRegistrations();
+  let allRegistrations = listRegistrations(client);
   let page = 0;
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page}`);
@@ -41,7 +42,7 @@ async function main() {
 
   // Top
   page = 0;
-  allRegistrations = client.listRegistrations({ top: TOP });
+  allRegistrations = listRegistrations(client, { top: TOP });
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page}`);
     for (const item of pages) {
@@ -52,7 +53,7 @@ async function main() {
   // Query and Top
   page = 0;
 
-  allRegistrations = client.listRegistrations({ top: TOP, filter: FILTER });
+  allRegistrations = listRegistrations(client, { top: TOP, filter: FILTER });
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page}`);
     for (const item of pages) {

@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how the sendNotification() method can be used to send a tag expression
+ * This sample demonstrates how the sendBroadcastNotification() method can be used to send a broadcast
  * notification using APNs.  This sends a JSON message to an APNs given device token and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message
- * to learn about Routing and Tag Expressions.
+ * See https://docs.microsoft.com/rest/api/notificationhubs/send-apns-native-notification
+ * to learn about sending a notification to an Apple device.
  *
  *
  * @summary Demonstrates how to send tag expression notifications using Azure Notification Hubs
@@ -20,7 +20,7 @@ import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-amqp";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
-import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
+import { sendBroadcastNotification } from "@azure/notification-hubs/client/sendBroadcastNotification";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -34,7 +34,6 @@ async function main() {
   const client = clientFromConnectionString(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
-  const tagExpression = "likes_hockey && likes_football";
 
   const notification = createAppleNotification({
     body: messageBody,
@@ -46,14 +45,14 @@ async function main() {
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await sendNotification(client, tagExpression, notification, sendOptions);
+  const result = await sendBroadcastNotification(client, notification, sendOptions);
 
-  console.log(`Tag Expression send Tracking ID: ${result.trackingId}`);
-  console.log(`Tag Expression Correlation ID: ${result.correlationId}`);
+  console.log(`Tag List send Tracking ID: ${result.trackingId}`);
+  console.log(`Tag List Correlation ID: ${result.correlationId}`);
 
   // Only available in Standard SKU and above
   if (result.notificationId) {
-    console.log(`Tag Expression send Notification ID: ${result.notificationId}`);
+    console.log(`Tag List send Notification ID: ${result.notificationId}`);
 
     const results = await getNotificationDetails(client, result.notificationId);
     if (results) {
@@ -84,6 +83,6 @@ async function getNotificationDetails(
 }
 
 main().catch((err) => {
-  console.log("sendTagExpression Sample: Error occurred: ", err);
+  console.log("sendTagsList Sample: Error occurred: ", err);
   process.exit(1);
 });

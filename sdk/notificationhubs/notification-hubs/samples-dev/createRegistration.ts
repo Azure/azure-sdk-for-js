@@ -5,7 +5,7 @@
  * This sample demonstrates how the createRegistration() method can be used to register a device with Azure
  * Notification Hubs using the Registration APIs.
  *
- * See https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-push-notification-registration-management
+ * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
  *
@@ -13,10 +13,9 @@
  * @azsdk-weight 100
  */
 
-import {
-  NotificationHubsServiceClient,
-  createAppleRegistrationDescription,
-} from "@azure/notification-hubs";
+import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createAppleRegistrationDescription } from "@azure/notification-hubs/models/registration";
+import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -31,14 +30,14 @@ const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c99
 const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 async function main() {
-  const client = new NotificationHubsServiceClient(connectionString, hubName);
+  const client = clientFromConnectionString(connectionString, hubName);
 
   const registration = createAppleRegistrationDescription({
     deviceToken,
     tags: ["likes_football", "likes_hockey"],
   });
 
-  const registrationResponse = await client.createRegistration(registration);
+  const registrationResponse = await createRegistration(client, registration);
 
   console.log(`Registration ID: ${registrationResponse.registrationId}`);
 }

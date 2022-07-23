@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how the scheduleNotification() method can be used to schedule a tag expression
+ * This sample demonstrates how the scheduleNotification() method can be used to schedule a broadcast
  * notification using APNs at a given absolute time.  This sends a JSON message to an APNs given device token and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.  Note this is only
  * available in the Standard SKU namespaces and above.
@@ -18,7 +18,7 @@
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { clientFromConnectionString } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { scheduleNotification } from "@azure/notification-hubs/client/scheduleNotification";
+import { scheduleBroadcastNotification } from "@azure/notification-hubs/client/scheduleBroadcastNotification";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -32,7 +32,6 @@ async function main() {
   const client = clientFromConnectionString(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
-  const tagExpression = "likes_hockey && likes_football";
 
   const notification = createAppleNotification({
     body: messageBody,
@@ -47,10 +46,9 @@ async function main() {
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await scheduleNotification(
+  const result = await scheduleBroadcastNotification(
     client,
     scheduledTime,
-    tagExpression,
     notification,
     sendOptions
   );

@@ -5,7 +5,7 @@
  * This sample demonstrates how the createNotificationJob() method can be used to export registrations
  * descriptions so that they can be imported into another Azure Notification Hub.
  *
- * See https://docs.microsoft.com/en-us/azure/notification-hubs/export-modify-registrations-bulk
+ * See https://docs.microsoft.com/azure/notification-hubs/export-modify-registrations-bulk
  * to learn about Export and Import Registrations in Azure Notification Hubs.
  *
  *
@@ -13,11 +13,12 @@
  * @azsdk-weight 100
  */
 
-import {
-  NotificationHubJob,
-  NotificationHubsServiceClient,
-} from "@azure/notification-hubs";
+import { NotificationHubJob } from "@azure/notification-hubs/models/notificationHubJob";
+import { clientFromConnectionString } from "@azure/notification-hubs/client";
 import { delay } from "@azure/core-amqp";
+import { getNotificationHubJob } from "@azure/notification-hubs/client/getNotificationHubJob";
+import { submitNotificationHubJob } from "@azure/notification-hubs/client/submitNotificationHubJob";
+
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -31,18 +32,18 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const outputContainerUrl = process.env.OUTPUT_CONTAINER_URL || "<output container URL>";
 
 async function main() {
-  const client = new NotificationHubsServiceClient(connectionString, hubName);
+  const client = clientFromConnectionString(connectionString, hubName);
 
   let exportJob: NotificationHubJob = {
     outputContainerUrl,
     type: "ExportRegistrations",
   };
 
-  exportJob = await client.submitNotificationHubJob(exportJob);
+  exportJob = await submitNotificationHubJob(client, exportJob);
 
   let count = 0;
   while (exportJob.status !== "Completed" && exportJob.status !== "Failed" && count++ < 10) {
-    exportJob = await client.getNotificationHubJob(exportJob.jobId!);
+    exportJob = await getNotificationHubJob(client, exportJob.jobId!);
     await delay(1000);
   }
 

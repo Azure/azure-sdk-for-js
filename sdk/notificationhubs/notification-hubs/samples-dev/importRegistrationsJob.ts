@@ -5,7 +5,7 @@
  * This sample demonstrates how the createNotificationJob() method can be used to import registrations
  * descriptions from an existing set of exports.
  *
- * See https://docs.microsoft.com/en-us/azure/notification-hubs/export-modify-registrations-bulk
+ * See https://docs.microsoft.com/azure/notification-hubs/export-modify-registrations-bulk
  * to learn about Export and Import Registrations in Azure Notification Hubs.
  *
  *
@@ -13,11 +13,11 @@
  * @azsdk-weight 100
  */
 
-import {
-  NotificationHubJob,
-  NotificationHubsServiceClient,
-} from "@azure/notification-hubs";
+import { NotificationHubJob } from "@azure/notification-hubs/models/notificationHubJob";
+import { clientFromConnectionString } from "@azure/notification-hubs/client";
 import { delay } from "@azure/core-amqp";
+import { getNotificationHubJob } from "@azure/notification-hubs/client/getNotificationHubJob";
+import { submitNotificationHubJob } from "@azure/notification-hubs/client/submitNotificationHubJob";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -32,7 +32,7 @@ const outputContainerUrl = process.env.OUTPUT_CONTAINER_URL || "<output containe
 const importFileUrl = process.env.IMPORT_FILE_URL || "<import file URL>";
 
 async function main() {
-  const client = new NotificationHubsServiceClient(connectionString, hubName);
+  const client = clientFromConnectionString(connectionString, hubName);
 
   let importJob: NotificationHubJob = {
     outputContainerUrl,
@@ -40,11 +40,11 @@ async function main() {
     type: "ImportCreateRegistrations",
   };
 
-  importJob = await client.submitNotificationHubJob(importJob);
+  importJob = await submitNotificationHubJob(client, importJob);
 
   let count = 0;
   while (importJob.status !== "Completed" && importJob.status !== "Failed" && count++ < 10) {
-    importJob = await client.getNotificationHubJob(importJob.jobId!);
+    importJob = await getNotificationHubJob(client, importJob.jobId!);
     await delay(1000);
   }
 

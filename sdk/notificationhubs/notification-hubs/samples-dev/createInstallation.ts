@@ -5,7 +5,7 @@
  * This sample demonstrates how the createOrUpdateInstallation() method can be used to create or overwrite an
  * installation in place.
  *
- * See https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-push-notification-registration-management
+ * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about installations.
  *
  *
@@ -14,8 +14,8 @@
  */
 
 import { clientFromConnectionString } from "@azure/notification-hubs/client";
-import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
 import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
+import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
 import { v4 } from "uuid";
 
 // Load the .env file if it exists

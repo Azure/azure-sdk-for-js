@@ -6,7 +6,7 @@
  * the JSON Patch (https://datatracker.ietf.org/doc/html/rfc6902).  This sends discrete updates using the standard
  * operation type, path and value if necessary.
  *
- * See https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-push-notification-registration-management
+ * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about installations.
  *
  *
@@ -14,10 +14,9 @@
  * @azsdk-weight 100
  */
 
-import {
-  JsonPatch,
-  NotificationHubsServiceClient,
-} from "@azure/notification-hubs";
+import { JsonPatch } from "@azure/notification-hubs/models/installation";
+import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { updateInstallation } from "@azure/notification-hubs/client/updateInstallation";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -31,14 +30,14 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const installationId = process.env.INSTALLATION_ID || "<installation id>";
 
 async function main() {
-  const client = new NotificationHubsServiceClient(connectionString, hubName);
+  const client = clientFromConnectionString(connectionString, hubName);
 
   const updates: JsonPatch[] = [
     { op: "add", path: "/tags", value: "likes_baseball" },
     { op: "add", path: "/userId", value: "bob@contoso.com" },
   ];
 
-  const updatedInstallation = await client.updateInstallation(installationId, updates);
+  const updatedInstallation = await updateInstallation(client, installationId, updates);
   console.log(`Installation last update: ${updatedInstallation.lastUpdate}`);
 }
 

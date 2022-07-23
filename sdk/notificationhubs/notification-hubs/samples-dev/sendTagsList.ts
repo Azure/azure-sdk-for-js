@@ -6,7 +6,7 @@
  * notification using APNs.  This sends a JSON message to an APNs given device token and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
- * See https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-tags-segment-push-message
+ * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message
  * to learn about Routing and Tag Expressions.
  *
  *
@@ -14,14 +14,13 @@
  * @azsdk-weight 100
  */
 
-import {
-  NotificationDetails,
-  NotificationHubsServiceClient,
-  NotificationOutcomeState,
-  SendOperationOptions,
-  createAppleNotification,
-} from "@azure/notification-hubs";
+import { NotificationDetails, NotificationOutcomeState } from "@azure/notification-hubs/models/notificationDetails";
+import { NotificationHubsClient, clientFromConnectionString } from "@azure/notification-hubs/client";
+import { SendOperationOptions } from "@azure/notification-hubs/models/options";
+import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-amqp";
+import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
+import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -32,7 +31,7 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 async function main() {
-  const client = new NotificationHubsServiceClient(connectionString, hubName);
+  const client = clientFromConnectionString(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
   const tags = ["likes_hockey", "likes_football"];
@@ -47,7 +46,7 @@ async function main() {
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await client.sendNotification(tags, notification, sendOptions);
+  const result = await sendNotification(client, tags, notification, sendOptions);
 
   console.log(`Tag List send Tracking ID: ${result.trackingId}`);
   console.log(`Tag List Correlation ID: ${result.correlationId}`);
@@ -64,7 +63,7 @@ async function main() {
 }
 
 async function getNotificationDetails(
-  client: NotificationHubsServiceClient,
+  client: NotificationHubsClient,
   notificationId: string
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
@@ -72,7 +71,7 @@ async function getNotificationDetails(
   let result: NotificationDetails | undefined;
   while ((state === "Enqueued" || state === "Processing") && count++ < 10) {
     try {
-      result = await client.getNotificationOutcomeDetails(notificationId);
+      result = await getNotificationOutcomeDetails(client, notificationId);
       state = result.state!;
     } catch (e) {
       // Possible to get 404 for when it doesn't exist yet.

@@ -24,7 +24,7 @@ import { createRegistration as createRegistrationMethod } from "./client/createR
 import { deleteInstallation as deleteInstallationMethod } from "./client/deleteInstallation.js"
 import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./client/getFeedbackContainerUrl.js"
 import { getInstallation as getInstallationMethod } from "./client/getInstallation.js"
-import { getNotificationHubJob as getNotificationHubJobMethod } from "./client/getNotificationJob.js"
+import { getNotificationHubJob as getNotificationHubJobMethod } from "./client/getNotificationHubJob.js"
 import { getNotificationOutcomeDetails as getNotificationOutcomeDetailsMethod } from "./client/getNotificationOutcomeDetails.js"
 import { getRegistration as getRegistrationMethod } from "./client/getRegistration.js"
 import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./client/listNotificationHubJobs.js"
@@ -35,7 +35,7 @@ import { scheduleNotification as scheduleNotificationMethod } from "./client/sch
 import { sendBroadcastNotification as sendBroadcastNotificationMethod } from "./client/sendBroadcastNotification.js"
 import { sendDirectNotification as sendDirectNotificationMethod } from "./client/sendDirectNotification.js"
 import { sendNotification as sendNotificationMethod } from "./client/sendNotification.js"
-import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./client/submitNotificationJob.js"
+import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./client/submitNotificationHubJob.js"
 import { updateInstallation as updateInstallationMethod } from "./client/updateInstallation.js"
 import { updateRegistration as updateRegistrationMethod } from "./client/updateRegistration.js"
 
