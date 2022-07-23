@@ -3,14 +3,16 @@ Configuration of Role and Role Assignments is required before using the sample c
 ### Table of contents
 
 - [ioredis library](#ioredis-library)
-    - [Dependency requirements](#dependency-requirements-ioredis)
+    - [Prerequisites](#prerequisites)
     - [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-ioredis-hello-world)
     - [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
 
 ### ioredis library
 
-#### Dependency requirements: ioredis
+#### Prerequisites
 
+- Configuration of Role and Role Assignments is required before using the sample code in this document.
+- **Dependency Requirements:**
 Add the following dependencies to *package.json*:
 
 ```
@@ -19,46 +21,44 @@ Add the following dependencies to *package.json*:
   "ioredis": "^5.0.4",
 ```
 
+#### Samples Guidance
+
+Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
+* [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-hello-world):
+   This sample is recommended for users getting started to use Azure AD authentication with Azure Cache for Redis.
+* [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication):
+   This sample is recommended to users looking to build long-running applications and would like to handle reauthenticating with Azure AD upon token expiry.
 #### Authenticate with Azure AD
 
 This sample is intended to assist in authenticating with Azure AD via the ioredis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance.
-
-Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
 
 ##### Migration Guidance
 
 When migrating your existing your application code, replace the password input with Azure AD token. Azure Redis Cache name, Service Principal Username, AAD Token and using SSL are required while connecting with the cache.
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code.
 
-**Note:** The below sample uses `ClientSecretCredential` from the [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library. The credential can be replaced with any of the other Azure Identity library `TokenCredential` implementations.
-
-
 ```ts
 import Redis from "ioredis";
-import { ClientSecretCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
-  const credential = new ClientSecretCredential(
-    process.env.AZURE_TENANT_ID,
-    process.env.AZURE_CLIENT_ID,
-    process.env.AZURE_CLIENT_SECRET
-  );
+  const credential = new DefaultAzureCredential();
 
   // The scope will be changed for AAD Public Preview
   const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
   
   // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-  let accessToken = await credential.getToken(
+  let accessTokenObject = await credential.getToken(
     redisScope
   );
 
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   const redis = new Redis({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-    password: accessToken.token,
+    password: accessTokenObject.token,
     tls: {
       host: process.env.REDIS_HOSTNAME,
       port: 6380,
@@ -70,8 +70,6 @@ async function main() {
   await redis.set("Az:mykey", "value123"); // Returns a promise which resolves to "OK" when the command succeeds.
   // Fetch value of your key in the Azure Redis Cache.
   console.log("redis key:", await redis.get("Az:mykey"));
-  // Close the ioredis client connection
-  redis.disconnect();
 }
 main().catch((err) => {
   console.log("error code: ", err.code);
@@ -80,6 +78,17 @@ main().catch((err) => {
 });
 ```
 
+##### Supported Token Credentials for Azure AD Authentication
+**Note:** The samples in this doc use the Azure Identity library's `DefaultAzureCredential` to fetch Azure AD Access Token. The other supported `TokenCredential` implementations that can be used from [Azure Identity for Javascript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) are as follows:
+
+* [Client Certificate Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest)
+* [Client Secret Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)
+* [Managed Identity Credential](https://docs.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest)
+* [Username Password Credential](https://docs.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest)
+* [Azure CLI Credential](https://docs.microsoft.com/javascript/api/@azure/identity/azureclicredential?view=azure-node-latest)
+* [Interactive Browser Credential](https://docs.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredential?view=azure-node-latest)
+* [Device Code Credential](https://docs.microsoft.com/javascript/api/@azure/identity/devicecodecredential?view=azure-node-latest)
+
 #### Authenticate with Azure AD: Handle Reauthentication
 
 This sample is intended to assist in authenticating with Azure AD via ioredis. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance. It further shows how to recreate and authenticate the ioredis instance when its connection is broken in error/exception scenarios.
@@ -87,8 +96,6 @@ This sample is intended to assist in authenticating with Azure AD via ioredis. I
 ##### Migration Guidance
 When migrating your existing your application code, replace the password input with Azure AD token.
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace the password configuring/retrieving logic in your application code.
-
-**Note:** The below sample uses `ClientSecretCredential` from our [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library. The credential can be replaced with any of the other Azure Identity library `TokenCredential` implementations.
 
 ```ts
 import Redis from "ioredis";
@@ -102,8 +109,8 @@ async function returnPassword(credential: TokenCredential) {
     const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
 
     // Fetch an AAD token to be used for authentication. This token will be used as the password.
-    let accessToken = await credential.getToken(redisScope);
-    return accessToken;
+    let accessTokenObject = await credential.getToken(redisScope);
+    return accessTokenObject;
   } catch (e) {
     throw e;
   }
@@ -148,6 +155,7 @@ async function main() {
         });
       }
     }
+    await sleep(1000);
   }
 }
 main().catch((err) => {

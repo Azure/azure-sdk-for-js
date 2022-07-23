@@ -123,6 +123,7 @@ async function main() {
     socket: {
       tls: true,
     },
+    
   });
   await redisClient.connect();
   for (let i = 0; i < 3; i++) {
