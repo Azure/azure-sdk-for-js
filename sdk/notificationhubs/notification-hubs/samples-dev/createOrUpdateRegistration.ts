@@ -10,7 +10,7 @@
  * to learn about registrations.
  *
  *
- * @summary Demonstrates how to update an installation using Azure Notification Hubs
+ * @summary Demonstrates how to create or update a registration using Azure Notification Hubs.
  * @azsdk-weight 100
  */
 
