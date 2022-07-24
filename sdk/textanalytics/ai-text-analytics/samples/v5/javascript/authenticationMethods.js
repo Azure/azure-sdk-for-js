@@ -16,8 +16,7 @@ const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-anal
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set this environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
@@ -68,3 +67,5 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

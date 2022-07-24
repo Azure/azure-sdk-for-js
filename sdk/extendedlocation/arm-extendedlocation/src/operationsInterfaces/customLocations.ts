@@ -22,7 +22,10 @@ import {
   CustomLocationsCreateOrUpdateResponse,
   CustomLocationsDeleteOptionalParams,
   CustomLocationsUpdateOptionalParams,
-  CustomLocationsUpdateResponse
+  CustomLocationsUpdateResponse,
+  CustomLocationFindTargetResourceGroupProperties,
+  CustomLocationsFindTargetResourceGroupOptionalParams,
+  CustomLocationsFindTargetResourceGroupResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -140,4 +143,18 @@ export interface CustomLocations {
     resourceName: string,
     options?: CustomLocationsUpdateOptionalParams
   ): Promise<CustomLocationsUpdateResponse>;
+  /**
+   * Returns the target resource group associated with the resource sync rules of the Custom Location
+   * that match the rules passed in with the Find Target Resource Group Request.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Custom Locations name.
+   * @param parameters Parameters of the find target resource group request.
+   * @param options The options parameters.
+   */
+  findTargetResourceGroup(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: CustomLocationFindTargetResourceGroupProperties,
+    options?: CustomLocationsFindTargetResourceGroupOptionalParams
+  ): Promise<CustomLocationsFindTargetResourceGroupResponse>;
 }

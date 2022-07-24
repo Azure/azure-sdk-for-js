@@ -12,8 +12,7 @@
 const { ServiceBusAdministrationClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
@@ -56,3 +55,5 @@ main().catch((err) => {
   console.log("Administration Client Sample - Error occurred: ", err);
   process.exit(1);
 });
+
+module.exports = { main };

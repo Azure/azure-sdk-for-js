@@ -1784,6 +1784,11 @@
       "packageName": "@azure/arm-networkfunction",
       "projectFolder": "sdk/networkfunction/arm-networkfunction",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-fluidrelay",
+      "projectFolder": "sdk/fluidrelay/arm-fluidrelay",
+      "versionPolicyName": "management"
     }
   ]
 }
