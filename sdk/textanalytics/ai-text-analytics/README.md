@@ -1,6 +1,6 @@
 # Azure Text Analytics client library for JavaScript
 
-[Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
+[Azure Text Analytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
 
 **Note:** This SDK targets Azure Text Analytics service API version 3.1.0.
 
@@ -22,6 +22,7 @@ Use the client library to:
 - Perform multiple of the above tasks at once.
 
 Key links:
+
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-text-analytics)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics)
@@ -60,7 +61,7 @@ npm install @azure/ai-text-analytics
 
 To create a client object to access the Text Analytics API, you will need the `endpoint` of your Text Analytics resource and a `credential`. The Text Analytics client can use either Azure Active Directory credentials or an API key credential to authenticate.
 
-You can find the endpoint for your text analytics resource either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
+You can find the endpoint for your Text Analytics resource either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
 
 ```bash
 az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "endpoint"
@@ -120,7 +121,7 @@ For example, each document can be passed as a string in an array, e.g.
 const documents = [
   "I hated the movie. It was so slow!",
   "The movie made it into my top ten favorites.",
-  "What a great movie!"
+  "What a great movie!",
 ];
 ```
 
@@ -130,7 +131,7 @@ or, if you wish to pass in a per-item document `id` or `language`/`countryHint`,
 const textDocumentInputs = [
   { id: "1", language: "en", text: "I hated the movie. It was so slow!" },
   { id: "2", language: "en", text: "The movie made it into my top ten favorites." },
-  { id: "3", language: "en", text: "What a great movie!" }
+  { id: "3", language: "en", text: "What a great movie!" },
 ];
 ```
 
@@ -193,7 +194,7 @@ const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<AP
 const documents = [
   "I did not like the restaurant. The food was too spicy.",
   "The restaurant was decorated beautifully. The atmosphere was unlike any other restaurant I've been to.",
-  "The food was yummy. :)"
+  "The food was yummy. :)",
 ];
 
 async function main() {
@@ -228,7 +229,7 @@ const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<AP
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
-  "Jeff bought three dozen eggs because there was a 50% discount."
+  "Jeff bought three dozen eggs because there was a 50% discount.",
 ];
 
 async function main() {
@@ -258,7 +259,7 @@ const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-anal
 const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
 const documents = [
   "The employee's SSN is 555-55-5555.",
-  "The employee's phone number is (555) 555-5555."
+  "The employee's phone number is (555) 555-5555.",
 ];
 async function main() {
   const results = await client.recognizePiiEntities(documents, "en");
@@ -288,7 +289,7 @@ const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<AP
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
   "Easter Island, a Chilean territory, is a remote volcanic island in Polynesia.",
-  "I use Azure Functions to develop my product."
+  "I use Azure Functions to develop my product.",
 ];
 
 async function main() {
@@ -330,7 +331,7 @@ const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<AP
 const documents = [
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
   "I need to take my cat to the veterinarian.",
-  "I will travel to South America in the summer."
+  "I will travel to South America in the summer.",
 ];
 
 async function main() {
@@ -363,7 +364,7 @@ const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<AP
 const documents = [
   "This is written in English.",
   "Il documento scritto in italiano.",
-  "Dies ist in deutscher Sprache verfasst."
+  "Dies ist in deutscher Sprache verfasst.",
 ];
 
 async function main() {
@@ -403,7 +404,7 @@ const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<AP
 
 const documents = [
   "Prescribed 100mg ibuprofen, taken twice daily.",
-  "Patient does not suffer from high blood pressure."
+  "Patient does not suffer from high blood pressure.",
 ];
 
 async function main() {
@@ -437,14 +438,14 @@ const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
   "The employee's SSN is 555-55-5555.",
   "Easter Island, a Chilean territory, is a remote volcanic island in Polynesia.",
-  "I use Azure Functions to develop my product."
+  "I use Azure Functions to develop my product.",
 ];
 
 async function main() {
   const actions = {
     recognizeEntitiesActions: [{ modelVersion: "latest" }],
     recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-    extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+    extractKeyPhrasesActions: [{ modelVersion: "latest" }],
   };
   const poller = await client.beginAnalyzeActions(documents, actions);
   const resultPages = await poller.pollUntilDone();
