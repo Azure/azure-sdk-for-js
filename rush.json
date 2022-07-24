@@ -762,7 +762,12 @@
     },
     {
       "packageName": "@azure-tests/perf-ai-text-analytics",
-      "projectFolder": "sdk/textanalytics/perf-tests/text-analytics",
+      "projectFolder": "sdk/textanalytics/perf-tests/ai-text-analytics",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-language-text",
+      "projectFolder": "sdk/cognitivelanguage/perf-tests/ai-language-text",
       "versionPolicyName": "test"
     },
     {

@@ -39,7 +39,7 @@ export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> 
     } catch (e) {
       this.client = new TextAnalyticsClient(
         endpoint,
-        new AzureKeyCredential(process.env.LANGUAGE_API_KEY ?? "")
+        new AzureKeyCredential(getEnvVar("LANGUAGE_API_KEY"))
       );
     }
   }
