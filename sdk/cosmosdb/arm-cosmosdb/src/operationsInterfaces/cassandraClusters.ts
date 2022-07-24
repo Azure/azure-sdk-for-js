@@ -12,6 +12,8 @@ import {
   ClusterResource,
   CassandraClustersListBySubscriptionOptionalParams,
   CassandraClustersListByResourceGroupOptionalParams,
+  BackupResource,
+  CassandraClustersListBackupsOptionalParams,
   CassandraClustersGetOptionalParams,
   CassandraClustersGetResponse,
   CassandraClustersDeleteOptionalParams,
@@ -22,6 +24,8 @@ import {
   CommandPostBody,
   CassandraClustersInvokeCommandOptionalParams,
   CassandraClustersInvokeCommandResponse,
+  CassandraClustersGetBackupOptionalParams,
+  CassandraClustersGetBackupResponse,
   CassandraClustersDeallocateOptionalParams,
   CassandraClustersStartOptionalParams,
   CassandraClustersStatusOptionalParams,
@@ -47,6 +51,17 @@ export interface CassandraClusters {
     resourceGroupName: string,
     options?: CassandraClustersListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<ClusterResource>;
+  /**
+   * List the backups of this cluster that are available to restore.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param options The options parameters.
+   */
+  listBackups(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListBackupsOptionalParams
+  ): PagedAsyncIterableIterator<BackupResource>;
   /**
    * Get the properties of a managed Cassandra cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -175,6 +190,19 @@ export interface CassandraClusters {
     body: CommandPostBody,
     options?: CassandraClustersInvokeCommandOptionalParams
   ): Promise<CassandraClustersInvokeCommandResponse>;
+  /**
+   * Get the properties of an individual backup of this cluster that is available to restore.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param backupId Id of a restorable backup of a Cassandra cluster.
+   * @param options The options parameters.
+   */
+  getBackup(
+    resourceGroupName: string,
+    clusterName: string,
+    backupId: string,
+    options?: CassandraClustersGetBackupOptionalParams
+  ): Promise<CassandraClustersGetBackupResponse>;
   /**
    * Deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate
    * the host virtual machine of this cluster, and reserved the data disk. This won't do anything on an

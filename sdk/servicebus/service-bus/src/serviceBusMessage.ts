@@ -327,7 +327,7 @@ export function toRheaMessage(
   if (amqpMsg.ttl != null && amqpMsg.ttl !== Constants.maxDurationValue) {
     amqpMsg.creation_time = new Date();
     amqpMsg.absolute_expiry_time = new Date(
-      Math.min(Constants.maxAbsoluteExpiryTime, (amqpMsg.creation_time as any) + amqpMsg.ttl)
+      Math.min(Constants.maxAbsoluteExpiryTime, amqpMsg.creation_time.getTime() + amqpMsg.ttl)
     );
   }
 
