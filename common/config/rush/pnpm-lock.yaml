@@ -3888,7 +3888,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220722
+      typescript: 4.8.0-dev.20220724
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8636,8 +8636,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220722:
-    resolution: {integrity: sha512-/mI+R57LcsW11qm7tGLtRlmTJpVmAhNmEtGbwUcBc1nCCSvJ0TRnUT+Iu/fyY39/AjOfx4u8DIdxUMZb2oH4YQ==}
+  /typescript/4.8.0-dev.20220724:
+    resolution: {integrity: sha512-EMuHZ5c4rsg+iErlrfX1VLUv40hQ4eRkT6KkXQ6IpO7xsVxOjkVRpCTJS68Lz3LZPFveZzRKWW0pWZiuQK2VQg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9475,11 +9475,11 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-t4tCPv7xgWBLI54+2cs5a4gUSfXQUAzcdEJ1Z17sgR8zf2MwwLW6GAr8CuIbpLmAy5RUfT0909yxvnLN72HZow==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-AEHfHjsfUhgyJ09wGg+I2WoSQVyrPuGpK4x979fkP961XCm2FMjRYNIB6vwWpLymAYJeVEVIqvqXC4xbOebwcA==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
-      '@azure/core-lro': 2.3.0-beta.1
+      '@azure/core-lro': 2.2.4
       '@azure/core-tracing': 1.0.0
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
@@ -15052,7 +15052,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-xlAOKcTcn7drAiTVx828Q2fq6wqQrzf++KaUpW47exuucVwzlZwkf/M0Tkj3gxLRiRXX4qkrma0YK21aRlU03g==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-6PZ587NIybJLDzewczuBOSlwGt+EdWwp/NzVly2Aj95laOU2F5+dMQ6zNGW9ppWssvq2ddvcMHRtI68LP3N2vw==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -16771,7 +16771,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-text-analytics.tgz:
-    resolution: {integrity: sha512-oPOqnpcbqfYKBbdzJ4NuvGmGq/pLrrp9ChDodp5uFB+wDy3cvtf/n7oBr/EcF7XQEnp9GZcrAIbsALnYMNBnUA==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-1iR+yQx66GM8i+/0T2FJbpPlEbWiaz/zJlZtrKuOJMD9HHJq9lNs0LsVsOWv56CxsGokDvH4XY3knyz9hGSA3g==, tarball: file:projects/perf-ai-text-analytics.tgz}
     name: '@rush-temp/perf-ai-text-analytics'
     version: 0.0.0
     dependencies:
