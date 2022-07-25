@@ -301,7 +301,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       timeoutInMs: this._retryOptions?.timeoutInMs,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber) {
+      if (options.fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
