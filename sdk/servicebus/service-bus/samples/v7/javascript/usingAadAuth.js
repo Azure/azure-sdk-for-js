@@ -24,12 +24,11 @@ const { ServiceBusClient } = require("@azure/service-bus");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint =
-  process.env.SERVICEBUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
+  process.env.SERVICEBUS_HOSTNAME || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
@@ -71,3 +70,5 @@ main().catch((err) => {
   console.log("usingAadAuth Sample - Error occurred: ", err);
   process.exit(1);
 });
+
+module.exports = { main };

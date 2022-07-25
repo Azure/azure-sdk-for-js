@@ -250,10 +250,12 @@ export class PrivateCloudsImpl implements PrivateClouds {
       { resourceGroupName, privateCloudName, privateCloud, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -340,10 +342,12 @@ export class PrivateCloudsImpl implements PrivateClouds {
       { resourceGroupName, privateCloudName, privateCloudUpdate, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -423,10 +427,12 @@ export class PrivateCloudsImpl implements PrivateClouds {
       { resourceGroupName, privateCloudName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -503,10 +509,12 @@ export class PrivateCloudsImpl implements PrivateClouds {
       { resourceGroupName, privateCloudName, options },
       rotateVcenterPasswordOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -583,10 +591,12 @@ export class PrivateCloudsImpl implements PrivateClouds {
       { resourceGroupName, privateCloudName, options },
       rotateNsxtPasswordOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -4,15 +4,15 @@
 import { assert } from "chai";
 import { isNode } from "@azure/core-util";
 import {
-  getIdentityClientAuthorityHost,
   IdentityClient,
   TokenResponse,
+  getIdentityClientAuthorityHost,
 } from "../../src/client/identityClient";
 import { ClientSecretCredential } from "../../src";
 import { Context } from "mocha";
 import { isExpectedError } from "../authTestUtils";
 import { PlaybackTenantId } from "../msalTestUtils";
-import { createResponse, IdentityTestContextInterface } from "../httpRequestsCommon";
+import { IdentityTestContextInterface, createResponse } from "../httpRequestsCommon";
 import { IdentityTestContext, prepareMSALResponses } from "../httpRequests";
 
 describe("IdentityClient", function () {

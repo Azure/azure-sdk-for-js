@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
 import { CertificateContentType } from "./certificatesModels";
+import { isNode } from "@azure/core-util";
 
 /**
  * Decodes a Uint8Array into a Base64 string.

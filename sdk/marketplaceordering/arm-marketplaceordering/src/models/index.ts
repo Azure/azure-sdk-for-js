@@ -95,7 +95,7 @@ export interface OperationDisplay {
 }
 
 /** Terms properties for provided Publisher/Offer/Plan tuple */
-export type AgreementTerms = Resource & {
+export interface AgreementTerms extends Resource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -119,10 +119,11 @@ export type AgreementTerms = Resource & {
   signature?: string;
   /** If any version of the terms have been accepted, otherwise false. */
   accepted?: boolean;
-};
+}
 
 /** Known values of {@link OfferType} that the service accepts. */
 export enum KnownOfferType {
+  /** Virtualmachine */
   Virtualmachine = "virtualmachine"
 }
 
@@ -137,9 +138,13 @@ export type OfferType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 

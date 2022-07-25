@@ -46,6 +46,8 @@ export interface ApiOperationDisplay {
 export interface ApiOperationPropertiesServiceSpecification {
   /** Details about operations related to metrics. */
   metricSpecifications?: MetricSpecification[];
+  /** Details about operations related to logs. */
+  logSpecifications?: LogSpecification[];
 }
 
 /** Details about operation related to metrics. */
@@ -78,6 +80,14 @@ export interface MetricDimension {
   internalName?: string;
   /** To be exported to shoe box. */
   toBeExportedForShoebox?: boolean;
+}
+
+/** Details about operation related to logs. */
+export interface LogSpecification {
+  /** The name of the log. */
+  name?: string;
+  /** Localized display name of the log. */
+  displayName?: string;
 }
 
 /** An error response. */
@@ -321,6 +331,8 @@ export interface Cache {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly upgradeStatus?: CacheUpgradeStatus;
+  /** Upgrade settings of the Cache. */
+  upgradeSettings?: CacheUpgradeSettings;
   /** Specifies network settings of the cache. */
   networkSettings?: CacheNetworkSettings;
   /** Specifies encryption settings of the cache. */
@@ -331,6 +343,16 @@ export interface Cache {
   directoryServicesSettings?: CacheDirectorySettings;
   /** Availability zones for resources. This field should only contain a single element in the array. */
   zones?: string[];
+  /**
+   * Specifies the priming jobs defined in the cache.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primingJobs?: PrimingJob[];
+  /**
+   * Specifies the space allocation percentage for each storage target in the cache.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly spaceAllocation?: StorageTargetSpaceAllocation[];
 }
 
 /** Cache identity properties. */
@@ -436,6 +458,14 @@ export interface CacheUpgradeStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly pendingFirmwareVersion?: string;
+}
+
+/** Cache Upgrade Settings. */
+export interface CacheUpgradeSettings {
+  /** True if the user chooses to select an installation time between now and firmwareUpdateDeadline. Else the firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation. */
+  upgradeScheduleEnabled?: boolean;
+  /** When upgradeScheduleEnabled is true, this field holds the user-chosen upgrade time. At the user-chosen time, the firmware update will automatically be installed on the cache. */
+  scheduledTime?: Date;
 }
 
 /** Cache network settings. */
@@ -587,6 +617,47 @@ export interface CacheUsernameDownloadSettingsCredentials {
   bindPassword?: string;
 }
 
+/** A priming job instance. */
+export interface PrimingJob {
+  /** The priming job name. */
+  primingJobName: string;
+  /** The URL for the priming manifest file to download. This file must be readable from the HPC Cache. When the file is in Azure blob storage the URL should include a Shared Access Signature (SAS) granting read permissions on the blob. */
+  primingManifestUrl: string;
+  /**
+   * The unique identifier of the priming job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primingJobId?: string;
+  /**
+   * The state of the priming operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primingJobState?: PrimingJobState;
+  /**
+   * The status code of the priming job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primingJobStatus?: string;
+  /**
+   * The job details or error information if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primingJobDetails?: string;
+  /**
+   * The current progress of the priming job, as a percentage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primingJobPercentComplete?: number;
+}
+
+/** Storage Target space allocation properties. */
+export interface StorageTargetSpaceAllocation {
+  /** Name of the storage target. */
+  name?: string;
+  /** The percentage of cache space allocated for this storage target */
+  allocationPercentage?: number;
+}
+
 /** SKU for the Cache. */
 export interface CacheSku {
   /** SKU name for this Cache. */
@@ -670,8 +741,14 @@ export interface StorageTargetResource {
   readonly systemData?: SystemData;
 }
 
+/** Object containing the priming job ID. */
+export interface PrimingJobIdParameter {
+  /** The unique identifier of the priming job. */
+  primingJobId: string;
+}
+
 /** Type of the Storage Target. */
-export type StorageTarget = StorageTargetResource & {
+export interface StorageTarget extends StorageTargetResource {
   /** List of Cache namespace junctions to target for namespace associations. */
   junctions?: NamespaceJunction[];
   /** Type of the Storage Target. */
@@ -691,16 +768,68 @@ export type StorageTarget = StorageTargetResource & {
   unknown?: UnknownTarget;
   /** Properties when targetType is blobNfs. */
   blobNfs?: BlobNfsTarget;
-};
+  /**
+   * The percentage of cache space allocated for this storage target
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allocationPercentage?: number;
+}
+
+/** Defines headers for Caches_startPrimingJob operation. */
+export interface CachesStartPrimingJobHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Caches_stopPrimingJob operation. */
+export interface CachesStopPrimingJobHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Caches_pausePrimingJob operation. */
+export interface CachesPausePrimingJobHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Caches_resumePrimingJob operation. */
+export interface CachesResumePrimingJobHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Caches_spaceAllocation operation. */
+export interface CachesSpaceAllocationHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
 
 /** Known values of {@link MetricAggregationType} that the service accepts. */
 export enum KnownMetricAggregationType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** None */
   None = "None",
+  /** Average */
   Average = "Average",
+  /** Minimum */
   Minimum = "Minimum",
+  /** Maximum */
   Maximum = "Maximum",
+  /** Total */
   Total = "Total",
+  /** Count */
   Count = "Count"
 }
 
@@ -721,7 +850,9 @@ export type MetricAggregationType = string;
 
 /** Known values of {@link ReasonCode} that the service accepts. */
 export enum KnownReasonCode {
+  /** QuotaId */
   QuotaId = "QuotaId",
+  /** NotAvailableForSubscription */
   NotAvailableForSubscription = "NotAvailableForSubscription"
 }
 
@@ -737,9 +868,13 @@ export type ReasonCode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -757,15 +892,30 @@ export type CreatedByType = string;
 
 /** Known values of {@link HealthStateType} that the service accepts. */
 export enum KnownHealthStateType {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Healthy */
   Healthy = "Healthy",
+  /** Degraded */
   Degraded = "Degraded",
+  /** Down */
   Down = "Down",
+  /** Transitioning */
   Transitioning = "Transitioning",
+  /** Stopping */
   Stopping = "Stopping",
+  /** Stopped */
   Stopped = "Stopped",
+  /** Upgrading */
   Upgrading = "Upgrading",
-  Flushing = "Flushing"
+  /** Flushing */
+  Flushing = "Flushing",
+  /** WaitingForKey */
+  WaitingForKey = "WaitingForKey",
+  /** StartFailed */
+  StartFailed = "StartFailed",
+  /** UpgradeFailed */
+  UpgradeFailed = "UpgradeFailed"
 }
 
 /**
@@ -781,17 +931,26 @@ export enum KnownHealthStateType {
  * **Stopping** \
  * **Stopped** \
  * **Upgrading** \
- * **Flushing**
+ * **Flushing** \
+ * **WaitingForKey** \
+ * **StartFailed** \
+ * **UpgradeFailed**
  */
 export type HealthStateType = string;
 
 /** Known values of {@link ProvisioningStateType} that the service accepts. */
 export enum KnownProvisioningStateType {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -811,7 +970,9 @@ export type ProvisioningStateType = string;
 
 /** Known values of {@link FirmwareStatusType} that the service accepts. */
 export enum KnownFirmwareStatusType {
+  /** Available */
   Available = "available",
+  /** Unavailable */
   Unavailable = "unavailable"
 }
 
@@ -827,8 +988,11 @@ export type FirmwareStatusType = string;
 
 /** Known values of {@link NfsAccessRuleScope} that the service accepts. */
 export enum KnownNfsAccessRuleScope {
+  /** Default */
   Default = "default",
+  /** Network */
   Network = "network",
+  /** Host */
   Host = "host"
 }
 
@@ -845,8 +1009,11 @@ export type NfsAccessRuleScope = string;
 
 /** Known values of {@link NfsAccessRuleAccess} that the service accepts. */
 export enum KnownNfsAccessRuleAccess {
+  /** No */
   No = "no",
+  /** Ro */
   Ro = "ro",
+  /** Rw */
   Rw = "rw"
 }
 
@@ -863,8 +1030,11 @@ export type NfsAccessRuleAccess = string;
 
 /** Known values of {@link DomainJoinedType} that the service accepts. */
 export enum KnownDomainJoinedType {
+  /** Yes */
   Yes = "Yes",
+  /** No */
   No = "No",
+  /** Error */
   Error = "Error"
 }
 
@@ -881,9 +1051,13 @@ export type DomainJoinedType = string;
 
 /** Known values of {@link UsernameSource} that the service accepts. */
 export enum KnownUsernameSource {
+  /** AD */
   AD = "AD",
+  /** Ldap */
   Ldap = "LDAP",
+  /** File */
   File = "File",
+  /** None */
   None = "None"
 }
 
@@ -901,8 +1075,11 @@ export type UsernameSource = string;
 
 /** Known values of {@link UsernameDownloadedType} that the service accepts. */
 export enum KnownUsernameDownloadedType {
+  /** Yes */
   Yes = "Yes",
+  /** No */
   No = "No",
+  /** Error */
   Error = "Error"
 }
 
@@ -917,11 +1094,39 @@ export enum KnownUsernameDownloadedType {
  */
 export type UsernameDownloadedType = string;
 
+/** Known values of {@link PrimingJobState} that the service accepts. */
+export enum KnownPrimingJobState {
+  /** Queued */
+  Queued = "Queued",
+  /** Running */
+  Running = "Running",
+  /** Paused */
+  Paused = "Paused",
+  /** Complete */
+  Complete = "Complete"
+}
+
+/**
+ * Defines values for PrimingJobState. \
+ * {@link KnownPrimingJobState} can be used interchangeably with PrimingJobState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Queued** \
+ * **Running** \
+ * **Paused** \
+ * **Complete**
+ */
+export type PrimingJobState = string;
+
 /** Known values of {@link StorageTargetType} that the service accepts. */
 export enum KnownStorageTargetType {
+  /** Nfs3 */
   Nfs3 = "nfs3",
+  /** Clfs */
   Clfs = "clfs",
+  /** Unknown */
   Unknown = "unknown",
+  /** BlobNfs */
   BlobNfs = "blobNfs"
 }
 
@@ -939,9 +1144,13 @@ export type StorageTargetType = string;
 
 /** Known values of {@link OperationalStateType} that the service accepts. */
 export enum KnownOperationalStateType {
+  /** Ready */
   Ready = "Ready",
+  /** Busy */
   Busy = "Busy",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Flushing */
   Flushing = "Flushing"
 }
 
@@ -1111,6 +1320,62 @@ export interface CachesStopOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Optional parameters. */
+export interface CachesStartPrimingJobOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing the definition of a priming job. */
+  primingjob?: PrimingJob;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startPrimingJob operation. */
+export type CachesStartPrimingJobResponse = CachesStartPrimingJobHeaders;
+
+/** Optional parameters. */
+export interface CachesStopPrimingJobOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing the priming job ID. */
+  primingJobId?: PrimingJobIdParameter;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stopPrimingJob operation. */
+export type CachesStopPrimingJobResponse = CachesStopPrimingJobHeaders;
+
+/** Optional parameters. */
+export interface CachesPausePrimingJobOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing the priming job ID. */
+  primingJobId?: PrimingJobIdParameter;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the pausePrimingJob operation. */
+export type CachesPausePrimingJobResponse = CachesPausePrimingJobHeaders;
+
+/** Optional parameters. */
+export interface CachesResumePrimingJobOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing the priming job ID. */
+  primingJobId?: PrimingJobIdParameter;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resumePrimingJob operation. */
+export type CachesResumePrimingJobResponse = CachesResumePrimingJobHeaders;
+
+/** Optional parameters. */
 export interface CachesUpgradeFirmwareOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1118,6 +1383,20 @@ export interface CachesUpgradeFirmwareOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface CachesSpaceAllocationOptionalParams
+  extends coreClient.OperationOptions {
+  /** List containing storage target cache space percentage allocations. */
+  spaceAllocation?: StorageTargetSpaceAllocation[];
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the spaceAllocation operation. */
+export type CachesSpaceAllocationResponse = CachesSpaceAllocationHeaders;
 
 /** Optional parameters. */
 export interface CachesListNextOptionalParams

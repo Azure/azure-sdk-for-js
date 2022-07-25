@@ -2,13 +2,9 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  PipelineOptions,
-  TokenCredential,
-  createPipelineFromOptions,
-  isTokenCredential,
-  signingPolicy,
-} from "@azure/core-http";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+
+import { TokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
 
@@ -24,7 +20,7 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { createChallengeCallbacks } from "../../keyvault-common/src";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
@@ -177,7 +173,6 @@ export {
   PagedAsyncIterableIterator,
   KeyVaultKeyIdentifier,
   parseKeyVaultKeyIdentifier,
-  PipelineOptions,
   PollOperationState,
   PollerLike,
   PurgeDeletedKeyOptions,
@@ -266,9 +261,11 @@ export class KeyClient {
           : libInfo,
     };
 
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential,
+      scopes: [], // Scopes are going to be defined by the challenge callbacks.
+      challengeCallbacks: createChallengeCallbacks(),
+    });
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -285,8 +282,9 @@ export class KeyClient {
     this.credential = credential;
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      createPipelineFromOptions(internalPipelineOptions, authPolicy)
+      internalPipelineOptions
     );
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -942,7 +940,12 @@ export class KeyClient {
         "KeyClient.listPropertiesOfKeyVersionsPage",
         options || {},
         async (updatedOptions) =>
-          this.client.getKeyVersions(continuationState.continuationToken!, name, updatedOptions)
+          this.client.getKeyVersionsNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            name,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -1034,7 +1037,11 @@ export class KeyClient {
         "KeyClient.listPropertiesOfKeysPage",
         options || {},
         async (updatedOptions) =>
-          this.client.getKeys(continuationState.continuationToken!, updatedOptions)
+          this.client.getKeysNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -1121,7 +1128,11 @@ export class KeyClient {
         "KeyClient.listDeletedKeysPage",
         options || {},
         async (updatedOptions) =>
-          this.client.getDeletedKeys(continuationState.continuationToken!, updatedOptions)
+          this.client.getDeletedKeysNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {

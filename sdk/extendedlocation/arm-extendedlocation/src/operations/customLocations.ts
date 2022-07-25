@@ -11,7 +11,7 @@ import { CustomLocations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CustomLocationsManagementClientContext } from "../customLocationsManagementClientContext";
+import { CustomLocationsManagementClient } from "../customLocationsManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -37,6 +37,9 @@ import {
   CustomLocationsUpdateOptionalParams,
   CustomLocationsUpdateResponse,
   CustomLocationsListEnabledResourceTypesResponse,
+  CustomLocationFindTargetResourceGroupProperties,
+  CustomLocationsFindTargetResourceGroupOptionalParams,
+  CustomLocationsFindTargetResourceGroupResponse,
   CustomLocationsListOperationsNextResponse,
   CustomLocationsListBySubscriptionNextResponse,
   CustomLocationsListByResourceGroupNextResponse,
@@ -46,13 +49,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CustomLocations operations. */
 export class CustomLocationsImpl implements CustomLocations {
-  private readonly client: CustomLocationsManagementClientContext;
+  private readonly client: CustomLocationsManagementClient;
 
   /**
    * Initialize a new instance of the class CustomLocations class.
    * @param client Reference to the service client
    */
-  constructor(client: CustomLocationsManagementClientContext) {
+  constructor(client: CustomLocationsManagementClient) {
     this.client = client;
   }
 
@@ -388,11 +391,13 @@ export class CustomLocationsImpl implements CustomLocations {
       { resourceGroupName, resourceName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -472,11 +477,13 @@ export class CustomLocationsImpl implements CustomLocations {
       { resourceGroupName, resourceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -530,6 +537,26 @@ export class CustomLocationsImpl implements CustomLocations {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
       listEnabledResourceTypesOperationSpec
+    );
+  }
+
+  /**
+   * Returns the target resource group associated with the resource sync rules of the Custom Location
+   * that match the rules passed in with the Find Target Resource Group Request.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Custom Locations name.
+   * @param parameters Parameters of the find target resource group request.
+   * @param options The options parameters.
+   */
+  findTargetResourceGroup(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: CustomLocationFindTargetResourceGroupProperties,
+    options?: CustomLocationsFindTargetResourceGroupOptionalParams
+  ): Promise<CustomLocationsFindTargetResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, parameters, options },
+      findTargetResourceGroupOperationSpec
     );
   }
 
@@ -792,6 +819,31 @@ const listEnabledResourceTypesOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const findTargetResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/findTargetResourceGroup",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomLocationFindTargetResourceGroupResult
+    },
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listOperationsNextOperationSpec: coreClient.OperationSpec = {

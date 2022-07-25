@@ -70,6 +70,16 @@ export async function main() {
     console.log(`Sending the last 5 scientists (as a ServiceBusMessageBatch)`);
     await sender.sendMessages(batch);
 
+    // Send a single message
+    console.log(`Sending one scientists`);
+    const message: ServiceBusMessage = {
+      contentType: "application/json",
+      subject: "Scientist",
+      body: { firstName: "Albert", lastName: "Einstein" },
+      timeToLive: 2 * 60 * 1000, // message expires in 2 minutes
+    };
+    await sender.sendMessages(message);
+
     // Close the sender
     console.log(`Done sending, closing...`);
     await sender.close();

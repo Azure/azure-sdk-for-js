@@ -14,8 +14,6 @@ export interface CapacitySku {
   name: string;
   /** The name of the Azure pricing tier to which the SKU applies. */
   tier?: CapacitySkuTier;
-  /** The capacity of the SKU. */
-  capacity?: number;
 }
 
 /** An object that represents a set of mutable Dedicated capacity resource properties. */
@@ -24,16 +22,6 @@ export interface DedicatedCapacityMutableProperties {
   administration?: DedicatedCapacityAdministrators;
   /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
   mode?: Mode;
-  /**
-   * Tenant ID for the capacity. Used for creating Pro Plus capacity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /**
-   * Capacity name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly friendlyName?: string;
 }
 
 /** An array of administrator user identities */
@@ -107,16 +95,6 @@ export interface DedicatedCapacityUpdateParameters {
   administration?: DedicatedCapacityAdministrators;
   /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
   mode?: Mode;
-  /**
-   * Tenant ID for the capacity. Used for creating Pro Plus capacity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /**
-   * Capacity name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly friendlyName?: string;
 }
 
 /** An array of Dedicated capacities resources. */
@@ -139,8 +117,6 @@ export interface SkuEnumerationForExistingResourceResult {
 
 /** An object that represents SKU details for existing resources */
 export interface SkuDetailsForExistingResource {
-  /** The resource type */
-  resourceType?: string;
   /** The SKU in SKU details for existing resources. */
   sku?: CapacitySku;
 }
@@ -168,13 +144,6 @@ export interface Operation {
   readonly name?: string;
   /** The object that represents the operation. */
   display?: OperationDisplay;
-  /**
-   * Origin of the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: string;
-  /** Additional properties to expose performance metrics to shoebox. */
-  properties?: OperationProperties;
 }
 
 /** The object that represents the operation. */
@@ -194,78 +163,6 @@ export interface OperationDisplay {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operation?: string;
-  /** Localized description of the operation. */
-  description?: string;
-}
-
-/** Additional properties to expose performance metrics to shoebox. */
-export interface OperationProperties {
-  /** Service specification for exposing performance metrics to shoebox. */
-  serviceSpecification?: ServiceSpecification;
-}
-
-/** Service specification for exposing performance metrics to shoebox. */
-export interface ServiceSpecification {
-  /** Metric specifications for exposing performance metrics to shoebox. */
-  metricSpecifications?: MetricSpecification[];
-  /** Log specifications for exposing diagnostic logs to shoebox. */
-  logSpecifications?: LogSpecification[];
-}
-
-/** Metric specification for exposing performance metrics to shoebox. */
-export interface MetricSpecification {
-  /**
-   * Metric name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** Localizable metric name */
-  displayName?: string;
-  /** Localizable description of metric */
-  displayDescription?: string;
-  /**
-   * Unit for the metric
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly unit?: string;
-  /**
-   * Aggregation type for the metric
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aggregationType?: string;
-  /**
-   * Pattern used to filter the metric
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metricFilterPattern?: string;
-  /** For describing multi dimensional metrics */
-  dimensions?: MetricSpecificationDimensionsItem[];
-}
-
-export interface MetricSpecificationDimensionsItem {
-  /**
-   * Dimension of the metric
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** Localizable dimension of the metric */
-  displayName?: string;
-}
-
-/** Log specification for exposing diagnostic logs to shoebox. */
-export interface LogSpecification {
-  /**
-   * Name of the log
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** Localizable name of the log */
-  displayName?: string;
-  /**
-   * Blob duration for the log
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly blobDuration?: string;
 }
 
 /** Details of capacity name request body. */
@@ -319,7 +216,8 @@ export interface AutoScaleVCoreListResult {
 }
 
 /** Properties of Dedicated Capacity resource. */
-export type DedicatedCapacityProperties = DedicatedCapacityMutableProperties & {
+export interface DedicatedCapacityProperties
+  extends DedicatedCapacityMutableProperties {
   /**
    * The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -330,10 +228,10 @@ export type DedicatedCapacityProperties = DedicatedCapacityMutableProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: CapacityProvisioningState;
-};
+}
 
 /** Represents an instance of a Dedicated Capacity resource. */
-export type DedicatedCapacity = Resource & {
+export interface DedicatedCapacity extends Resource {
   /** The SKU of the PowerBI Dedicated capacity resource. */
   sku: CapacitySku;
   /** A collection of Dedicated capacity administrators */
@@ -341,16 +239,6 @@ export type DedicatedCapacity = Resource & {
   /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
   mode?: Mode;
   /**
-   * Tenant ID for the capacity. Used for creating Pro Plus capacity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /**
-   * Capacity name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly friendlyName?: string;
-  /**
    * The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -360,10 +248,10 @@ export type DedicatedCapacity = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: CapacityProvisioningState;
-};
+}
 
 /** Represents an instance of an auto scale v-core resource. */
-export type AutoScaleVCore = Resource & {
+export interface AutoScaleVCore extends Resource {
   /** The SKU of the auto scale v-core resource. */
   sku: AutoScaleVCoreSku;
   /** The maximum capacity of an auto scale v-core resource. */
@@ -375,10 +263,11 @@ export type AutoScaleVCore = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: VCoreProvisioningState;
-};
+}
 
 /** Properties of an auto scale v-core resource. */
-export type AutoScaleVCoreProperties = AutoScaleVCoreMutableProperties & {
+export interface AutoScaleVCoreProperties
+  extends AutoScaleVCoreMutableProperties {
   /** The object ID of the capacity resource associated with the auto scale v-core resource. */
   capacityObjectId?: string;
   /**
@@ -386,12 +275,15 @@ export type AutoScaleVCoreProperties = AutoScaleVCoreMutableProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: VCoreProvisioningState;
-};
+}
 
 /** Known values of {@link CapacitySkuTier} that the service accepts. */
 export enum KnownCapacitySkuTier {
+  /** PbieAzure */
   PbieAzure = "PBIE_Azure",
+  /** Premium */
   Premium = "Premium",
+  /** AutoPremiumHost */
   AutoPremiumHost = "AutoPremiumHost"
 }
 
@@ -408,17 +300,29 @@ export type CapacitySkuTier = string;
 
 /** Known values of {@link State} that the service accepts. */
 export enum KnownState {
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Paused */
   Paused = "Paused",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Updating */
   Updating = "Updating",
+  /** Suspending */
   Suspending = "Suspending",
+  /** Pausing */
   Pausing = "Pausing",
+  /** Resuming */
   Resuming = "Resuming",
+  /** Preparing */
   Preparing = "Preparing",
+  /** Scaling */
   Scaling = "Scaling"
 }
 
@@ -444,17 +348,29 @@ export type State = string;
 
 /** Known values of {@link CapacityProvisioningState} that the service accepts. */
 export enum KnownCapacityProvisioningState {
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Paused */
   Paused = "Paused",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Updating */
   Updating = "Updating",
+  /** Suspending */
   Suspending = "Suspending",
+  /** Pausing */
   Pausing = "Pausing",
+  /** Resuming */
   Resuming = "Resuming",
+  /** Preparing */
   Preparing = "Preparing",
+  /** Scaling */
   Scaling = "Scaling"
 }
 
@@ -480,7 +396,9 @@ export type CapacityProvisioningState = string;
 
 /** Known values of {@link Mode} that the service accepts. */
 export enum KnownMode {
+  /** Gen1 */
   Gen1 = "Gen1",
+  /** Gen2 */
   Gen2 = "Gen2"
 }
 
@@ -496,9 +414,13 @@ export type Mode = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -516,6 +438,7 @@ export type IdentityType = string;
 
 /** Known values of {@link VCoreSkuTier} that the service accepts. */
 export enum KnownVCoreSkuTier {
+  /** AutoScale */
   AutoScale = "AutoScale"
 }
 
@@ -530,6 +453,7 @@ export type VCoreSkuTier = string;
 
 /** Known values of {@link VCoreProvisioningState} that the service accepts. */
 export enum KnownVCoreProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded"
 }
 

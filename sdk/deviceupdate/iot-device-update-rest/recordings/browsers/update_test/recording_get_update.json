@@ -1,0 +1,58 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/updates/providers/fabrikam/names/vacuum/versions/2022.401.504.6?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "c5530dc8-c0ea-4468-b6f7-2930cec54c6f",
+        "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "max-age=60, private",
+        "Content-Length": "453",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:39:26 GMT",
+        "ETag": "\u002246deecbf-a19e-41c8-939b-1a8a9ee6fcac\u0022",
+        "mise-correlation-id": "399c65cb-79ee-4988-9b8f-d604aa8308a2",
+        "traceparent": "00-f1b5da6d733ec6f3a06d69e330693659-da7fa92825296326-00"
+      },
+      "ResponseBody": {
+        "updateId": {
+          "provider": "fabrikam",
+          "name": "vacuum",
+          "version": "2022.401.504.6"
+        },
+        "isDeployable": true,
+        "updateType": "microsoft/apt:1",
+        "installedCriteria": "apt-update-test-2022.401.504.6",
+        "compatibility": [
+          {
+            "DeviceManufacturer": "fabrikam",
+            "DeviceModel": "vacuum"
+          }
+        ],
+        "scanResult": "Success",
+        "manifestVersion": "3.0",
+        "importedDateTime": "2022-04-02T00:06:08.5994525Z",
+        "createdDateTime": "2022-04-02T00:04:07.002276Z",
+        "etag": "\u002246deecbf-a19e-41c8-939b-1a8a9ee6fcac\u0022"
+      }
+    }
+  ],
+  "Variables": {}
+}

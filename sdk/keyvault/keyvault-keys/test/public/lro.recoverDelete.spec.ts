@@ -3,12 +3,12 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { DeletedKey, KeyClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
 describe("Keys client - Long Running Operations - recoverDelete", () => {
@@ -19,11 +19,13 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(envSetupForPlayback);
+
+    const authentication = await authenticate(getServiceVersion(), recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
-    recorder = authentication.recorder;
   });
 
   afterEach(async function () {
@@ -93,7 +95,11 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can recover a deleted key with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      console.log("Timeout tests don't work on playback mode.");
+      this.skip();
+    }
+
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Delete the data connector.
  *
  * @summary Delete the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/DeleteAPIPolling.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/DeleteAPIPolling.json
  */
 async function deleteAApiPollingDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -38,7 +38,7 @@ deleteAApiPollingDataConnector().catch(console.error);
  * This sample demonstrates how to Delete the data connector.
  *
  * @summary Delete the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/DeleteGenericUI.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/DeleteGenericUI.json
  */
 async function deleteAGenericUiDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -61,7 +61,7 @@ deleteAGenericUiDataConnector().catch(console.error);
  * This sample demonstrates how to Delete the data connector.
  *
  * @summary Delete the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/DeleteOfficePowerBIDataConnetor.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/DeleteOfficePowerBIDataConnetor.json
  */
 async function deleteAnOfficePowerBiDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -84,7 +84,7 @@ deleteAnOfficePowerBiDataConnector().catch(console.error);
  * This sample demonstrates how to Delete the data connector.
  *
  * @summary Delete the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/DeleteOffice365ProjectDataConnetor.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/DeleteOffice365ProjectDataConnetor.json
  */
 async function deleteAnOffice365ProjectDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -107,7 +107,7 @@ deleteAnOffice365ProjectDataConnector().catch(console.error);
  * This sample demonstrates how to Delete the data connector.
  *
  * @summary Delete the data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/dataConnectors/DeleteOfficeDataConnetor.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/DeleteOfficeDataConnetor.json
  */
 async function deleteAnOffice365DataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

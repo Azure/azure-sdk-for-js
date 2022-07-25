@@ -16,13 +16,13 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
   "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
   "Prescribed 100mg ibuprofen, taken twice daily.",
-  "Patient does not suffer from high blood pressure."
+  "Patient does not suffer from high blood pressure.",
 ];
 
 export async function main() {
@@ -31,7 +31,7 @@ export async function main() {
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
   const poller = await client.beginAnalyzeHealthcareEntities(documents, "en", {
-    includeStatistics: true
+    includeStatistics: true,
   });
 
   poller.onProgress(() => {
@@ -65,7 +65,7 @@ export async function main() {
           }
         }
       }
-      if (result.entityRelations?.length > 0) {
+      if (result.entityRelations.length > 0) {
         console.log(`\tRecognized relations between entities:`);
         for (const relation of result.entityRelations) {
           console.log(

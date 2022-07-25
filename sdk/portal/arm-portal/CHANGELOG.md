@@ -1,22 +1,30 @@
-## Release History
+# Release History
 
-### 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.5 (Unreleased)
 
-#### Features Added
+### Features Added
 
-#### Breaking Changes
+### Breaking Changes
 
-#### Bugs Fixed
+### Bugs Fixed
 
-#### Other Changes
+### Other Changes
 
-### 1.0.0-beta.3 (2022-04-28)
+## 1.0.0-beta.4 (2022-07-08)
+    
+**Features**
+
+  - Added Interface Configuration
+  - Added Interface MarkdownPartMetadata
+  - Added Interface ProxyResource
+    
+## 1.0.0-beta.3 (2022-04-28)
 
 **Features**
 
   - Bug fix
 
-### 1.0.0-beta.2 (2021-11-30)
+## 1.0.0-beta.2 (2021-11-30)
 
 The package of @azure/arm-portal is using our next generation design principles since version 1.0.0-beta.2, which contains breaking changes.
 

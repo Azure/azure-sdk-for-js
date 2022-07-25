@@ -62,6 +62,9 @@ module.exports = function (config) {
       "AZURE_CLIENT_SECRET",
       "ENDPOINT",
       "LEDGER_IDENTITY",
+      "PUBLIC_KEY",
+      "PRIVATE_KEY",
+      "IDENTITY_SERVICE_URL",
     ],
 
     // test results reporter to use

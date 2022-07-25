@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Check if a resource name is available.
  *
  * @summary Check if a resource name is available.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-01-01/examples/CheckNameAvailability.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-03-01/examples/CheckNameAvailability.json
  */
 async function checkNameAvailability() {
   const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";

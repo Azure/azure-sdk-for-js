@@ -21,6 +21,8 @@ import {
   ShortCodesGetUSProgramBriefResponse,
   ShortCodesSubmitUSProgramBriefOptionalParams,
   ShortCodesSubmitUSProgramBriefResponse,
+  AttachmentType,
+  FileType,
   ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
   ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse,
   ShortCodesGetUSProgramBriefAttachmentOptionalParams,
@@ -95,12 +97,23 @@ export interface ShortCodesOperations {
    * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param attachmentId Attachment Id. Must be a valid GUID
    * @param id Program Brief Attachment Id.
+   * @param fileName The name of the file being attached
+   *                 e.g. 'myFile01'
+   * @param fileType The type of file being attached
+   *                 e.g. 'pdf', 'jpg', 'png'
+   * @param fileContentBase64 File content as base 64 encoded string
+   * @param type Attachment type describing the purpose of the attachment
+   *             e.g. 'callToAction', 'termsOfService'
    * @param options The options parameters.
    */
   createOrReplaceUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
     id: string,
+    fileName: string,
+    fileType: FileType,
+    fileContentBase64: string,
+    type: AttachmentType,
     options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
   ): Promise<ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse>;
   /**
