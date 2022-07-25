@@ -17,12 +17,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
   "I had the best day of my life.",
-  "This was a waste of my time. The speaker put me to sleep."
+  "This was a waste of my time. The speaker put me to sleep.",
 ];
 
 export async function main() {

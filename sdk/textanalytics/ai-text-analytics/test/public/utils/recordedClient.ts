@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureKeyCredential, TextAnalysisClient, TextAnalysisClientOptions } from "../../../src/";
+import { Test } from "mocha";
+
 import {
   Recorder,
   RecorderStartOptions,
   assertEnvironmentVariable,
   env,
 } from "@azure-tools/test-recorder";
-import { Test } from "mocha";
+
+import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../../src/";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: { [k: string]: string } = {
@@ -16,12 +18,6 @@ const envSetupForPlayback: { [k: string]: string } = {
   // Second API key
   LANGUAGE_API_KEY_ALT: "api_key_alt",
   ENDPOINT: "https://endpoint",
-  LANGUAGE_CUSTOM_ENTITY_RECOGNITION_PROJECT_NAME: "sanitized",
-  LANGUAGE_CUSTOM_ENTITY_RECOGNITION_DEPLOYMENT_NAME: "sanitized",
-  LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_PROJECT_NAME: "sanitized",
-  LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_DEPLOYMENT_NAME: "sanitized",
-  LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_PROJECT_NAME: "sanitized",
-  LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_DEPLOYMENT_NAME: "sanitized",
 };
 
 const recorderStartOptions: RecorderStartOptions = {
@@ -33,25 +29,25 @@ export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
 export function createClient(options: {
   authMethod: AuthMethod;
   recorder?: Recorder;
-  clientOptions?: TextAnalysisClientOptions;
-}): TextAnalysisClient {
+  clientOptions?: TextAnalyticsClientOptions;
+}): TextAnalyticsClient {
   const { authMethod, recorder, clientOptions = {} } = options;
   const endpoint = env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/";
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
     case "APIKey": {
-      return new TextAnalysisClient(
+      return new TextAnalyticsClient(
         endpoint,
         new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
         updatedOptions
       );
     }
     case "AAD": {
-      return new TextAnalysisClient(endpoint, createTestCredential(), updatedOptions);
+      return new TextAnalyticsClient(endpoint, createTestCredential(), updatedOptions);
     }
     case "DummyAPIKey": {
-      return new TextAnalysisClient(endpoint, new AzureKeyCredential("whatever"), updatedOptions);
+      return new TextAnalyticsClient(endpoint, new AzureKeyCredential("whatever"), updatedOptions);
     }
     default: {
       throw Error(`Unsupported authentication method: ${authMethod}`);
