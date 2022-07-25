@@ -26,7 +26,14 @@ import {buildOnChange, getEditorData} from "@azure/api-management-custom-widgets
 import {valuesDefault} from "../../values"
 
 export default {
-  data: () => ({...valuesDefault}),
+  data: () => {
+    return {
+      label1: "Email",
+      label2: "Message",
+      placeholder: "Write your message here",
+      actionUrl: "https://httpbin.org/post",
+    }
+  },
 
   async mounted(): Promise<void> {
     this.onChange = buildOnChange(valuesDefault)

@@ -21,7 +21,14 @@ import {getEditorData} from "@azure/api-management-custom-widgets-tools"
 import {valuesDefault} from "../../values"
 
 export default {
-  data: () => ({...valuesDefault}),
+  data: () => {
+    return {
+      label1: null,
+      label2: null,
+      placeholder: null,
+      actionUrl: null,
+    }
+  },
 
   async mounted(): Promise<void> {
     const editorData = getEditorData(valuesDefault)
