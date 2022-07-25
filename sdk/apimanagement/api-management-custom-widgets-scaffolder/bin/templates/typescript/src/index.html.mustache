@@ -1,25 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="height-fill">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{displayName}}</title>
-  <link rel="stylesheet" href="./styles/shared.css">
-  <link rel="stylesheet" href="./styles/app.css">
+  <link rel="stylesheet" href="./styles/app.scss">
   <script type="module">
-    import app from "./index"
+    import App from "./index"
 
-    window.appInstance = new app()
+    window.appInstance = new App()
   </script>
 </head>
-<body>
-
-<h1>Hello {{displayName}}!</h1>
-
-<p>field1: <b id="field1"></b></p>
-<p>field2: <b id="field2"></b></p>
-
-<button onclick="appInstance.sendData({foo: 'bar'})">send</button>
-
+<body class="height-fill">
+<form id="form" class="flex-columns-container height-fill">
+  <div class="form-group">
+    <label id="editorValues.label1" for="email" class="form-label"></label>
+    <input id="email" type="email" class="form-control" name="email" placeholder="example@contoso.com" />
+  </div>
+  <div class="form-group height-fill flex-columns-container">
+    <label id="editorValues.label2" for="message" class="form-label"></label>
+    <textarea id="message" class="form-control flex-grow" name="message"></textarea>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="button button-primary">Submit</button>
+  </div>
+</form>
 </body>
 </html>
