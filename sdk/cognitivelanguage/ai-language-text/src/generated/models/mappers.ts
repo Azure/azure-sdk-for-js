@@ -282,14 +282,14 @@ export const JobState: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      operationId: {
+      id: {
         serializedName: "jobId",
         required: true,
         type: {
           name: "Uuid"
         }
       },
-      lastModifiedOn: {
+      modifiedOn: {
         serializedName: "lastUpdateDateTime",
         required: true,
         type: {

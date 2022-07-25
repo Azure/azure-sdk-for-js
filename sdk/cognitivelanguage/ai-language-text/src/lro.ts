@@ -265,16 +265,16 @@ type Writable<T> = {
  */
 export function createUpdateAnalyzeState(documents?: TextDocumentInput[]) {
   return (state: AnalyzeBatchOperationState, lastResponse: RawResponse): void => {
-    const { createdOn, lastModifiedOn, operationId, status, displayName, expiresOn, tasks } =
+    const { createdOn, modifiedOn, id, status, displayName, expiresOn, tasks } =
       lastResponse.body as AnalyzeTextJobStatusResponse;
     const mutableState = state as Writable<AnalyzeBatchOperationState> & {
       documents?: TextDocumentInput[];
     };
     mutableState.createdOn = createdOn;
-    mutableState.lastModifiedOn = lastModifiedOn;
+    mutableState.modifiedOn = modifiedOn;
     mutableState.expiresOn = expiresOn;
     mutableState.displayName = displayName;
-    mutableState.operationId = operationId;
+    mutableState.id = id;
     mutableState.status = status;
     mutableState.actionSucceededCount = tasks.completed;
     mutableState.actionFailedCount = tasks.failed;
@@ -293,12 +293,12 @@ export function createCancelOperation(settings: {
   tracing: TracingClient;
   options: AnalyzeTextJobStatusOptionalParams;
 }): (state: AnalyzeBatchOperationState) => Promise<void> {
-  return async ({ operationId }): Promise<void> => {
+  return async ({ id }): Promise<void> => {
     const { client, options, tracing } = settings;
     await tracing.withSpan(`${clientName}.beginAnalyzeBatch`, options, async (finalOptions) =>
       throwError(
         getRawResponse(
-          (paramOptions) => client.analyzeText.cancelJob(operationId, paramOptions),
+          (paramOptions) => client.analyzeText.cancelJob(id, paramOptions),
           finalOptions
         )
       )
