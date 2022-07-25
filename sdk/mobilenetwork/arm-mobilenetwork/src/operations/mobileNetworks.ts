@@ -338,7 +338,7 @@ export class MobileNetworksImpl implements MobileNetworks {
   }
 
   /**
-   * Updates a mobile network update tags.
+   * Updates mobile network tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param parameters Parameters supplied to update mobile network tags.
@@ -385,7 +385,7 @@ export class MobileNetworksImpl implements MobileNetworks {
   }
 
   /**
-   * List sim ids under a mobile network.
+   * Lists the IDs of all provisioned SIMs in a mobile network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
@@ -454,7 +454,7 @@ export class MobileNetworksImpl implements MobileNetworks {
   }
 
   /**
-   * List sim ids under a mobile network.
+   * Lists the IDs of all provisioned SIMs in a mobile network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
