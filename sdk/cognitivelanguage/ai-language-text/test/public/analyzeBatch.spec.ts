@@ -904,9 +904,9 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           poller.onProgress((state) => {
             assert.ok(state.createdOn, "createdOn is undefined!");
             assert.ok(state.expiresOn, "expiresOn is undefined!");
-            assert.ok(state.lastModifiedOn, "lastModifiedOn is undefined!");
+            assert.ok(state.modifiedOn, "modifiedOn is undefined!");
             assert.ok(state.status, "status is undefined!");
-            assert.ok(state.operationId, "operationId is undefined!");
+            assert.ok(state.id, "id is undefined!");
             assert.equal(state.displayName, "testJob");
             assert.isDefined(state.actionSucceededCount, "actionSucceededCount is undefined!");
             assert.equal(state.actionFailedCount, 0);
