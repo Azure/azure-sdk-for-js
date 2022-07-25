@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2022-05-02-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2022-06-02-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "39",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-containerservice/17.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "cadeadb8-061c-4f5f-97dd-03fcbc79bd61"
+        "User-Agent": "azsdk-js-arm-containerservice/17.1.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "fa602b91-c56e-495b-bf7c-e2d2ce39ec23"
       },
       "RequestBody": {
         "tags": {
@@ -24,7 +24,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Wed, 08 Jun 2022 09:24:50 GMT",
+        "Date": "Mon, 25 Jul 2022 03:25:31 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -32,10 +32,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "eab671cc-850f-4595-a80b-150f6ea2d9dc",
+        "x-ms-correlation-request-id": "3a9030bf-29d2-4a78-9de6-98db730e1279",
         "x-ms-ratelimit-remaining-subscription-writes": "1198",
-        "x-ms-request-id": "3e0ae846-5c02-4f85-8f2c-6c6c70238b84",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220608T092451Z:eab671cc-850f-4595-a80b-150f6ea2d9dc"
+        "x-ms-request-id": "7f595252-12b3-4d79-beac-ac4d73ef09fb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220725T032531Z:3a9030bf-29d2-4a78-9de6-98db730e1279"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
@@ -51,11 +51,11 @@
           "powerState": {
             "code": "Running"
           },
-          "kubernetesVersion": "1.22.6",
-          "currentKubernetesVersion": "1.22.6",
+          "kubernetesVersion": "1.22.11",
+          "currentKubernetesVersion": "1.22.11",
           "dnsPrefix": "aksjssdk",
-          "fqdn": "aksjssdk-2e3c131c.hcp.eastus.azmk8s.io",
-          "azurePortalFQDN": "aksjssdk-2e3c131c.portal.hcp.eastus.azmk8s.io",
+          "fqdn": "aksjssdk-e3509191.hcp.eastus.azmk8s.io",
+          "azurePortalFQDN": "aksjssdk-e3509191.portal.hcp.eastus.azmk8s.io",
           "agentPoolProfiles": [
             {
               "name": "aksagent",
@@ -73,12 +73,11 @@
               "powerState": {
                 "code": "Running"
               },
-              "orchestratorVersion": "1.22.6",
-              "currentOrchestratorVersion": "1.22.6",
+              "orchestratorVersion": "1.22.11",
               "mode": "System",
               "osType": "Linux",
               "osSKU": "Ubuntu",
-              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.05.24",
+              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.04",
               "enableFIPS": false
             }
           ],
@@ -96,7 +95,7 @@
               },
               "effectiveOutboundIPs": [
                 {
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/4c578c3c-85de-49ba-8b55-b6f95dd3e7ca"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/6958ce37-b75f-445c-90cc-c5add78789ff"
                 }
               ]
             },
