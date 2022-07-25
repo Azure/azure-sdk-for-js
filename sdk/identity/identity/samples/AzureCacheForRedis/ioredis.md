@@ -28,7 +28,7 @@ Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Ident
    This sample is recommended for users getting started to use Azure AD authentication with Azure Cache for Redis.
 * [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication):
    This sample is recommended to users looking to build long-running applications and would like to handle reauthenticating with Azure AD upon token expiry.
-#### Authenticate with Azure AD
+#### Authenticate with Azure AD - Hello World
 
 This sample is intended to assist in authenticating with Azure AD via the ioredis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance.
 
@@ -118,11 +118,7 @@ async function returnPassword(credential: TokenCredential) {
 
 async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
-  const credential = new ClientSecretCredential(
-    process.env.AZURE_TENANT_ID,
-    process.env.AZURE_CLIENT_ID,
-    process.env.AZURE_CLIENT_SECRET
-  );
+  const credential = new DefaultAzureCredential();
   let accessTokenObject = await returnPassword(credential);
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redis = new Redis({
@@ -132,7 +128,17 @@ async function main() {
       host: process.env.REDIS_HOSTNAME,
       port: 6380,
     },
+    keepAlive: 0
   });
+
+  const id = setInterval(async () => {
+    // Check for password expiry
+    console.log("checking for expiration");
+    if ((accessTokenObject.expiresOnTimestamp- 120) <= Date.now()) {
+      accessTokenObject = await returnPassword(credential);
+    }
+  
+  }, 1000);
 
   for (let i = 0; i < 3; i++) {
     try {
@@ -143,7 +149,7 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-      if (accessTokenObject.expiresOnTimestamp <= Date.now()) {
+      if ((accessTokenObject.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
         accessTokenObject = await returnPassword(credential);
         redis = new Redis({
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
@@ -152,6 +158,7 @@ async function main() {
             host: process.env.REDIS_HOSTNAME,
             port: 6380,
           },
+          keepAlive: 0
         });
       }
     }

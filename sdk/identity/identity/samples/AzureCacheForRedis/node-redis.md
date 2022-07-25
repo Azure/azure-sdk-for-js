@@ -3,47 +3,49 @@ Configuration of Role and Role Assignments is required before using the sample c
 ### Table of contents
 
 - [node-redis library](#node-redis-library)
-    - [Dependency Requirements](#dependency-requirements-node-redis)
+    - [Prerequisites](#prerequisites)
     - [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-node-redis-hello-world)
     - [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
 
 ### node-redis library
 
-#### Dependency requirements: node-redis
+#### Prerequisites
 
+- Configuration of Role and Role Assignments is required before using the sample code in this document.
+- **Dependency Requirements:**
 Add the following dependencies to *package.json*:
 
 ```
 "dependencies": {
-    "@azure/identity": "^2.0.4",
+  "@azure/identity":"^2.0.4",
     "redis": "^4.1.0",
 ```
+#### Samples Guidance
 
-#### Authenticate with Azure AD: node-redis
+Familiarity with the [node-redis](https://github.com/redis/node-redis) and [Azure Identity for Javascript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
+* [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-hello-world):
+   This sample is recommended for users getting started to use Azure AD authentication with Azure Cache for Redis.
+* [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication):
+   This sample is recommended to users looking to build long-running applications and would like to handle reauthenticating with Azure AD upon token expiry.
+#### Authenticate with Azure AD- Hello World
 
 This sample is intended to assist in authenticating with Azure AD via the node-redis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as password when setting up the node-redis instance.
 
-Familiarity with the node-redis and Azure Identity client libraries is assumed. If you're new to the Azure Identity library for Javascript, see the docs for [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) and [node-redis](https://github.com/redis/node-redis) rather than this guide.
-
 ##### Migration guidance
 
-When migrating your existing application code, replace the password input with the Azure AD token. Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code. Azure Redis Cache name, Service Principal Username, AAD Token and using SSL are required while connecting with the cache.
+When migrating your existing application code, replace the password input with the Azure AD token. Azure Redis Cache name, Service Principal Username, AAD Token and using SSL are required while connecting with the cache.
 
-**Note:** The below sample uses `ClientSecretCredential` from the [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library. The credential can be replaced with any of the other Azure Identity library `TokenCredential` implementations.
+Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code. Azure Redis Cache name, Service Principal Username, AAD Token and using SSL are required while connecting with the cache.
 
 ```ts
 import { createClient } from "redis";
-import { ClientSecretCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
-  const credential = new ClientSecretCredential(
-    process.env.AZURE_TENANT_ID,
-    process.env.AZURE_CLIENT_ID,
-    process.env.AZURE_CLIENT_SECRET
-  );
+  const credential = new DefaultAzureCredential();
 
   // The scope will be changed for AAD Public Preview
   const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
@@ -57,7 +59,10 @@ async function main() {
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
-    socket: { tls: true },
+    socket: { 
+      tls: true,
+      keepAlive: 0 
+    },
   });
 
   client.on("error", (err) => console.log("Redis Client Error", err));
@@ -66,8 +71,6 @@ async function main() {
   await client.set("Az:key", "value1312");
   // Get value of your key in the Azure Redis Cache.
   console.log("value-", await client.get("Az:key"));
-  // Close the client connection
-  client.disconnect();
 }
 
 main().catch((err) => {
@@ -77,17 +80,24 @@ main().catch((err) => {
 });
 ```
 
+##### Supported Token Credentials for Azure AD Authentication
+**Note:** The samples in this doc use the Azure Identity library's `DefaultAzureCredential` to fetch Azure AD Access Token. The other supported `TokenCredential` implementations that can be used from [Azure Identity for Javascript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) are as follows:
+
+* [Client Certificate Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest)
+* [Client Secret Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)
+* [Managed Identity Credential](https://docs.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest)
+* [Username Password Credential](https://docs.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest)
+* [Azure CLI Credential](https://docs.microsoft.com/javascript/api/@azure/identity/azureclicredential?view=azure-node-latest)
+* [Interactive Browser Credential](https://docs.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredential?view=azure-node-latest)
+* [Device Code Credential](https://docs.microsoft.com/javascript/api/@azure/identity/devicecodecredential?view=azure-node-latest)
+
 #### Authenticate with Azure AD: Handle Reauthentication
 
 This sample is intended to assist in authenticating with Azure AD via the node-redis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as password when setting up the node-redis instance. It further shows how to recreate and authenticate the node-redis instance when its connection is broken in error/exception scenarios.
 
-Familiarity with the node-redis and Azure Identity client libraries is assumed. If you're new to the Azure Identity library for JavaScript, see the docs for [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) and [node-redis](https://github.com/redis/node-redis) rather than this guide.
-
 ##### Migration guidance
 
 When migrating your existing application code, replace the password input with the Azure AD token. Integrate the logic in your application code to fetch an Azure AD access token via the Identity library, as shown below. Replace the password configuring/retrieving logic in your application code.
-
-**Note:** The below sample uses `ClientCertificateCredential` from the [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) library, the credential can be replaced with any of the other Azure Identity library `TokenCredential` implementations.
 
 ```ts
 import { createClient } from "redis";
@@ -109,11 +119,7 @@ async function returnPassword(credential: TokenCredential) {
 
 async function main() {
   // Construct a Token Credential from Azure Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
-  const credential = new ClientSecretCredential(
-    process.env.AZURE_TENANT_ID,
-    process.env.AZURE_CLIENT_ID,
-    process.env.AZURE_CLIENT_SECRET
-  );
+  const credential = new DefaultAzureCredential();
   let accessTokenObject = await returnPassword(credential);
   // Create node-redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redisClient = createClient({
@@ -122,22 +128,31 @@ async function main() {
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
     socket: {
       tls: true,
+      keepAlive:0
     },
     
   });
   await redisClient.connect();
+  
+  const id = setInterval(async () => {
+    // Check for password expiry
+    console.log("checking for expiration");
+    if ((accessTokenObject.expiresOnTimestamp- 120) <= Date.now()) {
+      accessTokenObject = await returnPassword(credential);
+    }
+  
+  }, 1000);
+
   for (let i = 0; i < 3; i++) {
     try {
       // Set a value against your key in the Azure Redis Cache.
       await redisClient.set("Az:mykey", "value123"); // Returns a promise which resolves to "OK" when the command succeeds.
       // Fetch value of your key in the Azure Redis Cache.
       console.log("redis key:", await redisClient.get("Az:mykey"));
-      // Close the Node-redis Client Connection
-      redisClient.disconnect();
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-      if (accessTokenObject.expiresOnTimestamp <= Date.now()) {
+     if ((accessTokenObject.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
         accessTokenObject = await returnPassword(credential);
         redisClient = createClient({
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
@@ -145,10 +160,12 @@ async function main() {
           url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
           socket: {
             tls: true,
+            keepAlive: 0
           },
         });
       }
     }
+    await sleep(1000);
   }
 }
 main().catch((err) => {
