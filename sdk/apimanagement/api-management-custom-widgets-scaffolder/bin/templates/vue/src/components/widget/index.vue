@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import {getEditorData} from "@azure/apimanagement-custom-widget-tools"
+import {getEditorData} from "@azure/api-management-custom-widgets-tools"
 import {valuesDefault} from "../../values"
 
 export default {
