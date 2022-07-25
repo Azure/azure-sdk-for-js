@@ -15,7 +15,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
  *
  * @summary To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
+<<<<<<< HEAD
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/PrivateEndpointConnectionsList.json
+=======
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-06-01/examples/PrivateEndpointConnectionsList.json
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
  */
 async function listPrivateEndpointConnectionsByManagedCluster() {
   const subscriptionId = "subid1";

@@ -18,7 +18,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
  *
  * @summary AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
+<<<<<<< HEAD
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/RunCommandRequest.json
+=======
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-06-01/examples/RunCommandRequest.json
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
  */
 async function submitNewCommand() {
   const subscriptionId = "subid1";

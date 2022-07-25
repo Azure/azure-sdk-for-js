@@ -12,8 +12,9 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  AnalyzeAction as AnalyzeActionMapper,
-  AnalyzeTextJobsInput as AnalyzeTextJobsInputMapper
+  AnalyzeBatchInput as AnalyzeBatchInputMapper,
+  MultiLanguageBatchInput as MultiLanguageBatchInputMapper,
+  LanguageBatchInput as LanguageBatchInputMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -29,14 +30,14 @@ export const contentType: OperationParameter = {
 };
 
 export const body: OperationParameter = {
-  parameterPath: "body",
-  mapper: AnalyzeActionMapper
+  parameterPath: ["options", "body"],
+  mapper: AnalyzeBatchInputMapper
 };
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
-    defaultValue: "application/json",
+    defaultValue: "application/json, text/json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -57,12 +58,24 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const apiVersion: OperationQueryParameter = {
+export const apiVersion: OperationURLParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-04-01-preview",
+    defaultValue: "v3.1",
     isConstant: true,
-    serializedName: "api-version",
+    serializedName: "ApiVersion",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const jobId: OperationURLParameter = {
+  parameterPath: "jobId",
+  mapper: {
+    serializedName: "jobId",
+    required: true,
     type: {
       name: "String"
     }
@@ -79,12 +92,36 @@ export const includeStatistics: OperationQueryParameter = {
   }
 };
 
-export const body1: OperationParameter = {
-  parameterPath: "body",
-  mapper: AnalyzeTextJobsInputMapper
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    defaultValue: 20,
+    constraints: {
+      InclusiveMaximum: 50,
+      InclusiveMinimum: 1
+    },
+    serializedName: "$top",
+    type: {
+      name: "Number"
+    }
+  }
 };
 
-export const jobId: OperationURLParameter = {
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    defaultValue: 0,
+    constraints: {
+      InclusiveMinimum: 0
+    },
+    serializedName: "$skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const jobId1: OperationURLParameter = {
   parameterPath: "jobId",
   mapper: {
     serializedName: "jobId",
@@ -95,22 +132,81 @@ export const jobId: OperationURLParameter = {
   }
 };
 
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
+export const input: OperationParameter = {
+  parameterPath: "input",
+  mapper: MultiLanguageBatchInputMapper
+};
+
+export const modelVersion: OperationQueryParameter = {
+  parameterPath: ["options", "modelVersion"],
   mapper: {
-    serializedName: "top",
+    serializedName: "model-version",
     type: {
-      name: "Number"
+      name: "String"
     }
   }
 };
 
-export const skip: OperationQueryParameter = {
-  parameterPath: ["options", "skip"],
+export const stringIndexType: OperationQueryParameter = {
+  parameterPath: ["options", "stringIndexType"],
   mapper: {
-    serializedName: "skip",
+    serializedName: "stringIndexType",
     type: {
-      name: "Number"
+      name: "String"
+    }
+  }
+};
+
+export const loggingOptOut: OperationQueryParameter = {
+  parameterPath: ["options", "loggingOptOut"],
+  mapper: {
+    serializedName: "loggingOptOut",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const domain: OperationQueryParameter = {
+  parameterPath: ["options", "domain"],
+  mapper: {
+    serializedName: "domain",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const piiCategories: OperationQueryParameter = {
+  parameterPath: ["options", "piiCategories"],
+  mapper: {
+    constraints: {
+      UniqueItems: true
+    },
+    serializedName: "piiCategories",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "CSV"
+};
+
+export const input1: OperationParameter = {
+  parameterPath: "input",
+  mapper: LanguageBatchInputMapper
+};
+
+export const opinionMining: OperationQueryParameter = {
+  parameterPath: ["options", "opinionMining"],
+  mapper: {
+    serializedName: "opinionMining",
+    type: {
+      name: "Boolean"
     }
   }
 };

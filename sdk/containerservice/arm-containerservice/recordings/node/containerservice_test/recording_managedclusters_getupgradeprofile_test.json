@@ -1,15 +1,24 @@
 {
   "Entries": [
     {
+<<<<<<< HEAD
       "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeProfiles/default?api-version=2022-06-02-preview",
+=======
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeProfiles/default?api-version=2022-06-01",
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
+<<<<<<< HEAD
         "User-Agent": "azsdk-js-arm-containerservice/17.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
         "x-ms-client-request-id": "edeec1d2-9b95-4a62-ae3a-4fc7b83e6305"
+=======
+        "User-Agent": "azsdk-js-arm-containerservice/17.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "2c4ac4fa-5f6e-4264-9171-146849b9d7f6"
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +26,11 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
+<<<<<<< HEAD
         "Date": "Fri, 22 Jul 2022 07:01:12 GMT",
+=======
+        "Date": "Fri, 22 Jul 2022 08:20:41 GMT",
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -25,10 +38,17 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
+<<<<<<< HEAD
         "x-ms-correlation-request-id": "6db7789d-7472-4957-8dd5-ca0df36ec8b5",
         "x-ms-ratelimit-remaining-subscription-reads": "11888",
         "x-ms-request-id": "856a1901-736f-4a46-865d-da4a3554a545",
         "x-ms-routing-request-id": "SOUTHEASTASIA:20220722T070112Z:6db7789d-7472-4957-8dd5-ca0df36ec8b5"
+=======
+        "x-ms-correlation-request-id": "f83063ea-28e3-40ad-b5fa-ebfee06a975a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11914",
+        "x-ms-request-id": "cb7a8bd0-52f9-4733-a464-b44c0f2c5152",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220722T082041Z:f83063ea-28e3-40ad-b5fa-ebfee06a975a"
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeprofiles/default",

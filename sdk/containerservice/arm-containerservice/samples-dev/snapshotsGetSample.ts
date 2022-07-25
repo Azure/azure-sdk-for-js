@@ -15,7 +15,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a snapshot.
  *
  * @summary Gets a snapshot.
+<<<<<<< HEAD
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/SnapshotsGet.json
+=======
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-06-01/examples/SnapshotsGet.json
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
  */
 async function getSnapshot() {
   const subscriptionId = "subid1";

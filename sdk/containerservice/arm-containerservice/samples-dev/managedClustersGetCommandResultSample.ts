@@ -15,7 +15,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
+<<<<<<< HEAD
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/RunCommandResultFailed.json
+=======
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-06-01/examples/RunCommandResultFailed.json
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
  */
 async function commandFailedResult() {
   const subscriptionId = "subid1";
@@ -38,7 +42,11 @@ commandFailedResult().catch(console.error);
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
+<<<<<<< HEAD
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/RunCommandResultSucceed.json
+=======
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-06-01/examples/RunCommandResultSucceed.json
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
  */
 async function commandSucceedResult() {
   const subscriptionId = "subid1";

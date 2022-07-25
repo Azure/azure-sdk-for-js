@@ -1,5 +1,6 @@
 # Release History
     
+<<<<<<< HEAD
 ## 17.0.0-beta.2 (2022-07-22)
     
 **Features**
@@ -39,11 +40,20 @@
   - Added Interface FleetsListNextOptionalParams
   - Added Interface FleetsListOptionalParams
   - Added Interface FleetsUpdateOptionalParams
+=======
+## 17.0.0 (2022-07-22)
+    
+**Features**
+
+  - Added Interface AgentPool
+  - Added Interface AzureKeyVaultKms
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
   - Added Interface MaintenanceConfiguration
   - Added Interface ManagedCluster
   - Added Interface ManagedClusterAccessProfile
   - Added Interface ManagedClusterAddonProfileIdentity
   - Added Interface ManagedClusterAgentPoolProfile
+<<<<<<< HEAD
   - Added Interface ManagedClusterIngressProfile
   - Added Interface ManagedClusterIngressProfileWebAppRouting
   - Added Interface ManagedClusterOidcIssuerProfile
@@ -115,14 +125,17 @@
   - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
+=======
+  - Added Interface ManagedClusterSecurityProfileDefender
+  - Added Interface ManagedClusterSecurityProfileDefenderSecurityMonitoring
+  - Added Interface Snapshot
+  - Added Interface TrackedResource
+  - Added Type Alias KeyVaultNetworkAccessTypes
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter hostGroupID
-  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
-  - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter enableVnetIntegration
-  - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId
-  - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
-  - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ManagedClusterSecurityProfile has a new optional parameter azureKeyVaultKms
   - Interface ManagedClusterSecurityProfile has a new optional parameter defender
+<<<<<<< HEAD
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
   - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
   - Interface ManagedClusterStorageProfile has a new optional parameter blobCSIDriver
@@ -134,13 +147,10 @@
   - Class ContainerServiceClient has a new parameter trustedAccessRoles
   - Added Enum KnownFleetMemberProvisioningState
   - Added Enum KnownFleetProvisioningState
+=======
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
   - Added Enum KnownKeyVaultNetworkAccessTypes
-  - Added Enum KnownNetworkPluginMode
-  - Added Enum KnownTrustedAccessRoleBindingProvisioningState
   - Enum KnownNetworkPlugin has a new value None
-  - Enum KnownOssku has a new value Windows2019
-  - Enum KnownOssku has a new value Windows2022
-  - Enum KnownSnapshotType has a new value ManagedCluster
 
 **Breaking Changes**
 

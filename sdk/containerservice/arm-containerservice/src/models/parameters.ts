@@ -21,12 +21,16 @@ import {
   AgentPool as AgentPoolMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateLinkResource as PrivateLinkResourceMapper,
+<<<<<<< HEAD
   Snapshot as SnapshotMapper,
   ManagedClusterSnapshot as ManagedClusterSnapshotMapper,
   TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper,
   Fleet as FleetMapper,
   FleetPatch as FleetPatchMapper,
   FleetMember as FleetMemberMapper
+=======
+  Snapshot as SnapshotMapper
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -56,7 +60,11 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
+<<<<<<< HEAD
     defaultValue: "2022-06-02-preview",
+=======
+    defaultValue: "2022-06-01",
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -189,16 +197,6 @@ export const parameters1: OperationParameter = {
   mapper: TagsObjectMapper
 };
 
-export const ignorePodDisruptionBudget: OperationQueryParameter = {
-  parameterPath: ["options", "ignorePodDisruptionBudget"],
-  mapper: {
-    serializedName: "ignore-pod-disruption-budget",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedClusterServicePrincipalProfileMapper
@@ -294,6 +292,7 @@ export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: SnapshotMapper
 };
+<<<<<<< HEAD
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
@@ -386,3 +385,5 @@ export const fleetMemberName: OperationURLParameter = {
     }
   }
 };
+=======
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42

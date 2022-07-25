@@ -1,7 +1,11 @@
 {
   "Entries": [
     {
+<<<<<<< HEAD
       "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2022-06-02-preview",
+=======
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2022-06-01",
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +14,13 @@
         "Connection": "keep-alive",
         "Content-Length": "39",
         "Content-Type": "application/json",
+<<<<<<< HEAD
         "User-Agent": "azsdk-js-arm-containerservice/17.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
         "x-ms-client-request-id": "7294ecb6-99dd-4997-9253-5b7d5902a3f7"
+=======
+        "User-Agent": "azsdk-js-arm-containerservice/17.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "98ecf9be-343c-4bc1-a9b9-cea85a244bc4"
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
       },
       "RequestBody": {
         "tags": {
@@ -24,7 +33,11 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
+<<<<<<< HEAD
         "Date": "Fri, 22 Jul 2022 07:01:24 GMT",
+=======
+        "Date": "Fri, 22 Jul 2022 08:20:52 GMT",
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -32,10 +45,17 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
+<<<<<<< HEAD
         "x-ms-correlation-request-id": "0f5efbd4-b118-44a2-ad96-14836107b1f7",
         "x-ms-ratelimit-remaining-subscription-writes": "1198",
         "x-ms-request-id": "6a037287-6eb1-498e-8c09-7327410f98dd",
         "x-ms-routing-request-id": "SOUTHEASTASIA:20220722T070125Z:0f5efbd4-b118-44a2-ad96-14836107b1f7"
+=======
+        "x-ms-correlation-request-id": "b755fc51-1565-4c76-b899-b9174febb483",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "dc2186d7-dca8-4d6e-9c2d-a0e77f50040e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220722T082053Z:b755fc51-1565-4c76-b899-b9174febb483"
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
@@ -54,8 +74,13 @@
           "kubernetesVersion": "1.22.11",
           "currentKubernetesVersion": "1.22.11",
           "dnsPrefix": "aksjssdk",
+<<<<<<< HEAD
           "fqdn": "aksjssdk-06a83d77.hcp.eastus.azmk8s.io",
           "azurePortalFQDN": "aksjssdk-06a83d77.portal.hcp.eastus.azmk8s.io",
+=======
+          "fqdn": "aksjssdk-bd1ed6d6.hcp.eastus.azmk8s.io",
+          "azurePortalFQDN": "aksjssdk-bd1ed6d6.portal.hcp.eastus.azmk8s.io",
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
           "agentPoolProfiles": [
             {
               "name": "aksagent",
@@ -74,6 +99,10 @@
                 "code": "Running"
               },
               "orchestratorVersion": "1.22.11",
+<<<<<<< HEAD
+=======
+              "currentOrchestratorVersion": "1.22.11",
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
               "mode": "System",
               "osType": "Linux",
               "osSKU": "Ubuntu",
@@ -95,7 +124,11 @@
               },
               "effectiveOutboundIPs": [
                 {
+<<<<<<< HEAD
                   "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/9ea5e030-c882-484e-a0a1-a6718a0a1634"
+=======
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/0027f0b7-49f5-4fb6-ab45-7e2e5b4356d2"
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
                 }
               ]
             },
@@ -118,8 +151,7 @@
           "securityProfile": {},
           "storageProfile": {
             "diskCSIDriver": {
-              "enabled": true,
-              "version": "v1"
+              "enabled": true
             },
             "fileCSIDriver": {
               "enabled": true
@@ -127,9 +159,6 @@
             "snapshotController": {
               "enabled": true
             }
-          },
-          "oidcIssuerProfile": {
-            "enabled": false
           }
         },
         "sku": {

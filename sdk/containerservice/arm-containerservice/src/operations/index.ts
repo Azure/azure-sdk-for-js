@@ -14,8 +14,11 @@ export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./resolvePrivateLinkServiceId";
 export * from "./snapshots";
+<<<<<<< HEAD
 export * from "./managedClusterSnapshots";
 export * from "./trustedAccessRoles";
 export * from "./trustedAccessRoleBindings";
 export * from "./fleets";
 export * from "./fleetMembers";
+=======
+>>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
