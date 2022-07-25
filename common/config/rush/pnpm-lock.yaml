@@ -13138,7 +13138,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-+gN7yekNht1JSio7WFXeohAIN0CIf7QE/TgPc/rVb2ZQXqFIUFpVUup6GBF/xgMNukcdTalJptD7IaQ07KApUA==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-LTniloBd1fpJq8rlQkSiD3GDWCcoVJS+9w6MK/y4KfoBuri2TLkQHLPb95mtbTXlx5CgYDursM+Q0s7+qh98zA==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -13149,6 +13149,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13156,12 +13158,10 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
