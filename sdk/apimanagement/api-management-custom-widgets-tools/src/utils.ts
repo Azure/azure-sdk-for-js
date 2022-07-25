@@ -140,11 +140,9 @@ export type Secrets = { token: string; userId: string };
  *
  * @param targetModule - is the function invoke from the main "app" window or the admin "editor"?
  */
-export async function askForSecrets(
-  targetModule: TargetModule,
-): Promise<Secrets> {
+export async function askForSecrets(targetModule: TargetModule): Promise<Secrets> {
   return new Promise((resolve, reject) => {
-    const { origin: targetOrigin, instanceId, environment }: PortalData = getEditorData({})
+    const { origin: targetOrigin, instanceId, environment }: PortalData = getEditorData({});
     self.addEventListener("message", ({ data, origin }) => {
       if (origin !== targetOrigin || !(APIM_ASK_FOR_SECRETS_MESSAGE_KEY in data)) return;
 
