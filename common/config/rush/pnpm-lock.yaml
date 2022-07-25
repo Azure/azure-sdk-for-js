@@ -25,6 +25,7 @@ specifiers:
   '@rush-temp/arm-attestation': file:./projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:./projects/arm-authorization-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-automation': file:./projects/arm-automation.tgz
   '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
@@ -320,6 +321,7 @@ dependencies:
   '@rush-temp/arm-attestation': file:projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-automation': file:projects/arm-automation.tgz
   '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
@@ -9990,6 +9992,32 @@ packages:
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.2
+    dev: false
+
+  file:projects/arm-automation.tgz:
+    resolution: {integrity: sha512-njBdIUeU3jo8NvdkAh3ZKffk1mhdU8SSDpZXndTS0iPE4x+kWvke4lJgByQ+FBO+rWnRRzmfU/3kKKQMAtWBmQ==, tarball: file:projects/arm-automation.tgz}
+    name: '@rush-temp/arm-automation'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.16.2
+    transitivePeerDependencies:
+      - '@types/node'
     dev: false
 
   file:projects/arm-avs.tgz:
