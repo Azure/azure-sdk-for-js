@@ -109,9 +109,9 @@ export const promptWidgetConfig = (partial: Partial<WidgetConfig>): Promise<Widg
         type: "list",
         message: fieldIdToName.technology,
         choices: [
-          { name: "TypeScript", value: "typescript" },
           { name: "React", value: "react" },
           { name: "Vue", value: "vue" },
+          { name: "TypeScript", value: "typescript" },
         ],
       },
     ],
