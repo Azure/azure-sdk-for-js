@@ -6,12 +6,24 @@
   <title>{{displayName}}</title>
   <link rel="stylesheet" href="./styles/app.scss">
   <script type="module">
+    import {askForSecrets} from "@azure/api-management-custom-widgets-tools"
     import App from "./index"
 
-    window.appInstance = new App()
+    askForSecrets("app")
+      .then(secrets => {
+        const appInstance = new App(secrets)
+        window.appInstance = appInstance
+        return appInstance.request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${secrets.userId}`)
+      })
+      .then(e => e.json())
+      .then(({properties}) => {
+        if (properties.email) document.getElementById("email").value = properties.email
+      })
+      .catch(e => console.error("Failed to retrieve secrets from the Developer Portal. The app might not work as expected!", e))
+      .finally(() => document.getElementById("loading").removeAttribute("id"))
   </script>
 </head>
-<body class="height-fill">
+<body id="loading" class="height-fill">
 <form id="form" class="flex-columns-container height-fill">
   <div class="form-group">
     <label id="editorValues.label1" for="email" class="form-label"></label>
