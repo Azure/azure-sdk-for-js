@@ -4,13 +4,12 @@
 import { PerfTest, PerfOptionDictionary, getEnvVar } from "@azure/test-utils-perf";
 import {
   AzureKeyCredential,
-  TextAnalysisClient,
-  LanguageDetectionAction,
-  AnalyzeActionNames,
+  DetectLanguageOptions,
+  TextAnalyticsClient,
 } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
-interface DetectLanguagePerfTestOptions extends LanguageDetectionAction {
+interface DetectLanguagePerfTestOptions extends DetectLanguageOptions {
   "documents-count": number;
 }
 
@@ -24,7 +23,7 @@ export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> 
       defaultValue: 1000,
     },
   };
-  client: TextAnalysisClient;
+  client: TextAnalyticsClient;
   docs: string[] = [];
 
   constructor() {
@@ -36,9 +35,9 @@ export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> 
     const endpoint = getEnvVar("ENDPOINT");
 
     try {
-      this.client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
+      this.client = new TextAnalyticsClient(endpoint, new DefaultAzureCredential());
     } catch (e) {
-      this.client = new TextAnalysisClient(
+      this.client = new TextAnalyticsClient(
         endpoint,
         new AzureKeyCredential(process.env.LANGUAGE_API_KEY ?? "")
       );
@@ -46,6 +45,6 @@ export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> 
   }
 
   async run(): Promise<void> {
-    await this.client.analyze(AnalyzeActionNames.LanguageDetection, this.docs, "en");
+    await this.client.detectLanguage(this.docs, "en");
   }
 }

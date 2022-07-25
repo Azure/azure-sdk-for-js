@@ -137,7 +137,7 @@ export class CommunicationRelayClient {
       return await this.client.communicationNetworkTraversal.issueRelayConfiguration(
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

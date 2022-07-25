@@ -1,68 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AnalyzeBatchResult,
-  KnownTextAnalysisErrorCode,
-  PagedAnalyzeBatchResult,
-  TextAnalysisErrorResult,
-  TextAnalysisSuccessResult,
-} from "../../../src/";
-import { assert } from "@azure/test-utils";
 import { isRestError } from "@azure/core-rest-pipeline";
+import { assert } from "chai";
 
-export function assertAllSuccess<TSuccess extends TextAnalysisSuccessResult>(
-  results: (TextAnalysisErrorResult | TSuccess)[]
+import { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "../../../src/";
+
+export function assertAllSuccess<TSuccess extends TextAnalyticsSuccessResult>(
+  results: (TextAnalyticsErrorResult | TSuccess)[]
 ): void {
   for (const result of results) {
     assert.ok(isSuccess(result));
   }
 }
 
-export function isSuccess<TSuccess extends TextAnalysisSuccessResult>(
-  res: TextAnalysisErrorResult | TSuccess
+export function isSuccess<TSuccess extends TextAnalyticsSuccessResult>(
+  res: TextAnalyticsErrorResult | TSuccess
 ): res is TSuccess {
   return res.error === undefined;
-}
-
-export function getSuccRes<TSuccess extends TextAnalysisSuccessResult>(
-  res: TextAnalysisErrorResult | TSuccess
-): TSuccess {
-  if (!res.error) {
-    return res;
-  } else {
-    throw new Error(`Unexpected error: ${JSON.stringify(res.error)}`);
-  }
-}
-
-export async function assertActionResults(
-  actions: PagedAnalyzeBatchResult,
-  expectations: AnalyzeBatchResult[],
-  options: {
-    maxPageSize?: number;
-    excludedAdditionalProps?: string[];
-  } = {}
-): Promise<void> {
-  const { maxPageSize, excludedAdditionalProps = [] } = options;
-  let actionIndex = 0;
-  for await (const page of actions.byPage(maxPageSize !== undefined ? { maxPageSize } : {})) {
-    for (const action of page) {
-      assert.deepEqualExcludingEvery(action, expectations[actionIndex++], [
-        "completedOn",
-        "modelVersion",
-        "deploymentName",
-        "projectName",
-        ...excludedAdditionalProps,
-      ] as any);
-    }
-  }
 }
 
 export async function assertRestError(
   error: Promise<unknown>,
   options: {
     statusCode?: number;
-    code?: keyof typeof KnownTextAnalysisErrorCode;
+    code?: string;
     messagePattern?: RegExp;
   } = {}
 ): Promise<void> {
