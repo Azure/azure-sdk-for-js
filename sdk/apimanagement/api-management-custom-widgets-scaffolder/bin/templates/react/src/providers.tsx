@@ -18,7 +18,7 @@ export const SecretsProvider: React.FC<{children?: React.ReactNode; targetModule
   const editorData = useEditorData()
 
   useMemo(() => {
-    askForSecrets(targetModule, editorData)
+    askForSecrets(targetModule)
       .then(value => setSecrets(value))
       .catch(console.error)
   }, [editorData.origin, editorData.instanceId])

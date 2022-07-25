@@ -18,7 +18,7 @@ class app {
       if (element) element.innerText = value
     })
 
-    askForSecrets("app", this.editorData)
+    askForSecrets("app")
       .then(secrets => this.secrets = secrets)
       .catch(e => console.error("Failed to retrieve secrets from the Developer Portal. The app might not work as expected!", e))
   }
