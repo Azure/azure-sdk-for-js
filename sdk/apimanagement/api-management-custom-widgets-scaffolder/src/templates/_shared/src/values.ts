@@ -1,13 +1,13 @@
-export type TValues = {
+export type Values = {
   label1: string
   label2: string
-  label3: string
+  placeholder: string
   actionUrl: string
 }
 
-export const valuesDefault: TValues = {
+export const valuesDefault: Readonly<Values> = Object.freeze({
   label1: "Email",
   label2: "Message",
-  label3: "Send",
+  placeholder: "Write your message here.",
   actionUrl: "https://httpbin.org/post",
-}
+})

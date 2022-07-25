@@ -11,8 +11,8 @@
       <input id="actionUrl" type="text" class="form-control" v-model="label2" />
     </div>
     <div class="form-group">
-      <label for="actionUrl" class="form-label">Label 3</label>
-      <input id="actionUrl" type="text" class="form-control" v-model="label3" />
+      <label for="actionUrl" class="form-label">Placeholder</label>
+      <input id="actionUrl" type="text" class="form-control" v-model="placeholder" />
     </div>
     <div class="form-group">
       <label for="actionUrl" class="form-label">Action URL</label>
@@ -26,14 +26,7 @@ import {buildOnChange, getEditorData} from "@azure/api-management-custom-widgets
 import {valuesDefault} from "../../values"
 
 export default {
-  data: () => {
-    return {
-      label1: "Email",
-      label2: "Message",
-      label3: "Submit",
-      actionUrl: "https://httpbin.org/post",
-    }
-  },
+  data: () => ({...valuesDefault}),
 
   async mounted(): Promise<void> {
     this.onChange = buildOnChange(valuesDefault)
@@ -42,7 +35,7 @@ export default {
 
     this.label1 = editorData.values.label1
     this.label2 = editorData.values.label2
-    this.label3 = editorData.values.label3
+    this.placeholder = editorData.values.placeholder
     this.actionUrl = editorData.values.actionUrl
   },
 
@@ -53,8 +46,8 @@ export default {
     label2(newValue: string): void {
       this.onChange({label2: newValue})
     },
-    label3(newValue: string): void {
-      this.onChange({label3: newValue})
+    placeholder(newValue: string): void {
+      this.onChange({placeholder: newValue})
     },
     actionUrl(newValue: string): void {
       this.onChange({actionUrl: newValue})
