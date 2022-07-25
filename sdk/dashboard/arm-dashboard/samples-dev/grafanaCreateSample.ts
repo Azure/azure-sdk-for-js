@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update a workspace for Grafana resource. This API is idempotent, so user can either create a new grafana or update an existing grafana.
  *
  * @summary Create or update a workspace for Grafana resource. This API is idempotent, so user can either create a new grafana or update an existing grafana.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_Create.json
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Create.json
  */
 async function grafanaCreate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -27,7 +27,12 @@ async function grafanaCreate() {
   const requestBodyParameters: ManagedGrafana = {
     identity: { type: "SystemAssigned" },
     location: "West US",
-    properties: { provisioningState: "Accepted", zoneRedundancy: "Enabled" },
+    properties: {
+      apiKey: "Enabled",
+      deterministicOutboundIP: "Enabled",
+      publicNetworkAccess: "Enabled",
+      zoneRedundancy: "Enabled"
+    },
     sku: { name: "Standard" },
     tags: { environment: "Dev" }
   };

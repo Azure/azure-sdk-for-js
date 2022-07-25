@@ -12,19 +12,24 @@ import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Get the properties of a specific workspace for Grafana resource.
+ * This sample demonstrates how to Manual approve private endpoint connection
  *
- * @summary Get the properties of a specific workspace for Grafana resource.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_Get.json
+ * @summary Manual approve private endpoint connection
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateEndpointConnections_Approve.json
  */
-async function grafanaGet() {
+async function privateEndpointConnectionsApprove() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const workspaceName = "myWorkspace";
+  const privateEndpointConnectionName = "myConnection";
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
-  const result = await client.grafana.get(resourceGroupName, workspaceName);
+  const result = await client.privateEndpointConnections.beginApproveAndWait(
+    resourceGroupName,
+    workspaceName,
+    privateEndpointConnectionName
+  );
   console.log(result);
 }
 
-grafanaGet().catch(console.error);
+privateEndpointConnectionsApprove().catch(console.error);

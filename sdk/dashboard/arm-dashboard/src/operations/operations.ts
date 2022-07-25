@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DashboardManagementClient } from "../dashboardManagementClient";
 import {
-  OperationResult,
+  Operation,
   OperationsListNextOptionalParams,
   OperationsListOptionalParams,
   OperationsListResponse,
@@ -39,7 +39,7 @@ export class OperationsImpl implements Operations {
    */
   public list(
     options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<OperationResult> {
+  ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -56,7 +56,7 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingPage(
     options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<OperationResult[]> {
+  ): AsyncIterableIterator<Operation[]> {
     let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -69,7 +69,7 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingAll(
     options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<OperationResult> {
+  ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }

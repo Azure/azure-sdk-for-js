@@ -12,20 +12,25 @@ import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to List all resources of workspaces for Grafana under the specified subscription.
+ * This sample demonstrates how to Get private endpoint connection
  *
- * @summary List all resources of workspaces for Grafana under the specified subscription.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_List.json
+ * @summary Get private endpoint connection
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateEndpointConnections_List.json
  */
-async function grafanaList() {
+async function privateEndpointConnectionsList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = "myResourceGroup";
+  const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.grafana.list()) {
+  for await (let item of client.privateEndpointConnections.list(
+    resourceGroupName,
+    workspaceName
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-grafanaList().catch(console.error);
+privateEndpointConnectionsList().catch(console.error);

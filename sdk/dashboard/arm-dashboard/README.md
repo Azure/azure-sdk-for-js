@@ -6,7 +6,7 @@ The Microsoft.Dashboard Rest API spec.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dashboard/arm-dashboard) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-dashboard) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-dashboard?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-dashboard) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

@@ -18,13 +18,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update a workspace for Grafana resource.
  *
  * @summary Update a workspace for Grafana resource.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_Update.json
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Update.json
  */
 async function grafanaUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const workspaceName = "myWorkspace";
   const requestBodyParameters: ManagedGrafanaUpdateParameters = {
+    properties: { apiKey: "Enabled", deterministicOutboundIP: "Enabled" },
     tags: { environment: "Dev 2" }
   };
   const credential = new DefaultAzureCredential();
