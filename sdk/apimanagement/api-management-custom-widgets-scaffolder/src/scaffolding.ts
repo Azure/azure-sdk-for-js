@@ -12,7 +12,6 @@ export const OVERRIDE_DEFAULT_PORT = 3000;
 
 /** All supported technologies to scaffold a widget in. */
 export type ScaffoldTech = "typescript" | "react" | "vue";
-// export type ScaffoldSourceControl = "git" | "azure" | "none" | null;
 
 /** List of all supported technologies to scaffold a widget in. */
 export const TECHNOLOGIES: ScaffoldTech[] = ["typescript", "react", "vue"];
@@ -23,7 +22,6 @@ export interface WidgetConfig {
   displayName: string;
   /** Technology to use to scaffold the widget. */
   technology: ScaffoldTech;
-  // control?: TScaffoldSourceControl;
   /** Optional URL for a custom icon, which will be displayed in DevPortal widget list. */
   iconUrl?: string;
 }
