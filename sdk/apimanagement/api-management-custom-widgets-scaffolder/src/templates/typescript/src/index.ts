@@ -1,33 +1,34 @@
-import {askForSecrets, getEditorData, Secrets} from "@azure/api-management-custom-widgets-tools"
+import {askForSecrets, getEditorValues, Secrets} from "@azure/api-management-custom-widgets-tools"
 import {valuesDefault} from "./values"
 
-class app {
-  private readonly editorData
+class App {
+  public readonly editorValues
   private secrets: Secrets | undefined
 
   constructor() {
-    this.editorData = getEditorData(valuesDefault)
+    this.editorValues = getEditorValues(valuesDefault)
 
-    Object.entries(this.editorData).forEach(([key, value]) => {
-      const element = document.getElementById(key)
-      if (element) element.innerText = (value ?? "").toString()
+    Object.entries(this.editorValues).forEach(([key, value]) => {
+      const element = document.getElementById(`editorValues.${key}`)
+      if (element) element.innerText = value
     })
 
-    Object.entries(this.editorData.values).forEach(([key, value]) => {
-      const element = document.getElementById(key)
-      if (element) element.innerText = value
+    document.getElementById("message")?.setAttribute("placeholder", this.editorValues.placeholder)
+
+    document.getElementById("form")?.addEventListener("submit", event => {
+      event.preventDefault()
+
+      const data = new FormData(event.target as HTMLFormElement);
+      const xhr = new XMLHttpRequest()
+      xhr.open('POST', '/');
+      xhr.onload = console.log
+      // xhr.send(data);
     })
 
     askForSecrets("app")
       .then(secrets => this.secrets = secrets)
       .catch(e => console.error("Failed to retrieve secrets from the Developer Portal. The app might not work as expected!", e))
   }
-
-  public async sendData(data: Record<string, unknown>) {
-    if (!this.secrets) throw new Error()
-
-    console.log({data, authorization: this.secrets})
-  }
 }
 
-export default app
+export default App
