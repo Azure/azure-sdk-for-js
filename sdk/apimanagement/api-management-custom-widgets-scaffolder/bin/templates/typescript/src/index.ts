@@ -1,11 +1,19 @@
-import {askForSecrets, getEditorValues, Secrets} from "@azure/api-management-custom-widgets-tools"
+import {getEditorValues, Secrets} from "@azure/api-management-custom-widgets-tools"
 import {valuesDefault} from "./values"
 
 class App {
   public readonly editorValues
-  private secrets: Secrets | undefined
+  public request: ((url: string) => Promise<Response>)
 
-  constructor() {
+  constructor(
+    public readonly secrets: Secrets,
+  ) {
+    this.request = url =>
+      fetch(
+        `${secrets.managementApiUrl}${url}?api-version=${secrets.apiVersion}`,
+        {headers: {Authorization: secrets.token}},
+      )
+
     this.editorValues = getEditorValues(valuesDefault)
 
     Object.entries(this.editorValues).forEach(([key, value]) => {
@@ -18,16 +26,15 @@ class App {
     document.getElementById("form")?.addEventListener("submit", event => {
       event.preventDefault()
 
-      const data = new FormData(event.target as HTMLFormElement);
+      const data = new FormData(event.target as HTMLFormElement)
+      for (const value of data) {
+        console.log(value)
+      }
       const xhr = new XMLHttpRequest()
-      xhr.open('POST', '/');
+      xhr.open("POST", "/")
       xhr.onload = console.log
       // xhr.send(data);
     })
-
-    askForSecrets("app")
-      .then(secrets => this.secrets = secrets)
-      .catch(e => console.error("Failed to retrieve secrets from the Developer Portal. The app might not work as expected!", e))
   }
 }
 

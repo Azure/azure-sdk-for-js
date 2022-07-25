@@ -66,3 +66,18 @@ textarea {
 .flex-grow {
   flex-grow: 1;
 }
+
+#loading {
+  position: relative;
+
+  &:after {
+    content: "Loading...";
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    text-align: center;
+  }
+}
+

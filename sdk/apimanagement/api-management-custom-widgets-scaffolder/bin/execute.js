@@ -30,7 +30,6 @@ const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
  * Default port for running local dev server on.
  */
 const OVERRIDE_DEFAULT_PORT = 3000;
-// export type ScaffoldSourceControl = "git" | "azure" | "none" | null;
 /** List of all supported technologies to scaffold a widget in. */
 const TECHNOLOGIES = ["typescript", "react", "vue"];
 /**
@@ -122,9 +121,9 @@ const promptWidgetConfig = (partial) => inquirer__default["default"].prompt([
         type: "list",
         message: fieldIdToName.technology,
         choices: [
-            { name: "TypeScript", value: "typescript" },
             { name: "React", value: "react" },
             { name: "Vue", value: "vue" },
+            { name: "TypeScript", value: "typescript" },
         ],
     },
 ], partial);
