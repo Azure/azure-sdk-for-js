@@ -8,6 +8,6 @@ export type Values = {
 export const valuesDefault: Readonly<Values> = Object.freeze({
   label1: "Email",
   label2: "Message",
-  placeholder: "Write your message here.",
+  placeholder: "Write your message here",
   actionUrl: "https://httpbin.org/post",
 })
