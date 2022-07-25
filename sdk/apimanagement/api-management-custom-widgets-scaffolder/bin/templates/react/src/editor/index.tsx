@@ -1,14 +1,14 @@
 import {useEditorValues, useOnChange} from "../hooks"
 import {Values} from "../values"
 
-function InputField({valueKey}: {valueKey: keyof Values}) {
+function InputField({valueKey, title}: {valueKey: keyof Values, title?: string}) {
   const values = useEditorValues()
   const onChange = useOnChange()
 
   return (
     <div className="form-group">
       <label className="form-label" htmlFor={valueKey}>
-        {valueKey}
+        {title ?? valueKey}
       </label>
       <div className="input-group">
         <input
@@ -26,10 +26,12 @@ function InputField({valueKey}: {valueKey: keyof Values}) {
 }
 
 const Editor = () => (
-  <fieldset className="form flex flex-item flex-item-grow no-overflow">
+  <fieldset className="form">
     <div className="form-group">
-      <InputField valueKey="field1" />
-      <InputField valueKey="field2" />
+      <InputField valueKey="label1" title="Label 1" />
+      <InputField valueKey="label2" title="Label 2" />
+      <InputField valueKey="placeholder" title="Placeholder" />
+      <InputField valueKey="actionUrl" title="Action URL" />
     </div>
   </fieldset>
 )

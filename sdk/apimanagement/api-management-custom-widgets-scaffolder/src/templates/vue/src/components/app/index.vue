@@ -7,7 +7,7 @@
       <input id="email" type="email" class="form-control" name="email" placeholder="example@contoso.com" />
     </div>
     <div class="form-group height-fill flex-columns-container">
-      <label for="email" class="form-label">{{ label2 }}</label>
+      <label for="message" class="form-label">{{ label2 }}</label>
       <textarea id="message" class="form-control flex-grow" name="message" :placeholder="placeholder"></textarea>
     </div>
     <div class="form-group">

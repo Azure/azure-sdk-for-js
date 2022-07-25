@@ -1,8 +1,7 @@
 import {StrictMode} from "react"
 import {createRoot} from "react-dom/client"
 
-import "./styles/shared.css"
-import "./styles/app.css"
+import "./styles/app.scss"
 import App from "./app"
 import {EditorDataProvider, SecretsProvider} from "./providers"
 
