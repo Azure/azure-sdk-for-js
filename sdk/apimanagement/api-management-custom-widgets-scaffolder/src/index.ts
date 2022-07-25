@@ -17,6 +17,5 @@ export type {
   WidgetConfig as CustomWidgetCommonConfig,
   DeploymentConfig,
   Options,
-  // ScaffoldSourceControl,
   ScaffoldTech,
 } from "./scaffolding";
