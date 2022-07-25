@@ -139,15 +139,12 @@ export type Secrets = { token: string; userId: string };
  * Request secrets - token & userId, from the Dev portal parent window.
  *
  * @param targetModule - is the function invoke from the main "app" window or the admin "editor"?
- * @param targetOrigin - web content's origin (URL) of your Dev Portal to send changes to
- * @param instanceId - ID of this particular instance of the widget
- * @param environment - what environment is it running on
  */
 export async function askForSecrets(
   targetModule: TargetModule,
-  { origin: targetOrigin, instanceId, environment }: PortalData
 ): Promise<Secrets> {
   return new Promise((resolve, reject) => {
+    const { origin: targetOrigin, instanceId, environment }: PortalData = getEditorData({})
     self.addEventListener("message", ({ data, origin }) => {
       if (origin !== targetOrigin || !(APIM_ASK_FOR_SECRETS_MESSAGE_KEY in data)) return;
 
