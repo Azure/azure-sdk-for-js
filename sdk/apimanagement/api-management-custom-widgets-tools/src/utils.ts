@@ -134,7 +134,12 @@ export type TargetModule = "app" | "editor";
 /**
  * Secrets needed for communication with Dev Portal back-end
  */
-export type Secrets = { token: string; userId: string };
+export type Secrets = {
+  token: string;
+  userId: string;
+  apiVersion: string;
+  managementApiUrl: string;
+};
 /**
  * Request secrets - token & userId, from the Dev portal parent window.
  *
