@@ -17,7 +17,7 @@ export const APIM_EDITOR_DATA_KEY = "editorData";
 export const APIM_ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
 
 // @public
-export function askForSecrets(targetModule: TargetModule, { origin: targetOrigin, instanceId, environment }: PortalData): Promise<Secrets>;
+export function askForSecrets(targetModule: TargetModule): Promise<Secrets>;
 
 // @public
 export const BLOB_CONFIGS_FOLDER = "configs";
@@ -71,6 +71,8 @@ export interface PortalData {
 export type Secrets = {
     token: string;
     userId: string;
+    apiVersion: string;
+    managementApiUrl: string;
 };
 
 // @public
