@@ -3890,7 +3890,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220724
+      typescript: 4.8.0-dev.20220725
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8638,8 +8638,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220724:
-    resolution: {integrity: sha512-EMuHZ5c4rsg+iErlrfX1VLUv40hQ4eRkT6KkXQ6IpO7xsVxOjkVRpCTJS68Lz3LZPFveZzRKWW0pWZiuQK2VQg==}
+  /typescript/4.8.0-dev.20220725:
+    resolution: {integrity: sha512-FSpIv4aahmuygcFmwWV1iWs5mK15cwFrQIz/EKHQCvZBjWh8u42FUqqL8PPmcnRhXfXCR/N123hhFYD2krMEsg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10578,7 +10578,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-q79AXuF04syQ0GPF7NBiIf3U2v/qZWTmeUyKnBIfKzzy03x5njnwASfhnp75J5RVgJAPj0DwPBUwF+Ug6P/DcQ==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-QCY5oq8bjEDF2D43/7pN2p0865/lg8asI6JlDTaEVRB00wFXICQAfyFcrbBD9cp2YbymlFiw/X1HCjBclkpGkA==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -10597,7 +10597,7 @@ packages:
       rollup: 2.76.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
@@ -13152,7 +13152,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-+gN7yekNht1JSio7WFXeohAIN0CIf7QE/TgPc/rVb2ZQXqFIUFpVUup6GBF/xgMNukcdTalJptD7IaQ07KApUA==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-LTniloBd1fpJq8rlQkSiD3GDWCcoVJS+9w6MK/y4KfoBuri2TLkQHLPb95mtbTXlx5CgYDursM+Q0s7+qh98zA==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -13163,6 +13163,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13170,12 +13172,10 @@ packages:
       rollup: 2.76.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
