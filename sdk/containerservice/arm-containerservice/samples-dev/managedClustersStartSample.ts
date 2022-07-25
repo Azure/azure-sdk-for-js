@@ -15,11 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
  *
  * @summary See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
-<<<<<<< HEAD
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/ManagedClustersStart.json
-=======
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-06-01/examples/ManagedClustersStart.json
->>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
  */
 async function startManagedCluster() {
   const subscriptionId = "subid1";

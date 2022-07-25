@@ -18,11 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary Creates or updates a maintenance configuration in the specified managed cluster.
-<<<<<<< HEAD
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/MaintenanceConfigurationsCreate_Update.json
-=======
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-06-01/examples/MaintenanceConfigurationsCreate_Update.json
->>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
  */
 async function createOrUpdateMaintenanceConfiguration() {
   const subscriptionId = "subid1";

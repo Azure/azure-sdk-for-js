@@ -15,11 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint.
  *
  * @summary Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint.
-<<<<<<< HEAD
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/OutboundNetworkDependenciesEndpointsList.json
-=======
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-06-01/examples/OutboundNetworkDependenciesEndpointsList.json
->>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
  */
 async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
   const subscriptionId = "subid1";

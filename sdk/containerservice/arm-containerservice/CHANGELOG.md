@@ -1,7 +1,6 @@
 # Release History
     
-<<<<<<< HEAD
-## 17.0.0-beta.2 (2022-07-22)
+## 17.1.0-beta.1 (2022-07-25)
     
 **Features**
 
@@ -12,9 +11,7 @@
   - Added operation group TrustedAccessRoles
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeys
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait
-  - Added Interface AgentPool
   - Added Interface AzureEntityResource
-  - Added Interface AzureKeyVaultKms
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
@@ -40,26 +37,10 @@
   - Added Interface FleetsListNextOptionalParams
   - Added Interface FleetsListOptionalParams
   - Added Interface FleetsUpdateOptionalParams
-=======
-## 17.0.0 (2022-07-22)
-    
-**Features**
-
-  - Added Interface AgentPool
-  - Added Interface AzureKeyVaultKms
->>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
-  - Added Interface MaintenanceConfiguration
-  - Added Interface ManagedCluster
-  - Added Interface ManagedClusterAccessProfile
-  - Added Interface ManagedClusterAddonProfileIdentity
-  - Added Interface ManagedClusterAgentPoolProfile
-<<<<<<< HEAD
   - Added Interface ManagedClusterIngressProfile
   - Added Interface ManagedClusterIngressProfileWebAppRouting
   - Added Interface ManagedClusterOidcIssuerProfile
   - Added Interface ManagedClusterPropertiesForSnapshot
-  - Added Interface ManagedClusterSecurityProfileDefender
-  - Added Interface ManagedClusterSecurityProfileDefenderSecurityMonitoring
   - Added Interface ManagedClusterSecurityProfileNodeRestriction
   - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
   - Added Interface ManagedClusterSnapshot
@@ -77,8 +58,6 @@
   - Added Interface ManagedClusterWorkloadAutoScalerProfile
   - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
   - Added Interface NetworkProfileForSnapshot
-  - Added Interface Snapshot
-  - Added Interface TrackedResource
   - Added Interface TrustedAccessRole
   - Added Interface TrustedAccessRoleBinding
   - Added Interface TrustedAccessRoleBindingListResult
@@ -105,7 +84,6 @@
   - Added Type Alias FleetsListNextResponse
   - Added Type Alias FleetsListResponse
   - Added Type Alias FleetsUpdateResponse
-  - Added Type Alias KeyVaultNetworkAccessTypes
   - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
   - Added Type Alias ManagedClusterSnapshotsGetResponse
   - Added Type Alias ManagedClusterSnapshotsListByResourceGroupNextResponse
@@ -121,21 +99,23 @@
   - Added Type Alias TrustedAccessRoleBindingsListResponse
   - Added Type Alias TrustedAccessRolesListNextResponse
   - Added Type Alias TrustedAccessRolesListResponse
+  - Interface AgentPool has a new optional parameter capacityReservationGroupID
+  - Interface AgentPool has a new optional parameter enableCustomCATrust
+  - Interface AgentPool has a new optional parameter messageOfTheDay
   - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
+  - Interface ManagedCluster has a new optional parameter creationData
+  - Interface ManagedCluster has a new optional parameter enableNamespaceResources
+  - Interface ManagedCluster has a new optional parameter ingressProfile
+  - Interface ManagedCluster has a new optional parameter oidcIssuerProfile
+  - Interface ManagedCluster has a new optional parameter workloadAutoScalerProfile
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
-=======
-  - Added Interface ManagedClusterSecurityProfileDefender
-  - Added Interface ManagedClusterSecurityProfileDefenderSecurityMonitoring
-  - Added Interface Snapshot
-  - Added Interface TrackedResource
-  - Added Type Alias KeyVaultNetworkAccessTypes
->>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
-  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter hostGroupID
-  - Interface ManagedClusterSecurityProfile has a new optional parameter azureKeyVaultKms
-  - Interface ManagedClusterSecurityProfile has a new optional parameter defender
-<<<<<<< HEAD
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
+  - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter enableVnetIntegration
+  - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId
+  - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
+  - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
   - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
   - Interface ManagedClusterStorageProfile has a new optional parameter blobCSIDriver
@@ -147,8 +127,32 @@
   - Class ContainerServiceClient has a new parameter trustedAccessRoles
   - Added Enum KnownFleetMemberProvisioningState
   - Added Enum KnownFleetProvisioningState
-=======
->>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
+  - Added Enum KnownNetworkPluginMode
+  - Added Enum KnownTrustedAccessRoleBindingProvisioningState
+  - Enum KnownOssku has a new value Windows2019
+  - Enum KnownOssku has a new value Windows2022
+  - Enum KnownSnapshotType has a new value ManagedCluster
+    
+    
+## 17.0.0 (2022-07-22)
+    
+**Features**
+
+  - Added Interface AgentPool
+  - Added Interface AzureKeyVaultKms
+  - Added Interface MaintenanceConfiguration
+  - Added Interface ManagedCluster
+  - Added Interface ManagedClusterAccessProfile
+  - Added Interface ManagedClusterAddonProfileIdentity
+  - Added Interface ManagedClusterAgentPoolProfile
+  - Added Interface ManagedClusterSecurityProfileDefender
+  - Added Interface ManagedClusterSecurityProfileDefenderSecurityMonitoring
+  - Added Interface Snapshot
+  - Added Interface TrackedResource
+  - Added Type Alias KeyVaultNetworkAccessTypes
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter hostGroupID
+  - Interface ManagedClusterSecurityProfile has a new optional parameter azureKeyVaultKms
+  - Interface ManagedClusterSecurityProfile has a new optional parameter defender
   - Added Enum KnownKeyVaultNetworkAccessTypes
   - Enum KnownNetworkPlugin has a new value None
 

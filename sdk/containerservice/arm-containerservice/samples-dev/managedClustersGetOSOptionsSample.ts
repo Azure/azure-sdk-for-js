@@ -15,11 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets supported OS options in the specified subscription.
  *
  * @summary Gets supported OS options in the specified subscription.
-<<<<<<< HEAD
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/ContainerServiceGetOSOptions.json
-=======
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-06-01/examples/ContainerServiceGetOSOptions.json
->>>>>>> 5b97767c32c1d69d457fbcea11346c10b8cb6a42
  */
 async function getContainerServiceOSOptions() {
   const subscriptionId = "subid1";
