@@ -85,7 +85,11 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
+  // On playback mode, the tests happen too fast for the timeout to work - in browsers
   it("can create a certificate with requestOptions timeout", async function (this: Context) {
+    if (!isNode && isPlaybackMode()) {
+      this.skip();
+    }
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await assertThrowsAbortError(async () => {
@@ -179,7 +183,12 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(result.properties.enabled, false);
   });
 
+  // On playback mode, the tests happen too fast for the timeout to work
   it("can update certificate with requestOptions timeout", async function (this: Context) {
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const poller = await client.beginCreateCertificate(
@@ -294,7 +303,12 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(base64CER, base64PublicCertificate);
   });
 
+  // On playback mode, the tests happen too fast for the timeout to work
   it("can get a certificate with requestOptions timeout", async function (this: Context) {
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -365,7 +379,12 @@ describe("Certificates client - create, read, update and delete", () => {
     await poller.pollUntilDone();
   });
 
+  // On playback mode, the tests happen too fast for the timeout to work
   it("can delete a certificate with requestOptions timeout", async function (this: Context) {
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
