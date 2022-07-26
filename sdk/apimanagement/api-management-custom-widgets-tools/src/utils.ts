@@ -36,11 +36,10 @@ export interface PortalData {
 /** JSON object with all the data you'll receive from the Dev Portal */
 export interface EditorData<Values extends ValuesCommon> extends PortalData {
   /** values you've set in the admin editor window */
-  values: Values;
+  values: Partial<Values>;
 }
 
-export function getEditorDataPure<Values extends ValuesCommon>(
-  valuesDefault: Values,
+function parseWidgetData<Values extends ValuesCommon>(
   urlSearchParams: URLSearchParams
 ): EditorData<Values> {
   try {
@@ -53,42 +52,65 @@ export function getEditorDataPure<Values extends ValuesCommon>(
         "Could not get 'origin' from the search params of the URL:\n" + self.location.href
       );
     }
-    return { ...urlEditorParams, values: { ...valuesDefault, ...urlEditorParams.values } };
+    return urlEditorParams;
   } catch (e) {
     console.error(
       `Could not get '${APIM_EDITOR_DATA_KEY}' from the search params of the URL:\n` +
         self.location,
       e
     );
-    return { values: valuesDefault, environment: "error", origin: "error", instanceId: "error" };
+    return { values: {}, environment: "error", origin: "error", instanceId: "error" };
   }
 }
 
-/**
- * Function to get all editor data
- *
- * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
- */
-export function getEditorData<Values extends ValuesCommon>(
-  valuesDefault: Values
+export function getWidgetDataPure<Values extends ValuesCommon>(
+  urlSearchParams: URLSearchParams
 ): EditorData<Values> {
-  return getEditorDataPure(valuesDefault, new URLSearchParams(self.location.search));
+  return parseWidgetData<Values>(urlSearchParams);
+}
+
+/**
+ * Function to get all data related to the widget including technical values not expected to be needed in most cases.
+ * Intended mostly for internal use, API might change. Consider using getValues or getEditorValues instead.
+ */
+export function getWidgetData<Values extends ValuesCommon>(): EditorData<Values> {
+  return getWidgetDataPure(new URLSearchParams(self.location.search));
 }
 
 export function getEditorValuesPure<Values extends ValuesCommon>(
-  valuesDefault: Values,
   urlSearchParams: URLSearchParams
-): Values {
-  return getEditorDataPure(valuesDefault, urlSearchParams).values;
+): Partial<Values> {
+  return getWidgetDataPure<Values>(urlSearchParams).values;
 }
 
 /**
  * Function to get values you've set in the admin editor window.
+ */
+export function getEditorValues<Values extends ValuesCommon>(): Partial<Values> {
+  return getEditorValuesPure<Values>(new URLSearchParams(self.location.search));
+}
+
+export function getValuesPure<Values extends ValuesCommon>(
+  valuesDefault: Values,
+  urlSearchParams: URLSearchParams
+): Values {
+  const values = { ...valuesDefault }; // set Obj to contain all possible values and prefill default value
+  const urlValues = parseWidgetData<Values>(urlSearchParams).values;
+
+  Object.keys(values).forEach((key: keyof Values) => {
+    const value = urlValues[key];
+    if (value != null && value !== "") values[key] = value as Values[typeof key]; // if value is specified in the URL, replace the default value
+  });
+  return values;
+}
+
+/**
+ * Function to get values you've set in the admin editor window. Undefined/empty values are replaced with default values.
  *
  * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
  */
-export function getEditorValues<Values extends ValuesCommon>(valuesDefault: Values): Values {
-  return getEditorValuesPure(valuesDefault, new URLSearchParams(self.location.search));
+export function getValues<Values extends ValuesCommon>(valuesDefault: Values): Values {
+  return getValuesPure(valuesDefault, new URLSearchParams(self.location.search));
 }
 
 /**
@@ -115,13 +137,9 @@ export function onChangeWithOrigin<Values extends ValuesCommon>(
 
 /**
  * Build onChange function, which you can use, to send changed data from the editor.
- *
- * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
  */
-export function buildOnChange<Values extends ValuesCommon>(
-  valuesDefault: Values
-): OnChange<Values> {
-  const { origin, instanceId } = getEditorData(valuesDefault);
+export function buildOnChange<Values extends ValuesCommon>(): OnChange<Values> {
+  const { origin, instanceId } = getWidgetData();
   return (values: Partial<Values>) => onChangeWithOrigin(origin, instanceId, values);
 }
 
@@ -147,7 +165,7 @@ export type Secrets = {
  */
 export async function askForSecrets(targetModule: TargetModule): Promise<Secrets> {
   return new Promise((resolve, reject) => {
-    const { origin: targetOrigin, instanceId, environment }: PortalData = getEditorData({});
+    const { origin: targetOrigin, instanceId, environment }: PortalData = getWidgetData();
     self.addEventListener("message", ({ data, origin }) => {
       if (origin !== targetOrigin || !(APIM_ASK_FOR_SECRETS_MESSAGE_KEY in data)) return;
 

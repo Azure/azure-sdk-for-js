@@ -1,8 +1,0 @@
-{
-  "origin": "http://localhost:8000",
-  "environment": "test",
-  "instanceId": "42",
-  "values": {
-    "foo": "from url"
-  }
-}

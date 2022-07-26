@@ -35,7 +35,7 @@ export function buildBlobConfigPath(name: string): string;
 export function buildBlobDataPath(name: string): string;
 
 // @public
-export function buildOnChange<Values extends ValuesCommon>(valuesDefault: Values): OnChange<Values>;
+export function buildOnChange<Values extends ValuesCommon>(): OnChange<Values>;
 
 // @public
 export function deployNodeJS(serviceInformation: ServiceInformation, name: string, fallbackConfigPath?: string, rootLocal?: string): Promise<void>;
@@ -49,10 +49,13 @@ export interface EditorData<Values extends ValuesCommon> extends PortalData {
 export type Environment = "development" | "publishing" | "runtime" | "error";
 
 // @public
-export function getEditorData<Values extends ValuesCommon>(valuesDefault: Values): EditorData<Values>;
+export function getEditorValues<Values extends ValuesCommon>(): Values;
 
 // @public
-export function getEditorValues<Values extends ValuesCommon>(valuesDefault: Values): Values;
+export function getValues<Values extends ValuesCommon>(valuesDefault: Values): Values;
+
+// @public
+export function getWidgetData<Values extends ValuesCommon>(): EditorData<Values>;
 
 // @public
 export type OnChange<Values extends ValuesCommon> = (values: Partial<Values>) => void;

@@ -2,10 +2,18 @@
 // Licensed under the MIT license.
 
 import { APIM_EDITOR_DATA_KEY, APIM_ON_CHANGE_MESSAGE_KEY, onChangeWithOrigin } from "../src";
-import { getEditorDataPure, getEditorValuesPure } from "../src/utils";
+import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "../src/utils";
 import { assert } from "chai";
 import sinon from "sinon";
-import valuesUrl from "./valuesUrl.json";
+
+const valuesUrl = {
+  origin: "http://localhost:8000",
+  environment: "test",
+  instanceId: "123",
+  values: {
+    foo: "from url",
+  },
+};
 
 const valuesDefault = {
   foo: "from const",
@@ -16,35 +24,57 @@ const urlSearchPrams = new URLSearchParams([[APIM_EDITOR_DATA_KEY, JSON.stringif
 
 describe("getEditorData", () => {
   it("runs", () => {
-    const editorData = getEditorDataPure(valuesDefault, urlSearchPrams);
+    const editorData = getWidgetDataPure(urlSearchPrams);
     assert.isObject(editorData);
   });
 
   it("contains origin", () => {
-    const editorData = getEditorDataPure(valuesDefault, urlSearchPrams);
+    const editorData = getWidgetDataPure(urlSearchPrams);
     assert.deepEqual(Object.keys(editorData), Object.keys(valuesUrl));
+  });
+});
+
+describe("getValues", () => {
+  it("runs", () => {
+    const values = getValuesPure(valuesDefault, urlSearchPrams);
+    assert.isObject(values);
+  });
+
+  it("contains values", () => {
+    const values = getValuesPure(valuesDefault, urlSearchPrams);
+    assert.containsAllKeys(values, Object.keys(valuesDefault));
+  });
+
+  it("contains correct foo value", () => {
+    const values = getValuesPure(valuesDefault, urlSearchPrams);
+    assert.equal(values.foo, valuesUrl.values.foo);
+  });
+
+  it("contains correct bar value", () => {
+    const values = getValuesPure(valuesDefault, urlSearchPrams);
+    assert.equal(values.bar, valuesDefault.bar);
   });
 });
 
 describe("getEditorValues", () => {
   it("runs", () => {
-    const editorValues = getEditorValuesPure(valuesDefault, urlSearchPrams);
+    const editorValues = getEditorValuesPure(urlSearchPrams);
     assert.isObject(editorValues);
   });
 
   it("contains values", () => {
-    const editorValues = getEditorValuesPure(valuesDefault, urlSearchPrams);
-    assert.containsAllKeys(editorValues, Object.keys(valuesDefault));
+    const editorValues = getEditorValuesPure(urlSearchPrams);
+    assert.containsAllKeys(editorValues, Object.keys(valuesUrl.values));
   });
 
   it("contains correct foo value", () => {
-    const editorValues = getEditorValuesPure(valuesDefault, urlSearchPrams);
+    const editorValues = getEditorValuesPure(urlSearchPrams);
     assert.equal(editorValues.foo, valuesUrl.values.foo);
   });
 
   it("contains correct bar value", () => {
-    const editorValues = getEditorValuesPure(valuesDefault, urlSearchPrams);
-    assert.equal(editorValues.bar, valuesDefault.bar);
+    const editorValues = getEditorValuesPure(urlSearchPrams);
+    assert.equal(editorValues.bar, undefined);
   });
 });
 
