@@ -27,7 +27,6 @@ export function createOrUpdateRegistration(
         client,
         registration,
         "createOrUpdate",
-        "*",
         updatedOptions
       );
     }

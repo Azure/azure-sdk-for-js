@@ -35,7 +35,6 @@ export function createRegistration(
         client,
         registration,
         "create",
-        "*",
         updatedOptions
       );
     }

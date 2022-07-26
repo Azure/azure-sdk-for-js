@@ -35,6 +35,7 @@ async function main() {
   const client = clientFromConnectionString(connectionString, hubName);
 
   const registrationId = await createRegistrationId(client);
+  console.log(`New Registration ID ${registrationId}`);
 
   const registration = createAppleRegistrationDescription({
     registrationId,

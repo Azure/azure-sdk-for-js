@@ -17,7 +17,6 @@ export async function createOrUpdateRegistrationDescription(
   client: NotificationHubsClient,
   registration: RegistrationDescription,
   operationName: "create" | "createOrUpdate" | "update",
-  etag: string,
   options: OperationOptions
 ): Promise<RegistrationDescription> {
   const endpoint = client.getBaseUrl();
@@ -29,13 +28,18 @@ export async function createOrUpdateRegistrationDescription(
     httpMethod = "PUT";
   }
 
+  const etag = registration.etag;
+
   // Clear out readonly properties
   registration.registrationId = undefined;
   registration.etag = undefined;
 
   const headers = client.createHeaders();
   headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
-  headers.set("If-Match", etag);
+
+  if (operationName === "update") {
+    headers.set("If-Match", etag ?? "*");
+  }
 
   const request = createRequest(endpoint, httpMethod, headers, options);
   request.body = registrationDescriptionSerializer.serializeRegistrationDescription(registration);

@@ -31,7 +31,6 @@ export function updateRegistration(
         client,
         registration,
         "update",
-        `"${registration.etag}"`,
         updatedOptions
       );
     }
