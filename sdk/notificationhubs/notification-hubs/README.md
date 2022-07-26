@@ -10,7 +10,7 @@ Azure Notification Hubs provide a scaled-out push engine that enables you to sen
 - Send codes for multi-factor authentication.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/) |
-[Product documentation](https://docs.microsoft.com/azure/notification-hubs/) |
+[Product documentation](https://docs.microsoft.com/azure/notification-hubs/)
 
 ## Getting started
 
@@ -93,7 +93,7 @@ const installation = createAppleInstallation({
   tags: ["likes_javascript"],
 });
 
-const result = await client.createOrUpdateInstallation(installation);
+const result = await createOrUpdateInstallation(client, installation);
 ```
 
 ### Authenticate the client
