@@ -85,9 +85,9 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work - in browsers
+  // On playback mode, the tests happen too fast for the timeout to work
   it("can create a certificate with requestOptions timeout", async function (this: Context) {
-    if (!isNode && isPlaybackMode()) {
+    if (isPlaybackMode()) {
       this.skip();
     }
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);

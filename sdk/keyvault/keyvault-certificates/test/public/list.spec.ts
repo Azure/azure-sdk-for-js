@@ -237,9 +237,9 @@ describe("Certificates client - list certificates in various ways", () => {
     assert.deepEqual(results, versions);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
+  // On playback mode, the tests happen too fast for the timeout to work
   it("can get the versions of a certificate with requestOptions timeout", async function () {
-    if (!isNode && isPlaybackMode()) {
+    if (isPlaybackMode()) {
       this.skip();
     }
 
