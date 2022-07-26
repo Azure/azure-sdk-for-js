@@ -1,0 +1,64 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0\u0026query=25,121",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "522c05ad-dab1-42a3-a3df-44efe1f065e9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "649",
+        "Content-Type": "application/json",
+        "Date": "Tue, 26 Jul 2022 11:18:43 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West US 2",
+        "X-MSEdge-Ref": "Ref A: 115AAE5220FC4FA38000F6B6B0707D50 Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:43Z"
+      },
+      "ResponseBody": {
+        "summary": {
+          "queryTime": 11,
+          "numResults": 1
+        },
+        "addresses": [
+          {
+            "address": {
+              "buildingNumber": "36",
+              "streetNumber": "36",
+              "routeNumbers": [],
+              "street": "\u65B0\u6E2F\u8DEF",
+              "streetName": "\u65B0\u6E2F\u8DEF",
+              "streetNameAndNumber": "\u65B0\u6E2F\u8DEF, 36",
+              "countryCode": "TW",
+              "countrySubdivision": "\u6843\u5712\u5E02",
+              "municipality": "\u6843\u5712\u5E02",
+              "postalCode": "327",
+              "municipalitySubdivision": "\u65B0\u5C4B\u5340",
+              "country": "\u53F0\u7063",
+              "countryCodeISO3": "TWN",
+              "freeformAddress": "32744, \u6843\u5712\u5E02 \u65B0\u5C4B\u5340, \u65B0\u6E2F\u8DEF, 36",
+              "boundingBox": {
+                "northEast": "24.989644,121.014926",
+                "southWest": "24.989405,121.012705",
+                "entity": "position"
+              },
+              "extendedPostalCode": "32744",
+              "localName": "\u65B0\u5C4B\u5340"
+            },
+            "position": "24.988867,121.017029"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
