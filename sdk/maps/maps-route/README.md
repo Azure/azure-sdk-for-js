@@ -6,9 +6,8 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/maps-route) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/maps-route) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route/samples) |
-[Product Information](https://docs.microsoft.com/azure/azure-maps/how-to-use-best-practices-for-routing)
+[Product Information](https://docs.microsoft.com/rest/api/maps/route)
 
 ## Getting started
 
@@ -163,7 +162,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/maps/maps-route/samples) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
