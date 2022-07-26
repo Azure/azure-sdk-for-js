@@ -1,8 +1,8 @@
-import {getEditorValues, Secrets} from "@azure/api-management-custom-widgets-tools"
+import {getValues, Secrets} from "@azure/api-management-custom-widgets-tools"
 import {valuesDefault} from "./values"
 
 class App {
-  public readonly editorValues
+  public readonly values
   public request: ((url: string) => Promise<Response>)
 
   constructor(
@@ -14,14 +14,14 @@ class App {
         {headers: {Authorization: secrets.token}},
       )
 
-    this.editorValues = getEditorValues(valuesDefault)
+    this.values = getValues(valuesDefault)
 
-    Object.entries(this.editorValues).forEach(([key, value]) => {
-      const element = document.getElementById(`editorValues.${key}`)
+    Object.entries(this.values).forEach(([key, value]) => {
+      const element = document.getElementById(`values.${key}`)
       if (element) element.innerText = value
     })
 
-    document.getElementById("message")?.setAttribute("placeholder", this.editorValues.placeholder)
+    document.getElementById("message")?.setAttribute("placeholder", this.values.placeholder)
 
     document.getElementById("form")?.addEventListener("submit", event => {
       event.preventDefault()

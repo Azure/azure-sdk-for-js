@@ -67,7 +67,7 @@ textarea {
   flex-grow: 1;
 }
 
-#loading {
+.loading {
   position: relative;
 
   &:after {
@@ -80,4 +80,3 @@ textarea {
     text-align: center;
   }
 }
-
