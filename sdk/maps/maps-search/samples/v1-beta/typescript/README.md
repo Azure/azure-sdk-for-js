@@ -5,7 +5,6 @@ languages:
 products:
   - azure
   - azure-maps
-  - search
 urlFragment: maps-search-typescript-beta
 ---
 
