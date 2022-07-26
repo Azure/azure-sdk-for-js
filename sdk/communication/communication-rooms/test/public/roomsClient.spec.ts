@@ -129,7 +129,7 @@ describe("RoomsClient", function () {
           },
           {
             id: testUser2,
-            role: "Presenter",
+            role: "Attendee",
           },
         ],
       };
@@ -144,6 +144,29 @@ describe("RoomsClient", function () {
       await client.deleteRoom(roomId);
       roomId = "";
     });
+
+    it("unable to update roomJoinPolicy for a room in past", async function () {
+      testUser = (await createTestUser(recorder)).user;
+      testUser2 = (await createTestUser(recorder)).user;
+      const createRoom = await client.createRoom({
+        validFrom: new Date(validFrom.getTime() - 5 * 60 * 1000),
+        validUntil: validUntil,
+        roomJoinPolicy: "CommunicationServiceUsers",
+      });
+      roomId = createRoom.id;
+
+      const request: UpdateRoomRequest = {
+        roomJoinPolicy: "InviteOnly",
+
+      };
+      client.updateRoom(roomId, request)
+        .then((result) => {
+          assert.isUndefined(result);
+        })
+        .catch((error) => {
+          assert.equal(error.status, 400);
+        });
+      })
   });
 
   describe("Participants Operations", function () {
