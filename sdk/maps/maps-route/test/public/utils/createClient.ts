@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential, TokenCredential } from "@azure/identity";
-import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
+import { createClientLogger } from "@azure/logger";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
 import { MapsRouteClient } from "../../../src/mapsRouteClient";
 import { MapsRouteClientOptions } from "../../../src/models/options";
 
-const replaceableVariables: { [k: string]: string } = {
+const envSetupForPlayback: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
@@ -16,36 +16,19 @@ const replaceableVariables: { [k: string]: string } = {
   MAPS_SUBSCRIPTION_KEY: "azure_maps_subscription_key",
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [],
-  queryParametersToSkip: [],
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback,
 };
+
+export const testLogger = createClientLogger("route-test");
 
 export type AuthMethod = "SubscriptionKey" | "AAD";
 
 export function createClient(
-  authMethod: AuthMethod,
   options?: MapsRouteClientOptions
 ): MapsRouteClient {
-  let credential: AzureKeyCredential | TokenCredential;
-  switch (authMethod) {
-    case "SubscriptionKey": {
-      credential = new AzureKeyCredential(env.MAPS_SUBSCRIPTION_KEY);
-      return new MapsRouteClient(credential, options);
-    }
-    case "AAD": {
-      credential = new ClientSecretCredential(
-        env.AZURE_TENANT_ID,
-        env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET
-      );
-      return new MapsRouteClient(credential, env.MAPS_CLIENT_ID, options);
-    }
-    default: {
-      throw Error(`Unsupported authentication method: ${authMethod}`);
-    }
-  }
+  const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
+  return new MapsRouteClient(credential, options);
 }
 
 /**
@@ -53,6 +36,8 @@ export function createClient(
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export function createRecorder(context: Context): Recorder {
-  return record(context, environmentSetup);
+ export async function createRecorder(context: Context): Promise<Recorder> {
+  const recorder = new Recorder(context.currentTest);
+  await recorder.start(recorderOptions);
+  return recorder;
 }
