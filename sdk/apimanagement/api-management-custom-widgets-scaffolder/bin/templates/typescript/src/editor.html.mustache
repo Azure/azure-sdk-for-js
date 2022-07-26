@@ -14,14 +14,13 @@
   </script>
 </head>
 <body>
-
 <fieldset class="form flex flex-item flex-item-grow no-overflow">
   <div class="form-group">
     <div class="form-group">
       <label class="form-label" for="label1">Label 1</label>
       <div class="input-group">
         <input id="label1" class="form-control" type="text"
-               oninput="onChange({label1: this.value ? this.value : undefined})" />
+               oninput="onChange({label1: this.value})" />
       </div>
     </div>
 
@@ -29,7 +28,7 @@
       <label class="form-label" for="label2">Label 2</label>
       <div class="input-group">
         <input id="label2" class="form-control" type="text"
-               oninput="onChange({label2: this.value ? this.value : undefined})" />
+               oninput="onChange({label2: this.value})" />
       </div>
     </div>
 
@@ -37,7 +36,7 @@
       <label class="form-label" for="placeholder">Placeholder</label>
       <div class="input-group">
         <input id="placeholder" class="form-control" type="text"
-               oninput="onChange({placeholder: this.value ? this.value : undefined})" />
+               oninput="onChange({placeholder: this.value})" />
       </div>
     </div>
 
@@ -45,11 +44,10 @@
       <label class="form-label" for="actionUrl">Action URL</label>
       <div class="input-group">
         <input id="actionUrl" class="form-control" type="text"
-               oninput="onChange({actionUrl: this.value ? this.value : undefined})" />
+               oninput="onChange({actionUrl: this.value})" />
       </div>
     </div>
   </div>
 </fieldset>
-
 </body>
 </html>

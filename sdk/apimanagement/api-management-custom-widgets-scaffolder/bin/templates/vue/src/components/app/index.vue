@@ -1,10 +1,11 @@
 <style src="../../styles/app.scss"></style>
 
 <template>
-  <form :action="actionUrl" class="flex-columns-container height-fill">
+  <form v-if="defaultEmail != null" :action="actionUrl" class="flex-columns-container height-fill">
     <div class="form-group">
       <label for="email" class="form-label">{{ label1 }}</label>
-      <input id="email" type="email" class="form-control" name="email" placeholder="example@contoso.com" />
+      <input id="email" type="email" class="form-control" name="email" placeholder="example@contoso.com"
+             v-model="defaultEmail" />
     </div>
     <div class="form-group height-fill flex-columns-container">
       <label for="message" class="form-label">{{ label2 }}</label>
@@ -14,28 +15,42 @@
       <button type="submit" class="button button-primary">Submit</button>
     </div>
   </form>
+  <div v-else class="loading"></div>
 </template>
 
 <script lang="ts">
-import {getEditorData} from "@azure/api-management-custom-widgets-tools"
+import {getValues} from "@azure/api-management-custom-widgets-tools"
 import {valuesDefault} from "../../values"
 
 export default {
-  data: () => {
+  data() {
     return {
       label1: null,
       label2: null,
       placeholder: null,
       actionUrl: null,
+      defaultEmail: null,
     }
   },
 
+  inject: ["secretsPromise", "requestPromise"],
+
   async mounted(): Promise<void> {
-    const editorData = getEditorData(valuesDefault)
-    this.label1 = editorData.values.label1
-    this.label2 = editorData.values.label2
-    this.placeholder = editorData.values.placeholder
-    this.actionUrl = editorData.values.actionUrl
+    const editorData = getValues(valuesDefault)
+    this.label1 = editorData.label1
+    this.label2 = editorData.label2
+    this.placeholder = editorData.placeholder
+    this.actionUrl = editorData.actionUrl
+
+    const [secrets, request] = await Promise.all([this.secretsPromise, this.requestPromise])
+
+    request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${secrets.userId}`)
+      .then(e => e.json())
+      .then(({properties}) => this.defaultEmail = properties.email)
+      .catch(e => {
+        console.error("Could not prefill the email address!", e)
+        this.defaultEmail = ""
+      })
   },
 }
 </script>

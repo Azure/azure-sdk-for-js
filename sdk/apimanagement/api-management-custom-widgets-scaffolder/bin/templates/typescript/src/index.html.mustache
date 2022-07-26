@@ -12,7 +12,6 @@
     askForSecrets("app")
       .then(secrets => {
         const appInstance = new App(secrets)
-        window.appInstance = appInstance
         return appInstance.request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${secrets.userId}`)
       })
       .then(e => e.json())
@@ -20,17 +19,21 @@
         if (properties.email) document.getElementById("email").value = properties.email
       })
       .catch(e => console.error("Failed to retrieve secrets from the Developer Portal. The app might not work as expected!", e))
-      .finally(() => document.getElementById("loading").removeAttribute("id"))
+      .finally(() => {
+        for (const element of document.getElementsByClassName("loading")) {
+          element.classList.remove("loading")
+        }
+      })
   </script>
 </head>
-<body id="loading" class="height-fill">
+<body class="height-fill loading">
 <form id="form" class="flex-columns-container height-fill">
   <div class="form-group">
-    <label id="editorValues.label1" for="email" class="form-label"></label>
+    <label id="values.label1" for="email" class="form-label"></label>
     <input id="email" type="email" class="form-control" name="email" placeholder="example@contoso.com" />
   </div>
   <div class="form-group height-fill flex-columns-container">
-    <label id="editorValues.label2" for="message" class="form-label"></label>
+    <label id="values.label2" for="message" class="form-label"></label>
     <textarea id="message" class="form-control flex-grow" name="message"></textarea>
   </div>
   <div class="form-group">

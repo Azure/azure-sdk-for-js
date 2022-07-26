@@ -4,46 +4,49 @@
   <div class="form">
     <div class="form-group">
       <label for="actionUrl" class="form-label">Label 1</label>
-      <input id="actionUrl" type="text" class="form-control" v-model="label1" />
+      <input id="actionUrl" type="text" class="form-control" v-model="label1" :placeholder="valuesDefault.label1" />
     </div>
     <div class="form-group">
       <label for="actionUrl" class="form-label">Label 2</label>
-      <input id="actionUrl" type="text" class="form-control" v-model="label2" />
+      <input id="actionUrl" type="text" class="form-control" v-model="label2" :placeholder="valuesDefault.label2" />
     </div>
     <div class="form-group">
       <label for="actionUrl" class="form-label">Placeholder</label>
-      <input id="actionUrl" type="text" class="form-control" v-model="placeholder" />
+      <input id="actionUrl" type="text" class="form-control" v-model="placeholder"
+             :placeholder="valuesDefault.placeholder" />
     </div>
     <div class="form-group">
       <label for="actionUrl" class="form-label">Action URL</label>
-      <input id="actionUrl" type="text" class="form-control" v-model="actionUrl" />
+      <input id="actionUrl" type="text" class="form-control" v-model="actionUrl"
+             :placeholder="valuesDefault.actionUrl" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {buildOnChange, getEditorData} from "@azure/api-management-custom-widgets-tools"
-import {valuesDefault} from "../../values"
+import {buildOnChange, getEditorValues} from "@azure/api-management-custom-widgets-tools"
+import {Values, valuesDefault} from "../../values"
 
 export default {
-  data: () => {
+  data() {
     return {
       label1: "Email",
       label2: "Message",
       placeholder: "Write your message here",
       actionUrl: "https://httpbin.org/post",
+      valuesDefault,
     }
   },
 
   async mounted(): Promise<void> {
-    this.onChange = buildOnChange(valuesDefault)
+    this.onChange = buildOnChange<Values>()
 
-    const editorData = getEditorData(valuesDefault)
+    const editorData = getEditorValues<Values>()
 
-    this.label1 = editorData.values.label1
-    this.label2 = editorData.values.label2
-    this.placeholder = editorData.values.placeholder
-    this.actionUrl = editorData.values.actionUrl
+    this.label1 = editorData.label1
+    this.label2 = editorData.label2
+    this.placeholder = editorData.placeholder
+    this.actionUrl = editorData.actionUrl
   },
 
   watch: {

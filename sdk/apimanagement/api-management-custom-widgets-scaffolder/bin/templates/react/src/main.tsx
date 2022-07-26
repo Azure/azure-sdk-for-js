@@ -3,15 +3,15 @@ import {createRoot} from "react-dom/client"
 
 import "./styles/app.scss"
 import App from "./app"
-import {EditorDataProvider, SecretsProvider} from "./providers"
+import {WidgetDataProvider, SecretsProvider} from "./providers"
 
 const root = createRoot(document.getElementById("root")!)
 root.render(
   <StrictMode>
-    <EditorDataProvider>
+    <WidgetDataProvider>
       <SecretsProvider targetModule="app">
         <App />
       </SecretsProvider>
-    </EditorDataProvider>
+    </WidgetDataProvider>
   </StrictMode>,
 )

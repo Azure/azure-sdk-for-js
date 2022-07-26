@@ -1,8 +1,8 @@
 import {useEditorValues, useOnChange} from "../hooks"
-import {Values} from "../values"
+import {Values, valuesDefault} from "../values"
 
 function InputField({valueKey, title}: {valueKey: keyof Values, title?: string}) {
-  const values = useEditorValues()
+  const editorValues = useEditorValues()
   const onChange = useOnChange()
 
   return (
@@ -14,7 +14,8 @@ function InputField({valueKey, title}: {valueKey: keyof Values, title?: string})
         <input
           className="form-control"
           type="text"
-          defaultValue={values[valueKey]}
+          placeholder={valuesDefault[valueKey]}
+          defaultValue={editorValues[valueKey]}
           onInput={e => {
             const target = e.target as HTMLInputElement
             onChange({[valueKey]: target.value})

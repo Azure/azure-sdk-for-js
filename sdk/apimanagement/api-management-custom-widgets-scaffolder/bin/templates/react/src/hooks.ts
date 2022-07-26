@@ -1,14 +1,25 @@
 import {useCallback, useContext} from "react"
-import {onChangeWithOrigin, OnChange} from "@azure/api-management-custom-widgets-tools"
+import {OnChange, onChangeWithOrigin} from "@azure/api-management-custom-widgets-tools"
 
 import {Values} from "./values"
-import {EditorDataContext, SecretsContext} from "./providers"
+import {WidgetDataContext, SecretsContext} from "./providers"
 
-export const useEditorData = () => useContext(EditorDataContext)
-export const useEditorValues = () => useContext(EditorDataContext).values
+export const useValues = () => useContext(WidgetDataContext).values
+export const useEditorValues = () => useContext(WidgetDataContext).data.values
 export const useSecrets = () => useContext(SecretsContext)
 
 export function useOnChange(): OnChange<Values> {
-  const {origin, instanceId} = useEditorData()
+  const {data: {origin, instanceId}} = useContext(WidgetDataContext)
   return useCallback(values => onChangeWithOrigin(origin, instanceId, values), [origin, instanceId])
+}
+
+export function useRequest(): (url: string) => Promise<Response> {
+  const secrets = useSecrets()
+
+  return useCallback(url =>
+    fetch(`${secrets.managementApiUrl}${url}?api-version=${secrets.apiVersion}`, {
+      headers: {
+        Authorization: secrets.token,
+      },
+    }), [secrets])
 }
