@@ -27,7 +27,7 @@ export type AuthMethod = "SubscriptionKey" | "AAD";
 export function createClient(
   options?: MapsRenderClientOptions
 ): MapsRenderClient {
-  const credential: AzureKeyCredential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
+  const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
   return new MapsRenderClient(credential, options);
 }
 
