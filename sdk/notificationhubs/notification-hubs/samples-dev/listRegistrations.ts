@@ -34,7 +34,7 @@ async function main() {
   let allRegistrations = listRegistrations(client);
   let page = 0;
   for await (const pages of allRegistrations.byPage()) {
-    console.log(`Page number ${page}`);
+    console.log(`Page number ${page++}`);
     for (const item of pages) {
       console.log(JSON.stringify(item, null, 2));
     }
@@ -44,7 +44,7 @@ async function main() {
   page = 0;
   allRegistrations = listRegistrations(client, { top: TOP });
   for await (const pages of allRegistrations.byPage()) {
-    console.log(`Page number ${page}`);
+    console.log(`Page number ${page++}`);
     for (const item of pages) {
       console.log(JSON.stringify(item, null, 2));
     }
@@ -55,7 +55,7 @@ async function main() {
 
   allRegistrations = listRegistrations(client, { top: TOP, filter: FILTER });
   for await (const pages of allRegistrations.byPage()) {
-    console.log(`Page number ${page}`);
+    console.log(`Page number ${page++}`);
     for (const item of pages) {
       console.log(JSON.stringify(item, null, 2));
     }

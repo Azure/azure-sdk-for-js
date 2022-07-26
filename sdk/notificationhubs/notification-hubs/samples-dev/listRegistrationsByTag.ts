@@ -30,7 +30,7 @@ async function main() {
   let allRegistrations = listRegistrationsByTag(client, TAG);
   let page = 0;
   for await (const pages of allRegistrations.byPage()) {
-    console.log(`Page number ${page}`);
+    console.log(`Page number ${page++}`);
     for (const item of pages) {
       console.log(JSON.stringify(item, null, 2));
     }
@@ -40,7 +40,7 @@ async function main() {
   page = 0;
   allRegistrations = listRegistrationsByTag(client, TAG, { top: TOP });
   for await (const pages of allRegistrations.byPage()) {
-    console.log(`Page number ${page}`);
+    console.log(`Page number ${page++}`);
     for (const item of pages) {
       console.log(JSON.stringify(item, null, 2));
     }
