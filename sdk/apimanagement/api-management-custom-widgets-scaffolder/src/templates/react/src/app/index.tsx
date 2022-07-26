@@ -1,18 +1,35 @@
-import {useEditorValues, useSecrets} from "../hooks"
+import {useEffect, useState} from "react"
+import {useRequest, useSecrets, useValues} from "../hooks"
 
 const App = () => {
-  const editorValues = useEditorValues()
-  const secrets = useSecrets()
+  const values = useValues()
+  const {userId} = useSecrets()
+  const request = useRequest()
+
+  const [defaultEmail, setDefaultEmail] = useState<string | undefined>()
+
+  useEffect(() => {
+    request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${userId}`)
+      .then(e => e.json())
+      .then(({properties}) => setDefaultEmail(properties.email))
+      .catch(e => {
+        console.error("Could not prefill the email address!", e)
+        setDefaultEmail("")
+      })
+  }, [userId, request])
+
+  if (!defaultEmail) return <div className="loading"></div>
 
   return (
-    <form action={editorValues.actionUrl} className="flex-columns-container height-fill">
+    <form action={values.actionUrl} className="flex-columns-container height-fill">
       <div className="form-group">
-        <label htmlFor="email" className="form-label">{editorValues.label1}</label>
-        <input id="email" type="email" className="form-control" name="email" placeholder="example@contoso.com" />
+        <label htmlFor="email" className="form-label">{values.label1}</label>
+        <input id="email" type="email" className="form-control" name="email" placeholder="example@contoso.com"
+               defaultValue={defaultEmail} />
       </div>
       <div className="form-group height-fill flex-columns-container">
-        <label htmlFor="message" className="form-label">{editorValues.label2}</label>
-        <textarea id="message" className="form-control flex-grow" name="message" placeholder={editorValues.placeholder}>
+        <label htmlFor="message" className="form-label">{values.label2}</label>
+        <textarea id="message" className="form-control flex-grow" name="message" placeholder={values.placeholder}>
         </textarea>
       </div>
       <div className="form-group">

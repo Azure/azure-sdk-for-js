@@ -3,13 +3,13 @@ import {createRoot} from "react-dom/client"
 
 import "./styles/editor.scss"
 import Editor from "./editor"
-import {EditorDataProvider} from "./providers"
+import {WidgetDataProvider} from "./providers"
 
 const root = createRoot(document.getElementById("root")!)
 root.render(
   <StrictMode>
-    <EditorDataProvider>
+    <WidgetDataProvider>
       <Editor />
-    </EditorDataProvider>
+    </WidgetDataProvider>
   </StrictMode>,
 )
