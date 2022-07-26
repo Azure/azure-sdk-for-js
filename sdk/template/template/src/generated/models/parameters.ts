@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { ConfigurationSetting as ConfigurationSettingMapper } from "../models/mappers.js";
+import { ConfigurationSetting as ConfigurationSettingMapper } from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
