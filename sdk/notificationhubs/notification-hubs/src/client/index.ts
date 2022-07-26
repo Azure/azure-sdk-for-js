@@ -15,6 +15,8 @@ import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
 } from "../utils/connectionStringUtils.js";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 import { NotificationHubsClientOptions } from "../models/options.js";
 import { SasTokenProvider } from "@azure/core-amqp";
 
@@ -79,7 +81,16 @@ class NotificationHubsServiceClient extends ServiceClient implements Notificatio
     hubName: string,
     options: NotificationHubsClientOptions = {}
   ) {
-    super(options);
+    super({
+      deserializationOptions: {
+        parseXML,
+      },
+      serializationOptions: {
+        stringifyXML,
+      },
+      ...options,
+    } as InternalClientPipelineOptions);
+
     this.hubName = hubName;
 
     const parsedConnection = parseNotificationHubsConnectionString(connectionString);

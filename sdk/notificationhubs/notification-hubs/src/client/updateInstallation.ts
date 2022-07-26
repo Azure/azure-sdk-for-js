@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Installation, JsonPatch } from "../models/installation.js";
-import { NotificationHubsClient, createRequest } from "./index.js";
+import { JsonPatch } from "../models/installation.js";
+import { NotificationHubsClient, createRequest, parseNotificationResponse } from "./index.js";
+import { NotificationHubsResponse } from "../models/response.js"
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing.js";
@@ -13,14 +14,14 @@ import { tracingClient } from "../utils/tracing.js";
  * @param installationId - The ID of the installation to update.
  * @param installationPatches - An array of patches following the JSON-Patch standard.
  * @param options - Configuration options for the patch installation operation.
- * @returns The updated installation.
+ * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
  */
 export function updateInstallation(
   client: NotificationHubsClient,
   installationId: string,
   installationPatches: JsonPatch[],
   options: OperationOptions = {}
-): Promise<Installation> {
+): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     "NotificationHubsClient-updateInstallation",
     options,
@@ -42,7 +43,7 @@ export function updateInstallation(
         });
       }
 
-      return JSON.parse(response.bodyAsText!) as Installation;
+      return parseNotificationResponse(response);
     }
   );
 }

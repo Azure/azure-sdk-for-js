@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient, createRequest } from "./index.js";
+import { NotificationHubsClient, createRequest, parseNotificationResponse } from "./index.js";
 import { Installation } from "../models/installation.js";
+import { NotificationHubsResponse } from "../models/response.js"
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing.js";
@@ -12,13 +13,13 @@ import { tracingClient } from "../utils/tracing.js";
  * @param client - The Notification Hubs client.
  * @param installation - The installation to create or overwrite.
  * @param options - Configuration options for the create or update installation operation.
- * @returns The created or overwritten installation.
+ * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
  */
 export function createOrUpdateInstallation(
   client: NotificationHubsClient,
   installation: Installation,
   options: OperationOptions = {}
-): Promise<Installation> {
+): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     "NotificationHubsClient-createOrUpdateInstallation",
     options,
@@ -40,7 +41,7 @@ export function createOrUpdateInstallation(
         });
       }
 
-      return JSON.parse(response.bodyAsText!) as Installation;
+      return parseNotificationResponse(response);
     }
   );
 }

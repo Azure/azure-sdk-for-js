@@ -544,7 +544,7 @@ export interface NotificationHubsResponse {
 export class NotificationHubsServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
     cancelScheduledNotification(notificationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
-    createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<Installation>;
+    createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubsResponse>;
     createOrUpdateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
     createRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
     createRegistrationId(options?: OperationOptions): Promise<string>;
@@ -563,7 +563,7 @@ export class NotificationHubsServiceClient {
     sendDirectNotification(pushHandle: PushHandle, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
     sendNotification(tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
-    updateInstallation(installationId: string, patches: JsonPatch[], options?: OperationOptions): Promise<Installation>;
+    updateInstallation(installationId: string, patches: JsonPatch[], options?: OperationOptions): Promise<NotificationHubsResponse>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
 }
 

@@ -64,12 +64,12 @@ export class NotificationHubsServiceClient {
    * Creates or overwrites an installation to a Notification Hub.
    * @param installation - The installation to create or overwrite.
    * @param options - Configuration options for the create or update installation operation.
-   * @returns The created or overwritten installation.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   createOrUpdateInstallation(
     installation: Installation,
     options: OperationOptions = {}
-  ): Promise<Installation> {
+  ): Promise<NotificationHubsResponse> {
     return createOrUpdateInstallationMethod(this._client, installation, options);
   }
 
@@ -104,13 +104,13 @@ export class NotificationHubsServiceClient {
    * @param installationId - The ID of the installation to update.
    * @param patches - An array of patches following the JSON-Patch standard.
    * @param options - Configuration options for the patch installation operation.
-   * @returns The updated installation.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   updateInstallation(
     installationId: string,
     patches: JsonPatch[],
     options: OperationOptions = {}
-  ): Promise<Installation> {
+  ): Promise<NotificationHubsResponse> {
     return updateInstallationMethod(this._client, installationId, patches, options);
   }
 

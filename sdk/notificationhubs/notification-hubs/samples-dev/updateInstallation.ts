@@ -37,8 +37,9 @@ async function main() {
     { op: "add", path: "/userId", value: "bob@contoso.com" },
   ];
 
-  const updatedInstallation = await updateInstallation(client, installationId, updates);
-  console.log(`Installation last update: ${updatedInstallation.lastUpdate}`);
+  const result = await updateInstallation(client, installationId, updates);
+  console.log(`Tracking ID: ${result.trackingId}`);
+  console.log(`Correlation ID: ${result.correlationId}`);
 }
 
 main().catch((err) => {

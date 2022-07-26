@@ -39,8 +39,9 @@ async function main() {
     tags: ["likes_hockey", "likes_football"],
   });
 
-  const updatedInstallation = await createOrUpdateInstallation(client, installation);
-  console.log(`Installation last update: ${updatedInstallation.lastUpdate}`);
+  const result = await createOrUpdateInstallation(client, installation);
+  console.log(`Tracking ID: ${result.trackingId}`);
+  console.log(`Correlation ID: ${result.correlationId}`);
 }
 
 main().catch((err) => {
