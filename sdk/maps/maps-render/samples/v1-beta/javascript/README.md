@@ -5,7 +5,6 @@ languages:
 products:
   - azure
   - azure-maps
-  - render
 urlFragment: maps-render-javascript-beta
 ---
 
