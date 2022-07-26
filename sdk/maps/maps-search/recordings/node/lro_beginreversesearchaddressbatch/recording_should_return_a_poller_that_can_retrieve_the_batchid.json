@@ -1,0 +1,110 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/address/reverse/batch/json?api-version=1.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "56",
+        "Content-Type": "application/json",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "29c41503-9ec8-4c4c-a8b3-128dd8905c0d"
+      },
+      "RequestBody": {
+        "batchItems": [
+          {
+            "query": "?query=47.621028,-122.34817"
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Content-Length": "2",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 26 Jul 2022 11:18:53 GMT",
+        "Location": "https://atlas.microsoft.com/search/address/reverse/batch/7b820249-a3a2-4572-8a8f-37ce66a147f4?api-version=1.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West US 2",
+        "X-MSEdge-Ref": "Ref A: 1618E9D5903D48008A59D9D5E0CEFE23 Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:53Z"
+      },
+      "ResponseBody": "\u0022\u0022"
+    },
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/address/reverse/batch/7b820249-a3a2-4572-8a8f-37ce66a147f4?api-version=1.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "738997f0-3a7c-44b0-858d-a9f8b4072628"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Tue, 26 Jul 2022 11:18:54 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West US 2",
+        "X-MSEdge-Ref": "Ref A: 060B9C4910A544F884E68E574967E9D9 Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:53Z"
+      },
+      "ResponseBody": {
+        "batchItems": [
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "queryTime": 3,
+                "numResults": 1
+              },
+              "addresses": [
+                {
+                  "address": {
+                    "buildingNumber": "410",
+                    "streetNumber": "410",
+                    "routeNumbers": [],
+                    "street": "Thomas Street",
+                    "streetName": "Thomas Street",
+                    "streetNameAndNumber": "410 Thomas Street",
+                    "countryCode": "US",
+                    "countrySubdivision": "WA",
+                    "countrySecondarySubdivision": "King",
+                    "municipality": "Seattle",
+                    "postalCode": "98109",
+                    "municipalitySubdivision": "Queen Anne",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "410 Thomas Street, Seattle, WA 98109",
+                    "boundingBox": {
+                      "northEast": "47.620954,-122.347601",
+                      "southWest": "47.620944,-122.348498",
+                      "entity": "position"
+                    },
+                    "countrySubdivisionName": "Washington",
+                    "localName": "Seattle"
+                  },
+                  "position": "47.620945,-122.348175"
+                }
+              ]
+            }
+          }
+        ],
+        "summary": {
+          "successfulRequests": 1,
+          "totalRequests": 1
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,45 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/polygon/json?api-version=1.0\u0026geometries=invalid-geometry-id",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "ce675ff6-3e25-4de3-a0c1-227fd1091139"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "127",
+        "Content-Type": "application/json",
+        "Date": "Tue, 26 Jul 2022 11:18:41 GMT",
+        "ETag": "DE54D6EAF0294FDD62CC96BA7CE9309A",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": [
+          "accept-encoding",
+          "origin",
+          "access-control-request-headers",
+          "access-control-request-method",
+          "accept-encoding"
+        ],
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West US 2",
+        "X-MSEdge-Ref": "Ref A: 6989C0D9138E465187FBD8FAF152778E Ref B: TPE30EDGE0520 Ref C: 2022-07-26T11:18:41Z"
+      },
+      "ResponseBody": {
+        "additionalData": [
+          {
+            "providerID": "invalid-geometry-id",
+            "error": "Wrong geometry id format. Supported format: UUID (RFC 4122)"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

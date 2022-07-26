@@ -1,0 +1,330 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/address/reverse/batch/json?api-version=1.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "147",
+        "Content-Type": "application/json",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "64af37ab-8b47-4b3f-bf28-979f52d3e42b"
+      },
+      "RequestBody": {
+        "batchItems": [
+          {
+            "query": "?query=48.858561,2.294911"
+          },
+          {
+            "query": "?query=47.639765,-122.127896\u0026radius=5000"
+          },
+          {
+            "query": "?query=47.621028,-122.34817"
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Content-Length": "2",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 26 Jul 2022 11:18:54 GMT",
+        "Location": "https://atlas.microsoft.com/search/address/reverse/batch/dbaecb5d-eca6-4cfd-87ad-44736225d17a?api-version=1.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West US 2",
+        "X-MSEdge-Ref": "Ref A: ED43FD11667B4CB9AE5E6F48E8B08EEA Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:54Z"
+      },
+      "ResponseBody": "\u0022\u0022"
+    },
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/address/reverse/batch/dbaecb5d-eca6-4cfd-87ad-44736225d17a?api-version=1.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "fd498589-aca3-407f-871c-1486e1b8657a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Tue, 26 Jul 2022 11:18:54 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West US 2",
+        "X-MSEdge-Ref": "Ref A: 4E7C360B149E4C26B1225DB7BC68C10B Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:54Z"
+      },
+      "ResponseBody": {
+        "batchItems": [
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "queryTime": 4,
+                "numResults": 1
+              },
+              "addresses": [
+                {
+                  "address": {
+                    "buildingNumber": "5",
+                    "streetNumber": "5",
+                    "routeNumbers": [],
+                    "street": "Esplanade des Ouvriers de la Tour Eiffel",
+                    "streetName": "Esplanade des Ouvriers de la Tour Eiffel",
+                    "streetNameAndNumber": "5 Esplanade des Ouvriers de la Tour Eiffel",
+                    "countryCode": "FR",
+                    "countrySubdivision": "\u00CEle-de-France",
+                    "countrySecondarySubdivision": "Paris",
+                    "municipality": "Paris",
+                    "postalCode": "75007",
+                    "municipalitySubdivision": "7\u00E8me Arrondissement",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "5 Esplanade des Ouvriers de la Tour Eiffel, 75007 Paris",
+                    "boundingBox": {
+                      "northEast": "48.858576,2.295027",
+                      "southWest": "48.858321,2.294559",
+                      "entity": "position"
+                    },
+                    "localName": "Paris"
+                  },
+                  "position": "48.858582,2.294525"
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "queryTime": 4,
+                "numResults": 1
+              },
+              "addresses": [
+                {
+                  "address": {
+                    "routeNumbers": [],
+                    "street": "Northeast 31st Street",
+                    "streetName": "Northeast 31st Street",
+                    "countryCode": "US",
+                    "countrySubdivision": "WA",
+                    "countrySecondarySubdivision": "King",
+                    "municipality": "Redmond",
+                    "postalCode": "98052",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "Northeast 31st Street, Redmond, WA 98052",
+                    "boundingBox": {
+                      "northEast": "47.638988,-122.126617",
+                      "southWest": "47.638122,-122.127537",
+                      "entity": "position"
+                    },
+                    "extendedPostalCode": "98052-7070",
+                    "countrySubdivisionName": "Washington",
+                    "localName": "Redmond"
+                  },
+                  "position": "47.638988,-122.127541"
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "queryTime": 4,
+                "numResults": 1
+              },
+              "addresses": [
+                {
+                  "address": {
+                    "buildingNumber": "410",
+                    "streetNumber": "410",
+                    "routeNumbers": [],
+                    "street": "Thomas Street",
+                    "streetName": "Thomas Street",
+                    "streetNameAndNumber": "410 Thomas Street",
+                    "countryCode": "US",
+                    "countrySubdivision": "WA",
+                    "countrySecondarySubdivision": "King",
+                    "municipality": "Seattle",
+                    "postalCode": "98109",
+                    "municipalitySubdivision": "Queen Anne",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "410 Thomas Street, Seattle, WA 98109",
+                    "boundingBox": {
+                      "northEast": "47.620954,-122.347601",
+                      "southWest": "47.620944,-122.348498",
+                      "entity": "position"
+                    },
+                    "countrySubdivisionName": "Washington",
+                    "localName": "Seattle"
+                  },
+                  "position": "47.620945,-122.348175"
+                }
+              ]
+            }
+          }
+        ],
+        "summary": {
+          "successfulRequests": 3,
+          "totalRequests": 3
+        }
+      }
+    },
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/address/reverse/batch/dbaecb5d-eca6-4cfd-87ad-44736225d17a?api-version=1.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "9532ccd6-7036-4769-b880-8dd1db6d365f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Tue, 26 Jul 2022 11:18:54 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West US 2",
+        "X-MSEdge-Ref": "Ref A: 0E0A9DA217834914B6240D4BD2424C38 Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:54Z"
+      },
+      "ResponseBody": {
+        "batchItems": [
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "queryTime": 4,
+                "numResults": 1
+              },
+              "addresses": [
+                {
+                  "address": {
+                    "buildingNumber": "5",
+                    "streetNumber": "5",
+                    "routeNumbers": [],
+                    "street": "Esplanade des Ouvriers de la Tour Eiffel",
+                    "streetName": "Esplanade des Ouvriers de la Tour Eiffel",
+                    "streetNameAndNumber": "5 Esplanade des Ouvriers de la Tour Eiffel",
+                    "countryCode": "FR",
+                    "countrySubdivision": "\u00CEle-de-France",
+                    "countrySecondarySubdivision": "Paris",
+                    "municipality": "Paris",
+                    "postalCode": "75007",
+                    "municipalitySubdivision": "7\u00E8me Arrondissement",
+                    "country": "France",
+                    "countryCodeISO3": "FRA",
+                    "freeformAddress": "5 Esplanade des Ouvriers de la Tour Eiffel, 75007 Paris",
+                    "boundingBox": {
+                      "northEast": "48.858576,2.295027",
+                      "southWest": "48.858321,2.294559",
+                      "entity": "position"
+                    },
+                    "localName": "Paris"
+                  },
+                  "position": "48.858582,2.294525"
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "queryTime": 4,
+                "numResults": 1
+              },
+              "addresses": [
+                {
+                  "address": {
+                    "routeNumbers": [],
+                    "street": "Northeast 31st Street",
+                    "streetName": "Northeast 31st Street",
+                    "countryCode": "US",
+                    "countrySubdivision": "WA",
+                    "countrySecondarySubdivision": "King",
+                    "municipality": "Redmond",
+                    "postalCode": "98052",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "Northeast 31st Street, Redmond, WA 98052",
+                    "boundingBox": {
+                      "northEast": "47.638988,-122.126617",
+                      "southWest": "47.638122,-122.127537",
+                      "entity": "position"
+                    },
+                    "extendedPostalCode": "98052-7070",
+                    "countrySubdivisionName": "Washington",
+                    "localName": "Redmond"
+                  },
+                  "position": "47.638988,-122.127541"
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "queryTime": 4,
+                "numResults": 1
+              },
+              "addresses": [
+                {
+                  "address": {
+                    "buildingNumber": "410",
+                    "streetNumber": "410",
+                    "routeNumbers": [],
+                    "street": "Thomas Street",
+                    "streetName": "Thomas Street",
+                    "streetNameAndNumber": "410 Thomas Street",
+                    "countryCode": "US",
+                    "countrySubdivision": "WA",
+                    "countrySecondarySubdivision": "King",
+                    "municipality": "Seattle",
+                    "postalCode": "98109",
+                    "municipalitySubdivision": "Queen Anne",
+                    "country": "United States",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "410 Thomas Street, Seattle, WA 98109",
+                    "boundingBox": {
+                      "northEast": "47.620954,-122.347601",
+                      "southWest": "47.620944,-122.348498",
+                      "entity": "position"
+                    },
+                    "countrySubdivisionName": "Washington",
+                    "localName": "Seattle"
+                  },
+                  "position": "47.620945,-122.348175"
+                }
+              ]
+            }
+          }
+        ],
+        "summary": {
+          "successfulRequests": 3,
+          "totalRequests": 3
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
