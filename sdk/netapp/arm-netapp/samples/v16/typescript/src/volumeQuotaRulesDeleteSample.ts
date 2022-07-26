@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Delete quota rule
  *
  * @summary Delete quota rule
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-01-01/examples/VolumeQuotaRules_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-03-01/examples/VolumeQuotaRules_Delete.json
  */
 async function volumeQuotaRulesDelete() {
   const subscriptionId = "5275316f-a498-48d6-b324-2cbfdc4311b9";

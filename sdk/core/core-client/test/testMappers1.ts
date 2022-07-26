@@ -848,7 +848,7 @@ internalMappers.SawShark = {
       serializedName: "fish.type",
       clientName: "fishtype",
     },
-    uberParent: "Fish",
+    uberParent: "Shark",
     className: "Sawshark",
     modelProperties: {
       species: {
@@ -1037,7 +1037,7 @@ internalMappers.SubProduct = {
 internalMappers.discriminators = {
   Fish: internalMappers.Fish,
   "Fish.shark": internalMappers.Shark,
-  "Fish.sawshark": internalMappers.SawShark,
+  "Shark.sawshark": internalMappers.SawShark,
   Pet: internalMappers.Pet,
   "Pet.Cat": internalMappers.Cat,
   "Pet.Dog": internalMappers.Dog,

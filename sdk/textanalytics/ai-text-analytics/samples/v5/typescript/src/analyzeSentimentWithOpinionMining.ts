@@ -18,36 +18,35 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
   {
     text: "The food and service were unacceptable, but the concierge were nice",
     id: "0",
-    language: "en"
+    language: "en",
   },
   {
-    text:
-      "The rooms were beautiful but dirty. The AC was good and quiet, but the elevator was broken",
+    text: "The rooms were beautiful but dirty. The AC was good and quiet, but the elevator was broken",
     id: "1",
-    language: "en"
+    language: "en",
   },
   {
     text: "The breakfast was good, but the toilet was smelly",
     id: "2",
-    language: "en"
+    language: "en",
   },
   {
     text: "Loved this hotel - good breakfast - nice shuttle service.",
     id: "3",
-    language: "en"
+    language: "en",
   },
   {
     text: "I had a great unobstructed view of the Microsoft campus",
     id: "4",
-    language: "en"
-  }
+    language: "en",
+  },
 ];
 
 export async function main() {

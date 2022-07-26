@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fix an invalid date issue when converting a `ServiceBusMessage` with `timeToLive` property set to a `RheaMessage`.
+
 ### Other Changes
 
 - Updated our `@azure/core-tracing` dependency to the latest version (v1.0.0)

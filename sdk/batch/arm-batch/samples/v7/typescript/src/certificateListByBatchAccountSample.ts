@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all of the certificates in the specified account.
  *
  * @summary Lists all of the certificates in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/CertificateList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/CertificateList.json
  */
 async function listCertificates() {
   const subscriptionId = "subid";
@@ -42,7 +42,7 @@ listCertificates().catch(console.error);
  * This sample demonstrates how to Lists all of the certificates in the specified account.
  *
  * @summary Lists all of the certificates in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/CertificateListWithFilter.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/CertificateListWithFilter.json
  */
 async function listCertificatesFilterAndSelect() {
   const subscriptionId = "subid";

@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic rest level client library for the Azure Confidential Ledger service.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "node",
     "azure",
@@ -126,6 +126,6 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.2.0"
+    "typescript": "~4.6.0"
   }
 }
