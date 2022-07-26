@@ -1,5 +1,5 @@
 ## Azure Cache for Redis: Azure AD with node-redis client library
-Configuration of Role and Role Assignments is required before using the sample code.
+
 ### Table of contents
 
 - [node-redis library](#node-redis-library)

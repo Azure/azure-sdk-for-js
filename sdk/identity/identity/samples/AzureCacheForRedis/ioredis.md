@@ -1,5 +1,5 @@
 ## Azure Cache for Redis: Azure AD with ioredis client library
-Configuration of Role and Role Assignments is required before using the sample code. 
+
 ### Table of contents
 
 - [ioredis library](#ioredis-library)
