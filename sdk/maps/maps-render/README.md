@@ -8,7 +8,6 @@ Azure Maps Render REST APIs
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/maps-render) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/maps-render) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render/samples) |
 [Product Information](https://docs.microsoft.com/rest/api/maps/render-v2)
 

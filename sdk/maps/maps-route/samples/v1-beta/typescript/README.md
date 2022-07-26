@@ -70,7 +70,7 @@ npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_SUBSCRIPTION_
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [route]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route/samples/v1-beta/typescript/src/route.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-route
+[apiref]: https://docs.microsoft.com/rest/api/maps/route
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route/README.md

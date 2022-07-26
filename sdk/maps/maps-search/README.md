@@ -6,9 +6,8 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/maps-search) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/maps-search) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search/samples) |
-[Product Information](https://docs.microsoft.com/azure/azure-maps/how-to-search-for-address)
+[Product Information](https://docs.microsoft.com/rest/api/maps/search)
 
 ## Getting started
 
