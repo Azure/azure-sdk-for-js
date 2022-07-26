@@ -5,7 +5,6 @@ languages:
 products:
   - azure
   - azure-maps
-  - route
 urlFragment: maps-route-typescript-beta
 ---
 
