@@ -42,14 +42,14 @@ export function deployNodeJS(serviceInformation: ServiceInformation, name: strin
 
 // @public
 export interface EditorData<Values extends ValuesCommon> extends PortalData {
-    values: Values;
+    values: Partial<Values>;
 }
 
 // @public
 export type Environment = "development" | "publishing" | "runtime" | "error";
 
 // @public
-export function getEditorValues<Values extends ValuesCommon>(): Values;
+export function getEditorValues<Values extends ValuesCommon>(): Partial<Values>;
 
 // @public
 export function getValues<Values extends ValuesCommon>(valuesDefault: Values): Values;
