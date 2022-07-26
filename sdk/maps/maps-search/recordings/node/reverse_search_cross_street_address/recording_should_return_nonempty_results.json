@@ -1,0 +1,57 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://atlas.microsoft.com/search/address/reverse/crossStreet/json?api-version=1.0\u0026query=47.59118,-122.3327",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "6e303c69-6d52-46cc-811f-a1e38a7d4024"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "556",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 26 Jul 2022 11:18:43 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West US 2",
+        "X-MSEdge-Ref": "Ref A: 1A0F77B573A24E6A9D107E371FC4DB04 Ref B: TPE30EDGE0520 Ref C: 2022-07-26T11:18:43Z"
+      },
+      "ResponseBody": {
+        "summary": {
+          "numResults": 1,
+          "queryTime": 72
+        },
+        "addresses": [
+          {
+            "address": {
+              "streetName": "1st Avenue South \u0026 1st Avenue",
+              "crossStreet": "1st Avenue",
+              "municipalitySubdivision": "Downtown Seattle",
+              "municipality": "Seattle",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98104",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "1st Avenue South \u0026 1st Avenue, Seattle, WA 98104",
+              "localName": "Seattle",
+              "street": "1st Avenue South"
+            },
+            "position": "47.60174,-122.33426"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
