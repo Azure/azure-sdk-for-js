@@ -181,9 +181,9 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
+  // On playback mode, the tests happen too fast for the timeout to work
   it("list deleted certificates with requestOptions timeout", async function () {
-    if (!isNode && isPlaybackMode()) {
+    if (isPlaybackMode()) {
       this.skip();
     }
     const iter = client.listDeletedCertificates({ requestOptions: { timeout: 1 } });
