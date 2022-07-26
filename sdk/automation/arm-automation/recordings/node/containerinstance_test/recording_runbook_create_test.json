@@ -1,0 +1,76 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Automation/automationAccounts/myAutomationxxx/runbooks/myRunbookxx?api-version=2018-06-30",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "148",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-automation/11.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "4e3c735d-28ac-48af-a373-eda7475590c2"
+      },
+      "RequestBody": {
+        "name": "myRunbookxx",
+        "location": "eastus",
+        "tags": {
+          "tag01": "value01",
+          "tag02": "value02"
+        },
+        "properties": {
+          "runbookType": "PowerShellWorkflow",
+          "draft": {}
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "710",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 26 Jul 2022 07:32:00 GMT",
+        "ETag": "\u0022637944175186666667\u0022",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Automation/automationAccounts/myAutomationxxx/runbooks/myRunbookxx?api-version=2018-06-30",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "583420ad-cfb1-40f5-a29a-c9c84199fffa",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "4e3c735d-28ac-48af-a373-eda7475590c2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220726T073200Z:583420ad-cfb1-40f5-a29a-c9c84199fffa"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Automation/automationAccounts/myAutomationxxx/runbooks/myRunbookxx",
+        "name": "myRunbookxx",
+        "type": "Microsoft.Automation/AutomationAccounts/Runbooks",
+        "location": "eastus",
+        "tags": {
+          "tag01": "value01",
+          "tag02": "value02"
+        },
+        "etag": "\u0022637944175186666667\u0022",
+        "properties": {
+          "description": null,
+          "logVerbose": false,
+          "logProgress": false,
+          "logActivityTrace": 0,
+          "runbookType": "PowerShellWorkflow",
+          "parameters": {},
+          "state": "New",
+          "jobCount": 0,
+          "provisioningState": "Succeeded",
+          "serviceManagementTags": null,
+          "outputTypes": [],
+          "creationTime": "2022-07-26T07:31:58.6666667\u002B00:00",
+          "lastModifiedBy": null,
+          "lastModifiedTime": "2022-07-26T07:31:58.6666667\u002B00:00"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
