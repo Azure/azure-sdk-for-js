@@ -143,7 +143,7 @@ export class MapsRouteClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -183,7 +183,7 @@ export class MapsRouteClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -212,7 +212,7 @@ export class MapsRouteClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -253,7 +253,7 @@ export class MapsRouteClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -290,7 +290,7 @@ export class MapsRouteClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -329,7 +329,7 @@ export class MapsRouteClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
@@ -368,7 +368,7 @@ export class MapsRouteClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: (e as any).message,
       });
       throw e;
     } finally {
