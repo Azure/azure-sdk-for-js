@@ -10,6 +10,7 @@ import {
   StatusCodes,
   SubStatusCodes,
 } from "../common";
+import { CosmosException } from "../diagnostics/CosmosException";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
@@ -142,11 +143,12 @@ export class DocumentProducer {
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
-    return (
+    error =
       error.code === StatusCodes.Gone &&
       "substatus" in error &&
-      error["substatus"] === SubStatusCodes.PartitionKeyRangeGone
-    );
+      error["substatus"] === SubStatusCodes.PartitionKeyRangeGone;
+    new CosmosException(error);
+    return error;
   }
 
   /**

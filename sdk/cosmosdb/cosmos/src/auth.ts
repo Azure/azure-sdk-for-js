@@ -39,9 +39,8 @@ export async function setAuthorizationHeader(
     for (const permission of clientOptions.permissionFeed) {
       const id = getResourceIdFromPath(permission.resource);
       if (!id) {
-        const err = new CosmosException(`authorization error: ${id} \
+        throw new CosmosException(`authorization error: ${id} \
                           is an invalid resourceId in permissionFeed`);
-        throw err;
       }
 
       clientOptions.resourceTokens[id] = (permission as any)._token; // TODO: any

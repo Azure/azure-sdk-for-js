@@ -143,8 +143,7 @@ export class Container {
   ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
-      new CosmosException(err);
-      throw err;
+      throw new CosmosException(err);
     }
 
     const path = getPathFromLink(this.url);

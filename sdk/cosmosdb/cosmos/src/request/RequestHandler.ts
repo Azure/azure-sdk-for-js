@@ -18,7 +18,6 @@ import { TimeoutError } from "./TimeoutError";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { CosmosException } from "../diagnostics/CosmosException";
-import { CosmosDiagnostic } from "../diagnostics/CosmosDiagnostics";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
@@ -108,7 +107,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 
   if (response.status >= 400) {
     const error = new CosmosException(result.message);
-    logger.warning(CosmosDiagnostic.toString());
+    logger.warning(error.getDiagnostics());
     error.response = response;
 
     error.response.code = response.status;

@@ -168,8 +168,7 @@ export class Databases {
     options?: RequestOptions
   ): Promise<DatabaseResponse> {
     if (!body || body.id === null || body.id === undefined) {
-      const err = new CosmosException("body parameter must be an object with an id property");
-      throw err;
+      throw new CosmosException("body parameter must be an object with an id property");
     }
     /*
       1. Attempt to read the Database (based on an assumption that most databases will already exist, so its faster)
@@ -183,6 +182,7 @@ export class Databases {
         const createResponse = await this.create(body, options);
         // Must merge the headers to capture RU costskaty
         mergeHeaders(createResponse.headers, err.headers);
+        // add error to diagnostics.
         new CosmosException(err);
         return createResponse;
       } else {

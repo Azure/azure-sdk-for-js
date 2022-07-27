@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { Constants } from "../common";
+import { CosmosException } from "../diagnostics/CosmosException";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
 import { getInitialHeader } from "./headerUtils";
@@ -157,7 +158,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       this.state = DefaultQueryExecutionContext.STATES.ended;
       // return callback(err, undefined, responseHeaders);
       // TODO: Error and data being returned is an antipattern, this might broken
-      throw err;
+      throw new CosmosException("Error and data being returned is an antipattern");
     }
 
     this.state = DefaultQueryExecutionContext.STATES.inProgress;

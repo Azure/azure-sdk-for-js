@@ -7,6 +7,7 @@ import { parseConnectionString } from "./common";
 import { Constants } from "./common/constants";
 import { getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
+import { CosmosException } from "./diagnostics/CosmosException";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
@@ -67,8 +68,7 @@ export class CosmosClient {
 
     const endpoint = checkURL(optionsOrConnectionString.endpoint);
     if (!endpoint) {
-      const err = new Error("Invalid endpoint specified");
-      throw err;
+      throw new CosmosException("Invalid endpoint specified");
     }
 
     optionsOrConnectionString.connectionPolicy = Object.assign(

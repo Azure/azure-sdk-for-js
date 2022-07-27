@@ -219,8 +219,7 @@ export class QueryIterator<T> {
     const queryPlan = queryPlanResponse.result;
     const queryInfo = queryPlan.queryInfo;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
-      const err = new CosmosException("Aggregate queries must use the VALUE keyword");
-      throw err;
+      throw new CosmosException("Aggregate queries must use the VALUE keyword");
     }
     this.queryExecutionContext = new PipelinedQueryExecutionContext(
       this.clientContext,
@@ -284,7 +283,7 @@ export class QueryIterator<T> {
       );
       error.response.code = 503;
       error.response.originalError = err;
-      throw new CosmosException(error);
+      new CosmosException(error);
     } else {
       throw new CosmosException(err);
     }

@@ -146,8 +146,7 @@ export class Containers {
 
     if (typeof body.partitionKey === "string") {
       if (!body.partitionKey.startsWith("/")) {
-        const err = new CosmosException("Partition key must start with '/'");
-        throw err;
+        throw new CosmosException("Partition key must start with '/'");
       }
       body.partitionKey = {
         paths: [body.partitionKey],

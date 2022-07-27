@@ -137,11 +137,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               try {
                 this.orderByPQ.enq(documentProducer);
               } catch (e: any) {
-                throw new CosmosException(e);
+                this.err = new CosmosException(e);
               }
             } catch (err: any) {
               this._mergeWithActiveResponseHeaders(err.headers);
-              throw new CosmosException(err);
+              this.err = new CosmosException(err);
             } finally {
               parallelismSem.leave();
               this._decrementInitiationLock();
@@ -150,7 +150,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           parallelismSem.take(throttledFunc);
         });
       } catch (err: any) {
-        throw new CosmosException(err);
+        this.err = new CosmosException(err);
         // release the lock
         this.sem.leave();
         return;
@@ -248,7 +248,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           await checkNextDocumentProducerCallback();
         } catch (err: any) {
-          throw new CosmosException(err);
+          this.err = new CosmosException(err);
           return;
         }
       };
@@ -267,20 +267,21 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       // Invoke the recursive function to get the ball rolling
       await checkAndEnqueueDocumentProducers(replacementDocumentProducers);
     } catch (err: any) {
+      this.err = err;
       throw new CosmosException(err);
-      throw err;
     }
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
-    error.setDiagnostic({
-      "cosmos-diagnostics-needPartitionKeyRangeCacheRefresh-error": error,
-    });
-    return (
+    error =
       error.code === StatusCodes.Gone &&
       "substatus" in error &&
-      error["substatus"] === SubStatusCodes.PartitionKeyRangeGone
+      error["substatus"] === SubStatusCodes.PartitionKeyRangeGone;
+
+    new CosmosException(
+      `queryExecutionContext.parallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh : ${error}`
     );
+    return error;
   }
 
   /**
@@ -297,14 +298,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     } catch (err: any) {
       if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
         // Split has happened so we need to repair execution context before continueing
-        throw new CosmosException(
+        this.err = new CosmosException(
           `Split has happened so we need to repair execution context before continueing ${err}`
         );
         return this._repairExecutionContext(ifCallback);
       } else {
         // Something actually bad happened ...
+        this.err = err;
         throw new CosmosException(err);
-        throw err;
       }
     }
   }
@@ -324,7 +325,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // release the lock before invoking callback
           this.sem.leave();
           // if there is a prior error return error
-          throw new CosmosException(String(this._getAndResetActiveResponseHeaders()));
+          this.err.response.headers = new CosmosException(
+            String(this._getAndResetActiveResponseHeaders())
+          );
           reject(this.err);
           return;
         }
@@ -414,7 +417,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               } catch (e: any) {
                 // if comparing elements in priority queue throws exception
                 // set error
-                throw new CosmosException(e);
+                this.err = new CosmosException(e);
               }
             }
           } catch (err: any) {
@@ -424,7 +427,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               this.orderByPQ.enq(documentProducer);
             } else {
               // Something actually bad happened
-              throw new CosmosException(err);
+              this.err = new CosmosException(err);
               reject(this.err);
             }
           } finally {

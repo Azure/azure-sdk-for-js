@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ErrorResponse } from "..";
-import { setDiagnostics } from "./Diagnostics";
+import { getCosmosDiagnostics, setDiagnostics } from "./Diagnostics";
 
 export class CosmosException extends Error {
   response?: ErrorResponse;
@@ -14,5 +14,8 @@ export class CosmosException extends Error {
     if (typeof m !== "undefined") {
       setDiagnostics(m);
     }
+  }
+  getDiagnostics() {
+    return getCosmosDiagnostics();
   }
 }

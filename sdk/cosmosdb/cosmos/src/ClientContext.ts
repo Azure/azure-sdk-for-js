@@ -756,8 +756,7 @@ export class ClientContext {
             err.response.substatus !== SubStatusCodes.ReadSessionNotAvailable)))
     ) {
       this.sessionContainer.set(request, resHeaders);
-    } else {
-      throw new CosmosException(err);
+      new CosmosException(err);
     }
   }
 
