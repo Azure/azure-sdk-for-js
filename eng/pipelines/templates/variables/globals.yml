@@ -8,4 +8,3 @@ variables:
   Package.EnableSBOMSigning: true
   # Disable warning until issue 21765 and 21766 are closed
   DisableDockerDetector: true
-  
