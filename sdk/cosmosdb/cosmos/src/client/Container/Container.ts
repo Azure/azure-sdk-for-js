@@ -143,7 +143,7 @@ export class Container {
   ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
-      CosmosException.record({"cosmos-diagnostics-replace-container-error": err});
+      new CosmosException(err);
       throw err;
     }
 

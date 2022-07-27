@@ -6,6 +6,7 @@ import { ChangeFeedResponse } from "./ChangeFeedResponse";
 import { Resource } from "./client";
 import { ClientContext } from "./ClientContext";
 import { Constants, ResourceType, StatusCodes } from "./common";
+import { CosmosException } from "./diagnostics/CosmosException";
 import { FeedOptions } from "./request";
 import { Response } from "./request";
 
@@ -89,7 +90,7 @@ export class ChangeFeedIterator<T> {
 
   private async getFeedResponse(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
     if (!this.isPartitionSpecified) {
-      throw new Error(
+      throw new CosmosException(
         "Container is partitioned, but no partition key or partition key range id was specified."
       );
     }

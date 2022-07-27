@@ -28,7 +28,7 @@ export enum ParallelQueryExecutionContextBaseStates {
 
 /** @hidden */
 export abstract class ParallelQueryExecutionContextBase implements ExecutionContext {
-  private err: any;
+  private err: CosmosException;
   private state: any;
   private static STATES = ParallelQueryExecutionContextBaseStates;
   private routingProvider: SmartRoutingMapProvider;
@@ -64,7 +64,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.options = options;
     this.partitionedQueryExecutionInfo = partitionedQueryExecutionInfo;
 
-    this.err = undefined;
+    this.err = new CosmosException();
     this.state = ParallelQueryExecutionContextBase.STATES.started;
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
@@ -106,7 +106,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
 
         if (this.requestContinuation) {
-          throw new Error("Continuation tokens are not yet supported for cross partition queries");
+          throw new CosmosException(
+            "Continuation tokens are not yet supported for cross partition queries"
+          );
         } else {
           filteredPartitionKeyRanges = targetPartitionRanges;
         }
@@ -135,11 +137,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               try {
                 this.orderByPQ.enq(documentProducer);
               } catch (e: any) {
-                this.err = e;
+                throw new CosmosException(e);
               }
             } catch (err: any) {
               this._mergeWithActiveResponseHeaders(err.headers);
-              this.err = err;
+              throw new CosmosException(err);
             } finally {
               parallelismSem.leave();
               this._decrementInitiationLock();
@@ -148,7 +150,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           parallelismSem.take(throttledFunc);
         });
       } catch (err: any) {
-        this.err = err;
+        throw new CosmosException(err);
         // release the lock
         this.sem.leave();
         return;
@@ -246,7 +248,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           await checkNextDocumentProducerCallback();
         } catch (err: any) {
-          this.err = err;
+          throw new CosmosException(err);
           return;
         }
       };
@@ -265,13 +267,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       // Invoke the recursive function to get the ball rolling
       await checkAndEnqueueDocumentProducers(replacementDocumentProducers);
     } catch (err: any) {
-      this.err = err;
+      throw new CosmosException(err);
       throw err;
     }
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
-    CosmosException.record({"cosmos-diagnostics-needPartitionKeyRangeCacheRefresh-error": error});
+    error.setDiagnostic({
+      "cosmos-diagnostics-needPartitionKeyRangeCacheRefresh-error": error,
+    });
     return (
       error.code === StatusCodes.Gone &&
       "substatus" in error &&
@@ -293,10 +297,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     } catch (err: any) {
       if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
         // Split has happened so we need to repair execution context before continueing
+        throw new CosmosException(
+          `Split has happened so we need to repair execution context before continueing ${err}`
+        );
         return this._repairExecutionContext(ifCallback);
       } else {
         // Something actually bad happened ...
-        this.err = err;
+        throw new CosmosException(err);
         throw err;
       }
     }
@@ -317,7 +324,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // release the lock before invoking callback
           this.sem.leave();
           // if there is a prior error return error
-          this.err.headers = this._getAndResetActiveResponseHeaders();
+          throw new CosmosException(String(this._getAndResetActiveResponseHeaders()));
           reject(this.err);
           return;
         }
@@ -349,7 +356,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             this.err = e;
             // release the lock before invoking callback
             this.sem.leave();
-            this.err.headers = this._getAndResetActiveResponseHeaders();
+            this.err = new CosmosException(String(this._getAndResetActiveResponseHeaders()));
             reject(this.err);
             return;
           }
@@ -365,7 +372,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               // this should never happen
               // because the documentProducer already has buffered an item
               // assert item !== undefined
-              this.err = new Error(
+              this.err = new CosmosException(
                 `Extracted DocumentProducer from the priority queue \
                                             doesn't have any buffered item!`
               );
@@ -377,11 +384,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               });
             }
           } catch (err: any) {
-            this.err = new Error(
+            this.err = new CosmosException(
               `Extracted DocumentProducer from the priority queue fails to get the \
-                                    buffered item. Due to ${JSON.stringify(err)}`
+                                    buffered item. Due to ${err}`
             );
-            this.err.headers = this._getAndResetActiveResponseHeaders();
+            new CosmosException(this._getAndResetActiveResponseHeaders());
             // release the lock before invoking callback
             this.sem.leave();
             reject(this.err);
@@ -407,7 +414,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               } catch (e: any) {
                 // if comparing elements in priority queue throws exception
                 // set error
-                this.err = e;
+                throw new CosmosException(e);
               }
             }
           } catch (err: any) {
@@ -417,7 +424,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               this.orderByPQ.enq(documentProducer);
             } else {
               // Something actually bad happened
-              this.err = err;
+              throw new CosmosException(err);
               reject(this.err);
             }
           } finally {

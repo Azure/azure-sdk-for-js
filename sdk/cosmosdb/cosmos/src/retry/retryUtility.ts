@@ -100,7 +100,7 @@ export async function execute({
     } else {
       retryPolicy = retryPolicies.defaultRetryPolicy;
     }
-    CosmosException.record({"cosmos-diagnostics-shouldRetry-error": err.message});
+    new CosmosException(err.message);
     const results = await retryPolicy.shouldRetry(err, retryContext, requestContext.endpoint);
     if (!results) {
       headers[Constants.ThrottleRetryCount] =
@@ -108,7 +108,8 @@ export async function execute({
       headers[Constants.ThrottleRetryWaitTimeInMs] =
         retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
       err.headers = { ...err.headers, ...headers };
-      CosmosException.record({"cosmos-diagnostics-retry-error": err});
+      new CosmosException(err.message);
+      new CosmosException(err);
       throw err;
     } else {
       requestContext.retryCount++;

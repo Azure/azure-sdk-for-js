@@ -102,8 +102,7 @@ export class Databases {
   ): Promise<DatabaseResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
-      CosmosException.record({"cosmos-diagnostics-isResourceValid-error": err})
-      throw err;
+      throw new CosmosException(err);
     }
 
     validateOffer(body);
@@ -169,8 +168,7 @@ export class Databases {
     options?: RequestOptions
   ): Promise<DatabaseResponse> {
     if (!body || body.id === null || body.id === undefined) {
-      const err = new Error("body parameter must be an object with an id property");
-      CosmosException.record({"cosmos-diagnostics-isResourceValid-error": err})
+      const err = new CosmosException("body parameter must be an object with an id property");
       throw err;
     }
     /*
@@ -185,11 +183,10 @@ export class Databases {
         const createResponse = await this.create(body, options);
         // Must merge the headers to capture RU costskaty
         mergeHeaders(createResponse.headers, err.headers);
-        CosmosException.record({"cosmos-diagnostics-database-readResponse-substatus-notfound-error": err});
+        new CosmosException(err);
         return createResponse;
       } else {
-        CosmosException.record({"cosmos-diagnostics-database-readResponse-substatus-notfound-error": err});
-        throw err;
+        throw new CosmosException(err);
       }
     }
   }

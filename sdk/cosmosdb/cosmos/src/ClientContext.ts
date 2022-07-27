@@ -87,22 +87,22 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
   }): Promise<Response<T & Resource>> {
-      const request: RequestContext = {
-        globalEndpointManager: this.globalEndpointManager,
-        requestAgent: this.cosmosClientOptions.agent,
-        connectionPolicy: this.connectionPolicy,
-        method: HTTPMethod.get,
-        path,
-        operationType: OperationType.Read,
-        client: this,
-        resourceId,
-        options,
-        resourceType,
-        plugins: this.cosmosClientOptions.plugins,
-        partitionKey,
-        pipeline: this.pipeline,
-      };
-       try {
+    const request: RequestContext = {
+      globalEndpointManager: this.globalEndpointManager,
+      requestAgent: this.cosmosClientOptions.agent,
+      connectionPolicy: this.connectionPolicy,
+      method: HTTPMethod.get,
+      path,
+      operationType: OperationType.Read,
+      client: this,
+      resourceId,
+      options,
+      resourceType,
+      plugins: this.cosmosClientOptions.plugins,
+      partitionKey,
+      pipeline: this.pipeline,
+    };
+    try {
       request.headers = await this.buildHeaders(request);
       this.applySessionToken(request);
       // read will use ReadEndpoint since it uses GET operation
@@ -298,8 +298,7 @@ export class ClientContext {
       return response;
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
-      CosmosException.record({"cosmos-diagnostics-client-upsert-error": (err as ErrorResponse).message});
-      throw err;
+      throw new CosmosException(err);
     }
   }
 
@@ -741,7 +740,7 @@ export class ClientContext {
   }
 
   private captureSessionToken(
-    err: ErrorResponse,
+    err: CosmosException,
     path: string,
     operationType: OperationType,
     resHeaders: CosmosHeaders
@@ -751,15 +750,14 @@ export class ClientContext {
     if (
       !err ||
       (!this.isMasterResource(request.resourceType) &&
-        (err.code === StatusCodes.PreconditionFailed ||
-          err.code === StatusCodes.Conflict ||
-          (err.code === StatusCodes.NotFound &&
-            err.substatus !== SubStatusCodes.ReadSessionNotAvailable)))
+        (err.response.code === StatusCodes.PreconditionFailed ||
+          err.response.code === StatusCodes.Conflict ||
+          (err.response.code === StatusCodes.NotFound &&
+            err.response.substatus !== SubStatusCodes.ReadSessionNotAvailable)))
     ) {
       this.sessionContainer.set(request, resHeaders);
-    }
-    else{
-      CosmosException.record({"cosmos-diagnostics-capture-session-token-error": (err as ErrorResponse)});
+    } else {
+      throw new CosmosException(err);
     }
   }
 

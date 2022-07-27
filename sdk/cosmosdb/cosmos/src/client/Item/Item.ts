@@ -93,8 +93,7 @@ export class Item {
       });
     } catch (error: any) {
       if (error.code !== StatusCodes.NotFound) {
-        CosmosException.record({"cosmos-diagnostics-read-item-response-error": error});
-        throw error;
+        throw new CosmosException(error);
       }
       response = error;
     }
@@ -144,11 +143,9 @@ export class Item {
         await this.container.readPartitionKeyDefinition();
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
-
     const err = {};
     if (!isResourceValid(body, err)) {
-      CosmosException.record({"cosmos-diagnostics-replace-item-response-error": err});
-      throw err;
+      throw new CosmosException(`"ItemDefinition.replace": ${err}`);
     }
 
     const path = getPathFromLink(this.url);

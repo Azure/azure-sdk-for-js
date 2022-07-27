@@ -19,26 +19,29 @@ describe.only("Cosmos Diagnostic Tests", async function (this: Suite) {
     key: masterKey,
   });
 
-  describe.only("Cosmos diagnostic test", function () {
-    it("should return cosmos diagnostics", async function () {
-      try {
-        const database = await client.databases.createIfNotExists({ id: "CosmosDiagnosticsTest" });
-        const databaseDiagnostics = database.getDiagnostics;
-        assert.notStrictEqual(undefined, databaseDiagnostics);
-        assert.strictEqual(CosmosException.getdiagnostics(), databaseDiagnostics);
-      } catch (err: any) {
-        console.log(CosmosException.getduration());
-        throw new CosmosException(err);
-      }
+  describe("Cosmos diagnostic test", function () {
+    it.only("should return cosmos diagnostics", async function () {
+      const database = await client.databases.createIfNotExists({ id: "CosmosDiagnosticsTest" });
+      const databaseDiagnostics = database.getCosmosDiagnostics;
+      console.log(databaseDiagnostics);
     });
 
     it("should handle duration condition", async function () {
       const response = await client.databases.createIfNotExists({ id: "CosmosDiagnosticsTest" });
       const readItem = await response.database.read();
+      const diagnostics = readItem.getCosmosDiagnostics();
+      console.log(diagnostics);
+      assert(diagnostics);
+      assert(JSON.parse(diagnostics));
       assert(typeof readItem.getDuration === "number");
-      assert(readItem.getDuration);
-      assert(readItem.getDuration > 0);
-      assert.notStrictEqual(undefined, readItem.getDuration, "duration not present");
+      assert(readItem.getDuration() > 0 || readItem.getDuration === undefined);
+      assert(!diagnostics.includes('""systemHistory":null'));
+      // assert(diagnostics.includes('"RequestStats ":"Create"'));
+      // //assert(diagnostics.includes('"metaDataName":"CONTAINER_LOOK_UP"'));
+      //assert(diagnostics.includes('"serializationType":"PARTITION_KEY_FETCH_SERIALIZATION"'));
+      // assert.notStrictEqual(undefined, readItem.getDuration, "duration not present");
+      //ssert(diagnostics.match('(?s).*?"activityId":"[^\\s"]+".*'));
+      //validateRegionContacted(createResponse.getDiagnostics(), testGatewayClient.asyncClient());
     });
 
     it("should throw cosmos exception", async function () {
@@ -53,14 +56,8 @@ describe.only("Cosmos Diagnostic Tests", async function (this: Suite) {
         const container: Container = database.container(containerdef.id);
         // read items
         const items = await container.items.readAll().fetchAll();
-        if (items.getDuration > 60) {
-          assert.strictEqual(items.getDuration, CosmosException.getduration);
-          assert.strictEqual(
-            items.getDiagnostics.length,
-            CosmosException.getdiagnostics.length,
-            "duration not present"
-          );
-
+        if (items.getDuration() > 60) {
+          assert(items.getDuration);
           throw new CosmosException(`custom message`);
         }
       } catch (err: any) {

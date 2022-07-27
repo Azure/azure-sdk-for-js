@@ -703,10 +703,8 @@ export interface ErrorBody {
     message: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CosmosException" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export interface ErrorResponse extends CosmosException {
+export interface ErrorResponse {
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -755,8 +753,10 @@ export interface FeedOptions extends SharedOptions {
     useIncrementalFeed?: boolean;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CosmosDiagnostic" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export class FeedResponse<TResource> {
+export class FeedResponse<TResource> extends CosmosDiagnostic {
     constructor(resources: TResource[], headers: CosmosHeaders, hasMoreResults: boolean);
     // (undocumented)
     get activityId(): string;
@@ -765,9 +765,7 @@ export class FeedResponse<TResource> {
     // (undocumented)
     get continuationToken(): string;
     // (undocumented)
-    get getDiagnostics(): string;
-    // (undocumented)
-    get getDuration(): number;
+    cosmosdiagnostics: CosmosDiagnostic;
     // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
@@ -911,6 +909,10 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+    // Warning: (ae-forgotten-export) The symbol "CosmosException" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    error: CosmosException;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
@@ -1499,16 +1501,12 @@ export interface Resource {
 }
 
 // @public (undocumented)
-export class ResourceResponse<TResource> {
+export class ResourceResponse<TResource> extends CosmosDiagnostic {
     constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
     // (undocumented)
     get activityId(): string;
     // (undocumented)
     get etag(): string;
-    // (undocumented)
-    get getDiagnostics(): string;
-    // (undocumented)
-    get getDuration(): number;
     // (undocumented)
     readonly headers: CosmosHeaders_2;
     // (undocumented)

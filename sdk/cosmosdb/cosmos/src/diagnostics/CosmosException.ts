@@ -1,29 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  DiagnosticSpan,
-  getCosmosDiagnostics,
-  getdiagnosticsdurationMilliseconds,
-  recordDiagnostics,
-} from "./CosmosDiagnostics";
+import { ErrorResponse } from "..";
+import { setDiagnostics } from "./Diagnostics";
 
 export class CosmosException extends Error {
-  constructor(m: string | any) {
-    super(JSON.stringify(m));
+  response?: ErrorResponse;
+
+  constructor(m?: any, errorResponse?: ErrorResponse) {
+    super(m);
     Object.setPrototypeOf(this, CosmosException.prototype);
-  }
-
-  static getdiagnostics(): string {
-    return getCosmosDiagnostics();
-  }
-
-  static getduration() {
-    return getdiagnosticsdurationMilliseconds();
-  }
-
-  static record(m: string | DiagnosticSpan) {
-    recordDiagnostics(JSON.stringify(m));
-    return new CosmosException(m);
+    this.response = errorResponse;
+    if (typeof m !== "undefined") {
+      setDiagnostics(m);
+    }
   }
 }

@@ -39,10 +39,9 @@ export async function setAuthorizationHeader(
     for (const permission of clientOptions.permissionFeed) {
       const id = getResourceIdFromPath(permission.resource);
       if (!id) {
-        const err = new Error(`authorization error: ${id} \
+        const err = new CosmosException(`authorization error: ${id} \
                           is an invalid resourceId in permissionFeed`);
-                          CosmosException.record({ "cosmos-diagnostics-setAuthorizationHeader-error": JSON.stringify(Error(err.message))});
-                          throw err;
+        throw err;
       }
 
       clientOptions.resourceTokens[id] = (permission as any)._token; // TODO: any
@@ -114,6 +113,7 @@ export function getAuthorizationTokenUsingResourceTokens(
     // minimum valid path /dbs
     if (!path || path.length < 4) {
       // TODO: This should throw an error
+      // throw new CosmosException("error: minimum valid path /dbs");
       return null;
     }
 
@@ -143,5 +143,6 @@ export function getAuthorizationTokenUsingResourceTokens(
   }
 
   // TODO: This should throw an error
+  // throw new CosmosException("function call: getAuthorizationTokenUsingResourceTokens");
   return null;
 }

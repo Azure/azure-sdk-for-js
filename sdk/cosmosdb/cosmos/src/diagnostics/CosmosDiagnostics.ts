@@ -1,32 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const _startTime = new Date().getTime();
-const _root: DiagnosticSpan = {
-  cosmosdiagnostics: "Started Cosmos Diagnostics",
-  diagnosticStartTime: new Date().toLocaleString(),
-  durationInMs: new Date().getTime() - _startTime,
-};
-const _diagnosticsSpan: DiagnosticSpan[] = [_root];
-
-export function recordDiagnostics(message: DiagnosticSpan | string) {
-  if (_diagnosticsSpan.length === 0) {
-    recordDiagnostics(_diagnosticsSpan);
+import { ErrorResponse } from "../request/ErrorResponse";
+import {
+  getCosmosDiagnostics,
+  getdiagnosticsdurationMilliseconds,
+  getDiagnosticsRaw,
+} from "./Diagnostics"; //static?
+export class CosmosDiagnostic implements ErrorResponse {
+  /**
+   * Regions contacted for this request.
+   */
+  getRegionsContacted() {}
+  /**
+   * 	Retrieves duration related to the completion of the request. This represents end to end duration of an operation including all the retries. This is meant for point operation only, for query please use toString() to get full query diagnostics.
+   */
+  getDuration() {
+    return getdiagnosticsdurationMilliseconds();
   }
-  _diagnosticsSpan.push({
-    diagnosticsthread: _diagnosticsSpan.length.toString(),
-    excpetion: message,
-    durationInMs: new Date().getTime() - _startTime,
-  });
-}
-export function getdiagnosticsdurationMilliseconds(): number {
-  if (_diagnosticsSpan.length > 0) {
-    return Number(_diagnosticsSpan[_diagnosticsSpan.length - 1].durationInMs);
+  /**
+   * Retrieves Response Diagnostic String.
+   */
+  getCosmosDiagnostics(): string {
+    return getCosmosDiagnostics();
   }
-}
-export function getCosmosDiagnostics(): string {
-  return JSON.stringify(_diagnosticsSpan);
-}
-export interface DiagnosticSpan {
-  [key: string]: string | boolean | number | any;
+  /**
+   * Retrieves Response Diagnostic String.
+   */
+  raw(): string {
+    return getDiagnosticsRaw();
+  }
 }

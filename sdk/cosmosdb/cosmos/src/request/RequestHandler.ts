@@ -11,7 +11,6 @@ import { Constants } from "../common/constants";
 import { executePlugins, PluginOn } from "../plugins/Plugin";
 import * as RetryUtility from "../retry/retryUtility";
 import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
-import { ErrorResponse } from "./ErrorResponse";
 import { bodyFromData } from "./request";
 import { RequestContext } from "./RequestContext";
 import { Response as CosmosResponse } from "./Response";
@@ -19,6 +18,7 @@ import { TimeoutError } from "./TimeoutError";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { CosmosException } from "../diagnostics/CosmosException";
+import { CosmosDiagnostic } from "../diagnostics/CosmosDiagnostics";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
@@ -88,12 +88,12 @@ async function httpRequest(requestContext: RequestContext): Promise<{
       // If the user passed signal caused the abort, cancel the timeout and rethrow the error
       if (userSignal && userSignal.aborted === true) {
         clearTimeout(timeout);
-        throw error;
+        throw new CosmosException(error);
       }
       // If the user didn't cancel, it must be an abort we called due to timeout
-      throw new TimeoutError();
+      throw new CosmosException(new TimeoutError());
     }
-    throw error;
+    throw new CosmosException(error);
   }
 
   clearTimeout(timeout);
@@ -107,41 +107,32 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     : undefined;
 
   if (response.status >= 400) {
-    const errorResponse: ErrorResponse = new Error(result.message);
-      CosmosException.record({ "cosmos-diagnostics-request-error": JSON.stringify(Error(result.message))});
+    const error = new CosmosException(result.message);
+    logger.warning(CosmosDiagnostic.toString());
+    error.response = response;
 
-    logger.warning(
-      response.status +
-        " " +
-        requestContext.endpoint +
-        " " +
-        requestContext.path +
-        " " +
-        result.message
-    );
-
-    errorResponse.code = response.status;
-    errorResponse.body = result;
-    errorResponse.headers = headers;
+    error.response.code = response.status;
+    error.response.body = result;
+    error.response.headers = headers;
 
     if (Constants.HttpHeaders.ActivityId in headers) {
-      errorResponse.activityId = headers[Constants.HttpHeaders.ActivityId];
+      error.response.activityId = headers[Constants.HttpHeaders.ActivityId];
     }
 
     if (Constants.HttpHeaders.SubStatus in headers) {
-      errorResponse.substatus = substatus;
+      error.response.substatus = substatus;
     }
 
     if (Constants.HttpHeaders.RetryAfterInMs in headers) {
-      errorResponse.retryAfterInMs = parseInt(headers[Constants.HttpHeaders.RetryAfterInMs], 10);
-      Object.defineProperty(errorResponse, "retryAfterInMilliseconds", {
+      error.response.retryAfterInMs = parseInt(headers[Constants.HttpHeaders.RetryAfterInMs], 10);
+      Object.defineProperty(error, "retryAfterInMilliseconds", {
         get: () => {
-          return errorResponse.retryAfterInMs;
+          return error.response.retryAfterInMs;
         },
       });
     }
 
-    throw errorResponse;
+    throw error;
   }
   return {
     headers,
@@ -158,7 +149,7 @@ export async function request<T>(requestContext: RequestContext): Promise<Cosmos
   if (requestContext.body) {
     requestContext.body = bodyFromData(requestContext.body);
     if (!requestContext.body) {
-      throw new Error("parameter data must be a javascript object, string, or Buffer");
+      throw new CosmosException("parameter data must be a javascript object, string, or Buffer");
     }
   }
 

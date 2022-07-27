@@ -2,17 +2,19 @@
 // Licensed under the MIT license.
 
 import { Constants } from "../common";
-import { CosmosException } from "../diagnostics/CosmosException";
+import { CosmosDiagnostic } from "../diagnostics/CosmosDiagnostics";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { StatusCode, SubStatusCode } from "./StatusCodes";
 
-export class ResourceResponse<TResource> {
+export class ResourceResponse<TResource> extends CosmosDiagnostic {
   constructor(
     public readonly resource: TResource | undefined,
     public readonly headers: CosmosHeaders,
     public readonly statusCode: StatusCode,
-    public readonly substatus?: SubStatusCode,
-  ) {}
+    public readonly substatus?: SubStatusCode
+  ) {
+    super();
+  }
   public get requestCharge(): number {
     return Number(this.headers[Constants.HttpHeaders.RequestCharge]) || 0;
   }
@@ -21,11 +23,5 @@ export class ResourceResponse<TResource> {
   }
   public get etag(): string {
     return this.headers[Constants.HttpHeaders.ETag] as string;
-  }
-  get getDiagnostics(): string {
-    return CosmosException.getdiagnostics();
-  }
-   public get getDuration() {
-    return CosmosException.getduration();
   }
 }

@@ -108,8 +108,7 @@ export class Containers {
   ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
-      CosmosException.record({"cosmos-diagnostics-create-container-error": err});
-      throw err;
+      throw new CosmosException(err);
     }
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
@@ -147,8 +146,7 @@ export class Containers {
 
     if (typeof body.partitionKey === "string") {
       if (!body.partitionKey.startsWith("/")) {
-        const err = new Error("Partition key must start with '/'");
-        CosmosException.record({"cosmos-diagnostics-partition-key-error": err});
+        const err = new CosmosException("Partition key must start with '/'");
         throw err;
       }
       body.partitionKey = {
@@ -212,11 +210,10 @@ export class Containers {
         const createResponse = await this.create(body, options);
         // Must merge the headers to capture RU costskaty
         mergeHeaders(createResponse.headers, err.headers);
-        CosmosException.record({"cosmos-diagnostics-container-readResponse-substatus-notfound-error": err});
+        new CosmosException(err);
         return createResponse;
       } else {
-        CosmosException.record({"cosmos-diagnostics-container-readResponse-error": err});
-        throw err;
+        throw new CosmosException(err);
       }
     }
   }

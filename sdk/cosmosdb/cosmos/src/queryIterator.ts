@@ -82,17 +82,16 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore();
       } catch (error: any) {
+        new CosmosException(error);
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           try {
             response = await this.queryExecutionContext.fetchMore();
           } catch (queryError: any) {
             this.handleSplitError(queryError);
-            CosmosException.record({"cosmos-diagnostics-getAsyncIterator-error": queryError});
           }
         } else {
-          CosmosException.record({"cosmos-diagnostics-getAsyncIterator-error": error});
-          throw error;
+          throw new CosmosException(error);
         }
       }
       const feedResponse = new FeedResponse<T>(
@@ -156,8 +155,7 @@ export class QueryIterator<T> {
           this.handleSplitError(queryError);
         }
       } else {
-        CosmosException.record({"cosmos-diagnostics-response-error": error});
-        throw error;
+        throw new CosmosException(error);
       }
     }
     return new FeedResponse<T>(
@@ -191,10 +189,8 @@ export class QueryIterator<T> {
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           response = await this.queryExecutionContext.nextItem();
-          CosmosException.record({"cosmos-diagnostics-needsQueryPlan-error": error});
         } else {
-          CosmosException.record({"cosmos-diagnostics-queryExecutionContext-error": error});
-          throw error;
+          throw new CosmosException(error);
         }
       }
       const { result, headers } = response;
@@ -217,15 +213,13 @@ export class QueryIterator<T> {
 
     // We always coerce queryPlanPromise to resolved. So if it errored, we need to manually inspect the resolved value
     if (queryPlanResponse instanceof Error) {
-      CosmosException.record({"cosmos-diagnostics-queryPlanResponse-error": queryPlanResponse});
-      throw queryPlanResponse;
+      throw new CosmosException(queryPlanResponse);
     }
 
     const queryPlan = queryPlanResponse.result;
     const queryInfo = queryPlan.queryInfo;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
-      const err = new Error("Aggregate queries must use the VALUE keyword");
-      CosmosException.record({"cosmos-diagnostics-queryInfo-error": err.message});
+      const err = new CosmosException("Aggregate queries must use the VALUE keyword");
       throw err;
     }
     this.queryExecutionContext = new PipelinedQueryExecutionContext(
@@ -252,16 +246,17 @@ export class QueryIterator<T> {
     return this.queryPlanPromise;
   }
 
-  private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
+  private needsQueryPlan(error: ErrorResponse): error is CosmosException {
     if (
       error.body?.additionalErrorInfo ||
       error.message.includes("Cross partition query only supports")
     ) {
-      CosmosException.record({"cosmos-diagnostics-needsQueryPlant-error": error});
-      return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
+      const err = new CosmosException(error);
+      return (
+        err.response.substatus === StatusCodes.BadRequest && this.resourceType === ResourceType.item
+      );
     } else {
-      CosmosException.record({"cosmos-diagnostics-needsQueryPlant-error": error});
-      throw error;
+      throw new CosmosException(error);
     }
   }
 
@@ -284,16 +279,14 @@ export class QueryIterator<T> {
 
   private handleSplitError(err: any): void {
     if (err.code === 410) {
-      const error = new Error(
+      const error = new CosmosException(
         "Encountered partition split and could not recover. This request is retryable"
-      ) as any;
-      error.code = 503;
-      error.originalError = err;
-     CosmosException.record({"cosmos-diagnostics-410-error": error});
-      throw error;
+      );
+      error.response.code = 503;
+      error.response.originalError = err;
+      throw new CosmosException(error);
     } else {
-CosmosException.record({"cosmos-diagnostics-handleSplit-error": err});
-      throw err;
+      throw new CosmosException(err);
     }
   }
 }

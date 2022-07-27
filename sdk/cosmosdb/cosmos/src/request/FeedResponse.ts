@@ -1,15 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Constants } from "../common";
-import { CosmosException } from "../diagnostics/CosmosException";
+import { CosmosDiagnostic } from "../diagnostics/CosmosDiagnostics";
 import { CosmosHeaders } from "../queryExecutionContext";
 
-export class FeedResponse<TResource> {
+export class FeedResponse<TResource> extends CosmosDiagnostic {
+  cosmosdiagnostics = new CosmosDiagnostic();
   constructor(
     public readonly resources: TResource[],
     private readonly headers: CosmosHeaders,
     public readonly hasMoreResults: boolean
-  ) {}
+  ) {
+    super();
+  }
   public get continuation(): string {
     return this.continuationToken;
   }
@@ -24,11 +27,5 @@ export class FeedResponse<TResource> {
   }
   public get activityId(): string {
     return this.headers[Constants.HttpHeaders.ActivityId];
-  }
-  public get getDiagnostics(): string {
-    return CosmosException.getdiagnostics();
-  }
-  public get getDuration() {
-    return CosmosException.getduration();
   }
 }
