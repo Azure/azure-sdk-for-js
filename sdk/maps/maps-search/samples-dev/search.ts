@@ -89,7 +89,7 @@ async function main() {
   let geometryIds: string[] = [];
   fuzzyResult = await client.fuzzySearch({ query: "Netherlands", countryCodeFilter: ["NL"] });
   if (fuzzyResult.results) {
-    fuzzyResult.results.forEach((res) => {
+    fuzzyResult.results.forEach((res: any) => {
       if (res.dataSources && res.dataSources.geometry && res.dataSources.geometry.id) {
         geometryIds.push(res.dataSources.geometry.id);
       }
