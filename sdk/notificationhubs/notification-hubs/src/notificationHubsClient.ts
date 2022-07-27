@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Installation, JsonPatch, PushHandle } from "./models/installation.js";
-import { NotificationHubsClient, clientFromConnectionString } from "./client/index.js";
+import { NotificationHubsClient, createClientContext } from "./client/index.js";
 import {
   NotificationHubsClientOptions,
   RegistrationQueryLimitOptions,
@@ -57,7 +57,7 @@ export class NotificationHubsServiceClient {
     hubName: string,
     options: NotificationHubsClientOptions = {}
   ) {
-    this._client = clientFromConnectionString(connectionString, hubName, options);
+    this._client = createClientContext(connectionString, hubName, options);
   }
 
   /**

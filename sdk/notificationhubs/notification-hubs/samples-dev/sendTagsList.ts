@@ -20,7 +20,7 @@ import {
 } from "@azure/notification-hubs/models/notificationDetails";
 import {
   NotificationHubsClient,
-  clientFromConnectionString,
+  createClientContext,
 } from "@azure/notification-hubs/client";
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
@@ -37,7 +37,7 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = createClientContext(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
   const tags = ["likes_hockey", "likes_football"];

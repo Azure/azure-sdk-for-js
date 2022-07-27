@@ -3,8 +3,8 @@
 
 import { SendOperationOptions } from "../../src/models/options.js";
 import { assert } from "@azure/test-utils";
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { sendDirectNotification } from "@azure/notification-hubs/client/sendDirectNotification";
 
 // Load the .env file if it exists
@@ -23,7 +23,7 @@ const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 describe("sendDirectNotification()", () => {
   it("should send a direct Apple Notification", async () => {
-    const client = clientFromConnectionString(connectionString, hubName);
+    const client = createClientContext(connectionString, hubName);
 
     const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 

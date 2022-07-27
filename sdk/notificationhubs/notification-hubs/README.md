@@ -70,7 +70,7 @@ Note that creating a client is exposed through the `"@azure/notification-hubs/cl
 
 The following subpaths are exposed:
 
-- `@azure/notification-hubs/client` - The main entry point for the client via `clientFromConnectionString`
+- `@azure/notification-hubs/client` - The main entry point for the client via `createClientContext`
 - `@azure/notification-hubs/client/*` - The client methods such as `getInstallation` or `sendNotification`
 - `@azure/notification-hubs/models/installation` - The installation models and factory methods.
 - `@azure/notification-hubs/models/notification` - The notification models and factory methods.
@@ -81,11 +81,11 @@ The following subpaths are exposed:
 The above code snippet then becomes the following:
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
 import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = createClientContext("<connection string>", "<hub name>");
 
 const installation = createAppleInstallation({
   installationId: "<installation-id>",
@@ -110,12 +110,12 @@ import { NotificationHubServiceClient } from "@azure/notification-hubs";
 const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 ```
 
-Using the modular approach, the `clientFromConnectionString` can be imported via the `"@azure/notification-hubs/client"` subpath.
+Using the modular approach, the `createClientContext` can be imported via the `"@azure/notification-hubs/client"` subpath.
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = createClientContext("<connection string>", "<hub name>");
 ```
 
 ## Key concepts
@@ -159,12 +159,12 @@ installation = await client.createOrUpdateInstallation(installation);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
 import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
 import { v4 } from "uuid";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = createClientContext("<connection string>", "<hub name>");
 
 // Create an installation for APNs
 let installation = createAppleInstallation({
@@ -196,11 +196,11 @@ const installation = await client.updateInstallation(installationId, updates);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { JsonPatch, createAppleInstallation } from "@azure/notification-hubs/models/installation";
 import { updateInstallation } from "@azure/notification-hubs/client/updateInstallation";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = createClientContext("<connection string>", "<hub name>");
 
 const installationId = "<unique installation ID">;
 
@@ -227,10 +227,10 @@ const installation = client.getInstallation(installationId);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { getInstallation } from "@azure/notification-hubs/client/getInstallation";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = createClientContext("<connection string>", "<hub name>");
 
 const installationId = "<unique installation ID">;
 
@@ -264,11 +264,11 @@ console.log(`New Registration ID: ${registration.registrationId}`);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleRegistrationDescription } from "@azure/notification-hubs/models/registration";
 import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = createClientContext("<connection string>", "<hub name>");
 
 let registration = createAppleRegistrationDescription({
   deviceToken: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0",
@@ -299,11 +299,11 @@ registration = await client.updateRegistration(registration);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { getRegistration } from "@azure/notification-hubs/client/getRegistration";
 import { updateRegistration } from "@azure/notification-hubs/client/updateRegistration";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = createClientContext("<connection string>", "<hub name>");
 
 const registrationId = "<unique Registration ID>";
 
@@ -337,10 +337,10 @@ for await (const pages of registrations.byPage()) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { listRegistrationsByTag } from "@azure/notification-hubs/client/listRegistrationsByTag";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = createClientContext("<connection string>", "<hub name>");
 
 const top = 100;
 
@@ -372,7 +372,7 @@ import {
   createAppleNotification,
 } from "@azure/notification-hubs/client";
 
-const client = clientFromConnectionString(connectionString, hubName);
+const client = createClientContext(connectionString, hubName);
 
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
@@ -401,11 +401,11 @@ Using the modular approach, the code would be as follows:
 
 ```typescript
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { sendBroadcastNotification } from "@azure/notification-hubs/client/sendBroadcastNotification";
 
-const client = clientFromConnectionString(connectionString, hubName);
+const client = createClientContext(connectionString, hubName);
 
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
@@ -471,11 +471,11 @@ Using the modular approach, the code would be as follows:
 
 ```typescript
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { sendDirectNotification } from "@azure/notification-hubs/client/sendDirectNotification";
 
-const client = clientFromConnectionString(connectionString, hubName);
+const client = createClientContext(connectionString, hubName);
 
 const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
@@ -543,11 +543,11 @@ Using the modular approach, the code would be as follows:
 
 ```typescript
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = createClientContext("<connection string>", "<hub name>");
 
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
@@ -616,11 +616,11 @@ Using the modular approach, the code would be as follows:
 
 ```typescript
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { scheduleNotification } from "@azure/notification-hubs/client/scheduleNotification";
 
-const client = clientFromConnectionString("<connection string>", "<hub name>");
+const client = createClientContext("<connection string>", "<hub name>");
 
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;

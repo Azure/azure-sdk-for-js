@@ -20,7 +20,7 @@ import {
 } from "@azure/notification-hubs/models/notificationDetails";
 import {
   NotificationHubsClient,
-  clientFromConnectionString,
+  createClientContext,
 } from "@azure/notification-hubs/client";
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
@@ -41,7 +41,7 @@ const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c99
 const devicetoken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = createClientContext(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 

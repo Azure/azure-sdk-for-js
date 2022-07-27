@@ -63,7 +63,7 @@
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register --timeout 1200000 --full-trace --exclude \"test/**/browser/*.spec.ts\" \"test/internal/unit/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register --timeout 1200000 --full-trace --exclude \"dist-esm/test/**/browser/*.spec.js\" \"dist-esm/test/internal/unit/{,!(browser)/**/}*.spec.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [

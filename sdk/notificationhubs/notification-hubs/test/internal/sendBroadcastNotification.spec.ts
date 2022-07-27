@@ -3,8 +3,8 @@
 
 import { SendOperationOptions } from "../../src/models/options.js";
 import { assert } from "@azure/test-utils";
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { sendBroadcastNotification } from "@azure/notification-hubs/client/sendBroadcastNotification";
 
 // Load the .env file if it exists
@@ -19,7 +19,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 describe("sendBroadcastNotification()", () => {
   it("should send a direct Apple Notification", async () => {
-    const client = clientFromConnectionString(connectionString, hubName);
+    const client = createClientContext(connectionString, hubName);
 
     const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 

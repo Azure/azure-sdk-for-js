@@ -14,7 +14,7 @@
  */
 
 import { NotificationHubJob } from "@azure/notification-hubs/models/notificationHubJob";
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { delay } from "@azure/core-amqp";
 import { getNotificationHubJob } from "@azure/notification-hubs/client/getNotificationHubJob";
 import { submitNotificationHubJob } from "@azure/notification-hubs/client/submitNotificationHubJob";
@@ -31,7 +31,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const outputContainerUrl = process.env.OUTPUT_CONTAINER_URL || "<output container URL>";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = createClientContext(connectionString, hubName);
 
   let exportJob: NotificationHubJob = {
     outputContainerUrl,

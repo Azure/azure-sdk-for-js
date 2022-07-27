@@ -13,7 +13,7 @@
  * @azsdk-weight 100
  */
 
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
 import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
 import { v4 } from "uuid";
@@ -31,7 +31,7 @@ const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c99
 const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = createClientContext(connectionString, hubName);
 
   const installation = createAppleInstallation({
     installationId: v4(),

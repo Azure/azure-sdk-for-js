@@ -13,7 +13,7 @@
  * @azsdk-weight 100
  */
 
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { getRegistration } from "@azure/notification-hubs/client/getRegistration";
 import { updateRegistration } from "@azure/notification-hubs/client/updateRegistration";
 
@@ -29,7 +29,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const registrationId = process.env.REGISTRATION_ID || "<registrationId>";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = createClientContext(connectionString, hubName);
 
   const registration = await getRegistration(client, registrationId);
 

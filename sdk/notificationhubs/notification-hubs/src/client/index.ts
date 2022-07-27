@@ -60,7 +60,7 @@ export interface NotificationHubsClient {
  * @param hubName - The notification hub name.
  * @returns A NotificationHubsClient initialized from the connection string and hub name.
  */
-export function clientFromConnectionString(
+export function createClientContext(
   connectionString: string,
   hubName: string,
   options: NotificationHubsClientOptions = {}

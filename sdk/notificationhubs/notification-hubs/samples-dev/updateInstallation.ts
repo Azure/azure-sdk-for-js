@@ -15,7 +15,7 @@
  */
 
 import { JsonPatch } from "@azure/notification-hubs/models/installation";
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { updateInstallation } from "@azure/notification-hubs/client/updateInstallation";
 
 // Load the .env file if it exists
@@ -30,7 +30,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const installationId = process.env.INSTALLATION_ID || "<installation id>";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = createClientContext(connectionString, hubName);
 
   const updates: JsonPatch[] = [
     { op: "add", path: "/tags", value: "likes_baseball" },

@@ -7,7 +7,7 @@ import {
 } from "@azure/notification-hubs/models/registration";
 import {
   NotificationHubsClient,
-  clientFromConnectionString,
+  createClientContext,
 } from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
 import { createOrUpdateRegistration } from "@azure/notification-hubs/client/createOrUpdateRegistration";
@@ -34,7 +34,7 @@ let client: NotificationHubsClient;
 
 describe("createRegistrationId()", () => {
   beforeEach(async () => {
-    client = clientFromConnectionString(connectionString, hubName);
+    client = createClientContext(connectionString, hubName);
 
     registrationId = await createRegistrationId(client);
 

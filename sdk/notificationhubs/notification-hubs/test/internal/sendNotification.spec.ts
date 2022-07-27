@@ -3,8 +3,8 @@
 
 import { SendOperationOptions } from "../../src/models/options.js";
 import { assert } from "@azure/test-utils";
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
 // Load the .env file if it exists
@@ -19,7 +19,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 describe("sendDirectNotification()", () => {
   it("should send a direct Apple Notification with a tag list", async () => {
-    const client = clientFromConnectionString(connectionString, hubName);
+    const client = createClientContext(connectionString, hubName);
 
     const tags = ["likes_hockey", "likes_football"];
 
@@ -42,7 +42,7 @@ describe("sendDirectNotification()", () => {
   });
 
   it("should send a direct Apple Notification with a tag expression", async () => {
-    const client = clientFromConnectionString(connectionString, hubName);
+    const client = createClientContext(connectionString, hubName);
 
     const tagExpression = "likes_hockey && likes_football";
 

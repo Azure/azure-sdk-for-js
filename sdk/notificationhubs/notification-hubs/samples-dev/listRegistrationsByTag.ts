@@ -13,7 +13,7 @@
  * @azsdk-weight 100
  */
 
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { listRegistrationsByTag } from "@azure/notification-hubs/client/listRegistrationsByTag";
 
 // Define connection string and hub name
@@ -24,7 +24,7 @@ const TOP = 100;
 const TAG = "likes_hockey";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = createClientContext(connectionString, hubName);
 
   // Unlimited
   let allRegistrations = listRegistrationsByTag(client, TAG);

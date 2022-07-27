@@ -7,7 +7,7 @@ import {
 } from "@azure/notification-hubs/models/registration";
 import {
   NotificationHubsClient,
-  clientFromConnectionString,
+  createClientContext,
 } from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
 import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
@@ -33,7 +33,7 @@ let client: NotificationHubsClient;
 
 describe("listRegistrationsByTag()", () => {
   beforeEach(async () => {
-    client = clientFromConnectionString(connectionString, hubName);
+    client = createClientContext(connectionString, hubName);
 
     for (let i = 0; i < 3; i++) {
       let registration = createAppleRegistrationDescription({

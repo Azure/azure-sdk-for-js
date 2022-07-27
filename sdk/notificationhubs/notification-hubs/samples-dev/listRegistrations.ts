@@ -13,7 +13,7 @@
  * @azsdk-weight 100
  */
 
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { listRegistrations } from "@azure/notification-hubs/client/listRegistrations";
 
 // Define connection string and hub name
@@ -28,7 +28,7 @@ const FILTER = `DeviceToken eq "${devicetoken}"`;
 const TOP = 100;
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = createClientContext(connectionString, hubName);
 
   // Unlimited
   let allRegistrations = listRegistrations(client);

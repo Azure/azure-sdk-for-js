@@ -3,7 +3,7 @@
 
 import {
   NotificationHubsClient,
-  clientFromConnectionString,
+  createClientContext,
 } from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
 import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
@@ -30,7 +30,7 @@ let client: NotificationHubsClient;
 
 describe("createOrUpdateInstallation()", () => {
   it("should add an installation", async () => {
-    client = clientFromConnectionString(connectionString, hubName);
+    client = createClientContext(connectionString, hubName);
 
     installationId = v4();
 

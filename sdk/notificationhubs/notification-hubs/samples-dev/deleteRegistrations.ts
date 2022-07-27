@@ -12,7 +12,7 @@
  * @azsdk-weight 100
  */
 
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/client";
 import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegistration";
 import { listRegistrations } from "@azure/notification-hubs/client/listRegistrations";
 
@@ -21,7 +21,7 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 async function main() {
-  const client = clientFromConnectionString(connectionString, hubName);
+  const client = createClientContext(connectionString, hubName);
 
   // Unlimited
   let allRegistrations = listRegistrations(client);
