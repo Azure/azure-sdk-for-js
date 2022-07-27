@@ -276,8 +276,8 @@ export function mapReverseSearchAddressResult(
       const { address, position, ...resultObject } = ad;
       return {
         ...resultObject,
-        address: mapAddress(ad.address),
-        position: mapStringToLatLon(ad.position),
+        address: mapAddress(address),
+        position: mapStringToLatLon(position),
       };
     }),
   };
@@ -316,7 +316,6 @@ export function mapSearchAddressBatchResult(
     totalSuccessfulRequests: internalResult.batchSummary.totalSuccessfulRequests,
     batchItems: internalResult.batchItems.map((item) => {
       if (item.statusCode === 200) {
-        item;
         return {
           statusCode: item.statusCode,
           response: mapSearchAddressResult(item.response as unknown as SearchAddressResultInternal),

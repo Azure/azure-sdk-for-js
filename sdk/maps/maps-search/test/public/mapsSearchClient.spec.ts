@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createClient, createRecorder, testLogger } from "./utils/createClient";
 import { Context, Suite } from "mocha";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { MapsSearchClient } from "src/mapsSearchClient";
-import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
 import {
-  KnownSearchAddressResultType,
-  SearchAddressResultItem,
-  GeoJsonPolygonCollection,
   GeoJsonCircleOrPolygonFeatureCollection,
   GeoJsonLineString,
   GeoJsonPolygon,
+  GeoJsonPolygonCollection,
+  KnownSearchAddressResultType,
+  SearchAddressResultItem,
 } from "../../src";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { assert, use as chaiUse } from "chai";
+import { createClient, createRecorder, testLogger } from "./utils/createClient";
+import { MapsSearchClient } from "src/mapsSearchClient";
+import chaiPromises from "chai-as-promised";
+
 chaiUse(chaiPromises);
 
 describe("Get Geometries", function (this: Suite) {
@@ -495,10 +496,10 @@ describe("General search", function (this: Suite) {
         type: "Polygon",
         coordinates: [
           [
-            [-122.43576049804686, 37.7524152343544],
-            [-122.43301391601562, 37.70660472542312],
-            [-122.36434936523438, 37.712059855877314],
-            [-122.43576049804686, 37.7524152343544],
+            [-122.43576049, 37.75241523],
+            [-122.43301391, 37.70660472],
+            [-122.36434936, 37.71205985],
+            [-122.43576049, 37.75241523],
           ],
         ],
       };
@@ -510,10 +511,10 @@ describe("General search", function (this: Suite) {
         type: "Polygon",
         coordinates: [
           [
-            [-122.43576049804686, 37.7524152343544],
-            [-122.43301391601562, 37.70660472542312],
-            [-122.36434936523438, 37.712059855877314],
-            [-122.43576049804686, 37.7524152343544],
+            [-122.43576049, 37.75241523],
+            [-122.43301391, 37.70660472],
+            [-122.36434936, 37.71205985],
+            [-122.43576049, 37.75241523],
           ],
         ],
       };
@@ -528,10 +529,10 @@ describe("General search", function (this: Suite) {
             type: "Polygon",
             coordinates: [
               [
-                [-122.43576049804686, 37.7524152343544],
-                [-122.43301391601562, 37.70660472542312],
-                [-122.36434936523438, 37.712059855877314],
-                [-122.43576049804686, 37.7524152343544],
+                [-122.43576049, 37.75241523],
+                [-122.43301391, 37.70660472],
+                [-122.36434936, 37.71205985],
+                [-122.43576049, 37.75241523],
               ],
             ],
           },
@@ -539,10 +540,10 @@ describe("General search", function (this: Suite) {
             type: "Polygon",
             coordinates: [
               [
-                [-121.43576049804686, 38.7524152343544],
-                [-121.43301391601562, 38.70660472542312],
-                [-121.36434936523438, 38.712059855877314],
-                [-121.43576049804686, 38.7524152343544],
+                [-121.43576049, 38.75241523],
+                [-121.43301391, 38.70660472],
+                [-121.36434936, 38.71205985],
+                [-121.43576049, 38.75241523],
               ],
             ],
           },
@@ -561,10 +562,10 @@ describe("General search", function (this: Suite) {
               type: "Polygon",
               coordinates: [
                 [
-                  [-121.43576049804686, 38.7524152343544],
-                  [-121.43301391601562, 38.70660472542312],
-                  [-121.36434936523438, 38.712059855877314],
-                  [-121.43576049804686, 38.7524152343544],
+                  [-122.43576049, 37.75241523],
+                  [-122.43301391, 37.70660472],
+                  [-122.36434936, 37.71205985],
+                  [-122.43576049, 37.75241523],
                 ],
               ],
             },
@@ -574,7 +575,7 @@ describe("General search", function (this: Suite) {
             type: "Feature",
             geometry: {
               type: "Point",
-              coordinates: [-121.43576049804686, 38.7524152343544],
+              coordinates: [-121.43576049, 38.75241523],
             },
             properties: {
               subType: "Circle",
