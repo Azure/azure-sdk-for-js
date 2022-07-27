@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient, createRequest } from "./index.js";
+import { NotificationHubsClient } from "./index.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "../models/registration.js";
 import { RegistrationQueryOptions } from "../models/options.js";
 import { RegistrationQueryResponse } from "../models/response.js";
 import { RestError } from "@azure/core-rest-pipeline";
+import { createRequest } from "./internal/_client.js";
 import { registrationDescriptionParser } from "../serializers/registrationSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
 

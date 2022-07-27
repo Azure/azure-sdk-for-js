@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient, createRequest, parseNotificationResponse } from "./index.js";
+import { createRequest, parseNotificationResponse } from "./internal/_client.js";
 import { EntityOperationOptions } from "../models/options.js";
+import { NotificationHubsClient } from "./index.js";
 import { NotificationHubsResponse } from "../models/response.js";
 import { RestError } from "@azure/core-rest-pipeline";
+import { isDefined } from "../utils/utils.js";
 import { tracingClient } from "../utils/tracing.js";
 
 /**
@@ -28,7 +30,7 @@ export function deleteRegistration(
 
       const headers = client.createHeaders();
       headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
-      headers.set("If-Match", options.etag ?? "*");
+      headers.set("If-Match", isDefined(options.etag) ? `"${options.etag}"` : "*");
 
       const request = createRequest(endpoint, "GET", headers, updatedOptions);
       const response = await client.sendRequest(request);

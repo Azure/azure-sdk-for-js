@@ -1,15 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { clientFromConnectionString, NotificationHubsClient } from "@azure/notification-hubs/client";
+import {
+  AppleRegistrationDescription,
+  createAppleRegistrationDescription,
+} from "@azure/notification-hubs/models/registration";
+import {
+  NotificationHubsClient,
+  clientFromConnectionString,
+} from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
-import { AppleRegistrationDescription, createAppleRegistrationDescription } from "@azure/notification-hubs/models/registration";
-import { createRegistrationId } from "@azure/notification-hubs/client/createRegistrationId";
 import { createOrUpdateRegistration } from "@azure/notification-hubs/client/createOrUpdateRegistration";
+import { createRegistrationId } from "@azure/notification-hubs/client/createRegistrationId";
 import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegistration";
 import { getRegistration } from "@azure/notification-hubs/client/getRegistration";
 
 // Load the .env file if it exists
+// eslint-disable-next-line sort-imports
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -37,15 +44,14 @@ describe("createRegistrationId()", () => {
       tags: ["likes_football", "likes_hockey"],
     });
 
-    await createOrUpdateRegistration(client, registration) as AppleRegistrationDescription;
+    (await createOrUpdateRegistration(client, registration)) as AppleRegistrationDescription;
   });
 
-  afterEach(async() => {
+  afterEach(async () => {
     await deleteRegistration(client, registrationId);
   });
 
   it("should get a registration by the given registration ID", async () => {
-
     const registration = await getRegistration(client!, registrationId!);
 
     assert.equal(registration.registrationId, registrationId);

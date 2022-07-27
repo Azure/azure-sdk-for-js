@@ -19,7 +19,6 @@ import { delay } from "@azure/core-amqp";
 import { getNotificationHubJob } from "@azure/notification-hubs/client/getNotificationHubJob";
 import { submitNotificationHubJob } from "@azure/notification-hubs/client/submitNotificationHubJob";
 
-
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();

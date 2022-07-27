@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createRequest, parseNotificationResponse } from "./internal/_client.js";
 import { JsonPatch } from "../models/installation.js";
-import { NotificationHubsClient, createRequest, parseNotificationResponse } from "./index.js";
-import { NotificationHubsResponse } from "../models/response.js"
+import { NotificationHubsClient } from "./index.js";
+import { NotificationHubsResponse } from "../models/response.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing.js";

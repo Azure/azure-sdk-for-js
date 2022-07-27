@@ -3,22 +3,19 @@
 
 import {
   HttpHeaders,
-  HttpMethods,
   PipelineRequest,
   PipelineResponse,
   createHttpHeaders,
-  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { NotificationHubsMessageResponse, NotificationHubsResponse } from "../models/response.js";
-import { OperationOptions, ServiceClient } from "@azure/core-client";
 import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
 } from "../utils/connectionStringUtils.js";
-import { InternalClientPipelineOptions } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+import { InternalClientPipelineOptions } from "@azure/core-client";
 import { NotificationHubsClientOptions } from "../models/options.js";
 import { SasTokenProvider } from "@azure/core-amqp";
+import { ServiceClient } from "@azure/core-client";
 
 const API_VERSION = "2020-06";
 
@@ -118,57 +115,4 @@ class NotificationHubsServiceClient extends ServiceClient implements Notificatio
 
     return url;
   }
-}
-
-/**
- * @internal
- */
-export function createRequest(
-  endpoint: URL,
-  method: HttpMethods,
-  headers: HttpHeaders,
-  options: OperationOptions
-): PipelineRequest {
-  return createPipelineRequest({
-    ...options.tracingOptions,
-    ...options.requestOptions,
-    url: endpoint.toString(),
-    abortSignal: options.abortSignal,
-    method,
-    headers,
-  });
-}
-
-/**
- * @internal
- */
-export function parseNotificationResponse(response: PipelineResponse): NotificationHubsResponse {
-  const correlationId = response.headers.get("x-ms-correlation-request-id");
-  const trackingId = response.headers.get("TrackingId");
-  const location = response.headers.get("Location");
-
-  return {
-    correlationId,
-    trackingId,
-    location,
-  };
-}
-
-/**
- * @internal
- */
-export function parseNotificationSendResponse(
-  response: PipelineResponse
-): NotificationHubsMessageResponse {
-  const result = parseNotificationResponse(response);
-  let notificationId: string | undefined;
-  if (result.location) {
-    const locationUrl = new URL(result.location);
-    notificationId = locationUrl.pathname.split("/")[3];
-  }
-
-  return {
-    ...result,
-    notificationId,
-  };
 }

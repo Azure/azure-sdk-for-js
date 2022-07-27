@@ -14,8 +14,14 @@
  * @azsdk-weight 100
  */
 
-import { NotificationDetails, NotificationOutcomeState } from "@azure/notification-hubs/models/notificationDetails";
-import { NotificationHubsClient, clientFromConnectionString } from "@azure/notification-hubs/client";
+import {
+  NotificationDetails,
+  NotificationOutcomeState,
+} from "@azure/notification-hubs/models/notificationDetails";
+import {
+  NotificationHubsClient,
+  clientFromConnectionString,
+} from "@azure/notification-hubs/client";
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-amqp";

@@ -17,7 +17,7 @@
 import { clientFromConnectionString } from "@azure/notification-hubs/client";
 import { createAppleRegistrationDescription } from "@azure/notification-hubs/models/registration";
 import { createOrUpdateRegistration } from "@azure/notification-hubs/client/createOrUpdateRegistration";
-import { createRegistrationId } from "@azure/notification-hubs/client/createRegistrationId"; 
+import { createRegistrationId } from "@azure/notification-hubs/client/createRegistrationId";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

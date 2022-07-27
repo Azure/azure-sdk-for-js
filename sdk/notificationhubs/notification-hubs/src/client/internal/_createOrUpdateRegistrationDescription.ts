@@ -2,13 +2,15 @@
 // Licensed under the MIT license.
 
 import { HttpMethods, RestError } from "@azure/core-rest-pipeline";
-import { NotificationHubsClient, createRequest } from "../index.js";
 import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
 } from "../../serializers/registrationSerializer.js";
+import { NotificationHubsClient } from "../index.js";
 import { OperationOptions } from "@azure/core-client";
 import { RegistrationDescription } from "../../models/registration.js";
+import { createRequest } from "./_client.js";
+import { isDefined } from "../../utils/utils.js";
 
 /**
  * @internal
@@ -38,7 +40,7 @@ export async function createOrUpdateRegistrationDescription(
   headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
 
   if (operationName === "update") {
-    headers.set("If-Match", etag ?? "*");
+    headers.set("If-Match", isDefined(etag) ? `"${etag}"` : "*");
   }
 
   const request = createRequest(endpoint, httpMethod, headers, options);

@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { clientFromConnectionString, NotificationHubsClient } from "@azure/notification-hubs/client";
+import {
+  NotificationHubsClient,
+  clientFromConnectionString,
+} from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
 import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
 import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
@@ -9,6 +12,7 @@ import { deleteInstallation } from "@azure/notification-hubs/client/deleteInstal
 import { v4 } from "uuid";
 
 // Load the .env file if it exists
+// eslint-disable-next-line sort-imports
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -42,7 +46,7 @@ describe("createOrUpdateInstallation()", () => {
     assert.isDefined(result.trackingId);
   });
 
-  afterEach(async() => {
+  afterEach(async () => {
     await deleteInstallation(client, installationId);
   });
 });

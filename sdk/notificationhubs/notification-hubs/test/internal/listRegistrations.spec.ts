@@ -1,14 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { clientFromConnectionString, NotificationHubsClient } from "@azure/notification-hubs/client";
+import {
+  AppleRegistrationDescription,
+  createAppleRegistrationDescription,
+} from "@azure/notification-hubs/models/registration";
+import {
+  NotificationHubsClient,
+  clientFromConnectionString,
+} from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
-import { AppleRegistrationDescription, createAppleRegistrationDescription } from "@azure/notification-hubs/models/registration";
 import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
 import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegistration";
 import { listRegistrations } from "@azure/notification-hubs/client/listRegistrations";
 
 // Load the .env file if it exists
+// eslint-disable-next-line sort-imports
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -21,7 +28,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
-let registrationIds: string[] = [];
+const registrationIds: string[] = [];
 let client: NotificationHubsClient;
 
 describe("listRegistrations()", () => {
@@ -34,19 +41,21 @@ describe("listRegistrations()", () => {
         tags: ["likes_football", "likes_hockey"],
       });
 
-      registration = await createRegistration(client, registration) as AppleRegistrationDescription;
+      registration = (await createRegistration(
+        client,
+        registration
+      )) as AppleRegistrationDescription;
       registrationIds.push(registration.registrationId!);
     }
   });
 
-  afterEach(async() => {
+  afterEach(async () => {
     for (const registrationId of registrationIds) {
       await deleteRegistration(client, registrationId);
     }
   });
 
   it("should list all registrations", async () => {
-
     const registrations = listRegistrations(client);
 
     let numberOfItems = 0;
@@ -57,6 +66,8 @@ describe("listRegistrations()", () => {
     }
 
     assert.isTrue(numberOfItems > 0);
-    assert.isTrue(registrationIds.some((registrationId) => foundRegistrations.includes(registrationId)));
+    assert.isTrue(
+      registrationIds.some((registrationId) => foundRegistrations.includes(registrationId))
+    );
   });
 });

@@ -1,14 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { clientFromConnectionString, NotificationHubsClient } from "@azure/notification-hubs/client";
+import {
+  AppleRegistrationDescription,
+  createAppleRegistrationDescription,
+} from "@azure/notification-hubs/models/registration";
+import {
+  NotificationHubsClient,
+  clientFromConnectionString,
+} from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
-import { AppleRegistrationDescription, createAppleRegistrationDescription } from "@azure/notification-hubs/models/registration";
 import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
 import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegistration";
 import { getRegistration } from "@azure/notification-hubs/client/getRegistration";
 
 // Load the .env file if it exists
+// eslint-disable-next-line sort-imports
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -33,16 +40,15 @@ describe("getRegistration", () => {
       tags: ["likes_football", "likes_hockey"],
     });
 
-    registration = await createRegistration(client, registration) as AppleRegistrationDescription;
+    registration = (await createRegistration(client, registration)) as AppleRegistrationDescription;
     registrationId = registration.registrationId!;
   });
 
-  afterEach(async() => {
+  afterEach(async () => {
     await deleteRegistration(client, registrationId);
   });
 
   it("should get a registration by the given registration ID", async () => {
-
     const registration = await getRegistration(client!, registrationId!);
 
     assert.equal(registration.registrationId, registrationId);

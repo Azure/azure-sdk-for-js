@@ -31,12 +31,7 @@ export function createRegistration(
         });
       }
 
-      return createOrUpdateRegistrationDescription(
-        client,
-        registration,
-        "create",
-        updatedOptions
-      );
+      return createOrUpdateRegistrationDescription(client, registration, "create", updatedOptions);
     }
   );
 }

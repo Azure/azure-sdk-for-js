@@ -27,12 +27,7 @@ export function updateRegistration(
       if (!registration.etag) {
         throw new RestError("ETag is required for registration update", { statusCode: 400 });
       }
-      return createOrUpdateRegistrationDescription(
-        client,
-        registration,
-        "update",
-        updatedOptions
-      );
+      return createOrUpdateRegistrationDescription(client, registration, "update", updatedOptions);
     }
   );
 }

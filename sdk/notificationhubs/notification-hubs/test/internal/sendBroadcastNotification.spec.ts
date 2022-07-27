@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { clientFromConnectionString } from "@azure/notification-hubs/client";
 import { SendOperationOptions } from "../../src/models/options.js";
 import { assert } from "@azure/test-utils";
+import { clientFromConnectionString } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { sendBroadcastNotification } from "@azure/notification-hubs/client/sendBroadcastNotification";
 
 // Load the .env file if it exists
+// eslint-disable-next-line sort-imports
 import * as dotenv from "dotenv";
 
 dotenv.config();
