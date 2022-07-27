@@ -24,9 +24,7 @@ export const testLogger = createClientLogger("route-test");
 
 export type AuthMethod = "SubscriptionKey" | "AAD";
 
-export function createClient(
-  options?: MapsRouteClientOptions
-): MapsRouteClient {
+export function createClient(options?: MapsRouteClientOptions): MapsRouteClient {
   const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
   return new MapsRouteClient(credential, options);
 }
@@ -36,7 +34,7 @@ export function createClient(
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
- export async function createRecorder(context: Context): Promise<Recorder> {
+export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderOptions);
   return recorder;
