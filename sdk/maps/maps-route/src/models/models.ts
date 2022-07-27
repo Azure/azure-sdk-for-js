@@ -2,25 +2,25 @@
 // Licensed under the MIT license.
 
 import {
-  GeoJsonGeometryCollection,
-  GeoJsonMultiPolygon,
-  GeoJsonMultiPoint,
-  GeoJsonType,
   BBox,
   BBox2D,
   BBox3D,
-  LatLon,
   BatchPoller,
+  GeoJsonGeometry,
+  GeoJsonGeometryCollection,
+  GeoJsonLineString,
+  GeoJsonMultiLineString,
+  GeoJsonMultiPoint,
+  GeoJsonMultiPolygon,
+  GeoJsonObject,
+  GeoJsonPoint,
+  GeoJsonPolygon,
+  GeoJsonType,
+  GeometryType,
+  LatLon,
   Position,
   Position2D,
   Position3D,
-  GeoJsonObject,
-  GeoJsonGeometry,
-  GeoJsonPoint,
-  GeoJsonLineString,
-  GeoJsonMultiLineString,
-  GeoJsonPolygon,
-  GeometryType,
 } from "../../../maps-common/src";
 export {
   GeoJsonGeometryCollection,
@@ -116,7 +116,7 @@ export type RouteDirectionParameters = RequireAtLeastOne<{
    *   - The alternative routes are calculated between the origin and destination points specified in the base path parameter locations.
    *   - If both _minDeviationDistance_ and _minDeviationTime_ are set to zero, then these origin and destination points are
    *   expected to be at (or very near) the beginning and end of the reference route, respectively.
-   *   - Intermediate locations (_waypoints_) are not supported when using <_supportingPoints_>.
+   *   - Intermediate locations (_waypoints_) are not supported when using _supportingPoints_.
    *   - The reference route may contain traffic incidents of type _ROAD_CLOSURE_, which are
    *   ignored for the calculation of the reference route's travel time and traffic delay.
    */

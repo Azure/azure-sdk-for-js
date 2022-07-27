@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createClient, createRecorder, testLogger } from "./utils/createClient";
 import { Context, Suite } from "mocha";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { MapsRouteClient } from "src/mapsRouteClient";
-import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
 import {
   KnownRouteType,
   KnownTravelMode,
@@ -14,6 +9,11 @@ import {
   RouteDirectionsRequest,
   RouteMatrixQuery,
 } from "../../src";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { assert, use as chaiUse } from "chai";
+import { createClient, createRecorder, testLogger } from "./utils/createClient";
+import { MapsRouteClient } from "src/mapsRouteClient";
+import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 describe("Get Route Directions", function (this: Suite) {

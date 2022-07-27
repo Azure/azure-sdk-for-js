@@ -187,8 +187,8 @@ export interface RouteInstruction {
    *
    * If junctionType indicates a bifurcation instruction:
    *
-   *   * <0 - keep left
-   *   * \>0 - keep right
+   *   * \< 0 - keep left
+   *   * \> 0 - keep right
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly turnAngleInDegrees?: number;

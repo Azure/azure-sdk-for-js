@@ -3,24 +3,47 @@
 
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
+  BatchPoller,
+  GeoJsonFeatureCollection,
+  GeoJsonLineString,
+  LatLon,
+  SearchGeometry,
+  StructuredAddress,
+} from "./models/models";
 import {
+  BatchPollerProxy,
   createAzureMapsKeyCredentialPolicy,
   createMapsClientIdPolicy,
-  BatchPollerProxy,
 } from "../../maps-common/src";
 import {
-  mapFuzzySearchOptions,
-  mapReverseSearchAddressBatchResult,
-  mapReverseSearchAddressResult,
-  mapReverseSearchCrossStreetAddressResult,
-  mapSearchAddressBatchResult,
-  mapSearchAddressOptions,
-  mapSearchAddressResult,
-  mapSearchPointOfInterestOptions,
-} from "./models/mappers";
+  BatchResult,
+  EntityGeometry,
+  ReverseSearchAddressResult,
+  ReverseSearchCrossStreetAddressResult,
+  SearchAddressResult,
+} from "./models/results";
+import {
+  FuzzySearchBatchOptions,
+  FuzzySearchOptions,
+  FuzzySearchRequest,
+  GetGeometriesOptions,
+  GetPointOfInterestCategoriesOptions,
+  MapsSearchClientOptions,
+  ReverseSearchAddressBatchOptions,
+  ReverseSearchAddressOptions,
+  ReverseSearchAddressRequest,
+  ReverseSearchCrossStreetAddressOptions,
+  SearchAddressBatchOptions,
+  SearchAddressOptions,
+  SearchAddressRequest,
+  SearchAlongRouteOptions,
+  SearchInsideGeometryOptions,
+  SearchNearbyPointOfInterestOptions,
+  SearchPointOfInterestCategoryOptions,
+  SearchPointOfInterestOptions,
+  SearchQuery,
+  SearchStructuredAddressOptions,
+} from "./models/options";
 import {
   SearchGetPointOfInterestCategoryTreeOptionalParams as GetPointOfInterestCategoryTreeOptionalParams,
   SearchListPolygonsOptionalParams as ListPolygonsOptionalParams,
@@ -31,56 +54,33 @@ import {
   SearchAddressBatchResult,
   SearchSearchAlongRouteOptionalParams as SearchAlongRouteOptionalParams,
   SearchSearchInsideGeometryOptionalParams as SearchInsideGeometryOptionalParams,
-  SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
+  SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
 } from "./generated/models";
 import {
-  SearchGeometry,
-  StructuredAddress,
-  LatLon,
-  GeoJsonLineString,
-  BatchPoller,
-  GeoJsonFeatureCollection,
-} from "./models/models";
+  InternalPipelineOptions,
+  bearerTokenAuthenticationPolicy,
+} from "@azure/core-rest-pipeline";
 import {
   createFuzzySearchBatchRequest,
   createReverseSearchAddressBatchRequest,
   createSearchAddressBatchRequest,
 } from "./models/mappers";
 import {
-  EntityGeometry,
-  BatchResult,
-  ReverseSearchAddressResult,
-  ReverseSearchCrossStreetAddressResult,
-  SearchAddressResult,
-} from "./models/results";
+  mapFuzzySearchOptions,
+  mapReverseSearchAddressBatchResult,
+  mapReverseSearchAddressResult,
+  mapReverseSearchCrossStreetAddressResult,
+  mapSearchAddressBatchResult,
+  mapSearchAddressOptions,
+  mapSearchAddressResult,
+  mapSearchPointOfInterestOptions,
+} from "./models/mappers";
 import { GeneratedClient } from "./generated";
-import {
-  FuzzySearchBatchOptions,
-  FuzzySearchOptions,
-  GetPointOfInterestCategoriesOptions,
-  GetGeometriesOptions,
-  ReverseSearchAddressBatchOptions,
-  ReverseSearchAddressOptions,
-  ReverseSearchCrossStreetAddressOptions,
-  SearchAddressBatchOptions,
-  SearchAddressOptions,
-  SearchAlongRouteOptions,
-  MapsSearchClientOptions,
-  SearchInsideGeometryOptions,
-  SearchNearbyPointOfInterestOptions,
-  SearchPointOfInterestCategoryOptions,
-  SearchPointOfInterestOptions,
-  SearchStructuredAddressOptions,
-  SearchQuery,
-  FuzzySearchRequest,
-  SearchAddressRequest,
-  ReverseSearchAddressRequest,
-} from "./models/options";
-import { logger } from "./utils/logger";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { OperationOptions } from "@azure/core-client";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./utils/tracing";
+import { logger } from "./utils/logger";
 
 const isMapsSearchClientOptions = (
   clientIdOrOptions: any

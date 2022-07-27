@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createClient, createRecorder, testLogger } from "./utils/createClient";
-import { assert, use as chaiUse } from "chai";
 import { Context, Suite } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { MapsRenderClient } from "src/mapsRenderClient";
-import chaiPromises from "chai-as-promised";
+import { assert, use as chaiUse } from "chai";
+import { createClient, createRecorder, testLogger } from "./utils/createClient";
 import { KnownTilesetId } from "../../src";
+import { MapsRenderClient } from "src/mapsRenderClient";
+import { Recorder } from "@azure-tools/test-recorder";
+import chaiPromises from "chai-as-promised";
+
 chaiUse(chaiPromises);
 
 describe(`Render Client Test`, function (this: Suite) {

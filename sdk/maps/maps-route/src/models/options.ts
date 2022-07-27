@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
   AlternativeRouteType,
   ComputeTravelTime,
@@ -17,6 +16,7 @@ import {
   VehicleLoadType,
   WindingnessLevel,
 } from "../generated";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { GeoJsonMultiPoint, LatLon } from "./models";
 
 /**

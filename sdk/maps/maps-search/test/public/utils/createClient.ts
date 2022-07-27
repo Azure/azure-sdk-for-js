@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createClientLogger } from "@azure/logger";
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
 import { MapsSearchClient } from "../../../src/mapsSearchClient";
 import { MapsSearchClientOptions } from "../../../src/models/options";
+import { createClientLogger } from "@azure/logger";
 
 const envSetupForPlayback: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",

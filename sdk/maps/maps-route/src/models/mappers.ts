@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { BatchRequest, ErrorResponse, RouteDirectionsBatchResult } from "src/generated";
-import { LatLon } from "./models";
-import { RouteDirectionsOptions, RouteDirectionsRequest } from "./options";
 import { BatchResult, RouteDirections } from "./results";
+import { RouteDirectionsOptions, RouteDirectionsRequest } from "./options";
+import { LatLon } from "./models";
 
 /**
  * @internal

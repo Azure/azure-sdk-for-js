@@ -2,39 +2,39 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { BatchPoller, LatLon, RouteDirectionParameters } from "./models/models";
+import {
+  BatchPollerProxy,
+  createAzureMapsKeyCredentialPolicy,
+  createMapsClientIdPolicy,
+} from "../../maps-common/src";
+import { BatchResult, RouteDirections, RouteRangeResult } from "./models/results";
+import { GeneratedClient, RouteDirectionsBatchResult, RouteMatrixResult } from "./generated";
 import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import {
-  createAzureMapsKeyCredentialPolicy,
-  createMapsClientIdPolicy,
-  BatchPollerProxy,
-} from "../../maps-common/src";
-import { GeneratedClient, RouteDirectionsBatchResult, RouteMatrixResult } from "./generated";
-import {
-  RouteDirectionsOptions,
-  RouteRangeOptions,
   MapsRouteClientOptions,
-  RouteMatrixOptions,
-  RouteRangeBudget,
-  RouteDirectionsRequest,
   RouteDirectionsBatchOptions,
+  RouteDirectionsOptions,
+  RouteDirectionsRequest,
+  RouteMatrixOptions,
   RouteMatrixQuery,
   RouteMatrixRequestOptions,
+  RouteRangeBudget,
+  RouteRangeOptions,
 } from "./models/options";
-import { logger } from "./utils/logger";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { RouteDirectionParameters, LatLon, BatchPoller } from "./models/models";
 import {
   createRouteDirectionsBatchRequest,
   mapRouteDirectionsBatchResult,
   toColonDelimitedLatLonString,
   toNumericArray,
 } from "./models/mappers";
-import { BatchResult, RouteDirections, RouteRangeResult } from "./models/results";
 import { OperationOptions } from "@azure/core-client";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./utils/tracing";
+import { logger } from "./utils/logger";
 
 const isMapsRouteClientOptions = (
   clientIdOrOptions: any

@@ -1,7 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import {
+  Address,
+  BatchResult,
+  BoundingBox,
+  FuzzySearchBaseOptions,
+  FuzzySearchOptions,
+  FuzzySearchRequest,
+  LatLon,
+  ReverseSearchAddressOptions,
+  ReverseSearchAddressRequest,
+  ReverseSearchAddressResult,
+  ReverseSearchCrossStreetAddressResult,
+  SearchAddressBaseOptions,
+  SearchAddressOptions,
+  SearchAddressRequest,
+  SearchAddressResult,
+  SearchBaseOptions,
+  SearchExtraFilterOptions,
+  SearchNearbyPointOfInterestOptions,
+  SearchPointOfInterestBaseOptions,
+  SearchPointOfInterestOptions,
+} from "../../src";
+import {
+  Address as AddressInternal,
+  BatchRequest,
+  SearchFuzzySearchOptionalParams as FuzzySearchOptionalParams,
+  KnownElectricVehicleConnector,
+  KnownGeographicEntityType,
+  KnownMatchType,
+  KnownOperatingHoursRange,
+  KnownRoadUseType,
+  KnownSearchIndexes,
+  ReverseSearchAddressBatchItemResponse,
+  ReverseSearchAddressBatchResult,
+  ReverseSearchAddressResult as ReverseSearchAddressResultInternal,
+  ReverseSearchCrossStreetAddressResult as ReverseSearchCrossStreetAddressResultInternal,
+  SearchAddressBatchItemResponse,
+  SearchAddressBatchResult,
+  SearchSearchAddressOptionalParams as SearchAddressOptionalParams,
+  SearchAddressResult as SearchAddressResultInternal,
+  SearchSearchPointOfInterestOptionalParams as SearchPointOfInterestOptionalParams,
+} from "../../src/generated/models";
+import {
+  BoundingBoxCompassNotation,
+  BoundingBox as BoundingBoxInternal,
+  LatLongPairAbbreviated,
+} from "../../src/generated";
 import {
   createFuzzySearchBatchRequest,
   createReverseSearchAddressBatchRequest,
@@ -26,54 +72,8 @@ import {
   toLatLon,
   toLatLonString,
 } from "../../src/models/mappers";
-import {
-  FuzzySearchBaseOptions,
-  FuzzySearchOptions,
-  FuzzySearchRequest,
-  ReverseSearchAddressOptions,
-  ReverseSearchAddressRequest,
-  SearchAddressBaseOptions,
-  SearchAddressOptions,
-  SearchAddressRequest,
-  SearchBaseOptions,
-  SearchExtraFilterOptions,
-  SearchNearbyPointOfInterestOptions,
-  SearchPointOfInterestBaseOptions,
-  SearchPointOfInterestOptions,
-  BoundingBox,
-  LatLon,
-  Address,
-  BatchResult,
-  ReverseSearchAddressResult,
-  ReverseSearchCrossStreetAddressResult,
-  SearchAddressResult,
-} from "../../src";
-import {
-  LatLongPairAbbreviated,
-  BoundingBox as BoundingBoxInternal,
-  BoundingBoxCompassNotation,
-} from "../../src/generated";
-import {
-  SearchSearchAddressOptionalParams as SearchAddressOptionalParams,
-  SearchSearchPointOfInterestOptionalParams as SearchPointOfInterestOptionalParams,
-  SearchFuzzySearchOptionalParams as FuzzySearchOptionalParams,
-  KnownRoadUseType,
-  KnownGeographicEntityType,
-  BatchRequest,
-  KnownSearchIndexes,
-  KnownOperatingHoursRange,
-  KnownElectricVehicleConnector,
-  Address as AddressInternal,
-  SearchAddressResult as SearchAddressResultInternal,
-  ReverseSearchAddressResult as ReverseSearchAddressResultInternal,
-  ReverseSearchCrossStreetAddressResult as ReverseSearchCrossStreetAddressResultInternal,
-  KnownMatchType,
-  SearchAddressBatchResult,
-  ReverseSearchAddressBatchResult,
-  SearchAddressBatchItemResponse,
-  ReverseSearchAddressBatchItemResponse,
-} from "../../src/generated/models";
 import { OperationOptions } from "@azure/core-client";
+import { assert } from "chai";
 
 describe("LatLon/BoundingBox mappers", () => {
   describe("toLatLon", () => {

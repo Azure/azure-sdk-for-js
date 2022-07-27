@@ -55,8 +55,8 @@ You will also need to specify the Azure Maps resource you intend to use by speci
 The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
 ```javascript
-import { MapsSearchClient } from "@azure/maps-search";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MapsSearchClient } = require("@azure/maps-search");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 const credential = new DefaultAzureCredential();
 const client = new MapsSearchClient(credential, "<maps-account-client-id>");
@@ -67,7 +67,7 @@ const client = new MapsSearchClient(credential, "<maps-account-client-id>");
 You can authenticate with your Azure Maps Subscription Key.
 
 ```javascript
-import { MapsSearchClient, AzureKeyCredential } from "@azure/maps-search";
+const { MapsSearchClient, AzureKeyCredential } = require("@azure/maps-search");
 
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = new MapsSearchClient(credential);
@@ -138,7 +138,7 @@ const reverseSearchResult = await client.reverseSearchCrossStreetAddress(coordin
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
 
