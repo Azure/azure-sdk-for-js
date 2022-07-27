@@ -24,9 +24,7 @@ export const testLogger = createClientLogger("render-test");
 
 export type AuthMethod = "SubscriptionKey" | "AAD";
 
-export function createClient(
-  options?: MapsRenderClientOptions
-): MapsRenderClient {
+export function createClient(options?: MapsRenderClientOptions): MapsRenderClient {
   const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
   return new MapsRenderClient(credential, options);
 }
@@ -44,11 +42,11 @@ export async function createRecorder(context: Context): Promise<Recorder> {
     generalSanitizers: [
       {
         regex: true,
-         // This is a .NET regular expression that will be compiled by the proxy tool.
-         // eslint-disable-next-line
-        target: "batch/{?\w{8}-?\w{4}-?\w{4}-?\w{4}-?\w{12}}?",
+        // This is a .NET regular expression that will be compiled by the proxy tool.
+        // eslint-disable-next-line
+        target: "batch/{?w{8}-?w{4}-?w{4}-?w{4}-?w{12}}?",
         value: "batch/<batch-id>",
-      }
+      },
     ],
   });
 
