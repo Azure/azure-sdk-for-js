@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { LatLon } from "./models";
 import { LocalizedMapView, MapImageStyle, MapTileSize, StaticMapLayer } from "../generated/models";
+import { LatLon } from "./models";
 
 /**
  * Client options used to configure the Maps Render Client

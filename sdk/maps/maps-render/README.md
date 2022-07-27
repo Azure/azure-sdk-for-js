@@ -56,8 +56,8 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options. The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
 ```javascript
-import { MapsRenderClient } from "@azure/maps-render";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MapsRenderClient } = require("@azure/maps-render");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 const credential = new DefaultAzureCredential();
 const client = new MapsRenderClient(credential, "<maps-account-client-id>");
@@ -72,7 +72,7 @@ npm install @azure/core-auth
 ```
 
 ```javascript
-import { MapsRenderClient, AzureKeyCredential } from "@azure/maps-render";
+const { MapsRenderClient, AzureKeyCredential } = require("@azure/maps-render");
 
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = new MapsRenderClient(credential);
@@ -131,7 +131,7 @@ const tileJson = await client.getMapTileset(KnownTilesetID.MicrosoftBase);
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
 

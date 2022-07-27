@@ -4,7 +4,7 @@
   "description": "A client library for Azure Maps maps-render",
   "sdk-type": "client",
   "main": "dist/index.js",
-  "module": "dist-esm/maps-render/src/index.js",
+  "module": "dist-esm/src/index.js",
   "browser": {},
   "types": "types/latest/maps-render.d.ts",
   "typesVersions": {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingBox, LatLon, GeoJsonFeatureCollection } from "./models";
+import { BoundingBox, GeoJsonFeatureCollection, LatLon } from "./models";
 import {
   DataSource,
   EntryPointType,

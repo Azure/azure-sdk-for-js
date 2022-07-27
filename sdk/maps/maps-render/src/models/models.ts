@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CopyrightCaption as CopyrightCaptionResult } from "../generated/models";
 import { BoundingBox, LatLon } from "../../../maps-common/src";
+import { CopyrightCaption as CopyrightCaptionResult } from "../generated/models";
+
 export { BoundingBox, LatLon };
 export {
   TilesetId,

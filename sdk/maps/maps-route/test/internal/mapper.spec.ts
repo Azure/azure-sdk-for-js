@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { toColonDelimitedLatLonString, toNumericArray } from "../../src/models/mappers";
+import { assert } from "chai";
 
 describe("LatLon mappers", () => {
   describe("toNumericArray", () => {

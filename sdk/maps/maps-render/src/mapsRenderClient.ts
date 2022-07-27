@@ -2,14 +2,7 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
-import {
-  createAzureMapsKeyCredentialPolicy,
-  createMapsClientIdPolicy,
-} from "../../maps-common/src";
+import { BoundingBox, KnownIncludeText } from "./models/models";
 import {
   Copyright,
   CopyrightCaption,
@@ -20,7 +13,6 @@ import {
   TileJson,
   TilesetId
 } from "./generated";
-import { BoundingBox, KnownIncludeText } from "./models/models";
 import {
   GetAttributionOptions,
   GetCopyrightCaptionOptions,
@@ -32,10 +24,18 @@ import {
   ImageRange,
   MapsRenderClientOptions,
 } from "./models/options";
-import { logger } from "./utils/logger";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import {
+  InternalPipelineOptions,
+  bearerTokenAuthenticationPolicy,
+} from "@azure/core-rest-pipeline";
+import {
+  createAzureMapsKeyCredentialPolicy,
+  createMapsClientIdPolicy,
+} from "../../maps-common/src";
 import { MapTile } from "./models/results";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./utils/tracing";
+import { logger } from "./utils/logger";
 
 const isMapsRenderClientOptions = (
   clientIdOrOptions: any
