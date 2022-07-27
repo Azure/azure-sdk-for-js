@@ -67,15 +67,14 @@ export function onChangeWithOrigin<Values extends ValuesCommon>(origin: string, 
 export interface PortalData {
     environment: Environment;
     instanceId: string;
-    origin: string;
 }
 
 // @public
 export type Secrets = {
-    token: string;
-    userId: string;
-    apiVersion: string;
     managementApiUrl: string;
+    apiVersion: string;
+    userId?: string;
+    token?: string;
 };
 
 // @public

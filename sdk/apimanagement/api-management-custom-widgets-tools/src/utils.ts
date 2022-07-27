@@ -25,8 +25,8 @@ export type Environment = "development" | "publishing" | "runtime" | "error";
 
 /** Information about the widget instance received from the Dev Portal */
 export interface PortalData {
-  /** web content's origin (URL) of your Dev Portal */
-  origin: string;
+  // /** web content's origin (URL) of your Dev Portal */
+  // origin: string;
   /** current runtime environment */
   environment: Environment;
   /** ID of this particular instance of the widget */
@@ -43,15 +43,15 @@ function parseWidgetData<Values extends ValuesCommon>(
   urlSearchParams: URLSearchParams
 ): EditorData<Values> {
   try {
-    const urlEditorParams = JSON.parse(
+    const urlEditorParams: EditorData<Values> = JSON.parse(
       decodeURIComponent(urlSearchParams.get(APIM_EDITOR_DATA_KEY) ?? "")
     );
 
-    if (!("origin" in urlEditorParams)) {
-      console.error(
-        "Could not get 'origin' from the search params of the URL:\n" + self.location.href
-      );
-    }
+    // if (!("origin" in urlEditorParams)) {
+    //   console.error(
+    //     "Could not get 'origin' from the search params of the URL:\n" + self.location.href
+    //   );
+    // }
     return urlEditorParams;
   } catch (e) {
     console.error(
@@ -59,7 +59,7 @@ function parseWidgetData<Values extends ValuesCommon>(
         self.location,
       e
     );
-    return { values: {}, environment: "error", origin: "error", instanceId: "error" };
+    return { values: {}, environment: "error", instanceId: "error" };
   }
 }
 
@@ -139,8 +139,8 @@ export function onChangeWithOrigin<Values extends ValuesCommon>(
  * Build onChange function, which you can use, to send changed data from the editor.
  */
 export function buildOnChange<Values extends ValuesCommon>(): OnChange<Values> {
-  const { origin, instanceId } = getWidgetData();
-  return (values: Partial<Values>) => onChangeWithOrigin(origin, instanceId, values);
+  const { instanceId } = getWidgetData();
+  return (values: Partial<Values>) => onChangeWithOrigin("*", instanceId, values);
 }
 
 /**
@@ -153,29 +153,35 @@ export type TargetModule = "app" | "editor";
  * Secrets needed for communication with Dev Portal back-end
  */
 export type Secrets = {
-  token: string;
-  userId: string;
-  apiVersion: string;
   managementApiUrl: string;
+  apiVersion: string;
+  userId?: string;
+  token?: string;
 };
+
 /**
  * Request secrets - token & userId, from the Dev portal parent window.
  *
  * @param targetModule - is the function invoke from the main "app" window or the admin "editor"?
  */
 export async function askForSecrets(targetModule: TargetModule): Promise<Secrets> {
-  return new Promise((resolve, reject) => {
-    const { origin: targetOrigin, instanceId, environment }: PortalData = getWidgetData();
-    self.addEventListener("message", ({ data, origin }) => {
-      if (origin !== targetOrigin || !(APIM_ASK_FOR_SECRETS_MESSAGE_KEY in data)) return;
+  let receiveSecrets: (e: MessageEvent) => void;
+
+  const promise = new Promise<Secrets>((resolve, reject) => {
+    const { instanceId, environment }: PortalData = getWidgetData();
+
+    receiveSecrets = ({ data }) => {
+      if (!(APIM_ASK_FOR_SECRETS_MESSAGE_KEY in data)) return;
 
       const secrets = data[APIM_ASK_FOR_SECRETS_MESSAGE_KEY];
-      if (typeof secrets !== "object" || !("token" in secrets) || !("userId" in secrets)) {
+      if (typeof secrets !== "object" || !("managementApiUrl" in secrets)) {
         reject("Secrets send by Dev Portal are invalid");
       }
 
       resolve(secrets);
-    });
+    };
+
+    self.addEventListener("message", receiveSecrets);
 
     const message = {
       [APIM_ASK_FOR_SECRETS_MESSAGE_KEY]: {
@@ -186,9 +192,11 @@ export async function askForSecrets(targetModule: TargetModule): Promise<Secrets
     };
 
     if (targetModule === "app" && environment === "development") {
-      self.parent.parent.postMessage(message, targetOrigin);
+      self.parent.parent.postMessage(message, "*");
     } else {
-      self.parent.postMessage(message, targetOrigin);
+      self.parent.postMessage(message, "*");
     }
   });
+
+  return promise.finally(() => self.removeEventListener("message", receiveSecrets));
 }
