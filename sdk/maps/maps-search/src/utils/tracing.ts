@@ -11,5 +11,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   packagePrefix: "Azure.Maps.Search",
-  namespace: "Microsoft.Maps"
+  namespace: "Microsoft.Maps",
 });

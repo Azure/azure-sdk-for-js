@@ -114,9 +114,7 @@ describe("Get Route Directions With Additional Parameters", function () {
     };
 
     // "routePoints must be a non-empty array"
-    assert.isRejected(
-      client.getRouteDirectionsWithAdditionalParameters([], additionalParams)
-    );
+    assert.isRejected(client.getRouteDirectionsWithAdditionalParameters([], additionalParams));
   });
 });
 

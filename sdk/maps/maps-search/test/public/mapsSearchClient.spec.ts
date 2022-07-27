@@ -49,10 +49,7 @@ describe("Get Geometries", function (this: Suite) {
   });
 
   it("throw error on empty geometryIds array", async function () {
-    return assert.isRejected(
-      client.getGeometries([]),
-      /geometryIds must be a non-empty array/
-    );
+    return assert.isRejected(client.getGeometries([]), /geometryIds must be a non-empty array/);
   });
 
   it("return undefined geometryData if geometry id is invalid", async function () {
@@ -229,12 +226,8 @@ describe("Reverse Search Cross Street Address", function (this: Suite) {
 
   it("should throw error if query is invalid", async function () {
     // "The provided coordinates in query are invalid, out of range, or not in the expected format"
-    assert.isRejected(
-      client.reverseSearchCrossStreetAddress({ latitude: -100, longitude: 121 })
-    );
-    assert.isRejected(
-      client.reverseSearchCrossStreetAddress({ latitude: 25, longitude: 250 })
-    );
+    assert.isRejected(client.reverseSearchCrossStreetAddress({ latitude: -100, longitude: 121 }));
+    assert.isRejected(client.reverseSearchCrossStreetAddress({ latitude: 25, longitude: 250 }));
   });
 
   it("should return non-empty results", async function () {
@@ -610,7 +603,6 @@ describe("LRO", function (this: Suite) {
   before(function (this: Context) {
     this.timeout(fastTimeout);
   });
-
 
   const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
