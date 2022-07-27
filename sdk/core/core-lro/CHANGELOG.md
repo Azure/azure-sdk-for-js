@@ -1,17 +1,19 @@
 # Release History
 
-## 2.3.0-beta.2 (Unreleased)
+## 2.3.0 (2022-08-04)
 
 ### Features Added
-
-### Breaking Changes
+- Adds support for a `cancel` option for `lroEngine` that can be used to implement the poller's `cancelOperation`.
 
 ### Bugs Fixed
+
+- `lroEngine` no longer throws when receives 204 responses.
 
 ### Other Changes
 
 - Support LROs with GET as the initial request method.
 - Better logging support for the operation and the poller.
+- Removes the unused dependency `@azure/core-tracing`.
 
 ## 2.3.0-beta.1 (2022-05-18)
 
