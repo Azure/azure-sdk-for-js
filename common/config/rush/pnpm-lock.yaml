@@ -16462,7 +16462,7 @@ packages:
     dev: false
 
   file:projects/maps-common.tgz:
-    resolution: {integrity: sha512-cPuT6tfFJdb/y61EsfS7cXJnjlyhX9quBd49I44oMyUzJUmIH2GvR71QwCaQf1ecXNgr13Gy0pSAMYpnrZyiHg==, tarball: file:projects/maps-common.tgz}
+    resolution: {integrity: sha512-GDCEhodYVkTDg+Vx07/tumcfk6sHuH3zQO5O8N5pYvKJXsDeIprZBkrsnd1UEoNWpITG6iwD+/zo332TvKm6EQ==, tarball: file:projects/maps-common.tgz}
     name: '@rush-temp/maps-common'
     version: 0.0.0
     dependencies:
@@ -16478,7 +16478,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
-      eslint: 7.32.0
+      eslint: 8.20.0
       esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.0
@@ -16496,7 +16496,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
-      prettier: 1.19.1
+      prettier: 2.7.1
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.4.0
@@ -16504,10 +16504,7 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     transitivePeerDependencies:
-      - bufferutil
-      - debug
       - supports-color
-      - utf-8-validate
     dev: false
 
   file:projects/maps-render.tgz:
