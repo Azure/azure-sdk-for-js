@@ -4,13 +4,13 @@
   "description": "A client library for Azure Maps maps-route",
   "sdk-type": "client",
   "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
+  "module": "dist-esm/maps-route/src/index.js",
   "browser": {},
   "types": "types/latest/maps-route.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "types/3.1/index.d.ts"
+        "types/3.1/maps-route.d.ts"
       ]
     }
   },
@@ -18,12 +18,27 @@
     "productName": "Azure Maps Route",
     "productSlugs": [
       "azure",
-      "azure-maps",
-      "route"
+      "azure-maps"
     ],
     "requiredResources": {
       "Azure Maps Resource": "https://docs.microsoft.com/azure/azure-maps/how-to-create-template"
     }
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -32,7 +47,7 @@
     "build:nodebrowser": "dev-tool run bundle",
     "build:samples": "dev-tool samples publish --force",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types types/3.1",
+    "build:types": "downlevel-dts types/latest types/3.1",
     "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log coverage coverage-browser",
@@ -47,8 +62,8 @@
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
-    "lint": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
@@ -59,8 +74,8 @@
   },
   "files": [
     "dist/",
-    "dist-esm/maps-search/src/",
     "dist-esm/maps-common/src/",
+    "dist-esm/maps-route/src/",
     "types/latest/",
     "types/3.1/",
     "README.md",

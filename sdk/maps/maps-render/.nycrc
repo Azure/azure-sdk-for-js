@@ -1,11 +1,10 @@
 {
   "include": [
-    "dist-esm/maps-render/src/**/*.js",
-    "dist-esm/maps-common/src/**/*.js"
+    "dist-esm/**/src/**/*.js"
   ],
   "exclude": [
     "**/*.d.ts",
-    "dist-esm/src/generated/*"
+    "dist-esm/maps-render/src/generated/*"
   ],
   "reporter": [
     "text-summary",

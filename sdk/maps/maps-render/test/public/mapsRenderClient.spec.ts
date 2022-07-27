@@ -63,7 +63,6 @@ describe(`Render Client Test`, function (this: Suite) {
     assert.isNotEmpty(copyright.regions);
   });
 
-
   it("can get copyright information for map attribution", async function () {
     const boundingBox = {
       bottomRight: { latitude: 47.57949, longitude: -122.247157 },
@@ -114,7 +113,6 @@ describe(`Render Client Test`, function (this: Suite) {
       assert.ok(mapTile.readableStreamBody);
     });
   });*/
-
 
   it("can get map tilest information", async function () {
     const tileset = await client.getMapTileset(KnownTilesetId.MicrosoftBase);

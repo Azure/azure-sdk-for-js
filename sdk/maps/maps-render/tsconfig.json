@@ -1,16 +1,10 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "strict": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "es6",
-    "sourceMap": true,
-    "declarationMap": true,
-    "importHelpers": true,
     "outDir": "./dist-esm",
     "declarationDir": "./types",
+    "lib": ["dom"],
+    "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
       "@azure/maps-render": ["./src/index"]
