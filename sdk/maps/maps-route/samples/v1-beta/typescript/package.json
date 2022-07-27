@@ -31,7 +31,7 @@
   "dependencies": {
     "@azure/maps-route": "next",
     "dotenv": "latest",
-    "@azure/identity": "2.0.0-beta.6",
+    "@azure/identity": "2.0.4",
     "@azure/core-auth": "^1.3.0"
   },
   "devDependencies": {
