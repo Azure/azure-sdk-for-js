@@ -7,7 +7,7 @@
     "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
-      "@azure/maps-render": ["./src/index"]
+      "@azure/maps-search": ["./src/index"]
     }
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "../maps-common/**/*.ts", "samples-dev/**/*.ts"]
