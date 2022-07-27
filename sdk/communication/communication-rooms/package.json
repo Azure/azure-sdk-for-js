@@ -16,9 +16,8 @@
     "@types/uuid": "^8.3.4",
     "tslib": "^1.9.3",
     "uuid": "^8.3.2",
-    "@azure/core-client": "~1.6.1",
-    "@azure-tools/test-recorder": "~2.0.1",
-    "@azure/core-rest-pipeline": "1.8.2"
+    "@azure/core-client": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.8.0"
   },
   "keywords": [
     "node",
@@ -67,7 +66,7 @@
     "chai": "^4.2.0",
     "@types/mocha": "^7.0.2",
     "sinon": "~14.0.0",
-    "@azure-tools/test-recorder": "2.0.1"
+    "@azure-tools/test-recorder": "^2.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms",
   "repository": {
