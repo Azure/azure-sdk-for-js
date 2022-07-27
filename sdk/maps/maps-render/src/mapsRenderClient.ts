@@ -11,7 +11,7 @@ import {
   RasterTileFormat,
   TileIndex,
   TileJson,
-  TilesetId
+  TilesetId,
 } from "./generated";
 import {
   GetAttributionOptions,
