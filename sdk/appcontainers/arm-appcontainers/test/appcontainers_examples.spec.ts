@@ -93,7 +93,7 @@ describe("AppContainer test", () => {
 
 
   // it("containerapp list Secrets test", async function () {
-  //   const res = client.containerApps.listSecrets(
+  //   const res = await client.containerApps.listSecrets(
   //     resourceGroup,
   //     containerAppName
   //   );
@@ -108,12 +108,12 @@ describe("AppContainer test", () => {
     assert.equal(resArray.length, 0);
   })
 
-  // it("managedEnvironments delete test", async function () {
-  //   const res = client.managedEnvironments.beginDeleteAndWait(resourceGroup, environmentName);
-  //   const resArray = new Array();
-  //   for await (let item of client.managedEnvironments.listByResourceGroup(resourceGroup)) {
-  //     resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length, 0);
-  // })
+  it("managedEnvironments delete test", async function () {
+    const res = await client.managedEnvironments.beginDeleteAndWait(resourceGroup, environmentName);
+    const resArray = new Array();
+    for await (let item of client.managedEnvironments.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  })
 })
