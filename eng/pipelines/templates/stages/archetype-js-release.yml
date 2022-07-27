@@ -127,7 +127,6 @@ stages:
                     steps:
                       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
                         parameters:
-                          SkipDefaultCheckout: true
                           Paths:
                             - sdk/**/*.md
                             - .github/CODEOWNERS
@@ -153,7 +152,7 @@ stages:
                             - ci-configs/packages-latest.json
                             - ci-configs/packages-preview.json
                           DocValidationImageId: "$(DocValidationImageId)"
-                          
+
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
               displayName: Publish Docs to GitHubIO Blob Storage
@@ -299,7 +298,6 @@ stages:
       steps:
         - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
           parameters:
-            SkipDefaultCheckout: true
             Paths:
               - sdk/**/*.md
               - .github/CODEOWNERS
