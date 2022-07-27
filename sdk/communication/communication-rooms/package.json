@@ -79,7 +79,7 @@
  "files": [
     "dist/",
     "dist-esm/src/",
-    "types/communication-chat.d.ts",
+    "types/communication-rooms.d.ts",
     "README.md",
     "LICENSE"
   ],
