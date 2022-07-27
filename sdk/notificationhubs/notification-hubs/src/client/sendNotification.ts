@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { Notification } from "../models/notification.js";
-import { NotificationHubsClient } from "./index.js";
+import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/response.js";
 import { SendOperationOptions } from "../models/options.js";
 import { sendNotificationPayload } from "./internal/_sendNotificationPayload.js";
 
 /**
  * Sends push notifications to devices that match the given tags or tag expression.
- * @param client - The Notification Hubs client.
+ * @param context - The Notification Hubs client.
  * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
  * @param notification - The notification to send to the matching devices.
  * @param options - Configuration options for the direct send operation which can contain custom headers
@@ -17,13 +17,13 @@ import { sendNotificationPayload } from "./internal/_sendNotificationPayload.js"
  * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
  */
 export function sendNotification(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   tags: string[] | string,
   notification: Notification,
   options: SendOperationOptions = {}
 ): Promise<NotificationHubsMessageResponse> {
   return sendNotificationPayload(
-    client,
+    context,
     notification,
     "sendNotification",
     undefined,

@@ -24,10 +24,10 @@ const TOP = 100;
 const TAG = "likes_hockey";
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
   // Unlimited
-  let allRegistrations = listRegistrationsByTag(client, TAG);
+  let allRegistrations = listRegistrationsByTag(context, TAG);
   let page = 0;
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page++}`);
@@ -38,7 +38,7 @@ async function main() {
 
   // Top
   page = 0;
-  allRegistrations = listRegistrationsByTag(client, TAG, { top: TOP });
+  allRegistrations = listRegistrationsByTag(context, TAG, { top: TOP });
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page++}`);
     for (const item of pages) {

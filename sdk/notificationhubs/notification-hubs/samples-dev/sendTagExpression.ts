@@ -19,7 +19,7 @@ import {
   NotificationOutcomeState,
 } from "@azure/notification-hubs/models/notificationDetails";
 import {
-  NotificationHubsClient,
+  NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
@@ -37,7 +37,7 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
   const tagExpression = "likes_hockey && likes_football";
@@ -52,7 +52,7 @@ async function main() {
 
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await sendNotification(client, tagExpression, notification, sendOptions);
+  const result = await sendNotification(context, tagExpression, notification, sendOptions);
 
   console.log(`Tag Expression send Tracking ID: ${result.trackingId}`);
   console.log(`Tag Expression Correlation ID: ${result.correlationId}`);
@@ -61,7 +61,7 @@ async function main() {
   if (result.notificationId) {
     console.log(`Tag Expression send Notification ID: ${result.notificationId}`);
 
-    const results = await getNotificationDetails(client, result.notificationId);
+    const results = await getNotificationDetails(context, result.notificationId);
     if (results) {
       console.log(JSON.stringify(results, null, 2));
     }
@@ -69,7 +69,7 @@ async function main() {
 }
 
 async function getNotificationDetails(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   notificationId: string
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
@@ -77,7 +77,7 @@ async function getNotificationDetails(
   let result: NotificationDetails | undefined;
   while ((state === "Enqueued" || state === "Processing") && count++ < 10) {
     try {
-      result = await getNotificationOutcomeDetails(client, notificationId);
+      result = await getNotificationOutcomeDetails(context, notificationId);
       state = result.state!;
     } catch (e) {
       // Possible to get 404 for when it doesn't exist yet.

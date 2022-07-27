@@ -21,15 +21,15 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
   // Unlimited
-  let allRegistrations = listRegistrations(client);
+  let allRegistrations = listRegistrations(context);
   let page = 0;
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page}`);
     for (const item of pages) {
-      const result = await deleteRegistration(client, item.registrationId!);
+      const result = await deleteRegistration(context, item.registrationId!);
       console.log(`Delete Registration Tracking ID: ${result.trackingId}`);
       console.log(`Delete Registration Correlation ID: ${result.correlationId}`);
     }

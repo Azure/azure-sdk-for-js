@@ -6,7 +6,7 @@ import {
   createAppleRegistrationDescription,
 } from "@azure/notification-hubs/models/registration";
 import {
-  NotificationHubsClient,
+  NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
@@ -29,11 +29,11 @@ const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c99
 const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 const registrationIds: string[] = [];
-let client: NotificationHubsClient;
+let context: NotificationHubsClientContext;
 
 describe("listRegistrations()", () => {
   beforeEach(async () => {
-    client = createClientContext(connectionString, hubName);
+    context = createClientContext(connectionString, hubName);
 
     for (let i = 0; i < 3; i++) {
       let registration = createAppleRegistrationDescription({
@@ -41,22 +41,22 @@ describe("listRegistrations()", () => {
         tags: ["likes_football", "likes_hockey"],
       });
 
-      registration = (await createRegistration(
-        client,
+      registration = await createRegistration(
+        context,
         registration
-      )) as AppleRegistrationDescription;
+      ) as AppleRegistrationDescription;
       registrationIds.push(registration.registrationId!);
     }
   });
 
   afterEach(async () => {
     for (const registrationId of registrationIds) {
-      await deleteRegistration(client, registrationId);
+      await deleteRegistration(context, registrationId);
     }
   });
 
   it("should list all registrations", async () => {
-    const registrations = listRegistrations(client);
+    const registrations = listRegistrations(context);
 
     let numberOfItems = 0;
     const foundRegistrations: string[] = [];

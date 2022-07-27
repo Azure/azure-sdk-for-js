@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  NotificationHubsClient,
+  NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
@@ -26,11 +26,11 @@ const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c99
 const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 let installationId: string;
-let client: NotificationHubsClient;
+let context: NotificationHubsClientContext;
 
 describe("createOrUpdateInstallation()", () => {
   it("should add an installation", async () => {
-    client = createClientContext(connectionString, hubName);
+    context = createClientContext(connectionString, hubName);
 
     installationId = v4();
 
@@ -40,13 +40,13 @@ describe("createOrUpdateInstallation()", () => {
       tags: ["likes_hockey", "likes_football"],
     });
 
-    const result = await createOrUpdateInstallation(client, installation);
+    const result = await createOrUpdateInstallation(context, installation);
 
     assert.isDefined(result.correlationId);
     assert.isDefined(result.trackingId);
   });
 
   afterEach(async () => {
-    await deleteInstallation(client, installationId);
+    await deleteInstallation(context, installationId);
   });
 });

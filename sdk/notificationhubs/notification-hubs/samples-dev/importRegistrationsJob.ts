@@ -32,7 +32,7 @@ const outputContainerUrl = process.env.OUTPUT_CONTAINER_URL || "<output containe
 const importFileUrl = process.env.IMPORT_FILE_URL || "<import file URL>";
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
   let importJob: NotificationHubJob = {
     outputContainerUrl,
@@ -40,11 +40,11 @@ async function main() {
     type: "ImportCreateRegistrations",
   };
 
-  importJob = await submitNotificationHubJob(client, importJob);
+  importJob = await submitNotificationHubJob(context, importJob);
 
   let count = 0;
   while (importJob.status !== "Completed" && importJob.status !== "Failed" && count++ < 10) {
-    importJob = await getNotificationHubJob(client, importJob.jobId!);
+    importJob = await getNotificationHubJob(context, importJob.jobId!);
     await delay(1000);
   }
 

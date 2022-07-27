@@ -29,9 +29,9 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const registrationId = process.env.REGISTRATION_ID || "<registrationId>";
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
-  const registration = await getRegistration(client, registrationId);
+  const registration = await getRegistration(context, registrationId);
 
   // Add some tags
   if (!registration.tags) {
@@ -40,7 +40,7 @@ async function main() {
 
   registration.tags.push("likes_sports");
 
-  const registrationResponse = await updateRegistration(client, registration);
+  const registrationResponse = await updateRegistration(context, registration);
 
   console.log(`Registration ID: ${registrationResponse.registrationId}`);
 }

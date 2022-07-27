@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient } from "./index.js";
+import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { createRequest } from "./internal/_client.js";
@@ -9,26 +9,26 @@ import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Creates a new registration ID.
- * @param client - The Notification Hubs client.
+ * @param context - The Notification Hubs client.
  * @param options - The options for creating a new registration ID.
  * @returns The newly created registration ID.
  */
 export function createRegistrationId(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   options: OperationOptions = {}
 ): Promise<string> {
   return tracingClient.withSpan(
-    "NotificationHubsClient-createRegistrationId",
+    "NotificationHubsClientContext-createRegistrationId",
     options,
     async (updatedOptions) => {
-      const endpoint = client.getBaseUrl();
+      const endpoint = context.getBaseUrl();
       endpoint.pathname += "/registrationIDs";
 
-      const headers = client.createHeaders();
+      const headers = context.createHeaders();
       headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
 
       const request = createRequest(endpoint, "POST", headers, updatedOptions);
-      const response = await client.sendRequest(request);
+      const response = await context.sendRequest(request);
       if (response.status !== 201) {
         throw new RestError(`createRegistrationId failed with ${response.status}`, {
           statusCode: response.status,

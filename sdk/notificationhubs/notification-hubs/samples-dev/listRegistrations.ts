@@ -28,10 +28,10 @@ const FILTER = `DeviceToken eq "${devicetoken}"`;
 const TOP = 100;
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
   // Unlimited
-  let allRegistrations = listRegistrations(client);
+  let allRegistrations = listRegistrations(context);
   let page = 0;
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page++}`);
@@ -42,7 +42,7 @@ async function main() {
 
   // Top
   page = 0;
-  allRegistrations = listRegistrations(client, { top: TOP });
+  allRegistrations = listRegistrations(context, { top: TOP });
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page++}`);
     for (const item of pages) {
@@ -53,7 +53,7 @@ async function main() {
   // Query and Top
   page = 0;
 
-  allRegistrations = listRegistrations(client, { top: TOP, filter: FILTER });
+  allRegistrations = listRegistrations(context, { top: TOP, filter: FILTER });
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page++}`);
     for (const item of pages) {

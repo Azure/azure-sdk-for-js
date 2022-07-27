@@ -19,7 +19,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 describe("sendDirectNotification()", () => {
   it("should send a direct Apple Notification with a tag list", async () => {
-    const client = createClientContext(connectionString, hubName);
+    const context = createClientContext(connectionString, hubName);
 
     const tags = ["likes_hockey", "likes_football"];
 
@@ -35,14 +35,14 @@ describe("sendDirectNotification()", () => {
 
     // Not required but can set test send to true for debugging purposes.
     const sendOptions: SendOperationOptions = { enableTestSend: false };
-    const result = await sendNotification(client, tags, notification, sendOptions);
+    const result = await sendNotification(context, tags, notification, sendOptions);
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);
   });
 
   it("should send a direct Apple Notification with a tag expression", async () => {
-    const client = createClientContext(connectionString, hubName);
+    const context = createClientContext(connectionString, hubName);
 
     const tagExpression = "likes_hockey && likes_football";
 
@@ -58,7 +58,7 @@ describe("sendDirectNotification()", () => {
 
     // Not required but can set test send to true for debugging purposes.
     const sendOptions: SendOperationOptions = { enableTestSend: false };
-    const result = await sendNotification(client, tagExpression, notification, sendOptions);
+    const result = await sendNotification(context, tagExpression, notification, sendOptions);
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);

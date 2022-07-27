@@ -3,7 +3,7 @@
 
 import { createRequest, parseNotificationSendResponse } from "./_client.js";
 import { Notification } from "../../models/notification.js";
-import { NotificationHubsClient } from "../index.js";
+import { NotificationHubsClientContext } from "../index.js";
 import { NotificationHubsMessageResponse } from "../../models/response.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
@@ -14,20 +14,20 @@ import { tracingClient } from "../../utils/tracing.js";
  */
 
 export function scheduleNotificationPayload(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   scheduledTime: Date,
   tags: string[] | string | undefined,
   notification: Notification,
   options: OperationOptions = {}
 ): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
-    "NotificationHubsClient-$scheduleNotification",
+    "NotificationHubsClientContext-$scheduleNotification",
     options,
     async (updatedOptions) => {
-      const endpoint = client.getBaseUrl();
+      const endpoint = context.getBaseUrl();
       endpoint.pathname += "/schedulednotifications/";
 
-      const headers = client.createHeaders();
+      const headers = context.createHeaders();
       if (notification.headers) {
         for (const headerName of Object.keys(notification.headers)) {
           headers.set(headerName, notification.headers[headerName]);
@@ -52,7 +52,7 @@ export function scheduleNotificationPayload(
 
       request.body = notification.body;
 
-      const response = await client.sendRequest(request);
+      const response = await context.sendRequest(request);
       if (response.status !== 201) {
         throw new RestError(`scheduleNotification failed with ${response.status}`, {
           statusCode: response.status,

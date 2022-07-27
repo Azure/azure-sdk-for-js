@@ -6,7 +6,7 @@ import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
 } from "../../serializers/registrationSerializer.js";
-import { NotificationHubsClient } from "../index.js";
+import { NotificationHubsClientContext } from "../index.js";
 import { OperationOptions } from "@azure/core-client";
 import { RegistrationDescription } from "../../models/registration.js";
 import { createRequest } from "./_client.js";
@@ -16,12 +16,12 @@ import { isDefined } from "../../utils/utils.js";
  * @internal
  */
 export async function createOrUpdateRegistrationDescription(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   registration: RegistrationDescription,
   operationName: "create" | "createOrUpdate" | "update",
   options: OperationOptions
 ): Promise<RegistrationDescription> {
-  const endpoint = client.getBaseUrl();
+  const endpoint = context.getBaseUrl();
   endpoint.pathname += "/registrations";
   let httpMethod: HttpMethods = "POST";
 
@@ -36,7 +36,7 @@ export async function createOrUpdateRegistrationDescription(
   registration.registrationId = undefined;
   registration.etag = undefined;
 
-  const headers = client.createHeaders();
+  const headers = context.createHeaders();
   headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
 
   if (operationName === "update") {
@@ -45,7 +45,7 @@ export async function createOrUpdateRegistrationDescription(
 
   const request = createRequest(endpoint, httpMethod, headers, options);
   request.body = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
-  const response = await client.sendRequest(request);
+  const response = await context.sendRequest(request);
   if (response.status !== 200 && response.status !== 201) {
     throw new RestError(`${operationName}Registration failed with ${response.status}`, {
       statusCode: response.status,

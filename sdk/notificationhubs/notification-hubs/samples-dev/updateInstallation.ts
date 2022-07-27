@@ -30,14 +30,14 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const installationId = process.env.INSTALLATION_ID || "<installation id>";
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
   const updates: JsonPatch[] = [
     { op: "add", path: "/tags", value: "likes_baseball" },
     { op: "add", path: "/userId", value: "bob@contoso.com" },
   ];
 
-  const result = await updateInstallation(client, installationId, updates);
+  const result = await updateInstallation(context, installationId, updates);
   console.log(`Tracking ID: ${result.trackingId}`);
   console.log(`Correlation ID: ${result.correlationId}`);
 }

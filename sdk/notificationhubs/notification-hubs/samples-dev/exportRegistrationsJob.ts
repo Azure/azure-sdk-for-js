@@ -31,18 +31,18 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const outputContainerUrl = process.env.OUTPUT_CONTAINER_URL || "<output container URL>";
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
   let exportJob: NotificationHubJob = {
     outputContainerUrl,
     type: "ExportRegistrations",
   };
 
-  exportJob = await submitNotificationHubJob(client, exportJob);
+  exportJob = await submitNotificationHubJob(context, exportJob);
 
   let count = 0;
   while (exportJob.status !== "Completed" && exportJob.status !== "Failed" && count++ < 10) {
-    exportJob = await getNotificationHubJob(client, exportJob.jobId!);
+    exportJob = await getNotificationHubJob(context, exportJob.jobId!);
     await delay(1000);
   }
 

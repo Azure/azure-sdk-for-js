@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Installation, JsonPatch, PushHandle } from "./models/installation.js";
-import { NotificationHubsClient, createClientContext } from "./client/index.js";
+import { NotificationHubsClientContext, createClientContext } from "./client/index.js";
 import {
   NotificationHubsClientOptions,
   RegistrationQueryLimitOptions,
@@ -44,7 +44,7 @@ import { updateRegistration as updateRegistrationMethod } from "./client/updateR
  * messages to devices.
  */
 export class NotificationHubsServiceClient {
-  private _client: NotificationHubsClient;
+  private _client: NotificationHubsClientContext;
 
   /**
    * Creates a new instance of the NotificationClient with a connection string, hub name and options.

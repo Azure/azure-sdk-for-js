@@ -23,7 +23,7 @@ const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 describe("sendDirectNotification()", () => {
   it("should send a direct Apple Notification", async () => {
-    const client = createClientContext(connectionString, hubName);
+    const context = createClientContext(connectionString, hubName);
 
     const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
@@ -37,7 +37,7 @@ describe("sendDirectNotification()", () => {
 
     // Not required but can set test send to true for debugging purposes.
     const sendOptions: SendOperationOptions = { enableTestSend: false };
-    const result = await sendDirectNotification(client, deviceToken, notification, sendOptions);
+    const result = await sendDirectNotification(context, deviceToken, notification, sendOptions);
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);

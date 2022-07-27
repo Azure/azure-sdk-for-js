@@ -4,7 +4,7 @@
 import { BrowserPushChannel, PushHandle } from "../../models/installation.js";
 import { createRequest, parseNotificationSendResponse } from "./_client.js";
 import { Notification } from "../../models/notification.js";
-import { NotificationHubsClient } from "../index.js";
+import { NotificationHubsClientContext } from "../index.js";
 import { NotificationHubsMessageResponse } from "../../models/response.js";
 import { RestError } from "@azure/core-rest-pipeline";
 import { SendOperationOptions } from "../../models/options.js";
@@ -14,7 +14,7 @@ import { tracingClient } from "../../utils/tracing.js";
  * @internal
  */
 export function sendNotificationPayload(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   notification: Notification,
   method: string,
   pushHandle?: PushHandle,
@@ -22,17 +22,17 @@ export function sendNotificationPayload(
   options: SendOperationOptions = {}
 ): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
-    `NotificationHubsClient-${method}`,
+    `NotificationHubsClientContext-${method}`,
     options,
     async (updatedOptions) => {
-      const endpoint = client.getBaseUrl();
+      const endpoint = context.getBaseUrl();
       endpoint.pathname += "/messages/";
 
       if (options.enableTestSend) {
         endpoint.searchParams.append("debug", "true");
       }
 
-      const headers = client.createHeaders();
+      const headers = context.createHeaders();
       if (notification.headers) {
         for (const headerName of Object.keys(notification.headers)) {
           headers.set(headerName, notification.headers[headerName]);
@@ -69,7 +69,7 @@ export function sendNotificationPayload(
 
       request.body = notification.body;
 
-      const response = await client.sendRequest(request);
+      const response = await context.sendRequest(request);
       if (response.status !== 201) {
         throw new RestError(`${method} failed with ${response.status}`, {
           statusCode: response.status,

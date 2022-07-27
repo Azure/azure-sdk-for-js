@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient } from "./index.js";
+import { NotificationHubsClientContext } from "./index.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "../models/registration.js";
 import { RegistrationQueryOptions } from "../models/options.js";
@@ -13,20 +13,20 @@ import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Gets all registrations for the notification hub with the given query options.
- * @param client - The Notification Hubs client.
+ * @param context - The Notification Hubs client.
  * @param options - The options for querying the registrations such as $top and $filter.
  * @returns A paged async iterable containing all of the registrations for the notification hub.
  */
 export function listRegistrations(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   options: RegistrationQueryOptions = {}
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const { span, updatedOptions } = tracingClient.startSpan(
-    "NotificationHubsClient-listRegistrations",
+    "NotificationHubsClientContext-listRegistrations",
     options
   );
   try {
-    const iter = listRegistrationsAll(client, updatedOptions);
+    const iter = listRegistrationsAll(context, updatedOptions);
     return {
       next() {
         return iter.next();
@@ -35,7 +35,7 @@ export function listRegistrations(
         return this;
       },
       byPage: () => {
-        return listRegistrationPagingPage(client, options);
+        return listRegistrationPagingPage(context, options);
       },
     };
   } catch (e: any) {
@@ -47,34 +47,34 @@ export function listRegistrations(
 }
 
 async function* listRegistrationsAll(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   options: RegistrationQueryOptions
 ): AsyncIterableIterator<RegistrationDescription> {
-  for await (const page of listRegistrationPagingPage(client, options)) {
+  for await (const page of listRegistrationPagingPage(context, options)) {
     yield* page;
   }
 }
 
 async function* listRegistrationPagingPage(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   options: RegistrationQueryOptions
 ): AsyncIterableIterator<RegistrationDescription[]> {
-  let result = await _listRegistrations(client, options);
+  let result = await _listRegistrations(context, options);
   yield result.registrations || [];
   let continuationToken = result.continuationToken;
   while (continuationToken) {
-    result = await _listRegistrations(client, options, continuationToken);
+    result = await _listRegistrations(context, options, continuationToken);
     continuationToken = result.continuationToken;
     yield result.registrations || [];
   }
 }
 
 async function _listRegistrations(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   options: RegistrationQueryOptions,
   continuationToken?: string
 ): Promise<RegistrationQueryResponse> {
-  const endpoint = client.getBaseUrl();
+  const endpoint = context.getBaseUrl();
   endpoint.pathname += "/registrations";
   if (options.top !== undefined) {
     endpoint.searchParams.set("$top", `${options.top}`);
@@ -88,10 +88,10 @@ async function _listRegistrations(
     endpoint.searchParams.set("continuationtoken", continuationToken);
   }
 
-  const headers = client.createHeaders();
+  const headers = context.createHeaders();
 
   const request = createRequest(endpoint, "GET", headers, options);
-  const response = await client.sendRequest(request);
+  const response = await context.sendRequest(request);
   if (response.status !== 200) {
     throw new RestError(`listRegistrations failed with ${response.status}`, {
       statusCode: response.status,

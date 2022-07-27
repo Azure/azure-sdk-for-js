@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient } from "./index.js";
+import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
 import { RegistrationDescription } from "../models/registration.js";
 import { RestError } from "@azure/core-rest-pipeline";
@@ -11,18 +11,18 @@ import { tracingClient } from "../utils/tracing.js";
 /**
  * Creates a new registration. This method generates a registration ID,
  * which you can subsequently use to retrieve, update, and delete this registration.
- * @param client - The Notification Hubs client.
+ * @param context - The Notification Hubs client.
  * @param registration - The registration to create.
  * @param options - Options for creating a new registration.
  * @returns The newly created registration description.
  */
 export function createRegistration(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   registration: RegistrationDescription,
   options: OperationOptions = {}
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
-    "NotificationHubsClient-createRegistration",
+    "NotificationHubsClientContext-createRegistration",
     options,
     async (updatedOptions) => {
       if (registration.registrationId) {
@@ -31,7 +31,7 @@ export function createRegistration(
         });
       }
 
-      return createOrUpdateRegistrationDescription(client, registration, "create", updatedOptions);
+      return createOrUpdateRegistrationDescription(context, registration, "create", updatedOptions);
     }
   );
 }

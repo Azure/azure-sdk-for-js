@@ -20,9 +20,9 @@ import { ServiceClient } from "@azure/core-client";
 const API_VERSION = "2020-06";
 
 /**
- * Represents the Notification Hubs SDK client.
+ * Represents the Notification Hubs SDK client context.
  */
-export interface NotificationHubsClient {
+export interface NotificationHubsClientContext {
   /**
    * The SAS Token Provider for connecting to Notification Hubs.
    */
@@ -58,17 +58,17 @@ export interface NotificationHubsClient {
  * Creates a NotificationHubClient from the Access Policy connection string and hub name.
  * @param connectionString - The Access Policy connection string for the notification hub.
  * @param hubName - The notification hub name.
- * @returns A NotificationHubsClient initialized from the connection string and hub name.
+ * @returns A NotificationHubsClientContext initialized from the connection string and hub name.
  */
 export function createClientContext(
   connectionString: string,
   hubName: string,
   options: NotificationHubsClientOptions = {}
-): NotificationHubsClient {
+): NotificationHubsClientContext {
   return new NotificationHubsServiceClient(connectionString, hubName, options);
 }
 
-class NotificationHubsServiceClient extends ServiceClient implements NotificationHubsClient {
+class NotificationHubsServiceClient extends ServiceClient implements NotificationHubsClientContext {
   sasTokenProvider: SasTokenProvider;
   baseUrl: string;
   hubName: string;

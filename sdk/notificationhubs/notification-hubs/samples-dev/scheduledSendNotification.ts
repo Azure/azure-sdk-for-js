@@ -29,7 +29,7 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
   const tagExpression = "likes_hockey && likes_football";
@@ -48,7 +48,7 @@ async function main() {
   // Not required but can set test send to true for debugging purposes.
   const sendOptions: SendOperationOptions = { enableTestSend: false };
   const result = await scheduleNotification(
-    client,
+    context,
     scheduledTime,
     tagExpression,
     notification,

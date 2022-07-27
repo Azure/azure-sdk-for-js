@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { NotificationDetails } from "../models/notificationDetails.js";
-import { NotificationHubsClient } from "./index.js";
+import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { createRequest } from "./internal/_client.js";
@@ -12,27 +12,27 @@ import { tracingClient } from "../utils/tracing.js";
 /**
  * Retrieves the results of a send operation. This can retrieve intermediate results if the send is being processed
  * or final results if the Send* has completed. This API can only be called for Standard SKU and above.
- * @param client - The Notification Hubs client.
+ * @param context - The Notification Hubs client.
  * @param notificationId - The notification ID returned from the send operation.
  * @param options - The operation options.
  * @returns The results of the send operation.
  */
 export function getNotificationOutcomeDetails(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   notificationId: string,
   options: OperationOptions = {}
 ): Promise<NotificationDetails> {
   return tracingClient.withSpan(
-    "NotificationHubsClient-getNotificationOutcomeDetails",
+    "NotificationHubsClientContext-getNotificationOutcomeDetails",
     options,
     async (updatedOptions) => {
-      const endpoint = client.getBaseUrl();
+      const endpoint = context.getBaseUrl();
       endpoint.pathname += `/messages/${notificationId}`;
 
-      const headers = client.createHeaders();
+      const headers = context.createHeaders();
       const request = createRequest(endpoint, "GET", headers, updatedOptions);
 
-      const response = await client.sendRequest(request);
+      const response = await context.sendRequest(request);
       if (response.status !== 200) {
         throw new RestError(`getNotificationOutcomeDetails failed with ${response.status}`, {
           statusCode: response.status,

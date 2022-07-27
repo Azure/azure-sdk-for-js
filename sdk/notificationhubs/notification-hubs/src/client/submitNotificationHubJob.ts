@@ -6,7 +6,7 @@ import {
   serializeNotificationHubJobEntry,
 } from "../serializers/notificationHubJobSerializer.js";
 import { NotificationHubJob } from "../models/notificationHubJob.js";
-import { NotificationHubsClient } from "./index.js";
+import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { createRequest } from "./internal/_client.js";
@@ -15,30 +15,30 @@ import { tracingClient } from "../utils/tracing.js";
 /**
  * Submits a Notification Hub Job.
  * Note: this is available to Standard SKU namespace and above.
- * @param client - The Notification Hubs client.
+ * @param context - The Notification Hubs client.
  * @param job - The notification hub job to submit.
  * @param options - The operation options.
  * @returns The notification hub job details including job ID and status.
  */
 export function submitNotificationHubJob(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   job: NotificationHubJob,
   options: OperationOptions = {}
 ): Promise<NotificationHubJob> {
   return tracingClient.withSpan(
-    "NotificationHubsClient-submitNotificationHubJob",
+    "NotificationHubsClientContext-submitNotificationHubJob",
     options,
     async (updatedOptions) => {
-      const endpoint = client.getBaseUrl();
+      const endpoint = context.getBaseUrl();
       endpoint.pathname += "/jobs";
 
-      const headers = client.createHeaders();
+      const headers = context.createHeaders();
       headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
 
       const request = createRequest(endpoint, "POST", headers, updatedOptions);
       request.body = serializeNotificationHubJobEntry(job);
 
-      const response = await client.sendRequest(request);
+      const response = await context.sendRequest(request);
       if (response.status !== 201) {
         throw new RestError(`submitNotificationHubJob failed with ${response.status}`, {
           statusCode: response.status,

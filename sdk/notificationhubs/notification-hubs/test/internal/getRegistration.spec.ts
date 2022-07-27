@@ -6,7 +6,7 @@ import {
   createAppleRegistrationDescription,
 } from "@azure/notification-hubs/models/registration";
 import {
-  NotificationHubsClient,
+  NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
@@ -29,27 +29,27 @@ const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c99
 const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 let registrationId: string;
-let client: NotificationHubsClient;
+let context: NotificationHubsClientContext;
 
 describe("getRegistration", () => {
   beforeEach(async () => {
-    client = createClientContext(connectionString, hubName);
+    context = createClientContext(connectionString, hubName);
 
     let registration = createAppleRegistrationDescription({
       deviceToken,
       tags: ["likes_football", "likes_hockey"],
     });
 
-    registration = (await createRegistration(client, registration)) as AppleRegistrationDescription;
+    registration = (await createRegistration(context, registration)) as AppleRegistrationDescription;
     registrationId = registration.registrationId!;
   });
 
   afterEach(async () => {
-    await deleteRegistration(client, registrationId);
+    await deleteRegistration(context, registrationId);
   });
 
   it("should get a registration by the given registration ID", async () => {
-    const registration = await getRegistration(client!, registrationId!);
+    const registration = await getRegistration(context!, registrationId!);
 
     assert.equal(registration.registrationId, registrationId);
   });

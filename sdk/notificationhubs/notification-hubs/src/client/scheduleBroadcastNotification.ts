@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Notification } from "../models/notification.js";
-import { NotificationHubsClient } from "./index.js";
+import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/response.js";
 import { OperationOptions } from "@azure/core-client";
 import { scheduleNotificationPayload } from "./internal/_scheduleNotificationPayload.js";
@@ -10,7 +10,7 @@ import { scheduleNotificationPayload } from "./internal/_scheduleNotificationPay
 /**
  * Schedules a push notification to all devices registered on the Notification Hub.
  * NOTE: This is only available in Standard SKU Azure Notification Hubs.
- * @param client - The Notification Hubs client.
+ * @param context - The Notification Hubs client.
  * @param scheduledTime - The Date to send the push notification.
  * @param notification - The notification to send to the matching devices.
  * @param options - Configuration options for the direct send operation which can contain custom headers
@@ -18,10 +18,10 @@ import { scheduleNotificationPayload } from "./internal/_scheduleNotificationPay
  * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
  */
 export function scheduleBroadcastNotification(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   scheduledTime: Date,
   notification: Notification,
   options: OperationOptions = {}
 ): Promise<NotificationHubsMessageResponse> {
-  return scheduleNotificationPayload(client, scheduledTime, undefined, notification, options);
+  return scheduleNotificationPayload(context, scheduledTime, undefined, notification, options);
 }

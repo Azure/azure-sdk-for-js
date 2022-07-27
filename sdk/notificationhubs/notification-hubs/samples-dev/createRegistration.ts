@@ -30,14 +30,14 @@ const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c99
 const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
   const registration = createAppleRegistrationDescription({
     deviceToken,
     tags: ["likes_football", "likes_hockey"],
   });
 
-  const registrationResponse = await createRegistration(client, registration);
+  const registrationResponse = await createRegistration(context, registration);
 
   console.log(`Registration ID: ${registrationResponse.registrationId}`);
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClient } from "./index.js";
+import { NotificationHubsClientContext } from "./index.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "../models/registration.js";
 import { RegistrationQueryLimitOptions } from "../models/options.js";
@@ -13,22 +13,22 @@ import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Lists all registrations with the matching tag.
- * @param client - The Notification Hubs client.
+ * @param context - The Notification Hubs client.
  * @param tag - The tag to query for matching registrations.
  * @param options - The query options such as $top.
  * @returns A paged async iterable containing the matching registrations for the notification hub.
  */
 export function listRegistrationsByTag(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   tag: string,
   options: RegistrationQueryLimitOptions = {}
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const { span, updatedOptions } = tracingClient.startSpan(
-    "NotificationHubsClient-listRegistrationsByTag",
+    "NotificationHubsClientContext-listRegistrationsByTag",
     options
   );
   try {
-    const iter = listRegistrationsByTagAll(client, tag, updatedOptions);
+    const iter = listRegistrationsByTagAll(context, tag, updatedOptions);
     return {
       next() {
         return iter.next();
@@ -37,7 +37,7 @@ export function listRegistrationsByTag(
         return this;
       },
       byPage: () => {
-        return listRegistrationsByTagPagingPage(client, tag, options);
+        return listRegistrationsByTagPagingPage(context, tag, options);
       },
     };
   } catch (e: any) {
@@ -49,37 +49,37 @@ export function listRegistrationsByTag(
 }
 
 async function* listRegistrationsByTagAll(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   tag: string,
   options: RegistrationQueryLimitOptions
 ): AsyncIterableIterator<RegistrationDescription> {
-  for await (const page of listRegistrationsByTagPagingPage(client, tag, options)) {
+  for await (const page of listRegistrationsByTagPagingPage(context, tag, options)) {
     yield* page;
   }
 }
 
 async function* listRegistrationsByTagPagingPage(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   tag: string,
   options: RegistrationQueryLimitOptions
 ): AsyncIterableIterator<RegistrationDescription[]> {
-  let result = await _listRegistrationsByTag(client, tag, options);
+  let result = await _listRegistrationsByTag(context, tag, options);
   yield result.registrations || [];
   let continuationToken = result.continuationToken;
   while (continuationToken) {
-    result = await _listRegistrationsByTag(client, tag, options, continuationToken);
+    result = await _listRegistrationsByTag(context, tag, options, continuationToken);
     continuationToken = result.continuationToken;
     yield result.registrations || [];
   }
 }
 
 async function _listRegistrationsByTag(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   tag: string,
   options: RegistrationQueryLimitOptions,
   continuationToken?: string
 ): Promise<RegistrationQueryResponse> {
-  const endpoint = client.getBaseUrl();
+  const endpoint = context.getBaseUrl();
   endpoint.pathname += `/tags/${tag}/registrations`;
   if (options.top !== undefined) {
     endpoint.searchParams.set("$top", `${options.top}`);
@@ -89,10 +89,10 @@ async function _listRegistrationsByTag(
     endpoint.searchParams.set("continuationtoken", continuationToken);
   }
 
-  const headers = client.createHeaders();
+  const headers = context.createHeaders();
 
   const request = createRequest(endpoint, "GET", headers, options);
-  const response = await client.sendRequest(request);
+  const response = await context.sendRequest(request);
   if (response.status !== 200) {
     throw new RestError(`listRegistrations failed with ${response.status}`, {
       statusCode: response.status,

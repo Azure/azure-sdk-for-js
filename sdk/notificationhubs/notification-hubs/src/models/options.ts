@@ -4,7 +4,7 @@
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 /**
- * Describes the options that can be provided while creating the NotificationHubsClient.
+ * Describes the options that can be provided while creating the NotificationHubsClientContext.
  */
 export interface NotificationHubsClientOptions extends CommonClientOptions {}
 

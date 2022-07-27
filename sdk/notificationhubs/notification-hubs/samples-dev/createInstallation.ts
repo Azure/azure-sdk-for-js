@@ -31,7 +31,7 @@ const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c99
 const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
 async function main() {
-  const client = createClientContext(connectionString, hubName);
+  const context = createClientContext(connectionString, hubName);
 
   const installation = createAppleInstallation({
     installationId: v4(),
@@ -39,7 +39,7 @@ async function main() {
     tags: ["likes_hockey", "likes_football"],
   });
 
-  const result = await createOrUpdateInstallation(client, installation);
+  const result = await createOrUpdateInstallation(context, installation);
   console.log(`Tracking ID: ${result.trackingId}`);
   console.log(`Correlation ID: ${result.correlationId}`);
 }

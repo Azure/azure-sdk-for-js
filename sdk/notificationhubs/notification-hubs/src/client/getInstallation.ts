@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Installation } from "../models/installation.js";
-import { NotificationHubsClient } from "./index.js";
+import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { createRequest } from "./internal/_client.js";
@@ -10,28 +10,28 @@ import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Gets an Azure Notification Hub installation by the installation ID.
- * @param client - The Notification Hubs client.
+ * @param context - The Notification Hubs client.
  * @param installationId - The ID of the installation to get.
  * @param options - Configuration options for the get installation operation.
  * @returns The installation that matches the installation ID.
  */
 export function getInstallation(
-  client: NotificationHubsClient,
+  context: NotificationHubsClientContext,
   installationId: string,
   options: OperationOptions = {}
 ): Promise<Installation> {
   return tracingClient.withSpan(
-    "NotificationHubsClient-getInstallation",
+    "NotificationHubsClientContext-getInstallation",
     options,
     async (updatedOptions) => {
-      const endpoint = client.getBaseUrl();
+      const endpoint = context.getBaseUrl();
       endpoint.pathname += `/installations/${installationId}`;
-      const headers = client.createHeaders();
+      const headers = context.createHeaders();
       headers.set("Content-Type", "application/json");
 
       const request = createRequest(endpoint, "GET", headers, updatedOptions);
 
-      const response = await client.sendRequest(request);
+      const response = await context.sendRequest(request);
       if (response.status !== 200) {
         throw new RestError(`getInstallation failed with ${response.status}`, {
           statusCode: response.status,

@@ -19,7 +19,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 describe("sendBroadcastNotification()", () => {
   it("should send a direct Apple Notification", async () => {
-    const client = createClientContext(connectionString, hubName);
+    const context = createClientContext(connectionString, hubName);
 
     const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
@@ -33,7 +33,7 @@ describe("sendBroadcastNotification()", () => {
 
     // Not required but can set test send to true for debugging purposes.
     const sendOptions: SendOperationOptions = { enableTestSend: false };
-    const result = await sendBroadcastNotification(client, notification, sendOptions);
+    const result = await sendBroadcastNotification(context, notification, sendOptions);
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);
