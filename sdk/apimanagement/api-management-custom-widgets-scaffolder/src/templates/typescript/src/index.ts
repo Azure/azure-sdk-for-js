@@ -11,7 +11,7 @@ class App {
     this.request = url =>
       fetch(
         `${secrets.managementApiUrl}${url}?api-version=${secrets.apiVersion}`,
-        {headers: {Authorization: secrets.token}},
+        secrets.token ? {headers: {Authorization: secrets.token}} : undefined,
       )
 
     this.values = getValues(valuesDefault)
@@ -20,21 +20,8 @@ class App {
       const element = document.getElementById(`values.${key}`)
       if (element) element.innerText = value
     })
-
     document.getElementById("message")?.setAttribute("placeholder", this.values.placeholder)
-
-    document.getElementById("form")?.addEventListener("submit", event => {
-      event.preventDefault()
-
-      const data = new FormData(event.target as HTMLFormElement)
-      for (const value of data) {
-        console.log(value)
-      }
-      const xhr = new XMLHttpRequest()
-      xhr.open("POST", "/")
-      xhr.onload = console.log
-      // xhr.send(data);
-    })
+    document.getElementById("form")?.setAttribute("action", this.values.actionUrl)
   }
 }
 

@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["src"],
+  "include": ["src/**/*.vue"],
   "references": [
     {
       "path": "./tsconfig.node.json"

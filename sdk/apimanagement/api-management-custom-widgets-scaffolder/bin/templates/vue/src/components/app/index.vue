@@ -1,7 +1,8 @@
 <style src="../../styles/app.scss"></style>
 
 <template>
-  <form v-if="defaultEmail != null" :action="actionUrl" class="flex-columns-container height-fill">
+  <form v-if="defaultEmail != null" :action="actionUrl" method="post" target="_blank"
+        class="flex-columns-container height-fill">
     <div class="form-group">
       <label for="email" class="form-label">{{ label1 }}</label>
       <input id="email" type="email" class="form-control" name="email" placeholder="example@contoso.com"
@@ -43,6 +44,11 @@ export default {
     this.actionUrl = editorData.actionUrl
 
     const [secrets, request] = await Promise.all([this.secretsPromise, this.requestPromise])
+
+    if (!secrets.userId) {
+      this.defaultEmail = ""
+      return
+    }
 
     request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${secrets.userId}`)
       .then(e => e.json())

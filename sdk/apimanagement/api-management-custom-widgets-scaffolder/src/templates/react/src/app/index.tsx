@@ -9,6 +9,11 @@ const App = () => {
   const [defaultEmail, setDefaultEmail] = useState<string | undefined>()
 
   useEffect(() => {
+    if (!userId) {
+      setDefaultEmail("")
+      return
+    }
+
     request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${userId}`)
       .then(e => e.json())
       .then(({properties}) => setDefaultEmail(properties.email))
@@ -18,10 +23,10 @@ const App = () => {
       })
   }, [userId, request])
 
-  if (!defaultEmail) return <div className="loading"></div>
+  if (defaultEmail == undefined) return <div className="loading"></div>
 
   return (
-    <form action={values.actionUrl} className="flex-columns-container height-fill">
+    <form action={values.actionUrl} method="post" target="_blank" className="flex-columns-container height-fill">
       <div className="form-group">
         <label htmlFor="email" className="form-label">{values.label1}</label>
         <input id="email" type="email" className="form-control" name="email" placeholder="example@contoso.com"

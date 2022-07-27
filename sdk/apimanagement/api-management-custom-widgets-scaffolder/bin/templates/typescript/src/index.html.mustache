@@ -9,15 +9,19 @@
     import {askForSecrets} from "@azure/api-management-custom-widgets-tools"
     import App from "./index"
 
-    askForSecrets("app")
-      .then(secrets => {
-        const appInstance = new App(secrets)
-        return appInstance.request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${secrets.userId}`)
-      })
-      .then(e => e.json())
-      .then(({properties}) => {
-        if (properties.email) document.getElementById("email").value = properties.email
-      })
+    async function loadSecrets() {
+      const secrets = await askForSecrets("app")
+      const appInstance = new App(secrets)
+      if (!secrets.userId) return
+
+      appInstance.request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${secrets.userId}`)
+        .then(e => e.json())
+        .then(({properties}) => {
+          if (properties.email) document.getElementById("email").value = properties.email
+        })
+    }
+
+    loadSecrets()
       .catch(e => console.error("Failed to retrieve secrets from the Developer Portal. The app might not work as expected!", e))
       .finally(() => {
         for (const element of document.getElementsByClassName("loading")) {
@@ -27,7 +31,7 @@
   </script>
 </head>
 <body class="height-fill loading">
-<form id="form" class="flex-columns-container height-fill">
+<form id="form" method="post" target="_blank" class="flex-columns-container height-fill">
   <div class="form-group">
     <label id="values.label1" for="email" class="form-label"></label>
     <input id="email" type="email" class="form-control" name="email" placeholder="example@contoso.com" />

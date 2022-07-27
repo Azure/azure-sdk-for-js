@@ -7,7 +7,7 @@ const requestPromise = new Promise(async (resolve) => {
   const secrets = await secretsPromise
   resolve((url: string) => fetch(
     `${secrets.managementApiUrl}${url}?api-version=${secrets.apiVersion}`,
-    {headers: {Authorization: secrets.token}},
+    secrets.token ? {headers: {Authorization: secrets.token}} : undefined,
   ))
 })
 

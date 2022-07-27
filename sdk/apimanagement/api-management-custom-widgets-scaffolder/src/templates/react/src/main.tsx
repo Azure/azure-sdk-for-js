@@ -3,7 +3,7 @@ import {createRoot} from "react-dom/client"
 
 import "./styles/app.scss"
 import App from "./app"
-import {WidgetDataProvider, SecretsProvider} from "./providers"
+import {SecretsProvider, WidgetDataProvider} from "./providers"
 
 const root = createRoot(document.getElementById("root")!)
 root.render(
