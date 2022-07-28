@@ -15,13 +15,13 @@
 
 - Configuration of Role and Role Assignments is required before using the sample code in this document.
 - **Dependency Requirements:**
-Add the following dependencies to *package.json*:
+    Add the following dependencies to *package.json*:
 
-```
-"dependencies": {
-  "@azure/identity":"^2.0.4",
-  "ioredis": "^5.0.4",
-```
+    ```
+    "dependencies": {
+      "@azure/identity": "^2.0.4",
+      "ioredis": "^5.0.4",
+    ```
 
 #### Samples Guidance
 
