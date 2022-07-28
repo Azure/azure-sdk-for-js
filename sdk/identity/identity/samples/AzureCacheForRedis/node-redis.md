@@ -38,7 +38,7 @@ This sample is intended to assist in authenticating with Azure AD via the node-r
 
 ##### Migration guidance
 
-When migrating your existing application code, replace the password input with the Azure AD token. Azure Redis Cache name, Service Principal Username, AAD Token and using SSL are required while connecting with the cache. The username will depend on whether you are using Service Principal, Managed identity or MSFT username.
+When migrating your existing application code, replace the password input with the Azure AD token. Azure Redis Cache name, Service Principal Username, Azure AD token, and use of SSL are required while connecting with the cache. The username will depend on whether you're using Service Principal, Managed identity, or Microsoft username.
 
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code.
 
