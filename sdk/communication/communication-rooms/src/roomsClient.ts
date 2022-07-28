@@ -10,7 +10,7 @@ import {
   mapToRoomParticipantSdkModel,
   mapToRoomSdkModel,
 } from "./models/mappers";
-import { ParticipantsCollection, Room } from "./models/models";
+import { ParticipantsCollection, Room, RoomParticipant } from "./models/models";
 import {
   AddParticipantsOptions,
   CreateRoomOptions,
@@ -22,16 +22,10 @@ import {
   UpdateParticipantsOptions,
   UpdateRoomOptions,
 } from "./models/options";
-import {
-  CreateRoomRequest,
-  UpdateRoomRequest,
-  AddParticipantsRequest,
-  UpdateParticipantsRequest,
-  RemoveParticipantsRequest,
-} from "./models/requests";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
+  CommunicationUserIdentifier,
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
@@ -106,18 +100,15 @@ export class RoomsClient {
    * @param options - Operation options.
    * @returns a RoomModel object with the values of the created room.
    */
-  public async createRoom(
-    request: CreateRoomRequest,
-    options: CreateRoomOptions = {}
-  ): Promise<Room> {
+  public async createRoom(options: CreateRoomOptions = {}): Promise<Room> {
     const { span, updatedOptions } = createSpan("RoomsClient-CreateRoom", options);
     try {
       const repeatabilityRequestId = generateUuid();
       const repeatabilityFirstSent = new Date();
       const result = await this.client.rooms.createRoom(
         {
-          ...request,
-          participants: request.participants?.map((participant) =>
+          ...options,
+          participants: options.participants?.map((participant) =>
             mapToRoomParticipantRestModel(participant)
           ),
         },
@@ -146,17 +137,13 @@ export class RoomsClient {
    * @param options - Operational options.
    * @returns a RoomModel object with the values of the created room.
    */
-  public async updateRoom(
-    roomId: string,
-    request: UpdateRoomRequest,
-    options: UpdateRoomOptions = {}
-  ): Promise<Room> {
+  public async updateRoom(roomId: string, options: UpdateRoomOptions = {}): Promise<Room> {
     const { span, updatedOptions } = createSpan("RoomsClient-UpdateRoom", options);
     try {
       const result = await this.client.rooms.updateRoom(roomId, {
         patchRoomRequest: {
-          ...request,
-          participants: request.participants?.map((participant) =>
+          ...options,
+          participants: options.participants?.map((participant) =>
             mapToRoomParticipantRestModel(participant)
           ),
         },
@@ -254,7 +241,7 @@ export class RoomsClient {
    */
   public async addParticipants(
     roomId: string,
-    request: AddParticipantsRequest,
+    participants: RoomParticipant[],
     options: AddParticipantsOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("RoomsClient-AddParticipants", options);
@@ -262,7 +249,7 @@ export class RoomsClient {
       await this.client.rooms.addParticipants(
         roomId,
         {
-          participants: request.participants?.map((participant) =>
+          participants: participants.map((participant) =>
             mapToRoomParticipantRestModel(participant)
           ),
         },
@@ -288,7 +275,7 @@ export class RoomsClient {
    */
   public async updateParticipants(
     roomId: string,
-    request: UpdateParticipantsRequest,
+    participants: RoomParticipant[],
     options: UpdateParticipantsOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("RoomsClient-UpdateParticipants", options);
@@ -296,7 +283,7 @@ export class RoomsClient {
       await this.client.rooms.updateParticipants(
         roomId,
         {
-          participants: request.participants?.map((participant) =>
+          participants: participants.map((participant) =>
             mapToRoomParticipantRestModel(participant)
           ),
         },
@@ -322,7 +309,7 @@ export class RoomsClient {
    */
   public async removeParticipants(
     roomId: string,
-    request: RemoveParticipantsRequest,
+    participants: CommunicationUserIdentifier[],
     options: RemoveParticipantsOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("RoomsClient-RemoveParticipants", options);
@@ -330,7 +317,7 @@ export class RoomsClient {
       await this.client.rooms.removeParticipants(
         roomId,
         {
-          participants: request.participants!.map((participant) =>
+          participants: participants!.map((participant) =>
             mapCommunicationIdentifierToRoomParticipantRestModel(participant)
           ),
         },

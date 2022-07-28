@@ -8,13 +8,8 @@ import { Context } from "mocha";
 import sinon from "sinon";
 import { RoomsClient } from "../../src/roomsClient";
 import { CommunicationUserIdentifier, getIdentifierRawId } from "@azure/communication-common";
-import {
-  AddParticipantsRequest,
-  CreateRoomRequest,
-  UpdateRoomRequest,
-  RemoveParticipantsRequest,
-  UpdateParticipantsRequest,
-} from "../../src/models/requests";
+import { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options";
+import { RoomParticipant } from "../../src/models/models";
 
 describe("RoomsClient", function () {
   let recorder: Recorder;
@@ -42,20 +37,20 @@ describe("RoomsClient", function () {
     });
 
     it("successfully creates a room with empty request", async function () {
-      const request = {};
+      const options = {};
 
-      const createRoomResult = await client.createRoom(request);
+      const createRoomResult = await client.createRoom(options);
       assert.isDefined(createRoomResult);
       assert.isDefined(createRoomResult?.id);
       assert.isEmpty(createRoomResult.participants);
-      assert.equal(createRoomResult.roomJoinPolicy, "InviteOnly");
+      assert.equal(createRoomResult.joinPolicy, "InviteOnly");
       roomId = createRoomResult?.id;
     });
 
     it("successfully creates a room with payload", async function () {
       testUser = (await createTestUser(recorder)).user;
 
-      const request: CreateRoomRequest = {
+      const options: CreateRoomOptions = {
         validFrom: validFrom,
         validUntil: validUntil,
         roomJoinPolicy: "CommunicationServiceUsers",
@@ -67,10 +62,10 @@ describe("RoomsClient", function () {
         ],
       };
 
-      const createRoomResult = await client.createRoom(request);
+      const createRoomResult = await client.createRoom(options);
       assert.isDefined(createRoomResult);
       assert.isDefined(createRoomResult.id);
-      assert.equal(createRoomResult.roomJoinPolicy, "CommunicationServiceUsers");
+      assert.equal(createRoomResult.joinPolicy, "CommunicationServiceUsers");
       assert.equal(createRoomResult.participants?.length, 1);
       roomId = createRoomResult.id;
     });
@@ -87,7 +82,7 @@ describe("RoomsClient", function () {
       roomId = createRoom.id;
       testUser = (await createTestUser(recorder)).user;
 
-      const request: UpdateRoomRequest = {
+      const options: UpdateRoomOptions = {
         validFrom: new Date(validFrom.getTime() + 5 * 60 * 1000),
         validUntil: new Date(validUntil.getTime() + 5 * 60 * 1000),
         roomJoinPolicy: "CommunicationServiceUsers",
@@ -99,7 +94,7 @@ describe("RoomsClient", function () {
         ],
       };
 
-      await client.updateRoom(roomId, request);
+      await client.updateRoom(roomId, options);
     });
 
     it("successfully updates a room with participants", async function () {
@@ -118,7 +113,7 @@ describe("RoomsClient", function () {
       });
       roomId = createRoom.id;
 
-      const request: UpdateRoomRequest = {
+      const options: UpdateRoomOptions = {
         validFrom: new Date(validFrom.getTime() + 5 * 60 * 1000),
         validUntil: new Date(validUntil.getTime() + 5 * 60 * 1000),
         roomJoinPolicy: "InviteOnly",
@@ -134,7 +129,7 @@ describe("RoomsClient", function () {
         ],
       };
 
-      await client.updateRoom(roomId, request);
+      await client.updateRoom(roomId, options);
     });
 
     it("successfully deletes a room", async function () {
@@ -155,11 +150,11 @@ describe("RoomsClient", function () {
       });
       roomId = createRoom.id;
 
-      const request: UpdateRoomRequest = {
+      const options: UpdateRoomOptions = {
         roomJoinPolicy: "InviteOnly",
       };
       client
-        .updateRoom(roomId, request)
+        .updateRoom(roomId, options)
         .then((result) => {
           assert.isUndefined(result);
         })
@@ -187,36 +182,34 @@ describe("RoomsClient", function () {
 
     it("successfully adds a participant to the room", async function () {
       testUser = (await createTestUser(recorder)).user;
-      const request: AddParticipantsRequest = {
-        participants: [
-          {
-            id: testUser,
-            role: "Presenter",
-          },
-        ],
-      };
+      const participants: RoomParticipant[] = [
+        {
+          id: testUser,
+          role: "Presenter",
+        },
+      ];
 
       const createRoomResult = await client.createRoom({});
       assert.isDefined(createRoomResult);
       assert.isEmpty(createRoomResult.participants);
       roomId = createRoomResult.id;
 
-      await client.addParticipants(roomId, request);
+      await client.addParticipants(roomId, participants);
       const addParticipantsResult = await client.getParticipants(roomId);
       assert.isDefined(addParticipantsResult);
       assert.isNotEmpty(addParticipantsResult.participants);
       assert.equal(
         getIdentifierRawId(addParticipantsResult.participants[0].id),
-        getIdentifierRawId(request.participants[0].id)
+        getIdentifierRawId(participants[0].id)
       );
-      assert.equal(addParticipantsResult.participants[0].role, request.participants[0].role);
+      assert.equal(addParticipantsResult.participants[0].role, participants[0].role);
     });
 
     it("successfully removes a participant from the room", async function () {
       testUser = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
 
-      const request: CreateRoomRequest = {
+      const request: CreateRoomOptions = {
         participants: [
           {
             id: testUser,
@@ -235,16 +228,14 @@ describe("RoomsClient", function () {
 
       roomId = createRoomResult.id;
 
-      const removeParticipants: RemoveParticipantsRequest = {
-        participants: [testUser, testUser2],
-      };
-      await client.removeParticipants(roomId, removeParticipants);
+      const participants = [testUser, testUser2];
+      await client.removeParticipants(roomId, participants);
       assert.isEmpty((await client.getRoom(roomId)).participants);
     });
 
     it("successfully updates a participant", async function () {
       testUser = (await createTestUser(recorder)).user;
-      const request: CreateRoomRequest = {
+      const request: CreateRoomOptions = {
         participants: [
           {
             id: testUser,
@@ -258,28 +249,22 @@ describe("RoomsClient", function () {
       assert.isNotEmpty(createRoomResult.participants);
       roomId = createRoomResult.id;
 
-      const updateParticipants: UpdateParticipantsRequest = {
-        participants: [
-          {
-            id: testUser,
-            role: "Presenter",
-          },
-        ],
-      };
-
-      await client.updateParticipants(roomId, updateParticipants);
+      const participants: RoomParticipant[] = [
+        {
+          id: testUser,
+          role: "Presenter",
+        },
+      ];
+      await client.updateParticipants(roomId, participants);
       const testResultingRoom = await client.getRoom(roomId);
       assert.isNotEmpty(testResultingRoom.participants);
       assert.isDefined(testResultingRoom);
       if (testResultingRoom.participants != null) {
         assert.equal(
           getIdentifierRawId(testResultingRoom.participants[0].id),
-          getIdentifierRawId(updateParticipants.participants[0].id)
+          getIdentifierRawId(participants[0].id)
         );
-        assert.equal(
-          testResultingRoom.participants[0].role,
-          updateParticipants.participants[0].role
-        );
+        assert.equal(testResultingRoom.participants[0].role, participants[0].role);
       }
     });
   });

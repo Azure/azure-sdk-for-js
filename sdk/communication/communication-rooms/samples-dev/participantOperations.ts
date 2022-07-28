@@ -8,9 +8,8 @@
 import {
   RoomsClient,
   ParticipantsCollection,
-  CreateRoomRequest,
-  AddParticipantsRequest,
-  UpdateParticipantsRequest,
+  RoomParticipant,
+  CreateRoomOptions,
 } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { getIdentifierRawId } from "@azure/communication-common";
@@ -34,8 +33,8 @@ export async function main() {
   const validFrom = new Date();
   const validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
 
-  // request payload to create a room
-  const createRoomRequest: CreateRoomRequest = {
+  // Options payload to create a room
+  const createRoomOptions: CreateRoomOptions = {
     validFrom: validFrom,
     validUntil: validUntil,
     participants: [
@@ -47,49 +46,43 @@ export async function main() {
   };
 
   // create a room with the request payload
-  const createRoom = await roomsClient.createRoom(createRoomRequest);
+  const createRoom = await roomsClient.createRoom(createRoomOptions);
   const roomId = createRoom.id;
   console.log(`Created Room with ID ${roomId}`);
 
   // request payload to add participants
-  const addParticipantsRequest: AddParticipantsRequest = {
-    participants: [
-      {
-        id: user2.user,
-        role: "Consumer",
-      },
-    ],
-  };
+  const addParticipantsList: RoomParticipant[] = [
+    {
+      id: user2.user,
+      role: "Consumer",
+    },
+  ];
 
   // add user2 to the room with the request payload
-  await roomsClient.addParticipants(roomId, addParticipantsRequest);
+  await roomsClient.addParticipants(roomId, addParticipantsList);
   const addParticipants = await roomsClient.getParticipants(roomId);
   console.log(`Added Participants`);
   printParticipants(addParticipants);
 
   // request payload to update user1 with a new role
-  const updateParticipantsRequest: UpdateParticipantsRequest = {
-    participants: [
-      {
-        id: user1.user,
-        role: "Presenter",
-      },
-    ],
-  };
+  const updateParticipantsList: RoomParticipant[] = [
+    {
+      id: user1.user,
+      role: "Presenter",
+    },
+  ];
 
   // update user1 with the request payload
-  await roomsClient.updateParticipants(roomId, updateParticipantsRequest);
+  await roomsClient.updateParticipants(roomId, updateParticipantsList);
   console.log(`Updated Participants`);
   printParticipants(await roomsClient.getParticipants(roomId));
 
   // request payload to delete both users from the room
   // this demonstrates both objects that can be used in deleting users from rooms: RoomParticipant or CommunicationIdentifier
-  const removeParticipantsRequest = {
-    participants: [user1.user, user2.user],
-  };
+  const removeParticipantsList = [user1.user, user2.user];
 
   // remove both users from the room with the request payload
-  await roomsClient.removeParticipants(roomId, removeParticipantsRequest);
+  await roomsClient.removeParticipants(roomId, removeParticipantsList);
   console.log(`Removed Participants`);
   printParticipants(await roomsClient.getParticipants(roomId));
 

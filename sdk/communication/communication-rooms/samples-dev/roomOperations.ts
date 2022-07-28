@@ -8,8 +8,8 @@
 import {
   RoomsClient,
   Room,
-  CreateRoomRequest,
-  UpdateRoomRequest,
+  CreateRoomOptions,
+  UpdateRoomOptions,
 } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { getIdentifierRawId } from "@azure/communication-common";
@@ -33,8 +33,8 @@ export async function main() {
   var validFrom = new Date(Date.now());
   var validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
 
-  // request payload to create a room
-  const createRoomRequest: CreateRoomRequest = {
+  // options payload to create a room
+  const createRoomOptions: CreateRoomOptions = {
     validFrom: validFrom,
     validUntil: validUntil,
     participants: [
@@ -46,7 +46,7 @@ export async function main() {
   };
 
   // create a room with the request payload
-  const createRoom = await roomsClient.createRoom(createRoomRequest);
+  const createRoom = await roomsClient.createRoom(createRoomOptions);
   const roomId = createRoom.id;
   console.log(`Created Room`);
   printRoom(createRoom);
@@ -60,7 +60,7 @@ export async function main() {
   validUntil.setTime(validFrom.getTime() + 5 * 60 * 1000);
 
   // request payload to update a room
-  const updateRoomRequest: UpdateRoomRequest = {
+  const updateRoomRequest: UpdateRoomOptions = {
     validFrom: validFrom,
     validUntil: validUntil,
     roomJoinPolicy: "CommunicationServiceUsers",
@@ -93,7 +93,7 @@ function printRoom(room: Room): void {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
   console.log(`Valid Until: ${room.validUntil}`);
-  console.log(`Room Join Policy: ${room.roomJoinPolicy}`);
+  console.log(`Room Join Policy: ${room.joinPolicy}`);
   console.log(`Participants:`);
   for (const participant of room.participants!) {
     const id = getIdentifierRawId(participant.id);

@@ -62,12 +62,13 @@ export const mapToRoomParticipantSdkModel = (
 export const mapToRoomSdkModel = (
   result: RestModel.RoomModel
 ): Room => {
-  const { id, participants, ...rest } = result;
+  const { id, participants, roomJoinPolicy, ...rest } = result;
   return {
     id: id ?? throwException("Room ID cannot be null."),
     participants: participants?.map((participant) =>
       mapToRoomParticipantSdkModel(participant)
     ),
+    joinPolicy: roomJoinPolicy,
     ...rest,
   };
 };

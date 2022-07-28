@@ -12,20 +12,10 @@ import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AddParticipantsOptions extends OperationOptions {
-}
-
-// @public
-export interface AddParticipantsRequest {
-    participants: RoomParticipant[];
-}
+export type AddParticipantsOptions = OperationOptions;
 
 // @public
 export interface CreateRoomOptions extends OperationOptions {
-}
-
-// @public
-export interface CreateRoomRequest {
     participants?: RoomParticipant[];
     roomJoinPolicy?: RoomJoinPolicy;
     validFrom?: Date;
@@ -48,13 +38,7 @@ export interface ParticipantsCollection {
 }
 
 // @public
-export interface RemoveParticipantsOptions extends OperationOptions {
-}
-
-// @public
-export interface RemoveParticipantsRequest {
-    participants: CommunicationUserIdentifier[];
-}
+export type RemoveParticipantsOptions = OperationOptions;
 
 // @public
 export type Role = "Presenter" | "Attendee" | "Consumer";
@@ -63,8 +47,8 @@ export type Role = "Presenter" | "Attendee" | "Consumer";
 export interface Room {
     createdDateTime: Date;
     id: string;
+    joinPolicy: RoomJoinPolicy;
     participants: RoomParticipant[];
-    roomJoinPolicy: RoomJoinPolicy;
     validFrom: Date;
     validUntil: Date;
 }
@@ -83,14 +67,14 @@ export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
-    addParticipants(roomId: string, request: AddParticipantsRequest, options?: AddParticipantsOptions): Promise<void>;
-    createRoom(request: CreateRoomRequest, options?: CreateRoomOptions): Promise<Room>;
+    addParticipants(roomId: string, participants: RoomParticipant[], options?: AddParticipantsOptions): Promise<void>;
+    createRoom(options?: CreateRoomOptions): Promise<Room>;
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
     getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<ParticipantsCollection>;
     getRoom(roomId: string, options?: GetRoomOptions): Promise<Room>;
-    removeParticipants(roomId: string, request: RemoveParticipantsRequest, options?: RemoveParticipantsOptions): Promise<void>;
-    updateParticipants(roomId: string, request: UpdateParticipantsRequest, options?: UpdateParticipantsOptions): Promise<void>;
-    updateRoom(roomId: string, request: UpdateRoomRequest, options?: UpdateRoomOptions): Promise<Room>;
+    removeParticipants(roomId: string, participants: CommunicationUserIdentifier[], options?: RemoveParticipantsOptions): Promise<void>;
+    updateParticipants(roomId: string, participants: RoomParticipant[], options?: UpdateParticipantsOptions): Promise<void>;
+    updateRoom(roomId: string, options?: UpdateRoomOptions): Promise<Room>;
 }
 
 // @public
@@ -98,20 +82,10 @@ export interface RoomsClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface UpdateParticipantsOptions extends OperationOptions {
-}
-
-// @public
-export interface UpdateParticipantsRequest {
-    participants: RoomParticipant[];
-}
+export type UpdateParticipantsOptions = OperationOptions;
 
 // @public
 export interface UpdateRoomOptions extends OperationOptions {
-}
-
-// @public
-export interface UpdateRoomRequest {
     participants?: RoomParticipant[];
     roomJoinPolicy?: RoomJoinPolicy;
     validFrom?: Date;

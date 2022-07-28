@@ -10,7 +10,7 @@ import {
   mockCreateRoomsResult,
   mockUpdateRoomsResult,
   mockSdkModelParticipant,
-  } from "./utils/mockedClient";
+} from "./utils/mockedClient";
 
 describe("[Mocked] RoomsClient", async () => {
   let RoomsClient: RoomsClient;
@@ -27,7 +27,7 @@ describe("[Mocked] RoomsClient", async () => {
 
     const sendOptions = {};
 
-    const createRoomsResult = await RoomsClient.createRoom({}, sendOptions);
+    const createRoomsResult = await RoomsClient.createRoom(sendOptions);
 
     sinon.assert.calledOnce(spy);
     assert.isDefined(createRoomsResult);
@@ -35,7 +35,7 @@ describe("[Mocked] RoomsClient", async () => {
     assert.deepEqual(createRoomsResult.validFrom, mockCreateRoomsResult.validFrom);
     assert.deepEqual(createRoomsResult.validUntil, mockCreateRoomsResult.validUntil);
     assert.deepEqual(createRoomsResult.participants, [mockSdkModelParticipant]);
-   
+
     const request = spy.getCall(0).args[0];
     assert.equal(request.method, "POST");
     assert.deepEqual(JSON.parse(request.body as string), {});
@@ -46,13 +46,12 @@ describe("[Mocked] RoomsClient", async () => {
     const mockHttpClient = generateHttpClient(200, mockUpdateRoomsResult);
     RoomsClient = createRoomsClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const updateRoomRequest = {
+    const sendOptions = {
       validFrom: new Date("2022-08-16T18:06:06Z"),
       validUntil: new Date("2022-08-17T18:06:06Z"),
     };
-    const sendOptions = {};
 
-    const updateRoomResult = await RoomsClient.updateRoom("id", updateRoomRequest, sendOptions);
+    const updateRoomResult = await RoomsClient.updateRoom("id", sendOptions);
 
     sinon.assert.calledOnce(spy);
     assert.isDefined(updateRoomResult);
@@ -60,25 +59,22 @@ describe("[Mocked] RoomsClient", async () => {
     assert.deepEqual(updateRoomResult.validFrom, mockUpdateRoomsResult.validFrom);
     assert.deepEqual(updateRoomResult.validUntil, mockUpdateRoomsResult.validUntil);
     assert.deepEqual(updateRoomResult.participants, [mockSdkModelParticipant]);
-   
 
     const request = spy.getCall(0).args[0];
     assert.equal(request.method, "PATCH");
-    assert.deepEqual(request.body as string,  JSON.stringify(updateRoomRequest));
-  
+    assert.deepEqual(request.body as string, JSON.stringify(sendOptions));
   });
 
   it("makes add Participant request", async () => {
     const mockHttpClient = generateHttpClient(200, mockUpdateRoomsResult);
     RoomsClient = createRoomsClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const updateRoomRequest = {
+    const sendOptions = {
       validFrom: new Date("2022-08-16T18:06:06Z"),
       validUntil: new Date("2022-08-17T18:06:06Z"),
     };
-    const sendOptions = {};
 
-    const updateRoomResult = await RoomsClient.updateRoom("id", updateRoomRequest, sendOptions);
+    const updateRoomResult = await RoomsClient.updateRoom("id", sendOptions);
 
     sinon.assert.calledOnce(spy);
     assert.isDefined(updateRoomResult);
@@ -86,11 +82,9 @@ describe("[Mocked] RoomsClient", async () => {
     assert.deepEqual(updateRoomResult.validFrom, mockUpdateRoomsResult.validFrom);
     assert.deepEqual(updateRoomResult.validUntil, mockUpdateRoomsResult.validUntil);
     assert.deepEqual(updateRoomResult.participants, [mockSdkModelParticipant]);
-   
 
     const request = spy.getCall(0).args[0];
     assert.equal(request.method, "PATCH");
-    assert.deepEqual(request.body as string,  JSON.stringify(updateRoomRequest));
-  
+    assert.deepEqual(request.body as string, JSON.stringify(sendOptions));
   });
 });

@@ -17,7 +17,7 @@ export interface Room {
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil: Date;
   /** The room join policy for the room. */
-  roomJoinPolicy: RoomJoinPolicy;
+  joinPolicy: RoomJoinPolicy;
   /** Collection of identities invited to the room. */
   participants: RoomParticipant[];
 }
