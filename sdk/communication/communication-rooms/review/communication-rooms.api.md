@@ -60,16 +60,13 @@ export interface RemoveParticipantsRequest {
 export type Role = "Presenter" | "Attendee" | "Consumer";
 
 // @public
-export type RoleType = "Presenter" | "Attendee" | "Consumer";
-
-// @public
 export interface Room {
-    createdDateTime?: Date;
+    createdDateTime: Date;
     id: string;
-    participants?: RoomParticipant[];
-    roomJoinPolicy?: RoomJoinPolicy;
-    validFrom?: Date;
-    validUntil?: Date;
+    participants: RoomParticipant[];
+    roomJoinPolicy: RoomJoinPolicy;
+    validFrom: Date;
+    validUntil: Date;
 }
 
 // @public
@@ -86,7 +83,7 @@ export class RoomsClient {
     constructor(connectionString: string, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: RoomsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);
-    addParticipants(roomId: string, request: AddParticipantsRequest, options?: AddParticipantsOptions): Promise<ParticipantsCollection>;
+    addParticipants(roomId: string, request: AddParticipantsRequest, options?: AddParticipantsOptions): Promise<void>;
     createRoom(request: CreateRoomRequest, options?: CreateRoomOptions): Promise<Room>;
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
     getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<ParticipantsCollection>;

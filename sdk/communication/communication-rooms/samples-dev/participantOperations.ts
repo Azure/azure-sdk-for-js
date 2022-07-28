@@ -62,7 +62,8 @@ export async function main() {
   };
 
   // add user2 to the room with the request payload
-  const addParticipants = await roomsClient.addParticipants(roomId, addParticipantsRequest);
+  await roomsClient.addParticipants(roomId, addParticipantsRequest);
+  const addParticipants = await roomsClient.getParticipants(roomId);
   console.log(`Added Participants`);
   printParticipants(addParticipants);
 

@@ -4,22 +4,22 @@
 import { RoomJoinPolicy } from "../generated/src";
 import { CommunicationIdentifier } from "@azure/communication-common";
 
-export { RoomJoinPolicy, RoleType } from "../generated/src/models";
+export { RoomJoinPolicy } from "../generated/src/models";
 
 /** The meeting room. */
 export interface Room {
   /** Unique identifier of a room. This id is server generated. */
   id: string;
   /** The timestamp when the room was created at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  createdDateTime?: Date;
+  createdDateTime: Date;
   /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  validFrom?: Date;
+  validFrom: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  validUntil?: Date;
+  validUntil: Date;
   /** The room join policy for the room. */
-  roomJoinPolicy?: RoomJoinPolicy;
+  roomJoinPolicy: RoomJoinPolicy;
   /** Collection of identities invited to the room. */
-  participants?: RoomParticipant[];
+  participants: RoomParticipant[];
 }
 
 /** A participant of the room. */

@@ -116,30 +116,35 @@ export const RoomModel: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       createdDateTime: {
         serializedName: "createdDateTime",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       validFrom: {
         serializedName: "validFrom",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       validUntil: {
         serializedName: "validUntil",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       roomJoinPolicy: {
         serializedName: "roomJoinPolicy",
+        required: true,
         type: {
           name: "Enum",
           allowedValues: ["InviteOnly", "CommunicationServiceUsers"]
@@ -147,6 +152,7 @@ export const RoomModel: coreClient.CompositeMapper = {
       },
       participants: {
         serializedName: "participants",
+        required: true,
         type: {
           name: "Sequence",
           element: {

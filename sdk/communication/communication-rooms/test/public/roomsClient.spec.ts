@@ -157,16 +157,16 @@ describe("RoomsClient", function () {
 
       const request: UpdateRoomRequest = {
         roomJoinPolicy: "InviteOnly",
-
       };
-      client.updateRoom(roomId, request)
+      client
+        .updateRoom(roomId, request)
         .then((result) => {
           assert.isUndefined(result);
         })
         .catch((error) => {
           assert.equal(error.status, 400);
         });
-      })
+    });
   });
 
   describe("Participants Operations", function () {
@@ -201,14 +201,15 @@ describe("RoomsClient", function () {
       assert.isEmpty(createRoomResult.participants);
       roomId = createRoomResult.id;
 
-      const updateRoomResult = await client.addParticipants(roomId, request);
-      assert.isDefined(updateRoomResult);
-      assert.isNotEmpty(updateRoomResult.participants);
+      await client.addParticipants(roomId, request);
+      const addParticipantsResult = await client.getParticipants(roomId);
+      assert.isDefined(addParticipantsResult);
+      assert.isNotEmpty(addParticipantsResult.participants);
       assert.equal(
-        getIdentifierRawId(updateRoomResult.participants[0].id),
+        getIdentifierRawId(addParticipantsResult.participants[0].id),
         getIdentifierRawId(request.participants[0].id)
       );
-      assert.equal(updateRoomResult.participants[0].role, request.participants[0].role);
+      assert.equal(addParticipantsResult.participants[0].role, request.participants[0].role);
     });
 
     it("successfully removes a participant from the room", async function () {

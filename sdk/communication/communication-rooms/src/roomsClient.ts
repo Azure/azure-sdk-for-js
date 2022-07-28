@@ -256,10 +256,10 @@ export class RoomsClient {
     roomId: string,
     request: AddParticipantsRequest,
     options: AddParticipantsOptions = {}
-  ): Promise<ParticipantsCollection> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("RoomsClient-AddParticipants", options);
     try {
-      const result = await this.client.rooms.addParticipants(
+      await this.client.rooms.addParticipants(
         roomId,
         {
           participants: request.participants?.map((participant) =>
@@ -268,11 +268,6 @@ export class RoomsClient {
         },
         updatedOptions
       );
-      return {
-        participants: result.participants!.map((participant) =>
-          mapToRoomParticipantSdkModel(participant)
-        ),
-      };
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

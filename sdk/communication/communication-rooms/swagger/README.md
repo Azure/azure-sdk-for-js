@@ -44,3 +44,13 @@ directive:
   transform: >
     $["x-ms-enum"].modelAsString = false;
 ```
+
+### Set Properties of Room as Required
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.RoomModel"
+  transform: >
+    $.required = ['id','createdDateTime','validFrom','validUntil','roomJoinPolicy','participants'];
+```

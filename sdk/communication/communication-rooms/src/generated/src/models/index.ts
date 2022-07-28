@@ -45,17 +45,17 @@ export interface CommunicationUserIdentifierModel {
 /** The meeting room. */
 export interface RoomModel {
   /** Unique identifier of a room. This id is server generated. */
-  id?: string;
+  id: string;
   /** The timestamp when the room was created at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  createdDateTime?: Date;
+  createdDateTime: Date;
   /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  validFrom?: Date;
+  validFrom: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  validUntil?: Date;
+  validUntil: Date;
   /** The Policy based on which Participants can join a room. */
-  roomJoinPolicy?: RoomJoinPolicy;
+  roomJoinPolicy: RoomJoinPolicy;
   /** Collection of room participants. */
-  participants?: RoomParticipant[];
+  participants: RoomParticipant[];
 }
 
 /** The Communication Services error. */
