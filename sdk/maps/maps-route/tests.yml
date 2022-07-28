@@ -1,0 +1,8 @@
+trigger: none
+
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/maps-route"
+      ServiceDirectory: maps
+      SupportedClouds: 'Public'
