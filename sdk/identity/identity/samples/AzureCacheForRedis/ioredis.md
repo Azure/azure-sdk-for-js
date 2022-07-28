@@ -173,6 +173,7 @@ main().catch((err) => {
 This sample is intended to assist in authenticating with Azure AD via io-redis client library. It focuses on displaying the logic required to fetch an Azure AD access token using a token cache and to use it as password when setting up the io-redis instance. It also shows how to recreate and authenticate the io-redis instance using the cached access token when the client's connection is broken in error/exception scenarios. The token cache stores and proactively refreshes the Azure AD access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
 
 ##### Migration Guidance
+
 When migrating your existing your application code, you need to replace the password input with the Azure AD token.
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library. Store the token in a token cache, as shown below. Replace the token with the password configuring/retrieving logic in your application code.
 
