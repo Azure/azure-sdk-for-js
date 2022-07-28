@@ -100,7 +100,7 @@ describe("Automation test", () => {
 
   });
 
-  it("RunbookDraft Replace test", async function () {
+  it.skip("RunbookDraft Replace test", async function () {
     const res = await client.runbookDraftOperations.beginReplaceContentAndWait(resourceGroup, automationAccountName, runbookName, runbookContent, testPollingOptions)
 
   });
@@ -114,4 +114,12 @@ describe("Automation test", () => {
     assert.equal(resArray.length, 0);
   });
 
+  it("automation delete test", async function () {
+    const res = await client.automationAccountOperations.delete(resourceGroup, automationAccountName)
+    const resArray = new Array();
+    for await (let item of client.automationAccountOperations.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
 })
