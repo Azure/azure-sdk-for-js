@@ -6,6 +6,8 @@
     - [Prerequisites](#prerequisites)
     - [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-node-redis-hello-world)
     - [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
+    - [Authenticate with Azure AD - Using Token Cache](#authenticate-with-azure-ad-using-token-cache)
+    - [Troubleshooting](#troubleshooting)
 
 ### node-redis library
 
@@ -30,15 +32,15 @@ Familiarity with the [node-redis](https://github.com/redis/node-redis) and [Azur
 * [Authenticate with Azure AD - Using Token Cache](#authenticate-with-azure-ad-using-token-cache):
   This sample is recommended to users looking to build long-running applications that would like to handle reauthenticating with a Token cache. The token cache stores and proactively refreshes the Azure AD access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
 
-#### Authenticate with Azure AD- Hello World
+#### Authenticate with Azure AD: Hello World
 
 This sample is intended to assist in authenticating with Azure AD via the node-redis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as password when setting up the node-redis instance.
 
 ##### Migration guidance
 
-When migrating your existing application code, replace the password input with the Azure AD token. Azure Redis Cache name, Service Principal Username, AAD Token and using SSL are required while connecting with the cache.
+When migrating your existing application code, replace the password input with the Azure AD token. Azure Redis Cache name, Service Principal Username, AAD Token and using SSL are required while connecting with the cache. The username will depend on whether you are using Service Principal, Managed identity or MSFT username.
 
-Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code. Azure Redis Cache name, Service Principal Username, AAD Token and using SSL are required while connecting with the cache.
+Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code.
 
 ```ts
 import { createClient } from "redis";
@@ -84,7 +86,7 @@ main().catch((err) => {
 ```
 
 ##### Supported Token Credentials for Azure AD Authentication
-**Note:** The samples in this doc use the Azure Identity library's `DefaultAzureCredential` to fetch Azure AD Access Token. The other supported `TokenCredential` implementations that can be used from [Azure Identity for Javascript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) are as follows:
+**Note:** The samples in this doc use the Azure Identity library's `DefaultAzureCredential` to fetch Azure AD Access Token. The samples also use Service Principal name as the username. The other supported `TokenCredential` implementations that can be used from [Azure Identity for Javascript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) are as follows:
 
 * [Client Certificate Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest)
 * [Client Secret Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)
@@ -161,7 +163,6 @@ async function main() {
       }
     }
   }
-  await redis.disconnect();
 }
 
 main().catch((err) => {
@@ -171,7 +172,7 @@ main().catch((err) => {
 });
 ```
 
-#### Authenticate with Azure AD - Using Token Cache
+#### Authenticate with Azure AD: Using Token Cache
 
 This sample is intended to assist in authenticating with Azure AD via node-redis client library. It focuses on displaying the logic required to fetch an Azure AD access token using a token cache and to use it as password when setting up the node-redis instance. It also shows how to recreate and authenticate the node-redis instance using the cached access token when the client's connection is broken in error/exception scenarios. The token cache stores and proactively refreshes the Azure AD access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
 
@@ -248,7 +249,6 @@ async function main() {
     await sleep(1000);
   }
   clearInterval(id);
-  await redis.disconnect();
 }
 
 main().catch((err) => {
@@ -261,3 +261,18 @@ function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 ```
+
+#### Troubleshooting
+##### Invalid Username Password Pair Error
+
+In this error scenario, the username provided and the access token used as password are not compatible. To mitigate this error, ensure that:
+
+On Portal, Under your `Redis Cache Resource` -> RBAC Rules, you've assigned the required role to your user/service principal identity.
+On Portal, Under your `Redis Cache Resource` -> Advanced settings -> AAD Access Authorization box is checked/enabled, if not enable it and press the Save button.
+
+##### Permissions not granted / NOPERM Error
+
+In this error scenario, the authentication was successful, but your registered user/service principal is not granted the RBAC permission to perform the action. To mitigate this error, ensure that:
+
+On Portal, Under your `Redis Cache Resource` -> RBAC Rules, you've assigned the appropriate role (Owner, Contributor, Reader) to your user/service principal identity.
+In the event you're using a custom role, then ensure the permissions granted under your custom role include the one required for your target action.
