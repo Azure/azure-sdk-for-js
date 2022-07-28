@@ -9,26 +9,26 @@
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "e9c96cfa-2570-4f87-bf2c-a7762da72540"
+        "x-ms-client-request-id": "504a94c2-dab8-47da-b752-ddf5f8266e59"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "11169",
+        "Content-Length": "11168",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Jul 2022 11:18:43 GMT",
+        "Date": "Thu, 28 Jul 2022 03:27:59 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: 51511F53062C42918CE932FD3E4FBF9A Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:43Z"
+        "X-MSEdge-Ref": "Ref A: 9E7D92B753284DFFAB70184804BEE10B Ref B: TYO01EDGE3414 Ref C: 2022-07-28T03:28:00Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "juice bars",
           "queryType": "NON_NEAR",
-          "queryTime": 101,
+          "queryTime": 80,
           "numResults": 10,
           "offset": 0,
           "totalResults": 82646,

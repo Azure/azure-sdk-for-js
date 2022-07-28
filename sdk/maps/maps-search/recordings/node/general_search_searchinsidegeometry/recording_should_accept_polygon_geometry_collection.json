@@ -7,11 +7,11 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "449",
+        "Content-Length": "355",
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "64df6d5a-112e-40f6-9dff-e5c5d974986f"
+        "x-ms-client-request-id": "fce57992-d373-4db4-a3b0-e566d649a30b"
       },
       "RequestBody": {
         "geometry": {
@@ -22,20 +22,20 @@
               "coordinates": [
                 [
                   [
-                    -122.43576049804686,
-                    37.7524152343544
+                    -122.43576049,
+                    37.75241523
                   ],
                   [
-                    -122.43301391601562,
-                    37.70660472542312
+                    -122.43301391,
+                    37.70660472
                   ],
                   [
-                    -122.36434936523438,
-                    37.712059855877314
+                    -122.36434936,
+                    37.71205985
                   ],
                   [
-                    -122.43576049804686,
-                    37.7524152343544
+                    -122.43576049,
+                    37.75241523
                   ]
                 ]
               ]
@@ -45,20 +45,20 @@
               "coordinates": [
                 [
                   [
-                    -121.43576049804686,
-                    38.7524152343544
+                    -121.43576049,
+                    38.75241523
                   ],
                   [
-                    -121.43301391601562,
-                    38.70660472542312
+                    -121.43301391,
+                    38.70660472
                   ],
                   [
-                    -121.36434936523438,
-                    38.712059855877314
+                    -121.36434936,
+                    38.71205985
                   ],
                   [
-                    -121.43576049804686,
-                    38.7524152343544
+                    -121.43576049,
+                    38.75241523
                   ]
                 ]
               ]
@@ -70,7 +70,7 @@
       "ResponseHeaders": {
         "Content-Length": "10938",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Jul 2022 11:18:46 GMT",
+        "Date": "Thu, 28 Jul 2022 03:28:02 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": [
           "Accept-Encoding",
@@ -79,13 +79,13 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: E89BEE3F332747159CF71908985FD877 Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:46Z"
+        "X-MSEdge-Ref": "Ref A: 1719F2CA200847EEBFA3818C385BB5A1 Ref B: TYO01EDGE2917 Ref C: 2022-07-28T03:28:02Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "pizza",
           "queryType": "NON_NEAR",
-          "queryTime": 44,
+          "queryTime": 59,
           "numResults": 10,
           "offset": 0,
           "totalResults": 21,

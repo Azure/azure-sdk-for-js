@@ -9,20 +9,20 @@
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "8a2b1855-f4f2-4c0c-831e-258a30d6a075"
+        "x-ms-client-request-id": "b0143be9-10b0-430a-b8b1-563472122d5a"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "10558",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Jul 2022 11:18:44 GMT",
+        "Date": "Thu, 28 Jul 2022 03:27:59 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: 7C6158313C8A470881BFCBC8CC8B793A Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:44Z"
+        "X-MSEdge-Ref": "Ref A: 47A8C9354FF441D796F4BAFA868EF554 Ref B: TYO01EDGE3414 Ref C: 2022-07-28T03:28:00Z"
       },
       "ResponseBody": {
         "summary": {
@@ -61,11 +61,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "bus stop"
+                      "name": "public transport stop"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "public transport stop"
+                      "name": "bus stop"
                     }
                   ]
                 }
@@ -282,11 +282,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "legal services"
+                      "name": "company"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "company"
+                      "name": "legal services"
                     }
                   ]
                 }
@@ -710,11 +710,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "bus stop"
+                      "name": "public transport stop"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "public transport stop"
+                      "name": "bus stop"
                     }
                   ]
                 }

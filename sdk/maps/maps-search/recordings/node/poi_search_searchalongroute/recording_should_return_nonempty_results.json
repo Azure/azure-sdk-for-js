@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "f9417654-12a2-46d7-adc6-12b8a7280db5"
+        "x-ms-client-request-id": "0003bfb2-8bd8-4365-b2d5-4c8c757d5370"
       },
       "RequestBody": {
         "route": {
@@ -38,9 +38,9 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "11770",
+        "Content-Length": "11513",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Jul 2022 11:18:45 GMT",
+        "Date": "Thu, 28 Jul 2022 03:28:01 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": [
           "Accept-Encoding",
@@ -49,13 +49,13 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: 96B473C5BEA242D4BBCDFA7BBCBB9515 Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:45Z"
+        "X-MSEdge-Ref": "Ref A: 13C05B1E960346BC979DDF44F36E39E3 Ref B: TYO01EDGE3414 Ref C: 2022-07-28T03:28:01Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "burger",
           "queryType": "NON_NEAR",
-          "queryTime": 254,
+          "queryTime": 241,
           "numResults": 10,
           "offset": 0,
           "totalResults": 10,
@@ -64,19 +64,18 @@
         "results": [
           {
             "type": "POI",
-            "id": "840539003147851",
-            "score": 2.7635474205,
-            "dist": 2577.017642893502,
+            "id": "840539003143944",
+            "score": 2.8276119232,
+            "dist": 269.1682087059635,
             "query": "burger",
-            "info": "search:ta:840539003147851-US",
+            "info": "search:ta:840539003143944-US",
             "poi": {
-              "name": "Three B\u0027s Burgers",
+              "name": "Burgers",
               "categorySet": [
                 {
                   "id": 7315069
                 }
               ],
-              "url": "www.3bsburgers.com",
               "categories": [
                 "hamburgers",
                 "restaurant"
@@ -98,45 +97,44 @@
               ]
             },
             "address": {
-              "streetNumber": "7990",
-              "streetName": "Leary Way Northeast",
+              "streetNumber": "15701",
+              "streetName": "Northeast 39th Street",
               "municipality": "Redmond",
               "countrySecondarySubdivision": "King",
               "countrySubdivision": "WA",
               "countrySubdivisionName": "Washington",
               "postalCode": "98052",
-              "extendedPostalCode": "98052-3840",
               "countryCode": "US",
               "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "7990 Leary Way Northeast, Redmond, WA 98052",
+              "freeformAddress": "15701 Northeast 39th Street, Redmond, WA 98052",
               "localName": "Redmond"
             },
             "position": {
-              "lat": 47.67464,
-              "lon": -122.1222
+              "lat": 47.64376,
+              "lon": -122.1281
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.67554,
-                "lon": -122.12354
+                "lat": 47.64491,
+                "lon": -122.12981
               },
               "btmRightPoint": {
-                "lat": 47.67374,
-                "lon": -122.12086
+                "lat": 47.64261,
+                "lon": -122.12639
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.6747,
-                  "lon": -122.12246
+                  "lat": 47.64491,
+                  "lon": -122.1281
                 }
               }
             ],
-            "detourTime": -283,
-            "detourDistance": -10304
+            "detourTime": -342,
+            "detourDistance": -12555
           },
           {
             "type": "POI",
@@ -211,85 +209,8 @@
                 }
               }
             ],
-            "detourTime": -189,
+            "detourTime": -192,
             "detourDistance": -7588
-          },
-          {
-            "type": "POI",
-            "id": "840539000289900",
-            "score": 2.7962782383,
-            "dist": 1191.0238462297789,
-            "query": "burger",
-            "info": "search:ta:840539000289900-US",
-            "poi": {
-              "name": "Herfy\u0027s Burger",
-              "phone": "\u002B1 425-641-2003",
-              "categorySet": [
-                {
-                  "id": 7315015
-                }
-              ],
-              "url": "www.yelp.com/biz/herfys-burgers-redmond-2",
-              "categories": [
-                "fast food",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "fast food"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "15167",
-              "streetName": "Northeast 24th Street",
-              "municipality": "Redmond",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98052",
-              "extendedPostalCode": "98052-5544",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "15167 Northeast 24th Street, Redmond, WA 98052",
-              "localName": "Redmond"
-            },
-            "position": {
-              "lat": 47.63139,
-              "lon": -122.13889
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.63229,
-                "lon": -122.14022
-              },
-              "btmRightPoint": {
-                "lat": 47.63049,
-                "lon": -122.13756
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.63149,
-                  "lon": -122.1388
-                }
-              }
-            ],
-            "detourTime": 90,
-            "detourDistance": -1002
           },
           {
             "type": "POI",
@@ -365,30 +286,25 @@
                 }
               }
             ],
-            "detourTime": 93,
-            "detourDistance": -1344
+            "detourTime": 81,
+            "detourDistance": -1461
           },
           {
             "type": "POI",
-            "id": "840531000465150",
-            "score": 2.8922464848,
-            "dist": 1748.7957271682615,
+            "id": "840539000289900",
+            "score": 2.7962782383,
+            "dist": 1191.0238462297789,
             "query": "burger",
-            "info": "search:ta:840531000465150-US",
+            "info": "search:ta:840539000289900-US",
             "poi": {
-              "name": "BURGER KING",
-              "phone": "\u002B1 425-746-7508",
-              "brands": [
-                {
-                  "name": "BURGER KING"
-                }
-              ],
+              "name": "Herfy\u0027s Burger",
+              "phone": "\u002B1 425-641-2003",
               "categorySet": [
                 {
                   "id": 7315015
                 }
               ],
-              "url": "burgerking.com/store-locator/store/restaurant_490",
+              "url": "www.yelp.com/biz/herfys-burgers-redmond-2",
               "categories": [
                 "fast food",
                 "restaurant"
@@ -410,53 +326,45 @@
               ]
             },
             "address": {
-              "streetNumber": "14620",
+              "streetNumber": "15167",
               "streetName": "Northeast 24th Street",
-              "municipalitySubdivision": "Bridle Trails",
-              "municipality": "Bellevue",
+              "municipality": "Redmond",
               "countrySecondarySubdivision": "King",
               "countrySubdivision": "WA",
               "countrySubdivisionName": "Washington",
-              "postalCode": "98007",
-              "extendedPostalCode": "98007-3723",
+              "postalCode": "98052",
+              "extendedPostalCode": "98052-5544",
               "countryCode": "US",
               "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "14620 Northeast 24th Street, Bellevue, WA 98007",
-              "localName": "Bellevue"
+              "freeformAddress": "15167 Northeast 24th Street, Redmond, WA 98052",
+              "localName": "Redmond"
             },
             "position": {
-              "lat": 47.63187,
-              "lon": -122.14472
+              "lat": 47.63139,
+              "lon": -122.13889
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.63277,
-                "lon": -122.14605
+                "lat": 47.63229,
+                "lon": -122.14022
               },
               "btmRightPoint": {
-                "lat": 47.63097,
-                "lon": -122.14339
+                "lat": 47.63049,
+                "lon": -122.13756
               }
             },
             "entryPoints": [
               {
-                "type": "minor",
-                "position": {
-                  "lat": 47.63188,
-                  "lon": -122.14458
-                }
-              },
-              {
                 "type": "main",
                 "position": {
-                  "lat": 47.63155,
-                  "lon": -122.14461
+                  "lat": 47.63149,
+                  "lon": -122.1388
                 }
               }
             ],
-            "detourTime": 198,
-            "detourDistance": -42
+            "detourTime": 94,
+            "detourDistance": -1002
           },
           {
             "type": "POI",
@@ -545,8 +453,85 @@
                 }
               }
             ],
-            "detourTime": 198,
+            "detourTime": 180,
             "detourDistance": 12643
+          },
+          {
+            "type": "POI",
+            "id": "840539002288639",
+            "score": 2.7890250683,
+            "dist": 2963.10210231557,
+            "query": "burger",
+            "info": "search:ta:840539002288639-US",
+            "poi": {
+              "name": "Burgermaster",
+              "phone": "\u002B1 425-827-9566",
+              "categorySet": [
+                {
+                  "id": 7315069
+                }
+              ],
+              "url": "burgermaster.biz",
+              "categories": [
+                "hamburgers",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "hamburgers"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "10606",
+              "streetName": "Northup Way",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98004",
+              "extendedPostalCode": "98004-1418",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "10606 Northup Way, Bellevue, WA 98004",
+              "localName": "Bellevue"
+            },
+            "position": {
+              "lat": 47.64224,
+              "lon": -122.19906
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.64314,
+                "lon": -122.20039
+              },
+              "btmRightPoint": {
+                "lat": 47.64134,
+                "lon": -122.19773
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.64205,
+                  "lon": -122.19927
+                }
+              }
+            ],
+            "detourTime": 209,
+            "detourDistance": 1468
           },
           {
             "type": "POI",
@@ -628,85 +613,84 @@
                 }
               }
             ],
-            "detourTime": 200,
+            "detourTime": 229,
             "detourDistance": 309
           },
           {
             "type": "POI",
-            "id": "840539002288639",
-            "score": 2.7890250683,
-            "dist": 2963.10210231557,
+            "id": "840539003043271",
+            "score": 2.7946410179,
+            "dist": 1600.029196161281,
             "query": "burger",
-            "info": "search:ta:840539002288639-US",
+            "info": "search:ta:840539003043271-US",
             "poi": {
-              "name": "Burgermaster",
-              "phone": "\u002B1 425-827-9566",
+              "name": "Burger Brawler",
+              "phone": "\u002B1 425-362-6071",
               "categorySet": [
                 {
-                  "id": 7315069
+                  "id": 9379006
                 }
               ],
-              "url": "burgermaster.biz",
               "categories": [
-                "hamburgers",
-                "restaurant"
+                "cocktail bar",
+                "nightlife"
               ],
               "classifications": [
                 {
-                  "code": "RESTAURANT",
+                  "code": "NIGHTLIFE",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "hamburgers"
+                      "name": "nightlife"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "cocktail bar"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "10606",
-              "streetName": "Northup Way",
+              "streetNumber": "500",
+              "streetName": "Bellevue Way Northeast",
               "municipality": "Bellevue",
               "countrySecondarySubdivision": "King",
               "countrySubdivision": "WA",
               "countrySubdivisionName": "Washington",
               "postalCode": "98004",
-              "extendedPostalCode": "98004-1418",
+              "extendedPostalCode": "98004-5015",
               "countryCode": "US",
               "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "10606 Northup Way, Bellevue, WA 98004",
+              "freeformAddress": "500 Bellevue Way Northeast, Bellevue, WA 98004",
               "localName": "Bellevue"
             },
             "position": {
-              "lat": 47.64224,
-              "lon": -122.19906
+              "lat": 47.61464,
+              "lon": -122.20125
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.64314,
-                "lon": -122.20039
+                "lat": 47.61554,
+                "lon": -122.20258
               },
               "btmRightPoint": {
-                "lat": 47.64134,
-                "lon": -122.19773
+                "lat": 47.61374,
+                "lon": -122.19992
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.64205,
-                  "lon": -122.19927
+                  "lat": 47.61463,
+                  "lon": -122.20158
                 }
               }
             ],
-            "detourTime": 218,
-            "detourDistance": 7258
+            "detourTime": 296,
+            "detourDistance": 1147
           },
           {
             "type": "POI",
@@ -782,7 +766,7 @@
                 }
               }
             ],
-            "detourTime": 244,
+            "detourTime": 296,
             "detourDistance": 1147
           },
           {
@@ -860,8 +844,8 @@
                 }
               }
             ],
-            "detourTime": 414,
-            "detourDistance": 8882
+            "detourTime": 427,
+            "detourDistance": 3092
           }
         ]
       }
