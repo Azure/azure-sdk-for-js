@@ -54,7 +54,7 @@ describe("Automation test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AutomationClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2";
     resourceGroup = "myjstest";
     automationAccountName = "myAutomationxxx";
     runbookName = "myRunbookxx";
@@ -76,14 +76,27 @@ describe("Automation test", () => {
     await recorder.stop();
   });
 
+  it("Automation create test", async function () {
+    const res = await client.automationAccountOperations.createOrUpdate(resourceGroup, automationAccountName,
+      {
+        sku: {
+          name: "Free"
+        },
+        name: automationAccountName,
+        location: "East US 2"
+      }
+    )
+    assert.equal(res.name, automationAccountName);
+  });
+
   it("Runbook create test", async function () {
     const res = await client.runbookOperations.createOrUpdate(resourceGroup, automationAccountName, runbookName, runbookParameters)
-    assert.equal(res.name, automationAccountName);
+    assert.equal(res.name, runbookName);
   });
 
   it("RunbookDraft get test", async function () {
     const res = await client.runbookDraftOperations.getContent(resourceGroup, automationAccountName, runbookName)
-    console.log(res)
+    // console.log(res)
 
   });
 
@@ -98,7 +111,7 @@ describe("Automation test", () => {
     for await (let item of client.runbookOperations.listByAutomationAccount(resourceGroup, automationAccountName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    assert.equal(resArray.length, 0);
   });
 
 })

@@ -9,23 +9,23 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-automation/11.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "2ede2366-ed10-47d1-9138-102fcba7ac28"
+        "x-ms-client-request-id": "03ffd876-c487-4364-ae7d-264c75cced13"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Tue, 26 Jul 2022 07:32:09 GMT",
+        "Date": "Thu, 28 Jul 2022 06:21:32 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "82c28fd2-824b-4f4f-a34b-de0f28c967cd",
+        "x-ms-correlation-request-id": "699b8620-0ab0-4141-adc0-0aedf04131e3",
         "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "2ede2366-ed10-47d1-9138-102fcba7ac28",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220726T073209Z:82c28fd2-824b-4f4f-a34b-de0f28c967cd"
+        "x-ms-request-id": "03ffd876-c487-4364-ae7d-264c75cced13",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220728T062133Z:699b8620-0ab0-4141-adc0-0aedf04131e3"
       },
       "ResponseBody": null
     },
@@ -38,7 +38,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-automation/11.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "ec305f59-e81a-4d2a-a73b-977e56beb8e1"
+        "x-ms-client-request-id": "2df99c91-095d-449a-b4ee-80f918d5d78c"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -46,7 +46,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Jul 2022 07:32:09 GMT",
+        "Date": "Thu, 28 Jul 2022 06:21:32 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -54,46 +54,13 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "fb18c01c-afa3-4f6b-b1ae-873f9f6e0f92",
+        "x-ms-correlation-request-id": "38ef5015-e840-49c3-b741-ba670ff936fd",
         "x-ms-ratelimit-remaining-subscription-reads": "11997",
-        "x-ms-request-id": "ec305f59-e81a-4d2a-a73b-977e56beb8e1",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220726T073209Z:fb18c01c-afa3-4f6b-b1ae-873f9f6e0f92"
+        "x-ms-request-id": "2df99c91-095d-449a-b4ee-80f918d5d78c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220728T062133Z:38ef5015-e840-49c3-b741-ba670ff936fd"
       },
       "ResponseBody": {
-        "value": [
-          {
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Automation/automationAccounts/myAutomationxxx/runbooks/AzureAutomationTutorialWithIdentity",
-            "location": "eastus",
-            "name": "AzureAutomationTutorialWithIdentity",
-            "type": "Microsoft.Automation/AutomationAccounts/Runbooks",
-            "tags": {},
-            "properties": {
-              "runbookType": "PowerShell",
-              "state": "Published",
-              "logVerbose": false,
-              "logProgress": false,
-              "logActivityTrace": 0,
-              "creationTime": "2022-07-26T07:13:22.56\u002B00:00",
-              "lastModifiedTime": "2022-07-26T07:13:22.5666667\u002B00:00"
-            }
-          },
-          {
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Automation/automationAccounts/myAutomationxxx/runbooks/AzureAutomationTutorialWithIdentityGraphical",
-            "location": "eastus",
-            "name": "AzureAutomationTutorialWithIdentityGraphical",
-            "type": "Microsoft.Automation/AutomationAccounts/Runbooks",
-            "tags": {},
-            "properties": {
-              "runbookType": "GraphPowerShell",
-              "state": "Published",
-              "logVerbose": false,
-              "logProgress": false,
-              "logActivityTrace": 0,
-              "creationTime": "2022-07-26T07:13:23.23\u002B00:00",
-              "lastModifiedTime": "2022-07-26T07:13:23.2366667\u002B00:00"
-            }
-          }
-        ]
+        "value": []
       }
     }
   ],
