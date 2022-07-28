@@ -7,11 +7,11 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "208",
+        "Content-Length": "161",
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "08fb3d18-28ee-4841-8ce2-ff07ac2d0271"
+        "x-ms-client-request-id": "32d55b60-1562-4b57-bfb6-15a516e12ff3"
       },
       "RequestBody": {
         "geometry": {
@@ -19,20 +19,20 @@
           "coordinates": [
             [
               [
-                -122.43576049804686,
-                37.7524152343544
+                -122.43576049,
+                37.75241523
               ],
               [
-                -122.43301391601562,
-                37.70660472542312
+                -122.43301391,
+                37.70660472
               ],
               [
-                -122.36434936523438,
-                37.712059855877314
+                -122.36434936,
+                37.71205985
               ],
               [
-                -122.43576049804686,
-                37.7524152343544
+                -122.43576049,
+                37.75241523
               ]
             ]
           ]
@@ -40,9 +40,9 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "11079",
+        "Content-Length": "11080",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Jul 2022 11:18:46 GMT",
+        "Date": "Thu, 28 Jul 2022 03:28:01 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": [
           "Accept-Encoding",
@@ -51,13 +51,13 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: 7EB8239C81FC4351A9159AFA16B83C89 Ref B: TPE30EDGE0911 Ref C: 2022-07-26T11:18:46Z"
+        "X-MSEdge-Ref": "Ref A: F4B2FBC09C624E72A33D2DD0F33F23A5 Ref B: TYO01EDGE2917 Ref C: 2022-07-28T03:28:02Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "pizza",
           "queryType": "NON_NEAR",
-          "queryTime": 8,
+          "queryTime": 39,
           "numResults": 10,
           "offset": 0,
           "totalResults": 18,
@@ -87,11 +87,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -161,11 +161,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -235,11 +235,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -308,11 +308,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -387,11 +387,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -459,11 +459,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -533,11 +533,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -612,11 +612,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -693,11 +693,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }
@@ -767,11 +767,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }

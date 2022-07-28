@@ -9,26 +9,26 @@
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "31c753cb-69c9-4eba-b15d-e32e3c827736"
+        "x-ms-client-request-id": "6fead899-57d3-4abc-a95c-4a30f07dc705"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "10908",
+        "Content-Length": "10907",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Jul 2022 11:18:45 GMT",
+        "Date": "Thu, 28 Jul 2022 03:28:01 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West US 2",
-        "X-MSEdge-Ref": "Ref A: B07B4932B094406994A227273A279413 Ref B: TPE30EDGE0520 Ref C: 2022-07-26T11:18:45Z"
+        "X-MSEdge-Ref": "Ref A: 120E4BDAD9A84E0B920AC67DE5649BEA Ref B: TYBEDGE0407 Ref C: 2022-07-28T03:28:02Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "restaurant",
           "queryType": "NON_NEAR",
-          "queryTime": 593,
+          "queryTime": 11,
           "numResults": 10,
           "offset": 0,
           "totalResults": 6489609,
