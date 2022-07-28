@@ -11,7 +11,7 @@ import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
 import { Snapshot } from "./snapshot";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 import { PerfProgram } from "./program";
-import { formatDuration } from "./utils";
+import { formatDuration, formatNumber } from "./utils";
 
 /**
  * The manager program which is responsible for spawning workers which run the actual perf test.
@@ -96,17 +96,9 @@ export class ManagerPerfProgram implements PerfProgram {
         maximumFractionDigits: 0,
       })} ` +
         `operations in a weighted-average of ` +
-        `${weightedAverage.toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2,
-        })}s ` +
-        `(${operationsPerSecond.toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-        })} ops/s, ` +
-        `${secondsPerOperation.toLocaleString(undefined, {
-          maximumFractionDigits: 3,
-          minimumFractionDigits: 3,
-        })} s/op)`
+        `${formatNumber(weightedAverage, 4)}s ` +
+        `(${formatNumber(operationsPerSecond, 4)} ops/s, ` +
+        `${formatNumber(secondsPerOperation, 4)} s/op)`
     );
   }
 
