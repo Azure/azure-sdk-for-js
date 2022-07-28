@@ -6,13 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "./lroImpl";
 import * as Parameters from "./models/parameters";
@@ -26,6 +27,7 @@ import {
   ConversationAnalysisOptionalParams,
   ConversationAnalysisResponse
 } from "./models";
+import { conversationAnalysisAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
 export class ConversationAnalysisClient extends coreClient.ServiceClient {
   endpoint: string;
@@ -33,19 +35,15 @@ export class ConversationAnalysisClient extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the ConversationAnalysisClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint Supported Cognitive Services endpoint (e.g.,
    *                 https://<resource-name>.api.cognitiveservices.azure.com).
    * @param options The parameter options
    */
   constructor(
-    credentials: coreAuth.TokenCredential,
     endpoint: string,
+    credentials: KeyCredential,
     options?: ConversationAnalysisClientOptionalParams
   ) {
-    if (credentials === undefined) {
-      throw new Error("'credentials' cannot be null");
-    }
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
@@ -55,8 +53,7 @@ export class ConversationAnalysisClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: ConversationAnalysisClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      requestContentType: "application/json; charset=utf-8"
     };
 
     const packageDetails = `azsdk-js-ai-language-conversations/1.0.0-beta.1`;
@@ -74,11 +71,28 @@ export class ConversationAnalysisClient extends coreClient.ServiceClient {
       baseUri: options.endpoint ?? options.baseUri ?? "{Endpoint}/language"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+      }
+    }
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
     this.apiVersion = options.apiVersion || "2022-05-15-preview";
+    const authPolicy = conversationAnalysisAzureKeyCredentialPolicy(credentials);
+
+    this.pipeline.addPolicy(authPolicy);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 

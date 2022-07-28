@@ -26,13 +26,10 @@ license-header: MICROSOFT_MIT_NO_VERSION
 clear-output-folder: true
 no-namespace-folders: true
 typescript: true
-tag: release_2022_05_15_preview
+add-credentials: true
 openapi-type: data-plane
-version-tolerant: true
+tag: release_2022_05_15_preview
 package-version: 1.0.0-beta.1
-add-credential: true
-credential-scopes: https://cognitiveservices.azure.com/.default
-black: true
 modelerfour:
   lenient-model-deduplication: true
 ```
@@ -52,6 +49,27 @@ These settings apply only when `--tag=release_runtime_1_1_preview` is specified 
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e7f37e4e43b1d12fd1988fda3ed39624c4b23303/specification/cognitiveservices/data-plane/Language/preview/2022-05-15-preview/analyzeconversations.json
 output-folder: .././
 title: ConversationAnalysisClient
+```
+
+## Customizations
+
+Customizations that should eventually be added to central autorest configuration.
+
+### General customizations
+
+```yaml
+# Fix Endpoint parameter description and format.
+- from: swagger-document
+  where: $.parameters.Endpoint
+  transform: |
+    $["description"] = "Supported Cognitive Services endpoint (e.g., https://<resource-name>.cognitiveservices.azure.com).";
+    $["format"] = "url";
+
+# Define multilingual parameter as a boolean.
+- where-operation: ConversationalAnalysisAuthoring_GetSupportedPrebuiltEntities
+  transform: |
+    var multilingualParam = $.parameters.find(param => param.name === "multilingual");
+    multilingualParam.type = "boolean";
 ```
 
 ### Runtime API Directives

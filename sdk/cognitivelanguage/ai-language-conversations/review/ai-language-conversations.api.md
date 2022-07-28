@@ -4,8 +4,8 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { KeyCredential } from '@azure/core-auth';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
@@ -220,7 +220,7 @@ export interface ConversationalTaskResult extends AnalyzeConversationTaskResult 
 
 // @public (undocumented)
 export class ConversationAnalysisClient extends coreClient.ServiceClient {
-    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: ConversationAnalysisClientOptionalParams);
+    constructor(endpoint: string, credentials: KeyCredential, options?: ConversationAnalysisClientOptionalParams);
     analyzeConversation(task: AnalyzeConversationTaskUnion, options?: AnalyzeConversationOptionalParams): Promise<AnalyzeConversationResponse>;
     // (undocumented)
     apiVersion: string;
