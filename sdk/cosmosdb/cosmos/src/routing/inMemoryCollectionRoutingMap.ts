@@ -69,7 +69,7 @@ export class InMemoryCollectionRoutingMap {
       }
 
       // Start at the end and work backwards
-      let maxIndex: number;
+      let maxIndex: number | undefined;
       for (let i = this.orderedRanges.length - 1; i >= 0; i--) {
         const range = this.orderedRanges[i];
         if (queryRange.max > range.min && queryRange.max < range.max) {
@@ -86,10 +86,8 @@ export class InMemoryCollectionRoutingMap {
         }
       }
 
-      if (maxIndex > this.orderedRanges.length) {
-        throw new Error(
-          "error in collection routing map, queried value is greater than the end range."
-        );
+      if (typeof maxIndex === "undefined") {
+        throw new Error("Error in collection routing map, not able to query any value.");
       }
 
       for (let j = minIndex; j < maxIndex + 1; j++) {
