@@ -29,7 +29,7 @@ async function queryLatestAtManagementGroupScopeWithNextLink() {
   for await (let item of client.policyStates.listQueryResultsForManagementGroup(
     policyStatesResource,
     managementGroupName,
-    options
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }
