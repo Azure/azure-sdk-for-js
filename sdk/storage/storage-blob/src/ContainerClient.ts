@@ -211,24 +211,24 @@ export interface SignedIdentifier {
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & ContainerGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: ContainerGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignedIdentifierModel[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignedIdentifierModel[];
+    };
   };
-};
 
 /**
  * Options to configure {@link ContainerClient.setAccessPolicy} operation.
@@ -924,10 +924,7 @@ export class ContainerClient extends StorageClient {
    * ```
    */
   public getBlockBlobClient(blobName: string): BlockBlobClient {
-    return new BlockBlobClient(
-      appendToURLPath(this.url, this.escapePath(blobName)),
-      this.pipeline
-    );
+    return new BlockBlobClient(appendToURLPath(this.url, this.escapePath(blobName)), this.pipeline);
   }
 
   /**
@@ -936,38 +933,18 @@ export class ContainerClient extends StorageClient {
    * @param blobName - A page blob name
    */
   public getPageBlobClient(blobName: string): PageBlobClient {
-    return new PageBlobClient(
-      appendToURLPath(this.url, this.escapePath(blobName)),
-      this.pipeline
-    );
+    return new PageBlobClient(appendToURLPath(this.url, this.escapePath(blobName)), this.pipeline);
   }
 
   /**
    * Escape the blobName but keep path separator ('/'). Exactly like in the dotnet SDK client.
    */
   private escapePath(blobName: string): string {
-    blobName = this.trim(blobName, "/");
     const split = blobName.split("/");
     for (let i = 0; i < split.length; i++) {
       split[i] = encodeURIComponent(split[i]);
     }
     return split.join("/");
-  }
-
-  private trim(str: string, ch: string): string {
-    if (str.startsWith("/")) {
-      str = str.substring(1);
-      if (str.startsWith("/")) {
-        return this.trim(str, ch);
-      }
-    }
-    if (str.endsWith("/")) {
-      str = str.substring(0, str.length - 1);
-      if (str.endsWith("/")) {
-        return this.trim(str, ch);
-      }
-    }
-    return str;
   }
 
   /**
