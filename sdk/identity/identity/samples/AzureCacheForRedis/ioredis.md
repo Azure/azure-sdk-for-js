@@ -2,7 +2,6 @@
 
 ### Table of contents
 
-- [ioredis library](#ioredis-library)
     - [Prerequisites](#prerequisites)
     - [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-ioredis-hello-world)
     - [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
