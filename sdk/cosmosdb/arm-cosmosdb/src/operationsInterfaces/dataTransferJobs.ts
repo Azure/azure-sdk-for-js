@@ -14,7 +14,13 @@ import {
   DataTransferJobsCreateOptionalParams,
   DataTransferJobsCreateResponse,
   DataTransferJobsGetOptionalParams,
-  DataTransferJobsGetResponse
+  DataTransferJobsGetResponse,
+  DataTransferJobsPauseOptionalParams,
+  DataTransferJobsPauseResponse,
+  DataTransferJobsResumeOptionalParams,
+  DataTransferJobsResumeResponse,
+  DataTransferJobsCancelOptionalParams,
+  DataTransferJobsCancelResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,4 +65,43 @@ export interface DataTransferJobs {
     jobName: string,
     options?: DataTransferJobsGetOptionalParams
   ): Promise<DataTransferJobsGetResponse>;
+  /**
+   * Pause a Data Transfer Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param jobName Name of the Data Transfer Job
+   * @param options The options parameters.
+   */
+  pause(
+    resourceGroupName: string,
+    accountName: string,
+    jobName: string,
+    options?: DataTransferJobsPauseOptionalParams
+  ): Promise<DataTransferJobsPauseResponse>;
+  /**
+   * Resumes a Data Transfer Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param jobName Name of the Data Transfer Job
+   * @param options The options parameters.
+   */
+  resume(
+    resourceGroupName: string,
+    accountName: string,
+    jobName: string,
+    options?: DataTransferJobsResumeOptionalParams
+  ): Promise<DataTransferJobsResumeResponse>;
+  /**
+   * Cancels a Data Transfer Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param jobName Name of the Data Transfer Job
+   * @param options The options parameters.
+   */
+  cancel(
+    resourceGroupName: string,
+    accountName: string,
+    jobName: string,
+    options?: DataTransferJobsCancelOptionalParams
+  ): Promise<DataTransferJobsCancelResponse>;
 }

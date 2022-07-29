@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Adds an application to the specified Batch account.
  *
  * @summary Adds an application to the specified Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/ApplicationCreate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/ApplicationCreate.json
  */
 async function applicationCreate() {
   const subscriptionId = "subid";

@@ -258,9 +258,9 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    */
-  private async _init(abortSignal?: AbortSignalLike): Promise<void> {
+  private async _init(clientId: string, abortSignal?: AbortSignalLike): Promise<void> {
     try {
-      const options = this._createMessageSessionOptions();
+      const options = this._createMessageSessionOptions(clientId);
       await this.initLink(options, abortSignal);
 
       if (this.link == null) {
@@ -327,7 +327,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
    */
-  private _createMessageSessionOptions(): ReceiverOptions {
+  private _createMessageSessionOptions(clientId: string): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = createReceiverOptions(
       this.name,
       this.receiveMode,
@@ -335,6 +335,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         address: this.address,
         filter: { [Constants.sessionFilterName]: this.sessionId },
       },
+      clientId,
       {
         onClose: (context) =>
           this._onAmqpClose(context).catch(() => {
@@ -924,6 +925,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * @param options - Options that can be provided while creating the MessageSession.
    */
   static async create(
+    clientId: string,
     context: ConnectionContext,
     entityPath: string,
     sessionId: string | undefined,
@@ -931,7 +933,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context);
     const messageSession = new MessageSession(context, entityPath, sessionId, options);
-    await messageSession._init(options?.abortSignal);
+    await messageSession._init(clientId, options?.abortSignal);
     return messageSession;
   }
 

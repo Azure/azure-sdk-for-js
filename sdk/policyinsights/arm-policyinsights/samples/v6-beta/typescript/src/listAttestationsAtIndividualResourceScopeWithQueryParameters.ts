@@ -30,7 +30,7 @@ async function listAttestationsAtIndividualResourceScopeWithQueryParameters() {
   const resArray = new Array();
   for await (let item of client.attestations.listForResource(
     resourceId,
-    options
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }

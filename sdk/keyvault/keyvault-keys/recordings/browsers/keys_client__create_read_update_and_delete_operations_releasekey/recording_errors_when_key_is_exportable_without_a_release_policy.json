@@ -1,105 +1,107 @@
 {
-  "recordings": [
+  "Entries": [
     {
-      "method": "GET",
-      "url": "https://skr_attestation.azure.net//generate-test-token",
-      "query": {},
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjNfT1drYTlNcEpTeFM0NHZBbXRSRHNKelFkeFJPNkxfQkF5VHNXUVhEeUUiLCJqa3UiOiJodHRwczovL21hbGVnZXNrcmt2c2l0ZS5henVyZXdlYnNpdGVzLm5ldC9rZXlzIn0.eyJpc3MiOiJodHRwczovL21hbGVnZXNrcmt2c2l0ZS5henVyZXdlYnNpdGVzLm5ldC8iLCJzZGstdGVzdCI6dHJ1ZSwieC1tcy1pbml0dGltZSI6e30sIngtbXMtcnVudGltZSI6eyJrZXlzIjpbeyJrdHkiOiJSU0EiLCJraWQiOiJmYWtlLXJlbGVhc2Uta2V5IiwidXNlIjoiZW5jIiwiZSI6IkFRQUIiLCJuIjoic0xvYWJZRW5GYjBQeW9vcHM1UnV1UkZEYnB3X2EwUkFZQ0UzM3pjMkZVYUNreVYtS2UtZUxHbXlJTWktc3hTdXZUcWF4bHQtSGREa190OTBrLXlETnNfT1RDX2FPR3Vmc3Vxa0J3Q2JOSWdqemsyTWJhUmdkZVpGRUxDTWpHaDQyOHpvMnJ2XzM1eG8xa1haTTJ5TXpNWjVDTXZwWFZmcXk2WDB1c0NFNnZneEp4UlVKZU5KRGh3aTU3NEFoOGhSbkUzMTkwNFI5YzhhR2t4VFprUFVWX0JXMkZ3cmdPVXJEMUpwZE8wYnhmRzAxdnh1ejBDUVo2OEpadTJrU0ZlOS1sM21RUlFGVlBYRTE1WTh3Vkx2Zi1HMHJWMkZyYjRMNWc4VEMyZXhmSEluTUx4V3RMYzBkd2haLVZKLUI1X0xOQ2tFbC03X2VvRzRsNEFEVzJNbUNRIn1dfSwibWFhLWVoZCI6InNkay10ZXN0IiwiaWF0IjoxNjQwMTI1MjA5LCJleHAiOjE2NDA3MzAwMDl9.3FREXk9RseSIC42Wj8-LTWRL1qXieqNr9mOcXU-xi0CO3qHlpCViDwLC8n2CFeyB0sjWUdGYXGaKBuCHhLGrDlWE6sZIKtqxY_NPnyt3tQQWC58hZRBPCE9MONut1XQRi4EEzIMt7U5uIuTzA0xalfAubgWQb1ftugHqIUK-8sfaOpL-Nm2JQ0vG2JI3410F6LPLIqGAebUADLXdvztnPTId14Cj3vwZAT8ccHwpnzRAOHqFz-K1XYq8PFqIkdOX5CZfBxPDGabk89aXgXuH-8JKC4c77ecDf3YWH4FQ7kU2LNGoc7tLo1n3iHMhuSMFpfnXDvS_xCJfRehDCTd5Gg\"}",
-      "responseHeaders": {
-        "content-length": "1307",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 21 Dec 2021 22:20:08 GMT",
-        "etag": "W/\"51b-4KgsExLZe+SHQgI6+X8sGzl4YDs\"",
-        "x-powered-by": "Express"
-      }
-    },
-    {
-      "method": "POST",
-      "url": "https://keyvault_name.vault.azure.net/keys/exportablenopolicy164012521012807927/create",
-      "query": {
-        "api-version": "7.3"
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/exportablenopolicy-917/create?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9329/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "46e8090d-689f-4e58-812b-7bd509753d4d",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
       },
-      "requestBody": "",
-      "status": 401,
-      "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"AKV10000: Request is missing a Bearer or PoP token.\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "97",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 21 Dec 2021 22:20:08 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "www-authenticate": "Bearer authorization=\"https://login.windows.net/12345678-1234-1234-1234-123456789012\", resource=\"https://vault.azure.net\"",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "feaf57e9-8187-420e-b422-1c182e3beb41",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.229.43;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.9.226.1",
-        "x-ms-request-id": "3ccc887f-3496-422b-9126-c5c7effb174b",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "POST",
-      "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-      "query": {},
-      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-      "status": 200,
-      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-      "responseHeaders": {
-        "cache-control": "no-store, no-cache",
-        "content-length": "1315",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 21 Dec 2021 22:20:08 GMT",
-        "expires": "-1",
-        "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-        "pragma": "no-cache",
-        "referrer-policy": "strict-origin-when-cross-origin",
-        "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-        "strict-transport-security": "max-age=31536000; includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-ests-server": "2.1.12261.17 - NCUS ProdSlices",
-        "x-ms-request-id": "d021bcc8-c56d-4dea-8a18-090e1a992300"
-      }
-    },
-    {
-      "method": "POST",
-      "url": "https://keyvault_name.vault.azure.net/keys/exportablenopolicy164012521012807927/create",
-      "query": {
-        "api-version": "7.3"
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "97",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 22:54:13 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.windows.net/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://vault.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "46e8090d-689f-4e58-812b-7bd509753d4d",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "feda7e9f-c26f-4192-a945-37a9392f809f"
       },
-      "requestBody": "{\"kty\":\"RSA-HSM\",\"attributes\":{\"exportable\":true}}",
-      "status": 400,
-      "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"AKV.SKR.1004: Exportable keys must have release policy.\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "101",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 21 Dec 2021 22:20:08 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-client-request-id": "feaf57e9-8187-420e-b422-1c182e3beb41",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.229.43;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "41066385-37cd-5a3a-83db-c5df12b11057",
-        "x-ms-keyvault-rbac-cache": "ra_age=8629;da_age=8629;rd_age=8629;brd_age=739;dec_lev=1;",
-        "x-ms-keyvault-region": "westus2",
-        "x-ms-keyvault-service-version": "1.9.226.1",
-        "x-ms-request-id": "68f96a6f-0cc3-4c85-aa07-f1aaca969f30",
-        "x-powered-by": "ASP.NET"
+      "ResponseBody": {
+        "error": {
+          "code": "Unauthorized",
+          "message": "AKV10000: Request is missing a Bearer or PoP token."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/exportablenopolicy-917/create?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "50",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9329/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "46e8090d-689f-4e58-812b-7bd509753d4d",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+      },
+      "RequestBody": {
+        "kty": "RSA-HSM",
+        "attributes": {
+          "exportable": true
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "101",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 22:54:13 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "46e8090d-689f-4e58-812b-7bd509753d4d",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=6974;da_age=6974;rd_age=6974;brd_age=27203;ra_notif_age=8029;dec_lev=1;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "bffe5a2f-c095-4771-b7c5-62c289737cbd"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadParameter",
+          "message": "AKV.SKR.1004: Exportable keys must have release policy."
+        }
       }
     }
   ],
-  "uniqueTestInfo": {
-    "uniqueName": {
-      "exportablenopolicy": "exportablenopolicy164012521012807927"
-    },
-    "newDate": {}
-  },
-  "hash": "280aa450a42db95606535867511acb2e"
+  "Variables": {
+    "attestation": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlQ0VjF2SjV3aFFYdmNmeWpzUHhZVUYyeGNkMzBmSEFhMVg0OUJxWlctRHciLCJqa3UiOiJodHRwczovL3RpbW92a2V5dmF1bHRzaXRlLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3RpbW92a2V5dmF1bHRzaXRlLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJ2dTdrM0xac2szNk56YUtqSDdYMVZidm9jbmdBdXh6SzExSDdZUHQzZE1FZl9EcmMwb2ZxUGdBR2V1VnhlRkNtU01ndzVyNUxmYzNMZ0dRZEdUNWd5UVlqMEpXT3N3Y3ZFNTNiT1YzMGdIYmRxTUxNaXV2WTNsR21KME01QVpqRmFCUDB0WjVDUm5mbVd4MUh0M1pTMkJqY2ZpanVrZzZ3N2FWNFlwYnh5UTQxZm9PRW5PSkJYNmpmUzVpc3VRY09oS2dMTGNHT21kZmtZd042eFVTaHIyNkdmODVUOFpMZkxBdVJsMnFOYmZtWTZxLXJJNDRxelhza0gzcTNjZmY3TDBvajYxb2VYUXF3R19SRS1mTXdTaWY4UmVqcmxISGQ5Rnk3c0FUeUp6VWoxZFFKbXRpeDIyUFFENVpuclRQTnhEV1RiMWgzQmpBUVM5XzMwQ3JHX1EifV19LCJpYXQiOjE2NTM2OTIwNTMsImV4cCI6MTY1NDI5Njg1M30.NEtS4dQCzdVeRolu3HygecyljHxEjcgOwiiDjDNrKHvQIkz6_BwdWw8b2a044cxTtHBwKHf_ZvlljdZcBsMV6Qczwz9Xy0RD3BFYw_SJv3ZTqyxmTOQ24gDB5W7LkOaxUXtXiQVMyfKOcWOOytQL_2-Z8aZlqIwuFvhcbF_6_RtrMDc7HvrTmZmwlebYxNyo6S6ypHlXtc0lGDJ5BGr5SnlRY8qECXYohqNF4AV1D756p25uonFAfBJGDm1-IhEhlaqZ0joznJL65IGWdotqdPYUlTu864Q8JYSse4K0omX1Ed1hzDZzmp5VjHrJnN_Gps_M5dS3xlHslqOAaQt4uA",
+    "exportablenopolicy": "exportablenopolicy-917"
+  }
 }

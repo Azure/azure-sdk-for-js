@@ -1,34 +1,10 @@
 {
  "recordings": [
   {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1325",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:35 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - EUS ProdSlices",
-    "x-ms-request-id": "c410173e-1b24-48d0-b926-c99596d67e01"
-   }
-  },
-  {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -36,16 +12,17 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:35 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:14 GMT",
+    "mise-correlation-id": "159969fc-2ec8-4654-b674-a141a256057b",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-49e4d35287f3a7449b25231b8d3fbe61-24c356bc37806344-01"
+    "traceresponse": "00-ea7c5651d574e9bbc7dd90193310e0c6-67604606ca80032d-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -53,16 +30,17 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:35 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:14 GMT",
+    "mise-correlation-id": "094dba48-91c8-45c6-ab2b-70cebc9f3937",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-097b9023773d314caafbeb6db761af03-8ba53d58b2a5174b-01"
+    "traceresponse": "00-b64098c5e56bbe04fa8a05b508149c94-c7e0d267904e38d7-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -70,16 +48,17 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:35 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:14 GMT",
+    "mise-correlation-id": "9cf798aa-2dce-4ac2-8812-acbf497edf07",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-f2c479ba8d2798419a5886455e06cc81-d5589d9c961d714d-01"
+    "traceresponse": "00-372aaa43ce9471fb9d3c5132161f1573-322d0d4bb705d5b1-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -87,16 +66,17 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:35 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:14 GMT",
+    "mise-correlation-id": "469a6fef-0caa-4501-b433-94ee9643bf0f",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-f8ab9e5693156b49b02e8a5296e9fd36-21378522b1d38f41-01"
+    "traceresponse": "00-9065d37093520416ea4ba513429d0867-48bcd0ca57cae49d-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -104,9 +84,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:35 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:14 GMT",
+    "mise-correlation-id": "ffa622c4-12fc-4ecf-8a14-bcdc08098353",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-f7cc6505ae7ef34cb8fed0c45b8fb7ee-12281e417d323c41-01"
+    "traceresponse": "00-6c737dd59c46bb5abef769526a0b492e-86d17e27c4c9dabb-01"
    }
   }
  ],
@@ -114,5 +95,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "4d54ed61bbbaf88316c13c1656c293e5"
+ "hash": "b6ec09fabf4f1962e784c0b993f3c549"
 }

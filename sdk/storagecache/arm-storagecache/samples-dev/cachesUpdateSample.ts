@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update a Cache instance.
  *
  * @summary Update a Cache instance.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_Update.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_Update.json
  */
 async function cachesUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -93,7 +93,11 @@ async function cachesUpdate() {
     sku: { name: "Standard_2G" },
     subnet:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
-    tags: { dept: "Contoso" }
+    tags: { dept: "Contoso" },
+    upgradeSettings: {
+      scheduledTime: new Date("2022-04-26T18:25:43.511Z"),
+      upgradeScheduleEnabled: true
+    }
   };
   const options: CachesUpdateOptionalParams = { cache };
   const credential = new DefaultAzureCredential();
@@ -112,7 +116,7 @@ cachesUpdate().catch(console.error);
  * This sample demonstrates how to Update a Cache instance.
  *
  * @summary Update a Cache instance.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_Update_ldap_only.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_Update_ldap_only.json
  */
 async function cachesUpdateLdapOnly() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -188,7 +192,11 @@ async function cachesUpdateLdapOnly() {
     sku: { name: "Standard_2G" },
     subnet:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
-    tags: { dept: "Contoso" }
+    tags: { dept: "Contoso" },
+    upgradeSettings: {
+      scheduledTime: new Date("2022-04-26T18:25:43.511Z"),
+      upgradeScheduleEnabled: true
+    }
   };
   const options: CachesUpdateOptionalParams = { cache };
   const credential = new DefaultAzureCredential();

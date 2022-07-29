@@ -104,7 +104,10 @@ const addSeenSymbols = (symbol: TSSymbol, symbols: TSSymbol[], typeChecker: Type
   typeChecker
     .getPropertiesOfType(typeChecker.getDeclaredTypeOfSymbol(symbol))
     .forEach((element: TSSymbol): void => {
-      const memberType = typeChecker.getTypeAtLocation(element.valueDeclaration);
+      if (!element.valueDeclaration) {
+        return;
+      }
+      const memberType = typeChecker.getTypeAtLocation(element.valueDeclaration!);
       const memberTypeNode = typeChecker.typeToTypeNode(memberType, undefined, undefined);
 
       // extract type of member
@@ -284,7 +287,7 @@ export = {
                   .getTypeAtLocation(converter.get(node as TSESTree.Node))
                   .getSymbol();
                 const overloads =
-                  symbol !== undefined
+                  symbol?.declarations
                     ? symbol.declarations
                         .filter(
                           (declaration: Declaration): boolean =>
@@ -324,7 +327,7 @@ export = {
                   .getTypeAtLocation(converter.get(node as TSESTree.Node))
                   .getSymbol();
                 const overloads =
-                  symbol !== undefined
+                  symbol?.declarations
                     ? symbol.declarations.map(
                         (declaration: Declaration): FunctionDeclaration =>
                           reverter.get(declaration as TSNode) as FunctionDeclaration

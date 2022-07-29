@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.0-beta.2 (Unreleased)
+## 3.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 3.1.0-beta.1 (2022-03-02)
+## 3.1.0 (2022-06-22)
     
 **Features**
 
@@ -43,6 +43,7 @@
   - Added Enum KnownConnectionType
   - Added Enum KnownCreatedByType
   - Added Enum KnownTimeSeriesDatabaseConnectionState
+  - Enum KnownEndpointProvisioningState has a new value Updating
     
     
 ## 3.0.0 (2022-01-13)

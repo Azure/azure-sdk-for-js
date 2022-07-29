@@ -57,65 +57,65 @@ describe("ContainerService test", () => {
     resourceName = "myreourcexyz";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("managedClusters create test", async function() {
-    const res = await client.managedClusters.beginCreateOrUpdateAndWait(resourceGroupName,resourceName,{
+  it("managedClusters create test", async function () {
+    const res = await client.managedClusters.beginCreateOrUpdateAndWait(resourceGroupName, resourceName, {
       dnsPrefix: "aksjssdk",
-        agentPoolProfiles: [
-            {
-                name: "aksagent",
-                count: 1,
-                vmSize: "Standard_DS2_v2",
-                maxPods: 110,
-                minCount: 1,
-                maxCount: 100,
-                osType: "Linux",
-                type: "VirtualMachineScaleSets",
-                enableAutoScaling: true,
-                mode: "System"
-            }
-        ],
-        servicePrincipalProfile: {
-            clientId: clientId,
-            secret: secret
-        },
-        location: location
-    },testPollingOptions);
-    assert.equal(res.name,resourceName);
+      agentPoolProfiles: [
+        {
+          name: "aksagent",
+          count: 1,
+          vmSize: "Standard_DS2_v2",
+          maxPods: 110,
+          minCount: 1,
+          maxCount: 100,
+          osType: "Linux",
+          type: "VirtualMachineScaleSets",
+          enableAutoScaling: true,
+          mode: "System"
+        }
+      ],
+      servicePrincipalProfile: {
+        clientId: clientId,
+        secret: secret
+      },
+      location: location
+    }, testPollingOptions);
+    assert.equal(res.name, resourceName);
   });
 
-  it("managedClusters get test", async function() {
-    const res = await client.managedClusters.get(resourceGroupName,resourceName);
-    assert.equal(res.name,resourceName);
+  it("managedClusters get test", async function () {
+    const res = await client.managedClusters.get(resourceGroupName, resourceName);
+    assert.equal(res.name, resourceName);
   });
 
-  it("managedClusters getUpgradeProfile test", async function() {
-    const res = await client.managedClusters.getUpgradeProfile(resourceGroupName,resourceName);
-    assert.equal(res.name,"default");
+  it("managedClusters getUpgradeProfile test", async function () {
+    const res = await client.managedClusters.getUpgradeProfile(resourceGroupName, resourceName);
+    assert.equal(res.name, "default");
   });
 
-  it("managedClusters list test", async function() {
+  it("managedClusters list test", async function () {
     const resArray = new Array();
-    for await (let item of client.managedClusters.list()){
-        resArray.push(item);
+    for await (let item of client.managedClusters.list()) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("managedClusters update test", async function() {
-    const res = await client.managedClusters.beginUpdateTagsAndWait(resourceGroupName,resourceName,{tags: {tier: "testing",archv3: ""}},testPollingOptions);
-    assert.equal(res.type,"Microsoft.ContainerService/ManagedClusters");
+  it("managedClusters update test", async function () {
+    const res = await client.managedClusters.beginUpdateTagsAndWait(resourceGroupName, resourceName, { tags: { tier: "testing", archv3: "" } }, testPollingOptions);
+    assert.equal(res.type, "Microsoft.ContainerService/ManagedClusters");
   });
 
-  it("managedClusters delete test", async function() {
-    const res = await client.managedClusters.beginDeleteAndWait(resourceGroupName,resourceName,testPollingOptions);
+  it("managedClusters delete test", async function () {
+    const res = await client.managedClusters.beginDeleteAndWait(resourceGroupName, resourceName, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.managedClusters.list()){
-        resArray.push(item);
+    for await (let item of client.managedClusters.list()) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 });

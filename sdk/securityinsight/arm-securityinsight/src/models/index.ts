@@ -10,6 +10,8 @@ import * as coreClient from "@azure/core-client";
 
 export type AutomationRuleConditionUnion =
   | AutomationRuleCondition
+  | PropertyArrayChangedConditionProperties
+  | PropertyChangedConditionProperties
   | PropertyConditionProperties;
 export type AutomationRuleActionUnion =
   | AutomationRuleAction
@@ -19,6 +21,7 @@ export type EntityTimelineItemUnion =
   | EntityTimelineItem
   | ActivityTimelineItem
   | BookmarkTimelineItem
+  | AnomalyTimelineItem
   | SecurityAlertTimelineItem;
 export type EntityQueryItemUnion = EntityQueryItem | InsightQueryItem;
 export type DataConnectorsCheckRequirementsUnion =
@@ -70,7 +73,8 @@ export type EntityUnion =
   | RegistryValueEntity
   | SecurityGroupEntity
   | SubmissionMailEntity
-  | UrlEntity;
+  | UrlEntity
+  | NicEntity;
 export type EntityQueryTemplateUnion =
   | EntityQueryTemplate
   | ActivityEntityQueryTemplate;
@@ -89,6 +93,9 @@ export type EntityQueryUnion =
 export type CustomEntityQueryUnion =
   | CustomEntityQuery
   | ActivityCustomEntityQuery;
+export type SecurityMLAnalyticsSettingUnion =
+  | SecurityMLAnalyticsSetting
+  | AnomalySecurityMLAnalyticsSettings;
 export type SettingsUnion =
   | Settings
   | Anomalies
@@ -220,25 +227,25 @@ export interface AlertRuleTemplatesList {
   value: AlertRuleTemplateUnion[];
 }
 
-/** Describes automation rule triggering logic */
+/** Describes automation rule triggering logic. */
 export interface AutomationRuleTriggeringLogic {
-  /** Determines whether the automation rule is enabled or disabled */
+  /** Determines whether the automation rule is enabled or disabled. */
   isEnabled: boolean;
   /** Determines when the automation rule should automatically expire and be disabled. */
   expirationTimeUtc?: Date;
   triggersOn: TriggersOn;
   triggersWhen: TriggersWhen;
-  /** The conditions to evaluate to determine if the automation rule should be triggered on a given object */
+  /** The conditions to evaluate to determine if the automation rule should be triggered on a given object. */
   conditions?: AutomationRuleConditionUnion[];
 }
 
-/** Describes an automation rule condition */
+/** Describes an automation rule condition. */
 export interface AutomationRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  conditionType: "Property";
+  conditionType: "PropertyArrayChanged" | "PropertyChanged" | "Property";
 }
 
-/** Describes an automation rule action */
+/** Describes an automation rule action. */
 export interface AutomationRuleAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "ModifyProperties" | "RunPlaybook";
@@ -599,7 +606,7 @@ export interface TimelineError {
 /** Entity timeline Item. */
 export interface EntityTimelineItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Activity" | "Bookmark" | "SecurityAlert";
+  kind: "Activity" | "Bookmark" | "Anomaly" | "SecurityAlert";
 }
 
 /** Retrieve queries for entity result operation response. */
@@ -648,13 +655,13 @@ export interface GetInsightsResultsMetadata {
   /** the total items found for the insights request */
   totalCount: number;
   /** information about the failed queries */
-  errors?: GetInsightsError[];
+  errors?: GetInsightsErrorKind[];
 }
 
 /** GetInsights Query Errors. */
-export interface GetInsightsError {
+export interface GetInsightsErrorKind {
   /** the query kind */
-  kind: "Insight";
+  kind: GetInsightsError;
   /** the query id */
   queryId?: string;
   /** the error message */
@@ -789,11 +796,8 @@ export interface IncidentOwnerInfo {
   objectId?: string;
   /** The user principal name of the user the incident is assigned to. */
   userPrincipalName?: string;
-  /**
-   * The type of the owner the incident is assigned to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ownerType?: OwnerType;
+  /** The type of the owner the incident is assigned to. */
+  ownerType?: OwnerType;
 }
 
 /** Describes team information */
@@ -986,6 +990,17 @@ export interface OfficeConsentList {
 export interface SentinelOnboardingStatesList {
   /** Array of Sentinel onboarding states */
   value: SentinelOnboardingState[];
+}
+
+/** List all the SecurityMLAnalyticsSettings */
+export interface SecurityMLAnalyticsSettingsList {
+  /**
+   * URL to fetch the next set of SecurityMLAnalyticsSettings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of SecurityMLAnalyticsSettings */
+  value: SecurityMLAnalyticsSettingUnion[];
 }
 
 /** List of all the settings. */
@@ -1282,6 +1297,12 @@ export interface DataConnectorConnectBody {
   kind?: ConnectAuthKind;
   /** The API key of the audit server. */
   apiKey?: string;
+  /** Used in v2 logs connector. Represents the data collection ingestion endpoint in log analytics. */
+  dataCollectionEndpoint?: string;
+  /** Used in v2 logs connector. The data collection rule immutable id, the rule defines the transformation and data destination. */
+  dataCollectionRuleImmutableId?: string;
+  /** Used in v2 logs connector. The stream we are sending the data to, this is the name of the streamDeclarations defined in the DCR. */
+  outputStream?: string;
   /** The client secret of the OAuth 2.0 application. */
   clientSecret?: string;
   /** The client id of the OAuth 2.0 application. */
@@ -1595,25 +1616,37 @@ export interface IncidentPropertiesAction {
   classification?: IncidentClassification;
   /** The classification reason the incident was closed with */
   classificationReason?: IncidentClassificationReason;
-  /** Describes the reason the incident was closed */
+  /** Describes the reason the incident was closed. */
   classificationComment?: string;
   /** Information on the user an incident is assigned to */
   owner?: IncidentOwnerInfo;
-  /** List of labels to add to the incident */
+  /** List of labels to add to the incident. */
   labels?: IncidentLabel[];
 }
 
+export interface AutomationRulePropertyArrayChangedValuesCondition {
+  arrayType?: AutomationRulePropertyArrayChangedConditionSupportedArrayType;
+  changeType?: AutomationRulePropertyArrayChangedConditionSupportedChangeType;
+}
+
+export interface AutomationRulePropertyValuesChangedCondition {
+  propertyName?: AutomationRulePropertyChangedConditionSupportedPropertyType;
+  changeType?: AutomationRulePropertyChangedConditionSupportedChangedType;
+  operator?: AutomationRulePropertyConditionSupportedOperator;
+  propertyValues?: string[];
+}
+
 export interface AutomationRulePropertyValuesCondition {
-  /** The property to evaluate in an automation rule property condition */
+  /** The property to evaluate in an automation rule property condition. */
   propertyName?: AutomationRulePropertyConditionSupportedProperty;
   operator?: AutomationRulePropertyConditionSupportedOperator;
   propertyValues?: string[];
 }
 
 export interface PlaybookActionProperties {
-  /** The resource id of the playbook resource */
+  /** The resource id of the playbook resource. */
   logicAppResourceId?: string;
-  /** The tenant id of the playbook resource */
+  /** The tenant id of the playbook resource. */
   tenantId?: string;
 }
 
@@ -1711,12 +1744,12 @@ export interface DataTypeDefinitions {
   dataType?: string;
 }
 
-/** The pricing tier of the solution */
-export interface Sku {
-  /** The kind of the tier */
-  name?: SkuKind;
-  /** The amount of reservation level */
-  capacityReservationLevel?: number;
+/** security ml analytics settings data sources */
+export interface SecurityMLAnalyticsSettingsDataSource {
+  /** The connector id that provides the following data types */
+  connectorId?: string;
+  /** The data types used by the security ml analytics settings */
+  dataTypes?: string[];
 }
 
 /** Properties data connector on tenant level. */
@@ -2119,72 +2152,89 @@ export interface GeoLocation {
 }
 
 /** An azure resource object with an Etag property */
-export type ResourceWithEtag = Resource & {
+export interface ResourceWithEtag extends Resource {
   /** Etag of the azure resource */
   etag?: string;
-};
+}
 
 /** Alert rule template. */
-export type AlertRuleTemplate = Resource & {
+export interface AlertRuleTemplate extends Resource {
   /** The kind of the alert rule */
   kind: AlertRuleKind;
-};
+}
 
 /** Specific entity. */
-export type Entity = Resource & {
+export interface Entity extends Resource {
   /** The kind of the entity. */
   kind: EntityKind;
-};
+}
 
 /** Specific entity query template. */
-export type EntityQueryTemplate = Resource & {
+export interface EntityQueryTemplate extends Resource {
   /** the entity query template kind */
   kind: EntityQueryTemplateKind;
-};
+}
 
 /** Consent for Office365 tenant that already made. */
-export type OfficeConsent = Resource & {
+export interface OfficeConsent extends Resource {
   /** The tenantId of the Office365 with the consent. */
   tenantId?: string;
   /** Help to easily cascade among the data layers. */
   consentId?: string;
-};
+}
 
 /** Action property bag. */
-export type ActionResponseProperties = ActionPropertiesBase & {
+export interface ActionResponseProperties extends ActionPropertiesBase {
   /** The name of the logic app's workflow. */
   workflowId?: string;
-};
+}
 
 /** Action property bag. */
-export type ActionRequestProperties = ActionPropertiesBase & {
+export interface ActionRequestProperties extends ActionPropertiesBase {
   /** Logic App Callback URL for this specific workflow. */
   triggerUri: string;
-};
+}
+
+/** Describes an automation rule condition that evaluates an array property's value change */
+export interface PropertyArrayChangedConditionProperties
+  extends AutomationRuleCondition {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  conditionType: "PropertyArrayChanged";
+  conditionProperties?: AutomationRulePropertyArrayChangedValuesCondition;
+}
+
+/** Describes an automation rule condition that evaluates a property's value change */
+export interface PropertyChangedConditionProperties
+  extends AutomationRuleCondition {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  conditionType: "PropertyChanged";
+  conditionProperties?: AutomationRulePropertyValuesChangedCondition;
+}
 
 /** Describes an automation rule condition that evaluates a property's value */
-export type PropertyConditionProperties = AutomationRuleCondition & {
+export interface PropertyConditionProperties extends AutomationRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   conditionType: "Property";
   conditionProperties?: AutomationRulePropertyValuesCondition;
-};
+}
 
 /** Describes an automation rule action to modify an object's properties */
-export type AutomationRuleModifyPropertiesAction = AutomationRuleAction & {
+export interface AutomationRuleModifyPropertiesAction
+  extends AutomationRuleAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "ModifyProperties";
   actionConfiguration?: IncidentPropertiesAction;
-};
+}
 
 /** Describes an automation rule action to run a playbook */
-export type AutomationRuleRunPlaybookAction = AutomationRuleAction & {
+export interface AutomationRuleRunPlaybookAction extends AutomationRuleAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "RunPlaybook";
   actionConfiguration?: PlaybookActionProperties;
-};
+}
 
 /** Represents Activity timeline item. */
-export type ActivityTimelineItem = EntityTimelineItem & {
+export interface ActivityTimelineItem extends EntityTimelineItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Activity";
   /** The activity query id. */
@@ -2201,10 +2251,10 @@ export type ActivityTimelineItem = EntityTimelineItem & {
   content: string;
   /** The activity timeline title. */
   title: string;
-};
+}
 
 /** Represents bookmark timeline item. */
-export type BookmarkTimelineItem = EntityTimelineItem & {
+export interface BookmarkTimelineItem extends EntityTimelineItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Bookmark";
   /** The bookmark azure resource id. */
@@ -2223,10 +2273,38 @@ export type BookmarkTimelineItem = EntityTimelineItem & {
   createdBy?: UserInfo;
   /** List of labels relevant to this bookmark */
   labels?: string[];
-};
+}
+
+/** Represents anomaly timeline item. */
+export interface AnomalyTimelineItem extends EntityTimelineItem {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Anomaly";
+  /** The anomaly azure resource id. */
+  azureResourceId: string;
+  /** The anomaly product name. */
+  productName?: string;
+  /** The anomaly description. */
+  description?: string;
+  /** The anomaly name. */
+  displayName: string;
+  /** The anomaly end time. */
+  endTimeUtc: Date;
+  /** The anomaly start time. */
+  startTimeUtc: Date;
+  /** The anomaly generated time. */
+  timeGenerated: Date;
+  /** The name of the anomaly vendor. */
+  vendor?: string;
+  /** The intent of the anomaly. */
+  intent?: string;
+  /** The techniques of the anomaly. */
+  techniques?: string[];
+  /** The reasons that cause the anomaly. */
+  reasons?: string[];
+}
 
 /** Represents security alert timeline item. */
-export type SecurityAlertTimelineItem = EntityTimelineItem & {
+export interface SecurityAlertTimelineItem extends EntityTimelineItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "SecurityAlert";
   /** The alert azure resource id. */
@@ -2247,18 +2325,18 @@ export type SecurityAlertTimelineItem = EntityTimelineItem & {
   timeGenerated: Date;
   /** The name of the alert type. */
   alertType: string;
-};
+}
 
 /** Represents Insight Query. */
-export type InsightQueryItem = EntityQueryItem & {
+export interface InsightQueryItem extends EntityQueryItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Insight";
   /** Properties bag for InsightQueryItem */
   properties?: InsightQueryItemProperties;
-};
+}
 
 /** SecurityAlert entity property bag. */
-export type SecurityAlertProperties = EntityCommonProperties & {
+export interface SecurityAlertProperties extends EntityCommonProperties {
   /**
    * The display name of the alert.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2381,10 +2459,10 @@ export type SecurityAlertProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceIdentifiers?: Record<string, unknown>[];
-};
+}
 
 /** Describes bookmark properties */
-export type HuntingBookmarkProperties = EntityCommonProperties & {
+export interface HuntingBookmarkProperties extends EntityCommonProperties {
   /** The time the bookmark was created */
   created?: Date;
   /** Describes a user that created the bookmark */
@@ -2407,10 +2485,11 @@ export type HuntingBookmarkProperties = EntityCommonProperties & {
   updatedBy?: UserInfo;
   /** Describes an incident that relates to bookmark */
   incidentInfo?: IncidentInfo;
-};
+}
 
 /** Describes threat intelligence entity properties */
-export type ThreatIntelligenceIndicatorProperties = EntityCommonProperties & {
+export interface ThreatIntelligenceIndicatorProperties
+  extends EntityCommonProperties {
   /** List of tags */
   threatIntelligenceTags?: string[];
   /** Last updated time in UTC */
@@ -2467,10 +2546,10 @@ export type ThreatIntelligenceIndicatorProperties = EntityCommonProperties & {
   modified?: string;
   /** Extensions map */
   extensions?: { [propertyName: string]: any };
-};
+}
 
 /** Account entity property bag. */
-export type AccountEntityProperties = EntityCommonProperties & {
+export interface AccountEntityProperties extends EntityCommonProperties {
   /**
    * The Azure Active Directory tenant id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2531,10 +2610,10 @@ export type AccountEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dnsDomain?: string;
-};
+}
 
 /** AzureResource entity property bag. */
-export type AzureResourceEntityProperties = EntityCommonProperties & {
+export interface AzureResourceEntityProperties extends EntityCommonProperties {
   /**
    * The azure resource id of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2545,10 +2624,11 @@ export type AzureResourceEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subscriptionId?: string;
-};
+}
 
 /** CloudApplication entity property bag. */
-export type CloudApplicationEntityProperties = EntityCommonProperties & {
+export interface CloudApplicationEntityProperties
+  extends EntityCommonProperties {
   /**
    * The technical identifier of the application.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2564,10 +2644,10 @@ export type CloudApplicationEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceName?: string;
-};
+}
 
 /** Dns entity property bag. */
-export type DnsEntityProperties = EntityCommonProperties & {
+export interface DnsEntityProperties extends EntityCommonProperties {
   /**
    * An ip entity id for the dns server resolving the request
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2588,10 +2668,10 @@ export type DnsEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddressEntityIds?: string[];
-};
+}
 
 /** File entity property bag. */
-export type FileEntityProperties = EntityCommonProperties & {
+export interface FileEntityProperties extends EntityCommonProperties {
   /**
    * The full path to the file.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2612,10 +2692,10 @@ export type FileEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostEntityId?: string;
-};
+}
 
 /** FileHash entity property bag. */
-export type FileHashEntityProperties = EntityCommonProperties & {
+export interface FileHashEntityProperties extends EntityCommonProperties {
   /**
    * The hash algorithm type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2626,10 +2706,10 @@ export type FileHashEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hashValue?: string;
-};
+}
 
 /** Host entity property bag. */
-export type HostEntityProperties = EntityCommonProperties & {
+export interface HostEntityProperties extends EntityCommonProperties {
   /**
    * The azure resource id of the VM.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2672,10 +2752,10 @@ export type HostEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osVersion?: string;
-};
+}
 
 /** IoTDevice entity property bag. */
-export type IoTDeviceEntityProperties = EntityCommonProperties & {
+export interface IoTDeviceEntityProperties extends EntityCommonProperties {
   /**
    * The ID of the IoT Device in the IoT Hub
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2761,10 +2841,62 @@ export type IoTDeviceEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly protocols?: string[];
-};
+  /**
+   * A list of owners of the IoTDevice entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly owners?: string[];
+  /**
+   * A list of Nic entity ids of the IoTDevice entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nicEntityIds?: string[];
+  /**
+   * The site of the device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly site?: string;
+  /**
+   * The zone location of the device within a site
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zone?: string;
+  /**
+   * The sensor the device is monitored by
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sensor?: string;
+  /**
+   * The subType of the device ('PLC', 'HMI', 'EWS', etc.)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deviceSubType?: string;
+  /** Device importance, determines if the device classified as 'crown jewel' */
+  importance?: DeviceImportance;
+  /**
+   * The Purdue Layer of the device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purdueLayer?: string;
+  /**
+   * Determines whether the device classified as authorized device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isAuthorized?: boolean;
+  /**
+   * Determines whether the device classified as programming device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isProgramming?: boolean;
+  /**
+   * Is the device classified as a scanner device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isScanner?: boolean;
+}
 
 /** Ip entity property bag. */
-export type IpEntityProperties = EntityCommonProperties & {
+export interface IpEntityProperties extends EntityCommonProperties {
   /**
    * The IP address as string, e.g. 127.0.0.1 (either in Ipv4 or Ipv6)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2780,10 +2912,10 @@ export type IpEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly threatIntelligence?: ThreatIntelligence[];
-};
+}
 
 /** Mailbox entity property bag. */
-export type MailboxEntityProperties = EntityCommonProperties & {
+export interface MailboxEntityProperties extends EntityCommonProperties {
   /**
    * The mailbox's primary address
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2804,10 +2936,10 @@ export type MailboxEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly externalDirectoryObjectId?: string;
-};
+}
 
 /** Mail cluster entity property bag. */
-export type MailClusterEntityProperties = EntityCommonProperties & {
+export interface MailClusterEntityProperties extends EntityCommonProperties {
   /**
    * The mail message IDs that are part of the mail cluster
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2883,10 +3015,10 @@ export type MailClusterEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clusterGroup?: string;
-};
+}
 
 /** Mail message entity property bag. */
-export type MailMessageEntityProperties = EntityCommonProperties & {
+export interface MailMessageEntityProperties extends EntityCommonProperties {
   /**
    * The File entity ids of this mail message's attachments
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2988,10 +3120,10 @@ export type MailMessageEntityProperties = EntityCommonProperties & {
   deliveryAction?: DeliveryAction;
   /** The delivery location of this mail message like Inbox, JunkFolder etc */
   deliveryLocation?: DeliveryLocation;
-};
+}
 
 /** Malware entity property bag. */
-export type MalwareEntityProperties = EntityCommonProperties & {
+export interface MalwareEntityProperties extends EntityCommonProperties {
   /**
    * The malware category by the vendor, e.g. Trojan
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3012,10 +3144,10 @@ export type MalwareEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processEntityIds?: string[];
-};
+}
 
 /** Process entity property bag. */
-export type ProcessEntityProperties = EntityCommonProperties & {
+export interface ProcessEntityProperties extends EntityCommonProperties {
   /**
    * The account entity id running the processes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3058,10 +3190,10 @@ export type ProcessEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processId?: string;
-};
+}
 
 /** RegistryKey entity property bag. */
-export type RegistryKeyEntityProperties = EntityCommonProperties & {
+export interface RegistryKeyEntityProperties extends EntityCommonProperties {
   /**
    * the hive that holds the registry key.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3072,10 +3204,10 @@ export type RegistryKeyEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly key?: string;
-};
+}
 
 /** RegistryValue entity property bag. */
-export type RegistryValueEntityProperties = EntityCommonProperties & {
+export interface RegistryValueEntityProperties extends EntityCommonProperties {
   /**
    * The registry key entity id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3096,10 +3228,10 @@ export type RegistryValueEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly valueType?: RegistryValueKind;
-};
+}
 
 /** SecurityGroup entity property bag. */
-export type SecurityGroupEntityProperties = EntityCommonProperties & {
+export interface SecurityGroupEntityProperties extends EntityCommonProperties {
   /**
    * The group distinguished name
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3115,10 +3247,10 @@ export type SecurityGroupEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sid?: string;
-};
+}
 
 /** Submission mail entity property bag. */
-export type SubmissionMailEntityProperties = EntityCommonProperties & {
+export interface SubmissionMailEntityProperties extends EntityCommonProperties {
   /**
    * The network message id of email to which submission belongs
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3169,159 +3301,189 @@ export type SubmissionMailEntityProperties = EntityCommonProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reportType?: string;
-};
+}
 
 /** Url entity property bag. */
-export type UrlEntityProperties = EntityCommonProperties & {
+export interface UrlEntityProperties extends EntityCommonProperties {
   /**
    * A full URL the entity points to
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly url?: string;
-};
+}
+
+/** Nic entity property bag. */
+export interface NicEntityProperties extends EntityCommonProperties {
+  /**
+   * The MAC address of this network interface
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly macAddress?: string;
+  /**
+   * The IP entity id of this network interface
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddressEntityId?: string;
+  /**
+   * A list of VLANs of the network interface entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vlans?: string[];
+}
 
 /** Represents AAD (Azure Active Directory) requirements check request. */
-export type AADCheckRequirements = DataConnectorsCheckRequirements & {
+export interface AADCheckRequirements extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AzureActiveDirectory";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents AATP (Azure Advanced Threat Protection) requirements check request. */
-export type AatpCheckRequirements = DataConnectorsCheckRequirements & {
+export interface AatpCheckRequirements extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AzureAdvancedThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents ASC (Azure Security Center) requirements check request. */
-export type ASCCheckRequirements = DataConnectorsCheckRequirements & {
+export interface ASCCheckRequirements extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AzureSecurityCenter";
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-};
+}
 
 /** Amazon Web Services CloudTrail requirements check request. */
-export type AwsCloudTrailCheckRequirements = DataConnectorsCheckRequirements & {
+export interface AwsCloudTrailCheckRequirements
+  extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AmazonWebServicesCloudTrail";
-};
+}
 
 /** Amazon Web Services S3 requirements check request. */
-export type AwsS3CheckRequirements = DataConnectorsCheckRequirements & {
+export interface AwsS3CheckRequirements
+  extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AmazonWebServicesS3";
-};
+}
 
 /** Represents Dynamics365 requirements check request. */
-export type Dynamics365CheckRequirements = DataConnectorsCheckRequirements & {
+export interface Dynamics365CheckRequirements
+  extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Dynamics365";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents MCAS (Microsoft Cloud App Security) requirements check request. */
-export type McasCheckRequirements = DataConnectorsCheckRequirements & {
+export interface McasCheckRequirements extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "MicrosoftCloudAppSecurity";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents MDATP (Microsoft Defender Advanced Threat Protection) requirements check request. */
-export type MdatpCheckRequirements = DataConnectorsCheckRequirements & {
+export interface MdatpCheckRequirements
+  extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "MicrosoftDefenderAdvancedThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents Microsoft Threat Intelligence requirements check request. */
-export type MstiCheckRequirements = DataConnectorsCheckRequirements & {
+export interface MstiCheckRequirements extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "MicrosoftThreatIntelligence";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents MTP (Microsoft Threat Protection) requirements check request. */
-export type MtpCheckRequirements = DataConnectorsCheckRequirements & {
+export interface MtpCheckRequirements extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "MicrosoftThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents OfficeATP (Office 365 Advanced Threat Protection) requirements check request. */
-export type OfficeATPCheckRequirements = DataConnectorsCheckRequirements & {
+export interface OfficeATPCheckRequirements
+  extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "OfficeATP";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents OfficeIRM (Microsoft Insider Risk Management) requirements check request. */
-export type OfficeIRMCheckRequirements = DataConnectorsCheckRequirements & {
+export interface OfficeIRMCheckRequirements
+  extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "OfficeIRM";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents Office365 Project requirements check request. */
-export type Office365ProjectCheckRequirements = DataConnectorsCheckRequirements & {
+export interface Office365ProjectCheckRequirements
+  extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Office365Project";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents Office PowerBI requirements check request. */
-export type OfficePowerBICheckRequirements = DataConnectorsCheckRequirements & {
+export interface OfficePowerBICheckRequirements
+  extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "OfficePowerBI";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Threat Intelligence Platforms data connector check requirements */
-export type TICheckRequirements = DataConnectorsCheckRequirements & {
+export interface TICheckRequirements extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "ThreatIntelligence";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Threat Intelligence TAXII data connector check requirements */
-export type TiTaxiiCheckRequirements = DataConnectorsCheckRequirements & {
+export interface TiTaxiiCheckRequirements
+  extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "ThreatIntelligenceTaxii";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-};
+}
 
 /** Represents IoT requirements check request. */
-export type IoTCheckRequirements = DataConnectorsCheckRequirements & {
+export interface IoTCheckRequirements extends DataConnectorsCheckRequirements {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "IOT";
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-};
+}
 
 /** Alert rule template with MITRE property bag. */
-export type AlertRuleTemplateWithMitreProperties = AlertRuleTemplatePropertiesBase & {
+export interface AlertRuleTemplateWithMitreProperties
+  extends AlertRuleTemplatePropertiesBase {
   /** The tactics of the alert rule */
   tactics?: AttackTactic[];
   /** The techniques of the alert rule */
   techniques?: string[];
-};
+}
 
 /** MicrosoftSecurityIncidentCreation rule template properties */
-export type MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties = AlertRuleTemplatePropertiesBase & {
+export interface MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties
+  extends AlertRuleTemplatePropertiesBase {
   /** the alerts' displayNames on which the cases will be generated */
   displayNamesFilter?: string[];
   /** the alerts' displayNames on which the cases will not be generated */
@@ -3330,14 +3492,16 @@ export type MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties = Alert
   productFilter?: MicrosoftSecurityProductName;
   /** the alerts' severities on which the cases will be generated */
   severitiesFilter?: AlertSeverity[];
-};
+}
 
 /** NRT alert rule template properties */
-export type NrtAlertRuleTemplateProperties = AlertRuleTemplateWithMitreProperties &
-  QueryBasedAlertRuleTemplateProperties & {};
+export interface NrtAlertRuleTemplateProperties
+  extends AlertRuleTemplateWithMitreProperties,
+    QueryBasedAlertRuleTemplateProperties {}
 
 /** MicrosoftSecurityIncidentCreation rule property bag. */
-export type MicrosoftSecurityIncidentCreationAlertRuleProperties = MicrosoftSecurityIncidentCreationAlertRuleCommonProperties & {
+export interface MicrosoftSecurityIncidentCreationAlertRuleProperties
+  extends MicrosoftSecurityIncidentCreationAlertRuleCommonProperties {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The description of the alert rule. */
@@ -3351,10 +3515,11 @@ export type MicrosoftSecurityIncidentCreationAlertRuleProperties = MicrosoftSecu
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedUtc?: Date;
-};
+}
 
 /** Scheduled alert rule base property bag. */
-export type ScheduledAlertRuleProperties = ScheduledAlertRuleCommonProperties & {
+export interface ScheduledAlertRuleProperties
+  extends ScheduledAlertRuleCommonProperties {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
@@ -3380,10 +3545,10 @@ export type ScheduledAlertRuleProperties = ScheduledAlertRuleCommonProperties & 
   techniques?: string[];
   /** The settings of the incidents that created from alerts triggered by this analytics rule */
   incidentConfiguration?: IncidentConfiguration;
-};
+}
 
 /** Represents Insight Query. */
-export type InsightQueryItemProperties = EntityQueryItemProperties & {
+export interface InsightQueryItemProperties extends EntityQueryItemProperties {
   /** The insight display name. */
   displayName?: string;
   /** The insight description. */
@@ -3400,119 +3565,137 @@ export type InsightQueryItemProperties = EntityQueryItemProperties & {
   defaultTimeRange?: InsightQueryItemPropertiesDefaultTimeRange;
   /** The insight chart query. */
   referenceTimeRange?: InsightQueryItemPropertiesReferenceTimeRange;
-};
+}
 
 /** AAD (Azure Active Directory) requirements check properties. */
-export type AADCheckRequirementsProperties = DataConnectorTenantId & {};
+export interface AADCheckRequirementsProperties extends DataConnectorTenantId {}
 
 /** AATP (Azure Advanced Threat Protection) requirements check properties. */
-export type AatpCheckRequirementsProperties = DataConnectorTenantId & {};
+export interface AatpCheckRequirementsProperties
+  extends DataConnectorTenantId {}
 
 /** Dynamics365 requirements check properties. */
-export type Dynamics365CheckRequirementsProperties = DataConnectorTenantId & {};
+export interface Dynamics365CheckRequirementsProperties
+  extends DataConnectorTenantId {}
 
 /** MCAS (Microsoft Cloud App Security) requirements check properties. */
-export type McasCheckRequirementsProperties = DataConnectorTenantId & {};
+export interface McasCheckRequirementsProperties
+  extends DataConnectorTenantId {}
 
 /** MDATP (Microsoft Defender Advanced Threat Protection) requirements check properties. */
-export type MdatpCheckRequirementsProperties = DataConnectorTenantId & {};
+export interface MdatpCheckRequirementsProperties
+  extends DataConnectorTenantId {}
 
 /** Microsoft Threat Intelligence requirements check properties. */
-export type MstiCheckRequirementsProperties = DataConnectorTenantId & {};
+export interface MstiCheckRequirementsProperties
+  extends DataConnectorTenantId {}
 
 /** MTP (Microsoft Threat Protection) requirements check properties. */
-export type MTPCheckRequirementsProperties = DataConnectorTenantId & {};
+export interface MTPCheckRequirementsProperties extends DataConnectorTenantId {}
 
 /** OfficeATP (Office 365 Advanced Threat Protection) requirements check properties. */
-export type OfficeATPCheckRequirementsProperties = DataConnectorTenantId & {};
+export interface OfficeATPCheckRequirementsProperties
+  extends DataConnectorTenantId {}
 
 /** OfficeIRM (Microsoft Insider Risk Management) requirements check properties. */
-export type OfficeIRMCheckRequirementsProperties = DataConnectorTenantId & {};
+export interface OfficeIRMCheckRequirementsProperties
+  extends DataConnectorTenantId {}
 
 /** Office365 Project requirements check properties. */
-export type Office365ProjectCheckRequirementsProperties = DataConnectorTenantId & {};
+export interface Office365ProjectCheckRequirementsProperties
+  extends DataConnectorTenantId {}
 
 /** Office PowerBI requirements check properties. */
-export type OfficePowerBICheckRequirementsProperties = DataConnectorTenantId & {};
+export interface OfficePowerBICheckRequirementsProperties
+  extends DataConnectorTenantId {}
 
 /** Threat Intelligence Platforms data connector required properties. */
-export type TICheckRequirementsProperties = DataConnectorTenantId & {};
+export interface TICheckRequirementsProperties extends DataConnectorTenantId {}
 
 /** Threat Intelligence TAXII data connector required properties. */
-export type TiTaxiiCheckRequirementsProperties = DataConnectorTenantId & {};
+export interface TiTaxiiCheckRequirementsProperties
+  extends DataConnectorTenantId {}
 
 /** AAD (Azure Active Directory) data connector properties. */
-export type AADDataConnectorProperties = DataConnectorTenantId &
-  DataConnectorWithAlertsProperties & {};
+export interface AADDataConnectorProperties
+  extends DataConnectorTenantId,
+    DataConnectorWithAlertsProperties {}
 
 /** Microsoft Threat Intelligence data connector properties. */
-export type MstiDataConnectorProperties = DataConnectorTenantId & {
+export interface MstiDataConnectorProperties extends DataConnectorTenantId {
   /** The available data types for the connector. */
   dataTypes: MstiDataConnectorDataTypes;
-};
+}
 
 /** MTP (Microsoft Threat Protection) data connector properties. */
-export type MTPDataConnectorProperties = DataConnectorTenantId & {
+export interface MTPDataConnectorProperties extends DataConnectorTenantId {
   /** The available data types for the connector. */
   dataTypes: MTPDataConnectorDataTypes;
-};
+}
 
 /** AATP (Azure Advanced Threat Protection) data connector properties. */
-export type AatpDataConnectorProperties = DataConnectorTenantId &
-  DataConnectorWithAlertsProperties & {};
+export interface AatpDataConnectorProperties
+  extends DataConnectorTenantId,
+    DataConnectorWithAlertsProperties {}
 
 /** MCAS (Microsoft Cloud App Security) data connector properties. */
-export type McasDataConnectorProperties = DataConnectorTenantId & {
+export interface McasDataConnectorProperties extends DataConnectorTenantId {
   /** The available data types for the connector. */
   dataTypes: McasDataConnectorDataTypes;
-};
+}
 
 /** Dynamics365 data connector properties. */
-export type Dynamics365DataConnectorProperties = DataConnectorTenantId & {
+export interface Dynamics365DataConnectorProperties
+  extends DataConnectorTenantId {
   /** The available data types for the connector. */
   dataTypes: Dynamics365DataConnectorDataTypes;
-};
+}
 
 /** OfficeATP (Office 365 Advanced Threat Protection) data connector properties. */
-export type OfficeATPDataConnectorProperties = DataConnectorTenantId &
-  DataConnectorWithAlertsProperties & {};
+export interface OfficeATPDataConnectorProperties
+  extends DataConnectorTenantId,
+    DataConnectorWithAlertsProperties {}
 
 /** Office Microsoft Project data connector properties. */
-export type Office365ProjectDataConnectorProperties = DataConnectorTenantId & {
+export interface Office365ProjectDataConnectorProperties
+  extends DataConnectorTenantId {
   /** The available data types for the connector. */
   dataTypes: Office365ProjectConnectorDataTypes;
-};
+}
 
 /** Office Microsoft PowerBI data connector properties. */
-export type OfficePowerBIDataConnectorProperties = DataConnectorTenantId & {
+export interface OfficePowerBIDataConnectorProperties
+  extends DataConnectorTenantId {
   /** The available data types for the connector. */
   dataTypes: OfficePowerBIConnectorDataTypes;
-};
+}
 
 /** OfficeIRM (Microsoft Insider Risk Management) data connector properties. */
-export type OfficeIRMDataConnectorProperties = DataConnectorTenantId &
-  DataConnectorWithAlertsProperties & {};
+export interface OfficeIRMDataConnectorProperties
+  extends DataConnectorTenantId,
+    DataConnectorWithAlertsProperties {}
 
 /** MDATP (Microsoft Defender Advanced Threat Protection) data connector properties. */
-export type MdatpDataConnectorProperties = DataConnectorTenantId &
-  DataConnectorWithAlertsProperties & {};
+export interface MdatpDataConnectorProperties
+  extends DataConnectorTenantId,
+    DataConnectorWithAlertsProperties {}
 
 /** Office data connector properties. */
-export type OfficeDataConnectorProperties = DataConnectorTenantId & {
+export interface OfficeDataConnectorProperties extends DataConnectorTenantId {
   /** The available data types for the connector. */
   dataTypes: OfficeDataConnectorDataTypes;
-};
+}
 
 /** TI (Threat Intelligence) data connector properties. */
-export type TIDataConnectorProperties = DataConnectorTenantId & {
+export interface TIDataConnectorProperties extends DataConnectorTenantId {
   /** The lookback period for the feed to be imported. */
   tipLookbackPeriod?: Date;
   /** The available data types for the connector. */
   dataTypes: TIDataConnectorDataTypes;
-};
+}
 
 /** Threat Intelligence TAXII data connector properties. */
-export type TiTaxiiDataConnectorProperties = DataConnectorTenantId & {
+export interface TiTaxiiDataConnectorProperties extends DataConnectorTenantId {
   /** The workspace id. */
   workspaceId?: string;
   /** The friendly name for the TAXII server. */
@@ -3531,126 +3714,148 @@ export type TiTaxiiDataConnectorProperties = DataConnectorTenantId & {
   pollingFrequency: PollingFrequency | null;
   /** The available data types for Threat Intelligence TAXII data connector. */
   dataTypes: TiTaxiiDataConnectorDataTypes;
-};
+}
 
 /** ASC (Azure Security Center) data connector properties. */
-export type ASCDataConnectorProperties = DataConnectorWithAlertsProperties & {
+export interface ASCDataConnectorProperties
+  extends DataConnectorWithAlertsProperties {
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-};
+}
 
 /** IoT data connector properties. */
-export type IoTDataConnectorProperties = DataConnectorWithAlertsProperties & {
+export interface IoTDataConnectorProperties
+  extends DataConnectorWithAlertsProperties {
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-};
+}
 
 /** The available data types for MCAS (Microsoft Cloud App Security) data connector. */
-export type McasDataConnectorDataTypes = AlertsDataTypeOfDataConnector & {
+export interface McasDataConnectorDataTypes
+  extends AlertsDataTypeOfDataConnector {
   /** Discovery log data type connection. */
   discoveryLogs?: DataConnectorDataTypeCommon;
-};
+}
 
 /** Data type for Microsoft Threat Intelligence Platforms data connector. */
-export type MstiDataConnectorDataTypesBingSafetyPhishingURL = DataConnectorDataTypeCommon & {
+export interface MstiDataConnectorDataTypesBingSafetyPhishingURL
+  extends DataConnectorDataTypeCommon {
   /** lookback period */
   lookbackPeriod: string;
-};
+}
 
 /** Data type for Microsoft Threat Intelligence Platforms data connector. */
-export type MstiDataConnectorDataTypesMicrosoftEmergingThreatFeed = DataConnectorDataTypeCommon & {
+export interface MstiDataConnectorDataTypesMicrosoftEmergingThreatFeed
+  extends DataConnectorDataTypeCommon {
   /** lookback period */
   lookbackPeriod: string;
-};
+}
 
 /** Data type for Microsoft Threat Protection Platforms data connector. */
-export type MTPDataConnectorDataTypesIncidents = DataConnectorDataTypeCommon & {};
+export interface MTPDataConnectorDataTypesIncidents
+  extends DataConnectorDataTypeCommon {}
 
 /** Logs data type. */
-export type AwsCloudTrailDataConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
+export interface AwsCloudTrailDataConnectorDataTypesLogs
+  extends DataConnectorDataTypeCommon {}
 
 /** Logs data type. */
-export type AwsS3DataConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
+export interface AwsS3DataConnectorDataTypesLogs
+  extends DataConnectorDataTypeCommon {}
 
 /** Common Data Service data type connection. */
-export type Dynamics365DataConnectorDataTypesDynamics365CdsActivities = DataConnectorDataTypeCommon & {};
+export interface Dynamics365DataConnectorDataTypesDynamics365CdsActivities
+  extends DataConnectorDataTypeCommon {}
 
 /** Logs data type. */
-export type Office365ProjectConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
+export interface Office365ProjectConnectorDataTypesLogs
+  extends DataConnectorDataTypeCommon {}
 
 /** Logs data type. */
-export type OfficePowerBIConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
+export interface OfficePowerBIConnectorDataTypesLogs
+  extends DataConnectorDataTypeCommon {}
 
 /** Exchange data type connection. */
-export type OfficeDataConnectorDataTypesExchange = DataConnectorDataTypeCommon & {};
+export interface OfficeDataConnectorDataTypesExchange
+  extends DataConnectorDataTypeCommon {}
 
 /** SharePoint data type connection. */
-export type OfficeDataConnectorDataTypesSharePoint = DataConnectorDataTypeCommon & {};
+export interface OfficeDataConnectorDataTypesSharePoint
+  extends DataConnectorDataTypeCommon {}
 
 /** Teams data type connection. */
-export type OfficeDataConnectorDataTypesTeams = DataConnectorDataTypeCommon & {};
+export interface OfficeDataConnectorDataTypesTeams
+  extends DataConnectorDataTypeCommon {}
 
 /** Data type for indicators connection. */
-export type TIDataConnectorDataTypesIndicators = DataConnectorDataTypeCommon & {};
+export interface TIDataConnectorDataTypesIndicators
+  extends DataConnectorDataTypeCommon {}
 
 /** Data type for TAXII connector. */
-export type TiTaxiiDataConnectorDataTypesTaxiiClient = DataConnectorDataTypeCommon & {};
+export interface TiTaxiiDataConnectorDataTypesTaxiiClient
+  extends DataConnectorDataTypeCommon {}
 
-export type CodelessUiConnectorConfigPropertiesGraphQueriesItem = GraphQueries & {};
+export interface CodelessUiConnectorConfigPropertiesGraphQueriesItem
+  extends GraphQueries {}
 
-export type CodelessUiConnectorConfigPropertiesSampleQueriesItem = SampleQueries & {};
+export interface CodelessUiConnectorConfigPropertiesSampleQueriesItem
+  extends SampleQueries {}
 
-export type CodelessUiConnectorConfigPropertiesDataTypesItem = LastDataReceivedDataType & {};
+export interface CodelessUiConnectorConfigPropertiesDataTypesItem
+  extends LastDataReceivedDataType {}
 
-export type CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem = ConnectivityCriteria & {};
+export interface CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem
+  extends ConnectivityCriteria {}
 
-export type PermissionsResourceProviderItem = ResourceProvider & {};
+export interface PermissionsResourceProviderItem extends ResourceProvider {}
 
 /** Customs permissions required for the connector */
-export type Customs = CustomsPermission & {};
+export interface Customs extends CustomsPermission {}
 
-export type CodelessUiConnectorConfigPropertiesInstructionStepsItem = InstructionSteps & {};
+export interface CodelessUiConnectorConfigPropertiesInstructionStepsItem
+  extends InstructionSteps {}
 
-export type InstructionStepsInstructionsItem = ConnectorInstructionModelBase & {};
+export interface InstructionStepsInstructionsItem
+  extends ConnectorInstructionModelBase {}
 
 /** Alert rule. */
-export type AlertRule = ResourceWithEtag & {
+export interface AlertRule extends ResourceWithEtag {
   /** The kind of the alert rule */
   kind: AlertRuleKind;
-};
+}
 
 /** Action for alert rule. */
-export type ActionResponse = ResourceWithEtag & {
+export interface ActionResponse extends ResourceWithEtag {
   /** Logic App Resource Id, /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}. */
   logicAppResourceId?: string;
   /** The name of the logic app's workflow. */
   workflowId?: string;
-};
+}
 
 /** Action for alert rule. */
-export type ActionRequest = ResourceWithEtag & {
+export interface ActionRequest extends ResourceWithEtag {
   /** Logic App Resource Id, /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}. */
   logicAppResourceId?: string;
   /** Logic App Callback URL for this specific workflow. */
   triggerUri?: string;
-};
+}
 
-export type AutomationRule = ResourceWithEtag & {
-  /** The display name of the automation rule */
+export interface AutomationRule extends ResourceWithEtag {
+  /** The display name of the automation rule. */
   displayName: string;
-  /** The order of execution of the automation rule */
+  /** The order of execution of the automation rule. */
   order: number;
-  /** Describes automation rule triggering logic */
+  /** Describes automation rule triggering logic. */
   triggeringLogic: AutomationRuleTriggeringLogic;
-  /** The actions to execute when the automation rule is triggered */
+  /** The actions to execute when the automation rule is triggered. */
   actions: AutomationRuleActionUnion[];
   /**
-   * The last time the automation rule was updated
+   * The last time the automation rule was updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
   /**
-   * The time the automation rule was created
+   * The time the automation rule was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdTimeUtc?: Date;
@@ -3664,10 +3869,10 @@ export type AutomationRule = ResourceWithEtag & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdBy?: ClientInfo;
-};
+}
 
 /** Represents a bookmark in Azure Security Insights. */
-export type Bookmark = ResourceWithEtag & {
+export interface Bookmark extends ResourceWithEtag {
   /** The time the bookmark was created */
   created?: Date;
   /** Describes a user that created the bookmark */
@@ -3700,10 +3905,10 @@ export type Bookmark = ResourceWithEtag & {
   tactics?: AttackTactic[];
   /** A list of relevant mitre techniques */
   techniques?: string[];
-};
+}
 
 /** Represents a relation between two resources */
-export type Relation = ResourceWithEtag & {
+export interface Relation extends ResourceWithEtag {
   /** The resource ID of the related resource */
   relatedResourceId?: string;
   /**
@@ -3721,22 +3926,22 @@ export type Relation = ResourceWithEtag & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly relatedResourceKind?: string;
-};
+}
 
 /** Specific entity query. */
-export type EntityQuery = ResourceWithEtag & {
+export interface EntityQuery extends ResourceWithEtag {
   /** the entity query kind */
   kind: EntityQueryKind;
-};
+}
 
 /** Specific entity query that supports put requests. */
-export type CustomEntityQuery = ResourceWithEtag & {
+export interface CustomEntityQuery extends ResourceWithEtag {
   /** the entity query kind */
   kind: CustomEntityQueryKind;
-};
+}
 
 /** Represents an incident in Azure Security Insights. */
-export type Incident = ResourceWithEtag & {
+export interface Incident extends ResourceWithEtag {
   /**
    * Additional data on the incident
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3795,10 +4000,10 @@ export type Incident = ResourceWithEtag & {
   teamInformation?: TeamInformation;
   /** The title of the incident */
   title?: string;
-};
+}
 
 /** Represents an incident comment */
-export type IncidentComment = ResourceWithEtag & {
+export interface IncidentComment extends ResourceWithEtag {
   /**
    * The time the comment was created
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3816,10 +4021,10 @@ export type IncidentComment = ResourceWithEtag & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly author?: ClientInfo;
-};
+}
 
 /** Metadata resource definition. */
-export type MetadataModel = ResourceWithEtag & {
+export interface MetadataModel extends ResourceWithEtag {
   /** Static ID for the content.  Used to identify dependencies and content from solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic for user-created.  This is the resource name */
   contentId?: string;
   /** Full parent resource ID of the content item the metadata is for.  This is the full resource ID including the scope (subscription and resource group) */
@@ -3858,10 +4063,10 @@ export type MetadataModel = ResourceWithEtag & {
   previewImages?: string[];
   /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
   previewImagesDark?: string[];
-};
+}
 
 /** Metadata patch request body. */
-export type MetadataPatch = ResourceWithEtag & {
+export interface MetadataPatch extends ResourceWithEtag {
   /** Static ID for the content.  Used to identify dependencies and content from solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic for user-created.  This is the resource name */
   contentId?: string;
   /** Full parent resource ID of the content item the metadata is for.  This is the full resource ID including the scope (subscription and resource group) */
@@ -3900,22 +4105,28 @@ export type MetadataPatch = ResourceWithEtag & {
   previewImages?: string[];
   /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
   previewImagesDark?: string[];
-};
+}
 
 /** Sentinel onboarding state */
-export type SentinelOnboardingState = ResourceWithEtag & {
+export interface SentinelOnboardingState extends ResourceWithEtag {
   /** Flag that indicates the status of the CMK setting */
   customerManagedKey?: boolean;
-};
+}
+
+/** Security ML Analytics Setting */
+export interface SecurityMLAnalyticsSetting extends ResourceWithEtag {
+  /** The kind of security ML Analytics Settings */
+  kind: SecurityMLAnalyticsSettingsKind;
+}
 
 /** The Setting. */
-export type Settings = ResourceWithEtag & {
+export interface Settings extends ResourceWithEtag {
   /** The kind of the setting */
   kind: SettingKind;
-};
+}
 
 /** Represents a SourceControl in Azure Security Insights. */
-export type SourceControl = ResourceWithEtag & {
+export interface SourceControl extends ResourceWithEtag {
   /** The id (a Guid) of the source control */
   idPropertiesId?: string;
   /** The version number associated with the source control */
@@ -3934,16 +4145,16 @@ export type SourceControl = ResourceWithEtag & {
   repositoryResourceInfo?: RepositoryResourceInfo;
   /** Information regarding the latest deployment for the source control. */
   lastDeploymentInfo?: DeploymentInfo;
-};
+}
 
 /** Threat intelligence information object. */
-export type ThreatIntelligenceInformation = ResourceWithEtag & {
+export interface ThreatIntelligenceInformation extends ResourceWithEtag {
   /** The kind of the entity. */
   kind: ThreatIntelligenceResourceKindEnum;
-};
+}
 
 /** Represents a Watchlist in Azure Security Insights. */
-export type Watchlist = ResourceWithEtag & {
+export interface Watchlist extends ResourceWithEtag {
   /** The id (a Guid) of the watchlist */
   watchlistId?: string;
   /** The display name of the watchlist */
@@ -3980,23 +4191,16 @@ export type Watchlist = ResourceWithEtag & {
   numberOfLinesToSkip?: number;
   /** The raw content that represents to watchlist items to create. In case of csv/tsv content type, it's the content of the file that will parsed by the endpoint */
   rawContent?: string;
-  /** The Shared Access Signature (SAS) URI under which the large csv watchlist file is located and from which the watchlist and its items will be created */
-  sasUri?: string;
   /** The search key is used to optimize query performance when using watchlists for joins with other data. For example, enable a column with IP addresses to be the designated SearchKey field, then use this field as the key field when joining to other event data by IP address. */
   itemsSearchKey?: string;
   /** The content type of the raw content. Example : text/csv or text/tsv */
   contentType?: string;
   /** The status of the Watchlist upload : New, InProgress or Complete. Pls note : When a Watchlist upload status is equal to InProgress, the Watchlist cannot be deleted */
   uploadStatus?: string;
-  /**
-   * The provisioning state of the watchlist resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Represents a Watchlist item in Azure Security Insights. */
-export type WatchlistItem = ResourceWithEtag & {
+export interface WatchlistItem extends ResourceWithEtag {
   /** The type of the watchlist item */
   watchlistItemType?: string;
   /** The id (a Guid) of the watchlist item */
@@ -4017,16 +4221,17 @@ export type WatchlistItem = ResourceWithEtag & {
   itemsKeyValue?: { [propertyName: string]: any };
   /** key-value pairs for a watchlist item entity mapping */
   entityMapping?: { [propertyName: string]: any };
-};
+}
 
 /** Data connector */
-export type DataConnector = ResourceWithEtag & {
+export interface DataConnector extends ResourceWithEtag {
   /** The data connector kind */
   kind: DataConnectorKind;
-};
+}
 
 /** Represents MLBehaviorAnalytics alert rule template. */
-export type MLBehaviorAnalyticsAlertRuleTemplate = AlertRuleTemplate & {
+export interface MLBehaviorAnalyticsAlertRuleTemplate
+  extends AlertRuleTemplate {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4053,10 +4258,10 @@ export type MLBehaviorAnalyticsAlertRuleTemplate = AlertRuleTemplate & {
   techniques?: string[];
   /** The severity for alerts created by this alert rule. */
   severity?: AlertSeverity;
-};
+}
 
 /** Represents Fusion alert rule template. */
-export type FusionAlertRuleTemplate = AlertRuleTemplate & {
+export interface FusionAlertRuleTemplate extends AlertRuleTemplate {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4085,10 +4290,10 @@ export type FusionAlertRuleTemplate = AlertRuleTemplate & {
   techniques?: string[];
   /** All supported source signal configurations consumed in fusion detection. */
   sourceSettings?: FusionTemplateSourceSetting[];
-};
+}
 
 /** Represents Threat Intelligence alert rule template. */
-export type ThreatIntelligenceAlertRuleTemplate = AlertRuleTemplate & {
+export interface ThreatIntelligenceAlertRuleTemplate extends AlertRuleTemplate {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4115,10 +4320,11 @@ export type ThreatIntelligenceAlertRuleTemplate = AlertRuleTemplate & {
   techniques?: string[];
   /** The severity for alerts created by this alert rule. */
   severity?: AlertSeverity;
-};
+}
 
 /** Represents MicrosoftSecurityIncidentCreation rule template. */
-export type MicrosoftSecurityIncidentCreationAlertRuleTemplate = AlertRuleTemplate & {
+export interface MicrosoftSecurityIncidentCreationAlertRuleTemplate
+  extends AlertRuleTemplate {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4147,10 +4353,10 @@ export type MicrosoftSecurityIncidentCreationAlertRuleTemplate = AlertRuleTempla
   productFilter?: MicrosoftSecurityProductName;
   /** the alerts' severities on which the cases will be generated */
   severitiesFilter?: AlertSeverity[];
-};
+}
 
 /** Represents scheduled alert rule template. */
-export type ScheduledAlertRuleTemplate = AlertRuleTemplate & {
+export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4197,10 +4403,10 @@ export type ScheduledAlertRuleTemplate = AlertRuleTemplate & {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
-};
+}
 
 /** Represents NRT alert rule template. */
-export type NrtAlertRuleTemplate = AlertRuleTemplate & {
+export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4237,10 +4443,10 @@ export type NrtAlertRuleTemplate = AlertRuleTemplate & {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
-};
+}
 
 /** Represents a security alert entity. */
-export type SecurityAlert = Entity & {
+export interface SecurityAlert extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4373,10 +4579,10 @@ export type SecurityAlert = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceIdentifiers?: Record<string, unknown>[];
-};
+}
 
 /** Represents a Hunting bookmark entity. */
-export type HuntingBookmark = Entity & {
+export interface HuntingBookmark extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4409,10 +4615,10 @@ export type HuntingBookmark = Entity & {
   updatedBy?: UserInfo;
   /** Describes an incident that relates to bookmark */
   incidentInfo?: IncidentInfo;
-};
+}
 
 /** Represents an account entity. */
-export type AccountEntity = Entity & {
+export interface AccountEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4483,10 +4689,10 @@ export type AccountEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dnsDomain?: string;
-};
+}
 
 /** Represents an azure resource entity. */
-export type AzureResourceEntity = Entity & {
+export interface AzureResourceEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4507,10 +4713,10 @@ export type AzureResourceEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subscriptionId?: string;
-};
+}
 
 /** Represents a cloud application entity. */
-export type CloudApplicationEntity = Entity & {
+export interface CloudApplicationEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4536,10 +4742,10 @@ export type CloudApplicationEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceName?: string;
-};
+}
 
 /** Represents a dns entity. */
-export type DnsEntity = Entity & {
+export interface DnsEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4570,10 +4776,10 @@ export type DnsEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddressEntityIds?: string[];
-};
+}
 
 /** Represents a file entity. */
-export type FileEntity = Entity & {
+export interface FileEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4604,10 +4810,10 @@ export type FileEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostEntityId?: string;
-};
+}
 
 /** Represents a file hash entity. */
-export type FileHashEntity = Entity & {
+export interface FileHashEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4628,10 +4834,10 @@ export type FileHashEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hashValue?: string;
-};
+}
 
 /** Represents a host entity. */
-export type HostEntity = Entity & {
+export interface HostEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4684,10 +4890,10 @@ export type HostEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osVersion?: string;
-};
+}
 
 /** Represents an IoT device entity. */
-export type IoTDeviceEntity = Entity & {
+export interface IoTDeviceEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4783,10 +4989,62 @@ export type IoTDeviceEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly protocols?: string[];
-};
+  /**
+   * A list of owners of the IoTDevice entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly owners?: string[];
+  /**
+   * A list of Nic entity ids of the IoTDevice entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nicEntityIds?: string[];
+  /**
+   * The site of the device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly site?: string;
+  /**
+   * The zone location of the device within a site
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zone?: string;
+  /**
+   * The sensor the device is monitored by
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sensor?: string;
+  /**
+   * The subType of the device ('PLC', 'HMI', 'EWS', etc.)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deviceSubType?: string;
+  /** Device importance, determines if the device classified as 'crown jewel' */
+  importance?: DeviceImportance;
+  /**
+   * The Purdue Layer of the device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purdueLayer?: string;
+  /**
+   * Determines whether the device classified as authorized device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isAuthorized?: boolean;
+  /**
+   * Determines whether the device classified as programming device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isProgramming?: boolean;
+  /**
+   * Is the device classified as a scanner device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isScanner?: boolean;
+}
 
 /** Represents an ip entity. */
-export type IpEntity = Entity & {
+export interface IpEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4812,10 +5070,10 @@ export type IpEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly threatIntelligence?: ThreatIntelligence[];
-};
+}
 
 /** Represents a mailbox entity. */
-export type MailboxEntity = Entity & {
+export interface MailboxEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4846,10 +5104,10 @@ export type MailboxEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly externalDirectoryObjectId?: string;
-};
+}
 
 /** Represents a mail cluster entity. */
-export type MailClusterEntity = Entity & {
+export interface MailClusterEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4935,10 +5193,10 @@ export type MailClusterEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clusterGroup?: string;
-};
+}
 
 /** Represents a mail message entity. */
-export type MailMessageEntity = Entity & {
+export interface MailMessageEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5050,10 +5308,10 @@ export type MailMessageEntity = Entity & {
   deliveryAction?: DeliveryAction;
   /** The delivery location of this mail message like Inbox, JunkFolder etc */
   deliveryLocation?: DeliveryLocation;
-};
+}
 
 /** Represents a malware entity. */
-export type MalwareEntity = Entity & {
+export interface MalwareEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5084,10 +5342,10 @@ export type MalwareEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processEntityIds?: string[];
-};
+}
 
 /** Represents a process entity. */
-export type ProcessEntity = Entity & {
+export interface ProcessEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5140,10 +5398,10 @@ export type ProcessEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processId?: string;
-};
+}
 
 /** Represents a registry key entity. */
-export type RegistryKeyEntity = Entity & {
+export interface RegistryKeyEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5164,10 +5422,10 @@ export type RegistryKeyEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly key?: string;
-};
+}
 
 /** Represents a registry value entity. */
-export type RegistryValueEntity = Entity & {
+export interface RegistryValueEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5198,10 +5456,10 @@ export type RegistryValueEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly valueType?: RegistryValueKind;
-};
+}
 
 /** Represents a security group entity. */
-export type SecurityGroupEntity = Entity & {
+export interface SecurityGroupEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5227,10 +5485,10 @@ export type SecurityGroupEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sid?: string;
-};
+}
 
 /** Represents a submission mail entity. */
-export type SubmissionMailEntity = Entity & {
+export interface SubmissionMailEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5291,10 +5549,10 @@ export type SubmissionMailEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reportType?: string;
-};
+}
 
 /** Represents a url entity. */
-export type UrlEntity = Entity & {
+export interface UrlEntity extends Entity {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5310,10 +5568,39 @@ export type UrlEntity = Entity & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly url?: string;
-};
+}
+
+/** Represents an network interface entity. */
+export interface NicEntity extends Entity {
+  /**
+   * A bag of custom fields that should be part of the entity and will be presented to the user.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  /**
+   * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly friendlyName?: string;
+  /**
+   * The MAC address of this network interface
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly macAddress?: string;
+  /**
+   * The IP entity id of this network interface
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddressEntityId?: string;
+  /**
+   * A list of VLANs of the network interface entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vlans?: string[];
+}
 
 /** Represents Activity entity query. */
-export type ActivityEntityQueryTemplate = EntityQueryTemplate & {
+export interface ActivityEntityQueryTemplate extends EntityQueryTemplate {
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -5330,24 +5617,26 @@ export type ActivityEntityQueryTemplate = EntityQueryTemplate & {
   requiredInputFieldsSets?: string[][];
   /** The query applied only to entities matching to all filters */
   entitiesFilter?: { [propertyName: string]: string[] };
-};
+}
 
 /** MLBehaviorAnalytics alert rule template properties. */
-export type MLBehaviorAnalyticsAlertRuleTemplateProperties = AlertRuleTemplateWithMitreProperties & {
+export interface MLBehaviorAnalyticsAlertRuleTemplateProperties
+  extends AlertRuleTemplateWithMitreProperties {
   /** The severity for alerts created by this alert rule. */
   severity: AlertSeverity;
-};
+}
 
 /** Threat Intelligence alert rule template properties */
-export type ThreatIntelligenceAlertRuleTemplateProperties = AlertRuleTemplateWithMitreProperties & {
+export interface ThreatIntelligenceAlertRuleTemplateProperties
+  extends AlertRuleTemplateWithMitreProperties {
   /** The severity for alerts created by this alert rule. */
   severity: AlertSeverity;
-};
+}
 
-export type PermissionsCustomsItem = Customs & {};
+export interface PermissionsCustomsItem extends Customs {}
 
 /** Represents MLBehaviorAnalytics alert rule. */
-export type MLBehaviorAnalyticsAlertRule = AlertRule & {
+export interface MLBehaviorAnalyticsAlertRule extends AlertRule {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5382,10 +5671,10 @@ export type MLBehaviorAnalyticsAlertRule = AlertRule & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly techniques?: string[];
-};
+}
 
 /** Represents Fusion alert rule. */
-export type FusionAlertRule = AlertRule & {
+export interface FusionAlertRule extends AlertRule {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5424,10 +5713,10 @@ export type FusionAlertRule = AlertRule & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly techniques?: string[];
-};
+}
 
 /** Represents Threat Intelligence alert rule. */
-export type ThreatIntelligenceAlertRule = AlertRule & {
+export interface ThreatIntelligenceAlertRule extends AlertRule {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5462,10 +5751,10 @@ export type ThreatIntelligenceAlertRule = AlertRule & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly techniques?: string[];
-};
+}
 
 /** Represents MicrosoftSecurityIncidentCreation rule. */
-export type MicrosoftSecurityIncidentCreationAlertRule = AlertRule & {
+export interface MicrosoftSecurityIncidentCreationAlertRule extends AlertRule {
   /** the alerts' displayNames on which the cases will be generated */
   displayNamesFilter?: string[];
   /** the alerts' displayNames on which the cases will not be generated */
@@ -5487,10 +5776,10 @@ export type MicrosoftSecurityIncidentCreationAlertRule = AlertRule & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedUtc?: Date;
-};
+}
 
 /** Represents scheduled alert rule. */
-export type ScheduledAlertRule = AlertRule & {
+export interface ScheduledAlertRule extends AlertRule {
   /** The query that creates alerts for this rule. */
   query?: string;
   /** The frequency (in ISO 8601 duration format) for this alert rule to run. */
@@ -5536,10 +5825,10 @@ export type ScheduledAlertRule = AlertRule & {
   techniques?: string[];
   /** The settings of the incidents that created from alerts triggered by this analytics rule */
   incidentConfiguration?: IncidentConfiguration;
-};
+}
 
 /** Represents NRT alert rule. */
-export type NrtAlertRule = AlertRule & {
+export interface NrtAlertRule extends AlertRule {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
@@ -5575,10 +5864,10 @@ export type NrtAlertRule = AlertRule & {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
-};
+}
 
 /** Represents Expansion entity query. */
-export type ExpansionEntityQuery = EntityQuery & {
+export interface ExpansionEntityQuery extends EntityQuery {
   /** List of the data sources that are required to run the query */
   dataSources?: string[];
   /** The query display name */
@@ -5591,10 +5880,10 @@ export type ExpansionEntityQuery = EntityQuery & {
   outputEntityTypes?: EntityType[];
   /** The template query string to be parsed and formatted */
   queryTemplate?: string;
-};
+}
 
 /** Represents Activity entity query. */
-export type ActivityEntityQuery = EntityQuery & {
+export interface ActivityEntityQuery extends EntityQuery {
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -5623,10 +5912,10 @@ export type ActivityEntityQuery = EntityQuery & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
-};
+}
 
 /** Represents Activity entity query. */
-export type ActivityCustomEntityQuery = CustomEntityQuery & {
+export interface ActivityCustomEntityQuery extends CustomEntityQuery {
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -5655,43 +5944,77 @@ export type ActivityCustomEntityQuery = CustomEntityQuery & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
-};
+}
+
+/** Represents Anomaly Security ML Analytics Settings */
+export interface AnomalySecurityMLAnalyticsSettings
+  extends SecurityMLAnalyticsSetting {
+  /** The description of the SecurityMLAnalyticsSettings. */
+  description?: string;
+  /** The display name for settings created by this SecurityMLAnalyticsSettings. */
+  displayName?: string;
+  /** Determines whether this settings is enabled or disabled. */
+  enabled?: boolean;
+  /**
+   * The last time that this SecurityMLAnalyticsSettings has been modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedUtc?: Date;
+  /** The required data sources for this SecurityMLAnalyticsSettings */
+  requiredDataConnectors?: SecurityMLAnalyticsSettingsDataSource[];
+  /** The tactics of the SecurityMLAnalyticsSettings */
+  tactics?: AttackTactic[];
+  /** The techniques of the SecurityMLAnalyticsSettings */
+  techniques?: string[];
+  /** The anomaly version of the AnomalySecurityMLAnalyticsSettings. */
+  anomalyVersion?: string;
+  /** The customizable observations of the AnomalySecurityMLAnalyticsSettings. */
+  customizableObservations?: Record<string, unknown>;
+  /** The frequency that this SecurityMLAnalyticsSettings will be run. */
+  frequency?: string;
+  /** The anomaly SecurityMLAnalyticsSettings status */
+  settingsStatus?: SettingsStatus;
+  /** Determines whether this anomaly security ml analytics settings is a default settings */
+  isDefaultSettings?: boolean;
+  /** The anomaly settings version of the Anomaly security ml analytics settings that dictates whether job version gets updated or not. */
+  anomalySettingsVersion?: number;
+  /** The anomaly settings definition Id */
+  settingsDefinitionId?: string;
+}
 
 /** Settings with single toggle. */
-export type Anomalies = Settings & {
+export interface Anomalies extends Settings {
   /**
    * Determines whether the setting is enable or disabled.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isEnabled?: boolean;
-};
+}
 
 /** Settings with single toggle. */
-export type EyesOn = Settings & {
+export interface EyesOn extends Settings {
   /**
    * Determines whether the setting is enable or disabled.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isEnabled?: boolean;
-};
+}
 
 /** Settings with single toggle. */
-export type EntityAnalytics = Settings & {
-  /**
-   * Determines whether the setting is enable or disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isEnabled?: boolean;
-};
+export interface EntityAnalytics extends Settings {
+  /** The relevant entity providers that are synced */
+  entityProviders?: EntityProviders[];
+}
 
 /** Settings with single toggle. */
-export type Ueba = Settings & {
+export interface Ueba extends Settings {
   /** The relevant data sources that enriched by ueba */
   dataSources?: UebaDataSources[];
-};
+}
 
 /** Threat intelligence indicator entity. */
-export type ThreatIntelligenceIndicatorModel = ThreatIntelligenceInformation & {
+export interface ThreatIntelligenceIndicatorModel
+  extends ThreatIntelligenceInformation {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5758,58 +6081,58 @@ export type ThreatIntelligenceIndicatorModel = ThreatIntelligenceInformation & {
   modified?: string;
   /** Extensions map */
   extensions?: { [propertyName: string]: any };
-};
+}
 
 /** Represents AAD (Azure Active Directory) data connector. */
-export type AADDataConnector = DataConnector & {
+export interface AADDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
-};
+}
 
 /** Represents Microsoft Threat Intelligence data connector. */
-export type MstiDataConnector = DataConnector & {
+export interface MstiDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: MstiDataConnectorDataTypes;
-};
+}
 
 /** Represents MTP (Microsoft Threat Protection) data connector. */
-export type MTPDataConnector = DataConnector & {
+export interface MTPDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: MTPDataConnectorDataTypes;
-};
+}
 
 /** Represents AATP (Azure Advanced Threat Protection) data connector. */
-export type AatpDataConnector = DataConnector & {
+export interface AatpDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
-};
+}
 
 /** Represents ASC (Azure Security Center) data connector. */
-export type ASCDataConnector = DataConnector & {
+export interface ASCDataConnector extends DataConnector {
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-};
+}
 
 /** Represents Amazon Web Services CloudTrail data connector. */
-export type AwsCloudTrailDataConnector = DataConnector & {
+export interface AwsCloudTrailDataConnector extends DataConnector {
   /** The Aws Role Arn (with CloudTrailReadOnly policy) that is used to access the Aws account. */
   awsRoleArn?: string;
   /** The available data types for the connector. */
   dataTypes?: AwsCloudTrailDataConnectorDataTypes;
-};
+}
 
 /** Represents Amazon Web Services S3 data connector. */
-export type AwsS3DataConnector = DataConnector & {
+export interface AwsS3DataConnector extends DataConnector {
   /** The logs destination table name in LogAnalytics. */
   destinationTable?: string;
   /** The AWS sqs urls for the connector. */
@@ -5818,84 +6141,84 @@ export type AwsS3DataConnector = DataConnector & {
   roleArn?: string;
   /** The available data types for the connector. */
   dataTypes?: AwsS3DataConnectorDataTypes;
-};
+}
 
 /** Represents MCAS (Microsoft Cloud App Security) data connector. */
-export type McasDataConnector = DataConnector & {
+export interface McasDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: McasDataConnectorDataTypes;
-};
+}
 
 /** Represents Dynamics365 data connector. */
-export type Dynamics365DataConnector = DataConnector & {
+export interface Dynamics365DataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: Dynamics365DataConnectorDataTypes;
-};
+}
 
 /** Represents OfficeATP (Office 365 Advanced Threat Protection) data connector. */
-export type OfficeATPDataConnector = DataConnector & {
+export interface OfficeATPDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
-};
+}
 
 /** Represents Office Microsoft Project data connector. */
-export type Office365ProjectDataConnector = DataConnector & {
+export interface Office365ProjectDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: Office365ProjectConnectorDataTypes;
-};
+}
 
 /** Represents Office Microsoft PowerBI data connector. */
-export type OfficePowerBIDataConnector = DataConnector & {
+export interface OfficePowerBIDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: OfficePowerBIConnectorDataTypes;
-};
+}
 
 /** Represents OfficeIRM (Microsoft Insider Risk Management) data connector. */
-export type OfficeIRMDataConnector = DataConnector & {
+export interface OfficeIRMDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
-};
+}
 
 /** Represents MDATP (Microsoft Defender Advanced Threat Protection) data connector. */
-export type MdatpDataConnector = DataConnector & {
+export interface MdatpDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
-};
+}
 
 /** Represents office data connector. */
-export type OfficeDataConnector = DataConnector & {
+export interface OfficeDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: OfficeDataConnectorDataTypes;
-};
+}
 
 /** Represents threat intelligence data connector. */
-export type TIDataConnector = DataConnector & {
+export interface TIDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The lookback period for the feed to be imported. */
   tipLookbackPeriod?: Date;
   /** The available data types for the connector. */
   dataTypes?: TIDataConnectorDataTypes;
-};
+}
 
 /** Data connector to pull Threat intelligence data from TAXII 2.0/2.1 server */
-export type TiTaxiiDataConnector = DataConnector & {
+export interface TiTaxiiDataConnector extends DataConnector {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The workspace id. */
@@ -5916,29 +6239,29 @@ export type TiTaxiiDataConnector = DataConnector & {
   pollingFrequency?: PollingFrequency;
   /** The available data types for Threat Intelligence TAXII data connector. */
   dataTypes?: TiTaxiiDataConnectorDataTypes;
-};
+}
 
 /** Represents IoT data connector. */
-export type IoTDataConnector = DataConnector & {
+export interface IoTDataConnector extends DataConnector {
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-};
+}
 
 /** Represents Codeless UI data connector. */
-export type CodelessUiDataConnector = DataConnector & {
+export interface CodelessUiDataConnector extends DataConnector {
   /** Config to describe the instructions blade */
   connectorUiConfig?: CodelessUiConnectorConfigProperties;
-};
+}
 
 /** Represents Codeless API Polling data connector. */
-export type CodelessApiPollingDataConnector = DataConnector & {
+export interface CodelessApiPollingDataConnector extends DataConnector {
   /** Config to describe the instructions blade */
   connectorUiConfig?: CodelessUiConnectorConfigProperties;
   /** Config to describe the polling instructions */
   pollingConfig?: CodelessConnectorPollingConfigProperties;
-};
+}
 
 /** Defines headers for Watchlists_delete operation. */
 export interface WatchlistsDeleteHeaders {
@@ -5954,11 +6277,17 @@ export interface WatchlistsCreateOrUpdateHeaders {
 
 /** Known values of {@link AlertRuleKind} that the service accepts. */
 export enum KnownAlertRuleKind {
+  /** Scheduled */
   Scheduled = "Scheduled",
+  /** MicrosoftSecurityIncidentCreation */
   MicrosoftSecurityIncidentCreation = "MicrosoftSecurityIncidentCreation",
+  /** Fusion */
   Fusion = "Fusion",
+  /** MLBehaviorAnalytics */
   MLBehaviorAnalytics = "MLBehaviorAnalytics",
+  /** ThreatIntelligence */
   ThreatIntelligence = "ThreatIntelligence",
+  /** NRT */
   NRT = "NRT"
 }
 
@@ -5978,9 +6307,13 @@ export type AlertRuleKind = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -5999,7 +6332,9 @@ export type CreatedByType = string;
 /** Known values of {@link TriggersOn} that the service accepts. */
 export enum KnownTriggersOn {
   /** Trigger on Incidents */
-  Incidents = "Incidents"
+  Incidents = "Incidents",
+  /** Trigger on Alerts */
+  Alerts = "Alerts"
 }
 
 /**
@@ -6007,14 +6342,17 @@ export enum KnownTriggersOn {
  * {@link KnownTriggersOn} can be used interchangeably with TriggersOn,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Incidents**: Trigger on Incidents
+ * **Incidents**: Trigger on Incidents \
+ * **Alerts**: Trigger on Alerts
  */
 export type TriggersOn = string;
 
 /** Known values of {@link TriggersWhen} that the service accepts. */
 export enum KnownTriggersWhen {
   /** Trigger on created objects */
-  Created = "Created"
+  Created = "Created",
+  /** Trigger on updated objects */
+  Updated = "Updated"
 }
 
 /**
@@ -6022,14 +6360,19 @@ export enum KnownTriggersWhen {
  * {@link KnownTriggersWhen} can be used interchangeably with TriggersWhen,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Created**: Trigger on created objects
+ * **Created**: Trigger on created objects \
+ * **Updated**: Trigger on updated objects
  */
 export type TriggersWhen = string;
 
 /** Known values of {@link ConditionType} that the service accepts. */
 export enum KnownConditionType {
   /** Evaluate an object property value */
-  Property = "Property"
+  Property = "Property",
+  /** Evaluate an object property changed value */
+  PropertyChanged = "PropertyChanged",
+  /** Evaluate an object array property changed value */
+  PropertyArrayChanged = "PropertyArrayChanged"
 }
 
 /**
@@ -6037,7 +6380,9 @@ export enum KnownConditionType {
  * {@link KnownConditionType} can be used interchangeably with ConditionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Property**: Evaluate an object property value
+ * **Property**: Evaluate an object property value \
+ * **PropertyChanged**: Evaluate an object property changed value \
+ * **PropertyArrayChanged**: Evaluate an object array property changed value
  */
 export type ConditionType = string;
 
@@ -6085,22 +6430,39 @@ export type IncidentSeverity = string;
 
 /** Known values of {@link AttackTactic} that the service accepts. */
 export enum KnownAttackTactic {
+  /** Reconnaissance */
   Reconnaissance = "Reconnaissance",
+  /** ResourceDevelopment */
   ResourceDevelopment = "ResourceDevelopment",
+  /** InitialAccess */
   InitialAccess = "InitialAccess",
+  /** Execution */
   Execution = "Execution",
+  /** Persistence */
   Persistence = "Persistence",
+  /** PrivilegeEscalation */
   PrivilegeEscalation = "PrivilegeEscalation",
+  /** DefenseEvasion */
   DefenseEvasion = "DefenseEvasion",
+  /** CredentialAccess */
   CredentialAccess = "CredentialAccess",
+  /** Discovery */
   Discovery = "Discovery",
+  /** LateralMovement */
   LateralMovement = "LateralMovement",
+  /** Collection */
   Collection = "Collection",
+  /** Exfiltration */
   Exfiltration = "Exfiltration",
+  /** CommandAndControl */
   CommandAndControl = "CommandAndControl",
+  /** Impact */
   Impact = "Impact",
+  /** PreAttack */
   PreAttack = "PreAttack",
+  /** ImpairProcessControl */
   ImpairProcessControl = "ImpairProcessControl",
+  /** InhibitResponseFunction */
   InhibitResponseFunction = "InhibitResponseFunction"
 }
 
@@ -6172,7 +6534,9 @@ export enum KnownEntityKind {
   /** Entity represents mailbox in the system. */
   Mailbox = "Mailbox",
   /** Entity represents submission mail in the system. */
-  SubmissionMail = "SubmissionMail"
+  SubmissionMail = "SubmissionMail",
+  /** Entity represents network interface in the system. */
+  Nic = "Nic"
 }
 
 /**
@@ -6200,7 +6564,8 @@ export enum KnownEntityKind {
  * **MailCluster**: Entity represents mail cluster in the system. \
  * **MailMessage**: Entity represents mail message in the system. \
  * **Mailbox**: Entity represents mailbox in the system. \
- * **SubmissionMail**: Entity represents submission mail in the system.
+ * **SubmissionMail**: Entity represents submission mail in the system. \
+ * **Nic**: Entity represents network interface in the system.
  */
 export type EntityKind = string;
 
@@ -6211,7 +6576,9 @@ export enum KnownEntityTimelineKind {
   /** bookmarks */
   Bookmark = "Bookmark",
   /** security alerts */
-  SecurityAlert = "SecurityAlert"
+  SecurityAlert = "SecurityAlert",
+  /** anomaly */
+  Anomaly = "Anomaly"
 }
 
 /**
@@ -6221,7 +6588,8 @@ export enum KnownEntityTimelineKind {
  * ### Known values supported by the service
  * **Activity**: activity \
  * **Bookmark**: bookmarks \
- * **SecurityAlert**: security alerts
+ * **SecurityAlert**: security alerts \
+ * **Anomaly**: anomaly
  */
 export type EntityTimelineKind = string;
 
@@ -6242,8 +6610,11 @@ export type EntityItemQueryKind = string;
 
 /** Known values of {@link EntityQueryKind} that the service accepts. */
 export enum KnownEntityQueryKind {
+  /** Expansion */
   Expansion = "Expansion",
+  /** Insight */
   Insight = "Insight",
+  /** Activity */
   Activity = "Activity"
 }
 
@@ -6258,24 +6629,42 @@ export enum KnownEntityQueryKind {
  */
 export type EntityQueryKind = string;
 
-/** Known values of {@link Enum12} that the service accepts. */
-export enum KnownEnum12 {
+/** Known values of {@link GetInsightsError} that the service accepts. */
+export enum KnownGetInsightsError {
+  /** Insight */
+  Insight = "Insight"
+}
+
+/**
+ * Defines values for GetInsightsError. \
+ * {@link KnownGetInsightsError} can be used interchangeably with GetInsightsError,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Insight**
+ */
+export type GetInsightsError = string;
+
+/** Known values of {@link Enum13} that the service accepts. */
+export enum KnownEnum13 {
+  /** Expansion */
   Expansion = "Expansion",
+  /** Activity */
   Activity = "Activity"
 }
 
 /**
- * Defines values for Enum12. \
- * {@link KnownEnum12} can be used interchangeably with Enum12,
+ * Defines values for Enum13. \
+ * {@link KnownEnum13} can be used interchangeably with Enum13,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Expansion** \
  * **Activity**
  */
-export type Enum12 = string;
+export type Enum13 = string;
 
 /** Known values of {@link CustomEntityQueryKind} that the service accepts. */
 export enum KnownCustomEntityQueryKind {
+  /** Activity */
   Activity = "Activity"
 }
 
@@ -6290,6 +6679,7 @@ export type CustomEntityQueryKind = string;
 
 /** Known values of {@link EntityQueryTemplateKind} that the service accepts. */
 export enum KnownEntityQueryTemplateKind {
+  /** Activity */
   Activity = "Activity"
 }
 
@@ -6562,22 +6952,39 @@ export type AlertStatus = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
+  /** DataConnector */
   DataConnector = "DataConnector",
+  /** DataType */
   DataType = "DataType",
+  /** Workbook */
   Workbook = "Workbook",
+  /** WorkbookTemplate */
   WorkbookTemplate = "WorkbookTemplate",
+  /** Playbook */
   Playbook = "Playbook",
+  /** PlaybookTemplate */
   PlaybookTemplate = "PlaybookTemplate",
+  /** AnalyticsRuleTemplate */
   AnalyticsRuleTemplate = "AnalyticsRuleTemplate",
+  /** AnalyticsRule */
   AnalyticsRule = "AnalyticsRule",
+  /** HuntingQuery */
   HuntingQuery = "HuntingQuery",
+  /** InvestigationQuery */
   InvestigationQuery = "InvestigationQuery",
+  /** Parser */
   Parser = "Parser",
+  /** Watchlist */
   Watchlist = "Watchlist",
+  /** WatchlistTemplate */
   WatchlistTemplate = "WatchlistTemplate",
+  /** Solution */
   Solution = "Solution",
+  /** AzureFunction */
   AzureFunction = "AzureFunction",
+  /** LogicAppsCustomConnector */
   LogicAppsCustomConnector = "LogicAppsCustomConnector",
+  /** AutomationRule */
   AutomationRule = "AutomationRule"
 }
 
@@ -6608,9 +7015,13 @@ export type Kind = string;
 
 /** Known values of {@link SourceKind} that the service accepts. */
 export enum KnownSourceKind {
+  /** LocalWorkspace */
   LocalWorkspace = "LocalWorkspace",
+  /** Community */
   Community = "Community",
+  /** Solution */
   Solution = "Solution",
+  /** SourceRepository */
   SourceRepository = "SourceRepository"
 }
 
@@ -6628,8 +7039,11 @@ export type SourceKind = string;
 
 /** Known values of {@link SupportTier} that the service accepts. */
 export enum KnownSupportTier {
+  /** Microsoft */
   Microsoft = "Microsoft",
+  /** Partner */
   Partner = "Partner",
+  /** Community */
   Community = "Community"
 }
 
@@ -6646,7 +7060,9 @@ export type SupportTier = string;
 
 /** Known values of {@link Operator} that the service accepts. */
 export enum KnownOperator {
+  /** AND */
   AND = "AND",
+  /** OR */
   OR = "OR"
 }
 
@@ -6660,11 +7076,30 @@ export enum KnownOperator {
  */
 export type Operator = string;
 
+/** Known values of {@link SecurityMLAnalyticsSettingsKind} that the service accepts. */
+export enum KnownSecurityMLAnalyticsSettingsKind {
+  /** Anomaly */
+  Anomaly = "Anomaly"
+}
+
+/**
+ * Defines values for SecurityMLAnalyticsSettingsKind. \
+ * {@link KnownSecurityMLAnalyticsSettingsKind} can be used interchangeably with SecurityMLAnalyticsSettingsKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Anomaly**
+ */
+export type SecurityMLAnalyticsSettingsKind = string;
+
 /** Known values of {@link SettingKind} that the service accepts. */
 export enum KnownSettingKind {
+  /** Anomalies */
   Anomalies = "Anomalies",
+  /** EyesOn */
   EyesOn = "EyesOn",
+  /** EntityAnalytics */
   EntityAnalytics = "EntityAnalytics",
+  /** Ueba */
   Ueba = "Ueba"
 }
 
@@ -6682,7 +7117,9 @@ export type SettingKind = string;
 
 /** Known values of {@link RepoType} that the service accepts. */
 export enum KnownRepoType {
+  /** Github */
   Github = "Github",
+  /** DevOps */
   DevOps = "DevOps"
 }
 
@@ -6698,7 +7135,9 @@ export type RepoType = string;
 
 /** Known values of {@link Version} that the service accepts. */
 export enum KnownVersion {
+  /** V1 */
   V1 = "V1",
+  /** V2 */
   V2 = "V2"
 }
 
@@ -6714,7 +7153,9 @@ export type Version = string;
 
 /** Known values of {@link ContentType} that the service accepts. */
 export enum KnownContentType {
+  /** AnalyticRule */
   AnalyticRule = "AnalyticRule",
+  /** Workbook */
   Workbook = "Workbook"
 }
 
@@ -6730,8 +7171,11 @@ export type ContentType = string;
 
 /** Known values of {@link DeploymentFetchStatus} that the service accepts. */
 export enum KnownDeploymentFetchStatus {
+  /** Success */
   Success = "Success",
+  /** Unauthorized */
   Unauthorized = "Unauthorized",
+  /** NotFound */
   NotFound = "NotFound"
 }
 
@@ -6748,9 +7192,13 @@ export type DeploymentFetchStatus = string;
 
 /** Known values of {@link DeploymentState} that the service accepts. */
 export enum KnownDeploymentState {
+  /** InProgress */
   InProgress = "In_Progress",
+  /** Completed */
   Completed = "Completed",
+  /** Queued */
   Queued = "Queued",
+  /** Canceling */
   Canceling = "Canceling"
 }
 
@@ -6768,8 +7216,11 @@ export type DeploymentState = string;
 
 /** Known values of {@link DeploymentResult} that the service accepts. */
 export enum KnownDeploymentResult {
+  /** Success */
   Success = "Success",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -6801,8 +7252,11 @@ export type ThreatIntelligenceResourceKindEnum = string;
 
 /** Known values of {@link ThreatIntelligenceSortingCriteriaEnum} that the service accepts. */
 export enum KnownThreatIntelligenceSortingCriteriaEnum {
+  /** Unsorted */
   Unsorted = "unsorted",
+  /** Ascending */
   Ascending = "ascending",
+  /** Descending */
   Descending = "descending"
 }
 
@@ -6819,7 +7273,9 @@ export type ThreatIntelligenceSortingCriteriaEnum = string;
 
 /** Known values of {@link SourceType} that the service accepts. */
 export enum KnownSourceType {
+  /** LocalFile */
   LocalFile = "Local file",
+  /** RemoteStorage */
   RemoteStorage = "Remote storage"
 }
 
@@ -6833,47 +7289,47 @@ export enum KnownSourceType {
  */
 export type SourceType = string;
 
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  Succeeded = "Succeeded",
-  Failed = "Failed",
-  Canceled = "Canceled",
-  InProgress = "InProgress"
-}
-
-/**
- * Defines values for ProvisioningState. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **InProgress**
- */
-export type ProvisioningState = string;
-
 /** Known values of {@link DataConnectorKind} that the service accepts. */
 export enum KnownDataConnectorKind {
+  /** AzureActiveDirectory */
   AzureActiveDirectory = "AzureActiveDirectory",
+  /** AzureSecurityCenter */
   AzureSecurityCenter = "AzureSecurityCenter",
+  /** MicrosoftCloudAppSecurity */
   MicrosoftCloudAppSecurity = "MicrosoftCloudAppSecurity",
+  /** ThreatIntelligence */
   ThreatIntelligence = "ThreatIntelligence",
+  /** ThreatIntelligenceTaxii */
   ThreatIntelligenceTaxii = "ThreatIntelligenceTaxii",
+  /** Office365 */
   Office365 = "Office365",
+  /** OfficeATP */
   OfficeATP = "OfficeATP",
+  /** OfficeIRM */
   OfficeIRM = "OfficeIRM",
+  /** Office365Project */
   Office365Project = "Office365Project",
+  /** OfficePowerBI */
   OfficePowerBI = "OfficePowerBI",
+  /** AmazonWebServicesCloudTrail */
   AmazonWebServicesCloudTrail = "AmazonWebServicesCloudTrail",
+  /** AmazonWebServicesS3 */
   AmazonWebServicesS3 = "AmazonWebServicesS3",
+  /** AzureAdvancedThreatProtection */
   AzureAdvancedThreatProtection = "AzureAdvancedThreatProtection",
+  /** MicrosoftDefenderAdvancedThreatProtection */
   MicrosoftDefenderAdvancedThreatProtection = "MicrosoftDefenderAdvancedThreatProtection",
+  /** Dynamics365 */
   Dynamics365 = "Dynamics365",
+  /** MicrosoftThreatProtection */
   MicrosoftThreatProtection = "MicrosoftThreatProtection",
+  /** MicrosoftThreatIntelligence */
   MicrosoftThreatIntelligence = "MicrosoftThreatIntelligence",
+  /** GenericUI */
   GenericUI = "GenericUI",
+  /** APIPolling */
   APIPolling = "APIPolling",
+  /** IOT */
   IOT = "IOT"
 }
 
@@ -6907,8 +7363,11 @@ export type DataConnectorKind = string;
 
 /** Known values of {@link ConnectAuthKind} that the service accepts. */
 export enum KnownConnectAuthKind {
+  /** Basic */
   Basic = "Basic",
+  /** OAuth2 */
   OAuth2 = "OAuth2",
+  /** APIKey */
   APIKey = "APIKey"
 }
 
@@ -6925,7 +7384,9 @@ export type ConnectAuthKind = string;
 
 /** Known values of {@link DataConnectorAuthorizationState} that the service accepts. */
 export enum KnownDataConnectorAuthorizationState {
+  /** Valid */
   Valid = "Valid",
+  /** Invalid */
   Invalid = "Invalid"
 }
 
@@ -6941,8 +7402,11 @@ export type DataConnectorAuthorizationState = string;
 
 /** Known values of {@link DataConnectorLicenseState} that the service accepts. */
 export enum KnownDataConnectorLicenseState {
+  /** Valid */
   Valid = "Valid",
+  /** Invalid */
   Invalid = "Invalid",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -7046,12 +7510,19 @@ export type EntityMappingType = string;
 
 /** Known values of {@link MicrosoftSecurityProductName} that the service accepts. */
 export enum KnownMicrosoftSecurityProductName {
+  /** MicrosoftCloudAppSecurity */
   MicrosoftCloudAppSecurity = "Microsoft Cloud App Security",
+  /** AzureSecurityCenter */
   AzureSecurityCenter = "Azure Security Center",
+  /** AzureAdvancedThreatProtection */
   AzureAdvancedThreatProtection = "Azure Advanced Threat Protection",
+  /** AzureActiveDirectoryIdentityProtection */
   AzureActiveDirectoryIdentityProtection = "Azure Active Directory Identity Protection",
+  /** AzureSecurityCenterForIoT */
   AzureSecurityCenterForIoT = "Azure Security Center for IoT",
+  /** Office365AdvancedThreatProtection */
   Office365AdvancedThreatProtection = "Office 365 Advanced Threat Protection",
+  /** MicrosoftDefenderAdvancedThreatProtection */
   MicrosoftDefenderAdvancedThreatProtection = "Microsoft Defender Advanced Threat Protection"
 }
 
@@ -7111,7 +7582,9 @@ export type AlertDetail = string;
 
 /** Known values of {@link EventGroupingAggregationKind} that the service accepts. */
 export enum KnownEventGroupingAggregationKind {
+  /** SingleAlert */
   SingleAlert = "SingleAlert",
+  /** AlertPerResult */
   AlertPerResult = "AlertPerResult"
 }
 
@@ -7124,6 +7597,120 @@ export enum KnownEventGroupingAggregationKind {
  * **AlertPerResult**
  */
 export type EventGroupingAggregationKind = string;
+
+/** Known values of {@link AutomationRulePropertyArrayChangedConditionSupportedArrayType} that the service accepts. */
+export enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType {
+  /** Evaluate the condition on the alerts */
+  Alerts = "Alerts",
+  /** Evaluate the condition on the labels */
+  Labels = "Labels",
+  /** Evaluate the condition on the tactics */
+  Tactics = "Tactics",
+  /** Evaluate the condition on the comments */
+  Comments = "Comments"
+}
+
+/**
+ * Defines values for AutomationRulePropertyArrayChangedConditionSupportedArrayType. \
+ * {@link KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType} can be used interchangeably with AutomationRulePropertyArrayChangedConditionSupportedArrayType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Alerts**: Evaluate the condition on the alerts \
+ * **Labels**: Evaluate the condition on the labels \
+ * **Tactics**: Evaluate the condition on the tactics \
+ * **Comments**: Evaluate the condition on the comments
+ */
+export type AutomationRulePropertyArrayChangedConditionSupportedArrayType = string;
+
+/** Known values of {@link AutomationRulePropertyArrayChangedConditionSupportedChangeType} that the service accepts. */
+export enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType {
+  /** Evaluate the condition on items added to the array */
+  Added = "Added"
+}
+
+/**
+ * Defines values for AutomationRulePropertyArrayChangedConditionSupportedChangeType. \
+ * {@link KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType} can be used interchangeably with AutomationRulePropertyArrayChangedConditionSupportedChangeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Added**: Evaluate the condition on items added to the array
+ */
+export type AutomationRulePropertyArrayChangedConditionSupportedChangeType = string;
+
+/** Known values of {@link AutomationRulePropertyChangedConditionSupportedPropertyType} that the service accepts. */
+export enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType {
+  /** Evaluate the condition on the incident severity */
+  IncidentSeverity = "IncidentSeverity",
+  /** Evaluate the condition on the incident status */
+  IncidentStatus = "IncidentStatus",
+  /** Evaluate the condition on the incident owner */
+  IncidentOwner = "IncidentOwner"
+}
+
+/**
+ * Defines values for AutomationRulePropertyChangedConditionSupportedPropertyType. \
+ * {@link KnownAutomationRulePropertyChangedConditionSupportedPropertyType} can be used interchangeably with AutomationRulePropertyChangedConditionSupportedPropertyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IncidentSeverity**: Evaluate the condition on the incident severity \
+ * **IncidentStatus**: Evaluate the condition on the incident status \
+ * **IncidentOwner**: Evaluate the condition on the incident owner
+ */
+export type AutomationRulePropertyChangedConditionSupportedPropertyType = string;
+
+/** Known values of {@link AutomationRulePropertyChangedConditionSupportedChangedType} that the service accepts. */
+export enum KnownAutomationRulePropertyChangedConditionSupportedChangedType {
+  /** Evaluate the condition on the previous value of the property */
+  ChangedFrom = "ChangedFrom",
+  /** Evaluate the condition on the updated value of the property */
+  ChangedTo = "ChangedTo"
+}
+
+/**
+ * Defines values for AutomationRulePropertyChangedConditionSupportedChangedType. \
+ * {@link KnownAutomationRulePropertyChangedConditionSupportedChangedType} can be used interchangeably with AutomationRulePropertyChangedConditionSupportedChangedType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ChangedFrom**: Evaluate the condition on the previous value of the property \
+ * **ChangedTo**: Evaluate the condition on the updated value of the property
+ */
+export type AutomationRulePropertyChangedConditionSupportedChangedType = string;
+
+/** Known values of {@link AutomationRulePropertyConditionSupportedOperator} that the service accepts. */
+export enum KnownAutomationRulePropertyConditionSupportedOperator {
+  /** Evaluates if the property equals at least one of the condition values */
+  Equals = "Equals",
+  /** Evaluates if the property does not equal any of the condition values */
+  NotEquals = "NotEquals",
+  /** Evaluates if the property contains at least one of the condition values */
+  Contains = "Contains",
+  /** Evaluates if the property does not contain any of the condition values */
+  NotContains = "NotContains",
+  /** Evaluates if the property starts with any of the condition values */
+  StartsWith = "StartsWith",
+  /** Evaluates if the property does not start with any of the condition values */
+  NotStartsWith = "NotStartsWith",
+  /** Evaluates if the property ends with any of the condition values */
+  EndsWith = "EndsWith",
+  /** Evaluates if the property does not end with any of the condition values */
+  NotEndsWith = "NotEndsWith"
+}
+
+/**
+ * Defines values for AutomationRulePropertyConditionSupportedOperator. \
+ * {@link KnownAutomationRulePropertyConditionSupportedOperator} can be used interchangeably with AutomationRulePropertyConditionSupportedOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals**: Evaluates if the property equals at least one of the condition values \
+ * **NotEquals**: Evaluates if the property does not equal any of the condition values \
+ * **Contains**: Evaluates if the property contains at least one of the condition values \
+ * **NotContains**: Evaluates if the property does not contain any of the condition values \
+ * **StartsWith**: Evaluates if the property starts with any of the condition values \
+ * **NotStartsWith**: Evaluates if the property does not start with any of the condition values \
+ * **EndsWith**: Evaluates if the property ends with any of the condition values \
+ * **NotEndsWith**: Evaluates if the property does not end with any of the condition values
+ */
+export type AutomationRulePropertyConditionSupportedOperator = string;
 
 /** Known values of {@link AutomationRulePropertyConditionSupportedProperty} that the service accepts. */
 export enum KnownAutomationRulePropertyConditionSupportedProperty {
@@ -7161,6 +7748,8 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
   AccountUPNSuffix = "AccountUPNSuffix",
   /** The name of the product of the alert */
   AlertProductNames = "AlertProductNames",
+  /** The analytic rule ids of the alert */
+  AlertAnalyticRuleIds = "AlertAnalyticRuleIds",
   /** The Azure resource id */
   AzureResourceResourceId = "AzureResourceResourceId",
   /** The Azure resource subscription id */
@@ -7259,6 +7848,7 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
  * **AccountObjectGuid**: The account unique identifier \
  * **AccountUPNSuffix**: The account user principal name suffix \
  * **AlertProductNames**: The name of the product of the alert \
+ * **AlertAnalyticRuleIds**: The analytic rule ids of the alert \
  * **AzureResourceResourceId**: The Azure resource id \
  * **AzureResourceSubscriptionId**: The Azure resource subscription id \
  * **CloudApplicationAppId**: The cloud application identifier \
@@ -7298,42 +7888,6 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
  * **Url**: The url
  */
 export type AutomationRulePropertyConditionSupportedProperty = string;
-
-/** Known values of {@link AutomationRulePropertyConditionSupportedOperator} that the service accepts. */
-export enum KnownAutomationRulePropertyConditionSupportedOperator {
-  /** Evaluates if the property equals at least one of the condition values */
-  Equals = "Equals",
-  /** Evaluates if the property does not equal any of the condition values */
-  NotEquals = "NotEquals",
-  /** Evaluates if the property contains at least one of the condition values */
-  Contains = "Contains",
-  /** Evaluates if the property does not contain any of the condition values */
-  NotContains = "NotContains",
-  /** Evaluates if the property starts with any of the condition values */
-  StartsWith = "StartsWith",
-  /** Evaluates if the property does not start with any of the condition values */
-  NotStartsWith = "NotStartsWith",
-  /** Evaluates if the property ends with any of the condition values */
-  EndsWith = "EndsWith",
-  /** Evaluates if the property does not end with any of the condition values */
-  NotEndsWith = "NotEndsWith"
-}
-
-/**
- * Defines values for AutomationRulePropertyConditionSupportedOperator. \
- * {@link KnownAutomationRulePropertyConditionSupportedOperator} can be used interchangeably with AutomationRulePropertyConditionSupportedOperator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Equals**: Evaluates if the property equals at least one of the condition values \
- * **NotEquals**: Evaluates if the property does not equal any of the condition values \
- * **Contains**: Evaluates if the property contains at least one of the condition values \
- * **NotContains**: Evaluates if the property does not contain any of the condition values \
- * **StartsWith**: Evaluates if the property starts with any of the condition values \
- * **NotStartsWith**: Evaluates if the property does not start with any of the condition values \
- * **EndsWith**: Evaluates if the property ends with any of the condition values \
- * **NotEndsWith**: Evaluates if the property does not end with any of the condition values
- */
-export type AutomationRulePropertyConditionSupportedOperator = string;
 
 /** Known values of {@link EntityType} that the service accepts. */
 export enum KnownEntityType {
@@ -7378,7 +7932,9 @@ export enum KnownEntityType {
   /** Entity represents mailbox in the system. */
   Mailbox = "Mailbox",
   /** Entity represents submission mail in the system. */
-  SubmissionMail = "SubmissionMail"
+  SubmissionMail = "SubmissionMail",
+  /** Entity represents network interface in the system. */
+  Nic = "Nic"
 }
 
 /**
@@ -7406,15 +7962,20 @@ export enum KnownEntityType {
  * **MailCluster**: Entity represents mail cluster in the system. \
  * **MailMessage**: Entity represents mail message in the system. \
  * **Mailbox**: Entity represents mailbox in the system. \
- * **SubmissionMail**: Entity represents submission mail in the system.
+ * **SubmissionMail**: Entity represents submission mail in the system. \
+ * **Nic**: Entity represents network interface in the system.
  */
 export type EntityType = string;
 
 /** Known values of {@link OutputType} that the service accepts. */
 export enum KnownOutputType {
+  /** Number */
   Number = "Number",
+  /** String */
   String = "String",
+  /** Date */
   Date = "Date",
+  /** Entity */
   Entity = "Entity"
 }
 
@@ -7430,11 +7991,51 @@ export enum KnownOutputType {
  */
 export type OutputType = string;
 
+/** Known values of {@link SettingsStatus} that the service accepts. */
+export enum KnownSettingsStatus {
+  /** Anomaly settings status in Production mode */
+  Production = "Production",
+  /** Anomaly settings status in Flighting mode */
+  Flighting = "Flighting"
+}
+
+/**
+ * Defines values for SettingsStatus. \
+ * {@link KnownSettingsStatus} can be used interchangeably with SettingsStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Production**: Anomaly settings status in Production mode \
+ * **Flighting**: Anomaly settings status in Flighting mode
+ */
+export type SettingsStatus = string;
+
+/** Known values of {@link EntityProviders} that the service accepts. */
+export enum KnownEntityProviders {
+  /** ActiveDirectory */
+  ActiveDirectory = "ActiveDirectory",
+  /** AzureActiveDirectory */
+  AzureActiveDirectory = "AzureActiveDirectory"
+}
+
+/**
+ * Defines values for EntityProviders. \
+ * {@link KnownEntityProviders} can be used interchangeably with EntityProviders,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory** \
+ * **AzureActiveDirectory**
+ */
+export type EntityProviders = string;
+
 /** Known values of {@link UebaDataSources} that the service accepts. */
 export enum KnownUebaDataSources {
+  /** AuditLogs */
   AuditLogs = "AuditLogs",
+  /** AzureActivity */
   AzureActivity = "AzureActivity",
+  /** SecurityEvent */
   SecurityEvent = "SecurityEvent",
+  /** SigninLogs */
   SigninLogs = "SigninLogs"
 }
 
@@ -7450,25 +8051,11 @@ export enum KnownUebaDataSources {
  */
 export type UebaDataSources = string;
 
-/** Known values of {@link SkuKind} that the service accepts. */
-export enum KnownSkuKind {
-  PerGB = "PerGB",
-  CapacityReservation = "CapacityReservation"
-}
-
-/**
- * Defines values for SkuKind. \
- * {@link KnownSkuKind} can be used interchangeably with SkuKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PerGB** \
- * **CapacityReservation**
- */
-export type SkuKind = string;
-
 /** Known values of {@link DataTypeState} that the service accepts. */
 export enum KnownDataTypeState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -7505,6 +8092,7 @@ export type PollingFrequency = string;
 
 /** Known values of {@link ConnectivityType} that the service accepts. */
 export enum KnownConnectivityType {
+  /** IsConnectedQuery */
   IsConnectedQuery = "IsConnectedQuery"
 }
 
@@ -7519,11 +8107,17 @@ export type ConnectivityType = string;
 
 /** Known values of {@link ProviderName} that the service accepts. */
 export enum KnownProviderName {
+  /** MicrosoftOperationalInsightsSolutions */
   MicrosoftOperationalInsightsSolutions = "Microsoft.OperationalInsights/solutions",
+  /** MicrosoftOperationalInsightsWorkspaces */
   MicrosoftOperationalInsightsWorkspaces = "Microsoft.OperationalInsights/workspaces",
+  /** MicrosoftOperationalInsightsWorkspacesDatasources */
   MicrosoftOperationalInsightsWorkspacesDatasources = "Microsoft.OperationalInsights/workspaces/datasources",
+  /** MicrosoftAadiamDiagnosticSettings */
   MicrosoftAadiamDiagnosticSettings = "microsoft.aadiam/diagnosticSettings",
+  /** MicrosoftOperationalInsightsWorkspacesSharedKeys */
   MicrosoftOperationalInsightsWorkspacesSharedKeys = "Microsoft.OperationalInsights/workspaces/sharedKeys",
+  /** MicrosoftAuthorizationPolicyAssignments */
   MicrosoftAuthorizationPolicyAssignments = "Microsoft.Authorization/policyAssignments"
 }
 
@@ -7543,8 +8137,11 @@ export type ProviderName = string;
 
 /** Known values of {@link PermissionProviderScope} that the service accepts. */
 export enum KnownPermissionProviderScope {
+  /** ResourceGroup */
   ResourceGroup = "ResourceGroup",
+  /** Subscription */
   Subscription = "Subscription",
+  /** Workspace */
   Workspace = "Workspace"
 }
 
@@ -7561,8 +8158,11 @@ export type PermissionProviderScope = string;
 
 /** Known values of {@link SettingType} that the service accepts. */
 export enum KnownSettingType {
+  /** CopyableLabel */
   CopyableLabel = "CopyableLabel",
+  /** InstructionStepsGroup */
   InstructionStepsGroup = "InstructionStepsGroup",
+  /** InfoMessage */
   InfoMessage = "InfoMessage"
 }
 
@@ -7603,6 +8203,30 @@ export enum KnownFileHashAlgorithm {
  * **SHA256AC**: SHA256 Authenticode hash type
  */
 export type FileHashAlgorithm = string;
+
+/** Known values of {@link DeviceImportance} that the service accepts. */
+export enum KnownDeviceImportance {
+  /** Unknown - Default value */
+  Unknown = "Unknown",
+  /** Low */
+  Low = "Low",
+  /** Normal */
+  Normal = "Normal",
+  /** High */
+  High = "High"
+}
+
+/**
+ * Defines values for DeviceImportance. \
+ * {@link KnownDeviceImportance} can be used interchangeably with DeviceImportance,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown - Default value \
+ * **Low**: Low \
+ * **Normal**: Normal \
+ * **High**: High
+ */
+export type DeviceImportance = string;
 
 /** Known values of {@link AntispamMailDirection} that the service accepts. */
 export enum KnownAntispamMailDirection {
@@ -8134,7 +8758,7 @@ export type EntityRelationsGetRelationResponse = Relation;
 export interface EntityQueriesListOptionalParams
   extends coreClient.OperationOptions {
   /** The entity query kind we want to fetch */
-  kind?: Enum12;
+  kind?: Enum13;
 }
 
 /** Contains response data for the list operation. */
@@ -8162,7 +8786,7 @@ export interface EntityQueriesDeleteOptionalParams
 export interface EntityQueriesListNextOptionalParams
   extends coreClient.OperationOptions {
   /** The entity query kind we want to fetch */
-  kind?: Enum12;
+  kind?: Enum13;
 }
 
 /** Contains response data for the listNext operation. */
@@ -8398,6 +9022,38 @@ export interface SentinelOnboardingStatesListOptionalParams
 
 /** Contains response data for the list operation. */
 export type SentinelOnboardingStatesListResponse = SentinelOnboardingStatesList;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSettingsList;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SecurityMLAnalyticsSettingsGetResponse = SecurityMLAnalyticsSettingUnion;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SecurityMLAnalyticsSettingsCreateOrUpdateResponse = SecurityMLAnalyticsSettingUnion;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecurityMLAnalyticsSettingsListNextResponse = SecurityMLAnalyticsSettingsList;
 
 /** Optional parameters. */
 export interface ProductSettingsListOptionalParams

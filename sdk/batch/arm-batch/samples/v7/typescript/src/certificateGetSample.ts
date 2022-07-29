@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets information about the specified certificate.
  *
  * @summary Gets information about the specified certificate.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/CertificateGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/CertificateGet.json
  */
 async function getCertificate() {
   const subscriptionId = "subid";
@@ -38,7 +38,7 @@ getCertificate().catch(console.error);
  * This sample demonstrates how to Gets information about the specified certificate.
  *
  * @summary Gets information about the specified certificate.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/CertificateGetWithDeletionError.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/CertificateGetWithDeletionError.json
  */
 async function getCertificateWithDeletionError() {
   const subscriptionId = "subid";

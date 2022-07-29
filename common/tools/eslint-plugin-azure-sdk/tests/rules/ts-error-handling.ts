@@ -48,10 +48,6 @@ ruleTester.run("ts-error-handling", rule, {
       code: 'const err = new Error("test"); throw err',
       filename: "src/test.ts",
     },
-    {
-      code: 'try { console.log("test"); } catch(err) { throw err; }',
-      filename: "src/test.ts",
-    },
   ],
   invalid: [
     // string-value exception
@@ -92,6 +88,16 @@ ruleTester.run("ts-error-handling", rule, {
         {
           message:
             "type TestError of thrown error is not one of the allowed error types: TypeError, RangeError, Error",
+        },
+      ],
+    },
+    {
+      code: 'try { console.log("test"); } catch(err) { throw err; }',
+      filename: "src/test.ts",
+      errors: [
+        {
+          message:
+            "type unknown of thrown error is not one of the allowed error types: TypeError, RangeError, Error",
         },
       ],
     },

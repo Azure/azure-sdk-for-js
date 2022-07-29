@@ -21,6 +21,7 @@ function getSerializerOptions(options: XmlOptions = {}) {
     suppressEmptyNode: true,
     indentBy: "",
     rootNodeName: options.rootName ?? "root",
+    cdataPropName: options.cdataPropName ?? "__cdata",
   };
 }
 
@@ -30,6 +31,8 @@ function getParserOptions(options: XmlOptions = {}) {
     parseAttributeValue: false,
     parseTagValue: false,
     attributeNamePrefix: "",
+    stopNodes: options.stopNodes,
+    processEntities: false,
   };
 }
 /**

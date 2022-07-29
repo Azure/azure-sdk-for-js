@@ -7,11 +7,23 @@
  */
 
 import {
+  OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  OperationParameter
-} from "@azure/core-http";
+  OperationQueryParameter
+} from "@azure/core-client";
 import { EmailMessage as EmailMessageMapper } from "../models/mappers";
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",

@@ -14,7 +14,7 @@ import {
   TextAnalyticsClient,
   AzureKeyCredential,
   DetectLanguageInput,
-  TextDocumentInput
+  TextDocumentInput,
 } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
@@ -22,7 +22,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 /**
@@ -39,8 +39,8 @@ const detectLanguageInputs: DetectLanguageInput[] = [
   {
     id: "3",
     countryHint: "fr",
-    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre."
-  }
+    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre.",
+  },
 ];
 
 /**
@@ -57,8 +57,8 @@ const textDocumentInputs: TextDocumentInput[] = [
   {
     id: "3",
     language: "fr",
-    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre."
-  }
+    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre.",
+  },
 ];
 
 export async function main() {

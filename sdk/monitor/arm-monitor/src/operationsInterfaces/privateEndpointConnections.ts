@@ -6,32 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
+  PrivateEndpointConnection,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
+  PrivateEndpointConnectionsListByPrivateLinkScopeResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnections. */
 export interface PrivateEndpointConnections {
-  /**
-   * Gets all private endpoint connections on a private link scope.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
-   * @param options The options parameters.
-   */
-  listByPrivateLinkScope(
-    resourceGroupName: string,
-    scopeName: string,
-    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets a private endpoint connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -50,7 +38,7 @@ export interface PrivateEndpointConnections {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters A private endpoint connection
+   * @param parameters The Private Endpoint Connection resource.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -70,7 +58,7 @@ export interface PrivateEndpointConnections {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters A private endpoint connection
+   * @param parameters The Private Endpoint Connection resource.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -106,4 +94,15 @@ export interface PrivateEndpointConnections {
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Gets all private endpoint connections on a private link scope.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
+   * @param options The options parameters.
+   */
+  listByPrivateLinkScope(
+    resourceGroupName: string,
+    scopeName: string,
+    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams
+  ): Promise<PrivateEndpointConnectionsListByPrivateLinkScopeResponse>;
 }

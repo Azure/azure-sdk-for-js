@@ -1,0 +1,32 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/updates/providers/foo/names/bar/versions?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "08c50332-2a94-4901-9bb5-0ab334f45911"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "161",
+        "Content-Type": "application/problem\u002Bjson; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:38:09 GMT",
+        "mise-correlation-id": "65088bd1-7f40-4945-9362-35b386288f2e",
+        "traceparent": "00-4ea89bdd7475d08f697993a3b0af1014-6ed8401a7098ef95-00"
+      },
+      "ResponseBody": {
+        "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+        "title": "Not Found",
+        "status": 404,
+        "traceId": "00-4ea89bdd7475d08f697993a3b0af1014-bb82979754b3f049-00"
+      }
+    }
+  ],
+  "Variables": {}
+}

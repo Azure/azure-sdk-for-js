@@ -289,7 +289,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AutoscaleSettingResourceCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.AutoscaleErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -313,7 +313,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AutoscaleSettingResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.AutoscaleErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -336,7 +336,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.AutoscaleErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -358,7 +358,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AutoscaleSettingResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.AutoscaleErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -380,7 +380,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AutoscaleSettingResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.AutoscaleErrorResponse
     }
   },
   requestBody: Parameters.autoscaleSettingResource,
@@ -404,7 +404,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AutoscaleSettingResourceCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.AutoscaleErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -420,7 +420,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AutoscaleSettingResourceCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.AutoscaleErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -441,7 +441,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AutoscaleSettingResourceCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.AutoscaleErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

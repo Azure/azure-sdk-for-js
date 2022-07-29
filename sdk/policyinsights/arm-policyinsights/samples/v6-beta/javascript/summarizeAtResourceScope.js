@@ -25,7 +25,9 @@ async function summarizeAtResourceScope() {
   const options = { top: top };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.policyStates.summarizeForResource(resourceId, options);
+  const result = await client.policyStates.summarizeForResource("latest", resourceId, {
+    queryOptions: options,
+  });
   console.log(result);
 }
 

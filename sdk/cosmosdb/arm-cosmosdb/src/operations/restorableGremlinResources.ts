@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
-  GremlinDatabaseRestoreResource,
+  RestorableGremlinResourcesGetResult,
   RestorableGremlinResourcesListOptionalParams,
   RestorableGremlinResourcesListResponse
 } from "../models";
@@ -45,7 +45,7 @@ export class RestorableGremlinResourcesImpl
     location: string,
     instanceId: string,
     options?: RestorableGremlinResourcesListOptionalParams
-  ): PagedAsyncIterableIterator<GremlinDatabaseRestoreResource> {
+  ): PagedAsyncIterableIterator<RestorableGremlinResourcesGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
       next() {
@@ -64,7 +64,7 @@ export class RestorableGremlinResourcesImpl
     location: string,
     instanceId: string,
     options?: RestorableGremlinResourcesListOptionalParams
-  ): AsyncIterableIterator<GremlinDatabaseRestoreResource[]> {
+  ): AsyncIterableIterator<RestorableGremlinResourcesGetResult[]> {
     let result = await this._list(location, instanceId, options);
     yield result.value || [];
   }
@@ -73,7 +73,7 @@ export class RestorableGremlinResourcesImpl
     location: string,
     instanceId: string,
     options?: RestorableGremlinResourcesListOptionalParams
-  ): AsyncIterableIterator<GremlinDatabaseRestoreResource> {
+  ): AsyncIterableIterator<RestorableGremlinResourcesGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,

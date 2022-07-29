@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
+  PipelineRequestOptions,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { credentialLogger } from "../../util/logging";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";

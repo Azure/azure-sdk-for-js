@@ -8,7 +8,7 @@ import Sinon from "sinon";
 import http from "http";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { InteractiveBrowserCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalOpenBrowser";

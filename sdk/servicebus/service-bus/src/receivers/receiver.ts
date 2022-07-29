@@ -291,6 +291,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
    * @throws Error if the underlying connection is closed.
    */
   constructor(
+    private clientId: string,
     private _context: ConnectionContext,
     public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
@@ -452,7 +453,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       timeoutInMs: this._retryOptions?.timeoutInMs,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber) {
+      if (options.fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
@@ -507,7 +508,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
     this._streamingReceiver =
       this._streamingReceiver ??
-      new StreamingReceiver(this._context, this.entityPath, {
+      new StreamingReceiver(this.clientId, this._context, this.entityPath, {
         ...options,
         receiveMode: this.receiveMode,
         retryOptions: this._retryOptions,
@@ -650,7 +651,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     entityPath: string,
     options: ReceiveOptions
   ): BatchingReceiver {
-    return BatchingReceiver.create(context, entityPath, options);
+    return BatchingReceiver.create(this.clientId, context, entityPath, options);
   }
 
   /**

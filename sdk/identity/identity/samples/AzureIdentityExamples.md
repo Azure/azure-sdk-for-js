@@ -110,6 +110,7 @@ To learn more, read [Application and service principal objects in Azure Active D
 | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)           | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                               |
 | [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate) | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                          |
+| [ClientAssertionCredential](#authenticating-a-service-principal-with-a-client-assertion) | Authenticating a service principal with a client assertion. |
 | [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                        |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals, or managed identity based on what's available in the current environment without changing your code. |
 
@@ -257,6 +258,83 @@ function withClientCertificateCredential() {
 }
 ```
 
+#### Authenticating a service principal with a client assertion
+
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ClientAssertionCredential`.
+
+You'll need to:
+
+- [Create an application registration][quickstart-register-app]
+- [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
+- [Register the certificate with the Microsoft Identity platform][register_certificate_app_registration]
+
+To learn more about service principals, see [Application and service principal objects in Azure Active Directory][app-register-service-principal].
+
+```ts
+/**
+ *  Authenticate with a client assertion.
+ */
+function withClientAssertionCredential() {
+  let credential = new ClientAssertionCredential(
+    "<YOUR_TENANT_ID>",
+    "<YOUR_CLIENT_ID>",
+    <yourGetAssertionCallbackFunction()>
+  );
+  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+}
+```
+
+You'll need to implement your own `getAssertion()` callback function that will return an [assertion in an encoded JWT format][client_assertion_jwt].
+
+##### Creating a callback function to return assertion
+
+This example demonstrates a callback function for creating an assertion from a client certificate. The default value of authority host should be `https://login.microsoftonline.com/${tenantId}`.
+
+```ts
+ async function getAssertion(): Promise<string> {
+      const jwtoken = await createJWTTokenFromCertificate("<AUTHORITY_HOST>", "<YOUR_CLIENT_ID>", "<YOUR_CERTIFICATE_PATH>");
+      return jwtoken;
+}
+```
+
+For example, the following function creates an encoded and signed JWT assertion token from the client certificate:
+
+```ts
+import * as tls from "tls";
+import * as net from "net";
+import * as fs from "fs";
+import * as uuid from "uuid";
+import * as jwt from "jsonwebtoken";
+import ms from 'ms';
+
+async function createJWTTokenFromCertificate(authorityHost: string,
+  clientId: string,
+  certificatePath: string) {
+
+  const privateKeyPemCert = fs.readFileSync(certificatePath);
+  const audience = `${authorityHost}/v2.0`;
+  const secureContext = tls.createSecureContext({
+    cert: privateKeyPemCert,
+  });
+  const secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
+  secureSocket.destroy();
+  const cert = secureSocket.getCertificate() as tls.PeerCertificate;
+  const signedCert = jwt.sign({}, privateKeyPemCert, {
+    header: {
+      alg:"RS256",
+      typ: "JWT",
+      x5t: Buffer.from(cert.fingerprint256, "hex").toString("base64")
+    },
+    algorithm: "RS256",
+    audience: audience,
+    jwtid: uuid.v4(),
+    expiresIn: ms('1 h'),
+    subject: clientId,
+    issuer: clientId
+  })  
+  return signedCert;  
+}
+```
 #### Authenticating a user account with device code flow
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DeviceCodeCredential`. The `DeviceCodeCredential` offers a credential that can be used with little to no setup. The user can use the browser of their choice to complete the authentication process.
@@ -1203,3 +1281,5 @@ To learn more about Azure Authentication for National Clouds, see [National clou
 [msal_browser_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/master/lib/msal-browser
 [msal_browser_npm]: https://www.npmjs.com/package/@azure/msal-browser
 [core_auth]: https://www.npmjs.com/package/@azure/core-auth
+[register_certificate_app_registration]: https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-microsoft-identity-platform
+[client_assertion_jwt]: https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials

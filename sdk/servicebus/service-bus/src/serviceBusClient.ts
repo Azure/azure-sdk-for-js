@@ -20,6 +20,7 @@ import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
 import { isCredential, isDefined } from "./util/typeGuards";
+import { generate_uuid } from "rhea-promise";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -33,6 +34,11 @@ export class ServiceBusClient {
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
    */
   public fullyQualifiedNamespace: string;
+  /**
+   * ID to identify this client which can be specified when creating an instance of this client.
+   * If not specified, a unique one will be generated.
+   */
+  public identifier: string;
   /**
    * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to
    * the Azure Service Bus namespace provided in the connection string. No connection is made to the service
@@ -96,6 +102,7 @@ export class ServiceBusClient {
       );
     }
     this.fullyQualifiedNamespace = this._connectionContext.config.host;
+    this.identifier = this._clientOptions.identifier ?? generate_uuid();
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
 
     const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
@@ -208,6 +215,7 @@ export class ServiceBusClient {
         : 5 * 60 * 1000;
 
     return new ServiceBusReceiverImpl(
+      this.identifier,
       this._connectionContext,
       entityPathWithSubQueue,
       receiveMode,
@@ -335,6 +343,7 @@ export class ServiceBusClient {
     }
 
     const messageSession = await MessageSession.create(
+      this.identifier,
       this._connectionContext,
       entityPath,
       sessionId,
@@ -421,6 +430,7 @@ export class ServiceBusClient {
     );
 
     const messageSession = await MessageSession.create(
+      this.identifier,
       this._connectionContext,
       entityPath,
       undefined,
@@ -454,6 +464,7 @@ export class ServiceBusClient {
     validateEntityPath(this._connectionContext.config, queueOrTopicName);
 
     return new ServiceBusSenderImpl(
+      this.identifier,
       this._connectionContext,
       queueOrTopicName,
       this._clientOptions.retryOptions

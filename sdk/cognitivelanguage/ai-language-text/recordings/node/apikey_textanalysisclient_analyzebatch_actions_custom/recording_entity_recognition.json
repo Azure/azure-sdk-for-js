@@ -1,0 +1,479 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-04-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "480",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "1a7895f5-4ced-491c-be92-37c904a50ded"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "kind": "CustomEntityRecognition",
+            "parameters": {
+              "projectName": "sanitized",
+              "deploymentName": "sanitized"
+            }
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "75db7d51-75df-4994-b0f6-532a5cb686ae",
+        "Content-Length": "0",
+        "Date": "Fri, 15 Jul 2022 14:16:37 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/25ce24bf-62b0-46e2-a3c8-793d2a3096ce?api-version=2022-04-01-preview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "454"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/25ce24bf-62b0-46e2-a3c8-793d2a3096ce?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "53e4c85c-ecb8-4ea4-9004-532891a6a528"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "eddf94ad-ec08-4c3b-89e5-6e35f429aed5",
+        "Content-Length": "282",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 15 Jul 2022 14:16:37 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6"
+      },
+      "ResponseBody": {
+        "jobId": "25ce24bf-62b0-46e2-a3c8-793d2a3096ce",
+        "lastUpdateDateTime": "2022-07-15T14:16:37Z",
+        "createdDateTime": "2022-07-15T14:16:37Z",
+        "expirationDateTime": "2022-07-16T14:16:37Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/25ce24bf-62b0-46e2-a3c8-793d2a3096ce?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "8814b514-af1e-41a2-b14e-e44ff9af7b71"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "7e828a7e-1efc-40a8-a832-c57f74764318",
+        "Content-Length": "282",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 15 Jul 2022 14:16:38 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "17"
+      },
+      "ResponseBody": {
+        "jobId": "25ce24bf-62b0-46e2-a3c8-793d2a3096ce",
+        "lastUpdateDateTime": "2022-07-15T14:16:37Z",
+        "createdDateTime": "2022-07-15T14:16:37Z",
+        "expirationDateTime": "2022-07-16T14:16:37Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/25ce24bf-62b0-46e2-a3c8-793d2a3096ce?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "8e547580-f0af-426f-a5b8-ea296dbcb252"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "d1508030-b63c-404f-8ea5-8a1629ac12ff",
+        "Content-Length": "1968",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 15 Jul 2022 14:16:40 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "33"
+      },
+      "ResponseBody": {
+        "jobId": "25ce24bf-62b0-46e2-a3c8-793d2a3096ce",
+        "lastUpdateDateTime": "2022-07-15T14:16:38Z",
+        "createdDateTime": "2022-07-15T14:16:37Z",
+        "expirationDateTime": "2022-07-16T14:16:37Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "CustomEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-07-15T14:16:38.648792Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "Government",
+                        "category": "restaurant_name",
+                        "offset": 23,
+                        "length": 10,
+                        "confidenceScore": 0.05
+                      },
+                      {
+                        "text": "Accountability",
+                        "category": "geographic_poi",
+                        "offset": 34,
+                        "length": 14,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "Office",
+                        "category": "restaurant_name",
+                        "offset": 49,
+                        "length": 6,
+                        "confidenceScore": 0.11
+                      },
+                      {
+                        "text": "GAO",
+                        "category": "restaurant_name",
+                        "offset": 57,
+                        "length": 3,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "dramatic",
+                        "category": "sort",
+                        "offset": 77,
+                        "length": 8,
+                        "confidenceScore": 0.03
+                      },
+                      {
+                        "text": "oil",
+                        "category": "restaurant_type",
+                        "offset": 98,
+                        "length": 3,
+                        "confidenceScore": 0.03
+                      },
+                      {
+                        "text": "and",
+                        "category": "served_dish",
+                        "offset": 102,
+                        "length": 3,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "natural",
+                        "category": "geographic_poi",
+                        "offset": 106,
+                        "length": 7,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "gas",
+                        "category": "restaurant_type",
+                        "offset": 114,
+                        "length": 3,
+                        "confidenceScore": 0.09
+                      },
+                      {
+                        "text": "development",
+                        "category": "object_type",
+                        "offset": 118,
+                        "length": 11,
+                        "confidenceScore": 0.06
+                      },
+                      {
+                        "text": "federal",
+                        "category": "state",
+                        "offset": 133,
+                        "length": 7,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "lands",
+                        "category": "poi",
+                        "offset": 141,
+                        "length": 5,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "the",
+                        "category": "timeRange",
+                        "offset": 152,
+                        "length": 3,
+                        "confidenceScore": 0.24
+                      },
+                      {
+                        "text": "past six years",
+                        "category": "timeRange",
+                        "offset": 156,
+                        "length": 14,
+                        "confidenceScore": 0.54
+                      },
+                      {
+                        "text": "BLM",
+                        "category": "poi",
+                        "offset": 202,
+                        "length": 3,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "protection",
+                        "category": "state",
+                        "offset": 267,
+                        "length": 10,
+                        "confidenceScore": 0.05
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "projectName": "sanitized",
+                "deploymentName": "sanitized"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/25ce24bf-62b0-46e2-a3c8-793d2a3096ce?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a813dc5e-0681-4195-8219-ea25c0c0806c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "b8740657-bc12-4af0-9f1e-3c6b41d636a4",
+        "Content-Length": "1968",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 15 Jul 2022 14:16:40 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "warn-agent": "-",
+        "warn-code": "299",
+        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "26"
+      },
+      "ResponseBody": {
+        "jobId": "25ce24bf-62b0-46e2-a3c8-793d2a3096ce",
+        "lastUpdateDateTime": "2022-07-15T14:16:38Z",
+        "createdDateTime": "2022-07-15T14:16:37Z",
+        "expirationDateTime": "2022-07-16T14:16:37Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "CustomEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-07-15T14:16:38.648792Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "Government",
+                        "category": "restaurant_name",
+                        "offset": 23,
+                        "length": 10,
+                        "confidenceScore": 0.05
+                      },
+                      {
+                        "text": "Accountability",
+                        "category": "geographic_poi",
+                        "offset": 34,
+                        "length": 14,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "Office",
+                        "category": "restaurant_name",
+                        "offset": 49,
+                        "length": 6,
+                        "confidenceScore": 0.11
+                      },
+                      {
+                        "text": "GAO",
+                        "category": "restaurant_name",
+                        "offset": 57,
+                        "length": 3,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "dramatic",
+                        "category": "sort",
+                        "offset": 77,
+                        "length": 8,
+                        "confidenceScore": 0.03
+                      },
+                      {
+                        "text": "oil",
+                        "category": "restaurant_type",
+                        "offset": 98,
+                        "length": 3,
+                        "confidenceScore": 0.03
+                      },
+                      {
+                        "text": "and",
+                        "category": "served_dish",
+                        "offset": 102,
+                        "length": 3,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "natural",
+                        "category": "geographic_poi",
+                        "offset": 106,
+                        "length": 7,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "gas",
+                        "category": "restaurant_type",
+                        "offset": 114,
+                        "length": 3,
+                        "confidenceScore": 0.09
+                      },
+                      {
+                        "text": "development",
+                        "category": "object_type",
+                        "offset": 118,
+                        "length": 11,
+                        "confidenceScore": 0.06
+                      },
+                      {
+                        "text": "federal",
+                        "category": "state",
+                        "offset": 133,
+                        "length": 7,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "lands",
+                        "category": "poi",
+                        "offset": 141,
+                        "length": 5,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "the",
+                        "category": "timeRange",
+                        "offset": 152,
+                        "length": 3,
+                        "confidenceScore": 0.24
+                      },
+                      {
+                        "text": "past six years",
+                        "category": "timeRange",
+                        "offset": 156,
+                        "length": 14,
+                        "confidenceScore": 0.54
+                      },
+                      {
+                        "text": "BLM",
+                        "category": "poi",
+                        "offset": 202,
+                        "length": 3,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "protection",
+                        "category": "state",
+                        "offset": 267,
+                        "length": 10,
+                        "confidenceScore": 0.05
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "projectName": "sanitized",
+                "deploymentName": "sanitized"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

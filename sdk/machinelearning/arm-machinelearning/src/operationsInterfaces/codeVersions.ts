@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  CodeVersionData,
+  CodeVersion,
   CodeVersionsListOptionalParams,
   CodeVersionsDeleteOptionalParams,
   CodeVersionsGetOptionalParams,
@@ -32,7 +32,7 @@ export interface CodeVersions {
     workspaceName: string,
     name: string,
     options?: CodeVersionsListOptionalParams
-  ): PagedAsyncIterableIterator<CodeVersionData>;
+  ): PagedAsyncIterableIterator<CodeVersion>;
   /**
    * Delete version.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -77,7 +77,7 @@ export interface CodeVersions {
     workspaceName: string,
     name: string,
     version: string,
-    body: CodeVersionData,
+    body: CodeVersion,
     options?: CodeVersionsCreateOrUpdateOptionalParams
   ): Promise<CodeVersionsCreateOrUpdateResponse>;
 }

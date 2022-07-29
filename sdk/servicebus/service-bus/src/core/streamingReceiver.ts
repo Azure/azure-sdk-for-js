@@ -13,7 +13,7 @@ import {
   RetryOptions,
   ConditionErrorNameMapper,
 } from "@azure/core-amqp";
-import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
@@ -27,8 +27,9 @@ import {
   ProcessErrorArgs,
   SubscribeOptions,
 } from "../models";
-import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
+import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
 import { AbortError } from "@azure/abort-controller";
+import { tracingClient } from "../diagnostics/tracing";
 
 /**
  * @internal
@@ -128,11 +129,17 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
+   * @param clientId - the client id
    * @param connectionContext - The client entity context.
    * @param options - Options for how you'd like to connect.
    */
-  constructor(connectionContext: ConnectionContext, entityPath: string, options: ReceiveOptions) {
-    super(connectionContext, entityPath, "streaming", options);
+  constructor(
+    clientId: string,
+    connectionContext: ConnectionContext,
+    entityPath: string,
+    options: ReceiveOptions
+  ) {
+    super(clientId, connectionContext, entityPath, "streaming", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
@@ -484,8 +491,12 @@ export class StreamingReceiver extends MessageReceiver {
       },
       processMessage: async (message: ServiceBusMessageImpl) => {
         try {
-          const span = createProcessingSpan(message, this, this._context.config, operationOptions);
-          return await trace(() => userHandlers.processMessage(message), span);
+          await tracingClient.withSpan(
+            "StreamReceiver.process",
+            operationOptions ?? {},
+            () => userHandlers.processMessage(message),
+            toProcessingSpanOptions(message, this, this._context.config)
+          );
         } catch (err: any) {
           this._messageHandlers().processError({
             error: err,

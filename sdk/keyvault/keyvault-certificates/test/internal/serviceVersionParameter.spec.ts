@@ -5,39 +5,39 @@ import { assert } from "@azure/test-utils";
 import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
 import { CertificateClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/certificatesModels";
-import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
+import {
+  HttpClient,
+  createHttpHeaders,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
-import { env } from "@azure-tools/test-recorder";
 
 describe("The Certificates client should set the serviceVersion", () => {
-  const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
+  const keyVaultUrl = `https://keyvaultname.vault.azure.net`;
 
   const mockHttpClient: HttpClient = {
-    async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+    async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
       return {
         status: 200,
-        headers: new HttpHeaders(),
-        request: httpRequest,
-        parsedBody: {
+        headers: createHttpHeaders(),
+        request: request,
+        bodyAsText: JSON.stringify({
           id: `${keyVaultUrl}/certificates/certificateName/id`,
           attributes: {},
-        },
+        }),
       };
     },
   };
 
   let sandbox: SinonSandbox;
-  let spy: SinonSpy<[WebResourceLike], Promise<HttpOperationResponse>>;
+  let spy: SinonSpy<[PipelineRequest], Promise<PipelineResponse>>;
   let credential: ClientSecretCredential;
   beforeEach(async () => {
     sandbox = createSandbox();
     spy = sandbox.spy(mockHttpClient, "sendRequest");
 
-    credential = await new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!
-    );
+    credential = new ClientSecretCredential("tenant", "client", "secret");
   });
 
   afterEach(() => {
@@ -49,11 +49,10 @@ describe("The Certificates client should set the serviceVersion", () => {
       httpClient: mockHttpClient,
     });
     await client.getCertificate("certificateName");
-
     const calls = spy.getCalls();
     assert.equal(
       calls[0].args[0].url,
-      `https://keyVaultName.vault.azure.net/certificates/certificateName/?api-version=${LATEST_API_VERSION}`
+      `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${LATEST_API_VERSION}`
     );
   });
 
@@ -73,7 +72,7 @@ describe("The Certificates client should set the serviceVersion", () => {
       const lastCall = calls[calls.length - 1];
       assert.equal(
         lastCall.args[0].url,
-        `https://keyVaultName.vault.azure.net/certificates/certificateName/?api-version=${serviceVersion}`
+        `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${serviceVersion}`
       );
     }
   });

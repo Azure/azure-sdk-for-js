@@ -113,26 +113,6 @@ The test-recorder provides the `Recorder` class that deals with recording and pl
 
 For the unified recorder client library to work, the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) must be active while you are running your tests. Helpers have been added to the `dev-tool` package which manage starting and stopping the test proxy server before and after your tests are run.
 
-The following commands run the tests with the default configs and concurrently starts(runs) the test-proxy tool in a detached process in the background in record/playback modes if it is not already active. Additionally, more options can be passed to override the default configs.
-
-- `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`
-- `dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'`
-- `dev-tool run test:browser`
-  Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/README.md#usage)
-
-The test-proxy tool is run at ports 5000(for HTTP) and 5001(for HTTPS) unless you specify `TEST_PROXY_HTTP_PORT` as an environment variable, in which case that will be picked.
-
-Test scripts
-
-```json
-{
-  // ... your package.json scripts section
-  "integration-test:node": "...",
-  "unit-test:node": "..."
-  // ... more of your package.json scripts
-}
-```
-
 Your test scripts (in `package.json`) should be based on the following examples:
 
 | script name                | command                                                                                                          |
@@ -148,6 +128,21 @@ Note the difference between the dev-tool `node-ts-input` and `node-js-input` com
 - `node-js-input` runs the tests using the built JavaScript output, and generates coverage reporting using `nyc`.
 
 Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/README.md#usage)
+
+The above `dev-tool` commands run the tests with the default configs and concurrently starts(runs) the test-proxy tool in a detached process in the background in record/playback modes if it is not already active. Additionally, more options can be passed to override the default configs.
+
+The test-proxy tool is run at ports 5000(for HTTP) and 5001(for HTTPS) unless you specify `TEST_PROXY_HTTP_PORT` as an environment variable, in which case that will be picked.
+
+Test scripts
+
+```json
+{
+  // ... your package.json scripts section
+  "integration-test:node": "...",
+  "unit-test:node": "..."
+  // ... more of your package.json scripts
+}
+```
 
 #### Prerequisites
 
