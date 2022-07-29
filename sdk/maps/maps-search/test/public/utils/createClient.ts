@@ -22,8 +22,6 @@ const recorderOptions: RecorderStartOptions = {
 
 export const testLogger = createClientLogger("search-test");
 
-export type AuthMethod = "SubscriptionKey" | "AAD";
-
 export function createClient(options?: MapsSearchClientOptions): MapsSearchClient {
   const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
   return new MapsSearchClient(credential, options);
