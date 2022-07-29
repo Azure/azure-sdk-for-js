@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Deletes existing diagnostic settings for the specified resource.
  *
  * @summary Deletes existing diagnostic settings for the specified resource.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2017-05-01-preview/examples/deleteDiagnosticSetting.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/examples/deleteDiagnosticSetting.json
  */
 async function deletesTheDiagnosticSetting() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
