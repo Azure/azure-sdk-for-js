@@ -8,23 +8,23 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Get private endpoint connection properties
+ * This sample demonstrates how to Delete private endpoint connection with the specified name
  *
- * @summary Get private endpoint connection properties
- * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSGetPrivateEndpointConnection.json
+ * @summary Delete private endpoint connection with the specified name
+ * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSDeletePrivateEndpointConnection.json
  */
-async function privateEndpointConnectionGet() {
+async function privateEndpointConnectionDelete() {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const resourceGroupName = "myResourceGroup";
   const resourceName = "myFirstProvisioningService";
   const privateEndpointConnectionName = "myPrivateEndpointConnection";
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
-  const result = await client.iotDpsResource.getPrivateEndpointConnection(
+  const result = await client.iotDpsResource.beginDeletePrivateEndpointConnectionAndWait(
     resourceGroupName,
     resourceName,
     privateEndpointConnectionName
@@ -32,4 +32,4 @@ async function privateEndpointConnectionGet() {
   console.log(result);
 }
 
-privateEndpointConnectionGet().catch(console.error);
+privateEndpointConnectionDelete().catch(console.error);

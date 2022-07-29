@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  TagsResource,
-  IotDpsClient
-} from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Update an existing provisioning service's tags. to update other fields use the CreateOrUpdate method
@@ -24,7 +21,7 @@ async function dpsPatch() {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const resourceGroupName = "myResourceGroup";
   const provisioningServiceName = "myFirstProvisioningService";
-  const provisioningServiceTags: TagsResource = { tags: { foo: "bar" } };
+  const provisioningServiceTags = { tags: { foo: "bar" } };
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
   const result = await client.iotDpsResource.beginUpdateAndWait(

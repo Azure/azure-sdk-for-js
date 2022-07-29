@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ProvisioningServiceDescription,
-  IotDpsClient
-} from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
@@ -24,11 +21,11 @@ async function dpsCreate() {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const resourceGroupName = "myResourceGroup";
   const provisioningServiceName = "myFirstProvisioningService";
-  const iotDpsDescription: ProvisioningServiceDescription = {
+  const iotDpsDescription = {
     location: "East US",
     properties: { enableDataResidency: false },
     sku: { name: "S1", capacity: 1 },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);

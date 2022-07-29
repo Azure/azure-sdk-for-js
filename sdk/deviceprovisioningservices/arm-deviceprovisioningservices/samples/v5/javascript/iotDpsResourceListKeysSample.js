@@ -8,23 +8,23 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Gets the list of valid SKUs and tiers for a provisioning service.
+ * This sample demonstrates how to List the primary and secondary keys for a provisioning service.
  *
- * @summary Gets the list of valid SKUs and tiers for a provisioning service.
- * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSGetValidSku.json
+ * @summary List the primary and secondary keys for a provisioning service.
+ * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSListKeys.json
  */
-async function dpsGetValidSku() {
+async function dpsListKeys() {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const provisioningServiceName = "myFirstProvisioningService";
   const resourceGroupName = "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotDpsResource.listValidSkus(
+  for await (let item of client.iotDpsResource.listKeys(
     provisioningServiceName,
     resourceGroupName
   )) {
@@ -33,4 +33,4 @@ async function dpsGetValidSku() {
   console.log(resArray);
 }
 
-dpsGetValidSku().catch(console.error);
+dpsListKeys().catch(console.error);

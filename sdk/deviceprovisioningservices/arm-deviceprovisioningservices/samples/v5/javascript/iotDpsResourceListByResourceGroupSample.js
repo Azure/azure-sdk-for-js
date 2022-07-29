@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Get a list of all provisioning services in the given resource group.
@@ -23,9 +23,7 @@ async function dpsListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotDpsResource.listByResourceGroup(
-    resourceGroupName
-  )) {
+  for await (let item of client.iotDpsResource.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

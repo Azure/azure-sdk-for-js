@@ -1,5 +1,11 @@
 # Release History
+    
+## 5.1.0 (2022-07-29)
+    
+**Features**
 
+  - Added Interface ProvisioningServiceDescription
+    
 ## 5.0.1 (2022-04-27)
     
 **Features**

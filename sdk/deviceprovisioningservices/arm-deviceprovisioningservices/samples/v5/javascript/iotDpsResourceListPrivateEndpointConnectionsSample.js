@@ -8,26 +8,26 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to List private link resources for the given provisioning service
+ * This sample demonstrates how to List private endpoint connection properties
  *
- * @summary List private link resources for the given provisioning service
- * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSListPrivateLinkResources.json
+ * @summary List private endpoint connection properties
+ * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSListPrivateEndpointConnections.json
  */
-async function privateLinkResourcesList() {
+async function privateEndpointConnectionsList() {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const resourceGroupName = "myResourceGroup";
   const resourceName = "myFirstProvisioningService";
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
-  const result = await client.iotDpsResource.listPrivateLinkResources(
+  const result = await client.iotDpsResource.listPrivateEndpointConnections(
     resourceGroupName,
     resourceName
   );
   console.log(result);
 }
 
-privateLinkResourcesList().catch(console.error);
+privateEndpointConnectionsList().catch(console.error);

@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  OperationInputs,
-  IotDpsClient
-} from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
@@ -22,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function dpsCheckName() {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const argumentsParam: OperationInputs = { name: "test213123" };
+  const argumentsParam = { name: "test213123" };
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
   const result = await client.iotDpsResource.checkProvisioningServiceNameAvailability(

@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  VerificationCodeRequest,
-  IotDpsClient
-} from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate.
@@ -26,8 +23,8 @@ async function dpsVerifyCertificate() {
   const ifMatch = "AAAAAAAADGk=";
   const resourceGroupName = "myResourceGroup";
   const provisioningServiceName = "myFirstProvisioningService";
-  const request: VerificationCodeRequest = {
-    certificate: "#####################################"
+  const request = {
+    certificate: "#####################################",
   };
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);

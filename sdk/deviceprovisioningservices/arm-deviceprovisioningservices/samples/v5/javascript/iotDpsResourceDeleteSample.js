@@ -8,26 +8,26 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Get the metadata of the provisioning service without SAS keys.
+ * This sample demonstrates how to Deletes the Provisioning Service.
  *
- * @summary Get the metadata of the provisioning service without SAS keys.
- * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSGet.json
+ * @summary Deletes the Provisioning Service.
+ * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSDelete.json
  */
-async function dpsGet() {
+async function dpsDelete() {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const provisioningServiceName = "myFirstProvisioningService";
   const resourceGroupName = "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
-  const result = await client.iotDpsResource.get(
+  const result = await client.iotDpsResource.beginDeleteAndWait(
     provisioningServiceName,
     resourceGroupName
   );
   console.log(result);
 }
 
-dpsGet().catch(console.error);
+dpsDelete().catch(console.error);

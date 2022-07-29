@@ -8,26 +8,28 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Get all the certificates tied to the provisioning service.
+ * This sample demonstrates how to Get the certificate from the provisioning service.
  *
- * @summary Get all the certificates tied to the provisioning service.
- * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSGetCertificates.json
+ * @summary Get the certificate from the provisioning service.
+ * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSGetCertificate.json
  */
-async function dpsGetCertificates() {
+async function dpsGetCertificate() {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const certificateName = "cert";
   const resourceGroupName = "myResourceGroup";
   const provisioningServiceName = "myFirstProvisioningService";
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
-  const result = await client.dpsCertificate.list(
+  const result = await client.dpsCertificate.get(
+    certificateName,
     resourceGroupName,
     provisioningServiceName
   );
   console.log(result);
 }
 
-dpsGetCertificates().catch(console.error);
+dpsGetCertificate().catch(console.error);

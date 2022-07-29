@@ -8,24 +8,26 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to List private link resources for the given provisioning service
+ * This sample demonstrates how to Get the specified private link resource for the given provisioning service
  *
- * @summary List private link resources for the given provisioning service
- * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSListPrivateLinkResources.json
+ * @summary Get the specified private link resource for the given provisioning service
+ * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSGetPrivateLinkResources.json
  */
 async function privateLinkResourcesList() {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const resourceGroupName = "myResourceGroup";
   const resourceName = "myFirstProvisioningService";
+  const groupId = "iotDps";
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
-  const result = await client.iotDpsResource.listPrivateLinkResources(
+  const result = await client.iotDpsResource.getPrivateLinkResources(
     resourceGroupName,
-    resourceName
+    resourceName,
+    groupId
   );
   console.log(result);
 }

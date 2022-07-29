@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CertificateResponse,
-  IotDpsClient
-} from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Add new certificate or update an existing certificate.
@@ -25,10 +22,10 @@ async function dpsCreateOrUpdateCertificate() {
   const resourceGroupName = "myResourceGroup";
   const provisioningServiceName = "myFirstProvisioningService";
   const certificateName = "cert";
-  const certificateDescription: CertificateResponse = {
+  const certificateDescription = {
     properties: {
-      certificate: Buffer.from("############################################")
-    }
+      certificate: Buffer.from("############################################"),
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);

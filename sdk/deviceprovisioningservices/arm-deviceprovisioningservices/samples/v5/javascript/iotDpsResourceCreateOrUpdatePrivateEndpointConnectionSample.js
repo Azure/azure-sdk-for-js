@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  PrivateEndpointConnection,
-  IotDpsClient
-} from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Create or update the status of a private endpoint connection with the specified name
@@ -25,13 +22,13 @@ async function privateEndpointConnectionCreateOrUpdate() {
   const resourceGroupName = "myResourceGroup";
   const resourceName = "myFirstProvisioningService";
   const privateEndpointConnectionName = "myPrivateEndpointConnection";
-  const privateEndpointConnection: PrivateEndpointConnection = {
+  const privateEndpointConnection = {
     properties: {
       privateLinkServiceConnectionState: {
         description: "Approved by johndoe@contoso.com",
-        status: "Approved"
-      }
-    }
+        status: "Approved",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
