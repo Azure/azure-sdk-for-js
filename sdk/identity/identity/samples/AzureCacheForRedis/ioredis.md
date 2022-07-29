@@ -38,7 +38,7 @@ This sample is intended to assist in authenticating with Azure AD via the ioredi
 ##### Migration Guidance
 
 When migrating your existing your application code, replace the password input with Azure AD token. Azure Redis Cache name, username, Azure AD token, and use of SSL are required while connecting with the cache.
-The username will depend on whether you're using Service Principal, Managed identity, or Microsoft username.
+The username will depend on whether you are using Service Principal, Managed identity, or Microsoft username.
 
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code.
 
@@ -270,4 +270,4 @@ In this error scenario, the username provided and the access token used as passw
 In this error scenario, the authentication was successful, but your registered user/service principal is not granted the RBAC permission to perform the action. To mitigate this error, navigate to your Azure Cache for Redis resource in the Azure portal. Confirm that:
 
 - In **RBAC Rules**, you've assigned the appropriate role (Owner, Contributor, Reader) to your user/service principal identity.
-- In the event you're using a custom role, ensure the permissions granted under your custom role include the one required for your target action.
+- In the event you are using a custom role, ensure the permissions granted under your custom role include the one required for your target action.
