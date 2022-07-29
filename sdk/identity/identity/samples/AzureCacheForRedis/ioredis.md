@@ -37,7 +37,7 @@ This sample is intended to assist in authenticating with Azure AD via the ioredi
 
 ##### Migration Guidance
 
-When migrating your existing your application code, replace the password input with Azure AD token. Azure Redis Cache name, username, Azure AD token, and use of SSL are required while connecting with the cache.
+When migrating your existing application code, replace the password input with Azure AD token. Azure Redis Cache name, username, Azure AD token, and use of SSL are required while connecting with the cache.
 The username will depend on whether you are using Service Principal, Managed identity, or Microsoft username.
 
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code.
@@ -100,7 +100,7 @@ This sample is intended to assist in authenticating with Azure AD via ioredis. I
 
 ##### Migration Guidance
 
-When migrating your existing your application code, replace the password input with Azure AD token.
+When migrating your existing application code, replace the password input with Azure AD token.
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace the password configuring/retrieving logic in your application code.
 
 ```ts
