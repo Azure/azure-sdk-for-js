@@ -13,6 +13,8 @@
 
 ### Other Changes
 
+- Address Trusted Types compliance issue.
+
 ## 1.2.2 (Unreleased)
 
 ### Features Added
