@@ -166,7 +166,7 @@ export interface ServiceBusReceiverOptions {
    */
   skipParsingBodyAsJson?: boolean;
   /**
-   * Sets the {@link ServiceBusReceiver} ID to identify the receiver. This can be used to correlate logs and exceptions.
+   * Sets the name to identify the receiver. This can be used to correlate logs and exceptions.
    * If not specified or empty, a random unique one will be used.
    */
   identifier?: string;
@@ -177,7 +177,7 @@ export interface ServiceBusReceiverOptions {
  */
 export interface ServiceBusSenderOptions {
   /**
-   * Sets the {@link ServiceBusSender} ID to identify the sender. This can be used to correlate logs and exceptions.
+   * Sets the name to identify the sender. This can be used to correlate logs and exceptions.
    * If not specified or empty, a random unique one will be used.
    */
   identifier?: string;
@@ -292,7 +292,7 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    */
   skipParsingBodyAsJson?: boolean;
   /**
-   * Sets the {@link ServiceBusReceiver} ID to identify the receiver. This can be used to correlate logs and exceptions.
+   * Sets the name to identify the session receiver. This can be used to correlate logs and exceptions.
    * If not specified or empty, a random unique one will be used.
    */
   identifier?: string;

@@ -350,11 +350,11 @@ describe("serviceBusClient unit tests", () => {
     });
 
     testEntities.forEach(async (testEntity) => {
-      const connectionString =
+      const connectionStr =
         "Endpoint=sb://testnamespace/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=testKey";
 
       it("acceptSession receiver created with specified identifier", async () => {
-        const client = new ServiceBusClient(connectionString);
+        const client = new ServiceBusClient(connectionStr);
         const origConnectionContext = client["_connectionContext"];
         client["_connectionContext"] = createConnectionContextForTestsWithSessionId("sessionId", {
           ...origConnectionContext.config,
@@ -385,7 +385,7 @@ describe("serviceBusClient unit tests", () => {
       });
 
       it("acceptNextSession receiver created with specified identifier", async () => {
-        const client = new ServiceBusClient(connectionString);
+        const client = new ServiceBusClient(connectionStr);
         const origConnectionContext = client["_connectionContext"];
         client["_connectionContext"] = createConnectionContextForTestsWithSessionId("sessionId", {
           ...origConnectionContext.config,
@@ -413,7 +413,7 @@ describe("serviceBusClient unit tests", () => {
       });
 
       it("unique session receiver identifier is created if not specified via options", async () => {
-        const client = new ServiceBusClient(connectionString);
+        const client = new ServiceBusClient(connectionStr);
         const origConnectionContext = client["_connectionContext"];
         client["_connectionContext"] = createConnectionContextForTestsWithSessionId("sessionId", {
           ...origConnectionContext.config,
