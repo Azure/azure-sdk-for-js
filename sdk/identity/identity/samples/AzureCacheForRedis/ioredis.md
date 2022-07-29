@@ -19,10 +19,10 @@
       "@azure/identity": "^2.0.4",
       "ioredis": "^5.0.4",
     ```
+- Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
 
 #### Samples Guidance
 
-Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
 * [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-hello-world):
    This sample is recommended for users getting started to use Azure AD authentication with Azure Cache for Redis.
 * [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication):

@@ -17,10 +17,13 @@
     ```
     "dependencies": {
       "@azure/identity": "^2.0.4",
-      "redis": "^4.1.0",
+      "redis": "^4.1.0"
+      }
+    ```
+- Familiarity with the [node-redis](https://github.com/redis/node-redis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
+
 #### Samples Guidance
 
-Familiarity with the [node-redis](https://github.com/redis/node-redis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
 * [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-hello-world):
    This sample is recommended for users getting started to use Azure AD authentication with Azure Cache for Redis.
 * [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication):
