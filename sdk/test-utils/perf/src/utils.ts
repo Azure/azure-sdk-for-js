@@ -109,12 +109,11 @@ export function formatDuration(durationMilliseconds: number): string {
 // - formatNumber(1.2345, 4) -> "1.235"
 // - formatNumber(0.00012345, 4) -> "0.0001235"
 export function formatNumber(value: number, minSignificantDigits: number) {
-
   // Special case since log(0) is undefined
   if (value == 0) {
     return value.toLocaleString(undefined, {
       minimumSignificantDigits: minSignificantDigits,
-      maximumSignificantDigits: minSignificantDigits
+      maximumSignificantDigits: minSignificantDigits,
     });
   }
 
@@ -123,6 +122,6 @@ export function formatNumber(value: number, minSignificantDigits: number) {
 
   return value.toLocaleString(undefined, {
     minimumSignificantDigits: significantDigits,
-    maximumSignificantDigits: significantDigits
+    maximumSignificantDigits: significantDigits,
   });
 }
