@@ -2,13 +2,11 @@
 
 ### Table of contents
 
-    - [Prerequisites](#prerequisites)
-    - [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-node-redis-hello-world)
-    - [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
-    - [Authenticate with Azure AD - Using Token Cache](#authenticate-with-azure-ad-using-token-cache)
-    - [Troubleshooting](#troubleshooting)
-
-### node-redis library
+- [Prerequisites](#prerequisites)
+- [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-node-redis-hello-world)
+- [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
+- [Authenticate with Azure AD - Using Token Cache](#authenticate-with-azure-ad-using-token-cache)
+- [Troubleshooting](#troubleshooting)
 
 #### Prerequisites
 
