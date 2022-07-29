@@ -22,8 +22,6 @@ const recorderOptions: RecorderStartOptions = {
 
 export const testLogger = createClientLogger("route-test");
 
-export type AuthMethod = "SubscriptionKey" | "AAD";
-
 export function createClient(options?: MapsRouteClientOptions): MapsRouteClient {
   const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
   return new MapsRouteClient(credential, options);
