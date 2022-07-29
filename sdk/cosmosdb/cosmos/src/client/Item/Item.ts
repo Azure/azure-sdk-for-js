@@ -5,7 +5,7 @@ import {
   createDocumentUri,
   getIdFromLink,
   getPathFromLink,
-  isResourceValid,
+  isItemResourceValid,
   ResourceType,
   StatusCodes,
 } from "../../common";
@@ -150,7 +150,7 @@ export class Item {
     }
 
     const err = {};
-    if (!isResourceValid(body, err)) {
+    if (!isItemResourceValid(body, err)) {
       throw err;
     }
 

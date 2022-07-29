@@ -5,7 +5,7 @@ import { OperationType, ResourceType } from "./constants";
 
 const trimLeftSlashes = new RegExp("^[/]+");
 const trimRightSlashes = new RegExp("[/]+$");
-const illegalResourceIdCharacters = new RegExp("[/\\\\?#]");
+const illegalResourceIdCharacters = new RegExp("[/\\\\?#]"); 
 
 /** @hidden */
 export function jsonStringifyAndEscapeNonASCII(arg: unknown): string {
@@ -187,6 +187,35 @@ export function parsePath(path: string): string[] {
  * @hidden
  */
 export function isResourceValid(resource: { id?: string }, err: { message?: string }): boolean {
+  // TODO: fix strictness issues so that caller contexts respects the types of the functions
+  if (resource.id) {
+    if (typeof resource.id !== "string") {
+      err.message = "Id must be a string.";
+      return false;
+    }
+
+    if (
+      resource.id.indexOf("/") !== -1 ||
+      resource.id.indexOf("\\") !== -1 ||
+      resource.id.indexOf("?") !== -1 ||
+      resource.id.indexOf("#") !== -1
+    ) {
+      err.message = "Id contains illegal chars.";
+      return false;
+    }
+
+    if (resource.id[resource.id.length - 1] === " ") {
+      err.message = "Id ends with a space.";
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * @hidden
+ */
+ export function isItemResourceValid(resource: { id?: string }, err: { message?: string }): boolean {
   // TODO: fix strictness issues so that caller contexts respects the types of the functions
   if (resource.id) {
     if (typeof resource.id !== "string") {
