@@ -2,7 +2,6 @@
 
 ### Table of contents
 
-- [node-redis library](#node-redis-library)
     - [Prerequisites](#prerequisites)
     - [Authenticate with Azure AD - Hello World](#authenticate-with-azure-ad-node-redis-hello-world)
     - [Authenticate with Azure AD - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
