@@ -64,7 +64,8 @@
     "chai": "^4.2.0",
     "@types/mocha": "^7.0.2",
     "sinon": "~14.0.0",
-    "@azure-tools/test-recorder": "^2.0.0"
+    "@azure-tools/test-recorder": "^2.0.0",
+    "@azure/core-util": "~1.0.1"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms",
   "repository": {

@@ -15,6 +15,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { Context, Test } from "mocha";
 import { RoomsClient } from "../../../src";
 import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
+import { generateToken } from "./connectionUtils";
 
 export interface RecordedClient<T> {
   client: T;
@@ -25,11 +26,20 @@ const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
 };
 
+const fakeToken = generateToken();
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
       actualConnString: env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || undefined,
       fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
+    },
+  ],
+   bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
+   generalSanitizers:[
+    {
+      regex: true,
+      target: "8:acs:[A-Za-z0-9-_]+",
+      value: "Sanitized",
     },
   ],
 };
