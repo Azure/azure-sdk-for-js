@@ -8,8 +8,6 @@
 - [Authenticate with Azure AD - Using Token Cache](#authenticate-with-azure-ad-using-token-cache)
 - [Troubleshooting](#troubleshooting)
 
-### ioredis library
-
 #### Prerequisites
 
 - Configuration of Role and Role Assignments is required before using the sample code in this document.
