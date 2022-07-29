@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -48,6 +48,9 @@ describe("RoomsClient", function () {
     });
 
     it("successfully creates a room with payload", async function () {
+      if(!isLiveMode()) {
+        this.skip();
+      }
       testUser = (await createTestUser(recorder)).user;
 
       const options: CreateRoomOptions = {
@@ -78,6 +81,9 @@ describe("RoomsClient", function () {
     });
 
     it("successfully updates a default room", async function () {
+      if(!isLiveMode()) {
+        this.skip();
+      }
       const createRoom = await client.createRoom({});
       roomId = createRoom.id;
       testUser = (await createTestUser(recorder)).user;
@@ -98,6 +104,9 @@ describe("RoomsClient", function () {
     });
 
     it("successfully updates a room with participants", async function () {
+      if(!isLiveMode()) {
+        this.skip();
+      }
       testUser = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({
@@ -141,6 +150,9 @@ describe("RoomsClient", function () {
     });
 
     it("unable to update roomJoinPolicy for a room in past", async function () {
+      if(!isLiveMode()) {
+        this.skip();
+      }
       testUser = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({

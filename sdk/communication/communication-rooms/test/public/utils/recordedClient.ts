@@ -34,12 +34,25 @@ const sanitizerOptions: SanitizerOptions = {
       fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
     },
   ],
-   bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
+   bodyKeySanitizers: [
+    { 
+      jsonPath: "$.accessToken.token", 
+      value: fakeToken
+    },
+  ],
    generalSanitizers:[
     {
       regex: true,
       target: "8:acs:[A-Za-z0-9-_]+",
       value: "Sanitized",
+    },
+  ],
+  uriSanitizers: [
+    {
+      regex: true,
+      target: `(.*)/identities/(?<secret_content>.*?)[/|?](.*)`,
+      value: "sanitized",
+      groupForReplace: "secret_content",
     },
   ],
 };
@@ -52,6 +65,7 @@ const recorderOptions: RecorderStartOptions = {
 export async function createRecorder(context: Test | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
+  await recorder.setMatcher("HeaderlessMatcher");
   return recorder;
 }
 
