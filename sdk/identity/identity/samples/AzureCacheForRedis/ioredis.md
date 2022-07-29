@@ -52,7 +52,7 @@ async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
 
-  // The scope will be changed for AAD Public Preview
+  // The scope will be changed for Azure AD Public Preview
   const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
   
   // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
@@ -114,7 +114,7 @@ async function returnPassword(credential: TokenCredential) {
     // The scope will be changed for Azure AD Public Preview
     const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
 
-    // Fetch an AAD token to be used for authentication. This token will be used as the password.
+    // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
     let accessTokenObject = await credential.getToken(redisScope);
     return accessTokenObject;
   } catch (e) {
@@ -185,10 +185,10 @@ dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
   try {
-    // The scope will be changed for AAD Public Preview
+    // The scope will be changed for Azure AD Public Preview
     const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
 
-    // Fetch an AAD token to be used for authentication. This token will be used as the password.
+    // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
     let accessTokenObject = await credential.getToken(redisScope);
     return accessTokenObject;
   } catch (e) {
@@ -263,7 +263,7 @@ function sleep(ms: number) {
 In this error scenario, the username provided and the access token used as password are not compatible. To mitigate this error, navigate to your Azure Cache for Redis resource in the Azure portal. Confirm that:
 
 - In **RBAC Rules**, you've assigned the required role to your user/service principal identity.
-- In **Advanced settings**, the **AAD access authorization** box is selected. If not, select it and select the **Save** button.
+- In **Advanced settings**, the **Azure AD access authorization** box is selected. If not, select it and select the **Save** button.
 
 ##### Permissions not granted / NOPERM Error
 
