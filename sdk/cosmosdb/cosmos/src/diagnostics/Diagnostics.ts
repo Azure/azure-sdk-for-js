@@ -33,7 +33,11 @@ export function getdiagnosticsdurationMilliseconds(): number | undefined {
 /**
  * @internal
  */
-export function getCosmosDiagnostics(): string {
+export function getCosmosDiagnosticsToString(): string {
+  if (_diagnosticHeaders !== undefined) {
+    return JSON.stringify(_diagnosticHeaders);
+  }
+  setDiagnostics(defaultHeaders);
   return JSON.stringify(_diagnosticHeaders);
 }
 
@@ -45,6 +49,7 @@ export function getDiagnosticsRaw(): string {
       })
     );
   }
+  setDiagnostics(defaultHeaders);
   return JSON.stringify(_diagnosticHeaders);
 }
 

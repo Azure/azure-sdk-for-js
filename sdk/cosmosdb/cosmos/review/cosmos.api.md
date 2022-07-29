@@ -1501,10 +1501,18 @@ export interface Resource {
 }
 
 // @public (undocumented)
-export class ResourceResponse<TResource> extends CosmosDiagnostic {
+export class ResourceResponse<TResource> {
     constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
     // (undocumented)
     get activityId(): string;
+    // (undocumented)
+    get cosmosDiagnostics(): string;
+    // Warning: (ae-forgotten-export) The symbol "DiagnosticHeaders" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    get cosmosDiagnosticsRegionsContacted(): DiagnosticHeaders;
+    // (undocumented)
+    get cosmosDiagnostisDurationInMs(): number;
     // (undocumented)
     get etag(): string;
     // (undocumented)

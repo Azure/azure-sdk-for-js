@@ -186,7 +186,7 @@ export class Databases {
         new CosmosException(err);
         return createResponse;
       } else {
-        throw new CosmosException(err);
+        new CosmosException(err);
       }
     }
   }

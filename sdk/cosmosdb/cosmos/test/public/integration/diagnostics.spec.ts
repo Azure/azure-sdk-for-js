@@ -6,6 +6,7 @@ import { Container, CosmosClient } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { CosmosException } from "../../../src/diagnostics/CosmosException";
+import { removeAllDatabases } from "../common/TestHelpers";
 //import { removeAllDatabases } from "../common/TestHelpers";
 //import { recordDiagnostics } from "../../../src/diagnostics/CosmosDiagnostics";
 //import { CosmosException } from "../../../src/diagnostics/CosmosException";
@@ -13,28 +14,30 @@ import { CosmosException } from "../../../src/diagnostics/CosmosException";
 
 describe.only("Cosmos Diagnostic Tests", async function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-
-  const client = new CosmosClient({
-    endpoint,
-    key: masterKey,
+  beforeEach(async function () {
+    await removeAllDatabases();
   });
 
   describe("Cosmos diagnostic test", function () {
     it.only("should return cosmos diagnostics", async function () {
-      const database = await client.databases.createIfNotExists({ id: "CosmosDiagnosticsTest" });
-      const databaseDiagnostics = database.getCosmosDiagnostics;
-      console.log(databaseDiagnostics);
+      const client = new CosmosClient({ key: masterKey, endpoint });
+      const db = await client.databases.createIfNotExists({ id: "diagnostics" });
+      console.log(db.cosmosDiagnostics);
     });
 
     it("should handle duration condition", async function () {
+      const client = new CosmosClient({ key: masterKey, endpoint });
       const response = await client.databases.createIfNotExists({ id: "CosmosDiagnosticsTest" });
       const readItem = await response.database.read();
-      const diagnostics = readItem.getCosmosDiagnostics();
+      const diagnostics = response.activityId;
       console.log(diagnostics);
       assert(diagnostics);
       assert(JSON.parse(diagnostics));
-      assert(typeof readItem.getDuration === "number");
-      assert(readItem.getDuration() > 0 || readItem.getDuration === undefined);
+      assert(typeof readItem.cosmosDiagnostisDurationInMs === "number");
+      assert(
+        readItem.cosmosDiagnostisDurationInMs > 0 ||
+          readItem.cosmosDiagnostisDurationInMs === undefined
+      );
       assert(!diagnostics.includes('""systemHistory":null'));
       // assert(diagnostics.includes('"RequestStats ":"Create"'));
       // //assert(diagnostics.includes('"metaDataName":"CONTAINER_LOOK_UP"'));
@@ -46,6 +49,7 @@ describe.only("Cosmos Diagnostic Tests", async function (this: Suite) {
 
     it("should throw cosmos exception", async function () {
       try {
+        const client = new CosmosClient({ key: masterKey, endpoint });
         const { database: database } = await client.databases.createIfNotExists({
           id: "CosmosDiagnosticsTest",
         });

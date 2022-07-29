@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ErrorResponse } from "../request/ErrorResponse";
-import {
-  getCosmosDiagnostics,
-  getdiagnosticsdurationMilliseconds,
-  getDiagnosticsRaw,
-} from "./Diagnostics"; //static?
-export class CosmosDiagnostic implements ErrorResponse {
+import { getCosmosDiagnosticsToString, getdiagnosticsdurationMilliseconds } from "./Diagnostics"; //static?
+export class CosmosDiagnostic {
   /**
    * Regions contacted for this request.
    */
@@ -22,12 +17,6 @@ export class CosmosDiagnostic implements ErrorResponse {
    * Retrieves Response Diagnostic String.
    */
   getCosmosDiagnostics(): string {
-    return getCosmosDiagnostics();
-  }
-  /**
-   * Retrieves Response Diagnostic String.
-   */
-  raw(): string {
-    return getDiagnosticsRaw();
+    return getCosmosDiagnosticsToString();
   }
 }

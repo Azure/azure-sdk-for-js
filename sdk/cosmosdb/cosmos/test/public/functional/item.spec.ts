@@ -246,7 +246,7 @@ describe("bulk/batch item operations", function () {
         key: "A",
         class: "2010",
       });
-      console.log(itemResponse.getCosmosDiagnostics());
+      console.log(itemResponse.cosmosDiagnostics);
       deleteItemId = addEntropy("item2");
       await container.items.create({
         id: deleteItemId,
