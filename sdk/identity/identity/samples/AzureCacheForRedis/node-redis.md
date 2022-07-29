@@ -272,7 +272,7 @@ In this error scenario, the username provided and the access token used as passw
 
 ##### Permissions not granted / NOPERM Error
 
-In this error scenario, the authentication was successful, but your registered user/service principal is not granted the RBAC permission to perform the action. To mitigate this error, ensure that:
+In this error scenario, the authentication was successful, but your registered user/service principal is not granted the RBAC permission to perform the action. To mitigate this error, navigate to your Azure Cache for Redis resource in the Azure portal. Confirm that:
 
-On Portal, Under your `Redis Cache Resource` -> RBAC Rules, you've assigned the appropriate role (Owner, Contributor, Reader) to your user/service principal identity.
-In the event you're using a custom role, then ensure the permissions granted under your custom role include the one required for your target action.
+* In **RBAC Rules**, you've assigned the appropriate role (Owner, Contributor, Reader) to your user/service principal identity.
+* In the event you're using a custom role, ensure the permissions granted under your custom role include the one required for your target action.
