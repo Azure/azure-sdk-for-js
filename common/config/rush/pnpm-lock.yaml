@@ -7678,20 +7678,6 @@ packages:
       terser: 4.8.1
     dev: false
 
-  /rollup-plugin-visualizer/4.2.2_rollup@2.77.0:
-    resolution: {integrity: sha512-10/TsugsaQL5rdynl0lrklBngTtkRBESZdxUJy+3fN+xKqNdg5cr7JQU1OoPx4p5mhQ+nspa6EvX3qc8SsBvnA==}
-    engines: {node: '>=10'}
-    hasBin: true
-    peerDependencies:
-      rollup: '>=1.20.0'
-    dependencies:
-      nanoid: 3.3.4
-      open: 7.4.2
-      rollup: 2.77.0
-      source-map: 0.7.4
-      yargs: 16.2.0
-    dev: false
-
   /rollup-plugin-visualizer/5.7.1_rollup@2.77.0:
     resolution: {integrity: sha512-E/IgOMnmXKlc6ICyf53ok1b6DxPeNVUs3R0kYYPuDpGfofT4bkiG+KtSMlGjMACFmfwbbqTVDZBIF7sMZVKJbA==}
     engines: {node: '>=14'}
@@ -12451,7 +12437,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-q8q9PbYHYMJv/pCpdcRkzlRBB+F3nyrcTpVC4iMrRcCj539MBMG8BXzuXhYUCPi8rxk1aHgaXuBscIwzEe6xnQ==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-QkctnG43Z80Vq1C6ueglHksxQAsNpiz5RzY1ZoZNAVgwCys4M3k4G1CY7C2LISfzi/T0BF98A8mxUWu23YVt/w==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -12471,7 +12457,7 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -14731,7 +14717,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-Bf+HzU78QK1PW+rslrxtuSU7lE0Y/DYXlB5TaRUVSvVmD95qcPssXbE1oOe1pWVOgN2KoRQnn5995Xt6YRthFg==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-GnIa/6iFWJLhKsqhGm0K++3/8Pe541yrJJBwfhRTqjypzqdGjzubntJuEEwwW1J7FFk7IzzK0sHM6hqkcpmzwA==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -14774,7 +14760,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.6.3_f9bf48cb46bf0bc60daa3b180b80918f
       rollup-plugin-terser: 5.3.1_rollup@2.77.0
-      rollup-plugin-visualizer: 4.2.2_rollup@2.77.0
+      rollup-plugin-visualizer: 5.7.1_rollup@2.77.0
       sinon: 9.2.4
       tslib: 2.4.0
       typescript: 4.6.4
