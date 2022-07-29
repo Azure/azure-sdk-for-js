@@ -110,7 +110,7 @@ dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
   try {
-    // The scope will be changed for AAD Public Preview
+    // The scope will be changed for Azure AD Public Preview
     const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
 
     // Fetch an AAD token to be used for authentication. This token will be used as the password.
