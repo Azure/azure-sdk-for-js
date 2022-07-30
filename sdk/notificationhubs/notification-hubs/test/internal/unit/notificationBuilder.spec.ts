@@ -12,7 +12,7 @@ describe("buildAppleNativeMessage", () => {
       contentAvailable: 1,
       threadId: "123",
       relevanceScore: 1,
-      filterCriteria: "foobar"
+      filterCriteria: "foobar",
     });
 
     const parsed = JSON.parse(message.body);
@@ -31,8 +31,8 @@ describe("buildAppleNativeMessage", () => {
         title: "TITLE",
         subtitle: "SUBTITLE",
         body: "BODY",
-        launchImage: "IMAGE.JPG"
-      }
+        launchImage: "IMAGE.JPG",
+      },
     });
 
     const parsed = JSON.parse(message.body);
@@ -45,7 +45,7 @@ describe("buildAppleNativeMessage", () => {
 
   it("should build an alert string", () => {
     const message = buildAppleNativeMessage({
-      alert: "ALERT"
+      alert: "ALERT",
     });
 
     const parsed = JSON.parse(message.body);
@@ -58,8 +58,8 @@ describe("buildAppleNativeMessage", () => {
       sound: {
         critical: 1,
         name: "SOUND",
-        volume: 1
-      }
+        volume: 1,
+      },
     });
 
     const parsed = JSON.parse(message.body);
@@ -71,7 +71,7 @@ describe("buildAppleNativeMessage", () => {
 
   it("should build a sound string", () => {
     const message = buildAppleNativeMessage({
-      sound: "SOUND"
+      sound: "SOUND",
     });
 
     const parsed = JSON.parse(message.body);

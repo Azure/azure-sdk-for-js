@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createRequest, sendRequest } from "./internal/_client.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
-import { createRequest } from "./internal/_client.js";
 import { tracingClient } from "../utils/tracing.js";
 
 /**
@@ -19,22 +18,16 @@ export function getFeedbackContainerUrl(
   options: OperationOptions = {}
 ): Promise<string> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-getFeedbackContainerURL",
+    "NotificationHubsClientContext-getFeedbackContainerUrl",
     options,
     async (updatedOptions) => {
-      const endpoint = context.getBaseUrl();
+      const endpoint = context.requestUrl();
       endpoint.pathname += "/feedbackcontainer";
       const headers = context.createHeaders();
       headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
 
       const request = createRequest(endpoint, "GET", headers, updatedOptions);
-      const response = await context.sendRequest(request);
-      if (response.status !== 200) {
-        throw new RestError(`getFeedbackContainerURL failed with ${response.status}`, {
-          statusCode: response.status,
-          response: response,
-        });
-      }
+      const response = await sendRequest(context, request, 200);
 
       return response.bodyAsText!;
     }

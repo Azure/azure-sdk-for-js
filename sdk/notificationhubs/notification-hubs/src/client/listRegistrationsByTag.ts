@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createRequest, sendRequest } from "./internal/_client.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "../models/registration.js";
 import { RegistrationQueryLimitOptions } from "../models/options.js";
 import { RegistrationQueryResponse } from "../models/response.js";
-import { RestError } from "@azure/core-rest-pipeline";
-import { createRequest } from "./internal/_client.js";
 import { registrationDescriptionParser } from "../serializers/registrationSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
 
@@ -79,7 +78,7 @@ async function _listRegistrationsByTag(
   options: RegistrationQueryLimitOptions,
   continuationToken?: string
 ): Promise<RegistrationQueryResponse> {
-  const endpoint = context.getBaseUrl();
+  const endpoint = context.requestUrl();
   endpoint.pathname += `/tags/${tag}/registrations`;
   if (options.top !== undefined) {
     endpoint.searchParams.set("$top", `${options.top}`);
@@ -92,13 +91,7 @@ async function _listRegistrationsByTag(
   const headers = context.createHeaders();
 
   const request = createRequest(endpoint, "GET", headers, options);
-  const response = await context.sendRequest(request);
-  if (response.status !== 200) {
-    throw new RestError(`listRegistrations failed with ${response.status}`, {
-      statusCode: response.status,
-      response: response,
-    });
-  }
+  const response = await sendRequest(context, request, 200);
 
   const registrations = await registrationDescriptionParser.parseRegistrationFeed(
     response.bodyAsText!

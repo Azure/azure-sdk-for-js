@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRequest, parseNotificationSendResponse } from "./internal/_client.js";
+import { createRequest, parseNotificationSendResponse, sendRequest } from "./internal/_client.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsResponse } from "../models/response.js";
 import { OperationOptions } from "@azure/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing.js";
 
 /**
@@ -25,19 +24,13 @@ export function cancelScheduledNotification(
     "NotificationHubsClientContext-cancelScheduledNotification",
     options,
     async (updatedOptions) => {
-      const endpoint = context.getBaseUrl();
+      const endpoint = context.requestUrl();
       endpoint.pathname += `/schedulednotifications/${notificationId}`;
 
       const headers = context.createHeaders();
       const request = createRequest(endpoint, "DELETE", headers, updatedOptions);
 
-      const response = await context.sendRequest(request);
-      if (response.status !== 200) {
-        throw new RestError(`cancelScheduledNotification failed with ${response.status}`, {
-          statusCode: response.status,
-          response: response,
-        });
-      }
+      const response = await sendRequest(context, request, 200);
 
       return parseNotificationSendResponse(response);
     }

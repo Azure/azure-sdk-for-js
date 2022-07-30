@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpMethods, RestError } from "@azure/core-rest-pipeline";
+import { createRequest, sendRequest } from "./_client.js";
 import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
 } from "../../serializers/registrationSerializer.js";
+import { HttpMethods } from "@azure/core-rest-pipeline";
 import { NotificationHubsClientContext } from "../index.js";
 import { OperationOptions } from "@azure/core-client";
 import { RegistrationDescription } from "../../models/registration.js";
-import { createRequest } from "./_client.js";
 import { isDefined } from "../../utils/utils.js";
 
 /**
@@ -21,7 +21,7 @@ export async function createOrUpdateRegistrationDescription(
   operationName: "create" | "createOrUpdate" | "update",
   options: OperationOptions
 ): Promise<RegistrationDescription> {
-  const endpoint = context.getBaseUrl();
+  const endpoint = context.requestUrl();
   endpoint.pathname += "/registrations";
   let httpMethod: HttpMethods = "POST";
 
@@ -45,13 +45,7 @@ export async function createOrUpdateRegistrationDescription(
 
   const request = createRequest(endpoint, httpMethod, headers, options);
   request.body = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
-  const response = await context.sendRequest(request);
-  if (response.status !== 200 && response.status !== 201) {
-    throw new RestError(`${operationName}Registration failed with ${response.status}`, {
-      statusCode: response.status,
-      response: response,
-    });
-  }
+  const response = await sendRequest(context, request, [200, 201]);
 
   return registrationDescriptionParser.parseRegistrationEntry(response.bodyAsText!);
 }

@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 
 import { BrowserPushChannel, PushHandle } from "../../models/installation.js";
-import { createRequest, parseNotificationSendResponse } from "./_client.js";
+import { createRequest, parseNotificationSendResponse, sendRequest } from "./_client.js";
 import { Notification } from "../../models/notification.js";
 import { NotificationHubsClientContext } from "../index.js";
 import { NotificationHubsMessageResponse } from "../../models/response.js";
-import { RestError } from "@azure/core-rest-pipeline";
 import { SendOperationOptions } from "../../models/options.js";
 import { tracingClient } from "../../utils/tracing.js";
 
@@ -25,7 +24,7 @@ export function sendNotificationPayload(
     `NotificationHubsClientContext-${method}`,
     options,
     async (updatedOptions) => {
-      const endpoint = context.getBaseUrl();
+      const endpoint = context.requestUrl();
       endpoint.pathname += "/messages/";
 
       if (options.enableTestSend) {
@@ -66,16 +65,9 @@ export function sendNotificationPayload(
       }
 
       const request = createRequest(endpoint, "POST", headers, updatedOptions);
-
       request.body = notification.body;
 
-      const response = await context.sendRequest(request);
-      if (response.status !== 201) {
-        throw new RestError(`${method} failed with ${response.status}`, {
-          statusCode: response.status,
-          response: response,
-        });
-      }
+      const response = await sendRequest(context, request, 201);
 
       return parseNotificationSendResponse(response);
     }

@@ -2,13 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  createAppleRegistrationDescription,
-} from "@azure/notification-hubs/models/registration";
-import {
   NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
 import { assert } from "@azure/test-utils";
+import { createAppleRegistrationDescription } from "@azure/notification-hubs/models/registration";
 import { createOrUpdateRegistration } from "@azure/notification-hubs/client/createOrUpdateRegistration";
 import { createRegistrationId } from "@azure/notification-hubs/client/createRegistrationId";
 import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegistration";

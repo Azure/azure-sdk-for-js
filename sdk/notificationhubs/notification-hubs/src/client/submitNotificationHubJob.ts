@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createRequest, sendRequest } from "./internal/_client.js";
 import {
   parseNotificationHubJobEntry,
   serializeNotificationHubJobEntry,
@@ -8,8 +9,6 @@ import {
 import { NotificationHubJob } from "../models/notificationHubJob.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
-import { createRequest } from "./internal/_client.js";
 import { tracingClient } from "../utils/tracing.js";
 
 /**
@@ -29,7 +28,7 @@ export function submitNotificationHubJob(
     "NotificationHubsClientContext-submitNotificationHubJob",
     options,
     async (updatedOptions) => {
-      const endpoint = context.getBaseUrl();
+      const endpoint = context.requestUrl();
       endpoint.pathname += "/jobs";
 
       const headers = context.createHeaders();
@@ -38,13 +37,7 @@ export function submitNotificationHubJob(
       const request = createRequest(endpoint, "POST", headers, updatedOptions);
       request.body = serializeNotificationHubJobEntry(job);
 
-      const response = await context.sendRequest(request);
-      if (response.status !== 201) {
-        throw new RestError(`submitNotificationHubJob failed with ${response.status}`, {
-          statusCode: response.status,
-          response: response,
-        });
-      }
+      const response = await sendRequest(context, request, 201);
 
       return parseNotificationHubJobEntry(response.bodyAsText!);
     }

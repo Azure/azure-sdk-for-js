@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRequest, parseNotificationSendResponse } from "./_client.js";
+import { createRequest, parseNotificationSendResponse, sendRequest } from "./_client.js";
 import { Notification } from "../../models/notification.js";
 import { NotificationHubsClientContext } from "../index.js";
 import { NotificationHubsMessageResponse } from "../../models/response.js";
 import { OperationOptions } from "@azure/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../../utils/tracing.js";
 
 /**
@@ -24,7 +23,7 @@ export function scheduleNotificationPayload(
     "NotificationHubsClientContext-$scheduleNotification",
     options,
     async (updatedOptions) => {
-      const endpoint = context.getBaseUrl();
+      const endpoint = context.requestUrl();
       endpoint.pathname += "/schedulednotifications/";
 
       const headers = context.createHeaders();
@@ -49,16 +48,9 @@ export function scheduleNotificationPayload(
       }
 
       const request = createRequest(endpoint, "POST", headers, updatedOptions);
-
       request.body = notification.body;
 
-      const response = await context.sendRequest(request);
-      if (response.status !== 201) {
-        throw new RestError(`scheduleNotification failed with ${response.status}`, {
-          statusCode: response.status,
-          response: response,
-        });
-      }
+      const response = await sendRequest(context, request, 201);
 
       return parseNotificationSendResponse(response);
     }

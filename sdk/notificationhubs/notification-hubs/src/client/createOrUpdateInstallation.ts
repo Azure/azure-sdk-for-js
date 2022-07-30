@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRequest, parseNotificationResponse } from "./internal/_client.js";
+import { createRequest, parseNotificationResponse, sendRequest } from "./internal/_client.js";
 import { Installation } from "../models/installation.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsResponse } from "../models/response.js";
 import { OperationOptions } from "@azure/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing.js";
 
 /**
@@ -25,22 +24,15 @@ export function createOrUpdateInstallation(
     "NotificationHubsClientContext-createOrUpdateInstallation",
     options,
     async (updatedOptions) => {
-      const endpoint = context.getBaseUrl();
+      const endpoint = context.requestUrl();
       endpoint.pathname += `/installations/${installation.installationId}`;
       const headers = context.createHeaders();
       headers.set("Content-Type", "application/json");
 
       const request = createRequest(endpoint, "PUT", headers, updatedOptions);
-
       request.body = JSON.stringify(installation);
 
-      const response = await context.sendRequest(request);
-      if (response.status !== 200) {
-        throw new RestError(`createOrUpdateInstallation failed with ${response.status}`, {
-          statusCode: response.status,
-          response: response,
-        });
-      }
+      const response = await sendRequest(context, request, 200);
 
       return parseNotificationResponse(response);
     }

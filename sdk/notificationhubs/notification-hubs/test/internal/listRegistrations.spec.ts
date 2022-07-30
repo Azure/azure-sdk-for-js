@@ -41,10 +41,10 @@ describe("listRegistrations()", () => {
         tags: ["likes_football", "likes_hockey"],
       });
 
-      registration = await createRegistration(
+      registration = (await createRegistration(
         context,
         registration
-      ) as AppleRegistrationDescription;
+      )) as AppleRegistrationDescription;
       registrationIds.push(registration.registrationId!);
     }
   });

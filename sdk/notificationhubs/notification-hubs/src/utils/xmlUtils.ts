@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { isDefined } from "./utils.js";
+import { parseXML } from "@azure/core-xml";
 
 /**
  * Marker for atom metadata.
@@ -94,4 +95,21 @@ export function serializeToAtomXmlRequest(
     xmlns: "http://www.w3.org/2005/Atom",
   };
   return requestDetails;
+}
+
+/**
+ * @internal
+ * Parses the XML message from a Notification Hubs response
+ * @param bodyText - The HTTP response body.
+ * @returns The notification details if any from the XML.
+ */
+export async function parseXMLError(bodyText: string): Promise<string | undefined> {
+  let result: string | undefined;
+  const xmlError = await parseXML(bodyText, { includeRoot: true });
+  const detail = xmlError["Detail"];
+  if (isDefined(detail)) {
+    return detail;
+  }
+
+  return result;
 }

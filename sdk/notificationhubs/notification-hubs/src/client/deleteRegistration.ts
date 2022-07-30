@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRequest, parseNotificationResponse } from "./internal/_client.js";
+import { createRequest, parseNotificationResponse, sendRequest } from "./internal/_client.js";
 import { EntityOperationOptions } from "../models/options.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsResponse } from "../models/response.js";
-import { RestError } from "@azure/core-rest-pipeline";
 import { isDefined } from "../utils/utils.js";
 import { tracingClient } from "../utils/tracing.js";
 
@@ -25,7 +24,7 @@ export function deleteRegistration(
     "NotificationHubsClientContext-deleteRegistration",
     options,
     async (updatedOptions) => {
-      const endpoint = context.getBaseUrl();
+      const endpoint = context.requestUrl();
       endpoint.pathname += `/registrations/${registrationId}`;
 
       const headers = context.createHeaders();
@@ -33,13 +32,7 @@ export function deleteRegistration(
       headers.set("If-Match", isDefined(options.etag) ? `"${options.etag}"` : "*");
 
       const request = createRequest(endpoint, "GET", headers, updatedOptions);
-      const response = await context.sendRequest(request);
-      if (response.status !== 200) {
-        throw new RestError(`deleteRegistration failed with ${response.status}`, {
-          statusCode: response.status,
-          response: response,
-        });
-      }
+      const response = await sendRequest(context, request, 200);
 
       return parseNotificationResponse(response);
     }

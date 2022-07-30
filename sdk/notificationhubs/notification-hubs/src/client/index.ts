@@ -26,17 +26,17 @@ export interface NotificationHubsClientContext {
   /**
    * The SAS Token Provider for connecting to Notification Hubs.
    */
-  sasTokenProvider: SasTokenProvider;
+  readonly sasTokenProvider: SasTokenProvider;
 
   /**
    * The base URL for the Notification Hub namespace.
    */
-  baseUrl: string;
+  readonly baseUrl: string;
 
   /**
    * The Notification Hub name.
    */
-  hubName: string;
+  readonly hubName: string;
 
   /**
    * @internal
@@ -46,12 +46,12 @@ export interface NotificationHubsClientContext {
   /**
    * @internal
    */
-  getBaseUrl(): URL;
+  createHeaders(): HttpHeaders;
 
   /**
    * @internal
    */
-  createHeaders(): HttpHeaders;
+  requestUrl(): URL;
 }
 
 /**
@@ -107,7 +107,7 @@ class NotificationHubsServiceClient extends ServiceClient implements Notificatio
     return headers;
   }
 
-  getBaseUrl(): URL {
+  requestUrl(): URL {
     // Node doesn't allow change in protocol but browsers do, so doing a string replace
     const url = new URL(this.baseUrl.replace("sb://", "https://"));
     url.pathname = this.hubName;

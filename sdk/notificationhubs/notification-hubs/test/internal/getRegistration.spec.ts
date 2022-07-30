@@ -40,7 +40,10 @@ describe("getRegistration", () => {
       tags: ["likes_football", "likes_hockey"],
     });
 
-    registration = (await createRegistration(context, registration)) as AppleRegistrationDescription;
+    registration = (await createRegistration(
+      context,
+      registration
+    )) as AppleRegistrationDescription;
     registrationId = registration.registrationId!;
   });
 
