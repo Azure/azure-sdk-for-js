@@ -85,17 +85,16 @@ export interface ServiceBusSender {
    */
   createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
 
-  // TODO: Commented out to come up with an alternative name
-  // /**
-  //  * Opens the AMQP link to Azure Service Bus from the sender.
-  //  *
-  //  * It is not necessary to call this method in order to use the sender. It is
-  //  * recommended to call this before your first sendMessages() call if you
-  //  * want to front load the work of setting up the AMQP link to the service.
-  //  *
-  //  * @param options - Options to configure tracing and the abortSignal.
-  //  */
-  // open(options?: OperationOptionsBase): Promise<void>;
+  /**
+   * Pre-establish the AMQP link to Azure Service Bus from the sender.
+   *
+   * It is not necessary to call this method in order to use the sender. It is
+   * recommended to call this before your first sendMessages() call if you
+   * want to front load the work of setting up the AMQP link to the service.
+   *
+   * @param options - Options to configure tracing and the abortSignal.
+   */
+  preconnect(options?: OperationOptionsBase): Promise<void>;
 
   /**
    * Returns `true` if either the sender or the client that created it has been closed.
@@ -351,20 +350,19 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     return retry<void>(config);
   }
 
-  // async open(options?: OperationOptionsBase): Promise<void> {
-  //   this._throwIfSenderOrConnectionClosed();
+  async preconnect(options?: OperationOptionsBase): Promise<void> {
+    this._throwIfSenderOrConnectionClosed();
 
-  //   const config: RetryConfig<void> = {
-  //     // TODO: Pass tracing options too
-  //     operation: () => this._sender.open(undefined, options?.abortSignal),
-  //     connectionId: this._context.connectionId,
-  //     operationType: RetryOperationType.senderLink,
-  //     retryOptions: this._retryOptions,
-  //     abortSignal: options?.abortSignal
-  //   };
+    const config: RetryConfig<void> = {
+      operation: () => this._sender.open(undefined, options?.abortSignal),
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.senderLink,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal,
+    };
 
-  //   return retry<void>(config);
-  // }
+    return retry<void>(config);
+  }
 
   async close(): Promise<void> {
     try {

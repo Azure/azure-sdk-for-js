@@ -523,6 +523,7 @@ export interface ServiceBusSender {
     entityPath: string;
     identifier: string;
     isClosed: boolean;
+    preconnect(options?: OperationOptionsBase): Promise<void>;
     scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], options?: OperationOptionsBase): Promise<void>;
 }
