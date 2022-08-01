@@ -3,8 +3,8 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { RestError, SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+import { RestError, SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src/index.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("defaultRetryPolicy", function () {
   afterEach(function () {

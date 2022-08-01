@@ -10,8 +10,8 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   exponentialRetryPolicy,
-} from "../src";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+} from "../src/index.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("exponentialRetryPolicy", function () {
   afterEach(function () {

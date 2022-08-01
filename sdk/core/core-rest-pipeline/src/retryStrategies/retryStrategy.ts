@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { AzureLogger } from "@azure/logger";
-import { PipelineResponse } from "../interfaces";
-import { RestError } from "../restError";
+import { PipelineResponse } from "../interfaces.js";
+import { RestError } from "../restError.js";
 
 /**
  * Information provided to the retry strategy about the current progress of the retry policy.

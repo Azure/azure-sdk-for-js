@@ -14,11 +14,11 @@ import {
   RequestBodyType,
   TlsSettings,
   TransferProgressEvent,
-} from "./interfaces";
-import { createHttpHeaders } from "./httpHeaders";
-import { RestError } from "./restError";
+} from "./interfaces.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import { RestError } from "./restError.js";
 import { IncomingMessage } from "http";
-import { logger } from "./log";
+import { logger } from "./log.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 

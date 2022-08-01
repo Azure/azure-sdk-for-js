@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { proxyPolicy } from "../../src";
+import { proxyPolicy } from "../../src/index.js";
 
 describe("proxyPolicy (browser)", function () {
   it("Throws on creation", function () {
