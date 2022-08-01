@@ -220,7 +220,6 @@ async function main() {
     if ((accessTokenObject.expiresOnTimestamp- 120*1000) <= Date.now()) {
       accessTokenObject = await returnPassword(credential);
     }
-  
   }, 1000);
 
   for (let i = 0; i < 3; i++) {
