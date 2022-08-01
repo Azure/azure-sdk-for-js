@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TScaffoldTech } from "./scaffolding";
+import { ScaffoldTech } from "./scaffolding";
 import glob from "glob";
 import { join as pathJoin } from "path";
 
-export async function getTemplates(template: TScaffoldTech): Promise<string[]> {
+export async function getTemplates(template: ScaffoldTech): Promise<string[]> {
   const sharedFiles = await getFiles(
     pathJoin(__dirname, "templates", "_shared", "**", "**", "*.*")
   );
@@ -17,7 +17,7 @@ export async function getTemplates(template: TScaffoldTech): Promise<string[]> {
 
 async function getFiles(path: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
-    glob(path, (error, matches) => {
+    glob(path, { dot: true }, (error, matches) => {
       if (error) {
         reject(error);
       }
