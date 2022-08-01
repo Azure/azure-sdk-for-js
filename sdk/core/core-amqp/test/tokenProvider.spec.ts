@@ -19,6 +19,7 @@ describe("SasTokenProvider", function (): void {
         /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g
       );
       // account for elapsed time between two Date.now() calls
+      // eslint-disable-next-line no-unused-expressions
       (tokenInfo.expiresOnTimestamp - expiry < 2).should.be.true;
     });
 
@@ -34,6 +35,7 @@ describe("SasTokenProvider", function (): void {
         /SharedAccessSignature sr=sb%3A%2F%2Fhostname.servicebus.windows.net%2F&sig=(.*)&se=\d{10}&skn=sakName/g
       );
       // account for elapsed time between two Date.now() calls
+      // eslint-disable-next-line no-unused-expressions
       (tokenInfo.expiresOnTimestamp - expiry < 2).should.be.true;
     });
   });
