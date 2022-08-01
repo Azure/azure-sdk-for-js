@@ -49,10 +49,10 @@ directive:
     transform: $.properties.expirationDateTime["x-ms-client-name"] = "expiresOn";
   - from: swagger-document
     where: $.definitions.JobState
-    transform: $.properties.jobId["x-ms-client-name"] = "operationId";
+    transform: $.properties.jobId["x-ms-client-name"] = "id";
   - from: swagger-document
     where: $.definitions.JobState
-    transform: $.properties.lastUpdateDateTime["x-ms-client-name"] = "lastModifiedOn";
+    transform: $.properties.lastUpdateDateTime["x-ms-client-name"] = "modifiedOn";
   - from: swagger-document
     where: $.definitions.JobState
     transform: $.properties.status["x-ms-enum"].name = "OperationStatus";

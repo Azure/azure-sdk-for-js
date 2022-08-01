@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -436,6 +436,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-alpha-ids",
+      "projectFolder": "sdk/communication/communication-alpha-ids",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
@@ -762,7 +767,12 @@
     },
     {
       "packageName": "@azure-tests/perf-ai-text-analytics",
-      "projectFolder": "sdk/textanalytics/perf-tests/text-analytics",
+      "projectFolder": "sdk/textanalytics/perf-tests/ai-text-analytics",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-language-text",
+      "projectFolder": "sdk/cognitivelanguage/perf-tests/ai-language-text",
       "versionPolicyName": "test"
     },
     {

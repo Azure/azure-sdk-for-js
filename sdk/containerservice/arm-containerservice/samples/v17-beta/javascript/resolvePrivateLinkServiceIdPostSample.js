@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the private link service ID for the specified managed cluster.
  *
  * @summary Gets the private link service ID for the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ResolvePrivateLinkServiceId.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/ResolvePrivateLinkServiceId.json
  */
 async function resolveThePrivateLinkServiceIdForManagedCluster() {
   const subscriptionId = "subid1";

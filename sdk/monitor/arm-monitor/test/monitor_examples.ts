@@ -265,6 +265,6 @@ describe("Monitor test", () => {
     for await (let item of client.logProfiles.list()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 0);  //still exist sample logfile
+    assert.equal(resArray.length, 1);  //still exist sample logfile
   });
 });

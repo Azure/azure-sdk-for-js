@@ -540,7 +540,7 @@ export interface HealthcareEntityRelation {
 }
 
 /**
- * The results of a successful healthcare operation for a single document.
+ * The results of a successful healthcare analysis action for a single document.
  */
 export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
   /**
@@ -559,24 +559,24 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
 }
 
 /**
- * An error result from the healthcare operation on a single document.
+ * An error result from the healthcare analysis action on a single document.
  */
 export type HealthcareErrorResult = TextAnalysisErrorResult;
 
 /**
- * The result of the healthcare operation on a single document.
+ * The result of the healthcare analysis action on a single document.
  */
 export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 
 /**
- * The result of the extract summary operation on a single document.
+ * The result of the extractive summarization action on a single document.
  */
 export type SummarizationExtractionResult =
   | SummarizationExtractionSuccessResult
   | SummarizationExtractionErrorResult;
 
 /**
- * The result of the summarization extraction action on a single document,
+ * The result of the extractive summarization action on a single document,
  * containing a collection of the summary identified in that document.
  */
 export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
@@ -587,19 +587,19 @@ export interface SummarizationExtractionSuccessResult extends TextAnalysisSucces
 }
 
 /**
- * An error result from the extract summary operation on a single document.
+ * An error result from the extractive summarization action on a single document.
  */
 export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
 
 /**
- * The result of the custom recognize entities operation on a single document.
+ * The result of the custom entity recognition action on a single document.
  */
 export type CustomEntityRecognitionResult =
   | CustomEntityRecognitionSuccessResult
   | CustomEntityRecognitionErrorResult;
 
 /**
- * The result of the recognize custom entities operation on a single document,
+ * The result of the custom entity recognition action on a single document,
  * containing a collection of the entities identified in that document.
  */
 export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
@@ -610,19 +610,19 @@ export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSucces
 }
 
 /**
- * An error result from the recognize custom entities operation on a single document.
+ * An error result from the custom entity recognition action on a single document.
  */
 export type CustomEntityRecognitionErrorResult = TextAnalysisErrorResult;
 
 /**
- * The result of the custom classify document single category operation on a single document.
+ * The result of the single-label classification action on a single document.
  */
 export type CustomSingleLabelClassificationResult =
   | CustomSingleLabelClassificationSuccessResult
   | CustomSingleLabelClassificationErrorResult;
 
 /**
- * The result of the custom classify document single category operation on a single document,
+ * The result of a successful single-label classification action on a single document,
  * containing the result of the classification.
  */
 export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
@@ -633,19 +633,19 @@ export interface CustomSingleLabelClassificationSuccessResult extends TextAnalys
 }
 
 /**
- * An error result from the custom classify document single category operation on a single document.
+ * An error result from the single-label classification action on a single document.
  */
 export type CustomSingleLabelClassificationErrorResult = TextAnalysisErrorResult;
 
 /**
- * The result of the custom classify document multi categories operation on a multi document.
+ * The result of the multi-label classification action on a multi document.
  */
 export type CustomMultiLabelClassificationResult =
   | CustomMultiLabelClassificationSuccessResult
   | CustomMultiLabelClassificationErrorResult;
 
 /**
- * The result of the custom classify document multi categories operation on a multi document,
+ * The result of a successful multi-label classification action on a multi document,
  * containing the result of the classification.
  */
 export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
@@ -656,7 +656,7 @@ export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysi
 }
 
 /**
- * An error result from the custom classify document multi category operation on a multi document.
+ * An error result from the multi-label classification action on a multi document.
  */
 export type CustomMultiLabelClassificationErrorResult = TextAnalysisErrorResult;
 
@@ -971,11 +971,11 @@ export interface AnalyzeBatchOperationMetadata {
   /**
    * The operation id.
    */
-  readonly operationId: string;
+  readonly id: string;
   /**
    * The time the operation status was last updated.
    */
-  readonly lastModifiedOn: Date;
+  readonly modifiedOn: Date;
   /**
    * The current status of the operation.
    */

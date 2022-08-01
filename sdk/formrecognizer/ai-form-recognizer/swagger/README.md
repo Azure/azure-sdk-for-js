@@ -19,7 +19,7 @@ add-credentials: false
 typescript: true
 use-extension:
   "@autorest/typescript": "6.0.0-rc.1.20220707.1"
-package-version: "4.0.0-beta.5"
+package-version: "4.0.0-beta.6"
 ```
 
 ## Customizations for Track 2 Generator

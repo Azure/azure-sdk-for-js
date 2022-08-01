@@ -25,6 +25,7 @@ async function queryAtNestedResourceScope() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForResource(
+    "default",
     resourceId
   )) {
     resArray.push(item);
