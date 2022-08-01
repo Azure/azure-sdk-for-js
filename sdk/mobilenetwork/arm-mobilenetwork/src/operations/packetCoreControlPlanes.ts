@@ -48,7 +48,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Lists all the packetCoreControlPlanes in a subscription.
+   * Lists all the packet core control planes in a subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -90,7 +90,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Lists all the packetCoreControlPlanes in a resource group.
+   * Lists all the packet core control planes in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -243,7 +243,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Creates or updates a PacketCoreControlPlane.
+   * Creates or updates a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param parameters Parameters supplied to the create or update packet core control plane operation.
@@ -314,7 +314,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Creates or updates a PacketCoreControlPlane.
+   * Creates or updates a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param parameters Parameters supplied to the create or update packet core control plane operation.
@@ -336,10 +336,10 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Updates a PacketCoreControlPlane update tags.
+   * Updates packet core control planes tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param parameters Parameters supplied to update PacketCoreControlPlane tags.
+   * @param parameters Parameters supplied to update packet core control plane tags.
    * @param options The options parameters.
    */
   updateTags(
@@ -355,7 +355,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Lists all the packetCoreControlPlanes in a subscription.
+   * Lists all the packet core control planes in a subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -368,7 +368,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Lists all the packetCoreControlPlanes in a resource group.
+   * Lists all the packet core control planes in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -483,7 +483,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

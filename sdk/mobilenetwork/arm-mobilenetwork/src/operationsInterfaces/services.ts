@@ -78,7 +78,7 @@ export interface Services {
     options?: ServicesGetOptionalParams
   ): Promise<ServicesGetResponse>;
   /**
-   * Creates or updates a Service.
+   * Creates or updates a service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param serviceName The name of the service. You must not use any of the following reserved strings -
@@ -99,7 +99,7 @@ export interface Services {
     >
   >;
   /**
-   * Creates or updates a Service.
+   * Creates or updates a service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param serviceName The name of the service. You must not use any of the following reserved strings -
@@ -115,7 +115,7 @@ export interface Services {
     options?: ServicesCreateOrUpdateOptionalParams
   ): Promise<ServicesCreateOrUpdateResponse>;
   /**
-   * Update service tags.
+   * Updates service tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param serviceName The name of the service. You must not use any of the following reserved strings -

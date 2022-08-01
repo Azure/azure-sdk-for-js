@@ -12388,7 +12388,7 @@ packages:
     dev: false
 
   file:projects/arm-mobilenetwork.tgz:
-    resolution: {integrity: sha512-pJvCd+4NQZedYeh3FA7lg9ZpvEZmbacJxFE8WYhkXwstKVvgADXeqGaqO0F6XJb3TPAK9t3C5G7Dv9KteO7gjw==, tarball: file:projects/arm-mobilenetwork.tgz}
+    resolution: {integrity: sha512-iz3/DsLYTdVSyl9ezHyLc2JzTBf0aM8EqLfB1PbT9UtQ1IFb/Z/YzeIH+OqMOuO/2b9KQzODp3wWHK+BLFNvOQ==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
     version: 0.0.0
     dependencies:
@@ -12399,6 +12399,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12406,12 +12408,10 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
