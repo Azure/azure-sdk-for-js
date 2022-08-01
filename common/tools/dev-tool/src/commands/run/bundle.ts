@@ -39,6 +39,11 @@ export const commandInfo = makeCommandInfo(
       default: true,
       description: "include a polyfill for Node.js builtin modules",
     },
+    "output-cjs-ext": {
+      kind: "boolean",
+      default: false,
+      description: "use .cjs extension for bundle output. default is .js extension",
+    },
   }
 );
 
@@ -72,7 +77,7 @@ export default leafCommand(commandInfo, async (options) => {
       const bundle = await rollup.rollup(baseConfig);
 
       await bundle.write({
-        file: "dist/index.cjs",
+        file: `dist/index.${options["output-cjs-ext"] ? "cjs" : "js"}`,
         format: "cjs",
         sourcemap: true,
         exports: "named",
