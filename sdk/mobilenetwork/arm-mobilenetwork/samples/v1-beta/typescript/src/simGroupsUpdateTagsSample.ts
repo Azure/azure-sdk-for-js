@@ -15,24 +15,24 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Updates a sim update tags.
+ * This sample demonstrates how to Updates SIM group tags.
  *
- * @summary Updates a sim update tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SimUpdateTags.json
+ * @summary Updates SIM group tags.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SimGroupUpdateTags.json
  */
-async function updateSimTags() {
+async function updateSimGroupTags() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
-  const simName = "testSim";
+  const simGroupName = "testSimGroup";
   const parameters: TagsObject = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const result = await client.sims.updateTags(
+  const result = await client.simGroups.updateTags(
     resourceGroupName,
-    simName,
+    simGroupName,
     parameters
   );
   console.log(result);
 }
 
-updateSimTags().catch(console.error);
+updateSimGroupTags().catch(console.error);

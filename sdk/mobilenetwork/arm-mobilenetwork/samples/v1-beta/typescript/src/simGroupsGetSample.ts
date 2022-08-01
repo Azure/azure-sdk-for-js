@@ -12,21 +12,19 @@ import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets all the Sims in a subscription.
+ * This sample demonstrates how to Gets information about the specified SIM group.
  *
- * @summary Gets all the Sims in a subscription.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SimListByResourceGroup.json
+ * @summary Gets information about the specified SIM group.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SimGroupGet.json
  */
-async function listSimsInAResourceGroup() {
+async function getSimGroup() {
   const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const resourceGroupName = "testResourceGroupName";
+  const simGroupName = "testSimGroupName";
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.sims.listByResourceGroup(resourceGroupName)) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.simGroups.get(resourceGroupName, simGroupName);
+  console.log(result);
 }
 
-listSimsInAResourceGroup().catch(console.error);
+getSimGroup().catch(console.error);

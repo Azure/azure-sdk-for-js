@@ -15,10 +15,10 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Update data network tags.
+ * This sample demonstrates how to Updates data network tags.
  *
- * @summary Update data network tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/DataNetworkUpdateTags.json
+ * @summary Updates data network tags.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/DataNetworkUpdateTags.json
  */
 async function updateDataNetworkTags() {
   const subscriptionId = "subid";

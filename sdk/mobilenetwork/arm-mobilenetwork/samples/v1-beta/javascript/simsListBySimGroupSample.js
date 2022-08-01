@@ -12,20 +12,22 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Updates a sim update tags.
+ * This sample demonstrates how to Gets all the SIMs in a SIM group.
  *
- * @summary Updates a sim update tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SimUpdateTags.json
+ * @summary Gets all the SIMs in a SIM group.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SimListBySimGroup.json
  */
-async function updateSimTags() {
+async function listSiMSInASimGroup() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
-  const simName = "testSim";
-  const parameters = { tags: { tag1: "value1", tag2: "value2" } };
+  const simGroupName = "testSimGroup";
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const result = await client.sims.updateTags(resourceGroupName, simName, parameters);
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.sims.listBySimGroup(resourceGroupName, simGroupName)) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-updateSimTags().catch(console.error);
+listSiMSInASimGroup().catch(console.error);
