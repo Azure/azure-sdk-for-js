@@ -29,6 +29,7 @@
    This sample is recommended to users looking to build long-running applications and would like to handle reauthenticating with Azure AD upon token expiry.
 * [Authenticate with Azure AD - Using Token Cache](#authenticate-with-azure-ad-using-token-cache):
   This sample is recommended to users looking to build long-running applications that would like to handle reauthenticating with a token cache. The token cache stores and proactively refreshes the Azure AD access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
+
 #### Authenticate with Azure AD: Hello World
 
 This sample is intended to assist in authenticating with Azure AD via the ioredis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance.
