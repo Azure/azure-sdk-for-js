@@ -211,7 +211,6 @@ async function main() {
       tls: true,
       keepAlive:0
     },
-    
   });
   await redisClient.connect();
   
