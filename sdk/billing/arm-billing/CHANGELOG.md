@@ -1,15 +1,34 @@
 # Release History
+    
+## 4.1.0-beta.1 (2022-08-01)
+    
+**Features**
 
-## 4.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Agreement
+  - Added Interface AvailableBalance
+  - Added Interface BillingAccount
+  - Added Interface BillingPeriod
+  - Added Interface BillingProfile
+  - Added Interface BillingProfileInfo
+  - Added Interface BillingProperty
+  - Added Interface BillingRoleAssignment
+  - Added Interface BillingRoleDefinition
+  - Added Interface BillingSubscription
+  - Added Interface Customer
+  - Added Interface CustomerPolicy
+  - Added Interface Department
+  - Added Interface EnrollmentAccount
+  - Added Interface EnrollmentAccountSummary
+  - Added Interface Instruction
+  - Added Interface Invoice
+  - Added Interface InvoiceSection
+  - Added Interface OperationsErrorDetails
+  - Added Interface OperationsErrorResponse
+  - Added Interface Policy
+  - Added Interface Product
+  - Added Interface Transaction
+  - Interface BillingProfileListResult has a new optional parameter totalCount
+    
 ## 4.0.1 (2022-04-11)
 
   - Bug fix

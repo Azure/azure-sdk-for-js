@@ -771,6 +771,13 @@ export const BillingProfileListResult: coreClient.CompositeMapper = {
           }
         }
       },
+      totalCount: {
+        serializedName: "totalCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
@@ -1341,102 +1348,6 @@ export const TransactionListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const OperationListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Operation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Operation",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isDataAction: {
-        serializedName: "isDataAction",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "OperationDisplay"
-        }
-      }
-    }
-  }
-};
-
-export const OperationDisplay: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationDisplay",
-    modelProperties: {
-      provider: {
-        serializedName: "provider",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resource: {
-        serializedName: "resource",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        serializedName: "operation",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const BillingRoleDefinitionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1516,6 +1427,33 @@ export const AgreementListResult: coreClient.CompositeMapper = {
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BillingProfileInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingProfileInfo",
+    modelProperties: {
+      billingProfileId: {
+        serializedName: "billingProfileId",
+        type: {
+          name: "String"
+        }
+      },
+      billingProfileDisplayName: {
+        serializedName: "billingProfileDisplayName",
+        type: {
+          name: "String"
+        }
+      },
+      indirectRelationshipOrganizationName: {
+        serializedName: "indirectRelationshipOrganizationName",
         type: {
           name: "String"
         }
@@ -1938,6 +1876,148 @@ export const BillingPeriodsListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Operation"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Operation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Operation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "OperationDisplay"
+        }
+      }
+    }
+  }
+};
+
+export const OperationDisplay: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationDisplay",
+    modelProperties: {
+      provider: {
+        serializedName: "provider",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resource: {
+        serializedName: "resource",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      operation: {
+        serializedName: "operation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationsErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationsErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "OperationsErrorDetails"
+        }
+      }
+    }
+  }
+};
+
+export const OperationsErrorDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationsErrorDetails",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
         readOnly: true,
         type: {
           name: "String"
@@ -3578,6 +3658,13 @@ export const Agreement: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      billingProfileInfo: {
+        serializedName: "properties.billingProfileInfo",
+        type: {
+          name: "Composite",
+          className: "BillingProfileInfo"
         }
       },
       effectiveDate: {
