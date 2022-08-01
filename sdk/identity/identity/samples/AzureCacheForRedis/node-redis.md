@@ -85,6 +85,7 @@ main().catch((err) => {
 ```
 
 ##### Supported Token Credentials for Azure AD Authentication
+
 **Note:** The samples in this doc use the Azure Identity library's `DefaultAzureCredential` to fetch Azure AD access token. The samples also use a Service Principal name as the username. The other supported `TokenCredential` implementations that can be used from [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) are as follows:
 
 * [Client Certificate Credential](https://docs.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest)
