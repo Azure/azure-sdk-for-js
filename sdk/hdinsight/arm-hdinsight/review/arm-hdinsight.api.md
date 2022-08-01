@@ -22,14 +22,14 @@ export interface AaddsResourceDetails {
 }
 
 // @public
-export type Application = ProxyResource & {
+export interface Application extends ProxyResource {
     etag?: string;
+    properties?: ApplicationProperties;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
-    properties?: ApplicationProperties;
-    readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface ApplicationGetEndpoint {
@@ -241,13 +241,13 @@ export interface ClientGroupInfo {
 }
 
 // @public
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
     etag?: string;
-    zones?: string[];
-    properties?: ClusterGetProperties;
     identity?: ClusterIdentity;
+    properties?: ClusterGetProperties;
     readonly systemData?: SystemData;
-};
+    zones?: string[];
+}
 
 // @public
 export interface ClusterConfigurations {
@@ -288,12 +288,12 @@ export interface ClusterCreateProperties {
 }
 
 // @public
-export type ClusterCreateRequestValidationParameters = ClusterCreateParametersExtended & {
-    name?: string;
-    type?: string;
-    tenantId?: string;
+export interface ClusterCreateRequestValidationParameters extends ClusterCreateParametersExtended {
     fetchAaddsResource?: boolean;
-};
+    name?: string;
+    tenantId?: string;
+    type?: string;
+}
 
 // @public
 export interface ClusterCreateValidationResult {
@@ -831,183 +831,126 @@ export interface KafkaRestProperties {
 
 // @public
 export enum KnownAsyncOperationState {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDaysOfWeek {
-    // (undocumented)
     Friday = "Friday",
-    // (undocumented)
     Monday = "Monday",
-    // (undocumented)
     Saturday = "Saturday",
-    // (undocumented)
     Sunday = "Sunday",
-    // (undocumented)
     Thursday = "Thursday",
-    // (undocumented)
     Tuesday = "Tuesday",
-    // (undocumented)
     Wednesday = "Wednesday"
 }
 
 // @public
 export enum KnownDirectoryType {
-    // (undocumented)
     ActiveDirectory = "ActiveDirectory"
 }
 
 // @public
 export enum KnownFilterMode {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     Exclude = "Exclude",
-    // (undocumented)
     Include = "Include",
-    // (undocumented)
     Recommend = "Recommend"
 }
 
 // @public
 export enum KnownHDInsightClusterProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownJsonWebKeyEncryptionAlgorithm {
-    // (undocumented)
     RSA15 = "RSA1_5",
-    // (undocumented)
     RSAOaep = "RSA-OAEP",
-    // (undocumented)
     RSAOaep256 = "RSA-OAEP-256"
 }
 
 // @public
 export enum KnownOSType {
-    // (undocumented)
     Linux = "Linux",
-    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPrivateIPAllocationMethod {
-    // (undocumented)
     Dynamic = "dynamic",
-    // (undocumented)
     Static = "static"
 }
 
 // @public
 export enum KnownPrivateLink {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownPrivateLinkConfigurationProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected",
-    // (undocumented)
     Removed = "Removed"
 }
 
 // @public
 export enum KnownResourceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownResourceProviderConnection {
-    // (undocumented)
     Inbound = "Inbound",
-    // (undocumented)
     Outbound = "Outbound"
 }
 
 // @public
 export enum KnownRoleName {
-    // (undocumented)
     Workernode = "workernode"
 }
 
 // @public
 export enum KnownTier {
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
@@ -1175,13 +1118,13 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
-    readonly systemData?: SystemData;
+export interface PrivateEndpointConnection extends Resource {
+    readonly linkIdentifier?: string;
     readonly privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-    readonly linkIdentifier?: string;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -1258,12 +1201,12 @@ export interface PrivateLinkConfiguration {
 export type PrivateLinkConfigurationProvisioningState = string;
 
 // @public
-export type PrivateLinkResource = ResourceAutoGenerated & {
-    readonly systemData?: SystemData;
+export interface PrivateLinkResource extends ResourceAutoGenerated {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -1301,7 +1244,8 @@ export interface PrivateLinkServiceConnectionState {
 export type PrivateLinkServiceConnectionStatus = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface QuotaCapability {
@@ -1380,15 +1324,15 @@ export interface RuntimeScriptAction {
 }
 
 // @public
-export type RuntimeScriptActionDetail = RuntimeScriptAction & {
+export interface RuntimeScriptActionDetail extends RuntimeScriptAction {
+    readonly debugInformation?: string;
+    readonly endTime?: string;
+    readonly executionSummary?: ScriptActionExecutionSummary[];
+    readonly operation?: string;
     readonly scriptExecutionId?: number;
     readonly startTime?: string;
-    readonly endTime?: string;
     readonly status?: string;
-    readonly operation?: string;
-    readonly executionSummary?: ScriptActionExecutionSummary[];
-    readonly debugInformation?: string;
-};
+}
 
 // @public
 export interface ScriptAction {
@@ -1548,12 +1492,12 @@ export interface SystemData {
 export type Tier = string;
 
 // @public
-export type TrackedResource = ResourceAutoGenerated & {
+export interface TrackedResource extends ResourceAutoGenerated {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface UpdateClusterIdentityCertificateParameters {
