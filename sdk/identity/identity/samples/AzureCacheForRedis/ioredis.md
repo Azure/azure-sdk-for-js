@@ -32,11 +32,11 @@
 
 #### Authenticate with Azure AD: Hello World
 
-This sample is intended to assist in authenticating with Azure AD via the ioredis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance.
+This sample is intended to assist in authenticating a hosted Azure Cache for Redis instance with Azure AD via the ioredis client library. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance.
 
 ##### Migration Guidance
 
-When migrating your existing application code, replace the password input with Azure AD token. Azure Redis Cache name, username, Azure AD token, and use of SSL are required while connecting with the cache.
+When migrating your existing application code to authenticate with Azure AD, replace the password input with Azure AD token. Azure Redis Cache name, username, Azure AD token, and use of SSL are required while connecting with the cache.
 The username will depend on whether you're using service principal, managed identity, or Microsoft username.
 
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code.
@@ -96,11 +96,11 @@ main().catch((err) => {
 
 #### Authenticate with Azure AD: Handle Reauthentication
 
-This sample is intended to assist in authenticating with Azure AD via ioredis. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance. It further shows how to recreate and authenticate the ioredis instance when its connection is broken in error/exception scenarios.
+This sample is intended to assist in authenticating a hosted Azure Cache for Redis instance with Azure AD via ioredis. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance. It further shows how to recreate and authenticate the ioredis instance when its connection is broken in error/exception scenarios.
 
 ##### Migration Guidance
 
-When migrating your existing application code, replace the password input with Azure AD token.
+When migrating your existing application code to authenticate with Azure AD, replace the password input with Azure AD token.
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace the password configuring/retrieving logic in your application code.
 
 ```ts
@@ -170,11 +170,11 @@ main().catch((err) => {
 
 #### Authenticate with Azure AD: Using Token Cache
 
-This sample is intended to assist in authenticating with Azure AD via the ioredis client library. It focuses on displaying the logic required to fetch an Azure AD access token using a token cache and to use it as password when setting up the ioredis instance. It also shows how to recreate and authenticate the ioredis instance using the cached access token when the client's connection is broken in error/exception scenarios. The token cache stores and proactively refreshes the Azure AD access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
+This sample is intended to assist in authenticating a hosted Azure Cache for Redis instance with Azure AD via the ioredis client library. It focuses on displaying the logic required to fetch an Azure AD access token using a token cache and to use it as password when setting up the ioredis instance. It also shows how to recreate and authenticate the ioredis instance using the cached access token when the client's connection is broken in error/exception scenarios. The token cache stores and proactively refreshes the Azure AD access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
 
 ##### Migration Guidance
 
-When migrating your existing your application code, you need to replace the password input with the Azure AD token.
+When migrating your existing your application code to authenticate with Azure AD, you need to replace the password input with the Azure AD token.
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library. Store the token in a token cache, as shown below. Replace the token with the password configuring/retrieving logic in your application code.
 
 ```ts
