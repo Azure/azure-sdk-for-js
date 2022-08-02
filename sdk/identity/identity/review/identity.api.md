@@ -128,10 +128,12 @@ export type ClientCertificateCredentialPEMConfiguration = ClientCertificatePEMCe
 // @public
 export interface ClientCertificatePEMCertificate {
     certificate: string;
+    certificatePassword?: string;
 }
 
 // @public
 export interface ClientCertificatePEMCertificatePath {
+    certificatePassword?: string;
     certificatePath: string;
 }
 
