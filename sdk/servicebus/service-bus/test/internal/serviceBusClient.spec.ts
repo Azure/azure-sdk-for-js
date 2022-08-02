@@ -222,7 +222,7 @@ describe("ServiceBusClient live tests", () => {
     });
 
     it("throws error when receiving streaming data from a non existing namespace", async function (): Promise<void> {
-      const receiver = sbClient.createReceiver("some-queue");
+      const receiver = sbClient.createReceiver("some-queue", { identifier: "receiverId" });
       reduceRetries(receiver);
 
       try {
@@ -235,12 +235,14 @@ describe("ServiceBusClient live tests", () => {
               errorSource: args.errorSource,
               entityPath: args.entityPath,
               fullyQualifiedNamespace: args.fullyQualifiedNamespace,
+              identifier: args.identifier,
             };
 
             actual.should.deep.equal({
               errorSource: "receive",
               entityPath: receiver.entityPath,
               fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
+              identifier: "receiverId",
             } as Omit<ProcessErrorArgs, "error">);
 
             testError(args.error);
@@ -326,7 +328,7 @@ describe("ServiceBusClient live tests", () => {
     });
 
     it("throws error when receiving streaming data from a non existing queue", async function (): Promise<void> {
-      const receiver = sbClient.createReceiver("some-name");
+      const receiver = sbClient.createReceiver("some-name", { identifier: "receiverId" });
       reduceRetries(receiver);
 
       receiver.subscribe({
@@ -338,12 +340,14 @@ describe("ServiceBusClient live tests", () => {
             errorSource: args.errorSource,
             entityPath: args.entityPath,
             fullyQualifiedNamespace: args.fullyQualifiedNamespace,
+            identifier: args.identifier,
           };
 
           actual.should.deep.equal({
             errorSource: "receive",
             entityPath: receiver.entityPath,
             fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
+            identifier: "receiverId",
           } as Omit<ProcessErrorArgs, "error">);
 
           testError(args.error, "some-name");
@@ -359,10 +363,9 @@ describe("ServiceBusClient live tests", () => {
     });
 
     it("throws error when receiving streaming data from a non existing topic", async function (): Promise<void> {
-      const receiver = sbClient.createReceiver(
-        "some-topic-name",
-        "some-subscription-name"
-      ) as ServiceBusReceiverImpl;
+      const receiver = sbClient.createReceiver("some-topic-name", "some-subscription-name", {
+        identifier: "receiverId",
+      }) as ServiceBusReceiverImpl;
       reduceRetries(receiver);
 
       receiver.subscribe({
@@ -374,12 +377,14 @@ describe("ServiceBusClient live tests", () => {
             errorSource: args.errorSource,
             entityPath: args.entityPath,
             fullyQualifiedNamespace: args.fullyQualifiedNamespace,
+            identifier: args.identifier,
           };
 
           expected.should.deep.equal({
             errorSource: "receive",
             entityPath: receiver.entityPath,
             fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
+            identifier: "receiverId",
           } as Omit<ProcessErrorArgs, "error">);
 
           testError(args.error, "some-topic-name/Subscriptions/some-subscription-name");
@@ -404,10 +409,9 @@ describe("ServiceBusClient live tests", () => {
       if (!entityNames.topic) {
         throw new Error("Expecting valid topic name");
       }
-      const receiver = sbClient.createReceiver(
-        entityNames.topic,
-        "some-subscription-name"
-      ) as ServiceBusReceiverImpl;
+      const receiver = sbClient.createReceiver(entityNames.topic, "some-subscription-name", {
+        identifier: "receiverId",
+      }) as ServiceBusReceiverImpl;
       reduceRetries(receiver);
 
       receiver.subscribe({
@@ -419,12 +423,14 @@ describe("ServiceBusClient live tests", () => {
             errorSource: args.errorSource,
             entityPath: args.entityPath,
             fullyQualifiedNamespace: args.fullyQualifiedNamespace,
+            identifier: args.identifier,
           };
 
           expected.should.deep.equal({
             errorSource: "receive",
             entityPath: receiver.entityPath,
             fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
+            identifier: "receiverId",
           } as Omit<ProcessErrorArgs, "error">);
 
           testError(args.error);

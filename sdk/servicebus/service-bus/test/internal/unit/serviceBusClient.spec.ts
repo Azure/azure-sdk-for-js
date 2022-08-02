@@ -298,18 +298,18 @@ describe("serviceBusClient unit tests", () => {
   describe("client identifier option", () => {
     const connectionString =
       "Endpoint=sb://testnamespace/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=testKey;EntityPath=testEntityPath";
-    it("message sender created with client identifier", () => {
+    it("message sender created with specified identifier", () => {
       const client = new ServiceBusClient(connectionString, { identifier: "sbClientIdentifier" });
-      const sender = client.createSender("testEntityPath");
+      const sender = client.createSender("testEntityPath", { identifier: "sbSenderId" });
 
-      assert.equal((sender as ServiceBusSenderImpl)["_sender"]["clientId"], "sbClientIdentifier");
+      assert.equal((sender as ServiceBusSenderImpl)["_sender"]["identifier"], "sbSenderId");
     });
 
-    it("message receiver created with client identifier", () => {
+    it("message receiver created with specified identifier", () => {
       const client = new ServiceBusClient(connectionString, { identifier: "sbClientIdentifier" });
-      const sender = client.createReceiver("testEntityPath");
+      const receiver = client.createReceiver("testEntityPath", { identifier: "sbReceiverId" });
 
-      assert.equal((sender as unknown as MessageReceiver)["clientId"], "sbClientIdentifier");
+      assert.equal((receiver as unknown as MessageReceiver)["identifier"], "sbReceiverId");
     });
 
     it("unique client identifier is created if not specified via options", () => {
@@ -319,9 +319,127 @@ describe("serviceBusClient unit tests", () => {
       assert.ok(client2.identifier, "expect valid identifier for client2");
       assert.notEqual(client1.identifier, client2.identifier, "client identifier should be unique");
       const uuidRegex =
-        /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-      assert.ok(uuidRegex.test(client1.identifier), "expect uuid identifer for client1");
-      assert.ok(uuidRegex.test(client2.identifier), "expect uuid identifer for client2");
+        /^testnamespace-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+      assert.ok(uuidRegex.test(client1.identifier), "expect random identifier for client1");
+      assert.ok(uuidRegex.test(client2.identifier), "expect random identifier for client2");
+    });
+
+    it("unique sender identifier is created if not specified via options", () => {
+      const client = new ServiceBusClient(connectionString, { identifier: "sbClientIdentifier" });
+      const sender = client.createSender("testEntityPath");
+
+      const uuidRegex =
+        /^testEntityPath-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
+      assert.ok(
+        uuidRegex.test((sender as ServiceBusSenderImpl)["_sender"]["identifier"]),
+        "expect random receiver identifier"
+      );
+    });
+
+    it("unique receiver identifier is created if not specified via options", () => {
+      const client = new ServiceBusClient(connectionString);
+      const receiver = client.createReceiver("testEntityPath");
+      const uuidRegex =
+        /^testEntityPath-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
+      assert.ok(
+        uuidRegex.test((receiver as unknown as MessageReceiver)["identifier"]),
+        "expect random receiver identifier"
+      );
+    });
+
+    testEntities.forEach(async (testEntity) => {
+      const connectionStr =
+        "Endpoint=sb://testnamespace/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=testKey";
+
+      it("acceptSession receiver created with specified identifier", async () => {
+        const client = new ServiceBusClient(connectionStr);
+        const origConnectionContext = client["_connectionContext"];
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("sessionId", {
+          ...origConnectionContext.config,
+          entityPath: testEntity.topic ? testEntity.topic : testEntity.queue,
+        });
+        try {
+          let receiver: ServiceBusSessionReceiver;
+          if (testEntity.queue) {
+            receiver = await client.acceptSession(testEntity.queue, "sessionId", {
+              identifier: "sbSessionReceiverId",
+            });
+          } else {
+            receiver = await client.acceptSession(
+              testEntity.topic!,
+              testEntity.subscription!,
+              "sessionId",
+              { identifier: "sbSessionReceiverId" }
+            );
+          }
+
+          assert.equal(
+            (receiver as unknown as MessageReceiver)["identifier"],
+            "sbSessionReceiverId"
+          );
+        } finally {
+          await client.close();
+        }
+      });
+
+      it("acceptNextSession receiver created with specified identifier", async () => {
+        const client = new ServiceBusClient(connectionStr);
+        const origConnectionContext = client["_connectionContext"];
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("sessionId", {
+          ...origConnectionContext.config,
+          entityPath: testEntity.topic ? testEntity.topic : testEntity.queue,
+        });
+        try {
+          let receiver: ServiceBusSessionReceiver;
+          if (testEntity.queue) {
+            receiver = await client.acceptNextSession(testEntity.queue, {
+              identifier: "sbSessionReceiverId",
+            });
+          } else {
+            receiver = await client.acceptNextSession(testEntity.topic!, testEntity.subscription!, {
+              identifier: "sbSessionReceiverId",
+            });
+          }
+
+          assert.equal(
+            (receiver as unknown as MessageReceiver)["identifier"],
+            "sbSessionReceiverId"
+          );
+        } finally {
+          await client.close();
+        }
+      });
+
+      it("unique session receiver identifier is created if not specified via options", async () => {
+        const client = new ServiceBusClient(connectionStr);
+        const origConnectionContext = client["_connectionContext"];
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("sessionId", {
+          ...origConnectionContext.config,
+          entityPath: testEntity.topic ? testEntity.topic : testEntity.queue,
+        });
+        try {
+          let receiver: ServiceBusSessionReceiver;
+          let uuidRegex: RegExp;
+          if (testEntity.queue) {
+            receiver = await client.acceptNextSession(testEntity.queue);
+            uuidRegex =
+              /^thequeue-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+          } else {
+            receiver = await client.acceptNextSession(testEntity.topic!, testEntity.subscription!);
+            uuidRegex =
+              /^thetopic\/Subscriptions\/thesubscription-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+          }
+
+          assert.ok(
+            uuidRegex.test((receiver as unknown as ServiceBusSessionReceiver)["identifier"]),
+            "expect random session receiver identifier"
+          );
+        } finally {
+          await client.close();
+        }
+      });
     });
   });
 

@@ -27,6 +27,7 @@ import { TracingSpanLink } from "@azure/core-tracing";
 import { senderLogger as logger } from "./log";
 import { ServiceBusError } from "./serviceBusError";
 import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
+import { ensureValidIdentifier } from "./util/utils";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -35,6 +36,11 @@ import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
  * The Sender class is an abstraction over the underlying AMQP sender link.
  */
 export interface ServiceBusSender {
+  /**
+   * A name used to identify the sender. This can be used to correlate logs and exceptions.
+   * If not specified or empty, a random unique one will be generated.
+   */
+  identifier: string;
   /**
    * Sends the given messages after creating an AMQP Sender link if it doesn't already exist.
    *
@@ -140,6 +146,7 @@ export interface ServiceBusSender {
  * @internal
  */
 export class ServiceBusSenderImpl implements ServiceBusSender {
+  public identifier: string;
   private _retryOptions: RetryOptions;
   /**
    * Denotes if close() was called on this sender
@@ -157,14 +164,15 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
    * @throws Error if the underlying connection is closed.
    */
   constructor(
-    clientId: string,
     private _context: ConnectionContext,
     private _entityPath: string,
-    retryOptions: RetryOptions = {}
+    retryOptions: RetryOptions = {},
+    identifier?: string
   ) {
     throwErrorIfConnectionClosed(_context);
     this.entityPath = _entityPath;
-    this._sender = MessageSender.create(clientId, this._context, _entityPath, retryOptions);
+    this.identifier = ensureValidIdentifier(this.entityPath, identifier);
+    this._sender = MessageSender.create(this.identifier, this._context, _entityPath, retryOptions);
     this._retryOptions = retryOptions;
   }
 

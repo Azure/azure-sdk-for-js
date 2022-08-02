@@ -420,11 +420,17 @@ describe("LinkEntity unit tests", () => {
     });
 
     it("session", () => {
-      const messageSession = new MessageSession(connectionContext, "entityPath", "session-id", {
-        abortSignal: undefined,
-        retryOptions: {},
-        skipParsingBodyAsJson: false,
-      });
+      const messageSession = new MessageSession(
+        "identifier",
+        connectionContext,
+        "entityPath",
+        "session-id",
+        {
+          abortSignal: undefined,
+          retryOptions: {},
+          skipParsingBodyAsJson: false,
+        }
+      );
 
       initCachedLinks(messageSession.name);
 
