@@ -76,7 +76,7 @@ describe("EnvironmentCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it.only("authenticates with a client certificate and password on the environment variables", async function (this: Context) {
+  it("authenticates with a client certificate and password on the environment variables", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
