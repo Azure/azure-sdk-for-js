@@ -3926,7 +3926,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220801
+      typescript: 4.8.0-dev.20220802
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -7749,20 +7749,6 @@ packages:
       terser: 4.8.1
     dev: false
 
-  /rollup-plugin-visualizer/4.2.2_rollup@2.77.2:
-    resolution: {integrity: sha512-10/TsugsaQL5rdynl0lrklBngTtkRBESZdxUJy+3fN+xKqNdg5cr7JQU1OoPx4p5mhQ+nspa6EvX3qc8SsBvnA==}
-    engines: {node: '>=10'}
-    hasBin: true
-    peerDependencies:
-      rollup: '>=1.20.0'
-    dependencies:
-      nanoid: 3.3.4
-      open: 7.4.2
-      rollup: 2.77.2
-      source-map: 0.7.4
-      yargs: 16.2.0
-    dev: false
-
   /rollup-plugin-visualizer/5.7.1_rollup@2.77.2:
     resolution: {integrity: sha512-E/IgOMnmXKlc6ICyf53ok1b6DxPeNVUs3R0kYYPuDpGfofT4bkiG+KtSMlGjMACFmfwbbqTVDZBIF7sMZVKJbA==}
     engines: {node: '>=14'}
@@ -8711,8 +8697,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220801:
-    resolution: {integrity: sha512-idPY4geCSbS6npeHcr4m4nITkxz0/w4LmLSAao0UGvaWoHGFfkThJZhCXWFAx9TxQV1zZUWgXmngJBjfTm3otw==}
+  /typescript/4.8.0-dev.20220802:
+    resolution: {integrity: sha512-xMw8U8T1pIm07TgNJnK88EvkcsbWiyefGwLh6JsK0HD5wb00Oqw7pjHOhvyB2YHiUw4mKJQkiRUoPvQ55ZcZOQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12474,11 +12460,10 @@ packages:
     dev: false
 
   file:projects/arm-mobilenetwork.tgz:
-    resolution: {integrity: sha512-pJvCd+4NQZedYeh3FA7lg9ZpvEZmbacJxFE8WYhkXwstKVvgADXeqGaqO0F6XJb3TPAK9t3C5G7Dv9KteO7gjw==, tarball: file:projects/arm-mobilenetwork.tgz}
+    resolution: {integrity: sha512-iz3/DsLYTdVSyl9ezHyLc2JzTBf0aM8EqLfB1PbT9UtQ1IFb/Z/YzeIH+OqMOuO/2b9KQzODp3wWHK+BLFNvOQ==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
@@ -12494,12 +12479,10 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
@@ -12529,7 +12512,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-q8q9PbYHYMJv/pCpdcRkzlRBB+F3nyrcTpVC4iMrRcCj539MBMG8BXzuXhYUCPi8rxk1aHgaXuBscIwzEe6xnQ==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-QkctnG43Z80Vq1C6ueglHksxQAsNpiz5RzY1ZoZNAVgwCys4M3k4G1CY7C2LISfzi/T0BF98A8mxUWu23YVt/w==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -12549,7 +12532,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -14809,7 +14792,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-Bf+HzU78QK1PW+rslrxtuSU7lE0Y/DYXlB5TaRUVSvVmD95qcPssXbE1oOe1pWVOgN2KoRQnn5995Xt6YRthFg==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-GnIa/6iFWJLhKsqhGm0K++3/8Pe541yrJJBwfhRTqjypzqdGjzubntJuEEwwW1J7FFk7IzzK0sHM6hqkcpmzwA==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -14852,7 +14835,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.6.3_33537704779d09e8a7b3ae8d1134dd59
       rollup-plugin-terser: 5.3.1_rollup@2.77.2
-      rollup-plugin-visualizer: 4.2.2_rollup@2.77.2
+      rollup-plugin-visualizer: 5.7.1_rollup@2.77.2
       sinon: 9.2.4
       tslib: 2.4.0
       typescript: 4.6.4
@@ -15274,7 +15257,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-kFvDGkHgBZKHzAezl+ocDbg2Lv4+skk6kM2wLOd1cTTOoTudrJbDteVmrDs1nZnDHqNSkaCOVQWHsyDiW+kyVA==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-OpRqpDZvMKXtVyuu74PRTmgDXTHLtTYe4uxSxrZXfj61nLSyjD3dUHUdVVs+/Ys01lXdD0b1QB2vFMtcTohZDg==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -15550,7 +15533,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-QTx/DCCRO4KtqPEtt64oyn/HM+ai/yQE9rsQsP6/O9Iiy5nuOlbczHtsTTnulO9z/hNkIh5n0f7k50jF2QIpwQ==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-5+zd043sDM/odtnG6BPT/QsrUgTlw6vfUQmyu3qEqC79GCGbe9m/bbXvkBlnGd7hOjJ/zfO/4CHjn50h23MhgA==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
