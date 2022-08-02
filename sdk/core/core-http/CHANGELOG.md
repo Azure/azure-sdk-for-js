@@ -1,16 +1,11 @@
 # Release History
 
-## 2.2.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 2.2.6 (2022-08-04)
 
 ### Other Changes
 
 - Removed the constraints check during serialization. Please refer [#21839](https://github.com/Azure/azure-sdk-for-js/issues/21839) for further details.
+- Address Trusted Types compliance issue.
 
 ## 2.2.5 (2022-05-05)
 

@@ -12,10 +12,10 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Deletes the specified sim policy.
+ * This sample demonstrates how to Deletes the specified SIM policy.
  *
- * @summary Deletes the specified sim policy.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SimPolicyDelete.json
+ * @summary Deletes the specified SIM policy.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SimPolicyDelete.json
  */
 async function deleteSimPolicy() {
   const subscriptionId = "subid";

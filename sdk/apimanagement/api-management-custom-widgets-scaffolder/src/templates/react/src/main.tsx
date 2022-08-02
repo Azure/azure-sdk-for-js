@@ -1,18 +1,17 @@
 import {StrictMode} from "react"
-import ReactDOM from "react-dom"
+import {createRoot} from "react-dom/client"
 
-import "./styles/shared.css"
-import "./styles/app.css"
+import "./styles/app.scss"
 import App from "./app"
-import {EditorDataProvider, SecretsProvider} from "./Providers"
+import {SecretsProvider, WidgetDataProvider} from "./providers"
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root")!)
+root.render(
   <StrictMode>
-    <EditorDataProvider>
+    <WidgetDataProvider>
       <SecretsProvider targetModule="app">
         <App />
       </SecretsProvider>
-    </EditorDataProvider>
+    </WidgetDataProvider>
   </StrictMode>,
-  document.getElementById("root")
 )

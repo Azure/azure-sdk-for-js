@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TECHNOLOGIES, TWidgetConfig, displayNameToName } from "../src/scaffolding";
+import { TECHNOLOGIES, WidgetConfig, displayNameToName } from "../src/scaffolding";
 
 import { assert } from "chai";
 import { generateProject } from "../src";
 import { promises } from "fs";
 import sinon from "sinon";
 
-const widgetConfig: Omit<TWidgetConfig, "technology"> = {
+const widgetConfig: Omit<WidgetConfig, "technology"> = {
   displayName: "Contoso App",
 };
 const deployConfig = {

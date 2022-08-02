@@ -12,10 +12,10 @@ import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets all the simPolicies in a mobile network.
+ * This sample demonstrates how to Gets all the SIM policies in a mobile network.
  *
- * @summary Gets all the simPolicies in a mobile network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SimPolicyListByMobileNetwork.json
+ * @summary Gets all the SIM policies in a mobile network.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SimPolicyListByMobileNetwork.json
  */
 async function listSimPoliciesInAMobileNetwork() {
   const subscriptionId = "subid";
