@@ -74,7 +74,7 @@ The following subpaths are exposed:
 - `@azure/notification-hubs/client/*` - The client methods such as `getInstallation` or `sendNotification`
 - `@azure/notification-hubs/models/installation` - The installation models and factory methods.
 - `@azure/notification-hubs/models/notification` - The notification models and factory methods.
-- `@azure/notification-hubs/models/notification` - The notification builder models and factory methods.
+- `@azure/notification-hubs/models/notificationBuilder` - The notification builder models and factory methods.
 - `@azure/notification-hubs/models/options` - The method options such as `SendOperationOptions`.
 - `@azure/notification-hubs/models/registration` - The registration models and factory methods.
 
