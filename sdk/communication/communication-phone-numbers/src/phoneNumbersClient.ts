@@ -15,13 +15,24 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan, logger } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
+  AreaCodeResult,
+  PhoneNumberAssignmentType,
   PhoneNumberCapabilitiesRequest,
+  PhoneNumberCountry,
+  PhoneNumberLocality,
+  PhoneNumberOffering,
   PhoneNumberSearchResult,
+  PhoneNumberType,
   PurchasedPhoneNumber,
 } from "./generated/src/models/";
 import {
   GetPurchasedPhoneNumberOptions,
+  ListAvailableCountriesOptions,
+  ListGeographicAreaCodesOptions,
+  ListLocalitiesOptions,
+  ListOfferingsOptions,
   ListPurchasedPhoneNumbersOptions,
+  ListTollFreeAreaCodesOptions,
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
@@ -347,5 +358,160 @@ export class PhoneNumbersClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Iterates the available countries.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new PhoneNumbersClient(credentials);
+   * for await (const country of client.listAvailableCountries()) {
+   *   console.log("country: ", country.localizedName);
+   * }
+   * ```
+   * List all available countries.
+   * @param options - The optional parameters.
+   */
+   public listAvailableCountries(
+    options: ListAvailableCountriesOptions = {}
+  ): PagedAsyncIterableIterator<PhoneNumberCountry> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumbersClient-listAvailableCountries",
+      options
+    );
+    const iter = this.client.phoneNumbers.listAvailableCountries(updatedOptions);
+    span.end();
+    return iter;
+  }
+
+   /**
+   * Iterates the available Toll-Free area codes.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new PhoneNumbersClient(credentials);
+   * for await (const areaCodeResult of client.listTollFreeAreaCodes()) {
+   *   console.log("area code: ", areaCodeResult.areaCode);
+   * }
+   * ```
+   * List all available Toll-Free area codes.
+   * @param countryCode  The ISO 3166-2 country code.
+   * @param options - The optional parameters.
+   */
+  public listAvailableTollFreeAreaCodes(
+      countryCode: string,
+      options: ListTollFreeAreaCodesOptions = {}
+  ): PagedAsyncIterableIterator<AreaCodeResult> {
+      const { span, updatedOptions } = createSpan(
+        "PhoneNumbersClient-listAvailableTollFreeAreaCodes",
+        options
+      );
+      const iter = this.client.phoneNumbers.listAreaCodes(countryCode, {
+        ...updatedOptions,
+        assignmentType: "application",
+        phoneNumberType: "tollFree"
+      });
+      span.end();
+      return iter;
+  }
+
+  /**
+   * Iterates the available Geographic area codes.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new PhoneNumbersClient(credentials);
+   * for await (const areaCodeResult of client.listGeographicAreaCodes()) {
+   *   console.log("area code: ", areaCodeResult.areaCode);
+   * }
+   * ```
+   * List all available Geographic area codes.
+   * @param countryCode  The ISO 3166-2 country code.
+   * @param options - The optional parameters.
+   */
+  public listAvailableGeographicAreaCodes(
+    countryCode: string,
+    assignmentType: PhoneNumberAssignmentType,
+    options: ListGeographicAreaCodesOptions = {}
+  ): PagedAsyncIterableIterator<AreaCodeResult> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumbersClient-listAvailableGeographicAreaCodes",
+      options
+    );
+    const iter = this.client.phoneNumbers.listAreaCodes(countryCode, {
+      ...updatedOptions,
+      assignmentType: assignmentType,
+      phoneNumberType: "geographic"
+    });
+    span.end();
+    return iter;
+  }
+
+  /**
+   * Iterates the available localities.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new PhoneNumbersClient(credentials);
+   * for await (const locality of client.listAvailableLocalities()) {
+   *   console.log("locality: ", locality.localizedName);
+   * }
+   * ```
+   * List all available localities.
+   * @param countryCode  The ISO 3166-2 country code.
+   * @param administrativeDivision The name of the administrative division in which to list localities. Administrative division is more common known as a state or province.
+   * @param options - The optional parameters.
+   */
+   public listAvailableLocalities(
+    countryCode: string,
+    administrativeDivision?: string,
+    options: ListLocalitiesOptions = {}
+  ): PagedAsyncIterableIterator<PhoneNumberLocality> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumbersClient-listAvailableLocalities",
+      options
+    );
+    const iter = this.client.phoneNumbers.listAvailableLocalities(countryCode, {
+      ...updatedOptions,
+      administrativeDivision: administrativeDivision
+    });
+    span.end();
+    return iter;
+  }
+
+  /**
+   * Iterates the available offerings.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new PhoneNumbersClient(credentials);
+   * for await (const offering of client.listAvailableOfferings()) {
+   *   console.log("phone number type: ", offering.phoneNumberType);
+   *   console.log("cost: ", offering.cost.amount);
+   * }
+   * ```
+   * List all available offerings.
+   * @param countryCode  The ISO 3166-2 country code.
+   * @param 
+   * @param options - The optional parameters.
+   */
+   public listAvailableOfferings(
+    countryCode: string,
+    phoneNumberType?: PhoneNumberType,
+    assignmentType?: PhoneNumberAssignmentType,
+    options: ListOfferingsOptions = {}
+  ): PagedAsyncIterableIterator<PhoneNumberOffering> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumbersClient-listOfferings",
+      options
+    );
+    const iter = this.client.phoneNumbers.listOfferings(countryCode, {
+      ...updatedOptions,
+      phoneNumberType: phoneNumberType,
+      assignmentType: assignmentType
+    });
+    span.end();
+    return iter;
   }
 }

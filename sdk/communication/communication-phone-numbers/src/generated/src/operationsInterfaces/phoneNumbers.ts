@@ -9,6 +9,14 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
+  PhoneNumberCountry,
+  PhoneNumbersListAvailableCountriesOptionalParams,
+  PhoneNumberLocality,
+  PhoneNumbersListAvailableLocalitiesOptionalParams,
+  AreaCodeResult,
+  PhoneNumbersListAreaCodesOptionalParams,
+  PhoneNumberOffering,
+  PhoneNumbersListOfferingsOptionalParams,
   PurchasedPhoneNumber,
   PhoneNumbersListPhoneNumbersOptionalParams,
   PhoneNumberType,
@@ -35,6 +43,40 @@ import {
 /** Interface representing a PhoneNumbers. */
 export interface PhoneNumbers {
   /**
+   * Gets the list of supported countries.
+   * @param options The options parameters.
+   */
+  listAvailableCountries(
+    options?: PhoneNumbersListAvailableCountriesOptionalParams
+  ): PagedAsyncIterableIterator<PhoneNumberCountry>;
+  /**
+   * Gets the list of cities or towns with available phone numbers.
+   * @param countryCode The ISO 3166-2 country/region code, e.g. US.
+   * @param options The options parameters.
+   */
+  listAvailableLocalities(
+    countryCode: string,
+    options?: PhoneNumbersListAvailableLocalitiesOptionalParams
+  ): PagedAsyncIterableIterator<PhoneNumberLocality>;
+  /**
+   * Gets the list of available area codes.
+   * @param countryCode The ISO 3166-2 country/region code, e.g. US.
+   * @param options The options parameters.
+   */
+  listAreaCodes(
+    countryCode: string,
+    options?: PhoneNumbersListAreaCodesOptionalParams
+  ): PagedAsyncIterableIterator<AreaCodeResult>;
+  /**
+   * List available offerings of capabilities with rates for the given country/region
+   * @param countryCode The ISO 3166-2 country/region code, e.g. US.
+   * @param options The options parameters.
+   */
+  listOfferings(
+    countryCode: string,
+    options?: PhoneNumbersListOfferingsOptionalParams
+  ): PagedAsyncIterableIterator<PhoneNumberOffering>;
+  /**
    * Gets the list of all purchased phone numbers.
    * @param options The options parameters.
    */
@@ -42,8 +84,8 @@ export interface PhoneNumbers {
     options?: PhoneNumbersListPhoneNumbersOptionalParams
   ): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
   /**
-   * Search for available phone numbers to purchase.
-   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * Searches for available phone numbers to purchase.
+   * @param countryCode The ISO 3166-2 country/region code, e.g. US.
    * @param phoneNumberType The type of phone numbers to search for, e.g. geographic, or tollFree.
    * @param assignmentType The assignment type of the phone numbers to search for. A phone number can be
    *                       assigned to a person, or to an application.
@@ -63,8 +105,8 @@ export interface PhoneNumbers {
     >
   >;
   /**
-   * Search for available phone numbers to purchase.
-   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * Searches for available phone numbers to purchase.
+   * @param countryCode The ISO 3166-2 country/region code, e.g. US.
    * @param phoneNumberType The type of phone numbers to search for, e.g. geographic, or tollFree.
    * @param assignmentType The assignment type of the phone numbers to search for. A phone number can be
    *                       assigned to a person, or to an application.

@@ -15,6 +15,11 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AreaCodeResult {
+    areaCode?: string;
+}
+
+// @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
 }
 
@@ -34,7 +39,33 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
+export interface ListAvailableCountriesOptions extends OperationOptions {
+}
+
+// @public
+export interface ListGeographicAreaCodesOptions extends OperationOptions {
+}
+
+// @public
+export interface ListLocalitiesOptions extends OperationOptions {
+}
+
+// @public
+export interface ListOfferingsOptions extends OperationOptions {
+}
+
+// @public
 export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
+}
+
+// @public
+export interface ListTollFreeAreaCodesOptions extends OperationOptions {
+}
+
+// @public
+export interface PhoneNumberAdministrativeDivision {
+    abbreviatedName: string;
+    localizedName: string;
 }
 
 // @public
@@ -63,6 +94,26 @@ export interface PhoneNumberCost {
 }
 
 // @public
+export interface PhoneNumberCountry {
+    countryCode: string;
+    localizedName: string;
+}
+
+// @public
+export interface PhoneNumberLocality {
+    administrativeDivision?: PhoneNumberAdministrativeDivision;
+    localizedName: string;
+}
+
+// @public
+export interface PhoneNumberOffering {
+    assignmentType?: PhoneNumberAssignmentType;
+    availableCapabilities?: PhoneNumberCapabilities;
+    cost: PhoneNumberCost;
+    phoneNumberType?: PhoneNumberType;
+}
+
+// @public
 export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
@@ -72,6 +123,11 @@ export class PhoneNumbersClient {
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
+    listAvailableCountries(options?: ListAvailableCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
+    listAvailableGeographicAreaCodes(countryCode: string, assignmentType: PhoneNumberAssignmentType, options?: ListGeographicAreaCodesOptions): PagedAsyncIterableIterator<AreaCodeResult>;
+    listAvailableLocalities(countryCode: string, administrativeDivision?: string, options?: ListLocalitiesOptions): PagedAsyncIterableIterator<PhoneNumberLocality>;
+    listAvailableOfferings(countryCode: string, phoneNumberType?: PhoneNumberType, assignmentType?: PhoneNumberAssignmentType, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
+    listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<AreaCodeResult>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
 }
 
@@ -81,9 +137,11 @@ export interface PhoneNumbersClientOptions extends CommonClientOptions {
 
 // @public
 export interface PhoneNumberSearchRequest {
+    administrativeDivision?: string;
     areaCode?: string;
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
+    locality?: string;
     phoneNumberType: PhoneNumberType;
     quantity?: number;
 }
@@ -100,9 +158,6 @@ export interface PhoneNumberSearchResult {
 }
 
 // @public
-export type PhoneNumberSource = "cloud" | "operatorConnect";
-
-// @public
 export type PhoneNumberType = "geographic" | "tollFree";
 
 // @public
@@ -112,10 +167,7 @@ export interface PurchasedPhoneNumber {
     cost: PhoneNumberCost;
     countryCode: string;
     id: string;
-    operatorId: string;
-    operatorName: string;
     phoneNumber: string;
-    phoneNumberSource: PhoneNumberSource;
     phoneNumberType: PhoneNumberType;
     purchaseDate: Date;
 }

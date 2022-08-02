@@ -35,15 +35,44 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
   countryCode: string;
 }
 
+/**
+ * Additional options that can be passed to the available countries request.
+ */
+export interface ListAvailableCountriesOptions extends OperationOptions {}
+
+/**
+ * Additional options that can be passed to the Toll-Free area codes request.
+ */
+ export interface ListTollFreeAreaCodesOptions extends OperationOptions {}
+
+ /**
+ * Additional options that can be passed to the Geographic area codes request.
+ */
+ export interface ListGeographicAreaCodesOptions extends OperationOptions {}
+
+ /**
+ * Additional options that can be passed to the available localities request.
+ */
+export interface ListLocalitiesOptions extends OperationOptions {}
+
+/**
+ * Additional options that can be passed to the available offerings request.
+ */
+export interface ListOfferingsOptions extends OperationOptions {}
+
 export {
+  AreaCodeResult,
   PurchasedPhoneNumber,
+  PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCapabilityType,
+  PhoneNumberCountry,
   PhoneNumberCost,
+  PhoneNumberLocality,
+  PhoneNumberOffering,
   PhoneNumberSearchResult,
   PhoneNumberSearchRequest,
-  PhoneNumberType,
-  PhoneNumberSource,
+  PhoneNumberType
 } from "./generated/src/models/";
