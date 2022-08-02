@@ -8044,6 +8044,46 @@ export const RequestReportRecordContract: coreClient.CompositeMapper = {
   }
 };
 
+export const GlobalSchemaCollection: coreClient.CompositeMapper = {
+  serializedName: "GlobalSchemaCollection",
+  type: {
+    name: "Composite",
+    className: "GlobalSchemaCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        xmlName: "value",
+        xmlElementName: "GlobalSchemaContract",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GlobalSchemaContract"
+            }
+          }
+        }
+      },
+      count: {
+        serializedName: "count",
+        xmlName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        xmlName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TenantSettingsCollection: coreClient.CompositeMapper = {
   serializedName: "TenantSettingsCollection",
   type: {
@@ -10064,6 +10104,13 @@ export const DiagnosticContract: coreClient.CompositeMapper = {
         xmlName: "properties.operationNameFormat",
         type: {
           name: "String"
+        }
+      },
+      metrics: {
+        serializedName: "properties.metrics",
+        xmlName: "properties.metrics",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -12212,6 +12259,46 @@ export const SubscriptionContract: coreClient.CompositeMapper = {
         xmlName: "properties.allowTracing",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalSchemaContract: coreClient.CompositeMapper = {
+  serializedName: "GlobalSchemaContract",
+  type: {
+    name: "Composite",
+    className: "GlobalSchemaContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      schemaType: {
+        serializedName: "properties.schemaType",
+        xmlName: "properties.schemaType",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        xmlName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "properties.value",
+        xmlName: "properties.value",
+        type: {
+          name: "any"
+        }
+      },
+      document: {
+        serializedName: "properties.document",
+        xmlName: "properties.document",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -16426,6 +16513,57 @@ export const ProductPolicyCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ProductPolicyCreateOrUpdateHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalSchemaGetEntityTagHeaders: coreClient.CompositeMapper = {
+  serializedName: "GlobalSchema_getEntityTagHeaders",
+  type: {
+    name: "Composite",
+    className: "GlobalSchemaGetEntityTagHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalSchemaGetHeaders: coreClient.CompositeMapper = {
+  serializedName: "GlobalSchema_getHeaders",
+  type: {
+    name: "Composite",
+    className: "GlobalSchemaGetHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalSchemaCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  serializedName: "GlobalSchema_createOrUpdateHeaders",
+  type: {
+    name: "Composite",
+    className: "GlobalSchemaCreateOrUpdateHeaders",
     modelProperties: {
       eTag: {
         serializedName: "etag",

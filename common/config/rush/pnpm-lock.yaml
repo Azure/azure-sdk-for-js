@@ -3896,7 +3896,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220731
+      typescript: 4.8.0-dev.20220802
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8630,8 +8630,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220731:
-    resolution: {integrity: sha512-RMnAFXQvFPMG1nOvMfnO0z1FvxKvH001GmBY14fXmX0DftaJvh4Huw8z/VWQF4IhWRSQr1tYo1+jwM2z6M/tZQ==}
+  /typescript/4.8.0-dev.20220802:
+    resolution: {integrity: sha512-xMw8U8T1pIm07TgNJnK88EvkcsbWiyefGwLh6JsK0HD5wb00Oqw7pjHOhvyB2YHiUw4mKJQkiRUoPvQ55ZcZOQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9661,7 +9661,7 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-DrYkzbB8hbtQ3C8hm1mj91ac3XYoKl0sX9vHV/BG7FJ7zFpfrD3vdMXxqrIupGTXcIr38z6i2nznLlwzkVCYSA==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-wbdgSctrKh+ocusUnzK+KT4xsRH62t0TbpzUAFqUiJ06GNcRRKsUKoGwTAHvWQ62Y4g3MHIMuTUuOq+PC9If9g==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -9672,6 +9672,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -9679,12 +9681,10 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-app.tgz:

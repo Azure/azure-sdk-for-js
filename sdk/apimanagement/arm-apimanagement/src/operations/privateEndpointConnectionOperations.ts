@@ -341,7 +341,7 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Description for Gets the private link resources
+   * Gets the private link resources
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
@@ -358,7 +358,7 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Description for Gets the private link resources
+   * Gets the private link resources
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param privateLinkSubResourceName Name of the private link resource.
