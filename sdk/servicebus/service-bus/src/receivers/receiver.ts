@@ -38,7 +38,7 @@ import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from 
 import { LockRenewer } from "../core/autoLockRenewer";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
-import { generate_uuid } from "rhea-promise";
+import { ensureValidIdentifier } from "../util/utils";
 
 /**
  * The default time to wait for messages _after_ the first message
@@ -314,7 +314,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       maxAutoRenewLockDurationInMs,
       receiveMode
     );
-    this.identifier = identifier ? identifier : `${this.entityPath}-${generate_uuid()}`;
+    this.identifier = ensureValidIdentifier(this.entityPath, identifier);
   }
 
   private _throwIfAlreadyReceiving(): void {

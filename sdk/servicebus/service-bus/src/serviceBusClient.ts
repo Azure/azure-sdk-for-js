@@ -25,7 +25,7 @@ import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
 import { isCredential, isDefined } from "./util/typeGuards";
-import { generate_uuid } from "rhea-promise";
+import { ensureValidIdentifier } from "./util/utils";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -107,9 +107,10 @@ export class ServiceBusClient {
       );
     }
     this.fullyQualifiedNamespace = this._connectionContext.config.host;
-    this.identifier = this._clientOptions.identifier
-      ? this._clientOptions.identifier
-      : `${this.fullyQualifiedNamespace}-${generate_uuid()}`;
+    this.identifier = ensureValidIdentifier(
+      this.fullyQualifiedNamespace,
+      this._clientOptions.identifier
+    );
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
 
     const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
@@ -349,11 +350,8 @@ export class ServiceBusClient {
       throw new Error("Unhandled set of parameters");
     }
 
-    const identifier = options?.identifier
-      ? options?.identifier
-      : `${entityPath}-${generate_uuid()}`;
     const messageSession = await MessageSession.create(
-      identifier,
+      ensureValidIdentifier(entityPath, options?.identifier),
       this._connectionContext,
       entityPath,
       sessionId,
@@ -439,11 +437,8 @@ export class ServiceBusClient {
       options3
     );
 
-    const identifier = options?.identifier
-      ? options?.identifier
-      : `${entityPath}-${generate_uuid()}`;
     const messageSession = await MessageSession.create(
-      identifier,
+      ensureValidIdentifier(entityPath, options?.identifier),
       this._connectionContext,
       entityPath,
       undefined,

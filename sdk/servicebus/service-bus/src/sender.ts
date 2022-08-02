@@ -27,7 +27,7 @@ import { TracingSpanLink } from "@azure/core-tracing";
 import { senderLogger as logger } from "./log";
 import { ServiceBusError } from "./serviceBusError";
 import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
-import { generate_uuid } from "rhea-promise";
+import { ensureValidIdentifier } from "./util/utils";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -171,7 +171,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
   ) {
     throwErrorIfConnectionClosed(_context);
     this.entityPath = _entityPath;
-    this.identifier = identifier ? identifier : `${this.entityPath}-${generate_uuid()}`;
+    this.identifier = ensureValidIdentifier(this.entityPath, identifier);
     this._sender = MessageSender.create(this.identifier, this._context, _entityPath, retryOptions);
     this._retryOptions = retryOptions;
   }
