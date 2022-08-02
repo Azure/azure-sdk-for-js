@@ -127,13 +127,15 @@ export class MsalClientCertificate extends MsalNode {
         const privateKeyObject = createPrivateKey({
           key: parts.certificateContents,
           passphrase: this.configuration.certificatePassword,
-          format: "pem"
+          format: "pem",
         });
 
-        privateKey = privateKeyObject.export({
-          format: "pem",
-          type: "pkcs8"
-        }).toString();
+        privateKey = privateKeyObject
+          .export({
+            format: "pem",
+            type: "pkcs8",
+          })
+          .toString();
       } else {
         privateKey = parts.certificateContents;
       }

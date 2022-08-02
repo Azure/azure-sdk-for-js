@@ -24,7 +24,7 @@ export interface ClientCertificatePEMCertificate {
   /**
    * The password for the certificate file.
    */
-  certificatePassword?: string; 
+  certificatePassword?: string;
 }
 /**
  * Required configuration options for the {@link ClientCertificateCredential}, with the path to a PEM certificate.
@@ -38,7 +38,7 @@ export interface ClientCertificatePEMCertificatePath {
   /**
    * The password for the certificate file.
    */
-  certificatePassword?: string; 
+  certificatePassword?: string;
 }
 /**
  * Required configuration options for the {@link ClientCertificateCredential}, with either the string contents of a PEM certificate, or the path to a PEM certificate.
