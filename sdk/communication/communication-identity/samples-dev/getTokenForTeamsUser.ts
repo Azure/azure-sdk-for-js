@@ -21,7 +21,6 @@ const connectionString =
 const aadTenant =
   process.env["COMMUNICATION_M365_AAD_TENANT"] || "<azure active directory tenant id>";
 const aadAppId = process.env["COMMUNICATION_M365_APP_ID"] || "<azure active directory app id>";
-const aadScope = process.env["COMMUNICATION_M365_SCOPE"] || "<azure active directory scope>";
 const aadAuthority =
   process.env["COMMUNICATION_M365_AAD_AUTHORITY"] || "<azure active directory authority>";
 const msalUsername = process.env["COMMUNICATION_MSAL_USERNAME"] || "<msal username>";
@@ -50,10 +49,13 @@ export async function main() {
 
   // Create an instance of PublicClientApplication
   const msalInstance = new PublicClientApplication(msalConfig);
-
+  const scopes = [
+    "https://auth.msft.communication.azure.com/Teams.ManageCalls",
+    "https://auth.msft.communication.azure.com/Teams.ManageChats",
+  ];
   // Create request parameters object for acquiring the AAD token and object ID of a Teams user
   const usernamePasswordRequest = {
-    scopes: [aadScope],
+    scopes: scopes,
     username: msalUsername,
     password: msalPassword,
   };
