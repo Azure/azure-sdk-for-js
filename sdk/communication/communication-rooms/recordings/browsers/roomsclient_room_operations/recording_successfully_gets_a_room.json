@@ -13,8 +13,8 @@
         "Content-Type": "application/json",
         "Origin": "http://localhost:9876",
         "Referer": "http://localhost:9876/",
-        "repeatability-first-sent": "2022-07-29T18:07:22.268Z",
-        "repeatability-request-id": "907fcbaf-1a75-410a-8330-f553be7956e0",
+        "repeatability-first-sent": "2022-08-02T20:30:37.570Z",
+        "repeatability-request-id": "dd2bf2a8-61ac-4480-a989-f8736c7bcbd5",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": "",
@@ -22,9 +22,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "24859a2d-f621-4d38-a851-a128dc6a350a",
+        "x-ms-client-request-id": "5f1f363b-3897-47f6-a6a4-947077d04635",
         "x-ms-content-sha256": "RBNvo1WzZ4oRRq0W9\u002BhknpT7T8If536DEMBg9hyq/4o=",
-        "x-ms-date": "Fri, 29 Jul 2022 18:07:22 GMT",
+        "x-ms-date": "Tue, 02 Aug 2022 20:30:37 GMT",
         "x-ms-useragent": "azsdk-js-communication-rooms/1.2.0-beta.1 core-rest-pipeline/1.8.2 OS/Win32"
       },
       "RequestBody": {},
@@ -32,27 +32,26 @@
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "api-supported-versions": "2021-04-07, 2022-02-01",
-        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 29 Jul 2022 18:07:23 GMT",
-        "Location": "99468141349211400",
-        "MS-CV": "jv0eoPbOjUiBudZfgDxfag.0",
+        "Date": "Tue, 02 Aug 2022 20:30:37 GMT",
+        "Location": "99436202398461845",
+        "MS-CV": "tZ/X75mtnk\u002B8Zzrk/vX8ow.0",
         "Repeatability-Result": "accepted",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20220729T180723Z-svbe47gyqd3emdwwe1vmtbr9aw000000023000000001uz3d",
+        "X-Azure-Ref": "0bYnpYgAAAAAbk0PgjeuMR79M8dYFi5CYV1NURURHRTA4MTkAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
-        "id": "99468141349211400",
-        "createdDateTime": "2022-07-29T18:07:23.507622\u002B00:00",
-        "validFrom": "2022-07-29T18:07:23.4192387\u002B00:00",
-        "validUntil": "2023-01-25T18:07:23.4192387\u002B00:00",
+        "id": "99436202398461845",
+        "createdDateTime": "2022-08-02T20:30:37.8938865\u002B00:00",
+        "validFrom": "2022-08-02T20:30:37.8343647\u002B00:00",
+        "validUntil": "2023-01-29T20:30:37.8343647\u002B00:00",
         "roomJoinPolicy": "InviteOnly",
         "participants": []
       }
     },
     {
-      "RequestUri": "https://endpoint/rooms/99468141349211400?api-version=2022-02-01",
+      "RequestUri": "https://endpoint/rooms/99436202398461845?api-version=2022-02-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -69,9 +68,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "2436c7cb-d886-43e2-acca-bcb91a2d4963",
+        "x-ms-client-request-id": "bc750e55-11c8-4b91-8708-dbecac8e6f29",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 29 Jul 2022 18:07:22 GMT",
+        "x-ms-date": "Tue, 02 Aug 2022 20:30:37 GMT",
         "x-ms-useragent": "azsdk-js-communication-rooms/1.2.0-beta.1 core-rest-pipeline/1.8.2 OS/Win32"
       },
       "RequestBody": null,
@@ -79,25 +78,24 @@
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "api-supported-versions": "2021-04-07, 2022-02-01",
-        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 29 Jul 2022 18:07:24 GMT",
-        "MS-CV": "Ii6xLonKC0ah0Mxnf0xzJg.0",
+        "Date": "Tue, 02 Aug 2022 20:30:37 GMT",
+        "MS-CV": "RVqb3i57p0a64yTaPuiIUw.0",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20220729T180723Z-svbe47gyqd3emdwwe1vmtbr9aw000000023000000001uz66",
+        "X-Azure-Ref": "0bonpYgAAAADEId3LVv5pS65AQNDYjQsUV1NURURHRTA4MTkAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
-        "id": "99468141349211400",
-        "createdDateTime": "2022-07-29T18:07:23.507622\u002B00:00",
-        "validFrom": "2022-07-29T18:07:23.4192387\u002B00:00",
-        "validUntil": "2023-01-25T18:07:23.4192387\u002B00:00",
+        "id": "99436202398461845",
+        "createdDateTime": "2022-08-02T20:30:37.8938865\u002B00:00",
+        "validFrom": "2022-08-02T20:30:37.8343647\u002B00:00",
+        "validUntil": "2023-01-29T20:30:37.8343647\u002B00:00",
         "roomJoinPolicy": "InviteOnly",
         "participants": []
       }
     },
     {
-      "RequestUri": "https://endpoint/rooms/99468141349211400?api-version=2022-02-01",
+      "RequestUri": "https://endpoint/rooms/99436202398461845?api-version=2022-02-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -114,9 +112,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "0d062f8f-1908-43ec-a4b8-13ae06f331fe",
+        "x-ms-client-request-id": "5e58ac9f-ddc0-4a81-a03a-09cdef1de1ff",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 29 Jul 2022 18:07:23 GMT",
+        "x-ms-date": "Tue, 02 Aug 2022 20:30:38 GMT",
         "x-ms-useragent": "azsdk-js-communication-rooms/1.2.0-beta.1 core-rest-pipeline/1.8.2 OS/Win32"
       },
       "RequestBody": null,
@@ -124,10 +122,9 @@
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "api-supported-versions": "2021-04-07, 2022-02-01",
-        "Connection": "keep-alive",
-        "Date": "Fri, 29 Jul 2022 18:07:24 GMT",
-        "MS-CV": "pZdxGAT1ukyy8LrFy8rONA.0",
-        "x-azure-ref": "20220729T180724Z-svbe47gyqd3emdwwe1vmtbr9aw000000023000000001uz7y",
+        "Date": "Tue, 02 Aug 2022 20:30:38 GMT",
+        "MS-CV": "fg7B3BldDkGof0nMJCLLDQ.0",
+        "X-Azure-Ref": "0bonpYgAAAACYKuUFqnyjQ5RuIB\u002Bv4H0LV1NURURHRTA4MTkAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null

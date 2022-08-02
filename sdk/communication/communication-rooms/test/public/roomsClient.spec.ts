@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -48,14 +48,11 @@ describe("RoomsClient", function () {
     });
 
     it("successfully creates a room with payload", async function () {
-      if(!isLiveMode()) {
-        this.skip();
-      }
       testUser = (await createTestUser(recorder)).user;
 
       const options: CreateRoomOptions = {
-        validFrom: validFrom,
-        validUntil: validUntil,
+        validFrom: new Date(recorder.variable('validFrom', validFrom.toString())),
+        validUntil: new Date(recorder.variable('validUntil', validUntil.toString())),
         roomJoinPolicy: "CommunicationServiceUsers",
         participants: [
           {
@@ -81,16 +78,13 @@ describe("RoomsClient", function () {
     });
 
     it("successfully updates a default room", async function () {
-      if(!isLiveMode()) {
-        this.skip();
-      }
       const createRoom = await client.createRoom({});
       roomId = createRoom.id;
       testUser = (await createTestUser(recorder)).user;
 
       const options: UpdateRoomOptions = {
-        validFrom: new Date(validFrom.getTime() + 5 * 60 * 1000),
-        validUntil: new Date(validUntil.getTime() + 5 * 60 * 1000),
+        validFrom: new Date(recorder.variable('validFromUpdated', (new Date(validFrom.getTime() + 5 * 60 * 1000)).toString())),
+        validUntil: new Date(recorder.variable('validUntilUpdated', (new Date(validUntil.getTime() + 5 * 60 * 1000)).toString())),
         roomJoinPolicy: "CommunicationServiceUsers",
         participants: [
           {
@@ -104,14 +98,11 @@ describe("RoomsClient", function () {
     });
 
     it("successfully updates a room with participants", async function () {
-      if(!isLiveMode()) {
-        this.skip();
-      }
       testUser = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({
-        validFrom: validFrom,
-        validUntil: validUntil,
+        validFrom: new Date(recorder.variable('validFrom', validFrom.toString())),
+        validUntil: new Date(recorder.variable('validUntil', validUntil.toString())),
         roomJoinPolicy: "CommunicationServiceUsers",
         participants: [
           {
@@ -123,8 +114,8 @@ describe("RoomsClient", function () {
       roomId = createRoom.id;
 
       const options: UpdateRoomOptions = {
-        validFrom: new Date(validFrom.getTime() + 5 * 60 * 1000),
-        validUntil: new Date(validUntil.getTime() + 5 * 60 * 1000),
+        validFrom: new Date(recorder.variable('validFromUpdated', (new Date(validFrom.getTime() + 5 * 60 * 1000)).toString())),
+        validUntil: new Date(recorder.variable('validUntilUpdated', (new Date(validUntil.getTime() + 5 * 60 * 1000)).toString())),
         roomJoinPolicy: "InviteOnly",
         participants: [
           {
@@ -150,14 +141,11 @@ describe("RoomsClient", function () {
     });
 
     it("unable to update roomJoinPolicy for a room in past", async function () {
-      if(!isLiveMode()) {
-        this.skip();
-      }
       testUser = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({
-        validFrom: new Date(validFrom.getTime() - 5 * 60 * 1000),
-        validUntil: validUntil,
+        validFrom: new Date(recorder.variable('validFromPast', (new Date(validFrom.getTime() - 5 * 60 * 1000)).toString())),
+        validUntil: new Date(recorder.variable('validUntil', validUntil.toString())),
         roomJoinPolicy: "CommunicationServiceUsers",
       });
       roomId = createRoom.id;
