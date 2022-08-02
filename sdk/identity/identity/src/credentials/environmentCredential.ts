@@ -24,6 +24,7 @@ export const AllSupportedEnvironmentVariables = [
   "AZURE_CLIENT_ID",
   "AZURE_CLIENT_SECRET",
   "AZURE_CLIENT_CERTIFICATE_PATH",
+  "AZURE_CLIENT_CERTIFICATE_PASSWORD",
   "AZURE_USERNAME",
   "AZURE_PASSWORD",
 ];
@@ -56,6 +57,7 @@ export class EnvironmentCredential implements TokenCredential {
    * Environment variables used for client credential authentication:
    * - `AZURE_CLIENT_SECRET`: A client secret that was generated for the App Registration.
    * - `AZURE_CLIENT_CERTIFICATE_PATH`: The path to a PEM certificate to use during the authentication, instead of the client secret.
+   * - `AZURE_CLIENT_CERTIFICATE_PASSWORD`: (optional) password for the certificate file.
    *
    * Alternatively, users can provide environment variables for username and password authentication:
    * - `AZURE_USERNAME`: Username to authenticate with.
@@ -89,6 +91,7 @@ export class EnvironmentCredential implements TokenCredential {
     }
 
     const certificatePath = process.env.AZURE_CLIENT_CERTIFICATE_PATH;
+    const certificatePassword = process.env.AZURE_CLIENT_CERTIFICATE_PASSWORD;
     if (tenantId && clientId && certificatePath) {
       logger.info(
         `Invoking ClientCertificateCredential with tenant ID: ${tenantId}, clientId: ${clientId} and certificatePath: ${certificatePath}`
@@ -96,7 +99,7 @@ export class EnvironmentCredential implements TokenCredential {
       this._credential = new ClientCertificateCredential(
         tenantId,
         clientId,
-        { certificatePath },
+        { certificatePath, certificatePassword },
         options
       );
       return;
