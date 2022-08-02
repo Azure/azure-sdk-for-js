@@ -307,6 +307,13 @@
         "scaffolder",
         "APIM"
       ]
+    },
+    {
+      "filename": "sdk/apimanagement/api-management-custom-widgets-tools/review/api-management-custom-widgets-tools.api.md",
+      "words": [
+        "MSAPIM",
+        "APIM"
+      ]
     }
   ]
 }
