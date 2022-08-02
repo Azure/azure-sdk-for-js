@@ -235,7 +235,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -252,7 +252,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -273,7 +273,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -296,7 +296,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -320,7 +320,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -342,7 +342,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

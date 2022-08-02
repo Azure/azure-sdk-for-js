@@ -12,12 +12,12 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Creates or updates a mobile network dataNetwork.
+ * This sample demonstrates how to Creates or updates a data network.
  *
- * @summary Creates or updates a mobile network dataNetwork.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/DataNetworkCreate.json
+ * @summary Creates or updates a data network.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/DataNetworkCreate.json
  */
-async function createMobileNetworkDataNetwork() {
+async function createDataNetwork() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const mobileNetworkName = "testMobileNetwork";
@@ -37,4 +37,4 @@ async function createMobileNetworkDataNetwork() {
   console.log(result);
 }
 
-createMobileNetworkDataNetwork().catch(console.error);
+createDataNetwork().catch(console.error);

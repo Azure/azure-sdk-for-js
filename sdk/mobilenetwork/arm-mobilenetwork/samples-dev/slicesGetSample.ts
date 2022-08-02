@@ -12,12 +12,12 @@ import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets information about the specified mobile network slice.
+ * This sample demonstrates how to Gets information about the specified network slice.
  *
- * @summary Gets information about the specified mobile network slice.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SliceGet.json
+ * @summary Gets information about the specified network slice.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SliceGet.json
  */
-async function getMobileNetworkSlice() {
+async function getNetworkSlice() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const mobileNetworkName = "testMobileNetwork";
@@ -32,4 +32,4 @@ async function getMobileNetworkSlice() {
   console.log(result);
 }
 
-getMobileNetworkSlice().catch(console.error);
+getNetworkSlice().catch(console.error);

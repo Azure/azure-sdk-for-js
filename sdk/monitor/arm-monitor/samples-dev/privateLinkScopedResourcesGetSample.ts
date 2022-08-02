@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a scoped resource in a private link scope.
  *
  * @summary Gets a scoped resource in a private link scope.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2019-10-17-preview/examples/PrivateLinkScopedResourceGet.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateLinkScopedResourceGet.json
  */
 async function getsPrivateLinkScopedResource() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

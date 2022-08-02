@@ -26,14 +26,14 @@ import {
 /** Interface representing a PacketCoreControlPlanes. */
 export interface PacketCoreControlPlanes {
   /**
-   * Lists all the packetCoreControlPlanes in a subscription.
+   * Lists all the packet core control planes in a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
     options?: PacketCoreControlPlanesListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<PacketCoreControlPlane>;
   /**
-   * Lists all the packetCoreControlPlanes in a resource group.
+   * Lists all the packet core control planes in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -75,7 +75,7 @@ export interface PacketCoreControlPlanes {
     options?: PacketCoreControlPlanesGetOptionalParams
   ): Promise<PacketCoreControlPlanesGetResponse>;
   /**
-   * Creates or updates a PacketCoreControlPlane.
+   * Creates or updates a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param parameters Parameters supplied to the create or update packet core control plane operation.
@@ -93,7 +93,7 @@ export interface PacketCoreControlPlanes {
     >
   >;
   /**
-   * Creates or updates a PacketCoreControlPlane.
+   * Creates or updates a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param parameters Parameters supplied to the create or update packet core control plane operation.
@@ -106,10 +106,10 @@ export interface PacketCoreControlPlanes {
     options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams
   ): Promise<PacketCoreControlPlanesCreateOrUpdateResponse>;
   /**
-   * Updates a PacketCoreControlPlane update tags.
+   * Updates packet core control planes tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param parameters Parameters supplied to update PacketCoreControlPlane tags.
+   * @param parameters Parameters supplied to update packet core control plane tags.
    * @param options The options parameters.
    */
   updateTags(

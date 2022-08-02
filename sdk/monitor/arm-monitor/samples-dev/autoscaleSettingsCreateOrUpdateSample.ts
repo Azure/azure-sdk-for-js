@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates an autoscale setting.
  *
  * @summary Creates or updates an autoscale setting.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/createOrUpdateAutoscaleSetting.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/examples/createOrUpdateAutoscaleSetting.json
  */
 async function createOrUpdateAnAutoscaleSetting() {
   const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
@@ -35,6 +35,7 @@ async function createOrUpdateAnAutoscaleSetting() {
         webhooks: [{ properties: {}, serviceUri: "http://myservice.com" }]
       }
     ],
+    predictiveAutoscalePolicy: { scaleMode: "Enabled" },
     profiles: [
       {
         name: "adios",
@@ -138,7 +139,7 @@ async function createOrUpdateAnAutoscaleSetting() {
         ]
       }
     ],
-    tags: {},
+    tags: { key1: "value1", key2: "value2" },
     targetResourceUri:
       "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc"
   };

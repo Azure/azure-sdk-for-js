@@ -12,10 +12,10 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Updates an attached data network update tags.
+ * This sample demonstrates how to Updates an attached data network tags.
  *
- * @summary Updates an attached data network update tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/AttachedDataNetworkUpdateTags.json
+ * @summary Updates an attached data network tags.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/AttachedDataNetworkUpdateTags.json
  */
 async function updateAttachedDataNetworkTags() {
   const subscriptionId = "subid";

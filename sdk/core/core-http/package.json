@@ -143,6 +143,7 @@
     "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "@types/tough-cookie": "^4.0.0",
+    "@types/trusted-types": "^2.0.0",
     "@types/uuid": "^8.0.0",
     "@types/xml2js": "^0.4.11",
     "chai": "^4.2.0",
