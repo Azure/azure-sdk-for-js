@@ -221,6 +221,7 @@ export interface SolutionPlan {
 
 // @public
 export interface SolutionProperties {
+    [property: string]: any;
     containedResources?: string[];
     readonly provisioningState?: string;
     referencedResources?: string[];

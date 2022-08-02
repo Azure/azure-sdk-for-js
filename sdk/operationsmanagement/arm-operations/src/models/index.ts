@@ -49,6 +49,8 @@ export interface SolutionPlan {
 
 /** Solution properties supported by the OperationsManagement resource provider. */
 export interface SolutionProperties {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
   /** The azure resourceId for the workspace where the solution will be deployed/enabled. */
   workspaceResourceId: string;
   /**

@@ -102,6 +102,7 @@ export const SolutionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SolutionProperties",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       workspaceResourceId: {
         serializedName: "workspaceResourceId",
