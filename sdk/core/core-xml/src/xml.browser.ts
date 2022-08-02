@@ -10,6 +10,19 @@ if (!document || !DOMParser || !Node || !XMLSerializer) {
   );
 }
 
+// Policy to make our code Trusted Types compliant at running time.
+//   https://github.com/w3c/webappsec-trusted-types
+// We are calling DOMParser.parseFromString() to parse XML payload from Azure services.
+// The parsed DOM object is not exposed to outside. Scripts are disabled when parsing
+// according to the spec.  There are no HTML/XSS security concerns on the usage of
+// parseFromString() here.
+let ttPolicy: Pick<TrustedTypePolicy, "createHTML"> | undefined;
+if (typeof self.trustedTypes !== "undefined") {
+  ttPolicy = self.trustedTypes.createPolicy("@azure/core-xml#xml.browser", {
+    createHTML: (s) => s,
+  });
+}
+
 const doc = document.implementation.createDocument(null, null, null);
 
 const parser = new DOMParser();
@@ -22,7 +35,10 @@ export function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
       cdataPropName: opts.cdataPropName ?? "__cdata",
       stopNodes: opts.stopNodes ?? [],
     };
-    const dom = parser.parseFromString(str, "application/xml");
+    const dom = parser.parseFromString(
+      (ttPolicy?.createHTML(str) ?? str) as string,
+      "application/xml"
+    );
     throwIfError(dom);
 
     let obj;
@@ -43,8 +59,9 @@ let errorNS: string | undefined;
 function getErrorNamespace(): string {
   if (errorNS === undefined) {
     try {
+      const invalidXML = (ttPolicy?.createHTML("INVALID") ?? "INVALID") as string;
       errorNS =
-        parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
+        parser.parseFromString(invalidXML, "text/xml").getElementsByTagName("parsererror")[0]
           .namespaceURI! ?? "";
     } catch (ignored: any) {
       // Most browsers will return a document containing <parsererror>, but IE will throw.

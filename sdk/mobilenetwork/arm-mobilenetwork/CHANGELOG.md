@@ -1,4 +1,97 @@
 # Release History
+
+## 1.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.3 (2022-08-01)
+    
+**Features**
+
+  - Added operation group PacketCoreControlPlaneVersions
+  - Added operation group SimGroups
+  - Added operation Sims.listBySimGroup
+  - Added Interface AttachedDataNetwork
+  - Added Interface AzureStackEdgeDeviceResourceId
+  - Added Interface ConnectedClusterResourceId
+  - Added Interface DataNetwork
+  - Added Interface KeyVaultCertificate
+  - Added Interface KeyVaultKey
+  - Added Interface LocalDiagnosticsAccessConfiguration
+  - Added Interface ManagedServiceIdentity
+  - Added Interface MobileNetwork
+  - Added Interface PacketCoreControlPlane
+  - Added Interface PacketCoreControlPlaneVersion
+  - Added Interface PacketCoreControlPlaneVersionListResult
+  - Added Interface PacketCoreControlPlaneVersionsGetOptionalParams
+  - Added Interface PacketCoreControlPlaneVersionsListByResourceGroupNextOptionalParams
+  - Added Interface PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams
+  - Added Interface PacketCoreDataPlane
+  - Added Interface PccRuleQosPolicy
+  - Added Interface PlatformConfiguration
+  - Added Interface ProxyResource
+  - Added Interface Service
+  - Added Interface Sim
+  - Added Interface SimGroup
+  - Added Interface SimGroupListResult
+  - Added Interface SimGroupResourceId
+  - Added Interface SimGroupsCreateOrUpdateOptionalParams
+  - Added Interface SimGroupsDeleteOptionalParams
+  - Added Interface SimGroupsGetOptionalParams
+  - Added Interface SimGroupsListByResourceGroupNextOptionalParams
+  - Added Interface SimGroupsListByResourceGroupOptionalParams
+  - Added Interface SimGroupsListBySubscriptionNextOptionalParams
+  - Added Interface SimGroupsListBySubscriptionOptionalParams
+  - Added Interface SimGroupsUpdateTagsOptionalParams
+  - Added Interface SimPolicy
+  - Added Interface SimsListBySimGroupNextOptionalParams
+  - Added Interface SimsListBySimGroupOptionalParams
+  - Added Interface Site
+  - Added Interface Slice
+  - Added Interface TrackedResource
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias BillingSku
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias PacketCoreControlPlaneVersionsGetResponse
+  - Added Type Alias PacketCoreControlPlaneVersionsListByResourceGroupNextResponse
+  - Added Type Alias PacketCoreControlPlaneVersionsListByResourceGroupResponse
+  - Added Type Alias PlatformType
+  - Added Type Alias RecommendedVersion
+  - Added Type Alias SimGroupsCreateOrUpdateResponse
+  - Added Type Alias SimGroupsGetResponse
+  - Added Type Alias SimGroupsListByResourceGroupNextResponse
+  - Added Type Alias SimGroupsListByResourceGroupResponse
+  - Added Type Alias SimGroupsListBySubscriptionNextResponse
+  - Added Type Alias SimGroupsListBySubscriptionResponse
+  - Added Type Alias SimGroupsUpdateTagsResponse
+  - Added Type Alias SimsListBySimGroupNextResponse
+  - Added Type Alias SimsListBySimGroupResponse
+  - Added Type Alias VersionState
+  - Class MobileNetworkManagementClient has a new parameter packetCoreControlPlaneVersions
+  - Class MobileNetworkManagementClient has a new parameter simGroups
+  - Added Enum KnownBillingSku
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownPlatformType
+  - Added Enum KnownRecommendedVersion
+  - Added Enum KnownVersionState
+
+**Breaking Changes**
+
+  - Removed operation Sims.listByResourceGroup
+  - Removed operation Sims.listBySubscription
+  - Removed operation Sims.updateTags
+  - Operation Sims.beginCreateOrUpdate has a new signature
+  - Operation Sims.beginCreateOrUpdateAndWait has a new signature
+  - Operation Sims.beginDelete has a new signature
+  - Operation Sims.beginDeleteAndWait has a new signature
+  - Operation Sims.get has a new signature
+    
     
 ## 1.0.0-beta.2 (2022-03-23)
     
