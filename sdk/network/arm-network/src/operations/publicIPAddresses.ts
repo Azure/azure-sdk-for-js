@@ -1194,7 +1194,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1280,7 +1280,7 @@ const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: coreClient.Opera
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1302,7 +1302,7 @@ const listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec: coreClient.Ope
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1327,7 +1327,7 @@ const getVirtualMachineScaleSetPublicIPAddressOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.expand, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1440,7 +1440,7 @@ const listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec: coreClient.O
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1462,7 +1462,7 @@ const listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec: coreClient
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -1396,7 +1396,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters32,
+  requestBody: Parameters.parameters42,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1527,7 +1527,7 @@ const getTopologyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters43,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1560,7 +1560,7 @@ const verifyIPFlowOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters34,
+  requestBody: Parameters.parameters44,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1593,7 +1593,7 @@ const getNextHopOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters35,
+  requestBody: Parameters.parameters45,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1626,7 +1626,7 @@ const getVMSecurityRulesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters36,
+  requestBody: Parameters.parameters46,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1659,7 +1659,7 @@ const getTroubleshootingOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters37,
+  requestBody: Parameters.parameters47,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1692,7 +1692,7 @@ const getTroubleshootingResultOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters38,
+  requestBody: Parameters.parameters48,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1725,7 +1725,7 @@ const setFlowLogConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters39,
+  requestBody: Parameters.parameters49,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1758,7 +1758,7 @@ const getFlowLogStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters40,
+  requestBody: Parameters.parameters50,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1791,7 +1791,7 @@ const checkConnectivityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters41,
+  requestBody: Parameters.parameters51,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1824,7 +1824,7 @@ const getAzureReachabilityReportOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters42,
+  requestBody: Parameters.parameters52,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1857,7 +1857,7 @@ const listAvailableProvidersOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters43,
+  requestBody: Parameters.parameters53,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1890,7 +1890,7 @@ const getNetworkConfigurationDiagnosticOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters44,
+  requestBody: Parameters.parameters54,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
