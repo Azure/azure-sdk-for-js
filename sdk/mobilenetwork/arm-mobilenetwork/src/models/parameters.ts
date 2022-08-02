@@ -17,6 +17,7 @@ import {
   DataNetwork as DataNetworkMapper,
   MobileNetwork as MobileNetworkMapper,
   Site as SiteMapper,
+  SimGroup as SimGroupMapper,
   Sim as SimMapper,
   PacketCoreControlPlane as PacketCoreControlPlaneMapper,
   PacketCoreDataPlane as PacketCoreDataPlaneMapper,
@@ -128,7 +129,7 @@ export const attachedDataNetworkName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01-preview",
+    defaultValue: "2022-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -233,6 +234,26 @@ export const parameters4: OperationParameter = {
   mapper: SiteMapper
 };
 
+export const simGroupName: OperationURLParameter = {
+  parameterPath: "simGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
+      MaxLength: 64
+    },
+    serializedName: "simGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SimGroupMapper
+};
+
 export const simName: OperationURLParameter = {
   parameterPath: "simName",
   mapper: {
@@ -248,17 +269,28 @@ export const simName: OperationURLParameter = {
   }
 };
 
-export const parameters5: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: SimMapper
 };
 
-export const parameters6: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: PacketCoreControlPlaneMapper
 };
 
-export const parameters7: OperationParameter = {
+export const versionName: OperationURLParameter = {
+  parameterPath: "versionName",
+  mapper: {
+    serializedName: "versionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: PacketCoreDataPlaneMapper
 };
@@ -280,7 +312,7 @@ export const serviceName: OperationURLParameter = {
   }
 };
 
-export const parameters8: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServiceMapper
 };
@@ -300,7 +332,7 @@ export const simPolicyName: OperationURLParameter = {
   }
 };
 
-export const parameters9: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: SimPolicyMapper
 };
@@ -320,7 +352,7 @@ export const sliceName: OperationURLParameter = {
   }
 };
 
-export const parameters10: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: SliceMapper
 };

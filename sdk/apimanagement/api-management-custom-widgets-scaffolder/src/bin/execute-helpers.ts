@@ -3,25 +3,25 @@
 
 import {
   ReplaceTypesPreserveOptional,
-  TValidate,
-  TValidateFnc,
+  Validate,
+  ValidateFnc,
   fieldIdToName,
 } from "./execute-configs";
 
-import { TConfigs } from "../scaffolding";
+import { Configs } from "../scaffolding";
 import { hideBin } from "yargs/helpers";
 import yargsParser from "yargs-parser";
 
-export const extractConfigFromArgs = <TConfig extends TConfigs>(
+export const extractConfigFromArgs = <TConfig extends Configs>(
   argv: yargsParser.Arguments,
-  validateConfig: TValidate<TConfig>,
+  validateConfig: Validate<TConfig>,
   red: (msg: string) => void
 ): { configPartial: Partial<TConfig>; missing: boolean } => {
   const configPartial: Partial<TConfig> = {};
   let missing: boolean = false;
 
   Object.entries(validateConfig).forEach(([key, v]) => {
-    const validate = v as TValidateFnc;
+    const validate = v as ValidateFnc;
     const value = argv[key];
     const response = validate(value);
 
@@ -41,17 +41,17 @@ export const extractConfigFromArgs = <TConfig extends TConfigs>(
   return { configPartial, missing };
 };
 
-export type TLog = (msg: string) => void;
-type Config = <TConfig extends TConfigs>(
-  promptForConfig: (partial: Partial<TConfig>) => Promise<TConfig>,
-  validateConfig: ReplaceTypesPreserveOptional<TConfig, TValidateFnc>
-) => Promise<TConfig>;
+export type Log = (msg: string) => void;
+type Config = <C extends Configs>(
+  promptForConfig: (partial: Partial<C>) => Promise<C>,
+  validateConfig: ReplaceTypesPreserveOptional<C, ValidateFnc>
+) => Promise<C>;
 
-export const buildGetConfig = (gray: TLog, red: TLog): Config => {
+export const buildGetConfig = (gray: Log, red: Log): Config => {
   const argv = yargsParser(hideBin(process.argv));
-  return async <TConfig extends TConfigs>(
-    promptForConfig: (partial: Partial<TConfig>) => Promise<TConfig>,
-    validateConfig: TValidate<TConfig>
+  return async <C extends Configs>(
+    promptForConfig: (partial: Partial<C>) => Promise<C>,
+    validateConfig: Validate<C>
   ) => {
     const { configPartial, missing } = extractConfigFromArgs(argv, validateConfig, red);
 
@@ -62,7 +62,7 @@ export const buildGetConfig = (gray: TLog, red: TLog): Config => {
       Object.entries(configPartial).forEach(
         ([key, value]) => value != null && gray(`${fieldIdToName[key] ?? key}: ${value}`)
       );
-      return configPartial as TConfig;
+      return configPartial as C;
     }
   };
 };

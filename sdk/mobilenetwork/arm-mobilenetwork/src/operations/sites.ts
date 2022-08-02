@@ -320,7 +320,7 @@ export class SitesImpl implements Sites {
   }
 
   /**
-   * Updates a site update tags.
+   * Updates site tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
