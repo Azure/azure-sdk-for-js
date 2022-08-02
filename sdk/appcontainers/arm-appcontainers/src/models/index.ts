@@ -819,6 +819,50 @@ export interface Volume {
   storageName?: string;
 }
 
+/** Custom domain analysis. */
+export interface CustomHostnameAnalysisResult {
+  /**
+   * Host name that was analyzed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /**
+   * <code>true</code> if hostname is already verified; otherwise, <code>false</code>.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isHostnameAlreadyVerified?: boolean;
+  /**
+   * DNS verification test result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customDomainVerificationTest?: DnsVerificationTestResult;
+  /**
+   * Raw failure information if DNS verification fails.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
+  /**
+   * <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasConflictOnManagedEnvironment?: boolean;
+  /**
+   * Name of the conflicting Container App on the Managed Environment if it's within the same subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly conflictingContainerAppResourceId?: string;
+  /** CName records visible for this hostname. */
+  cNameRecords?: string[];
+  /** TXT records visible for this hostname. */
+  txtRecords?: string[];
+  /** A records visible for this hostname. */
+  aRecords?: string[];
+  /** Alternate CName records visible for this hostname. */
+  alternateCNameRecords?: string[];
+  /** Alternate TXT records visible for this hostname. */
+  alternateTxtRecords?: string[];
+}
+
 /** Container App Secrets Collection ARM resource. */
 export interface SecretsCollection {
   /** Collection of resources. */
@@ -945,7 +989,7 @@ export interface ManagedEnvironmentsCollection {
 
 /** Configuration properties for apps environment to join a Virtual Network */
 export interface VnetConfiguration {
-  /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource, must provide ControlPlaneSubnetResourceId and AppSubnetResourceId if enabling this property */
+  /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource. They must provide runtimeSubnetId and infrastructureSubnetId if enabling this property */
   internal?: boolean;
   /** Resource ID of a subnet for infrastructure components. This subnet must be in the same VNET as the subnet defined in runtimeSubnetId. Must not overlap with any other provided IP ranges. */
   infrastructureSubnetId?: string;
@@ -1136,18 +1180,18 @@ export interface AzureCredentials {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Configuration settings for the Azure ContainerApp Service Authentication / Authorization feature. */
-export type AuthConfig = ProxyResource & {
+export interface AuthConfig extends ProxyResource {
   /** The configuration settings of the platform of ContainerApp Service Authentication/Authorization. */
   platform?: AuthPlatform;
   /** The configuration settings that determines the validation flow of users using  Service Authentication/Authorization. */
@@ -1158,54 +1202,10 @@ export type AuthConfig = ProxyResource & {
   login?: Login;
   /** The configuration settings of the HTTP requests for authentication and authorization requests made against ContainerApp Service Authentication/Authorization. */
   httpSettings?: HttpSettings;
-};
-
-/** Custom domain analysis. */
-export type CustomHostnameAnalysisResult = ProxyResource & {
-  /**
-   * Host name that was analyzed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostName?: string;
-  /**
-   * <code>true</code> if hostname is already verified; otherwise, <code>false</code>.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isHostnameAlreadyVerified?: boolean;
-  /**
-   * DNS verification test result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customDomainVerificationTest?: DnsVerificationTestResult;
-  /**
-   * Raw failure information if DNS verification fails.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
-  /**
-   * <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hasConflictOnManagedEnvironment?: boolean;
-  /**
-   * Name of the conflicting Container App on the Managed Environment if it's within the same subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly conflictingContainerAppResourceId?: string;
-  /** CName records visible for this hostname. */
-  cNameRecords?: string[];
-  /** TXT records visible for this hostname. */
-  txtRecords?: string[];
-  /** A records visible for this hostname. */
-  aRecords?: string[];
-  /** Alternate CName records visible for this hostname. */
-  alternateCNameRecords?: string[];
-  /** Alternate TXT records visible for this hostname. */
-  alternateTxtRecords?: string[];
-};
+}
 
 /** Container App Revision. */
-export type Revision = ProxyResource & {
+export interface Revision extends ProxyResource {
   /**
    * Timestamp describing when the revision was created
    * by controller
@@ -1254,10 +1254,10 @@ export type Revision = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: RevisionProvisioningState;
-};
+}
 
 /** Container App Revision Replica. */
-export type Replica = ProxyResource & {
+export interface Replica extends ProxyResource {
   /**
    * Timestamp describing when the pod was created by controller
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1265,10 +1265,10 @@ export type Replica = ProxyResource & {
   readonly createdTime?: Date;
   /** The containers collection under a replica. */
   containers?: ReplicaContainer[];
-};
+}
 
 /** Dapr Component. */
-export type DaprComponent = ProxyResource & {
+export interface DaprComponent extends ProxyResource {
   /** Component type */
   componentType?: string;
   /** Component version */
@@ -1283,16 +1283,16 @@ export type DaprComponent = ProxyResource & {
   metadata?: DaprMetadata[];
   /** Names of container apps that can use this Dapr component */
   scopes?: string[];
-};
+}
 
 /** Storage resource for managedEnvironment. */
-export type ManagedEnvironmentStorage = ProxyResource & {
+export interface ManagedEnvironmentStorage extends ProxyResource {
   /** Storage properties */
   properties?: ManagedEnvironmentStorageProperties;
-};
+}
 
 /** Container App SourceControl. */
-export type SourceControl = ProxyResource & {
+export interface SourceControl extends ProxyResource {
   /**
    * Current provisioning State of the operation
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1308,10 +1308,10 @@ export type SourceControl = ProxyResource & {
    * as they were at the creation time
    */
   githubActionConfiguration?: GithubActionConfiguration;
-};
+}
 
 /** Container App. */
-export type ContainerApp = TrackedResource & {
+export interface ContainerApp extends TrackedResource {
   /** managed identities for the Container App to interact with other Azure services without maintaining any secrets or credentials in code. */
   identity?: ManagedServiceIdentity;
   /**
@@ -1344,11 +1344,11 @@ export type ContainerApp = TrackedResource & {
    * Outbound IP Addresses for container app.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly outboundIPAddresses?: string[];
-};
+  readonly outboundIpAddresses?: string[];
+}
 
 /** An environment for hosting container apps */
-export type ManagedEnvironment = TrackedResource & {
+export interface ManagedEnvironment extends TrackedResource {
   /**
    * Provisioning state of the Environment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1383,19 +1383,23 @@ export type ManagedEnvironment = TrackedResource & {
   appLogsConfiguration?: AppLogsConfiguration;
   /** Whether or not this Managed Environment is zone-redundant. */
   zoneRedundant?: boolean;
-};
+}
 
 /** Certificate used for Custom Domain bindings of Container Apps in a Managed Environment */
-export type Certificate = TrackedResource & {
+export interface Certificate extends TrackedResource {
   /** Certificate resource specific properties */
   properties?: CertificateProperties;
-};
+}
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1413,9 +1417,13 @@ export type CreatedByType = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
@@ -1433,9 +1441,13 @@ export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link ContainerAppProvisioningState} that the service accepts. */
 export enum KnownContainerAppProvisioningState {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -1453,7 +1465,9 @@ export type ContainerAppProvisioningState = string;
 
 /** Known values of {@link ActiveRevisionsMode} that the service accepts. */
 export enum KnownActiveRevisionsMode {
+  /** Multiple */
   Multiple = "Multiple",
+  /** Single */
   Single = "Single"
 }
 
@@ -1469,8 +1483,11 @@ export type ActiveRevisionsMode = string;
 
 /** Known values of {@link IngressTransportMethod} that the service accepts. */
 export enum KnownIngressTransportMethod {
+  /** Auto */
   Auto = "auto",
+  /** Http */
   Http = "http",
+  /** Http2 */
   Http2 = "http2"
 }
 
@@ -1487,7 +1504,9 @@ export type IngressTransportMethod = string;
 
 /** Known values of {@link BindingType} that the service accepts. */
 export enum KnownBindingType {
+  /** Disabled */
   Disabled = "Disabled",
+  /** SniEnabled */
   SniEnabled = "SniEnabled"
 }
 
@@ -1503,7 +1522,9 @@ export type BindingType = string;
 
 /** Known values of {@link AppProtocol} that the service accepts. */
 export enum KnownAppProtocol {
+  /** Http */
   Http = "http",
+  /** Grpc */
   Grpc = "grpc"
 }
 
@@ -1519,7 +1540,9 @@ export type AppProtocol = string;
 
 /** Known values of {@link Scheme} that the service accepts. */
 export enum KnownScheme {
+  /** Http */
   Http = "HTTP",
+  /** Https */
   Https = "HTTPS"
 }
 
@@ -1535,8 +1558,11 @@ export type Scheme = string;
 
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
+  /** Liveness */
   Liveness = "Liveness",
+  /** Readiness */
   Readiness = "Readiness",
+  /** Startup */
   Startup = "Startup"
 }
 
@@ -1553,7 +1579,9 @@ export type Type = string;
 
 /** Known values of {@link StorageType} that the service accepts. */
 export enum KnownStorageType {
+  /** AzureFile */
   AzureFile = "AzureFile",
+  /** EmptyDir */
   EmptyDir = "EmptyDir"
 }
 
@@ -1569,8 +1597,11 @@ export type StorageType = string;
 
 /** Known values of {@link RevisionHealthState} that the service accepts. */
 export enum KnownRevisionHealthState {
+  /** Healthy */
   Healthy = "Healthy",
+  /** Unhealthy */
   Unhealthy = "Unhealthy",
+  /** None */
   None = "None"
 }
 
@@ -1587,10 +1618,15 @@ export type RevisionHealthState = string;
 
 /** Known values of {@link RevisionProvisioningState} that the service accepts. */
 export enum KnownRevisionProvisioningState {
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Provisioned */
   Provisioned = "Provisioned",
+  /** Failed */
   Failed = "Failed",
+  /** Deprovisioning */
   Deprovisioning = "Deprovisioning",
+  /** Deprovisioned */
   Deprovisioned = "Deprovisioned"
 }
 
@@ -1609,15 +1645,25 @@ export type RevisionProvisioningState = string;
 
 /** Known values of {@link EnvironmentProvisioningState} that the service accepts. */
 export enum KnownEnvironmentProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Waiting */
   Waiting = "Waiting",
+  /** InitializationInProgress */
   InitializationInProgress = "InitializationInProgress",
+  /** InfrastructureSetupInProgress */
   InfrastructureSetupInProgress = "InfrastructureSetupInProgress",
+  /** InfrastructureSetupComplete */
   InfrastructureSetupComplete = "InfrastructureSetupComplete",
+  /** ScheduledForDelete */
   ScheduledForDelete = "ScheduledForDelete",
+  /** UpgradeRequested */
   UpgradeRequested = "UpgradeRequested",
+  /** UpgradeFailed */
   UpgradeFailed = "UpgradeFailed"
 }
 
@@ -1641,10 +1687,15 @@ export type EnvironmentProvisioningState = string;
 
 /** Known values of {@link CertificateProvisioningState} that the service accepts. */
 export enum KnownCertificateProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** DeleteFailed */
   DeleteFailed = "DeleteFailed",
+  /** Pending */
   Pending = "Pending"
 }
 
@@ -1663,7 +1714,9 @@ export type CertificateProvisioningState = string;
 
 /** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
 export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -1679,7 +1732,9 @@ export type CheckNameAvailabilityReason = string;
 
 /** Known values of {@link AccessMode} that the service accepts. */
 export enum KnownAccessMode {
+  /** ReadOnly */
   ReadOnly = "ReadOnly",
+  /** ReadWrite */
   ReadWrite = "ReadWrite"
 }
 
@@ -1695,9 +1750,13 @@ export type AccessMode = string;
 
 /** Known values of {@link SourceControlOperationState} that the service accepts. */
 export enum KnownSourceControlOperationState {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 

@@ -2149,6 +2149,113 @@ export const Volume: coreClient.CompositeMapper = {
   }
 };
 
+export const CustomHostnameAnalysisResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomHostnameAnalysisResult",
+    modelProperties: {
+      hostName: {
+        serializedName: "hostName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      isHostnameAlreadyVerified: {
+        serializedName: "isHostnameAlreadyVerified",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      customDomainVerificationTest: {
+        serializedName: "customDomainVerificationTest",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Passed", "Failed", "Skipped"]
+        }
+      },
+      customDomainVerificationFailureInfo: {
+        serializedName: "customDomainVerificationFailureInfo",
+        type: {
+          name: "Composite",
+          className: "DefaultErrorResponse"
+        }
+      },
+      hasConflictOnManagedEnvironment: {
+        serializedName: "hasConflictOnManagedEnvironment",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      conflictingContainerAppResourceId: {
+        serializedName: "conflictingContainerAppResourceId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      cNameRecords: {
+        serializedName: "cNameRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      txtRecords: {
+        serializedName: "txtRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      aRecords: {
+        serializedName: "aRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      alternateCNameRecords: {
+        serializedName: "alternateCNameRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      alternateTxtRecords: {
+        serializedName: "alternateTxtRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const SecretsCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3041,114 +3148,6 @@ export const AuthConfig: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomHostnameAnalysisResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomHostnameAnalysisResult",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      hostName: {
-        serializedName: "properties.hostName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isHostnameAlreadyVerified: {
-        serializedName: "properties.isHostnameAlreadyVerified",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      customDomainVerificationTest: {
-        serializedName: "properties.customDomainVerificationTest",
-        readOnly: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["Passed", "Failed", "Skipped"]
-        }
-      },
-      customDomainVerificationFailureInfo: {
-        serializedName: "properties.customDomainVerificationFailureInfo",
-        type: {
-          name: "Composite",
-          className: "DefaultErrorResponse"
-        }
-      },
-      hasConflictOnManagedEnvironment: {
-        serializedName: "properties.hasConflictOnManagedEnvironment",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      conflictingContainerAppResourceId: {
-        serializedName: "properties.conflictingContainerAppResourceId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      cNameRecords: {
-        serializedName: "properties.cNameRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      txtRecords: {
-        serializedName: "properties.txtRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      aRecords: {
-        serializedName: "properties.aRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      alternateCNameRecords: {
-        serializedName: "properties.alternateCNameRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      alternateTxtRecords: {
-        serializedName: "properties.alternateTxtRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const Revision: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3434,7 +3433,7 @@ export const ContainerApp: coreClient.CompositeMapper = {
           className: "Template"
         }
       },
-      outboundIPAddresses: {
+      outboundIpAddresses: {
         serializedName: "properties.outboundIPAddresses",
         readOnly: true,
         type: {
