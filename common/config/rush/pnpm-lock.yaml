@@ -11678,7 +11678,7 @@ packages:
     dev: false
 
   file:projects/arm-hdinsight.tgz:
-    resolution: {integrity: sha512-MQ5HMD+i79knfa9jvzmiTB0EptlvFeqESSyATtXwj7IIlZp35VTa0PKcJYEdbLUUPxB8K7TD4RFdiBHlfh9GEA==, tarball: file:projects/arm-hdinsight.tgz}
+    resolution: {integrity: sha512-o8mUqmUSQteO7MOke/GH3xxORC3XHRfPYdAOS5GsO0sxb7lDzAqXFq+gOXl02cZ/EzCzUDsKENVqZPgJLdw7Lw==, tarball: file:projects/arm-hdinsight.tgz}
     name: '@rush-temp/arm-hdinsight'
     version: 0.0.0
     dependencies:
@@ -11689,6 +11689,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11696,12 +11698,10 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-healthbot.tgz:
