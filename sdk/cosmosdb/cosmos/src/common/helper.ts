@@ -5,7 +5,7 @@ import { OperationType, ResourceType } from "./constants";
 
 const trimLeftSlashes = new RegExp("^[/]+");
 const trimRightSlashes = new RegExp("[/]+$");
-const illegalResourceIdCharacters = new RegExp("[/\\\\?#]"); 
+const illegalResourceIdCharacters = new RegExp("[/\\\\?#]");
 
 /** @hidden */
 export function jsonStringifyAndEscapeNonASCII(arg: unknown): string {
@@ -215,7 +215,7 @@ export function isResourceValid(resource: { id?: string }, err: { message?: stri
 /**
  * @hidden
  */
- export function isItemResourceValid(resource: { id?: string }, err: { message?: string }): boolean {
+export function isItemResourceValid(resource: { id?: string }, err: { message?: string }): boolean {
   // TODO: fix strictness issues so that caller contexts respects the types of the functions
   if (resource.id) {
     if (typeof resource.id !== "string") {
