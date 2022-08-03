@@ -396,7 +396,7 @@ export class PhoneNumbersClient {
    * }
    * ```
    * List all available Toll-Free area codes.
-   * @param countryCode  The ISO 3166-2 country code.
+   * @param countryCode - The ISO 3166-2 country code.
    * @param options - The optional parameters.
    */
   public listAvailableTollFreeAreaCodes(
@@ -427,7 +427,7 @@ export class PhoneNumbersClient {
    * }
    * ```
    * List all available Geographic area codes.
-   * @param countryCode  The ISO 3166-2 country code.
+   * @param countryCode - The ISO 3166-2 country code.
    * @param options - The optional parameters.
    */
   public listAvailableGeographicAreaCodes(
@@ -459,8 +459,8 @@ export class PhoneNumbersClient {
    * }
    * ```
    * List all available localities.
-   * @param countryCode  The ISO 3166-2 country code.
-   * @param administrativeDivision The name of the administrative division in which to list localities. Administrative division is more common known as a state or province.
+   * @param countryCode - The ISO 3166-2 country code.
+   * @param administrativeDivision - The name of the administrative division in which to list localities. Administrative division is more common known as a state or province.
    * @param options - The optional parameters.
    */
    public listAvailableLocalities(
@@ -492,8 +492,9 @@ export class PhoneNumbersClient {
    * }
    * ```
    * List all available offerings.
-   * @param countryCode  The ISO 3166-2 country code.
-   * @param 
+   * @param countryCode - The ISO 3166-2 country code.
+   * @param phoneNumberType - The phone number type to query offerings.
+   * @param assignmentType - The assignment type to query offerings.
    * @param options - The optional parameters.
    */
    public listAvailableOfferings(

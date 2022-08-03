@@ -62,17 +62,17 @@ export interface ListOfferingsOptions extends OperationOptions {}
 
 export {
   AreaCodeResult,
-  PurchasedPhoneNumber,
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCapabilityType,
-  PhoneNumberCountry,
   PhoneNumberCost,
+  PhoneNumberCountry,
   PhoneNumberLocality,
   PhoneNumberOffering,
-  PhoneNumberSearchResult,
   PhoneNumberSearchRequest,
-  PhoneNumberType
+  PhoneNumberSearchResult,
+  PhoneNumberType,
+  PurchasedPhoneNumber,
 } from "./generated/src/models/";
