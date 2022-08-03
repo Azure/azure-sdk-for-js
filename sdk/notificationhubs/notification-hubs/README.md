@@ -1,6 +1,6 @@
 # Azure Notification Hubs SDK for JavaScript
 
-Azure Notification Hubs provide a scaled-out push engine that enables you to send notifications to any platform (Apple, Amazon Kindle, Android, Baidu, Web, Windows, etc.) from any back-end (cloud or on-premises). Notification Hubs works great for both enterprise and consumer scenarios. Here are a few example scenarios:
+Azure Notification Hubs provide a scaled-out push engine that enables you to send notifications to any platform (Apple, Amazon Kindle, Android, Baidu, Web, Windows, etc.) from any back-end (cloud or on-premises). Notification Hubs works well for both enterprise and consumer scenarios. Here are a few example scenarios:
 
 - Send breaking news notifications to millions with low latency.
 - Send location-based coupons to interested user segments.
@@ -183,7 +183,7 @@ import { NotificationHubServiceClient, JsonPatch } from "@azure/notification-hub
 
 const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
-const installationId = "<unique installation ID">;
+const installationId = "<unique installation ID>";
 
 const updates: JsonPatch[] = [
   { op: "add", path: "/tags", value: "likes_baseball" },
@@ -202,7 +202,7 @@ import { updateInstallation } from "@azure/notification-hubs/client/updateInstal
 
 const context = createClientContext("<connection string>", "<hub name>");
 
-const installationId = "<unique installation ID">;
+const installationId = "<unique installation ID>";
 
 const updates: JsonPatch[] = [
   { op: "add", path: "/tags", value: "likes_baseball" },
@@ -219,7 +219,7 @@ import { NotificationHubServiceClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
-const installationId = "<unique installation ID">;
+const installationId = "<unique installation ID>";
 
 const installation = client.getInstallation(installationId);
 ```
@@ -232,7 +232,7 @@ import { getInstallation } from "@azure/notification-hubs/client/getInstallation
 
 const context = createClientContext("<connection string>", "<hub name>");
 
-const installationId = "<unique installation ID">;
+const installationId = "<unique installation ID>";
 
 const installation = getInstallation(context, installationId);
 ```
@@ -321,13 +321,11 @@ import { NotificationHubServiceClient } from "@azure/notification-hubs/client";
 
 const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
-const top = 100;
-
-const registrations = await client.listRegistrationsByTag("likes_hockey", { top });
+const registrations = await client.listRegistrationsByTag("likes_hockey");
 
 let page = 0;
 for await (const pages of registrations.byPage()) {
-  console.log(`Page number ${page}`);
+  console.log(`Page number ${page++}`);
   for (const item of pages) {
     console.log(JSON.stringify(item, null, 2));
   }
@@ -342,13 +340,11 @@ import { listRegistrationsByTag } from "@azure/notification-hubs/client/listRegi
 
 const context = createClientContext("<connection string>", "<hub name>");
 
-const top = 100;
-
-const registrations = await listRegistrationsByTag(context, "likes_hockey", { top });
+const registrations = await listRegistrationsByTag(context, "likes_hockey");
 
 let page = 0;
 for await (const pages of registrations.byPage()) {
-  console.log(`Page number ${page}`);
+  console.log(`Page number ${page++}`);
   for (const item of pages) {
     console.log(JSON.stringify(item, null, 2));
   }
@@ -361,7 +357,7 @@ Notification Hubs supports sending notifications to devices either directly usin
 
 For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `send*` methods, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
 
-Raw JSON or XML can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format and fill in associated HTTP headers so there is no guessing about which fields are available for each PNS.
+Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format and fill in associated HTTP headers so there is no guessing about which fields are available for each PNS.
 
 ```typescript
 // Using the class-based approach
@@ -379,6 +375,9 @@ const apnsMessage = buildAppleNativeMessage({
   sound: "default",
   interruptionLevel: "time-sensitive",
 });
+
+// Send the message using the modular approach
+const result = await sendBroadcastNotification(context, apnsMessage);
 ```
 
 #### Broadcast Send
@@ -699,26 +698,28 @@ The following samples show you the various ways you can interact with Azure Noti
 **Device Management:**
 
 - Installations API
-  - [Create Or Update Installation](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/createInstallation.ts)
-  - [Update Installation](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/updateInstallation.ts)
+  - [Create Or Update Installation](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/createInstallation.ts)
+  - [Update Installation](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/updateInstallation.ts)
 - Registration API
-  - [Create Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/createRegistration.ts)s
-  - [Create Or Update Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/createOrUpdateRegistration.ts)
-  - [Update Registration](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/updateRegistration.ts)
-  - [List Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/listRegistrations.ts)
-  - [List Registration By Tag](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/listRegistrationsByTag.ts)
+  - [Create Registration](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/createRegistration.ts)s
+  - [Create Or Update Registration](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/createOrUpdateRegistration.ts)
+  - [Update Registration](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/updateRegistration.ts)
+  - [List Registrations](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/listRegistrations.ts)
+  - [List Registration By Tag](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/listRegistrationsByTag.ts)
 
 **Send Operations:**
 
-- [Direct Send](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/sendDirectNotification.ts)
-- [Audience Send With Tags List](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/sendTagsList.ts)
-- [Audience Send With Tag Expression](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/sendTagExpression.ts)
-- [Scheduled Send](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/scheduledSendNotification.ts)
+- [Broadcast Send](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/sendBroadcastNotification.ts)
+- [Direct Send](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/sendDirectNotification.ts)
+- [Audience Send With Tags List](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/sendTagsList.ts)
+- [Audience Send With Tag Expression](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/sendTagExpression.ts)
+- [Scheduled Broadcast Send](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/scheduledSendBroadcastNotification.ts)
+- [Scheduled Send](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/scheduledSendNotification.ts)
 
 **Management Operations:**
 
-- [Export Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/blob/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/exportRegistrationsJob.ts)
-- [Import Registrations](https://github.com/mpodwysocki/azure-sdk-for-js/tree/feat/nh-xml/sdk/notificationhubs/notification-hubs/samples-dev/importRegistrationsJob.ts)
+- [Export Registrations](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/exportRegistrationsJob.ts)
+- [Import Registrations](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev/importRegistrationsJob.ts)
 
 ## Contributing
 
@@ -729,7 +730,8 @@ This module's tests are a mixture of live and unit tests, which require you to h
 1. `rush update`
 2. `rush build -t @azure/notification-hubs`
 3. Create a .env file with these contents in the `sdk\notificationhubs\notification-hubs` folder:
-   `NH_CONNECTION_STRING=connection string for your Notification Hubs instance`
+   `NOTIFICATIONHUBS_CONNECTION_STRING=connection string for your Notification Hubs instance`
+   `NOTIFICATION_HUB_NAME=Notification Hub name`
 4. `cd sdk\notificationhubs\notification-hubs`
 5. `npm run test`.
 
