@@ -1,6 +1,6 @@
 {
   "name": "@azure/api-management-custom-widgets-tools",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "sdk-type": "client",
