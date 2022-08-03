@@ -25,6 +25,12 @@ export interface NotificationHubsConnectionStringProperties {
   sharedAccessKeyName: string;
 }
 
+/**
+ * Creates a SasTokenProvider from a shared access key and shared access key name.
+ * @param sharedAccessKey - The shared access key value.
+ * @param sharedAccessKeyName - The shared access key name.
+ * @returns A SasTokenProvider with the given shared access token information.
+ */
 export function createTokenProviderFromConnection(
   sharedAccessKey: string,
   sharedAccessKeyName: string
