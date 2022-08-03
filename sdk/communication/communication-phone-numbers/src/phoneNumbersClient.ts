@@ -373,7 +373,7 @@ export class PhoneNumbersClient {
    * List all available countries.
    * @param options - The optional parameters.
    */
-   public listAvailableCountries(
+  public listAvailableCountries(
     options: ListAvailableCountriesOptions = {}
   ): PagedAsyncIterableIterator<PhoneNumberCountry> {
     const { span, updatedOptions } = createSpan(
@@ -385,7 +385,7 @@ export class PhoneNumbersClient {
     return iter;
   }
 
-   /**
+  /**
    * Iterates the available Toll-Free area codes.
    *
    * Example usage:
@@ -400,20 +400,20 @@ export class PhoneNumbersClient {
    * @param options - The optional parameters.
    */
   public listAvailableTollFreeAreaCodes(
-      countryCode: string,
-      options: ListTollFreeAreaCodesOptions = {}
+    countryCode: string,
+    options: ListTollFreeAreaCodesOptions = {}
   ): PagedAsyncIterableIterator<AreaCodeResult> {
-      const { span, updatedOptions } = createSpan(
-        "PhoneNumbersClient-listAvailableTollFreeAreaCodes",
-        options
-      );
-      const iter = this.client.phoneNumbers.listAreaCodes(countryCode, {
-        ...updatedOptions,
-        assignmentType: "application",
-        phoneNumberType: "tollFree"
-      });
-      span.end();
-      return iter;
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumbersClient-listAvailableTollFreeAreaCodes",
+      options
+    );
+    const iter = this.client.phoneNumbers.listAreaCodes(countryCode, {
+      ...updatedOptions,
+      assignmentType: "application",
+      phoneNumberType: "tollFree",
+    });
+    span.end();
+    return iter;
   }
 
   /**
@@ -442,7 +442,7 @@ export class PhoneNumbersClient {
     const iter = this.client.phoneNumbers.listAreaCodes(countryCode, {
       ...updatedOptions,
       assignmentType: assignmentType,
-      phoneNumberType: "geographic"
+      phoneNumberType: "geographic",
     });
     span.end();
     return iter;
@@ -463,7 +463,7 @@ export class PhoneNumbersClient {
    * @param administrativeDivision - The name of the administrative division in which to list localities. Administrative division is more common known as a state or province.
    * @param options - The optional parameters.
    */
-   public listAvailableLocalities(
+  public listAvailableLocalities(
     countryCode: string,
     administrativeDivision?: string,
     options: ListLocalitiesOptions = {}
@@ -474,7 +474,7 @@ export class PhoneNumbersClient {
     );
     const iter = this.client.phoneNumbers.listAvailableLocalities(countryCode, {
       ...updatedOptions,
-      administrativeDivision: administrativeDivision
+      administrativeDivision: administrativeDivision,
     });
     span.end();
     return iter;
@@ -497,20 +497,17 @@ export class PhoneNumbersClient {
    * @param assignmentType - The assignment type to query offerings.
    * @param options - The optional parameters.
    */
-   public listAvailableOfferings(
+  public listAvailableOfferings(
     countryCode: string,
     phoneNumberType?: PhoneNumberType,
     assignmentType?: PhoneNumberAssignmentType,
     options: ListOfferingsOptions = {}
   ): PagedAsyncIterableIterator<PhoneNumberOffering> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumbersClient-listOfferings",
-      options
-    );
+    const { span, updatedOptions } = createSpan("PhoneNumbersClient-listOfferings", options);
     const iter = this.client.phoneNumbers.listOfferings(countryCode, {
       ...updatedOptions,
       phoneNumberType: phoneNumberType,
-      assignmentType: assignmentType
+      assignmentType: assignmentType,
     });
     span.end();
     return iter;

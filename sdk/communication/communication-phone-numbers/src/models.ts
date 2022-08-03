@@ -43,14 +43,14 @@ export interface ListAvailableCountriesOptions extends OperationOptions {}
 /**
  * Additional options that can be passed to the Toll-Free area codes request.
  */
- export interface ListTollFreeAreaCodesOptions extends OperationOptions {}
+export interface ListTollFreeAreaCodesOptions extends OperationOptions {}
 
- /**
+/**
  * Additional options that can be passed to the Geographic area codes request.
  */
- export interface ListGeographicAreaCodesOptions extends OperationOptions {}
+export interface ListGeographicAreaCodesOptions extends OperationOptions {}
 
- /**
+/**
  * Additional options that can be passed to the available localities request.
  */
 export interface ListLocalitiesOptions extends OperationOptions {}
