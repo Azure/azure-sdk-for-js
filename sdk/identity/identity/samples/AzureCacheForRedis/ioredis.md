@@ -96,7 +96,7 @@ main().catch((err) => {
 
 #### Authenticate with Azure AD: Handle Reauthentication
 
-This sample is intended to assist in authenticating a hosted Azure Cache for Redis instance with Azure AD via ioredis. It focuses on displaying the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance. It further shows how to recreate and authenticate the ioredis instance when its connection is broken in error/exception scenarios.
+This sample is intended to assist in authenticating a hosted Azure Cache for Redis instance with Azure AD via ioredis. It shows the logic required to fetch an Azure AD access token and to use it as the password when setting up the ioredis instance. It further shows how to recreate and authenticate the ioredis instance when its connection is broken in error/exception scenarios.
 
 ##### Migration Guidance
 
