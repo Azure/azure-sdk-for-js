@@ -75,6 +75,7 @@ async function main() {
   // Fetch value of your key in the Azure Redis Cache.
   console.log("redis key:", await redis.get("Az:mykey"));
 }
+
 main().catch((err) => {
   console.log("error code: ", err.code);
   console.log("error message: ", err.message);
