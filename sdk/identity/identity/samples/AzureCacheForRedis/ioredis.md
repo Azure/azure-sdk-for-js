@@ -116,8 +116,7 @@ async function returnPassword(credential: TokenCredential) {
     const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-    let accessTokenObject = await credential.getToken(redisScope);
-    return accessTokenObject;
+    return credential.getToken(redisScope);
   } catch (e) {
     throw e;
   }
