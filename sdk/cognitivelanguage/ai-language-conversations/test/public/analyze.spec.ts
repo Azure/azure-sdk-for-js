@@ -94,33 +94,33 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
       })
     })
 
-    // it("Test Orchestration App LUIS Response", (done) => {
-    //   client.analyzeConversation(conv3).then((message) => {
-    //     //Assert prediction type
-    //     assert.equal(message.kind, "ConversationResult");
-    //     assert.exists(message.result.query);
-    //     assert.equal(message.result.prediction.projectKind, "Orchestration");
+    it.skip("Test Orchestration App LUIS Response", (done) => {
+      client.analyzeConversation(conv3).then((message) => {
+        //Assert prediction type
+        assert.equal(message.kind, "ConversationResult");
+        assert.exists(message.result.query);
+        assert.equal(message.result.prediction.projectKind, "Orchestration");
 
-    //     //Assert top matching project
-    //     assert.equal(message.result.prediction.topIntent, "RestaurantIntent");
-    //     assert.exists(message.result.prediction.intents.RestaurantIntent);
-    //     var top_intent_object = message.result.prediction.intents.RestaurantIntent;
-    //     assert.equal(top_intent_object.targetProjectKind, "Luis");
+        //Assert top matching project
+        assert.equal(message.result.prediction.topIntent, "RestaurantIntent");
+        assert.exists(message.result.prediction.intents.RestaurantIntent);
+        var top_intent_object = message.result.prediction.intents.RestaurantIntent;
+        assert.equal(top_intent_object.targetProjectKind, "Luis");
 
-    //     //Assert intent
-    //     var luis_result = top_intent_object.result.prediction;
-    //     assert.equal(luis_result.topIntent, "Reserve");
-    //     assert.isAtLeast(luis_result.intents.length, 1);
-    //     assert.isAbove(luis_result.intents.Reserve.confidence, 0);
+        //Assert intent
+        var luis_result = top_intent_object.result.prediction;
+        assert.equal(luis_result.topIntent, "Reserve");
+        assert.isAtLeast(luis_result.intents.length, 1);
+        assert.isAbove(luis_result.intents.Reserve.confidence, 0);
         
-    //     //Assert entities
-    //     assert.isAtLeast(luis_result.entities.length, 1);
+        //Assert entities
+        assert.isAtLeast(luis_result.entities.length, 1);
 
-    //     done();
-    //   }).catch((error) => {
-    //     assert.fail();
-    //   })
-    //})
+        done();
+      }).catch((error) => {
+        assert.fail();
+      })
+    })
 
     it("Test Orchestration App QnA Response", (done) => {
       client.analyzeConversation(conv4).then((message) => {

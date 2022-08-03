@@ -130,29 +130,29 @@ var inputs_1 = require("./inputs");
                         test_utils_1.assert.fail();
                     });
                 });
-                // it("Test Orchestration App LUIS Response", (done) => {
-                //   client.analyzeConversation(conv3).then((message) => {
-                //     //Assert prediction type
-                //     assert.equal(message.kind, "ConversationResult");
-                //     assert.exists(message.result.query);
-                //     assert.equal(message.result.prediction.projectKind, "Orchestration");
-                //     //Assert top matching project
-                //     assert.equal(message.result.prediction.topIntent, "RestaurantIntent");
-                //     assert.exists(message.result.prediction.intents.RestaurantIntent);
-                //     var top_intent_object = message.result.prediction.intents.RestaurantIntent;
-                //     assert.equal(top_intent_object.targetProjectKind, "Luis");
-                //     //Assert intent
-                //     var luis_result = top_intent_object.result.prediction;
-                //     assert.equal(luis_result.topIntent, "Reserve");
-                //     assert.isAtLeast(luis_result.intents.length, 1);
-                //     assert.isAbove(luis_result.intents.Reserve.confidence, 0);
-                //     //Assert entities
-                //     assert.isAtLeast(luis_result.entities.length, 1);
-                //     done();
-                //   }).catch((error) => {
-                //     assert.fail();
-                //   })
-                //})
+                it.skip("Test Orchestration App LUIS Response", function (done) {
+                    client.analyzeConversation(inputs_1.conv3).then(function (message) {
+                        //Assert prediction type
+                        test_utils_1.assert.equal(message.kind, "ConversationResult");
+                        test_utils_1.assert.exists(message.result.query);
+                        test_utils_1.assert.equal(message.result.prediction.projectKind, "Orchestration");
+                        //Assert top matching project
+                        test_utils_1.assert.equal(message.result.prediction.topIntent, "RestaurantIntent");
+                        test_utils_1.assert.exists(message.result.prediction.intents.RestaurantIntent);
+                        var top_intent_object = message.result.prediction.intents.RestaurantIntent;
+                        test_utils_1.assert.equal(top_intent_object.targetProjectKind, "Luis");
+                        //Assert intent
+                        var luis_result = top_intent_object.result.prediction;
+                        test_utils_1.assert.equal(luis_result.topIntent, "Reserve");
+                        test_utils_1.assert.isAtLeast(luis_result.intents.length, 1);
+                        test_utils_1.assert.isAbove(luis_result.intents.Reserve.confidence, 0);
+                        //Assert entities
+                        test_utils_1.assert.isAtLeast(luis_result.entities.length, 1);
+                        done();
+                    })["catch"](function (error) {
+                        test_utils_1.assert.fail();
+                    });
+                });
                 it("Test Orchestration App QnA Response", function (done) {
                     client.analyzeConversation(inputs_1.conv4).then(function (message) {
                         //Assert prediction type
