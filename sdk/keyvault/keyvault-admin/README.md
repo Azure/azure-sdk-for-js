@@ -33,35 +33,11 @@ npm install @azure/keyvault-admin
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
+- An existing [Key Vault Managed HSM][azure_keyvault_mhsm]. If you need to create a Managed HSM, you can do so using the Azure CLI by following the steps in [this document][azure_keyvault_mhsm_cli].
 
-#### Getting Azure credentials
+#### Authenticate the client
 
-Use the [Azure CLI][azure-cli] snippet below to create/get client secret credentials.
-
-- Create a service principal and configure its access to Azure resources:
-  ```PowerShell
-  az ad sp create-for-rbac -n <your-application-name> --skip-assignment
-  ```
-  Output:
-  ```json
-  {
-    "appId": "generated-app-ID",
-    "displayName": "some-app-name",
-    "name": "http://some-app-name",
-    "password": "random-password",
-    "tenant": "tenant-ID"
-  }
-  ```
-- Take note of the service principal objectId
-  ```PowerShell
-  az ad sp show --id <appId> --query objectId
-  ```
-  Output:
-  ```
-  "<your-service-principal-object-id>"
-  ```
-- Use the returned credentials above to set **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables.
+In order to interact with the Azure Key Vault service, you will need to create an instance of either the [`KeyVaultAccessControlClient`](#create-an-access-control-client)class or the [`KeyVaultBackupClient`](#create-a-backup-client) class, as well as a **vault url** (which you may see as "DNS Name" in the Azure Portal) and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
 
 #### Get or create an Azure Managed HSM with the Azure CLI
 
@@ -154,7 +130,7 @@ npm install @azure/identity
 
 #### Create KeyVaultAccessControlClient
 
-Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the `KeyVaultAccessControlClient`:
+Once you've authenticated with [the authentication method that suits you best][default_azure_credential], you can create a `KeyVaultAccessControlClient` as follows, substituting in your Managed HSM URL in the constructor:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -162,13 +138,12 @@ const { KeyVaultAccessControlClient } = require("@azure/keyvault-admin");
 
 const credentials = new DefaultAzureCredential();
 
-const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+const client = new KeyVaultAccessControlClient(`<your Managed HSM URL>`, credentials);
 ```
 
 #### Create KeyVaultBackupClient
 
-Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the `KeyVaultBackupClient`:
+Once you've authenticated with [the authentication method that suits you best][default_azure_credential], you can create a `KeyVaultBackupClient` as follows, substituting in your Managed HSM URL in the constructor:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -276,5 +251,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 [storage-account-create-cli]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli
 [storage-account-create-portal]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal
 [storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
+
+[azure_keyvault_mhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
+[azure_keyvault_mhsm_cli]: https://docs.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
+[default_azure_credential]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable#defaultazurecredential
+[managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-net%2Fsdk%2Ftables%2FAzure.Data.Tables%2FREADME.png)
