@@ -12448,7 +12448,7 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-cuU18UId1MYeTUkVaLWEg8q6g8MAY0RV+Xow2hT0tu7lRUyKwlBoTI0CbZmUA8K2XGjC5hkL27PHO0EMhsPFlA==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-pAtK/5XmdO2cH+00o8h2SC/FoyaEnY2TZAw8MRjCTzoUImxRvqPJ3h1m9wwPwpklxuUwnBBvEt5SdmCnBovjng==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
@@ -12467,7 +12467,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
