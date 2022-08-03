@@ -9,7 +9,12 @@ import {
   createConnectionContextForCredential,
 } from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
-import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions, ReceiveMode } from "./models";
+import {
+  ServiceBusReceiverOptions,
+  ServiceBusSessionReceiverOptions,
+  ReceiveMode,
+  ServiceBusSenderOptions,
+} from "./models";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver";
 import {
   ServiceBusSessionReceiver,
@@ -20,7 +25,7 @@ import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
 import { isCredential, isDefined } from "./util/typeGuards";
-import { generate_uuid } from "rhea-promise";
+import { ensureValidIdentifier } from "./util/utils";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -35,8 +40,8 @@ export class ServiceBusClient {
    */
   public fullyQualifiedNamespace: string;
   /**
-   * ID to identify this client which can be specified when creating an instance of this client.
-   * If not specified, a unique one will be generated.
+   * The name used to identify this ServiceBusClient.
+   * If not specified or empty, a random unique one will be generated.
    */
   public identifier: string;
   /**
@@ -102,7 +107,10 @@ export class ServiceBusClient {
       );
     }
     this.fullyQualifiedNamespace = this._connectionContext.config.host;
-    this.identifier = this._clientOptions.identifier ?? generate_uuid();
+    this.identifier = ensureValidIdentifier(
+      this.fullyQualifiedNamespace,
+      this._clientOptions.identifier
+    );
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
 
     const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
@@ -215,13 +223,13 @@ export class ServiceBusClient {
         : 5 * 60 * 1000;
 
     return new ServiceBusReceiverImpl(
-      this.identifier,
       this._connectionContext,
       entityPathWithSubQueue,
       receiveMode,
       maxLockAutoRenewDurationInMs,
       options?.skipParsingBodyAsJson ?? false,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
+      options?.identifier
     );
   }
 
@@ -343,7 +351,7 @@ export class ServiceBusClient {
     }
 
     const messageSession = await MessageSession.create(
-      this.identifier,
+      ensureValidIdentifier(entityPath, options?.identifier),
       this._connectionContext,
       entityPath,
       sessionId,
@@ -430,7 +438,7 @@ export class ServiceBusClient {
     );
 
     const messageSession = await MessageSession.create(
-      this.identifier,
+      ensureValidIdentifier(entityPath, options?.identifier),
       this._connectionContext,
       entityPath,
       undefined,
@@ -460,14 +468,14 @@ export class ServiceBusClient {
    * to the service until one of the methods on the sender is called.
    * @param queueOrTopicName - The name of a queue or topic to send messages to.
    */
-  createSender(queueOrTopicName: string): ServiceBusSender {
+  createSender(queueOrTopicName: string, options: ServiceBusSenderOptions = {}): ServiceBusSender {
     validateEntityPath(this._connectionContext.config, queueOrTopicName);
 
     return new ServiceBusSenderImpl(
-      this.identifier,
       this._connectionContext,
       queueOrTopicName,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
+      options.identifier
     );
   }
 

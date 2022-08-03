@@ -32,16 +32,17 @@ export class BatchingReceiver extends MessageReceiver {
   /**
    * Instantiate a new BatchingReceiver.
    *
+   * @param identifier - name to identify this receiver.
    * @param connectionContext - The client entity context.
    * @param options - Options for how you'd like to connect.
    */
   constructor(
-    clientId: string,
+    identifier: string,
     connectionContext: ConnectionContext,
     entityPath: string,
     options: ReceiveOptions
   ) {
-    super(clientId, connectionContext, entityPath, "batching", options);
+    super(identifier, connectionContext, entityPath, "batching", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       connectionContext,

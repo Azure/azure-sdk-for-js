@@ -9919,7 +9919,7 @@ packages:
     dev: false
 
   file:projects/arm-analysisservices.tgz:
-    resolution: {integrity: sha512-KbtGIvnjn05c4j71Ab7+QAG/JbjkJ7McdWi+xT+QiTyhhwkc84X/N+aYvHqrigyLWhcGcbqacnhbI6GAHEoKhw==, tarball: file:projects/arm-analysisservices.tgz}
+    resolution: {integrity: sha512-TEY/ubhMBYc/A0Aet0mMP1TqO2h4DdEF7GM6MJnYvjMQAh4OB66BWTsBWZh1l79gMWYc2l/HuNaxghwLYpUvrg==, tarball: file:projects/arm-analysisservices.tgz}
     name: '@rush-temp/arm-analysisservices'
     version: 0.0.0
     dependencies:
@@ -9938,7 +9938,7 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -10270,7 +10270,7 @@ packages:
     dev: false
 
   file:projects/arm-avs.tgz:
-    resolution: {integrity: sha512-qT5HrH6IQINoEH/ebbD96pyvJarKF0vKd3zH7SJpip0oR7ka1vkPR/T/VnSrflN6vG/XQgbp7jiG9zGo4aVkpg==, tarball: file:projects/arm-avs.tgz}
+    resolution: {integrity: sha512-VlDnEMLJWk4j97NjgdIjmK+LG621vGJkFZvCgAjusE+7+fngjVA0hDJ+xImeNIBAJV0q6mmLIYBtl/4FrFBUBQ==, tarball: file:projects/arm-avs.tgz}
     name: '@rush-temp/arm-avs'
     version: 0.0.0
     dependencies:
@@ -10289,7 +10289,7 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -11825,17 +11825,19 @@ packages:
     dev: false
 
   file:projects/arm-hdinsight.tgz:
-    resolution: {integrity: sha512-MQ5HMD+i79knfa9jvzmiTB0EptlvFeqESSyATtXwj7IIlZp35VTa0PKcJYEdbLUUPxB8K7TD4RFdiBHlfh9GEA==, tarball: file:projects/arm-hdinsight.tgz}
+    resolution: {integrity: sha512-o8mUqmUSQteO7MOke/GH3xxORC3XHRfPYdAOS5GsO0sxb7lDzAqXFq+gOXl02cZ/EzCzUDsKENVqZPgJLdw7Lw==, tarball: file:projects/arm-hdinsight.tgz}
     name: '@rush-temp/arm-hdinsight'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11843,12 +11845,10 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
-      - supports-color
     dev: false
 
   file:projects/arm-healthbot.tgz:
@@ -12595,7 +12595,7 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-cuU18UId1MYeTUkVaLWEg8q6g8MAY0RV+Xow2hT0tu7lRUyKwlBoTI0CbZmUA8K2XGjC5hkL27PHO0EMhsPFlA==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-pAtK/5XmdO2cH+00o8h2SC/FoyaEnY2TZAw8MRjCTzoUImxRvqPJ3h1m9wwPwpklxuUwnBBvEt5SdmCnBovjng==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
@@ -12614,7 +12614,7 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'

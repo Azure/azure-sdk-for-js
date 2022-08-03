@@ -129,17 +129,17 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
-   * @param clientId - the client id
+   * @param identifier - the name used to identifier the receiver
    * @param connectionContext - The client entity context.
    * @param options - Options for how you'd like to connect.
    */
   constructor(
-    clientId: string,
+    identifier: string,
     connectionContext: ConnectionContext,
     entityPath: string,
     options: ReceiveOptions
   ) {
-    super(clientId, connectionContext, entityPath, "streaming", options);
+    super(identifier, connectionContext, entityPath, "streaming", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
@@ -215,6 +215,7 @@ export class StreamingReceiver extends MessageReceiver {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier,
         });
       }
     };
@@ -232,6 +233,7 @@ export class StreamingReceiver extends MessageReceiver {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier,
         });
       }
     };
@@ -262,6 +264,7 @@ export class StreamingReceiver extends MessageReceiver {
           errorSource: "renewLock",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier,
         });
       });
 
@@ -320,6 +323,7 @@ export class StreamingReceiver extends MessageReceiver {
               errorSource: "abandon",
               entityPath: this.entityPath,
               fullyQualifiedNamespace: this._context.config.host,
+              identifier,
             });
           }
         }
@@ -369,6 +373,7 @@ export class StreamingReceiver extends MessageReceiver {
             errorSource: "complete",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier,
           });
         }
       }
@@ -384,6 +389,7 @@ export class StreamingReceiver extends MessageReceiver {
         entityPath: this.entityPath,
         errorSource: "internal",
         fullyQualifiedNamespace: this._context.config.host,
+        identifier: this.identifier,
       };
 
       return messageHandlers.processError(errorArgs as ProcessErrorArgs);
@@ -459,6 +465,7 @@ export class StreamingReceiver extends MessageReceiver {
         fullyQualifiedNamespace: this._context.config.host,
         errorSource: "receive",
         error: err,
+        identifier: this.identifier,
       });
 
       throw err;
@@ -503,6 +510,7 @@ export class StreamingReceiver extends MessageReceiver {
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           });
           throw err;
         }
@@ -518,6 +526,7 @@ export class StreamingReceiver extends MessageReceiver {
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           })
         );
       },
@@ -532,6 +541,7 @@ export class StreamingReceiver extends MessageReceiver {
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           })
         );
       },
@@ -564,6 +574,7 @@ export class StreamingReceiver extends MessageReceiver {
             errorSource: "receive",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           }),
         logPrefix: this.logPrefix,
         logger,
@@ -621,6 +632,7 @@ export class StreamingReceiver extends MessageReceiver {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier: this.identifier,
         });
       }
       throw err;
