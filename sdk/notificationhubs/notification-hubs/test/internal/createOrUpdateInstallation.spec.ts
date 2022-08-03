@@ -9,7 +9,7 @@ import { assert } from "@azure/test-utils";
 import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
 import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
 import { deleteInstallation } from "@azure/notification-hubs/client/deleteInstallation";
-import { v4 } from "uuid";
+import { v4 as uuid } from "uuid";
 
 // Load the .env file if it exists
 // eslint-disable-next-line sort-imports
@@ -32,7 +32,7 @@ describe("createOrUpdateInstallation()", () => {
   it("should add an installation", async () => {
     context = createClientContext(connectionString, hubName);
 
-    installationId = v4();
+    installationId = uuid();
 
     const installation = createAppleInstallation({
       installationId,

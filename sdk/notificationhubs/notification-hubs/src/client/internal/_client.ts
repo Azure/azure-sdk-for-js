@@ -6,6 +6,7 @@ import {
   HttpMethods,
   PipelineRequest,
   PipelineResponse,
+  RestError,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import {
@@ -14,7 +15,6 @@ import {
 } from "../../models/response.js";
 import { NotificationHubsClientContext } from "../index.js";
 import { OperationOptions } from "@azure/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
 import { isDefined } from "../../utils/utils.js";
 import { parseXMLError } from "../../utils/xmlUtils.js";
 

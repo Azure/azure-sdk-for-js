@@ -84,7 +84,7 @@ export interface AppleNotification extends JsonNotification {
     platform: "apple";
 }
 
-// @public (undocumented)
+// @public
 export type ApplePriority = "10" | "5";
 
 // @public

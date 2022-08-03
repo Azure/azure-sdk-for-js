@@ -156,6 +156,9 @@ export function createAppleRegistrationDescription(
   };
 }
 
+/**
+ * The priority of the Apple push notification.
+ */
 export type ApplePriority = "10" | "5";
 
 /**

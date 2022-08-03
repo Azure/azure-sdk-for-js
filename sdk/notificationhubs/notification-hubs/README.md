@@ -142,13 +142,13 @@ Installations can be created through the `createOrUpdateInstallation` method suc
 
 ```typescript
 import { NotificationHubServiceClient, createAppleInstallation } from "@azure/notification-hubs";
-import { v4 } from "uuid";
+import { v4 as uuid } from "uuid";
 
 const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
 
 // Create an installation for APNs
 let installation = createAppleInstallation({
-  installationId: v4(), // Must be unique
+  installationId: uuid(), // Must be unique
   pushChannel: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0", // PNS specific handle
   tags: ["likes_hockey", "likes_football"],
 });
@@ -162,13 +162,13 @@ Using the modular approach, the code would be as follows:
 import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
 import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
-import { v4 } from "uuid";
+import { v4 as uuid } from "uuid";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
 // Create an installation for APNs
 let installation = createAppleInstallation({
-  installationId: v4(), // Must be unique
+  installationId: uuid(), // Must be unique
   pushChannel: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0", // PNS specific handle
   tags: ["likes_hockey", "likes_football"],
 });

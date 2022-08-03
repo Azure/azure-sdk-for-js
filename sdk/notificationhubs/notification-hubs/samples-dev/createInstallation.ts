@@ -16,7 +16,7 @@
 import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
 import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
-import { v4 } from "uuid";
+import { v4 as uuid } from "uuid";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -34,7 +34,7 @@ async function main() {
   const context = createClientContext(connectionString, hubName);
 
   const installation = createAppleInstallation({
-    installationId: v4(),
+    installationId: uuid(),
     pushChannel: deviceToken,
     tags: ["likes_hockey", "likes_football"],
   });
