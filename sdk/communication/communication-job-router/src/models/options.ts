@@ -3,15 +3,18 @@
 
 import { PipelineOptions } from "@azure/core-http";
 import {
-  ChannelConfiguration, DistributionModeUnion, ExceptionRule,
+  ChannelConfiguration,
+  DistributionModeUnion,
+  ExceptionRule,
   JobRouterReclassifyJobActionOptionalParams,
-  JobRouterUpsertClassificationPolicyOptionalParams,
-  JobRouterUpsertDistributionPolicyOptionalParams,
-  JobRouterUpsertExceptionPolicyOptionalParams,
+  JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
+  JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
+  JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
   JobRouterUpsertJobOptionalParams,
-  JobRouterUpsertQueueOptionalParams,
+  JobRouterAdministrationUpsertQueueOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
-  JobStateSelector, QueueSelectorAttachmentUnion,
+  JobStateSelector,
+  QueueSelectorAttachmentUnion,
   RouterJob,
   WorkerSelector,
   WorkerStateSelector
@@ -30,7 +33,7 @@ export interface RouterClientOptions extends PipelineOptions {
  * Options to create a classification policy.
  */
 export interface CreateClassificationPolicyOptions
-  extends JobRouterUpsertClassificationPolicyOptionalParams {
+  extends JobRouterAdministrationUpsertClassificationPolicyOptionalParams {
   /** Friendly name of this policy. */
   name?: string;
   /** The fallback queue to select if the queue selector doesn't find a match. */
@@ -43,7 +46,7 @@ export interface CreateClassificationPolicyOptions
  * Options to update a classification policy.
  */
 export interface UpdateClassificationPolicyOptions
-  extends JobRouterUpsertClassificationPolicyOptionalParams {
+  extends JobRouterAdministrationUpsertClassificationPolicyOptionalParams {
   /** Friendly name of this policy. */
   name?: string;
   /** The fallback queue to select if the queue selector doesn't find a match. */
@@ -74,7 +77,7 @@ export interface ListClassificationPoliciesOptions extends coreHttp.OperationOpt
  * Options to create a distribution policy.
  */
 export interface CreateDistributionPolicyOptions
-  extends JobRouterUpsertDistributionPolicyOptionalParams {
+  extends JobRouterAdministrationUpsertDistributionPolicyOptionalParams {
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
@@ -87,7 +90,7 @@ export interface CreateDistributionPolicyOptions
  * Options to update a distribution policy.
  */
 export interface UpdateDistributionPolicyOptions
-  extends JobRouterUpsertDistributionPolicyOptionalParams {
+  extends JobRouterAdministrationUpsertDistributionPolicyOptionalParams {
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
@@ -117,8 +120,7 @@ export interface ListDistributionPoliciesOptions extends coreHttp.OperationOptio
 /**
  * Options to create a exception policy.
  */
-export interface CreateExceptionPolicyOptions
-  extends JobRouterUpsertExceptionPolicyOptionalParams {
+export interface CreateExceptionPolicyOptions extends JobRouterAdministrationUpsertExceptionPolicyOptionalParams {
   /** (Optional) The name of the exception policy. */
   name?: string;
   /** (Optional) A dictionary collection of exception rules on the exception policy. Key is the Id of each exception rule. */
@@ -128,8 +130,7 @@ export interface CreateExceptionPolicyOptions
 /**
  * Options to update a exception policy.
  */
-export interface UpdateExceptionPolicyOptions
-  extends JobRouterUpsertExceptionPolicyOptionalParams {
+export interface UpdateExceptionPolicyOptions extends JobRouterAdministrationUpsertExceptionPolicyOptionalParams {
   /** (Optional) The name of the exception policy. */
   name?: string;
   /** (Optional) A dictionary collection of exception rules on the exception policy. Key is the Id of each exception rule. */
@@ -384,7 +385,7 @@ export interface DeleteWorkerOptions extends coreHttp.OperationOptions {}
 /**
  * Options to create a queue.
  */
-export interface CreateQueueOptions extends JobRouterUpsertQueueOptionalParams {
+export interface CreateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
   /** The name of this queue. */
   name?: string;
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
@@ -396,7 +397,7 @@ export interface CreateQueueOptions extends JobRouterUpsertQueueOptionalParams {
 /**
  * Options to update a queue.
  */
-export interface UpdateQueueOptions extends JobRouterUpsertQueueOptionalParams {
+export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
   /** The name of this queue. */
   name?: string;
   /** The ID of the distribution policy that will determine how a job is distributed to workers. */

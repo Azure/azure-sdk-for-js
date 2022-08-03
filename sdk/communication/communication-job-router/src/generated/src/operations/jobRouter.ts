@@ -13,45 +13,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { JobRouterApiClient } from "../jobRouterApiClient";
 import {
-  PagedClassificationPolicy,
-  JobRouterListClassificationPoliciesNextOptionalParams,
-  JobRouterListClassificationPoliciesOptionalParams,
-  PagedDistributionPolicy,
-  JobRouterListDistributionPoliciesNextOptionalParams,
-  JobRouterListDistributionPoliciesOptionalParams,
-  PagedExceptionPolicy,
-  JobRouterListExceptionPoliciesNextOptionalParams,
-  JobRouterListExceptionPoliciesOptionalParams,
-  PagedJob,
+  RouterJobItem,
   JobRouterListJobsNextOptionalParams,
   JobRouterListJobsOptionalParams,
-  PagedQueue,
-  JobRouterListQueuesNextOptionalParams,
-  JobRouterListQueuesOptionalParams,
-  PagedWorker,
+  RouterWorkerItem,
   JobRouterListWorkersNextOptionalParams,
   JobRouterListWorkersOptionalParams,
-  ClassificationPolicy,
-  JobRouterUpsertClassificationPolicyOptionalParams,
-  JobRouterUpsertClassificationPolicyResponse,
-  JobRouterGetClassificationPolicyOptionalParams,
-  JobRouterGetClassificationPolicyResponse,
-  JobRouterDeleteClassificationPolicyOptionalParams,
-  JobRouterListClassificationPoliciesResponse,
-  DistributionPolicy,
-  JobRouterUpsertDistributionPolicyOptionalParams,
-  JobRouterUpsertDistributionPolicyResponse,
-  JobRouterGetDistributionPolicyOptionalParams,
-  JobRouterGetDistributionPolicyResponse,
-  JobRouterDeleteDistributionPolicyOptionalParams,
-  JobRouterListDistributionPoliciesResponse,
-  ExceptionPolicy,
-  JobRouterUpsertExceptionPolicyOptionalParams,
-  JobRouterUpsertExceptionPolicyResponse,
-  JobRouterGetExceptionPolicyOptionalParams,
-  JobRouterGetExceptionPolicyResponse,
-  JobRouterDeleteExceptionPolicyOptionalParams,
-  JobRouterListExceptionPoliciesResponse,
   RouterJob,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertJobResponse,
@@ -69,17 +36,12 @@ import {
   JobRouterListJobsResponse,
   JobRouterGetInQueuePositionOptionalParams,
   JobRouterGetInQueuePositionResponse,
+  JobRouterUnassignJobActionOptionalParams,
+  JobRouterUnassignJobActionResponse,
   JobRouterAcceptJobActionOptionalParams,
   JobRouterAcceptJobActionResponse,
   JobRouterDeclineJobActionOptionalParams,
   JobRouterDeclineJobActionResponse,
-  JobQueue,
-  JobRouterUpsertQueueOptionalParams,
-  JobRouterUpsertQueueResponse,
-  JobRouterGetQueueOptionalParams,
-  JobRouterGetQueueResponse,
-  JobRouterDeleteQueueOptionalParams,
-  JobRouterListQueuesResponse,
   JobRouterGetQueueStatisticsOptionalParams,
   JobRouterGetQueueStatisticsResponse,
   RouterWorker,
@@ -89,11 +51,7 @@ import {
   JobRouterGetWorkerResponse,
   JobRouterDeleteWorkerOptionalParams,
   JobRouterListWorkersResponse,
-  JobRouterListClassificationPoliciesNextResponse,
-  JobRouterListDistributionPoliciesNextResponse,
-  JobRouterListExceptionPoliciesNextResponse,
   JobRouterListJobsNextResponse,
-  JobRouterListQueuesNextResponse,
   JobRouterListWorkersNextResponse
 } from "../models";
 
@@ -111,149 +69,12 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Retrieves existing classification policies
-   * @param options The options parameters.
-   */
-  public listClassificationPolicies(
-    options?: JobRouterListClassificationPoliciesOptionalParams
-  ): PagedAsyncIterableIterator<PagedClassificationPolicy> {
-    const iter = this.listClassificationPoliciesPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listClassificationPoliciesPagingPage(options);
-      }
-    };
-  }
-
-  private async *listClassificationPoliciesPagingPage(
-    options?: JobRouterListClassificationPoliciesOptionalParams
-  ): AsyncIterableIterator<PagedClassificationPolicy[]> {
-    let result = await this._listClassificationPolicies(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listClassificationPoliciesNext(
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listClassificationPoliciesPagingAll(
-    options?: JobRouterListClassificationPoliciesOptionalParams
-  ): AsyncIterableIterator<PagedClassificationPolicy> {
-    for await (const page of this.listClassificationPoliciesPagingPage(
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Retrieves existing distribution policies
-   * @param options The options parameters.
-   */
-  public listDistributionPolicies(
-    options?: JobRouterListDistributionPoliciesOptionalParams
-  ): PagedAsyncIterableIterator<PagedDistributionPolicy> {
-    const iter = this.listDistributionPoliciesPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listDistributionPoliciesPagingPage(options);
-      }
-    };
-  }
-
-  private async *listDistributionPoliciesPagingPage(
-    options?: JobRouterListDistributionPoliciesOptionalParams
-  ): AsyncIterableIterator<PagedDistributionPolicy[]> {
-    let result = await this._listDistributionPolicies(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listDistributionPoliciesNext(
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listDistributionPoliciesPagingAll(
-    options?: JobRouterListDistributionPoliciesOptionalParams
-  ): AsyncIterableIterator<PagedDistributionPolicy> {
-    for await (const page of this.listDistributionPoliciesPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Retrieves existing exception policies
-   * @param options The options parameters.
-   */
-  public listExceptionPolicies(
-    options?: JobRouterListExceptionPoliciesOptionalParams
-  ): PagedAsyncIterableIterator<PagedExceptionPolicy> {
-    const iter = this.listExceptionPoliciesPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listExceptionPoliciesPagingPage(options);
-      }
-    };
-  }
-
-  private async *listExceptionPoliciesPagingPage(
-    options?: JobRouterListExceptionPoliciesOptionalParams
-  ): AsyncIterableIterator<PagedExceptionPolicy[]> {
-    let result = await this._listExceptionPolicies(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listExceptionPoliciesNext(
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listExceptionPoliciesPagingAll(
-    options?: JobRouterListExceptionPoliciesOptionalParams
-  ): AsyncIterableIterator<PagedExceptionPolicy> {
-    for await (const page of this.listExceptionPoliciesPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * Retrieves list of jobs based on filter parameters
    * @param options The options parameters.
    */
   public listJobs(
     options?: JobRouterListJobsOptionalParams
-  ): PagedAsyncIterableIterator<PagedJob> {
+  ): PagedAsyncIterableIterator<RouterJobItem> {
     const iter = this.listJobsPagingAll(options);
     return {
       next() {
@@ -270,7 +91,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listJobsPagingPage(
     options?: JobRouterListJobsOptionalParams
-  ): AsyncIterableIterator<PagedJob[]> {
+  ): AsyncIterableIterator<RouterJobItem[]> {
     let result = await this._listJobs(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -283,50 +104,8 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listJobsPagingAll(
     options?: JobRouterListJobsOptionalParams
-  ): AsyncIterableIterator<PagedJob> {
+  ): AsyncIterableIterator<RouterJobItem> {
     for await (const page of this.listJobsPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Retrieves existing queues
-   * @param options The options parameters.
-   */
-  public listQueues(
-    options?: JobRouterListQueuesOptionalParams
-  ): PagedAsyncIterableIterator<PagedQueue> {
-    const iter = this.listQueuesPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listQueuesPagingPage(options);
-      }
-    };
-  }
-
-  private async *listQueuesPagingPage(
-    options?: JobRouterListQueuesOptionalParams
-  ): AsyncIterableIterator<PagedQueue[]> {
-    let result = await this._listQueues(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listQueuesNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listQueuesPagingAll(
-    options?: JobRouterListQueuesOptionalParams
-  ): AsyncIterableIterator<PagedQueue> {
-    for await (const page of this.listQueuesPagingPage(options)) {
       yield* page;
     }
   }
@@ -337,7 +116,7 @@ export class JobRouterImpl implements JobRouter {
    */
   public listWorkers(
     options?: JobRouterListWorkersOptionalParams
-  ): PagedAsyncIterableIterator<PagedWorker> {
+  ): PagedAsyncIterableIterator<RouterWorkerItem> {
     const iter = this.listWorkersPagingAll(options);
     return {
       next() {
@@ -354,7 +133,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listWorkersPagingPage(
     options?: JobRouterListWorkersOptionalParams
-  ): AsyncIterableIterator<PagedWorker[]> {
+  ): AsyncIterableIterator<RouterWorkerItem[]> {
     let result = await this._listWorkers(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -367,248 +146,17 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listWorkersPagingAll(
     options?: JobRouterListWorkersOptionalParams
-  ): AsyncIterableIterator<PagedWorker> {
+  ): AsyncIterableIterator<RouterWorkerItem> {
     for await (const page of this.listWorkersPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Upsert a classification policy.
-   * @param id Id of the classification policy
-   * @param patch Model of classification policy properties to be patched. See also:
-   *              https://datatracker.ietf.org/doc/html/rfc7386
-   * @param options The options parameters.
-   */
-  upsertClassificationPolicy(
-    id: string,
-    patch: ClassificationPolicy,
-    options?: JobRouterUpsertClassificationPolicyOptionalParams
-  ): Promise<JobRouterUpsertClassificationPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      patch,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      upsertClassificationPolicyOperationSpec
-    ) as Promise<JobRouterUpsertClassificationPolicyResponse>;
-  }
-
-  /**
-   * Retrieves an existing classification policy by Id
-   * @param id Id of the classification policy
-   * @param options The options parameters.
-   */
-  getClassificationPolicy(
-    id: string,
-    options?: JobRouterGetClassificationPolicyOptionalParams
-  ): Promise<JobRouterGetClassificationPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getClassificationPolicyOperationSpec
-    ) as Promise<JobRouterGetClassificationPolicyResponse>;
-  }
-
-  /**
-   * Delete a classification policy by Id
-   * @param id Id of the classification policy
-   * @param options The options parameters.
-   */
-  deleteClassificationPolicy(
-    id: string,
-    options?: JobRouterDeleteClassificationPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteClassificationPolicyOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
-   * Retrieves existing classification policies
-   * @param options The options parameters.
-   */
-  private _listClassificationPolicies(
-    options?: JobRouterListClassificationPoliciesOptionalParams
-  ): Promise<JobRouterListClassificationPoliciesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listClassificationPoliciesOperationSpec
-    ) as Promise<JobRouterListClassificationPoliciesResponse>;
-  }
-
-  /**
-   * Upsert a distribution policy.
-   * @param id Id of the distribution policy
-   * @param patch Model of distribution policy properties to be patched. See also:
-   *              https://datatracker.ietf.org/doc/html/rfc7386
-   * @param options The options parameters.
-   */
-  upsertDistributionPolicy(
-    id: string,
-    patch: DistributionPolicy,
-    options?: JobRouterUpsertDistributionPolicyOptionalParams
-  ): Promise<JobRouterUpsertDistributionPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      patch,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      upsertDistributionPolicyOperationSpec
-    ) as Promise<JobRouterUpsertDistributionPolicyResponse>;
-  }
-
-  /**
-   * Retrieves an existing distribution policy by Id
-   * @param id Id of the distribution policy
-   * @param options The options parameters.
-   */
-  getDistributionPolicy(
-    id: string,
-    options?: JobRouterGetDistributionPolicyOptionalParams
-  ): Promise<JobRouterGetDistributionPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getDistributionPolicyOperationSpec
-    ) as Promise<JobRouterGetDistributionPolicyResponse>;
-  }
-
-  /**
-   * Delete a distribution policy by Id
-   * @param id Id of the distribution policy
-   * @param options The options parameters.
-   */
-  deleteDistributionPolicy(
-    id: string,
-    options?: JobRouterDeleteDistributionPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteDistributionPolicyOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
-   * Retrieves existing distribution policies
-   * @param options The options parameters.
-   */
-  private _listDistributionPolicies(
-    options?: JobRouterListDistributionPoliciesOptionalParams
-  ): Promise<JobRouterListDistributionPoliciesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listDistributionPoliciesOperationSpec
-    ) as Promise<JobRouterListDistributionPoliciesResponse>;
-  }
-
-  /**
-   * Upsert a exception policy.
-   * @param id Id of the exception policy
-   * @param patch Model of exception policy properties to be patched. See also:
-   *              https://datatracker.ietf.org/doc/html/rfc7386
-   * @param options The options parameters.
-   */
-  upsertExceptionPolicy(
-    id: string,
-    patch: ExceptionPolicy,
-    options?: JobRouterUpsertExceptionPolicyOptionalParams
-  ): Promise<JobRouterUpsertExceptionPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      patch,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      upsertExceptionPolicyOperationSpec
-    ) as Promise<JobRouterUpsertExceptionPolicyResponse>;
-  }
-
-  /**
-   * Retrieves an existing exception policy by Id
-   * @param id Id of the exception policy to retrieve
-   * @param options The options parameters.
-   */
-  getExceptionPolicy(
-    id: string,
-    options?: JobRouterGetExceptionPolicyOptionalParams
-  ): Promise<JobRouterGetExceptionPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getExceptionPolicyOperationSpec
-    ) as Promise<JobRouterGetExceptionPolicyResponse>;
-  }
-
-  /**
-   * Deletes a exception policy by Id
-   * @param id Id of the exception policy to delete
-   * @param options The options parameters.
-   */
-  deleteExceptionPolicy(
-    id: string,
-    options?: JobRouterDeleteExceptionPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteExceptionPolicyOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
-   * Retrieves existing exception policies
-   * @param options The options parameters.
-   */
-  private _listExceptionPolicies(
-    options?: JobRouterListExceptionPoliciesOptionalParams
-  ): Promise<JobRouterListExceptionPoliciesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listExceptionPoliciesOperationSpec
-    ) as Promise<JobRouterListExceptionPoliciesResponse>;
-  }
-
-  /**
-   * Upsert a job.
-   * @param id Id of the job
+   * Creates or updates a router job.
+   * @param id Id of the job.
    * @param patch Model of job properties to be created or patched. See also:
-   *              https://datatracker.ietf.org/doc/html/rfc7386
+   *              https://datatracker.ietf.org/doc/html/rfc7386.
    * @param options The options parameters.
    */
   upsertJob(
@@ -648,7 +196,7 @@ export class JobRouterImpl implements JobRouter {
 
   /**
    * Deletes a job and all of its traces.
-   * @param id Id of the job
+   * @param id Id of the job.
    * @param options The options parameters.
    */
   deleteJob(
@@ -783,6 +331,28 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
+   * Un-assign a job.
+   * @param id Id of the job to un-assign
+   * @param assignmentId Id of the assignment to un-assign
+   * @param options The options parameters.
+   */
+  unassignJobAction(
+    id: string,
+    assignmentId: string,
+    options?: JobRouterUnassignJobActionOptionalParams
+  ): Promise<JobRouterUnassignJobActionResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      id,
+      assignmentId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      unassignJobActionOperationSpec
+    ) as Promise<JobRouterUnassignJobActionResponse>;
+  }
+
+  /**
    * Accepts an offer to work on a job and returns a 409/Conflict if another agent accepted the job
    * already.
    * @param workerId Id of the worker
@@ -828,83 +398,6 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Upsert a queue.
-   * @param id Id of the queue
-   * @param patch Model of queue properties to be patched. See also:
-   *              https://datatracker.ietf.org/doc/html/rfc7386
-   * @param options The options parameters.
-   */
-  upsertQueue(
-    id: string,
-    patch: JobQueue,
-    options?: JobRouterUpsertQueueOptionalParams
-  ): Promise<JobRouterUpsertQueueResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      patch,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      upsertQueueOperationSpec
-    ) as Promise<JobRouterUpsertQueueResponse>;
-  }
-
-  /**
-   * Retrieves an existing queue by Id
-   * @param id Id of the queue to retrieve
-   * @param options The options parameters.
-   */
-  getQueue(
-    id: string,
-    options?: JobRouterGetQueueOptionalParams
-  ): Promise<JobRouterGetQueueResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getQueueOperationSpec
-    ) as Promise<JobRouterGetQueueResponse>;
-  }
-
-  /**
-   * Deletes a queue by Id
-   * @param id Id of the queue to delete
-   * @param options The options parameters.
-   */
-  deleteQueue(
-    id: string,
-    options?: JobRouterDeleteQueueOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteQueueOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
-   * Retrieves existing queues
-   * @param options The options parameters.
-   */
-  private _listQueues(
-    options?: JobRouterListQueuesOptionalParams
-  ): Promise<JobRouterListQueuesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listQueuesOperationSpec
-    ) as Promise<JobRouterListQueuesResponse>;
-  }
-
-  /**
    * Retrieves a queue's statistics
    * @param id Id of the queue to retrieve statistics
    * @param options The options parameters.
@@ -924,7 +417,7 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Upsert a worker.
+   * Creates or updates a worker.
    * @param workerId Id of the worker
    * @param patch Model of worker properties to be patched. See also:
    *              https://datatracker.ietf.org/doc/html/rfc7386
@@ -1001,65 +494,6 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * ListClassificationPoliciesNext
-   * @param nextLink The nextLink from the previous successful call to the ListClassificationPolicies
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listClassificationPoliciesNext(
-    nextLink: string,
-    options?: JobRouterListClassificationPoliciesNextOptionalParams
-  ): Promise<JobRouterListClassificationPoliciesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listClassificationPoliciesNextOperationSpec
-    ) as Promise<JobRouterListClassificationPoliciesNextResponse>;
-  }
-
-  /**
-   * ListDistributionPoliciesNext
-   * @param nextLink The nextLink from the previous successful call to the ListDistributionPolicies
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listDistributionPoliciesNext(
-    nextLink: string,
-    options?: JobRouterListDistributionPoliciesNextOptionalParams
-  ): Promise<JobRouterListDistributionPoliciesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listDistributionPoliciesNextOperationSpec
-    ) as Promise<JobRouterListDistributionPoliciesNextResponse>;
-  }
-
-  /**
-   * ListExceptionPoliciesNext
-   * @param nextLink The nextLink from the previous successful call to the ListExceptionPolicies method.
-   * @param options The options parameters.
-   */
-  private _listExceptionPoliciesNext(
-    nextLink: string,
-    options?: JobRouterListExceptionPoliciesNextOptionalParams
-  ): Promise<JobRouterListExceptionPoliciesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listExceptionPoliciesNextOperationSpec
-    ) as Promise<JobRouterListExceptionPoliciesNextResponse>;
-  }
-
-  /**
    * ListJobsNext
    * @param nextLink The nextLink from the previous successful call to the ListJobs method.
    * @param options The options parameters.
@@ -1076,25 +510,6 @@ export class JobRouterImpl implements JobRouter {
       operationArguments,
       listJobsNextOperationSpec
     ) as Promise<JobRouterListJobsNextResponse>;
-  }
-
-  /**
-   * ListQueuesNext
-   * @param nextLink The nextLink from the previous successful call to the ListQueues method.
-   * @param options The options parameters.
-   */
-  private _listQueuesNext(
-    nextLink: string,
-    options?: JobRouterListQueuesNextOptionalParams
-  ): Promise<JobRouterListQueuesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listQueuesNextOperationSpec
-    ) as Promise<JobRouterListQueuesNextResponse>;
   }
 
   /**
@@ -1119,198 +534,6 @@ export class JobRouterImpl implements JobRouter {
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const upsertClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/classificationPolicies/{id}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClassificationPolicy
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  requestBody: Parameters.patch,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/classificationPolicies/{id}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClassificationPolicy
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/classificationPolicies/{id}",
-  httpMethod: "DELETE",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listClassificationPoliciesOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/classificationPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClassificationPolicyCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const upsertDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/distributionPolicies/{id}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DistributionPolicy
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  requestBody: Parameters.patch1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/distributionPolicies/{id}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DistributionPolicy
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/distributionPolicies/{id}",
-  httpMethod: "DELETE",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listDistributionPoliciesOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/distributionPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DistributionPolicyCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const upsertExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/exceptionPolicies/{id}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExceptionPolicy
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  requestBody: Parameters.patch2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/exceptionPolicies/{id}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExceptionPolicy
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/exceptionPolicies/{id}",
-  httpMethod: "DELETE",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listExceptionPoliciesOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/exceptionPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExceptionPolicyCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const upsertJobOperationSpec: coreHttp.OperationSpec = {
   path: "/routing/jobs/{id}",
   httpMethod: "PATCH",
@@ -1322,7 +545,7 @@ const upsertJobOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.patch3,
+  requestBody: Parameters.patch4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -1480,7 +703,8 @@ const listJobsOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxpagesize,
     Parameters.status,
     Parameters.queueId,
-    Parameters.channelId
+    Parameters.channelId,
+    Parameters.classificationPolicyId
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
@@ -1502,12 +726,28 @@ const getInQueuePositionOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const unassignJobActionOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/jobs/{id}/assignments/{assignmentId}:unassign",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UnassignJobResult
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.id, Parameters.assignmentId2],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const acceptJobActionOperationSpec: coreHttp.OperationSpec = {
   path: "/routing/workers/{workerId}/offers/{offerId}:accept",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AcceptJobOfferResponse
+      bodyMapper: Mappers.AcceptJobOfferResult
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -1533,70 +773,6 @@ const declineJobActionOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.workerId, Parameters.offerId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const upsertQueueOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/queues/{id}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobQueue
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  requestBody: Parameters.patch4,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getQueueOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/queues/{id}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobQueue
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteQueueOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/queues/{id}",
-  httpMethod: "DELETE",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueuesOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/queues",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.QueueCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
-  urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -1687,54 +863,6 @@ const listWorkersOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listClassificationPoliciesNextOperationSpec: coreHttp.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClassificationPolicyCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listDistributionPoliciesNextOperationSpec: coreHttp.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DistributionPolicyCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listExceptionPoliciesNextOperationSpec: coreHttp.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExceptionPolicyCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listJobsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1751,24 +879,9 @@ const listJobsNextOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxpagesize,
     Parameters.status,
     Parameters.queueId,
-    Parameters.channelId
+    Parameters.channelId,
+    Parameters.classificationPolicyId
   ],
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueuesNextOperationSpec: coreHttp.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.QueueCollection
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

@@ -3,7 +3,7 @@
   "info": {
     "title": "Azure Communication Routing Service",
     "description": "Azure Communication Routing Service",
-    "version": "2021-10-20-preview2"
+    "version": "2022-07-18-preview"
   },
   "paths": {
     "/routing/classificationPolicies/{id}": {
@@ -11,8 +11,8 @@
         "tags": [
           "ClassificationPolicies"
         ],
-        "summary": "Upsert a classification policy.",
-        "operationId": "JobRouter_UpsertClassificationPolicy",
+        "summary": "Creates or updates a classification policy.",
+        "operationId": "JobRouterAdministration_UpsertClassificationPolicy",
         "consumes": [
           "application/merge-patch+json"
         ],
@@ -68,7 +68,7 @@
           "ClassificationPolicies"
         ],
         "summary": "Retrieves an existing classification policy by Id",
-        "operationId": "JobRouter_GetClassificationPolicy",
+        "operationId": "JobRouterAdministration_GetClassificationPolicy",
         "produces": [
           "application/json"
         ],
@@ -109,7 +109,7 @@
           "ClassificationPolicies"
         ],
         "summary": "Delete a classification policy by Id",
-        "operationId": "JobRouter_DeleteClassificationPolicy",
+        "operationId": "JobRouterAdministration_DeleteClassificationPolicy",
         "produces": [
           "application/json"
         ],
@@ -149,7 +149,7 @@
           "ClassificationPolicies"
         ],
         "summary": "Retrieves existing classification policies",
-        "operationId": "JobRouter_ListClassificationPolicies",
+        "operationId": "JobRouterAdministration_ListClassificationPolicies",
         "produces": [
           "application/json"
         ],
@@ -196,8 +196,8 @@
         "tags": [
           "DistributionPolicies"
         ],
-        "summary": "Upsert a distribution policy.",
-        "operationId": "JobRouter_UpsertDistributionPolicy",
+        "summary": "Creates or updates a distribution policy.",
+        "operationId": "JobRouterAdministration_UpsertDistributionPolicy",
         "consumes": [
           "application/merge-patch+json"
         ],
@@ -253,7 +253,7 @@
           "DistributionPolicies"
         ],
         "summary": "Retrieves an existing distribution policy by Id",
-        "operationId": "JobRouter_GetDistributionPolicy",
+        "operationId": "JobRouterAdministration_GetDistributionPolicy",
         "produces": [
           "application/json"
         ],
@@ -294,7 +294,7 @@
           "DistributionPolicies"
         ],
         "summary": "Delete a distribution policy by Id",
-        "operationId": "JobRouter_DeleteDistributionPolicy",
+        "operationId": "JobRouterAdministration_DeleteDistributionPolicy",
         "produces": [
           "application/json"
         ],
@@ -334,7 +334,7 @@
           "DistributionPolicies"
         ],
         "summary": "Retrieves existing distribution policies",
-        "operationId": "JobRouter_ListDistributionPolicies",
+        "operationId": "JobRouterAdministration_ListDistributionPolicies",
         "produces": [
           "application/json"
         ],
@@ -381,8 +381,8 @@
         "tags": [
           "ExceptionPolicies"
         ],
-        "summary": "Upsert a exception policy.",
-        "operationId": "JobRouter_UpsertExceptionPolicy",
+        "summary": "Creates or updates a exception policy.",
+        "operationId": "JobRouterAdministration_UpsertExceptionPolicy",
         "consumes": [
           "application/merge-patch+json"
         ],
@@ -438,7 +438,7 @@
           "ExceptionPolicies"
         ],
         "summary": "Retrieves an existing exception policy by Id",
-        "operationId": "JobRouter_GetExceptionPolicy",
+        "operationId": "JobRouterAdministration_GetExceptionPolicy",
         "produces": [
           "application/json"
         ],
@@ -479,7 +479,7 @@
           "ExceptionPolicies"
         ],
         "summary": "Deletes a exception policy by Id",
-        "operationId": "JobRouter_DeleteExceptionPolicy",
+        "operationId": "JobRouterAdministration_DeleteExceptionPolicy",
         "produces": [
           "application/json"
         ],
@@ -519,7 +519,7 @@
           "ExceptionPolicies"
         ],
         "summary": "Retrieves existing exception policies",
-        "operationId": "JobRouter_ListExceptionPolicies",
+        "operationId": "JobRouterAdministration_ListExceptionPolicies",
         "produces": [
           "application/json"
         ],
@@ -566,7 +566,7 @@
         "tags": [
           "Jobs"
         ],
-        "summary": "Upsert a job.",
+        "summary": "Creates or updates a router job.",
         "operationId": "JobRouter_UpsertJob",
         "consumes": [
           "application/merge-patch+json"
@@ -578,7 +578,7 @@
           {
             "in": "path",
             "name": "id",
-            "description": "Id of the job",
+            "description": "Id of the job.",
             "required": true,
             "type": "string"
           },
@@ -588,7 +588,7 @@
           {
             "in": "body",
             "name": "patch",
-            "description": "Model of job properties to be created or patched. See also: https://datatracker.ietf.org/doc/html/rfc7386",
+            "description": "Model of job properties to be created or patched. See also: https://datatracker.ietf.org/doc/html/rfc7386.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/RouterJob"
@@ -672,7 +672,7 @@
           {
             "in": "path",
             "name": "id",
-            "description": "Id of the job",
+            "description": "Id of the job.",
             "required": true,
             "type": "string"
           },
@@ -727,7 +727,7 @@
           {
             "in": "body",
             "name": "reclassifyJobRequest",
-            "description": "Request object for reclassifying a job",
+            "description": "Request object for reclassifying a job.",
             "schema": {
               "$ref": "#/definitions/ReclassifyJobRequest"
             }
@@ -743,7 +743,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/ReclassifyJobResponse"
+              "$ref": "#/definitions/ReclassifyJobResult"
             }
           }
         },
@@ -798,7 +798,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CancelJobResponse"
+              "$ref": "#/definitions/CancelJobResult"
             }
           }
         },
@@ -854,7 +854,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CompleteJobResponse"
+              "$ref": "#/definitions/CompleteJobResult"
             }
           }
         },
@@ -910,13 +910,13 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CloseJobResponse"
+              "$ref": "#/definitions/CloseJobResult"
             }
           },
           "202": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CloseJobResponse"
+              "$ref": "#/definitions/CloseJobResult"
             }
           }
         },
@@ -970,6 +970,12 @@
             "in": "query",
             "name": "channelId",
             "description": "(Optional) If specified, filter jobs by channel.",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "classificationPolicyId",
+            "description": "(Optional) If specified, filter jobs by classificationPolicy.",
             "type": "string"
           },
           {
@@ -1052,6 +1058,56 @@
         }
       }
     },
+    "/routing/jobs/{id}/assignments/{assignmentId}:unassign": {
+      "post": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Un-assign a job.",
+        "operationId": "JobRouter_UnassignJobAction",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Id of the job to un-assign",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "assignmentId",
+            "description": "Id of the assignment to un-assign",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UnassignJobResult"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Unassigns a job": {
+            "$ref": "./examples/Jobs_UnassignJob.json"
+          }
+        }
+      }
+    },
     "/routing/workers/{workerId}/offers/{offerId}:accept": {
       "post": {
         "tags": [
@@ -1091,7 +1147,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/AcceptJobOfferResponse"
+              "$ref": "#/definitions/AcceptJobOfferResult"
             }
           }
         },
@@ -1141,7 +1197,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/DeclineJobOfferResponse"
+              "$ref": "#/definitions/DeclineJobOfferResult"
             }
           }
         },
@@ -1157,8 +1213,8 @@
         "tags": [
           "Queues"
         ],
-        "summary": "Upsert a queue.",
-        "operationId": "JobRouter_UpsertQueue",
+        "summary": "Creates or updates a queue.",
+        "operationId": "JobRouterAdministration_UpsertQueue",
         "consumes": [
           "application/merge-patch+json"
         ],
@@ -1214,7 +1270,7 @@
           "Queues"
         ],
         "summary": "Retrieves an existing queue by Id",
-        "operationId": "JobRouter_GetQueue",
+        "operationId": "JobRouterAdministration_GetQueue",
         "produces": [
           "application/json"
         ],
@@ -1255,7 +1311,7 @@
           "Queues"
         ],
         "summary": "Deletes a queue by Id",
-        "operationId": "JobRouter_DeleteQueue",
+        "operationId": "JobRouterAdministration_DeleteQueue",
         "produces": [
           "application/json"
         ],
@@ -1295,7 +1351,7 @@
           "Queues"
         ],
         "summary": "Retrieves existing queues",
-        "operationId": "JobRouter_ListQueues",
+        "operationId": "JobRouterAdministration_ListQueues",
         "produces": [
           "application/json"
         ],
@@ -1385,7 +1441,7 @@
         "tags": [
           "Workers"
         ],
-        "summary": "Upsert a worker.",
+        "summary": "Creates or updates a worker.",
         "operationId": "JobRouter_UpsertWorker",
         "consumes": [
           "application/merge-patch+json"
@@ -1614,7 +1670,7 @@
     }
   },
   "definitions": {
-    "AcceptJobOfferResponse": {
+    "AcceptJobOfferResult": {
       "description": "Response containing Id's for the worker, job, and assignment from an accepted offer",
       "required": [
         "assignmentId",
@@ -1633,56 +1689,6 @@
         },
         "workerId": {
           "description": "The Id of the worker that has been assigned this job.",
-          "type": "string"
-        }
-      }
-    },
-    "AzureFunctionRule": {
-      "description": "A rule providing a binding to an HTTP Triggered Azure Function.",
-      "required": [
-        "functionUrl"
-      ],
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/RouterRule"
-        }
-      ],
-      "properties": {
-        "kind": {
-          "type": "string"
-        },
-        "functionUrl": {
-          "format": "uri",
-          "description": "URL for Azure Function",
-          "type": "string"
-        },
-        "credential": {
-          "$ref": "#/definitions/AzureFunctionRuleCredential"
-        }
-      },
-      "x-ms-discriminator-value": "azure-function-rule"
-    },
-    "AzureFunctionRuleCredential": {
-      "description": "Credentials used to access Azure function rule",
-      "type": "object",
-      "properties": {
-        "functionKey": {
-          "description": "(Optional) Access key scoped to a particular function",
-          "maxLength": 500,
-          "minLength": 0,
-          "type": "string"
-        },
-        "appKey": {
-          "description": "(Optional) Access key scoped to a Azure Function app.\r\nThis key grants access to all functions under the app.",
-          "maxLength": 500,
-          "minLength": 0,
-          "type": "string"
-        },
-        "clientId": {
-          "description": "(Optional) Client id, when AppKey is provided\r\nIn context of Azure function, this is usually the name of the key",
-          "maxLength": 500,
-          "minLength": 0,
           "type": "string"
         }
       }
@@ -1754,7 +1760,7 @@
         }
       }
     },
-    "CancelJobResponse": {
+    "CancelJobResult": {
       "description": "Response payload from cancelling a job",
       "type": "object",
       "properties": {}
@@ -1793,7 +1799,9 @@
         "queueSelectors": {
           "description": "The queue selectors to resolve a queue for a given job.",
           "type": "array",
-          "items": {}
+          "items": {
+            "description": "An attachment of label selectors to resolve a queue to a job from a classification policy"
+          }
         },
         "prioritizationRule": {
           "$ref": "#/definitions/RouterRule"
@@ -1801,7 +1809,9 @@
         "workerSelectors": {
           "description": "The worker label selectors to attach to a given job.",
           "type": "array",
-          "items": {}
+          "items": {
+            "description": "An attachment which attaches WorkerSelectors to workers"
+          }
         }
       }
     },
@@ -1815,12 +1825,25 @@
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PagedClassificationPolicy"
+            "$ref": "#/definitions/ClassificationPolicyItem"
           }
         },
         "nextLink": {
           "type": "string",
           "readOnly": true
+        }
+      }
+    },
+    "ClassificationPolicyItem": {
+      "description": "Paged instance of ClassificationPolicy",
+      "type": "object",
+      "properties": {
+        "classificationPolicy": {
+          "$ref": "#/definitions/ClassificationPolicy"
+        },
+        "etag": {
+          "description": "(Optional) The Concurrency Token.",
+          "type": "string"
         }
       }
     },
@@ -1856,7 +1879,7 @@
         }
       }
     },
-    "CloseJobResponse": {
+    "CloseJobResult": {
       "description": "Response payload from closing a job",
       "type": "object",
       "properties": {}
@@ -1932,12 +1955,12 @@
         }
       }
     },
-    "CompleteJobResponse": {
+    "CompleteJobResult": {
       "description": "Response payload from completing a job",
       "type": "object",
       "properties": {}
     },
-    "ConditionalQueueSelector": {
+    "ConditionalQueueSelectorAttachment": {
       "description": "Describes a set of label selectors that will be attached if the given condition resolves to true",
       "required": [
         "condition",
@@ -1967,7 +1990,7 @@
       },
       "x-ms-discriminator-value": "conditional"
     },
-    "ConditionalWorkerSelector": {
+    "ConditionalWorkerSelectorAttachment": {
       "description": "Describes a set of label selectors that will be attached if the given condition resolves to true",
       "required": [
         "condition",
@@ -1997,7 +2020,7 @@
       },
       "x-ms-discriminator-value": "conditional"
     },
-    "DeclineJobOfferResponse": {
+    "DeclineJobOfferResult": {
       "description": "Response payload from declining a job",
       "type": "object",
       "properties": {}
@@ -2080,12 +2103,25 @@
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PagedDistributionPolicy"
+            "$ref": "#/definitions/DistributionPolicyItem"
           }
         },
         "nextLink": {
           "type": "string",
           "readOnly": true
+        }
+      }
+    },
+    "DistributionPolicyItem": {
+      "description": "Paged instance of DistributionPolicy",
+      "type": "object",
+      "properties": {
+        "distributionPolicy": {
+          "$ref": "#/definitions/DistributionPolicy"
+        },
+        "etag": {
+          "description": "(Optional) The Concurrency Token.",
+          "type": "string"
         }
       }
     },
@@ -2135,12 +2171,25 @@
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PagedExceptionPolicy"
+            "$ref": "#/definitions/ExceptionPolicyItem"
           }
         },
         "nextLink": {
           "type": "string",
           "readOnly": true
+        }
+      }
+    },
+    "ExceptionPolicyItem": {
+      "description": "Paged instance of ExceptionPolicy",
+      "type": "object",
+      "properties": {
+        "exceptionPolicy": {
+          "$ref": "#/definitions/ExceptionPolicy"
+        },
+        "etag": {
+          "description": "(Optional) The Concurrency Token.",
+          "type": "string"
         }
       }
     },
@@ -2200,8 +2249,58 @@
       },
       "x-ms-discriminator-value": "expression-rule"
     },
+    "FunctionRule": {
+      "description": "A rule providing a binding to an HTTP Triggered Azure Function.",
+      "required": [
+        "functionUri"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/RouterRule"
+        }
+      ],
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "functionUri": {
+          "format": "uri",
+          "description": "URL for Azure Function",
+          "type": "string"
+        },
+        "credential": {
+          "$ref": "#/definitions/FunctionRuleCredential"
+        }
+      },
+      "x-ms-discriminator-value": "azure-function-rule"
+    },
+    "FunctionRuleCredential": {
+      "description": "Credentials used to access Azure function rule",
+      "type": "object",
+      "properties": {
+        "functionKey": {
+          "description": "(Optional) Access key scoped to a particular function",
+          "maxLength": 500,
+          "minLength": 0,
+          "type": "string"
+        },
+        "appKey": {
+          "description": "(Optional) Access key scoped to a Azure Function app.\r\nThis key grants access to all functions under the app.",
+          "maxLength": 500,
+          "minLength": 0,
+          "type": "string"
+        },
+        "clientId": {
+          "description": "(Optional) Client id, when AppKey is provided\r\nIn context of Azure function, this is usually the name of the key",
+          "maxLength": 500,
+          "minLength": 0,
+          "type": "string"
+        }
+      }
+    },
     "JobAssignment": {
-      "description": "Assigns a job to a worker",
+      "description": "Assignment details of a job to a worker",
       "required": [
         "assignTime",
         "id"
@@ -2243,7 +2342,7 @@
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PagedJob"
+            "$ref": "#/definitions/RouterJobItem"
           }
         },
         "nextLink": {
@@ -2267,7 +2366,7 @@
       "discriminator": "kind"
     },
     "JobOffer": {
-      "description": "An offer of an assignment of work to a worker",
+      "description": "An offer of a job to a worker",
       "required": [
         "capacityCost",
         "id",
@@ -2338,9 +2437,6 @@
     },
     "JobQueue": {
       "description": "A queue that can contain jobs to be routed.",
-      "required": [
-        "distributionPolicyId"
-      ],
       "type": "object",
       "properties": {
         "id": {
@@ -2363,6 +2459,19 @@
         },
         "exceptionPolicyId": {
           "description": "(Optional) The ID of the exception policy that determines various job escalation rules.",
+          "type": "string"
+        }
+      }
+    },
+    "JobQueueItem": {
+      "description": "Paged instance of JobQueue",
+      "type": "object",
+      "properties": {
+        "jobQueue": {
+          "$ref": "#/definitions/JobQueue"
+        },
+        "etag": {
+          "description": "(Optional) The Concurrency Token.",
           "type": "string"
         }
       }
@@ -2416,288 +2525,7 @@
       },
       "x-ms-discriminator-value": "manual-reclassify"
     },
-    "PagedClassificationPolicy": {
-      "description": "A classification policy returned from a pageable list",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Unique identifier of this policy.",
-          "type": "string",
-          "readOnly": true
-        },
-        "name": {
-          "description": "Friendly name of this policy.",
-          "type": "string"
-        },
-        "fallbackQueueId": {
-          "description": "The fallback queue to select if the queue selector doesn't find a match.",
-          "type": "string"
-        },
-        "queueSelectors": {
-          "description": "The queue selectors to resolve a queue for a given job.",
-          "type": "array",
-          "items": {}
-        },
-        "prioritizationRule": {
-          "$ref": "#/definitions/RouterRule"
-        },
-        "workerSelectors": {
-          "description": "The worker label selectors to attach to a given job.",
-          "type": "array",
-          "items": {}
-        }
-      }
-    },
-    "PagedDistributionPolicy": {
-      "description": "A distribution policy returned from a pageable list",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "The unique identifier of the policy.",
-          "type": "string",
-          "readOnly": true
-        },
-        "name": {
-          "description": "The human readable name of the policy.",
-          "type": "string"
-        },
-        "offerTtlSeconds": {
-          "format": "double",
-          "description": "The expiry time of any offers created under this policy will be governed by the offer time to live.",
-          "type": "number"
-        },
-        "mode": {
-          "$ref": "#/definitions/DistributionMode"
-        }
-      }
-    },
-    "PagedExceptionPolicy": {
-      "description": "An exception policy returned from a pageable list",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "The Id of the exception policy",
-          "type": "string",
-          "readOnly": true
-        },
-        "name": {
-          "description": "(Optional) The name of the exception policy.",
-          "type": "string"
-        },
-        "exceptionRules": {
-          "description": "(Optional) A dictionary collection of exception rules on the exception policy. Key is the Id of each exception rule.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/ExceptionRule"
-          }
-        }
-      }
-    },
-    "PagedJob": {
-      "description": "A job returned from a pageable list",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "The id of the job.",
-          "type": "string",
-          "readOnly": true
-        },
-        "channelReference": {
-          "description": "Reference to an external parent context, eg. call ID.",
-          "type": "string"
-        },
-        "jobStatus": {
-          "description": "The state of the Job.",
-          "enum": [
-            "pendingClassification",
-            "queued",
-            "assigned",
-            "completed",
-            "closed",
-            "cancelled",
-            "classificationFailed",
-            "created"
-          ],
-          "type": "string",
-          "readOnly": true,
-          "x-ms-enum": {
-            "name": "JobStatus",
-            "modelAsString": false
-          }
-        },
-        "enqueueTimeUtc": {
-          "format": "date-time",
-          "description": "The time a job was queued.",
-          "type": "string",
-          "readOnly": true
-        },
-        "channelId": {
-          "description": "The channel identifier. eg. voice, chat, etc.",
-          "type": "string"
-        },
-        "classificationPolicyId": {
-          "description": "The Id of the Classification policy used for classifying a job.",
-          "type": "string"
-        },
-        "queueId": {
-          "description": "The Id of the Queue that this job is queued to.",
-          "type": "string"
-        },
-        "priority": {
-          "format": "int32",
-          "description": "The priority of this job.",
-          "type": "integer"
-        },
-        "dispositionCode": {
-          "description": "Reason code for cancelled or closed jobs.",
-          "type": "string"
-        },
-        "requestedWorkerSelectors": {
-          "description": "A collection of manually specified label selectors, which a worker must satisfy in order to process this job.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/WorkerSelector"
-          }
-        },
-        "attachedWorkerSelectors": {
-          "description": "A collection of label selectors attached by a classification policy, which a worker must satisfy in order to process this job.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/WorkerSelector"
-          },
-          "readOnly": true
-        },
-        "labels": {
-          "description": "A set of key/value pairs that are identifying attributes used by the rules engines to make decisions.",
-          "type": "object",
-          "additionalProperties": {}
-        },
-        "assignments": {
-          "description": "A collection of the assignments of the job.\r\nKey is AssignmentId.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JobAssignment"
-          },
-          "readOnly": true
-        },
-        "tags": {
-          "description": "A set of non-identifying attributes attached to this job",
-          "type": "object",
-          "additionalProperties": {}
-        },
-        "notes": {
-          "description": "Notes attached to a job, sorted by timestamp",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "PagedQueue": {
-      "description": "A queue returned from a pageable list",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "The Id of this queue",
-          "type": "string",
-          "readOnly": true
-        },
-        "name": {
-          "description": "The name of this queue.",
-          "type": "string"
-        },
-        "distributionPolicyId": {
-          "description": "The ID of the distribution policy that will determine how a job is distributed to workers.",
-          "type": "string"
-        },
-        "labels": {
-          "description": "A set of key/value pairs that are identifying attributes used by the rules engines to make decisions.",
-          "type": "object",
-          "additionalProperties": {}
-        },
-        "exceptionPolicyId": {
-          "description": "(Optional) The ID of the exception policy that determines various job escalation rules.",
-          "type": "string"
-        }
-      }
-    },
-    "PagedWorker": {
-      "description": "A worker returned from a pageable list",
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "readOnly": true
-        },
-        "state": {
-          "description": "The current state of the worker.",
-          "enum": [
-            "active",
-            "draining",
-            "inactive"
-          ],
-          "type": "string",
-          "readOnly": true
-        },
-        "queueAssignments": {
-          "description": "The queue(s) that this worker can receive work from.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/QueueAssignment"
-          }
-        },
-        "totalCapacity": {
-          "format": "int32",
-          "description": "The total capacity score this worker has to manage multiple concurrent jobs.",
-          "type": "integer"
-        },
-        "labels": {
-          "description": "A set of key/value pairs that are identifying attributes used by the rules engines to make decisions.",
-          "type": "object",
-          "additionalProperties": {}
-        },
-        "tags": {
-          "description": "A set of non-identifying attributes attached to this worker.",
-          "type": "object",
-          "additionalProperties": {}
-        },
-        "channelConfigurations": {
-          "description": "The channel(s) this worker can handle and their impact on the workers capacity.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/ChannelConfiguration"
-          }
-        },
-        "offers": {
-          "description": "A list of active offers issued to this worker.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/JobOffer"
-          },
-          "readOnly": true
-        },
-        "assignedJobs": {
-          "description": "A list of assigned jobs attached to this worker.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/WorkerAssignment"
-          },
-          "readOnly": true
-        },
-        "loadRatio": {
-          "format": "double",
-          "description": "A value indicating the workers capacity. A value of '1' means all capacity is consumed. A value of '0' means no capacity is currently consumed.",
-          "type": "number",
-          "readOnly": true
-        },
-        "availableForOffers": {
-          "description": "A flag indicating this worker is open to receive offers or not.",
-          "type": "boolean"
-        }
-      }
-    },
-    "PassThroughQueueSelector": {
+    "PassThroughQueueSelectorAttachment": {
       "description": "Attaches a label selector where the value is pass through from the job label with the same key",
       "required": [
         "key",
@@ -2739,7 +2567,7 @@
       },
       "x-ms-discriminator-value": "pass-through"
     },
-    "PassThroughWorkerSelector": {
+    "PassThroughWorkerSelectorAttachment": {
       "description": "Attaches a label selector where the value is pass through from the job label with the same key",
       "required": [
         "key",
@@ -2801,7 +2629,7 @@
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PagedQueue"
+            "$ref": "#/definitions/JobQueueItem"
           }
         },
         "nextLink": {
@@ -2969,7 +2797,7 @@
       "type": "object",
       "properties": {}
     },
-    "ReclassifyJobResponse": {
+    "ReclassifyJobResult": {
       "description": "Response payload from reclassifying a job",
       "type": "object",
       "properties": {}
@@ -3011,12 +2839,13 @@
             "completed",
             "closed",
             "cancelled",
-            "classificationFailed"
+            "classificationFailed",
+            "created"
           ],
           "type": "string",
           "readOnly": true,
           "x-ms-enum": {
-            "name": "JobStatus",
+            "name": "RouterJobStatus",
             "modelAsString": false
           }
         },
@@ -3086,6 +2915,19 @@
           "additionalProperties": {
             "type": "string"
           }
+        }
+      }
+    },
+    "RouterJobItem": {
+      "description": "Paged instance of RouterJob",
+      "type": "object",
+      "properties": {
+        "routerJob": {
+          "$ref": "#/definitions/RouterJob"
+        },
+        "etag": {
+          "description": "(Optional) The Concurrency Token.",
+          "type": "string"
         }
       }
     },
@@ -3178,7 +3020,20 @@
         }
       }
     },
-    "RuleEngineQueueSelector": {
+    "RouterWorkerItem": {
+      "description": "Paged instance of RouterWorker",
+      "type": "object",
+      "properties": {
+        "routerWorker": {
+          "$ref": "#/definitions/RouterWorker"
+        },
+        "etag": {
+          "description": "(Optional) The Concurrency Token.",
+          "type": "string"
+        }
+      }
+    },
+    "RuleEngineQueueSelectorAttachment": {
       "description": "Attaches labels to a worker when a RouterRule is resolved",
       "required": [
         "rule"
@@ -3200,7 +3055,7 @@
       },
       "x-ms-discriminator-value": "rule-engine"
     },
-    "RuleEngineWorkerSelector": {
+    "RuleEngineWorkerSelectorAttachment": {
       "description": "Attaches labels to a worker when a RouterRule is resolved",
       "required": [
         "rule"
@@ -3257,7 +3112,7 @@
         }
       }
     },
-    "StaticQueueSelector": {
+    "StaticQueueSelectorAttachment": {
       "description": "Describes a label selector that will always be attached",
       "required": [
         "labelSelector"
@@ -3300,7 +3155,7 @@
       },
       "x-ms-discriminator-value": "static-rule"
     },
-    "StaticWorkerSelector": {
+    "StaticWorkerSelectorAttachment": {
       "description": "Describes a label selector that will always be attached",
       "required": [
         "labelSelector"
@@ -3322,10 +3177,29 @@
       },
       "x-ms-discriminator-value": "static"
     },
+    "UnassignJobResult": {
+      "description": "Response payload after a job has been successfully unassigned.",
+      "required": [
+        "jobId",
+        "unassignmentCount"
+      ],
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "description": "The Id of the job unassigned.",
+          "type": "string"
+        },
+        "unassignmentCount": {
+          "format": "int32",
+          "description": "The number of times a job is unassigned. At a maximum 3.",
+          "type": "integer"
+        }
+      }
+    },
     "WaitTimeExceptionTrigger": {
       "description": "Trigger for an exception action on exceeding wait time",
       "required": [
-        "threshold"
+        "thresholdSeconds"
       ],
       "type": "object",
       "allOf": [
@@ -3337,14 +3211,15 @@
         "kind": {
           "type": "string"
         },
-        "threshold": {
-          "description": "Threshold for wait time for this trigger. Requires input conforming to ISO8601 duration format.",
-          "type": "string"
+        "thresholdSeconds": {
+          "format": "double",
+          "description": "Threshold for wait time for this trigger.",
+          "type": "number"
         }
       },
       "x-ms-discriminator-value": "wait-time"
     },
-    "WeightedAllocationQueueSelector": {
+    "WeightedAllocationQueueSelectorAttachment": {
       "description": "Describes multiple sets of label selectors, of which one will be selected and attached according to a weighting",
       "required": [
         "allocations"
@@ -3370,7 +3245,7 @@
       },
       "x-ms-discriminator-value": "weighted-allocation-queue-selector"
     },
-    "WeightedAllocationWorkerSelector": {
+    "WeightedAllocationWorkerSelectorAttachment": {
       "description": "Describes multiple sets of label selectors, of which one will be selected and attached according to a weighting",
       "required": [
         "allocations"
@@ -3436,7 +3311,7 @@
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PagedWorker"
+            "$ref": "#/definitions/RouterWorkerItem"
           }
         },
         "nextLink": {
@@ -3487,6 +3362,25 @@
         "expedite": {
           "description": "Pushes the job to the front of the queue as long as this selector is active.",
           "type": "boolean"
+        },
+        "state": {
+          "description": "The state of the worker selector.",
+          "enum": [
+            "active",
+            "expired"
+          ],
+          "type": "string",
+          "readOnly": true,
+          "x-ms-enum": {
+            "name": "WorkerSelectorState",
+            "modelAsString": false
+          }
+        },
+        "expireTime": {
+          "format": "date-time",
+          "description": "The time at which this worker selector expires in UTC",
+          "type": "string",
+          "readOnly": true
         }
       }
     },
@@ -3505,7 +3399,7 @@
       "discriminator": "kind"
     },
     "WorkerWeightedAllocation": {
-      "description": " Contains the weight percentage and label selectors to be applied if selected for weighted distributions.",
+      "description": "Contains the weight percentage and label selectors to be applied if selected for weighted distributions.",
       "required": [
         "labelSelectors",
         "weight"
