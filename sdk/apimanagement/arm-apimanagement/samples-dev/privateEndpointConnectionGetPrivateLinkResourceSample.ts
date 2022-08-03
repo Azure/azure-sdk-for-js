@@ -12,9 +12,9 @@ import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets the private link resources
+ * This sample demonstrates how to Description for Gets the private link resources
  *
- * @summary Gets the private link resources
+ * @summary Description for Gets the private link resources
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetPrivateLinkGroupResource.json
  */
 async function apiManagementGetPrivateLinkGroupResource() {
