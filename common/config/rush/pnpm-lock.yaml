@@ -26,6 +26,7 @@ specifiers:
   '@rush-temp/arm-attestation': file:./projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:./projects/arm-authorization-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-automanage': file:./projects/arm-automanage.tgz
   '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
@@ -324,6 +325,7 @@ dependencies:
   '@rush-temp/arm-attestation': file:projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-automanage': file:projects/arm-automanage.tgz
   '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
@@ -3009,7 +3011,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
     dev: false
 
   /array-includes/3.1.5:
@@ -3258,7 +3260,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3344,8 +3346,8 @@ packages:
     peerDependencies:
       chai: '>= 4.0.0 < 5'
     dependencies:
-      fclone: 1.0.11
       chai: 4.3.6
+      fclone: 1.0.11
     dev: false
 
   /chai-string/1.5.0_chai@4.3.6:
@@ -3361,9 +3363,9 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       assertion-error: 1.1.0
+      check-error: 1.0.2
       deep-eql: 3.0.1
       get-func-name: 2.0.0
-      check-error: 1.0.2
       loupe: 2.3.4
       pathval: 1.1.1
       type-detect: 4.0.8
@@ -3403,7 +3405,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: false
 
   /check-error/1.0.2:
@@ -3541,7 +3543,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
     dev: false
 
   /concurrently/6.5.1:
@@ -3549,8 +3551,8 @@ packages:
     engines: {node: '>=10.0.0'}
     hasBin: true
     dependencies:
-      date-fns: 2.29.1
       chalk: 4.1.2
+      date-fns: 2.29.1
       lodash: 4.17.21
       rxjs: 6.6.7
       spawn-command: 0.0.2-1
@@ -3564,8 +3566,8 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.0 || >=16.0.0}
     hasBin: true
     dependencies:
-      date-fns: 2.29.1
       chalk: 4.1.2
+      date-fns: 2.29.1
       lodash: 4.17.21
       rxjs: 7.5.6
       shell-quote: 1.7.3
@@ -3604,7 +3606,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
     dev: false
 
   /cookie/0.4.2:
@@ -3706,7 +3708,7 @@ packages:
     dev: false
 
   /crypt/0.0.2:
-    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
+    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
     dev: false
 
   /csv-parse/5.3.0:
@@ -3959,11 +3961,11 @@ packages:
     dev: false
 
   /edge-launcher/1.2.2:
-    resolution: {integrity: sha1-60Cq+9Bnpup27/+rBke81VCbN7I=}
+    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
+    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
   /electron-to-chromium/1.4.206:
@@ -4291,6 +4293,7 @@ packages:
       '@eslint/eslintrc': 0.4.3
       '@humanwhocodes/config-array': 0.5.0
       ajv: 6.12.6
+      chalk: 4.1.2
       cross-spawn: 7.0.3
       debug: 4.3.4
       doctrine: 3.0.0
@@ -4307,7 +4310,6 @@ packages:
       functional-red-black-tree: 1.0.1
       glob-parent: 5.1.2
       globals: 13.17.0
-      chalk: 4.1.2
       ignore: 4.0.6
       import-fresh: 3.3.0
       imurmurhash: 0.1.4
@@ -4340,6 +4342,7 @@ packages:
       '@humanwhocodes/config-array': 0.10.4
       '@humanwhocodes/gitignore-to-minimatch': 1.0.2
       ajv: 6.12.6
+      chalk: 4.1.2
       cross-spawn: 7.0.3
       debug: 4.3.4
       doctrine: 3.0.0
@@ -4358,7 +4361,6 @@ packages:
       globals: 13.17.0
       globby: 11.1.0
       grapheme-splitter: 1.0.4
-      chalk: 4.1.2
       ignore: 5.2.0
       import-fresh: 3.3.0
       imurmurhash: 0.1.4
@@ -4844,7 +4846,7 @@ packages:
     dev: false
 
   /fresh/0.5.2:
-    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
+    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -4984,7 +4986,7 @@ packages:
     dev: false
 
   /github-from-package/0.0.0:
-    resolution: {integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=}
+    resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
     dev: false
 
   /glob-parent/5.1.2:
@@ -5326,11 +5328,11 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       ansi-escapes: 4.3.2
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-width: 3.0.0
       external-editor: 3.1.0
       figures: 3.2.0
-      chalk: 4.1.2
       lodash: 4.17.21
       mute-stream: 0.0.8
       ora: 5.4.1
@@ -6049,13 +6051,13 @@ packages:
       '@colors/colors': 1.5.0
       body-parser: 1.20.0
       braces: 3.0.2
+      chokidar: 3.5.3
       connect: 3.7.0
       di: 0.0.1
       dom-serialize: 2.2.1
       glob: 7.2.3
       graceful-fs: 4.2.10
       http-proxy: 1.18.1
-      chokidar: 3.5.3
       isbinaryfile: 4.0.10
       lodash: 4.17.21
       log4js: 6.6.1
@@ -6085,13 +6087,13 @@ packages:
       '@colors/colors': 1.5.0
       body-parser: 1.20.0
       braces: 3.0.2
+      chokidar: 3.5.3
       connect: 3.7.0
       di: 0.0.1
       dom-serialize: 2.2.1
       glob: 7.2.3
       graceful-fs: 4.2.10
       http-proxy: 1.18.1_debug@4.3.4
-      chokidar: 3.5.3
       isbinaryfile: 4.0.10
       lodash: 4.17.21
       log4js: 6.6.1
@@ -6344,8 +6346,8 @@ packages:
   /md5/2.3.0:
     resolution: {integrity: sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==}
     dependencies:
-      crypt: 0.0.2
       charenc: 0.0.2
+      crypt: 0.0.2
       is-buffer: 1.1.6
     dev: false
 
@@ -6366,7 +6368,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6376,7 +6378,7 @@ packages:
     dev: false
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
+    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
     dev: false
 
   /merge-source-map/1.1.0:
@@ -6552,6 +6554,7 @@ packages:
     dependencies:
       ansi-colors: 3.2.3
       browser-stdout: 1.3.1
+      chokidar: 3.3.0
       debug: 3.2.6
       diff: 3.5.0
       escape-string-regexp: 1.0.5
@@ -6559,7 +6562,6 @@ packages:
       glob: 7.1.3
       growl: 1.10.5
       he: 1.2.0
-      chokidar: 3.3.0
       js-yaml: 3.13.1
       log-symbols: 3.0.0
       minimatch: 3.0.4
@@ -6742,7 +6744,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
+    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -6775,8 +6777,8 @@ packages:
     hasBin: true
     dependencies:
       ansi-styles: 3.2.1
-      cross-spawn: 6.0.5
       chalk: 2.4.2
+      cross-spawn: 6.0.5
       memorystream: 0.3.1
       minimatch: 3.1.2
       pidtree: 0.3.1
@@ -6990,9 +6992,9 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       bl: 4.1.0
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.7.0
-      chalk: 4.1.2
       is-interactive: 1.0.0
       is-unicode-supported: 0.1.0
       log-symbols: 4.1.0
@@ -8821,7 +8823,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
+    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -9242,16 +9244,16 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -9286,16 +9288,16 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -9332,18 +9334,18 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       csv-parse: 5.3.0
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -9375,16 +9377,16 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -9419,18 +9421,18 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       esm: 3.2.25
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -9465,17 +9467,17 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -9514,17 +9516,17 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -9564,17 +9566,17 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -9607,8 +9609,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
-      '@types/glob': 7.2.0
       '@types/chai': 4.3.1
+      '@types/glob': 7.2.0
       '@types/inquirer': 8.2.1
       '@types/mocha': 7.0.2
       '@types/mustache': 4.1.2
@@ -9616,12 +9618,12 @@ packages:
       '@types/sinon': 9.0.11
       '@types/yargs': 17.0.10
       '@types/yargs-parser': 21.0.0
+      chai: 4.3.6
+      chalk: 4.1.2
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
       glob: 7.2.3
-      chai: 4.3.6
-      chalk: 4.1.2
       inquirer: 8.2.4
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -9647,8 +9649,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
-      '@types/glob': 7.2.0
       '@types/chai': 4.3.1
+      '@types/glob': 7.2.0
       '@types/inquirer': 8.2.1
       '@types/mime': 2.0.3
       '@types/mocha': 7.0.2
@@ -9657,17 +9659,17 @@ packages:
       '@types/sinon': 9.0.11
       '@types/yargs': 17.0.10
       '@types/yargs-parser': 21.0.0
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
       glob: 7.2.3
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -9707,17 +9709,17 @@ packages:
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       esm: 3.2.25
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -9783,8 +9785,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -9863,8 +9865,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -9890,8 +9892,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -9915,8 +9917,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -9968,8 +9970,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -10020,16 +10022,16 @@ packages:
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
       autorest: 3.6.2
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -10122,6 +10124,31 @@ packages:
       uglify-js: 3.16.3
     dev: false
 
+  file:projects/arm-automanage.tgz:
+    resolution: {integrity: sha512-90QVywPQ0XnaIeYxi6Hdn9hOmGM0EMwMYXHHhuS++znDutRBscDHRd2AmYkazxp5GUGuK4vAQYNk3wkOIBPK/w==, tarball: file:projects/arm-automanage.tgz}
+    name: '@rush-temp/arm-automanage'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
   file:projects/arm-avs.tgz:
     resolution: {integrity: sha512-qT5HrH6IQINoEH/ebbD96pyvJarKF0vKd3zH7SJpip0oR7ka1vkPR/T/VnSrflN6vG/XQgbp7jiG9zGo4aVkpg==, tarball: file:projects/arm-avs.tgz}
     name: '@rush-temp/arm-avs'
@@ -10134,8 +10161,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -10240,8 +10267,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -10399,8 +10426,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -10503,8 +10530,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -10557,8 +10584,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -10584,8 +10611,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -10663,8 +10690,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -10716,8 +10743,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -10741,16 +10768,16 @@ packages:
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
       autorest: 3.6.2
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -10785,8 +10812,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11027,8 +11054,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11160,8 +11187,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11186,8 +11213,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11265,8 +11292,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11399,8 +11426,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11424,8 +11451,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11450,8 +11477,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11531,8 +11558,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11582,8 +11609,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11827,8 +11854,8 @@ packages:
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11907,8 +11934,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12014,8 +12041,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12040,8 +12067,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12197,8 +12224,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12249,8 +12276,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12355,8 +12382,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12433,8 +12460,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12459,8 +12486,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12484,8 +12511,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12536,8 +12563,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12589,8 +12616,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12615,8 +12642,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12695,8 +12722,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12775,8 +12802,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12855,8 +12882,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12908,8 +12935,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12985,8 +13012,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -13037,8 +13064,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -13117,8 +13144,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -13277,8 +13304,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -13385,8 +13412,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -13438,8 +13465,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -13489,8 +13516,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -13622,8 +13649,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -13701,8 +13728,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -13806,16 +13833,16 @@ packages:
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
       autorest: 3.6.2
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -13849,8 +13876,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -13981,8 +14008,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -14034,8 +14061,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -14060,8 +14087,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -14085,8 +14112,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -14272,8 +14299,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -14457,8 +14484,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -14536,8 +14563,8 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
-      cross-env: 7.0.3
       chai: 4.3.6
+      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -14588,21 +14615,21 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       buffer: 6.0.3
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       eslint: 8.21.0
       esm: 3.2.25
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       inherits: 2.0.4
       jsrsasign: 10.5.26
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -14642,17 +14669,17 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -14686,18 +14713,18 @@ packages:
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -14735,19 +14762,19 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       inherits: 2.0.4
       jwt-decode: 3.1.2
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -14779,15 +14806,15 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
+      chai: 4.3.6
       dotenv: 8.6.0
       eslint: 7.32.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -14823,18 +14850,18 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -14872,18 +14899,18 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -14924,18 +14951,18 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -14971,18 +14998,18 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15015,18 +15042,18 @@ packages:
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15061,16 +15088,16 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       autorest: 3.6.2
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -15105,18 +15132,18 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15149,19 +15176,19 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@rollup/plugin-replace': 2.4.2_rollup@2.77.2
-      '@types/debug': 4.1.7
       '@types/chai': 4.3.1
+      '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       buffer: 6.0.3
+      chai: 4.3.6
       cross-env: 7.0.3
       debug: 4.3.4
       downlevel-dts: 0.8.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       jssha: 3.2.0
       karma: 6.4.0_debug@4.3.4
       karma-chrome-launcher: 3.1.1
@@ -15204,10 +15231,10 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 8.21.0
-      chai: 4.3.6
       inherits: 2.0.4
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15230,17 +15257,17 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 8.21.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15274,16 +15301,16 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       eslint: 8.21.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15330,8 +15357,8 @@ packages:
       '@azure/logger-js': 1.3.2
       '@microsoft/api-extractor': 7.18.11
       '@opentelemetry/api': 1.1.0
-      '@types/express': 4.17.13
       '@types/chai': 4.3.1
+      '@types/express': 4.17.13
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/node-fetch': 2.6.2
@@ -15341,18 +15368,18 @@ packages:
       '@types/tunnel': 0.0.3
       '@types/uuid': 8.3.4
       '@types/xml2js': 0.4.11
+      chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 8.21.0
       express: 4.18.1
       fetch-mock: 9.11.0_node-fetch@2.6.7
       form-data: 4.0.0
-      chai: 4.3.6
       karma: 6.4.0
-      karma-edge-launcher: 0.4.2_karma@6.4.0
-      karma-firefox-launcher: 1.3.0
       karma-chai: 0.1.0_chai@4.3.6+karma@6.4.0
       karma-chrome-launcher: 3.1.1
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-firefox-launcher: 1.3.0
       karma-mocha: 2.0.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -15395,15 +15422,15 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15437,15 +15464,15 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       downlevel-dts: 0.8.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15477,21 +15504,21 @@ packages:
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 8.21.0
       form-data: 4.0.0
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15526,16 +15553,16 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       eslint: 8.21.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15566,17 +15593,17 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 8.21.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15608,18 +15635,18 @@ packages:
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/trusted-types': 2.0.2
+      chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 8.21.0
       fast-xml-parser: 4.0.9
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15695,18 +15722,18 @@ packages:
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       eslint: 8.21.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -15741,21 +15768,21 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
-      '@types/fs-extra': 9.0.13
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
+      '@types/fs-extra': 9.0.13
       '@types/minimist': 1.2.2
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/prettier': 2.6.4
       builtin-modules: 3.3.0
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
+      chalk: 4.1.2
       concurrently: 7.3.0
       dotenv: 8.6.0
       eslint: 8.21.0
       fs-extra: 10.1.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
-      chalk: 4.1.2
       minimist: 1.2.6
       mocha: 7.2.0
       prettier: 2.7.1
@@ -15786,17 +15813,17 @@ packages:
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -15838,17 +15865,17 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
-      cross-env: 7.0.3
-      eslint: 8.21.0
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
+      cross-env: 7.0.3
+      eslint: 8.21.0
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -15882,10 +15909,10 @@ packages:
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
+      '@types/chai': 4.3.1
       '@types/eslint': 8.4.5
       '@types/estree': 1.0.0
       '@types/glob': 7.2.0
-      '@types/chai': 4.3.1
       '@types/json-schema': 7.0.11
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
@@ -15893,6 +15920,7 @@ packages:
       '@typescript-eslint/experimental-utils': 5.31.0_eslint@8.21.0+typescript@4.6.4
       '@typescript-eslint/parser': 5.31.0_eslint@8.21.0+typescript@4.6.4
       '@typescript-eslint/typescript-estree': 5.31.0_typescript@4.6.4
+      chai: 4.3.6
       eslint: 8.21.0
       eslint-config-prettier: 8.5.0_eslint@8.21.0
       eslint-plugin-import: 2.26.0_eslint@8.21.0
@@ -15901,7 +15929,6 @@ packages:
       eslint-plugin-promise: 6.0.0_eslint@8.21.0
       eslint-plugin-tsdoc: 0.2.16
       glob: 8.0.3
-      chai: 4.3.6
       json-schema: 0.4.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15927,10 +15954,10 @@ packages:
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@rollup/plugin-replace': 2.4.2_rollup@2.77.2
       '@types/async-lock': 1.1.5
-      '@types/debug': 4.1.7
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/chai-string': 1.4.2
+      '@types/debug': 4.1.7
       '@types/long': 4.0.2
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
@@ -15938,6 +15965,10 @@ packages:
       '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
       buffer: 6.0.3
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
+      chai-exclude: 2.1.0_chai@4.3.6
+      chai-string: 1.5.0_chai@4.3.6
       copyfiles: 2.4.1
       cross-env: 7.0.3
       debug: 4.3.4
@@ -15946,18 +15977,14 @@ packages:
       eslint: 8.21.0
       esm: 3.2.25
       https-proxy-agent: 5.0.1
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
-      chai-exclude: 2.1.0_chai@4.3.6
-      chai-string: 1.5.0_chai@4.3.6
       is-buffer: 2.0.5
       jssha: 3.2.0
       karma: 6.4.0_debug@4.3.4
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -16003,17 +16030,17 @@ packages:
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -16045,12 +16072,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.11
-      '@types/debug': 4.1.7
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/chai-string': 1.4.2
+      '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
+      chai-string: 1.5.0_chai@4.3.6
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
@@ -16058,16 +16088,13 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       guid-typescript: 1.0.9
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
-      chai-string: 1.5.0_chai@4.3.6
       inherits: 2.0.4
       karma: 6.4.0_debug@4.3.4
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -16097,28 +16124,28 @@ packages:
     dependencies:
       '@azure/data-tables': 12.1.2
       '@microsoft/api-extractor': 7.18.11
-      '@types/debug': 4.1.7
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/chai-string': 1.4.2
+      '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
+      chai-string: 1.5.0_chai@4.3.6
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
       eslint: 8.21.0
       esm: 3.2.25
       guid-typescript: 1.0.9
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
-      chai-string: 1.5.0_chai@4.3.6
       inherits: 2.0.4
       karma: 6.4.0_debug@4.3.4
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -16227,18 +16254,18 @@ packages:
       '@types/sinon': 9.0.11
       '@types/stoppable': 1.1.1
       '@types/uuid': 8.3.4
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       jsonwebtoken: 8.5.1
       jws: 4.0.0
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-env-preprocessor: 0.1.1
-      karma-chrome-launcher: 3.1.1
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.0
@@ -16276,15 +16303,15 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -16318,17 +16345,17 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -16402,11 +16429,11 @@ packages:
       eslint: 8.21.0
       esm: 3.2.25
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -16463,11 +16490,11 @@ packages:
       eslint: 8.21.0
       esm: 3.2.25
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -16510,11 +16537,11 @@ packages:
       eslint: 8.21.0
       esm: 3.2.25
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -16551,16 +16578,16 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -16598,18 +16625,18 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -16646,18 +16673,18 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -16707,19 +16734,19 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       eslint: 7.32.0
       esm: 3.2.25
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -16792,20 +16819,20 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       eslint: 8.21.0
       esm: 3.2.25
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -16834,9 +16861,9 @@ packages:
       '@microsoft/api-extractor': 7.28.7
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
+      chai: 4.3.6
       downlevel-dts: 0.10.0
       eslint: 8.21.0
-      chai: 4.3.6
       prettier: 2.7.1
       rimraf: 3.0.2
       tslib: 2.4.0
@@ -16861,19 +16888,19 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 10.0.13
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
       eslint: 8.21.0
       esm: 3.2.25
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -17372,16 +17399,16 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -17415,16 +17442,16 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -17457,16 +17484,16 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -17500,18 +17527,18 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -17552,17 +17579,17 @@ packages:
       '@types/uuid': 8.3.4
       avsc: 5.7.4
       buffer: 6.0.3
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -17602,17 +17629,17 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -17645,18 +17672,18 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -17689,10 +17716,10 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.11
-      '@types/debug': 4.1.7
-      '@types/glob': 7.2.0
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
+      '@types/debug': 4.1.7
+      '@types/glob': 7.2.0
       '@types/is-buffer': 2.0.0
       '@types/long': 4.0.2
       '@types/mocha': 7.0.2
@@ -17701,6 +17728,9 @@ packages:
       '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
       buffer: 6.0.3
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
+      chai-exclude: 2.1.0_chai@4.3.6
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
@@ -17710,17 +17740,14 @@ packages:
       events: 3.3.0
       glob: 8.0.3
       https-proxy-agent: 5.0.1
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
-      chai-exclude: 2.1.0_chai@4.3.6
       is-buffer: 2.0.5
       jssha: 3.2.0
       karma: 6.4.0_debug@4.3.4
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -17766,6 +17793,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -17773,14 +17801,13 @@ packages:
       eslint: 8.21.0
       esm: 3.2.25
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -17823,6 +17850,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/node-fetch': 2.6.2
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -17830,14 +17858,13 @@ packages:
       eslint: 8.21.0
       esm: 3.2.25
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -17877,6 +17904,7 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -17885,14 +17913,13 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       execa: 6.1.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -17932,6 +17959,7 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -17939,14 +17967,13 @@ packages:
       eslint: 8.21.0
       esm: 3.2.25
       events: 3.3.0
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -17985,19 +18012,19 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       es6-promise: 4.2.8
       eslint: 8.21.0
       esm: 3.2.25
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -18037,20 +18064,20 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       es6-promise: 4.2.8
       eslint: 8.21.0
       esm: 3.2.25
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -18092,17 +18119,17 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -18146,17 +18173,17 @@ packages:
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -18199,17 +18226,17 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -18249,17 +18276,17 @@ packages:
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -18316,17 +18343,17 @@ packages:
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -18360,19 +18387,19 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       eslint: 8.21.0
       esm: 3.2.25
-      chai: 4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -18416,24 +18443,24 @@ packages:
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
+      '@types/chai': 4.3.1
       '@types/express': 4.17.13
       '@types/fs-extra': 8.1.2
-      '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
+      chai: 4.3.6
       concurrently: 7.3.0
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       express: 4.18.1
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -18465,9 +18492,9 @@ packages:
       '@types/node-fetch': 2.6.2
       eslint: 8.21.0
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-env-preprocessor: 0.1.1
-      karma-chrome-launcher: 3.1.1
       minimist: 1.2.6
       node-fetch: 2.6.7
       prettier: 2.7.1
@@ -18496,15 +18523,15 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
-      cross-env: 7.0.3
-      eslint: 8.21.0
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       chai-exclude: 2.1.0_chai@4.3.6
+      cross-env: 7.0.3
+      eslint: 8.21.0
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-env-preprocessor: 0.1.1
-      karma-chrome-launcher: 3.1.1
       mocha: 7.2.0
       prettier: 2.7.1
       rimraf: 3.0.2
@@ -18526,21 +18553,21 @@ packages:
     dependencies:
       '@types/chai': 4.3.1
       '@types/md5': 2.3.2
+      '@types/mocha': 7.0.2
       '@types/mock-fs': 4.13.1
       '@types/mock-require': 2.0.1
-      '@types/mocha': 7.0.2
       '@types/nise': 1.4.0
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
+      chai: 4.3.6
       dotenv: 8.6.0
       eslint: 8.21.0
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -18548,10 +18575,10 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.0
       karma-sourcemap-loader: 0.3.8
-      mock-fs: 5.1.2
-      mock-require: 3.0.3
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      mock-fs: 5.1.2
+      mock-require: 3.0.3
       npm-run-all: 4.1.5
       nyc: 15.1.0
       prettier: 2.7.1
@@ -18578,19 +18605,19 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       azure-iothub: 1.15.0
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       events: 3.3.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
       inherits: 2.0.4
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1
@@ -18619,25 +18646,25 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.1
       '@types/express': 4.17.13
       '@types/express-serve-static-core': 4.17.30
-      '@types/chai': 4.3.1
       '@types/jsonwebtoken': 8.5.8
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       esm: 3.2.25
       express: 4.18.1
-      chai: 4.3.6
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-json-preprocessor: 0.3.3_karma@6.4.0
       karma-json-to-file-reporter: 1.0.1
@@ -18675,18 +18702,18 @@ packages:
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/ws': 8.5.3
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.21.0
       esm: 3.2.25
-      chai: 4.3.6
       jsonwebtoken: 8.5.1
       karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-edge-launcher: 0.4.2_karma@6.4.0
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-chrome-launcher: 3.1.1
       karma-ie-launcher: 1.0.0_karma@6.4.0
       karma-junit-reporter: 2.0.1_karma@6.4.0
       karma-mocha: 2.0.1

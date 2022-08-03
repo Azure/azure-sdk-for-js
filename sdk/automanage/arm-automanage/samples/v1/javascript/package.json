@@ -1,0 +1,32 @@
+{
+  "name": "@azure-samples/arm-automanage-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": " client library samples for JavaScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/automanage/arm-automanage"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/automanage/arm-automanage",
+  "dependencies": {
+    "@azure/arm-automanage": "latest",
+    "dotenv": "latest",
+    "@azure/identity": "^2.0.1"
+  }
+}
