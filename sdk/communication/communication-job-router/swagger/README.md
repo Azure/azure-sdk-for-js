@@ -11,7 +11,7 @@ description: JobRouter Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: V2021_10_20_preview2
+tag: V2022-07-18-preview
 input-file: swagger.json
 model-date-time-as-string: false
 optional-response-headers: true

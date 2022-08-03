@@ -3,7 +3,7 @@
 /**
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
-import { DistributionPolicy, JobQueue, RouterClient, RouterWorker } from "@azure/communication-job-router";
+import { DistributionPolicy, JobQueue, RouterAdministrationClient, RouterClient, RouterWorker } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -16,6 +16,7 @@ const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_
 const quickStart = async (): Promise<void> => {
   // Create the Router Client
   const routerClient: RouterClient = new RouterClient(connectionString);
+  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
 
   // Create a Distribution Policy
   const distributionPolicyRequest: DistributionPolicy = {
@@ -28,7 +29,7 @@ const quickStart = async (): Promise<void> => {
     },
     offerTtlSeconds: 15
   };
-  var distributionPolicy = await routerClient.createDistributionPolicy(distributionPolicyRequest.id!, distributionPolicyRequest);
+  var distributionPolicy = await routerAdministrationClient.createDistributionPolicy(distributionPolicyRequest.id!, distributionPolicyRequest);
 
   // Create a Queue
   const queueRequest: JobQueue = {
@@ -37,7 +38,7 @@ const quickStart = async (): Promise<void> => {
     name: "Main",
     labels: {}
   };
-  await routerClient.createQueue(queueRequest.id!, queueRequest);
+  await routerAdministrationClient.createQueue(queueRequest.id!, queueRequest);
 
   // Create a Job
   const jobRequest: RouterJob = {
@@ -71,7 +72,7 @@ const quickStart = async (): Promise<void> => {
     }
   };
 
-  await routerClient.registerWorker(workerRequest.id!, workerRequest);
+  await routerClient.registerWorker(workerRequest.id!);
 
   // Check offers to a Worker
   // Once the worker has been registered, Router will send an offer to the worker if the worker satisfies requirements 

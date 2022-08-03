@@ -28,7 +28,7 @@ import {
   UpdateDistributionPolicyOptions,
   CreateQueueOptions,
   UpdateQueueOptions,
-  CreateClassificationPolicyOptions,
+  CreateClassificationPolicyOptions
 } from "./models/options";
 import {
   ClassificationPolicy,
@@ -40,6 +40,10 @@ import {
   ExceptionPolicyItem,
   ClassificationPolicyItem,
   DistributionPolicyItem,
+  JobRouterAdministrationListClassificationPoliciesOptionalParams,
+  JobRouterAdministrationListExceptionPoliciesOptionalParams,
+  JobRouterAdministrationListDistributionPoliciesOptionalParams,
+  JobRouterAdministrationListQueuesOptionalParams
 } from "./generated/src";
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -179,7 +183,9 @@ export class RouterAdministrationClient {
   public listClassificationPolicies(
     options: ListClassificationPoliciesOptions = {}
   ): PagedAsyncIterableIterator<ClassificationPolicyItem> {
-    return this.client.jobRouterAdministration.listClassificationPolicies(options);
+    let listOptions = <JobRouterAdministrationListClassificationPoliciesOptionalParams>options;
+    listOptions.maxpagesize = options.maxPageSize;
+    return this.client.jobRouterAdministration.listClassificationPolicies(listOptions);
   }
 
   /**
@@ -192,7 +198,10 @@ export class RouterAdministrationClient {
     classificationPolicyId: string,
     options: GetClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
-    return this.client.jobRouterAdministration.getClassificationPolicy(classificationPolicyId, options);
+    return this.client.jobRouterAdministration.getClassificationPolicy(
+      classificationPolicyId,
+      options
+    );
   }
 
   /**
@@ -204,7 +213,10 @@ export class RouterAdministrationClient {
     classificationPolicyId: string,
     options: DeleteClassificationPolicyOptions = {}
   ): Promise<RestResponse> {
-    return this.client.jobRouterAdministration.deleteClassificationPolicy(classificationPolicyId, options);
+    return this.client.jobRouterAdministration.deleteClassificationPolicy(
+      classificationPolicyId,
+      options
+    );
   }
 
   // DistributionPolicy Actions
@@ -218,7 +230,11 @@ export class RouterAdministrationClient {
     distributionPolicyId: string,
     options: CreateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return this.client.jobRouterAdministration.upsertDistributionPolicy(distributionPolicyId, options, options);
+    return this.client.jobRouterAdministration.upsertDistributionPolicy(
+      distributionPolicyId,
+      options,
+      options
+    );
   }
 
   /**
@@ -231,7 +247,11 @@ export class RouterAdministrationClient {
     distributionPolicyId: string,
     options: UpdateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return this.client.jobRouterAdministration.upsertDistributionPolicy(distributionPolicyId, options, options);
+    return this.client.jobRouterAdministration.upsertDistributionPolicy(
+      distributionPolicyId,
+      options,
+      options
+    );
   }
 
   /**
@@ -241,7 +261,9 @@ export class RouterAdministrationClient {
   public listDistributionPolicies(
     options: ListDistributionPoliciesOptions = {}
   ): PagedAsyncIterableIterator<DistributionPolicyItem> {
-    return this.client.jobRouterAdministration.listDistributionPolicies(options);
+    let listOptions = <JobRouterAdministrationListDistributionPoliciesOptionalParams>options;
+    listOptions.maxpagesize = options.maxPageSize;
+    return this.client.jobRouterAdministration.listDistributionPolicies(listOptions);
   }
 
   /**
@@ -266,7 +288,10 @@ export class RouterAdministrationClient {
     distributionPolicyId: string,
     options: DeleteDistributionPolicyOptions = {}
   ): Promise<RestResponse> {
-    return this.client.jobRouterAdministration.deleteDistributionPolicy(distributionPolicyId, options);
+    return this.client.jobRouterAdministration.deleteDistributionPolicy(
+      distributionPolicyId,
+      options
+    );
   }
 
   // ExceptionPolicy Actions
@@ -280,7 +305,11 @@ export class RouterAdministrationClient {
     exceptionPolicyId: string,
     options: CreateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return this.client.jobRouterAdministration.upsertExceptionPolicy(exceptionPolicyId, options, options);
+    return this.client.jobRouterAdministration.upsertExceptionPolicy(
+      exceptionPolicyId,
+      options,
+      options
+    );
   }
 
   /**
@@ -293,7 +322,11 @@ export class RouterAdministrationClient {
     exceptionPolicyId: string,
     options: UpdateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return this.client.jobRouterAdministration.upsertExceptionPolicy(exceptionPolicyId, options, options);
+    return this.client.jobRouterAdministration.upsertExceptionPolicy(
+      exceptionPolicyId,
+      options,
+      options
+    );
   }
 
   /**
@@ -303,7 +336,9 @@ export class RouterAdministrationClient {
   public listExceptionPolicies(
     options: ListExceptionPoliciesOptions = {}
   ): PagedAsyncIterableIterator<ExceptionPolicyItem> {
-    return this.client.jobRouterAdministration.listExceptionPolicies(options);
+    let listOptions = <JobRouterAdministrationListExceptionPoliciesOptionalParams>options;
+    listOptions.maxpagesize = options.maxPageSize;
+    return this.client.jobRouterAdministration.listExceptionPolicies(listOptions);
   }
 
   /**
@@ -340,11 +375,9 @@ export class RouterAdministrationClient {
    */
   public async createQueue(
     queueId: string,
-    distributionPolicyId: string,
     options: CreateQueueOptions = {}
   ): Promise<JobQueue> {
     const queueModel = <JobQueue>options;
-    queueModel.distributionPolicyId = distributionPolicyId;
     return this.client.jobRouterAdministration.upsertQueue(queueId, <JobQueue>queueModel, options);
   }
 
@@ -364,7 +397,9 @@ export class RouterAdministrationClient {
    * @param options - List queues options.
    */
   public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<JobQueueItem> {
-    return this.client.jobRouterAdministration.listQueues(options);
+    let listOptions = <JobRouterAdministrationListQueuesOptionalParams>options;
+    listOptions.maxpagesize = options.maxPageSize;
+    return this.client.jobRouterAdministration.listQueues(listOptions);
   }
 
   /**
@@ -388,5 +423,4 @@ export class RouterAdministrationClient {
   ): Promise<RestResponse> {
     return this.client.jobRouterAdministration.deleteQueue(queueId, options);
   }
-
 }

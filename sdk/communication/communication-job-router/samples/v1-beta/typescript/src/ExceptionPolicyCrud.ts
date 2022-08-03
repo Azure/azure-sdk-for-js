@@ -3,13 +3,13 @@
 /**
  * @summary Exception policy crud
  */
-import { RouterClient } from "@azure/communication-job-router";
+import { RouterAdministrationClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
 import { ExceptionPolicy } from "@azure/communication-job-router";
 import { QueueLengthExceptionTrigger } from "@azure/communication-job-router";
-import { PagedExceptionPolicy } from "@azure/communication-job-router";
+import { ExceptionPolicyItem } from "@azure/communication-job-router";
 import { assert } from "chai";
 dotenv.config();
 
@@ -19,7 +19,7 @@ const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_
 // Create an exception policy
 const createExceptionPolicy = async (): Promise<void> => {
   // Create the Router Client
-  const routerClient: RouterClient = new RouterClient(connectionString);
+  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {
@@ -49,7 +49,7 @@ const createExceptionPolicy = async (): Promise<void> => {
   try {
     const request = exceptionPolicyRequest;
 
-    const result = await routerClient.createExceptionPolicy(request.id!, request);
+    const result = await routerAdministrationClient.createExceptionPolicy(request.id!, request);
 
     console.log("exception policy: " + result);
   } catch (error) {
@@ -63,12 +63,12 @@ void createExceptionPolicy();
 
 const getExceptionPolicy = async (): Promise<void> => {
   // Create the Router Client
-  const routerClient: RouterClient = new RouterClient(connectionString);
+  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const policyId = "exception-policy-123"
 
   try {
-    const result = await routerClient.getExceptionPolicy(policyId);
+    const result = await routerAdministrationClient.getExceptionPolicy(policyId);
 
     console.log("exception policy: " + result);
   } catch (error) {
@@ -82,7 +82,7 @@ void getExceptionPolicy();
 // Update a exception policy
 const updateExceptionPolicy = async (): Promise<void> => {
   // Create the Router Client
-  const routerClient: RouterClient = new RouterClient(connectionString);
+  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {
@@ -112,7 +112,7 @@ const updateExceptionPolicy = async (): Promise<void> => {
   try {
     const request = exceptionPolicyRequest;
 
-    const result = await routerClient.updateExceptionPolicy(request.id!, request);
+    const result = await routerAdministrationClient.updateExceptionPolicy(request.id!, request);
 
     console.log("exception policy: " + result);
   } catch (error) {
@@ -125,20 +125,20 @@ void updateExceptionPolicy();
 // List exception policies
 const listExceptionPolicies = async (): Promise<void> => {
   // Create the Router Client
-  const routerClient: RouterClient = new RouterClient(connectionString);
+  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
 
   let pagesCount = 1;
   const maxPageSize = 3;
-  const receivedPagedItems: PagedExceptionPolicy[] = [];
+  const receivedPagedItems: ExceptionPolicyItem[] = [];
   try {
-    for await (const page of routerClient.listExceptionPolicies({ maxpagesize: maxPageSize }).byPage()) {
+    for await (const page of routerAdministrationClient.listExceptionPolicies({ maxPageSize: maxPageSize }).byPage()) {
       ++pagesCount;
       let pageSize = 0;
       console.log("page: " + pagesCount);
       for (const policy of page) {
         ++pageSize;
         receivedPagedItems.push(policy);
-        console.log("Listing exception policy with id: " + policy.id!);
+        console.log("Listing exception policy with id: " + policy.exceptionPolicy!.id!);
       }
       assert.isAtMost(pageSize, maxPageSize);
     }
@@ -153,12 +153,12 @@ void listExceptionPolicies();
 // Delete exception policy
 const deleteExceptionPolicy = async (): Promise<void> => {
   // Create the Router Client
-  const routerClient: RouterClient = new RouterClient(connectionString);
+  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const policyId = "exception-policy-123"
 
   try {
-    const result = await routerClient.deleteExceptionPolicy(policyId);
+    const result = await routerAdministrationClient.deleteExceptionPolicy(policyId);
 
     console.log("exception policy: " + result);
   } catch (error) {

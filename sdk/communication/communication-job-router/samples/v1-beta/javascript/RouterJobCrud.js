@@ -3,7 +3,7 @@
 /**
  * @summary router job crud
  */
-const { RouterClient } = require("@azure/communication-job-router");
+const { RouterAdministrationClient, RouterClient } = require("@azure/communication-job-router");
 
 // Load the .env file (you will need to set these environment variables)
 const dotenv = require("dotenv");
@@ -16,6 +16,7 @@ const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_
 const createRouterJob = async () => {
   // Create the Router Client
   const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const distributionPolicyRequest = {
     name: "distribution-policy-123",
@@ -27,7 +28,7 @@ const createRouterJob = async () => {
     },
     offerTtlSeconds: 15,
   };
-  var distributionPolicy = await routerClient.createDistributionPolicy(
+  var distributionPolicy = await routerAdministrationClient.createDistributionPolicy(
     distributionPolicyRequest.id,
     distributionPolicyRequest
   );
@@ -38,7 +39,7 @@ const createRouterJob = async () => {
     name: "Main",
     labels: {},
   };
-  await routerClient.createQueue(queueRequest.id, queueRequest);
+  await routerAdministrationClient.createQueue(queueRequest.id, queueRequest);
 
   const request = {
     id: "router-job-123",
@@ -81,6 +82,7 @@ void getRouterJob();
 const updateRouterJob = async () => {
   // Create the Router Client
   const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const queueRequest = {
     id: "queue-2",
@@ -88,7 +90,7 @@ const updateRouterJob = async () => {
     name: "Main",
     labels: {},
   };
-  await routerClient.createQueue(queueRequest.id, queueRequest);
+  await routerAdministrationClient.createQueue(queueRequest.id, queueRequest);
 
   const request = {
     id: "router-job-123",
@@ -118,7 +120,7 @@ const listRouterJobs = async () => {
   const receivedPagedItems = [];
   try {
     for await (const page of routerClient
-      .listJobs("queued", { maxpagesize: maxPageSize })
+      .listJobs({ jobStateSelector: "queued", maxPageSize: maxPageSize })
       .byPage()) {
       ++pagesCount;
       let pageSize = 0;
@@ -126,7 +128,7 @@ const listRouterJobs = async () => {
       for (const policy of page) {
         ++pageSize;
         receivedPagedItems.push(policy);
-        console.log("Listing router job with id: " + policy.id);
+        console.log("Listing router job with id: " + policy.routerJob.id);
       }
       assert.isAtMost(pageSize, maxPageSize);
     }

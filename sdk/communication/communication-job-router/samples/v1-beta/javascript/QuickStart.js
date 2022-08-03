@@ -3,7 +3,7 @@
 /**
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
-const { RouterClient } = require("@azure/communication-job-router");
+const { RouterAdministrationClient, RouterClient } = require("@azure/communication-job-router");
 
 // Load the .env file (you will need to set these environment variables)
 require("dotenv").config();
@@ -13,6 +13,7 @@ const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_
 const quickStart = async () => {
   // Create the Router Client
   const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   // Create a Distribution Policy
   const distributionPolicyRequest = {
@@ -25,7 +26,7 @@ const quickStart = async () => {
     },
     offerTtlSeconds: 15,
   };
-  var distributionPolicy = await routerClient.createDistributionPolicy(
+  var distributionPolicy = await routerAdministrationClient.createDistributionPolicy(
     distributionPolicyRequest.id,
     distributionPolicyRequest
   );
@@ -37,7 +38,7 @@ const quickStart = async () => {
     name: "Main",
     labels: {},
   };
-  await routerClient.createQueue(queueRequest.id, queueRequest);
+  await routerAdministrationClient.createQueue(queueRequest.id, queueRequest);
 
   // Create a Job
   const jobRequest = {
@@ -71,7 +72,7 @@ const quickStart = async () => {
     },
   };
 
-  await routerClient.registerWorker(workerRequest.id, workerRequest);
+  await routerClient.registerWorker(workerRequest.id);
 
   // Check offers to a Worker
   // Once the worker has been registered, Router will send an offer to the worker if the worker satisfies requirements

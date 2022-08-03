@@ -35,14 +35,15 @@ import {
   AcceptJobOfferResult,
   RouterJob,
   RouterWorker,
-  JobStateSelector,
   JobRouterCancelJobActionResponse,
   JobRouterCompleteJobActionResponse,
   JobRouterCloseJobActionResponse,
   JobRouterDeclineJobActionResponse,
   RouterWorkerItem,
   RouterJobItem,
-  JobRouterUnassignJobActionResponse
+  JobRouterUnassignJobActionResponse,
+  JobRouterListWorkersOptionalParams,
+  JobRouterListJobsOptionalParams
 } from "./generated/src";
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -174,17 +175,13 @@ export class RouterClient {
 
   /**
    * Gets the list of jobs.
-   * @param status - (Optional) If specified, select jobs by status. Valid options are: `all`, `pendingClassification`, `queued`, `assigned`, `completed`, `closed`, `cancelled`, `classificationFailed`, `active`.
    * @param options - List jobs options.
    */
-  public listJobs(
-    status?: JobStateSelector,
-    options: ListJobsOptions = {}
-  ): PagedAsyncIterableIterator<RouterJobItem> {
-    if (status) {
-      options.status = status;
-    }
-    return this.client.jobRouter.listJobs(options);
+  public listJobs(options: ListJobsOptions = {}): PagedAsyncIterableIterator<RouterJobItem> {
+    let listOptions = <JobRouterListJobsOptionalParams>options;
+    listOptions.maxpagesize = options.maxPageSize;
+    listOptions.status = options.jobStateSelector;
+    return this.client.jobRouter.listJobs(listOptions);
   }
 
   /**
@@ -378,8 +375,12 @@ export class RouterClient {
    * Gets the list of workers.
    * @param options - List workers options.
    */
-  public listWorkers(options: ListWorkersOptions = {}): PagedAsyncIterableIterator<RouterWorkerItem> {
-    return this.client.jobRouter.listWorkers(options);
+  public listWorkers(
+    options: ListWorkersOptions = {}
+  ): PagedAsyncIterableIterator<RouterWorkerItem> {
+    let listOptions = <JobRouterListWorkersOptionalParams>options;
+    listOptions.maxpagesize = options.maxPageSize;
+    return this.client.jobRouter.listWorkers(listOptions);
   }
 
   /**

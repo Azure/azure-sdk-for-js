@@ -3,11 +3,10 @@
 /**
  * @summary Distribution policy crud
  */
-const { RouterClient } = require("@azure/communication-job-router");
-
 // Load the .env file (you will need to set these environment variables)
 const dotenv = require("dotenv");
 const { assert } = require("chai");
+const { RouterAdministrationClient } = require("@azure/communication-job-router");
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || "";
@@ -15,7 +14,7 @@ const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_
 // Create an distribution policy
 const createDistributionPolicy = async () => {
   // Create the Router Client
-  const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const distributionPolicyRequest = {
     name: "distribution-policy-123",
@@ -31,7 +30,7 @@ const createDistributionPolicy = async () => {
   try {
     const request = distributionPolicyRequest;
 
-    const result = await routerClient.createDistributionPolicy(request.id, request);
+    const result = await routerAdministrationClient.createDistributionPolicy(request.id, request);
 
     console.log("distribution policy: " + result);
   } catch (error) {
@@ -45,12 +44,12 @@ void createDistributionPolicy();
 
 const getDistributionPolicy = async () => {
   // Create the Router Client
-  const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const policyId = "distribution-policy-123";
 
   try {
-    const result = await routerClient.getDistributionPolicy(policyId);
+    const result = await routerAdministrationClient.getDistributionPolicy(policyId);
 
     console.log("distribution policy: " + result);
   } catch (error) {
@@ -63,7 +62,7 @@ void getDistributionPolicy();
 // Update a distribution policy
 const updateDistributionPolicy = async () => {
   // Create the Router Client
-  const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const distributionPolicyRequest = {
     name: "distribution-policy-123",
@@ -79,7 +78,7 @@ const updateDistributionPolicy = async () => {
   try {
     const request = distributionPolicyRequest;
 
-    const result = await routerClient.updateDistributionPolicy(request.id, request);
+    const result = await routerAdministrationClient.updateDistributionPolicy(request.id, request);
 
     console.log("distribution policy: " + result);
   } catch (error) {
@@ -92,14 +91,14 @@ void updateDistributionPolicy();
 // List distribution policies
 const listDistributionPolicies = async () => {
   // Create the Router Client
-  const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems = [];
   try {
-    for await (const page of routerClient
-      .listDistributionPolicies({ maxpagesize: maxPageSize })
+    for await (const page of routerAdministrationClient
+      .listDistributionPolicies({ maxPageSize: maxPageSize })
       .byPage()) {
       ++pagesCount;
       let pageSize = 0;
@@ -107,7 +106,7 @@ const listDistributionPolicies = async () => {
       for (const policy of page) {
         ++pageSize;
         receivedPagedItems.push(policy);
-        console.log("Listing distribution policy with id: " + policy.id);
+        console.log("Listing distribution policy with id: " + policy.distributionPolicy.id);
       }
       assert.isAtMost(pageSize, maxPageSize);
     }
@@ -121,12 +120,12 @@ void listDistributionPolicies();
 // Delete distribution policy
 const deleteDistributionPolicy = async () => {
   // Create the Router Client
-  const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const policyId = "distribution-policy-123";
 
   try {
-    const result = await routerClient.deleteDistributionPolicy(policyId);
+    const result = await routerAdministrationClient.deleteDistributionPolicy(policyId);
 
     console.log("distribution policy: " + result);
   } catch (error) {
