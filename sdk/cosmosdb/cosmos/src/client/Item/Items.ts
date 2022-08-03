@@ -5,7 +5,7 @@ const uuid = v4;
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
 import { extractPartitionKey } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -269,7 +269,7 @@ export class Items {
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     const err = {};
-    if (!isResourceValid(body, err)) {
+    if (!isItemResourceValid(body, err)) {
       throw err;
     }
 
@@ -341,7 +341,7 @@ export class Items {
     }
 
     const err = {};
-    if (!isResourceValid(body, err)) {
+    if (!isItemResourceValid(body, err)) {
       throw err;
     }
 
