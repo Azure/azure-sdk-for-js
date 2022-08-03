@@ -5,7 +5,6 @@
  * This sample demonstrates how to analyze a conversation for issue resolution
  *
  * @summary Conversation Summarization  
- * @azsdk-weight 50
  */
 
 import { ConversationAnalysisClient } from "@azure/ai-language-conversations"

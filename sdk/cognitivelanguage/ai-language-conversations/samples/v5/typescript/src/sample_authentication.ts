@@ -5,9 +5,7 @@
  * This sample demonstrates how to use either an Azure Active Directory (RBAC)
  * or an API Key to authenticate a ConversationAnalysisClient.
  *
- * @summary authenticates a service client using both Azure Active Directory
- * and an API key
- * @azsdk-weight 40
+ * @summary authenticates a service client using both Azure Active Directory and an API key
  */
 
 import { ConversationAnalysisClient } from "@azure/ai-language-conversations"

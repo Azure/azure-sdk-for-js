@@ -6,13 +6,10 @@
  * a conversation project with a language parameter.
  *
  * @summary Conversational query analysis for intents and entities extraction
- * @azsdk-weight 50
  */
 
 import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations"
 import { AzureKeyCredential } from "@azure/core-auth";
-import * as dotenv from "dotenv";
-dotenv.config();
 
 //Get secrets
 //You will have to change these environment variables for the sample to work

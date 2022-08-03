@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to analyze user query using an orchestration project.
- * In this sample, orchestration project's top intent will map to a Qna project.
+ *  This sample demonstrates how to analyze user query using an orchestration project.
+ *  In this sample, orchestration project's top intent will map to a Qna project.
  *
- * @summary Orchestration project with direct target
- * @azsdk-weight 50
+ * @summary Orchestration project with QnA response
  */
 
 import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations"
@@ -23,9 +22,6 @@ var deployment_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME;
 
 var service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
 
-var query = "How are you?"
-var qna_app = "ChitChat-QnA"
-
 var body: ConversationalTask = {
     "kind": "Conversation",
     "analysisInput": {
@@ -34,22 +30,14 @@ var body: ConversationalTask = {
             "id": "1",
             "modality": "text",
             "language": "en",
-            "text": query
+            "text": "How are you?"
         },
     },
     "parameters": {
         "projectName": project_name,
         "deploymentName": deployment_name,
-        "isLoggingEnabled": false,
-        "directTarget": qna_app,
-        "targetProjectParameters": {
-            "ChitChat-QnA": {
-                "targetProjectKind": "QuestionAnswering",
-                "callingOptions": {
-                    "question": query
-                }
-            }
-        }
+        "verbose": true,
+        "isLoggingEnabled": false
     }
 }
 

@@ -5,7 +5,6 @@
  * This sample demonstrates how to analyze a conversation for PII (personally identifiable information).
  *
  * @summary PII conversational analysis
- * @azsdk-weight 50
  */
 
 import { ConversationAnalysisClient } from "@azure/ai-language-conversations"
