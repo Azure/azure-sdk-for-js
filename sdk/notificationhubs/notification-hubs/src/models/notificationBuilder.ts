@@ -534,7 +534,7 @@ export interface AdmNativeNotification {
   body?: string;
 
   /**
-   * The notification's icon. 
+   * The notification's icon.
    */
   icon?: string;
 
@@ -549,7 +549,7 @@ export interface AdmNativeNotification {
   sound?: string;
 
   /**
-   * Identifier used to replace existing notifications in the notification drawer. 
+   * Identifier used to replace existing notifications in the notification drawer.
    */
   tag?: string;
 
@@ -619,7 +619,7 @@ export interface AdmNativeNotification {
   visibility?: number; // TODO: Enum?
 
   /**
-   * Sets the number of items this notification represents. 
+   * Sets the number of items this notification represents.
    */
   notificationCount?: number;
 
@@ -665,11 +665,13 @@ export interface AdmNativeMessage {
   md5?: string;
 }
 
-function buildAdmNativeNotification(nativeNotification?: AdmNativeNotification): Record<string, any> | undefined {
+function buildAdmNativeNotification(
+  nativeNotification?: AdmNativeNotification
+): Record<string, any> | undefined {
   if (!isDefined(nativeNotification)) {
     return undefined;
   }
-  
+
   return {
     title: nativeNotification.title,
     body: nativeNotification.body,

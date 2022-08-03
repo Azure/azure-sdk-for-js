@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { 
+import {
   buildAdmNativeMessage,
   buildAppleNativeMessage,
   buildFirebaseLegacyNativeMessage,
@@ -14,8 +14,8 @@ describe("buildAdmNativeMessage", () => {
     const message = buildAdmNativeMessage({
       data: {
         data1: "DATA1",
-        data2: "DATA2"
-      }
+        data2: "DATA2",
+      },
     });
 
     const parsed = JSON.parse(message.body);
@@ -31,7 +31,7 @@ describe("buildAdmNativeMessage", () => {
         body: "BODY",
         icon: "ICON",
         color: "COLOR",
-      }
+      },
     });
 
     const parsed = JSON.parse(message.body);
@@ -125,7 +125,7 @@ describe("buildFirebaseLegacyNativeMessage", () => {
       registrationIds: ["one", "two", "three"],
       collapseKey: "1",
       timeToLive: 123,
-      dryRun: true
+      dryRun: true,
     });
 
     const parsed = JSON.parse(message.body);
@@ -141,8 +141,8 @@ describe("buildFirebaseLegacyNativeMessage", () => {
       notification: {
         title: "TITLE",
         body: "BODY",
-        clickAction: "CLICK"
-      }
+        clickAction: "CLICK",
+      },
     });
 
     const parsed = JSON.parse(message.body);
@@ -156,8 +156,8 @@ describe("buildFirebaseLegacyNativeMessage", () => {
     const message = buildFirebaseLegacyNativeMessage({
       data: {
         data1: "DATA1",
-        data2: "DATA2"
-      }
+        data2: "DATA2",
+      },
     });
 
     const parsed = JSON.parse(message.body);
@@ -170,17 +170,23 @@ describe("buildFirebaseLegacyNativeMessage", () => {
 describe("buildWindowsBadgeNativeMessage", () => {
   it("should handle a notification count", () => {
     const message = buildWindowsBadgeNativeMessage({
-      value: 99
+      value: 99,
     });
 
-    assert.equal(message.body, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="99"/>`);
+    assert.equal(
+      message.body,
+      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="99"/>`
+    );
   });
 
   it("should handle a glyph", () => {
     const message = buildWindowsBadgeNativeMessage({
-      value: "newMessage"
+      value: "newMessage",
     });
 
-    assert.equal(message.body, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="newMessage"/>`);
+    assert.equal(
+      message.body,
+      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="newMessage"/>`
+    );
   });
 });
