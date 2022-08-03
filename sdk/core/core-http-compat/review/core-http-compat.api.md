@@ -10,6 +10,7 @@ import { FullOperationResponse } from '@azure/core-client';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { OperationArguments } from '@azure/core-client';
 import { OperationSpec } from '@azure/core-client';
+import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { ProxySettings } from '@azure/core-rest-pipeline';
 import { ServiceClient } from '@azure/core-client';
 import { ServiceClientOptions } from '@azure/core-client';
@@ -19,6 +20,9 @@ export interface CompatResponse extends Omit<FullOperationResponse, "request" | 
     headers: HttpHeadersLike;
     request: WebResourceLike;
 }
+
+// @public
+export function createRequestPolicyFactoryPolicy(factories: RequestPolicyFactory[]): PipelinePolicy;
 
 // @public (undocumented)
 export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";
@@ -64,6 +68,18 @@ export interface HttpHeadersLike {
 }
 
 // @public
+export enum HttpPipelineLogLevel {
+    // (undocumented)
+    ERROR = 1,
+    // (undocumented)
+    INFO = 3,
+    // (undocumented)
+    OFF = 0,
+    // (undocumented)
+    WARNING = 2
+}
+
+// @public
 export interface KeepAliveOptions {
     enable?: boolean;
 }
@@ -77,6 +93,29 @@ export type RawHttpHeaders = {
 export interface RedirectOptions {
     handleRedirects?: boolean;
     maxRetries?: number;
+}
+
+// @public
+export interface RequestPolicy {
+    // (undocumented)
+    sendRequest(httpRequest: WebResourceLike): Promise<CompatResponse>;
+}
+
+// @public
+export interface RequestPolicyFactory {
+    // (undocumented)
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): RequestPolicy;
+}
+
+// @public
+export const requestPolicyFactoryPolicyName = "RequestPolicyFactoryPolicy";
+
+// @public
+export interface RequestPolicyOptionsLike {
+    // (undocumented)
+    log(logLevel: HttpPipelineLogLevel, message: string): void;
+    // (undocumented)
+    shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
 
 // @public
