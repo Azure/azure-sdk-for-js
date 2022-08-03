@@ -10123,7 +10123,7 @@ packages:
     dev: false
 
   file:projects/arm-avs.tgz:
-    resolution: {integrity: sha512-qT5HrH6IQINoEH/ebbD96pyvJarKF0vKd3zH7SJpip0oR7ka1vkPR/T/VnSrflN6vG/XQgbp7jiG9zGo4aVkpg==, tarball: file:projects/arm-avs.tgz}
+    resolution: {integrity: sha512-VlDnEMLJWk4j97NjgdIjmK+LG621vGJkFZvCgAjusE+7+fngjVA0hDJ+xImeNIBAJV0q6mmLIYBtl/4FrFBUBQ==, tarball: file:projects/arm-avs.tgz}
     name: '@rush-temp/arm-avs'
     version: 0.0.0
     dependencies:
@@ -10142,7 +10142,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
