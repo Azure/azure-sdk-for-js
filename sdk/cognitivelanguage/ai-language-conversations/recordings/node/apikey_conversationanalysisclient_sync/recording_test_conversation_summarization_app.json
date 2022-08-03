@@ -1,4 +1,220 @@
 {
-  "Entries": [],
+  "Entries": [
+    {
+      "RequestUri": "/language/analyze-conversations/jobs?api-version=2022-05-15-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "650",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "",
+        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "0ecef5f2-96a2-48c3-9934-bb2aba5331c7"
+      },
+      "RequestBody": {
+        "displayName": "Analyze conversations from xxx",
+        "analysisInput": {
+          "conversations": [
+            {
+              "id": "conversation1",
+              "language": "en",
+              "modality": "text",
+              "conversationItems": [
+                {
+                  "id": "1",
+                  "participantId": "Agent",
+                  "modality": "text",
+                  "text": "Hello, how can I help you?"
+                },
+                {
+                  "id": "2",
+                  "participantId": "Customer",
+                  "modality": "text",
+                  "text": "How to upgrade Office? I am getting error messages the whole day."
+                },
+                {
+                  "id": "3",
+                  "participantId": "Agent",
+                  "modality": "text",
+                  "text": "Press the upgrade button please. Then sign in and follow the instructions."
+                }
+              ]
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "taskName": "analyze 1",
+            "kind": "ConversationalSummarizationTask",
+            "parameters": {
+              "summaryAspects": [
+                "Issue, Resolution"
+              ]
+            }
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "f1092f0d-db03-43dd-9637-5210d13d84bc",
+        "Content-Length": "0",
+        "Date": "Wed, 03 Aug 2022 08:55:52 GMT",
+        "operation-location": "/language/analyze-conversations/jobs/de8b7a1c-d3bf-4433-8d37-6323491c80ad?api-version=2022-05-15-preview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "230"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "/language/analyze-conversations/jobs/de8b7a1c-d3bf-4433-8d37-6323491c80ad?api-version=2022-05-15-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "",
+        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "f07a6900-5fb2-4cf5-b1e8-f9d2345a759a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "d2f8041b-42a0-4656-a9c0-155cc24242e7",
+        "Content-Length": "327",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 03 Aug 2022 08:55:52 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "83"
+      },
+      "ResponseBody": {
+        "jobId": "de8b7a1c-d3bf-4433-8d37-6323491c80ad",
+        "lastUpdatedDateTime": "2022-08-03T08:55:52Z",
+        "createdDateTime": "2022-08-03T08:55:52Z",
+        "expirationDateTime": "2022-08-04T08:55:52Z",
+        "status": "running",
+        "errors": [],
+        "displayName": "Analyze conversations from xxx",
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "/language/analyze-conversations/jobs/de8b7a1c-d3bf-4433-8d37-6323491c80ad?api-version=2022-05-15-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "",
+        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "ada5a3d8-66f4-4417-9a4f-3d8b861fd06d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "3a91213f-8353-4efc-be18-360f73aba59c",
+        "Content-Length": "327",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 03 Aug 2022 08:55:52 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "9"
+      },
+      "ResponseBody": {
+        "jobId": "de8b7a1c-d3bf-4433-8d37-6323491c80ad",
+        "lastUpdatedDateTime": "2022-08-03T08:55:52Z",
+        "createdDateTime": "2022-08-03T08:55:52Z",
+        "expirationDateTime": "2022-08-04T08:55:52Z",
+        "status": "running",
+        "errors": [],
+        "displayName": "Analyze conversations from xxx",
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "/language/analyze-conversations/jobs/de8b7a1c-d3bf-4433-8d37-6323491c80ad?api-version=2022-05-15-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "",
+        "User-Agent": "azsdk-js-ai-language-conversations/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "227461a5-ac56-4174-b93b-33f3fa4b1378"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "d3ab5f52-1036-4cd5-9a71-f160a2838f34",
+        "Content-Length": "756",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 03 Aug 2022 08:55:55 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "94"
+      },
+      "ResponseBody": {
+        "jobId": "de8b7a1c-d3bf-4433-8d37-6323491c80ad",
+        "lastUpdatedDateTime": "2022-08-03T08:55:54Z",
+        "createdDateTime": "2022-08-03T08:55:52Z",
+        "expirationDateTime": "2022-08-04T08:55:52Z",
+        "status": "succeeded",
+        "errors": [],
+        "displayName": "Analyze conversations from xxx",
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "conversationalSummarizationResults",
+              "taskName": "analyze 1",
+              "lastUpdateDateTime": "2022-08-03T08:55:54.8580722Z",
+              "status": "succeeded",
+              "results": {
+                "conversations": [
+                  {
+                    "id": "conversation1",
+                    "summaries": [
+                      {
+                        "aspect": "issue",
+                        "text": "Customer wants to upgrade Office"
+                      },
+                      {
+                        "aspect": "resolution",
+                        "text": "Asked for the error message | Asked for help to upgrade Office"
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-05-15-preview"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "Variables": {}
 }
