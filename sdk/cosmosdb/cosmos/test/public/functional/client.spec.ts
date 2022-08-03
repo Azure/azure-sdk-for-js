@@ -43,14 +43,12 @@ describe("Client Tests", function (this: Suite) {
       const client = new CosmosClient({
         endpoint: "https://faaaaaake.com",
         agent: new Agent(),
-        connectionPolicy: { enableBackgroundEndpointRefreshing: false },
       });
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
     });
     it("Accepts a connection string", function () {
       const client = new CosmosClient(`AccountEndpoint=${endpoint};AccountKey=${masterKey};`);
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
-      client.dispose();
     });
     it("throws on a bad connection string", function () {
       assert.throws(() => new CosmosClient(`bad;Connection=string;`));
@@ -58,25 +56,25 @@ describe("Client Tests", function (this: Suite) {
     it("throws on a bad endpoint", function () {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
-    it("fails to read databases with bad AAD authentication", async function () {
+    it("fails to read databases with AAD authentication", async function () {
       try {
         const credentials = new UsernamePasswordCredential(
-          "fake-tenant-id",
-          "fake-client-id",
-          "fakeUsername",
-          "fakePassword"
+          "tenant-id",
+          "client-id",
+          "username",
+          "password"
         );
         const client = new CosmosClient({
           endpoint,
           aadCredentials: credentials,
-          connectionPolicy: { enableBackgroundEndpointRefreshing: false },
         });
         await client.databases.readAll().fetchAll();
-      } catch (e: any) {
-        assert.equal(e.name, "CredentialUnavailableError");
+      } catch (e) {
+        assert.equal(e.code, 401);
       }
     });
   });
+
   describe("Validate user passed AbortController.signal", function () {
     it("should throw exception if aborted during the request", async function () {
       const client = new CosmosClient({ endpoint, key: masterKey });

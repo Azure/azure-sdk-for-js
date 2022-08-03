@@ -2,11 +2,6 @@
 // Licensed under the MIT license.
 import { v4 } from "uuid";
 const uuid = v4;
-import {
-  bearerTokenAuthenticationPolicy,
-  createEmptyPipeline,
-  Pipeline,
-} from "@azure/core-rest-pipeline";
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
@@ -28,8 +23,8 @@ import { request as executeRequest } from "./request/RequestHandler";
 import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
-import { sanitizeEndpoint } from "./utils/checkURL";
 import { AzureLogger, createClientLogger } from "@azure/logger";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -51,26 +46,6 @@ export class ClientContext {
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
-    this.pipeline = null;
-    if (cosmosClientOptions.aadCredentials) {
-      this.pipeline = createEmptyPipeline();
-      const hrefEndpoint = sanitizeEndpoint(cosmosClientOptions.endpoint);
-      const scope = `${hrefEndpoint}/.default`;
-      this.pipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({
-          credential: cosmosClientOptions.aadCredentials,
-          scopes: scope,
-          challengeCallbacks: {
-            async authorizeRequest({ request, getAccessToken }) {
-              const tokenResponse = await getAccessToken([scope], {});
-              const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
-              const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
-              request.headers.set("Authorization", authorizationToken);
-            },
-          },
-        })
-      );
-    }
   }
   /** @hidden */
   public async read<T>({
@@ -663,8 +638,8 @@ export class ClientContext {
         resourceId,
         plugins: this.cosmosClientOptions.plugins,
         options,
-        pipeline: this.pipeline,
         partitionKey,
+        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);

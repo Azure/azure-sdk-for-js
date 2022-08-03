@@ -9,7 +9,7 @@
 
 import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/identity';
 
 // @public (undocumented)
 export interface Agent {
