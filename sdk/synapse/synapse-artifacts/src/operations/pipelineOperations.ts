@@ -6,11 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PipelineOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -98,25 +97,16 @@ export class PipelineOperationsImpl implements PipelineOperations {
   private async _getPipelinesByWorkspace(
     options?: PipelineGetPipelinesByWorkspaceOptionalParams
   ): Promise<PipelineGetPipelinesByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getPipelinesByWorkspace",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getPipelinesByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getPipelinesByWorkspaceOperationSpec
+        ) as Promise<PipelineGetPipelinesByWorkspaceResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getPipelinesByWorkspaceOperationSpec
-      );
-      return result as PipelineGetPipelinesByWorkspaceResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -135,26 +125,19 @@ export class PipelineOperationsImpl implements PipelineOperations {
       PipelineCreateOrUpdatePipelineResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdatePipeline",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<PipelineCreateOrUpdatePipelineResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as PipelineCreateOrUpdatePipelineResponse;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateOrUpdatePipeline",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            PipelineCreateOrUpdatePipelineResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -230,22 +213,16 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipelineName: string,
     options?: PipelineGetPipelineOptionalParams
   ): Promise<PipelineGetPipelineResponse> {
-    const { span } = createSpan("ArtifactsClient-getPipeline", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { pipelineName, options },
-        getPipelineOperationSpec
-      );
-      return result as PipelineGetPipelineResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.getPipeline",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { pipelineName, options },
+          getPipelineOperationSpec
+        ) as Promise<PipelineGetPipelineResponse>;
+      }
+    );
   }
 
   /**
@@ -257,26 +234,17 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipelineName: string,
     options?: PipelineDeletePipelineOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeletePipeline",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDeletePipeline",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -348,26 +316,17 @@ export class PipelineOperationsImpl implements PipelineOperations {
     request: ArtifactRenameRequest,
     options?: PipelineRenamePipelineOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenamePipeline",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginRenamePipeline",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -443,25 +402,16 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipelineName: string,
     options?: PipelineCreatePipelineRunOptionalParams
   ): Promise<PipelineCreatePipelineRunResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-createPipelineRun",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.createPipelineRun",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { pipelineName, options },
+          createPipelineRunOperationSpec
+        ) as Promise<PipelineCreatePipelineRunResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { pipelineName, options },
-        createPipelineRunOperationSpec
-      );
-      return result as PipelineCreatePipelineRunResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -474,25 +424,16 @@ export class PipelineOperationsImpl implements PipelineOperations {
     nextLink: string,
     options?: PipelineGetPipelinesByWorkspaceNextOptionalParams
   ): Promise<PipelineGetPipelinesByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getPipelinesByWorkspaceNext",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getPipelinesByWorkspaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getPipelinesByWorkspaceNextOperationSpec
+        ) as Promise<PipelineGetPipelinesByWorkspaceNextResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        getPipelinesByWorkspaceNextOperationSpec
-      );
-      return result as PipelineGetPipelinesByWorkspaceNextResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications

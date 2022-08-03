@@ -6,11 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { NotebookOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -147,25 +146,16 @@ export class NotebookOperationsImpl implements NotebookOperations {
   private async _getNotebooksByWorkspace(
     options?: NotebookGetNotebooksByWorkspaceOptionalParams
   ): Promise<NotebookGetNotebooksByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getNotebooksByWorkspace",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getNotebooksByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getNotebooksByWorkspaceOperationSpec
+        ) as Promise<NotebookGetNotebooksByWorkspaceResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getNotebooksByWorkspaceOperationSpec
-      );
-      return result as NotebookGetNotebooksByWorkspaceResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -175,25 +165,16 @@ export class NotebookOperationsImpl implements NotebookOperations {
   private async _getNotebookSummaryByWorkSpace(
     options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams
   ): Promise<NotebookGetNotebookSummaryByWorkSpaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getNotebookSummaryByWorkSpace",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getNotebookSummaryByWorkSpace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getNotebookSummaryByWorkSpaceOperationSpec
+        ) as Promise<NotebookGetNotebookSummaryByWorkSpaceResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getNotebookSummaryByWorkSpaceOperationSpec
-      );
-      return result as NotebookGetNotebookSummaryByWorkSpaceResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -212,26 +193,19 @@ export class NotebookOperationsImpl implements NotebookOperations {
       NotebookCreateOrUpdateNotebookResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdateNotebook",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<NotebookCreateOrUpdateNotebookResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as NotebookCreateOrUpdateNotebookResponse;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateOrUpdateNotebook",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            NotebookCreateOrUpdateNotebookResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -307,22 +281,16 @@ export class NotebookOperationsImpl implements NotebookOperations {
     notebookName: string,
     options?: NotebookGetNotebookOptionalParams
   ): Promise<NotebookGetNotebookResponse> {
-    const { span } = createSpan("ArtifactsClient-getNotebook", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { notebookName, options },
-        getNotebookOperationSpec
-      );
-      return result as NotebookGetNotebookResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.getNotebook",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { notebookName, options },
+          getNotebookOperationSpec
+        ) as Promise<NotebookGetNotebookResponse>;
+      }
+    );
   }
 
   /**
@@ -334,26 +302,17 @@ export class NotebookOperationsImpl implements NotebookOperations {
     notebookName: string,
     options?: NotebookDeleteNotebookOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteNotebook",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDeleteNotebook",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -425,26 +384,17 @@ export class NotebookOperationsImpl implements NotebookOperations {
     request: ArtifactRenameRequest,
     options?: NotebookRenameNotebookOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenameNotebook",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginRenameNotebook",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -521,25 +471,16 @@ export class NotebookOperationsImpl implements NotebookOperations {
     nextLink: string,
     options?: NotebookGetNotebooksByWorkspaceNextOptionalParams
   ): Promise<NotebookGetNotebooksByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getNotebooksByWorkspaceNext",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getNotebooksByWorkspaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getNotebooksByWorkspaceNextOperationSpec
+        ) as Promise<NotebookGetNotebooksByWorkspaceNextResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        getNotebooksByWorkspaceNextOperationSpec
-      );
-      return result as NotebookGetNotebooksByWorkspaceNextResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -552,25 +493,16 @@ export class NotebookOperationsImpl implements NotebookOperations {
     nextLink: string,
     options?: NotebookGetNotebookSummaryByWorkSpaceNextOptionalParams
   ): Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getNotebookSummaryByWorkSpaceNext",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getNotebookSummaryByWorkSpaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getNotebookSummaryByWorkSpaceNextOperationSpec
+        ) as Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        getNotebookSummaryByWorkSpaceNextOperationSpec
-      );
-      return result as NotebookGetNotebookSummaryByWorkSpaceNextResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications

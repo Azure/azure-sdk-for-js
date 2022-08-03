@@ -6,11 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { KqlScripts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -84,22 +83,16 @@ export class KqlScriptsImpl implements KqlScripts {
   private async _getAll(
     options?: KqlScriptsGetAllOptionalParams
   ): Promise<KqlScriptsGetAllResponse> {
-    const { span } = createSpan("ArtifactsClient-_getAll", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getAllOperationSpec
-      );
-      return result as KqlScriptsGetAllResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient._getAll",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getAllOperationSpec
+        ) as Promise<KqlScriptsGetAllResponse>;
+      }
+    );
   }
 
   /**
@@ -111,22 +104,16 @@ export class KqlScriptsImpl implements KqlScripts {
     nextLink: string,
     options?: KqlScriptsGetAllNextOptionalParams
   ): Promise<KqlScriptsGetAllNextResponse> {
-    const { span } = createSpan("ArtifactsClient-_getAllNext", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        getAllNextOperationSpec
-      );
-      return result as KqlScriptsGetAllNextResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient._getAllNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getAllNextOperationSpec
+        ) as Promise<KqlScriptsGetAllNextResponse>;
+      }
+    );
   }
 }
 // Operation Specifications

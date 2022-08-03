@@ -7,7 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreAuth from "@azure/core-auth";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   LinkConnectionOperationsImpl,
   KqlScriptsImpl,
@@ -65,19 +65,11 @@ export class ArtifactsClient extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the ArtifactsClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
    * @param options The parameter options
    */
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    endpoint: string,
-    options?: ArtifactsClientOptionalParams
-  ) {
-    if (credentials === undefined) {
-      throw new Error("'credentials' cannot be null");
-    }
+  constructor(endpoint: string, options?: ArtifactsClientOptionalParams) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
@@ -87,8 +79,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: ArtifactsClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      requestContentType: "application/json; charset=utf-8"
     };
 
     const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.11`;
@@ -97,9 +88,6 @@ export class ArtifactsClient extends coreClient.ServiceClient {
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://dev.azuresynapse.net/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
@@ -109,6 +97,29 @@ export class ArtifactsClient extends coreClient.ServiceClient {
       baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.endpoint = endpoint;
     this.linkConnectionOperations = new LinkConnectionOperationsImpl(this);

@@ -7734,6 +7734,7 @@ export const EntityReference: coreClient.CompositeMapper = {
 };
 
 export const CustomSetupBase: coreClient.CompositeMapper = {
+  serializedName: "CustomSetupBase",
   type: {
     name: "Composite",
     className: "CustomSetupBase",
@@ -25768,7 +25769,7 @@ export let discriminators = {
   ImportSettings: ImportSettings,
   CopyTranslator: CopyTranslator,
   DependencyReference: DependencyReference,
-  "CustomSetupBase.undefined": CustomSetupBase,
+  "CustomSetupBase.CustomSetupBase": CustomSetupBase,
   LinkedIntegrationRuntimeType: LinkedIntegrationRuntimeType,
   "SecretBase.SecureString": SecureString,
   "SecretBase.AzureKeyVaultSecret": AzureKeyVaultSecretReference,
