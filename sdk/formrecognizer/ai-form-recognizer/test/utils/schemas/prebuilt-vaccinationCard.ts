@@ -10,7 +10,7 @@
 // API Version: 2022-06-30-preview
 // Created:     Thu Jul 14 2022
 
-import * as fr from "@azure/ai-form-recognizer";
+import * as fr from "../../../src";
 
 /**
  * Extract key information from US Covid-19 CDC vaccination cards.
@@ -48,7 +48,7 @@ export interface VaccinationCovid19Us {
   /**
    * Document type: "vaccination.covid19.us".
    */
-  docType: "vaccinationCar.covid.us";
+  docType: "vaccinationCard.covid.us";
   /**
    * Document fields.
    */
