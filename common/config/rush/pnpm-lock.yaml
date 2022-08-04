@@ -1205,27 +1205,18 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-common/5.2.0:
-    resolution: {integrity: sha512-oVc4soy5MEZOp9NvCDqBk57mtiUTJXQQ8Z8S/4UiRQP8RG8snuCFQUs9xxdIfvl2FWIvgiBz+SMByyjTaRX42Q==}
-    engines: {node: '>=0.8.0'}
-    dependencies:
-      debug: 4.3.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@azure/msal-common/7.2.0:
     resolution: {integrity: sha512-+Oz8LKTOACDHqDmv+MZy/z+DZRH8RZbMjhadmvp0scQ0R75OrzZro+HkxifWhtDG8l1ViYkvV9NHb4pEZyajAQ==}
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /@azure/msal-node-extensions/1.0.0-alpha.13:
-    resolution: {integrity: sha512-vOxGmRl/GAiSywTz5K67Rj/pZNll9LAIYlet76zBJG/I2m0BCvAHixx1cBMqGTLYKoTrPtJK21HKP0DIS2TetA==}
+  /@azure/msal-node-extensions/1.0.0-alpha.9:
+    resolution: {integrity: sha512-p6ulfziYQDbPmFH0LZ7ekvC6WJu4coHTHPtH4iA6wEeMMy6aD8afv4KgXZDm7bX0rXlTIb+1O8hQYOATz4j5vA==}
     engines: {node: '>=10'}
     requiresBuild: true
     dependencies:
-      '@azure/msal-common': 5.2.0
-      bindings: github.com/samuelkubai/node-bindings/3a5a099ed0178b65079ce18e11fccc7130e0af1e
+      '@azure/msal-common': 4.5.1
+      bindings: 1.5.0
       keytar: 7.9.0
       nan: 2.16.0
     transitivePeerDependencies:
@@ -3199,6 +3190,12 @@ packages:
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
+    dev: false
+
+  /bindings/1.5.0:
+    resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
+    dependencies:
+      file-uri-to-path: 1.0.0
     dev: false
 
   /bl/4.1.0:
@@ -16604,13 +16601,13 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-wEozmQpm8/Sgtw3a8E5vOaVxQ27n99u30WHzBCenrzaH79g9GWWnU5Zo+y99+jKZNjpv/QwGpRusmqE8Go3Vbw==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-qgvvEWqF56bvJm7BBAuz+yFU30ICHkH5DjoTRlTCBW4sTEvcvEFHW8Y8K5IQ83ERjV74G3QOwg/IwqMtT4Gqrw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@azure/msal-node': 1.12.0
-      '@azure/msal-node-extensions': 1.0.0-alpha.13
+      '@azure/msal-node-extensions': 1.0.0-alpha.9
       '@microsoft/api-extractor': 7.18.11
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
@@ -17300,7 +17297,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-eFM9mBK/EnyVMo3WWsh86Ug0+h8QwBEEgnJwcZigZLqm4heVc7jSGHCSQw3tH1HzKJ2KQ4gnXfgYIlhBndkRoQ==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-FBIECZbgINFy9yx9OPWAAlF028USvN1jDk3wbXw+3dM0SNnvnM/Daif6c/ndMgrSSZPvskIs5IHteVBqJUV/yA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -19238,12 +19235,4 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
-
-  github.com/samuelkubai/node-bindings/3a5a099ed0178b65079ce18e11fccc7130e0af1e:
-    resolution: {tarball: https://codeload.github.com/samuelkubai/node-bindings/tar.gz/3a5a099ed0178b65079ce18e11fccc7130e0af1e}
-    name: bindings
-    version: 1.5.0
-    dependencies:
-      file-uri-to-path: 1.0.0
     dev: false

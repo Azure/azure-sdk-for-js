@@ -19,7 +19,33 @@ export interface AdmNativeMessage {
     data?: Record<string, string>;
     expiresAfter?: number;
     md5?: string;
+    notification?: AdmNativeNotification;
     priority?: "normal" | "high";
+}
+
+// @public
+export interface AdmNativeNotification {
+    body?: string;
+    bodyLocArgs?: string[];
+    bodyLocKey?: string;
+    channelId?: string;
+    clickAction?: string;
+    color?: string;
+    defaultSound?: boolean;
+    eventTime?: string;
+    icon?: string;
+    image?: string;
+    localOnly?: boolean;
+    notificationCount?: number;
+    notificationPriority?: number;
+    sound?: string;
+    sticky?: boolean;
+    tag?: string;
+    ticker?: string;
+    title?: string;
+    titleLocArgs?: string[];
+    titleLocKey?: string;
+    visibility?: number;
 }
 
 // @public
@@ -178,13 +204,22 @@ export interface BrowserTemplateRegistrationDescription extends Omit<BrowserRegi
 }
 
 // @public
+export function buildAdmNativeMessage(nativeMessage: AdmNativeMessage): AdmNotification;
+
+// @public
 export function buildAppleNativeMessage(nativeMessage: AppleNativeMessage, additionalProperties?: Record<string, any>): AppleNotification;
 
 // @public
-export function createAdmInstallation(installation: Omit<AdmInstallation, "platform">): AdmInstallation;
+export function buildBaiduNativeMessage(nativeMessage: BaiduNativeMessage, additionalProperties?: Record<string, any>): BaiduNotification;
 
 // @public
-export function createAdmNativeMessage(nativeMessage: AdmNativeMessage): AdmNotification;
+export function buildFirebaseLegacyNativeMessage(nativeMessage: FirebaseLegacyNativeMessage): FirebaseLegacyNotification;
+
+// @public
+export function buildWindowsBadgeNativeMessage(nativeMessage: WindowsBadgeNativeMessage): WindowsNotification;
+
+// @public
+export function createAdmInstallation(installation: Omit<AdmInstallation, "platform">): AdmInstallation;
 
 // @public
 export function createAdmNotification(notification: Omit<AdmNotification, "platform" | "contentType">): AdmNotification;
@@ -209,9 +244,6 @@ export function createAppleTemplateRegistrationDescription(description: Omit<App
 
 // @public
 export function createBaiduInstallation(installation: Omit<BaiduInstallation, "platform">): BaiduInstallation;
-
-// @public
-export function createBaiduNativeMessage(nativeMessage: BaiduNativeMessage, additionalProperties?: Record<string, any>): BaiduNotification;
 
 // @public
 export function createBaiduNotification(notification: Omit<BaiduNotification, "platform" | "contentType">): BaiduNotification;
@@ -244,9 +276,6 @@ export function createFcmTemplateRegistrationDescription(description: Omit<FcmTe
 export function createFirebaseLegacyInstallation(installation: Omit<FirebaseLegacyInstallation, "platform">): FirebaseLegacyInstallation;
 
 // @public
-export function createFirebaseLegacyNativeMessage(nativeMessage: FirebaseLegacyNativeMessage): FirebaseLegacyNotification;
-
-// @public
 export function createFirebaseLegacyNotification(notification: Omit<FirebaseLegacyNotification, "platform" | "contentType">): FirebaseLegacyNotification;
 
 // @public @deprecated (undocumented)
@@ -263,9 +292,6 @@ export function createMpnsTemplateRegistrationDescription(description: Omit<Mpns
 
 // @public
 export function createTemplateNotification(notification: Omit<TemplateNotification, "platform" | "contentType">): TemplateNotification;
-
-// @public
-export function createWindowsBadgeNativeMessage(nativeMessage: WindowsBadgeNativeMessage): WindowsNotification;
 
 // @public
 export function createWindowsBadgeNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
