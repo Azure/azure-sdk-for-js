@@ -5,15 +5,11 @@
  * @summary Exchange an AAD access token of a Teams user for a new Communication Identity access token.
  */
 
-import {
-  CommunicationAccessToken,
-  CommunicationIdentityClient,
-} from "@azure/communication-identity";
-import { PublicClientApplication } from "@azure/msal-node";
+const { CommunicationIdentityClient } = require("@azure/communication-identity");
+const { PublicClientApplication } = require("@azure/msal-node");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
@@ -21,13 +17,12 @@ const connectionString =
 const aadTenant =
   process.env["COMMUNICATION_M365_AAD_TENANT"] || "<azure active directory tenant id>";
 const aadAppId = process.env["COMMUNICATION_M365_APP_ID"] || "<azure active directory app id>";
-const aadScope = process.env["COMMUNICATION_M365_SCOPE"] || "<azure active directory scope>";
 const aadAuthority =
   process.env["COMMUNICATION_M365_AAD_AUTHORITY"] || "<azure active directory authority>";
 const msalUsername = process.env["COMMUNICATION_MSAL_USERNAME"] || "<msal username>";
 const msalPassword = process.env["COMMUNICATION_MSAL_PASSWORD"] || "<msal password>";
 
-export async function main() {
+async function main() {
   if (process.env["SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST"] === "true") {
     console.log("Skipping the Get Access Token for Teams User sample");
     return;
@@ -50,26 +45,29 @@ export async function main() {
 
   // Create an instance of PublicClientApplication
   const msalInstance = new PublicClientApplication(msalConfig);
-
+  const scopes = [
+    "https://auth.msft.communication.azure.com/Teams.ManageCalls",
+    "https://auth.msft.communication.azure.com/Teams.ManageChats",
+  ];
   // Create request parameters object for acquiring the AAD token and object ID of a Teams user
   const usernamePasswordRequest = {
-    scopes: [aadScope],
+    scopes: scopes,
     username: msalUsername,
     password: msalPassword,
   };
 
   // Retrieve the AAD token and object ID of a Teams user
   const response = await msalInstance.acquireTokenByUsernamePassword(usernamePasswordRequest);
-  let teamsToken = response!.accessToken;
-  console.log(`Retrieved a token with the expiration: ${response!.extExpiresOn}`);
+  let teamsToken = response.accessToken;
+  console.log(`Retrieved a token with the expiration: ${response.extExpiresOn}`);
 
   // Retrieve the user object ID
-  let userObjectId = response!.uniqueId;
+  let userObjectId = response.uniqueId;
 
   console.log("Exchanging the AAD access token for a Communication access token");
 
   // Exchange the AAD access token of a Teams user for a new Communication Identity access token
-  const communicationAccessToken: CommunicationAccessToken = await client.getTokenForTeamsUser({
+  const communicationAccessToken = await client.getTokenForTeamsUser({
     teamsUserAadToken: teamsToken,
     clientId: aadAppId,
     userObjectId: userObjectId,
@@ -84,3 +82,5 @@ main().catch((error) => {
   console.error("\nResponse: \n", error.response);
   console.error(error);
 });
+
+module.exports = { main };
