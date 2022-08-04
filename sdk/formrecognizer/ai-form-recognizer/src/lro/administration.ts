@@ -78,7 +78,7 @@ export async function toTrainingPollOperationState(
 
 /**
  * A long-running operation (poller) that tracks the state of a model creation operation, eventually producing a
- * {@link ModelDetails}.
+ * {@link DocumentModelDetails}.
  */
 export type DocumentModelPoller = PollerLike<DocumentModelOperationState, DocumentModelDetails>;
 
