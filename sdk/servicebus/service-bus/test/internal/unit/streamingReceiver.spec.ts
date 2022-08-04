@@ -296,6 +296,7 @@ describe("StreamingReceiver unit tests", () => {
       error: new Error("hello"),
       errorSource: "receive",
       fullyQualifiedNamespace: "fqns",
+      identifier: "receiverId",
     });
 
     assert.deepEqual(processErrorMessages, ["hello"]);
