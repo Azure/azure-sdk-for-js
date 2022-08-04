@@ -33,10 +33,9 @@ async function main() {
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
   );
 
-  const {
-    documents: [result],
-  } = await poller.pollUntilDone();
+  const { documents } = await poller.pollUntilDone();
 
+  const result = documents && documents[0];
   // Use of PrebuiltModels.Receipt above (rather than the raw model ID), as it adds strong typing of the model's output
   if (result) {
     const { merchantName, items, total } = result.fields;

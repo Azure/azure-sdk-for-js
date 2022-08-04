@@ -12,9 +12,15 @@ import {
   ResumablePollOperationState,
 } from "./models";
 import { PollOperation, PollOperationState } from "../pollOperation";
-import { createGetLroStatusFromResponse, createInitializeState, createPoll } from "./stateMachine";
+import {
+  buildResult,
+  createGetLroStatusFromResponse,
+  createPoll,
+  createStateInitializer,
+  throwIfUndefined,
+  updatePollingUrl,
+} from "./impl";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { getPollingUrl } from "./requestUtils";
 import { logger } from "./logger";
 
 export class GenericPollOperation<TResult, TState extends PollOperationState<TResult>>
@@ -64,59 +70,61 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     const state = this.state;
     let lastResponse: LroResponse<TResult> | undefined = undefined;
     if (!state.isStarted) {
-      const initializeState = createInitializeState(
+      const initializeState = createStateInitializer({
         state,
-        this.lro.requestPath,
-        this.lro.requestMethod
-      );
+        requestPath: this.lro.requestPath,
+        requestMethod: this.lro.requestMethod,
+        lroResourceLocationConfig: this.lroResourceLocationConfig,
+        processResult: this.processResult,
+      });
       lastResponse = await this.lro.sendInitialRequest();
       initializeState(lastResponse);
     }
 
     if (!state.isCompleted) {
-      if (!this.poll || !this.getLroStatusFromResponse) {
-        if (!state.config) {
-          throw new Error(
-            "Bad state: LRO mode is undefined. Please check if the serialized state is well-formed."
-          );
-        }
+      const config = throwIfUndefined(state.config, {
+        errorMessage:
+          "Bad state: LRO mode is undefined. Check if the serialized state is well-formed.",
+      });
+      if (!this.poll) {
+        this.poll = createPoll(this.lro);
+      }
+      if (!this.getLroStatusFromResponse) {
         const isDone = this.isDone;
         this.getLroStatusFromResponse = isDone
           ? (response: LroResponse<TResult>) => ({
               ...response,
               done: isDone(response.flatResponse, this.state),
             })
-          : createGetLroStatusFromResponse(
-              this.lro,
-              state.config,
-              this.state,
-              this.lroResourceLocationConfig
-            );
-        this.poll = createPoll(this.lro);
-      }
-      if (!state.pollingURL) {
-        throw new Error(
-          "Bad state: polling URL is undefined. Please check if the serialized state is well-formed."
-        );
+          : createGetLroStatusFromResponse({
+              lro: this.lro,
+              info: config,
+              state: this.state,
+            });
       }
       const currentState = await this.poll(
-        state.pollingURL,
+        throwIfUndefined(config.pollingUrl),
         this.pollerConfig!,
         this.getLroStatusFromResponse
       );
-      logger.verbose(`LRO: polling response: ${JSON.stringify(currentState.rawResponse)}`);
       if (currentState.done) {
-        state.result = this.processResult
-          ? this.processResult(currentState.flatResponse, state)
-          : currentState.flatResponse;
+        state.result = buildResult({
+          response: currentState.flatResponse,
+          state,
+          processResult: this.processResult,
+        });
         state.isCompleted = true;
       } else {
         this.poll = currentState.next ?? this.poll;
-        state.pollingURL = getPollingUrl(currentState.rawResponse, state.pollingURL);
+        updatePollingUrl({
+          rawResponse: currentState.rawResponse,
+          info: config,
+        });
+        /** for backward compatability */
+        state.pollingURL = config.pollingUrl;
       }
       lastResponse = currentState;
     }
-    logger.verbose(`LRO: current state: ${JSON.stringify(state)}`);
     if (lastResponse) {
       this.updateState?.(state, lastResponse?.rawResponse);
     } else {

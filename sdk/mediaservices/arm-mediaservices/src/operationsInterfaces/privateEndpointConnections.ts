@@ -20,7 +20,7 @@ import {
 /** Interface representing a PrivateEndpointConnections. */
 export interface PrivateEndpointConnections {
   /**
-   * Get all private endpoint connections.
+   * List all private endpoint connections.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The options parameters.
@@ -31,7 +31,7 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsListOptionalParams
   ): Promise<PrivateEndpointConnectionsListResponse>;
   /**
-   * Get private endpoint connection.
+   * Get the details of a private endpoint connection.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param name
@@ -44,7 +44,7 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsGetOptionalParams
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
-   * Update private endpoint connection.
+   * Update an existing private endpoint connection.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param name
@@ -59,7 +59,7 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
-   * Delete private endpoint connection.
+   * Deletes a private endpoint connection.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param name

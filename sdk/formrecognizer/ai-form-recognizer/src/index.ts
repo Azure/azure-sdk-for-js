@@ -26,17 +26,21 @@ export {
   DocumentStyle,
   DocumentTableCellKind,
   LengthUnit,
-  ModelInfo,
-  ModelSummary,
-  OperationInfo,
+  DocumentModelInfo,
+  DocumentModelSummary,
+  OperationSummary,
   OperationKind,
   OperationStatus,
-  GetInfoResponse,
+  ResourceInfo,
   CustomDocumentModelsInfo,
   AnalyzeResultOperationStatus,
   SelectionMarkState,
   ParagraphRole,
   DocumentPageKind,
+  GetOperationResponse,
+  OperationInfo,
+  ErrorModel,
+  InnerError,
 } from "./generated";
 export {
   AnalysisPoller,
@@ -45,8 +49,8 @@ export {
   DocumentAnalysisPollOperationState,
   AnalyzedDocument,
   FormRecognizerRequestBody,
-} from "./lro/analyze";
-export { TrainingPoller, TrainingPollOperationState } from "./lro/training";
+} from "./lro/analysis";
+export { DocumentModelPoller, DocumentModelOperationState } from "./lro/administration";
 export * from "./models";
 export * from "./options";
 export * from "./prebuilt";

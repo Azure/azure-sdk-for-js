@@ -743,6 +743,8 @@ export interface ManagedClusterSecurityProfile {
   azureKeyVaultKms?: AzureKeyVaultKms;
   /** [Workload Identity](https://azure.github.io/azure-workload-identity/docs/) settings for the security profile. */
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
+  /** [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile. */
+  nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
 }
 
 /** Microsoft Defender settings for the security profile. */
@@ -774,6 +776,12 @@ export interface AzureKeyVaultKms {
 /** Workload Identity settings for the security profile. */
 export interface ManagedClusterSecurityProfileWorkloadIdentity {
   /** Whether to enable Workload Identity */
+  enabled?: boolean;
+}
+
+/** Node Restriction settings for the security profile. */
+export interface ManagedClusterSecurityProfileNodeRestriction {
+  /** Whether to enable Node Restriction */
   enabled?: boolean;
 }
 
@@ -1339,6 +1347,122 @@ export interface TrustedAccessRoleBindingListResult {
   readonly nextLink?: string;
 }
 
+/** The FleetHubProfile configures the fleet hub. */
+export interface FleetHubProfile {
+  /** DNS prefix used to create the FQDN for the Fleet hub. */
+  dnsPrefix?: string;
+  /**
+   * The FQDN of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * The Kubernetes version of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Properties of a Fleet that can be patched. */
+export interface FleetPatch {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The response from the List Fleets operation. */
+export interface FleetListResult {
+  /** The list of Fleets. */
+  value?: Fleet[];
+  /**
+   * The URL to get the next page of Fleets.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The response from the List FleetMembers operation. */
+export interface FleetMembersListResult {
+  /** The list of members in a given Fleet. */
+  value?: FleetMember[];
+  /**
+   * The URL to get the next page of Fleet members.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The list credential result response. */
+export interface FleetCredentialResults {
+  /**
+   * Base64-encoded Kubernetes configuration file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubeconfigs?: FleetCredentialResult[];
+}
+
+/** The credential result response. */
+export interface FleetCredentialResult {
+  /**
+   * The name of the credential.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Base64-encoded Kubernetes configuration file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Uint8Array;
+}
+
 /** Profile for the container service master. */
 export interface ContainerServiceMasterProfile {
   /** Number of masters (VMs) in the container service cluster. Allowed values are 1, 3, and 5. The default value is 1. */
@@ -1380,24 +1504,26 @@ export interface ContainerServiceVMDiagnostics {
 }
 
 /** Profile for the container service agent pool. */
-export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfileProperties & {
+export interface ManagedClusterAgentPoolProfile
+  extends ManagedClusterAgentPoolProfileProperties {
   /** Windows agent pool names must be 6 characters or less. */
   name: string;
-};
+}
 
 /** Information of user assigned identity used by this add-on. */
-export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity;
+export interface ManagedClusterAddonProfileIdentity
+  extends UserAssignedIdentity {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Defines binding between a resource and role */
-export type TrustedAccessRoleBinding = Resource & {
+export interface TrustedAccessRoleBinding extends Resource {
   /**
    * The current provisioning state of trusted access role binding.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1407,10 +1533,19 @@ export type TrustedAccessRoleBinding = Resource & {
   sourceResourceId: string;
   /** A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'. */
   roles: string[];
-};
+}
+
+/** The resource model definition for an Azure Resource Manager resource with an etag. */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+}
 
 /** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
-export type MaintenanceConfiguration = SubResource & {
+export interface MaintenanceConfiguration extends SubResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1420,10 +1555,10 @@ export type MaintenanceConfiguration = SubResource & {
   timeInWeek?: TimeInWeek[];
   /** Time slots on which upgrade is not allowed. */
   notAllowedTime?: TimeSpan[];
-};
+}
 
 /** Agent Pool. */
-export type AgentPool = SubResource & {
+export interface AgentPool extends SubResource {
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
   count?: number;
   /** VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
@@ -1521,10 +1656,10 @@ export type AgentPool = SubResource & {
   capacityReservationGroupID?: string;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
   hostGroupID?: string;
-};
+}
 
 /** Managed cluster. */
-export type ManagedCluster = TrackedResource & {
+export interface ManagedCluster extends TrackedResource {
   /** The managed cluster SKU. */
   sku?: ManagedClusterSKU;
   /** The extended location of the Virtual Machine. */
@@ -1626,16 +1761,16 @@ export type ManagedCluster = TrackedResource & {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Workload Auto-scaler profile for the container service cluster. */
   workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
-};
+}
 
 /** Managed cluster Access Profile. */
-export type ManagedClusterAccessProfile = TrackedResource & {
+export interface ManagedClusterAccessProfile extends TrackedResource {
   /** Base64-encoded Kubernetes configuration file. */
   kubeConfig?: Uint8Array;
-};
+}
 
 /** A node pool snapshot resource. */
-export type Snapshot = TrackedResource & {
+export interface Snapshot extends TrackedResource {
   /** CreationData to be used to specify the source agent pool resource ID to create this snapshot. */
   creationData?: CreationData;
   /** The type of a snapshot. The default is NodePool. */
@@ -1670,10 +1805,10 @@ export type Snapshot = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enableFips?: boolean;
-};
+}
 
 /** A managed cluster snapshot resource. */
-export type ManagedClusterSnapshot = TrackedResource & {
+export interface ManagedClusterSnapshot extends TrackedResource {
   /** CreationData to be used to specify the source resource ID to create this snapshot. */
   creationData?: CreationData;
   /** The type of a snapshot. The default is NodePool. */
@@ -1683,7 +1818,34 @@ export type ManagedClusterSnapshot = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
-};
+}
+
+/** The Fleet resource which contains multiple Kubernetes clusters as its members. */
+export interface Fleet extends TrackedResource {
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The FleetHubProfile configures the Fleet's hub. */
+  hubProfile?: FleetHubProfile;
+  /**
+   * The provisioning state of the last accepted operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: FleetProvisioningState;
+}
+
+/** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
+export interface FleetMember extends AzureEntityResource {
+  /** The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{clusterName}'. */
+  clusterResourceId?: string;
+  /**
+   * The provisioning state of the last accepted operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: FleetMemberProvisioningState;
+}
 
 /** Defines headers for AgentPools_upgradeNodeImageVersion operation. */
 export interface AgentPoolsUpgradeNodeImageVersionHeaders {
@@ -1693,6 +1855,7 @@ export interface AgentPoolsUpgradeNodeImageVersionHeaders {
 
 /** Known values of {@link ManagedClusterSKUName} that the service accepts. */
 export enum KnownManagedClusterSKUName {
+  /** Basic */
   Basic = "Basic"
 }
 
@@ -1725,6 +1888,7 @@ export type ManagedClusterSKUTier = string;
 
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {
+  /** EdgeZone */
   EdgeZone = "EdgeZone"
 }
 
@@ -1829,9 +1993,13 @@ export type OSType = string;
 
 /** Known values of {@link Ossku} that the service accepts. */
 export enum KnownOssku {
+  /** Ubuntu */
   Ubuntu = "Ubuntu",
+  /** CBLMariner */
   CBLMariner = "CBLMariner",
+  /** Windows2019 */
   Windows2019 = "Windows2019",
+  /** Windows2022 */
   Windows2022 = "Windows2022"
 }
 
@@ -1939,10 +2107,15 @@ export type ScaleSetEvictionPolicy = string;
 
 /** Known values of {@link GPUInstanceProfile} that the service accepts. */
 export enum KnownGPUInstanceProfile {
+  /** MIG1G */
   MIG1G = "MIG1g",
+  /** MIG2G */
   MIG2G = "MIG2g",
+  /** MIG3G */
   MIG3G = "MIG3g",
+  /** MIG4G */
   MIG4G = "MIG4g",
+  /** MIG7G */
   MIG7G = "MIG7g"
 }
 
@@ -1979,9 +2152,13 @@ export type LicenseType = string;
 
 /** Known values of {@link ManagedClusterPodIdentityProvisioningState} that the service accepts. */
 export enum KnownManagedClusterPodIdentityProvisioningState {
+  /** Assigned */
   Assigned = "Assigned",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -2113,7 +2290,9 @@ export type LoadBalancerSku = string;
 
 /** Known values of {@link IpFamily} that the service accepts. */
 export enum KnownIpFamily {
+  /** IPv4 */
   IPv4 = "IPv4",
+  /** IPv6 */
   IPv6 = "IPv6"
 }
 
@@ -2180,7 +2359,9 @@ export type Expander = string;
 
 /** Known values of {@link KeyVaultNetworkAccessTypes} that the service accepts. */
 export enum KnownKeyVaultNetworkAccessTypes {
+  /** Public */
   Public = "Public",
+  /** Private */
   Private = "Private"
 }
 
@@ -2196,7 +2377,9 @@ export type KeyVaultNetworkAccessTypes = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2212,9 +2395,13 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -2250,12 +2437,19 @@ export type Format = string;
 
 /** Known values of {@link WeekDay} that the service accepts. */
 export enum KnownWeekDay {
+  /** Sunday */
   Sunday = "Sunday",
+  /** Monday */
   Monday = "Monday",
+  /** Tuesday */
   Tuesday = "Tuesday",
+  /** Wednesday */
   Wednesday = "Wednesday",
+  /** Thursday */
   Thursday = "Thursday",
+  /** Friday */
   Friday = "Friday",
+  /** Saturday */
   Saturday = "Saturday"
 }
 
@@ -2276,9 +2470,13 @@ export type WeekDay = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -2296,9 +2494,13 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link ConnectionStatus} that the service accepts. */
 export enum KnownConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -2334,9 +2536,13 @@ export type SnapshotType = string;
 
 /** Known values of {@link TrustedAccessRoleBindingProvisioningState} that the service accepts. */
 export enum KnownTrustedAccessRoleBindingProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -2352,181 +2558,415 @@ export enum KnownTrustedAccessRoleBindingProvisioningState {
  */
 export type TrustedAccessRoleBindingProvisioningState = string;
 
+/** Known values of {@link FleetProvisioningState} that the service accepts. */
+export enum KnownFleetProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Updating */
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for FleetProvisioningState. \
+ * {@link KnownFleetProvisioningState} can be used interchangeably with FleetProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Creating** \
+ * **Deleting** \
+ * **Updating**
+ */
+export type FleetProvisioningState = string;
+
+/** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
+export enum KnownFleetMemberProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Joining */
+  Joining = "Joining",
+  /** Leaving */
+  Leaving = "Leaving",
+  /** Updating */
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for FleetMemberProvisioningState. \
+ * {@link KnownFleetMemberProvisioningState} can be used interchangeably with FleetMemberProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Joining** \
+ * **Leaving** \
+ * **Updating**
+ */
+export type FleetMemberProvisioningState = string;
+
 /** Known values of {@link ContainerServiceVMSizeTypes} that the service accepts. */
 export enum KnownContainerServiceVMSizeTypes {
+  /** StandardA1 */
   StandardA1 = "Standard_A1",
+  /** StandardA10 */
   StandardA10 = "Standard_A10",
+  /** StandardA11 */
   StandardA11 = "Standard_A11",
+  /** StandardA1V2 */
   StandardA1V2 = "Standard_A1_v2",
+  /** StandardA2 */
   StandardA2 = "Standard_A2",
+  /** StandardA2V2 */
   StandardA2V2 = "Standard_A2_v2",
+  /** StandardA2MV2 */
   StandardA2MV2 = "Standard_A2m_v2",
+  /** StandardA3 */
   StandardA3 = "Standard_A3",
+  /** StandardA4 */
   StandardA4 = "Standard_A4",
+  /** StandardA4V2 */
   StandardA4V2 = "Standard_A4_v2",
+  /** StandardA4MV2 */
   StandardA4MV2 = "Standard_A4m_v2",
+  /** StandardA5 */
   StandardA5 = "Standard_A5",
+  /** StandardA6 */
   StandardA6 = "Standard_A6",
+  /** StandardA7 */
   StandardA7 = "Standard_A7",
+  /** StandardA8 */
   StandardA8 = "Standard_A8",
+  /** StandardA8V2 */
   StandardA8V2 = "Standard_A8_v2",
+  /** StandardA8MV2 */
   StandardA8MV2 = "Standard_A8m_v2",
+  /** StandardA9 */
   StandardA9 = "Standard_A9",
+  /** StandardB2Ms */
   StandardB2Ms = "Standard_B2ms",
+  /** StandardB2S */
   StandardB2S = "Standard_B2s",
+  /** StandardB4Ms */
   StandardB4Ms = "Standard_B4ms",
+  /** StandardB8Ms */
   StandardB8Ms = "Standard_B8ms",
+  /** StandardD1 */
   StandardD1 = "Standard_D1",
+  /** StandardD11 */
   StandardD11 = "Standard_D11",
+  /** StandardD11V2 */
   StandardD11V2 = "Standard_D11_v2",
+  /** StandardD11V2Promo */
   StandardD11V2Promo = "Standard_D11_v2_Promo",
+  /** StandardD12 */
   StandardD12 = "Standard_D12",
+  /** StandardD12V2 */
   StandardD12V2 = "Standard_D12_v2",
+  /** StandardD12V2Promo */
   StandardD12V2Promo = "Standard_D12_v2_Promo",
+  /** StandardD13 */
   StandardD13 = "Standard_D13",
+  /** StandardD13V2 */
   StandardD13V2 = "Standard_D13_v2",
+  /** StandardD13V2Promo */
   StandardD13V2Promo = "Standard_D13_v2_Promo",
+  /** StandardD14 */
   StandardD14 = "Standard_D14",
+  /** StandardD14V2 */
   StandardD14V2 = "Standard_D14_v2",
+  /** StandardD14V2Promo */
   StandardD14V2Promo = "Standard_D14_v2_Promo",
+  /** StandardD15V2 */
   StandardD15V2 = "Standard_D15_v2",
+  /** StandardD16V3 */
   StandardD16V3 = "Standard_D16_v3",
+  /** StandardD16SV3 */
   StandardD16SV3 = "Standard_D16s_v3",
+  /** StandardD1V2 */
   StandardD1V2 = "Standard_D1_v2",
+  /** StandardD2 */
   StandardD2 = "Standard_D2",
+  /** StandardD2V2 */
   StandardD2V2 = "Standard_D2_v2",
+  /** StandardD2V2Promo */
   StandardD2V2Promo = "Standard_D2_v2_Promo",
+  /** StandardD2V3 */
   StandardD2V3 = "Standard_D2_v3",
+  /** StandardD2SV3 */
   StandardD2SV3 = "Standard_D2s_v3",
+  /** StandardD3 */
   StandardD3 = "Standard_D3",
+  /** StandardD32V3 */
   StandardD32V3 = "Standard_D32_v3",
+  /** StandardD32SV3 */
   StandardD32SV3 = "Standard_D32s_v3",
+  /** StandardD3V2 */
   StandardD3V2 = "Standard_D3_v2",
+  /** StandardD3V2Promo */
   StandardD3V2Promo = "Standard_D3_v2_Promo",
+  /** StandardD4 */
   StandardD4 = "Standard_D4",
+  /** StandardD4V2 */
   StandardD4V2 = "Standard_D4_v2",
+  /** StandardD4V2Promo */
   StandardD4V2Promo = "Standard_D4_v2_Promo",
+  /** StandardD4V3 */
   StandardD4V3 = "Standard_D4_v3",
+  /** StandardD4SV3 */
   StandardD4SV3 = "Standard_D4s_v3",
+  /** StandardD5V2 */
   StandardD5V2 = "Standard_D5_v2",
+  /** StandardD5V2Promo */
   StandardD5V2Promo = "Standard_D5_v2_Promo",
+  /** StandardD64V3 */
   StandardD64V3 = "Standard_D64_v3",
+  /** StandardD64SV3 */
   StandardD64SV3 = "Standard_D64s_v3",
+  /** StandardD8V3 */
   StandardD8V3 = "Standard_D8_v3",
+  /** StandardD8SV3 */
   StandardD8SV3 = "Standard_D8s_v3",
+  /** StandardDS1 */
   StandardDS1 = "Standard_DS1",
+  /** StandardDS11 */
   StandardDS11 = "Standard_DS11",
+  /** StandardDS11V2 */
   StandardDS11V2 = "Standard_DS11_v2",
+  /** StandardDS11V2Promo */
   StandardDS11V2Promo = "Standard_DS11_v2_Promo",
+  /** StandardDS12 */
   StandardDS12 = "Standard_DS12",
+  /** StandardDS12V2 */
   StandardDS12V2 = "Standard_DS12_v2",
+  /** StandardDS12V2Promo */
   StandardDS12V2Promo = "Standard_DS12_v2_Promo",
+  /** StandardDS13 */
   StandardDS13 = "Standard_DS13",
+  /** StandardDS132V2 */
   StandardDS132V2 = "Standard_DS13-2_v2",
+  /** StandardDS134V2 */
   StandardDS134V2 = "Standard_DS13-4_v2",
+  /** StandardDS13V2 */
   StandardDS13V2 = "Standard_DS13_v2",
+  /** StandardDS13V2Promo */
   StandardDS13V2Promo = "Standard_DS13_v2_Promo",
+  /** StandardDS14 */
   StandardDS14 = "Standard_DS14",
+  /** StandardDS144V2 */
   StandardDS144V2 = "Standard_DS14-4_v2",
+  /** StandardDS148V2 */
   StandardDS148V2 = "Standard_DS14-8_v2",
+  /** StandardDS14V2 */
   StandardDS14V2 = "Standard_DS14_v2",
+  /** StandardDS14V2Promo */
   StandardDS14V2Promo = "Standard_DS14_v2_Promo",
+  /** StandardDS15V2 */
   StandardDS15V2 = "Standard_DS15_v2",
+  /** StandardDS1V2 */
   StandardDS1V2 = "Standard_DS1_v2",
+  /** StandardDS2 */
   StandardDS2 = "Standard_DS2",
+  /** StandardDS2V2 */
   StandardDS2V2 = "Standard_DS2_v2",
+  /** StandardDS2V2Promo */
   StandardDS2V2Promo = "Standard_DS2_v2_Promo",
+  /** StandardDS3 */
   StandardDS3 = "Standard_DS3",
+  /** StandardDS3V2 */
   StandardDS3V2 = "Standard_DS3_v2",
+  /** StandardDS3V2Promo */
   StandardDS3V2Promo = "Standard_DS3_v2_Promo",
+  /** StandardDS4 */
   StandardDS4 = "Standard_DS4",
+  /** StandardDS4V2 */
   StandardDS4V2 = "Standard_DS4_v2",
+  /** StandardDS4V2Promo */
   StandardDS4V2Promo = "Standard_DS4_v2_Promo",
+  /** StandardDS5V2 */
   StandardDS5V2 = "Standard_DS5_v2",
+  /** StandardDS5V2Promo */
   StandardDS5V2Promo = "Standard_DS5_v2_Promo",
+  /** StandardE16V3 */
   StandardE16V3 = "Standard_E16_v3",
+  /** StandardE16SV3 */
   StandardE16SV3 = "Standard_E16s_v3",
+  /** StandardE2V3 */
   StandardE2V3 = "Standard_E2_v3",
+  /** StandardE2SV3 */
   StandardE2SV3 = "Standard_E2s_v3",
+  /** StandardE3216SV3 */
   StandardE3216SV3 = "Standard_E32-16s_v3",
+  /** StandardE328SV3 */
   StandardE328SV3 = "Standard_E32-8s_v3",
+  /** StandardE32V3 */
   StandardE32V3 = "Standard_E32_v3",
+  /** StandardE32SV3 */
   StandardE32SV3 = "Standard_E32s_v3",
+  /** StandardE4V3 */
   StandardE4V3 = "Standard_E4_v3",
+  /** StandardE4SV3 */
   StandardE4SV3 = "Standard_E4s_v3",
+  /** StandardE6416SV3 */
   StandardE6416SV3 = "Standard_E64-16s_v3",
+  /** StandardE6432SV3 */
   StandardE6432SV3 = "Standard_E64-32s_v3",
+  /** StandardE64V3 */
   StandardE64V3 = "Standard_E64_v3",
+  /** StandardE64SV3 */
   StandardE64SV3 = "Standard_E64s_v3",
+  /** StandardE8V3 */
   StandardE8V3 = "Standard_E8_v3",
+  /** StandardE8SV3 */
   StandardE8SV3 = "Standard_E8s_v3",
+  /** StandardF1 */
   StandardF1 = "Standard_F1",
+  /** StandardF16 */
   StandardF16 = "Standard_F16",
+  /** StandardF16S */
   StandardF16S = "Standard_F16s",
+  /** StandardF16SV2 */
   StandardF16SV2 = "Standard_F16s_v2",
+  /** StandardF1S */
   StandardF1S = "Standard_F1s",
+  /** StandardF2 */
   StandardF2 = "Standard_F2",
+  /** StandardF2S */
   StandardF2S = "Standard_F2s",
+  /** StandardF2SV2 */
   StandardF2SV2 = "Standard_F2s_v2",
+  /** StandardF32SV2 */
   StandardF32SV2 = "Standard_F32s_v2",
+  /** StandardF4 */
   StandardF4 = "Standard_F4",
+  /** StandardF4S */
   StandardF4S = "Standard_F4s",
+  /** StandardF4SV2 */
   StandardF4SV2 = "Standard_F4s_v2",
+  /** StandardF64SV2 */
   StandardF64SV2 = "Standard_F64s_v2",
+  /** StandardF72SV2 */
   StandardF72SV2 = "Standard_F72s_v2",
+  /** StandardF8 */
   StandardF8 = "Standard_F8",
+  /** StandardF8S */
   StandardF8S = "Standard_F8s",
+  /** StandardF8SV2 */
   StandardF8SV2 = "Standard_F8s_v2",
+  /** StandardG1 */
   StandardG1 = "Standard_G1",
+  /** StandardG2 */
   StandardG2 = "Standard_G2",
+  /** StandardG3 */
   StandardG3 = "Standard_G3",
+  /** StandardG4 */
   StandardG4 = "Standard_G4",
+  /** StandardG5 */
   StandardG5 = "Standard_G5",
+  /** StandardGS1 */
   StandardGS1 = "Standard_GS1",
+  /** StandardGS2 */
   StandardGS2 = "Standard_GS2",
+  /** StandardGS3 */
   StandardGS3 = "Standard_GS3",
+  /** StandardGS4 */
   StandardGS4 = "Standard_GS4",
+  /** StandardGS44 */
   StandardGS44 = "Standard_GS4-4",
+  /** StandardGS48 */
   StandardGS48 = "Standard_GS4-8",
+  /** StandardGS5 */
   StandardGS5 = "Standard_GS5",
+  /** StandardGS516 */
   StandardGS516 = "Standard_GS5-16",
+  /** StandardGS58 */
   StandardGS58 = "Standard_GS5-8",
+  /** StandardH16 */
   StandardH16 = "Standard_H16",
+  /** StandardH16M */
   StandardH16M = "Standard_H16m",
+  /** StandardH16Mr */
   StandardH16Mr = "Standard_H16mr",
+  /** StandardH16R */
   StandardH16R = "Standard_H16r",
+  /** StandardH8 */
   StandardH8 = "Standard_H8",
+  /** StandardH8M */
   StandardH8M = "Standard_H8m",
+  /** StandardL16S */
   StandardL16S = "Standard_L16s",
+  /** StandardL32S */
   StandardL32S = "Standard_L32s",
+  /** StandardL4S */
   StandardL4S = "Standard_L4s",
+  /** StandardL8S */
   StandardL8S = "Standard_L8s",
+  /** StandardM12832Ms */
   StandardM12832Ms = "Standard_M128-32ms",
+  /** StandardM12864Ms */
   StandardM12864Ms = "Standard_M128-64ms",
+  /** StandardM128Ms */
   StandardM128Ms = "Standard_M128ms",
+  /** StandardM128S */
   StandardM128S = "Standard_M128s",
+  /** StandardM6416Ms */
   StandardM6416Ms = "Standard_M64-16ms",
+  /** StandardM6432Ms */
   StandardM6432Ms = "Standard_M64-32ms",
+  /** StandardM64Ms */
   StandardM64Ms = "Standard_M64ms",
+  /** StandardM64S */
   StandardM64S = "Standard_M64s",
+  /** StandardNC12 */
   StandardNC12 = "Standard_NC12",
+  /** StandardNC12SV2 */
   StandardNC12SV2 = "Standard_NC12s_v2",
+  /** StandardNC12SV3 */
   StandardNC12SV3 = "Standard_NC12s_v3",
+  /** StandardNC24 */
   StandardNC24 = "Standard_NC24",
+  /** StandardNC24R */
   StandardNC24R = "Standard_NC24r",
+  /** StandardNC24RsV2 */
   StandardNC24RsV2 = "Standard_NC24rs_v2",
+  /** StandardNC24RsV3 */
   StandardNC24RsV3 = "Standard_NC24rs_v3",
+  /** StandardNC24SV2 */
   StandardNC24SV2 = "Standard_NC24s_v2",
+  /** StandardNC24SV3 */
   StandardNC24SV3 = "Standard_NC24s_v3",
+  /** StandardNC6 */
   StandardNC6 = "Standard_NC6",
+  /** StandardNC6SV2 */
   StandardNC6SV2 = "Standard_NC6s_v2",
+  /** StandardNC6SV3 */
   StandardNC6SV3 = "Standard_NC6s_v3",
+  /** StandardND12S */
   StandardND12S = "Standard_ND12s",
+  /** StandardND24Rs */
   StandardND24Rs = "Standard_ND24rs",
+  /** StandardND24S */
   StandardND24S = "Standard_ND24s",
+  /** StandardND6S */
   StandardND6S = "Standard_ND6s",
+  /** StandardNV12 */
   StandardNV12 = "Standard_NV12",
+  /** StandardNV24 */
   StandardNV24 = "Standard_NV24",
+  /** StandardNV6 */
   StandardNV6 = "Standard_NV6"
 }
 
@@ -2714,7 +3154,9 @@ export type ContainerServiceVMSizeTypes = string;
 
 /** Known values of {@link ContainerServiceStorageProfileTypes} that the service accepts. */
 export enum KnownContainerServiceStorageProfileTypes {
+  /** StorageAccount */
   StorageAccount = "StorageAccount",
+  /** ManagedDisks */
   ManagedDisks = "ManagedDisks"
 }
 
@@ -3246,6 +3688,133 @@ export interface TrustedAccessRoleBindingsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type TrustedAccessRoleBindingsListNextResponse = TrustedAccessRoleBindingListResult;
+
+/** Optional parameters. */
+export interface FleetsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new resource to be created and prevent updating an existing resource. Other values will result in a 412 Pre-condition Failed response. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FleetsCreateOrUpdateResponse = Fleet;
+
+/** Optional parameters. */
+export interface FleetsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** The properties of a Fleet to update. */
+  parameters?: FleetPatch;
+}
+
+/** Contains response data for the update operation. */
+export type FleetsUpdateResponse = Fleet;
+
+/** Optional parameters. */
+export interface FleetsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FleetsGetResponse = Fleet;
+
+/** Optional parameters. */
+export interface FleetsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FleetsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type FleetsListByResourceGroupResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FleetsListResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetsListCredentialsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCredentials operation. */
+export type FleetsListCredentialsResponse = FleetCredentialResults;
+
+/** Optional parameters. */
+export interface FleetsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type FleetsListByResourceGroupNextResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type FleetsListNextResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetMembersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new resource to be created and prevent updating an existing resource. Other values will result in a 412 Pre-condition Failed response. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FleetMembersCreateOrUpdateResponse = FleetMember;
+
+/** Optional parameters. */
+export interface FleetMembersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FleetMembersGetResponse = FleetMember;
+
+/** Optional parameters. */
+export interface FleetMembersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FleetMembersListByFleetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleet operation. */
+export type FleetMembersListByFleetResponse = FleetMembersListResult;
+
+/** Optional parameters. */
+export interface FleetMembersListByFleetNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleetNext operation. */
+export type FleetMembersListByFleetNextResponse = FleetMembersListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceClientOptionalParams

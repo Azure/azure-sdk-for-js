@@ -16,24 +16,24 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:43 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "x-ms-date": "Thu, 07 Jul 2022 21:46:44 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json",
-        "Date": "Fri, 27 May 2022 16:48:45 GMT",
-        "MS-CV": "X7IBFzeZZUyUlIP08hn7hg.0",
+        "Date": "Thu, 07 Jul 2022 21:46:44 GMT",
+        "MS-CV": "tVmXabK55E6wLpV2UwsmOg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "07QCRYgAAAAAHgUoIQX3/SIyn5xYLcIqVTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0RFTHYgAAAAAVtNAGWn7uRJrZ15vWJY/uU0FPMzFFREdFMTExNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1315ms"
+        "X-Processing-Time": "1232ms"
       },
       "ResponseBody": {
         "error": {
@@ -51,7 +51,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "1997",
+        "Content-Length": "2038",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -60,11 +60,11 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-content-sha256": "zUYsBqzIkivIwozH0gZDy2m4Tm75n6y/f\u002BiGvnN8x8I=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:45 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "x-ms-content-sha256": "WeoIh/ilgHWeWJA9Uh1c/dh2cqn1EmkgJMjuReNrBqI=",
+        "x-ms-date": "Thu, 07 Jul 2022 21:46:46 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -75,11 +75,11 @@
           "name": "Contoso Loyalty Program",
           "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
           "url": "https://endpoint/loyalty-program",
-          "signUpTypes": [
+          "callToActionTypes": [
             "sms",
             "website"
           ],
-          "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -98,19 +98,17 @@
           }
         },
         "messageDetails": {
-          "supportedProtocols": [
-            "sms"
-          ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
-          "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
-          "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
-          "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
-          "optInReply": "JOIN",
-          "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -123,7 +121,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -136,7 +134,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -163,14 +161,14 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 27 May 2022 16:48:48 GMT",
+        "Date": "Thu, 07 Jul 2022 21:46:54 GMT",
         "Location": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000",
-        "MS-CV": "E4oD8FP5vk\u002ByhqT4ejYEHA.0",
+        "MS-CV": "qqiiLNGI6kGqm\u002B7ek7L51g.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "07gCRYgAAAABJaDteBdeTQJ\u002BFyuq00BvyTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0RVTHYgAAAABByySUaRgIRbaCwWFKITk\u002BU0FPMzFFREdFMTExNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2449ms"
+        "X-Processing-Time": "9454ms"
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -187,7 +185,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-05-27T16:48:48\u002B00:00",
+        "statusUpdatedDate": "2022-07-07T21:46:46\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -199,7 +197,12 @@
             "sms",
             "website"
           ],
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
           "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -221,16 +224,22 @@
           "supportedProtocols": [
             "sms"
           ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
           "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
           "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
           "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
           "optInReply": "JOIN",
+          "optInAnswerFromUser": "JOIN",
           "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -243,7 +252,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -256,7 +265,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -296,24 +305,24 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:47 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "x-ms-date": "Thu, 07 Jul 2022 21:46:55 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 27 May 2022 16:48:49 GMT",
-        "MS-CV": "P7a5hNn8XEqRK/wk1L4vmw.0",
+        "Date": "Thu, 07 Jul 2022 21:46:56 GMT",
+        "MS-CV": "Un1jBM0IUUKX6b3nWdMnMA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "08QCRYgAAAABk6oftGrERQJiXNlaDnkWOTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0T1THYgAAAADoxwQ3nSD1SpEb06Dw7bIKU0FPMzFFREdFMTExNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1424ms"
+        "X-Processing-Time": "1772ms"
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -330,7 +339,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-05-27T16:48:48\u002B00:00",
+        "statusUpdatedDate": "2022-07-07T21:46:46\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -342,7 +351,12 @@
             "sms",
             "website"
           ],
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
           "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -364,16 +378,22 @@
           "supportedProtocols": [
             "sms"
           ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
           "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
           "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
           "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
           "optInReply": "JOIN",
+          "optInAnswerFromUser": "JOIN",
           "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -386,7 +406,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -399,7 +419,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -432,7 +452,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "218",
+        "Content-Length": "224",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -441,16 +461,16 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-content-sha256": "qdGu60R8mzjtXGveBrBIei/w0E1xpahVo2Bm7owJ0AY=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:49 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "x-ms-content-sha256": "\u002BBnVLOOjRM5xLtHwFZe9gvYWOgAugd0lDwMgB6gOm1g=",
+        "x-ms-date": "Thu, 07 Jul 2022 21:46:57 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "id": "00000000-0000-0000-0000-000000000000",
         "programDetails": {
-          "signUpUrl": "https://endpoint/updated-sign-up",
+          "callToActionUrl": "https://endpoint/updated-sign-up",
           "termsOfServiceUrl": "https://endpoint/updated-terms",
           "privacyPolicyUrl": "https://endpoint/updated-privacy"
         }
@@ -459,13 +479,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 27 May 2022 16:48:51 GMT",
-        "MS-CV": "4Ms8Edj6ZEKwq2ohsMlu1g.0",
+        "Date": "Thu, 07 Jul 2022 21:46:57 GMT",
+        "MS-CV": "uts5yj9T00SJPaSdFewGYA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "08gCRYgAAAAD91izFdH4YSpEbZtWmF8\u002BLTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0UVTHYgAAAACbGNeN6v3DQapbhosLJpOFU0FPMzFFREdFMTExNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1633ms"
+        "X-Processing-Time": "1141ms"
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -482,7 +502,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-05-27T16:48:48\u002B00:00",
+        "statusUpdatedDate": "2022-07-07T21:46:46\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -494,7 +514,12 @@
             "sms",
             "website"
           ],
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
           "signUpUrl": "https://endpoint/updated-sign-up",
+          "callToActionUrl": "https://endpoint/updated-sign-up",
           "termsOfServiceUrl": "https://endpoint/updated-terms",
           "privacyPolicyUrl": "https://endpoint/updated-privacy"
         },
@@ -516,16 +541,22 @@
           "supportedProtocols": [
             "sms"
           ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
           "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
           "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
           "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
           "optInReply": "JOIN",
+          "optInAnswerFromUser": "JOIN",
           "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -538,7 +569,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -551,7 +582,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -591,24 +622,24 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:51 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "x-ms-date": "Thu, 07 Jul 2022 21:46:59 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 27 May 2022 16:48:53 GMT",
-        "MS-CV": "9vxxv9y3NkWNBFJ6F1BULA.0",
+        "Date": "Thu, 07 Jul 2022 21:46:59 GMT",
+        "MS-CV": "Rxj/t53KsUeDIvoFlpv6lg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09ACRYgAAAABl8iE3kGVLS7TcYsusixepTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0UlTHYgAAAADD7hOaXQbWQop8e483aZpEU0FPMzFFREdFMTExNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1377ms"
+        "X-Processing-Time": "1216ms"
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -625,7 +656,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-05-27T16:48:48\u002B00:00",
+        "statusUpdatedDate": "2022-07-07T21:46:46\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -637,7 +668,12 @@
             "sms",
             "website"
           ],
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
           "signUpUrl": "https://endpoint/updated-sign-up",
+          "callToActionUrl": "https://endpoint/updated-sign-up",
           "termsOfServiceUrl": "https://endpoint/updated-terms",
           "privacyPolicyUrl": "https://endpoint/updated-privacy"
         },
@@ -659,16 +695,22 @@
           "supportedProtocols": [
             "sms"
           ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
           "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
           "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
           "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
           "optInReply": "JOIN",
+          "optInAnswerFromUser": "JOIN",
           "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -681,7 +723,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -694,7 +736,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -734,24 +776,24 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:52 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "x-ms-date": "Thu, 07 Jul 2022 21:47:00 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 27 May 2022 16:48:54 GMT",
-        "MS-CV": "LBxMaFqkgkq3VYV6nrvo\u002Bw.0",
+        "Date": "Thu, 07 Jul 2022 21:47:00 GMT",
+        "MS-CV": "O4\u002BFKihxHk6\u002BfGW\u002BFANHMQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09gCRYgAAAADmzRyLRBA5S6OQBGuZ4X55TUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0VFTHYgAAAABeVylSMiXPQpG9to\u002BX4RYGU0FPMzFFREdFMTExNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1361ms"
+        "X-Processing-Time": "1207ms"
       },
       "ResponseBody": {
         "programBriefs": [
@@ -770,7 +812,7 @@
                 "billingFrequency": "monthly"
               }
             ],
-            "statusUpdatedDate": "2022-05-27T16:48:48\u002B00:00",
+            "statusUpdatedDate": "2022-07-07T21:46:46\u002B00:00",
             "programDetails": {
               "isVanity": false,
               "numberType": "shortCode",
@@ -782,7 +824,12 @@
                 "sms",
                 "website"
               ],
+              "callToActionTypes": [
+                "sms",
+                "website"
+              ],
               "signUpUrl": "https://endpoint/updated-sign-up",
+              "callToActionUrl": "https://endpoint/updated-sign-up",
               "termsOfServiceUrl": "https://endpoint/updated-terms",
               "privacyPolicyUrl": "https://endpoint/updated-privacy"
             },
@@ -804,16 +851,22 @@
               "supportedProtocols": [
                 "sms"
               ],
+              "supportedProtocol": "sms",
               "recurrence": "subscription",
               "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+              "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
               "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+              "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
               "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+              "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
               "optInReply": "JOIN",
+              "optInAnswerFromUser": "JOIN",
               "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+              "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
               "directionality": "twoWay",
               "useCases": [
                 {
-                  "contentCategory": "coupons",
+                  "contentType": "marketingAndPromotion",
                   "examples": [
                     {
                       "messages": [
@@ -826,7 +879,7 @@
                   ]
                 },
                 {
-                  "contentCategory": "loyaltyProgram",
+                  "contentType": "loyaltyProgram",
                   "examples": [
                     {
                       "messages": [
@@ -839,7 +892,7 @@
                   ]
                 },
                 {
-                  "contentCategory": "loyaltyProgramPointsPrizes",
+                  "contentType": "sweepstakesOrContest",
                   "examples": [
                     {
                       "messages": [
@@ -881,22 +934,22 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:54 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "x-ms-date": "Thu, 07 Jul 2022 21:47:02 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
-        "Date": "Fri, 27 May 2022 16:48:55 GMT",
-        "MS-CV": "LY7waccgZUWypBAXpjEgSQ.0",
+        "Date": "Thu, 07 Jul 2022 21:47:01 GMT",
+        "MS-CV": "bCzHwcc17EaTiQF8\u002BxnMgA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "09wCRYgAAAAAq6DlF3xagQbIgTGi1oh8vTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0VVTHYgAAAACklb9qkxGvTofunUwWwfA/U0FPMzFFREdFMTExNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "481ms"
+        "X-Processing-Time": "418ms"
       },
       "ResponseBody": null
     },
@@ -916,24 +969,24 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:54 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "x-ms-date": "Thu, 07 Jul 2022 21:47:02 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json",
-        "Date": "Fri, 27 May 2022 16:48:56 GMT",
-        "MS-CV": "fLPMcI3cjE6EQIIHuzJHOw.0",
+        "Date": "Thu, 07 Jul 2022 21:47:02 GMT",
+        "MS-CV": "o9WjliQzsUu3pzoZpwStNA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0\u002BACRYgAAAABdNnK75fQGRIOcUqymdJEQTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0VlTHYgAAAAA/fp3wOTzISpFpryQ5aM7RU0FPMzFFREdFMTExNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1375ms"
+        "X-Processing-Time": "968ms"
       },
       "ResponseBody": {
         "error": {

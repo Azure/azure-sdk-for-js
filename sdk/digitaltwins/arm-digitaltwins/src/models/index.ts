@@ -381,7 +381,7 @@ export interface TimeSeriesDatabaseConnectionProperties {
 }
 
 /** The connection state. */
-export type ConnectionPropertiesPrivateLinkServiceConnectionState = ConnectionState & {};
+export type ConnectionPropertiesPrivateLinkServiceConnectionState = ConnectionState;
 
 /** The description of the DigitalTwins service. */
 export type DigitalTwinsDescription = DigitalTwinsResource & {
@@ -633,6 +633,7 @@ export type EndpointType = string;
 export enum KnownEndpointProvisioningState {
   Provisioning = "Provisioning",
   Deleting = "Deleting",
+  Updating = "Updating",
   Succeeded = "Succeeded",
   Failed = "Failed",
   Canceled = "Canceled",
@@ -651,6 +652,7 @@ export enum KnownEndpointProvisioningState {
  * ### Known values supported by the service
  * **Provisioning** \
  * **Deleting** \
+ * **Updating** \
  * **Succeeded** \
  * **Failed** \
  * **Canceled** \
@@ -713,6 +715,7 @@ export type ConnectionType = string;
 export enum KnownTimeSeriesDatabaseConnectionState {
   Provisioning = "Provisioning",
   Deleting = "Deleting",
+  Updating = "Updating",
   Succeeded = "Succeeded",
   Failed = "Failed",
   Canceled = "Canceled",
@@ -731,6 +734,7 @@ export enum KnownTimeSeriesDatabaseConnectionState {
  * ### Known values supported by the service
  * **Provisioning** \
  * **Deleting** \
+ * **Updating** \
  * **Succeeded** \
  * **Failed** \
  * **Canceled** \

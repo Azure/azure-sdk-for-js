@@ -1569,8 +1569,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1598,8 +1598,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1613,8 +1613,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   serializer
 };
@@ -1641,8 +1641,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1661,8 +1661,8 @@ const getFullUrlOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1876,8 +1876,8 @@ const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   headerParameters: [Parameters.accept],
   serializer

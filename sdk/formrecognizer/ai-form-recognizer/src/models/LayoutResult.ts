@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { DocumentPage, DocumentTable } from "./documentElements";
-import { AnalyzeResult } from "../lro/analyze";
+import { AnalyzeResult } from "../lro/analysis";
 import { DocumentStyle } from "../generated";
 
 /**
@@ -28,15 +28,15 @@ export interface LayoutResult {
   /**
    * Pages extracted from the input document.
    */
-  pages: DocumentPage[];
+  pages?: DocumentPage[];
   /**
    * Extracted tables, organized into cells that individually contain their extracted contents.
    */
-  tables: DocumentTable[];
+  tables?: DocumentTable[];
   /**
    * The text styles that were observed in the input.
    *
    * For example, this contains information about regions of the input where handwritten text occurs.
    */
-  styles: DocumentStyle[];
+  styles?: DocumentStyle[];
 }

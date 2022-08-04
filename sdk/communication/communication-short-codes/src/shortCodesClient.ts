@@ -3,7 +3,9 @@
 /// <reference lib="esnext.asynciterable" />
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import {
+  AttachmentType,
   DeleteUSProgramBriefOptions,
+  FileType,
   GetUSProgramBriefOptions,
   ListShortCodesOptions,
   ListUSProgramBriefsOptions,
@@ -211,7 +213,7 @@ export class ShortCodesClient {
         attachmentId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -235,7 +237,7 @@ export class ShortCodesClient {
         programBriefId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -261,7 +263,7 @@ export class ShortCodesClient {
         attachmentId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -275,8 +277,12 @@ export class ShortCodesClient {
   public async createOrReplaceUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
+    fileName: string,
+    fileType: FileType,
+    fileContent: string,
+    attachmentType: AttachmentType,
     options: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams = {}
-  ): Promise<USProgramBrief> {
+  ): Promise<ProgramBriefAttachment> {
     const { span, updatedOptions } = createSpan(
       "ShortCodesClient-createOrReplaceUSProgramBriefAttachment",
       options
@@ -286,9 +292,13 @@ export class ShortCodesClient {
         programBriefId,
         attachmentId,
         attachmentId,
+        fileName,
+        fileType,
+        fileContent,
+        attachmentType,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

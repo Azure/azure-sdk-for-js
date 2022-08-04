@@ -23,7 +23,7 @@ In version 4 (currently beta), this package introduces a full redesign of the Az
 Install the Azure Form Recognizer client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/ai-form-recognizer@4.0.0-beta.3
+npm install @azure/ai-form-recognizer@4.0.0-beta.5
 ```
 
 ## Getting Started

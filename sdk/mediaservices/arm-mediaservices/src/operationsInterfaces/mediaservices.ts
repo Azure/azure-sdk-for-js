@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   MediaService,
   MediaservicesListOptionalParams,
@@ -63,7 +64,25 @@ export interface Mediaservices {
    * @param parameters The request parameters
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: MediaService,
+    options?: MediaservicesCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<MediaservicesCreateOrUpdateResponse>,
+      MediaservicesCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates or updates a Media Services account
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param parameters The request parameters
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     accountName: string,
     parameters: MediaService,
@@ -87,7 +106,25 @@ export interface Mediaservices {
    * @param parameters The request parameters
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: MediaServiceUpdate,
+    options?: MediaservicesUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<MediaservicesUpdateResponse>,
+      MediaservicesUpdateResponse
+    >
+  >;
+  /**
+   * Updates an existing Media Services account
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param parameters The request parameters
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     accountName: string,
     parameters: MediaServiceUpdate,
@@ -107,7 +144,7 @@ export interface Mediaservices {
     options?: MediaservicesSyncStorageKeysOptionalParams
   ): Promise<void>;
   /**
-   * List the media edge policies associated with the Media Services account.
+   * List all the media edge policies associated with the Media Services account.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param parameters The request parameters

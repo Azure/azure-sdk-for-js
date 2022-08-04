@@ -113,7 +113,7 @@ export interface DataEffect {
   /** The data effect name. */
   name?: string;
   /** The data effect details schema. */
-  detailsSchema?: Record<string, unknown>;
+  detailsSchema?: any;
 }
 
 /** The custom resource function definition. */
@@ -174,7 +174,7 @@ export interface ErrorAdditionalInfo {
    * The additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly info?: Record<string, unknown>;
+  readonly info?: any;
 }
 
 /** List of data policy manifests. */
@@ -227,7 +227,7 @@ export interface PolicyAssignment {
   /** This message will be part of response in case of policy violation. */
   description?: string;
   /** The policy assignment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: Record<string, unknown>;
+  metadata?: any;
   /** The policy assignment enforcement mode. Possible values are Default and DoNotEnforce. */
   enforcementMode?: EnforcementMode;
   /** The messages that describe why a resource is non-compliant with the policy. */
@@ -237,7 +237,7 @@ export interface PolicyAssignment {
 /** The value of a parameter. */
 export interface ParameterValuesValue {
   /** The value of the parameter. */
-  value?: Record<string, unknown>;
+  value?: any;
 }
 
 /** A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results. */
@@ -343,9 +343,9 @@ export interface PolicyDefinition {
   /** The policy definition description. */
   description?: string;
   /** The policy rule. */
-  policyRule?: Record<string, unknown>;
+  policyRule?: any;
   /** The policy definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: Record<string, unknown>;
+  metadata?: any;
   /** The parameter definitions for parameters used in the policy rule. The keys are the parameter names. */
   parameters?: { [propertyName: string]: ParameterDefinitionsValue };
 }
@@ -355,9 +355,9 @@ export interface ParameterDefinitionsValue {
   /** The data type of the parameter. */
   type?: ParameterType;
   /** The allowed values for the parameter. */
-  allowedValues?: Record<string, unknown>[];
+  allowedValues?: any[];
   /** The default value for the parameter if no value is provided. */
-  defaultValue?: Record<string, unknown>;
+  defaultValue?: any;
   /** General metadata for the parameter. */
   metadata?: ParameterDefinitionsValueMetadata;
 }
@@ -413,7 +413,7 @@ export interface PolicySetDefinition {
   /** The policy set definition description. */
   description?: string;
   /** The policy set definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: Record<string, unknown>;
+  metadata?: any;
   /** The policy set definition parameters that can be used in policy definition references. */
   parameters?: { [propertyName: string]: ParameterDefinitionsValue };
   /** An array of policy definition references. */
@@ -491,7 +491,7 @@ export interface PolicyExemption {
   /** The description of the policy exemption. */
   description?: string;
   /** The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: Record<string, unknown>;
+  metadata?: any;
 }
 
 /** List of policy exemptions. */
@@ -579,9 +579,13 @@ export type EnforcementMode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -599,9 +603,13 @@ export type CreatedByType = string;
 
 /** Known values of {@link PolicyType} that the service accepts. */
 export enum KnownPolicyType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** BuiltIn */
   BuiltIn = "BuiltIn",
+  /** Custom */
   Custom = "Custom",
+  /** Static */
   Static = "Static"
 }
 
@@ -619,12 +627,19 @@ export type PolicyType = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
 export enum KnownParameterType {
+  /** String */
   String = "String",
+  /** Array */
   Array = "Array",
+  /** Object */
   Object = "Object",
+  /** Boolean */
   Boolean = "Boolean",
+  /** Integer */
   Integer = "Integer",
+  /** Float */
   Float = "Float",
+  /** DateTime */
   DateTime = "DateTime"
 }
 

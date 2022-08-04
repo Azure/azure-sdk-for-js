@@ -23,7 +23,17 @@ import {
   CachesFlushOptionalParams,
   CachesStartOptionalParams,
   CachesStopOptionalParams,
-  CachesUpgradeFirmwareOptionalParams
+  CachesStartPrimingJobOptionalParams,
+  CachesStartPrimingJobResponse,
+  CachesStopPrimingJobOptionalParams,
+  CachesStopPrimingJobResponse,
+  CachesPausePrimingJobOptionalParams,
+  CachesPausePrimingJobResponse,
+  CachesResumePrimingJobOptionalParams,
+  CachesResumePrimingJobResponse,
+  CachesUpgradeFirmwareOptionalParams,
+  CachesSpaceAllocationOptionalParams,
+  CachesSpaceAllocationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -219,6 +229,122 @@ export interface Caches {
     options?: CachesStopOptionalParams
   ): Promise<void>;
   /**
+   * Create a priming job. This operation is only allowed when the cache is healthy.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginStartPrimingJob(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesStartPrimingJobOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CachesStartPrimingJobResponse>,
+      CachesStartPrimingJobResponse
+    >
+  >;
+  /**
+   * Create a priming job. This operation is only allowed when the cache is healthy.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginStartPrimingJobAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesStartPrimingJobOptionalParams
+  ): Promise<CachesStartPrimingJobResponse>;
+  /**
+   * Schedule a priming job for deletion.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginStopPrimingJob(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesStopPrimingJobOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CachesStopPrimingJobResponse>,
+      CachesStopPrimingJobResponse
+    >
+  >;
+  /**
+   * Schedule a priming job for deletion.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginStopPrimingJobAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesStopPrimingJobOptionalParams
+  ): Promise<CachesStopPrimingJobResponse>;
+  /**
+   * Schedule a priming job to be paused.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginPausePrimingJob(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesPausePrimingJobOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CachesPausePrimingJobResponse>,
+      CachesPausePrimingJobResponse
+    >
+  >;
+  /**
+   * Schedule a priming job to be paused.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginPausePrimingJobAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesPausePrimingJobOptionalParams
+  ): Promise<CachesPausePrimingJobResponse>;
+  /**
+   * Resumes a paused priming job.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginResumePrimingJob(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesResumePrimingJobOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CachesResumePrimingJobResponse>,
+      CachesResumePrimingJobResponse
+    >
+  >;
+  /**
+   * Resumes a paused priming job.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginResumePrimingJobAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesResumePrimingJobOptionalParams
+  ): Promise<CachesResumePrimingJobResponse>;
+  /**
    * Upgrade a Cache's firmware if a new version is available. Otherwise, this operation has no effect.
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
@@ -242,4 +368,33 @@ export interface Caches {
     cacheName: string,
     options?: CachesUpgradeFirmwareOptionalParams
   ): Promise<void>;
+  /**
+   * Update cache space allocation.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginSpaceAllocation(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesSpaceAllocationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CachesSpaceAllocationResponse>,
+      CachesSpaceAllocationResponse
+    >
+  >;
+  /**
+   * Update cache space allocation.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param options The options parameters.
+   */
+  beginSpaceAllocationAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: CachesSpaceAllocationOptionalParams
+  ): Promise<CachesSpaceAllocationResponse>;
 }

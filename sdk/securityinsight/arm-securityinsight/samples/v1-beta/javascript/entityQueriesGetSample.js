@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets an entity query.
  *
  * @summary Gets an entity query.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entityQueries/GetActivityEntityQueryById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entityQueries/GetActivityEntityQueryById.json
  */
 async function getAnActivityEntityQuery() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -34,7 +34,7 @@ getAnActivityEntityQuery().catch(console.error);
  * This sample demonstrates how to Gets an entity query.
  *
  * @summary Gets an entity query.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entityQueries/GetExpansionEntityQueryById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entityQueries/GetExpansionEntityQueryById.json
  */
 async function getAnExpansionEntityQuery() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

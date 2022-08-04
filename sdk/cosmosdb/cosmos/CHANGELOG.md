@@ -1,6 +1,6 @@
 # Release History
 
-## 3.16.2 (Unreleased)
+## 3.16.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.16.3 (2022-07-13)
+
+### Bugs Fixed
+- Fixes issues with "id" encoding when using special characters that should be allowed in the "id" property of a document.  [#22548](https://github.com/Azure/azure-sdk-for-js/pull/22548)
+
+## 3.16.2 (2022-06-24)
+
+### Bugs Fixed
+- Adds support to run queries with group by over a column with null values.  [#22345](https://github.com/Azure/azure-sdk-for-js/pull/22345)
 
 ## 3.16.1 (2022-05-31)
 

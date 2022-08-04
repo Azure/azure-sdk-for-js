@@ -9,12 +9,12 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  OnlineEndpointData,
+  OnlineEndpoint,
   OnlineEndpointsListOptionalParams,
   OnlineEndpointsDeleteOptionalParams,
   OnlineEndpointsGetOptionalParams,
   OnlineEndpointsGetResponse,
-  PartialOnlineEndpointPartialTrackedResource,
+  PartialMinimalTrackedResourceWithIdentity,
   OnlineEndpointsUpdateOptionalParams,
   OnlineEndpointsUpdateResponse,
   OnlineEndpointsCreateOrUpdateOptionalParams,
@@ -40,7 +40,7 @@ export interface OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     options?: OnlineEndpointsListOptionalParams
-  ): PagedAsyncIterableIterator<OnlineEndpointData>;
+  ): PagedAsyncIterableIterator<OnlineEndpoint>;
   /**
    * Delete Online Endpoint (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -92,7 +92,7 @@ export interface OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    body: PartialOnlineEndpointPartialTrackedResource,
+    body: PartialMinimalTrackedResourceWithIdentity,
     options?: OnlineEndpointsUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -112,7 +112,7 @@ export interface OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    body: PartialOnlineEndpointPartialTrackedResource,
+    body: PartialMinimalTrackedResourceWithIdentity,
     options?: OnlineEndpointsUpdateOptionalParams
   ): Promise<OnlineEndpointsUpdateResponse>;
   /**
@@ -127,7 +127,7 @@ export interface OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    body: OnlineEndpointData,
+    body: OnlineEndpoint,
     options?: OnlineEndpointsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -147,7 +147,7 @@ export interface OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    body: OnlineEndpointData,
+    body: OnlineEndpoint,
     options?: OnlineEndpointsCreateOrUpdateOptionalParams
   ): Promise<OnlineEndpointsCreateOrUpdateResponse>;
   /**

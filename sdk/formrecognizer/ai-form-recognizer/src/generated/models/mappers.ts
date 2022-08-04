@@ -385,18 +385,6 @@ export const DocumentPage: coreClient.CompositeMapper = {
           }
         }
       },
-      images: {
-        serializedName: "images",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentImage"
-            }
-          }
-        }
-      },
       lines: {
         serializedName: "lines",
         type: {
@@ -521,57 +509,6 @@ export const DocumentSelectionMark: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DocumentSpan"
-        }
-      },
-      confidence: {
-        constraints: {
-          InclusiveMaximum: 1,
-          InclusiveMinimum: 0
-        },
-        serializedName: "confidence",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const DocumentImage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentImage",
-    modelProperties: {
-      polygon: {
-        serializedName: "polygon",
-        type: {
-          name: "Sequence",
-          element: {
-            constraints: {
-              InclusiveMinimum: 0
-            },
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      span: {
-        serializedName: "span",
-        type: {
-          name: "Composite",
-          className: "DocumentSpan"
-        }
-      },
-      pageRef: {
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        serializedName: "pageRef",
-        required: true,
-        type: {
-          name: "Number"
         }
       },
       confidence: {
@@ -1508,7 +1445,7 @@ export const ComposeDocumentModelRequest: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ComponentModelInfo"
+              className: "ComponentDocumentModelInfo"
             }
           }
         }
@@ -1524,10 +1461,10 @@ export const ComposeDocumentModelRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const ComponentModelInfo: coreClient.CompositeMapper = {
+export const ComponentDocumentModelInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ComponentModelInfo",
+    className: "ComponentDocumentModelInfo",
     modelProperties: {
       modelId: {
         constraints: {
@@ -1645,7 +1582,7 @@ export const GetOperationsResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "OperationInfo"
+              className: "OperationSummary"
             }
           }
         }
@@ -1660,10 +1597,10 @@ export const GetOperationsResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const OperationInfo: coreClient.CompositeMapper = {
+export const OperationSummary: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationInfo",
+    className: "OperationSummary",
     modelProperties: {
       operationId: {
         serializedName: "operationId",
@@ -1741,10 +1678,10 @@ export const OperationInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const GetModelsResponse: coreClient.CompositeMapper = {
+export const GetDocumentModelsResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GetModelsResponse",
+    className: "GetDocumentModelsResponse",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1754,7 +1691,7 @@ export const GetModelsResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ModelSummary"
+              className: "DocumentModelSummary"
             }
           }
         }
@@ -1769,10 +1706,10 @@ export const GetModelsResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const ModelSummary: coreClient.CompositeMapper = {
+export const DocumentModelSummary: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ModelSummary",
+    className: "DocumentModelSummary",
     modelProperties: {
       modelId: {
         constraints: {
@@ -1905,10 +1842,10 @@ export const DocumentFieldSchema: coreClient.CompositeMapper = {
   }
 };
 
-export const GetInfoResponse: coreClient.CompositeMapper = {
+export const ResourceInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GetInfoResponse",
+    className: "ResourceInfo",
     modelProperties: {
       customDocumentModels: {
         serializedName: "customDocumentModels",
@@ -1944,12 +1881,12 @@ export const CustomDocumentModelsInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const GetOperationResponse: coreClient.CompositeMapper = {
+export const OperationInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GetOperationResponse",
+    className: "OperationInfo",
     modelProperties: {
-      ...OperationInfo.type.modelProperties,
+      ...OperationSummary.type.modelProperties,
       error: {
         serializedName: "error",
         type: {
@@ -1968,12 +1905,12 @@ export const GetOperationResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const ModelInfo: coreClient.CompositeMapper = {
+export const DocumentModelInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ModelInfo",
+    className: "DocumentModelInfo",
     modelProperties: {
-      ...ModelSummary.type.modelProperties,
+      ...DocumentModelSummary.type.modelProperties,
       docTypes: {
         serializedName: "docTypes",
         type: {

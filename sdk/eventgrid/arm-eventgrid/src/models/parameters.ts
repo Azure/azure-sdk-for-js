@@ -17,14 +17,14 @@ import {
   Domain as DomainMapper,
   DomainUpdateParameters as DomainUpdateParametersMapper,
   DomainRegenerateKeyRequest as DomainRegenerateKeyRequestMapper,
-  EventChannel as EventChannelMapper,
   EventSubscription as EventSubscriptionMapper,
   EventSubscriptionUpdateParameters as EventSubscriptionUpdateParametersMapper,
+  Topic as TopicMapper,
+  TopicUpdateParameters as TopicUpdateParametersMapper,
+  TopicRegenerateKeyRequest as TopicRegenerateKeyRequestMapper,
   PartnerConfiguration as PartnerConfigurationMapper,
   PartnerConfigurationUpdateParameters as PartnerConfigurationUpdateParametersMapper,
   Partner as PartnerMapper,
-  PartnerDestination as PartnerDestinationMapper,
-  PartnerDestinationUpdateParameters as PartnerDestinationUpdateParametersMapper,
   PartnerNamespace as PartnerNamespaceMapper,
   PartnerNamespaceUpdateParameters as PartnerNamespaceUpdateParametersMapper,
   PartnerNamespaceRegenerateKeyRequest as PartnerNamespaceRegenerateKeyRequestMapper,
@@ -34,10 +34,7 @@ import {
   PartnerTopicUpdateParameters as PartnerTopicUpdateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   SystemTopic as SystemTopicMapper,
-  SystemTopicUpdateParameters as SystemTopicUpdateParametersMapper,
-  Topic as TopicMapper,
-  TopicUpdateParameters as TopicUpdateParametersMapper,
-  TopicRegenerateKeyRequest as TopicRegenerateKeyRequestMapper
+  SystemTopicUpdateParameters as SystemTopicUpdateParametersMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -111,7 +108,7 @@ export const channelName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-15-preview",
+    defaultValue: "2022-06-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -211,32 +208,15 @@ export const domainTopicName: OperationURLParameter = {
   }
 };
 
-export const eventChannelName: OperationURLParameter = {
-  parameterPath: "eventChannelName",
+export const topicName: OperationURLParameter = {
+  parameterPath: "topicName",
   mapper: {
-    serializedName: "eventChannelName",
+    serializedName: "topicName",
     required: true,
     type: {
       name: "String"
     }
   }
-};
-
-export const eventChannelInfo: OperationParameter = {
-  parameterPath: "eventChannelInfo",
-  mapper: EventChannelMapper
-};
-
-export const scope: OperationURLParameter = {
-  parameterPath: "scope",
-  mapper: {
-    serializedName: "scope",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 
 export const eventSubscriptionName: OperationURLParameter = {
@@ -258,6 +238,18 @@ export const eventSubscriptionInfo: OperationParameter = {
 export const eventSubscriptionUpdateParameters: OperationParameter = {
   parameterPath: "eventSubscriptionUpdateParameters",
   mapper: EventSubscriptionUpdateParametersMapper
+};
+
+export const scope: OperationURLParameter = {
+  parameterPath: "scope",
+  mapper: {
+    serializedName: "scope",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const topicTypeName: OperationURLParameter = {
@@ -315,17 +307,6 @@ export const resourceName: OperationURLParameter = {
   }
 };
 
-export const topicName: OperationURLParameter = {
-  parameterPath: "topicName",
-  mapper: {
-    serializedName: "topicName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const systemTopicName: OperationURLParameter = {
   parameterPath: "systemTopicName",
   mapper: {
@@ -348,6 +329,21 @@ export const partnerTopicName: OperationURLParameter = {
   }
 };
 
+export const topicInfo: OperationParameter = {
+  parameterPath: "topicInfo",
+  mapper: TopicMapper
+};
+
+export const topicUpdateParameters: OperationParameter = {
+  parameterPath: "topicUpdateParameters",
+  mapper: TopicUpdateParametersMapper
+};
+
+export const regenerateKeyRequest1: OperationParameter = {
+  parameterPath: "regenerateKeyRequest",
+  mapper: TopicRegenerateKeyRequestMapper
+};
+
 export const partnerConfigurationInfo: OperationParameter = {
   parameterPath: "partnerConfigurationInfo",
   mapper: PartnerConfigurationMapper
@@ -363,27 +359,6 @@ export const partnerInfo: OperationParameter = {
   mapper: PartnerMapper
 };
 
-export const partnerDestinationName: OperationURLParameter = {
-  parameterPath: "partnerDestinationName",
-  mapper: {
-    serializedName: "partnerDestinationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const partnerDestination: OperationParameter = {
-  parameterPath: "partnerDestination",
-  mapper: PartnerDestinationMapper
-};
-
-export const partnerDestinationUpdateParameters: OperationParameter = {
-  parameterPath: "partnerDestinationUpdateParameters",
-  mapper: PartnerDestinationUpdateParametersMapper
-};
-
 export const partnerNamespaceInfo: OperationParameter = {
   parameterPath: "partnerNamespaceInfo",
   mapper: PartnerNamespaceMapper
@@ -394,7 +369,7 @@ export const partnerNamespaceUpdateParameters: OperationParameter = {
   mapper: PartnerNamespaceUpdateParametersMapper
 };
 
-export const regenerateKeyRequest1: OperationParameter = {
+export const regenerateKeyRequest2: OperationParameter = {
   parameterPath: "regenerateKeyRequest",
   mapper: PartnerNamespaceRegenerateKeyRequestMapper
 };
@@ -498,21 +473,6 @@ export const systemTopicInfo: OperationParameter = {
 export const systemTopicUpdateParameters: OperationParameter = {
   parameterPath: "systemTopicUpdateParameters",
   mapper: SystemTopicUpdateParametersMapper
-};
-
-export const topicInfo: OperationParameter = {
-  parameterPath: "topicInfo",
-  mapper: TopicMapper
-};
-
-export const topicUpdateParameters: OperationParameter = {
-  parameterPath: "topicUpdateParameters",
-  mapper: TopicUpdateParametersMapper
-};
-
-export const regenerateKeyRequest2: OperationParameter = {
-  parameterPath: "regenerateKeyRequest",
-  mapper: TopicRegenerateKeyRequestMapper
 };
 
 export const scope1: OperationURLParameter = {

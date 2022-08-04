@@ -122,9 +122,9 @@ describe("supports tracing", function () {
     it("getInfo", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.getInfo(options);
+          await dmac.getResourceInfo(options);
         }),
-        ["DocumentModelAdministrationClient.getInfo"]
+        ["DocumentModelAdministrationClient.getResourceInfo"]
       ));
 
     it("deleteModel", () =>
@@ -132,7 +132,7 @@ describe("supports tracing", function () {
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.deleteModel("test", options);
         }),
-        ["DocumentModelAdministrationClient.deleteModel"]
+        ["DocumentModelAdministrationClient.deleteDocumentModel"]
       ));
 
     it("beginBuildModel", () =>

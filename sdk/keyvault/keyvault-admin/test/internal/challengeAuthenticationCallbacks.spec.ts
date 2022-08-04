@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { createChallengeCallbacks } from "../../src/challengeAuthenticationCallbacks";
+import { createChallengeCallbacks } from "../../../keyvault-common/src/";
 import {
   AuthorizeRequestOptions,
   ChallengeCallbacks,
@@ -118,7 +118,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="cae_scope"`,
           }),
           request,
           status: 200,
@@ -126,7 +126,7 @@ describe("Challenge based authentication tests", function () {
         scopes: [],
       });
 
-      assert.sameMembers(getAccessTokenScopes, ["cae_scope"]);
+      assert.sameMembers(getAccessTokenScopes, ["cae_scope/.default"]);
     });
 
     it("prefers resource scope and adds .default to resource when provided", async () => {

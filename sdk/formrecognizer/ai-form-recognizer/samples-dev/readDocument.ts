@@ -28,7 +28,7 @@ async function main() {
   // document, such as page text elements and information about the language of the text.
   const { content, pages, languages, styles } = await poller.pollUntilDone();
 
-  if (pages.length <= 0) {
+  if (!pages || pages.length <= 0) {
     console.log("No pages were extracted from the document.");
   } else {
     console.log("Pages:");
@@ -55,7 +55,7 @@ async function main() {
     }
   }
 
-  if (languages.length <= 0) {
+  if (!languages || languages.length <= 0) {
     console.log("No language spans were extracted from the document.");
   } else {
     console.log("Languages:");
@@ -70,7 +70,7 @@ async function main() {
     }
   }
 
-  if (styles.length <= 0) {
+  if (!styles || styles.length <= 0) {
     console.log("No text styles were extracted from the document.");
   } else {
     console.log("Styles:");

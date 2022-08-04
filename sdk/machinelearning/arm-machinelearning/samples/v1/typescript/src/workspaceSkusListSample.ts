@@ -22,7 +22,7 @@ async function listSkus() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workspaceSkus.list()) {
+  for await (let item of client.workspaces.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

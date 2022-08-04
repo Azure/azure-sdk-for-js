@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { DocumentKeyValuePair } from "./documentElements";
-import { AnalyzeResult } from "../lro/analyze";
+import { AnalyzeResult } from "../lro/analysis";
 import { LayoutResult, toLayoutResult } from "./LayoutResult";
 
 /**
@@ -32,5 +32,5 @@ export interface GeneralDocumentResult extends LayoutResult {
    *
    * For example, a labeled entry box may consist of the label (key) and the entry box text (value).
    */
-  keyValuePairs: DocumentKeyValuePair[];
+  keyValuePairs?: DocumentKeyValuePair[];
 }

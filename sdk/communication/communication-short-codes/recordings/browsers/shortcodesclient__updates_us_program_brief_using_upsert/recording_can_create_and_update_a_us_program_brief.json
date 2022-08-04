@@ -9,7 +9,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "1997",
+        "Content-Length": "2038",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -18,11 +18,11 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-content-sha256": "zUYsBqzIkivIwozH0gZDy2m4Tm75n6y/f\u002BiGvnN8x8I=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:35 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "x-ms-content-sha256": "WeoIh/ilgHWeWJA9Uh1c/dh2cqn1EmkgJMjuReNrBqI=",
+        "x-ms-date": "Thu, 07 Jul 2022 21:46:07 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -33,11 +33,11 @@
           "name": "Contoso Loyalty Program",
           "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
           "url": "https://endpoint/loyalty-program",
-          "signUpTypes": [
+          "callToActionTypes": [
             "sms",
             "website"
           ],
-          "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -56,19 +56,17 @@
           }
         },
         "messageDetails": {
-          "supportedProtocols": [
-            "sms"
-          ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
-          "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
-          "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
-          "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
-          "optInReply": "JOIN",
-          "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -81,7 +79,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -94,7 +92,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -121,14 +119,14 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 27 May 2022 16:48:38 GMT",
+        "Date": "Thu, 07 Jul 2022 21:46:18 GMT",
         "Location": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000",
-        "MS-CV": "Yn5UfOxxd0O8sKs1ejWmFw.0",
+        "MS-CV": "OTwyqEkdCEKdjQ/5hOT3PA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "05QCRYgAAAAAV9kzaCWINR5GZUPpoot2BTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0H1THYgAAAAC8aT\u002BROxpvRpV5RRG5wDYEU0FPMzFFREdFMTExNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1941ms"
+        "X-Processing-Time": "11490ms"
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -145,7 +143,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-05-27T16:48:39\u002B00:00",
+        "statusUpdatedDate": "2022-07-07T21:46:08\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -157,7 +155,12 @@
             "sms",
             "website"
           ],
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
           "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -179,16 +182,22 @@
           "supportedProtocols": [
             "sms"
           ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
           "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
           "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
           "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
           "optInReply": "JOIN",
+          "optInAnswerFromUser": "JOIN",
           "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -201,7 +210,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -214,7 +223,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -247,7 +256,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "1904",
+        "Content-Length": "1945",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -256,11 +265,11 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-content-sha256": "oBmmAyZv3RIpcK71leZKCjuq5hbM814JhuDb4DtlCeE=",
-        "x-ms-date": "Fri, 27 May 2022 16:48:38 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "x-ms-content-sha256": "9UeM8KvRV9BO/tK\u002Bj1nMxbsqw8fh7SLRjt4gGtGyark=",
+        "x-ms-date": "Thu, 07 Jul 2022 21:46:19 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -271,11 +280,11 @@
           "name": "Contoso Loyalty Program",
           "description": "TEST UPDATE",
           "url": "https://endpoint/loyalty-program",
-          "signUpTypes": [
+          "callToActionTypes": [
             "sms",
             "website"
           ],
-          "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -294,19 +303,17 @@
           }
         },
         "messageDetails": {
-          "supportedProtocols": [
-            "sms"
-          ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
-          "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
-          "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
-          "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
-          "optInReply": "JOIN",
-          "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -319,7 +326,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -332,7 +339,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [
@@ -359,13 +366,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 27 May 2022 16:48:40 GMT",
-        "MS-CV": "L23nepJ2hkyCiV/AxG29aQ.0",
+        "Date": "Thu, 07 Jul 2022 21:46:19 GMT",
+        "MS-CV": "Xig40AzCS0mkxR25Pqkvug.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "05wCRYgAAAAAJIuokTxruRbVSmbySZusWTUVYMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0KlTHYgAAAAA8zoG9ztp9RJEpcx8rtbl0U0FPMzFFREdFMTExNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1576ms"
+        "X-Processing-Time": "1598ms"
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
@@ -382,7 +389,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-05-27T16:48:39\u002B00:00",
+        "statusUpdatedDate": "2022-07-07T21:46:08\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -394,7 +401,12 @@
             "sms",
             "website"
           ],
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
           "signUpUrl": "https://contoso.com/sign-up",
+          "callToActionUrl": "https://contoso.com/sign-up",
           "termsOfServiceUrl": "https://contoso.com/terms",
           "privacyPolicyUrl": "https://contoso.com/privacy"
         },
@@ -416,16 +428,22 @@
           "supportedProtocols": [
             "sms"
           ],
+          "supportedProtocol": "sms",
           "recurrence": "subscription",
           "helpMessage": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
           "optOutMessage": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
           "optInMessage": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
           "optInReply": "JOIN",
+          "optInAnswerFromUser": "JOIN",
           "confirmationMessage": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
           "directionality": "twoWay",
           "useCases": [
             {
-              "contentCategory": "coupons",
+              "contentType": "marketingAndPromotion",
               "examples": [
                 {
                   "messages": [
@@ -438,7 +456,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgram",
+              "contentType": "loyaltyProgram",
               "examples": [
                 {
                   "messages": [
@@ -451,7 +469,7 @@
               ]
             },
             {
-              "contentCategory": "loyaltyProgramPointsPrizes",
+              "contentType": "sweepstakesOrContest",
               "examples": [
                 {
                   "messages": [

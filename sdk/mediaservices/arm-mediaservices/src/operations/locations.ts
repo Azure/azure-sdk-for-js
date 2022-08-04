@@ -31,7 +31,7 @@ export class LocationsImpl implements Locations {
 
   /**
    * Checks whether the Media Service resource name is available.
-   * @param locationName The name of the location
+   * @param locationName Location name.
    * @param parameters The request parameters
    * @param options The options parameters.
    */
@@ -62,7 +62,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

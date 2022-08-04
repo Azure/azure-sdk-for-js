@@ -1,0 +1,80 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/emails:send?api-version=2021-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "231",
+        "Content-Type": "application/json",
+        "repeatability-first-sent": "Sanitized",
+        "repeatability-request-id": "Sanitized",
+        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.8.2 Node/v16.14.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "cdAYUxt1dvbHn2j6PA8HnC02VdRUG5aeXHgn7qZdsdM=",
+        "x-ms-date": "Sanitized"
+      },
+      "RequestBody": {
+        "sender": "someSender@contoso.com",
+        "content": {
+          "subject": "someSubject",
+          "plainText": "somePlainTextBody",
+          "html": "\u003Chtml\u003E\u003Ch1\u003EsomeHtmlBody\u003C/html\u003E"
+        },
+        "recipients": {
+          "to": [
+            {
+              "email": "someRecipient@domain.com",
+              "displayName": "someRecipient"
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01-preview",
+        "Content-Length": "0",
+        "Date": "Sanitized",
+        "Operation-Location": "https://someEndpoint/emails/someMessageId/status",
+        "Repeatability-Result": "accepted",
+        "X-Azure-Ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-request-id": "Sanitized"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://someEndpoint/emails/Sanitized/status?api-version=2021-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.8.2 Node/v16.14.2 OS/(x64-Windows_NT-10.0.19044)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01-preview",
+        "Content-Length": "43",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sanitized",
+        "Retry-After": "60",
+        "X-Azure-Ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "messageId": "Sanitized",
+        "status": "Queued"
+      }
+    }
+  ],
+  "Variables": {}
+}

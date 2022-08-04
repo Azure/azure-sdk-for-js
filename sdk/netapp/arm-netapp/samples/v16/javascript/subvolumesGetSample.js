@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Returns the path associated with the subvolumeName provided
  *
  * @summary Returns the path associated with the subvolumeName provided
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-01-01/examples/Subvolumes_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-03-01/examples/Subvolumes_Get.json
  */
 async function subvolumesGet() {
   const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";

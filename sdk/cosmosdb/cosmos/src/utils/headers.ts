@@ -27,6 +27,20 @@ export async function generateHeaders(
   };
 }
 
+function getEffectiveResourceIdForSignature(resourceId: string) {
+  const lastSlashPosition = resourceId.lastIndexOf("/");
+  if (lastSlashPosition <= 0) {
+    return resourceId;
+  }
+
+  const prefix: string = resourceId.substring(0, lastSlashPosition);
+  if (!prefix.endsWith("/docs")) {
+    return resourceId;
+  }
+
+  return prefix + "/" + decodeURIComponent(resourceId.substring(lastSlashPosition + 1));
+}
+
 async function signature(
   masterKey: string,
   method: HTTPMethod,
@@ -41,7 +55,7 @@ async function signature(
     "\n" +
     resourceType.toLowerCase() +
     "\n" +
-    resourceId +
+    getEffectiveResourceIdForSignature(resourceId) +
     "\n" +
     date.toUTCString().toLowerCase() +
     "\n" +

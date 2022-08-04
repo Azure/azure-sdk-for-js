@@ -28,7 +28,7 @@ async function main() {
   // (associations between elements, such as labeled elements), and document entities.
   const { keyValuePairs } = await poller.pollUntilDone();
 
-  if (keyValuePairs.length <= 0) {
+  if (!keyValuePairs || keyValuePairs.length <= 0) {
     console.log("No key-value pairs were extracted from the document.");
   } else {
     console.log("Key-Value Pairs:");

@@ -2,17 +2,21 @@
 
 These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
-| **File Name**                                                                                                 | **Description**                                                                                                                                                                                                                         |
-| ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [operationsListSample.ts][operationslistsample]                                                               | Lists available operations for the Microsoft.ManagedIdentity provider x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/MsiOperationsList.json                       |
-| [systemAssignedIdentitiesGetByScopeSample.ts][systemassignedidentitiesgetbyscopesample]                       | Gets the systemAssignedIdentity available under the specified RP scope. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/SystemAssignedIdentityGet.json             |
-| [userAssignedIdentitiesCreateOrUpdateSample.ts][userassignedidentitiescreateorupdatesample]                   | Create or update an identity in the specified subscription and resource group. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/IdentityCreate.json                 |
-| [userAssignedIdentitiesDeleteSample.ts][userassignedidentitiesdeletesample]                                   | Deletes the identity. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/IdentityDelete.json                                                                          |
-| [userAssignedIdentitiesGetSample.ts][userassignedidentitiesgetsample]                                         | Gets the identity. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/IdentityGet.json                                                                                |
-| [userAssignedIdentitiesListAssociatedResourcesSample.ts][userassignedidentitieslistassociatedresourcessample] | Lists the associated resources for this identity. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/IdentityListAssociatedResources.json                             |
-| [userAssignedIdentitiesListByResourceGroupSample.ts][userassignedidentitieslistbyresourcegroupsample]         | Lists all the userAssignedIdentities available under the specified ResourceGroup. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/IdentityListByResourceGroup.json |
-| [userAssignedIdentitiesListBySubscriptionSample.ts][userassignedidentitieslistbysubscriptionsample]           | Lists all the userAssignedIdentities available under the specified subscription. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/IdentityListBySubscription.json   |
-| [userAssignedIdentitiesUpdateSample.ts][userassignedidentitiesupdatesample]                                   | Update an identity in the specified subscription and resource group. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/IdentityUpdate.json                           |
+| **File Name**                                                                                                 | **Description**                                                                                                                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [federatedIdentityCredentialsCreateOrUpdateSample.ts][federatedidentitycredentialscreateorupdatesample]       | Create or update a federated identity credential under the specified user assigned identity. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialCreate.json |
+| [federatedIdentityCredentialsDeleteSample.ts][federatedidentitycredentialsdeletesample]                       | Deletes the federated identity credential. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialDelete.json                                                   |
+| [federatedIdentityCredentialsGetSample.ts][federatedidentitycredentialsgetsample]                             | Gets the federated identity credential. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialGet.json                                                         |
+| [federatedIdentityCredentialsListSample.ts][federatedidentitycredentialslistsample]                           | Lists all the federated identity credentials under the specified user assigned identity. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialList.json       |
+| [operationsListSample.ts][operationslistsample]                                                               | Lists available operations for the Microsoft.ManagedIdentity provider x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/MsiOperationsList.json                                        |
+| [systemAssignedIdentitiesGetByScopeSample.ts][systemassignedidentitiesgetbyscopesample]                       | Gets the systemAssignedIdentity available under the specified RP scope. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/SystemAssignedIdentityGet.json                              |
+| [userAssignedIdentitiesCreateOrUpdateSample.ts][userassignedidentitiescreateorupdatesample]                   | Create or update an identity in the specified subscription and resource group. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityCreate.json                                  |
+| [userAssignedIdentitiesDeleteSample.ts][userassignedidentitiesdeletesample]                                   | Deletes the identity. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityDelete.json                                                                                           |
+| [userAssignedIdentitiesGetSample.ts][userassignedidentitiesgetsample]                                         | Gets the identity. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityGet.json                                                                                                 |
+| [userAssignedIdentitiesListAssociatedResourcesSample.ts][userassignedidentitieslistassociatedresourcessample] | Lists the associated resources for this identity. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListAssociatedResources.json                                              |
+| [userAssignedIdentitiesListByResourceGroupSample.ts][userassignedidentitieslistbyresourcegroupsample]         | Lists all the userAssignedIdentities available under the specified ResourceGroup. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListByResourceGroup.json                  |
+| [userAssignedIdentitiesListBySubscriptionSample.ts][userassignedidentitieslistbysubscriptionsample]           | Lists all the userAssignedIdentities available under the specified subscription. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListBySubscription.json                    |
+| [userAssignedIdentitiesUpdateSample.ts][userassignedidentitiesupdatesample]                                   | Update an identity in the specified subscription and resource group. x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityUpdate.json                                            |
 
 ## Prerequisites
 
@@ -51,19 +55,23 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/operationsListSample.js
+node dist/federatedIdentityCredentialsCreateOrUpdateSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/operationsListSample.js
+npx cross-env  node dist/federatedIdentityCredentialsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[federatedidentitycredentialscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/federatedIdentityCredentialsCreateOrUpdateSample.ts
+[federatedidentitycredentialsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/federatedIdentityCredentialsDeleteSample.ts
+[federatedidentitycredentialsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/federatedIdentityCredentialsGetSample.ts
+[federatedidentitycredentialslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/federatedIdentityCredentialsListSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/operationsListSample.ts
 [systemassignedidentitiesgetbyscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/systemAssignedIdentitiesGetByScopeSample.ts
 [userassignedidentitiescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/userAssignedIdentitiesCreateOrUpdateSample.ts

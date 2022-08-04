@@ -118,45 +118,33 @@ export interface ExceptionResponse {
 
 // @public
 export enum KnownCommunicationDirection {
-    // (undocumented)
     Inbound = "inbound",
-    // (undocumented)
     Outbound = "outbound"
 }
 
 // @public
 export enum KnownCommunicationType {
-    // (undocumented)
     Phone = "phone",
-    // (undocumented)
     Web = "web"
 }
 
 // @public
 export enum KnownPreferredContactMethod {
-    // (undocumented)
     Email = "email",
-    // (undocumented)
     Phone = "phone"
 }
 
 // @public
 export enum KnownSeverityLevel {
-    // (undocumented)
     Critical = "critical",
-    // (undocumented)
     Highestcriticalimpact = "highestcriticalimpact",
-    // (undocumented)
     Minimal = "minimal",
-    // (undocumented)
     Moderate = "moderate"
 }
 
 // @public
 export enum KnownStatus {
-    // (undocumented)
     Closed = "closed",
-    // (undocumented)
     Open = "open"
 }
 

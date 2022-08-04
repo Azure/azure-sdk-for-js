@@ -413,9 +413,13 @@ export interface CommunicationDetails {
 
 /** Known values of {@link SeverityLevel} that the service accepts. */
 export enum KnownSeverityLevel {
+  /** Minimal */
   Minimal = "minimal",
+  /** Moderate */
   Moderate = "moderate",
+  /** Critical */
   Critical = "critical",
+  /** Highestcriticalimpact */
   Highestcriticalimpact = "highestcriticalimpact"
 }
 
@@ -433,7 +437,9 @@ export type SeverityLevel = string;
 
 /** Known values of {@link PreferredContactMethod} that the service accepts. */
 export enum KnownPreferredContactMethod {
+  /** Email */
   Email = "email",
+  /** Phone */
   Phone = "phone"
 }
 
@@ -449,7 +455,9 @@ export type PreferredContactMethod = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
+  /** Open */
   Open = "open",
+  /** Closed */
   Closed = "closed"
 }
 
@@ -465,7 +473,9 @@ export type Status = string;
 
 /** Known values of {@link CommunicationType} that the service accepts. */
 export enum KnownCommunicationType {
+  /** Web */
   Web = "web",
+  /** Phone */
   Phone = "phone"
 }
 
@@ -481,7 +491,9 @@ export type CommunicationType = string;
 
 /** Known values of {@link CommunicationDirection} that the service accepts. */
 export enum KnownCommunicationDirection {
+  /** Inbound */
   Inbound = "inbound",
+  /** Outbound */
   Outbound = "outbound"
 }
 

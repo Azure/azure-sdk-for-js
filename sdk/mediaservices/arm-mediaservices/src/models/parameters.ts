@@ -144,18 +144,6 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-06-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: MediaServiceMapper
@@ -201,6 +189,17 @@ export const locationName: OperationURLParameter = {
   parameterPath: "locationName",
   mapper: {
     serializedName: "locationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
     required: true,
     type: {
       name: "String"
@@ -278,17 +277,6 @@ export const trackName: OperationURLParameter = {
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: AssetTrackMapper
-};
-
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    serializedName: "operationId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const contentKeyPolicyName: OperationURLParameter = {

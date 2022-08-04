@@ -3,19 +3,13 @@
 
 import { EmailClientOptions, EmailMessage, SendEmailResult, SendStatusResult } from "./models";
 import {
-  InternalPipelineOptions,
-  RequestPolicyFactory,
-  ServiceClientOptions,
-  createPipelineFromOptions,
-} from "@azure/core-http";
-import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
 import { EmailRestApiClient } from "./generated/src/emailRestApiClient";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { KeyCredential } from "@azure/core-auth";
-import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { v4 as uuid } from "uuid";
 
@@ -31,7 +25,7 @@ const isEmailClientOptions = (options: any): options is EmailClientOptions =>
  *  The Email service client.
  */
 export class EmailClient {
-  private readonly api: EmailRestApiClient;
+  private readonly generatedClient: EmailRestApiClient;
 
   /**
    * Initializes a new instance of the EmailClient class.
@@ -56,17 +50,6 @@ export class EmailClient {
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isEmailClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
-    const libInfo = `azsdk-js-communication-email/${SDK_VERSION}`;
-
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -77,13 +60,9 @@ export class EmailClient {
       },
     };
 
-    const authPolicy: RequestPolicyFactory = createCommunicationAuthPolicy(credential);
-    const pipeline: ServiceClientOptions = createPipelineFromOptions(
-      internalPipelineOptions,
-      authPolicy
-    );
-
-    this.api = new EmailRestApiClient(url, pipeline);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.generatedClient = new EmailRestApiClient(url, internalPipelineOptions);
+    this.generatedClient.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -91,7 +70,11 @@ export class EmailClient {
    * @param emailMessage - Message payload for sending an email
    */
   public async send(emailMessage: EmailMessage): Promise<SendEmailResult> {
-    const response = await this.api.email.send(uuid(), new Date().toUTCString(), emailMessage);
+    const response = await this.generatedClient.email.send(
+      uuid(),
+      new Date().toUTCString(),
+      emailMessage
+    );
 
     return {
       messageId: response.xMsRequestId ?? "",
@@ -103,7 +86,7 @@ export class EmailClient {
    * @param messageId - System generated message id (GUID) returned from a previous call to send email
    */
   public async getSendStatus(messageId: string): Promise<SendStatusResult> {
-    const response = await this.api.email.getSendStatus(messageId);
+    const response = await this.generatedClient.email.getSendStatus(messageId);
 
     return {
       messageId: response.messageId,

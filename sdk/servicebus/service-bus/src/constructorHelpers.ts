@@ -41,6 +41,10 @@ import {
  */
 export interface ServiceBusClientOptions {
   /**
+   * ID to identify this client. This can be used to correlate logs and exceptions.
+   */
+  identifier?: string;
+  /**
    * A custom endpoint to use when connecting to the Service Bus service.
    * This can be useful when your network does not allow connecting to the
    * standard Azure Service Bus endpoint address, but does allow connecting

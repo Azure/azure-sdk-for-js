@@ -4,7 +4,7 @@
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 
 import { CertificateClient } from "../../src";
 import { assertThrowsAbortError } from "./utils/common";
@@ -181,9 +181,11 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
+  // On playback mode, the tests happen too fast for the timeout to work
   it("list deleted certificates with requestOptions timeout", async function () {
-    recorder.skip("browser", "Timeout tests don't work on playback mode.");
+    if (isPlaybackMode()) {
+      this.skip();
+    }
     const iter = client.listDeletedCertificates({ requestOptions: { timeout: 1 } });
     await assertThrowsAbortError(async () => {
       await iter.next();
@@ -235,9 +237,12 @@ describe("Certificates client - list certificates in various ways", () => {
     assert.deepEqual(results, versions);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
+  // On playback mode, the tests happen too fast for the timeout to work
   it("can get the versions of a certificate with requestOptions timeout", async function () {
-    recorder.skip("browser", "Timeout tests don't work on playback mode.");
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     const iter = client.listPropertiesOfCertificateVersions("doesn't matter", {
       requestOptions: { timeout: 1 },
     });

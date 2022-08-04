@@ -34,10 +34,9 @@ async function main() {
 
   const poller = await client.beginAnalyzeDocument(PrebuiltModels.TaxUsW2, file);
 
-  const {
-    documents: [result],
-  } = await poller.pollUntilDone();
+  const { documents } = await poller.pollUntilDone();
 
+  const result = documents && documents[0];
   if (result) {
     const { employee, employer, controlNumber, taxYear, additionalInfo } = result.fields;
 

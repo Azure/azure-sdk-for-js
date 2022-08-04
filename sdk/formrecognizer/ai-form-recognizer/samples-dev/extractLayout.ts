@@ -29,7 +29,7 @@ async function main() {
   // appearance (styles) of textual elements.
   const { pages, tables } = await poller.pollUntilDone();
 
-  if (pages.length <= 0) {
+  if (!pages || pages.length <= 0) {
     console.log("No pages were extracted from the document.");
   } else {
     console.log("Pages:");
@@ -56,7 +56,7 @@ async function main() {
     }
   }
 
-  if (tables.length <= 0) {
+  if (!tables || tables.length <= 0) {
     console.log("No tables were extracted from the document.");
   } else {
     console.log("Tables:");

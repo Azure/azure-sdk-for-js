@@ -347,6 +347,7 @@ describe("Retries - Receive methods", () => {
     } else {
       // Mocking batchingReceiver.receive to throw the error and fail
       const batchingReceiver = BatchingReceiver.create(
+        "serviceBusClientId",
         (receiver as any)._context,
         "dummyEntityPath",
         {

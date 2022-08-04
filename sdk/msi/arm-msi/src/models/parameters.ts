@@ -13,7 +13,8 @@ import {
 } from "@azure/core-client";
 import {
   Identity as IdentityMapper,
-  IdentityUpdate as IdentityUpdateMapper
+  IdentityUpdate as IdentityUpdateMapper,
+  FederatedIdentityCredential as FederatedIdentityCredentialMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -55,7 +56,7 @@ export const scope: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-30-preview",
+    defaultValue: "2022-01-31-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -185,4 +186,20 @@ export const parameters: OperationParameter = {
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: IdentityUpdateMapper
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FederatedIdentityCredentialMapper
+};
+
+export const federatedIdentityCredentialResourceName: OperationURLParameter = {
+  parameterPath: "federatedIdentityCredentialResourceName",
+  mapper: {
+    serializedName: "federatedIdentityCredentialResourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

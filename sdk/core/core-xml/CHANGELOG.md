@@ -1,14 +1,15 @@
 # Release History
 
-## 1.2.2 (Unreleased)
+## 1.3.0 (2022-08-04)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Add support for CDATA secions with the `cdataPropName`
+- Add support for exempting nodes from parsing with `stopNodes`.
 
 ### Other Changes
+
+- Address Trusted Types compliance issue.
 
 ## 1.2.1 (2022-05-05)
 

@@ -52,13 +52,13 @@ export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>
 
 // @public
 export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResultCommon {
-    documents: Document[];
-    keyValuePairs: DocumentKeyValuePair[];
-    languages: DocumentLanguage[];
-    pages: DocumentPage[];
-    paragraphs: DocumentParagraph[];
-    styles: DocumentStyle[];
-    tables: DocumentTable[];
+    documents?: Document[];
+    keyValuePairs?: DocumentKeyValuePair[];
+    languages?: DocumentLanguage[];
+    pages?: DocumentPage[];
+    paragraphs?: DocumentParagraph[];
+    styles?: DocumentStyle[];
+    tables?: DocumentTable[];
 }
 
 // @public
@@ -80,12 +80,20 @@ export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<
 export { AzureKeyCredential }
 
 // @public
-export interface BoundingRegion extends HasBoundingPolygon {
-    pageNumber: number;
+export interface BeginBuildModelOptions extends CreateModelOptions {
 }
 
 // @public
-export interface BuildModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<TrainingPollOperationState> {
+export interface BeginComposeModelOptions extends CreateModelOptions {
+}
+
+// @public
+export interface BeginCopyModelOptions extends OperationOptions, PollerOptions<DocumentModelOperationState> {
+}
+
+// @public
+export interface BoundingRegion extends HasBoundingPolygon {
+    pageNumber: number;
 }
 
 // @public
@@ -197,7 +205,7 @@ export interface CopyAuthorization {
 }
 
 // @public
-export interface CopyModelOptions extends OperationOptions, PollerOptions<TrainingPollOperationState> {
+export interface CreateModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<DocumentModelOperationState> {
 }
 
 // @public
@@ -377,16 +385,16 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
-    beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BuildModelOptions): Promise<TrainingPoller>;
-    beginComposeModel(modelId: string, componentModelIds: Iterable<string>, options?: BuildModelOptions): Promise<TrainingPoller>;
-    beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<TrainingPoller>;
+    beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildModelOptions): Promise<DocumentModelPoller>;
+    beginComposeModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeModelOptions): Promise<DocumentModelPoller>;
+    beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
-    getInfo(options?: GetInfoOptions): Promise<GetInfoResponse>;
-    getModel(modelId: string, options?: GetModelOptions): Promise<ModelInfo>;
+    getModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelInfo>;
     getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationInfo>;
-    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelSummary>;
-    listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationInfo>;
+    getResourceInfo(options?: GetResourceInfoOptions): Promise<ResourceInfo>;
+    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
+    listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationSummary>;
 }
 
 // @public
@@ -401,6 +409,38 @@ export const DocumentModelBuildMode: {
     readonly Template: "template";
     readonly Neural: "neural";
 };
+
+// @public
+export interface DocumentModelInfo extends DocumentModelSummary {
+    docTypes?: {
+        [propertyName: string]: DocTypeInfo;
+    };
+}
+
+// @public
+export interface DocumentModelOperationState extends PollOperationState<DocumentModelInfo> {
+    apiVersion?: string;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+    operationId: string;
+    percentCompleted: number;
+    status: OperationStatus;
+    tags?: Record<string, string>;
+}
+
+// @public
+export type DocumentModelPoller = PollerLike<DocumentModelOperationState, DocumentModelInfo>;
+
+// @public
+export interface DocumentModelSummary {
+    apiVersion?: string;
+    createdDateTime: Date;
+    description?: string;
+    modelId: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface DocumentNumberField extends DocumentValueField<number> {
@@ -532,6 +572,15 @@ export interface DocumentWord extends HasBoundingPolygon {
 export type EnglishCapitalLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z";
 
 // @public
+export interface ErrorModel {
+    code: string;
+    details?: ErrorModel[];
+    innererror?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
 export type FieldSchema = StringLikeFieldSchema | NumberFieldSchema | DateFieldSchema | ArrayFieldSchema | ObjectFieldSchema | StructuredStringFieldSchema | WellKnownObjectFieldSchema;
 
 // @public
@@ -552,20 +601,11 @@ export type FormRecognizerRequestBody = NodeJS.ReadableStream | Blob | ArrayBuff
 
 // @public
 export interface GeneralDocumentResult extends LayoutResult {
-    keyValuePairs: DocumentKeyValuePair[];
+    keyValuePairs?: DocumentKeyValuePair[];
 }
 
 // @public
 export interface GetCopyAuthorizationOptions extends OperationOptions, CommonModelCreationOptions {
-}
-
-// @public
-export interface GetInfoOptions extends OperationOptions {
-}
-
-// @public
-export interface GetInfoResponse {
-    customDocumentModels: CustomDocumentModelsInfo;
 }
 
 // @public
@@ -574,6 +614,13 @@ export interface GetModelOptions extends OperationOptions {
 
 // @public
 export interface GetOperationOptions extends OperationOptions {
+}
+
+// @public
+export type GetOperationResponse = OperationInfo;
+
+// @public
+export interface GetResourceInfoOptions extends OperationOptions {
 }
 
 // @public
@@ -668,6 +715,13 @@ export const IdentityDocumentSchema: {
         };
     };
 };
+
+// @public
+export interface InnerError {
+    code: string;
+    innererror?: InnerError;
+    message?: string;
+}
 
 // @public
 export type Invoice = ReifyPrebuiltSchema<typeof InvoiceSchema>;
@@ -814,9 +868,9 @@ export const InvoiceSchema: {
 
 // @public
 export interface LayoutResult {
-    pages: DocumentPage[];
-    styles: DocumentStyle[];
-    tables: DocumentTable[];
+    pages?: DocumentPage[];
+    styles?: DocumentStyle[];
+    tables?: DocumentTable[];
 }
 
 // @public
@@ -831,13 +885,6 @@ export interface ListOperationsOptions extends OperationOptions {
 }
 
 // @public
-export type ModelInfo = ModelSummary & {
-    docTypes?: {
-        [propertyName: string]: DocTypeInfo;
-    };
-};
-
-// @public
 export interface ModelSchema {
     docTypes: {
         [type: string]: {
@@ -847,17 +894,6 @@ export interface ModelSchema {
         };
     };
     modelId: string;
-}
-
-// @public
-export interface ModelSummary {
-    apiVersion?: string;
-    createdDateTime: Date;
-    description?: string;
-    modelId: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -876,7 +912,19 @@ export interface ObjectFieldSchema<Properties extends {
 }
 
 // @public
-export interface OperationInfo {
+export interface OperationInfo extends OperationSummary {
+    error?: ErrorModel;
+    result?: Record<string, unknown>;
+}
+
+// @public
+export type OperationKind = string;
+
+// @public
+export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
+
+// @public
+export interface OperationSummary {
     apiVersion?: string;
     createdDateTime: Date;
     kind: OperationKind;
@@ -889,12 +937,6 @@ export interface OperationInfo {
         [propertyName: string]: string;
     };
 }
-
-// @public
-export type OperationKind = string;
-
-// @public
-export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
 
 // @public
 export type ParagraphRole = string;
@@ -1098,9 +1140,9 @@ export const PrebuiltModels: {
 
 // @public
 export interface ReadResult extends AnalyzeResultCommon {
-    languages: DocumentLanguage[];
-    pages: DocumentPage[];
-    styles: DocumentStyle[];
+    languages?: DocumentLanguage[];
+    pages?: DocumentPage[];
+    styles?: DocumentStyle[];
 }
 
 // @public
@@ -1473,6 +1515,11 @@ export type ReifyPrebuiltSchema<Schema extends Readonly<ModelSchema>> = {
 }[keyof Schema["docTypes"]];
 
 // @public
+export interface ResourceInfo {
+    customDocumentModels: CustomDocumentModelsInfo;
+}
+
+// @public
 export type SelectionMarkState = string;
 
 // @public
@@ -1648,20 +1695,6 @@ export const TaxUsW2Schema: {
         };
     };
 };
-
-// @public
-export type TrainingPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
-
-// @public
-export interface TrainingPollOperationState extends PollOperationState<ModelInfo> {
-    apiVersion?: string;
-    createdOn: Date;
-    lastUpdatedOn: Date;
-    operationId: string;
-    percentCompleted: number;
-    status: OperationStatus;
-    tags?: Record<string, string>;
-}
 
 // @public
 export interface WellKnownObjectFieldSchema<Type extends "currency" | "address" = "currency" | "address"> {

@@ -44,7 +44,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
   }
 
   /**
-   * Gets all the data networks associated with a packet core data plane.
+   * Gets all the attached data networks associated with a packet core data plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
@@ -360,7 +360,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
   }
 
   /**
-   * Updates an attached data network update tags.
+   * Updates an attached data network tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
@@ -390,7 +390,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
   }
 
   /**
-   * Gets all the data networks associated with a packet core data plane.
+   * Gets all the attached data networks associated with a packet core data plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.

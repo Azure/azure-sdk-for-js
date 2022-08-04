@@ -1,14 +1,10 @@
 # Release History
 
-## 1.9.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.9.1 (2022-08-04)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed a bug in claim challenge we failed to refresh our token. [#22324](https://github.com/Azure/azure-sdk-for-js/pull/22324)
 
 ## 1.9.0 (2022-06-03)
 

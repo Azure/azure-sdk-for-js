@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Updates a machine learning workspace with the specified parameters.
  *
  * @summary Updates a machine learning workspace with the specified parameters.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/examples/Workspace/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Workspace/update.json
  */
 async function updateWorkspace() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -31,7 +31,7 @@ async function updateWorkspace() {
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
-  const result = await client.workspaces.update(
+  const result = await client.workspaces.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,
     parameters

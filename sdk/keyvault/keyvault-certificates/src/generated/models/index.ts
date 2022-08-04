@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** The certificate list result. */
 export interface CertificateListResult {
@@ -629,7 +630,7 @@ export type ActionType = "EmailContacts" | "AutoRenew";
 
 /** Optional parameters. */
 export interface GetCertificatesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
   /** Specifies whether to include certificates which are not completely provisioned. */
@@ -637,103 +638,49 @@ export interface GetCertificatesOptionalParams
 }
 
 /** Contains response data for the getCertificates operation. */
-export type GetCertificatesResponse = CertificateListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateListResult;
-  };
-};
+export type GetCertificatesResponse = CertificateListResult;
 
 /** Optional parameters. */
 export interface DeleteCertificateOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the deleteCertificate operation. */
-export type DeleteCertificateResponse = DeletedCertificateBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DeletedCertificateBundle;
-  };
-};
+export type DeleteCertificateResponse = DeletedCertificateBundle;
 
 /** Optional parameters. */
 export interface SetCertificateContactsOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the setCertificateContacts operation. */
-export type SetCertificateContactsResponse = Contacts & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Contacts;
-  };
-};
+export type SetCertificateContactsResponse = Contacts;
 
 /** Optional parameters. */
 export interface GetCertificateContactsOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCertificateContacts operation. */
-export type GetCertificateContactsResponse = Contacts & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Contacts;
-  };
-};
+export type GetCertificateContactsResponse = Contacts;
 
 /** Optional parameters. */
 export interface DeleteCertificateContactsOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the deleteCertificateContacts operation. */
-export type DeleteCertificateContactsResponse = Contacts & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Contacts;
-  };
-};
+export type DeleteCertificateContactsResponse = Contacts;
 
 /** Optional parameters. */
 export interface GetCertificateIssuersOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getCertificateIssuers operation. */
-export type GetCertificateIssuersResponse = CertificateIssuerListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateIssuerListResult;
-  };
-};
+export type GetCertificateIssuersResponse = CertificateIssuerListResult;
 
 /** Optional parameters. */
 export interface SetCertificateIssuerOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The credentials to be used for the issuer. */
   credentials?: IssuerCredentials;
   /** Details of the organization as provided to the issuer. */
@@ -743,20 +690,11 @@ export interface SetCertificateIssuerOptionalParams
 }
 
 /** Contains response data for the setCertificateIssuer operation. */
-export type SetCertificateIssuerResponse = IssuerBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IssuerBundle;
-  };
-};
+export type SetCertificateIssuerResponse = IssuerBundle;
 
 /** Optional parameters. */
 export interface UpdateCertificateIssuerOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The issuer provider. */
   provider?: string;
   /** The credentials to be used for the issuer. */
@@ -768,52 +706,25 @@ export interface UpdateCertificateIssuerOptionalParams
 }
 
 /** Contains response data for the updateCertificateIssuer operation. */
-export type UpdateCertificateIssuerResponse = IssuerBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IssuerBundle;
-  };
-};
+export type UpdateCertificateIssuerResponse = IssuerBundle;
 
 /** Optional parameters. */
 export interface GetCertificateIssuerOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCertificateIssuer operation. */
-export type GetCertificateIssuerResponse = IssuerBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IssuerBundle;
-  };
-};
+export type GetCertificateIssuerResponse = IssuerBundle;
 
 /** Optional parameters. */
 export interface DeleteCertificateIssuerOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the deleteCertificateIssuer operation. */
-export type DeleteCertificateIssuerResponse = IssuerBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IssuerBundle;
-  };
-};
+export type DeleteCertificateIssuerResponse = IssuerBundle;
 
 /** Optional parameters. */
 export interface CreateCertificateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
   /** The attributes of the certificate (optional). */
@@ -823,20 +734,11 @@ export interface CreateCertificateOptionalParams
 }
 
 /** Contains response data for the createCertificate operation. */
-export type CreateCertificateResponse = CertificateOperation & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateOperation;
-  };
-};
+export type CreateCertificateResponse = CertificateOperation;
 
 /** Optional parameters. */
 export interface ImportCertificateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** If the private key in base64EncodedCertificate is encrypted, the password used for encryption. */
   password?: string;
   /** The management policy for the certificate. */
@@ -848,71 +750,35 @@ export interface ImportCertificateOptionalParams
 }
 
 /** Contains response data for the importCertificate operation. */
-export type ImportCertificateResponse = CertificateBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateBundle;
-  };
-};
+export type ImportCertificateResponse = CertificateBundle;
 
 /** Optional parameters. */
 export interface GetCertificateVersionsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getCertificateVersions operation. */
-export type GetCertificateVersionsResponse = CertificateListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateListResult;
-  };
-};
+export type GetCertificateVersionsResponse = CertificateListResult;
 
 /** Optional parameters. */
 export interface GetCertificatePolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCertificatePolicy operation. */
-export type GetCertificatePolicyResponse = CertificatePolicy & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificatePolicy;
-  };
-};
+export type GetCertificatePolicyResponse = CertificatePolicy;
 
 /** Optional parameters. */
 export interface UpdateCertificatePolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateCertificatePolicy operation. */
-export type UpdateCertificatePolicyResponse = CertificatePolicy & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificatePolicy;
-  };
-};
+export type UpdateCertificatePolicyResponse = CertificatePolicy;
 
 /** Optional parameters. */
 export interface UpdateCertificateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
   /** The attributes of the certificate (optional). */
@@ -922,84 +788,39 @@ export interface UpdateCertificateOptionalParams
 }
 
 /** Contains response data for the updateCertificate operation. */
-export type UpdateCertificateResponse = CertificateBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateBundle;
-  };
-};
+export type UpdateCertificateResponse = CertificateBundle;
 
 /** Optional parameters. */
 export interface GetCertificateOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCertificate operation. */
-export type GetCertificateResponse = CertificateBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateBundle;
-  };
-};
+export type GetCertificateResponse = CertificateBundle;
 
 /** Optional parameters. */
 export interface UpdateCertificateOperationOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateCertificateOperation operation. */
-export type UpdateCertificateOperationResponse = CertificateOperation & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateOperation;
-  };
-};
+export type UpdateCertificateOperationResponse = CertificateOperation;
 
 /** Optional parameters. */
 export interface GetCertificateOperationOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCertificateOperation operation. */
-export type GetCertificateOperationResponse = CertificateOperation & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateOperation;
-  };
-};
+export type GetCertificateOperationResponse = CertificateOperation;
 
 /** Optional parameters. */
 export interface DeleteCertificateOperationOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the deleteCertificateOperation operation. */
-export type DeleteCertificateOperationResponse = CertificateOperation & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateOperation;
-  };
-};
+export type DeleteCertificateOperationResponse = CertificateOperation;
 
 /** Optional parameters. */
 export interface MergeCertificateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The attributes of the certificate (optional). */
   certificateAttributes?: CertificateAttributes;
   /** Application specific metadata in the form of key-value pairs. */
@@ -1007,52 +828,25 @@ export interface MergeCertificateOptionalParams
 }
 
 /** Contains response data for the mergeCertificate operation. */
-export type MergeCertificateResponse = CertificateBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateBundle;
-  };
-};
+export type MergeCertificateResponse = CertificateBundle;
 
 /** Optional parameters. */
 export interface BackupCertificateOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the backupCertificate operation. */
-export type BackupCertificateResponse = BackupCertificateResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: BackupCertificateResult;
-  };
-};
+export type BackupCertificateResponse = BackupCertificateResult;
 
 /** Optional parameters. */
 export interface RestoreCertificateOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the restoreCertificate operation. */
-export type RestoreCertificateResponse = CertificateBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateBundle;
-  };
-};
+export type RestoreCertificateResponse = CertificateBundle;
 
 /** Optional parameters. */
 export interface GetDeletedCertificatesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
   /** Specifies whether to include certificates which are not completely provisioned. */
@@ -1060,56 +854,29 @@ export interface GetDeletedCertificatesOptionalParams
 }
 
 /** Contains response data for the getDeletedCertificates operation. */
-export type GetDeletedCertificatesResponse = DeletedCertificateListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DeletedCertificateListResult;
-  };
-};
+export type GetDeletedCertificatesResponse = DeletedCertificateListResult;
 
 /** Optional parameters. */
 export interface GetDeletedCertificateOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeletedCertificate operation. */
-export type GetDeletedCertificateResponse = DeletedCertificateBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DeletedCertificateBundle;
-  };
-};
+export type GetDeletedCertificateResponse = DeletedCertificateBundle;
 
 /** Optional parameters. */
 export interface PurgeDeletedCertificateOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface RecoverDeletedCertificateOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the recoverDeletedCertificate operation. */
-export type RecoverDeletedCertificateResponse = CertificateBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateBundle;
-  };
-};
+export type RecoverDeletedCertificateResponse = CertificateBundle;
 
 /** Optional parameters. */
 export interface GetCertificatesNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
   /** Specifies whether to include certificates which are not completely provisioned. */
@@ -1117,58 +884,31 @@ export interface GetCertificatesNextOptionalParams
 }
 
 /** Contains response data for the getCertificatesNext operation. */
-export type GetCertificatesNextResponse = CertificateListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateListResult;
-  };
-};
+export type GetCertificatesNextResponse = CertificateListResult;
 
 /** Optional parameters. */
 export interface GetCertificateIssuersNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getCertificateIssuersNext operation. */
-export type GetCertificateIssuersNextResponse = CertificateIssuerListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateIssuerListResult;
-  };
-};
+export type GetCertificateIssuersNextResponse = CertificateIssuerListResult;
 
 /** Optional parameters. */
 export interface GetCertificateVersionsNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getCertificateVersionsNext operation. */
-export type GetCertificateVersionsNextResponse = CertificateListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateListResult;
-  };
-};
+export type GetCertificateVersionsNextResponse = CertificateListResult;
 
 /** Optional parameters. */
 export interface GetDeletedCertificatesNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
   /** Specifies whether to include certificates which are not completely provisioned. */
@@ -1176,20 +916,11 @@ export interface GetDeletedCertificatesNextOptionalParams
 }
 
 /** Contains response data for the getDeletedCertificatesNext operation. */
-export type GetDeletedCertificatesNextResponse = DeletedCertificateListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DeletedCertificateListResult;
-  };
-};
+export type GetDeletedCertificatesNextResponse = DeletedCertificateListResult;
 
 /** Optional parameters. */
 export interface KeyVaultClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

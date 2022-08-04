@@ -15,7 +15,11 @@ import {
   testPollingOptions,
 } from "../utils/recordedClients";
 
-import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";
+import {
+  DocumentAnalysisClient,
+  DocumentModelAdministrationClient,
+  DocumentModelInfo,
+} from "../../src";
 import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
@@ -73,7 +77,7 @@ matrix(
         });
 
         describe(`custom model from trainingdata-v3 (${buildMode})`, async () => {
-          let _model: ModelInfo;
+          let _model: DocumentModelInfo;
 
           let modelId: string;
 
@@ -81,7 +85,7 @@ matrix(
           // precedence, we have to create it in a test, so one test will end up
           // recording the entire creation and the other tests will still be able
           // to use it
-          async function requireModel(): Promise<ModelInfo> {
+          async function requireModel(): Promise<DocumentModelInfo> {
             if (!_model) {
               // Compute a unique name for the model
               modelId = recorder.variable(getId().toString(), `modelName${getRandomNumber()}`);
@@ -152,9 +156,9 @@ matrix(
               const { documents, tables } = await poller.pollUntilDone();
 
               assert.isNotEmpty(documents);
-              const document = documents[0];
+              const document = documents?.[0];
 
-              assert.isNotEmpty(document.boundingRegions);
+              assert.isNotEmpty(document?.boundingRegions);
 
               assert.isNotEmpty(tables);
               const [table] = tables!;
@@ -162,12 +166,12 @@ matrix(
               assert.ok(table.boundingRegions?.[0].polygon);
               assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
-              assert.ok(document.fields);
-              assert.ok(document.fields["Merchant"]);
-              assert.ok(document.fields["DatedAs"]);
-              assert.ok(document.fields["CompanyPhoneNumber"]);
-              assert.ok(document.fields["CompanyName"]);
-              assert.ok(document.fields["Signature"]);
+              assert.ok(document?.fields);
+              assert.ok(document?.fields["Merchant"]);
+              assert.ok(document?.fields["DatedAs"]);
+              assert.ok(document?.fields["CompanyPhoneNumber"]);
+              assert.ok(document?.fields["CompanyName"]);
+              assert.ok(document?.fields["Signature"]);
             });
           });
 
@@ -189,7 +193,7 @@ matrix(
           it("has trained models and limits", async () => {
             const {
               customDocumentModels: { count, limit },
-            } = await client.getInfo();
+            } = await client.getResourceInfo();
 
             // Model count should be >0 because we just trained several models
             assert.isTrue(count > 0);

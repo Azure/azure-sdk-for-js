@@ -7,13 +7,13 @@ import * as http from "http";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
 import { RestError } from "@azure/core-rest-pipeline";
-import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
+import { AzureLogLevel, AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import { getError } from "./authTestUtils";
 import {
-  createResponse,
   IdentityTestContextInterface,
   RawTestResponse,
   TestResponse,
+  createResponse,
 } from "./httpRequestsCommon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
 import { openIdConfigurationResponse } from "./msalTestUtils";

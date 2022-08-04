@@ -19,7 +19,7 @@ export interface TestOperationState extends PollOperationState<string> {
   unsupportedCancel?: boolean;
 }
 
-export interface TestOperation extends PollOperation<TestOperationState, string> {}
+interface TestOperation extends PollOperation<TestOperationState, string> {}
 
 async function update(
   this: TestOperation,

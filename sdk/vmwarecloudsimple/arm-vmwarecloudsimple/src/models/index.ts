@@ -926,7 +926,9 @@ export interface VirtualMachinesStopExceptionHeaders {
 
 /** Known values of {@link GuestOsnicCustomizationAllocation} that the service accepts. */
 export enum KnownGuestOsnicCustomizationAllocation {
+  /** Static */
   Static = "static",
+  /** Dynamic */
   Dynamic = "dynamic"
 }
 
@@ -942,10 +944,15 @@ export type GuestOsnicCustomizationAllocation = string;
 
 /** Known values of {@link CustomizationHostNameType} that the service accepts. */
 export enum KnownCustomizationHostNameType {
+  /** UserDefined */
   UserDefined = "USER_DEFINED",
+  /** PrefixBased */
   PrefixBased = "PREFIX_BASED",
+  /** Fixed */
   Fixed = "FIXED",
+  /** VirtualMachineName */
   VirtualMachineName = "VIRTUAL_MACHINE_NAME",
+  /** CustomName */
   CustomName = "CUSTOM_NAME"
 }
 
@@ -964,8 +971,11 @@ export type CustomizationHostNameType = string;
 
 /** Known values of {@link CustomizationIdentityType} that the service accepts. */
 export enum KnownCustomizationIdentityType {
+  /** WindowsText */
   WindowsText = "WINDOWS_TEXT",
+  /** Windows */
   Windows = "WINDOWS",
+  /** Linux */
   Linux = "LINUX"
 }
 
@@ -982,9 +992,13 @@ export type CustomizationIdentityType = string;
 
 /** Known values of {@link CustomizationIPAddressType} that the service accepts. */
 export enum KnownCustomizationIPAddressType {
+  /** Custom */
   Custom = "CUSTOM",
+  /** DhcpIP */
   DhcpIP = "DHCP_IP",
+  /** FixedIP */
   FixedIP = "FIXED_IP",
+  /** UserDefined */
   UserDefined = "USER_DEFINED"
 }
 
@@ -1002,7 +1016,9 @@ export type CustomizationIPAddressType = string;
 
 /** Known values of {@link CustomizationPolicyPropertiesType} that the service accepts. */
 export enum KnownCustomizationPolicyPropertiesType {
+  /** Linux */
   Linux = "LINUX",
+  /** Windows */
   Windows = "WINDOWS"
 }
 

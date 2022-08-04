@@ -57,7 +57,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.OperationStatus
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

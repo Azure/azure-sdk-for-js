@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.8 (Unreleased)
+## 1.0.0-beta.9 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,14 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.8 (2022-07-07)
+
+### Features Added
+
+- Added Azure Monitor OpenTelemetry Metrics Exporter.
+- Export Span events as Exception and Message Telemetry.
+- Updated OpenTelemetry dependencies to their latest available versions.
 
 ## 1.0.0-beta.7 (2022-04-05)
 

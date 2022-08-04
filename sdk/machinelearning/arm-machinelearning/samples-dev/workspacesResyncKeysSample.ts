@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Resync all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry
  *
  * @summary Resync all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2022-02-01-preview/examples/Workspace/resyncKeys.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Workspace/resyncKeys.json
  */
 async function resyncWorkspaceKeys() {
   const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";

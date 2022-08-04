@@ -1,12 +1,11 @@
 # Release History
 
-## 1.6.1 (Unreleased)
+## 1.6.1 (2022-08-04)
 
-### Features Added
-
-### Breaking Changes
 
 ### Bugs Fixed
+
+- Fix serializer to find the correct discriminator index. Please refer to [#22523](https://github.com/Azure/azure-sdk-for-js/pull/22523) for further details.  
 
 ### Other Changes
 

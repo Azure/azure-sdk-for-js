@@ -10,15 +10,15 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential } from "../../../src";
 import Sinon from "sinon";
 import {
-  imdsHost,
   imdsApiVersion,
   imdsEndpointPath,
+  imdsHost,
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import {
   imdsMsi,
   imdsMsiRetryConfig,
 } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
-import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
 import { IdentityTestContext } from "../../httpRequests";
 import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
 import { AzureLogger, setLogLevel } from "@azure/logger";

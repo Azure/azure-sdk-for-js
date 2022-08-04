@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
 import {
-  DatastoreData,
+  Datastore,
   DatastoresListNextOptionalParams,
   DatastoresListOptionalParams,
   DatastoresListResponse,
@@ -50,7 +50,7 @@ export class DatastoresImpl implements Datastores {
     resourceGroupName: string,
     workspaceName: string,
     options?: DatastoresListOptionalParams
-  ): PagedAsyncIterableIterator<DatastoreData> {
+  ): PagedAsyncIterableIterator<Datastore> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -69,7 +69,7 @@ export class DatastoresImpl implements Datastores {
     resourceGroupName: string,
     workspaceName: string,
     options?: DatastoresListOptionalParams
-  ): AsyncIterableIterator<DatastoreData[]> {
+  ): AsyncIterableIterator<Datastore[]> {
     let result = await this._list(resourceGroupName, workspaceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -89,7 +89,7 @@ export class DatastoresImpl implements Datastores {
     resourceGroupName: string,
     workspaceName: string,
     options?: DatastoresListOptionalParams
-  ): AsyncIterableIterator<DatastoreData> {
+  ): AsyncIterableIterator<Datastore> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -166,7 +166,7 @@ export class DatastoresImpl implements Datastores {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    body: DatastoreData,
+    body: Datastore,
     options?: DatastoresCreateOrUpdateOptionalParams
   ): Promise<DatastoresCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -275,7 +275,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatastoreData
+      bodyMapper: Mappers.Datastore
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -298,10 +298,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatastoreData
+      bodyMapper: Mappers.Datastore
     },
     201: {
-      bodyMapper: Mappers.DatastoreData
+      bodyMapper: Mappers.Datastore
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

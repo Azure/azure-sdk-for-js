@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 1.2.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.2.1 (2022-07-12)
+
+### Features Added
+
+- Updated to @azure/communication-signaling@1.0.0-beta.14.
 
 ## 1.2.0 (2022-04-05)
 
