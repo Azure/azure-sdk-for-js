@@ -50,7 +50,7 @@ describe("Apimanagement test", () => {
     client = new ApiManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroupName = "myjstest";
-    serviceName = "myserviceyyy2";
+    serviceName = "myserviceyyy1";
   });
 
   afterEach(async function () {

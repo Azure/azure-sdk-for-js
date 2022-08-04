@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-cognitiveservices/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "a3c07322-ab6c-4088-889b-db5715da263e"
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "95a50b01-e3b4-48e6-a006-6921ab376a97"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Jun 2022 06:41:47 GMT",
+        "Date": "Thu, 04 Aug 2022 01:23:44 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "istio-envoy",
@@ -25,11 +25,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "27",
-        "x-ms-correlation-request-id": "0aa22ef3-e0c8-4035-b7ae-e7c85009372e",
+        "x-envoy-upstream-service-time": "22",
+        "x-ms-correlation-request-id": "b010c2c1-94cd-4bc4-ba57-54da2955d26f",
         "x-ms-ratelimit-remaining-subscription-reads": "11998",
-        "x-ms-request-id": "b4fe910f-e7c5-41c5-9473-f852deeece87",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220610T064147Z:0aa22ef3-e0c8-4035-b7ae-e7c85009372e"
+        "x-ms-request-id": "2e4ca340-abc9-43f5-9da3-23105cc09624",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220804T012345Z:b010c2c1-94cd-4bc4-ba57-54da2955d26f"
       },
       "ResponseBody": {
         "value": [
@@ -37,7 +37,7 @@
             "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts/myaccountxxx",
             "name": "myaccountxxx",
             "type": "Microsoft.CognitiveServices/accounts",
-            "etag": "\u002229015a71-0000-0100-0000-62a2e7a70000\u0022",
+            "etag": "\u00220400ee3f-0000-0100-0000-62eb1f990000\u0022",
             "location": "eastus",
             "sku": {
               "name": "S0"
@@ -45,11 +45,39 @@
             "kind": "CognitiveServices",
             "properties": {
               "endpoint": "https://eastus.api.cognitive.microsoft.com/",
-              "internalId": "944b07d3acaa4149b8d65757ea6bf5ca",
-              "dateCreated": "2022-06-10T06:41:42.5590615Z",
+              "internalId": "3a43710e1eb14c13ae237379ee1441a0",
+              "dateCreated": "2022-08-04T01:23:37.1704088Z",
               "apiProperties": {},
               "callRateLimit": {
                 "rules": [
+                  {
+                    "key": "formrecognizer.analyze",
+                    "renewalPeriod": 60,
+                    "count": 15,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": []
+                  },
+                  {
+                    "key": "formrecognizer.single",
+                    "renewalPeriod": 60,
+                    "count": 100,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": []
+                  },
+                  {
+                    "key": "formrecognizer.bulk",
+                    "renewalPeriod": 60,
+                    "count": 10,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": []
+                  },
+                  {
+                    "key": "formrecognizer.model",
+                    "renewalPeriod": 60,
+                    "count": 2,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": []
+                  },
                   {
                     "key": "formrecognizer.custom.train",
                     "renewalPeriod": 60,
@@ -275,7 +303,31 @@
                     ]
                   },
                   {
-                    "key": "docmentTranslation",
+                    "key": "documentTranslation.post",
+                    "renewalPeriod": 1,
+                    "count": 20,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": [
+                      {
+                        "path": "translator/text/batch/*",
+                        "method": "POST"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "documentTranslation.get",
+                    "renewalPeriod": 1,
+                    "count": 20,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": [
+                      {
+                        "path": "translator/text/batch/*",
+                        "method": "GET"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "documentTranslation.default",
                     "renewalPeriod": 1,
                     "count": 20,
                     "dynamicThrottlingEnabled": false,
@@ -657,8 +709,8 @@
                   {
                     "key": "face",
                     "renewalPeriod": 1,
-                    "count": 15,
-                    "dynamicThrottlingEnabled": true,
+                    "count": 10,
+                    "dynamicThrottlingEnabled": false,
                     "matchPatterns": [
                       {
                         "path": "face/*",
@@ -729,8 +781,16 @@
                 ]
               },
               "isMigrated": false,
+              "privateEndpointConnections": [],
               "publicNetworkAccess": "Enabled",
               "capabilities": [
+                {
+                  "name": "Scenario",
+                  "value": "Face.Legacy"
+                },
+                {
+                  "name": "VirtualNetworks"
+                },
                 {
                   "name": "Container",
                   "value": "Face.*,Face.Face,ComputerVision.*,ComputerVision.VideoAnalytics,TextAnalytics.*,TextAnalytics.Healthcare,TextAnalytics.Keyphrase,TextAnalytics.KeyphraseV2,TextAnalytics.KeyPhraseONNX,TextAnalytics.LanguageFastText,TextAnalytics.Language,TextAnalytics.LanguageV2,TextAnalytics.Sentiment,TextAnalytics.SentimentV2,TextAnalytics.SentimentV3,TextAnalytics.SentimentV3Preview,LUIS.LUIS,ContentModerator.*,TextTranslation.*,SpeechServices.*,FormRecognizer.*"
@@ -793,17 +853,17 @@
               "provisioningState": "Succeeded"
             },
             "identity": {
-              "principalId": "c9ea2a42-b5c4-47fd-8f18-d11ddf3e162f",
+              "principalId": "73a49e87-acb6-4a3b-bf9d-c6735eff0df2",
               "tenantId": "88888888-8888-8888-8888-888888888888",
               "type": "SystemAssigned"
             },
             "systemData": {
               "createdBy": "azure_client_id",
               "createdByType": "Application",
-              "createdAt": "2022-06-10T06:41:39.6934663Z",
+              "createdAt": "2022-08-04T01:23:35.7650269Z",
               "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
-              "lastModifiedAt": "2022-06-10T06:41:39.6934663Z"
+              "lastModifiedAt": "2022-08-04T01:23:35.7650269Z"
             }
           }
         ]
