@@ -8,7 +8,7 @@
   "type": "module",
   "export": {
     ".": {
-      "types": "./types/src/index.js",
+      "types": "core-rest-pipeline.shims.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
     }
