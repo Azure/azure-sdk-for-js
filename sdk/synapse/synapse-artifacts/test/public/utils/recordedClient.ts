@@ -23,9 +23,8 @@ export async function createClient(
     },
   });
 
-  const client = new ArtifactsClient(env.ENDPOINT ?? "", recorder.configureClientOptions({
+  const client = new ArtifactsClient(credential, env.ENDPOINT ?? "", recorder.configureClientOptions({
     ...options,
-    credential,
     allowInsecureConnection: true,
   }));
   return client;
