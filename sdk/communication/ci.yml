@@ -49,5 +49,5 @@ extends:
         safeName: azuretoolscommunicationshortcodes
       - name: azure-tools-communication-alpha-ids
         safeName: azuretoolscommunicationalphaids
-      - name: azure-communication-job-router
+      - name: azure-communication-jobrouter
         safeName: azurecommunicationjobrouter

@@ -1,0 +1,32 @@
+{
+  "name": "@azure-samples/communication-jobrouter-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Communication Services - Job Router client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/communication/communication-jobrouter"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "Azure",
+    "communication",
+    "jobrouter"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-jobrouter",
+  "dependencies": {
+    "@azure/communication-jobrouter": "next",
+    "dotenv": "latest",
+    "chai": "^4.2.0"
+  }
+}
