@@ -3,10 +3,10 @@
 
 import { assert } from "@azure/test-utils";
 import {
+  HttpClient,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-  HttpClient,
 } from "@azure/core-rest-pipeline";
 import { createRequestPolicyFactoryPolicy } from "../src/policies/requestPolicyFactoryPolicy";
 import { mutateRequestPolicy, mutateResponsePolicy } from "./testPolicies";

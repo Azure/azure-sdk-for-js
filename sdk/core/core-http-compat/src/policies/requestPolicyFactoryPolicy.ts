@@ -4,10 +4,10 @@
 import {
   PipelinePolicy,
   PipelineRequest,
-  SendRequest,
   PipelineResponse,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
-import { WebResourceLike, toWebResourceLike, toPipelineRequest } from "../util";
+import { WebResourceLike, toPipelineRequest, toWebResourceLike } from "../util";
 import { CompatResponse, toCompatResponse, toPipelineResponse } from "../response";
 
 /**
@@ -58,7 +58,7 @@ export const requestPolicyFactoryPolicyName = "RequestPolicyFactoryPolicy";
 
 /**
  * A policy that wraps policies written for core-http.
- * @param factories An array of `RequestPolicyFactory` objects from a core-http pipeline
+ * @param factories - An array of `RequestPolicyFactory` objects from a core-http pipeline
  */
 export function createRequestPolicyFactoryPolicy(
   factories: RequestPolicyFactory[]

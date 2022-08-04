@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  WebResourceLike,
+  CompatResponse,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptionsLike,
-  CompatResponse,
+  WebResourceLike,
 } from "../src/index";
 
 export interface MutateOptions {

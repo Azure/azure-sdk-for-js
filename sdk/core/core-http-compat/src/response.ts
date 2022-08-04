@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { FullOperationResponse } from "@azure/core-client";
-import { createHttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
+import { PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
-  toWebResourceLike,
-  toHttpHeaderLike,
-  WebResourceLike,
   HttpHeadersLike,
+  WebResourceLike,
+  toHttpHeaderLike,
   toPipelineRequest,
+  toWebResourceLike,
 } from "./util";
 /**
  * Http Response that is compatible with the core-v1(core-http).
@@ -29,7 +29,7 @@ type ExtendedCompatResponse = CompatResponse & { [originalResponse]?: FullOperat
 
 /**
  * A helper to convert response objects from the new pipeline back to the old one.
- * @param response A response object from core-client.
+ * @param response - A response object from core-client.
  * @returns A response compatible with `HttpOperationResponse` from core-http.
  */
 export function toCompatResponse(
@@ -68,7 +68,7 @@ export function toCompatResponse(
 
 /**
  * A helper to convert back to a PipelineResponse
- * @param compatResponse A response compatible with `HttpOperationResponse` from core-http.
+ * @param compatResponse - A response compatible with `HttpOperationResponse` from core-http.
  */
 export function toPipelineResponse(compatResponse: CompatResponse): PipelineResponse {
   const extendedCompatResponse = compatResponse as ExtendedCompatResponse;

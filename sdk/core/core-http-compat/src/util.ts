@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
-  createPipelineRequest,
   HttpMethods,
   ProxySettings,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders as HttpHeadersV2, PipelineRequest } from "@azure/core-rest-pipeline";
