@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @azsdk-util
- */
-
 // Model:       prebuilt-document
 // Description: Extract text, layout, entities, and general key-value pairs from documents.
 // API Version: 2022-06-30-preview

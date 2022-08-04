@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @azsdk-util
- */
-
 // Model:       prebuilt-vaccinationCard
 // Description: Extract key information from US Covid-19 CDC vaccination cards.
 // API Version: 2022-06-30-preview

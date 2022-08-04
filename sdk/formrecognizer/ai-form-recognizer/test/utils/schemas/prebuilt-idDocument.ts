@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @azsdk-util
- */
-
 // Model:       prebuilt-idDocument
 // Description: Extract key information from US driver licenses and international passports.
 // API Version: 2022-06-30-preview
