@@ -157,6 +157,7 @@ describe("RoomsClient", function () {
         .updateRoom(roomId, options)
         .then((result) => {
           assert.isUndefined(result);
+          return;
         })
         .catch((error) => {
           assert.equal(error.status, 400);

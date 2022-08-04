@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RoomJoinPolicy } from "../generated/src";
 import { CommunicationIdentifier } from "@azure/communication-common";
+import { RoomJoinPolicy } from "../generated/src";
 
 export { RoomJoinPolicy } from "../generated/src/models";
 

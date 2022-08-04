@@ -6,8 +6,8 @@ import { Room, RoomParticipant } from "./models";
 import { CommunicationUserIdentifier, SerializedCommunicationIdentifier } from "@azure/communication-common"
 import { 
   deserializeCommunicationIdentifier,
-  serializeCommunicationIdentifier,
-  getIdentifierKind
+  getIdentifierKind,
+  serializeCommunicationIdentifier
 } from "@azure/communication-common";
 
 
@@ -19,7 +19,7 @@ export const mapToRoomParticipantRestModel = (
   roomParticipant: RoomParticipant
 ): RestModel.RoomParticipant => {
   const { id, ...rest } = roomParticipant;
-  if (getIdentifierKind(id).kind != "communicationUser") {
+  if (getIdentifierKind(id).kind !== "communicationUser") {
     throwException("We currently only support CommunicationUsers");
   }
   return {

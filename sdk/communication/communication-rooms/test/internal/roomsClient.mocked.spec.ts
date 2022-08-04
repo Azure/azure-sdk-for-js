@@ -13,7 +13,7 @@ import {
 } from "./utils/mockedClient";
 
 describe("[Mocked] RoomsClient", async () => {
-  let RoomsClient: RoomsClient;
+  let roomsClient: RoomsClient;
 
   afterEach(() => {
     sinon.restore();
@@ -22,12 +22,12 @@ describe("[Mocked] RoomsClient", async () => {
   it("makes successful create Rooms request", async () => {
     const mockHttpClient = generateHttpClient(201, mockCreateRoomsResult);
 
-    RoomsClient = createRoomsClient(mockHttpClient);
+    roomsClient = createRoomsClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
     const sendOptions = {};
 
-    const createRoomsResult = await RoomsClient.createRoom(sendOptions);
+    const createRoomsResult = await roomsClient.createRoom(sendOptions);
 
     sinon.assert.calledOnce(spy);
     assert.isDefined(createRoomsResult);
@@ -44,14 +44,14 @@ describe("[Mocked] RoomsClient", async () => {
 
   it("makes update Rooms request", async () => {
     const mockHttpClient = generateHttpClient(200, mockUpdateRoomsResult);
-    RoomsClient = createRoomsClient(mockHttpClient);
+    roomsClient = createRoomsClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const sendOptions = {
       validFrom: new Date("2022-08-16T18:06:06Z"),
       validUntil: new Date("2022-08-17T18:06:06Z"),
     };
 
-    const updateRoomResult = await RoomsClient.updateRoom("id", sendOptions);
+    const updateRoomResult = await roomsClient.updateRoom("id", sendOptions);
 
     sinon.assert.calledOnce(spy);
     assert.isDefined(updateRoomResult);
@@ -67,14 +67,14 @@ describe("[Mocked] RoomsClient", async () => {
 
   it("makes add Participant request", async () => {
     const mockHttpClient = generateHttpClient(200, mockUpdateRoomsResult);
-    RoomsClient = createRoomsClient(mockHttpClient);
+    roomsClient = createRoomsClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const sendOptions = {
       validFrom: new Date("2022-08-16T18:06:06Z"),
       validUntil: new Date("2022-08-17T18:06:06Z"),
     };
 
-    const updateRoomResult = await RoomsClient.updateRoom("id", sendOptions);
+    const updateRoomResult = await roomsClient.updateRoom("id", sendOptions);
 
     sinon.assert.calledOnce(spy);
     assert.isDefined(updateRoomResult);

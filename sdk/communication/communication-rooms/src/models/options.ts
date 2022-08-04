@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { RoomParticipant, RoomJoinPolicy } from "./models";
+import { RoomJoinPolicy, RoomParticipant } from "./models";
 
 /**
  * Options to create rooms client.

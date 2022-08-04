@@ -1,6 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import {
+  CommunicationUserIdentifier,
+  createCommunicationAuthPolicy,
+  isKeyCredential,
+  parseClientArguments,
+} from "@azure/communication-common";
+
+import { SpanStatusCode } from "@azure/core-tracing";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { RoomsApiClient } from "./generated/src";
@@ -22,15 +32,6 @@ import {
   UpdateParticipantsOptions,
   UpdateRoomOptions,
 } from "./models/options";
-import { InternalClientPipelineOptions } from "@azure/core-client";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  CommunicationUserIdentifier,
-  createCommunicationAuthPolicy,
-  isKeyCredential,
-  parseClientArguments,
-} from "@azure/communication-common";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { generateUuid } from "./models/uuid";
 
 /**
@@ -65,7 +66,7 @@ export class RoomsClient {
   /**
    * Initializes a new instance of the RoomsClient using a TokenCredential
    * @param endpoint - The url of the Communication Services resource
-   * @param credential - An object that is used to authenticate requests to the service. Use the AzureCommunicationTokenCredential from @azure/communication-common to create a credential.
+   * @param credential - An object that is used to authenticate requests to the service. Use the AzureCommunicationTokenCredential from `@azure/communication-common` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(endpoint: string, credential: TokenCredential, options?: RoomsClientOptions);

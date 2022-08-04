@@ -26,7 +26,8 @@
     "isomorphic",
     "Azure",
     "communication",
-    "rooms"
+    "rooms",
+    "cloud"
   ],
   "license": "MIT",
   "main": "dist/index.js",
@@ -68,10 +69,7 @@
     "@azure/core-util": "~1.0.1"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
