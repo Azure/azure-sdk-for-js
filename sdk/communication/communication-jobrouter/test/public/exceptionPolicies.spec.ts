@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecordedRouterClientWithConnectionString } from "../internal/utils/mockClient";
 import { Context } from "mocha";
@@ -9,18 +9,19 @@ import { exceptionPolicyRequest } from "./utils/testData";
 import { RouterAdministrationClient } from "../../src";
 
 describe("RouterClient", function() {
-  // let recorder: Recorder;
+  let recorder: Recorder;
   // let client: RouterClient;
   let administrationClient: RouterAdministrationClient;
 
   describe("Exception Policy Operations", function() {
     beforeEach(function(this: Context) {
-      ({ administrationClient } = createRecordedRouterClientWithConnectionString(this));
+      ({ administrationClient, recorder } = createRecordedRouterClientWithConnectionString(this));
     });
 
     afterEach(async function(this: Context) {
-      // if (!this.currentTest?.isPending() && recorder) {
-      // }
+      if (!this.currentTest?.isPending() && recorder) {
+        await recorder.stop();
+      }
     });
 
     // exception policy actions

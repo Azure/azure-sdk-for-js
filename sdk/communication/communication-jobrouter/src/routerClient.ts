@@ -241,14 +241,12 @@ export class RouterClient {
    * Unassign a job.
    * @param jobId - The ID of the job to close.
    * @param assignmentId - The assignment within which the job is to be unassigned.
-   * @param options - Operation options.
    */
   public async unassignJob(
     jobId: string,
-    assignmentId: string,
-    options: CloseJobOptions = {}
+    assignmentId: string
   ): Promise<JobRouterUnassignJobActionResponse> {
-    return this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
+    return this.client.jobRouter.unassignJobAction(jobId, assignmentId);
   }
 
   /**
