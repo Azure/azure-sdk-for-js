@@ -54,7 +54,7 @@ export function createClient(pool: string, options?: SparkClientOptionalParams):
     { httpClient }
   );
 
-  return new SparkClient(credential, env.ENDPOINT, pool, { ...options, httpClient });
+  return new SparkClient(env.ENDPOINT, pool, { ...options, httpClient, credential });
 }
 
 /**
