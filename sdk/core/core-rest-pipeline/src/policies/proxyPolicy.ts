@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "http";
-import * as https from "https";
+import http from "http";
+import https from "https";
 import httpsPA from "https-proxy-agent";
 const { HttpsProxyAgent } = httpsPA;
 import httpPA from "http-proxy-agent";

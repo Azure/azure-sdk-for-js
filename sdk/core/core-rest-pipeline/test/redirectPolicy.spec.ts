@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { redirectPolicy } from "../src/policies/redirectPolicy.js";
-import * as sinon from "sinon";
+import sinon from "sinon";
 import {
   PipelineResponse,
   SendRequest,

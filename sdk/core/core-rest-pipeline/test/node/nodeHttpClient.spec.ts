@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as sinon from "sinon";
+import sinon from "sinon";
 import { PassThrough, Writable } from "stream";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import * as https from "https";
-import * as http from "http";
+import https from "https";
+import http from "http";
 import { AbortController } from "@azure/abort-controller";
 import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
@@ -71,7 +71,7 @@ describe("NodeHttpClient", function () {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const request = createPipelineRequest({ url: "https://whateverhahaha.com" });
     const promise = client.sendRequest(request);
     stubbedHttpsRequest.yield(createResponse(404));
     const response = await promise;

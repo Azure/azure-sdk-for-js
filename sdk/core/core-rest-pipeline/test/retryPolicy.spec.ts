@@ -4,7 +4,7 @@
 import { AzureLogger } from "@azure/logger";
 import { AbortController } from "@azure/abort-controller";
 import { assert } from "chai";
-import * as sinon from "sinon";
+import sinon from "sinon";
 import {
   PipelineResponse,
   RestError,

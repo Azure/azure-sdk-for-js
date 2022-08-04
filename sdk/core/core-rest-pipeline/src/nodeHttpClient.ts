@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "http";
-import * as https from "https";
-import * as zlib from "zlib";
+import http from "http";
+import https from "https";
+import zlib from "zlib";
 import { Transform } from "stream";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import {
