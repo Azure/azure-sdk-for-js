@@ -9,7 +9,7 @@ steps:
       AgentImage: $(OSVmImage)
 
   - script: |
-      node common/scripts/install-run-rush.js install
+      node common/scripts/install-run-rush.js install  --debug-package-manager
     displayName: "Install dependencies"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
