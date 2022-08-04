@@ -41,7 +41,7 @@ steps:
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
 
   - script: |
-      node common/scripts/install-run-rush.js install
+      node common/scripts/install-run-rush.js install --debug-package-manager
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
     displayName: "Install dependencies"
 
