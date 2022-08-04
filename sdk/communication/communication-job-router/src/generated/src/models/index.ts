@@ -10,24 +10,24 @@ import * as coreHttp from "@azure/core-http";
 
 export type QueueSelectorAttachmentUnion =
   | QueueSelectorAttachment
-  | ConditionalQueueSelector
-  | PassThroughQueueSelector
-  | RuleEngineQueueSelector
-  | StaticQueueSelector
-  | WeightedAllocationQueueSelector;
+  | ConditionalQueueSelectorAttachment
+  | PassThroughQueueSelectorAttachment
+  | RuleEngineQueueSelectorAttachment
+  | StaticQueueSelectorAttachment
+  | WeightedAllocationQueueSelectorAttachment;
 export type RouterRuleUnion =
   | RouterRule
-  | AzureFunctionRule
   | DirectMapRule
   | ExpressionRule
+  | FunctionRule
   | StaticRule;
 export type WorkerSelectorAttachmentUnion =
   | WorkerSelectorAttachment
-  | ConditionalWorkerSelector
-  | PassThroughWorkerSelector
-  | RuleEngineWorkerSelector
-  | StaticWorkerSelector
-  | WeightedAllocationWorkerSelector;
+  | ConditionalWorkerSelectorAttachment
+  | PassThroughWorkerSelectorAttachment
+  | RuleEngineWorkerSelectorAttachment
+  | StaticWorkerSelectorAttachment
+  | WeightedAllocationWorkerSelectorAttachment;
 export type DistributionModeUnion =
   | DistributionMode
   | BestWorkerMode
@@ -91,9 +91,9 @@ export interface QueueSelectorAttachment {
 export interface RouterRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind:
-    | "azure-function-rule"
     | "direct-map-rule"
     | "expression-rule"
+    | "azure-function-rule"
     | "static-rule";
 }
 
@@ -139,35 +139,17 @@ export interface CommunicationError {
 
 /** A paged collection of classification policies. */
 export interface ClassificationPolicyCollection {
-  value: PagedClassificationPolicy[];
+  value: ClassificationPolicyItem[];
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
 }
 
-/** A classification policy returned from a pageable list */
-export interface PagedClassificationPolicy {
-  /**
-   * Unique identifier of this policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** Friendly name of this policy. */
-  name?: string;
-  /** The fallback queue to select if the queue selector doesn't find a match. */
-  fallbackQueueId?: string;
-  /** The queue selectors to resolve a queue for a given job. */
-  queueSelectors?: QueueSelectorAttachmentUnion[];
-  /**
-   * A rule of one of the following types:
-   *
-   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
-   * DirectMapRule:  A rule that return the same labels as the input labels.
-   * ExpressionRule: A rule providing inline expression rules.
-   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
-   */
-  prioritizationRule?: RouterRuleUnion;
-  /** The worker label selectors to attach to a given job. */
-  workerSelectors?: WorkerSelectorAttachmentUnion[];
+/** Paged instance of ClassificationPolicy */
+export interface ClassificationPolicyItem {
+  /** A container for the rules that govern how jobs are classified. */
+  classificationPolicy?: ClassificationPolicy;
+  /** (Optional) The Concurrency Token. */
+  etag?: string;
 }
 
 /** Policy governing how jobs are distributed to workers */
@@ -205,24 +187,17 @@ export interface DistributionMode {
 
 /** A paged collection of distribution policies. */
 export interface DistributionPolicyCollection {
-  value: PagedDistributionPolicy[];
+  value: DistributionPolicyItem[];
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
 }
 
-/** A distribution policy returned from a pageable list */
-export interface PagedDistributionPolicy {
-  /**
-   * The unique identifier of the policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** The human readable name of the policy. */
-  name?: string;
-  /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlSeconds?: number;
-  /** Abstract base class for defining a distribution mode */
-  mode?: DistributionModeUnion;
+/** Paged instance of DistributionPolicy */
+export interface DistributionPolicyItem {
+  /** Policy governing how jobs are distributed to workers */
+  distributionPolicy?: DistributionPolicy;
+  /** (Optional) The Concurrency Token. */
+  etag?: string;
 }
 
 /** A policy that defines actions to execute when exception are triggered. */
@@ -254,22 +229,17 @@ export interface JobExceptionTrigger {
 
 /** A paged collection of exception policies. */
 export interface ExceptionPolicyCollection {
-  value: PagedExceptionPolicy[];
+  value: ExceptionPolicyItem[];
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
 }
 
-/** An exception policy returned from a pageable list */
-export interface PagedExceptionPolicy {
-  /**
-   * The Id of the exception policy
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** (Optional) The name of the exception policy. */
-  name?: string;
-  /** (Optional) A dictionary collection of exception rules on the exception policy. Key is the Id of each exception rule. */
-  exceptionRules?: { [propertyName: string]: ExceptionRule };
+/** Paged instance of ExceptionPolicy */
+export interface ExceptionPolicyItem {
+  /** A policy that defines actions to execute when exception are triggered. */
+  exceptionPolicy?: ExceptionPolicy;
+  /** (Optional) The Concurrency Token. */
+  etag?: string;
 }
 
 /** A unit of work to be routed */
@@ -285,7 +255,7 @@ export interface RouterJob {
    * The state of the Job.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly jobStatus?: JobStatus;
+  readonly jobStatus?: RouterJobStatus;
   /**
    * The time a job was queued.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -334,9 +304,19 @@ export interface WorkerSelector {
   ttlSeconds?: number;
   /** Pushes the job to the front of the queue as long as this selector is active. */
   expedite?: boolean;
+  /**
+   * The state of the worker selector.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: WorkerSelectorState;
+  /**
+   * The time at which this worker selector expires in UTC
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expireTime?: Date;
 }
 
-/** Assigns a job to a worker */
+/** Assignment details of a job to a worker */
 export interface JobAssignment {
   /** The Id of the job assignment. */
   id: string;
@@ -386,59 +366,17 @@ export interface CloseJobRequest {
 
 /** A paged collection of jobs. */
 export interface JobCollection {
-  value: PagedJob[];
+  value: RouterJobItem[];
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
 }
 
-/** A job returned from a pageable list */
-export interface PagedJob {
-  /**
-   * The id of the job.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** Reference to an external parent context, eg. call ID. */
-  channelReference?: string;
-  /**
-   * The state of the Job.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly jobStatus?: JobStatus;
-  /**
-   * The time a job was queued.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enqueueTimeUtc?: Date;
-  /** The channel identifier. eg. voice, chat, etc. */
-  channelId?: string;
-  /** The Id of the Classification policy used for classifying a job. */
-  classificationPolicyId?: string;
-  /** The Id of the Queue that this job is queued to. */
-  queueId?: string;
-  /** The priority of this job. */
-  priority?: number;
-  /** Reason code for cancelled or closed jobs. */
-  dispositionCode?: string;
-  /** A collection of manually specified label selectors, which a worker must satisfy in order to process this job. */
-  requestedWorkerSelectors?: WorkerSelector[];
-  /**
-   * A collection of label selectors attached by a classification policy, which a worker must satisfy in order to process this job.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly attachedWorkerSelectors?: WorkerSelector[];
-  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: { [propertyName: string]: any };
-  /**
-   * A collection of the assignments of the job.
-   * Key is AssignmentId.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assignments?: { [propertyName: string]: JobAssignment };
-  /** A set of non-identifying attributes attached to this job */
-  tags?: { [propertyName: string]: any };
-  /** Notes attached to a job, sorted by timestamp */
-  notes?: { [propertyName: string]: string };
+/** Paged instance of RouterJob */
+export interface RouterJobItem {
+  /** A unit of work to be routed */
+  routerJob?: RouterJob;
+  /** (Optional) The Concurrency Token. */
+  etag?: string;
 }
 
 /** Dto for JobPositionDetails. */
@@ -455,8 +393,16 @@ export interface JobPositionDetails {
   estimatedWaitTimeMinutes: number;
 }
 
+/** Response payload after a job has been successfully unassigned. */
+export interface UnassignJobResult {
+  /** The Id of the job unassigned. */
+  jobId: string;
+  /** The number of times a job is unassigned. At a maximum 3. */
+  unassignmentCount: number;
+}
+
 /** Response containing Id's for the worker, job, and assignment from an accepted offer */
-export interface AcceptJobOfferResponse {
+export interface AcceptJobOfferResult {
   /** The assignment Id that assigns a worker that has accepted an offer to a job. */
   assignmentId: string;
   /** The Id of the job assigned. */
@@ -475,7 +421,7 @@ export interface JobQueue {
   /** The name of this queue. */
   name?: string;
   /** The ID of the distribution policy that will determine how a job is distributed to workers. */
-  distributionPolicyId: string;
+  distributionPolicyId?: string;
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
   labels?: { [propertyName: string]: any };
   /** (Optional) The ID of the exception policy that determines various job escalation rules. */
@@ -484,26 +430,17 @@ export interface JobQueue {
 
 /** A paged collection of queues. */
 export interface QueueCollection {
-  value: PagedQueue[];
+  value: JobQueueItem[];
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
 }
 
-/** A queue returned from a pageable list */
-export interface PagedQueue {
-  /**
-   * The Id of this queue
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** The name of this queue. */
-  name?: string;
-  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
-  distributionPolicyId?: string;
-  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: { [propertyName: string]: any };
-  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
-  exceptionPolicyId?: string;
+/** Paged instance of JobQueue */
+export interface JobQueueItem {
+  /** A queue that can contain jobs to be routed. */
+  jobQueue?: JobQueue;
+  /** (Optional) The Concurrency Token. */
+  etag?: string;
 }
 
 /** Statistics for the queue */
@@ -562,7 +499,7 @@ export interface ChannelConfiguration {
   capacityCostPerJob: number;
 }
 
-/** An offer of an assignment of work to a worker */
+/** An offer of a job to a worker */
 export interface JobOffer {
   /** The Id of the offer. */
   id: string;
@@ -590,63 +527,17 @@ export interface WorkerAssignment {
 
 /** A paged collection of workers. */
 export interface WorkerCollection {
-  value: PagedWorker[];
+  value: RouterWorkerItem[];
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
 }
 
-/** A worker returned from a pageable list */
-export interface PagedWorker {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /**
-   * The current state of the worker.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: PagedWorkerState;
-  /** The queue(s) that this worker can receive work from. */
-  queueAssignments?: { [propertyName: string]: Record<string, unknown> };
-  /** The total capacity score this worker has to manage multiple concurrent jobs. */
-  totalCapacity?: number;
-  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: { [propertyName: string]: any };
-  /** A set of non-identifying attributes attached to this worker. */
-  tags?: { [propertyName: string]: any };
-  /** The channel(s) this worker can handle and their impact on the workers capacity. */
-  channelConfigurations?: { [propertyName: string]: ChannelConfiguration };
-  /**
-   * A list of active offers issued to this worker.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly offers?: JobOffer[];
-  /**
-   * A list of assigned jobs attached to this worker.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assignedJobs?: WorkerAssignment[];
-  /**
-   * A value indicating the workers capacity. A value of '1' means all capacity is consumed. A value of '0' means no capacity is currently consumed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly loadRatio?: number;
-  /** A flag indicating this worker is open to receive offers or not. */
-  availableForOffers?: boolean;
-}
-
-/** Credentials used to access Azure function rule */
-export interface AzureFunctionRuleCredential {
-  /** (Optional) Access key scoped to a particular function */
-  functionKey?: string;
-  /**
-   * (Optional) Access key scoped to a Azure Function app.
-   * This key grants access to all functions under the app.
-   */
-  appKey?: string;
-  /**
-   * (Optional) Client id, when AppKey is provided
-   * In context of Azure function, this is usually the name of the key
-   */
-  clientId?: string;
+/** Paged instance of RouterWorker */
+export interface RouterWorkerItem {
+  /** An entity for jobs to be routed to */
+  routerWorker?: RouterWorker;
+  /** (Optional) The Concurrency Token. */
+  etag?: string;
 }
 
 /** Encapsulates all options that can be passed as parameters for scoring rule with BestWorkerMode */
@@ -690,6 +581,22 @@ export interface QueueSelector {
   value?: Record<string, unknown>;
 }
 
+/** Credentials used to access Azure function rule */
+export interface FunctionRuleCredential {
+  /** (Optional) Access key scoped to a particular function */
+  functionKey?: string;
+  /**
+   * (Optional) Access key scoped to a Azure Function app.
+   * This key grants access to all functions under the app.
+   */
+  appKey?: string;
+  /**
+   * (Optional) Client id, when AppKey is provided
+   * In context of Azure function, this is usually the name of the key
+   */
+  clientId?: string;
+}
+
 /** Contains the weight percentage and label selectors to be applied if selected for weighted distributions. */
 export interface QueueWeightedAllocation {
   /** The percentage of this weight, expressed as a fraction of 1. */
@@ -698,7 +605,7 @@ export interface QueueWeightedAllocation {
   labelSelectors: QueueSelector[];
 }
 
-/**  Contains the weight percentage and label selectors to be applied if selected for weighted distributions. */
+/** Contains the weight percentage and label selectors to be applied if selected for weighted distributions. */
 export interface WorkerWeightedAllocation {
   /** The percentage of this weight, expressed as a fraction of 1. */
   weight: number;
@@ -707,7 +614,8 @@ export interface WorkerWeightedAllocation {
 }
 
 /** Describes a set of label selectors that will be attached if the given condition resolves to true */
-export interface ConditionalQueueSelector extends QueueSelectorAttachment {
+export interface ConditionalQueueSelectorAttachment
+  extends QueueSelectorAttachment {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "conditional";
   /**
@@ -724,7 +632,8 @@ export interface ConditionalQueueSelector extends QueueSelectorAttachment {
 }
 
 /** Attaches a label selector where the value is pass through from the job label with the same key */
-export interface PassThroughQueueSelector extends QueueSelectorAttachment {
+export interface PassThroughQueueSelectorAttachment
+  extends QueueSelectorAttachment {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "pass-through";
   /** The label key to query against */
@@ -734,7 +643,8 @@ export interface PassThroughQueueSelector extends QueueSelectorAttachment {
 }
 
 /** Attaches labels to a worker when a RouterRule is resolved */
-export interface RuleEngineQueueSelector extends QueueSelectorAttachment {
+export interface RuleEngineQueueSelectorAttachment
+  extends QueueSelectorAttachment {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "rule-engine";
   /**
@@ -749,7 +659,7 @@ export interface RuleEngineQueueSelector extends QueueSelectorAttachment {
 }
 
 /** Describes a label selector that will always be attached */
-export interface StaticQueueSelector extends QueueSelectorAttachment {
+export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "static";
   /** Describes a condition that must be met against a set of labels for queue selection */
@@ -757,22 +667,12 @@ export interface StaticQueueSelector extends QueueSelectorAttachment {
 }
 
 /** Describes multiple sets of label selectors, of which one will be selected and attached according to a weighting */
-export interface WeightedAllocationQueueSelector
+export interface WeightedAllocationQueueSelectorAttachment
   extends QueueSelectorAttachment {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "weighted-allocation-queue-selector";
   /** A collection of percentage based weighted allocations. */
   allocations: QueueWeightedAllocation[];
-}
-
-/** A rule providing a binding to an HTTP Triggered Azure Function. */
-export interface AzureFunctionRule extends RouterRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "azure-function-rule";
-  /** URL for Azure Function */
-  functionUrl: string;
-  /** Credentials used to access Azure function rule */
-  credential?: AzureFunctionRuleCredential;
 }
 
 /** A rule that return the same labels as the input labels. */
@@ -791,6 +691,16 @@ export interface ExpressionRule extends RouterRule {
   expression: string;
 }
 
+/** A rule providing a binding to an HTTP Triggered Azure Function. */
+export interface FunctionRule extends RouterRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "azure-function-rule";
+  /** URL for Azure Function */
+  functionUri: string;
+  /** Credentials used to access Azure function rule */
+  credential?: FunctionRuleCredential;
+}
+
 /** A rule providing static rules that always return the same result, regardless of input. */
 export interface StaticRule extends RouterRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -800,7 +710,8 @@ export interface StaticRule extends RouterRule {
 }
 
 /** Describes a set of label selectors that will be attached if the given condition resolves to true */
-export interface ConditionalWorkerSelector extends WorkerSelectorAttachment {
+export interface ConditionalWorkerSelectorAttachment
+  extends WorkerSelectorAttachment {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "conditional";
   /**
@@ -817,7 +728,8 @@ export interface ConditionalWorkerSelector extends WorkerSelectorAttachment {
 }
 
 /** Attaches a label selector where the value is pass through from the job label with the same key */
-export interface PassThroughWorkerSelector extends WorkerSelectorAttachment {
+export interface PassThroughWorkerSelectorAttachment
+  extends WorkerSelectorAttachment {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "pass-through";
   /** The label key to query against */
@@ -829,7 +741,8 @@ export interface PassThroughWorkerSelector extends WorkerSelectorAttachment {
 }
 
 /** Attaches labels to a worker when a RouterRule is resolved */
-export interface RuleEngineWorkerSelector extends WorkerSelectorAttachment {
+export interface RuleEngineWorkerSelectorAttachment
+  extends WorkerSelectorAttachment {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "rule-engine";
   /**
@@ -844,7 +757,8 @@ export interface RuleEngineWorkerSelector extends WorkerSelectorAttachment {
 }
 
 /** Describes a label selector that will always be attached */
-export interface StaticWorkerSelector extends WorkerSelectorAttachment {
+export interface StaticWorkerSelectorAttachment
+  extends WorkerSelectorAttachment {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "static";
   /** Describes a condition that must be met against a set of labels for worker selection */
@@ -852,7 +766,7 @@ export interface StaticWorkerSelector extends WorkerSelectorAttachment {
 }
 
 /** Describes multiple sets of label selectors, of which one will be selected and attached according to a weighting */
-export interface WeightedAllocationWorkerSelector
+export interface WeightedAllocationWorkerSelectorAttachment
   extends WorkerSelectorAttachment {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "weighted-allocation-worker-selector";
@@ -901,8 +815,8 @@ export interface QueueLengthExceptionTrigger extends JobExceptionTrigger {
 export interface WaitTimeExceptionTrigger extends JobExceptionTrigger {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "wait-time";
-  /** Threshold for wait time for this trigger. Requires input conforming to ISO8601 duration format. */
-  threshold: string;
+  /** Threshold for wait time for this trigger. */
+  thresholdSeconds: number;
 }
 
 /** An action that marks a job as cancelled */
@@ -957,29 +871,8 @@ export enum KnownRouterWorkerState {
  * **inactive**
  */
 export type RouterWorkerState = string;
-
-/** Known values of {@link PagedWorkerState} that the service accepts. */
-export enum KnownPagedWorkerState {
-  /** Active */
-  Active = "active",
-  /** Draining */
-  Draining = "draining",
-  /** Inactive */
-  Inactive = "inactive"
-}
-
-/**
- * Defines values for PagedWorkerState. \
- * {@link KnownPagedWorkerState} can be used interchangeably with PagedWorkerState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **active** \
- * **draining** \
- * **inactive**
- */
-export type PagedWorkerState = string;
-/** Defines values for JobStatus. */
-export type JobStatus =
+/** Defines values for RouterJobStatus. */
+export type RouterJobStatus =
   | "pendingClassification"
   | "queued"
   | "assigned"
@@ -996,6 +889,8 @@ export type LabelOperator =
   | "lessThanEqual"
   | "greaterThan"
   | "greaterThanEqual";
+/** Defines values for WorkerSelectorState. */
+export type WorkerSelectorState = "active" | "expired";
 /** Defines values for JobStateSelector. */
 export type JobStateSelector =
   | "all"
@@ -1013,11 +908,11 @@ export type WorkerStateSelector = "active" | "draining" | "inactive" | "all";
 export type ScoringRuleParameterSelector = "jobLabels" | "workerSelectors";
 
 /** Optional parameters. */
-export interface JobRouterUpsertClassificationPolicyOptionalParams
+export interface JobRouterAdministrationUpsertClassificationPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the upsertClassificationPolicy operation. */
-export type JobRouterUpsertClassificationPolicyResponse = ClassificationPolicy & {
+export type JobRouterAdministrationUpsertClassificationPolicyResponse = ClassificationPolicy & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1029,11 +924,11 @@ export type JobRouterUpsertClassificationPolicyResponse = ClassificationPolicy &
 };
 
 /** Optional parameters. */
-export interface JobRouterGetClassificationPolicyOptionalParams
+export interface JobRouterAdministrationGetClassificationPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getClassificationPolicy operation. */
-export type JobRouterGetClassificationPolicyResponse = ClassificationPolicy & {
+export type JobRouterAdministrationGetClassificationPolicyResponse = ClassificationPolicy & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1045,18 +940,18 @@ export type JobRouterGetClassificationPolicyResponse = ClassificationPolicy & {
 };
 
 /** Optional parameters. */
-export interface JobRouterDeleteClassificationPolicyOptionalParams
+export interface JobRouterAdministrationDeleteClassificationPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Optional parameters. */
-export interface JobRouterListClassificationPoliciesOptionalParams
+export interface JobRouterAdministrationListClassificationPoliciesOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum page size */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listClassificationPolicies operation. */
-export type JobRouterListClassificationPoliciesResponse = ClassificationPolicyCollection & {
+export type JobRouterAdministrationListClassificationPoliciesResponse = ClassificationPolicyCollection & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1068,11 +963,11 @@ export type JobRouterListClassificationPoliciesResponse = ClassificationPolicyCo
 };
 
 /** Optional parameters. */
-export interface JobRouterUpsertDistributionPolicyOptionalParams
+export interface JobRouterAdministrationUpsertDistributionPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the upsertDistributionPolicy operation. */
-export type JobRouterUpsertDistributionPolicyResponse = DistributionPolicy & {
+export type JobRouterAdministrationUpsertDistributionPolicyResponse = DistributionPolicy & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1084,11 +979,11 @@ export type JobRouterUpsertDistributionPolicyResponse = DistributionPolicy & {
 };
 
 /** Optional parameters. */
-export interface JobRouterGetDistributionPolicyOptionalParams
+export interface JobRouterAdministrationGetDistributionPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getDistributionPolicy operation. */
-export type JobRouterGetDistributionPolicyResponse = DistributionPolicy & {
+export type JobRouterAdministrationGetDistributionPolicyResponse = DistributionPolicy & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1100,18 +995,18 @@ export type JobRouterGetDistributionPolicyResponse = DistributionPolicy & {
 };
 
 /** Optional parameters. */
-export interface JobRouterDeleteDistributionPolicyOptionalParams
+export interface JobRouterAdministrationDeleteDistributionPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Optional parameters. */
-export interface JobRouterListDistributionPoliciesOptionalParams
+export interface JobRouterAdministrationListDistributionPoliciesOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum page size */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listDistributionPolicies operation. */
-export type JobRouterListDistributionPoliciesResponse = DistributionPolicyCollection & {
+export type JobRouterAdministrationListDistributionPoliciesResponse = DistributionPolicyCollection & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1123,11 +1018,11 @@ export type JobRouterListDistributionPoliciesResponse = DistributionPolicyCollec
 };
 
 /** Optional parameters. */
-export interface JobRouterUpsertExceptionPolicyOptionalParams
+export interface JobRouterAdministrationUpsertExceptionPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the upsertExceptionPolicy operation. */
-export type JobRouterUpsertExceptionPolicyResponse = ExceptionPolicy & {
+export type JobRouterAdministrationUpsertExceptionPolicyResponse = ExceptionPolicy & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1139,11 +1034,11 @@ export type JobRouterUpsertExceptionPolicyResponse = ExceptionPolicy & {
 };
 
 /** Optional parameters. */
-export interface JobRouterGetExceptionPolicyOptionalParams
+export interface JobRouterAdministrationGetExceptionPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getExceptionPolicy operation. */
-export type JobRouterGetExceptionPolicyResponse = ExceptionPolicy & {
+export type JobRouterAdministrationGetExceptionPolicyResponse = ExceptionPolicy & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1155,18 +1050,18 @@ export type JobRouterGetExceptionPolicyResponse = ExceptionPolicy & {
 };
 
 /** Optional parameters. */
-export interface JobRouterDeleteExceptionPolicyOptionalParams
+export interface JobRouterAdministrationDeleteExceptionPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Optional parameters. */
-export interface JobRouterListExceptionPoliciesOptionalParams
+export interface JobRouterAdministrationListExceptionPoliciesOptionalParams
   extends coreHttp.OperationOptions {
   /** Number of objects to return per page */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listExceptionPolicies operation. */
-export type JobRouterListExceptionPoliciesResponse = ExceptionPolicyCollection & {
+export type JobRouterAdministrationListExceptionPoliciesResponse = ExceptionPolicyCollection & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1174,6 +1069,137 @@ export type JobRouterListExceptionPoliciesResponse = ExceptionPolicyCollection &
 
     /** The response body as parsed JSON or XML */
     parsedBody: ExceptionPolicyCollection;
+  };
+};
+
+/** Optional parameters. */
+export interface JobRouterAdministrationUpsertQueueOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Contains response data for the upsertQueue operation. */
+export type JobRouterAdministrationUpsertQueueResponse = JobQueue & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: JobQueue;
+  };
+};
+
+/** Optional parameters. */
+export interface JobRouterAdministrationGetQueueOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Contains response data for the getQueue operation. */
+export type JobRouterAdministrationGetQueueResponse = JobQueue & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: JobQueue;
+  };
+};
+
+/** Optional parameters. */
+export interface JobRouterAdministrationDeleteQueueOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
+export interface JobRouterAdministrationListQueuesOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Number of objects to return per page */
+  maxpagesize?: number;
+}
+
+/** Contains response data for the listQueues operation. */
+export type JobRouterAdministrationListQueuesResponse = QueueCollection & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: QueueCollection;
+  };
+};
+
+/** Optional parameters. */
+export interface JobRouterAdministrationListClassificationPoliciesNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Maximum page size */
+  maxpagesize?: number;
+}
+
+/** Contains response data for the listClassificationPoliciesNext operation. */
+export type JobRouterAdministrationListClassificationPoliciesNextResponse = ClassificationPolicyCollection & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: ClassificationPolicyCollection;
+  };
+};
+
+/** Optional parameters. */
+export interface JobRouterAdministrationListDistributionPoliciesNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Maximum page size */
+  maxpagesize?: number;
+}
+
+/** Contains response data for the listDistributionPoliciesNext operation. */
+export type JobRouterAdministrationListDistributionPoliciesNextResponse = DistributionPolicyCollection & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: DistributionPolicyCollection;
+  };
+};
+
+/** Optional parameters. */
+export interface JobRouterAdministrationListExceptionPoliciesNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Number of objects to return per page */
+  maxpagesize?: number;
+}
+
+/** Contains response data for the listExceptionPoliciesNext operation. */
+export type JobRouterAdministrationListExceptionPoliciesNextResponse = ExceptionPolicyCollection & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: ExceptionPolicyCollection;
+  };
+};
+
+/** Optional parameters. */
+export interface JobRouterAdministrationListQueuesNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Number of objects to return per page */
+  maxpagesize?: number;
+}
+
+/** Contains response data for the listQueuesNext operation. */
+export type JobRouterAdministrationListQueuesNextResponse = QueueCollection & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: QueueCollection;
   };
 };
 
@@ -1216,7 +1242,7 @@ export interface JobRouterDeleteJobOptionalParams
 /** Optional parameters. */
 export interface JobRouterReclassifyJobActionOptionalParams
   extends coreHttp.OperationOptions {
-  /** Request object for reclassifying a job */
+  /** Request object for reclassifying a job. */
   reclassifyJobRequest?: Record<string, unknown>;
 }
 
@@ -1312,6 +1338,8 @@ export interface JobRouterListJobsOptionalParams
   queueId?: string;
   /** (Optional) If specified, filter jobs by channel. */
   channelId?: string;
+  /** (Optional) If specified, filter jobs by classificationPolicy. */
+  classificationPolicyId?: string;
 }
 
 /** Contains response data for the listJobs operation. */
@@ -1343,18 +1371,34 @@ export type JobRouterGetInQueuePositionResponse = JobPositionDetails & {
 };
 
 /** Optional parameters. */
-export interface JobRouterAcceptJobActionOptionalParams
+export interface JobRouterUnassignJobActionOptionalParams
   extends coreHttp.OperationOptions {}
 
-/** Contains response data for the acceptJobAction operation. */
-export type JobRouterAcceptJobActionResponse = AcceptJobOfferResponse & {
+/** Contains response data for the unassignJobAction operation. */
+export type JobRouterUnassignJobActionResponse = UnassignJobResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: AcceptJobOfferResponse;
+    parsedBody: UnassignJobResult;
+  };
+};
+
+/** Optional parameters. */
+export interface JobRouterAcceptJobActionOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Contains response data for the acceptJobAction operation. */
+export type JobRouterAcceptJobActionResponse = AcceptJobOfferResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AcceptJobOfferResult;
   };
 };
 
@@ -1371,61 +1415,6 @@ export type JobRouterDeclineJobActionResponse = Record<string, unknown> & {
 
     /** The response body as parsed JSON or XML */
     parsedBody: Record<string, unknown>;
-  };
-};
-
-/** Optional parameters. */
-export interface JobRouterUpsertQueueOptionalParams
-  extends coreHttp.OperationOptions {}
-
-/** Contains response data for the upsertQueue operation. */
-export type JobRouterUpsertQueueResponse = JobQueue & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobQueue;
-  };
-};
-
-/** Optional parameters. */
-export interface JobRouterGetQueueOptionalParams
-  extends coreHttp.OperationOptions {}
-
-/** Contains response data for the getQueue operation. */
-export type JobRouterGetQueueResponse = JobQueue & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobQueue;
-  };
-};
-
-/** Optional parameters. */
-export interface JobRouterDeleteQueueOptionalParams
-  extends coreHttp.OperationOptions {}
-
-/** Optional parameters. */
-export interface JobRouterListQueuesOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Number of objects to return per page */
-  maxpagesize?: number;
-}
-
-/** Contains response data for the listQueues operation. */
-export type JobRouterListQueuesResponse = QueueCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: QueueCollection;
   };
 };
 
@@ -1512,63 +1501,6 @@ export type JobRouterListWorkersResponse = WorkerCollection & {
 };
 
 /** Optional parameters. */
-export interface JobRouterListClassificationPoliciesNextOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Maximum page size */
-  maxpagesize?: number;
-}
-
-/** Contains response data for the listClassificationPoliciesNext operation. */
-export type JobRouterListClassificationPoliciesNextResponse = ClassificationPolicyCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ClassificationPolicyCollection;
-  };
-};
-
-/** Optional parameters. */
-export interface JobRouterListDistributionPoliciesNextOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Maximum page size */
-  maxpagesize?: number;
-}
-
-/** Contains response data for the listDistributionPoliciesNext operation. */
-export type JobRouterListDistributionPoliciesNextResponse = DistributionPolicyCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DistributionPolicyCollection;
-  };
-};
-
-/** Optional parameters. */
-export interface JobRouterListExceptionPoliciesNextOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Number of objects to return per page */
-  maxpagesize?: number;
-}
-
-/** Contains response data for the listExceptionPoliciesNext operation. */
-export type JobRouterListExceptionPoliciesNextResponse = ExceptionPolicyCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ExceptionPolicyCollection;
-  };
-};
-
-/** Optional parameters. */
 export interface JobRouterListJobsNextOptionalParams
   extends coreHttp.OperationOptions {
   /** Number of objects to return per page */
@@ -1579,6 +1511,8 @@ export interface JobRouterListJobsNextOptionalParams
   queueId?: string;
   /** (Optional) If specified, filter jobs by channel. */
   channelId?: string;
+  /** (Optional) If specified, filter jobs by classificationPolicy. */
+  classificationPolicyId?: string;
 }
 
 /** Contains response data for the listJobsNext operation. */
@@ -1590,25 +1524,6 @@ export type JobRouterListJobsNextResponse = JobCollection & {
 
     /** The response body as parsed JSON or XML */
     parsedBody: JobCollection;
-  };
-};
-
-/** Optional parameters. */
-export interface JobRouterListQueuesNextOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Number of objects to return per page */
-  maxpagesize?: number;
-}
-
-/** Contains response data for the listQueuesNext operation. */
-export type JobRouterListQueuesNextResponse = QueueCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: QueueCollection;
   };
 };
 

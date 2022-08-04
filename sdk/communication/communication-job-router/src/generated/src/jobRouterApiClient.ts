@@ -7,8 +7,8 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { JobRouterImpl } from "./operations";
-import { JobRouter } from "./operationsInterfaces";
+import { JobRouterAdministrationImpl, JobRouterImpl } from "./operations";
+import { JobRouterAdministration, JobRouter } from "./operationsInterfaces";
 import { JobRouterApiClientOptionalParams } from "./models";
 
 const packageName = "azure-communication-jobrouter";
@@ -51,9 +51,11 @@ export class JobRouterApiClient extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-10-20-preview2";
+    this.apiVersion = options.apiVersion || "2022-07-18-preview";
+    this.jobRouterAdministration = new JobRouterAdministrationImpl(this);
     this.jobRouter = new JobRouterImpl(this);
   }
 
+  jobRouterAdministration: JobRouterAdministration;
   jobRouter: JobRouter;
 }

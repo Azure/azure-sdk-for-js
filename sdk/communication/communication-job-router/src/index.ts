@@ -3,7 +3,7 @@
 
 export * from "./models/options";
 export * from "./models/models";
-export * from "./models/requests";
 export * from "./models/responses";
 export * from "./routerClient";
+export * from "./routerAdministrationClient";
 export * from "./policies";

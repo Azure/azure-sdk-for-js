@@ -49,6 +49,6 @@ export class JobRouterApiClientContext extends coreHttp.ServiceClient {
     this.$host = $host;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-10-20-preview2";
+    this.apiVersion = options.apiVersion || "2022-07-18-preview";
   }
 }

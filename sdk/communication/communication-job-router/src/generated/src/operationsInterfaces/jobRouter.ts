@@ -9,36 +9,10 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import {
-  PagedClassificationPolicy,
-  JobRouterListClassificationPoliciesOptionalParams,
-  PagedDistributionPolicy,
-  JobRouterListDistributionPoliciesOptionalParams,
-  PagedExceptionPolicy,
-  JobRouterListExceptionPoliciesOptionalParams,
-  PagedJob,
+  RouterJobItem,
   JobRouterListJobsOptionalParams,
-  PagedQueue,
-  JobRouterListQueuesOptionalParams,
-  PagedWorker,
+  RouterWorkerItem,
   JobRouterListWorkersOptionalParams,
-  ClassificationPolicy,
-  JobRouterUpsertClassificationPolicyOptionalParams,
-  JobRouterUpsertClassificationPolicyResponse,
-  JobRouterGetClassificationPolicyOptionalParams,
-  JobRouterGetClassificationPolicyResponse,
-  JobRouterDeleteClassificationPolicyOptionalParams,
-  DistributionPolicy,
-  JobRouterUpsertDistributionPolicyOptionalParams,
-  JobRouterUpsertDistributionPolicyResponse,
-  JobRouterGetDistributionPolicyOptionalParams,
-  JobRouterGetDistributionPolicyResponse,
-  JobRouterDeleteDistributionPolicyOptionalParams,
-  ExceptionPolicy,
-  JobRouterUpsertExceptionPolicyOptionalParams,
-  JobRouterUpsertExceptionPolicyResponse,
-  JobRouterGetExceptionPolicyOptionalParams,
-  JobRouterGetExceptionPolicyResponse,
-  JobRouterDeleteExceptionPolicyOptionalParams,
   RouterJob,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertJobResponse,
@@ -55,16 +29,12 @@ import {
   JobRouterCloseJobActionResponse,
   JobRouterGetInQueuePositionOptionalParams,
   JobRouterGetInQueuePositionResponse,
+  JobRouterUnassignJobActionOptionalParams,
+  JobRouterUnassignJobActionResponse,
   JobRouterAcceptJobActionOptionalParams,
   JobRouterAcceptJobActionResponse,
   JobRouterDeclineJobActionOptionalParams,
   JobRouterDeclineJobActionResponse,
-  JobQueue,
-  JobRouterUpsertQueueOptionalParams,
-  JobRouterUpsertQueueResponse,
-  JobRouterGetQueueOptionalParams,
-  JobRouterGetQueueResponse,
-  JobRouterDeleteQueueOptionalParams,
   JobRouterGetQueueStatisticsOptionalParams,
   JobRouterGetQueueStatisticsResponse,
   RouterWorker,
@@ -79,142 +49,24 @@ import {
 /** Interface representing a JobRouter. */
 export interface JobRouter {
   /**
-   * Retrieves existing classification policies
-   * @param options The options parameters.
-   */
-  listClassificationPolicies(
-    options?: JobRouterListClassificationPoliciesOptionalParams
-  ): PagedAsyncIterableIterator<PagedClassificationPolicy>;
-  /**
-   * Retrieves existing distribution policies
-   * @param options The options parameters.
-   */
-  listDistributionPolicies(
-    options?: JobRouterListDistributionPoliciesOptionalParams
-  ): PagedAsyncIterableIterator<PagedDistributionPolicy>;
-  /**
-   * Retrieves existing exception policies
-   * @param options The options parameters.
-   */
-  listExceptionPolicies(
-    options?: JobRouterListExceptionPoliciesOptionalParams
-  ): PagedAsyncIterableIterator<PagedExceptionPolicy>;
-  /**
    * Retrieves list of jobs based on filter parameters
    * @param options The options parameters.
    */
   listJobs(
     options?: JobRouterListJobsOptionalParams
-  ): PagedAsyncIterableIterator<PagedJob>;
-  /**
-   * Retrieves existing queues
-   * @param options The options parameters.
-   */
-  listQueues(
-    options?: JobRouterListQueuesOptionalParams
-  ): PagedAsyncIterableIterator<PagedQueue>;
+  ): PagedAsyncIterableIterator<RouterJobItem>;
   /**
    * Retrieves existing workers.
    * @param options The options parameters.
    */
   listWorkers(
     options?: JobRouterListWorkersOptionalParams
-  ): PagedAsyncIterableIterator<PagedWorker>;
+  ): PagedAsyncIterableIterator<RouterWorkerItem>;
   /**
-   * Upsert a classification policy.
-   * @param id Id of the classification policy
-   * @param patch Model of classification policy properties to be patched. See also:
-   *              https://datatracker.ietf.org/doc/html/rfc7386
-   * @param options The options parameters.
-   */
-  upsertClassificationPolicy(
-    id: string,
-    patch: ClassificationPolicy,
-    options?: JobRouterUpsertClassificationPolicyOptionalParams
-  ): Promise<JobRouterUpsertClassificationPolicyResponse>;
-  /**
-   * Retrieves an existing classification policy by Id
-   * @param id Id of the classification policy
-   * @param options The options parameters.
-   */
-  getClassificationPolicy(
-    id: string,
-    options?: JobRouterGetClassificationPolicyOptionalParams
-  ): Promise<JobRouterGetClassificationPolicyResponse>;
-  /**
-   * Delete a classification policy by Id
-   * @param id Id of the classification policy
-   * @param options The options parameters.
-   */
-  deleteClassificationPolicy(
-    id: string,
-    options?: JobRouterDeleteClassificationPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse>;
-  /**
-   * Upsert a distribution policy.
-   * @param id Id of the distribution policy
-   * @param patch Model of distribution policy properties to be patched. See also:
-   *              https://datatracker.ietf.org/doc/html/rfc7386
-   * @param options The options parameters.
-   */
-  upsertDistributionPolicy(
-    id: string,
-    patch: DistributionPolicy,
-    options?: JobRouterUpsertDistributionPolicyOptionalParams
-  ): Promise<JobRouterUpsertDistributionPolicyResponse>;
-  /**
-   * Retrieves an existing distribution policy by Id
-   * @param id Id of the distribution policy
-   * @param options The options parameters.
-   */
-  getDistributionPolicy(
-    id: string,
-    options?: JobRouterGetDistributionPolicyOptionalParams
-  ): Promise<JobRouterGetDistributionPolicyResponse>;
-  /**
-   * Delete a distribution policy by Id
-   * @param id Id of the distribution policy
-   * @param options The options parameters.
-   */
-  deleteDistributionPolicy(
-    id: string,
-    options?: JobRouterDeleteDistributionPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse>;
-  /**
-   * Upsert a exception policy.
-   * @param id Id of the exception policy
-   * @param patch Model of exception policy properties to be patched. See also:
-   *              https://datatracker.ietf.org/doc/html/rfc7386
-   * @param options The options parameters.
-   */
-  upsertExceptionPolicy(
-    id: string,
-    patch: ExceptionPolicy,
-    options?: JobRouterUpsertExceptionPolicyOptionalParams
-  ): Promise<JobRouterUpsertExceptionPolicyResponse>;
-  /**
-   * Retrieves an existing exception policy by Id
-   * @param id Id of the exception policy to retrieve
-   * @param options The options parameters.
-   */
-  getExceptionPolicy(
-    id: string,
-    options?: JobRouterGetExceptionPolicyOptionalParams
-  ): Promise<JobRouterGetExceptionPolicyResponse>;
-  /**
-   * Deletes a exception policy by Id
-   * @param id Id of the exception policy to delete
-   * @param options The options parameters.
-   */
-  deleteExceptionPolicy(
-    id: string,
-    options?: JobRouterDeleteExceptionPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse>;
-  /**
-   * Upsert a job.
-   * @param id Id of the job
+   * Creates or updates a router job.
+   * @param id Id of the job.
    * @param patch Model of job properties to be created or patched. See also:
-   *              https://datatracker.ietf.org/doc/html/rfc7386
+   *              https://datatracker.ietf.org/doc/html/rfc7386.
    * @param options The options parameters.
    */
   upsertJob(
@@ -233,7 +85,7 @@ export interface JobRouter {
   ): Promise<JobRouterGetJobResponse>;
   /**
    * Deletes a job and all of its traces.
-   * @param id Id of the job
+   * @param id Id of the job.
    * @param options The options parameters.
    */
   deleteJob(
@@ -290,6 +142,17 @@ export interface JobRouter {
     options?: JobRouterGetInQueuePositionOptionalParams
   ): Promise<JobRouterGetInQueuePositionResponse>;
   /**
+   * Un-assign a job.
+   * @param id Id of the job to un-assign
+   * @param assignmentId Id of the assignment to un-assign
+   * @param options The options parameters.
+   */
+  unassignJobAction(
+    id: string,
+    assignmentId: string,
+    options?: JobRouterUnassignJobActionOptionalParams
+  ): Promise<JobRouterUnassignJobActionResponse>;
+  /**
    * Accepts an offer to work on a job and returns a 409/Conflict if another agent accepted the job
    * already.
    * @param workerId Id of the worker
@@ -313,36 +176,6 @@ export interface JobRouter {
     options?: JobRouterDeclineJobActionOptionalParams
   ): Promise<JobRouterDeclineJobActionResponse>;
   /**
-   * Upsert a queue.
-   * @param id Id of the queue
-   * @param patch Model of queue properties to be patched. See also:
-   *              https://datatracker.ietf.org/doc/html/rfc7386
-   * @param options The options parameters.
-   */
-  upsertQueue(
-    id: string,
-    patch: JobQueue,
-    options?: JobRouterUpsertQueueOptionalParams
-  ): Promise<JobRouterUpsertQueueResponse>;
-  /**
-   * Retrieves an existing queue by Id
-   * @param id Id of the queue to retrieve
-   * @param options The options parameters.
-   */
-  getQueue(
-    id: string,
-    options?: JobRouterGetQueueOptionalParams
-  ): Promise<JobRouterGetQueueResponse>;
-  /**
-   * Deletes a queue by Id
-   * @param id Id of the queue to delete
-   * @param options The options parameters.
-   */
-  deleteQueue(
-    id: string,
-    options?: JobRouterDeleteQueueOptionalParams
-  ): Promise<coreHttp.RestResponse>;
-  /**
    * Retrieves a queue's statistics
    * @param id Id of the queue to retrieve statistics
    * @param options The options parameters.
@@ -352,7 +185,7 @@ export interface JobRouter {
     options?: JobRouterGetQueueStatisticsOptionalParams
   ): Promise<JobRouterGetQueueStatisticsResponse>;
   /**
-   * Upsert a worker.
+   * Creates or updates a worker.
    * @param workerId Id of the worker
    * @param patch Model of worker properties to be patched. See also:
    *              https://datatracker.ietf.org/doc/html/rfc7386

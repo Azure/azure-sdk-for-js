@@ -3,18 +3,19 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { RouterClient } from "../../src";
+import { RouterAdministrationClient } from "../../src";
 import { Context } from "mocha";
 import { exceptionPolicyRequest } from "./utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../internal/utils/mockClient";
 
 describe("RouterClient", function() {
   let recorder: Recorder;
-  let client: RouterClient;
+  // let client: RouterClient;
+  let administrationClient: RouterAdministrationClient;
 
   describe("Exception Policy Operations", function() {
     beforeEach(function(this: Context) {
-      ({ client, recorder } = createRecordedRouterClientWithConnectionString(this));
+      ({ administrationClient, recorder } = createRecordedRouterClientWithConnectionString(this));
     });
 
     afterEach(async function(this: Context) {
@@ -26,7 +27,7 @@ describe("RouterClient", function() {
     it("should successfully create a exception policy", async function() {
       const request = exceptionPolicyRequest;
 
-      const result = await client.createExceptionPolicy(request.id!, request);
+      const result = await administrationClient.createExceptionPolicy(request.id!, request);
 
       assert.isDefined(result);
       assert.isDefined(result?.id);

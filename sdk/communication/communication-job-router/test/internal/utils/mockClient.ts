@@ -4,7 +4,7 @@
 import * as dotenv from "dotenv";
 import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { RouterClient } from "../../../src";
+import { RouterAdministrationClient, RouterClient } from "../../../src";
 import { isNode } from "@azure/core-http";
 import { parseConnectionString } from "@azure/communication-common";
 
@@ -14,6 +14,7 @@ if (isNode) {
 
 export interface RecordedRouterClient {
   client: RouterClient;
+  administrationClient: RouterAdministrationClient;
   recorder: Recorder;
 }
 
@@ -59,6 +60,7 @@ export function createRecordedRouterClientWithConnectionString(
 
   return {
     client: new RouterClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING),
+    administrationClient: new RouterAdministrationClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING),
     recorder
   };
 }
@@ -74,6 +76,7 @@ export function createRecordedRouterClientWithKeyCredential(
 
   return {
     client: new RouterClient(endpoint, credential),
+    administrationClient: new RouterAdministrationClient(endpoint, credential),
     recorder
   };
 }

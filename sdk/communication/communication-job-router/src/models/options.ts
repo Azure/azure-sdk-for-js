@@ -3,15 +3,18 @@
 
 import { PipelineOptions } from "@azure/core-http";
 import {
-  ChannelConfiguration, DistributionModeUnion, ExceptionRule,
+  ChannelConfiguration,
+  DistributionModeUnion,
+  ExceptionRule,
   JobRouterReclassifyJobActionOptionalParams,
-  JobRouterUpsertClassificationPolicyOptionalParams,
-  JobRouterUpsertDistributionPolicyOptionalParams,
-  JobRouterUpsertExceptionPolicyOptionalParams,
+  JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
+  JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
+  JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
   JobRouterUpsertJobOptionalParams,
-  JobRouterUpsertQueueOptionalParams,
+  JobRouterAdministrationUpsertQueueOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
-  JobStateSelector, QueueSelectorAttachmentUnion,
+  JobStateSelector,
+  QueueSelectorAttachmentUnion,
   RouterJob,
   WorkerSelector,
   WorkerStateSelector
@@ -30,7 +33,7 @@ export interface RouterClientOptions extends PipelineOptions {
  * Options to create a classification policy.
  */
 export interface CreateClassificationPolicyOptions
-  extends JobRouterUpsertClassificationPolicyOptionalParams {
+  extends JobRouterAdministrationUpsertClassificationPolicyOptionalParams {
   /** Friendly name of this policy. */
   name?: string;
   /** The fallback queue to select if the queue selector doesn't find a match. */
@@ -43,7 +46,7 @@ export interface CreateClassificationPolicyOptions
  * Options to update a classification policy.
  */
 export interface UpdateClassificationPolicyOptions
-  extends JobRouterUpsertClassificationPolicyOptionalParams {
+  extends JobRouterAdministrationUpsertClassificationPolicyOptionalParams {
   /** Friendly name of this policy. */
   name?: string;
   /** The fallback queue to select if the queue selector doesn't find a match. */
@@ -67,14 +70,14 @@ export interface DeleteClassificationPolicyOptions extends coreHttp.OperationOpt
  */
 export interface ListClassificationPoliciesOptions extends coreHttp.OperationOptions {
   /** Maximum page size */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
  * Options to create a distribution policy.
  */
 export interface CreateDistributionPolicyOptions
-  extends JobRouterUpsertDistributionPolicyOptionalParams {
+  extends JobRouterAdministrationUpsertDistributionPolicyOptionalParams {
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
@@ -87,7 +90,7 @@ export interface CreateDistributionPolicyOptions
  * Options to update a distribution policy.
  */
 export interface UpdateDistributionPolicyOptions
-  extends JobRouterUpsertDistributionPolicyOptionalParams {
+  extends JobRouterAdministrationUpsertDistributionPolicyOptionalParams {
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
@@ -111,14 +114,14 @@ export interface DeleteDistributionPolicyOptions extends coreHttp.OperationOptio
  */
 export interface ListDistributionPoliciesOptions extends coreHttp.OperationOptions {
   /** Maximum page size */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
  * Options to create a exception policy.
  */
 export interface CreateExceptionPolicyOptions
-  extends JobRouterUpsertExceptionPolicyOptionalParams {
+  extends JobRouterAdministrationUpsertExceptionPolicyOptionalParams {
   /** (Optional) The name of the exception policy. */
   name?: string;
   /** (Optional) A dictionary collection of exception rules on the exception policy. Key is the Id of each exception rule. */
@@ -129,7 +132,7 @@ export interface CreateExceptionPolicyOptions
  * Options to update a exception policy.
  */
 export interface UpdateExceptionPolicyOptions
-  extends JobRouterUpsertExceptionPolicyOptionalParams {
+  extends JobRouterAdministrationUpsertExceptionPolicyOptionalParams {
   /** (Optional) The name of the exception policy. */
   name?: string;
   /** (Optional) A dictionary collection of exception rules on the exception policy. Key is the Id of each exception rule. */
@@ -151,7 +154,7 @@ export interface DeleteExceptionPolicyOptions extends coreHttp.OperationOptions 
  */
 export interface ListExceptionPoliciesOptions extends coreHttp.OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
@@ -292,13 +295,15 @@ export interface CloseJobOptions extends coreHttp.OperationOptions {
  */
 export interface ListJobsOptions extends coreHttp.OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** (Optional) If specified, filter jobs by status. */
-  status?: JobStateSelector;
+  jobStateSelector?: JobStateSelector;
   /** (Optional) If specified, filter jobs by queue. */
   queueId?: string;
   /** (Optional) If specified, filter jobs by channel. */
   channelId?: string;
+  /** (Optional) If specified, filter jobs by classificationPolicy. */
+  classificationPolicyId?: string;
 }
 
 /**
@@ -362,7 +367,7 @@ export interface GetWorkerOptions extends coreHttp.OperationOptions {}
  */
 export interface ListWorkersOptions extends coreHttp.OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** (Optional) If specified, select workers who are assigned to this queue */
   queueId?: string;
   /** (Optional) If specified, select workers who have a channel configuration with this channel */
@@ -384,9 +389,11 @@ export interface DeleteWorkerOptions extends coreHttp.OperationOptions {}
 /**
  * Options to create a queue.
  */
-export interface CreateQueueOptions extends JobRouterUpsertQueueOptionalParams {
+export interface CreateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
   /** The name of this queue. */
   name?: string;
+  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
+  distributionPolicyId?: string;
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
   labels?: { [propertyName: string]: any };
   /** (Optional) The ID of the exception policy that determines various job escalation rules. */
@@ -396,7 +403,7 @@ export interface CreateQueueOptions extends JobRouterUpsertQueueOptionalParams {
 /**
  * Options to update a queue.
  */
-export interface UpdateQueueOptions extends JobRouterUpsertQueueOptionalParams {
+export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
   /** The name of this queue. */
   name?: string;
   /** The ID of the distribution policy that will determine how a job is distributed to workers. */
@@ -417,7 +424,7 @@ export interface GetQueueOptions extends coreHttp.OperationOptions {}
  */
 export interface ListQueuesOptions extends coreHttp.OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**

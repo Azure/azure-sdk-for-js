@@ -23,7 +23,7 @@ export var exceptionPolicyRequest: ExceptionPolicy = {
       },
       trigger: {
         kind: "wait-time",
-        threshold: "00:20:00"
+        threshold: 5
       }
     }
   }
@@ -40,14 +40,14 @@ export var classificationPolicyRequest: ClassificationPolicy = {
         {
           key: "foo",
           labelOperator: "equal",
-          value: { "default": 10 }
+          value: { default: 10 }
         }
       ]
     }
   ],
   prioritizationRule: {
     kind: "static-rule",
-    value: { "default": 2 }
+    value: { default: 2 }
   }
 };
 

@@ -110,14 +110,14 @@ const listRouterWorkers = async () => {
   const maxPageSize = 3;
   const receivedPagedItems = [];
   try {
-    for await (const page of routerClient.listWorkers({ maxpagesize: maxPageSize }).byPage()) {
+    for await (const page of routerClient.listWorkers({ maxPageSize: maxPageSize }).byPage()) {
       ++pagesCount;
       let pageSize = 0;
       console.log("page: " + pagesCount);
       for (const policy of page) {
         ++pageSize;
         receivedPagedItems.push(policy);
-        console.log("Listing router worker with id: " + policy.id);
+        console.log("Listing router worker with id: " + policy.routerWorker.id);
       }
       assert.isAtMost(pageSize, maxPageSize);
     }

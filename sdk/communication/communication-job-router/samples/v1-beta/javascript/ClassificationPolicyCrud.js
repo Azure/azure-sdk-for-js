@@ -4,7 +4,7 @@
 /**
  * @summary Classification policy crud
  */
-const { RouterClient } = require("@azure/communication-job-router");
+const { RouterAdministrationClient } = require("@azure/communication-job-router");
 
 // Load the .env file (you will need to set these environment variables)
 const dotenv = require("dotenv");
@@ -16,7 +16,7 @@ const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_
 // Create an classification policy
 const createClassificationPolicy = async () => {
   // Create the Router Client
-  const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const distributionPolicyRequest = {
     name: "distribution-policy-123",
@@ -28,7 +28,7 @@ const createClassificationPolicy = async () => {
     },
     offerTtlSeconds: 15,
   };
-  await routerClient.createDistributionPolicy(
+  await routerAdministrationClient.createDistributionPolicy(
     distributionPolicyRequest.id,
     distributionPolicyRequest
   );
@@ -57,7 +57,10 @@ const createClassificationPolicy = async () => {
       },
     },
   };
-  await routerClient.createExceptionPolicy(exceptionPolicyRequest.id, exceptionPolicyRequest);
+  await routerAdministrationClient.createExceptionPolicy(
+    exceptionPolicyRequest.id,
+    exceptionPolicyRequest
+  );
 
   const queueRequest = {
     id: "queue-123",
@@ -66,7 +69,7 @@ const createClassificationPolicy = async () => {
     labels: {},
     exceptionPolicyId: "exception-policy-123",
   };
-  await routerClient.createQueue(queueRequest.id, queueRequest);
+  await routerAdministrationClient.createQueue(queueRequest.id, queueRequest);
 
   const classificationPolicyRequest = {
     id: "classification-policy-123",
@@ -93,7 +96,7 @@ const createClassificationPolicy = async () => {
   try {
     const request = classificationPolicyRequest;
 
-    const result = await routerClient.createClassificationPolicy(request.id, request);
+    const result = await routerAdministrationClient.createClassificationPolicy(request.id, request);
 
     console.log("classification policy: " + result);
   } catch (error) {
@@ -107,12 +110,12 @@ void createClassificationPolicy();
 
 const getClassificationPolicy = async () => {
   // Create the Router Client
-  const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const policyId = "classification-policy-123";
 
   try {
-    const result = await routerClient.getClassificationPolicy(policyId);
+    const result = await routerAdministrationClient.getClassificationPolicy(policyId);
 
     console.log("classification policy: " + result);
   } catch (error) {
@@ -125,7 +128,7 @@ void getClassificationPolicy();
 // Update a classification policy
 const updateClassificationPolicy = async () => {
   // Create the Router Client
-  const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const classificationPolicyRequest = {
     id: "classification-policy-123",
@@ -152,7 +155,7 @@ const updateClassificationPolicy = async () => {
   try {
     const request = classificationPolicyRequest;
 
-    const result = await routerClient.updateClassificationPolicy(request.id, request);
+    const result = await routerAdministrationClient.updateClassificationPolicy(request.id, request);
 
     console.log("classification policy: " + result);
   } catch (error) {
@@ -165,14 +168,14 @@ void updateClassificationPolicy();
 // List classification policies
 const listClassificationPolicies = async () => {
   // Create the Router Client
-  const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems = [];
   try {
-    for await (const page of routerClient
-      .listClassificationPolicies({ maxpagesize: maxPageSize })
+    for await (const page of routerAdministrationClient
+      .listClassificationPolicies({ maxPageSize: maxPageSize })
       .byPage()) {
       ++pagesCount;
       let pageSize = 0;
@@ -180,7 +183,7 @@ const listClassificationPolicies = async () => {
       for (const policy of page) {
         ++pageSize;
         receivedPagedItems.push(policy);
-        console.log("Listing classification policy with id: " + policy.id);
+        console.log("Listing classification policy with id: " + policy.classificationPolicy.id);
       }
       assert.isAtMost(pageSize, maxPageSize);
     }
@@ -194,12 +197,12 @@ void listClassificationPolicies();
 // Delete classification policy
 const deleteClassificationPolicy = async () => {
   // Create the Router Client
-  const routerClient = new RouterClient(connectionString);
+  const routerAdministrationClient = new RouterAdministrationClient(connectionString);
 
   const policyId = "classification-policy-123";
 
   try {
-    const result = await routerClient.deleteClassificationPolicy(policyId);
+    const result = await routerAdministrationClient.deleteClassificationPolicy(policyId);
 
     console.log("classification policy: " + result);
   } catch (error) {

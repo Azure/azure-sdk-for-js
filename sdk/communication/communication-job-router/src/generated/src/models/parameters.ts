@@ -15,11 +15,11 @@ import {
   ClassificationPolicy as ClassificationPolicyMapper,
   DistributionPolicy as DistributionPolicyMapper,
   ExceptionPolicy as ExceptionPolicyMapper,
+  JobQueue as JobQueueMapper,
   RouterJob as RouterJobMapper,
   CancelJobRequest as CancelJobRequestMapper,
   CompleteJobRequest as CompleteJobRequestMapper,
   CloseJobRequest as CloseJobRequestMapper,
-  JobQueue as JobQueueMapper,
   RouterWorker as RouterWorkerMapper
 } from "../models/mappers";
 
@@ -78,7 +78,7 @@ export const id: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-20-preview2",
+    defaultValue: "2022-07-18-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -109,6 +109,23 @@ export const patch2: OperationParameter = {
 };
 
 export const patch3: OperationParameter = {
+  parameterPath: "patch",
+  mapper: JobQueueMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const patch4: OperationParameter = {
   parameterPath: "patch",
   mapper: RouterJobMapper
 };
@@ -218,6 +235,27 @@ export const channelId: OperationQueryParameter = {
   }
 };
 
+export const classificationPolicyId: OperationQueryParameter = {
+  parameterPath: ["options", "classificationPolicyId"],
+  mapper: {
+    serializedName: "classificationPolicyId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const assignmentId2: OperationURLParameter = {
+  parameterPath: "assignmentId",
+  mapper: {
+    serializedName: "assignmentId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const workerId: OperationURLParameter = {
   parameterPath: "workerId",
   mapper: {
@@ -238,11 +276,6 @@ export const offerId: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const patch4: OperationParameter = {
-  parameterPath: "patch",
-  mapper: JobQueueMapper
 };
 
 export const patch5: OperationParameter = {
@@ -270,16 +303,4 @@ export const hasCapacity: OperationQueryParameter = {
       name: "Boolean"
     }
   }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
