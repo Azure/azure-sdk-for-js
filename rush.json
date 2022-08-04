@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -375,7 +375,8 @@
       "packageName": "@azure/ai-text-analytics",
       "projectFolder": "sdk/textanalytics/ai-text-analytics",
       "versionPolicyName": "client"
-    },    {
+    },
+    {
       "packageName": "@azure/ai-language-text",
       "projectFolder": "sdk/cognitivelanguage/ai-language-text",
       "versionPolicyName": "client"
@@ -1786,6 +1787,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/api-management-custom-widgets-tools",
+      "projectFolder": "sdk/apimanagement/api-management-custom-widgets-tools",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-networkfunction",
       "projectFolder": "sdk/networkfunction/arm-networkfunction",
       "versionPolicyName": "management"
@@ -1793,6 +1799,11 @@
     {
       "packageName": "@azure/arm-fluidrelay",
       "projectFolder": "sdk/fluidrelay/arm-fluidrelay",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-automanage",
+      "projectFolder": "sdk/automanage/arm-automanage",
       "versionPolicyName": "management"
     }
   ]

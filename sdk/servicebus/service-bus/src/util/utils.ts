@@ -40,6 +40,18 @@ export function getUniqueName(name: string): string {
 
 /**
  * @internal
+ * Returns the passed identifier if it is not undefined or empty;
+ * otherwise generate and returns a unique one in the following format;
+ *   `{prefix}-{uuid}`.
+ * @param prefix - The prefix used to generate identifier
+ * @param identifier - an identifier name
+ */
+export function ensureValidIdentifier(prefix: string, identifier?: string): string {
+  return identifier ? identifier : getUniqueName(prefix);
+}
+
+/**
+ * @internal
  * If you try to turn a Guid into a Buffer in .NET, the bytes of the first three groups get
  * flipped within the group, but the last two groups don't get flipped, so we end up with a
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.

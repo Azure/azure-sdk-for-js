@@ -133,7 +133,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   protected _lockRenewer: LockRenewer | undefined;
 
   constructor(
-    private clientId: string,
+    public identifier: string,
     context: ConnectionContext,
     entityPath: string,
     receiverType: ReceiverType,
@@ -166,7 +166,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       {
         address: this.address,
       },
-      this.clientId,
+      this.identifier,
       {
         onSettled: (context: EventContext) => {
           return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
