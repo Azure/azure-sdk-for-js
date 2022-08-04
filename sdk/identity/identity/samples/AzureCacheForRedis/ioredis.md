@@ -55,14 +55,14 @@ async function main() {
   const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
   
   // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-  let accessTokenObject = await credential.getToken(
+  let accessToken = await credential.getToken(
     redisScope
   );
 
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   const redis = new Redis({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-    password: accessTokenObject.token,
+    password: accessToken.token,
     tls: {
       host: process.env.REDIS_HOSTNAME,
       port: 6380,
@@ -121,11 +121,11 @@ async function returnPassword(credential: TokenCredential) {
 async function main() {
   // Construct a Token Credential from Identity library
   const credential = new DefaultAzureCredential();
-  let accessTokenObject = await returnPassword(credential);
+  let accessToken = await returnPassword(credential);
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redis = new Redis({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-    password: accessTokenObject.token,
+    password: accessToken.token,
     tls: {
       host: process.env.REDIS_HOSTNAME,
       port: 6380,
@@ -142,11 +142,11 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-      if ((accessTokenObject.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
+      if ((accessToken.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
         redis.disconnect();
         redis = new Redis({
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-          password: accessTokenObject.token,
+          password: accessToken.token,
           tls: {
             host: process.env.REDIS_HOSTNAME,
             port: 6380,
@@ -185,32 +185,34 @@ async function returnPassword(credential: TokenCredential) {
     const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
-    let accessTokenObject = await credential.getToken(redisScope);
-    return accessTokenObject;
+    let accessToken = await credential.getToken(redisScope);
+    return accessToken;
 }
 
 async function main() {
   // Construct a Token Credential from Identity library
   const credential = new DefaultAzureCredential();
-  let accessTokenObject = await returnPassword(credential);
+  let accessTokenCache: AccessToken | undefined = undefined;
+  let id;
+
+  async function updateToken() {
+    accessTokenCache = await returnPassword(credential);
+    id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- 120*1000)) - Date.now());
+  }
+
+  await updateToken();
+
+  let accessToken: AccessToken | undefined = accessTokenCache;
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redis = new Redis({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-    password: accessTokenObject.token,
+    password: accessToken.token,
     tls: {
       host: process.env.REDIS_HOSTNAME,
       port: 6380,
     },
     keepAlive: 0
   });
-
-  const id = setInterval(async () => {
-    // Check for password expiry
-    console.log("checking for expiration,");
-    if ((accessTokenObject.expiresOnTimestamp- 120*1000) <= Date.now()) {
-      accessTokenObject = await returnPassword(credential);
-    }
-  }, 1000);
 
   for (let i = 0; i < 3; i++) {
     try {
@@ -221,11 +223,12 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-      if ((accessTokenObject.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
+      if ((accessToken.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
         redis.disconnect();
+        accessToken = accessTokenCache;
         redis = new Redis({
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-          password: accessTokenObject.token,
+          password: accessToken.token,
           tls: {
             host: process.env.REDIS_HOSTNAME,
             port: 6380,
@@ -234,9 +237,8 @@ async function main() {
         });
       }
     }
-    await sleep(1000);
   }
-  clearInterval(id);
+  clearTimeout(id);
 }
 
 main().catch((err) => {
@@ -245,9 +247,6 @@ main().catch((err) => {
   console.log("error stack: ", err.stack);
 });
 
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 ```
 
 #### Troubleshooting

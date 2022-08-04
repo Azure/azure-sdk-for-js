@@ -121,11 +121,11 @@ async function returnPassword(credential: TokenCredential) {
 async function main() {
   // Construct a Token Credential from Azure Identity library
   const credential = new DefaultAzureCredential();
-  let accessTokenObject = await returnPassword(credential);
+  let accessToken = await returnPassword(credential);
   // Create node-redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redisClient = createClient({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-    password: accessTokenObject.token,
+    password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
     socket: {
       tls: true,
@@ -143,12 +143,12 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-      if ((accessTokenObject.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
+      if ((accessToken.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
         await redis.disconnect();
-        accessTokenObject = await returnPassword(credential);
+        accessToken = await returnPassword(credential);
         redisClient = createClient({
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-          password: accessTokenObject.token,
+          password: accessToken.token,
           url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
           socket: {
             tls: true,
@@ -193,11 +193,20 @@ async function returnPassword(credential: TokenCredential) {
 async function main() {
   // Construct a Token Credential from Azure Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
-  let accessTokenObject = await returnPassword(credential);
+  let accessTokenCache: AccessToken | undefined = undefined;
+  let id;
+
+  async function updateToken() {
+    accessTokenCache = await returnPassword(credential);
+    id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- 120*1000)) - Date.now());
+  }
+
+  await updateToken();
+  let accessToken: AccessToken | undefined = accessTokenCache;
   // Create node-redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redisClient = createClient({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-    password: accessTokenObject.token,
+    password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
     socket: {
       tls: true,
@@ -205,14 +214,6 @@ async function main() {
     },
   });
   await redisClient.connect();
-  
-  const id = setInterval(async () => {
-    // Check for password expiry
-    console.log("checking for expiration");
-    if ((accessTokenObject.expiresOnTimestamp- 120*1000) <= Date.now()) {
-      accessTokenObject = await returnPassword(credential);
-    }
-  }, 1000);
 
   for (let i = 0; i < 3; i++) {
     try {
@@ -223,22 +224,22 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-     if ((accessTokenObject.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
+     if ((accessToken.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
       await redis.disconnect();
+      accessToken = accessTokenCache;
       redisClient = createClient({
-        username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-        password: accessTokenObject.token,
-        url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
-        socket: {
-          tls: true,
-          keepAlive: 0
-        },
-      });
+          username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+          password: accessToken.token,
+          url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+          socket: {
+            tls: true,
+            keepAlive: 0
+          },
+        });
       }
     }
-    await sleep(1000);
   }
-  clearInterval(id);
+  clearTimeout(id);
 }
 
 main().catch((err) => {
@@ -246,10 +247,6 @@ main().catch((err) => {
   console.log("error message: ", err.message);
   console.log("error stack: ", err.stack);
 });
-
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 ```
 
 #### Troubleshooting
