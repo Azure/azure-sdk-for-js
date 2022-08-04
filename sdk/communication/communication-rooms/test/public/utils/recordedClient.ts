@@ -3,11 +3,11 @@
 
 import {
   Recorder,
-  SanitizerOptions,
-  env,
   RecorderStartOptions,
-  isPlaybackMode,
+  SanitizerOptions,
   assertEnvironmentVariable,
+  env,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/core-auth";
 import { CommunicationUserIdentifier, parseConnectionString } from "@azure/communication-common";
