@@ -215,7 +215,7 @@ export interface CurrencyValue {
 }
 
 // @public
-export interface CustomDocumentModelsInfo {
+export interface CustomDocumentModelsDetails {
     count: number;
     limit: number;
 }
@@ -227,18 +227,6 @@ export interface DateFieldSchema {
 
 // @public
 export interface DeleteModelOptions extends OperationOptions {
-}
-
-// @public
-export interface DocTypeInfo {
-    buildMode?: DocumentBuildMode;
-    description?: string;
-    fieldConfidence?: {
-        [propertyName: string]: number;
-    };
-    fieldSchema: {
-        [propertyName: string]: DocumentFieldSchema;
-    };
 }
 
 // @public
@@ -390,9 +378,9 @@ export class DocumentModelAdministrationClient {
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
-    getModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelInfo>;
-    getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationInfo>;
-    getResourceInfo(options?: GetResourceInfoOptions): Promise<ResourceInfo>;
+    getModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelDetails>;
+    getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationDetails>;
+    getResourceDetails(options?: GetResourceDetailsOptions): Promise<ResourceDetails>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
     listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationSummary>;
 }
@@ -411,14 +399,14 @@ export const DocumentModelBuildMode: {
 };
 
 // @public
-export interface DocumentModelInfo extends DocumentModelSummary {
+export interface DocumentModelDetails extends DocumentModelSummary {
     docTypes?: {
-        [propertyName: string]: DocTypeInfo;
+        [propertyName: string]: DocumentTypeDetails;
     };
 }
 
 // @public
-export interface DocumentModelOperationState extends PollOperationState<DocumentModelInfo> {
+export interface DocumentModelOperationState extends PollOperationState<DocumentModelDetails> {
     apiVersion?: string;
     createdOn: Date;
     lastUpdatedOn: Date;
@@ -429,7 +417,7 @@ export interface DocumentModelOperationState extends PollOperationState<Document
 }
 
 // @public
-export type DocumentModelPoller = PollerLike<DocumentModelOperationState, DocumentModelInfo>;
+export type DocumentModelPoller = PollerLike<DocumentModelOperationState, DocumentModelDetails>;
 
 // @public
 export interface DocumentModelSummary {
@@ -557,6 +545,18 @@ export interface DocumentTimeField extends DocumentFieldCommon {
 }
 
 // @public
+export interface DocumentTypeDetails {
+    buildMode?: DocumentBuildMode;
+    description?: string;
+    fieldConfidence?: {
+        [propertyName: string]: number;
+    };
+    fieldSchema: {
+        [propertyName: string]: DocumentFieldSchema;
+    };
+}
+
+// @public
 export interface DocumentValueField<T> extends DocumentFieldCommon {
     value?: T;
 }
@@ -617,10 +617,10 @@ export interface GetOperationOptions extends OperationOptions {
 }
 
 // @public
-export type GetOperationResponse = OperationInfo;
+export type GetOperationResponse = OperationDetails;
 
 // @public
-export interface GetResourceInfoOptions extends OperationOptions {
+export interface GetResourceDetailsOptions extends OperationOptions {
 }
 
 // @public
@@ -912,7 +912,7 @@ export interface ObjectFieldSchema<Properties extends {
 }
 
 // @public
-export interface OperationInfo extends OperationSummary {
+export interface OperationDetails extends OperationSummary {
     error?: ErrorModel;
     result?: Record<string, unknown>;
 }
@@ -1515,8 +1515,8 @@ export type ReifyPrebuiltSchema<Schema extends Readonly<ModelSchema>> = {
 }[keyof Schema["docTypes"]];
 
 // @public
-export interface ResourceInfo {
-    customDocumentModels: CustomDocumentModelsInfo;
+export interface ResourceDetails {
+    customDocumentModels: CustomDocumentModelsDetails;
 }
 
 // @public

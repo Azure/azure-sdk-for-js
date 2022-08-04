@@ -78,7 +78,7 @@ export class DocumentModelAdministrationClient {
   /**
    * Create a DocumentModelAdministrationClient instance from a resource endpoint and a an Azure Identity `TokenCredential`.
    *
-   * See the [`@azure/identity`](https://npmjs.com/package/\@azure/identity) package for more Detailsrmation about
+   * See the [`@azure/identity`](https://npmjs.com/package/\@azure/identity) package for more information about
    * authenticating with Azure Active Directory.
    *
    * ### Example:
@@ -181,7 +181,7 @@ export class DocumentModelAdministrationClient {
    *   modelId, // identical to the modelId given when creating the model
    *   description, // identical to the description given when creating the model
    *   createdDateTime, // the Date (timestamp) that the model was created
-   *   docTypes // Detailsrmation about the document types in the model and their field schemas
+   *   docTypes // information about the document types in the model and their field schemas
    * } = modelDetails;
    * ```
    *
@@ -189,7 +189,7 @@ export class DocumentModelAdministrationClient {
    * @param containerUrl - SAS-encoded URL to an Azure Storage container holding the training data set
    * @param buildMode - the mode to use when building the model (see `DocumentModelBuildMode`)
    * @param options - optional settings for the model build operation
-   * @returns a long-running operation (poller) that will eventually produce the created model Detailsrmation or an error
+   * @returns a long-running operation (poller) that will eventually produce the created model information or an error
    */
   public async beginBuildModel(
     modelId: string,
@@ -249,14 +249,14 @@ export class DocumentModelAdministrationClient {
    *   modelId, // identical to the modelId given when creating the model
    *   description, // identical to the description given when creating the model
    *   createdDateTime, // the Date (timestamp) that the model was created
-   *   docTypes // Detailsrmation about the document types of the composed submodels
+   *   docTypes // information about the document types of the composed submodels
    * } = modelDetails;
    * ```
    *
    * @param modelId - the unique ID of the model to create
    * @param componentModelIds - an Iterable of strings representing the unique model IDs of the models to compose
    * @param options - optional settings for model creation
-   * @returns a long-running operation (poller) that will eventually produce the created model Detailsrmation or an error
+   * @returns a long-running operation (poller) that will eventually produce the created model information or an error
    */
   public async beginComposeModel(
     modelId: string,
@@ -350,14 +350,14 @@ export class DocumentModelAdministrationClient {
    *   modelId, // identical to the modelId given when creating the copy authorization
    *   description, // identical to the description given when creating the copy authorization
    *   createdDateTime, // the Date (timestamp) that the model was created
-   *   docTypes // Detailsrmation about the document types of the model (identical to the original, source model)
+   *   docTypes // information about the document types of the model (identical to the original, source model)
    * } = modelDetails;
    * ```
    *
    * @param sourceModelId - the unique ID of the source model that will be copied
    * @param authorization - an authorization to copy the model, created using the {@link getCopyAuthorization}
    * @param options - optional settings for
-   * @returns a long-running operation (poller) that will eventually produce the copied model Detailsrmation or an error
+   * @returns a long-running operation (poller) that will eventually produce the copied model information or an error
    */
   public async beginCopyModelTo(
     sourceModelId: string,
@@ -467,13 +467,13 @@ export class DocumentModelAdministrationClient {
   // #region Model Management
 
   /**
-   * Retrieve basic Detailsrmation about this client's resource.
+   * Retrieve basic information about this client's resource.
    *
    * ### Example
    *
    * ```javascript
    * const {
-   *   // Detailsrmation about the custom models in the current resource
+   *   // information about the custom models in the current resource
    *   customDocumentModelDetails: {
    *     // The number of custom models in the current resource
    *     count,
@@ -484,7 +484,7 @@ export class DocumentModelAdministrationClient {
    * ```
    *
    * @param options - optional settings for the request
-   * @returns basic Detailsrmation about this client's resource
+   * @returns basic information about this client's resource
    */
   public getResourceDetails(options: GetResourceDetailsOptions = {}): Promise<ResourceDetails> {
     return this._tracing.withSpan(
@@ -495,9 +495,9 @@ export class DocumentModelAdministrationClient {
   }
 
   /**
-   * Retrieves Detailsrmation about a model ({@link ModelDetails}) by ID.
+   * Retrieves information about a model ({@link ModelDetails}) by ID.
    *
-   * This method can retrieve Detailsrmation about custom as well as prebuilt models.
+   * This method can retrieve information about custom as well as prebuilt models.
    *
    * ### **Breaking Change**
    *
@@ -516,7 +516,7 @@ export class DocumentModelAdministrationClient {
    *   modelId, // identical to the modelId given when calling `getModel`
    *   description, // a textual description of the model, if provided during model creation
    *   createdDateTime, // the Date (timestamp) that the model was created
-   *   // Detailsrmation about the document types in the model and their field schemas
+   *   // information about the document types in the model and their field schemas
    *   docTypes: {
    *     // the document type of the prebuilt business card model
    *     "prebuilt:businesscard": {
@@ -534,7 +534,7 @@ export class DocumentModelAdministrationClient {
    *
    * @param modelId - the unique ID of the model to query
    * @param options - optional settings for the request
-   * @returns Detailsrmation about the model with the given ID
+   * @returns information about the model with the given ID
    */
   public getModel(modelId: string, options: GetModelOptions = {}): Promise<DocumentModelDetails> {
     return this._tracing.withSpan(
@@ -548,10 +548,10 @@ export class DocumentModelAdministrationClient {
    * List summaries of models in the resource. Custom as well as prebuilt models will be included. This operation
    * supports paging.
    *
-   * The model summary ({@link ModelSummary}) includes only the basic Detailsrmation about the model, and does not include
-   * Detailsrmation about the document types in the model (such as the field schemas and confidence values).
+   * The model summary ({@link ModelSummary}) includes only the basic information about the model, and does not include
+   * information about the document types in the model (such as the field schemas and confidence values).
    *
-   * To access the full Detailsrmation about the model, use {@link getModel}.
+   * To access the full information about the model, use {@link getModel}.
    *
    * ### **Breaking Change**
    *
@@ -606,13 +606,13 @@ export class DocumentModelAdministrationClient {
   }
 
   /**
-   * Retrieves Detailsrmation about an operation (`OperationDetails`) by its ID.
+   * Retrieves information about an operation (`OperationDetails`) by its ID.
    *
    * Operations represent non-analysis tasks, such as building, composing, or copying a model.
    *
    * @param operationId - the ID of the operation to query
    * @param options - optional settings for the request
-   * @returns Detailsrmation about the operation with the given ID
+   * @returns information about the operation with the given ID
    *
    * ### Example
    *
@@ -678,7 +678,7 @@ export class DocumentModelAdministrationClient {
    * ```
    *
    * @param options - optional settings for the operation requests
-   * @returns an async iterable of operation Detailsrmation objects that supports paging
+   * @returns an async iterable of operation information objects that supports paging
    */
   public listOperations(
     options: ListOperationsOptions = {}

@@ -13,7 +13,7 @@ import {
   DocumentModelAdministrationClient,
   DocumentTable,
   IdentityDocument,
-  DocumentModelInfo,
+  DocumentModelDetails,
   PrebuiltModels,
 } from "../../../src";
 import { DocumentSelectionMarkField } from "../../../src/models/fields";
@@ -262,14 +262,14 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           },
         ],
       });
-      let _model: DocumentModelInfo;
+      let _model: DocumentModelDetails;
       let modelName: string;
 
       // We only want to create the model once, but because of the recorder's
       // precedence, we have to create it in a test, so one test will end up
       // recording the entire creation and the other tests will still be able
       // to use it.
-      async function requireModel(): Promise<DocumentModelInfo> {
+      async function requireModel(): Promise<DocumentModelDetails> {
         if (!_model) {
           const trainingClient = new DocumentModelAdministrationClient(
             endpoint(),
@@ -875,7 +875,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         allocatedTips: 874.2,
         dependentCareBenefits: 9873.2,
         nonQualifiedPlans: 653.21,
-        additionalInfo: [
+        additionalDetails: [
           {
             letterCode: "DD",
             amount: 6939.68,
@@ -895,7 +895,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         ],
         isRetirementPlan: "true",
         other: "DISINS 170.85",
-        stateTaxInfos: [
+        stateTaxDetailss: [
           {
             state: "PA",
             employerStateIdNumber: "18574095",
@@ -905,7 +905,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
             employerStateIdNumber: "18743231",
           },
         ],
-        localTaxInfos: [
+        localTaxDetailss: [
           {
             localWagesTipsEtc: 37160.56,
             localIncomeTax: 51,
@@ -956,7 +956,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           number: "123456789",
         },
         groupNumber: "1000000",
-        prescriptionInfo: {
+        prescriptionDetails: {
           rxBIN: "987654",
           rxGrp: "BCAAXYZ",
         },
@@ -996,7 +996,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
     describe("vaccinationCard", function () {
       const validator = createValidator({
-        cardHolderInfo: {
+        cardHolderDetails: {
           firstName: "Angel",
         },
         vaccines: [
