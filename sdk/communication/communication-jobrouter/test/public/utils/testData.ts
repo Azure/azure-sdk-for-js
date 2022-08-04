@@ -1,13 +1,16 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
+  ClassificationPolicy,
   DistributionPolicy,
   ExceptionPolicy,
-  ClassificationPolicy,
   JobQueue,
-  RouterWorker,
-  RouterJob
+  RouterJob,
+  RouterWorker
 } from "../../../src";
 
-export var exceptionPolicyRequest: ExceptionPolicy = {
+export const exceptionPolicyRequest: ExceptionPolicy = {
   id: "exception-policy-123",
   name: "test-policy",
   exceptionRules: {
@@ -23,13 +26,13 @@ export var exceptionPolicyRequest: ExceptionPolicy = {
       },
       trigger: {
         kind: "wait-time",
-        threshold: 5
+        thresholdSeconds: 5
       }
     }
   }
 };
 
-export var classificationPolicyRequest: ClassificationPolicy = {
+export const classificationPolicyRequest: ClassificationPolicy = {
   id: "classification-policy-123",
   name: "test-policy",
   fallbackQueueId: "MainQueue",
@@ -51,7 +54,7 @@ export var classificationPolicyRequest: ClassificationPolicy = {
   }
 };
 
-export var distributionPolicyRequest: DistributionPolicy = {
+export const distributionPolicyRequest: DistributionPolicy = {
   name: "distribution-policy-123",
   mode: {
     kind: "longest-idle",
@@ -62,7 +65,7 @@ export var distributionPolicyRequest: DistributionPolicy = {
   offerTtlSeconds: 120
 };
 
-export var queueRequest: JobQueue = {
+export const queueRequest: JobQueue = {
   id: "queue-123",
   distributionPolicyId: "MainDistributionPolicy",
   name: "Main",
@@ -70,7 +73,7 @@ export var queueRequest: JobQueue = {
   exceptionPolicyId: "MainExceptionPolicy"
 };
 
-export var workerRequest: RouterWorker = {
+export const workerRequest: RouterWorker = {
   id: "worker-id",
   state: "active",
   loadRatio: 1,
@@ -90,7 +93,7 @@ export var workerRequest: RouterWorker = {
   }
 };
 
-export var jobRequest: RouterJob = {
+export const jobRequest: RouterJob = {
   channelId: "ChatChannel",
   labels: {}
 };

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+
+import { env } from "@azure-tools/test-recorder";
 import sinon from "sinon";
 import { RouterClient } from "../../src";
-import { env } from "@azure-tools/test-recorder";
 
 describe("[Mocked] RouterClient", async () => {
   afterEach(() => {

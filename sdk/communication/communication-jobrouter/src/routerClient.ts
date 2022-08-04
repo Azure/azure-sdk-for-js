@@ -2,50 +2,47 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { logger } from "./models/logger";
-import { SDK_VERSION } from "./constants";
-import { createPipelineFromOptions, InternalPipelineOptions, RestResponse } from "@azure/core-http";
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+
 import {
-  CreateJobOptions,
-  CancelJobOptions,
+  AcceptJobOfferResult,
+  JobPositionDetails,
+  JobRouterApiClient,
+  JobRouterCancelJobActionResponse,
+  JobRouterCloseJobActionResponse,
+  JobRouterCompleteJobActionResponse,
+  JobRouterDeclineJobActionResponse,
+  JobRouterListJobsOptionalParams,
+  JobRouterListWorkersOptionalParams,
+  JobRouterUnassignJobActionResponse,
+  RouterJob,
+  RouterJobItem,
+  RouterWorker,
+  RouterWorkerItem
+} from "./generated/src";
+import {
   AcceptJobOptions,
-  DeclineJobOptions,
+  CancelJobOptions,
+  CloseJobOptions,
   CompleteJobOptions,
+  CreateJobOptions,
+  CreateWorkerOptions,
+  DeclineJobOptions,
+  DeleteJobOptions,
+  DeleteWorkerOptions,
+  DeregisterWorkerOptions,
   GetJobOptions,
+  GetJobPositionOptions,
   GetWorkerOptions,
   ListJobsOptions,
   ListWorkersOptions,
-  RouterClientOptions,
-  CloseJobOptions,
-  GetJobPositionOptions,
-  DeleteJobOptions,
-  DeleteWorkerOptions,
-  UpdateWorkerOptions,
-  CreateWorkerOptions,
-  UpdateJobOptions,
   ReclassifyJobOptions,
   RegisterWorkerOptions,
-  DeregisterWorkerOptions
+  RouterClientOptions,
+  UpdateJobOptions,
+  UpdateWorkerOptions
 } from "./models/options";
-import {
-  JobRouterApiClient,
-  JobPositionDetails,
-  AcceptJobOfferResult,
-  RouterJob,
-  RouterWorker,
-  JobRouterCancelJobActionResponse,
-  JobRouterCompleteJobActionResponse,
-  JobRouterCloseJobActionResponse,
-  JobRouterDeclineJobActionResponse,
-  RouterWorkerItem,
-  RouterJobItem,
-  JobRouterUnassignJobActionResponse,
-  JobRouterListWorkersOptionalParams,
-  JobRouterListJobsOptionalParams
-} from "./generated/src";
 
+import { InternalPipelineOptions, RestResponse, createPipelineFromOptions } from "@azure/core-http";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   createCommunicationAuthPolicy,
@@ -53,6 +50,9 @@ import {
   parseClientArguments
 } from "@azure/communication-common";
 import { createSetHeadersPolicy } from "./policies";
+import { logger } from "./models/logger";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SDK_VERSION } from "./constants";
 
 /**
  * Checks whether the type of a value is {@link RouterClientOptions} or not.
@@ -178,7 +178,7 @@ export class RouterClient {
    * @param options - List jobs options.
    */
   public listJobs(options: ListJobsOptions = {}): PagedAsyncIterableIterator<RouterJobItem> {
-    let listOptions = <JobRouterListJobsOptionalParams>options;
+    const listOptions = <JobRouterListJobsOptionalParams>options;
     listOptions.maxpagesize = options.maxPageSize;
     listOptions.status = options.jobStateSelector;
     return this.client.jobRouter.listJobs(listOptions);
@@ -378,7 +378,7 @@ export class RouterClient {
   public listWorkers(
     options: ListWorkersOptions = {}
   ): PagedAsyncIterableIterator<RouterWorkerItem> {
-    let listOptions = <JobRouterListWorkersOptionalParams>options;
+    const listOptions = <JobRouterListWorkersOptionalParams>options;
     listOptions.maxpagesize = options.maxPageSize;
     return this.client.jobRouter.listWorkers(listOptions);
   }

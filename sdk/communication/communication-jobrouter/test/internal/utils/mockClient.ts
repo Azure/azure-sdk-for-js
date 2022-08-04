@@ -3,8 +3,8 @@
 
 import * as dotenv from "dotenv";
 import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
 import { RouterAdministrationClient, RouterClient } from "../../../src";
+import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
 import { parseConnectionString } from "@azure/communication-common";
 

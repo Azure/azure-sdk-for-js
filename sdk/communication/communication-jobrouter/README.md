@@ -348,7 +348,7 @@ The following is a list of possible router events:
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-jobrouter/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/)
 directory for detailed examples on how to use this library.
 
 ## Contributing

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions } from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
 import {
   ChannelConfiguration,
   DistributionModeUnion,
   ExceptionRule,
-  JobRouterReclassifyJobActionOptionalParams,
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
   JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
-  JobRouterUpsertJobOptionalParams,
   JobRouterAdministrationUpsertQueueOptionalParams,
+  JobRouterReclassifyJobActionOptionalParams,
+  JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobStateSelector,
   QueueSelectorAttachmentUnion,
@@ -19,7 +19,7 @@ import {
   WorkerSelector,
   WorkerStateSelector
 } from "../generated/src";
-import * as coreHttp from "@azure/core-http";
+import { PipelineOptions } from "@azure/core-http";
 
 /**
  * Options to create router client.

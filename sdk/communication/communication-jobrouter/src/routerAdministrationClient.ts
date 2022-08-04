@@ -2,12 +2,27 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { logger } from "./models/logger";
-import { SDK_VERSION } from "./constants";
-import { createPipelineFromOptions, InternalPipelineOptions, RestResponse } from "@azure/core-http";
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  ClassificationPolicy,
+  ClassificationPolicyItem,
+  DistributionPolicy,
+  DistributionPolicyItem,
+  ExceptionPolicy,
+  ExceptionPolicyItem,
+  JobQueue,
+  JobQueueItem,
+  JobRouterAdministrationListClassificationPoliciesOptionalParams,
+  JobRouterAdministrationListDistributionPoliciesOptionalParams,
+  JobRouterAdministrationListExceptionPoliciesOptionalParams,
+  JobRouterAdministrationListQueuesOptionalParams,
+  JobRouterApiClient
+} from "./generated/src";
+import {
+  CreateClassificationPolicyOptions,
+  CreateDistributionPolicyOptions,
+  CreateExceptionPolicyOptions,
+  CreateQueueOptions,
+  DeleteClassificationPolicyOptions,
   DeleteDistributionPolicyOptions,
   DeleteExceptionPolicyOptions,
   DeleteQueueOptions,
@@ -20,38 +35,24 @@ import {
   ListExceptionPoliciesOptions,
   ListQueuesOptions,
   RouterClientOptions,
-  DeleteClassificationPolicyOptions,
-  CreateExceptionPolicyOptions,
-  UpdateExceptionPolicyOptions,
   UpdateClassificationPolicyOptions,
-  CreateDistributionPolicyOptions,
   UpdateDistributionPolicyOptions,
-  CreateQueueOptions,
-  UpdateQueueOptions,
-  CreateClassificationPolicyOptions
+  UpdateExceptionPolicyOptions,
+  UpdateQueueOptions
 } from "./models/options";
-import {
-  ClassificationPolicy,
-  DistributionPolicy,
-  ExceptionPolicy,
-  JobRouterApiClient,
-  JobQueue,
-  JobQueueItem,
-  ExceptionPolicyItem,
-  ClassificationPolicyItem,
-  DistributionPolicyItem,
-  JobRouterAdministrationListClassificationPoliciesOptionalParams,
-  JobRouterAdministrationListExceptionPoliciesOptionalParams,
-  JobRouterAdministrationListDistributionPoliciesOptionalParams,
-  JobRouterAdministrationListQueuesOptionalParams
-} from "./generated/src";
 
+import { InternalPipelineOptions, RestResponse, createPipelineFromOptions } from "@azure/core-http";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments
 } from "@azure/communication-common";
+
+
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SDK_VERSION } from "./constants";
+import { logger } from "./models/logger";
 import { createSetHeadersPolicy } from "./policies";
 
 /**
@@ -183,7 +184,7 @@ export class RouterAdministrationClient {
   public listClassificationPolicies(
     options: ListClassificationPoliciesOptions = {}
   ): PagedAsyncIterableIterator<ClassificationPolicyItem> {
-    let listOptions = <JobRouterAdministrationListClassificationPoliciesOptionalParams>options;
+    const listOptions = <JobRouterAdministrationListClassificationPoliciesOptionalParams>options;
     listOptions.maxpagesize = options.maxPageSize;
     return this.client.jobRouterAdministration.listClassificationPolicies(listOptions);
   }
@@ -261,7 +262,7 @@ export class RouterAdministrationClient {
   public listDistributionPolicies(
     options: ListDistributionPoliciesOptions = {}
   ): PagedAsyncIterableIterator<DistributionPolicyItem> {
-    let listOptions = <JobRouterAdministrationListDistributionPoliciesOptionalParams>options;
+    const listOptions = <JobRouterAdministrationListDistributionPoliciesOptionalParams>options;
     listOptions.maxpagesize = options.maxPageSize;
     return this.client.jobRouterAdministration.listDistributionPolicies(listOptions);
   }
@@ -336,7 +337,7 @@ export class RouterAdministrationClient {
   public listExceptionPolicies(
     options: ListExceptionPoliciesOptions = {}
   ): PagedAsyncIterableIterator<ExceptionPolicyItem> {
-    let listOptions = <JobRouterAdministrationListExceptionPoliciesOptionalParams>options;
+    const listOptions = <JobRouterAdministrationListExceptionPoliciesOptionalParams>options;
     listOptions.maxpagesize = options.maxPageSize;
     return this.client.jobRouterAdministration.listExceptionPolicies(listOptions);
   }
@@ -397,7 +398,7 @@ export class RouterAdministrationClient {
    * @param options - List queues options.
    */
   public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<JobQueueItem> {
-    let listOptions = <JobRouterAdministrationListQueuesOptionalParams>options;
+    const listOptions = <JobRouterAdministrationListQueuesOptionalParams>options;
     listOptions.maxpagesize = options.maxPageSize;
     return this.client.jobRouterAdministration.listQueues(listOptions);
   }

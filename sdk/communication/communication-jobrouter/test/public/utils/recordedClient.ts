@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-import * as dotenv from "dotenv";
 
-import { Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import * as dotenv from "dotenv";
 import {
   DefaultHttpClient,
   HttpClient,
   HttpOperationResponse,
-  isNode,
-  WebResourceLike
+  WebResourceLike,
+  isNode
 } from "@azure/core-http";
+import { Recorder, RecorderEnvironmentSetup, record } from "@azure-tools/test-recorder";
+
+import { Context } from "mocha";
 import { RouterClient } from "../../../src";
 
 if (isNode) {
