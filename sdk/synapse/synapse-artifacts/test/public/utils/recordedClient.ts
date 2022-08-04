@@ -4,12 +4,16 @@
 import "./env";
 
 import { ArtifactsClient, ArtifactsClientOptionalParams } from "../../../src";
+import { TokenCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, env } from "@azure-tools/test-recorder";
 
 export async function createClient(
   recorder: Recorder,
   options?: ArtifactsClientOptionalParams
 ): Promise<ArtifactsClient> {
+  let credential: TokenCredential = createTestCredential();
+
   await recorder.start({
     envSetupForPlayback: {
       AZURE_CLIENT_ID: "azure_client_id",
@@ -21,6 +25,7 @@ export async function createClient(
 
   const client = new ArtifactsClient(env.ENDPOINT ?? "", recorder.configureClientOptions({
     ...options,
+    credential,
     allowInsecureConnection: true,
   }));
   return client;
