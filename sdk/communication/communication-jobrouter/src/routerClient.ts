@@ -20,23 +20,14 @@ import {
   RouterWorkerItem
 } from "./generated/src";
 import {
-  AcceptJobOptions,
   CancelJobOptions,
   CloseJobOptions,
   CompleteJobOptions,
   CreateJobOptions,
   CreateWorkerOptions,
-  DeclineJobOptions,
-  DeleteJobOptions,
-  DeleteWorkerOptions,
-  DeregisterWorkerOptions,
-  GetJobOptions,
-  GetJobPositionOptions,
-  GetWorkerOptions,
   ListJobsOptions,
   ListWorkersOptions,
   ReclassifyJobOptions,
-  RegisterWorkerOptions,
   RouterClientOptions,
   UpdateJobOptions,
   UpdateWorkerOptions
@@ -167,10 +158,9 @@ export class RouterClient {
    * Gets an job.
    * Returns job with the id of the job.
    * @param jobId - The id of the job to get.
-   * @param options - Operation options.
    */
-  public async getJob(jobId: string, options: GetJobOptions = {}): Promise<RouterJob> {
-    return this.client.jobRouter.getJob(jobId, options);
+  public async getJob(jobId: string): Promise<RouterJob> {
+    return this.client.jobRouter.getJob(jobId);
   }
 
   /**
@@ -188,13 +178,11 @@ export class RouterClient {
    * Gets a job's position details.
    * Returns job position details.
    * @param jobId - The ID of the job to get.
-   * @param options - Operation options.
    */
-  public async getInQueuePosition(
-    jobId: string,
-    options: GetJobPositionOptions = {}
+  public async getQueuePosition(
+    jobId: string
   ): Promise<JobPositionDetails> {
-    return this.client.jobRouter.getInQueuePosition(jobId, options);
+    return this.client.jobRouter.getInQueuePosition(jobId);
   }
 
   /**
@@ -266,10 +254,9 @@ export class RouterClient {
   /**
    * Deletes a job.
    * @param jobId - The id of the job to delete.
-   * @param options - Operation options.
    */
-  public async deleteJob(jobId: string, options: DeleteJobOptions = {}): Promise<RestResponse> {
-    return this.client.jobRouter.deleteJob(jobId, options);
+  public async deleteJob(jobId: string): Promise<RestResponse> {
+    return this.client.jobRouter.deleteJob(jobId);
   }
 
   // Offer Actions
@@ -277,14 +264,12 @@ export class RouterClient {
    * Accept a job offer.
    * @param workerId - The ID of the worker that accepts the job.
    * @param offerId - The ID of the offer to accept.
-   * @param options -  Operation options.
    */
   public async acceptJobOffer(
     workerId: string,
-    offerId: string,
-    options: AcceptJobOptions = {}
+    offerId: string
   ): Promise<AcceptJobOfferResult> {
-    return this.client.jobRouter.acceptJobAction(offerId, workerId, options);
+    return this.client.jobRouter.acceptJobAction(offerId, workerId);
   }
 
   /**
@@ -296,9 +281,8 @@ export class RouterClient {
   public async declineJobOffer(
     workerId: string,
     offerId: string,
-    options: DeclineJobOptions = {}
   ): Promise<JobRouterDeclineJobActionResponse> {
-    return this.client.jobRouter.declineJobAction(offerId, workerId, options);
+    return this.client.jobRouter.declineJobAction(offerId, workerId);
   }
 
   // Worker Actions
@@ -337,12 +321,11 @@ export class RouterClient {
    */
   public async registerWorker(
     workerId: string,
-    options: RegisterWorkerOptions = {}
   ): Promise<RouterWorker> {
     const worker = {
       availableForOffers: true
     };
-    return this.client.jobRouter.upsertWorker(workerId, worker, options);
+    return this.client.jobRouter.upsertWorker(workerId, worker);
   }
 
   /**
@@ -353,22 +336,20 @@ export class RouterClient {
    */
   public async deregisterWorker(
     workerId: string,
-    options: DeregisterWorkerOptions = {}
   ): Promise<RouterWorker> {
     const worker = {
       availableForOffers: false
     };
-    return this.client.jobRouter.upsertWorker(workerId, worker, options);
+    return this.client.jobRouter.upsertWorker(workerId, worker);
   }
 
   /**
    * Gets a worker.
    * Returns worker with the id of the worker.
    * @param workerId - The ID of the worker to get.
-   * @param options - Operation options.
    */
-  public async getWorker(workerId: string, options: GetWorkerOptions = {}): Promise<RouterWorker> {
-    return this.client.jobRouter.getWorker(workerId, options);
+  public async getWorker(workerId: string): Promise<RouterWorker> {
+    return this.client.jobRouter.getWorker(workerId);
   }
 
   /**
@@ -390,8 +371,7 @@ export class RouterClient {
    */
   public async deleteWorker(
     workerId: string,
-    options: DeleteWorkerOptions = {}
   ): Promise<RestResponse> {
-    return this.client.jobRouter.deleteWorker(workerId, options);
+    return this.client.jobRouter.deleteWorker(workerId);
   }
 }

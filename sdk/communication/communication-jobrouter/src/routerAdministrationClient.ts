@@ -22,14 +22,6 @@ import {
   CreateDistributionPolicyOptions,
   CreateExceptionPolicyOptions,
   CreateQueueOptions,
-  DeleteClassificationPolicyOptions,
-  DeleteDistributionPolicyOptions,
-  DeleteExceptionPolicyOptions,
-  DeleteQueueOptions,
-  GetClassificationPolicyOptions,
-  GetDistributionPolicyOptions,
-  GetExceptionPolicyOptions,
-  GetQueueOptions,
   ListClassificationPoliciesOptions,
   ListDistributionPoliciesOptions,
   ListExceptionPoliciesOptions,
@@ -193,30 +185,24 @@ export class RouterAdministrationClient {
    * Gets a classification policy.
    * Returns classification policy with the id of the classification policy.
    * @param classificationPolicyId - The id of the classification policy to get.
-   * @param options - Operation options.
    */
   public async getClassificationPolicy(
     classificationPolicyId: string,
-    options: GetClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
     return this.client.jobRouterAdministration.getClassificationPolicy(
       classificationPolicyId,
-      options
     );
   }
 
   /**
    * Deletes a classification policy.
    * @param classificationPolicyId - The id of the classification policy to delete.
-   * @param options -  Operation options.
    */
   public async deleteClassificationPolicy(
     classificationPolicyId: string,
-    options: DeleteClassificationPolicyOptions = {}
   ): Promise<RestResponse> {
     return this.client.jobRouterAdministration.deleteClassificationPolicy(
       classificationPolicyId,
-      options
     );
   }
 
@@ -271,27 +257,22 @@ export class RouterAdministrationClient {
    * Gets a distribution policy.
    * Returns distribution policy client with the id of the distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to get.
-   * @param options - Operation options.
    */
   public async getDistributionPolicy(
     distributionPolicyId: string,
-    options: GetDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return this.client.jobRouterAdministration.getDistributionPolicy(distributionPolicyId, options);
+    return this.client.jobRouterAdministration.getDistributionPolicy(distributionPolicyId);
   }
 
   /**
    * Deletes a distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to delete.
-   * @param options - Operation options.
    */
   public async deleteDistributionPolicy(
     distributionPolicyId: string,
-    options: DeleteDistributionPolicyOptions = {}
   ): Promise<RestResponse> {
     return this.client.jobRouterAdministration.deleteDistributionPolicy(
       distributionPolicyId,
-      options
     );
   }
 
@@ -346,25 +327,21 @@ export class RouterAdministrationClient {
    * Gets an exception policy.
    * Returns exception policy with the id of the exception policy.
    * @param exceptionPolicyId - The id of the exception policy to get.
-   * @param options - Operation options.
    */
   public async getExceptionPolicy(
     exceptionPolicyId: string,
-    options: GetExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return this.client.jobRouterAdministration.getExceptionPolicy(exceptionPolicyId, options);
+    return this.client.jobRouterAdministration.getExceptionPolicy(exceptionPolicyId);
   }
 
   /**
    * Deletes an exception policy.
    * @param exceptionPolicyId - The id of the exception policy to delete.
-   * @param options - Operation options.
    */
   public async deleteExceptionPolicy(
     exceptionPolicyId: string,
-    options: DeleteExceptionPolicyOptions = {}
   ): Promise<RestResponse> {
-    return this.client.jobRouterAdministration.deleteExceptionPolicy(exceptionPolicyId, options);
+    return this.client.jobRouterAdministration.deleteExceptionPolicy(exceptionPolicyId);
   }
 
   // Queue Actions
@@ -407,21 +384,18 @@ export class RouterAdministrationClient {
    * Gets a queue.
    * Returns queue with the id of the queue.
    * @param queueId - The ID of the queue to get.
-   * @param options - Operation options.
    */
-  public async getQueue(queueId: string, options: GetQueueOptions = {}): Promise<JobQueue> {
-    return this.client.jobRouterAdministration.getQueue(queueId, options);
+  public async getQueue(queueId: string): Promise<JobQueue> {
+    return this.client.jobRouterAdministration.getQueue(queueId);
   }
 
   /**
    * Deletes a queue.
    * @param queueId - The ID of the queue to delete.
-   * @param options -  Operation options.
    */
   public async deleteQueue(
     queueId: string,
-    options: DeleteQueueOptions = {}
   ): Promise<RestResponse> {
-    return this.client.jobRouterAdministration.deleteQueue(queueId, options);
+    return this.client.jobRouterAdministration.deleteQueue(queueId);
   }
 }

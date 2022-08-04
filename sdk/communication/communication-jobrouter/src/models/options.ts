@@ -10,7 +10,6 @@ import {
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
   JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
   JobRouterAdministrationUpsertQueueOptionalParams,
-  JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobStateSelector,
@@ -56,16 +55,6 @@ export interface UpdateClassificationPolicyOptions
 }
 
 /**
- * Options to get a classification policy.
- */
-export interface GetClassificationPolicyOptions extends coreHttp.OperationOptions {}
-
-/**
- * Options to delete a classification policy.
- */
-export interface DeleteClassificationPolicyOptions extends coreHttp.OperationOptions {}
-
-/**
  * Options to get classification policies.
  */
 export interface ListClassificationPoliciesOptions extends coreHttp.OperationOptions {
@@ -100,16 +89,6 @@ export interface UpdateDistributionPolicyOptions
 }
 
 /**
- * Options to get a distribution policy.
- */
-export interface GetDistributionPolicyOptions extends coreHttp.OperationOptions {}
-
-/**
- * Options to delete a distribution policy.
- */
-export interface DeleteDistributionPolicyOptions extends coreHttp.OperationOptions {}
-
-/**
  * Options to get distribution policies.
  */
 export interface ListDistributionPoliciesOptions extends coreHttp.OperationOptions {
@@ -138,16 +117,6 @@ export interface UpdateExceptionPolicyOptions
   /** (Optional) A dictionary collection of exception rules on the exception policy. Key is the Id of each exception rule. */
   exceptionRules?: { [propertyName: string]: ExceptionRule };
 }
-
-/**
- * Options to get a exception policy.
- */
-export interface GetExceptionPolicyOptions extends coreHttp.OperationOptions {}
-
-/**
- * Options to delete a exception policy.
- */
-export interface DeleteExceptionPolicyOptions extends coreHttp.OperationOptions {}
 
 /**
  * Options to get exception policies.
@@ -212,7 +181,10 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
 /**
  * Options to reclassify a job.
  */
-export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams {}
+export interface ReclassifyJobOptions extends coreHttp.OperationOptions {
+  /** Request object for reclassifying a job. */
+  reclassifyJobRequest?: Record<string, unknown>;
+}
 
 /**
  * Options to update or insert a job's labels.
@@ -235,16 +207,6 @@ export interface UpdateJobClassificationOptions extends coreHttp.OperationOption
 }
 
 /**
- * Options to get a job's position details.
- */
-export interface GetJobPositionOptions extends coreHttp.OperationOptions {}
-
-/**
- * Options to get a job.
- */
-export interface GetJobOptions extends coreHttp.OperationOptions {}
-
-/**
  * Options to cancel a job.
  */
 export interface CancelJobOptions extends coreHttp.OperationOptions {
@@ -256,16 +218,6 @@ export interface CancelJobOptions extends coreHttp.OperationOptions {
    */
   dispositionCode?: string;
 }
-
-/**
- * Options to accept a job.
- */
-export interface AcceptJobOptions extends coreHttp.OperationOptions {}
-
-/**
- * Options to decline a job.
- */
-export interface DeclineJobOptions extends coreHttp.OperationOptions {}
 
 /**
  * Options to complete a job.
@@ -307,11 +259,6 @@ export interface ListJobsOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * Options to delete a job.
- */
-export interface DeleteJobOptions extends coreHttp.OperationOptions {}
-
-/**
  * Options to create a worker.
  */
 export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {
@@ -348,21 +295,6 @@ export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
 }
 
 /**
- * Options to update a worker.
- */
-export interface RegisterWorkerOptions extends JobRouterUpsertWorkerOptionalParams {}
-
-/**
- * Options to update a worker.
- */
-export interface DeregisterWorkerOptions extends JobRouterUpsertWorkerOptionalParams {}
-
-/**
- * Options to get a worker.
- */
-export interface GetWorkerOptions extends coreHttp.OperationOptions {}
-
-/**
  * Options to get existing workers.
  */
 export interface ListWorkersOptions extends coreHttp.OperationOptions {
@@ -380,11 +312,6 @@ export interface ListWorkersOptions extends coreHttp.OperationOptions {
    */
   hasCapacity?: boolean;
 }
-
-/**
- * Options to delete a worker.
- */
-export interface DeleteWorkerOptions extends coreHttp.OperationOptions {}
 
 /**
  * Options to create a queue.
@@ -415,19 +342,9 @@ export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOp
 }
 
 /**
- * Options to get a queue.
- */
-export interface GetQueueOptions extends coreHttp.OperationOptions {}
-
-/**
  * Options to list queues.
  */
 export interface ListQueuesOptions extends coreHttp.OperationOptions {
   /** Number of objects to return per page */
   maxPageSize?: number;
 }
-
-/**
- * Options to delete a queue.
- */
-export interface DeleteQueueOptions extends coreHttp.OperationOptions {}
