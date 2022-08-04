@@ -9,12 +9,12 @@ import { SDK_VERSION } from "./constants";
 import {
   CopyAuthorization,
   GeneratedClient,
-  ResourceInfo,
+  ResourceDetails,
   GetOperationResponse,
-  DocumentModelInfo,
+  DocumentModelDetails,
   DocumentModelSummary,
   OperationSummary,
-  OperationInfo,
+  OperationDetails,
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
 import {
@@ -29,7 +29,7 @@ import {
   DeleteModelOptions,
   DocumentModelAdministrationClientOptions,
   GetCopyAuthorizationOptions,
-  GetResourceInfoOptions,
+  GetResourceDetailsOptions,
   GetModelOptions,
   GetOperationOptions,
   ListModelsOptions,
@@ -78,7 +78,7 @@ export class DocumentModelAdministrationClient {
   /**
    * Create a DocumentModelAdministrationClient instance from a resource endpoint and a an Azure Identity `TokenCredential`.
    *
-   * See the [`@azure/identity`](https://npmjs.com/package/\@azure/identity) package for more information about
+   * See the [`@azure/identity`](https://npmjs.com/package/\@azure/identity) package for more Detailsrmation about
    * authenticating with Azure Active Directory.
    *
    * ### Example:
@@ -173,23 +173,23 @@ export class DocumentModelAdministrationClient {
    *   description: "This is an example model!"
    * });
    *
-   * // Model building, like all other model creation operations, returns a poller that eventually produces a ModelInfo
+   * // Model building, like all other model creation operations, returns a poller that eventually produces a ModelDetails
    * // object
-   * const modelInfo = await poller.pollUntilDone();
+   * const modelDetails = await poller.pollUntilDone();
    *
    * const {
    *   modelId, // identical to the modelId given when creating the model
    *   description, // identical to the description given when creating the model
    *   createdDateTime, // the Date (timestamp) that the model was created
-   *   docTypes // information about the document types in the model and their field schemas
-   * } = modelInfo;
+   *   docTypes // Detailsrmation about the document types in the model and their field schemas
+   * } = modelDetails;
    * ```
    *
    * @param modelId - the unique ID of the model to create
    * @param containerUrl - SAS-encoded URL to an Azure Storage container holding the training data set
    * @param buildMode - the mode to use when building the model (see `DocumentModelBuildMode`)
    * @param options - optional settings for the model build operation
-   * @returns a long-running operation (poller) that will eventually produce the created model information or an error
+   * @returns a long-running operation (poller) that will eventually produce the created model Detailsrmation or an error
    */
   public async beginBuildModel(
     modelId: string,
@@ -242,21 +242,21 @@ export class DocumentModelAdministrationClient {
    * });
    *
    * // Model composition, like all other model creation operations, returns a poller that eventually produces a
-   * // ModelInfo object
-   * const modelInfo = await poller.pollUntilDone();
+   * // ModelDetails object
+   * const modelDetails = await poller.pollUntilDone();
    *
    * const {
    *   modelId, // identical to the modelId given when creating the model
    *   description, // identical to the description given when creating the model
    *   createdDateTime, // the Date (timestamp) that the model was created
-   *   docTypes // information about the document types of the composed submodels
-   * } = modelInfo;
+   *   docTypes // Detailsrmation about the document types of the composed submodels
+   * } = modelDetails;
    * ```
    *
    * @param modelId - the unique ID of the model to create
    * @param componentModelIds - an Iterable of strings representing the unique model IDs of the models to compose
    * @param options - optional settings for model creation
-   * @returns a long-running operation (poller) that will eventually produce the created model information or an error
+   * @returns a long-running operation (poller) that will eventually produce the created model Detailsrmation or an error
    */
   public async beginComposeModel(
     modelId: string,
@@ -342,22 +342,22 @@ export class DocumentModelAdministrationClient {
    * // Finally, use the _source_ client to copy the model and await the copy operation
    * const poller = await sourceClient.beginCopyModelTo("<source model ID>");
    *
-   * // Model copying, like all other model creation operations, returns a poller that eventually produces a ModelInfo
+   * // Model copying, like all other model creation operations, returns a poller that eventually produces a ModelDetails
    * // object
-   * const modelInfo = await poller.pollUntilDone();
+   * const modelDetails = await poller.pollUntilDone();
    *
    * const {
    *   modelId, // identical to the modelId given when creating the copy authorization
    *   description, // identical to the description given when creating the copy authorization
    *   createdDateTime, // the Date (timestamp) that the model was created
-   *   docTypes // information about the document types of the model (identical to the original, source model)
-   * } = modelInfo;
+   *   docTypes // Detailsrmation about the document types of the model (identical to the original, source model)
+   * } = modelDetails;
    * ```
    *
    * @param sourceModelId - the unique ID of the source model that will be copied
    * @param authorization - an authorization to copy the model, created using the {@link getCopyAuthorization}
    * @param options - optional settings for
-   * @returns a long-running operation (poller) that will eventually produce the copied model information or an error
+   * @returns a long-running operation (poller) that will eventually produce the copied model Detailsrmation or an error
    */
   public async beginCopyModelTo(
     sourceModelId: string,
@@ -382,7 +382,7 @@ export class DocumentModelAdministrationClient {
    * This is the meat of the above model creation operations.
    *
    * @param definition - operation definition (start operation method, request options)
-   * @returns a model poller (produces a ModelInfo)
+   * @returns a model poller (produces a ModelDetails)
    */
   private async createDocumentModelPoller(
     definition: TrainingOperationDefinition
@@ -413,7 +413,7 @@ export class DocumentModelAdministrationClient {
                     httpMethod: "GET",
                     responses: {
                       200: {
-                        bodyMapper: Mappers.OperationInfo,
+                        bodyMapper: Mappers.OperationDetails,
                       },
                       default: {
                         bodyMapper: Mappers.ErrorResponse,
@@ -436,7 +436,7 @@ export class DocumentModelAdministrationClient {
               }
             );
 
-    const poller = await lro<DocumentModelInfo, DocumentModelOperationState>(
+    const poller = await lro<DocumentModelDetails, DocumentModelOperationState>(
       {
         init: async () => toTrainingPollOperationState(await toInit()),
         poll: async ({ operationId }) =>
@@ -467,37 +467,37 @@ export class DocumentModelAdministrationClient {
   // #region Model Management
 
   /**
-   * Retrieve basic information about this client's resource.
+   * Retrieve basic Detailsrmation about this client's resource.
    *
    * ### Example
    *
    * ```javascript
    * const {
-   *   // Information about the custom models in the current resource
-   *   customDocumentModelInfo: {
+   *   // Detailsrmation about the custom models in the current resource
+   *   customDocumentModelDetails: {
    *     // The number of custom models in the current resource
    *     count,
    *     // The maximum number of models that the current resource can support
    *     limit
    *   }
-   * } = await client.getInfo();
+   * } = await client.getDetails();
    * ```
    *
    * @param options - optional settings for the request
-   * @returns basic information about this client's resource
+   * @returns basic Detailsrmation about this client's resource
    */
-  public getResourceInfo(options: GetResourceInfoOptions = {}): Promise<ResourceInfo> {
+  public getResourceDetails(options: GetResourceDetailsOptions = {}): Promise<ResourceDetails> {
     return this._tracing.withSpan(
-      "DocumentModelAdministrationClient.getResourceInfo",
+      "DocumentModelAdministrationClient.getResourceDetails",
       options,
-      (finalOptions) => this._restClient.getResourceInfo(finalOptions)
+      (finalOptions) => this._restClient.getResourceDetails(finalOptions)
     );
   }
 
   /**
-   * Retrieves information about a model ({@link ModelInfo}) by ID.
+   * Retrieves Detailsrmation about a model ({@link ModelDetails}) by ID.
    *
-   * This method can retrieve information about custom as well as prebuilt models.
+   * This method can retrieve Detailsrmation about custom as well as prebuilt models.
    *
    * ### **Breaking Change**
    *
@@ -516,7 +516,7 @@ export class DocumentModelAdministrationClient {
    *   modelId, // identical to the modelId given when calling `getModel`
    *   description, // a textual description of the model, if provided during model creation
    *   createdDateTime, // the Date (timestamp) that the model was created
-   *   // information about the document types in the model and their field schemas
+   *   // Detailsrmation about the document types in the model and their field schemas
    *   docTypes: {
    *     // the document type of the prebuilt business card model
    *     "prebuilt:businesscard": {
@@ -534,9 +534,9 @@ export class DocumentModelAdministrationClient {
    *
    * @param modelId - the unique ID of the model to query
    * @param options - optional settings for the request
-   * @returns information about the model with the given ID
+   * @returns Detailsrmation about the model with the given ID
    */
-  public getModel(modelId: string, options: GetModelOptions = {}): Promise<DocumentModelInfo> {
+  public getModel(modelId: string, options: GetModelOptions = {}): Promise<DocumentModelDetails> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getModel",
       options,
@@ -548,10 +548,10 @@ export class DocumentModelAdministrationClient {
    * List summaries of models in the resource. Custom as well as prebuilt models will be included. This operation
    * supports paging.
    *
-   * The model summary ({@link ModelSummary}) includes only the basic information about the model, and does not include
-   * information about the document types in the model (such as the field schemas and confidence values).
+   * The model summary ({@link ModelSummary}) includes only the basic Detailsrmation about the model, and does not include
+   * Detailsrmation about the document types in the model (such as the field schemas and confidence values).
    *
-   * To access the full information about the model, use {@link getModel}.
+   * To access the full Detailsrmation about the model, use {@link getModel}.
    *
    * ### **Breaking Change**
    *
@@ -571,7 +571,7 @@ export class DocumentModelAdministrationClient {
    *     description, // a textual description of the model, if provided during model creation
    *   } = summary;
    *
-   *   // You can get the full model info using `getModel`
+   *   // You can get the full model Details using `getModel`
    *   const model = await client.getModel(modelId);
    * }
    * ```
@@ -590,7 +590,7 @@ export class DocumentModelAdministrationClient {
    *       description, // a textual description of the model, if provided during model creation
    *     } = summary;
    *
-   *     // You can get the full model info using `getModel`
+   *     // You can get the full model Details using `getModel`
    *     const model = await client.getModel(modelId);
    *   }
    * }
@@ -606,13 +606,13 @@ export class DocumentModelAdministrationClient {
   }
 
   /**
-   * Retrieves information about an operation (`OperationInfo`) by its ID.
+   * Retrieves Detailsrmation about an operation (`OperationDetails`) by its ID.
    *
    * Operations represent non-analysis tasks, such as building, composing, or copying a model.
    *
    * @param operationId - the ID of the operation to query
    * @param options - optional settings for the request
-   * @returns information about the operation with the given ID
+   * @returns Detailsrmation about the operation with the given ID
    *
    * ### Example
    *
@@ -633,7 +633,7 @@ export class DocumentModelAdministrationClient {
   public getOperation(
     operationId: string,
     options: GetOperationOptions = {}
-  ): Promise<OperationInfo> {
+  ): Promise<OperationDetails> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getOperation",
       options,
@@ -666,7 +666,7 @@ export class DocumentModelAdministrationClient {
    * const pages = client.listOperations().byPage();
    *
    * for await (const page of pages) {
-   *   // Each page is an array of operation info objects and can be iterated synchronously
+   *   // Each page is an array of operation Details objects and can be iterated synchronously
    *   for (const operation of page) {
    *     const {
    *       operationId, // the operation's GUID
@@ -678,7 +678,7 @@ export class DocumentModelAdministrationClient {
    * ```
    *
    * @param options - optional settings for the operation requests
-   * @returns an async iterable of operation information objects that supports paging
+   * @returns an async iterable of operation Detailsrmation objects that supports paging
    */
   public listOperations(
     options: ListOperationsOptions = {}
