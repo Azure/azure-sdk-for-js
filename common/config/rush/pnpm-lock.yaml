@@ -3974,7 +3974,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220803
+      typescript: 4.8.0-dev.20220804
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -5672,7 +5672,7 @@ packages:
     dev: false
 
   /isarray/0.0.1:
-    resolution: {integrity: sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=}
+    resolution: {integrity: sha512-D2S+3GLxWH+uhrNEcoh/fnmYeP8E8/zHl644d/jdA0g2uyXvy3sb0qxotE+ne0LtccHknQzWwZEzhak7oJ0COQ==}
     dev: false
 
   /isarray/1.0.0:
@@ -6360,6 +6360,13 @@ packages:
 
   /magic-string/0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
+    dependencies:
+      sourcemap-codec: 1.4.8
+    dev: false
+
+  /magic-string/0.26.2:
+    resolution: {integrity: sha512-NzzlXpclt5zAbmo6h6jNc8zl2gNRGHvmsZW4IvZhTC4W7k4OlLP+S5YLussa/r3ixNT66KOQfNORlXHSOy/X4A==}
+    engines: {node: '>=12'}
     dependencies:
       sourcemap-codec: 1.4.8
     dev: false
@@ -8863,8 +8870,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220803:
-    resolution: {integrity: sha512-kSQ2BkI4A0i81bjz+X+ibWVlC/DiImiNzJkz8tOj3U3hSgtgBTWw0a2YnVVHvyVdw7R59qDjE/sjX/3p8zY7xg==}
+  /typescript/4.8.0-dev.20220804:
+    resolution: {integrity: sha512-N5tKzl5WE31E6YHL3nlYls2zCxkCfax3gb3zKKcrRJXEzfPRFodE0xzkIgGJIshTLQnF/uwiN2Nc8TG50aE9Hg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -8921,7 +8928,7 @@ packages:
     dev: false
 
   /unpipe/1.0.0:
-    resolution: {integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=}
+    resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
     engines: {node: '>= 0.8'}
     dev: false
 
@@ -9585,16 +9592,18 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-qTjH/vuND6zSNnkCkxhl2/HAOlH+8VXYWPGYD3uLZzZF0T84tQinwCra7VHX8zfv+0VIkQx9C8fa1DDa8rzlNQ==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-qRdEx127LicCgb5EVe2TfvX4DS8XylAQ78yF+zxDknwlrLBEhupJsrbIk/bKicsOyF+5d9BC14xTsx3ajZLtKw==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      '@types/prettier': 2.6.3
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -9613,11 +9622,13 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.0
       karma-sourcemap-loader: 0.3.8
+      magic-string: 0.26.2
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
       prettier: 2.7.1
       rimraf: 3.0.2
+      rollup: 2.75.7
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.4.0

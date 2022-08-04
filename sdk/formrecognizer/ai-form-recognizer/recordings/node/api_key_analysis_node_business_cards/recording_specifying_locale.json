@@ -10,106 +10,106 @@
         "Content-Length": "76",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
-        "x-ms-client-request-id": "ad95635b-e0a9-4cb6-ad71-214a3681407e"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.5 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Linux-5.18.9-zen1-1-zen)",
+        "x-ms-client-request-id": "c1169f05-caff-4438-86ab-8e83dd8abb59"
       },
       "RequestBody": {
         "urlSource": "https://storageaccount/testingdata/businessCard.jpg?sastoken"
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "d833bac9-e059-4c25-bdf8-65c617e879a8",
+        "apim-request-id": "e05dfc87-2c4b-40f2-9cf1-7fd1a5d7cde2",
         "Content-Length": "0",
-        "Date": "Thu, 02 Jun 2022 15:25:09 GMT",
-        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/d833bac9-e059-4c25-bdf8-65c617e879a8?api-version=2022-06-30-preview",
+        "Date": "Thu, 07 Jul 2022 01:09:58 GMT",
+        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/e05dfc87-2c4b-40f2-9cf1-7fd1a5d7cde2?api-version=2022-06-30-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "1144"
+        "x-envoy-upstream-service-time": "895"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/d833bac9-e059-4c25-bdf8-65c617e879a8?api-version=2022-06-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/e05dfc87-2c4b-40f2-9cf1-7fd1a5d7cde2?api-version=2022-06-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
-        "x-ms-client-request-id": "313805fb-6b0c-4933-a632-13ce2a4e54ef"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.5 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Linux-5.18.9-zen1-1-zen)",
+        "x-ms-client-request-id": "efafdb14-ddab-4d26-a401-e29564b48edd"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "cef81782-b8cb-4089-b7b0-12c44284ac9e",
+        "apim-request-id": "7dd5870d-9663-4d60-940a-fc3d543b92b7",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Jun 2022 15:25:09 GMT",
+        "Date": "Thu, 07 Jul 2022 01:09:59 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "22"
+        "x-envoy-upstream-service-time": "14"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-06-02T15:25:09Z",
-        "lastUpdatedDateTime": "2022-06-02T15:25:09Z"
+        "createdDateTime": "2022-07-07T01:09:58Z",
+        "lastUpdatedDateTime": "2022-07-07T01:09:58Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/d833bac9-e059-4c25-bdf8-65c617e879a8?api-version=2022-06-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/e05dfc87-2c4b-40f2-9cf1-7fd1a5d7cde2?api-version=2022-06-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
-        "x-ms-client-request-id": "d55a2e3d-1c64-4bcf-9d04-937c195e631f"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.5 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Linux-5.18.9-zen1-1-zen)",
+        "x-ms-client-request-id": "ec52530a-ef41-4671-80cd-fa00230da910"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "dacfaf49-10da-4f47-90a8-e72bc5fcdb18",
+        "apim-request-id": "611cc4e3-4055-481a-b19e-6865368c0a9e",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Jun 2022 15:25:09 GMT",
+        "Date": "Thu, 07 Jul 2022 01:09:59 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "16"
+        "x-envoy-upstream-service-time": "14"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-06-02T15:25:09Z",
-        "lastUpdatedDateTime": "2022-06-02T15:25:09Z"
+        "createdDateTime": "2022-07-07T01:09:58Z",
+        "lastUpdatedDateTime": "2022-07-07T01:09:58Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/d833bac9-e059-4c25-bdf8-65c617e879a8?api-version=2022-06-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/e05dfc87-2c4b-40f2-9cf1-7fd1a5d7cde2?api-version=2022-06-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
-        "x-ms-client-request-id": "ce311a3f-11f7-40ab-94d5-a0d201971f10"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.5 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Linux-5.18.9-zen1-1-zen)",
+        "x-ms-client-request-id": "7f090983-9cb0-4ffa-9331-e9eee7cff450"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "39d43010-1cf3-47b6-a8ef-e2d8c421369a",
+        "apim-request-id": "0750e5e7-0952-49aa-90d3-60e854489a71",
         "Content-Length": "30413",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Jun 2022 15:25:14 GMT",
+        "Date": "Thu, 07 Jul 2022 01:10:03 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "50"
+        "x-envoy-upstream-service-time": "56"
       },
       "ResponseBody": {
         "status": "succeeded",
-        "createdDateTime": "2022-06-02T15:25:09Z",
-        "lastUpdatedDateTime": "2022-06-02T15:25:12Z",
+        "createdDateTime": "2022-07-07T01:09:58Z",
+        "lastUpdatedDateTime": "2022-07-07T01:10:01Z",
         "analyzeResult": {
           "apiVersion": "2022-06-30-preview",
           "modelId": "prebuilt-businessCard",
@@ -1204,7 +1204,7 @@
                           ]
                         }
                       ],
-                      "confidence": 0.995,
+                      "confidence": 0.955,
                       "spans": [
                         {
                           "offset": 190,
@@ -1236,7 +1236,7 @@
                           ]
                         }
                       ],
-                      "confidence": 0.995,
+                      "confidence": 0.842,
                       "spans": [
                         {
                           "offset": 182,
@@ -1271,7 +1271,7 @@
                               ]
                             }
                           ],
-                          "confidence": 0.995,
+                          "confidence": 0.989,
                           "spans": [
                             {
                               "offset": 4,
@@ -1298,7 +1298,7 @@
                               ]
                             }
                           ],
-                          "confidence": 0.995,
+                          "confidence": 0.981,
                           "spans": [
                             {
                               "offset": 10,
@@ -1323,7 +1323,7 @@
                           ]
                         }
                       ],
-                      "confidence": 0.995,
+                      "confidence": 0.972,
                       "spans": [
                         {
                           "offset": 0,
@@ -1355,7 +1355,7 @@
                           ]
                         }
                       ],
-                      "confidence": 0.995,
+                      "confidence": 0.972,
                       "spans": [
                         {
                           "offset": 34,
@@ -1387,7 +1387,7 @@
                           ]
                         }
                       ],
-                      "confidence": 0.995,
+                      "confidence": 0.987,
                       "spans": [
                         {
                           "offset": 56,
@@ -1419,7 +1419,7 @@
                           ]
                         }
                       ],
-                      "confidence": 0.995,
+                      "confidence": 0.987,
                       "spans": [
                         {
                           "offset": 161,
@@ -1451,7 +1451,7 @@
                           ]
                         }
                       ],
-                      "confidence": 0.995,
+                      "confidence": 0.987,
                       "spans": [
                         {
                           "offset": 16,
@@ -1483,7 +1483,7 @@
                           ]
                         }
                       ],
-                      "confidence": 0.995,
+                      "confidence": 0.987,
                       "spans": [
                         {
                           "offset": 110,
@@ -1515,7 +1515,7 @@
                           ]
                         }
                       ],
-                      "confidence": 0.995,
+                      "confidence": 0.988,
                       "spans": [
                         {
                           "offset": 80,
@@ -1547,7 +1547,7 @@
                           ]
                         }
                       ],
-                      "confidence": 0.995,
+                      "confidence": 0.972,
                       "spans": [
                         {
                           "offset": 135,
