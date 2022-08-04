@@ -447,8 +447,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/communication-job-router",
-      "projectFolder": "sdk/communication/communication-job-router",
+      "packageName": "@azure/communication-jobrouter",
+      "projectFolder": "sdk/communication/communication-jobrouter",
       "versionPolicyName": "client"
     },
     {

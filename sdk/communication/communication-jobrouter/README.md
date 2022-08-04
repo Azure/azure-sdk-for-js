@@ -1,6 +1,6 @@
-# Azure Communication Job Router client library for JavaScript
+# Azure Communication JobRouter client library for JavaScript
 
-The Job Router library is used for managing users and tokens for Azure Communication Services.
+The JobRouter library is used for managing users and tokens for Azure Communication Services.
 
 ## Getting started
 

@@ -1,6 +1,6 @@
-# Azure Communication Services - Job Router client library samples for JavaScript (Beta)
+# Azure Communication Services - JobRouter client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Job Router in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Communication Services - JobRouter in some common scenarios.
 
 | **File Name**                                           | **Description**                                                                           |
 | ------------------------------------------------------- | ----------------------------------------------------------------------------------------- |

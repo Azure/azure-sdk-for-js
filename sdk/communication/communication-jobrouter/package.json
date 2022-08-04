@@ -61,7 +61,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {
-    "productName": "Azure Communication Services - Job Router",
+    "productName": "Azure Communication Services - JobRouter",
     "productSlugs": [
       "azure",
       "azure-communication-services"

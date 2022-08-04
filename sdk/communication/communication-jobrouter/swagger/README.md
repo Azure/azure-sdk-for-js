@@ -1,4 +1,4 @@
-# Azure Communication Services Job Router
+# Azure Communication Services JobRouter
 
 > see [https://aka.ms/autorest](https://aka.ms/autorest)
 

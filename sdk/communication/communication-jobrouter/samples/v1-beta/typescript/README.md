@@ -1,6 +1,6 @@
-# Azure Communication Services - Job Router client library samples for TypeScript (Beta)
+# Azure Communication Services - JobRouter client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for Azure Communication Services - Job Router in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Communication Services - JobRouter in some common scenarios.
 
 | **File Name**                                           | **Description**                                                                           |
 | ------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
