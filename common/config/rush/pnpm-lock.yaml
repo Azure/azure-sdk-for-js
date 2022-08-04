@@ -9983,7 +9983,7 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-LFFHW/pKVzK3Ok6cLSSUqkwodyeR4B33hq8tUJXwZrq0kSZoj3xoQbGO9Jc4GmohLF04ABzglJ5egKpgP04SNA==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-CZSdjvf4vAP4p6PyFYm2T3esTn3TDx3p+PFHAmcD8wWXjatOn68KZfNe+Yc1m6uAUs8VrwJFkk9OnQn3uJBrzQ==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -9995,6 +9995,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10002,11 +10004,10 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
