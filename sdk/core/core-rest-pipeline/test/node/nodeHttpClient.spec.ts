@@ -71,7 +71,7 @@ describe("NodeHttpClient", function () {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
-    const request = createPipelineRequest({ url: "https://whateverhahaha.com" });
+    const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
     stubbedHttpsRequest.yield(createResponse(404));
     const response = await promise;
