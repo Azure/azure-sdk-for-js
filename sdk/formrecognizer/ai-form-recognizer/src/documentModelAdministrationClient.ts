@@ -473,7 +473,7 @@ export class DocumentModelAdministrationClient {
    *
    * ```javascript
    * const {
-   *   // information about the custom models in the current resource
+   *   // Information about the custom models in the current resource
    *   customDocumentModelDetails: {
    *     // The number of custom models in the current resource
    *     count,
