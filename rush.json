@@ -1786,6 +1786,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/api-management-custom-widgets-tools",
+      "projectFolder": "sdk/apimanagement/api-management-custom-widgets-tools",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-networkfunction",
       "projectFolder": "sdk/networkfunction/arm-networkfunction",
       "versionPolicyName": "management"

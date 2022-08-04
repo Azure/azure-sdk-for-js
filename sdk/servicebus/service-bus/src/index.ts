@@ -26,6 +26,7 @@ export {
   ReceiveMessagesOptions,
   ServiceBusReceiverOptions,
   ServiceBusSessionReceiverOptions,
+  ServiceBusSenderOptions,
   SubscribeOptions,
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
