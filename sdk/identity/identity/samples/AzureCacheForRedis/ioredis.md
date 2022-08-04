@@ -37,7 +37,7 @@ This sample is intended to assist in authenticating a hosted Azure Cache for Red
 ##### Migration Guidance
 
 When migrating your existing application code to authenticate with Azure AD, replace the password input with Azure AD token. Azure Redis Cache name, username, Azure AD token, and use of SSL are required while connecting with the cache.
-The username will depend on whether you're using service principal, managed identity, or Microsoft username.
+The username will depend on whether you're using service principal, managed identity, or Microsoft username. In case of service principal, the name of the app registration should be used as the username. In case of system-assigned managed identity, the username should be the name of the resource on which the system-assigned managed identity is enabled. In case of user-assigned managed identity, the name should be the username.
 
 Integrate the logic in your application code to fetch an Azure AD access token via the Azure Identity library, as shown below. Replace it with the password configuring/retrieving logic in your application code.
 
