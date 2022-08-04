@@ -8,7 +8,7 @@ const { RouterAdministrationClient, RouterClient } = require("@azure/communicati
 // Load the .env file (you will need to set these environment variables)
 require("dotenv").config();
 
-const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || "";
+const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 const quickStart = async () => {
   // Create the Router Client

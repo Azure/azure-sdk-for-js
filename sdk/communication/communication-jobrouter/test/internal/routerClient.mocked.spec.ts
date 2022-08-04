@@ -12,6 +12,6 @@ describe("[Mocked] RouterClient", async () => {
   });
 
   it("can instantiate", async () => {
-    new RouterClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {});
+    new RouterClient(env.COMMUNICATION_CONNECTION_STRING, {});
   });
 });

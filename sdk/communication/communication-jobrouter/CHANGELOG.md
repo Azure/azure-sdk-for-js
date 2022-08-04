@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.1 (2022-07-18-preview)
+## 1.0.0 (2022-07-18-preview)
 
 The first preview of the Azure Communication JobRouter Client has the following features:
 

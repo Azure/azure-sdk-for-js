@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { JobRouterApiClientOptionalParams } from "./models";
 
 const packageName = "azure-communication-jobrouter";
-const packageVersion = "1.0.0-beta.1";
+const packageVersion = "1.0.0";
 
 export class JobRouterApiClientContext extends coreHttp.ServiceClient {
   $host: string;

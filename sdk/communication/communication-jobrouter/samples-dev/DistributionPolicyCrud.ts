@@ -11,7 +11,7 @@ import { assert } from "chai";
 import { RouterAdministrationClient } from "../src";
 dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || "";
+const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 
 // Create an distribution policy

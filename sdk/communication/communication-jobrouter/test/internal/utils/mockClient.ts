@@ -19,7 +19,7 @@ export interface RecordedRouterClient {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING:
+  COMMUNICATION_CONNECTION_STRING:
     "endpoint=https://someEndpoint/;accesskey=someAccessKeyw=="
 };
 
@@ -59,8 +59,8 @@ export function createRecordedRouterClientWithConnectionString(
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new RouterClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING),
-    administrationClient: new RouterAdministrationClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING),
+    client: new RouterClient(env.COMMUNICATION_CONNECTION_STRING),
+    administrationClient: new RouterAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
     recorder
   };
 }
@@ -71,7 +71,7 @@ export function createRecordedRouterClientWithKeyCredential(
   const recorder = record(context, environmentSetup);
 
   const { endpoint, credential } = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING
+    env.COMMUNICATION_CONNECTION_STRING
   );
 
   return {

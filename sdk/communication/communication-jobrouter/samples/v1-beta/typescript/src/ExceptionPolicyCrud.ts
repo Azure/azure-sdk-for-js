@@ -13,7 +13,7 @@ import { ExceptionPolicyItem } from "@azure/communication-jobrouter";
 import { assert } from "chai";
 dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || "";
+const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 
 // Create an exception policy

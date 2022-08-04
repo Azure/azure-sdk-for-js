@@ -9,7 +9,7 @@ const { assert } = require("chai");
 const { RouterAdministrationClient } = require("@azure/communication-jobrouter");
 dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || "";
+const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Create an distribution policy
 const createDistributionPolicy = async () => {

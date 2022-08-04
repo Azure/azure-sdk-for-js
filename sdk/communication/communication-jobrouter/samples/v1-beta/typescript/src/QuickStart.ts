@@ -10,7 +10,7 @@ import * as dotenv from "dotenv";
 import { RouterJob } from "@azure/communication-jobrouter";
 dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || "";
+const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 
 const quickStart = async (): Promise<void> => {

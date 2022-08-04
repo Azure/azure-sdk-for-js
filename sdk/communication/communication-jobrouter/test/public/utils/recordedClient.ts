@@ -25,7 +25,7 @@ export interface RecordedClient {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
+  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
