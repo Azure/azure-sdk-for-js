@@ -16,7 +16,7 @@
 
     ```
     "dependencies": {
-      "@azure/identity": "^2.0.4",
+      "@azure/identity": "^2.0.5",
       "ioredis": "^5.0.4",
     ```
 - Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
@@ -176,7 +176,7 @@ Integrate the logic in your application code to fetch an Azure AD access token v
 
 ```ts
 import Redis from "ioredis";
-import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { AccessToken, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -193,7 +193,7 @@ async function main() {
   // Construct a Token Credential from Identity library
   const credential = new DefaultAzureCredential();
   let accessTokenCache: AccessToken | undefined = undefined;
-  let id;
+  let id: NodeJS.Timeout;
 
   async function updateToken() {
     accessTokenCache = await returnPassword(credential);
@@ -202,7 +202,7 @@ async function main() {
 
   await updateToken();
 
-  let accessToken: AccessToken | undefined = accessTokenCache;
+  let accessToken: AccessToken | undefined = {...accessTokenCache};
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redis = new Redis({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
@@ -225,7 +225,7 @@ async function main() {
       console.log("error during redis get", e.toString());
       if ((accessToken.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
         redis.disconnect();
-        accessToken = accessTokenCache;
+        accessToken = {...accessTokenCache};
         redis = new Redis({
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
           password: accessToken.token,
@@ -246,7 +246,6 @@ main().catch((err) => {
   console.log("error message: ", err.message);
   console.log("error stack: ", err.stack);
 });
-
 ```
 
 #### Troubleshooting

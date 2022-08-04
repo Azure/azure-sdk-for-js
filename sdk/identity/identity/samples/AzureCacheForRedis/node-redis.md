@@ -16,7 +16,7 @@
 
     ```
     "dependencies": {
-      "@azure/identity": "^2.0.4",
+      "@azure/identity": "^2.0.5",
       "redis": "^4.1.0"
       }
     ```
@@ -178,7 +178,7 @@ Integrate the logic in your application code to fetch an Azure AD access token v
 
 ```ts
 import { createClient } from "redis";
-import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { DefaultAzureCredential, TokenCredential, AccessToken } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -202,7 +202,7 @@ async function main() {
   }
 
   await updateToken();
-  let accessToken: AccessToken | undefined = accessTokenCache;
+  let accessToken: AccessToken | undefined = {...accessTokenCache};
   // Create node-redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redisClient = createClient({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
@@ -226,7 +226,7 @@ async function main() {
       console.log("error during redis get", e.toString());
      if ((accessToken.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
       await redis.disconnect();
-      accessToken = accessTokenCache;
+      accessToken = {...accessTokenCache};
       redisClient = createClient({
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
           password: accessToken.token,
