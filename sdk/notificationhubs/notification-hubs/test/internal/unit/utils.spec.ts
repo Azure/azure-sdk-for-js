@@ -15,7 +15,7 @@ import {
 } from "../../../src/utils/utils.js";
 import { assert } from "@azure/test-utils";
 
-describe("xmlUtils", () => {
+describe("utils", () => {
   describe("isDefined", () => {
     it("should return false for an undefined value", () => {
       let value: string | undefined;
