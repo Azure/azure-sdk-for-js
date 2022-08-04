@@ -67,12 +67,12 @@ describe("createBrowserNotification", () => {
 describe("createFirebaseLegacyNotification", () => {
   it("should create a Firebase message with defaults", () => {
     const notification = createFirebaseLegacyNotification({
-      body: `{"notification":{"title":"mytitle","body":"Hello}}`,
+      body: `{"notification":{"title":"TITLE","body":"Hello}}`,
     });
 
     assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(notification.platform, "gcm");
-    assert.equal(notification.body, `{"notification":{"title":"mytitle","body":"Hello}}`);
+    assert.equal(notification.body, `{"notification":{"title":"TITLE","body":"Hello}}`);
   });
 });
 
