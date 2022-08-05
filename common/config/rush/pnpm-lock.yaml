@@ -6361,6 +6361,13 @@ packages:
       sourcemap-codec: 1.4.8
     dev: false
 
+  /magic-string/0.26.2:
+    resolution: {integrity: sha512-NzzlXpclt5zAbmo6h6jNc8zl2gNRGHvmsZW4IvZhTC4W7k4OlLP+S5YLussa/r3ixNT66KOQfNORlXHSOy/X4A==}
+    engines: {node: '>=12'}
+    dependencies:
+      sourcemap-codec: 1.4.8
+    dev: false
+
   /make-dir/2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
     engines: {node: '>=6'}
@@ -9582,16 +9589,18 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-qTjH/vuND6zSNnkCkxhl2/HAOlH+8VXYWPGYD3uLZzZF0T84tQinwCra7VHX8zfv+0VIkQx9C8fa1DDa8rzlNQ==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-qRdEx127LicCgb5EVe2TfvX4DS8XylAQ78yF+zxDknwlrLBEhupJsrbIk/bKicsOyF+5d9BC14xTsx3ajZLtKw==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      '@types/prettier': 2.6.3
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -9610,11 +9619,13 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.0
       karma-sourcemap-loader: 0.3.8
+      magic-string: 0.26.2
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
       prettier: 2.7.1
       rimraf: 3.0.2
+      rollup: 2.75.7
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.4.0

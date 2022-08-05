@@ -4,12 +4,12 @@
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerError } from "../error";
 import {
-  AnalyzeResultOperationStatus as AnalyzeOperationStatus,
+  AnalyzeResult as GeneratedAnalyzeResult,
   AnalyzeResultOperation,
+  AnalyzeResultOperationStatus as AnalyzeOperationStatus,
   DocumentLanguage,
   DocumentSpan,
   DocumentStyle,
-  AnalyzeResult as GeneratedAnalyzeResult,
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
@@ -22,16 +22,16 @@ import {
 } from "../transforms/polygon";
 import {
   BoundingRegion,
-  DocumentKeyValuePair,
-  DocumentLine,
-  DocumentPage,
-  DocumentParagraph,
   DocumentTable,
+  DocumentKeyValuePair,
+  DocumentPage,
+  DocumentLine,
+  DocumentParagraph,
 } from "../models/documentElements";
 import {
   Document as GeneratedDocument,
-  DocumentLine as GeneratedDocumentLine,
   DocumentPage as GeneratedDocumentPage,
+  DocumentLine as GeneratedDocumentLine,
 } from "../generated";
 
 /**
@@ -357,13 +357,7 @@ export type AnalysisPoller<Result = AnalyzeResult<AnalyzedDocument>> = PollerLik
  * Convert a generated AnalyzeResult into a convenience layer AnalyzeResult.
  * @internal
  */
-export function toAnalyzeResultFromGenerated<
-  Mapper extends (document: GeneratedDocument) => unknown
->(
-  result: GeneratedAnalyzeResult,
-  mapDocuments: Mapper
-): AnalyzeResult<Mapper extends (...args: never) => infer Document ? Document : never> {
-  type Document = Mapper extends (...args: never) => infer ThisDocument ? ThisDocument : never;
+export function toAnalyzeResultFromGenerated(result: GeneratedAnalyzeResult): AnalyzeResult {
   return {
     apiVersion: result.apiVersion as FormRecognizerApiVersion,
     modelId: result.modelId,
@@ -373,11 +367,11 @@ export function toAnalyzeResultFromGenerated<
     keyValuePairs: result.keyValuePairs?.map((pair) => toKeyValuePairFromGenerated(pair)),
     languages: result.languages,
     styles: result.styles,
-    documents: result.documents?.map((doc) => mapDocuments(doc)) as Document[],
     paragraphs: result.paragraphs?.map((para) => ({
       ...para,
       boundingRegions: toBoundingRegions(para.boundingRegions),
     })),
+    documents: result.documents?.map(toAnalyzedDocumentFromGenerated),
   };
 }
 
