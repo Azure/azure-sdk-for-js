@@ -30,7 +30,7 @@ Key links:
 - Package (NPM) (TODO)
 - API reference documentation (TODO)
 - [Product documentation](https://docs.microsoft.com/azure/cognitive-services/language-service/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/samples-dev)
 
 ## Getting started
 
