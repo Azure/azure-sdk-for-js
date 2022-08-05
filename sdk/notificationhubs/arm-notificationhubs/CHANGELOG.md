@@ -1,15 +1,19 @@
 # Release History
+    
+## 2.1.0 (2022-08-05)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CheckAvailabilityResult
+  - Added Interface DebugSendResponse
+  - Added Interface NamespaceCreateOrUpdateParameters
+  - Added Interface NamespaceResource
+  - Added Interface NotificationHubCreateOrUpdateParameters
+  - Added Interface NotificationHubPatchParameters
+  - Added Interface NotificationHubResource
+  - Added Interface PnsCredentialsResource
+  - Added Interface SharedAccessAuthorizationRuleResource
+    
 ## 2.0.1 (2022-04-27)
 
 **Features**
