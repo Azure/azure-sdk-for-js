@@ -37,7 +37,7 @@ npm install @azure/keyvault-admin
 
 #### Authenticate the client
 
-In order to interact with the Azure Key Vault service, you will need to create an instance of either the [`KeyVaultAccessControlClient`](#create-an-access-control-client)class or the [`KeyVaultBackupClient`](#create-a-backup-client) class, as well as a **vault url** (which you may see as "DNS Name" in the Azure Portal) and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
+In order to interact with the Azure Key Vault service, you will need to create an instance of either the `KeyVaultAccessControlClient`(#create-keyvaultaccesscontrolclient) class or the [`KeyVaultBackupClient`](#create-keyvaultbackupclient) class, as well as a **vault url** (which you may see as "DNS Name" in the Azure Portal) and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
 
 #### Get or create an Azure Managed HSM with the Azure CLI
 

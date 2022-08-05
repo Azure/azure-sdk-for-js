@@ -101,7 +101,7 @@ You can find more information on different ways of authenticating and their corr
 
 The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/README.md) provides more details and samples to get you started.
 
-In order to interact with the Azure Key Vault service, you will need to create an instance of the [`CertificateClient`](#create-certificate-client) class, a **vault url** and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
+In order to interact with the Azure Key Vault service, you will need to create an instance of the `KeyClient` class, a **vault url** and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
 
 Here's a quick example. First, import `DefaultAzureCredential` and `KeyClient`:
 
