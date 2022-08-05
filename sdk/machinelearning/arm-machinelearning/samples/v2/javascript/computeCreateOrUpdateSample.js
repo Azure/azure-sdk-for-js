@@ -33,8 +33,8 @@ async function attachAKubernetesCompute() {
           defaultInstanceType: {
             nodeSelector: {},
             resources: {
-              limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": undefined },
-              requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": undefined },
+              limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" },
+              requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" },
             },
           },
         },

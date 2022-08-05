@@ -104,7 +104,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-machinelearning/1.0.1`;
+    const packageDetails = `azsdk-js-arm-machinelearning/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
