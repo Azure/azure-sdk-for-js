@@ -44,12 +44,6 @@ export type RequestParameters = {
   /** Set to true if you want to skip encoding the path parameters */
   skipUrlEncoding?: boolean;
   /**
-   * With this property set to true, the response body will be returned
-   * as a binary array UInt8Array
-   */
-  binaryResponse?: boolean;
-
-  /**
    * Path parameters for custom the base url
    */
   pathParameters?: Record<string, any>;
