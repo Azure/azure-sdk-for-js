@@ -16,7 +16,7 @@ import { arcMsi } from "./arcMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { fabricMsi } from "./fabricMsi";
 import { appServiceMsi2019 } from "./appServiceMsi2019";
-import { ConfidentialClientApplication, NodeAuthOptions } from "@azure/msal-node";
+import { AppTokenProviderParameters, ConfidentialClientApplication, NodeAuthOptions } from "@azure/msal-node";
 import {DeveloperSignOnClientId} from "../../constants";
 
 const logger = credentialLogger("ManagedIdentityCredential");
@@ -177,7 +177,20 @@ export class ManagedIdentityCredential implements TokenCredential {
     try {
       // Determining the available MSI, and avoiding checking for other MSIs while the program is running.
       const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
-
+      // const appTokenParameters: AppTokenProviderParameters = {
+      //   correlationId: this.identityClient.getCorrelationId(), 
+      //   tenantId: getTokenOptions?.tenantId || "organizations",
+      //   scopes: [...scopes],
+      //   claims: getTokenOptions?.claims
+      // }
+      // this.confidentialApp.SetAppTokenProvider(async(appTokenProviderParameters=appTokenParameters)=>{
+      //   console.log(appTokenProviderParameters);
+      //   return {
+      //     accessToken: "string;",
+      //     expiresInSeconds: 4224,
+      //     refreshInSeconds: 3243453
+      //   }
+      // })
       return availableMSI.getToken(
         {
           identityClient: this.identityClient,
@@ -224,6 +237,23 @@ export class ManagedIdentityCredential implements TokenCredential {
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
         result = await this.authenticateManagedIdentity(scopes, updatedOptions);
+
+        const appTokenParameters: AppTokenProviderParameters = {
+        correlationId: this.identityClient.getCorrelationId(), 
+        tenantId: options?.tenantId || "organizations",
+        scopes: [...scopes],
+        claims: options?.claims
+      }
+      this.confidentialApp.SetAppTokenProvider(async(appTokenProviderParameters=appTokenParameters)=>{
+        console.log(appTokenProviderParameters);
+        
+        return {
+          accessToken: "string;",
+          expiresInSeconds: 4224,
+          refreshInSeconds: 3243453
+        }
+      })
+
 
         if (result === null) {
           // If authenticateManagedIdentity returns null,
