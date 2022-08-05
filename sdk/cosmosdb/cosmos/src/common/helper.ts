@@ -224,7 +224,11 @@ export function isItemResourceValid(resource: { id?: string }, err: { message?: 
       return false;
     }
 
-    if (resource.id.indexOf("/") !== -1 || resource.id.indexOf("\\") !== -1 || resource.id.indexOf("#") !== -1) {
+    if (
+      resource.id.indexOf("/") !== -1 ||
+      resource.id.indexOf("\\") !== -1 ||
+      resource.id.indexOf("#") !== -1
+    ) {
       err.message = "Id contains illegal chars.";
       return false;
     }
@@ -287,7 +291,7 @@ export function validateResourceId(resourceId: string): boolean {
 /**
  * @hidden
  */
- export function validateItemResourceId(resourceId: string): boolean {
+export function validateItemResourceId(resourceId: string): boolean {
   // if resourceId is not a string or is empty throw an error
   if (typeof resourceId !== "string" || isStringNullOrEmpty(resourceId)) {
     throw new Error("Resource ID must be a string and cannot be undefined, null or empty");
