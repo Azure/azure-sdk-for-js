@@ -16,6 +16,8 @@ import { arcMsi } from "./arcMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { fabricMsi } from "./fabricMsi";
 import { appServiceMsi2019 } from "./appServiceMsi2019";
+import { ConfidentialClientApplication, NodeAuthOptions } from "@azure/msal-node";
+import {DeveloperSignOnClientId} from "../../constants";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -59,6 +61,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private resourceId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
   private isAvailableIdentityClient: IdentityClient;
+  private confidentialApp: ConfidentialClientApplication;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -113,6 +116,13 @@ export class ManagedIdentityCredential implements TokenCredential {
         maxRetries: 0,
       },
     });
+
+    this.confidentialApp = new ConfidentialClientApplication({
+      auth: {
+        clientId: this.clientId ?? DeveloperSignOnClientId,
+        clientSecret: "dummy-secret"
+      }
+    })
   }
 
   private cachedMSI: MSI | undefined;
