@@ -273,12 +273,12 @@ export function trimSlashFromLeftAndRight(inputString: string): string {
 export function validateResourceId(resourceId: string): boolean {
   // if resourceId is not a string or is empty throw an error
   if (typeof resourceId !== "string" || isStringNullOrEmpty(resourceId)) {
-    throw new Error("Resource Id must be a string and cannot be undefined, null or empty");
+    throw new Error("Resource ID must be a string and cannot be undefined, null or empty");
   }
 
   // if resource id contains illegal characters throw an error
   if (illegalResourceIdCharacters.test(resourceId)) {
-    throw new Error("Illegal characters ['/', '\\', '#', '?'] cannot be used in resourceId");
+    throw new Error("Illegal characters ['/', '\\', '#', '?'] cannot be used in Resource ID");
   }
 
   return true;
@@ -290,12 +290,12 @@ export function validateResourceId(resourceId: string): boolean {
  export function validateItemResourceId(resourceId: string): boolean {
   // if resourceId is not a string or is empty throw an error
   if (typeof resourceId !== "string" || isStringNullOrEmpty(resourceId)) {
-    throw new Error("Resource Id must be a string and cannot be undefined, null or empty");
+    throw new Error("Resource ID must be a string and cannot be undefined, null or empty");
   }
 
   // if resource id contains illegal characters throw an error
   if (illegalItemResourceIdCharacters.test(resourceId)) {
-    throw new Error("Illegal characters ['/', '\\', '#'] cannot be used in resourceId");
+    throw new Error("Illegal characters ['/', '\\', '#'] cannot be used in Resource ID");
   }
 
   return true;

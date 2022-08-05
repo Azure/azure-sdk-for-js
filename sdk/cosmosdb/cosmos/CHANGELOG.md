@@ -3,7 +3,7 @@
 ## 3.16.4 (2022-08-05)
 
 ### Bugs Fixed
-- Revertes changes of [PR 22548](https://github.com/Azure/azure-sdk-for-js/pull/22548) to avoid possible regression when customers use id with special characters and their account is on ComputeGateway already. - See [PR 22818](https://github.com/Azure/azure-sdk-for-js/pull/22818)
+- Reverts changes of [PR 22548](https://github.com/Azure/azure-sdk-for-js/pull/22548) to avoid possible regression when customers use id with special characters and their account is on ComputeGateway already. - See [PR 22818](https://github.com/Azure/azure-sdk-for-js/pull/22818)
 
 ## 3.16.3 (2022-07-13)
 
