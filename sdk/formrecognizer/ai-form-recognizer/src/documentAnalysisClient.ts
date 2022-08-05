@@ -148,7 +148,7 @@ export class DocumentAnalysisClient {
    * the model ID "prebuilt-invoice", or to use the simpler prebuilt layout model, provide the model ID
    * "prebuilt-layout".
    *
-   * The fields produced in the `AnalyzeResponse` depend on the model that is used for analysis, and the values in any
+   * The fields produced in the `AnalyzeResult` depend on the model that is used for analysis, and the values in any
    * extracted documents' fields depend on the document types in the model (if any) and their corresponding field
    * schemas.
    *
@@ -200,7 +200,7 @@ export class DocumentAnalysisClient {
   /**
    * Extract data from an input using a model that has a known, strongly-typed document schema (a {@link DocumentModel}).
    *
-   * The fields produced in the `AnalyzeResponse` depend on the model that is used for analysis. In TypeScript, the type
+   * The fields produced in the `AnalyzeResult` depend on the model that is used for analysis. In TypeScript, the type
    * of the result for this method overload is inferred from the type of the input `DocumentModel`.
    *
    * ### Examples
@@ -270,7 +270,7 @@ export class DocumentAnalysisClient {
    * the model ID "prebuilt-invoice", or to use the simpler prebuilt layout model, provide the model ID
    * "prebuilt-layout".
    *
-   * The fields produced in the `AnalyzeResponse` depend on the model that is used for analysis, and the values in any
+   * The fields produced in the `AnalyzeResult` depend on the model that is used for analysis, and the values in any
    * extracted documents' fields depend on the document types in the model (if any) and their corresponding field
    * schemas.
    *
@@ -322,7 +322,7 @@ export class DocumentAnalysisClient {
   /**
    * Extract data from an input using a model that has a known, strongly-typed document schema (a {@link DocumentModel}).
    *
-   * The fields produced in the `AnalyzeResponse` depend on the model that is used for analysis. In TypeScript, the type
+   * The fields produced in the `AnalyzeResult` depend on the model that is used for analysis. In TypeScript, the type
    * of the result for this method overload is inferred from the type of the input `DocumentModel`.
    *
    * ### Examples

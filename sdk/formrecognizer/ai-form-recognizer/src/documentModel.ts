@@ -10,7 +10,7 @@ import { isAcronymic, uncapitalize } from "./util";
 /**
  * A well-known model specification that supports extracting structured documents.
  *
- * See the `beginAnalyzeDocuments` method of {@link DocumentAnalysisClient}, which supports consuming these
+ * See the `beginAnalyzeDocument` method of {@link DocumentAnalysisClient}, which supports consuming these
  * `DocumentModel` objects instead of model ID strings to provide stronger result types.
  */
 export interface DocumentModel<Result> {
