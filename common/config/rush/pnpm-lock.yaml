@@ -3971,7 +3971,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220804
+      typescript: 4.8.0-dev.20220805
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8860,8 +8860,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220804:
-    resolution: {integrity: sha512-N5tKzl5WE31E6YHL3nlYls2zCxkCfax3gb3zKKcrRJXEzfPRFodE0xzkIgGJIshTLQnF/uwiN2Nc8TG50aE9Hg==}
+  /typescript/4.8.0-dev.20220805:
+    resolution: {integrity: sha512-br4hTSU5UU+VnCdEDXgv4jeQduwNxNiYv30KW4cXU7W3fCxB8/UDd2OCqciN8H5pF//Lzo0clJBFHXbhrLx3eA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9445,7 +9445,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-eKFEwTAqY2aUM00lcuZwwStF/7gp4wox6XANr9X03uJASSzOWNB7GKbojBdccTK9MdlIv/TvnrSMI/EW4uojUg==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-/nIjTOo1xGicIGNnzZ1aMDSuMiCOiu1gK+mFwMwY/djQM7qnSHvskyV8VhnBbm5k7TmGRSiDvmNeWW9XTpHJnw==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -9538,7 +9538,7 @@ packages:
     dev: false
 
   file:projects/ai-document-translator.tgz:
-    resolution: {integrity: sha512-EwpVzusvWfLbImTC6mVu8Keti6cfvBS8oSJoXYEOo8HZ3DR6fgQE7duDgkEUtwwcEtFiaxnJZMMTahOBdxmNqw==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-o6GknuwCplafDFTEofppkVSBGQa/MyTb7aJKwoeUKBz9mI8MAFuiaWatksjx8lImG/bDjDgTDtPayGYaK2NE3w==, tarball: file:projects/ai-document-translator.tgz}
     name: '@rush-temp/ai-document-translator'
     version: 0.0.0
     dependencies:
@@ -10205,7 +10205,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice.tgz:
-    resolution: {integrity: sha512-TYy8GdC4dhsTUrlrVmamWu6Kyq/YeUmgL8H3Wz0kuUB8X1RJNFrVjo4FV1t1qrTyGOImHDMMmxIo8dZL3XVZVg==, tarball: file:projects/arm-appservice.tgz}
+    resolution: {integrity: sha512-DgMKMmTlYNu68W2B89vnl4K3zeAsRlQMNdDeppLpRD6539zudJTWn8i0x/cY/E+KsTZSkj+8h1faGZEwMlnvVg==, tarball: file:projects/arm-appservice.tgz}
     name: '@rush-temp/arm-appservice'
     version: 0.0.0
     dependencies:
@@ -13091,7 +13091,7 @@ packages:
     dev: false
 
   file:projects/arm-network.tgz:
-    resolution: {integrity: sha512-khbe73MbuUHzQPQCd3pZ38hNWSE5xqga1pxMRubxAmYycd7dRivyOm/Bh49GxfYrWNwSN8zztZzKBLnG6HTuyg==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-EB+GUt0tPZ/KYuUVu2nA+xpwx5QxnDwMA/W7ywwBZcduD0Je4lWpR/UfUSWu1OPy20g/bkwTxgzFspdAy9fuCA==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
@@ -13103,6 +13103,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13110,11 +13112,10 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -15500,7 +15501,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-de0o84npm3jL1+hBEPQSyCyLLCwLkb1TfmYHz1ifP2EfqbYNWOno9OGhYQ1Pmwl8syLHXLFQKFyjCuwRFKzLOQ==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-4ApUbigjCtpOCsmUatai0tpTUb64Bol1gengWp1yCHfPiLLBVncvTKCbS9BmgSNd95moActSDqO9NX0ZgbYhkg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -16727,7 +16728,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-F0k6HFfyizFXUkb4uxgsabbyTnT/7FHsYA1aCTGQmW8gcuZDoK7mXH+sXrvSXNY5kvZZkEbkzLLaIgl8EUJeRg==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-T3Z9uNdlw/NhfPROnQOkMm5wnBtEdbICmVJe/YWAB6W9zjyVMRe7Co93JvoPX/bhD9dKD9lGYyM0ynDk8NzQsQ==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -17297,7 +17298,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-FBIECZbgINFy9yx9OPWAAlF028USvN1jDk3wbXw+3dM0SNnvnM/Daif6c/ndMgrSSZPvskIs5IHteVBqJUV/yA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-aODIr/JRbgUNX4afbNOj0GlVxMhjRgDLQzUjDY7Zary6iK5nOGYXEXmnH44hj0a9OWgjuUbp+xNKfycbQ+sG2w==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -17871,7 +17872,7 @@ packages:
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-xUqb/hQSEKRDBfPVv57iimTv/txwpmjFaoX4QxjesBUxkjt8120JQBuabXEz4a3BnjVcBv9A33qDerUMLXBDNQ==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-e1antpcBdLipwLy+zFE7aPnCdwqXtnl97jAIWlG+2d8s70b5AbK/PBI1wAhJ0cD5XyiyhCIRJZcvwEF9dsjWZg==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
@@ -17914,7 +17915,7 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-BuzksXkIkTz01dAc5wfXUWSc/La2hZ2V5/e7linKGMMPkDwCXDRTEkczZKuKVE9gdpzF3yk7uLKvvbUxKyX1Jw==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-OFQsRAfGHBGhIIu5tBT2PX85hkLvqi69jgLArvoLB6rdl/vc3ShV5+GaiJLjMaNkAk/H57tcNYQ2wkeVTmd9WA==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
@@ -17958,7 +17959,7 @@ packages:
     dev: false
 
   file:projects/purview-scanning.tgz:
-    resolution: {integrity: sha512-F6MKIuCwN2ycpLafr0w2X8xLbYE7JJp8BEoz3UZ9rmJ3AG6eK+ZnIkihCzze7NVl+OtjySA+ZzLDFjsevuElYg==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-SP2P0V4/NdE6SK4s8ZFfdpW2LdPuMrPU66uOtFGl8Aymw/Ql5E/E3NkMXPL3qttiqOIAx0kEMOU7r4Z24WaTuA==, tarball: file:projects/purview-scanning.tgz}
     name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
@@ -18652,7 +18653,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-JMdpf6sA+jrhMdibhP31/gUf1qaAzjvqYRciZ7tAEZkZF+N0jRJH7M05publD313aPm1dV/IzN8QF0l01Et7fQ==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-6IK8LEBqwXvovpG+Q90jy19fqSEBQ9FXDz70j7MX9tKTQle9FCfQNgVO5VDho35CZwBWO7x4fMa6vysiXyZnZA==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
