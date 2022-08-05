@@ -27,10 +27,6 @@ const createPayload = function (id: string): ItemPayload {
   };
 };
 
-const executeTestCaseOnComputeGateway = async function (scenario: TestScenario) {
-  return executeTestCase(scenario, true);
-}
-
 const executeTestCase = async function (scenario: TestScenario, useComputeGateway: boolean = false) {
   const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient : defaultClient
   const container: Container = await getTestContainer(scenario.name, client, {
@@ -66,6 +62,10 @@ const executeTestCase = async function (scenario: TestScenario, useComputeGatewa
       }
     }
     return;
+  }
+
+  const executeTestCaseOnComputeGateway = async function (scenario: TestScenario) {
+    return executeTestCase(scenario, true);
   }
 
   try {
