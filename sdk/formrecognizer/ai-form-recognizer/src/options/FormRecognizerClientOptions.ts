@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions } from "@azure/core-client";
-import { GeneratedClientOptionalParams } from "../generated";
 
 /**
  * Valid values of the Form Recognizer service REST API version.
@@ -51,10 +50,10 @@ export const StringIndexType = {
  *
  * @internal
  */
-export const DEFAULT_GENERATED_CLIENT_OPTIONS: GeneratedClientOptionalParams = {
+export const DEFAULT_GENERATED_CLIENT_OPTIONS = {
   stringIndexType: StringIndexType.Utf16CodeUnit,
   apiVersion: FormRecognizerApiVersion.Latest,
-};
+} as const;
 
 /**
  * Configurable options for the Form Recognizer service clients (DocumentAnalysisClient and

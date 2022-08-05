@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
  *
  * @summary Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-01-01/examples/Subvolumes_Create.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-03-01/examples/Subvolumes_Create.json
  */
 async function subvolumesCreate() {
   const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";

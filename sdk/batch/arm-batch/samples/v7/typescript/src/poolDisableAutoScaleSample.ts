@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Disables automatic scaling for a pool.
  *
  * @summary Disables automatic scaling for a pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolDisableAutoScale.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolDisableAutoScale.json
  */
 async function disableAutoScale() {
   const subscriptionId = "subid";

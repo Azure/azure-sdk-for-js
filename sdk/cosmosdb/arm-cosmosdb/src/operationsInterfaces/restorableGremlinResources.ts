@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  GremlinDatabaseRestoreResource,
+  RestorableGremlinResourcesGetResult,
   RestorableGremlinResourcesListOptionalParams
 } from "../models";
 
@@ -28,5 +28,5 @@ export interface RestorableGremlinResources {
     location: string,
     instanceId: string,
     options?: RestorableGremlinResourcesListOptionalParams
-  ): PagedAsyncIterableIterator<GremlinDatabaseRestoreResource>;
+  ): PagedAsyncIterableIterator<RestorableGremlinResourcesGetResult>;
 }

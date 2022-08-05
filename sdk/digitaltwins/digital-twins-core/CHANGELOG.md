@@ -1,8 +1,20 @@
 # Release History
 
-## 1.1.0 (2022-05-31)
+## 1.1.1 (Unreleased)
 
-- GA Release
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.0 (2022-07-19)
+
+### Features Added
+
+- Added support for twin and component metadata property `$lastUpdateTime`, signifying the date and time a twin or component was last updated.
 
 ## 1.1.0-beta.1 (2022-04-04)
 

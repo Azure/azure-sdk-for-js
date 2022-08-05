@@ -26,7 +26,9 @@ async function queryAtSubscriptionScopeUsingQueryParameters() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyTrackedResources.listQueryResultsForSubscription(options)) {
+  for await (let item of client.policyTrackedResources.listQueryResultsForSubscription("default", {
+    queryOptions: options,
+  })) {
     resArray.push(item);
   }
   console.log(resArray);

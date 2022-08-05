@@ -44,7 +44,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   }
 
   /**
-   * Lists all the packetCoreDataPlanes associated with a packetCoreControlPlane.
+   * Lists all the packet core data planes associated with a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param options The options parameters.
@@ -232,7 +232,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   }
 
   /**
-   * Creates or updates a PacketCoreDataPlane.
+   * Creates or updates a packet core data plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
@@ -311,7 +311,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   }
 
   /**
-   * Creates or updates a PacketCoreDataPlane.
+   * Creates or updates a packet core data plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
@@ -336,11 +336,11 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   }
 
   /**
-   * Updates a PacketCoreDataPlane update tags.
+   * Updates packet core data planes tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param parameters Parameters supplied to update PacketCoreDataPlane tags.
+   * @param parameters Parameters supplied to update packet core data plane tags.
    * @param options The options parameters.
    */
   updateTags(
@@ -363,7 +363,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   }
 
   /**
-   * Lists all the packetCoreDataPlanes associated with a packetCoreControlPlane.
+   * Lists all the packet core data planes associated with a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param options The options parameters.
@@ -470,7 +470,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

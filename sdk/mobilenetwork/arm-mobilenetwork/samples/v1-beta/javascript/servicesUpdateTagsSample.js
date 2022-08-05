@@ -12,10 +12,10 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Update service tags.
+ * This sample demonstrates how to Updates service tags.
  *
- * @summary Update service tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/ServiceUpdateTags.json
+ * @summary Updates service tags.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/ServiceUpdateTags.json
  */
 async function updateServiceTags() {
   const subscriptionId = "subid";

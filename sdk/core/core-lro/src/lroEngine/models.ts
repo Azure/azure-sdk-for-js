@@ -94,8 +94,6 @@ export interface LroInfo {
  * Type of a polling operation state that can actually be resumed.
  */
 export type ResumablePollOperationState<T> = PollOperationState<T> & {
-  /** The response received when initiating the LRO */
-  initialRawResponse?: RawResponse;
   /** The LRO configuration */
   config?: LroInfo;
   /** @deprecated use state.config.pollingUrl instead */

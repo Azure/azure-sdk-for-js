@@ -428,7 +428,6 @@ describe("AbortSignal", () => {
 
     it("Receiver.subscribe", async () => {
       const receiver = new ServiceBusReceiverImpl(
-        "serviceBusClientId",
         createConnectionContextForTests(),
         "entityPath",
         "peekLock",

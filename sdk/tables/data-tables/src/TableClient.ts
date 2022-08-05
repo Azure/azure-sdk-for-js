@@ -879,7 +879,7 @@ export class TableClient {
     }
 
     for (const item of actions) {
-      const [action, entity, updateMode = "Merge"] = item;
+      const [action, entity, updateMode = "Merge", updateOptions] = item;
       switch (action) {
         case "create":
           this.transactionClient.createEntity(entity);
@@ -888,7 +888,7 @@ export class TableClient {
           this.transactionClient.deleteEntity(entity.partitionKey, entity.rowKey);
           break;
         case "update":
-          this.transactionClient.updateEntity(entity, updateMode);
+          this.transactionClient.updateEntity(entity, updateMode, updateOptions);
           break;
         case "upsert":
           this.transactionClient.upsertEntity(entity, updateMode);

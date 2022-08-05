@@ -13,11 +13,9 @@
  * @summary extract data from a business card document
  */
 
-import {
-  AzureKeyCredential,
-  DocumentAnalysisClient,
-  PrebuiltModels,
-} from "@azure/ai-form-recognizer";
+import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+
+import { PrebuiltBusinessCardModel } from "./prebuilt/prebuilt-businessCard";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -29,7 +27,7 @@ async function main() {
   const client = new DocumentAnalysisClient(endpoint, credential);
 
   const poller = await client.beginAnalyzeDocument(
-    PrebuiltModels.BusinessCard,
+    PrebuiltBusinessCardModel,
     // The form recognizer service will access the following URL to a business card image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/businessCard/business-card-english.jpg"
   );

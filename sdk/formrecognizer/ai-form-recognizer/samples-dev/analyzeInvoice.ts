@@ -12,11 +12,9 @@
  * @summary extract data from an invoice document
  */
 
-import {
-  AzureKeyCredential,
-  DocumentAnalysisClient,
-  PrebuiltModels,
-} from "@azure/ai-form-recognizer";
+import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+
+import { PrebuiltInvoiceModel } from "./prebuilt/prebuilt-invoice";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -28,16 +26,17 @@ async function main() {
   const client = new DocumentAnalysisClient(endpoint, credential);
 
   const poller = await client.beginAnalyzeDocument(
-    PrebuiltModels.Invoice,
+    PrebuiltInvoiceModel,
     // The form recognizer service will access the following URL to an invoice image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/sample_invoice.jpg"
   );
 
-  const { documents } = await poller.pollUntilDone();
+  const {
+    documents: [document],
+  } = await poller.pollUntilDone();
 
-  const result = documents && documents[0];
   // Use of PrebuiltModels.Receipt above (rather than the raw model ID), adds strong typing of the model's output
-  if (result) {
+  if (document) {
     const {
       vendorName,
       customerName,
@@ -48,7 +47,7 @@ async function main() {
       previousUnpaidBalance,
       totalTax,
       amountDue,
-    } = result.fields;
+    } = document.fields;
 
     // The invoice model has many fields, and we will only show some of them for the sake of the example
     console.log("Vendor Name:", vendorName && vendorName.value);
