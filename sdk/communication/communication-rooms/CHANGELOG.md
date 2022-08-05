@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.1
+## 1.0.0-beta.1 (2022-08-04)
 
 The first preview of the Azure Communication Rooms Client has the following features:
 
