@@ -24,12 +24,6 @@ export interface AdditionalPolicyConfig {
 }
 
 // @public
-export interface CertificateCredential {
-    cert: string;
-    certKey: string;
-}
-
-// @public
 export interface Client {
     path: Function;
     pathUnchecked: PathUnchecked;
@@ -77,9 +71,6 @@ export type HttpResponse = {
 };
 
 // @public
-export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
-
-// @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
 pathParameter: string,
 ...pathParameters: PathParameters<Tail>
@@ -103,7 +94,6 @@ export type RequestParameters = {
     contentType?: string;
     allowInsecureConnection?: boolean;
     skipUrlEncoding?: boolean;
-    binaryResponse?: boolean;
     pathParameters?: Record<string, any>;
 };
 

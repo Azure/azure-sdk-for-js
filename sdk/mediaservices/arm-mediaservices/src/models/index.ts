@@ -1603,10 +1603,10 @@ export interface ClipTime {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -1616,18 +1616,18 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1640,22 +1640,22 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** Represents an audio track in the asset. */
-export type AudioTrack = TrackBase & {
+export interface AudioTrack extends TrackBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.AudioTrack";
-};
+}
 
 /** Represents a video track in the asset. */
-export type VideoTrack = TrackBase & {
+export interface VideoTrack extends TrackBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.VideoTrack";
-};
+}
 
 /** Represents a text track in an asset. A text track is usually used for sparse data related to the audio or video tracks. */
-export type TextTrack = TrackBase & {
+export interface TextTrack extends TrackBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.TextTrack";
   /** The file name to the source file. This file is located in the storage container of the asset. */
@@ -1671,40 +1671,45 @@ export type TextTrack = TrackBase & {
   playerVisibility?: Visibility;
   /** The HLS specific setting for the text track. */
   hlsSettings?: HlsSettings;
-};
+}
 
 /** Represents a configuration for non-DRM keys. */
-export type ContentKeyPolicyClearKeyConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyClearKeyConfiguration
+  extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration";
-};
+}
 
 /** Represents a ContentKeyPolicyConfiguration that is unavailable in the current API version. */
-export type ContentKeyPolicyUnknownConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyUnknownConfiguration
+  extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyUnknownConfiguration";
-};
+}
 
 /** Specifies a configuration for Widevine licenses. */
-export type ContentKeyPolicyWidevineConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyWidevineConfiguration
+  extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration";
   /** The Widevine template. */
   widevineTemplate: string;
-};
+}
 
 /** Specifies a configuration for PlayReady licenses. */
-export type ContentKeyPolicyPlayReadyConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyPlayReadyConfiguration
+  extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration";
   /** The PlayReady licenses. */
   licenses: ContentKeyPolicyPlayReadyLicense[];
   /** The custom response data. */
   responseCustomData?: string;
-};
+}
 
 /** Specifies a configuration for FairPlay licenses. */
-export type ContentKeyPolicyFairPlayConfiguration = ContentKeyPolicyConfiguration & {
+export interface ContentKeyPolicyFairPlayConfiguration
+  extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration";
   /** The key that must be used as FairPlay Application Secret key. */
@@ -1719,22 +1724,25 @@ export type ContentKeyPolicyFairPlayConfiguration = ContentKeyPolicyConfiguratio
   rentalDuration: number;
   /** Offline rental policy */
   offlineRentalConfiguration?: ContentKeyPolicyFairPlayOfflineRentalConfiguration;
-};
+}
 
 /** Represents an open restriction. License or key will be delivered on every request. */
-export type ContentKeyPolicyOpenRestriction = ContentKeyPolicyRestriction & {
+export interface ContentKeyPolicyOpenRestriction
+  extends ContentKeyPolicyRestriction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyOpenRestriction";
-};
+}
 
 /** Represents a ContentKeyPolicyRestriction that is unavailable in the current API version. */
-export type ContentKeyPolicyUnknownRestriction = ContentKeyPolicyRestriction & {
+export interface ContentKeyPolicyUnknownRestriction
+  extends ContentKeyPolicyRestriction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyUnknownRestriction";
-};
+}
 
 /** Represents a token restriction. Provided token must match these requirements for successful license or key delivery. */
-export type ContentKeyPolicyTokenRestriction = ContentKeyPolicyRestriction & {
+export interface ContentKeyPolicyTokenRestriction
+  extends ContentKeyPolicyRestriction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyTokenRestriction";
   /** The token issuer. */
@@ -1751,10 +1759,10 @@ export type ContentKeyPolicyTokenRestriction = ContentKeyPolicyRestriction & {
   restrictionTokenType: ContentKeyPolicyRestrictionTokenType;
   /** The OpenID connect discovery document. */
   openIdConnectDiscoveryDocument?: string;
-};
+}
 
 /** Describes all the settings to be used when analyzing a video in order to detect (and optionally redact) all the faces present. */
-export type FaceDetectorPreset = Preset & {
+export interface FaceDetectorPreset extends Preset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.FaceDetectorPreset";
   /** Specifies the maximum resolution at which your video is analyzed. The default behavior is "SourceResolution," which will keep the input video at its original resolution when analyzed. Using "StandardDefinition" will resize input videos to standard definition while preserving the appropriate aspect ratio. It will only resize if the video is of higher resolution. For example, a 1920x1080 input would be scaled to 640x360 before processing. Switching to "StandardDefinition" will reduce the time it takes to process high resolution video. It may also reduce the cost of using this component (see https://azure.microsoft.com/en-us/pricing/details/media-services/#analytics for details). However, faces that end up being too small in the resized video may not be detected. */
@@ -1765,10 +1773,10 @@ export type FaceDetectorPreset = Preset & {
   blurType?: BlurType;
   /** Dictionary containing key value pairs for parameters not exposed in the preset itself */
   experimentalOptions?: { [propertyName: string]: string };
-};
+}
 
 /** The Audio Analyzer preset applies a pre-defined set of AI-based analysis operations, including speech transcription. Currently, the preset supports processing of content with a single audio track. */
-export type AudioAnalyzerPreset = Preset & {
+export interface AudioAnalyzerPreset extends Preset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.AudioAnalyzerPreset"
@@ -1779,20 +1787,20 @@ export type AudioAnalyzerPreset = Preset & {
   mode?: AudioAnalysisMode;
   /** Dictionary containing key value pairs for parameters not exposed in the preset itself */
   experimentalOptions?: { [propertyName: string]: string };
-};
+}
 
 /** Describes a built-in preset for encoding the input video with the Standard Encoder. */
-export type BuiltInStandardEncoderPreset = Preset & {
+export interface BuiltInStandardEncoderPreset extends Preset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.BuiltInStandardEncoderPreset";
   /** Optional configuration settings for encoder. Configurations is only supported for ContentAwareEncoding and H265ContentAwareEncoding BuiltInStandardEncoderPreset. */
   configurations?: PresetConfigurations;
   /** The built-in preset to be used for encoding videos. */
   presetName: EncoderNamedPreset;
-};
+}
 
 /** Describes all the settings to be used when encoding the input video with the Standard Encoder. */
-export type StandardEncoderPreset = Preset & {
+export interface StandardEncoderPreset extends Preset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.StandardEncoderPreset";
   /** One or more filtering operations that are applied to the input media before encoding. */
@@ -1801,10 +1809,10 @@ export type StandardEncoderPreset = Preset & {
   codecs: CodecUnion[];
   /** The list of outputs to be produced by the encoder. */
   formats: FormatUnion[];
-};
+}
 
 /** Represents input files for a Job. */
-export type JobInputClip = JobInput & {
+export interface JobInputClip extends JobInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.JobInputClip"
@@ -1820,74 +1828,79 @@ export type JobInputClip = JobInput & {
   label?: string;
   /** Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track selections and related metadata. */
   inputDefinitions?: InputDefinitionUnion[];
-};
+}
 
 /** Describes a list of inputs to a Job. */
-export type JobInputs = JobInput & {
+export interface JobInputs extends JobInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JobInputs";
   /** List of inputs to a Job. */
   inputs?: JobInputUnion[];
-};
+}
 
 /** A Sequence contains an ordered list of Clips where each clip is a JobInput.  The Sequence will be treated as a single input. */
-export type JobInputSequence = JobInput & {
+export interface JobInputSequence extends JobInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JobInputSequence";
   /** JobInputs that make up the timeline. */
   inputs?: JobInputClipUnion[];
-};
+}
 
 /** Represents an Asset used as a JobOutput. */
-export type JobOutputAsset = JobOutput & {
+export interface JobOutputAsset extends JobOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JobOutputAsset";
   /** The name of the output Asset. */
   assetName: string;
-};
+}
 
 /** Specifies that the content key ID is in the PlayReady header. */
-export type ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader = ContentKeyPolicyPlayReadyContentKeyLocation & {
+export interface ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader
+  extends ContentKeyPolicyPlayReadyContentKeyLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader";
-};
+}
 
 /** Specifies that the content key ID is specified in the PlayReady configuration. */
-export type ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier = ContentKeyPolicyPlayReadyContentKeyLocation & {
+export interface ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier
+  extends ContentKeyPolicyPlayReadyContentKeyLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier";
   /** The content key ID. */
   keyId: string | null;
-};
+}
 
 /** Specifies a symmetric key for token validation. */
-export type ContentKeyPolicySymmetricTokenKey = ContentKeyPolicyRestrictionTokenKey & {
+export interface ContentKeyPolicySymmetricTokenKey
+  extends ContentKeyPolicyRestrictionTokenKey {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey";
   /** The key value of the key */
   keyValue: Uint8Array | null;
-};
+}
 
 /** Specifies a RSA key for token validation */
-export type ContentKeyPolicyRsaTokenKey = ContentKeyPolicyRestrictionTokenKey & {
+export interface ContentKeyPolicyRsaTokenKey
+  extends ContentKeyPolicyRestrictionTokenKey {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyRsaTokenKey";
   /** The RSA Parameter exponent */
   exponent: Uint8Array | null;
   /** The RSA Parameter modulus */
   modulus: Uint8Array | null;
-};
+}
 
 /** Specifies a certificate for token validation. */
-export type ContentKeyPolicyX509CertificateTokenKey = ContentKeyPolicyRestrictionTokenKey & {
+export interface ContentKeyPolicyX509CertificateTokenKey
+  extends ContentKeyPolicyRestrictionTokenKey {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyX509CertificateTokenKey";
   /** The raw data field of a certificate in PKCS 12 format (X509Certificate2 in .NET) */
   rawBody: Uint8Array | null;
-};
+}
 
 /** Defines the common properties for all audio codecs. */
-export type Audio = Codec & {
+export interface Audio extends Codec {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio";
   /** The number of channels in the audio. */
@@ -1896,10 +1909,10 @@ export type Audio = Codec & {
   samplingRate?: number;
   /** The bitrate, in bits per second, of the output encoded audio. */
   bitrate?: number;
-};
+}
 
 /** Describes the basic properties for encoding the input video. */
-export type Video = Codec & {
+export interface Video extends Codec {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.Video"
@@ -1914,22 +1927,22 @@ export type Video = Codec & {
   stretchMode?: StretchMode;
   /** The Video Sync Mode */
   syncMode?: VideoSyncMode;
-};
+}
 
 /** A codec flag, which tells the encoder to copy the input video bitstream without re-encoding. */
-export type CopyVideo = Codec & {
+export interface CopyVideo extends Codec {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.CopyVideo";
-};
+}
 
 /** A codec flag, which tells the encoder to copy the input audio bitstream. */
-export type CopyAudio = Codec & {
+export interface CopyAudio extends Codec {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.CopyAudio";
-};
+}
 
 /** Describes the settings to be used when encoding the input video into a desired output bitrate layer. */
-export type H265VideoLayer = Layer & {
+export interface H265VideoLayer extends Layer {
   /** The average bitrate in bits per second at which to encode the input video when generating this layer. For example: a target bitrate of 3000Kbps or 3Mbps means this value should be 3000000 This is a required field. */
   bitrate: number;
   /** The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill. If not specified, defaults to the same value as bitrate. */
@@ -1942,10 +1955,10 @@ export type H265VideoLayer = Layer & {
   slices?: number;
   /** Specifies whether or not adaptive B-frames are to be used when encoding this layer. If not specified, the encoder will turn it on whenever the video profile permits its use. */
   adaptiveBFrame?: boolean;
-};
+}
 
 /** Describes the settings to be used when encoding the input video into a desired output bitrate layer. */
-export type VideoLayer = Layer & {
+export interface VideoLayer extends Layer {
   /** The average bitrate in bits per second at which to encode the input video when generating this layer. This is a required field. */
   bitrate: number;
   /** The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill. If not specified, defaults to the same value as bitrate. */
@@ -1958,19 +1971,19 @@ export type VideoLayer = Layer & {
   slices?: number;
   /** Whether or not adaptive B-frames are to be used when encoding this layer. If not specified, the encoder will turn it on whenever the video profile permits its use. */
   adaptiveBFrame?: boolean;
-};
+}
 
 /** Describes the settings to produce a JPEG image from the input video. */
-export type JpgLayer = Layer & {
+export interface JpgLayer extends Layer {
   /** The compression quality of the JPEG output. Range is from 0-100 and the default is 70. */
   quality?: number;
-};
+}
 
 /** Describes the settings to produce a PNG image from the input video. */
-export type PngLayer = Layer;
+export interface PngLayer extends Layer {}
 
 /** A TrackSelection to select audio tracks. */
-export type AudioTrackDescriptor = TrackDescriptor & {
+export interface AudioTrackDescriptor extends TrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.AudioTrackDescriptor"
@@ -1978,45 +1991,45 @@ export type AudioTrackDescriptor = TrackDescriptor & {
     | "#Microsoft.Media.SelectAudioTrackById";
   /** Optional designation for single channel audio tracks.  Can be used to combine the tracks into stereo or multi-channel audio tracks. */
   channelMapping?: ChannelMapping;
-};
+}
 
 /** A TrackSelection to select video tracks. */
-export type VideoTrackDescriptor = TrackDescriptor & {
+export interface VideoTrackDescriptor extends TrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.VideoTrackDescriptor"
     | "#Microsoft.Media.SelectVideoTrackByAttribute"
     | "#Microsoft.Media.SelectVideoTrackById";
-};
+}
 
 /** An InputDefinition that looks across all of the files provided to select tracks specified by the IncludedTracks property. Generally used with the AudioTrackByAttribute and VideoTrackByAttribute to allow selection of a single track across a set of input files. */
-export type FromAllInputFile = InputDefinition & {
+export interface FromAllInputFile extends InputDefinition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.FromAllInputFile";
-};
+}
 
 /** An InputDefinition that looks at each input file provided to select tracks specified by the IncludedTracks property. Generally used with the AudioTrackByAttribute and VideoTrackByAttribute to select tracks from each file given. */
-export type FromEachInputFile = InputDefinition & {
+export interface FromEachInputFile extends InputDefinition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.FromEachInputFile";
-};
+}
 
 /** An InputDefinition for a single file.  TrackSelections are scoped to the file specified. */
-export type InputFile = InputDefinition & {
+export interface InputFile extends InputDefinition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.InputFile";
   /** Name of the file that this input definition applies to. */
   filename?: string;
-};
+}
 
 /** Describes the properties of an audio overlay. */
-export type AudioOverlay = Overlay & {
+export interface AudioOverlay extends Overlay {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.AudioOverlay";
-};
+}
 
 /** Describes the properties of a video overlay. */
-export type VideoOverlay = Overlay & {
+export interface VideoOverlay extends Overlay {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.VideoOverlay";
   /** The location in the input video where the overlay is applied. */
@@ -2025,19 +2038,19 @@ export type VideoOverlay = Overlay & {
   opacity?: number;
   /** An optional rectangular window used to crop the overlay image or video. */
   cropRectangle?: Rectangle;
-};
+}
 
 /** Describes the properties for an output image file. */
-export type ImageFormat = Format & {
+export interface ImageFormat extends Format {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.ImageFormat"
     | "#Microsoft.Media.JpgFormat"
     | "#Microsoft.Media.PngFormat";
-};
+}
 
 /** Describes the properties for producing a collection of GOP aligned multi-bitrate files. The default behavior is to produce one output file for each video layer which is muxed together with all the audios. The exact output files produced can be controlled by specifying the outputFiles collection. */
-export type MultiBitrateFormat = Format & {
+export interface MultiBitrateFormat extends Format {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.MultiBitrateFormat"
@@ -2045,26 +2058,26 @@ export type MultiBitrateFormat = Format & {
     | "#Microsoft.Media.TransportStreamFormat";
   /** The list of output files to produce.  Each entry in the list is a set of audio and video layer labels to be muxed together . */
   outputFiles?: OutputFile[];
-};
+}
 
 /** Specifies the clip time as an absolute time position in the media file.  The absolute time can point to a different position depending on whether the media file starts from a timestamp of zero or not. */
-export type AbsoluteClipTime = ClipTime & {
+export interface AbsoluteClipTime extends ClipTime {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.AbsoluteClipTime";
   /** The time position on the timeline of the input media. It is usually specified as an ISO8601 period. e.g PT30S for 30 seconds. */
   time: string;
-};
+}
 
 /** Specifies the clip time as a Utc time position in the media file.  The Utc time can point to a different position depending on whether the media file starts from a timestamp of zero or not. */
-export type UtcClipTime = ClipTime & {
+export interface UtcClipTime extends ClipTime {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.UtcClipTime";
   /** The time position on the timeline of the input media based on Utc time. */
   time: Date;
-};
+}
 
 /** An Account Filter. */
-export type AccountFilter = ProxyResource & {
+export interface AccountFilter extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2076,10 +2089,10 @@ export type AccountFilter = ProxyResource & {
   firstQuality?: FirstQuality;
   /** The tracks selection conditions. */
   tracks?: FilterTrackSelection[];
-};
+}
 
 /** An Asset. */
-export type Asset = ProxyResource & {
+export interface Asset extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2113,10 +2126,10 @@ export type Asset = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly storageEncryptionFormat?: AssetStorageEncryptionFormat;
-};
+}
 
 /** An Asset Filter. */
-export type AssetFilter = ProxyResource & {
+export interface AssetFilter extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2128,10 +2141,10 @@ export type AssetFilter = ProxyResource & {
   firstQuality?: FirstQuality;
   /** The tracks selection conditions. */
   tracks?: FilterTrackSelection[];
-};
+}
 
 /** An Asset Track resource. */
-export type AssetTrack = ProxyResource & {
+export interface AssetTrack extends ProxyResource {
   /** Detailed information about a track in the asset. */
   track?: TrackBaseUnion;
   /**
@@ -2139,10 +2152,10 @@ export type AssetTrack = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** A Content Key Policy resource. */
-export type ContentKeyPolicy = ProxyResource & {
+export interface ContentKeyPolicy extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2167,10 +2180,10 @@ export type ContentKeyPolicy = ProxyResource & {
   description?: string;
   /** The Key Policy options. */
   options?: ContentKeyPolicyOption[];
-};
+}
 
 /** A Transform encapsulates the rules or instructions for generating desired outputs from input media, such as by transcoding or by extracting insights. After the Transform is created, it can be applied to input media by creating Jobs. */
-export type Transform = ProxyResource & {
+export interface Transform extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2190,10 +2203,10 @@ export type Transform = ProxyResource & {
   readonly lastModified?: Date;
   /** An array of one or more TransformOutputs that the Transform should generate. */
   outputs?: TransformOutput[];
-};
+}
 
 /** A Job resource type. The progress and state can be obtained by polling a Job or subscribing to events using EventGrid. */
-export type Job = ProxyResource & {
+export interface Job extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2234,10 +2247,10 @@ export type Job = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly endTime?: Date;
-};
+}
 
 /** A Streaming Policy resource */
-export type StreamingPolicy = ProxyResource & {
+export interface StreamingPolicy extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2258,10 +2271,10 @@ export type StreamingPolicy = ProxyResource & {
   commonEncryptionCbcs?: CommonEncryptionCbcs;
   /** Configurations of NoEncryption */
   noEncryption?: NoEncryption;
-};
+}
 
 /** A Streaming Locator resource */
-export type StreamingLocator = ProxyResource & {
+export interface StreamingLocator extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2290,10 +2303,10 @@ export type StreamingLocator = ProxyResource & {
   alternativeMediaId?: string;
   /** A list of asset or account filters which apply to this streaming locator */
   filters?: string[];
-};
+}
 
 /** The Live Output. */
-export type LiveOutput = ProxyResource & {
+export interface LiveOutput extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2331,10 +2344,10 @@ export type LiveOutput = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: LiveOutputResourceState;
-};
+}
 
 /** A Media Services account. */
-export type MediaService = TrackedResource & {
+export interface MediaService extends TrackedResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2366,10 +2379,10 @@ export type MediaService = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** The live event. */
-export type LiveEvent = TrackedResource & {
+export interface LiveEvent extends TrackedResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2413,10 +2426,10 @@ export type LiveEvent = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModified?: Date;
-};
+}
 
 /** The streaming endpoint. */
-export type StreamingEndpoint = TrackedResource & {
+export interface StreamingEndpoint extends TrackedResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2474,42 +2487,42 @@ export type StreamingEndpoint = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModified?: Date;
-};
+}
 
 /** A video analyzer preset that extracts insights (rich metadata) from both audio and video, and outputs a JSON format file. */
-export type VideoAnalyzerPreset = AudioAnalyzerPreset & {
+export interface VideoAnalyzerPreset extends AudioAnalyzerPreset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.VideoAnalyzerPreset";
   /** Defines the type of insights that you want the service to generate. The allowed values are 'AudioInsightsOnly', 'VideoInsightsOnly', and 'AllInsights'. The default is AllInsights. If you set this to AllInsights and the input is audio only, then only audio insights are generated. Similarly if the input is video only, then only video insights are generated. It is recommended that you not use AudioInsightsOnly if you expect some of your inputs to be video only; or use VideoInsightsOnly if you expect some of your inputs to be audio only. Your Jobs in such conditions would error out. */
   insightsToExtract?: InsightsType;
-};
+}
 
 /** Represents an Asset for input into a Job. */
-export type JobInputAsset = JobInputClip & {
+export interface JobInputAsset extends JobInputClip {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JobInputAsset";
   /** The name of the input Asset. */
   assetName: string;
-};
+}
 
 /** Represents HTTPS job input. */
-export type JobInputHttp = JobInputClip & {
+export interface JobInputHttp extends JobInputClip {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JobInputHttp";
   /** Base URI for HTTPS job input. It will be concatenated with provided file names. If no base uri is given, then the provided file list is assumed to be fully qualified uris. Maximum length of 4000 characters. The query strings will not be returned in service responses to prevent sensitive data exposure. */
   baseUri?: string;
-};
+}
 
 /** Describes Advanced Audio Codec (AAC) audio encoding settings. */
-export type AacAudio = Audio & {
+export interface AacAudio extends Audio {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.AacAudio";
   /** The encoding profile to be used when encoding audio with AAC. */
   profile?: AacAudioProfile;
-};
+}
 
 /** Describes all the properties for encoding a video with the H.265 codec. */
-export type H265Video = Video & {
+export interface H265Video extends Video {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.H265Video";
   /** Specifies whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video. */
@@ -2518,10 +2531,10 @@ export type H265Video = Video & {
   complexity?: H265Complexity;
   /** The collection of output H.265 layers to be produced by the encoder. */
   layers?: H265Layer[];
-};
+}
 
 /** Describes the basic properties for generating thumbnails from the input video */
-export type Image = Video & {
+export interface Image extends Video {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.Image"
@@ -2533,10 +2546,10 @@ export type Image = Video & {
   step?: string;
   /** The position relative to transform preset start time in the input video at which to stop generating thumbnails. The value can be in ISO 8601 format (For example, PT5M30S to stop at 5 minutes and 30 seconds from start time), or a frame count (For example, 300 to stop at the 300th frame from the frame at start time. If this value is 1, it means only producing one thumbnail at start time), or a relative value to the stream duration (For example, 50% to stop at half of stream duration from start time). The default value is 100%, which means to stop at the end of the stream. */
   range?: string;
-};
+}
 
 /** Describes all the properties for encoding a video with the H.264 codec. */
-export type H264Video = Video & {
+export interface H264Video extends Video {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.H264Video";
   /** Tells the encoder how to choose its encoding settings. The default value is Balanced. */
@@ -2547,10 +2560,10 @@ export type H264Video = Video & {
   rateControlMode?: H264RateControlMode;
   /** Whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video. */
   sceneChangeDetection?: boolean;
-};
+}
 
 /** Describes the settings to be used when encoding the input video into a desired output bitrate layer with the H.265 video codec. */
-export type H265Layer = H265VideoLayer & {
+export interface H265Layer extends H265VideoLayer {
   /** We currently support Main. Default is Auto. */
   profile?: H265VideoProfile;
   /** We currently support Level up to 6.2. The value can be Auto, or a number that matches the H.265 profile. If not specified, the default is Auto, which lets the encoder choose the Level that is appropriate for this layer. */
@@ -2561,10 +2574,10 @@ export type H265Layer = H265VideoLayer & {
   crf?: number;
   /** The number of reference frames to be used when encoding this layer. If not specified, the encoder determines an appropriate number based on the encoder complexity setting. */
   referenceFrames?: number;
-};
+}
 
 /** Describes the settings to be used when encoding the input video into a desired output bitrate layer with the H.264 video codec. */
-export type H264Layer = VideoLayer & {
+export interface H264Layer extends VideoLayer {
   /** We currently support Baseline, Main, High, High422, High444. Default is Auto. */
   profile?: H264VideoProfile;
   /** We currently support Level up to 6.2. The value can be Auto, or a number that matches the H.264 profile. If not specified, the default is Auto, which lets the encoder choose the Level that is appropriate for this layer. */
@@ -2577,10 +2590,10 @@ export type H264Layer = VideoLayer & {
   referenceFrames?: number;
   /** The entropy mode to be used for this layer. If not specified, the encoder chooses the mode that is appropriate for the profile and level. */
   entropyMode?: EntropyMode;
-};
+}
 
 /** Select audio tracks from the input by specifying an attribute and an attribute filter. */
-export type SelectAudioTrackByAttribute = AudioTrackDescriptor & {
+export interface SelectAudioTrackByAttribute extends AudioTrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.SelectAudioTrackByAttribute";
   /** The TrackAttribute to filter the tracks by. */
@@ -2589,18 +2602,18 @@ export type SelectAudioTrackByAttribute = AudioTrackDescriptor & {
   filter: AttributeFilter;
   /** The value to filter the tracks by.  Only used when AttributeFilter.ValueEquals is specified for the Filter property. */
   filterValue?: string;
-};
+}
 
 /** Select audio tracks from the input by specifying a track identifier. */
-export type SelectAudioTrackById = AudioTrackDescriptor & {
+export interface SelectAudioTrackById extends AudioTrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.SelectAudioTrackById";
   /** Track identifier to select */
   trackId: number;
-};
+}
 
 /** Select video tracks from the input by specifying an attribute and an attribute filter. */
-export type SelectVideoTrackByAttribute = VideoTrackDescriptor & {
+export interface SelectVideoTrackByAttribute extends VideoTrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.SelectVideoTrackByAttribute";
   /** The TrackAttribute to filter the tracks by. */
@@ -2609,57 +2622,57 @@ export type SelectVideoTrackByAttribute = VideoTrackDescriptor & {
   filter: AttributeFilter;
   /** The value to filter the tracks by.  Only used when AttributeFilter.ValueEquals is specified for the Filter property. For TrackAttribute.Bitrate, this should be an integer value in bits per second (e.g: '1500000').  The TrackAttribute.Language is not supported for video tracks. */
   filterValue?: string;
-};
+}
 
 /** Select video tracks from the input by specifying a track identifier. */
-export type SelectVideoTrackById = VideoTrackDescriptor & {
+export interface SelectVideoTrackById extends VideoTrackDescriptor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.SelectVideoTrackById";
   /** Track identifier to select */
   trackId: number;
-};
+}
 
 /** Describes the settings for producing JPEG thumbnails. */
-export type JpgFormat = ImageFormat & {
+export interface JpgFormat extends ImageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JpgFormat";
-};
+}
 
 /** Describes the settings for producing PNG thumbnails. */
-export type PngFormat = ImageFormat & {
+export interface PngFormat extends ImageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.PngFormat";
-};
+}
 
 /** Describes the properties for an output ISO MP4 file. */
-export type Mp4Format = MultiBitrateFormat & {
+export interface Mp4Format extends MultiBitrateFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.Mp4Format";
-};
+}
 
 /** Describes the properties for generating an MPEG-2 Transport Stream (ISO/IEC 13818-1) output video file(s). */
-export type TransportStreamFormat = MultiBitrateFormat & {
+export interface TransportStreamFormat extends MultiBitrateFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.TransportStreamFormat";
-};
+}
 
 /** Describes the properties for producing a series of JPEG images from the input video. */
-export type JpgImage = Image & {
+export interface JpgImage extends Image {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.JpgImage";
   /** A collection of output JPEG image layers to be produced by the encoder. */
   layers?: JpgLayer[];
   /** Sets the number of columns used in thumbnail sprite image.  The number of rows are automatically calculated and a VTT file is generated with the coordinate mappings for each thumbnail in the sprite. Note: this value should be a positive integer and a proper value is recommended so that the output image resolution will not go beyond JPEG maximum pixel resolution limit 65535x65535. */
   spriteColumn?: number;
-};
+}
 
 /** Describes the properties for producing a series of PNG images from the input video. */
-export type PngImage = Image & {
+export interface PngImage extends Image {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.PngImage";
   /** A collection of output PNG image layers to be produced by the encoder. */
   layers?: PngLayer[];
-};
+}
 
 /** Defines headers for Mediaservices_createOrUpdate operation. */
 export interface MediaservicesCreateOrUpdateHeaders {
@@ -2791,9 +2804,13 @@ export type FilterTrackPropertyCompareOperation = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -2979,8 +2996,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -2997,9 +3017,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -3788,7 +3812,9 @@ export type AttributeFilter = string;
 
 /** Known values of {@link AnalysisResolution} that the service accepts. */
 export enum KnownAnalysisResolution {
+  /** SourceResolution */
   SourceResolution = "SourceResolution",
+  /** StandardDefinition */
   StandardDefinition = "StandardDefinition"
 }
 

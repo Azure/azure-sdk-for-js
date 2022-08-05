@@ -1,6 +1,8 @@
 # Release History
 
-## 1.0.0-beta.11 (2022-07-07)
+## 1.0.0 (2022-08-04)
+
+- Releasing the first stable version of @azure-rest/client
 
 ### Fixes
 

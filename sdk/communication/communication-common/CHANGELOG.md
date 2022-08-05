@@ -1,6 +1,16 @@
 # Release History
 
-## 2.1.0 (Unreleased)
+## 2.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.1.0 (2022-08-02)
 
 ### Features Added
 
