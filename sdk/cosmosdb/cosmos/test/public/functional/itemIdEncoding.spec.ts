@@ -3,7 +3,12 @@
 import assert from "assert";
 import { Suite } from "mocha";
 import { Container, CosmosClient } from "../../../src";
-import { getTestContainer, removeAllDatabases, defaultClient, defaultComputeGatewayClient } from "../common/TestHelpers";
+import {
+  getTestContainer,
+  removeAllDatabases,
+  defaultClient,
+  defaultComputeGatewayClient,
+} from "../common/TestHelpers";
 
 interface ItemPayload {
   id?: string;
@@ -27,12 +32,11 @@ const createPayload = function (id: string): ItemPayload {
   };
 };
 
-const executeTestCaseOnComputeGateway = async function (scenario: TestScenario) {
-  return executeTestCase(scenario, true);
-}
-
-const executeTestCase = async function (scenario: TestScenario, useComputeGateway: boolean = false) {
-  const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient : defaultClient
+const executeTestCase = async function (
+  scenario: TestScenario,
+  useComputeGateway: boolean = false
+) {
+  const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient : defaultClient;
   const container: Container = await getTestContainer(scenario.name, client, {
     partitionKey: {
       paths: ["/pk"],
@@ -107,6 +111,10 @@ const executeTestCase = async function (scenario: TestScenario, useComputeGatewa
     console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
     assert.strictEqual(err.code, scenario.expectedDeleteStatusCode);
   }
+};
+
+const executeTestCaseOnComputeGateway = async function (scenario: TestScenario) {
+  return executeTestCase(scenario, true);
 };
 
 describe("Id encoding", function (this: Suite) {
