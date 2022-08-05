@@ -26,16 +26,16 @@ export type ActionType = string;
 export type AofFrequency = string;
 
 // @public
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
+    readonly hostName?: string;
+    minimumTlsVersion?: TlsVersion;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    readonly redisVersion?: string;
+    readonly resourceState?: ResourceState;
     sku: Sku;
     zones?: string[];
-    minimumTlsVersion?: TlsVersion;
-    readonly hostName?: string;
-    readonly provisioningState?: ProvisioningState;
-    readonly resourceState?: ResourceState;
-    readonly redisVersion?: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 // @public
 export type ClusteringPolicy = string;
@@ -61,17 +61,17 @@ export interface ClusterUpdate {
 }
 
 // @public
-export type Database = ProxyResource & {
+export interface Database extends ProxyResource {
     clientProtocol?: Protocol;
+    clusteringPolicy?: ClusteringPolicy;
+    evictionPolicy?: EvictionPolicy;
+    geoReplication?: DatabasePropertiesGeoReplication;
+    modules?: Module[];
+    persistence?: Persistence;
     port?: number;
     readonly provisioningState?: ProvisioningState;
     readonly resourceState?: ResourceState;
-    clusteringPolicy?: ClusteringPolicy;
-    evictionPolicy?: EvictionPolicy;
-    persistence?: Persistence;
-    modules?: Module[];
-    geoReplication?: DatabasePropertiesGeoReplication;
-};
+}
 
 // @public
 export interface DatabaseList {
@@ -238,179 +238,118 @@ export interface ImportClusterParameters {
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownAofFrequency {
-    // (undocumented)
     Always = "always",
-    // (undocumented)
     OneS = "1s"
 }
 
 // @public
 export enum KnownClusteringPolicy {
-    // (undocumented)
     EnterpriseCluster = "EnterpriseCluster",
-    // (undocumented)
     OSSCluster = "OSSCluster"
 }
 
 // @public
 export enum KnownEvictionPolicy {
-    // (undocumented)
     AllKeysLFU = "AllKeysLFU",
-    // (undocumented)
     AllKeysLRU = "AllKeysLRU",
-    // (undocumented)
     AllKeysRandom = "AllKeysRandom",
-    // (undocumented)
     NoEviction = "NoEviction",
-    // (undocumented)
     VolatileLFU = "VolatileLFU",
-    // (undocumented)
     VolatileLRU = "VolatileLRU",
-    // (undocumented)
     VolatileRandom = "VolatileRandom",
-    // (undocumented)
     VolatileTTL = "VolatileTTL"
 }
 
 // @public
 export enum KnownLinkState {
-    // (undocumented)
     Linked = "Linked",
-    // (undocumented)
     LinkFailed = "LinkFailed",
-    // (undocumented)
     Linking = "Linking",
-    // (undocumented)
     UnlinkFailed = "UnlinkFailed",
-    // (undocumented)
     Unlinking = "Unlinking"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProtocol {
-    // (undocumented)
     Encrypted = "Encrypted",
-    // (undocumented)
     Plaintext = "Plaintext"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownRdbFrequency {
-    // (undocumented)
     OneH = "1h",
-    // (undocumented)
     SixH = "6h",
-    // (undocumented)
     TwelveH = "12h"
 }
 
 // @public
 export enum KnownResourceState {
-    // (undocumented)
     CreateFailed = "CreateFailed",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     DeleteFailed = "DeleteFailed",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     DisableFailed = "DisableFailed",
-    // (undocumented)
     Disabling = "Disabling",
-    // (undocumented)
     EnableFailed = "EnableFailed",
-    // (undocumented)
     Enabling = "Enabling",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     UpdateFailed = "UpdateFailed",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     EnterpriseE10 = "Enterprise_E10",
-    // (undocumented)
     EnterpriseE100 = "Enterprise_E100",
-    // (undocumented)
     EnterpriseE20 = "Enterprise_E20",
-    // (undocumented)
     EnterpriseE50 = "Enterprise_E50",
-    // (undocumented)
     EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
-    // (undocumented)
     EnterpriseFlashF300 = "EnterpriseFlash_F300",
-    // (undocumented)
     EnterpriseFlashF700 = "EnterpriseFlash_F700"
 }
 
 // @public
 export enum KnownTlsVersion {
-    // (undocumented)
     One0 = "1.0",
-    // (undocumented)
     One1 = "1.1",
-    // (undocumented)
     One2 = "1.2"
 }
 
@@ -511,11 +450,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -565,11 +504,11 @@ export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection;
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -602,7 +541,8 @@ export type Protocol = string;
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type RdbFrequency = string;
@@ -737,12 +677,12 @@ export type SkuName = string;
 export type TlsVersion = string;
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

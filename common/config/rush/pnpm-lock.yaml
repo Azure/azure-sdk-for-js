@@ -3971,7 +3971,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220804
+      typescript: 4.8.0-dev.20220805
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8860,8 +8860,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220804:
-    resolution: {integrity: sha512-N5tKzl5WE31E6YHL3nlYls2zCxkCfax3gb3zKKcrRJXEzfPRFodE0xzkIgGJIshTLQnF/uwiN2Nc8TG50aE9Hg==}
+  /typescript/4.8.0-dev.20220805:
+    resolution: {integrity: sha512-br4hTSU5UU+VnCdEDXgv4jeQduwNxNiYv30KW4cXU7W3fCxB8/UDd2OCqciN8H5pF//Lzo0clJBFHXbhrLx3eA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13732,7 +13732,7 @@ packages:
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
-    resolution: {integrity: sha512-ok0RMsxaEFLY6CJ8FVXBh6NJDlphVi4T60OB560heT/xL5X+spckyY1mltQIWeT6jA6hDLDqdqiMcfGl9oPylA==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-mnjmv+3JUyrYcvel7UKxLwaz6qmAePsVanqw7ZZQR6R4lTYYLMy4NJHgL838kxegw51nWZEApqRsTPUw3qdhcQ==, tarball: file:projects/arm-redisenterprisecache.tgz}
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
@@ -13744,6 +13744,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13755,7 +13757,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
