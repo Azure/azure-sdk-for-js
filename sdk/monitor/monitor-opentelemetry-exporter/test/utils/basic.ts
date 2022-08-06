@@ -247,6 +247,8 @@ export class MetricBasicScenario implements Scenario {
               name: "testHistogram",
               value: 10,
               count: 4,
+              max: 2,
+              min: 2,
               dataPointType: "Aggregation",
             },
           ],
