@@ -27,7 +27,8 @@ async function queryAtSubscriptionScopeUsingQueryParameters() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyTrackedResources.listQueryResultsForSubscription(
-    options
+    "default",
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }

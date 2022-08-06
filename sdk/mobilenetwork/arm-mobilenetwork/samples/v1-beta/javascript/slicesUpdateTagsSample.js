@@ -12,12 +12,12 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Update slice tags.
+ * This sample demonstrates how to Updates slice tags.
  *
- * @summary Update slice tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SliceUpdateTags.json
+ * @summary Updates slice tags.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SliceUpdateTags.json
  */
-async function updateMobileNetworkSliceTags() {
+async function updateNetworkSliceTags() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const mobileNetworkName = "testMobileNetwork";
@@ -34,4 +34,4 @@ async function updateMobileNetworkSliceTags() {
   console.log(result);
 }
 
-updateMobileNetworkSliceTags().catch(console.error);
+updateNetworkSliceTags().catch(console.error);

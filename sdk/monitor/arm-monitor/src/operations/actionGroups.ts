@@ -599,7 +599,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.actionGroup,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -622,7 +622,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -643,7 +643,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -666,7 +666,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.actionGroupPatch,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -683,23 +683,23 @@ const postTestNotificationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     201: {
-      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     202: {
-      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     204: {
-      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.notificationRequest,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -711,27 +711,23 @@ const createNotificationsAtResourceGroupLevelOperationSpec: coreClient.Operation
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     201: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     202: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     204: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.notificationRequest,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -747,27 +743,23 @@ const createNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.Ope
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     201: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     202: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     204: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.notificationRequest,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -790,7 +782,7 @@ const getTestNotificationsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -811,7 +803,7 @@ const getTestNotificationsAtResourceGroupLevelOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -833,7 +825,7 @@ const getTestNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.Op
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -856,7 +848,7 @@ const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -873,7 +865,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -896,7 +888,7 @@ const enableReceiverOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.enableRequest,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

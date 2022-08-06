@@ -53,6 +53,5 @@ export {
 export { DocumentModelPoller, DocumentModelOperationState } from "./lro/administration";
 export * from "./models";
 export * from "./options";
-export * from "./prebuilt";
-export { EnglishCapitalLetter, Acronymic } from "./util";
+export * from "./documentModel";
 export { Point2D } from "./transforms/polygon";

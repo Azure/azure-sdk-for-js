@@ -12,10 +12,10 @@ import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Lists all the packetCoreControlPlanes in a subscription.
+ * This sample demonstrates how to Lists all the packet core control planes in a subscription.
  *
- * @summary Lists all the packetCoreControlPlanes in a subscription.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/PacketCoreControlPlaneListBySubscription.json
+ * @summary Lists all the packet core control planes in a subscription.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/PacketCoreControlPlaneListBySubscription.json
  */
 async function listPacketCoreControlPlanesInASubscription() {
   const subscriptionId = "subid";

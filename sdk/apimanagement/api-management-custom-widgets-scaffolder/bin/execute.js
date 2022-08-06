@@ -30,9 +30,8 @@ const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
  * Default port for running local dev server on.
  */
 const OVERRIDE_DEFAULT_PORT = 3000;
-// export type TScaffoldSourceControl = "git" | "azure" | "none" | null;
 /** List of all supported technologies to scaffold a widget in. */
-const TECHNOLOGIES = ["typescript", "react"];
+const TECHNOLOGIES = ["typescript", "react", "vue"];
 /**
  * Converts user defined name of a custom widget to a unique ID, which is in context of Dev Portal known as "name".
  *
@@ -122,9 +121,10 @@ const promptWidgetConfig = (partial) => inquirer__default["default"].prompt([
         type: "list",
         message: fieldIdToName.technology,
         choices: [
-            { name: "TypeScript", value: "typescript" },
             { name: "React", value: "react" },
-        ], // , {name: "Vue", disabled: "Coming soon"}],
+            { name: "Vue", value: "vue" },
+            { name: "TypeScript", value: "typescript" },
+        ],
     },
 ], partial);
 const promptDeployConfig = (partial) => inquirer__default["default"].prompt([
@@ -153,7 +153,7 @@ const promptMiscConfig = (partial) => inquirer__default["default"].prompt([
         name: "openUrl",
         type: "input",
         message: fieldIdToName.openUrl +
-            " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or https://localhost:8080)",
+            " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or http://localhost:8080)",
         transformer: prefixUrlProtocol,
         validate: validateMiscConfig.openUrl,
     },
@@ -834,7 +834,7 @@ async function getTemplates(template) {
 }
 async function getFiles(path) {
     return new Promise((resolve, reject) => {
-        glob__default["default"](path, (error, matches) => {
+        glob__default["default"](path, { dot: true }, (error, matches) => {
             if (error) {
                 reject(error);
             }
@@ -915,6 +915,9 @@ async function main() {
     }
     if (deployConfig.resourceId.slice(-1) === "/") {
         deployConfig.resourceId = deployConfig.resourceId.slice(0, -1);
+    }
+    if (deployConfig.apiVersion === "") {
+        delete deployConfig.apiVersion;
     }
     deployConfig.managementApiEndpoint = prefixUrlProtocol(deployConfig.managementApiEndpoint);
     miscConfig.openUrl = miscConfig.openUrl

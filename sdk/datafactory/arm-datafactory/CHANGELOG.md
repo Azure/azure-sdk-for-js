@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 10.7.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 10.7.0 (2022-06-22)
     
 **Features**

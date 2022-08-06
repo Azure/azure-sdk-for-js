@@ -100,3 +100,30 @@ export function formatDuration(durationMilliseconds: number): string {
 
   return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 }
+
+/**
+ * Formats a number with a minimum number of significant digits.
+ * Digits to the left of the decimal point are always significant.
+ * Examples:
+ *  - formatNumber(0, 4) -> "0.000"
+ *  - formatNumber(12345, 4) -> "12,345"
+ *  - formatNumber(1.2345, 4) -> "1.235"
+ *  - formatNumber(0.00012345, 4) -> "0.0001235"
+ */
+export function formatNumber(value: number, minSignificantDigits: number) {
+  // Special case since log(0) is undefined
+  if (value == 0) {
+    return value.toLocaleString(undefined, {
+      minimumSignificantDigits: minSignificantDigits,
+      maximumSignificantDigits: minSignificantDigits,
+    });
+  }
+
+  const log = Math.log10(Math.abs(value));
+  const significantDigits = Math.max(Math.ceil(log), minSignificantDigits);
+
+  return value.toLocaleString(undefined, {
+    minimumSignificantDigits: significantDigits,
+    maximumSignificantDigits: significantDigits,
+  });
+}

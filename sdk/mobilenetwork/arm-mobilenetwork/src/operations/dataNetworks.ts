@@ -44,7 +44,7 @@ export class DataNetworksImpl implements DataNetworks {
   }
 
   /**
-   * Lists all dataNetworks in the mobile network.
+   * Lists all data networks in the mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
@@ -115,10 +115,10 @@ export class DataNetworksImpl implements DataNetworks {
   }
 
   /**
-   * Deletes the specified mobile network dataNetwork.
+   * Deletes the specified data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
+   * @param dataNetworkName The name of the data network.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -181,10 +181,10 @@ export class DataNetworksImpl implements DataNetworks {
   }
 
   /**
-   * Deletes the specified mobile network dataNetwork.
+   * Deletes the specified data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
+   * @param dataNetworkName The name of the data network.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -203,10 +203,10 @@ export class DataNetworksImpl implements DataNetworks {
   }
 
   /**
-   * Gets information about the specified mobile network dataNetwork.
+   * Gets information about the specified data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
+   * @param dataNetworkName The name of the data network.
    * @param options The options parameters.
    */
   get(
@@ -222,11 +222,11 @@ export class DataNetworksImpl implements DataNetworks {
   }
 
   /**
-   * Creates or updates a mobile network dataNetwork.
+   * Creates or updates a data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
-   * @param parameters Parameters supplied to the create or update mobile network dataNetwork operation.
+   * @param dataNetworkName The name of the data network.
+   * @param parameters Parameters supplied to the create or update data network operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -301,11 +301,11 @@ export class DataNetworksImpl implements DataNetworks {
   }
 
   /**
-   * Creates or updates a mobile network dataNetwork.
+   * Creates or updates a data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
-   * @param parameters Parameters supplied to the create or update mobile network dataNetwork operation.
+   * @param dataNetworkName The name of the data network.
+   * @param parameters Parameters supplied to the create or update data network operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -326,10 +326,10 @@ export class DataNetworksImpl implements DataNetworks {
   }
 
   /**
-   * Update data network tags.
+   * Updates data network tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
+   * @param dataNetworkName The name of the data network.
    * @param parameters Parameters supplied to update data network tags.
    * @param options The options parameters.
    */
@@ -353,7 +353,7 @@ export class DataNetworksImpl implements DataNetworks {
   }
 
   /**
-   * Lists all dataNetworks in the mobile network.
+   * Lists all data networks in the mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
