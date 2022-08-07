@@ -56,13 +56,13 @@ export interface AppRegistration {
 }
 
 // @public
-export type AuthConfig = ProxyResource & {
-    platform?: AuthPlatform;
+export interface AuthConfig extends ProxyResource {
     globalValidation?: GlobalValidation;
+    httpSettings?: HttpSettings;
     identityProviders?: IdentityProviders;
     login?: Login;
-    httpSettings?: HttpSettings;
-};
+    platform?: AuthPlatform;
+}
 
 // @public
 export interface AuthConfigCollection {
@@ -145,9 +145,9 @@ export interface AzureStaticWebAppsRegistration {
 export type BindingType = string;
 
 // @public
-export type Certificate = TrackedResource & {
+export interface Certificate extends TrackedResource {
     properties?: CertificateProperties;
-};
+}
 
 // @public
 export interface CertificateCollection {
@@ -272,17 +272,17 @@ export interface Container {
 }
 
 // @public
-export type ContainerApp = TrackedResource & {
-    identity?: ManagedServiceIdentity;
-    readonly provisioningState?: ContainerAppProvisioningState;
-    managedEnvironmentId?: string;
-    readonly latestRevisionName?: string;
-    readonly latestRevisionFqdn?: string;
-    readonly customDomainVerificationId?: string;
+export interface ContainerApp extends TrackedResource {
     configuration?: Configuration;
+    readonly customDomainVerificationId?: string;
+    identity?: ManagedServiceIdentity;
+    readonly latestRevisionFqdn?: string;
+    readonly latestRevisionName?: string;
+    managedEnvironmentId?: string;
+    readonly outboundIpAddresses?: string[];
+    readonly provisioningState?: ContainerAppProvisioningState;
     template?: Template;
-    readonly outboundIPAddresses?: string[];
-};
+}
 
 // @public
 export interface ContainerAppCollection {
@@ -636,19 +636,19 @@ export interface CustomDomain {
 }
 
 // @public
-export type CustomHostnameAnalysisResult = ProxyResource & {
-    readonly hostName?: string;
-    readonly isHostnameAlreadyVerified?: boolean;
-    readonly customDomainVerificationTest?: DnsVerificationTestResult;
-    readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
-    readonly hasConflictOnManagedEnvironment?: boolean;
-    readonly conflictingContainerAppResourceId?: string;
-    cNameRecords?: string[];
-    txtRecords?: string[];
-    aRecords?: string[];
+export interface CustomHostnameAnalysisResult {
     alternateCNameRecords?: string[];
     alternateTxtRecords?: string[];
-};
+    aRecords?: string[];
+    cNameRecords?: string[];
+    readonly conflictingContainerAppResourceId?: string;
+    readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
+    readonly customDomainVerificationTest?: DnsVerificationTestResult;
+    readonly hasConflictOnManagedEnvironment?: boolean;
+    readonly hostName?: string;
+    readonly isHostnameAlreadyVerified?: boolean;
+    txtRecords?: string[];
+}
 
 // @public
 export interface CustomOpenIdConnectProvider {
@@ -675,15 +675,15 @@ export interface Dapr {
 }
 
 // @public
-export type DaprComponent = ProxyResource & {
+export interface DaprComponent extends ProxyResource {
     componentType?: string;
-    version?: string;
     ignoreErrors?: boolean;
     initTimeout?: string;
-    secrets?: Secret[];
     metadata?: DaprMetadata[];
     scopes?: string[];
-};
+    secrets?: Secret[];
+    version?: string;
+}
 
 // @public
 export interface DaprComponents {
@@ -899,187 +899,128 @@ export interface JwtClaimChecks {
 
 // @public
 export enum KnownAccessMode {
-    // (undocumented)
     ReadOnly = "ReadOnly",
-    // (undocumented)
     ReadWrite = "ReadWrite"
 }
 
 // @public
 export enum KnownActiveRevisionsMode {
-    // (undocumented)
     Multiple = "Multiple",
-    // (undocumented)
     Single = "Single"
 }
 
 // @public
 export enum KnownAppProtocol {
-    // (undocumented)
     Grpc = "grpc",
-    // (undocumented)
     Http = "http"
 }
 
 // @public
 export enum KnownBindingType {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     SniEnabled = "SniEnabled"
 }
 
 // @public
 export enum KnownCertificateProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     DeleteFailed = "DeleteFailed",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownCheckNameAvailabilityReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownContainerAppProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownEnvironmentProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InfrastructureSetupComplete = "InfrastructureSetupComplete",
-    // (undocumented)
     InfrastructureSetupInProgress = "InfrastructureSetupInProgress",
-    // (undocumented)
     InitializationInProgress = "InitializationInProgress",
-    // (undocumented)
     ScheduledForDelete = "ScheduledForDelete",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     UpgradeFailed = "UpgradeFailed",
-    // (undocumented)
     UpgradeRequested = "UpgradeRequested",
-    // (undocumented)
     Waiting = "Waiting"
 }
 
 // @public
 export enum KnownIngressTransportMethod {
-    // (undocumented)
     Auto = "auto",
-    // (undocumented)
     Http = "http",
-    // (undocumented)
     Http2 = "http2"
 }
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownRevisionHealthState {
-    // (undocumented)
     Healthy = "Healthy",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Unhealthy = "Unhealthy"
 }
 
 // @public
 export enum KnownRevisionProvisioningState {
-    // (undocumented)
     Deprovisioned = "Deprovisioned",
-    // (undocumented)
     Deprovisioning = "Deprovisioning",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Provisioned = "Provisioned",
-    // (undocumented)
     Provisioning = "Provisioning"
 }
 
 // @public
 export enum KnownScheme {
-    // (undocumented)
     Http = "HTTP",
-    // (undocumented)
     Https = "HTTPS"
 }
 
 // @public
 export enum KnownSourceControlOperationState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownStorageType {
-    // (undocumented)
     AzureFile = "AzureFile",
-    // (undocumented)
     EmptyDir = "EmptyDir"
 }
 
 // @public
 export enum KnownType {
-    // (undocumented)
     Liveness = "Liveness",
-    // (undocumented)
     Readiness = "Readiness",
-    // (undocumented)
     Startup = "Startup"
 }
 
@@ -1109,17 +1050,17 @@ export interface LoginScopes {
 }
 
 // @public
-export type ManagedEnvironment = TrackedResource & {
-    readonly provisioningState?: EnvironmentProvisioningState;
-    daprAIInstrumentationKey?: string;
-    daprAIConnectionString?: string;
-    vnetConfiguration?: VnetConfiguration;
-    readonly deploymentErrors?: string;
-    readonly defaultDomain?: string;
-    readonly staticIp?: string;
+export interface ManagedEnvironment extends TrackedResource {
     appLogsConfiguration?: AppLogsConfiguration;
+    daprAIConnectionString?: string;
+    daprAIInstrumentationKey?: string;
+    readonly defaultDomain?: string;
+    readonly deploymentErrors?: string;
+    readonly provisioningState?: EnvironmentProvisioningState;
+    readonly staticIp?: string;
+    vnetConfiguration?: VnetConfiguration;
     zoneRedundant?: boolean;
-};
+}
 
 // @public
 export interface ManagedEnvironments {
@@ -1224,9 +1165,9 @@ export interface ManagedEnvironmentsStoragesListOptionalParams extends coreClien
 export type ManagedEnvironmentsStoragesListResponse = ManagedEnvironmentStoragesCollection;
 
 // @public
-export type ManagedEnvironmentStorage = ProxyResource & {
+export interface ManagedEnvironmentStorage extends ProxyResource {
     properties?: ManagedEnvironmentStorageProperties;
-};
+}
 
 // @public
 export interface ManagedEnvironmentStorageProperties {
@@ -1339,7 +1280,8 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = AvailableOperations;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface QueueScaleRule {
@@ -1364,10 +1306,10 @@ export interface RegistryInfo {
 }
 
 // @public
-export type Replica = ProxyResource & {
-    readonly createdTime?: Date;
+export interface Replica extends ProxyResource {
     containers?: ReplicaContainer[];
-};
+    readonly createdTime?: Date;
+}
 
 // @public
 export interface ReplicaCollection {
@@ -1392,17 +1334,17 @@ export interface Resource {
 }
 
 // @public
-export type Revision = ProxyResource & {
+export interface Revision extends ProxyResource {
+    readonly active?: boolean;
     readonly createdTime?: Date;
     readonly fqdn?: string;
-    readonly template?: Template;
-    readonly active?: boolean;
-    readonly replicas?: number;
-    readonly trafficWeight?: number;
-    readonly provisioningError?: string;
     readonly healthState?: RevisionHealthState;
+    readonly provisioningError?: string;
     readonly provisioningState?: RevisionProvisioningState;
-};
+    readonly replicas?: number;
+    readonly template?: Template;
+    readonly trafficWeight?: number;
+}
 
 // @public
 export interface RevisionCollection {
@@ -1452,12 +1394,12 @@ export interface SecretsCollection {
 }
 
 // @public
-export type SourceControl = ProxyResource & {
-    readonly operationState?: SourceControlOperationState;
-    repoUrl?: string;
+export interface SourceControl extends ProxyResource {
     branch?: string;
     githubActionConfiguration?: GithubActionConfiguration;
-};
+    readonly operationState?: SourceControlOperationState;
+    repoUrl?: string;
+}
 
 // @public
 export interface SourceControlCollection {
@@ -1490,12 +1432,12 @@ export interface Template {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface TrafficWeight {

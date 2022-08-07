@@ -1963,7 +1963,6 @@ describe("Lro Engine", function () {
         }
       });
       await poller.pollUntilDone();
-      assert.ok(state.initialRawResponse);
     });
   });
 
@@ -2069,7 +2068,6 @@ describe("Lro Engine", function () {
         processResult: (result: unknown, state: any) => {
           const serializedState = JSON.stringify({ state: state });
           assert.equal(serializedState, poller.toString());
-          assert.ok(state.initialRawResponse);
           assert.ok(state.pollingURL);
           assert.ok(state.config.pollingUrl);
           assert.equal((result as any).id, "100");
@@ -2092,7 +2090,6 @@ describe("Lro Engine", function () {
         processResult: (result: unknown, state: any) => {
           const serializedState = JSON.stringify({ state: state });
           assert.equal(serializedState, poller.toString());
-          assert.ok(state.initialRawResponse);
           assert.equal((result as any).id, "100");
           return { ...(result as any), id: "200" };
         },

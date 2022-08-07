@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List supported trusted access roles.
  *
  * @summary List supported trusted access roles.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/TrustedAccessRoles_List.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/TrustedAccessRoles_List.json
  */
 async function listTrustedAccessRoles() {
   const subscriptionId = "subid1";

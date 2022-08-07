@@ -14,8 +14,6 @@ describe("ServiceBusReceiver unit tests", () => {
 
   beforeEach(() => {
     receiver = new ServiceBusReceiverImpl(
-      "serviceBusClientId",
-
       createConnectionContextForTests(),
       "entityPath",
       "peekLock",

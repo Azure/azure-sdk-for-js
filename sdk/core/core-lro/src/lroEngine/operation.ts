@@ -107,7 +107,6 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         this.pollerConfig!,
         this.getLroStatusFromResponse
       );
-      logger.verbose(`LRO: polling response: ${JSON.stringify(currentState.rawResponse)}`);
       if (currentState.done) {
         state.result = buildResult({
           response: currentState.flatResponse,
@@ -126,7 +125,6 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
       }
       lastResponse = currentState;
     }
-    logger.verbose(`LRO: current state: ${JSON.stringify(state)}`);
     if (lastResponse) {
       this.updateState?.(state, lastResponse?.rawResponse);
     } else {

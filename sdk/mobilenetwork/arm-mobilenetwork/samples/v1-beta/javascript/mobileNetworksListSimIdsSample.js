@@ -12,12 +12,12 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to List sim ids under a mobile network.
+ * This sample demonstrates how to Lists the IDs of all provisioned SIMs in a mobile network
  *
- * @summary List sim ids under a mobile network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SimIdListByMobileNetwork.json
+ * @summary Lists the IDs of all provisioned SIMs in a mobile network
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SimIdListByMobileNetwork.json
  */
-async function listSimProfileIdsByNetwork() {
+async function listTheIDsOfAllProvisionedSimsInAMobileNetwork() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg";
   const mobileNetworkName = "testMobileNetworkName";
@@ -30,4 +30,4 @@ async function listSimProfileIdsByNetwork() {
   console.log(result);
 }
 
-listSimProfileIdsByNetwork().catch(console.error);
+listTheIDsOfAllProvisionedSimsInAMobileNetwork().catch(console.error);

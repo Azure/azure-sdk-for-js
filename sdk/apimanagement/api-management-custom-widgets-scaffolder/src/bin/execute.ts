@@ -3,7 +3,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TLog, buildGetConfig } from "./execute-helpers";
+import { Log, buildGetConfig } from "./execute-helpers";
 import {
   prefixUrlProtocol,
   promptDeployConfig,
@@ -18,10 +18,10 @@ import chalk from "chalk";
 import { generateProject } from "../generateProject";
 
 const log = console.log;
-const white: TLog = (msg) => log(chalk.white(msg));
-const green: TLog = (msg) => log(chalk.green(msg));
-const red: TLog = (msg) => log(chalk.red(msg));
-const gray: TLog = (msg) => log(chalk.gray(msg));
+const white: Log = (msg) => log(chalk.white(msg));
+const green: Log = (msg) => log(chalk.green(msg));
+const red: Log = (msg) => log(chalk.red(msg));
+const gray: Log = (msg) => log(chalk.gray(msg));
 
 async function main(): Promise<void> {
   green(
@@ -42,6 +42,9 @@ async function main(): Promise<void> {
   }
   if (deployConfig.resourceId.slice(-1) === "/") {
     deployConfig.resourceId = deployConfig.resourceId.slice(0, -1);
+  }
+  if (deployConfig.apiVersion === "") {
+    delete deployConfig.apiVersion;
   }
 
   deployConfig.managementApiEndpoint = prefixUrlProtocol(deployConfig.managementApiEndpoint);
