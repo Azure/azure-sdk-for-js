@@ -4,10 +4,12 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AgeResolution extends BaseResolution, QuantityResolution {
@@ -165,6 +167,8 @@ export interface AudioTiming {
     offset?: number;
 }
 
+export { AzureKeyCredential }
+
 // @public
 export interface BaseExtraInformation {
     extraInformationKind: "EntitySubtype" | "ListKey";
@@ -218,9 +222,11 @@ export interface ConversationalTaskResult extends AnalyzeConversationTaskResult 
     result: AnalyzeConversationResult;
 }
 
-// @public (undocumented)
+// Warning: (ae-internal-missing-underscore) The name "ConversationAnalysisClient" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
 export class ConversationAnalysisClient extends coreClient.ServiceClient {
-    constructor(endpoint: string, credentials: KeyCredential, options?: ConversationAnalysisClientOptionalParams);
+    constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: ConversationAnalysisClientOptionalParams);
     analyzeConversation(task: AnalyzeConversationTaskUnion, options?: AnalyzeConversationOptionalParams): Promise<AnalyzeConversationResponse>;
     // (undocumented)
     apiVersion: string;
@@ -1284,7 +1290,5 @@ export type WeightUnit = string;
 export interface WordLevelTiming extends AudioTiming {
     word?: string;
 }
-
-// (No @packageDocumentation comment for this package)
 
 ```

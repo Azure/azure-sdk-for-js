@@ -1,0 +1,1 @@
+export const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default"

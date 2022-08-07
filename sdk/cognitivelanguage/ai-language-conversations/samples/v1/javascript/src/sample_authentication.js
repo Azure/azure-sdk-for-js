@@ -8,7 +8,7 @@ exports.__esModule = true;
  *
  * @summary authenticates a service client using both Azure Active Directory and an API key
  */
-var ai_language_conversations_1 = require("@azure/ai-language-conversations");
+var index_1 = require("@azure/ai-language-conversations");
 // To use an API Key, import `AzureKeyCredential`
 var core_auth_1 = require("@azure/core-auth");
 // To use Azure AD, import `DefaultAzureCredential`
@@ -19,8 +19,8 @@ function sample_authentication_api_key() {
     // [START create_dt_client_with_key]
     // You will need to set these environment variables or edit the following values
     var endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT;
-    var key = process.env.AZURE_CONVERSATIONS_KEY;
-    var clu_client = new ai_language_conversations_1.ConversationAnalysisClient(endpoint, new core_auth_1.AzureKeyCredential(key));
+    var key = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
+    var clu_client = new index_1.ConversationAnalysisClient(endpoint, new core_auth_1.AzureKeyCredential(key));
     // [END create_clu_client_with_key]
 }
 function sample_authentication_with_azure_active_directory() {
@@ -29,7 +29,8 @@ function sample_authentication_with_azure_active_directory() {
     console.log("\n.. authentication_with_azure_active_directory");
     var endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT;
     var credential = new identity_1.DefaultAzureCredential();
-    var clu_client = (0, ai_language_conversations_1.ConversationAnalysisClient)(endpoint, credential = credential);
+    var clu_client = new index_1.ConversationAnalysisClient(endpoint, credential = credential);
+    onsole.log("\n.. authentication_with_azure_active_directory succeeded");
 }
 sample_authentication_api_key();
-//sample_authentication_with_azure_active_directory();
+sample_authentication_with_azure_active_directory();

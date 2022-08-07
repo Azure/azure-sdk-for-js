@@ -47,9 +47,9 @@ export function createClient(options: {
         updatedOptions
       );
     }
-    //case "AAD": {
-    //  return new ConversationAnalysisClient(endpoint, createTestCredential(), updatedOptions);
-    //}
+    case "AAD": {
+      return new ConversationAnalysisClient(endpoint, createTestCredential(), updatedOptions);
+    }
     case "DummyAPIKey": {
       return new ConversationAnalysisClient(endpoint, new AzureKeyCredential("whatever"), updatedOptions);
     }

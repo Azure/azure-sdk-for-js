@@ -8,7 +8,7 @@
  * @summary authenticates a service client using both Azure Active Directory and an API key
  */
 
-import { ConversationAnalysisClient } from "@azure/ai-language-conversations"
+import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
 // To use an API Key, import `AzureKeyCredential`
 import { AzureKeyCredential } from "@azure/core-auth";
 // To use Azure AD, import `DefaultAzureCredential`
@@ -22,7 +22,9 @@ function sample_authentication_api_key(){
     var endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT
     var key = process.env.AZURE_CONVERSATIONS_KEY
 
+    console.log("\n.. authentication_with_api_key")
     var clu_client = new ConversationAnalysisClient(endpoint, new AzureKeyCredential(key))
+    console.log("\n.. authentication_with_api_key succeeded")
     // [END create_clu_client_with_key]
 }
 
@@ -35,8 +37,10 @@ function sample_authentication_with_azure_active_directory(){
     var endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT
     var credential = new DefaultAzureCredential()
 
-    var clu_client = ConversationAnalysisClient(endpoint, credential=credential)
+    var clu_client = new ConversationAnalysisClient(endpoint, credential=credential)
+
+    console.log("\n.. authentication_with_azure_active_directory succeeded")
 }
 
 sample_authentication_api_key();
-//sample_authentication_with_azure_active_directory();
+sample_authentication_with_azure_active_directory();
