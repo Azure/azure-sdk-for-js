@@ -74,18 +74,18 @@ what you can do with the Azure Conversational Language Understanding client libr
 [azure_subscription]: https://azure.microsoft.com/free/
 [azure_clu_account]: https://language.azure.com/clu/projects
 
-[sample_authentication]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v5/javascript/sample_authentication.js
+[sample_authentication]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/javascript/sample_authentication.js
 
-[sample_analyze_conversation_app]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v5/javascript/sample_analyze_conversations_app.js
+[sample_analyze_conversation_app]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/javascript/sample_analyze_conversations_app.js
 
-[sample_analyze_orchestration_app_conv_response]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v5/javascript/sample_analyze_orchestration_app_conv_response.js
+[sample_analyze_orchestration_app_conv_response]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/javascript/sample_analyze_orchestration_app_conv_response.js
 
-[sample_analyze_orchestration_app_luis_response]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v5/javascript/sample_analyze_orchestration_app_luis_response.js
+[sample_analyze_orchestration_app_luis_response]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/javascript/sample_analyze_orchestration_app_luis_response.js
 
-[sample_analyze_orchestration_app_qna_response]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v5/javascript/sample_analyze_orchestration_app_qna_response.js
+[sample_analyze_orchestration_app_qna_response]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/javascript/sample_analyze_orchestration_app_qna_response.js
 
-[sample_conv_summarization]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v5/javascript/sample_conv_summarization.js
+[sample_conv_summarization]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/javascript/sample_conv_summarization.js
 
-[sample_conv_pii_transcript_input]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v5/javascript/sample_conv_pii_transcript_input.js
+[sample_conv_pii_transcript_input]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1/javascript/sample_conv_pii_transcript_input.js
 
 [api_reference_documentation]: https://docs.microsoft.com/javascript/api/@azure/ai-language-conversations
