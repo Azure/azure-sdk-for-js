@@ -45,11 +45,11 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 - An [Azure subscription](https://azure.microsoft.com/free/)
 - An existing [Key Vault Managed HSM][azure_keyvault_mhsm]. If you need to create a Managed HSM, you can do so using the Azure CLI by following the steps in [this document][azure_keyvault_mhsm_cli].
 
-#### Authenticate the client
+## Authenticate the client
 
 In order to interact with the Azure Key Vault service, you will need to create an instance of either the `KeyVaultAccessControlClient`(#create-keyvaultaccesscontrolclient) class or the [`KeyVaultBackupClient`](#create-keyvaultbackupclient) class, as well as a **vault url** (which you may see as "DNS Name" in the Azure Portal) and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
 
-#### Create KeyVaultAccessControlClient
+### Create KeyVaultAccessControlClient
 
 Once you've authenticated with [the authentication method that suits you best][default_azure_credential], you can create a `KeyVaultAccessControlClient` as follows, substituting in your Managed HSM URL in the constructor:
 
@@ -62,7 +62,7 @@ const credentials = new DefaultAzureCredential();
 const client = new KeyVaultAccessControlClient(`<your Managed HSM URL>`, credentials);
 ```
 
-#### Create KeyVaultBackupClient
+### Create KeyVaultBackupClient
 
 Once you've authenticated with [the authentication method that suits you best][default_azure_credential], you can create a `KeyVaultBackupClient` as follows, substituting in your Managed HSM URL in the constructor:
 
@@ -84,7 +84,7 @@ A Role Definition is a collection of permissions. A role definition defines the 
 
 Role definitions can be listed and specified as part of a `KeyVaultRoleAssignment`.
 
-### KeyVaultRoleAssignment.
+### KeyVaultRoleAssignment
 
 A Role Assignment is the association of a Role Definition to a service principal. They can be created, listed, fetched individually, and deleted.
 
