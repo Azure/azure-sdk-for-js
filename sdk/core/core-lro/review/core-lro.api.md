@@ -10,11 +10,25 @@ import { AbortSignalLike } from '@azure/abort-controller';
 export type CancelOnProgress = () => void;
 
 // @public
-export interface LongRunningOperation<T> {
-    requestMethod: string;
-    requestPath: string;
-    sendInitialRequest: () => Promise<LroResponse<T>>;
-    sendPollRequest: (path: string) => Promise<LroResponse<T>>;
+export function createPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreatePollerOptions<TResult, TState>): Promise<SimplePollerLike<TState, TResult>>;
+
+// @public
+export interface CreatePollerOptions<TResult, TState> {
+    intervalInMs?: number;
+    processResult?: (result: unknown, state: TState) => TResult;
+    resourceLocationConfig?: LroResourceLocationConfig;
+    restoreFrom?: string;
+    updateState?: (state: TState, lastResponse: RawResponse) => void;
+}
+
+// @public
+export interface LongRunningOperation<T = unknown> {
+    requestMethod?: string;
+    requestPath?: string;
+    sendInitialRequest: () => Promise<LroResponse<unknown>>;
+    sendPollRequest: (path: string, options?: {
+        abortSignal?: AbortSignalLike;
+    }) => Promise<LroResponse<T>>;
 }
 
 // @public
@@ -40,6 +54,13 @@ export type LroResourceLocationConfig = "azure-async-operation" | "location" | "
 export interface LroResponse<T> {
     flatResponse: T;
     rawResponse: RawResponse;
+}
+
+// @public
+export interface OperationState<TResult> {
+    error?: Error;
+    result?: TResult;
+    status: "notStarted" | "running" | "succeeded" | "canceling" | "canceled" | "failed";
 }
 
 // @public
@@ -70,6 +91,7 @@ export class PollerCancelledError extends Error {
 
 // @public
 export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
+    // @deprecated
     cancelOperation(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;
@@ -93,6 +115,7 @@ export class PollerStoppedError extends Error {
 
 // @public
 export interface PollOperation<TState, TResult> {
+    // @deprecated
     cancel(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<PollOperation<TState, TResult>>;
@@ -123,6 +146,21 @@ export interface RawResponse {
         [headerName: string]: string;
     };
     statusCode: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    pollUntilDone(): Promise<TResult>;
+    stopPolling(): void;
+    toString(): string;
 }
 
 // (No @packageDocumentation comment for this package)

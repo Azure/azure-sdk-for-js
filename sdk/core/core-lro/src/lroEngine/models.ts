@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollOperationState } from "../pollOperation";
+import { LroResourceLocationConfig, RawResponse } from "../models";
 
 /**
  * Options for the LRO poller.
@@ -33,124 +33,6 @@ export interface LroEngineOptions<TResult, TState> {
   isDone?: (lastResponse: unknown, state: TState) => boolean;
 }
 
-/**
- * The potential location of the result of the LRO if specified by the LRO extension in the swagger.
- */
-export type LroResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
-
-/**
- * The type of a LRO response body. This is just a convenience type for checking the status of the operation.
- */
-
-export interface LroBody extends Record<string, unknown> {
-  /** The status of the operation. */
-  status?: string;
-  /** The state of the provisioning process */
-  provisioningState?: string;
-  /** The properties of the provisioning process */
-  properties?: { provisioningState?: string } & Record<string, unknown>;
-}
-
-/**
- * Simple type of the raw response.
- */
-export interface RawResponse {
-  /** The HTTP status code */
-  statusCode: number;
-  /** A HttpHeaders collection in the response represented as a simple JSON object where all header names have been normalized to be lower-case. */
-  headers: {
-    [headerName: string]: string;
-  };
-  /** The parsed response body */
-  body?: unknown;
-}
-
-/**
- * The type of the response of a LRO.
- */
-export interface LroResponse<T> {
-  /** The flattened response */
-  flatResponse: T;
-  /** The raw response */
-  rawResponse: RawResponse;
-}
-
-export interface LroInfo {
-  /** The polling URL */
-  pollingUrl?: string;
-  /** The resource location URL */
-  resourceLocation?: string;
-  /** The LRO mode */
-  mode: "OperationLocation" | "ResourceLocation" | "Body" | "None";
-}
-
-/**
- * Type of a polling operation state that can actually be resumed.
- */
-export type ResumablePollOperationState<T> = PollOperationState<T> & {
-  /** The LRO configuration */
-  config?: LroInfo;
-  /** @deprecated use state.config.pollingUrl instead */
-  pollingURL?: string;
-};
-
 export interface PollerConfig {
   intervalInMs: number;
-}
-
-/**
- * The type of a terminal state of an LRO.
- */
-interface LroTerminalState<T> extends LroResponse<T> {
-  /**
-   * Whether the operation has finished.
-   */
-  done: true;
-}
-
-/**
- * The type of an in-progress state of an LRO.
- */
-interface LroInProgressState<T> extends LroResponse<T> {
-  /**
-   * Whether the operation has finished.
-   */
-  done: false;
-  /**
-   * The request to be sent next if it is different from the standard polling one.
-   * Notice that it will disregard any polling URLs provided to it.
-   */
-  next?: () => Promise<LroStatus<T>>;
-}
-
-/**
- * The type of an LRO state which is a tagged union of terminal and in-progress states.
- */
-export type LroStatus<T> = LroTerminalState<T> | LroInProgressState<T>;
-
-/**
- * The type of the getLROStatusFromResponse method. It takes the response as input and returns along the response whether the operation has finished.
- */
-export type GetLroStatusFromResponse<T> = (response: LroResponse<T>) => LroStatus<T>;
-
-/**
- * Description of a long running operation.
- */
-export interface LongRunningOperation<T> {
-  /**
-   * The request path.
-   */
-  requestPath: string;
-  /**
-   * The HTTP request method.
-   */
-  requestMethod: string;
-  /**
-   * A function that can be used to send initial request to the service.
-   */
-  sendInitialRequest: () => Promise<LroResponse<T>>;
-  /**
-   * A function that can be used to poll for the current status of a long running operation.
-   */
-  sendPollRequest: (path: string) => Promise<LroResponse<T>>;
 }
