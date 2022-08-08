@@ -14,8 +14,8 @@ describe("RouterClient", function() {
   let administrationClient: RouterAdministrationClient;
 
   describe("Exception Policy Operations", function() {
-    beforeEach(function(this: Context) {
-      ({ administrationClient, recorder } = createRecordedRouterClientWithConnectionString(this));
+    beforeEach(async function(this: Context) {
+      ({ administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(this));
     });
 
     afterEach(async function(this: Context) {

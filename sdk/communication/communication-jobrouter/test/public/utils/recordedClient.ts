@@ -9,36 +9,17 @@ import {
   WebResourceLike,
   isNode
 } from "@azure/core-http";
-import { Recorder, RecorderEnvironmentSetup, record } from "@azure-tools/test-recorder";
-
-import { Context } from "mocha";
-import { RouterClient } from "../../../src";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
+import { Test } from "mocha";
+import { generateToken } from "./connectionUtils";
 
 if (isNode) {
   dotenv.config();
 }
 
-export interface RecordedClient {
-  routerClient: RouterClient;
-  recorder: Recorder;
-}
-
-const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
-};
-
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"token"`),
-    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
-    (recording: string): string => recording.replace("endpoint:443", "endpoint")
-  ],
-  queryParametersToSkip: []
-};
-
-export function createRecorder(context: Context): Recorder {
-  const recorder = record(context, environmentSetup);
+export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start(recorderOptions);
   return recorder;
 }
 
@@ -62,3 +43,21 @@ export function createTestHttpClient(): HttpClient {
 
   return customHttpClient;
 }
+
+const envSetupForPlayback: { [k: string]: string } = {
+  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+};
+
+const fakeToken = generateToken();
+export const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback,
+  sanitizerOptions: {
+    connectionStringSanitizers: [
+      {
+        fakeConnString: envSetupForPlayback["COMMUNICATION_CONNECTION_STRING"],
+        actualConnString: env["COMMUNICATION_CONNECTION_STRING"] || undefined,
+      },
+    ],
+    bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
+  },
+};
