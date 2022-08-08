@@ -18,15 +18,15 @@ export const mockCommunicationIdentifier: CommunicationIdentifierModel = {
 
 export const mockParticipant: RestModel.RoomParticipant = {
   communicationIdentifier: mockCommunicationIdentifier,
-  role: "Presenter"
+  role: "Presenter",
 };
 
-export const mockSdkModelParticipant =  {
+export const mockSdkModelParticipant = {
   id: {
-    kind: "communicationUser", 
+    kind: "communicationUser",
     communicationUserId: mockParticipant.communicationIdentifier.communicationUser?.id as string,
   },
-  role: mockParticipant.role
+  role: mockParticipant.role,
 };
 
 export const mockCreateRoomsResult: RestModel.RoomsCreateRoomResponse = {
@@ -35,7 +35,7 @@ export const mockCreateRoomsResult: RestModel.RoomsCreateRoomResponse = {
   validFrom: new Date("2022-07-16T18:06:06Z"),
   validUntil: new Date("2022-07-17T18:06:06Z"),
   roomJoinPolicy: "InviteOnly",
-  participants: [mockParticipant]
+  participants: [mockParticipant],
 };
 
 export const mockUpdateRoomsResult: RestModel.RoomsCreateRoomResponse = {
@@ -44,7 +44,7 @@ export const mockUpdateRoomsResult: RestModel.RoomsCreateRoomResponse = {
   validFrom: new Date("2022-08-16T18:06:06Z"),
   validUntil: new Date("2022-08-17T18:06:06Z"),
   roomJoinPolicy: "InviteOnly",
-  participants: [mockParticipant]
+  participants: [mockParticipant],
 };
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
   const mockHttpClient: HttpClient = {

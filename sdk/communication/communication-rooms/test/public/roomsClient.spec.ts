@@ -51,8 +51,8 @@ describe("RoomsClient", function () {
       testUser = (await createTestUser(recorder)).user;
 
       const options: CreateRoomOptions = {
-        validFrom: new Date(recorder.variable('validFrom', validFrom.toString())),
-        validUntil: new Date(recorder.variable('validUntil', validUntil.toString())),
+        validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
+        validUntil: new Date(recorder.variable("validUntil", validUntil.toString())),
         roomJoinPolicy: "CommunicationServiceUsers",
         participants: [
           {
@@ -83,8 +83,18 @@ describe("RoomsClient", function () {
       testUser = (await createTestUser(recorder)).user;
 
       const options: UpdateRoomOptions = {
-        validFrom: new Date(recorder.variable('validFromUpdated', (new Date(validFrom.getTime() + 5 * 60 * 1000)).toString())),
-        validUntil: new Date(recorder.variable('validUntilUpdated', (new Date(validUntil.getTime() + 5 * 60 * 1000)).toString())),
+        validFrom: new Date(
+          recorder.variable(
+            "validFromUpdated",
+            new Date(validFrom.getTime() + 5 * 60 * 1000).toString()
+          )
+        ),
+        validUntil: new Date(
+          recorder.variable(
+            "validUntilUpdated",
+            new Date(validUntil.getTime() + 5 * 60 * 1000).toString()
+          )
+        ),
         roomJoinPolicy: "CommunicationServiceUsers",
         participants: [
           {
@@ -101,8 +111,8 @@ describe("RoomsClient", function () {
       testUser = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({
-        validFrom: new Date(recorder.variable('validFrom', validFrom.toString())),
-        validUntil: new Date(recorder.variable('validUntil', validUntil.toString())),
+        validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
+        validUntil: new Date(recorder.variable("validUntil", validUntil.toString())),
         roomJoinPolicy: "CommunicationServiceUsers",
         participants: [
           {
@@ -114,8 +124,18 @@ describe("RoomsClient", function () {
       roomId = createRoom.id;
 
       const options: UpdateRoomOptions = {
-        validFrom: new Date(recorder.variable('validFromUpdated', (new Date(validFrom.getTime() + 5 * 60 * 1000)).toString())),
-        validUntil: new Date(recorder.variable('validUntilUpdated', (new Date(validUntil.getTime() + 5 * 60 * 1000)).toString())),
+        validFrom: new Date(
+          recorder.variable(
+            "validFromUpdated",
+            new Date(validFrom.getTime() + 5 * 60 * 1000).toString()
+          )
+        ),
+        validUntil: new Date(
+          recorder.variable(
+            "validUntilUpdated",
+            new Date(validUntil.getTime() + 5 * 60 * 1000).toString()
+          )
+        ),
         roomJoinPolicy: "InviteOnly",
         participants: [
           {
@@ -144,8 +164,13 @@ describe("RoomsClient", function () {
       testUser = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({
-        validFrom: new Date(recorder.variable('validFromPast', (new Date(validFrom.getTime() - 5 * 60 * 1000)).toString())),
-        validUntil: new Date(recorder.variable('validUntil', validUntil.toString())),
+        validFrom: new Date(
+          recorder.variable(
+            "validFromPast",
+            new Date(validFrom.getTime() - 5 * 60 * 1000).toString()
+          )
+        ),
+        validUntil: new Date(recorder.variable("validUntil", validUntil.toString())),
         roomJoinPolicy: "CommunicationServiceUsers",
       });
       roomId = createRoom.id;

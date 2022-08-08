@@ -3,13 +3,15 @@
 
 import * as RestModel from "../generated/src/models";
 import { Room, RoomParticipant } from "./models";
-import { CommunicationUserIdentifier, SerializedCommunicationIdentifier } from "@azure/communication-common"
-import { 
+import {
+  CommunicationUserIdentifier,
+  SerializedCommunicationIdentifier,
+} from "@azure/communication-common";
+import {
   deserializeCommunicationIdentifier,
   getIdentifierKind,
-  serializeCommunicationIdentifier
+  serializeCommunicationIdentifier,
 } from "@azure/communication-common";
-
 
 /**
  * @internal
@@ -24,9 +26,9 @@ export const mapToRoomParticipantRestModel = (
   }
   return {
     communicationIdentifier: serializeCommunicationIdentifier(id),
-    ...rest
+    ...rest,
   };
-}
+};
 
 /**
  * Mapping CommunicationUserIdentifier to room participant REST model.
@@ -35,10 +37,9 @@ export const mapCommunicationIdentifierToRoomParticipantRestModel = (
   communicationIdentifier: CommunicationUserIdentifier
 ): RestModel.RoomParticipant => {
   return {
-    communicationIdentifier:serializeCommunicationIdentifier(communicationIdentifier)
-  }
-}
-
+    communicationIdentifier: serializeCommunicationIdentifier(communicationIdentifier),
+  };
+};
 
 /**
  * @internal
@@ -47,28 +48,25 @@ export const mapCommunicationIdentifierToRoomParticipantRestModel = (
 export const mapToRoomParticipantSdkModel = (
   roomParticipant: RestModel.RoomParticipant
 ): RoomParticipant => {
-  const {communicationIdentifier, ...rest } = roomParticipant;
+  const { communicationIdentifier, ...rest } = roomParticipant;
   return {
     id: deserializeCommunicationIdentifier(
-      communicationIdentifier as SerializedCommunicationIdentifier),
-    ...rest
+      communicationIdentifier as SerializedCommunicationIdentifier
+    ),
+    ...rest,
   };
-}
+};
 
 /**
  * @internal
  * Mapping room REST model to room SDK model.
  */
-export const mapToRoomSdkModel = (
-  result: RestModel.RoomModel
-): Room => {
+export const mapToRoomSdkModel = (result: RestModel.RoomModel): Room => {
   const { id, createdDateTime, participants, roomJoinPolicy, ...rest } = result;
   return {
     id: id ?? throwException("Room ID cannot be null."),
     createdOn: createdDateTime,
-    participants: participants?.map((participant) =>
-      mapToRoomParticipantSdkModel(participant)
-    ),
+    participants: participants?.map((participant) => mapToRoomParticipantSdkModel(participant)),
     joinPolicy: roomJoinPolicy,
     ...rest,
   };

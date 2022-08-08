@@ -5,11 +5,7 @@
  * @summary Perform participant operations using the RoomsClient.
  */
 
-import {
-  RoomsClient,
-  RoomParticipant,
-  CreateRoomOptions,
-} from "@azure/communication-rooms";
+import { RoomsClient, RoomParticipant, CreateRoomOptions } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { getIdentifierRawId } from "@azure/communication-common";
 

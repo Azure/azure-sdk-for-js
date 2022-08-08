@@ -34,13 +34,13 @@ const sanitizerOptions: SanitizerOptions = {
       fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
     },
   ],
-   bodyKeySanitizers: [
-    { 
-      jsonPath: "$.accessToken.token", 
-      value: fakeToken
+  bodyKeySanitizers: [
+    {
+      jsonPath: "$.accessToken.token",
+      value: fakeToken,
     },
   ],
-   generalSanitizers:[
+  generalSanitizers: [
     {
       regex: true,
       target: "8:acs:[A-Za-z0-9-_]+",
