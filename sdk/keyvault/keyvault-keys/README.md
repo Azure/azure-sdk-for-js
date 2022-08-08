@@ -68,12 +68,6 @@ npm install @types/node
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook][tscompileroptions] for more information.
 
-### Authenticate the client
-
-In order to interact with the Azure Key Vault service, you will need to create an instance of either the [`KeyClient`](#create-key-client) class or the [`CryptographyClient`](#create-cryptography-client) class, as well as a **vault url** and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
-
-You can find more information on different ways of authenticating and their corresponding credential types in the [Azure Identity documentation][azure_identity].
-
 ## Key concepts
 
 - The **Key client** is the primary interface to interact with the API methods
@@ -102,6 +96,8 @@ You can find more information on different ways of authenticating and their corr
 The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/README.md) provides more details and samples to get you started.
 
 In order to interact with the Azure Key Vault service, you will need to create an instance of the `KeyClient` class, a **vault url** and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
+
+You can find more information on different ways of authenticating and their corresponding credential types in the [Azure Identity documentation][azure_identity].
 
 Here's a quick example. First, import `DefaultAzureCredential` and `KeyClient`:
 
@@ -851,5 +847,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_keyvault_cli]: https://docs.microsoft.com/azure/key-vault/general/quick-create-cli
 [azure_keyvault_portal]: https://docs.microsoft.com/azure/key-vault/general/quick-create-portal
 [default_azure_credential]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable#defaultazurecredential
+[managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
+[azure_identity]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2FREADME.png)

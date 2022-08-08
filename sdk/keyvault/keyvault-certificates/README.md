@@ -63,6 +63,8 @@ The Key Vault service relies on Azure Active Directory to authenticate requests 
 
 In order to interact with the Azure Key Vault service, you will need to create an instance of the [`CertificateClient`](#creating-and-setting-a-certificate) class, a **vault url** and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
 
+You can find more information on different ways of authenticating and their corresponding credential types in the [Azure Identity documentation][azure_identity].
+
 Here's a quick example. First, import `DefaultAzureCredential` and `CertificateClient`:
 
 ```javascript
@@ -659,5 +661,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_keyvault_cli]: https://docs.microsoft.com/azure/key-vault/general/quick-create-cli
 [azure_keyvault_portal]: https://docs.microsoft.com/azure/key-vault/general/quick-create-portal
 [default_azure_credential]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable#defaultazurecredential
+[managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
+[azure_identity]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2FREADME.png)

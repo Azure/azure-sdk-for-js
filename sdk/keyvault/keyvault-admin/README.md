@@ -49,6 +49,8 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 In order to interact with the Azure Key Vault service, you will need to create an instance of either the `KeyVaultAccessControlClient`(#create-keyvaultaccesscontrolclient) class or the [`KeyVaultBackupClient`](#create-keyvaultbackupclient) class, as well as a **vault url** (which you may see as "DNS Name" in the Azure Portal) and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
 
+You can find more information on different ways of authenticating and their corresponding credential types in the [Azure Identity documentation][azure_identity].
+
 ### Create KeyVaultAccessControlClient
 
 Once you've authenticated with [the authentication method that suits you best][default_azure_credential], you can create a `KeyVaultAccessControlClient` as follows, substituting in your Managed HSM URL in the constructor:
@@ -147,7 +149,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [access_control]: https://docs.microsoft.com/azure/key-vault/managed-hsm/access-control
 [api-rest]: https://docs.microsoft.com/rest/api/keyvault/
 [azure-cli]: https://docs.microsoft.com/cli/azure
-[azure-identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure-sub]: https://azure.microsoft.com/free/
 [backup_client]: ./src/KeyVaultBackupClient.cs
 [best_practices]: https://docs.microsoft.com/azure/key-vault/managed-hsm/best-practices
@@ -176,5 +177,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_keyvault_mhsm_cli]: https://docs.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
 [default_azure_credential]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable#defaultazurecredential
 [managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-net%2Fsdk%2Ftables%2FAzure.Data.Tables%2FREADME.png)
+[azure_identity]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable
