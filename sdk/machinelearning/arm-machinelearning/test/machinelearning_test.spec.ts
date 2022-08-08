@@ -118,20 +118,15 @@ describe("machinelearning test", () => {
     body = {
       properties: {
         description: "string",
-        // computeId: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.MAchineLearningServices/workspace/"+workspaceName+"/computes/computetest",
-        computeId: "string",
+        computeId: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.MAchineLearningServices/workspace/" + workspaceName + "/computes/computetest",
         displayName: "string",
-        environmentId: "string",
-        command: "string",
+        environmentId: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.MAchineLearningServices/workspaces/" + workspaceName + "/environments/environmenttests",
+        command: "export TEST_MODE=record && rushx test",
         jobType: "Command",
       }
     };
     const res = await client.jobs.createOrUpdate(resourceGroup, workspaceName, id, body);
-    const resArray = new Array();
-    for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
+
   })
 
   // it("workspace delete test", async function () {
