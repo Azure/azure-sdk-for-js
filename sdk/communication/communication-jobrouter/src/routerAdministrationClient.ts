@@ -42,7 +42,6 @@ import {
   parseClientArguments
 } from "@azure/communication-common";
 
-
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./models/logger";
@@ -53,8 +52,9 @@ import { createSetHeadersPolicy } from "./policies";
  *
  * @param options - The value being checked.
  */
-const isRouterAdministrationClientOptions = (options: any): options is RouterAdministrationClientOptions =>
-  !!options && !isKeyCredential(options);
+const isRouterAdministrationClientOptions = (
+  options: any
+): options is RouterAdministrationClientOptions => !!options && !isKeyCredential(options);
 
 /**
  * The client to do router operations
@@ -68,7 +68,10 @@ export class RouterAdministrationClient {
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
    * @param routerAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(connectionString: string, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
+  constructor(
+    connectionString: string,
+    routerAdministrationClientOptions?: RouterAdministrationClientOptions
+  );
 
   /**
    * Initializes a new instance of the RouterClient class using an Azure KeyCredential.
@@ -76,7 +79,11 @@ export class RouterAdministrationClient {
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param routerAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: KeyCredential, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
+  constructor(
+    endpoint: string,
+    credential: KeyCredential,
+    routerAdministrationClientOptions?: RouterAdministrationClientOptions
+  );
 
   /**
    * Initializes a new instance of the RouterClient class using a TokenCredential.
@@ -84,7 +91,11 @@ export class RouterAdministrationClient {
    * @param credential - TokenCredential that is used to authenticate requests to the service.
    * @param routerAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: TokenCredential, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
+  constructor(
+    endpoint: string,
+    credential: TokenCredential,
+    routerAdministrationClientOptions?: RouterAdministrationClientOptions
+  );
 
   /**
    * Initializes a new instance of the RouterClient class using a TokenCredential.
@@ -92,7 +103,11 @@ export class RouterAdministrationClient {
    * @param credential - CommunicationTokenCredential that is used to authenticate requests to the service.
    * @param routerAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: CommunicationTokenCredential, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
+  constructor(
+    endpoint: string,
+    credential: CommunicationTokenCredential,
+    routerAdministrationClientOptions?: RouterAdministrationClientOptions
+  );
 
   /**
    * Creates an instance of the RouterClient for a given resource and user.
@@ -103,11 +118,17 @@ export class RouterAdministrationClient {
    */
   constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | TokenCredential | CommunicationTokenCredential | RouterAdministrationClientOptions,
+    credentialOrOptions?:
+      | KeyCredential
+      | TokenCredential
+      | CommunicationTokenCredential
+      | RouterAdministrationClientOptions,
     maybeOptions: RouterAdministrationClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const options = isRouterAdministrationClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
+    const options = isRouterAdministrationClientOptions(credentialOrOptions)
+      ? credentialOrOptions
+      : maybeOptions;
 
     const libInfo = `azsdk-js-communication-jobrouter/${SDK_VERSION}`;
 
@@ -196,23 +217,17 @@ export class RouterAdministrationClient {
    * @param classificationPolicyId - The id of the classification policy to get.
    */
   public async getClassificationPolicy(
-    classificationPolicyId: string,
+    classificationPolicyId: string
   ): Promise<ClassificationPolicy> {
-    return this.client.jobRouterAdministration.getClassificationPolicy(
-      classificationPolicyId,
-    );
+    return this.client.jobRouterAdministration.getClassificationPolicy(classificationPolicyId);
   }
 
   /**
    * Deletes a classification policy.
    * @param classificationPolicyId - The id of the classification policy to delete.
    */
-  public async deleteClassificationPolicy(
-    classificationPolicyId: string,
-  ): Promise<RestResponse> {
-    return this.client.jobRouterAdministration.deleteClassificationPolicy(
-      classificationPolicyId,
-    );
+  public async deleteClassificationPolicy(classificationPolicyId: string): Promise<RestResponse> {
+    return this.client.jobRouterAdministration.deleteClassificationPolicy(classificationPolicyId);
   }
 
   // DistributionPolicy Actions
@@ -267,9 +282,7 @@ export class RouterAdministrationClient {
    * Returns distribution policy client with the id of the distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to get.
    */
-  public async getDistributionPolicy(
-    distributionPolicyId: string,
-  ): Promise<DistributionPolicy> {
+  public async getDistributionPolicy(distributionPolicyId: string): Promise<DistributionPolicy> {
     return this.client.jobRouterAdministration.getDistributionPolicy(distributionPolicyId);
   }
 
@@ -277,12 +290,8 @@ export class RouterAdministrationClient {
    * Deletes a distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to delete.
    */
-  public async deleteDistributionPolicy(
-    distributionPolicyId: string,
-  ): Promise<RestResponse> {
-    return this.client.jobRouterAdministration.deleteDistributionPolicy(
-      distributionPolicyId,
-    );
+  public async deleteDistributionPolicy(distributionPolicyId: string): Promise<RestResponse> {
+    return this.client.jobRouterAdministration.deleteDistributionPolicy(distributionPolicyId);
   }
 
   // ExceptionPolicy Actions
@@ -337,9 +346,7 @@ export class RouterAdministrationClient {
    * Returns exception policy with the id of the exception policy.
    * @param exceptionPolicyId - The id of the exception policy to get.
    */
-  public async getExceptionPolicy(
-    exceptionPolicyId: string,
-  ): Promise<ExceptionPolicy> {
+  public async getExceptionPolicy(exceptionPolicyId: string): Promise<ExceptionPolicy> {
     return this.client.jobRouterAdministration.getExceptionPolicy(exceptionPolicyId);
   }
 
@@ -347,9 +354,7 @@ export class RouterAdministrationClient {
    * Deletes an exception policy.
    * @param exceptionPolicyId - The id of the exception policy to delete.
    */
-  public async deleteExceptionPolicy(
-    exceptionPolicyId: string,
-  ): Promise<RestResponse> {
+  public async deleteExceptionPolicy(exceptionPolicyId: string): Promise<RestResponse> {
     return this.client.jobRouterAdministration.deleteExceptionPolicy(exceptionPolicyId);
   }
 
@@ -360,10 +365,7 @@ export class RouterAdministrationClient {
    * @param queueId - The ID of the queue to create.
    * @param options - Operation options.
    */
-  public async createQueue(
-    queueId: string,
-    options: CreateQueueOptions = {}
-  ): Promise<JobQueue> {
+  public async createQueue(queueId: string, options: CreateQueueOptions = {}): Promise<JobQueue> {
     const queueModel = <JobQueue>options;
     return this.client.jobRouterAdministration.upsertQueue(queueId, <JobQueue>queueModel, options);
   }
@@ -402,9 +404,7 @@ export class RouterAdministrationClient {
    * Deletes a queue.
    * @param queueId - The ID of the queue to delete.
    */
-  public async deleteQueue(
-    queueId: string,
-  ): Promise<RestResponse> {
+  public async deleteQueue(queueId: string): Promise<RestResponse> {
     return this.client.jobRouterAdministration.deleteQueue(queueId);
   }
 }

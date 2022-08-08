@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-
 import { CommunicationTokenCredential } from "../../communication-common";
 import {
   AcceptJobOfferResult,
@@ -74,7 +73,11 @@ export class RouterClient {
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: KeyCredential, routerClientOptions?: RouterClientOptions);
+  constructor(
+    endpoint: string,
+    credential: KeyCredential,
+    routerClientOptions?: RouterClientOptions
+  );
 
   /**
    * Initializes a new instance of the RouterClient class using a TokenCredential.
@@ -82,7 +85,11 @@ export class RouterClient {
    * @param credential - TokenCredential that is used to authenticate requests to the service.
    * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: TokenCredential, routerClientOptions?: RouterClientOptions);
+  constructor(
+    endpoint: string,
+    credential: TokenCredential,
+    routerClientOptions?: RouterClientOptions
+  );
 
   /**
    * Initializes a new instance of the RouterClient class using a TokenCredential.
@@ -90,7 +97,11 @@ export class RouterClient {
    * @param credential - CommunicationTokenCredential that is used to authenticate requests to the service.
    * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: CommunicationTokenCredential, routerClientOptions?: RouterClientOptions);
+  constructor(
+    endpoint: string,
+    credential: CommunicationTokenCredential,
+    routerClientOptions?: RouterClientOptions
+  );
 
   /**
    * Creates an instance of the RouterClient for a given resource and user.
@@ -101,7 +112,11 @@ export class RouterClient {
    */
   constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | TokenCredential | CommunicationTokenCredential | RouterClientOptions,
+    credentialOrOptions?:
+      | KeyCredential
+      | TokenCredential
+      | CommunicationTokenCredential
+      | RouterClientOptions,
     maybeOptions: RouterClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
@@ -188,9 +203,7 @@ export class RouterClient {
    * Returns job position details.
    * @param jobId - The ID of the job to get.
    */
-  public async getQueuePosition(
-    jobId: string
-  ): Promise<JobPositionDetails> {
+  public async getQueuePosition(jobId: string): Promise<JobPositionDetails> {
     return this.client.jobRouter.getInQueuePosition(jobId);
   }
 
@@ -272,10 +285,7 @@ export class RouterClient {
    * @param workerId - The ID of the worker that accepts the job.
    * @param offerId - The ID of the offer to accept.
    */
-  public async acceptJobOffer(
-    workerId: string,
-    offerId: string
-  ): Promise<AcceptJobOfferResult> {
+  public async acceptJobOffer(workerId: string, offerId: string): Promise<AcceptJobOfferResult> {
     return this.client.jobRouter.acceptJobAction(offerId, workerId);
   }
 
@@ -287,7 +297,7 @@ export class RouterClient {
    */
   public async declineJobOffer(
     workerId: string,
-    offerId: string,
+    offerId: string
   ): Promise<JobRouterDeclineJobActionResponse> {
     return this.client.jobRouter.declineJobAction(offerId, workerId);
   }
@@ -326,9 +336,7 @@ export class RouterClient {
    * @param workerId - The ID of the worker to register.
    * @param options - Operation options.
    */
-  public async registerWorker(
-    workerId: string,
-  ): Promise<RouterWorker> {
+  public async registerWorker(workerId: string): Promise<RouterWorker> {
     const worker = {
       availableForOffers: true
     };
@@ -341,9 +349,7 @@ export class RouterClient {
    * @param workerId - The ID of the worker to deregister.
    * @param options - Operation options.
    */
-  public async deregisterWorker(
-    workerId: string,
-  ): Promise<RouterWorker> {
+  public async deregisterWorker(workerId: string): Promise<RouterWorker> {
     const worker = {
       availableForOffers: false
     };
@@ -376,9 +382,7 @@ export class RouterClient {
    * @param workerId - The ID of the worker to delete.
    * @param options -  Operation options.
    */
-  public async deleteWorker(
-    workerId: string,
-  ): Promise<RestResponse> {
+  public async deleteWorker(workerId: string): Promise<RestResponse> {
     return this.client.jobRouter.deleteWorker(workerId);
   }
 }

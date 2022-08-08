@@ -19,8 +19,7 @@ export interface RecordedRouterClient {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING:
-    "endpoint=https://someEndpoint/;accesskey=someAccessKeyw=="
+  COMMUNICATION_CONNECTION_STRING: "endpoint=https://someEndpoint/;accesskey=someAccessKeyw=="
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -70,9 +69,7 @@ export function createRecordedRouterClientWithKeyCredential(
 ): RecordedRouterClient {
   const recorder = record(context, environmentSetup);
 
-  const { endpoint, credential } = parseConnectionString(
-    env.COMMUNICATION_CONNECTION_STRING
-  );
+  const { endpoint, credential } = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING);
 
   return {
     client: new RouterClient(endpoint, credential),

@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-
 import sinon from "sinon";
-import { AzureCommunicationTokenCredential } from "../../../communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { RouterClient } from "../../src";
 import { baseUri, generateToken } from "../public/utils/connectionUtils";
 
