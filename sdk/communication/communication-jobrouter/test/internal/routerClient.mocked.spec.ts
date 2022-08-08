@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 
-import { env } from "@azure-tools/test-recorder";
 import sinon from "sinon";
+import { AzureCommunicationTokenCredential } from "../../../communication-common";
 import { RouterClient } from "../../src";
+import { baseUri, generateToken } from "../public/utils/connectionUtils";
 
 describe("[Mocked] RouterClient", async () => {
   afterEach(() => {
@@ -12,6 +13,6 @@ describe("[Mocked] RouterClient", async () => {
   });
 
   it("can instantiate", async () => {
-    new RouterClient(env.COMMUNICATION_CONNECTION_STRING, {});
+    new RouterClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 });

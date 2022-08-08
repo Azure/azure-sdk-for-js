@@ -3,6 +3,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 
+import { CommunicationTokenCredential } from "../../communication-common";
 import {
   AcceptJobOfferResult,
   JobPositionDetails,
@@ -63,25 +64,33 @@ export class RouterClient {
    * Initializes a new instance of the RouterClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param options - Optional. Options to configure the HTTP pipeline.
+   * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(connectionString: string, options?: RouterClientOptions);
+  constructor(connectionString: string, routerClientOptions?: RouterClientOptions);
 
   /**
    * Initializes a new instance of the RouterClient class using an Azure KeyCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
-   * @param options - Optional. Options to configure the HTTP pipeline.
+   * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: KeyCredential, options?: RouterClientOptions);
+  constructor(endpoint: string, credential: KeyCredential, routerClientOptions?: RouterClientOptions);
 
   /**
    * Initializes a new instance of the RouterClient class using a TokenCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - TokenCredential that is used to authenticate requests to the service.
-   * @param options - Optional. Options to configure the HTTP pipeline.
+   * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(endpoint: string, credential: TokenCredential, options?: RouterClientOptions);
+  constructor(endpoint: string, credential: TokenCredential, routerClientOptions?: RouterClientOptions);
+
+  /**
+   * Initializes a new instance of the RouterClient class using a TokenCredential.
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - CommunicationTokenCredential that is used to authenticate requests to the service.
+   * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
+   */
+  constructor(endpoint: string, credential: CommunicationTokenCredential, routerClientOptions?: RouterClientOptions);
 
   /**
    * Creates an instance of the RouterClient for a given resource and user.
@@ -92,7 +101,7 @@ export class RouterClient {
    */
   constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | TokenCredential | RouterClientOptions,
+    credentialOrOptions?: KeyCredential | TokenCredential | CommunicationTokenCredential | RouterClientOptions,
     maybeOptions: RouterClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);

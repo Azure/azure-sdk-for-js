@@ -9,7 +9,7 @@ nock('https://someEndpoint', {"encodedQueryParams":true})
   .query(true)
   .reply(200, {"id":"exception-policy-123","name":"test-policy","exceptionRules":{"MaxWaitTimeExceeded":{"trigger":{"kind":"wait-time","thresholdSeconds":5},"actions":{"MoveJobToEscalatedQueue":{"kind":"reclassify","classificationPolicyId":"Main","labelsToUpsert":{"escalated":true}}}}}}, [
   'Date',
-  'Thu, 04 Aug 2022 22:32:01 GMT',
+  'Mon, 08 Aug 2022 01:30:48 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
@@ -23,11 +23,11 @@ nock('https://someEndpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'trace-id',
-  'a8c201a3d79165d7b4e39176dac0ce5b',
+  '28ba54f08a553d9244d8e762351be7b1',
   'api-supported-versions',
   '2021-04-07-preview1, 2021-10-20-preview2, 2022-07-18-preview',
   'x-azure-ref',
-  '20220804T223200Z-tur6dybg817yr054hm9efewep800000001eg00000001pxtr',
+  '20220808T013041Z-afb852g2vh6591nsqudzty20xs00000004g000000000r8z1',
   'X-Cache',
   'CONFIG_NOCACHE'
 ]);

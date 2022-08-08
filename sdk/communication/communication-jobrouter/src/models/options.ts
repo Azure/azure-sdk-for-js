@@ -29,6 +29,14 @@ export interface RouterClientOptions extends PipelineOptions {
 }
 
 /**
+ * Options to create router administration client.
+ */
+export interface RouterAdministrationClientOptions extends PipelineOptions {
+  /** The headers to be set on requests **/
+  headers?: { [propertyName: string]: any };
+}
+
+/**
  * Options to create a classification policy.
  */
 export interface CreateClassificationPolicyOptions
