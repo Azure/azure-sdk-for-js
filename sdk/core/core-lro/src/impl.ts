@@ -27,19 +27,38 @@ export function deserializeState<TState>(
   }
 }
 
-function updatePollingUrl(inputs: { rawResponse: RawResponse; config: OperationConfig }): void {
-  const { config, rawResponse } = inputs;
+function updatePollingUrlHelper(inputs: {
+  pollingUrl?: string;
+  config: OperationConfig;
+  withPollingUrl?: (pollingUrl: string) => void;
+}): void {
+  const { pollingUrl, config, withPollingUrl } = inputs;
+  if (pollingUrl !== undefined && pollingUrl !== config.pollingUrl) {
+    config.pollingUrl = pollingUrl;
+    withPollingUrl?.(pollingUrl);
+  }
+}
+
+function updatePollingUrl(inputs: {
+  rawResponse: RawResponse;
+  config: OperationConfig;
+  withPollingUrl?: (pollingUrl: string) => void;
+}): void {
+  const { config, rawResponse, withPollingUrl } = inputs;
   switch (config.mode) {
     case "OperationLocation": {
-      const operationLocation = getOperationLocation(rawResponse);
-      const azureAsyncOperation = getAzureAsyncOperation(rawResponse);
-      config.pollingUrl =
-        getOperationLocationPollingUrl({ operationLocation, azureAsyncOperation }) ??
-        config.pollingUrl;
+      updatePollingUrlHelper({
+        pollingUrl: getOperationLocationPollingUrl({
+          operationLocation: getOperationLocation(rawResponse),
+          azureAsyncOperation: getAzureAsyncOperation(rawResponse),
+        }),
+        config,
+        withPollingUrl,
+      });
       break;
     }
     case "ResourceLocation": {
-      config.pollingUrl = getLocation(rawResponse) ?? config.pollingUrl;
+      updatePollingUrlHelper({ pollingUrl: getLocation(rawResponse), config, withPollingUrl });
       break;
     }
   }
@@ -291,8 +310,8 @@ function buildResult<TResult, TState>(inputs: {
   state: TState;
   processResult?: (result: unknown, state: TState) => TResult;
 }): TResult {
-  const { processResult, flatResponse: response, state } = inputs;
-  return processResult ? processResult(response, state) : (response as TResult);
+  const { processResult, flatResponse, state } = inputs;
+  return processResult ? processResult(flatResponse, state) : (flatResponse as TResult);
 }
 
 /**
@@ -304,10 +323,18 @@ export async function initOperation<TResult, TState>(inputs: {
   requestMethod?: string;
   resourceLocationConfig?: LroResourceLocationConfig;
   processResult?: (result: unknown, state: TState) => TResult;
+  withPollingUrl?: (pollingUrl: string) => void;
   lro: LongRunningOperation;
 }): Promise<RestorableOperationState<TState>> {
-  const { requestMethod, requestPath, stateProxy, resourceLocationConfig, processResult, lro } =
-    inputs;
+  const {
+    requestMethod,
+    requestPath,
+    stateProxy,
+    resourceLocationConfig,
+    processResult,
+    withPollingUrl,
+    lro,
+  } = inputs;
   const { rawResponse, flatResponse } = await lro.sendInitialRequest();
   const config = inferLroMode({
     rawResponse,
@@ -315,6 +342,7 @@ export async function initOperation<TResult, TState>(inputs: {
     requestMethod,
     resourceLocationConfig,
   });
+  if (config) withPollingUrl?.(config.pollingUrl);
   const state = stateProxy.initState(config);
   logger.verbose(`LRO: Operation description:`, config);
   if (
@@ -381,11 +409,22 @@ export async function pollOperation<TState, TResult>(inputs: {
   state: RestorableOperationState<TState>;
   isDone?: (lastResponse: TResult, state: TState) => boolean;
   processResult?: (result: unknown, state: TState) => TResult;
+  withPollingUrl?: (pollingUrl: string) => void;
   updateState?: (state: TState, lastResponse: RawResponse) => void;
   setDelay: (intervalInMs: number) => void;
   options?: { abortSignal?: AbortSignalLike };
 }): Promise<void> {
-  const { lro, state, stateProxy, isDone, options, processResult, updateState, setDelay } = inputs;
+  const {
+    lro,
+    state,
+    stateProxy,
+    isDone,
+    options,
+    processResult,
+    withPollingUrl,
+    updateState,
+    setDelay,
+  } = inputs;
   const { flatResponse, done, rawResponse } = await getOperationStatus({
     lro,
     state,
@@ -408,6 +447,7 @@ export async function pollOperation<TState, TResult>(inputs: {
     updatePollingUrl({
       rawResponse,
       config: state.config,
+      withPollingUrl,
     });
   }
   updateState?.(state, rawResponse);

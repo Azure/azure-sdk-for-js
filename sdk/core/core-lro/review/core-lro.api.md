@@ -19,6 +19,7 @@ export interface CreatePollerOptions<TResult, TState> {
     resourceLocationConfig?: LroResourceLocationConfig;
     restoreFrom?: string;
     updateState?: (state: TState, lastResponse: RawResponse) => void;
+    withPollingUrl?: (pollingUrl: string) => void;
 }
 
 // @public

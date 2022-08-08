@@ -203,11 +203,11 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * Defines how much to wait between each poll request.
    * This has to be implemented by your custom poller.
    *
-   * \@azure/core-http has a simple implementation of a delay function that waits as many milliseconds as specified.
+   * \@azure/core-util has a simple implementation of a delay function that waits as many milliseconds as specified.
    * This can be used as follows:
    *
    * ```ts
-   * import { delay } from "@azure/core-http";
+   * import { delay } from "@azure/core-util";
    *
    * export class MyPoller extends Poller<MyOperationState, string> {
    *   // The other necessary definitions.

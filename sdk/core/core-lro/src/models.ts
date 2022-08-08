@@ -28,6 +28,11 @@ export interface CreatePollerOptions<TResult, TState> {
    * A function to process the state of the LRO.
    */
   updateState?: (state: TState, lastResponse: RawResponse) => void;
+  /**
+   * A function that takes the polling URL as input. This callback is useful to
+   * implement operation requests such as operation cancellation or paging.
+   */
+  withPollingUrl?: (pollingUrl: string) => void;
 }
 
 // TODO: rename to ResourceLocationConfig

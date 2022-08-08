@@ -54,6 +54,7 @@ export async function createPoller<TResult, TState extends OperationState<TResul
     resourceLocationConfig,
     processResult,
     updateState,
+    withPollingUrl,
     intervalInMs = POLL_INTERVAL_IN_MS,
     restoreFrom,
   } = options || {};
@@ -68,6 +69,7 @@ export async function createPoller<TResult, TState extends OperationState<TResul
         requestMethod,
         resourceLocationConfig,
         processResult,
+        withPollingUrl,
       });
   let resultPromise: Promise<TResult> | undefined;
   let cancelJob: (() => void) | undefined;
