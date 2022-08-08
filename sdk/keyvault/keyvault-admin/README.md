@@ -72,8 +72,7 @@ const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
 
 const credentials = new DefaultAzureCredential();
 
-const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-const client = new KeyVaultBackupClient(vaultUrl, credentials);
+const client = new KeyVaultBackupClient(`<your Managed HSM URL>`, credentials);
 ```
 
 ## Key concepts
