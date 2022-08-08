@@ -49,7 +49,9 @@ import { CommonClientOptions } from "@azure/core-client";
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
  */
-export interface PhoneNumbersClientOptions extends CommonClientOptions {}
+export interface PhoneNumbersClientOptions extends CommonClientOptions {
+  acceptLanguage?: string
+}
 
 const isPhoneNumbersClientOptions = (options: any): options is PhoneNumbersClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -62,6 +64,11 @@ export class PhoneNumbersClient {
    * A reference to the auto-generated PhoneNumber HTTP client.
    */
   private readonly client: PhoneNumbersGeneratedClient;
+
+  /**
+   * The accept language parameter to be used in the request header's "accept-language" property.
+   */
+  private acceptLanguage: string | undefined;
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using a connection string.
@@ -117,6 +124,7 @@ export class PhoneNumbersClient {
     // This policy is temporary workarounds to address compatibility issues with Azure Core V2.
     const phoneNumbersPagingPolicy = createPhoneNumbersPagingPolicy(url);
     this.client.pipeline.addPolicy(phoneNumbersPagingPolicy);
+    this.acceptLanguage = maybeOptions.acceptLanguage;
   }
 
   /**
@@ -133,8 +141,12 @@ export class PhoneNumbersClient {
       "PhoneNumbersClient-getPurchasedPhoneNumber",
       options
     );
+
     try {
-      return await this.client.phoneNumbers.getByNumber(phoneNumber, updatedOptions);
+      return await this.client.phoneNumbers.getByNumber(phoneNumber, {
+        ...updatedOptions,
+        acceptLanguage: this.acceptLanguage
+      });
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -166,7 +178,10 @@ export class PhoneNumbersClient {
       "PhoneNumbersClient-listPurchasedPhoneNumbers",
       options
     );
-    const iter = this.client.phoneNumbers.listPhoneNumbers(updatedOptions);
+    const iter = this.client.phoneNumbers.listPhoneNumbers({
+      ...updatedOptions,
+      acceptLanguage: this.acceptLanguage
+    });
     span.end();
     return iter;
   }
@@ -380,7 +395,10 @@ export class PhoneNumbersClient {
       "PhoneNumbersClient-listAvailableCountries",
       options
     );
-    const iter = this.client.phoneNumbers.listAvailableCountries(updatedOptions);
+    const iter = this.client.phoneNumbers.listAvailableCountries({
+      ...updatedOptions,
+      acceptLanguage: this.acceptLanguage
+    });
     span.end();
     return iter;
   }
@@ -474,6 +492,7 @@ export class PhoneNumbersClient {
     );
     const iter = this.client.phoneNumbers.listAvailableLocalities(countryCode, {
       ...updatedOptions,
+      acceptLanguage: this.acceptLanguage,
       administrativeDivision: administrativeDivision,
     });
     span.end();
