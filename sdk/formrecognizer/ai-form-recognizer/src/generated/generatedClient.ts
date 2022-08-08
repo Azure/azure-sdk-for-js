@@ -50,8 +50,8 @@ import {
   GetDocumentModelOptionalParams,
   GetDocumentModelResponse,
   DeleteDocumentModelOptionalParams,
-  GetResourceInfoOptionalParams,
-  GetResourceInfoResponse,
+  GetResourceDetailsOptionalParams,
+  GetResourceDetailsResponse,
   GetOperationsNextResponse,
   GetDocumentModelsNextResponse
 } from "./models";
@@ -81,7 +81,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-ai-form-recognizer/4.0.0-beta.5`;
+    const packageDetails = `azsdk-js-ai-form-recognizer/4.0.0-beta.6`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -462,10 +462,13 @@ export class GeneratedClient extends coreClient.ServiceClient {
    * Return information about the current resource.
    * @param options The options parameters.
    */
-  getResourceInfo(
-    options?: GetResourceInfoOptionalParams
-  ): Promise<GetResourceInfoResponse> {
-    return this.sendOperationRequest({ options }, getResourceInfoOperationSpec);
+  getResourceDetails(
+    options?: GetResourceDetailsOptionalParams
+  ): Promise<GetResourceDetailsResponse> {
+    return this.sendOperationRequest(
+      { options },
+      getResourceDetailsOperationSpec
+    );
   }
 
   /**
@@ -679,7 +682,7 @@ const getOperationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationInfo
+      bodyMapper: Mappers.OperationDetails
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -711,7 +714,7 @@ const getDocumentModelOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DocumentModelInfo
+      bodyMapper: Mappers.DocumentModelDetails
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -736,12 +739,12 @@ const deleteDocumentModelOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept2],
   serializer
 };
-const getResourceInfoOperationSpec: coreClient.OperationSpec = {
+const getResourceDetailsOperationSpec: coreClient.OperationSpec = {
   path: "/info",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceInfo
+      bodyMapper: Mappers.ResourceDetails
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
