@@ -134,7 +134,8 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
   }
 
   async cancel(): Promise<PollOperation<TState, TResult>> {
-    throw new Error("This method is deprecated because it wasn't implemented");
+    logger.error("`cancelOperation` is deprecated because it wasn't implemented");
+    return this;
   }
 
   /**
