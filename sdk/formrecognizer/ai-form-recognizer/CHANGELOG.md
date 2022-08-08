@@ -20,7 +20,7 @@
 ### Other Changes
 
 - Strongly-typed analysis functionality now checks that the `DocumentAnalysisClient`'s API version now matches the assumed API version of the `DocumentModel` exactly. This ensures that a strongly-typed model can only be used with the API version it was created for, so that future changes cannot violate the model's schema.
-- More renames
+- Renamed the following types:
   - `TrainingPoller` -> `DocumentModelPoller`
   - `GetInfoResponse` -> `ResourceDetails`
   - In instances where we use `Model` as a prefix, updated it to `DocumentModel`. For example, `ModelInfo` -> `DocumentModelDetails`, `ModelSummary` -> `DocumentModelSummary`.
