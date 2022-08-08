@@ -454,7 +454,7 @@ export interface FirebaseLegacyWebNativePayload {
   clickAction?: string;
 }
 
-function createFirebaseLegacyNativePayload(
+function buildFirebaseLegacyNativePayload(
   nativeNotification?:
     | FirebaseLegacyAppleNativePayload
     | FirebaseLegacyAndroidNativePayload
@@ -496,7 +496,7 @@ function createFirebaseLegacyNativePayload(
  * @param nativeMessage - The native message payload to send to Notification Hubs.
  * @returns The FirebaseLegacyNotification to send to Notification Hubs.
  */
-export function createFirebaseLegacyNativeMessage(
+export function buildFirebaseLegacyNativeMessage(
   nativeMessage: FirebaseLegacyNativeMessage
 ): FirebaseLegacyNotification {
   const jsonMessage: Record<string, any> = {
@@ -511,7 +511,7 @@ export function createFirebaseLegacyNativeMessage(
     restricted_package_name: nativeMessage.restrictedPackageName,
     dry_run: nativeMessage.dryRun,
     data: nativeMessage.data,
-    notification: createFirebaseLegacyNativePayload(nativeMessage.notification),
+    notification: buildFirebaseLegacyNativePayload(nativeMessage.notification),
   };
 
   return createFirebaseLegacyNotification({
@@ -520,9 +520,124 @@ export function createFirebaseLegacyNativeMessage(
 }
 
 /**
+ * Describes ADM notification messages.
+ */
+export interface AdmNativeNotification {
+  /**
+   * The notification's title.
+   */
+  title?: string;
+
+  /**
+   * The notification's body text.
+   */
+  body?: string;
+
+  /**
+   * The notification's icon.
+   */
+  icon?: string;
+
+  /**
+   * The notification's icon color, expressed in #rrggbb format.
+   */
+  color?: string;
+
+  /**
+   * The sound to play when the device receives the notification. Supports "default" or the filename of a sound resource bundled in the app.
+   */
+  sound?: string;
+
+  /**
+   * Identifier used to replace existing notifications in the notification drawer.
+   */
+  tag?: string;
+
+  /**
+   * The action associated with a user click on the notification.
+   */
+  clickAction?: string;
+
+  /**
+   * The key to the body string in the app's string resources to use to localize the body text to the user's current localization.
+   */
+  bodyLocKey?: string;
+
+  /**
+   * Variable string values to be used in place of the format specifiers in body_loc_key to use to localize the body text to the user's current localization.
+   */
+  bodyLocArgs?: string[];
+
+  /**
+   * The key to the title string in the app's string resources to use to localize the title text to the user's current localization.
+   */
+  titleLocKey?: string;
+
+  /**
+   * Variable string values to be used in place of the format specifiers in title_loc_key to use to localize the title text to the user's current localization.
+   */
+  titleLocArgs?: string[];
+
+  /**
+   * The notification's channel id.
+   */
+  channelId?: string;
+
+  /**
+   * Sets the "ticker" text, which is sent to accessibility services.
+   */
+  ticker?: string;
+
+  /**
+   * When set to false or unset, the notification is automatically dismissed when the user clicks it in the panel.
+   */
+  sticky?: boolean;
+
+  /**
+   * Set the time that the event in the notification occurred. Must be a timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
+   */
+  eventTime?: string;
+
+  /**
+   * Set whether or not this notification is relevant only to the current device.
+   */
+  localOnly?: boolean;
+
+  /**
+   * Set the relative priority for this notification.
+   */
+  notificationPriority?: number; // TODO: Enum?
+
+  /**
+   * If set to true, use the Android framework's default sound for the notification.
+   */
+  defaultSound?: boolean;
+
+  /**
+   * Set the Notification.visibility of the notification.
+   */
+  visibility?: number; // TODO: Enum?
+
+  /**
+   * Sets the number of items this notification represents.
+   */
+  notificationCount?: number;
+
+  /**
+   * Contains the URL of an image that is going to be displayed in a notification.
+   */
+  image?: string;
+}
+
+/**
  * Represents a native ADM notification message payload.
  */
 export interface AdmNativeMessage {
+  /**
+   * The notification payload to send with the message.
+   */
+  notification?: AdmNativeNotification;
+
   /**
    * The payload data to send with the message.
    */
@@ -550,13 +665,46 @@ export interface AdmNativeMessage {
   md5?: string;
 }
 
+function buildAdmNativeNotification(
+  nativeNotification?: AdmNativeNotification
+): Record<string, any> | undefined {
+  if (!isDefined(nativeNotification)) {
+    return undefined;
+  }
+
+  return {
+    title: nativeNotification.title,
+    body: nativeNotification.body,
+    icon: nativeNotification.icon,
+    color: nativeNotification.color,
+    sound: nativeNotification.sound,
+    tag: nativeNotification.tag,
+    click_action: nativeNotification.clickAction,
+    body_loc_key: nativeNotification.bodyLocKey,
+    body_loc_args: nativeNotification.bodyLocArgs,
+    title_loc_key: nativeNotification.titleLocKey,
+    title_loc_args: nativeNotification.titleLocArgs,
+    channel_id: nativeNotification.channelId,
+    ticker: nativeNotification.ticker,
+    sticky: nativeNotification.sticky,
+    event_time: nativeNotification.eventTime,
+    local_only: nativeNotification.localOnly,
+    notification_priority: nativeNotification.notificationPriority,
+    default_sound: nativeNotification.defaultSound,
+    visibility: nativeNotification.visibility,
+    notification_count: nativeNotification.notificationCount,
+    image: nativeNotification.image,
+  };
+}
+
 /**
  * Creates a AdmNotification from a native ADM payload.
  * @param nativeMessage - The native message payload to send to Notification Hubs.
  * @returns The AdmNotification to send to Notification Hubs.
  */
-export function createAdmNativeMessage(nativeMessage: AdmNativeMessage): AdmNotification {
+export function buildAdmNativeMessage(nativeMessage: AdmNativeMessage): AdmNotification {
   const jsonObj: Record<string, any> = {
+    notification: buildAdmNativeNotification(nativeMessage.notification),
     data: nativeMessage.data || {},
     ...nativeMessage,
   };
@@ -659,7 +807,7 @@ export interface BaiduNativeMessage extends Record<string, any> {
  * @param additionalProperties - Additional properties for Apple Baidu messages.
  * @returns The BaiduNotification to send to Notification Hubs.
  */
-export function createBaiduNativeMessage(
+export function buildBaiduNativeMessage(
   nativeMessage: BaiduNativeMessage,
   additionalProperties?: Record<string, any>
 ): BaiduNotification {
@@ -717,7 +865,7 @@ export interface WindowsBadgeNativeMessage {
  * @param nativeMessage - The Windows Badge Message to build.
  * @returns A WindowsNotification created with the badge information.
  */
-export function createWindowsBadgeNativeMessage(
+export function buildWindowsBadgeNativeMessage(
   nativeMessage: WindowsBadgeNativeMessage
 ): WindowsNotification {
   const badge = {

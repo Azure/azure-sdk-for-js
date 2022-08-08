@@ -19,7 +19,7 @@ import {
   StringIndexType,
 } from "./FormRecognizerClientOptions";
 import { GetCopyAuthorizationOptions } from "./GetCopyAuthorizationOptions";
-import { GetResourceInfoOptions } from "./GetResourceInfoOptions";
+import { GetResourceDetailsOptions } from "./GetResourceDetailsOptions";
 import { GetModelOptions } from "./GetModelOptions";
 import { GetOperationOptions } from "./GetOperationOptions";
 import { ListModelsOptions } from "./ListModelsOptions";
@@ -38,7 +38,7 @@ export {
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,
   GetCopyAuthorizationOptions,
-  GetResourceInfoOptions,
+  GetResourceDetailsOptions,
   GetModelOptions,
   GetOperationOptions,
   DeleteModelOptions,
