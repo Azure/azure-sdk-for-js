@@ -31,12 +31,6 @@ export interface LroEngineOptions<TResult, TState> {
    * A predicate to determine whether the LRO finished processing.
    */
   isDone?: (lastResponse: unknown, state: TState) => boolean;
-
-  /**
-   * A function that takes the mutable state as input and attempts to cancel the
-   * LRO.
-   */
-  cancel?: (state: TState) => Promise<void>;
 }
 
 /**
