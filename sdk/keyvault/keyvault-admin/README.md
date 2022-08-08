@@ -47,7 +47,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ## Authenticate the client
 
-In order to interact with the Azure Key Vault service, you will need to create an instance of either the `KeyVaultAccessControlClient`(#create-keyvaultaccesscontrolclient) class or the [`KeyVaultBackupClient`](#create-keyvaultbackupclient) class, as well as a **vault url** (which you may see as "DNS Name" in the Azure Portal) and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
+In order to interact with the Azure Key Vault service, you will need to create an instance of either the [`KeyVaultAccessControlClient`](#create-keyvaultaccesscontrolclient) class or the [`KeyVaultBackupClient`](#create-keyvaultbackupclient) class, as well as a **vault url** (which you may see as "DNS Name" in the Azure Portal) and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
 
 You can find more information on different ways of authenticating and their corresponding credential types in the [Azure Identity documentation][azure_identity].
 
