@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { EOL } from "os";
-import { DocTypeInfo, DocumentModelInfo } from "../src";
+import { DocumentTypeDetails, DocumentModelDetails } from "../src";
 import { DocumentFieldSchema } from "../src/generated";
 import { DocumentField } from "../src/models";
 import { defaultResultFields, getFeatures } from "./defaultFields";
@@ -24,7 +24,7 @@ const sampleHeader = `// Copyright (c) Microsoft Corporation.
 /**
  * Generate a header with the model information.
  */
-function templateHeader(model: DocumentModelInfo): string {
+function templateHeader(model: DocumentModelDetails): string {
   return `${sampleHeader}
 
 // Model:       ${model.modelId}
@@ -41,7 +41,7 @@ function templateHeader(model: DocumentModelInfo): string {
  * @param model - the ModelInfo to generate code for
  * @returns a string of TypeScript source code
  */
-export async function writeModelCode(model: DocumentModelInfo): Promise<string> {
+export async function writeModelCode(model: DocumentModelDetails): Promise<string> {
   let contents = templateHeader(model);
 
   contents += 'import * as fr from "@azure/ai-form-recognizer";' + EOL + EOL;
@@ -141,7 +141,7 @@ export async function writeModelCode(model: DocumentModelInfo): Promise<string> 
 
 // Get the doc type variants of a model.
 function extractModelVariants(
-  model: DocumentModelInfo,
+  model: DocumentModelDetails,
   _rootSlug: string[]
 ): Record<string, DocType> {
   const result: ReturnType<typeof extractModelVariants> = {};
@@ -408,7 +408,7 @@ function* flatMap<T1, T2>(it: Iterable<T1>, f: (v: T1) => T2 | Iterable<T2>): It
 /**
  * Helper interface for representing a DocType during generation, allowing for renaming and contextual, taxonomic naming.
  */
-interface DocType extends DocTypeInfo {
+interface DocType extends DocumentTypeDetails {
   originalDocType: string;
   name: string;
   slug: string[];

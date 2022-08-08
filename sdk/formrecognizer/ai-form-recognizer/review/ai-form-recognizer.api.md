@@ -104,7 +104,7 @@ export interface CopyAuthorization {
 }
 
 // @public
-export function createModelFromSchema(schema: Omit<DocumentModelInfo, "createdDateTime">): DocumentModel<AnalyzeResult<unknown>>;
+export function createModelFromSchema(schema: Omit<DocumentModelDetails, "createdDateTime">): DocumentModel<AnalyzeResult<unknown>>;
 
 // @public
 export interface CreateModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<DocumentModelOperationState> {
@@ -530,7 +530,7 @@ export interface ListOperationsOptions extends OperationOptions {
 }
 
 // @public
-export interface OperationInfo extends OperationSummary {
+export interface OperationDetails extends OperationSummary {
     error?: ErrorModel;
     result?: Record<string, unknown>;
 }

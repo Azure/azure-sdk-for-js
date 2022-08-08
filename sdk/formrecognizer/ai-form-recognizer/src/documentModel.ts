@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentFieldSchema, DocumentModelInfo } from "./generated";
+import { DocumentFieldSchema, DocumentModelDetails } from "./generated";
 import { AnalyzedDocument, AnalyzeResult } from "./lro/analysis";
 import { DocumentField } from "./models/fields";
 import { FormRecognizerApiVersion } from "./options";
@@ -87,7 +87,7 @@ function extractField(
  * @returns - a DocumentModel that encodes the schema
  */
 export function createModelFromSchema(
-  schema: Omit<DocumentModelInfo, "createdDateTime">
+  schema: Omit<DocumentModelDetails, "createdDateTime">
 ): DocumentModel<AnalyzeResult<unknown>> {
   return {
     modelId: schema.modelId,
