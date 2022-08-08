@@ -8,5 +8,4 @@
 
 export * from "./models";
 export { RoomsApiClient } from "./roomsApiClient";
-export { RoomsApiClientContext } from "./roomsApiClientContext";
 export * from "./operationsInterfaces";

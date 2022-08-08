@@ -10,7 +10,7 @@ import { Rooms } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RoomsApiClientContext } from "../roomsApiClientContext";
+import { RoomsApiClient } from "../roomsApiClient";
 import {
   CreateRoomRequest,
   RoomsCreateRoomOptionalParams,
@@ -35,13 +35,13 @@ import {
 
 /** Class containing Rooms operations. */
 export class RoomsImpl implements Rooms {
-  private readonly client: RoomsApiClientContext;
+  private readonly client: RoomsApiClient;
 
   /**
    * Initialize a new instance of the class Rooms class.
    * @param client Reference to the service client
    */
-  constructor(client: RoomsApiClientContext) {
+  constructor(client: RoomsApiClient) {
     this.client = client;
   }
 

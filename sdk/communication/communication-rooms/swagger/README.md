@@ -16,7 +16,7 @@ tag: package-rooms-2022-02-01-preview
 model-date-time-as-string: false
 optional-response-headers: true
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.0-rc.1"
 azure-arm: false
 add-credentials: false
 package-version: 1.2.0-beta.1
