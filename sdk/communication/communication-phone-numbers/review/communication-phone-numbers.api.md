@@ -133,6 +133,7 @@ export class PhoneNumbersClient {
 
 // @public
 export interface PhoneNumbersClientOptions extends CommonClientOptions {
+    acceptLanguage?: string;
 }
 
 // @public

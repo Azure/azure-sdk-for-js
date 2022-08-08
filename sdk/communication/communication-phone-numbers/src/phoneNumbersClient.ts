@@ -50,6 +50,10 @@ import { CommonClientOptions } from "@azure/core-client";
  * Client options used to configure the PhoneNumbersClient API requests.
  */
 export interface PhoneNumbersClientOptions extends CommonClientOptions {
+
+  /**
+   * The accept language parameter to be used in the request header's "accept-language" property.
+   */
   acceptLanguage?: string;
 }
 
