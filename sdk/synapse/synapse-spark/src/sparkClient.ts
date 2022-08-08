@@ -13,6 +13,9 @@ import { SparkBatchImpl, SparkSessionOperationsImpl } from "./operations";
 import { SparkBatch, SparkSessionOperations } from "./operationsInterfaces";
 import { SparkClientOptionalParams } from "./models";
 
+/**
+ * Represents the Synapse Spark client operations.
+ */
 export class SparkClient extends coreClient.ServiceClient {
   endpoint: string;
   livyApiVersion: string;

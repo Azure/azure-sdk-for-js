@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-auth";
-import * as coreClient from "@azure/core-client";
-import { MonitoringClientOptionalParams } from "./models";
 
-export class MonitoringClientContext extends coreClient.ServiceClient {
+import { MonitoringClientOptionalParams } from "./models";
+import { ServiceClient } from "@azure/core-client";
+import { TokenCredential } from "@azure/core-auth";
+
+const packageName = "@azure/synapse-monitoring";
+const packageVersion = "1.0.0-beta.4";
+
+export class MonitoringClientContext extends ServiceClient {
   endpoint: string;
   apiVersion: string;
 
@@ -32,13 +36,30 @@ export class MonitoringClientContext extends coreClient.ServiceClient {
       options = {};
     }
 
+    const defaults = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `${packageName}/${packageVersion}`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
     if (!options.credentialScopes) {
       options.credentialScopes = ["https://dev.azuresynapse.net/.default"];
     }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{endpoint}"
+    };
 
-    options.credential = credentials;
-
-    super(options);
+    super(optionsWithDefaults);
 
     // Parameter assignments
     this.endpoint = endpoint;
