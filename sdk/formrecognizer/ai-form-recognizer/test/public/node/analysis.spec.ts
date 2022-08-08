@@ -875,7 +875,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         allocatedTips: 874.2,
         dependentCareBenefits: 9873.2,
         nonQualifiedPlans: 653.21,
-        additionalDetails: [
+        additionalInfo: [
           {
             letterCode: "DD",
             amount: 6939.68,
@@ -895,7 +895,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         ],
         isRetirementPlan: "true",
         other: "DISINS 170.85",
-        stateTaxDetailss: [
+        stateTaxInfos: [
           {
             state: "PA",
             employerStateIdNumber: "18574095",
@@ -905,7 +905,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
             employerStateIdNumber: "18743231",
           },
         ],
-        localTaxDetailss: [
+        localTaxInfos: [
           {
             localWagesTipsEtc: 37160.56,
             localIncomeTax: 51,
@@ -956,7 +956,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           number: "123456789",
         },
         groupNumber: "1000000",
-        prescriptionDetails: {
+        prescriptionInfo: {
           rxBIN: "987654",
           rxGrp: "BCAAXYZ",
         },
