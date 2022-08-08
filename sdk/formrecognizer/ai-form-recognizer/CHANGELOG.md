@@ -5,7 +5,7 @@
 ### Features Added
 
 - Refactored generic `DocumentModel` support to be more robust to different kinds of models. It now supports strongly-typed results for `prebuilt-read`, `prebuilt-layout`, and `prebuilt-document`. See the "Breaking Changes" section for more information about how to replace existing usage of `PrebuiltModels` with new model code.
-- `DocumentModelAdministrationClient#getOperation` returns additional `result`(operation result) and `error`(includes detailed error info) fields.
+- `DocumentModelAdministrationClient#getOperation` returns additional `result` (operation result) and `error` (includes detailed error info) fields.
 
 ### Breaking Changes
 
