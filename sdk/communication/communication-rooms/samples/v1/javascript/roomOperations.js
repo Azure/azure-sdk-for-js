@@ -27,8 +27,8 @@ async function main() {
   var validFrom = new Date(Date.now());
   var validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
 
-  // request payload to create a room
-  const createRoomRequest = {
+  // options payload to create a room
+  const createRoomOptions = {
     validFrom: validFrom,
     validUntil: validUntil,
     participants: [
@@ -40,7 +40,7 @@ async function main() {
   };
 
   // create a room with the request payload
-  const createRoom = await roomsClient.createRoom(createRoomRequest);
+  const createRoom = await roomsClient.createRoom(createRoomOptions);
   const roomId = createRoom.id;
   console.log(`Created Room`);
   printRoom(createRoom);
@@ -87,7 +87,7 @@ function printRoom(room) {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
   console.log(`Valid Until: ${room.validUntil}`);
-  console.log(`Room Join Policy: ${room.roomJoinPolicy}`);
+  console.log(`Room Join Policy: ${room.joinPolicy}`);
   console.log(`Participants:`);
   for (const participant of room.participants) {
     const id = getIdentifierRawId(participant.id);

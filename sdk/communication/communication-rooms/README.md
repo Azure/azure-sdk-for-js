@@ -6,7 +6,6 @@ Communication Rooms Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/communication-rooms) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/communication-rooms?view=azure-node-preview) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms/samples)
 
 ## Getting started
@@ -28,9 +27,8 @@ Install the Azure RoomsApi client library for JavaScript with `npm`:
 npm install @azure/communication-rooms
 ```
 
-
-
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
