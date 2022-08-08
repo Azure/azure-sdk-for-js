@@ -116,9 +116,8 @@ export function createPoller<TState>(settings: {
   lroResourceLocationConfig?: LroResourceLocationConfig;
   processResult?: (result: unknown, state: TState) => Response;
   updateState?: (state: TState, lastResponse: RawResponse) => void;
-  cancel?: (state: TState) => Promise<void>;
 }): PollerLike<PollOperationState<Response>, Response> {
-  const { routes, lroResourceLocationConfig, processResult, updateState, cancel } = settings;
+  const { routes, lroResourceLocationConfig, processResult, updateState } = settings;
   const client = createClient(toLroProcessors(routes));
   const { method: requestMethod, path = initialPath } = routes[0];
   const lro = new CoreRestPipelineLro(createSendOp({ client }), {
@@ -134,7 +133,6 @@ export function createPoller<TState>(settings: {
     lroResourceLocationConfig,
     processResult,
     updateState,
-    cancel,
   });
 }
 

@@ -40,8 +40,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     private lroResourceLocationConfig?: LroResourceLocationConfig,
     private processResult?: (result: unknown, state: TState) => TResult,
     private updateState?: (state: TState, lastResponse: RawResponse) => void,
-    private isDone?: (lastResponse: TResult, state: TState) => boolean,
-    private cancelOp?: (state: TState) => Promise<void>
+    private isDone?: (lastResponse: TResult, state: TState) => boolean
   ) {}
 
   public setPollerConfig(pollerConfig: PollerConfig): void {
@@ -107,7 +106,6 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         this.pollerConfig!,
         this.getLroStatusFromResponse
       );
-      logger.verbose(`LRO: polling response: ${JSON.stringify(currentState.rawResponse)}`);
       if (currentState.done) {
         state.result = buildResult({
           response: currentState.flatResponse,
@@ -126,7 +124,6 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
       }
       lastResponse = currentState;
     }
-    logger.verbose(`LRO: current state: ${JSON.stringify(state)}`);
     if (lastResponse) {
       this.updateState?.(state, lastResponse?.rawResponse);
     } else {
@@ -137,7 +134,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
   }
 
   async cancel(): Promise<PollOperation<TState, TResult>> {
-    await this.cancelOp?.(this.state);
+    logger.error("`cancelOperation` is deprecated because it wasn't implemented");
     return this;
   }
 

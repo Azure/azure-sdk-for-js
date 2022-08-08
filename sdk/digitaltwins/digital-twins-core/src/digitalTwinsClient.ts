@@ -753,22 +753,17 @@ export class DigitalTwinsClient {
    * @returns The http response.
    *
    */
-  public decommissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
+  public decomissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
     const jsonPatch = [{ op: "replace", path: "/decommissioned", value: true }];
 
     return tracingClient.withSpan(
-      "DigitalTwinsClient.decommissionModel",
+      "DigitalTwinsClient.decomissionModel",
       options,
       async (updatedOptions) => {
         return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
       }
     );
   }
-
-  /**
-   * @deprecated Please use {@link DigitalTwinsClient.decommissionModel} instead.
-   */
-  public decomissionModel = this.decommissionModel;
 
   /**
    * Delete a model.

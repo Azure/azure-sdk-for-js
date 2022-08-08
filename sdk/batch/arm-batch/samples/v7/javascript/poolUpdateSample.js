@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolUpdate_EnableAutoScale.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolUpdate_EnableAutoScale.json
  */
 async function updatePoolEnableAutoscale() {
   const subscriptionId = "subid";
@@ -42,7 +42,7 @@ updatePoolEnableAutoscale().catch(console.error);
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolUpdate_OtherProperties.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolUpdate_OtherProperties.json
  */
 async function updatePoolOtherProperties() {
   const subscriptionId = "subid";
@@ -85,7 +85,7 @@ updatePoolOtherProperties().catch(console.error);
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolUpdate_RemoveStartTask.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolUpdate_RemoveStartTask.json
  */
 async function updatePoolRemoveStartTask() {
   const subscriptionId = "subid";
@@ -110,7 +110,7 @@ updatePoolRemoveStartTask().catch(console.error);
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolUpdate_ResizePool.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolUpdate_ResizePool.json
  */
 async function updatePoolResizePool() {
   const subscriptionId = "subid";

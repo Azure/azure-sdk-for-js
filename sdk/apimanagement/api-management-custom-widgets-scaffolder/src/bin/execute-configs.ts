@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TConfigs, TDeploymentConfig, TECHNOLOGIES, TOptions, TWidgetConfig } from "../scaffolding";
+import { Configs, DeploymentConfig, Options, TECHNOLOGIES, WidgetConfig } from "../scaffolding";
 
 import inquirer from "inquirer";
 
 export const fieldIdToName: Record<
-  keyof (TWidgetConfig & TDeploymentConfig & TOptions) | string,
+  keyof (WidgetConfig & DeploymentConfig & Options) | string,
   string
 > = {
   displayName: "Widget display name",
@@ -49,10 +49,10 @@ export type ReplaceTypesPreserveOptional<T extends Record<any, any>, V> = {
   [Key in keyof T]: T[Key] extends undefined ? V | undefined : V;
 };
 
-export type TValidateFnc = (input: string) => boolean | string;
-export type TValidate<C extends TConfigs> = ReplaceTypesPreserveOptional<C, TValidateFnc>;
+export type ValidateFnc = (input: string) => boolean | string;
+export type Validate<C extends Configs> = ReplaceTypesPreserveOptional<C, ValidateFnc>;
 
-export const validateWidgetConfig: TValidate<TWidgetConfig> = {
+export const validateWidgetConfig: Validate<WidgetConfig> = {
   displayName: validateRequired(fieldIdToName.displayName),
   technology: (input) => {
     const required = validateRequired(fieldIdToName.technology)(input);
@@ -69,7 +69,7 @@ export const validateWidgetConfig: TValidate<TWidgetConfig> = {
   },
 };
 
-export const validateDeployConfig: TValidate<TDeploymentConfig> = {
+export const validateDeployConfig: Validate<DeploymentConfig> = {
   resourceId: (input) => {
     const required = validateRequired(fieldIdToName.resourceId)(input);
     if (required !== true) return required;
@@ -88,14 +88,14 @@ export const validateDeployConfig: TValidate<TDeploymentConfig> = {
   },
 };
 
-export const validateMiscConfig: TValidate<TOptions> = {
+export const validateMiscConfig: Validate<Options> = {
   openUrl: (input) => {
     if (!input) return true;
     return validateUrl(fieldIdToName.openUrl)(input);
   },
 };
 
-export const promptWidgetConfig = (partial: Partial<TWidgetConfig>): Promise<TWidgetConfig> =>
+export const promptWidgetConfig = (partial: Partial<WidgetConfig>): Promise<WidgetConfig> =>
   inquirer.prompt(
     [
       {
@@ -109,17 +109,16 @@ export const promptWidgetConfig = (partial: Partial<TWidgetConfig>): Promise<TWi
         type: "list",
         message: fieldIdToName.technology,
         choices: [
-          { name: "TypeScript", value: "typescript" },
           { name: "React", value: "react" },
-        ], // , {name: "Vue", disabled: "Coming soon"}],
+          { name: "Vue", value: "vue" },
+          { name: "TypeScript", value: "typescript" },
+        ],
       },
     ],
     partial
   );
 
-export const promptDeployConfig = (
-  partial: Partial<TDeploymentConfig>
-): Promise<TDeploymentConfig> =>
+export const promptDeployConfig = (partial: Partial<DeploymentConfig>): Promise<DeploymentConfig> =>
   inquirer.prompt(
     [
       {
@@ -145,7 +144,7 @@ export const promptDeployConfig = (
     partial
   );
 
-export const promptMiscConfig = (partial: Partial<TOptions>): Promise<TOptions> =>
+export const promptMiscConfig = (partial: Partial<Options>): Promise<Options> =>
   inquirer.prompt(
     [
       {
@@ -153,7 +152,7 @@ export const promptMiscConfig = (partial: Partial<TOptions>): Promise<TOptions> 
         type: "input",
         message:
           fieldIdToName.openUrl +
-          " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or https://localhost:8080)",
+          " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or http://localhost:8080)",
         transformer: prefixUrlProtocol,
         validate: validateMiscConfig.openUrl,
       },

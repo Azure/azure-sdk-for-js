@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { TrainingPollOperationState } from "../lro/training";
+import { DocumentModelOperationState } from "../lro/administration";
 import { PollerOptions } from "./PollerOptions";
 
 /**
@@ -59,7 +59,7 @@ export interface CommonModelCreationOptions {
 export interface CreateModelOptions
   extends OperationOptions,
     CommonModelCreationOptions,
-    PollerOptions<TrainingPollOperationState> {}
+    PollerOptions<DocumentModelOperationState> {}
 
 /**
  * Options for the model build operation.

@@ -8,18 +8,18 @@ import { ConfidentialLedgerClient } from "./generated/src/clientDefinitions";
 import GeneratedConfidentialLedger from "./generated/src/confidentialLedger";
 
 export default function ConfidentialLedger(
-  ledgerBaseUrl: string,
+  ledgerEndpoint: string,
   ledgerIdentityCertificate: string,
   options?: ClientOptions
 ): ConfidentialLedgerClient;
 export default function ConfidentialLedger(
-  ledgerBaseUrl: string,
+  ledgerEndpoint: string,
   ledgerIdentityCertificate: string,
   credentials: TokenCredential,
   options?: ClientOptions
 ): ConfidentialLedgerClient;
 export default function ConfidentialLedger(
-  ledgerBaseUrl: string,
+  ledgerEndpoint: string,
   ledgerIdentityCertificate: string,
   credentialsOrOptions?: TokenCredential | ClientOptions,
   opts?: ClientOptions
@@ -36,7 +36,7 @@ export default function ConfidentialLedger(
 
   const tlsOptions = options?.tlsOptions ?? {};
   tlsOptions.ca = ledgerIdentityCertificate;
-  const confidentialLedger = GeneratedConfidentialLedger(ledgerBaseUrl, credentials!, {
+  const confidentialLedger = GeneratedConfidentialLedger(ledgerEndpoint, credentials!, {
     ...options,
     tlsOptions,
   });

@@ -57,7 +57,12 @@ describe("AbortSignal", () => {
     });
 
     it("AbortSignal is plumbed through all send operations", async () => {
-      const sender = new MessageSender(connectionContext, "fakeEntityPath", {});
+      const sender = new MessageSender(
+        "serviceBusClientId",
+        connectionContext,
+        "fakeEntityPath",
+        {}
+      );
       closeables.push(sender);
 
       let passedInOptions: OperationOptionsBase | undefined;
@@ -85,7 +90,9 @@ describe("AbortSignal", () => {
     });
 
     it("_trySend with an already aborted AbortSignal", async () => {
-      const sender = new MessageSender(connectionContext, "fakeEntityPath", { timeoutInMs: 1 });
+      const sender = new MessageSender("serviceBusClientId", connectionContext, "fakeEntityPath", {
+        timeoutInMs: 1,
+      });
       closeables.push(sender);
 
       sender["open"] = async () => {
@@ -112,7 +119,7 @@ describe("AbortSignal", () => {
     });
 
     it("_trySend when the timer expires", async () => {
-      const sender = new MessageSender(connectionContext, "fakeEntityPath", {
+      const sender = new MessageSender("serviceBusClientId", connectionContext, "fakeEntityPath", {
         timeoutInMs: 1,
       });
       closeables.push(sender);
@@ -158,7 +165,7 @@ describe("AbortSignal", () => {
     });
 
     it("_trySend passes abortSignal to awaitable sender", async () => {
-      const sender = new MessageSender(connectionContext, "fakeEntityPath", {
+      const sender = new MessageSender("serviceBusClientId", connectionContext, "fakeEntityPath", {
         timeoutInMs: 1,
       });
       closeables.push(sender);
@@ -192,7 +199,12 @@ describe("AbortSignal", () => {
 
   describe("MessageSender.open() aborts after...", () => {
     it("...beforeLock", async () => {
-      const sender = new MessageSender(createConnectionContextForTests(), "fakeEntityPath", {});
+      const sender = new MessageSender(
+        "serviceBusClientId",
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        {}
+      );
       closeables.push(sender);
 
       const abortSignal = createCountdownAbortSignal(1);
@@ -207,7 +219,12 @@ describe("AbortSignal", () => {
     });
 
     it("...afterLock", async () => {
-      const sender = new MessageSender(createConnectionContextForTests(), "fakeEntityPath", {});
+      const sender = new MessageSender(
+        "serviceBusClientId",
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        {}
+      );
       closeables.push(sender);
 
       const abortSignal = createCountdownAbortSignal(2);
@@ -226,6 +243,7 @@ describe("AbortSignal", () => {
       const taggedAbortSignal = createAbortSignalForTest(() => isAborted);
 
       const sender = new MessageSender(
+        "serviceBusClientId",
         createConnectionContextForTests({
           onCreateAwaitableSenderCalled: () => {
             /** Nothing to do here */
@@ -254,6 +272,7 @@ describe("AbortSignal", () => {
       const taggedAbortSignal = createAbortSignalForTest(() => isAborted);
 
       const sender = new MessageSender(
+        "serviceBusClientId",
         createConnectionContextForTests({
           onCreateAwaitableSenderCalled: () => {
             isAborted = true;
@@ -281,6 +300,7 @@ describe("AbortSignal", () => {
   describe("MessageReceiver.open() aborts after...", () => {
     it("...before first async call", async () => {
       const messageReceiver = new StreamingReceiver(
+        "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
         defaultOptions
@@ -300,6 +320,7 @@ describe("AbortSignal", () => {
 
     it("...after negotiateClaim", async () => {
       const messageReceiver = new StreamingReceiver(
+        "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
         defaultOptions
@@ -331,7 +352,12 @@ describe("AbortSignal", () => {
           isAborted = true;
         },
       });
-      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath", defaultOptions);
+      const messageReceiver = new StreamingReceiver(
+        "serviceBusClientId",
+        fakeContext,
+        "fakeEntityPath",
+        defaultOptions
+      );
       closeables.push(messageReceiver);
 
       messageReceiver["_negotiateClaim"] = async () => {
@@ -357,10 +383,16 @@ describe("AbortSignal", () => {
     it("SessionReceiver.subscribe", async () => {
       const connectionContext = createConnectionContextForTestsWithSessionId();
 
-      const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello", {
-        retryOptions: undefined,
-        skipParsingBodyAsJson: false,
-      });
+      const messageSession = await MessageSession.create(
+        "serviceBusClientId",
+        connectionContext,
+        "entityPath",
+        "hello",
+        {
+          retryOptions: undefined,
+          skipParsingBodyAsJson: false,
+        }
+      );
 
       const session = new ServiceBusSessionReceiverImpl(
         messageSession,

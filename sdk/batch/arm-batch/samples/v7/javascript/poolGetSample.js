@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets information about the specified pool.
  *
  * @summary Gets information about the specified pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolGet.json
  */
 async function getPool() {
   const subscriptionId = "subid";
@@ -34,7 +34,7 @@ getPool().catch(console.error);
  * This sample demonstrates how to Gets information about the specified pool.
  *
  * @summary Gets information about the specified pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/PoolGet_VirtualMachineConfiguration_Extensions.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolGet_VirtualMachineConfiguration_Extensions.json
  */
 async function getPoolVirtualMachineConfigurationExtensions() {
   const subscriptionId = "subid";

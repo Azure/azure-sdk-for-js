@@ -11,7 +11,7 @@ import {
 import { KeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import { createCommunicationAccessKeyCredentialPolicy } from "../src/credential/communicationAccessKeyCredentialPolicy";
-import { isNode } from "../src/credential/isNode";
+import { isNode } from "@azure/core-util";
 
 describe("CommunicationKeyCredentialPolicy", () => {
   it("signs the request", async () => {

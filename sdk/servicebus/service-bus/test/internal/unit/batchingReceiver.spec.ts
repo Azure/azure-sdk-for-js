@@ -85,11 +85,16 @@ describe("BatchingReceiver unit tests", () => {
       const abortController = new AbortController();
       abortController.abort();
 
-      const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
-        receiveMode: "peekLock",
-        lockRenewer: undefined,
-        skipParsingBodyAsJson: false,
-      });
+      const receiver = new BatchingReceiver(
+        "serviceBusClientId",
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        {
+          receiveMode: "peekLock",
+          lockRenewer: undefined,
+          skipParsingBodyAsJson: false,
+        }
+      );
 
       try {
         await receiver.receive(1, 60 * 1000, 60 * 1000, {
@@ -105,11 +110,16 @@ describe("BatchingReceiver unit tests", () => {
     it("abortSignal while receive is in process", async () => {
       const abortController = new AbortController();
 
-      const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
-        receiveMode: "peekLock",
-        lockRenewer: undefined,
-        skipParsingBodyAsJson: false,
-      });
+      const receiver = new BatchingReceiver(
+        "serviceBusClientId",
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        {
+          receiveMode: "peekLock",
+          lockRenewer: undefined,
+          skipParsingBodyAsJson: false,
+        }
+      );
       closeables.push(receiver);
 
       const listeners = new Set<string>();
@@ -192,6 +202,7 @@ describe("BatchingReceiver unit tests", () => {
 
       it("1. We received 'max messages'", async () => {
         const batchingReceiver = new BatchingReceiver(
+          "serviceBusClientId",
           createConnectionContextForTests(),
           "dummyEntityPath",
           {
@@ -225,6 +236,7 @@ describe("BatchingReceiver unit tests", () => {
       // because otherwise it'd be one of the others.
       it("2. We've waited 'max wait time'", async () => {
         const receiver = new BatchingReceiver(
+          "serviceBusClientId",
           createConnectionContextForTests(),
           "dummyEntityPath",
           {
@@ -258,6 +270,7 @@ describe("BatchingReceiver unit tests", () => {
         `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
         async () => {
           const batchingReceiver = new BatchingReceiver(
+            "serviceBusClientId",
             createConnectionContextForTests(),
             "dummyEntityPath",
             {
@@ -307,6 +320,7 @@ describe("BatchingReceiver unit tests", () => {
       // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
       (lockMode === "receiveAndDelete" ? it : it.skip)(`3b. (without idle timeout)`, async () => {
         const batchingReceiver = new BatchingReceiver(
+          "serviceBusClientId",
           createConnectionContextForTests(),
           "dummyEntityPath",
           {
@@ -362,6 +376,7 @@ describe("BatchingReceiver unit tests", () => {
         "4. sanity check that we're using getRemainingWaitTimeInMs",
         async () => {
           const batchingReceiver = new BatchingReceiver(
+            "serviceBusClientId",
             createConnectionContextForTests(),
             "dummyEntityPath",
             {

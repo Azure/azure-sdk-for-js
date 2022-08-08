@@ -105,6 +105,39 @@ describe(`batch operations`, () => {
     }
   });
 
+  it("should send a set of update batch operations with options", async () => {
+    const actions: TransactionAction[] = [];
+
+    for (const entity of testEntities) {
+      // Get the entity from the server to get the etag
+      const currentEntity = await client.getEntity(entity.partitionKey, entity.rowKey);
+
+      // Update the entity using the etag
+      actions.push([
+        "update",
+        { ...entity, name: "updated" },
+        "Replace",
+        { etag: currentEntity.etag },
+      ]);
+    }
+
+    const batchResult = await client.submitTransaction(actions);
+
+    const updatedEntities = client.listEntities<{ name: string }>({
+      queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
+    });
+
+    assert.equal(batchResult.status, 202);
+    assert.lengthOf(batchResult.subResponses, 3);
+    batchResult.subResponses.forEach((subResponse) => {
+      assert.equal(subResponse?.status, 204);
+    });
+
+    for await (const entity of updatedEntities) {
+      assert.equal(entity.name, "updated");
+    }
+  });
+
   it("should send a set of upsert batch operations", async () => {
     const actions: TransactionAction[] = [];
 
