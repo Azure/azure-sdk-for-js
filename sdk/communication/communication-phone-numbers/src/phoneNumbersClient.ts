@@ -50,7 +50,7 @@ import { CommonClientOptions } from "@azure/core-client";
  * Client options used to configure the PhoneNumbersClient API requests.
  */
 export interface PhoneNumbersClientOptions extends CommonClientOptions {
-  acceptLanguage?: string
+  acceptLanguage?: string;
 }
 
 const isPhoneNumbersClientOptions = (options: any): options is PhoneNumbersClientOptions =>
@@ -145,7 +145,7 @@ export class PhoneNumbersClient {
     try {
       return await this.client.phoneNumbers.getByNumber(phoneNumber, {
         ...updatedOptions,
-        acceptLanguage: this.acceptLanguage
+        acceptLanguage: this.acceptLanguage,
       });
     } catch (e: any) {
       span.setStatus({
@@ -180,7 +180,7 @@ export class PhoneNumbersClient {
     );
     const iter = this.client.phoneNumbers.listPhoneNumbers({
       ...updatedOptions,
-      acceptLanguage: this.acceptLanguage
+      acceptLanguage: this.acceptLanguage,
     });
     span.end();
     return iter;
@@ -397,7 +397,7 @@ export class PhoneNumbersClient {
     );
     const iter = this.client.phoneNumbers.listAvailableCountries({
       ...updatedOptions,
-      acceptLanguage: this.acceptLanguage
+      acceptLanguage: this.acceptLanguage,
     });
     span.end();
     return iter;
