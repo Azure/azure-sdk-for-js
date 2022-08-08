@@ -10,6 +10,7 @@
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";
+import { PrebuiltReadModel } from "./prebuilt/prebuilt-read";
 import { getTextOfSpans } from "./utils";
 dotenv.config();
 
@@ -19,7 +20,8 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginReadDocument(
+  const poller = await client.beginAnalyzeDocument(
+    PrebuiltReadModel,
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf"
   );

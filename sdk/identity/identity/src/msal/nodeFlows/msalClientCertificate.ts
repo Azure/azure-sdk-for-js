@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { readFile } from "fs";
-import { createHash } from "crypto";
+import { createHash, createPrivateKey } from "crypto";
 import { promisify } from "util";
 import { AccessToken } from "@azure/core-auth";
 
@@ -121,9 +121,28 @@ export class MsalClientCertificate extends MsalNode {
   async init(options?: CredentialFlowGetTokenOptions): Promise<void> {
     try {
       const parts = await parseCertificate(this.configuration, this.sendCertificateChain);
+
+      let privateKey: string | undefined;
+      if (this.configuration.certificatePassword !== undefined) {
+        const privateKeyObject = createPrivateKey({
+          key: parts.certificateContents,
+          passphrase: this.configuration.certificatePassword,
+          format: "pem",
+        });
+
+        privateKey = privateKeyObject
+          .export({
+            format: "pem",
+            type: "pkcs8",
+          })
+          .toString();
+      } else {
+        privateKey = parts.certificateContents;
+      }
+
       this.msalConfig.auth.clientCertificate = {
         thumbprint: parts.thumbprint,
-        privateKey: parts.certificateContents,
+        privateKey: privateKey,
         x5c: parts.x5c,
       };
     } catch (error: any) {

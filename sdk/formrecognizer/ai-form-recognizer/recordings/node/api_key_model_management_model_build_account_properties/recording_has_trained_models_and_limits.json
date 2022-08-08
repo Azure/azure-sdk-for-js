@@ -8,23 +8,23 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
-        "x-ms-client-request-id": "60c22147-6741-4716-aeff-8e9ad78f226e"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.5 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Linux-5.18.9-zen1-1-zen)",
+        "x-ms-client-request-id": "fa82527e-21cf-42b5-9347-1332b25dd321"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "0c54a53c-62ff-4113-9a8e-3ff7398cadc9",
+        "apim-request-id": "3380efc2-3585-4a16-8c72-493c84412cb3",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Jun 2022 15:22:32 GMT",
+        "Date": "Thu, 07 Jul 2022 01:07:52 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "41"
+        "x-envoy-upstream-service-time": "29"
       },
       "ResponseBody": {
         "customDocumentModels": {
-          "count": 308,
+          "count": 39,
           "limit": 20000
         }
       }

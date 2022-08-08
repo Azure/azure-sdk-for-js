@@ -4,8 +4,8 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { DocumentAnalysisClient, PrebuiltModels } from "../../../src";
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { DocumentAnalysisClient } from "../../../src";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient, testPollingOptions } from "../../utils/recordedClients";
 
 describe("analysis (browser)", () => {
@@ -26,19 +26,6 @@ describe("analysis (browser)", () => {
     }
   });
 
-  it("recognizes content from a url", async () => {
-    const testingContainerUrl: string = assertEnvironmentVariable(
-      "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"
-    );
-    const urlParts = testingContainerUrl.split("?");
-    const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
-
-    const poller = await client.beginExtractLayout(url, testPollingOptions);
-    const { pages } = await poller.pollUntilDone();
-
-    assert.ok(pages && pages.length > 0, `Expected non-empty pages but got ${pages}`);
-  });
-
   it("recognizes receipt from a url", async () => {
     const testingContainerUrl: string = assertEnvironmentVariable(
       "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"
@@ -46,11 +33,7 @@ describe("analysis (browser)", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
-    const poller = await client.beginAnalyzeDocument(
-      PrebuiltModels.Receipt,
-      url,
-      testPollingOptions
-    );
+    const poller = await client.beginAnalyzeDocument("prebuilt-receipt", url, testPollingOptions);
     const { documents: receipts } = await poller.pollUntilDone();
 
     assert.ok(
