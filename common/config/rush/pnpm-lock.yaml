@@ -15439,7 +15439,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-eGQdYUzG8n/6CloNY828YNmcTHgqpBSgtydG4DjHrLcOBKmyGOKYDAHGioffJG34xTTWajzhrdedUnvL5dchAA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-DeKFZvkewhMgqUjBfTiqJUzqByfNAZeaPmeKfxbk/U/rbbMMgOawo83g3ms8asEZoOgdICpJPPhzK4uKy5RNRQ==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
@@ -15456,6 +15456,7 @@ packages:
       karma-env-preprocessor: 0.1.1
       mkdirp: 1.0.4
       mocha: 10.0.0
+      prettier: 2.7.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1

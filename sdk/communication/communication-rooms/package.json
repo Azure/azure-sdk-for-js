@@ -60,7 +60,7 @@
     "@types/mocha": "^7.0.2",
     "sinon": "~14.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
-    "@azure/core-util": "~1.0.1",
+    "@azure/core-util": "^1.0.0",
     "@types/uuid": "^8.3.4",
     "prettier": "^2.5.1"
   },
