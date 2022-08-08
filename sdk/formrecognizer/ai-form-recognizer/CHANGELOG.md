@@ -13,7 +13,7 @@
 - Separated URL-based and file-based analysis inputs into two separate methods: `beginAnalyzeDocument` (for file stream inputs) and `beginAnalyzeDocumentFromUrl` (for URL-based inputs). Previously, both were accepted as inputs to a single `beginAnalyzeDocument` method, and a string value would be interpreted as if it were a URL, but this was confusing. The two inputs now have distinct signatures and documentation.
 - Removed the `beginExtractLayout`, `beginExtractGeneralDocument`, and `beginReadDocument` methods. Strongly-typed `DocumentModel` instances for the corresponding `prebuilt-layout`, `prebuilt-document`, and `prebuilt-read` models are located in the [`prebuilt` samples directory](https://github.com/azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/).
 - Changed the suffix `-Info` for the methods and interfaces such as `DocumentModelAdministrationClient#getResourceInfo` and `DocumentModelInfo` to `-Details`.
-- Properties such as documents, languages and pages (that are arrays) in the `AnalyzeResult` interface can assume `undefined` now. Previously, would have been empty arrays.
+- Array properties of `AnalyzeResult`, such as `documents`, `languages`, and `pages` are now optional. If the value is `undefined`, then the model does not support the given feature. Previously, we returned an empty array, even if the model didn't support the feature.
 
 ### Bugs Fixed
 
