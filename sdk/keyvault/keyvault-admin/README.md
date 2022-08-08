@@ -26,6 +26,16 @@ Install the Azure Key Vault administration client library for JavaScript and Typ
 npm install @azure/keyvault-admin
 ```
 
+### Configure TypeScript
+
+TypeScript users need to have Node type definitions installed:
+
+```bash
+npm install @types/node
+```
+
+You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook][compiler-options] for more information.
+
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
