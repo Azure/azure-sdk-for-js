@@ -7,7 +7,6 @@
 
 import {
   RoomsClient,
-  ParticipantsCollection,
   RoomParticipant,
   CreateRoomOptions,
 } from "@azure/communication-rooms";
@@ -91,12 +90,12 @@ export async function main() {
 }
 
 /**
- * Outputs the participants within a ParticipantsCollection to console.
- * @param pc - The ParticipantsCollection being printed to console.
+ * Outputs the participants within a Participantsn to console.
+ * @param pc - The Participants being printed to console.
  */
-function printParticipants(pc: ParticipantsCollection): void {
-  console.log(`Number of Participants: ${pc.participants.length}`);
-  for (const participant of pc.participants!) {
+function printParticipants(participants: RoomParticipant[]): void {
+  console.log(`Number of Participants: ${participants.length}`);
+  for (const participant of participants) {
     const id = getIdentifierRawId(participant.id);
     const role = participant.role;
     console.log(`${id} - ${role}`);

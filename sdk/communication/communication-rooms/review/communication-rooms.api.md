@@ -32,12 +32,6 @@ export type GetParticipantsOptions = OperationOptions;
 export type GetRoomOptions = OperationOptions;
 
 // @public
-export interface ParticipantsCollection {
-    // (undocumented)
-    participants: RoomParticipant[];
-}
-
-// @public
 export type RemoveParticipantsOptions = OperationOptions;
 
 // @public
@@ -45,7 +39,7 @@ export type Role = "Presenter" | "Attendee" | "Consumer";
 
 // @public
 export interface Room {
-    createdDateTime: Date;
+    createdOn: Date;
     id: string;
     joinPolicy: RoomJoinPolicy;
     participants: RoomParticipant[];
@@ -70,7 +64,7 @@ export class RoomsClient {
     addParticipants(roomId: string, participants: RoomParticipant[], options?: AddParticipantsOptions): Promise<void>;
     createRoom(options?: CreateRoomOptions): Promise<Room>;
     deleteRoom(roomId: string, options?: DeleteRoomOptions): Promise<void>;
-    getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<ParticipantsCollection>;
+    getParticipants(roomId: string, options?: GetParticipantsOptions): Promise<RoomParticipant[]>;
     getRoom(roomId: string, options?: GetRoomOptions): Promise<Room>;
     removeParticipants(roomId: string, participants: CommunicationUserIdentifier[], options?: RemoveParticipantsOptions): Promise<void>;
     updateParticipants(roomId: string, participants: RoomParticipant[], options?: UpdateParticipantsOptions): Promise<void>;

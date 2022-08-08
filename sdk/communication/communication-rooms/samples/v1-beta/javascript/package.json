@@ -1,14 +1,10 @@
 {
-  "name": "@azure-samples/communication-rooms-ts",
+  "name": "@azure-samples/communication-rooms-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Communication Services - Rooms client library samples for TypeScript",
+  "description": "Azure Communication Services - Rooms client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=12.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -23,7 +19,8 @@
     "isomorphic",
     "Azure",
     "communication",
-    "rooms"
+    "rooms",
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -32,14 +29,9 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms",
   "dependencies": {
-    "@azure/communication-rooms": "latest",
+    "@azure/communication-rooms": "next",
     "dotenv": "latest",
     "@azure/communication-identity": "^1.1.0-beta.2",
-    "@azure/communication-common": "~2.1.0"
-  },
-  "devDependencies": {
-    "@types/node": "^12.0.0",
-    "typescript": "~4.6.0",
-    "rimraf": "latest"
+    "@azure/communication-common": "^2.1.0"
   }
 }

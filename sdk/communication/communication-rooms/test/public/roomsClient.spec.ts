@@ -198,12 +198,12 @@ describe("RoomsClient", function () {
       await client.addParticipants(roomId, participants);
       const addParticipantsResult = await client.getParticipants(roomId);
       assert.isDefined(addParticipantsResult);
-      assert.isNotEmpty(addParticipantsResult.participants);
+      assert.isNotEmpty(addParticipantsResult);
       assert.equal(
-        getIdentifierRawId(addParticipantsResult.participants[0].id),
+        getIdentifierRawId(addParticipantsResult[0].id),
         getIdentifierRawId(participants[0].id)
       );
-      assert.equal(addParticipantsResult.participants[0].role, participants[0].role);
+      assert.equal(addParticipantsResult[0].role, participants[0].role);
     });
 
     it("successfully removes a participant from the room", async function () {

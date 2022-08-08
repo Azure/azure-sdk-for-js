@@ -60,7 +60,7 @@ export async function main() {
   validUntil.setTime(validFrom.getTime() + 5 * 60 * 1000);
 
   // request payload to update a room
-  const updateRoomRequest: UpdateRoomOptions = {
+  const updateRoomOptions: UpdateRoomOptions = {
     validFrom: validFrom,
     validUntil: validUntil,
     roomJoinPolicy: "CommunicationServiceUsers",
@@ -77,7 +77,7 @@ export async function main() {
   };
 
   // updates the specified room with the request payload
-  const updateRoom = await roomsClient.updateRoom(roomId, updateRoomRequest);
+  const updateRoom = await roomsClient.updateRoom(roomId, updateRoomOptions);
   console.log(`Updated Room`);
   printRoom(updateRoom);
 
