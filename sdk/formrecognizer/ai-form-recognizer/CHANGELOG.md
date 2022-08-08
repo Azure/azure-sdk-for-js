@@ -14,7 +14,6 @@
 - Removed the `beginExtractLayout`, `beginExtractGeneralDocument`, and `beginReadDocument` methods. Strongly-typed `DocumentModel` instances for the corresponding `prebuilt-layout`, `prebuilt-document`, and `prebuilt-read` models are located in the [`prebuilt` samples directory](https://github.com/azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/).
 - Changed the suffix `-Info` for the methods and interfaces such as `DocumentModelAdministrationClient#getResourceInfo` and `DocumentModelInfo` to `-Details`.
 - Properties such as documents, languages and pages (that are arrays) in the `AnalyzeResult` interface can assume `undefined` now. Previously, would have been empty arrays.
-- In `DocumentModelAdministrationClient` client, method `getInfo` is renamed as `getResourceInfo`.
 
 ### Bugs Fixed
 
