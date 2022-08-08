@@ -473,14 +473,14 @@ export class DocumentModelAdministrationClient {
    *
    * ```javascript
    * const {
-   *   // information about the custom models in the current resource
+   *   // Information about the custom models in the current resource
    *   customDocumentModelDetails: {
    *     // The number of custom models in the current resource
    *     count,
    *     // The maximum number of models that the current resource can support
    *     limit
    *   }
-   * } = await client.getDetails();
+   * } = await client.getResourceDetails();
    * ```
    *
    * @param options - optional settings for the request
@@ -571,7 +571,7 @@ export class DocumentModelAdministrationClient {
    *     description, // a textual description of the model, if provided during model creation
    *   } = summary;
    *
-   *   // You can get the full model Details using `getModel`
+   *   // You can get the full model info using `getModel`
    *   const model = await client.getModel(modelId);
    * }
    * ```
@@ -590,7 +590,7 @@ export class DocumentModelAdministrationClient {
    *       description, // a textual description of the model, if provided during model creation
    *     } = summary;
    *
-   *     // You can get the full model Details using `getModel`
+   *     // You can get the full model info using `getModel`
    *     const model = await client.getModel(modelId);
    *   }
    * }
@@ -666,7 +666,7 @@ export class DocumentModelAdministrationClient {
    * const pages = client.listOperations().byPage();
    *
    * for await (const page of pages) {
-   *   // Each page is an array of operation Details objects and can be iterated synchronously
+   *   // Each page is an array of operation info objects and can be iterated synchronously
    *   for (const operation of page) {
    *     const {
    *       operationId, // the operation's GUID
