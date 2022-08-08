@@ -165,6 +165,7 @@ describe("DataLakeServiceClient", () => {
     await cClient.create({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
 
@@ -197,6 +198,7 @@ describe("DataLakeServiceClient", () => {
     await cClient.create({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
 

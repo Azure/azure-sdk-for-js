@@ -831,6 +831,7 @@ export type FileSystemDeleteResponse = FileSystemDeleteHeaders & {
 // @public
 export interface FileSystemEncryptionScope {
     defaultEncryptionScope?: string;
+    preventEncryptionScopeOverride?: boolean;
 }
 
 // @public

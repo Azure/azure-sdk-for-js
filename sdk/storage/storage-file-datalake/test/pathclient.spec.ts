@@ -1453,6 +1453,7 @@ describe("DataLakePathClient - Encryption Scope", () => {
     await fileSystemClient.createIfNotExists({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
   });

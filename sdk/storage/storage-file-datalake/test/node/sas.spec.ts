@@ -116,6 +116,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await filesystemClient.create({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
     await filesystemClient.delete();
@@ -285,6 +286,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.create({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
 
@@ -300,10 +302,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasClient = `${fileSystemClient.url}?${containerSAS}`;
-    const fileSystemClientwithSAS = new DataLakeFileSystemClient(
-      sasClient,
-      newPipeline(new AnonymousCredential())
-    );
+    const fileSystemClientwithSAS = new DataLakeFileSystemClient(sasClient, newPipeline());
 
     const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
@@ -444,6 +443,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.create({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
 
@@ -462,10 +462,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
-    const fileClientWithSAS = new DataLakeFileClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const fileClientWithSAS = new DataLakeFileClient(sasURL, newPipeline());
 
     await fileClientWithSAS.create();
 
@@ -1021,6 +1018,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.create({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
 
@@ -1081,6 +1079,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.createIfNotExists({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
     const result = await fileSystemClient.getProperties();
@@ -1133,6 +1132,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.createIfNotExists({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
 
@@ -1165,6 +1165,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.createIfNotExists({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
 

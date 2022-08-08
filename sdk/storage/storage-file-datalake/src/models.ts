@@ -1218,7 +1218,7 @@ export interface FileAppendOptions extends CommonOptions {
    */
   customerProvidedKey?: CpkInfo;
   /**
-   * If file should be flushed after the append
+   * If file should be flushed automatically after the append
    */
   flush?: boolean;
 }
@@ -1539,6 +1539,9 @@ export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
 export declare interface FileSystemEncryptionScope {
   /** Optional.  Version 2021-02-12 and later.  Specifies the default encryption scope to set on the file system and use for all future writes. */
   defaultEncryptionScope?: string;
+
+  /** Optional.  Version 2021-02-12 and newer.  If true, prevents any request from specifying a different encryption scope than the scope set on the container. */
+  preventEncryptionScopeOverride?: boolean;
 }
 
 /** *********************************************************/

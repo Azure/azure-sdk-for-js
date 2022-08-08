@@ -143,6 +143,27 @@ describe("DataLakeFileSystemClient", () => {
     await cClient.create({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+    const result = await cClient.getProperties();
+    assert.equal(result.defaultEncryptionScope, encryptionScopeName);
+    await cClient.delete();
+  });
+
+  it("create with encryption scope - preventEncryptionScopeOverride : false", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: false,
       },
     });
     const result = await cClient.getProperties();
@@ -219,6 +240,7 @@ describe("DataLakeFileSystemClient", () => {
     await cClient.create({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
 
@@ -250,6 +272,7 @@ describe("DataLakeFileSystemClient", () => {
     await cClient.create({
       fileSystemEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
       },
     });
 
