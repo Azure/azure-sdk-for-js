@@ -1023,19 +1023,15 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
     describe("vaccinationCard", function () {
       const validator = createValidator({
-        cardHolderDetails: {
+        cardHolderInfo: {
           firstName: "Angel",
         },
         vaccines: [
           {
             manufacturer: "Pfizer",
-            // TODO: date format incorrect
-            // dateAdministered: "2021-11-10T05:00:00.000Z",
           },
           {
             manufacturer: "Pfizer",
-            // TODO: date format incorrect
-            // dateAdministered: "2021-12-04T05:00:00.000Z",
           },
         ],
       });
