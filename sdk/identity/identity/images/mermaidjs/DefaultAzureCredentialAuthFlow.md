@@ -5,7 +5,7 @@
 %% 2. Run command: mmdc -i DefaultAzureCredentialAuthFlow.md -o DefaultAzureCredentialAuthFlow.svg
 
 flowchart LR;
-    A(Environment):::deployed ==> B(Managed Identity):::deployed ==>  ==> D(Azure CLI):::developer ==> E(Azure PowerShell):::developer;
+    A(Environment):::deployed ==> B(Managed Identity):::deployed ==> D(Azure CLI):::developer ==> E(Azure PowerShell):::developer;
 
     subgraph CREDENTIAL TYPES;
         direction LR;
