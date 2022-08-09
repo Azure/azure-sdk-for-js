@@ -114,15 +114,15 @@ export class PhoneNumbersClient {
    * @param phoneNumber - The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
    * @param options - Additional request options.
    */
-  public async getPurchasedPhoneNumber(
+  public getPurchasedPhoneNumber(
     phoneNumber: string,
     options: GetPurchasedPhoneNumberOptions = {}
   ): Promise<PurchasedPhoneNumber> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-getPurchasedPhoneNumber",
       options,
-      async (updatedOptions) => {
-        return await this.client.phoneNumbers.getByNumber(phoneNumber, updatedOptions);
+      (updatedOptions) => {
+        return this.client.phoneNumbers.getByNumber(phoneNumber, updatedOptions);
       }
     );
   }
@@ -182,15 +182,15 @@ export class PhoneNumbersClient {
    * @param phoneNumber - The E.164 formatted phone number being released. The leading plus can be either + or encoded as %2B.
    * @param options - Additional request options.
    */
-  public async beginReleasePhoneNumber(
+  public beginReleasePhoneNumber(
     phoneNumber: string,
     options: BeginReleasePhoneNumberOptions = {}
   ): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginReleasePhoneNumber",
       options,
-      async (updatedOptions) => {
-        return await this.client.phoneNumbers.beginReleasePhoneNumber(phoneNumber, updatedOptions);
+      (updatedOptions) => {
+        return this.client.phoneNumbers.beginReleasePhoneNumber(phoneNumber, updatedOptions);
       }
     );
   }
@@ -217,14 +217,14 @@ export class PhoneNumbersClient {
    * @param search - Request properties to constraint the search scope.
    * @param options - Additional request options.
    */
-  public async beginSearchAvailablePhoneNumbers(
+  public beginSearchAvailablePhoneNumbers(
     search: SearchAvailablePhoneNumbersRequest,
     options: BeginSearchAvailablePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginSearchAvailablePhoneNumbers",
       options,
-      async (updatedOptions) => {
+      (updatedOptions) => {
         const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
         return this.client.phoneNumbers.beginSearchAvailablePhoneNumbers(
           countryCode,
@@ -261,7 +261,7 @@ export class PhoneNumbersClient {
    * @param searchId - The id of the search to purchase. Returned from `beginSearchAvailablePhoneNumbers`
    * @param options - Additional request options.
    */
-  public async beginPurchasePhoneNumbers(
+  public beginPurchasePhoneNumbers(
     searchId: string,
     options: BeginPurchasePhoneNumbersOptions = {}
   ): Promise<
@@ -270,7 +270,7 @@ export class PhoneNumbersClient {
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
       options,
-      async (updatedOptions) => {
+      (updatedOptions) => {
         return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
       }
     );
@@ -298,7 +298,7 @@ export class PhoneNumbersClient {
    * @param request - The updated properties which will be applied to the phone number.
    * @param options - Additional request options.
    */
-  public async beginUpdatePhoneNumberCapabilities(
+  public beginUpdatePhoneNumberCapabilities(
     phoneNumber: string,
     request: PhoneNumberCapabilitiesRequest,
     options: BeginUpdatePhoneNumberCapabilitiesOptions = {}
@@ -306,7 +306,7 @@ export class PhoneNumbersClient {
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginUpdatePhoneNumberCapabilities",
       options,
-      async (updatedOptions) => {
+      (updatedOptions) => {
         return this.client.phoneNumbers.beginUpdateCapabilities(phoneNumber, {
           ...updatedOptions,
           ...request,
