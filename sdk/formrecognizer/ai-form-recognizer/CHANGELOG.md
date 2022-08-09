@@ -5,6 +5,7 @@
 ### Features Added
 
 - Refactored generic `DocumentModel` support to be more robust to different kinds of models. It now supports strongly-typed results for `prebuilt-read`, `prebuilt-layout`, and `prebuilt-document`. See the "Breaking Changes" section for more information about how to replace existing usage of `PrebuiltModels` with new model code.
+- `DocumentModelAdministrationClient#getOperation` returns additional `result` (operation result) and `error` (includes detailed error info) fields.
 
 ### Breaking Changes
 
@@ -12,12 +13,18 @@
 - Separated URL-based and file-based analysis inputs into two separate methods: `beginAnalyzeDocument` (for file stream inputs) and `beginAnalyzeDocumentFromUrl` (for URL-based inputs). Previously, both were accepted as inputs to a single `beginAnalyzeDocument` method, and a string value would be interpreted as if it were a URL, but this was confusing. The two inputs now have distinct signatures and documentation.
 - Removed the `beginExtractLayout`, `beginExtractGeneralDocument`, and `beginReadDocument` methods. Strongly-typed `DocumentModel` instances for the corresponding `prebuilt-layout`, `prebuilt-document`, and `prebuilt-read` models are located in the [`prebuilt` samples directory](https://github.com/azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/).
 - Changed the suffix `-Info` for the methods and interfaces such as `DocumentModelAdministrationClient#getResourceInfo` and `DocumentModelInfo` to `-Details`.
+- Array properties of `AnalyzeResult`, such as `documents`, `languages`, and `pages` are now optional. If the value is `undefined`, then the model does not support the given feature. Previously, we returned an empty array, even if the model didn't support the feature.
 
 ### Bugs Fixed
 
 ### Other Changes
 
 - Strongly-typed analysis functionality now checks that the `DocumentAnalysisClient`'s API version now matches the assumed API version of the `DocumentModel` exactly. This ensures that a strongly-typed model can only be used with the API version it was created for, so that future changes cannot violate the model's schema.
+- Renamed the following types:
+  - `TrainingPoller` -> `DocumentModelPoller`
+  - `GetInfoResponse` -> `ResourceDetails`
+  - In instances where we use `Model` as a prefix, updated it to `DocumentModel`. For example, `ModelInfo` -> `DocumentModelDetails`, `ModelSummary` -> `DocumentModelSummary`.
+  - `BuildModelOptions` -> `CreateModelOptions`, the options bag types for `beginComposeModel` and `beginCopyModelTo`, and `beginBuildModel` methods inherit from `CreateModelOptions`.
 
 ## 4.0.0-beta.5 (2022-06-22)
 
