@@ -36,12 +36,11 @@ import { CreateChatThreadRequest } from "./models/requests";
 import { EventEmitter } from "events";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-import { createSpan } from "./tracing";
 import { generateUuid } from "./models/uuid";
 import { getSignalingClient } from "./signaling/signalingClient";
 import { logger } from "./models/logger";
+import { tracingClient } from "./generated/src/tracing";
 
 /**
  * The client to do chat operations
@@ -111,9 +110,7 @@ export class ChatClient {
     request: CreateChatThreadRequest,
     options: CreateChatThreadOptions = {}
   ): Promise<CreateChatThreadResult> {
-    const { span, updatedOptions } = createSpan("ChatClient-CreateChatThread", options);
-
-    try {
+    return tracingClient.withSpan("ChatClient-CreateChatThread", options, async (updatedOptions) => {
       // We generate an UUID if the user does not provide an idempotencyToken value
       updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
       const updatedRestModelOptions = mapToCreateChatThreadOptionsRestModel(updatedOptions);
@@ -128,15 +125,7 @@ export class ChatClient {
         updatedRestModelOptions
       );
       return mapToCreateChatThreadResultSdkModel(result);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   private async *listChatThreadsPage(
@@ -180,7 +169,7 @@ export class ChatClient {
   public listChatThreads(
     options: ListChatThreadsOptions = {}
   ): PagedAsyncIterableIterator<ChatThreadItem> {
-    const { span, updatedOptions } = createSpan("ChatClient-ListChatThreads", options);
+    const { span, updatedOptions } = tracingClient.startSpan("ChatClient-ListChatThreads", options);
     try {
       const iter = this.listChatThreadsAll(updatedOptions);
       return {
@@ -196,8 +185,8 @@ export class ChatClient {
       };
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        error: e,
+        status: "error"
       });
       throw e;
     } finally {
@@ -214,19 +203,9 @@ export class ChatClient {
     threadId: string,
     options: DeleteChatThreadOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ChatClient-DeleteChatThread", options);
-
-    try {
+    return tracingClient.withSpan("ChatClient-DeleteChatThread", options, async (updatedOptions) => {
       await this.client.chat.deleteChatThread(threadId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
