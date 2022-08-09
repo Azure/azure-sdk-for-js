@@ -6,15 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
-import "@azure/core-paging";
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ManagedPrivateEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ManagedPrivateEndpointsClientContext } from "../managedPrivateEndpointsClientContext";
+import { ManagedPrivateEndpointsClient } from "../managedPrivateEndpointsClient";
 import {
   ManagedPrivateEndpoint,
   ManagedPrivateEndpointsListNextOptionalParams,
@@ -31,13 +29,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedPrivateEndpoints operations. */
 export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
-  private readonly client: ManagedPrivateEndpointsClientContext;
+  private readonly client: ManagedPrivateEndpointsClient;
 
   /**
    * Initialize a new instance of the class ManagedPrivateEndpoints class.
    * @param client Reference to the service client
    */
-  constructor(client: ManagedPrivateEndpointsClientContext) {
+  constructor(client: ManagedPrivateEndpointsClient) {
     this.client = client;
   }
 
@@ -105,25 +103,16 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     managedPrivateEndpointName: string,
     options?: ManagedPrivateEndpointsGetOptionalParams
   ): Promise<ManagedPrivateEndpointsGetResponse> {
-    const { span } = createSpan(
-      "ManagedPrivateEndpointsClient-get",
-      options || {}
+    return tracingClient.withSpan(
+      "ManagedPrivateEndpointsClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { managedVirtualNetworkName, managedPrivateEndpointName, options },
+          getOperationSpec
+        ) as Promise<ManagedPrivateEndpointsGetResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { managedVirtualNetworkName, managedPrivateEndpointName, options },
-        getOperationSpec
-      );
-      return result as ManagedPrivateEndpointsGetResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -139,30 +128,21 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     managedPrivateEndpoint: ManagedPrivateEndpoint,
     options?: ManagedPrivateEndpointsCreateOptionalParams
   ): Promise<ManagedPrivateEndpointsCreateResponse> {
-    const { span } = createSpan(
-      "ManagedPrivateEndpointsClient-create",
-      options || {}
+    return tracingClient.withSpan(
+      "ManagedPrivateEndpointsClient.create",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          {
+            managedVirtualNetworkName,
+            managedPrivateEndpointName,
+            managedPrivateEndpoint,
+            options
+          },
+          createOperationSpec
+        ) as Promise<ManagedPrivateEndpointsCreateResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        {
-          managedVirtualNetworkName,
-          managedPrivateEndpointName,
-          managedPrivateEndpoint,
-          options
-        },
-        createOperationSpec
-      );
-      return result as ManagedPrivateEndpointsCreateResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -176,25 +156,16 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     managedPrivateEndpointName: string,
     options?: ManagedPrivateEndpointsDeleteOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "ManagedPrivateEndpointsClient-delete",
-      options || {}
+    return tracingClient.withSpan(
+      "ManagedPrivateEndpointsClient.delete",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { managedVirtualNetworkName, managedPrivateEndpointName, options },
+          deleteOperationSpec
+        ) as Promise<void>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { managedVirtualNetworkName, managedPrivateEndpointName, options },
-        deleteOperationSpec
-      );
-      return result as void;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -206,25 +177,16 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     managedVirtualNetworkName: string,
     options?: ManagedPrivateEndpointsListOptionalParams
   ): Promise<ManagedPrivateEndpointsListResponse> {
-    const { span } = createSpan(
-      "ManagedPrivateEndpointsClient-_list",
-      options || {}
+    return tracingClient.withSpan(
+      "ManagedPrivateEndpointsClient._list",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { managedVirtualNetworkName, options },
+          listOperationSpec
+        ) as Promise<ManagedPrivateEndpointsListResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { managedVirtualNetworkName, options },
-        listOperationSpec
-      );
-      return result as ManagedPrivateEndpointsListResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -238,25 +200,16 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     nextLink: string,
     options?: ManagedPrivateEndpointsListNextOptionalParams
   ): Promise<ManagedPrivateEndpointsListNextResponse> {
-    const { span } = createSpan(
-      "ManagedPrivateEndpointsClient-_listNext",
-      options || {}
+    return tracingClient.withSpan(
+      "ManagedPrivateEndpointsClient._listNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { managedVirtualNetworkName, nextLink, options },
+          listNextOperationSpec
+        ) as Promise<ManagedPrivateEndpointsListNextResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { managedVirtualNetworkName, nextLink, options },
-        listNextOperationSpec
-      );
-      return result as ManagedPrivateEndpointsListNextResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications

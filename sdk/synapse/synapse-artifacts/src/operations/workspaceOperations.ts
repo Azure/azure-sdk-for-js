@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { WorkspaceOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -34,22 +33,16 @@ export class WorkspaceOperationsImpl implements WorkspaceOperations {
   async get(
     options?: WorkspaceGetOptionalParams
   ): Promise<WorkspaceGetResponse> {
-    const { span } = createSpan("ArtifactsClient-get", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getOperationSpec
-      );
-      return result as WorkspaceGetResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getOperationSpec
+        ) as Promise<WorkspaceGetResponse>;
+      }
+    );
   }
 }
 // Operation Specifications

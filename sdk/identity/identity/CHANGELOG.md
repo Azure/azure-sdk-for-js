@@ -5,6 +5,7 @@
 ### Features Added
 
 ### Breaking Changes
+- Removed `VisualStudioCodeCredential` from `DefaultAzureCredential` token chain. [Issue 20500](https://github.com/Azure/azure-sdk-for-js/issues/20500) tracks this.
 
 ### Bugs Fixed
 
