@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @azsdk-util
- * @azsdk-skip-javascript
- */
-
 // Model:       prebuilt-layout
 // Description: Extract text and layout information from documents.
 // API Version: 2022-06-30-preview

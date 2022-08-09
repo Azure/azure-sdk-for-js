@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @azsdk-util
- * @azsdk-skip-javascript
- */
-
-// Model:       prebuilt-layout
-// Description: Extract text and layout information from documents.
+// Model:       prebuilt-document
+// Description: Extract text, layout, entities, and general key-value pairs from documents.
 // API Version: 2022-06-30-preview
 // Created:     Thu Jul 14 2022
 
 import * as fr from "@azure/ai-form-recognizer";
 
 /**
- * Extract text and layout information from documents.
+ * Extract text, layout, entities, and general key-value pairs from documents.
  */
-export const PrebuiltLayoutModel = fr.createModelFromSchema(
+export const PrebuiltDocumentModel = fr.createModelFromSchema(
   modelInfo()
-) as fr.DocumentModel<PrebuiltLayoutResult>;
+) as fr.DocumentModel<PrebuiltDocumentResult>;
 
-export interface PrebuiltLayoutResult extends fr.AnalyzeResultCommon {
+export interface PrebuiltDocumentResult extends fr.AnalyzeResultCommon {
   /**
    * Extracted pages.
    */
@@ -37,6 +32,10 @@ export interface PrebuiltLayoutResult extends fr.AnalyzeResultCommon {
    * Extracted tables.
    */
   tables?: fr.DocumentTable[];
+  /**
+   * Extracted key-value pairs.
+   */
+  keyValuePairs?: fr.DocumentKeyValuePair[];
 }
 
 /**
@@ -44,8 +43,8 @@ export interface PrebuiltLayoutResult extends fr.AnalyzeResultCommon {
  */
 function modelInfo() {
   return {
-    modelId: "prebuilt-layout",
-    description: "Extract text and layout information from documents.",
+    modelId: "prebuilt-document",
+    description: "Extract text, layout, entities, and general key-value pairs from documents.",
     createdDateTime: "2022-06-30T00:00:00.000Z",
     apiVersion: "2022-06-30-preview",
   } as const;
