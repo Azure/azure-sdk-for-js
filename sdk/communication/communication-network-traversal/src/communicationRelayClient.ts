@@ -128,9 +128,10 @@ export class CommunicationRelayClient {
       "CommunicationNetworkTraversal_IssueRelayConfiguration",
       requestOptions,
       async (updatedOptions) => {
-      return await this.client.communicationNetworkTraversal.issueRelayConfiguration(
-        updatedOptions
-      );
-      });
+        return await this.client.communicationNetworkTraversal.issueRelayConfiguration(
+          updatedOptions
+        );
+      }
+    );
   }
 }
