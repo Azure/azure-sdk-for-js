@@ -4,6 +4,7 @@
 
 ```ts
 
+import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 
 // @public
@@ -226,9 +227,9 @@ export interface SparkBatchJobState {
     terminatedAt?: Date;
 }
 
-// @public (undocumented)
+// @public
 export class SparkClient extends coreClient.ServiceClient {
-    constructor(endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
     // (undocumented)
     endpoint: string;
     // (undocumented)
