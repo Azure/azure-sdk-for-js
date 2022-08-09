@@ -110,22 +110,26 @@ export class ChatClient {
     request: CreateChatThreadRequest,
     options: CreateChatThreadOptions = {}
   ): Promise<CreateChatThreadResult> {
-    return tracingClient.withSpan("ChatClient-CreateChatThread", options, async (updatedOptions) => {
-      // We generate an UUID if the user does not provide an idempotencyToken value
-      updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
-      const updatedRestModelOptions = mapToCreateChatThreadOptionsRestModel(updatedOptions);
+    return tracingClient.withSpan(
+      "ChatClient-CreateChatThread",
+      options,
+      async (updatedOptions) => {
+        // We generate an UUID if the user does not provide an idempotencyToken value
+        updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
+        const updatedRestModelOptions = mapToCreateChatThreadOptionsRestModel(updatedOptions);
 
-      const result = await this.client.chat.createChatThread(
-        {
-          topic: request.topic,
-          participants: options.participants?.map((participant) =>
-            mapToChatParticipantRestModel(participant)
-          ),
-        },
-        updatedRestModelOptions
-      );
-      return mapToCreateChatThreadResultSdkModel(result);
-    });
+        const result = await this.client.chat.createChatThread(
+          {
+            topic: request.topic,
+            participants: options.participants?.map((participant) =>
+              mapToChatParticipantRestModel(participant)
+            ),
+          },
+          updatedRestModelOptions
+        );
+        return mapToCreateChatThreadResultSdkModel(result);
+      }
+    );
   }
 
   private async *listChatThreadsPage(
@@ -186,7 +190,7 @@ export class ChatClient {
     } catch (e: any) {
       span.setStatus({
         error: e,
-        status: "error"
+        status: "error",
       });
       throw e;
     } finally {
@@ -203,9 +207,13 @@ export class ChatClient {
     threadId: string,
     options: DeleteChatThreadOptions = {}
   ): Promise<void> {
-    return tracingClient.withSpan("ChatClient-DeleteChatThread", options, async (updatedOptions) => {
-      await this.client.chat.deleteChatThread(threadId, updatedOptions);
-    });
+    return tracingClient.withSpan(
+      "ChatClient-DeleteChatThread",
+      options,
+      async (updatedOptions) => {
+        await this.client.chat.deleteChatThread(threadId, updatedOptions);
+      }
+    );
   }
 
   /**
