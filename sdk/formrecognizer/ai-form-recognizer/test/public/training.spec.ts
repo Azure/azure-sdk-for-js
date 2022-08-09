@@ -18,7 +18,7 @@ import {
 import {
   DocumentAnalysisClient,
   DocumentModelAdministrationClient,
-  DocumentModelInfo,
+  DocumentModelDetails,
 } from "../../src";
 import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions";
 
@@ -77,7 +77,7 @@ matrix(
         });
 
         describe(`custom model from trainingdata-v3 (${buildMode})`, async () => {
-          let _model: DocumentModelInfo;
+          let _model: DocumentModelDetails;
 
           let modelId: string;
 
@@ -85,7 +85,7 @@ matrix(
           // precedence, we have to create it in a test, so one test will end up
           // recording the entire creation and the other tests will still be able
           // to use it
-          async function requireModel(): Promise<DocumentModelInfo> {
+          async function requireModel(): Promise<DocumentModelDetails> {
             if (!_model) {
               // Compute a unique name for the model
               modelId = recorder.variable(getId().toString(), `modelName${getRandomNumber()}`);
@@ -178,11 +178,11 @@ matrix(
           it("getModel() verification", async () => {
             const model = await requireModel();
 
-            const modelInfo = await client.getModel(model.modelId);
+            const modelDetails = await client.getModel(model.modelId);
 
-            assert.strictEqual(modelInfo.modelId, model.modelId);
-            assert.strictEqual(modelInfo.description, model.description);
-            assert.ok(modelInfo.docTypes);
+            assert.strictEqual(modelDetails.modelId, model.modelId);
+            assert.strictEqual(modelDetails.description, model.description);
+            assert.ok(modelDetails.docTypes);
           });
         });
 
@@ -193,7 +193,7 @@ matrix(
           it("has trained models and limits", async () => {
             const {
               customDocumentModels: { count, limit },
-            } = await client.getResourceInfo();
+            } = await client.getResourceDetails();
 
             // Model count should be >0 because we just trained several models
             assert.isTrue(count > 0);

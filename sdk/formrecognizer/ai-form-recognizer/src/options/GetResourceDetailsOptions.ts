@@ -6,4 +6,4 @@ import { OperationOptions } from "@azure/core-client";
 /**
  * Options for retrieving Form Recognizer resource information.
  */
-export interface GetResourceInfoOptions extends OperationOptions {}
+export interface GetResourceDetailsOptions extends OperationOptions {}
