@@ -25,10 +25,7 @@ if ($deps)
 }
 Write-Host "Installing $($apiviewParser)"
 npm install $apiviewParser --registry $NpmDevopsFeedRegistry
-$npmlist = npm list @azure-tools/ts-genapi
-Write-Host $npmlist
-$nodeModulesPath = npm root -g
-$installedPath = Join-Path -Path $nodeModulesPath "@azure-tools/ts-genapi"
+$installedPath = npm ls @azure-tools/ts-genapi -p
 if (!(Test-Path -Path $installedPath))
 {
   Write-Host "@Azure-tools/ts-genapi is not installed to $($installedPath)"
