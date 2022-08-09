@@ -129,7 +129,7 @@ If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate 
 
 #### Note about `VisualStudioCodeCredential`
 
-Due to a [known issue](https://github.com/Azure/azure-sdk-for-java/issues/27364), `VisualStudioCodeCredential` has been removed from the `DefaultAzureCredential` token chain. When the issue is resolved in a future release it will return.
+Due to a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500), `VisualStudioCodeCredential` has been removed from the `DefaultAzureCredential` token chain. When the issue is resolved in a future release it will return.
 
 ## Plugins
 
