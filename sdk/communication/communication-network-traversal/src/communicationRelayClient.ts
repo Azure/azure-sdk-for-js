@@ -13,9 +13,8 @@ import {
 } from "@azure/communication-common";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { NetworkRelayRestClient } from "./generated/src/networkRelayRestClient";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./common/tracing";
 import { logger } from "./common/logger";
+import { tracingClient } from "./common/tracing";
 
 const isCommunicationRelayClientOptions = (
   options: any
@@ -111,9 +110,6 @@ export class CommunicationRelayClient {
   /**
    * Gets a TURN credential for a user
    *
-   * @param user - The user for whom to issue a token
-   * @param routeType - The specified routeType for the relay request
-   * @param ttl - The specified time to live for the relay credential in seconds
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(
@@ -128,23 +124,13 @@ export class CommunicationRelayClient {
       requestOptions.ttl = options.ttl;
     }
 
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "CommunicationNetworkTraversal_IssueRelayConfiguration",
-      requestOptions
-    );
-
-    try {
+      requestOptions,
+      async (updatedOptions) => {
       return await this.client.communicationNetworkTraversal.issueRelayConfiguration(
         updatedOptions
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
       });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }
