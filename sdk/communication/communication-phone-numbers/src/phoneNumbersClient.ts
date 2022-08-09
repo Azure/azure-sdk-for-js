@@ -32,7 +32,8 @@ import {
 } from "./lroModels";
 import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 import { CommonClientOptions } from "@azure/core-client";
-import { logger, tracingClient } from "./utils";
+import { logger } from "./utils";
+import { tracingClient } from "./generated/src/tracing";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.

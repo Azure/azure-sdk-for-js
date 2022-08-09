@@ -14,7 +14,7 @@ import {
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { NetworkRelayRestClient } from "./generated/src/networkRelayRestClient";
 import { logger } from "./common/logger";
-import { tracingClient } from "./common/tracing";
+import { tracingClient } from "./generated/src/tracing";
 
 const isCommunicationRelayClientOptions = (
   options: any

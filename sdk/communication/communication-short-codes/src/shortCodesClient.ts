@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+
 import {
   AttachmentType,
   DeleteUSProgramBriefOptions,
@@ -15,6 +15,7 @@ import {
   ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
   SubmitUSProgramBriefOptions,
 } from "./models";
+import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   ProgramBriefAttachment,
@@ -22,11 +23,12 @@ import {
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief,
 } from "./generated/src/models/";
-import { logger, tracingClient } from "./utils";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
+import { logger } from "./utils";
+import { tracingClient } from "./generated/src/tracing";
 /**
  * Client options used to configure the ShortCodesClient API requests.
  */
@@ -96,36 +98,36 @@ export class ShortCodesClient {
     }
   }
 
-  public async upsertUSProgramBrief(
+  public upsertUSProgramBrief(
     programBriefId: string,
     options: ShortCodesUpsertUSProgramBriefOptionalParams = {}
   ): Promise<USProgramBrief> {
-    return tracingClient.withSpan("ShortCodesClient-upsertUSProgramBrief", options, async (updatedOptions) => {
-      return await this.client.shortCodesOperations.upsertUSProgramBrief(
+    return tracingClient.withSpan("ShortCodesClient-upsertUSProgramBrief", options, (updatedOptions) => {
+      return this.client.shortCodesOperations.upsertUSProgramBrief(
         programBriefId,
         updatedOptions
       );
     });
   }
 
-  public async deleteUSProgramBrief(
+  public deleteUSProgramBrief(
     programBriefId: string,
     options: DeleteUSProgramBriefOptions = {}
   ): Promise<void> {
-    return tracingClient.withSpan("ShortCodesClient-deleteUSProgramBrief", options, async (updatedOptions) => {
-      return await this.client.shortCodesOperations.deleteUSProgramBrief(
+    return tracingClient.withSpan("ShortCodesClient-deleteUSProgramBrief", options, (updatedOptions) => {
+      return this.client.shortCodesOperations.deleteUSProgramBrief(
         programBriefId,
         updatedOptions
       );
     });
   }
 
-  public async getUSProgramBrief(
+  public getUSProgramBrief(
     programBriefId: string,
     options: GetUSProgramBriefOptions = {}
   ): Promise<USProgramBrief> {
-    return tracingClient.withSpan("ShortCodesClient-getUSProgramBrief", options, async (updatedOptions) => {
-      return await this.client.shortCodesOperations.getUSProgramBrief(
+    return tracingClient.withSpan("ShortCodesClient-getUSProgramBrief", options, (updatedOptions) => {
+      return this.client.shortCodesOperations.getUSProgramBrief(
         programBriefId,
         updatedOptions
       );
@@ -149,19 +151,19 @@ export class ShortCodesClient {
     }
   }
 
-  public async submitUSProgramBrief(
+  public submitUSProgramBrief(
     programBriefId: string,
     options: SubmitUSProgramBriefOptions = {}
   ): Promise<USProgramBrief> {
-    return tracingClient.withSpan("ShortCodesClient-submitUSProgramBrief", options, async (updatedOptions) => {
-      return await this.client.shortCodesOperations.submitUSProgramBrief(
+    return tracingClient.withSpan("ShortCodesClient-submitUSProgramBrief", options, (updatedOptions) => {
+      return this.client.shortCodesOperations.submitUSProgramBrief(
         programBriefId,
         updatedOptions
       );
     });
   }
 
-  public async getUSProgramBriefAttachment(
+  public getUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
     options: ShortCodesGetUSProgramBriefAttachmentOptionalParams = {}
@@ -169,8 +171,8 @@ export class ShortCodesClient {
     return tracingClient.withSpan(
       "ShortCodesClient-getUSProgramBriefAttachment",
       options,
-      async (updatedOptions) => {
-        return await this.client.shortCodesOperations.getUSProgramBriefAttachment(
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.getUSProgramBriefAttachment(
           programBriefId,
           attachmentId,
           updatedOptions
@@ -203,7 +205,7 @@ export class ShortCodesClient {
     }
   }
 
-  public async deleteUSProgramBriefAttachment(
+  public deleteUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
     options: ShortCodesDeleteUSProgramBriefAttachmentOptionalParams = {}
@@ -211,8 +213,8 @@ export class ShortCodesClient {
     return tracingClient.withSpan(
       "ShortCodesClient-deleteUSProgramBriefAttachment",
       options,
-      async (updatedOptions) => {
-        return await this.client.shortCodesOperations.deleteUSProgramBriefAttachment(
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.deleteUSProgramBriefAttachment(
           programBriefId,
           attachmentId,
           updatedOptions
@@ -221,7 +223,7 @@ export class ShortCodesClient {
     );
   }
 
-  public async createOrReplaceUSProgramBriefAttachment(
+  public createOrReplaceUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
     fileName: string,
@@ -233,8 +235,8 @@ export class ShortCodesClient {
     return tracingClient.withSpan(
       "ShortCodesClient-createOrReplaceUSProgramBriefAttachment",
       options,
-      async (updatedOptions) => {
-        return await this.client.shortCodesOperations.createOrReplaceUSProgramBriefAttachment(
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.createOrReplaceUSProgramBriefAttachment(
           programBriefId,
           attachmentId,
           attachmentId,

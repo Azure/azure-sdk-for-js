@@ -14,7 +14,7 @@ import { SmsApiClient } from "./generated/src/smsApiClient";
 import { extractOperationOptions } from "./extractOperationOptions";
 import { generateSendMessageRequest } from "./utils/smsUtils";
 import { logger } from "./logger";
-import { tracingClient } from "./tracing";
+import { tracingClient } from "./generated/src/tracing";
 
 /**
  * Client options used to configure SMS Client API requests.
