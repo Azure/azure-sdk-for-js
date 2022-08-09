@@ -84,13 +84,16 @@ export class ShortCodesClient {
   public listShortCodes(
     options: ListShortCodesOptions = {}
   ): PagedAsyncIterableIterator<ShortCode> {
-    const { span, updatedOptions } = tracingClient.startSpan("ShortCodesClient-listShortCodes", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ShortCodesClient-listShortCodes",
+      options
+    );
     try {
       return this.client.shortCodesOperations.listShortCodes(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
-        error: e
+        error: e,
       });
       throw e;
     } finally {
@@ -102,48 +105,60 @@ export class ShortCodesClient {
     programBriefId: string,
     options: ShortCodesUpsertUSProgramBriefOptionalParams = {}
   ): Promise<USProgramBrief> {
-    return tracingClient.withSpan("ShortCodesClient-upsertUSProgramBrief", options, (updatedOptions) => {
-      return this.client.shortCodesOperations.upsertUSProgramBrief(
-        programBriefId,
-        updatedOptions
-      );
-    });
+    return tracingClient.withSpan(
+      "ShortCodesClient-upsertUSProgramBrief",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.upsertUSProgramBrief(
+          programBriefId,
+          updatedOptions
+        );
+      }
+    );
   }
 
   public deleteUSProgramBrief(
     programBriefId: string,
     options: DeleteUSProgramBriefOptions = {}
   ): Promise<void> {
-    return tracingClient.withSpan("ShortCodesClient-deleteUSProgramBrief", options, (updatedOptions) => {
-      return this.client.shortCodesOperations.deleteUSProgramBrief(
-        programBriefId,
-        updatedOptions
-      );
-    });
+    return tracingClient.withSpan(
+      "ShortCodesClient-deleteUSProgramBrief",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.deleteUSProgramBrief(
+          programBriefId,
+          updatedOptions
+        );
+      }
+    );
   }
 
   public getUSProgramBrief(
     programBriefId: string,
     options: GetUSProgramBriefOptions = {}
   ): Promise<USProgramBrief> {
-    return tracingClient.withSpan("ShortCodesClient-getUSProgramBrief", options, (updatedOptions) => {
-      return this.client.shortCodesOperations.getUSProgramBrief(
-        programBriefId,
-        updatedOptions
-      );
-    });
+    return tracingClient.withSpan(
+      "ShortCodesClient-getUSProgramBrief",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.getUSProgramBrief(programBriefId, updatedOptions);
+      }
+    );
   }
 
   public listUSProgramBriefs(
     options: ListUSProgramBriefsOptions = {}
   ): PagedAsyncIterableIterator<USProgramBrief> {
-    const { span, updatedOptions } = tracingClient.startSpan("ShortCodesClient-listUSProgramBriefs", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ShortCodesClient-listUSProgramBriefs",
+      options
+    );
     try {
       return this.client.shortCodesOperations.listUSProgramBriefs(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
-        error: e
+        error: e,
       });
       throw e;
     } finally {
@@ -155,12 +170,16 @@ export class ShortCodesClient {
     programBriefId: string,
     options: SubmitUSProgramBriefOptions = {}
   ): Promise<USProgramBrief> {
-    return tracingClient.withSpan("ShortCodesClient-submitUSProgramBrief", options, (updatedOptions) => {
-      return this.client.shortCodesOperations.submitUSProgramBrief(
-        programBriefId,
-        updatedOptions
-      );
-    });
+    return tracingClient.withSpan(
+      "ShortCodesClient-submitUSProgramBrief",
+      options,
+      (updatedOptions) => {
+        return this.client.shortCodesOperations.submitUSProgramBrief(
+          programBriefId,
+          updatedOptions
+        );
+      }
+    );
   }
 
   public getUSProgramBriefAttachment(
@@ -197,7 +216,7 @@ export class ShortCodesClient {
     } catch (e: any) {
       span.setStatus({
         status: "error",
-        error: e
+        error: e,
       });
       throw e;
     } finally {
