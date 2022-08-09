@@ -3,9 +3,9 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  parseClientArguments,
-  isKeyCredential,
   createCommunicationAuthPolicy,
+  isKeyCredential,
+  parseClientArguments,
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
