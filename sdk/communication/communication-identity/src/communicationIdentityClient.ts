@@ -18,7 +18,7 @@ import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-cli
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { IdentityRestClient } from "./generated/src/identityRestClient";
 import { logger } from "./common/logger";
-import { tracingClient } from "./common/tracing";
+import { tracingClient } from "./generated/src/tracing";
 
 const isCommunicationIdentityClientOptions = (
   options: any

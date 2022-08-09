@@ -6,6 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { IdentityRestClient } from "./identityRestClient";
-export * from "./operationsInterfaces";
+import { createTracingClient } from "@azure/core-tracing";
+
+export const tracingClient = createTracingClient({
+  namespace: "Microsoft.Communication",
+  packageName: "@azure/communication-identity",
+  packageVersion: "1.1.2"
+});
