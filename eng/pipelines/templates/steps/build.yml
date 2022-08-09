@@ -97,6 +97,16 @@ steps:
       eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
     displayName: 'Copy API extracted files'
 
+  - task: Powershell@2
+    inputs:
+      filePath: $(Build.SourcesDirectory)/eng/scripts/Create-APIView-File.ps1
+      arguments: >
+        -ArtifactPath $(Build.ArtifactStagingDirectory)
+      pwsh: true
+      workingDirectory: $(Pipeline.Workspace)
+    displayName: Create APIView code file
+    condition: succeeded()
+
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
