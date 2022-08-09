@@ -6,6 +6,7 @@ import { OperationType, ResourceType } from "./constants";
 const trimLeftSlashes = new RegExp("^[/]+");
 const trimRightSlashes = new RegExp("[/]+$");
 const illegalResourceIdCharacters = new RegExp("[/\\\\?#]");
+const illegalItemResourceIdCharacters = new RegExp("[/\\\\#]");
 
 /** @hidden */
 export function jsonStringifyAndEscapeNonASCII(arg: unknown): string {
@@ -223,7 +224,11 @@ export function isItemResourceValid(resource: { id?: string }, err: { message?: 
       return false;
     }
 
-    if (resource.id.indexOf("/") !== -1 || resource.id.indexOf("\\") !== -1) {
+    if (
+      resource.id.indexOf("/") !== -1 ||
+      resource.id.indexOf("\\") !== -1 ||
+      resource.id.indexOf("#") !== -1
+    ) {
       err.message = "Id contains illegal chars.";
       return false;
     }
@@ -272,12 +277,29 @@ export function trimSlashFromLeftAndRight(inputString: string): string {
 export function validateResourceId(resourceId: string): boolean {
   // if resourceId is not a string or is empty throw an error
   if (typeof resourceId !== "string" || isStringNullOrEmpty(resourceId)) {
-    throw new Error("Resource Id must be a string and cannot be undefined, null or empty");
+    throw new Error("Resource ID must be a string and cannot be undefined, null or empty");
   }
 
   // if resource id contains illegal characters throw an error
   if (illegalResourceIdCharacters.test(resourceId)) {
-    throw new Error("Illegal characters ['/', '\\'] cannot be used in resourceId");
+    throw new Error("Illegal characters ['/', '\\', '#', '?'] cannot be used in Resource ID");
+  }
+
+  return true;
+}
+
+/**
+ * @hidden
+ */
+export function validateItemResourceId(resourceId: string): boolean {
+  // if resourceId is not a string or is empty throw an error
+  if (typeof resourceId !== "string" || isStringNullOrEmpty(resourceId)) {
+    throw new Error("Resource ID must be a string and cannot be undefined, null or empty");
+  }
+
+  // if resource id contains illegal characters throw an error
+  if (illegalItemResourceIdCharacters.test(resourceId)) {
+    throw new Error("Illegal characters ['/', '\\', '#'] cannot be used in Resource ID");
   }
 
   return true;

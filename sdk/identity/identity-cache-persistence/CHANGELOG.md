@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-- Updated `@azure/msal-node` to version `^1.4.0` and `@azure/msal-node-extensions` to version `1.0.0-alpha.13`.
+- Updated `@azure/msal-node` to version `^1.4.0`.
 
 ## 1.0.0 (2021-10-15)
 

@@ -12,11 +12,9 @@
  * @summary extract data from a United States W2 tax document
  */
 
-import {
-  AzureKeyCredential,
-  DocumentAnalysisClient,
-  PrebuiltModels,
-} from "@azure/ai-form-recognizer";
+import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+
+import { PrebuiltTaxUsW2Model } from "./prebuilt/prebuilt-tax.us.w2";
 
 import fs from "fs";
 import path from "path";
@@ -32,13 +30,14 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocument(PrebuiltModels.TaxUsW2, file);
+  const poller = await client.beginAnalyzeDocument(PrebuiltTaxUsW2Model, file);
 
-  const { documents } = await poller.pollUntilDone();
+  const {
+    documents: [document],
+  } = await poller.pollUntilDone();
 
-  const result = documents && documents[0];
-  if (result) {
-    const { employee, employer, controlNumber, taxYear, additionalInfo } = result.fields;
+  if (document) {
+    const { employee, employer, controlNumber, taxYear, additionalInfo } = document.fields;
 
     if (employee) {
       const { name, address, socialSecurityNumber } = employee.properties;
