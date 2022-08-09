@@ -147,11 +147,18 @@ export class PhoneNumbersClient {
       options
     );
 
-    const list = this.client.phoneNumbers.listPhoneNumbers(updatedOptions);
+    try {
+      return this.client.phoneNumbers.listPhoneNumbers(updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e
+      });
 
-    span.end();
-
-    return list;
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
