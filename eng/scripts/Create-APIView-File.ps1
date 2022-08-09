@@ -24,6 +24,7 @@ if ($deps)
   }
 }
 Write-Host "Installing $($apiviewParser)"
+New-Item -Path "./node_modules" -Directory
 npm install $apiviewParser --registry $NpmDevopsFeedRegistry
 $installedPath = Join-Path -Path "." "node_modules/@azure-tools/ts-genapi"
 if (!(Test-Path -Path $installedPath))
