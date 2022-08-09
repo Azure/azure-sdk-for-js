@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { RoleDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AccessControlClientContext } from "../accessControlClientContext";
+import { AccessControlClient } from "../accessControlClient";
 import {
   RoleDefinitionsListRoleDefinitionsOptionalParams,
   RoleDefinitionsListRoleDefinitionsResponse,
@@ -22,15 +21,15 @@ import {
   RoleDefinitionsListScopesResponse
 } from "../models";
 
-/** Class representing a RoleDefinitions. */
+/** Class containing RoleDefinitions operations. */
 export class RoleDefinitionsImpl implements RoleDefinitions {
-  private readonly client: AccessControlClientContext;
+  private readonly client: AccessControlClient;
 
   /**
    * Initialize a new instance of the class RoleDefinitions class.
    * @param client Reference to the service client
    */
-  constructor(client: AccessControlClientContext) {
+  constructor(client: AccessControlClient) {
     this.client = client;
   }
 
@@ -41,25 +40,16 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
   async listRoleDefinitions(
     options?: RoleDefinitionsListRoleDefinitionsOptionalParams
   ): Promise<RoleDefinitionsListRoleDefinitionsResponse> {
-    const { span } = createSpan(
-      "AccessControlClient-listRoleDefinitions",
-      options || {}
+    return tracingClient.withSpan(
+      "AccessControlClient.listRoleDefinitions",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listRoleDefinitionsOperationSpec
+        ) as Promise<RoleDefinitionsListRoleDefinitionsResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listRoleDefinitionsOperationSpec
-      );
-      return result as RoleDefinitionsListRoleDefinitionsResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -71,25 +61,16 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
     roleDefinitionId: string,
     options?: RoleDefinitionsGetRoleDefinitionByIdOptionalParams
   ): Promise<RoleDefinitionsGetRoleDefinitionByIdResponse> {
-    const { span } = createSpan(
-      "AccessControlClient-getRoleDefinitionById",
-      options || {}
+    return tracingClient.withSpan(
+      "AccessControlClient.getRoleDefinitionById",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { roleDefinitionId, options },
+          getRoleDefinitionByIdOperationSpec
+        ) as Promise<RoleDefinitionsGetRoleDefinitionByIdResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { roleDefinitionId, options },
-        getRoleDefinitionByIdOperationSpec
-      );
-      return result as RoleDefinitionsGetRoleDefinitionByIdResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -99,25 +80,16 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
   async listScopes(
     options?: RoleDefinitionsListScopesOptionalParams
   ): Promise<RoleDefinitionsListScopesResponse> {
-    const { span } = createSpan(
-      "AccessControlClient-listScopes",
-      options || {}
+    return tracingClient.withSpan(
+      "AccessControlClient.listScopes",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listScopesOperationSpec
+        ) as Promise<RoleDefinitionsListScopesResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listScopesOperationSpec
-      );
-      return result as RoleDefinitionsListScopesResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications
