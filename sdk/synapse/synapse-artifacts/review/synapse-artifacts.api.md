@@ -4,6 +4,7 @@
 
 ```ts
 
+import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -253,7 +254,7 @@ export interface ArtifactRenameRequest {
 
 // @public (undocumented)
 export class ArtifactsClient extends coreClient.ServiceClient {
-    constructor(endpoint: string, options?: ArtifactsClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: ArtifactsClientOptionalParams);
     // (undocumented)
     bigDataPools: BigDataPools;
     // (undocumented)
