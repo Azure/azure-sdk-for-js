@@ -108,8 +108,8 @@ export class CommunicationIdentityClient {
     return tracingClient.withSpan(
       "CommunicationIdentity-issueToken",
       options,
-      async (updatedOptions) => {
-        return await this.client.communicationIdentityOperations.issueAccessToken(
+      (updatedOptions) => {
+        return this.client.communicationIdentityOperations.issueAccessToken(
           user.communicationUserId,
           scopes,
           updatedOptions
@@ -164,7 +164,7 @@ export class CommunicationIdentityClient {
    * @param scopes - Scopes to include in the token.
    * @param options - Additional options for the request.
    */
-  public async createUserAndToken(
+  public createUserAndToken(
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<CommunicationUserToken> {
@@ -211,15 +211,15 @@ export class CommunicationIdentityClient {
    *
    * @param options - Options used to exchange an Azure AD access token of a Teams user for a new Communication Identity access token.
    */
-  public async getTokenForTeamsUser(
+  public getTokenForTeamsUser(
     options: GetTokenForTeamsUserOptions
   ): Promise<CommunicationAccessToken> {
     return tracingClient.withSpan(
       "CommunicationIdentity-getTokenForTeamsUser",
       options,
-      async (updatedOptions) => {
+      (updatedOptions) => {
         const { teamsUserAadToken, clientId, userObjectId } = updatedOptions;
-        return await this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
+        return this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
           teamsUserAadToken,
           clientId,
           userObjectId,
