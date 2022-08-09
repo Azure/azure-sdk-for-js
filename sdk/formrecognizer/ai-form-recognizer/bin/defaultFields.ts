@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentModelInfo } from "../src";
+import { DocumentModelDetails } from "../src";
 import { Field } from "./utils";
 
 /**
@@ -73,7 +73,7 @@ const documentFeatures = [...layoutFeatures, "keyValuePairs"];
  * @param model - the model to get the features of
  * @returns the list of features supported by the model
  */
-export function getFeatures(model: DocumentModelInfo): string[] {
+export function getFeatures(model: DocumentModelDetails): string[] {
   return (
     (model as any).features ??
     {

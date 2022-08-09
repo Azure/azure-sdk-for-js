@@ -98,9 +98,9 @@ describe("supports tracing", function () {
     it("getInfo", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.getResourceInfo(options);
+          await dmac.getResourceDetails(options);
         }),
-        ["DocumentModelAdministrationClient.getResourceInfo"]
+        ["DocumentModelAdministrationClient.getResourceDetails"]
       ));
 
     it("deleteModel", () =>
