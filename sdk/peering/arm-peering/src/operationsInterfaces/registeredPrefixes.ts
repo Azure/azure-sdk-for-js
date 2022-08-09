@@ -14,7 +14,9 @@ import {
   RegisteredPrefixesGetResponse,
   RegisteredPrefixesCreateOrUpdateOptionalParams,
   RegisteredPrefixesCreateOrUpdateResponse,
-  RegisteredPrefixesDeleteOptionalParams
+  RegisteredPrefixesDeleteOptionalParams,
+  RegisteredPrefixesValidateOptionalParams,
+  RegisteredPrefixesValidateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -75,4 +77,18 @@ export interface RegisteredPrefixes {
     registeredPrefixName: string,
     options?: RegisteredPrefixesDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Validates an existing registered prefix with the specified name under the given subscription,
+   * resource group and peering.
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringName The name of the peering.
+   * @param registeredPrefixName The name of the registered prefix.
+   * @param options The options parameters.
+   */
+  validate(
+    resourceGroupName: string,
+    peeringName: string,
+    registeredPrefixName: string,
+    options?: RegisteredPrefixesValidateOptionalParams
+  ): Promise<RegisteredPrefixesValidateResponse>;
 }

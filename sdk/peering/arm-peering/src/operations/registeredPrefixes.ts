@@ -22,6 +22,8 @@ import {
   RegisteredPrefixesCreateOrUpdateResponse,
   RegisteredPrefixesDeleteOptionalParams,
   RegisteredPrefixesListByPeeringResponse,
+  RegisteredPrefixesValidateOptionalParams,
+  RegisteredPrefixesValidateResponse,
   RegisteredPrefixesListByPeeringNextResponse
 } from "../models";
 
@@ -195,6 +197,26 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
   }
 
   /**
+   * Validates an existing registered prefix with the specified name under the given subscription,
+   * resource group and peering.
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringName The name of the peering.
+   * @param registeredPrefixName The name of the registered prefix.
+   * @param options The options parameters.
+   */
+  validate(
+    resourceGroupName: string,
+    peeringName: string,
+    registeredPrefixName: string,
+    options?: RegisteredPrefixesValidateOptionalParams
+  ): Promise<RegisteredPrefixesValidateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, peeringName, registeredPrefixName, options },
+      validateOperationSpec
+    );
+  }
+
+  /**
    * ListByPeeringNext
    * @param resourceGroupName The name of the resource group.
    * @param peeringName The name of the peering.
@@ -307,6 +329,29 @@ const listByPeeringOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const validateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes/{registeredPrefixName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PeeringRegisteredPrefix
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.peeringName,
+    Parameters.registeredPrefixName
   ],
   headerParameters: [Parameters.accept],
   serializer

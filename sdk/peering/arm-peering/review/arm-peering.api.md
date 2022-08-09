@@ -24,13 +24,13 @@ export interface BgpSession {
 }
 
 // @public
-export type CdnPeeringPrefix = Resource & {
-    readonly prefix?: string;
+export interface CdnPeeringPrefix extends Resource {
     readonly azureRegion?: string;
     readonly azureService?: string;
-    readonly isPrimaryRegion?: boolean;
     readonly bgpCommunity?: string;
-};
+    readonly isPrimaryRegion?: boolean;
+    readonly prefix?: string;
+}
 
 // @public
 export interface CdnPeeringPrefixes {
@@ -76,15 +76,15 @@ export type CheckServiceProviderAvailabilityResponse = {
 export type Command = string;
 
 // @public
-export type ConnectionMonitorTest = Resource & {
-    sourceAgent?: string;
+export interface ConnectionMonitorTest extends Resource {
     destination?: string;
     destinationPort?: number;
-    testFrequencyInSec?: number;
     readonly isTestSuccessful?: boolean;
     readonly path?: string[];
     readonly provisioningState?: ProvisioningState;
-};
+    sourceAgent?: string;
+    testFrequencyInSec?: number;
+}
 
 // @public
 export interface ConnectionMonitorTestListResult {
@@ -210,271 +210,182 @@ export type Kind = string;
 
 // @public
 export enum KnownCommand {
-    // (undocumented)
     BgpRoute = "BgpRoute",
-    // (undocumented)
     Ping = "Ping",
-    // (undocumented)
     Traceroute = "Traceroute"
 }
 
 // @public
 export enum KnownConnectionState {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     PendingApproval = "PendingApproval",
-    // (undocumented)
     ProvisioningCompleted = "ProvisioningCompleted",
-    // (undocumented)
     ProvisioningFailed = "ProvisioningFailed",
-    // (undocumented)
     ProvisioningStarted = "ProvisioningStarted",
-    // (undocumented)
+    TypeChangeInProgress = "TypeChangeInProgress",
+    TypeChangeRequested = "TypeChangeRequested",
     Validating = "Validating"
 }
 
 // @public
 export enum KnownDirectPeeringType {
-    // (undocumented)
     Cdn = "Cdn",
-    // (undocumented)
     Edge = "Edge",
-    // (undocumented)
+    EdgeZoneForOperators = "EdgeZoneForOperators",
     Internal = "Internal",
-    // (undocumented)
     Ix = "Ix",
-    // (undocumented)
     IxRs = "IxRs",
-    // (undocumented)
     Transit = "Transit",
-    // (undocumented)
     Voice = "Voice"
 }
 
 // @public
 export enum KnownEnum0 {
-    // (undocumented)
     Available = "Available",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
 export enum KnownFamily {
-    // (undocumented)
     Direct = "Direct",
-    // (undocumented)
     Exchange = "Exchange"
 }
 
 // @public
 export enum KnownKind {
-    // (undocumented)
     Direct = "Direct",
-    // (undocumented)
     Exchange = "Exchange"
 }
 
 // @public
 export enum KnownLearnedType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     ViaServiceProvider = "ViaServiceProvider",
-    // (undocumented)
     ViaSession = "ViaSession"
 }
 
 // @public
 export enum KnownLegacyPeeringsKind {
-    // (undocumented)
     Direct = "Direct",
-    // (undocumented)
     Exchange = "Exchange"
 }
 
 // @public
 export enum KnownLookingGlassCommand {
-    // (undocumented)
     BgpRoute = "BgpRoute",
-    // (undocumented)
     Ping = "Ping",
-    // (undocumented)
     Traceroute = "Traceroute"
 }
 
 // @public
 export enum KnownLookingGlassSourceType {
-    // (undocumented)
     AzureRegion = "AzureRegion",
-    // (undocumented)
     EdgeSite = "EdgeSite"
 }
 
 // @public
 export enum KnownPeeringLocationsDirectPeeringType {
-    // (undocumented)
     Cdn = "Cdn",
-    // (undocumented)
     Edge = "Edge",
-    // (undocumented)
+    EdgeZoneForOperators = "EdgeZoneForOperators",
     Internal = "Internal",
-    // (undocumented)
     Ix = "Ix",
-    // (undocumented)
     IxRs = "IxRs",
-    // (undocumented)
     Transit = "Transit",
-    // (undocumented)
     Voice = "Voice"
 }
 
 // @public
 export enum KnownPeeringLocationsKind {
-    // (undocumented)
     Direct = "Direct",
-    // (undocumented)
     Exchange = "Exchange"
 }
 
 // @public
 export enum KnownPrefixValidationState {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Verified = "Verified",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownRole {
-    // (undocumented)
     Escalation = "Escalation",
-    // (undocumented)
     Noc = "Noc",
-    // (undocumented)
     Other = "Other",
-    // (undocumented)
     Policy = "Policy",
-    // (undocumented)
     Service = "Service",
-    // (undocumented)
     Technical = "Technical"
 }
 
 // @public
 export enum KnownSessionAddressProvider {
-    // (undocumented)
     Microsoft = "Microsoft",
-    // (undocumented)
     Peer = "Peer"
 }
 
 // @public
 export enum KnownSessionStateV4 {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Connect = "Connect",
-    // (undocumented)
     Established = "Established",
-    // (undocumented)
     Idle = "Idle",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     OpenConfirm = "OpenConfirm",
-    // (undocumented)
     OpenReceived = "OpenReceived",
-    // (undocumented)
     OpenSent = "OpenSent",
-    // (undocumented)
     PendingAdd = "PendingAdd",
-    // (undocumented)
     PendingRemove = "PendingRemove",
-    // (undocumented)
     PendingUpdate = "PendingUpdate"
 }
 
 // @public
 export enum KnownSessionStateV6 {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Connect = "Connect",
-    // (undocumented)
     Established = "Established",
-    // (undocumented)
     Idle = "Idle",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     OpenConfirm = "OpenConfirm",
-    // (undocumented)
     OpenReceived = "OpenReceived",
-    // (undocumented)
     OpenSent = "OpenSent",
-    // (undocumented)
     PendingAdd = "PendingAdd",
-    // (undocumented)
     PendingRemove = "PendingRemove",
-    // (undocumented)
     PendingUpdate = "PendingUpdate"
 }
 
 // @public
 export enum KnownSize {
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     Metered = "Metered",
-    // (undocumented)
     Unlimited = "Unlimited"
 }
 
 // @public
 export enum KnownTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Premium = "Premium"
 }
 
 // @public
 export enum KnownValidationState {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Pending = "Pending"
 }
 
@@ -492,6 +403,7 @@ export type LegacyPeeringsKind = string;
 // @public
 export interface LegacyPeeringsListNextOptionalParams extends coreClient.OperationOptions {
     asn?: number;
+    directPeeringType?: DirectPeeringType;
 }
 
 // @public
@@ -500,6 +412,7 @@ export type LegacyPeeringsListNextResponse = PeeringListResult;
 // @public
 export interface LegacyPeeringsListOptionalParams extends coreClient.OperationOptions {
     asn?: number;
+    directPeeringType?: DirectPeeringType;
 }
 
 // @public
@@ -595,13 +508,13 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type PeerAsn = Resource & {
+export interface PeerAsn extends Resource {
+    readonly errorMessage?: string;
     peerAsn?: number;
     peerContactDetail?: ContactDetail[];
     peerName?: string;
     readonly validationState?: ValidationState;
-    readonly errorMessage?: string;
-};
+}
 
 // @public
 export interface PeerAsnListResult {
@@ -650,18 +563,18 @@ export interface PeerAsnsListBySubscriptionOptionalParams extends coreClient.Ope
 export type PeerAsnsListBySubscriptionResponse = PeerAsnListResult;
 
 // @public
-export type Peering = Resource & {
-    sku: PeeringSku;
+export interface Peering extends Resource {
+    direct?: PeeringPropertiesDirect;
+    exchange?: PeeringPropertiesExchange;
     kind: Kind;
     location: string;
+    peeringLocation?: string;
+    readonly provisioningState?: ProvisioningState;
+    sku: PeeringSku;
     tags?: {
         [propertyName: string]: string;
     };
-    direct?: PeeringPropertiesDirect;
-    exchange?: PeeringPropertiesExchange;
-    peeringLocation?: string;
-    readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface PeeringBandwidthOffer {
@@ -676,14 +589,14 @@ export interface PeeringListResult {
 }
 
 // @public
-export type PeeringLocation = Resource & {
-    kind?: Kind;
+export interface PeeringLocation extends Resource {
+    azureRegion?: string;
+    country?: string;
     direct?: PeeringLocationPropertiesDirect;
     exchange?: PeeringLocationPropertiesExchange;
+    kind?: Kind;
     peeringLocation?: string;
-    country?: string;
-    azureRegion?: string;
-};
+}
 
 // @public
 export interface PeeringLocationListResult {
@@ -812,11 +725,11 @@ export interface PeeringReceivedRouteListResult {
 }
 
 // @public
-export type PeeringRegisteredAsn = Resource & {
+export interface PeeringRegisteredAsn extends Resource {
     asn?: number;
     readonly peeringServicePrefixKey?: string;
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface PeeringRegisteredAsnListResult {
@@ -825,13 +738,13 @@ export interface PeeringRegisteredAsnListResult {
 }
 
 // @public
-export type PeeringRegisteredPrefix = Resource & {
+export interface PeeringRegisteredPrefix extends Resource {
+    readonly errorMessage?: string;
+    readonly peeringServicePrefixKey?: string;
     prefix?: string;
     readonly prefixValidationState?: PrefixValidationState;
-    readonly peeringServicePrefixKey?: string;
-    readonly errorMessage?: string;
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface PeeringRegisteredPrefixListResult {
@@ -861,19 +774,19 @@ export interface PeeringsDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type PeeringService = Resource & {
-    sku?: PeeringServiceSku;
+export interface PeeringService extends Resource {
     location: string;
+    logAnalyticsWorkspaceProperties?: LogAnalyticsWorkspaceProperties;
+    peeringServiceLocation?: string;
+    peeringServiceProvider?: string;
+    providerBackupPeeringLocation?: string;
+    providerPrimaryPeeringLocation?: string;
+    readonly provisioningState?: ProvisioningState;
+    sku?: PeeringServiceSku;
     tags?: {
         [propertyName: string]: string;
     };
-    peeringServiceLocation?: string;
-    peeringServiceProvider?: string;
-    readonly provisioningState?: ProvisioningState;
-    providerPrimaryPeeringLocation?: string;
-    providerBackupPeeringLocation?: string;
-    logAnalyticsWorkspaceProperties?: LogAnalyticsWorkspaceProperties;
-};
+}
 
 // @public
 export interface PeeringServiceCountries {
@@ -895,7 +808,8 @@ export interface PeeringServiceCountriesListOptionalParams extends coreClient.Op
 export type PeeringServiceCountriesListResponse = PeeringServiceCountryListResult;
 
 // @public
-export type PeeringServiceCountry = Resource & {};
+export interface PeeringServiceCountry extends Resource {
+}
 
 // @public
 export interface PeeringServiceCountryListResult {
@@ -910,11 +824,11 @@ export interface PeeringServiceListResult {
 }
 
 // @public
-export type PeeringServiceLocation = Resource & {
+export interface PeeringServiceLocation extends Resource {
+    azureRegion?: string;
     country?: string;
     state?: string;
-    azureRegion?: string;
-};
+}
 
 // @public
 export interface PeeringServiceLocationListResult {
@@ -944,15 +858,15 @@ export interface PeeringServiceLocationsListOptionalParams extends coreClient.Op
 export type PeeringServiceLocationsListResponse = PeeringServiceLocationListResult;
 
 // @public
-export type PeeringServicePrefix = Resource & {
-    prefix?: string;
-    readonly prefixValidationState?: PrefixValidationState;
-    readonly learnedType?: LearnedType;
+export interface PeeringServicePrefix extends Resource {
     readonly errorMessage?: string;
     readonly events?: PeeringServicePrefixEvent[];
+    readonly learnedType?: LearnedType;
     peeringServicePrefixKey?: string;
+    prefix?: string;
+    readonly prefixValidationState?: PrefixValidationState;
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface PeeringServicePrefixEvent {
@@ -970,10 +884,10 @@ export interface PeeringServicePrefixListResult {
 }
 
 // @public
-export type PeeringServiceProvider = Resource & {
-    serviceProviderName?: string;
+export interface PeeringServiceProvider extends Resource {
     peeringLocations?: string[];
-};
+    serviceProviderName?: string;
+}
 
 // @public
 export interface PeeringServiceProviderListResult {
@@ -1247,6 +1161,7 @@ export interface RegisteredPrefixes {
     delete(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesGetOptionalParams): Promise<RegisteredPrefixesGetResponse>;
     listByPeering(resourceGroupName: string, peeringName: string, options?: RegisteredPrefixesListByPeeringOptionalParams): PagedAsyncIterableIterator<PeeringRegisteredPrefix>;
+    validate(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesValidateOptionalParams): Promise<RegisteredPrefixesValidateResponse>;
 }
 
 // @public
@@ -1280,6 +1195,13 @@ export interface RegisteredPrefixesListByPeeringOptionalParams extends coreClien
 
 // @public
 export type RegisteredPrefixesListByPeeringResponse = PeeringRegisteredPrefixListResult;
+
+// @public
+export interface RegisteredPrefixesValidateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegisteredPrefixesValidateResponse = PeeringRegisteredPrefix;
 
 // @public
 export interface Resource {

@@ -72,7 +72,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2022-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -127,6 +127,16 @@ export const asn: OperationQueryParameter = {
     serializedName: "asn",
     type: {
       name: "Number"
+    }
+  }
+};
+
+export const directPeeringType: OperationQueryParameter = {
+  parameterPath: ["options", "directPeeringType"],
+  mapper: {
+    serializedName: "directPeeringType",
+    type: {
+      name: "String"
     }
   }
 };
@@ -202,7 +212,7 @@ export const kind1: OperationQueryParameter = {
   }
 };
 
-export const directPeeringType: OperationQueryParameter = {
+export const directPeeringType1: OperationQueryParameter = {
   parameterPath: ["options", "directPeeringType"],
   mapper: {
     serializedName: "directPeeringType",

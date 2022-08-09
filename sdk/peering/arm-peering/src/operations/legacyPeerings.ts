@@ -150,7 +150,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.peeringLocation,
     Parameters.apiVersion,
     Parameters.kind,
-    Parameters.asn
+    Parameters.asn,
+    Parameters.directPeeringType
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
@@ -171,7 +172,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.peeringLocation,
     Parameters.apiVersion,
     Parameters.kind,
-    Parameters.asn
+    Parameters.asn,
+    Parameters.directPeeringType
   ],
   urlParameters: [
     Parameters.$host,
