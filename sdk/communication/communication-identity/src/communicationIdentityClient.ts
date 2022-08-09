@@ -105,13 +105,17 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<CommunicationAccessToken> {
-    return tracingClient.withSpan("CommunicationIdentity-issueToken", options, async (updatedOptions) => {
-      return await this.client.communicationIdentityOperations.issueAccessToken(
-        user.communicationUserId,
-        scopes,
-        updatedOptions
-      );
-    });
+    return tracingClient.withSpan(
+      "CommunicationIdentity-issueToken",
+      options,
+      async (updatedOptions) => {
+        return await this.client.communicationIdentityOperations.issueAccessToken(
+          user.communicationUserId,
+          scopes,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -124,12 +128,16 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
   ): Promise<void> {
-    return tracingClient.withSpan("CommunicationIdentity-revokeTokens", options, async (updatedOptions) => {
-      await this.client.communicationIdentityOperations.revokeAccessTokens(
-        user.communicationUserId,
-        updatedOptions
-      );
-    });
+    return tracingClient.withSpan(
+      "CommunicationIdentity-revokeTokens",
+      options,
+      async (updatedOptions) => {
+        await this.client.communicationIdentityOperations.revokeAccessTokens(
+          user.communicationUserId,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -138,12 +146,16 @@ export class CommunicationIdentityClient {
    * @param options - Additional options for the request.
    */
   public createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
-    return tracingClient.withSpan("CommunicationIdentity-createUser", options, async (updatedOptions) => {
-      const result = await this.client.communicationIdentityOperations.create(updatedOptions);
-      return {
-        communicationUserId: result.identity.id,
-      };
-    });
+    return tracingClient.withSpan(
+      "CommunicationIdentity-createUser",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.communicationIdentityOperations.create(updatedOptions);
+        return {
+          communicationUserId: result.identity.id,
+        };
+      }
+    );
   }
 
   /**
@@ -157,16 +169,19 @@ export class CommunicationIdentityClient {
     options: OperationOptions = {}
   ): Promise<CommunicationUserToken> {
     return tracingClient.withSpan(
-      "CommunicationIdentity-createUserAndToken", options, async (updatedOptions) => {
-      const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
-        createTokenWithScopes: scopes,
-        ...updatedOptions,
-      });
-      return {
-        ...accessToken!,
-        user: { communicationUserId: identity.id },
-      };
-    });
+      "CommunicationIdentity-createUserAndToken",
+      options,
+      async (updatedOptions) => {
+        const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
+          createTokenWithScopes: scopes,
+          ...updatedOptions,
+        });
+        return {
+          ...accessToken!,
+          user: { communicationUserId: identity.id },
+        };
+      }
+    );
   }
 
   /**
@@ -179,12 +194,16 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
   ): Promise<void> {
-    return tracingClient.withSpan("CommunicationIdentity-deleteUser", options, async (updatedOptions) => {
-      await this.client.communicationIdentityOperations.delete(
-        user.communicationUserId,
-        updatedOptions
-      );
-    });
+    return tracingClient.withSpan(
+      "CommunicationIdentity-deleteUser",
+      options,
+      async (updatedOptions) => {
+        await this.client.communicationIdentityOperations.delete(
+          user.communicationUserId,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -195,14 +214,18 @@ export class CommunicationIdentityClient {
   public async getTokenForTeamsUser(
     options: GetTokenForTeamsUserOptions
   ): Promise<CommunicationAccessToken> {
-    return tracingClient.withSpan("CommunicationIdentity-getTokenForTeamsUser", options, async (updatedOptions) => {
-      const { teamsUserAadToken, clientId, userObjectId } = updatedOptions;
-      return await this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
-        teamsUserAadToken,
-        clientId,
-        userObjectId,
-        updatedOptions
-      );
-    });
+    return tracingClient.withSpan(
+      "CommunicationIdentity-getTokenForTeamsUser",
+      options,
+      async (updatedOptions) => {
+        const { teamsUserAadToken, clientId, userObjectId } = updatedOptions;
+        return await this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
+          teamsUserAadToken,
+          clientId,
+          userObjectId,
+          updatedOptions
+        );
+      }
+    );
   }
 }

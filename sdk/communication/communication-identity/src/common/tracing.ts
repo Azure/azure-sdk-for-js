@@ -6,5 +6,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Azure.Communication",
   packageName: "@azure/communication-identity",
-  packageVersion: "1.1.2"
+  packageVersion: "1.1.2",
 });
