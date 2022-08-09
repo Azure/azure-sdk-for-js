@@ -387,8 +387,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/ai-personalizer",
-      "projectFolder": "sdk/personalizer/ai-personalizer",
+      "packageName": "@azure/ai-personalizer-rest",
+      "projectFolder": "sdk/personalizer/ai-personalizer-rest",
       "versionPolicyName": "client"
     },
     {
