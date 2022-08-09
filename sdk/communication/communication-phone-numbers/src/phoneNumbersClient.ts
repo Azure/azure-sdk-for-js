@@ -153,7 +153,7 @@ export class PhoneNumbersClient {
     } catch (e: any) {
       span.setStatus({
         status: "error",
-        error: e
+        error: e,
       });
 
       throw e;

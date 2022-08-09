@@ -105,17 +105,13 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<CommunicationAccessToken> {
-    return tracingClient.withSpan(
-      "CommunicationIdentity-issueToken",
-      options,
-      (updatedOptions) => {
-        return this.client.communicationIdentityOperations.issueAccessToken(
-          user.communicationUserId,
-          scopes,
-          updatedOptions
-        );
-      }
-    );
+    return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
+      return this.client.communicationIdentityOperations.issueAccessToken(
+        user.communicationUserId,
+        scopes,
+        updatedOptions
+      );
+    });
   }
 
   /**
