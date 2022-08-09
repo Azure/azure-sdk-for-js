@@ -4,9 +4,9 @@ module.exports.hash = "e40db4a771c5a86fc3580081e9b7cdc2";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .post('/availablePhoneNumbers/countries/US/:search', {"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"none","sms":"inbound+outbound"},"quantity":1})
-  .query(false)
+  .query(true)
   .reply(202, "", [
   'Location',
   '/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview',
@@ -36,9 +36,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   '0'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/search_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"search","status":"notStarted","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview","createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -64,9 +64,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:08 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/search_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"search","status":"succeeded","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview","createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -92,9 +92,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:10 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/availablePhoneNumbers/searchResults/sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"none","sms":"inbound+outbound"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2022-08-09T23:54:09.5291953+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -116,9 +116,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:13 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .post('/availablePhoneNumbers/:purchase', {"searchId":"sanitized"})
-  .query(false)
+  .query(true)
   .reply(202, "", [
   'Access-Control-Expose-Headers',
   'Operation-Location,operation-id,purchase-id',
@@ -146,9 +146,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   '0'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"running","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -170,9 +170,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:15 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"running","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -194,9 +194,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:18 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"notStarted","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -218,9 +218,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:20 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"notStarted","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -242,9 +242,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:23 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"notStarted","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -266,9 +266,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:25 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"notStarted","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -290,9 +290,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:28 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"notStarted","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -314,9 +314,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:30 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"notStarted","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -338,9 +338,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:33 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"succeeded","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:07.5006352+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -362,9 +362,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:35 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/%2B14155550100')
-  .query(false)
+  .query(true)
   .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2022-08-09T23:38:32.1645095+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"operatorId":"sanitized","operatorName":"Microsoft","phoneNumberSource":"cloud"}, [
   'Transfer-Encoding',
   'chunked',
@@ -386,9 +386,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:38 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .delete('/phoneNumbers/%2B14155550100')
-  .query(false)
+  .query(true)
   .reply(202, "", [
   'Access-Control-Expose-Headers',
   'Operation-Location,operation-id,release-id',
@@ -416,9 +416,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   '0'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/release_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"releasePhoneNumber","status":"notStarted","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:39.0758337+00:00","id":"release_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -440,9 +440,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:39 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/release_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"releasePhoneNumber","status":"running","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:39.0758337+00:00","id":"release_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -464,9 +464,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:42 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/release_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"releasePhoneNumber","status":"running","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:39.0758337+00:00","id":"release_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -488,9 +488,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:38:44 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/release_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"releasePhoneNumber","status":"succeeded","resourceLocation":null,"createdDateTime":"2022-08-09T23:38:39.0758337+00:00","id":"release_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',

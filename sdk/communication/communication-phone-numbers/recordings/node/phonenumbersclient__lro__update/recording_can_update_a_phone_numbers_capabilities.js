@@ -4,9 +4,9 @@ module.exports.hash = "e6cc5d618425d7272789412e8ab34410";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"none","sms":"outbound"})
-  .query(false)
+  .query(true)
   .reply(202, {"capabilitiesUpdateId":"sanitized"}, [
   'Transfer-Encoding',
   'chunked',
@@ -38,9 +38,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:39:20 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/capabilities_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"updatePhoneNumberCapabilities","status":"running","resourceLocation":"/phoneNumbers/+14155550100?api-version=2022-06-01-preview","createdDateTime":"2022-08-09T23:39:20.6741203+00:00","id":"capabilities_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -66,9 +66,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:39:21 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/capabilities_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"updatePhoneNumberCapabilities","status":"running","resourceLocation":"/phoneNumbers/+14155550100?api-version=2022-06-01-preview","createdDateTime":"2022-08-09T23:39:20.6741203+00:00","id":"capabilities_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -94,9 +94,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:39:23 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/operations/capabilities_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"updatePhoneNumberCapabilities","status":"succeeded","resourceLocation":"/phoneNumbers/+14155550100?api-version=2022-06-01-preview","createdDateTime":"2022-08-09T23:39:20.6741203+00:00","id":"capabilities_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -122,9 +122,9 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Tue, 09 Aug 2022 23:39:25 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/+14155550100')
-  .query(false)
+  .query(true)
   .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"outbound"},"assignmentType":"application","purchaseDate":"2021-06-23T23:38:41.0997634+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"operatorId":"sanitized","operatorName":"Microsoft","phoneNumberSource":"cloud"}, [
   'Transfer-Encoding',
   'chunked',

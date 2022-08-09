@@ -4,9 +4,9 @@ module.exports.hash = "36a27a5258392120bb8ab5b6301c54c7";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/%2B14155550100')
-  .query(false)
+  .query(true)
   .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"outbound"},"assignmentType":"application","purchaseDate":"2021-06-23T23:38:41.0997634+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"operatorId":"sanitized","operatorName":"Microsoft","phoneNumberSource":"cloud"}, [
   'Transfer-Encoding',
   'chunked',
