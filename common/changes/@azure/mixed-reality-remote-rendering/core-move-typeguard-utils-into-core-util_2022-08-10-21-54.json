@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/mixed-reality-remote-rendering",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/mixed-reality-remote-rendering"
+}

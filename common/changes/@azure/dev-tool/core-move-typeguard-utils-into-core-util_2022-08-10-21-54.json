@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/dev-tool",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/dev-tool"
+}

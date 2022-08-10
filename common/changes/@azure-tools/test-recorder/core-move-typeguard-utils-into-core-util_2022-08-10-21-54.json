@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure-tools/test-recorder",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure-tools/test-recorder"
+}

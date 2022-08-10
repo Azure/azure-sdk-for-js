@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/core-rest-pipeline",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/core-rest-pipeline"
+}

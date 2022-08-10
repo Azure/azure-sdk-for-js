@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/communication-common",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/communication-common"
+}

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/event-hubs",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/event-hubs"
+}

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/eslint-plugin-azure-sdk",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/eslint-plugin-azure-sdk"
+}

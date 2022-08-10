@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/test-utils-perf",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/test-utils-perf"
+}

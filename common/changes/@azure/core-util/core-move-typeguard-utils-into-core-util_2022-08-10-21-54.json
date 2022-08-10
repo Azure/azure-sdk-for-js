@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/core-util",
+      "comment": "Add common type guards",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@azure/core-util"
+}

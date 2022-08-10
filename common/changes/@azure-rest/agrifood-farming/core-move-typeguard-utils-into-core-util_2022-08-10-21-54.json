@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure-rest/agrifood-farming",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure-rest/agrifood-farming"
+}

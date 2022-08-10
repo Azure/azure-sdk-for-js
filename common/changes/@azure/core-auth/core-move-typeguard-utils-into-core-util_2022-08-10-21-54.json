@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/core-auth",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/core-auth"
+}

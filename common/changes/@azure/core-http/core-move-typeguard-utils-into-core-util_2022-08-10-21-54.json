@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/core-http",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/core-http"
+}

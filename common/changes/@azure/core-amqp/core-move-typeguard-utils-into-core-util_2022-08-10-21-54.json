@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/core-amqp",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/core-amqp"
+}

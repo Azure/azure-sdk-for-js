@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/core-client",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/core-client"
+}

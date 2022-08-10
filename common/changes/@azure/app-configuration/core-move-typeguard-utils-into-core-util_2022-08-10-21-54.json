@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/app-configuration",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/app-configuration"
+}

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/identity",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/identity"
+}

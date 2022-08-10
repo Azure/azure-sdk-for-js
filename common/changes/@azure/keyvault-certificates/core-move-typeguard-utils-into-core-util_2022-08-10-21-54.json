@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/keyvault-certificates",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/keyvault-certificates"
+}

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/communication-sms",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/communication-sms"
+}

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/storage-internal-avro",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@azure/storage-internal-avro"
+}
