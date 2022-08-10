@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
-
+import * as pako from "pako";
 /**
  * Name of the {@link gZippingPolicy}
  */
@@ -11,7 +11,10 @@ export const gZippingPolicyName = "GzippingPolicyForBrowser";
 export const GZippingPolicy: PipelinePolicy = {
   name: gZippingPolicyName,
   sendRequest: async (req, next) => {
-    // This is a no-op for now, will be implementing gzipping for browser using pako https://github.com/Azure/azure-sdk-for-js/issues/22593
+    if (req.body) {
+      const buffer = pako.gzip(req.body.toString());
+      req.body = buffer;
+    }
     return next(req);
   },
 };
