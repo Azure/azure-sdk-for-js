@@ -128,8 +128,13 @@ export async function getHeaders({
   }
 
   if (options.maxIntegratedCacheStalenessInMs && resourceType === ResourceType.item) {
-    headers[Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness] =
-      options.maxIntegratedCacheStalenessInMs;
+    if (typeof options.maxIntegratedCacheStalenessInMs === "number") {
+      headers[
+        Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness
+      ] = `${options.maxIntegratedCacheStalenessInMs}`;
+    } else {
+      headers[Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness] = "null";
+    }
   }
 
   if (options.resourceTokenExpirySeconds) {
