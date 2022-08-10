@@ -32,5 +32,5 @@ export interface SharedOptions {
    *
    * <p>Cache Staleness is supported in milliseconds granularity. Anything smaller than milliseconds will be ignored.</p>
    */
-  maxIntegratedCacheStalenessInMs?: string;
+  maxIntegratedCacheStalenessInMs?: number;
 }

@@ -129,9 +129,9 @@ export async function getHeaders({
 
   if (options.maxIntegratedCacheStalenessInMs && resourceType === ResourceType.item) {
     if (typeof options.maxIntegratedCacheStalenessInMs === "number") {
-      headers[
-        Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness
-      ] = `${options.maxIntegratedCacheStalenessInMs}`;
+      headers[Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness] = String(
+        options.maxIntegratedCacheStalenessInMs
+      );
     } else {
       headers[Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness] = "null";
     }

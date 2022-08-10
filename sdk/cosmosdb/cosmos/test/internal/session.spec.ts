@@ -76,7 +76,7 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
   });
   const dbId = addEntropy("maxIntegratedCacheTestDB");
   const containerId = addEntropy("maxIntegratedCacheTestContainer");
-  const dedicatedGatewayMaxAge = "0";
+  const dedicatedGatewayMaxAge = 20;
   const client = new CosmosClient({
     endpoint,
     key: masterKey,
@@ -97,14 +97,6 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
                 context.headers["x-ms-consistency-level"] === "Session",
               `${context.headers["x-ms-dedicatedgateway-max-age"]} = EVENTUAL or SESSION`
             );
-            assert.ok(
-              typeof context.headers["x-ms-dedicatedgateway-max-age"] !== "undefined",
-              `${context.headers["x-ms-dedicatedgateway-max-age"]} = undefined`
-            );
-            assert.ok(
-              typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
-              `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`
-            );
             if (
               context.headers["x-ms-dedicatedgateway-max-age"] === "null" ||
               context.headers["x-ms-dedicatedgateway-max-age"] === undefined ||
@@ -116,13 +108,17 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
               );
             }
             assert.ok(
+              typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`
+            );
+            assert.ok(
               context.headers["x-ms-dedicatedgateway-max-age"] === "0",
               "x-ms-dedicatedgateway-max-age will be ignored."
             );
 
             assert.ok(
-              context.headers["x-ms-dedicatedgateway-max-age"] === dedicatedGatewayMaxAge,
-              `${context.headers["x-ms-dedicatedgateway-max-age"]} = ${dedicatedGatewayMaxAge}`
+              context.headers["x-ms-dedicatedgateway-max-age"] === `"${dedicatedGatewayMaxAge}"`,
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = "${dedicatedGatewayMaxAge}"`
             );
           }
           const response = await next(context);
@@ -147,7 +143,7 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
     container.item("1").read(itemRequestFeedOptions);
     container.items
       .readAll({
-        maxIntegratedCacheStalenessInMs: "0",
+        maxIntegratedCacheStalenessInMs: 0,
       })
       .fetchAll();
     const querySpec = {
