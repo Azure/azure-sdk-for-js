@@ -66,7 +66,7 @@ export const sparkPoolName: OperationURLParameter = {
 };
 
 export const fromParam: OperationQueryParameter = {
-  parameterPath: ["options", "fromParam"],
+  parameterPath: ["options", "from"],
   mapper: {
     serializedName: "from",
     type: {

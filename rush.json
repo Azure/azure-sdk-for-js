@@ -1805,6 +1805,11 @@
       "packageName": "@azure/arm-automanage",
       "projectFolder": "sdk/automanage/arm-automanage",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/communication-rooms",
+      "projectFolder": "sdk/communication/communication-rooms",
+      "versionPolicyName": "client"
     }
   ]
 }

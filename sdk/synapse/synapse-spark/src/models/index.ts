@@ -238,7 +238,9 @@ export interface SparkStatementCancellationResult {
 
 /** Known values of {@link SparkJobType} that the service accepts. */
 export enum KnownSparkJobType {
+  /** SparkBatch */
   SparkBatch = "SparkBatch",
+  /** SparkSession */
   SparkSession = "SparkSession"
 }
 
@@ -254,9 +256,13 @@ export type SparkJobType = string;
 
 /** Known values of {@link SparkBatchJobResultType} that the service accepts. */
 export enum KnownSparkBatchJobResultType {
+  /** Uncertain */
   Uncertain = "Uncertain",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled"
 }
 
@@ -274,8 +280,11 @@ export type SparkBatchJobResultType = string;
 
 /** Known values of {@link SchedulerCurrentState} that the service accepts. */
 export enum KnownSchedulerCurrentState {
+  /** Queued */
   Queued = "Queued",
+  /** Scheduled */
   Scheduled = "Scheduled",
+  /** Ended */
   Ended = "Ended"
 }
 
@@ -292,12 +301,19 @@ export type SchedulerCurrentState = string;
 
 /** Known values of {@link PluginCurrentState} that the service accepts. */
 export enum KnownPluginCurrentState {
+  /** Preparation */
   Preparation = "Preparation",
+  /** ResourceAcquisition */
   ResourceAcquisition = "ResourceAcquisition",
+  /** Queued */
   Queued = "Queued",
+  /** Submission */
   Submission = "Submission",
+  /** Monitoring */
   Monitoring = "Monitoring",
+  /** Cleanup */
   Cleanup = "Cleanup",
+  /** Ended */
   Ended = "Ended"
 }
 
@@ -318,9 +334,13 @@ export type PluginCurrentState = string;
 
 /** Known values of {@link SparkErrorSource} that the service accepts. */
 export enum KnownSparkErrorSource {
+  /** System */
   System = "System",
+  /** User */
   User = "User",
+  /** Unknown */
   Unknown = "Unknown",
+  /** Dependency */
   Dependency = "Dependency"
 }
 
@@ -338,16 +358,27 @@ export type SparkErrorSource = string;
 
 /** Known values of {@link LivyStates} that the service accepts. */
 export enum KnownLivyStates {
+  /** NotStarted */
   NotStarted = "not_started",
+  /** Starting */
   Starting = "starting",
+  /** Idle */
   Idle = "idle",
+  /** Busy */
   Busy = "busy",
+  /** ShuttingDown */
   ShuttingDown = "shutting_down",
+  /** Error */
   Error = "error",
+  /** Dead */
   Dead = "dead",
+  /** Killed */
   Killed = "killed",
+  /** Success */
   Success = "success",
+  /** Running */
   Running = "running",
+  /** Recovering */
   Recovering = "recovering"
 }
 
@@ -372,9 +403,13 @@ export type LivyStates = string;
 
 /** Known values of {@link SparkSessionResultType} that the service accepts. */
 export enum KnownSparkSessionResultType {
+  /** Uncertain */
   Uncertain = "Uncertain",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled"
 }
 
@@ -392,11 +427,17 @@ export type SparkSessionResultType = string;
 
 /** Known values of {@link LivyStatementStates} that the service accepts. */
 export enum KnownLivyStatementStates {
+  /** Waiting */
   Waiting = "waiting",
+  /** Running */
   Running = "running",
+  /** Available */
   Available = "available",
+  /** Error */
   Error = "error",
+  /** Cancelling */
   Cancelling = "cancelling",
+  /** Cancelled */
   Cancelled = "cancelled"
 }
 
@@ -416,9 +457,13 @@ export type LivyStatementStates = string;
 
 /** Known values of {@link SparkStatementLanguageType} that the service accepts. */
 export enum KnownSparkStatementLanguageType {
+  /** Spark */
   Spark = "spark",
+  /** PySpark */
   PySpark = "pyspark",
+  /** DotNetSpark */
   DotNetSpark = "dotnetspark",
+  /** Sql */
   Sql = "sql"
 }
 
