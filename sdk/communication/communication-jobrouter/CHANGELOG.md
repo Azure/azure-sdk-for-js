@@ -1,8 +1,11 @@
 # Release History
 
-## 1.0.0 (2022-07-18-preview)
+## 1.0.0-beta.1 (2022-07-18-preview)
 
-The first preview of the Azure Communication JobRouter Client has the following features:
+This is the beta release of Azure Communication Router SDK. For more information, please see the [README][read_me].
+
+This is a private Preview version, so breaking changes are possible in subsequent releases as we improve the product. 
+To provide feedback, please submit an issue in our [Azure SDK for JS GitHub repo][issues].
 
 - create/get/update/delete/list (a) classification policy(s)
 - create/get/update/delete/list (a) distribution policy(s)

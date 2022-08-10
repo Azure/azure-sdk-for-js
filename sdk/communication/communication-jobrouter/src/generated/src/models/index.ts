@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 export type QueueSelectorAttachmentUnion =
   | QueueSelectorAttachment
@@ -909,358 +909,187 @@ export type ScoringRuleParameterSelector = "jobLabels" | "workerSelectors";
 
 /** Optional parameters. */
 export interface JobRouterAdministrationUpsertClassificationPolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the upsertClassificationPolicy operation. */
-export type JobRouterAdministrationUpsertClassificationPolicyResponse = ClassificationPolicy & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ClassificationPolicy;
-  };
-};
+export type JobRouterAdministrationUpsertClassificationPolicyResponse = ClassificationPolicy;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationGetClassificationPolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getClassificationPolicy operation. */
-export type JobRouterAdministrationGetClassificationPolicyResponse = ClassificationPolicy & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ClassificationPolicy;
-  };
-};
+export type JobRouterAdministrationGetClassificationPolicyResponse = ClassificationPolicy;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationDeleteClassificationPolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListClassificationPoliciesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum page size */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listClassificationPolicies operation. */
-export type JobRouterAdministrationListClassificationPoliciesResponse = ClassificationPolicyCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ClassificationPolicyCollection;
-  };
-};
+export type JobRouterAdministrationListClassificationPoliciesResponse = ClassificationPolicyCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationUpsertDistributionPolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the upsertDistributionPolicy operation. */
-export type JobRouterAdministrationUpsertDistributionPolicyResponse = DistributionPolicy & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DistributionPolicy;
-  };
-};
+export type JobRouterAdministrationUpsertDistributionPolicyResponse = DistributionPolicy;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationGetDistributionPolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDistributionPolicy operation. */
-export type JobRouterAdministrationGetDistributionPolicyResponse = DistributionPolicy & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DistributionPolicy;
-  };
-};
+export type JobRouterAdministrationGetDistributionPolicyResponse = DistributionPolicy;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationDeleteDistributionPolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListDistributionPoliciesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum page size */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listDistributionPolicies operation. */
-export type JobRouterAdministrationListDistributionPoliciesResponse = DistributionPolicyCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DistributionPolicyCollection;
-  };
-};
+export type JobRouterAdministrationListDistributionPoliciesResponse = DistributionPolicyCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationUpsertExceptionPolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the upsertExceptionPolicy operation. */
-export type JobRouterAdministrationUpsertExceptionPolicyResponse = ExceptionPolicy & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ExceptionPolicy;
-  };
-};
+export type JobRouterAdministrationUpsertExceptionPolicyResponse = ExceptionPolicy;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationGetExceptionPolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getExceptionPolicy operation. */
-export type JobRouterAdministrationGetExceptionPolicyResponse = ExceptionPolicy & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ExceptionPolicy;
-  };
-};
+export type JobRouterAdministrationGetExceptionPolicyResponse = ExceptionPolicy;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationDeleteExceptionPolicyOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListExceptionPoliciesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Number of objects to return per page */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listExceptionPolicies operation. */
-export type JobRouterAdministrationListExceptionPoliciesResponse = ExceptionPolicyCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ExceptionPolicyCollection;
-  };
-};
+export type JobRouterAdministrationListExceptionPoliciesResponse = ExceptionPolicyCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationUpsertQueueOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the upsertQueue operation. */
-export type JobRouterAdministrationUpsertQueueResponse = JobQueue & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobQueue;
-  };
-};
+export type JobRouterAdministrationUpsertQueueResponse = JobQueue;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationGetQueueOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getQueue operation. */
-export type JobRouterAdministrationGetQueueResponse = JobQueue & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobQueue;
-  };
-};
+export type JobRouterAdministrationGetQueueResponse = JobQueue;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationDeleteQueueOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListQueuesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Number of objects to return per page */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listQueues operation. */
-export type JobRouterAdministrationListQueuesResponse = QueueCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: QueueCollection;
-  };
-};
+export type JobRouterAdministrationListQueuesResponse = QueueCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListClassificationPoliciesNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum page size */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listClassificationPoliciesNext operation. */
-export type JobRouterAdministrationListClassificationPoliciesNextResponse = ClassificationPolicyCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ClassificationPolicyCollection;
-  };
-};
+export type JobRouterAdministrationListClassificationPoliciesNextResponse = ClassificationPolicyCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListDistributionPoliciesNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Maximum page size */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listDistributionPoliciesNext operation. */
-export type JobRouterAdministrationListDistributionPoliciesNextResponse = DistributionPolicyCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DistributionPolicyCollection;
-  };
-};
+export type JobRouterAdministrationListDistributionPoliciesNextResponse = DistributionPolicyCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListExceptionPoliciesNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Number of objects to return per page */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listExceptionPoliciesNext operation. */
-export type JobRouterAdministrationListExceptionPoliciesNextResponse = ExceptionPolicyCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ExceptionPolicyCollection;
-  };
-};
+export type JobRouterAdministrationListExceptionPoliciesNextResponse = ExceptionPolicyCollection;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationListQueuesNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Number of objects to return per page */
   maxpagesize?: number;
 }
 
 /** Contains response data for the listQueuesNext operation. */
-export type JobRouterAdministrationListQueuesNextResponse = QueueCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: QueueCollection;
-  };
-};
+export type JobRouterAdministrationListQueuesNextResponse = QueueCollection;
 
 /** Optional parameters. */
 export interface JobRouterUpsertJobOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the upsertJob operation. */
-export type JobRouterUpsertJobResponse = RouterJob & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RouterJob;
-  };
-};
+export type JobRouterUpsertJobResponse = RouterJob;
 
 /** Optional parameters. */
 export interface JobRouterGetJobOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getJob operation. */
-export type JobRouterGetJobResponse = RouterJob & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RouterJob;
-  };
-};
+export type JobRouterGetJobResponse = RouterJob;
 
 /** Optional parameters. */
 export interface JobRouterDeleteJobOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface JobRouterReclassifyJobActionOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Request object for reclassifying a job. */
   reclassifyJobRequest?: Record<string, unknown>;
 }
 
 /** Contains response data for the reclassifyJobAction operation. */
-export type JobRouterReclassifyJobActionResponse = Record<string, unknown> & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Record<string, unknown>;
-  };
-};
+export type JobRouterReclassifyJobActionResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface JobRouterCancelJobActionOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
   note?: string;
   /**
@@ -1271,39 +1100,21 @@ export interface JobRouterCancelJobActionOptionalParams
 }
 
 /** Contains response data for the cancelJobAction operation. */
-export type JobRouterCancelJobActionResponse = Record<string, unknown> & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Record<string, unknown>;
-  };
-};
+export type JobRouterCancelJobActionResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface JobRouterCompleteJobActionOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
   note?: string;
 }
 
 /** Contains response data for the completeJobAction operation. */
-export type JobRouterCompleteJobActionResponse = Record<string, unknown> & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Record<string, unknown>;
-  };
-};
+export type JobRouterCompleteJobActionResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface JobRouterCloseJobActionOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Indicates the outcome of the job, populate this field with your own custom values. */
   dispositionCode?: string;
   /**
@@ -1316,20 +1127,11 @@ export interface JobRouterCloseJobActionOptionalParams
 }
 
 /** Contains response data for the closeJobAction operation. */
-export type JobRouterCloseJobActionResponse = Record<string, unknown> & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Record<string, unknown>;
-  };
-};
+export type JobRouterCloseJobActionResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface JobRouterListJobsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Number of objects to return per page */
   maxpagesize?: number;
   /** (Optional) If specified, filter jobs by status. */
@@ -1343,136 +1145,64 @@ export interface JobRouterListJobsOptionalParams
 }
 
 /** Contains response data for the listJobs operation. */
-export type JobRouterListJobsResponse = JobCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobCollection;
-  };
-};
+export type JobRouterListJobsResponse = JobCollection;
 
 /** Optional parameters. */
 export interface JobRouterGetInQueuePositionOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInQueuePosition operation. */
-export type JobRouterGetInQueuePositionResponse = JobPositionDetails & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobPositionDetails;
-  };
-};
+export type JobRouterGetInQueuePositionResponse = JobPositionDetails;
 
 /** Optional parameters. */
 export interface JobRouterUnassignJobActionOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the unassignJobAction operation. */
-export type JobRouterUnassignJobActionResponse = UnassignJobResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: UnassignJobResult;
-  };
-};
+export type JobRouterUnassignJobActionResponse = UnassignJobResult;
 
 /** Optional parameters. */
 export interface JobRouterAcceptJobActionOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the acceptJobAction operation. */
-export type JobRouterAcceptJobActionResponse = AcceptJobOfferResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AcceptJobOfferResult;
-  };
-};
+export type JobRouterAcceptJobActionResponse = AcceptJobOfferResult;
 
 /** Optional parameters. */
 export interface JobRouterDeclineJobActionOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the declineJobAction operation. */
-export type JobRouterDeclineJobActionResponse = Record<string, unknown> & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Record<string, unknown>;
-  };
-};
+export type JobRouterDeclineJobActionResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface JobRouterGetQueueStatisticsOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getQueueStatistics operation. */
-export type JobRouterGetQueueStatisticsResponse = QueueStatistics & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: QueueStatistics;
-  };
-};
+export type JobRouterGetQueueStatisticsResponse = QueueStatistics;
 
 /** Optional parameters. */
 export interface JobRouterUpsertWorkerOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the upsertWorker operation. */
-export type JobRouterUpsertWorkerResponse = RouterWorker & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RouterWorker;
-  };
-};
+export type JobRouterUpsertWorkerResponse = RouterWorker;
 
 /** Optional parameters. */
 export interface JobRouterGetWorkerOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getWorker operation. */
-export type JobRouterGetWorkerResponse = RouterWorker & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RouterWorker;
-  };
-};
+export type JobRouterGetWorkerResponse = RouterWorker;
 
 /** Optional parameters. */
 export interface JobRouterDeleteWorkerOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface JobRouterListWorkersOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Number of objects to return per page */
   maxpagesize?: number;
   /** (Optional) If specified, select workers who are assigned to this queue */
@@ -1489,20 +1219,11 @@ export interface JobRouterListWorkersOptionalParams
 }
 
 /** Contains response data for the listWorkers operation. */
-export type JobRouterListWorkersResponse = WorkerCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: WorkerCollection;
-  };
-};
+export type JobRouterListWorkersResponse = WorkerCollection;
 
 /** Optional parameters. */
 export interface JobRouterListJobsNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Number of objects to return per page */
   maxpagesize?: number;
   /** (Optional) If specified, filter jobs by status. */
@@ -1516,20 +1237,11 @@ export interface JobRouterListJobsNextOptionalParams
 }
 
 /** Contains response data for the listJobsNext operation. */
-export type JobRouterListJobsNextResponse = JobCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobCollection;
-  };
-};
+export type JobRouterListJobsNextResponse = JobCollection;
 
 /** Optional parameters. */
 export interface JobRouterListWorkersNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Number of objects to return per page */
   maxpagesize?: number;
   /** (Optional) If specified, select workers who are assigned to this queue */
@@ -1546,20 +1258,11 @@ export interface JobRouterListWorkersNextOptionalParams
 }
 
 /** Contains response data for the listWorkersNext operation. */
-export type JobRouterListWorkersNextResponse = WorkerCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: WorkerCollection;
-  };
-};
+export type JobRouterListWorkersNextResponse = WorkerCollection;
 
 /** Optional parameters. */
 export interface JobRouterApiClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
   /** Overrides client endpoint. */

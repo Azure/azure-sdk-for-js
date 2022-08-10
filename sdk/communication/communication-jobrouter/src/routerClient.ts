@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { CommunicationTokenCredential } from "../../communication-common";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import {
   AcceptJobOfferResult,
   JobPositionDetails,
@@ -13,6 +13,7 @@ import {
   JobRouterDeclineJobActionResponse,
   JobRouterListJobsOptionalParams,
   JobRouterListWorkersOptionalParams,
+  JobRouterReclassifyJobActionResponse,
   JobRouterUnassignJobActionResponse,
   RouterJob,
   RouterJobItem,
@@ -33,14 +34,13 @@ import {
   UpdateWorkerOptions
 } from "./models/options";
 
-import { InternalPipelineOptions, RestResponse, createPipelineFromOptions } from "@azure/core-http";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   createCommunicationAuthPolicy,
+  CommunicationTokenCredential,
   isKeyCredential,
   parseClientArguments
 } from "@azure/communication-common";
-import { createSetHeadersPolicy } from "./policies";
 import { logger } from "./models/logger";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
@@ -144,16 +144,9 @@ export class RouterClient {
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    if (maybeOptions.headers) {
-      const setHeadersPolicy = createSetHeadersPolicy(maybeOptions.headers);
-      if (Array.isArray(pipeline.requestPolicyFactories)) {
-        pipeline.requestPolicyFactories.push(setHeadersPolicy);
-      }
-    }
-
-    this.client = new JobRouterApiClient(url, pipeline);
+    this.client = new JobRouterApiClient(url, internalPipelineOptions);
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   // Job Actions
@@ -241,7 +234,7 @@ export class RouterClient {
   public async reclassifyJob(
     jobId: string,
     options: ReclassifyJobOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<JobRouterReclassifyJobActionResponse> {
     return this.client.jobRouter.reclassifyJobAction(jobId, options);
   }
 
@@ -275,7 +268,7 @@ export class RouterClient {
    * Deletes a job.
    * @param jobId - The id of the job to delete.
    */
-  public async deleteJob(jobId: string): Promise<RestResponse> {
+  public async deleteJob(jobId: string): Promise<void> {
     return this.client.jobRouter.deleteJob(jobId);
   }
 
@@ -382,7 +375,7 @@ export class RouterClient {
    * @param workerId - The ID of the worker to delete.
    * @param options -  Operation options.
    */
-  public async deleteWorker(workerId: string): Promise<RestResponse> {
+  public async deleteWorker(workerId: string): Promise<void> {
     return this.client.jobRouter.deleteWorker(workerId);
   }
 }

@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { JobRouter } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { JobRouterApiClient } from "../jobRouterApiClient";
@@ -164,15 +164,10 @@ export class JobRouterImpl implements JobRouter {
     patch: RouterJob,
     options?: JobRouterUpsertJobOptionalParams
   ): Promise<JobRouterUpsertJobResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      patch,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, patch, options },
       upsertJobOperationSpec
-    ) as Promise<JobRouterUpsertJobResponse>;
+    );
   }
 
   /**
@@ -184,14 +179,10 @@ export class JobRouterImpl implements JobRouter {
     id: string,
     options?: JobRouterGetJobOptionalParams
   ): Promise<JobRouterGetJobResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       getJobOperationSpec
-    ) as Promise<JobRouterGetJobResponse>;
+    );
   }
 
   /**
@@ -202,15 +193,11 @@ export class JobRouterImpl implements JobRouter {
   deleteJob(
     id: string,
     options?: JobRouterDeleteJobOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       deleteJobOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -222,14 +209,10 @@ export class JobRouterImpl implements JobRouter {
     id: string,
     options?: JobRouterReclassifyJobActionOptionalParams
   ): Promise<JobRouterReclassifyJobActionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       reclassifyJobActionOperationSpec
-    ) as Promise<JobRouterReclassifyJobActionResponse>;
+    );
   }
 
   /**
@@ -241,14 +224,10 @@ export class JobRouterImpl implements JobRouter {
     id: string,
     options?: JobRouterCancelJobActionOptionalParams
   ): Promise<JobRouterCancelJobActionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       cancelJobActionOperationSpec
-    ) as Promise<JobRouterCancelJobActionResponse>;
+    );
   }
 
   /**
@@ -262,15 +241,10 @@ export class JobRouterImpl implements JobRouter {
     assignmentId: string,
     options?: JobRouterCompleteJobActionOptionalParams
   ): Promise<JobRouterCompleteJobActionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      assignmentId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, assignmentId, options },
       completeJobActionOperationSpec
-    ) as Promise<JobRouterCompleteJobActionResponse>;
+    );
   }
 
   /**
@@ -284,15 +258,10 @@ export class JobRouterImpl implements JobRouter {
     assignmentId: string,
     options?: JobRouterCloseJobActionOptionalParams
   ): Promise<JobRouterCloseJobActionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      assignmentId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, assignmentId, options },
       closeJobActionOperationSpec
-    ) as Promise<JobRouterCloseJobActionResponse>;
+    );
   }
 
   /**
@@ -302,13 +271,7 @@ export class JobRouterImpl implements JobRouter {
   private _listJobs(
     options?: JobRouterListJobsOptionalParams
   ): Promise<JobRouterListJobsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listJobsOperationSpec
-    ) as Promise<JobRouterListJobsResponse>;
+    return this.client.sendOperationRequest({ options }, listJobsOperationSpec);
   }
 
   /**
@@ -320,14 +283,10 @@ export class JobRouterImpl implements JobRouter {
     id: string,
     options?: JobRouterGetInQueuePositionOptionalParams
   ): Promise<JobRouterGetInQueuePositionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       getInQueuePositionOperationSpec
-    ) as Promise<JobRouterGetInQueuePositionResponse>;
+    );
   }
 
   /**
@@ -341,15 +300,10 @@ export class JobRouterImpl implements JobRouter {
     assignmentId: string,
     options?: JobRouterUnassignJobActionOptionalParams
   ): Promise<JobRouterUnassignJobActionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      assignmentId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, assignmentId, options },
       unassignJobActionOperationSpec
-    ) as Promise<JobRouterUnassignJobActionResponse>;
+    );
   }
 
   /**
@@ -364,15 +318,10 @@ export class JobRouterImpl implements JobRouter {
     offerId: string,
     options?: JobRouterAcceptJobActionOptionalParams
   ): Promise<JobRouterAcceptJobActionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      workerId,
-      offerId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { workerId, offerId, options },
       acceptJobActionOperationSpec
-    ) as Promise<JobRouterAcceptJobActionResponse>;
+    );
   }
 
   /**
@@ -386,15 +335,10 @@ export class JobRouterImpl implements JobRouter {
     offerId: string,
     options?: JobRouterDeclineJobActionOptionalParams
   ): Promise<JobRouterDeclineJobActionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      workerId,
-      offerId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { workerId, offerId, options },
       declineJobActionOperationSpec
-    ) as Promise<JobRouterDeclineJobActionResponse>;
+    );
   }
 
   /**
@@ -406,14 +350,10 @@ export class JobRouterImpl implements JobRouter {
     id: string,
     options?: JobRouterGetQueueStatisticsOptionalParams
   ): Promise<JobRouterGetQueueStatisticsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       getQueueStatisticsOperationSpec
-    ) as Promise<JobRouterGetQueueStatisticsResponse>;
+    );
   }
 
   /**
@@ -428,15 +368,10 @@ export class JobRouterImpl implements JobRouter {
     patch: RouterWorker,
     options?: JobRouterUpsertWorkerOptionalParams
   ): Promise<JobRouterUpsertWorkerResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      workerId,
-      patch,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { workerId, patch, options },
       upsertWorkerOperationSpec
-    ) as Promise<JobRouterUpsertWorkerResponse>;
+    );
   }
 
   /**
@@ -448,14 +383,10 @@ export class JobRouterImpl implements JobRouter {
     workerId: string,
     options?: JobRouterGetWorkerOptionalParams
   ): Promise<JobRouterGetWorkerResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      workerId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { workerId, options },
       getWorkerOperationSpec
-    ) as Promise<JobRouterGetWorkerResponse>;
+    );
   }
 
   /**
@@ -466,15 +397,11 @@ export class JobRouterImpl implements JobRouter {
   deleteWorker(
     workerId: string,
     options?: JobRouterDeleteWorkerOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      workerId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { workerId, options },
       deleteWorkerOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -484,13 +411,10 @@ export class JobRouterImpl implements JobRouter {
   private _listWorkers(
     options?: JobRouterListWorkersOptionalParams
   ): Promise<JobRouterListWorkersResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listWorkersOperationSpec
-    ) as Promise<JobRouterListWorkersResponse>;
+    );
   }
 
   /**
@@ -502,14 +426,10 @@ export class JobRouterImpl implements JobRouter {
     nextLink: string,
     options?: JobRouterListJobsNextOptionalParams
   ): Promise<JobRouterListJobsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       listJobsNextOperationSpec
-    ) as Promise<JobRouterListJobsNextResponse>;
+    );
   }
 
   /**
@@ -521,20 +441,16 @@ export class JobRouterImpl implements JobRouter {
     nextLink: string,
     options?: JobRouterListWorkersNextOptionalParams
   ): Promise<JobRouterListWorkersNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       listWorkersNextOperationSpec
-    ) as Promise<JobRouterListWorkersNextResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const upsertJobOperationSpec: coreHttp.OperationSpec = {
+const upsertJobOperationSpec: coreClient.OperationSpec = {
   path: "/routing/jobs/{id}",
   httpMethod: "PATCH",
   responses: {
@@ -552,7 +468,7 @@ const upsertJobOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getJobOperationSpec: coreHttp.OperationSpec = {
+const getJobOperationSpec: coreClient.OperationSpec = {
   path: "/routing/jobs/{id}",
   httpMethod: "GET",
   responses: {
@@ -568,7 +484,7 @@ const getJobOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteJobOperationSpec: coreHttp.OperationSpec = {
+const deleteJobOperationSpec: coreClient.OperationSpec = {
   path: "/routing/jobs/{id}",
   httpMethod: "DELETE",
   responses: {
@@ -582,7 +498,7 @@ const deleteJobOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const reclassifyJobActionOperationSpec: coreHttp.OperationSpec = {
+const reclassifyJobActionOperationSpec: coreClient.OperationSpec = {
   path: "/routing/jobs/{id}:reclassify",
   httpMethod: "POST",
   responses: {
@@ -602,7 +518,7 @@ const reclassifyJobActionOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const cancelJobActionOperationSpec: coreHttp.OperationSpec = {
+const cancelJobActionOperationSpec: coreClient.OperationSpec = {
   path: "/routing/jobs/{id}:cancel",
   httpMethod: "POST",
   responses: {
@@ -628,7 +544,7 @@ const cancelJobActionOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const completeJobActionOperationSpec: coreHttp.OperationSpec = {
+const completeJobActionOperationSpec: coreClient.OperationSpec = {
   path: "/routing/jobs/{id}:complete",
   httpMethod: "POST",
   responses: {
@@ -654,7 +570,7 @@ const completeJobActionOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const closeJobActionOperationSpec: coreHttp.OperationSpec = {
+const closeJobActionOperationSpec: coreClient.OperationSpec = {
   path: "/routing/jobs/{id}:close",
   httpMethod: "POST",
   responses: {
@@ -687,7 +603,7 @@ const closeJobActionOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listJobsOperationSpec: coreHttp.OperationSpec = {
+const listJobsOperationSpec: coreClient.OperationSpec = {
   path: "/routing/jobs",
   httpMethod: "GET",
   responses: {
@@ -710,7 +626,7 @@ const listJobsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getInQueuePositionOperationSpec: coreHttp.OperationSpec = {
+const getInQueuePositionOperationSpec: coreClient.OperationSpec = {
   path: "/routing/jobs/{id}/position",
   httpMethod: "GET",
   responses: {
@@ -726,7 +642,7 @@ const getInQueuePositionOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const unassignJobActionOperationSpec: coreHttp.OperationSpec = {
+const unassignJobActionOperationSpec: coreClient.OperationSpec = {
   path: "/routing/jobs/{id}/assignments/{assignmentId}:unassign",
   httpMethod: "POST",
   responses: {
@@ -742,7 +658,7 @@ const unassignJobActionOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const acceptJobActionOperationSpec: coreHttp.OperationSpec = {
+const acceptJobActionOperationSpec: coreClient.OperationSpec = {
   path: "/routing/workers/{workerId}/offers/{offerId}:accept",
   httpMethod: "POST",
   responses: {
@@ -758,7 +674,7 @@ const acceptJobActionOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const declineJobActionOperationSpec: coreHttp.OperationSpec = {
+const declineJobActionOperationSpec: coreClient.OperationSpec = {
   path: "/routing/workers/{workerId}/offers/{offerId}:decline",
   httpMethod: "POST",
   responses: {
@@ -776,7 +692,7 @@ const declineJobActionOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getQueueStatisticsOperationSpec: coreHttp.OperationSpec = {
+const getQueueStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/routing/queues/{id}/statistics",
   httpMethod: "GET",
   responses: {
@@ -792,7 +708,7 @@ const getQueueStatisticsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const upsertWorkerOperationSpec: coreHttp.OperationSpec = {
+const upsertWorkerOperationSpec: coreClient.OperationSpec = {
   path: "/routing/workers/{workerId}",
   httpMethod: "PATCH",
   responses: {
@@ -810,7 +726,7 @@ const upsertWorkerOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getWorkerOperationSpec: coreHttp.OperationSpec = {
+const getWorkerOperationSpec: coreClient.OperationSpec = {
   path: "/routing/workers/{workerId}",
   httpMethod: "GET",
   responses: {
@@ -826,7 +742,7 @@ const getWorkerOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteWorkerOperationSpec: coreHttp.OperationSpec = {
+const deleteWorkerOperationSpec: coreClient.OperationSpec = {
   path: "/routing/workers/{workerId}",
   httpMethod: "DELETE",
   responses: {
@@ -840,7 +756,7 @@ const deleteWorkerOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listWorkersOperationSpec: coreHttp.OperationSpec = {
+const listWorkersOperationSpec: coreClient.OperationSpec = {
   path: "/routing/workers",
   httpMethod: "GET",
   responses: {
@@ -863,7 +779,7 @@ const listWorkersOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listJobsNextOperationSpec: coreHttp.OperationSpec = {
+const listJobsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -886,7 +802,7 @@ const listJobsNextOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listWorkersNextOperationSpec: coreHttp.OperationSpec = {
+const listWorkersNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

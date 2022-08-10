@@ -24,8 +24,10 @@ export async function createRecordedRouterClientWithConnectionString(
   const recorder = await createRecorder(context.currentTest);
 
   return {
-    client: new RouterClient(env.COMMUNICATION_CONNECTION_STRING!),
-    administrationClient: new RouterAdministrationClient(env.COMMUNICATION_CONNECTION_STRING!),
+    client: new RouterClient(env.COMMUNICATION_CONNECTION_STRING as string),
+    administrationClient: new RouterAdministrationClient(
+      env.COMMUNICATION_CONNECTION_STRING as string
+    ),
     recorder
   };
 }

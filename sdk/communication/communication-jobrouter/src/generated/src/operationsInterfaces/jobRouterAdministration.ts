@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import * as coreHttp from "@azure/core-http";
 import {
   ClassificationPolicyItem,
   JobRouterAdministrationListClassificationPoliciesOptionalParams,
@@ -103,7 +102,7 @@ export interface JobRouterAdministration {
   deleteClassificationPolicy(
     id: string,
     options?: JobRouterAdministrationDeleteClassificationPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Creates or updates a distribution policy.
    * @param id Id of the distribution policy
@@ -133,7 +132,7 @@ export interface JobRouterAdministration {
   deleteDistributionPolicy(
     id: string,
     options?: JobRouterAdministrationDeleteDistributionPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Creates or updates a exception policy.
    * @param id Id of the exception policy
@@ -163,7 +162,7 @@ export interface JobRouterAdministration {
   deleteExceptionPolicy(
     id: string,
     options?: JobRouterAdministrationDeleteExceptionPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Creates or updates a queue.
    * @param id Id of the queue
@@ -193,5 +192,5 @@ export interface JobRouterAdministration {
   deleteQueue(
     id: string,
     options?: JobRouterAdministrationDeleteQueueOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
 }

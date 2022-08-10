@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { CommunicationTokenCredential } from "../../communication-common";
 import {
   ClassificationPolicy,
   ClassificationPolicyItem,
@@ -34,10 +33,11 @@ import {
   UpdateQueueOptions
 } from "./models/options";
 
-import { InternalPipelineOptions, RestResponse, createPipelineFromOptions } from "@azure/core-http";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   createCommunicationAuthPolicy,
+  CommunicationTokenCredential,
   isKeyCredential,
   parseClientArguments
 } from "@azure/communication-common";
@@ -45,7 +45,6 @@ import {
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./models/logger";
-import { createSetHeadersPolicy } from "./policies";
 
 /**
  * Checks whether the type of a value is {@link RouterAdministrationClientOptions} or not.
@@ -152,16 +151,9 @@ export class RouterAdministrationClient {
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    if (maybeOptions.headers) {
-      const setHeadersPolicy = createSetHeadersPolicy(maybeOptions.headers);
-      if (Array.isArray(pipeline.requestPolicyFactories)) {
-        pipeline.requestPolicyFactories.push(setHeadersPolicy);
-      }
-    }
-
-    this.client = new JobRouterApiClient(url, pipeline);
+    this.client = new JobRouterApiClient(url, internalPipelineOptions);
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   // Classification Policy Actions
@@ -226,7 +218,7 @@ export class RouterAdministrationClient {
    * Deletes a classification policy.
    * @param classificationPolicyId - The id of the classification policy to delete.
    */
-  public async deleteClassificationPolicy(classificationPolicyId: string): Promise<RestResponse> {
+  public async deleteClassificationPolicy(classificationPolicyId: string): Promise<void> {
     return this.client.jobRouterAdministration.deleteClassificationPolicy(classificationPolicyId);
   }
 
@@ -290,7 +282,7 @@ export class RouterAdministrationClient {
    * Deletes a distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to delete.
    */
-  public async deleteDistributionPolicy(distributionPolicyId: string): Promise<RestResponse> {
+  public async deleteDistributionPolicy(distributionPolicyId: string): Promise<void> {
     return this.client.jobRouterAdministration.deleteDistributionPolicy(distributionPolicyId);
   }
 
@@ -354,7 +346,7 @@ export class RouterAdministrationClient {
    * Deletes an exception policy.
    * @param exceptionPolicyId - The id of the exception policy to delete.
    */
-  public async deleteExceptionPolicy(exceptionPolicyId: string): Promise<RestResponse> {
+  public async deleteExceptionPolicy(exceptionPolicyId: string): Promise<void> {
     return this.client.jobRouterAdministration.deleteExceptionPolicy(exceptionPolicyId);
   }
 
@@ -404,7 +396,7 @@ export class RouterAdministrationClient {
    * Deletes a queue.
    * @param queueId - The ID of the queue to delete.
    */
-  public async deleteQueue(queueId: string): Promise<RestResponse> {
+  public async deleteQueue(queueId: string): Promise<void> {
     return this.client.jobRouterAdministration.deleteQueue(queueId);
   }
 }

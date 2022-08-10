@@ -10,6 +10,10 @@ import {
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
   JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
   JobRouterAdministrationUpsertQueueOptionalParams,
+  JobRouterCancelJobActionOptionalParams,
+  JobRouterCloseJobActionOptionalParams,
+  JobRouterCompleteJobActionOptionalParams,
+  JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobStateSelector,
@@ -189,7 +193,7 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
 /**
  * Options to reclassify a job.
  */
-export interface ReclassifyJobOptions extends coreHttp.OperationOptions {
+export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams {
   /** Request object for reclassifying a job. */
   reclassifyJobRequest?: Record<string, unknown>;
 }
@@ -217,7 +221,7 @@ export interface UpdateJobClassificationOptions extends coreHttp.OperationOption
 /**
  * Options to cancel a job.
  */
-export interface CancelJobOptions extends coreHttp.OperationOptions {
+export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams {
   /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
   note?: string;
   /**
@@ -230,7 +234,7 @@ export interface CancelJobOptions extends coreHttp.OperationOptions {
 /**
  * Options to complete a job.
  */
-export interface CompleteJobOptions extends coreHttp.OperationOptions {
+export interface CompleteJobOptions extends JobRouterCompleteJobActionOptionalParams {
   /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
   note?: string;
 }
@@ -238,7 +242,7 @@ export interface CompleteJobOptions extends coreHttp.OperationOptions {
 /**
  * Options to close a job.
  */
-export interface CloseJobOptions extends coreHttp.OperationOptions {
+export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {
   /** Indicates the outcome of the job, populate this field with your own custom values. */
   dispositionCode?: string;
   /**

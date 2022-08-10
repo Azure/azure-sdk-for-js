@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { JobRouterAdministration } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { JobRouterApiClient } from "../jobRouterApiClient";
@@ -263,15 +263,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     patch: ClassificationPolicy,
     options?: JobRouterAdministrationUpsertClassificationPolicyOptionalParams
   ): Promise<JobRouterAdministrationUpsertClassificationPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      patch,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, patch, options },
       upsertClassificationPolicyOperationSpec
-    ) as Promise<JobRouterAdministrationUpsertClassificationPolicyResponse>;
+    );
   }
 
   /**
@@ -283,14 +278,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     id: string,
     options?: JobRouterAdministrationGetClassificationPolicyOptionalParams
   ): Promise<JobRouterAdministrationGetClassificationPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       getClassificationPolicyOperationSpec
-    ) as Promise<JobRouterAdministrationGetClassificationPolicyResponse>;
+    );
   }
 
   /**
@@ -301,15 +292,11 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
   deleteClassificationPolicy(
     id: string,
     options?: JobRouterAdministrationDeleteClassificationPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       deleteClassificationPolicyOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -319,13 +306,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
   private _listClassificationPolicies(
     options?: JobRouterAdministrationListClassificationPoliciesOptionalParams
   ): Promise<JobRouterAdministrationListClassificationPoliciesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listClassificationPoliciesOperationSpec
-    ) as Promise<JobRouterAdministrationListClassificationPoliciesResponse>;
+    );
   }
 
   /**
@@ -340,15 +324,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     patch: DistributionPolicy,
     options?: JobRouterAdministrationUpsertDistributionPolicyOptionalParams
   ): Promise<JobRouterAdministrationUpsertDistributionPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      patch,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, patch, options },
       upsertDistributionPolicyOperationSpec
-    ) as Promise<JobRouterAdministrationUpsertDistributionPolicyResponse>;
+    );
   }
 
   /**
@@ -360,14 +339,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     id: string,
     options?: JobRouterAdministrationGetDistributionPolicyOptionalParams
   ): Promise<JobRouterAdministrationGetDistributionPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       getDistributionPolicyOperationSpec
-    ) as Promise<JobRouterAdministrationGetDistributionPolicyResponse>;
+    );
   }
 
   /**
@@ -378,15 +353,11 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
   deleteDistributionPolicy(
     id: string,
     options?: JobRouterAdministrationDeleteDistributionPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       deleteDistributionPolicyOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -396,13 +367,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
   private _listDistributionPolicies(
     options?: JobRouterAdministrationListDistributionPoliciesOptionalParams
   ): Promise<JobRouterAdministrationListDistributionPoliciesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listDistributionPoliciesOperationSpec
-    ) as Promise<JobRouterAdministrationListDistributionPoliciesResponse>;
+    );
   }
 
   /**
@@ -417,15 +385,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     patch: ExceptionPolicy,
     options?: JobRouterAdministrationUpsertExceptionPolicyOptionalParams
   ): Promise<JobRouterAdministrationUpsertExceptionPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      patch,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, patch, options },
       upsertExceptionPolicyOperationSpec
-    ) as Promise<JobRouterAdministrationUpsertExceptionPolicyResponse>;
+    );
   }
 
   /**
@@ -437,14 +400,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     id: string,
     options?: JobRouterAdministrationGetExceptionPolicyOptionalParams
   ): Promise<JobRouterAdministrationGetExceptionPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       getExceptionPolicyOperationSpec
-    ) as Promise<JobRouterAdministrationGetExceptionPolicyResponse>;
+    );
   }
 
   /**
@@ -455,15 +414,11 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
   deleteExceptionPolicy(
     id: string,
     options?: JobRouterAdministrationDeleteExceptionPolicyOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       deleteExceptionPolicyOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -473,13 +428,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
   private _listExceptionPolicies(
     options?: JobRouterAdministrationListExceptionPoliciesOptionalParams
   ): Promise<JobRouterAdministrationListExceptionPoliciesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listExceptionPoliciesOperationSpec
-    ) as Promise<JobRouterAdministrationListExceptionPoliciesResponse>;
+    );
   }
 
   /**
@@ -494,15 +446,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     patch: JobQueue,
     options?: JobRouterAdministrationUpsertQueueOptionalParams
   ): Promise<JobRouterAdministrationUpsertQueueResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      patch,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, patch, options },
       upsertQueueOperationSpec
-    ) as Promise<JobRouterAdministrationUpsertQueueResponse>;
+    );
   }
 
   /**
@@ -514,14 +461,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     id: string,
     options?: JobRouterAdministrationGetQueueOptionalParams
   ): Promise<JobRouterAdministrationGetQueueResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       getQueueOperationSpec
-    ) as Promise<JobRouterAdministrationGetQueueResponse>;
+    );
   }
 
   /**
@@ -532,15 +475,11 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
   deleteQueue(
     id: string,
     options?: JobRouterAdministrationDeleteQueueOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { id, options },
       deleteQueueOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -550,13 +489,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
   private _listQueues(
     options?: JobRouterAdministrationListQueuesOptionalParams
   ): Promise<JobRouterAdministrationListQueuesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listQueuesOperationSpec
-    ) as Promise<JobRouterAdministrationListQueuesResponse>;
+    );
   }
 
   /**
@@ -569,14 +505,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     nextLink: string,
     options?: JobRouterAdministrationListClassificationPoliciesNextOptionalParams
   ): Promise<JobRouterAdministrationListClassificationPoliciesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       listClassificationPoliciesNextOperationSpec
-    ) as Promise<JobRouterAdministrationListClassificationPoliciesNextResponse>;
+    );
   }
 
   /**
@@ -589,14 +521,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     nextLink: string,
     options?: JobRouterAdministrationListDistributionPoliciesNextOptionalParams
   ): Promise<JobRouterAdministrationListDistributionPoliciesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       listDistributionPoliciesNextOperationSpec
-    ) as Promise<JobRouterAdministrationListDistributionPoliciesNextResponse>;
+    );
   }
 
   /**
@@ -608,14 +536,10 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     nextLink: string,
     options?: JobRouterAdministrationListExceptionPoliciesNextOptionalParams
   ): Promise<JobRouterAdministrationListExceptionPoliciesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       listExceptionPoliciesNextOperationSpec
-    ) as Promise<JobRouterAdministrationListExceptionPoliciesNextResponse>;
+    );
   }
 
   /**
@@ -627,20 +551,16 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
     nextLink: string,
     options?: JobRouterAdministrationListQueuesNextOptionalParams
   ): Promise<JobRouterAdministrationListQueuesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       listQueuesNextOperationSpec
-    ) as Promise<JobRouterAdministrationListQueuesNextResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const upsertClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
+const upsertClassificationPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/routing/classificationPolicies/{id}",
   httpMethod: "PATCH",
   responses: {
@@ -658,7 +578,7 @@ const upsertClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
+const getClassificationPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/routing/classificationPolicies/{id}",
   httpMethod: "GET",
   responses: {
@@ -674,7 +594,7 @@ const getClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
+const deleteClassificationPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/routing/classificationPolicies/{id}",
   httpMethod: "DELETE",
   responses: {
@@ -688,7 +608,7 @@ const deleteClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listClassificationPoliciesOperationSpec: coreHttp.OperationSpec = {
+const listClassificationPoliciesOperationSpec: coreClient.OperationSpec = {
   path: "/routing/classificationPolicies",
   httpMethod: "GET",
   responses: {
@@ -704,7 +624,7 @@ const listClassificationPoliciesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const upsertDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
+const upsertDistributionPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/routing/distributionPolicies/{id}",
   httpMethod: "PATCH",
   responses: {
@@ -722,7 +642,7 @@ const upsertDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
+const getDistributionPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/routing/distributionPolicies/{id}",
   httpMethod: "GET",
   responses: {
@@ -738,7 +658,7 @@ const getDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
+const deleteDistributionPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/routing/distributionPolicies/{id}",
   httpMethod: "DELETE",
   responses: {
@@ -752,7 +672,7 @@ const deleteDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listDistributionPoliciesOperationSpec: coreHttp.OperationSpec = {
+const listDistributionPoliciesOperationSpec: coreClient.OperationSpec = {
   path: "/routing/distributionPolicies",
   httpMethod: "GET",
   responses: {
@@ -768,7 +688,7 @@ const listDistributionPoliciesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const upsertExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
+const upsertExceptionPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/routing/exceptionPolicies/{id}",
   httpMethod: "PATCH",
   responses: {
@@ -786,7 +706,7 @@ const upsertExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
+const getExceptionPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/routing/exceptionPolicies/{id}",
   httpMethod: "GET",
   responses: {
@@ -802,7 +722,7 @@ const getExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
+const deleteExceptionPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/routing/exceptionPolicies/{id}",
   httpMethod: "DELETE",
   responses: {
@@ -816,7 +736,7 @@ const deleteExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listExceptionPoliciesOperationSpec: coreHttp.OperationSpec = {
+const listExceptionPoliciesOperationSpec: coreClient.OperationSpec = {
   path: "/routing/exceptionPolicies",
   httpMethod: "GET",
   responses: {
@@ -832,7 +752,7 @@ const listExceptionPoliciesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const upsertQueueOperationSpec: coreHttp.OperationSpec = {
+const upsertQueueOperationSpec: coreClient.OperationSpec = {
   path: "/routing/queues/{id}",
   httpMethod: "PATCH",
   responses: {
@@ -850,7 +770,7 @@ const upsertQueueOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getQueueOperationSpec: coreHttp.OperationSpec = {
+const getQueueOperationSpec: coreClient.OperationSpec = {
   path: "/routing/queues/{id}",
   httpMethod: "GET",
   responses: {
@@ -866,7 +786,7 @@ const getQueueOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteQueueOperationSpec: coreHttp.OperationSpec = {
+const deleteQueueOperationSpec: coreClient.OperationSpec = {
   path: "/routing/queues/{id}",
   httpMethod: "DELETE",
   responses: {
@@ -880,7 +800,7 @@ const deleteQueueOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listQueuesOperationSpec: coreHttp.OperationSpec = {
+const listQueuesOperationSpec: coreClient.OperationSpec = {
   path: "/routing/queues",
   httpMethod: "GET",
   responses: {
@@ -896,7 +816,7 @@ const listQueuesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listClassificationPoliciesNextOperationSpec: coreHttp.OperationSpec = {
+const listClassificationPoliciesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -912,7 +832,7 @@ const listClassificationPoliciesNextOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listDistributionPoliciesNextOperationSpec: coreHttp.OperationSpec = {
+const listDistributionPoliciesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -928,7 +848,7 @@ const listDistributionPoliciesNextOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listExceptionPoliciesNextOperationSpec: coreHttp.OperationSpec = {
+const listExceptionPoliciesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -944,7 +864,7 @@ const listExceptionPoliciesNextOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listQueuesNextOperationSpec: coreHttp.OperationSpec = {
+const listQueuesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

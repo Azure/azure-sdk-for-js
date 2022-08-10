@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import * as coreHttp from "@azure/core-http";
 import {
   RouterJobItem,
   JobRouterListJobsOptionalParams,
@@ -91,7 +90,7 @@ export interface JobRouter {
   deleteJob(
     id: string,
     options?: JobRouterDeleteJobOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Reclassify a job.
    * @param id Id of the job
@@ -213,5 +212,5 @@ export interface JobRouter {
   deleteWorker(
     workerId: string,
     options?: JobRouterDeleteWorkerOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
 }

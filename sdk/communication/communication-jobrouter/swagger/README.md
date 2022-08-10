@@ -12,15 +12,16 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: V2022-07-18-preview
-input-file: swagger.json
+package-version: 1.0.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
-use-extension:
-  "@autorest/typescript": "latest"
-  "@autorest/modelerfour": "latest"
+typescript: true
 azure-arm: false
 add-credentials: false
-use-core-v2: false
+v3: true
+use-extension:
+  "@autorest/typescript": "6.0.0-rc.1"
+input-file: ../swagger/swagger.json
 ```
 
 # Remove "x-ms-parameterized-host" section when copying swagger.json
@@ -123,20 +124,5 @@ directive:
     transform: >
       $["$ref"] = "#/definitions/RouterRule";
 
-  - from: swagger-document
-    where: "$.definitions.TimeSpan"
-    transform: >
-      $["type"] = string
 
-  - from: swagger-document
-    where: "$.definitions.CompositeModeIteration.properties.timeout"
-    transform: >
-      $["type"] = string
-
-  - from: swagger-document
-    where: $.definitions[*]["x-ms-enum"]
-    transform: >
-      if ($.modelAsString) {
-        $.modelAsString = false
-      }
 ```

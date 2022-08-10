@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const ClassificationPolicy: coreHttp.CompositeMapper = {
+export const ClassificationPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ClassificationPolicy",
@@ -67,7 +67,7 @@ export const ClassificationPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueSelectorAttachment: coreHttp.CompositeMapper = {
+export const QueueSelectorAttachment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueueSelectorAttachment",
@@ -88,7 +88,7 @@ export const QueueSelectorAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const RouterRule: coreHttp.CompositeMapper = {
+export const RouterRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RouterRule",
@@ -109,7 +109,7 @@ export const RouterRule: coreHttp.CompositeMapper = {
   }
 };
 
-export const WorkerSelectorAttachment: coreHttp.CompositeMapper = {
+export const WorkerSelectorAttachment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkerSelectorAttachment",
@@ -130,7 +130,7 @@ export const WorkerSelectorAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
+export const CommunicationErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationErrorResponse",
@@ -146,7 +146,7 @@ export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationError: coreHttp.CompositeMapper = {
+export const CommunicationError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationError",
@@ -196,7 +196,7 @@ export const CommunicationError: coreHttp.CompositeMapper = {
   }
 };
 
-export const ClassificationPolicyCollection: coreHttp.CompositeMapper = {
+export const ClassificationPolicyCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ClassificationPolicyCollection",
@@ -225,7 +225,7 @@ export const ClassificationPolicyCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const ClassificationPolicyItem: coreHttp.CompositeMapper = {
+export const ClassificationPolicyItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ClassificationPolicyItem",
@@ -247,7 +247,7 @@ export const ClassificationPolicyItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const DistributionPolicy: coreHttp.CompositeMapper = {
+export const DistributionPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DistributionPolicy",
@@ -282,7 +282,7 @@ export const DistributionPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const DistributionMode: coreHttp.CompositeMapper = {
+export const DistributionMode: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DistributionMode",
@@ -323,7 +323,7 @@ export const DistributionMode: coreHttp.CompositeMapper = {
   }
 };
 
-export const DistributionPolicyCollection: coreHttp.CompositeMapper = {
+export const DistributionPolicyCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DistributionPolicyCollection",
@@ -352,7 +352,7 @@ export const DistributionPolicyCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const DistributionPolicyItem: coreHttp.CompositeMapper = {
+export const DistributionPolicyItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DistributionPolicyItem",
@@ -374,7 +374,7 @@ export const DistributionPolicyItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExceptionPolicy: coreHttp.CompositeMapper = {
+export const ExceptionPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExceptionPolicy",
@@ -403,7 +403,7 @@ export const ExceptionPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExceptionRule: coreHttp.CompositeMapper = {
+export const ExceptionRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExceptionRule",
@@ -427,7 +427,7 @@ export const ExceptionRule: coreHttp.CompositeMapper = {
   }
 };
 
-export const JobExceptionTrigger: coreHttp.CompositeMapper = {
+export const JobExceptionTrigger: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobExceptionTrigger",
@@ -448,7 +448,7 @@ export const JobExceptionTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExceptionPolicyCollection: coreHttp.CompositeMapper = {
+export const ExceptionPolicyCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExceptionPolicyCollection",
@@ -477,7 +477,7 @@ export const ExceptionPolicyCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExceptionPolicyItem: coreHttp.CompositeMapper = {
+export const ExceptionPolicyItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExceptionPolicyItem",
@@ -499,7 +499,7 @@ export const ExceptionPolicyItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const RouterJob: coreHttp.CompositeMapper = {
+export const RouterJob: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RouterJob",
@@ -629,7 +629,7 @@ export const RouterJob: coreHttp.CompositeMapper = {
   }
 };
 
-export const WorkerSelector: coreHttp.CompositeMapper = {
+export const WorkerSelector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkerSelector",
@@ -697,7 +697,7 @@ export const WorkerSelector: coreHttp.CompositeMapper = {
   }
 };
 
-export const JobAssignment: coreHttp.CompositeMapper = {
+export const JobAssignment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobAssignment",
@@ -738,7 +738,7 @@ export const JobAssignment: coreHttp.CompositeMapper = {
   }
 };
 
-export const CancelJobRequest: coreHttp.CompositeMapper = {
+export const CancelJobRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CancelJobRequest",
@@ -765,7 +765,7 @@ export const CancelJobRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const CompleteJobRequest: coreHttp.CompositeMapper = {
+export const CompleteJobRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CompleteJobRequest",
@@ -793,7 +793,7 @@ export const CompleteJobRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const CloseJobRequest: coreHttp.CompositeMapper = {
+export const CloseJobRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CloseJobRequest",
@@ -836,7 +836,7 @@ export const CloseJobRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const JobCollection: coreHttp.CompositeMapper = {
+export const JobCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobCollection",
@@ -865,7 +865,7 @@ export const JobCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const RouterJobItem: coreHttp.CompositeMapper = {
+export const RouterJobItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RouterJobItem",
@@ -887,7 +887,7 @@ export const RouterJobItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const JobPositionDetails: coreHttp.CompositeMapper = {
+export const JobPositionDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobPositionDetails",
@@ -931,7 +931,7 @@ export const JobPositionDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const UnassignJobResult: coreHttp.CompositeMapper = {
+export const UnassignJobResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UnassignJobResult",
@@ -954,7 +954,7 @@ export const UnassignJobResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const AcceptJobOfferResult: coreHttp.CompositeMapper = {
+export const AcceptJobOfferResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcceptJobOfferResult",
@@ -984,7 +984,7 @@ export const AcceptJobOfferResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const JobQueue: coreHttp.CompositeMapper = {
+export const JobQueue: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobQueue",
@@ -1025,7 +1025,7 @@ export const JobQueue: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueCollection: coreHttp.CompositeMapper = {
+export const QueueCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueueCollection",
@@ -1054,7 +1054,7 @@ export const QueueCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const JobQueueItem: coreHttp.CompositeMapper = {
+export const JobQueueItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobQueueItem",
@@ -1076,7 +1076,7 @@ export const JobQueueItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueStatistics: coreHttp.CompositeMapper = {
+export const QueueStatistics: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueueStatistics",
@@ -1112,7 +1112,7 @@ export const QueueStatistics: coreHttp.CompositeMapper = {
   }
 };
 
-export const RouterWorker: coreHttp.CompositeMapper = {
+export const RouterWorker: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RouterWorker",
@@ -1212,7 +1212,7 @@ export const RouterWorker: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChannelConfiguration: coreHttp.CompositeMapper = {
+export const ChannelConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChannelConfiguration",
@@ -1228,7 +1228,7 @@ export const ChannelConfiguration: coreHttp.CompositeMapper = {
   }
 };
 
-export const JobOffer: coreHttp.CompositeMapper = {
+export const JobOffer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobOffer",
@@ -1270,7 +1270,7 @@ export const JobOffer: coreHttp.CompositeMapper = {
   }
 };
 
-export const WorkerAssignment: coreHttp.CompositeMapper = {
+export const WorkerAssignment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkerAssignment",
@@ -1307,7 +1307,7 @@ export const WorkerAssignment: coreHttp.CompositeMapper = {
   }
 };
 
-export const WorkerCollection: coreHttp.CompositeMapper = {
+export const WorkerCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkerCollection",
@@ -1336,7 +1336,7 @@ export const WorkerCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const RouterWorkerItem: coreHttp.CompositeMapper = {
+export const RouterWorkerItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RouterWorkerItem",
@@ -1358,7 +1358,7 @@ export const RouterWorkerItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const ScoringRuleOptions: coreHttp.CompositeMapper = {
+export const ScoringRuleOptions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ScoringRuleOptions",
@@ -1397,7 +1397,7 @@ export const ScoringRuleOptions: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExceptionAction: coreHttp.CompositeMapper = {
+export const ExceptionAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExceptionAction",
@@ -1418,7 +1418,7 @@ export const ExceptionAction: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueSelector: coreHttp.CompositeMapper = {
+export const QueueSelector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueueSelector",
@@ -1459,7 +1459,7 @@ export const QueueSelector: coreHttp.CompositeMapper = {
   }
 };
 
-export const FunctionRuleCredential: coreHttp.CompositeMapper = {
+export const FunctionRuleCredential: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FunctionRuleCredential",
@@ -1495,7 +1495,7 @@ export const FunctionRuleCredential: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueWeightedAllocation: coreHttp.CompositeMapper = {
+export const QueueWeightedAllocation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueueWeightedAllocation",
@@ -1524,7 +1524,7 @@ export const QueueWeightedAllocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const WorkerWeightedAllocation: coreHttp.CompositeMapper = {
+export const WorkerWeightedAllocation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkerWeightedAllocation",
@@ -1553,7 +1553,7 @@ export const WorkerWeightedAllocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConditionalQueueSelectorAttachment: coreHttp.CompositeMapper = {
+export const ConditionalQueueSelectorAttachment: coreClient.CompositeMapper = {
   serializedName: "conditional",
   type: {
     name: "Composite",
@@ -1587,7 +1587,7 @@ export const ConditionalQueueSelectorAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const PassThroughQueueSelectorAttachment: coreHttp.CompositeMapper = {
+export const PassThroughQueueSelectorAttachment: coreClient.CompositeMapper = {
   serializedName: "pass-through",
   type: {
     name: "Composite",
@@ -1626,7 +1626,7 @@ export const PassThroughQueueSelectorAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const RuleEngineQueueSelectorAttachment: coreHttp.CompositeMapper = {
+export const RuleEngineQueueSelectorAttachment: coreClient.CompositeMapper = {
   serializedName: "rule-engine",
   type: {
     name: "Composite",
@@ -1647,7 +1647,7 @@ export const RuleEngineQueueSelectorAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const StaticQueueSelectorAttachment: coreHttp.CompositeMapper = {
+export const StaticQueueSelectorAttachment: coreClient.CompositeMapper = {
   serializedName: "static",
   type: {
     name: "Composite",
@@ -1668,7 +1668,7 @@ export const StaticQueueSelectorAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const WeightedAllocationQueueSelectorAttachment: coreHttp.CompositeMapper = {
+export const WeightedAllocationQueueSelectorAttachment: coreClient.CompositeMapper = {
   serializedName: "weighted-allocation-queue-selector",
   type: {
     name: "Composite",
@@ -1695,7 +1695,7 @@ export const WeightedAllocationQueueSelectorAttachment: coreHttp.CompositeMapper
   }
 };
 
-export const DirectMapRule: coreHttp.CompositeMapper = {
+export const DirectMapRule: coreClient.CompositeMapper = {
   serializedName: "direct-map-rule",
   type: {
     name: "Composite",
@@ -1708,7 +1708,7 @@ export const DirectMapRule: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExpressionRule: coreHttp.CompositeMapper = {
+export const ExpressionRule: coreClient.CompositeMapper = {
   serializedName: "expression-rule",
   type: {
     name: "Composite",
@@ -1739,7 +1739,7 @@ export const ExpressionRule: coreHttp.CompositeMapper = {
   }
 };
 
-export const FunctionRule: coreHttp.CompositeMapper = {
+export const FunctionRule: coreClient.CompositeMapper = {
   serializedName: "azure-function-rule",
   type: {
     name: "Composite",
@@ -1766,7 +1766,7 @@ export const FunctionRule: coreHttp.CompositeMapper = {
   }
 };
 
-export const StaticRule: coreHttp.CompositeMapper = {
+export const StaticRule: coreClient.CompositeMapper = {
   serializedName: "static-rule",
   type: {
     name: "Composite",
@@ -1786,7 +1786,7 @@ export const StaticRule: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConditionalWorkerSelectorAttachment: coreHttp.CompositeMapper = {
+export const ConditionalWorkerSelectorAttachment: coreClient.CompositeMapper = {
   serializedName: "conditional",
   type: {
     name: "Composite",
@@ -1820,7 +1820,7 @@ export const ConditionalWorkerSelectorAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const PassThroughWorkerSelectorAttachment: coreHttp.CompositeMapper = {
+export const PassThroughWorkerSelectorAttachment: coreClient.CompositeMapper = {
   serializedName: "pass-through",
   type: {
     name: "Composite",
@@ -1865,7 +1865,7 @@ export const PassThroughWorkerSelectorAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const RuleEngineWorkerSelectorAttachment: coreHttp.CompositeMapper = {
+export const RuleEngineWorkerSelectorAttachment: coreClient.CompositeMapper = {
   serializedName: "rule-engine",
   type: {
     name: "Composite",
@@ -1886,7 +1886,7 @@ export const RuleEngineWorkerSelectorAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const StaticWorkerSelectorAttachment: coreHttp.CompositeMapper = {
+export const StaticWorkerSelectorAttachment: coreClient.CompositeMapper = {
   serializedName: "static",
   type: {
     name: "Composite",
@@ -1907,7 +1907,7 @@ export const StaticWorkerSelectorAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const WeightedAllocationWorkerSelectorAttachment: coreHttp.CompositeMapper = {
+export const WeightedAllocationWorkerSelectorAttachment: coreClient.CompositeMapper = {
   serializedName: "weighted-allocation-worker-selector",
   type: {
     name: "Composite",
@@ -1934,7 +1934,7 @@ export const WeightedAllocationWorkerSelectorAttachment: coreHttp.CompositeMappe
   }
 };
 
-export const BestWorkerMode: coreHttp.CompositeMapper = {
+export const BestWorkerMode: coreClient.CompositeMapper = {
   serializedName: "best-worker",
   type: {
     name: "Composite",
@@ -1961,7 +1961,7 @@ export const BestWorkerMode: coreHttp.CompositeMapper = {
   }
 };
 
-export const LongestIdleMode: coreHttp.CompositeMapper = {
+export const LongestIdleMode: coreClient.CompositeMapper = {
   serializedName: "longest-idle",
   type: {
     name: "Composite",
@@ -1974,7 +1974,7 @@ export const LongestIdleMode: coreHttp.CompositeMapper = {
   }
 };
 
-export const RoundRobinMode: coreHttp.CompositeMapper = {
+export const RoundRobinMode: coreClient.CompositeMapper = {
   serializedName: "round-robin",
   type: {
     name: "Composite",
@@ -1987,7 +1987,7 @@ export const RoundRobinMode: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueLengthExceptionTrigger: coreHttp.CompositeMapper = {
+export const QueueLengthExceptionTrigger: coreClient.CompositeMapper = {
   serializedName: "queue-length",
   type: {
     name: "Composite",
@@ -2007,7 +2007,7 @@ export const QueueLengthExceptionTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const WaitTimeExceptionTrigger: coreHttp.CompositeMapper = {
+export const WaitTimeExceptionTrigger: coreClient.CompositeMapper = {
   serializedName: "wait-time",
   type: {
     name: "Composite",
@@ -2027,7 +2027,7 @@ export const WaitTimeExceptionTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const CancelExceptionAction: coreHttp.CompositeMapper = {
+export const CancelExceptionAction: coreClient.CompositeMapper = {
   serializedName: "cancel",
   type: {
     name: "Composite",
@@ -2058,7 +2058,7 @@ export const CancelExceptionAction: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManualReclassifyExceptionAction: coreHttp.CompositeMapper = {
+export const ManualReclassifyExceptionAction: coreClient.CompositeMapper = {
   serializedName: "manual-reclassify",
   type: {
     name: "Composite",
@@ -2098,7 +2098,7 @@ export const ManualReclassifyExceptionAction: coreHttp.CompositeMapper = {
   }
 };
 
-export const ReclassifyExceptionAction: coreHttp.CompositeMapper = {
+export const ReclassifyExceptionAction: coreClient.CompositeMapper = {
   serializedName: "reclassify",
   type: {
     name: "Composite",
