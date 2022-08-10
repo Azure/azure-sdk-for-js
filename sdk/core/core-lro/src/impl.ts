@@ -30,19 +30,21 @@ export function deserializeState<TState>(
 function updatePollingUrlHelper(inputs: {
   pollingUrl?: string;
   config: OperationConfig;
-  withPollingUrl?: (pollingUrl: string) => void;
+  withPollingUrl?: (pollingUrl: string, isUpdated: boolean) => void;
 }): void {
   const { pollingUrl, config, withPollingUrl } = inputs;
-  if (pollingUrl !== undefined && pollingUrl !== config.pollingUrl) {
+  if (pollingUrl !== undefined) {
     config.pollingUrl = pollingUrl;
-    withPollingUrl?.(pollingUrl);
+    withPollingUrl?.(pollingUrl, pollingUrl !== config.pollingUrl);
+  } else {
+    withPollingUrl?.(config.pollingUrl, false);
   }
 }
 
 function updatePollingUrl(inputs: {
   rawResponse: RawResponse;
   config: OperationConfig;
-  withPollingUrl?: (pollingUrl: string) => void;
+  withPollingUrl?: (pollingUrl: string, isUpdated: boolean) => void;
 }): void {
   const { config, rawResponse, withPollingUrl } = inputs;
   switch (config.mode) {
@@ -323,7 +325,7 @@ export async function initOperation<TResult, TState>(inputs: {
   requestMethod?: string;
   resourceLocationConfig?: LroResourceLocationConfig;
   processResult?: (result: unknown, state: TState) => TResult;
-  withPollingUrl?: (pollingUrl: string) => void;
+  withPollingUrl?: (pollingUrl: string, isUpdated: boolean) => void;
   lro: LongRunningOperation;
 }): Promise<RestorableOperationState<TState>> {
   const {
@@ -342,7 +344,7 @@ export async function initOperation<TResult, TState>(inputs: {
     requestMethod,
     resourceLocationConfig,
   });
-  if (config) withPollingUrl?.(config.pollingUrl);
+  if (config) withPollingUrl?.(config.pollingUrl, false);
   const state = stateProxy.initState(config);
   logger.verbose(`LRO: Operation description:`, config);
   if (
@@ -409,7 +411,7 @@ export async function pollOperation<TState, TResult>(inputs: {
   state: RestorableOperationState<TState>;
   isDone?: (lastResponse: TResult, state: TState) => boolean;
   processResult?: (result: unknown, state: TState) => TResult;
-  withPollingUrl?: (pollingUrl: string) => void;
+  withPollingUrl?: (pollingUrl: string, isUpdated: boolean) => void;
   updateState?: (state: TState, lastResponse: RawResponse) => void;
   setDelay: (intervalInMs: number) => void;
   options?: { abortSignal?: AbortSignalLike };

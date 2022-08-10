@@ -54,12 +54,22 @@ export async function createPoller<TResult, TState extends OperationState<TResul
     resourceLocationConfig,
     processResult,
     updateState,
-    withPollingUrl,
+    withPollingUrl: withPollingUrlCallback,
     intervalInMs = POLL_INTERVAL_IN_MS,
     restoreFrom,
   } = options || {};
   const { requestMethod, requestPath } = lro;
   const stateProxy = createStateProxy<TResult, TState>();
+  const withPollingUrl = withPollingUrlCallback
+    ? (() => {
+        let called = false;
+        return (pollingUrl: string, isUpdated: boolean) => {
+          if (isUpdated) withPollingUrlCallback(pollingUrl);
+          else if (!called) withPollingUrlCallback(pollingUrl);
+          called = true;
+        };
+      })()
+    : undefined;
   const state: RestorableOperationState<TState> = restoreFrom
     ? deserializeState(restoreFrom)
     : await initOperation({
@@ -133,6 +143,7 @@ export async function createPoller<TResult, TState extends OperationState<TResul
         stateProxy,
         processResult,
         updateState,
+        withPollingUrl,
         options: pollOptions,
         setDelay: (pollIntervalInMs) => {
           currentPollIntervalInMs = pollIntervalInMs;
