@@ -2014,22 +2014,6 @@ packages:
       rollup: 2.77.2
     dev: false
 
-  /@rollup/plugin-commonjs/21.1.0_rollup@2.77.0:
-    resolution: {integrity: sha512-6ZtHx3VHIp2ReNNDxHjuUml6ur+WcQ28N1yHgCQwsbNkQg2suhxGMDQGJOn/KuDxKtd1xuZP5xSTwBA4GQ8hbA==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^2.38.3
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.77.0
-      commondir: 1.0.1
-      estree-walker: 2.0.2
-      glob: 7.2.3
-      is-reference: 1.2.1
-      magic-string: 0.25.9
-      resolve: 1.22.1
-      rollup: 2.77.0
-    dev: false
-
   /@rollup/plugin-commonjs/21.1.0_rollup@2.77.2:
     resolution: {integrity: sha512-6ZtHx3VHIp2ReNNDxHjuUml6ur+WcQ28N1yHgCQwsbNkQg2suhxGMDQGJOn/KuDxKtd1xuZP5xSTwBA4GQ8hbA==}
     engines: {node: '>= 8.0.0'}
@@ -2082,15 +2066,6 @@ packages:
       rollup: 1.32.1
     dev: false
 
-  /@rollup/plugin-json/4.1.0_rollup@2.77.0:
-    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.77.0
-      rollup: 2.77.0
-    dev: false
-
   /@rollup/plugin-json/4.1.0_rollup@2.77.2:
     resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
     peerDependencies:
@@ -2109,15 +2084,6 @@ packages:
       rollup: 1.32.1
     dev: false
 
-  /@rollup/plugin-multi-entry/3.0.1_rollup@2.77.0:
-    resolution: {integrity: sha512-Gcp9E8y68Kx+Jo8zy/ZpiiAkb0W01cSqnxOz6h9bPR7MU3gaoTEdRf7xXYplwli1SBFEswXX588ESj+50Brfxw==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      matched: 1.0.2
-      rollup: 2.77.0
-    dev: false
-
   /@rollup/plugin-multi-entry/3.0.1_rollup@2.77.2:
     resolution: {integrity: sha512-Gcp9E8y68Kx+Jo8zy/ZpiiAkb0W01cSqnxOz6h9bPR7MU3gaoTEdRf7xXYplwli1SBFEswXX588ESj+50Brfxw==}
     peerDependencies:
@@ -2125,17 +2091,6 @@ packages:
     dependencies:
       matched: 1.0.2
       rollup: 2.77.2
-    dev: false
-
-  /@rollup/plugin-multi-entry/4.1.0_rollup@2.77.0:
-    resolution: {integrity: sha512-nellK5pr50W0JA2+bDJbG8F79GBP802J40YRoC0wyfpTAeAn5mJ4eaFiB/MN+YoX9hgb/6RJoZl9leDjZnUFKw==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/plugin-virtual': 2.1.0_rollup@2.77.0
-      matched: 5.0.1
-      rollup: 2.77.0
     dev: false
 
   /@rollup/plugin-multi-entry/4.1.0_rollup@2.77.2:
@@ -2162,21 +2117,6 @@ packages:
       is-module: 1.0.0
       resolve: 1.22.1
       rollup: 2.75.7
-    dev: false
-
-  /@rollup/plugin-node-resolve/13.3.0_rollup@2.77.0:
-    resolution: {integrity: sha512-Lus8rbUo1eEcnS4yTFKLZrVumLPY+YayBdWXgFSHYhTT2iJbMhoaaBL3xl5NCdeRytErGr8tZ0L71BMRmnlwSw==}
-    engines: {node: '>= 10.0.0'}
-    peerDependencies:
-      rollup: ^2.42.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.77.0
-      '@types/resolve': 1.17.1
-      deepmerge: 4.2.2
-      is-builtin-module: 3.1.0
-      is-module: 1.0.0
-      resolve: 1.22.1
-      rollup: 2.77.0
     dev: false
 
   /@rollup/plugin-node-resolve/13.3.0_rollup@2.77.2:
@@ -2210,22 +2150,6 @@ packages:
       rollup: 1.32.1
     dev: false
 
-  /@rollup/plugin-node-resolve/8.4.0_rollup@2.77.0:
-    resolution: {integrity: sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.77.0
-      '@types/resolve': 1.17.1
-      builtin-modules: 3.3.0
-      deep-freeze: 0.0.1
-      deepmerge: 4.2.2
-      is-module: 1.0.0
-      resolve: 1.22.1
-      rollup: 2.77.0
-    dev: false
-
   /@rollup/plugin-node-resolve/8.4.0_rollup@2.77.2:
     resolution: {integrity: sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==}
     engines: {node: '>= 8.0.0'}
@@ -2250,15 +2174,6 @@ packages:
       '@rollup/pluginutils': 3.1.0_rollup@2.77.2
       magic-string: 0.25.9
       rollup: 2.77.2
-    dev: false
-
-  /@rollup/plugin-virtual/2.1.0_rollup@2.77.0:
-    resolution: {integrity: sha512-CPPAtlKT53HFqC8jFHb/V5WErpU8Hrq2TyCR0A7kPQMlF2wNUf0o1xuAc+Qxj8NCZM0Z3Yvl+FbUXfJjVWqDwA==}
-    engines: {node: '>=8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    dependencies:
-      rollup: 2.77.0
     dev: false
 
   /@rollup/plugin-virtual/2.1.0_rollup@2.77.2:
@@ -2292,18 +2207,6 @@ packages:
       estree-walker: 1.0.1
       picomatch: 2.3.1
       rollup: 2.75.7
-    dev: false
-
-  /@rollup/pluginutils/3.1.0_rollup@2.77.0:
-    resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    dependencies:
-      '@types/estree': 0.0.39
-      estree-walker: 1.0.1
-      picomatch: 2.3.1
-      rollup: 2.77.0
     dev: false
 
   /@rollup/pluginutils/3.1.0_rollup@2.77.2:
@@ -3156,7 +3059,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
     dev: false
 
   /array-includes/3.1.5:
@@ -3411,7 +3314,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3561,7 +3464,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: false
 
   /check-error/1.0.2:
@@ -3699,7 +3602,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
     dev: false
 
   /concurrently/6.5.1:
@@ -3762,7 +3665,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
     dev: false
 
   /cookie/0.4.2:
@@ -3864,7 +3767,7 @@ packages:
     dev: false
 
   /crypt/0.0.2:
-    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
+    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
     dev: false
 
   /csv-parse/5.3.0:
@@ -4118,7 +4021,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220808
+      typescript: 4.8.0-dev.20220809
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -4145,11 +4048,11 @@ packages:
     dev: false
 
   /edge-launcher/1.2.2:
-    resolution: {integrity: sha1-60Cq+9Bnpup27/+rBke81VCbN7I=}
+    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
+    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
   /electron-to-chromium/1.4.199:
@@ -5031,7 +4934,7 @@ packages:
     dev: false
 
   /fresh/0.5.2:
-    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
+    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -5171,7 +5074,7 @@ packages:
     dev: false
 
   /github-from-package/0.0.0:
-    resolution: {integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=}
+    resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
     dev: false
 
   /glob-parent/5.1.2:
@@ -6579,7 +6482,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6589,7 +6492,7 @@ packages:
     dev: false
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
+    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
     dev: false
 
   /merge-source-map/1.1.0:
@@ -7010,7 +6913,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
+    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -7974,17 +7877,6 @@ packages:
       source-map-resolve: 0.5.3
     dev: false
 
-  /rollup-plugin-sourcemaps/0.4.2_rollup@2.77.0:
-    resolution: {integrity: sha512-pHUvzofmQx/C3zCkX14h9J9MbRfMjaARED8j8qOY+au4prtk2d567GD29WAHQTeGsDAVeStms3cPnRboC41YzA==}
-    engines: {node: '>=4.5.0', npm: '>=2.15.9'}
-    peerDependencies:
-      rollup: '>=0.31.2'
-    dependencies:
-      rollup: 2.77.0
-      rollup-pluginutils: 2.8.2
-      source-map-resolve: 0.5.3
-    dev: false
-
   /rollup-plugin-sourcemaps/0.4.2_rollup@2.77.2:
     resolution: {integrity: sha512-pHUvzofmQx/C3zCkX14h9J9MbRfMjaARED8j8qOY+au4prtk2d567GD29WAHQTeGsDAVeStms3cPnRboC41YzA==}
     engines: {node: '>=4.5.0', npm: '>=2.15.9'}
@@ -8009,37 +7901,6 @@ packages:
       '@rollup/pluginutils': 3.1.0_rollup@2.77.2
       '@types/node': 12.20.55
       rollup: 2.77.2
-      source-map-resolve: 0.6.0
-    dev: false
-
-  /rollup-plugin-sourcemaps/0.6.3_f9bf48cb46bf0bc60daa3b180b80918f:
-    resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      '@types/node': '>=10.0.0'
-      rollup: '>=0.31.2'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.77.0
-      '@types/node': 12.20.55
-      rollup: 2.77.0
-      source-map-resolve: 0.6.0
-    dev: false
-
-  /rollup-plugin-sourcemaps/0.6.3_rollup@2.77.0:
-    resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      '@types/node': '>=10.0.0'
-      rollup: '>=0.31.2'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.77.0
-      rollup: 2.77.0
       source-map-resolve: 0.6.0
     dev: false
 
@@ -8102,14 +7963,6 @@ packages:
 
   /rollup/2.75.7:
     resolution: {integrity: sha512-VSE1iy0eaAYNCxEXaleThdFXqZJ42qDBatAwrfnPlENEZ8erQ+0LYX4JXOLPceWfZpV1VtZwZ3dFCuOZiSyFtQ==}
-    engines: {node: '>=10.0.0'}
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.3.2
-    dev: false
-
-  /rollup/2.77.0:
-    resolution: {integrity: sha512-vL8xjY4yOQEw79DvyXLijhnhh+R/O9zpF/LEgkCebZFtb6ELeN9H3/2T0r8+mp+fFTBHZ5qGpOpW2ela2zRt3g==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -9075,8 +8928,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220808:
-    resolution: {integrity: sha512-afg7R/XsBD3mkS0orQD4Vy3dxHEijC0uqp46+i51lf5yfvvQRuhLQDY2F/OMOxD0U1ZwP3pliGs2U4UrqNHJ6g==}
+  /typescript/4.8.0-dev.20220809:
+    resolution: {integrity: sha512-MfDvCrf/GqKM/GwLuhs2ykgauNUg2TCR5YzIDj+b2scDwRE9XCRcgQAWh29omMmGFIAhP91QXKt+aXV0hchkxw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9187,7 +9040,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
+    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -10091,7 +9944,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-dftupGYGf9h9qid/Fuvu9twCA91wZ3aRVykiBRSQmlKtCJxJEARKQ7/bFDQlJ7RCxcp09/Ist18S3vkuvfb9Vg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-V+esqcIu/m/InfSA5kP8+khsuW/ZqLWzwRSQjZcCZUOby2VPVDw2DuBgNcKxsEGzik2oTR7jJwiE7XQc0jzNLA==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -10151,16 +10004,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10178,18 +10031,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -10207,18 +10060,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -10236,16 +10089,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10263,18 +10116,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10292,18 +10145,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -10319,18 +10172,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10348,16 +10201,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10375,18 +10228,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10404,16 +10257,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10475,16 +10328,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10502,16 +10355,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10527,13 +10380,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.77.2
       mkdirp: 1.0.4
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10546,18 +10399,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -10574,18 +10427,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -10603,16 +10456,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10630,16 +10483,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10658,16 +10511,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10685,18 +10538,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10714,16 +10567,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10742,16 +10595,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10770,16 +10623,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10797,16 +10650,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10824,16 +10677,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10851,18 +10704,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10879,16 +10732,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10906,16 +10759,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10933,16 +10786,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10960,18 +10813,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -10989,16 +10842,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11017,18 +10870,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11045,18 +10898,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11074,16 +10927,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11101,16 +10954,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11128,18 +10981,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11157,16 +11010,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11184,18 +11037,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -11256,18 +11109,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -11285,16 +11138,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11313,16 +11166,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11341,16 +11194,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11369,16 +11222,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11397,16 +11250,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11425,16 +11278,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11453,16 +11306,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11481,16 +11334,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11508,18 +11361,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11537,16 +11390,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11565,16 +11418,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11593,16 +11446,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11620,16 +11473,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11647,18 +11500,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11675,18 +11528,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11731,16 +11584,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11758,18 +11611,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11787,16 +11640,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11815,16 +11668,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11843,16 +11696,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11871,16 +11724,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11898,18 +11751,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11925,18 +11778,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11953,18 +11806,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -11982,16 +11835,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12011,16 +11864,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12038,18 +11891,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12066,16 +11919,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12092,18 +11945,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12121,16 +11974,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12149,16 +12002,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12177,16 +12030,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12205,18 +12058,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -12226,7 +12079,7 @@ packages:
     dev: false
 
   file:projects/arm-healthbot.tgz:
-    resolution: {integrity: sha512-bSRFWf9ALcE+ahVin7mP3Wz1zlsa/4TxlmGLaJXuTJFJ+xQvvJwCNuS52exhAW6/HmOUAaOdBfwXoRP/2Kwrhg==, tarball: file:projects/arm-healthbot.tgz}
+    resolution: {integrity: sha512-+IY3Erpvsm/gNCEfdr5RKq7aKcj3Zp4oq+3sOwsx0w6/kfsQFFpXHMVUhgJ3ikt/gd1jDo/7+QSKLH3lV475XA==, tarball: file:projects/arm-healthbot.tgz}
     name: '@rush-temp/arm-healthbot'
     version: 0.0.0
     dependencies:
@@ -12234,22 +12087,23 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -12262,16 +12116,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12290,16 +12144,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12318,16 +12172,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12347,10 +12201,10 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
       chai: 4.3.6
@@ -12358,8 +12212,8 @@ packages:
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_f9bf48cb46bf0bc60daa3b180b80918f
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_33537704779d09e8a7b3ae8d1134dd59
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12376,16 +12230,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12404,16 +12258,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12431,18 +12285,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12460,16 +12314,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12488,16 +12342,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12516,16 +12370,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12543,18 +12397,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12571,18 +12425,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12599,16 +12453,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12627,16 +12481,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12654,16 +12508,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12681,16 +12535,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12709,16 +12563,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12735,18 +12589,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12764,16 +12618,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12790,18 +12644,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12819,16 +12673,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12847,16 +12701,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12875,16 +12729,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12901,18 +12755,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12929,16 +12783,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12957,16 +12811,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -12983,18 +12837,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13011,18 +12865,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -13038,18 +12892,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13066,16 +12920,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13094,18 +12948,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -13122,16 +12976,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13150,18 +13004,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -13177,18 +13031,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13206,16 +13060,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13234,16 +13088,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13261,18 +13115,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -13290,16 +13144,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13318,18 +13172,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -13346,18 +13200,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13375,16 +13229,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13403,16 +13257,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13430,18 +13284,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13459,16 +13313,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13486,18 +13340,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13514,16 +13368,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13541,16 +13395,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13567,18 +13421,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13596,16 +13450,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13622,18 +13476,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13651,16 +13505,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13679,16 +13533,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13706,18 +13560,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13735,16 +13589,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13763,16 +13617,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13791,16 +13645,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13819,16 +13673,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13873,18 +13727,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -13902,16 +13756,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13931,16 +13785,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13959,16 +13813,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -13986,18 +13840,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14015,16 +13869,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14042,18 +13896,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14070,16 +13924,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14096,18 +13950,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14125,16 +13979,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14153,16 +14007,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14180,16 +14034,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14208,16 +14062,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14235,18 +14089,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14264,16 +14118,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14292,16 +14146,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14318,18 +14172,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14346,16 +14200,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14374,16 +14228,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14402,16 +14256,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14472,18 +14326,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14501,16 +14355,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14555,16 +14409,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14583,16 +14437,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14610,18 +14464,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14639,16 +14493,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14666,18 +14520,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14694,18 +14548,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
@@ -14721,18 +14575,18 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14750,16 +14604,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14778,16 +14632,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14806,16 +14660,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14834,16 +14688,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14861,16 +14715,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14889,16 +14743,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14916,18 +14770,18 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       '@types/chai': 4.3.1
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -14945,16 +14799,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15000,16 +14854,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15027,16 +14881,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15055,16 +14909,16 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.0
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.77.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.77.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.77.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.77.0
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.77.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.3
@@ -15628,7 +15482,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-DeKFZvkewhMgqUjBfTiqJUzqByfNAZeaPmeKfxbk/U/rbbMMgOawo83g3ms8asEZoOgdICpJPPhzK4uKy5RNRQ==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-CeQd+9BVi8OyYOA19nlSyq4sTethkoy3J+hA38j26NWTdhVHDH5aGHksXOPUnUh1LwNuN1WirBYNgyrAZO0J9Q==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
@@ -17068,7 +16922,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-FpRKmUTHvEQkEtWyvWOTGp0CzeguK8ZkdhTReoJdPgaROAJBAlTp2bK/6em8/Xd0J9VvMaF4YnO6DlGoj2EM6g==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-7klJlNPxa1lBP24b5RplU+eJpfNeC0dYKrylbt4cN5JbsgZTe0PTwhuC1PS1cw7zaEcXJsohazG+bVxwCmS7fg==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -17101,7 +16955,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-dB8d5XzlzxkjY1KuTJKoC3276oVrhHQ0JiNOIZ5YDP7GLA8X5FsDnElxlFs/IhswylHO3IuqgMUlNBzqKo1tcQ==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-i6qLYYX26P7zR9f8XNBiYeXkwIK9YNe62e1nMj1JH3iGUlltw6L1OFxQFONQfXanTFCHzm2/LAZ7zBiUGbxPNQ==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -17878,7 +17732,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-dZ7oq2TaUXLLplzsOedgjvfAyg8gK5ABkZF9EiiFpWpJfMdAWFOoLRZpkjPbuVK5hctGo1AEo9u8NdU8vpkAFA==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-FL5LUaoI7eRwpT6UYx4boIeSGv6uRMEgrXySJmuWh02ZKSAK1JVJaqPCndOuRUsMoiWj7S+FqFDzJZnpFXxSMQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -17897,12 +17751,11 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-QmDNJZxi9pcUgyWNd3B4MINWgSnQ1WkSji9yoJm68tmEBC6+Nmq4CJeOnuEm2Rdft4QToqB56DMB3MzzXqkn6w==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-pLr+lyLRpsIUcdtrf5teOo2jdFh2qPk5/TeGG1hwPJOluTFj3B9hwfmg1/kOg7r30zB7B25tvOYwYt7zZL4XwA==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -17921,12 +17774,11 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-gsB/O8lRrqRvaixkYWxHNWJm/U0mT3M5ClmuL5fzAYCNb34OcMk5MORtj0RhpLji4ZCA8NwuFoCvyW2lK/Bz5A==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-1t/Pvo/BCQi2YkoDcXnH79W+WEO/+uUfyIZQ5MPDHDAJOi7BfgKgFe4i4eZNGrSYJ6mWYSjQ51gSTageICt1ZQ==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -17945,7 +17797,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
@@ -18849,7 +18700,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control-1.tgz:
-    resolution: {integrity: sha512-CVAjDqL3I0LzfdW4sEfgLGAaADpU5qEOWPidfNUtbkEHVN9WjoCic3QtjvmSN8jG1YHKRdXkjseD+iqZVWhNnA==, tarball: file:projects/synapse-access-control-1.tgz}
+    resolution: {integrity: sha512-ZUXVpqOZb1yVD6i5Qvnf4XviFKCvmH1TFPYZSbIYu6AXVFkh6m0Btfh+gX7lo1PIC8ZB7iy7P+24vBxmHgsZow==, tarball: file:projects/synapse-access-control-1.tgz}
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
@@ -18958,7 +18809,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-vD5xAygT+mZteJfwBoqWAJ7o2lf+6KdO9Q3hiXd8N0rTn7UwKE+HCh6+xxkW0ID8DLt+PyCD/scirjy0fkqsfw==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-qiu2X82bHITGchl44VN+fQNa/e0woLEpTAIUvGH3PNJFSofctZQztfaI0xv/E1NNshCx5qJlUa679hp9RQ1s1w==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
@@ -19011,7 +18862,7 @@ packages:
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-uEZ6RFdhUAQ5XnHF8/6TraNxaM5TGj1nCYBAX3yNHcGiaSrQWgxjM3pIMGB0VcmDeVbSQXgvrOApZgYxhq/Kvg==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-1tucHisnUEcVcSbxosxA5tw65pZ/dlSsg+XSEalVeqm20ElUKlIeVWBnw5d+TRmSSh3rgBsAT7a48fA6d9m78A==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
@@ -19080,7 +18931,7 @@ packages:
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-O7BfHtqDmLVu1AXeHVUSPd/Lyj05yaTHVV2H2UZSYMSUXl310ujVxxyZrQHJ7mascy0Y/0RRfvfous25CRni+A==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-uYyIvZAMnamhriCyHdEeAV6bRVse1qz05ejC1z+WNSgXKpCTxDjJt130BTcs3YdkUOkglNaR7UICMrvYhfMUSA==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
