@@ -133,10 +133,14 @@ export class MixedRealityStsClient {
       },
     };
 
-    return tracingClient.withSpan("MixedRealityStsClient-GetToken", internalOptions, async (updatedOptions) => {
-      const tokenResponse = await this.restClient.getToken(this.accountId, updatedOptions);
+    return tracingClient.withSpan(
+      "MixedRealityStsClient-GetToken",
+      internalOptions,
+      async (updatedOptions) => {
+        const tokenResponse = await this.restClient.getToken(this.accountId, updatedOptions);
 
-      return mapToAccessToken(tokenResponse);
-    });
+        return mapToAccessToken(tokenResponse);
+      }
+    );
   }
 }
