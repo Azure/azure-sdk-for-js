@@ -10,17 +10,19 @@
 
 import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations"
 import { AzureKeyCredential } from "@azure/core-auth";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 //Get secrets
-//You will have to change these environment variables for the sample to work
-var clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT;
-var clu_key = process.env.AZURE_CONVERSATIONS_KEY;
-var project_name = process.env.AZURE_CONVERSATIONS_PROJECT_NAME;
-var deployment_name = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME;
+//You will have to set these environment variables for the sample to work
+const clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT;
+const clu_key = process.env.AZURE_CONVERSATIONS_KEY;
+const project_name = process.env.AZURE_CONVERSATIONS_PROJECT_NAME;
+const deployment_name = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME;
 
-var service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
+const service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
 
-var body: ConversationalTask = {
+const body: ConversationalTask = {
     "kind": "Conversation",
     "analysisInput": {
         "conversationItem": {
@@ -35,39 +37,42 @@ var body: ConversationalTask = {
     }
 }
 
-//Analyze query
-service.analyzeConversation(body).then(
-    (message) => {
-        console.log("query: %s", message.result.query);
-        console.log("project kind: %s", message.result.prediction.projectKind);
-        console.log("top intent: %s", message.result.prediction.topIntent);
-        console.log("category: %s", message.result.prediction.intents[0].category);
-        console.log("confidence score: %f", message.result.prediction.intents[0].confidence);
-        console.log("entities:");
+export async function main() {
+    //Analyze query
+    const actionResult = await service.analyzeConversation(body);
+    console.log("query: ", actionResult.result.query);
+    console.log("project kind: ", actionResult.result.prediction.projectKind);
+    console.log("top intent: ", actionResult.result.prediction.topIntent);
+    console.log("category: ", actionResult.result.prediction.intents[0].category);
+    console.log("confidence score: ", actionResult.result.prediction.intents[0].confidence);
+    console.log("entities:");
 
-        message.result.prediction.entities.forEach(entity => {
-            console.log("\ncategory: %s", entity.category);
-            console.log("text: %s", entity.text);
-            console.log("confidence score: %f", entity.confidence);
+    actionResult.result.prediction.entities.forEach(entity => {
+        console.log("\ncategory: ", entity.category);
+        console.log("text: ", entity.text);
+        console.log("confidence score: ", entity.confidence);
 
-            if(entity.resolutions){
-                console.log("resolutions:");
-                entity.resolutions.forEach((resolution) => {
-                    console.log("kind: %s", resolution.resolutionKind);
-                    console.log("value: %s", resolution.value);
-                })
-            }
+        if(entity.resolutions){
+            console.log("resolutions:");
+            entity.resolutions.forEach((resolution) => {
+                console.log("kind: ", resolution.resolutionKind);
+                console.log("value: ", resolution.value);
+            })
+        }
 
-            if(entity.extraInformation){
-                console.log("extra info:")
-                entity.extraInformation.forEach((data) => {
-                    console.log("kind: %s", data.extraInformationKind);
-                    if(data.extraInformationKind == "ListKey")
-                        console.log("key: %s", data.key);
-                    if(data.extraInformationKind == "EntitySubtype")
-                        console.log("value: %s", data.value);
-                });
-            }
-        });
-    }
-);
+        if(entity.extraInformation){
+            console.log("extra info:")
+            entity.extraInformation.forEach((data) => {
+                console.log("kind: ", data.extraInformationKind);
+                if(data.extraInformationKind == "ListKey")
+                    console.log("key: ", data.key);
+                if(data.extraInformationKind == "EntitySubtype")
+                    console.log("value: ", data.value);
+            });
+        }
+    });
+}
+
+main().catch((err) => {
+    console.error("The sample encountered an error:", err);
+});

@@ -14,14 +14,15 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 //Get secrets
-//You will have to change these environment variables for the sample to work
-var clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT;
-var clu_key = process.env.AZURE_CONVERSATIONS_KEY;
+//You will have to set these environment variables for the sample to work
+const clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT;
+const clu_key = process.env.AZURE_CONVERSATIONS_KEY;
 
-var service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
+const service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
 
+export async function main(){
 //Analyze query
-service.beginConversationAnalysis({
+const poller = await service.beginConversationAnalysis({
     "displayName": "Analyze conversations from xxx",
     "analysisInput": {
         "conversations": [
@@ -61,30 +62,33 @@ service.beginConversationAnalysis({
             }
         }
     ]
-}).then((poller) => {
-    return poller.pollUntilDone();
-}).then((response) => {
-    var task_result = response.tasks.items[0];
+});
+    const actionResult = await poller.pollUntilDone();
+    const task_result = actionResult.tasks.items[0];
     console.log("... view task status ...");
     console.log("status: %s", task_result.status);
-    var resolution_result = task_result.results;
+    const resolution_result = task_result.results;
     if(resolution_result.errors && resolution_result.errors.length != 0){
         console.log("... errors occured ...");
         resolution_result.errors.forEach((error) => {
             console.log(error);
         });
     }else{
-        var conversation_result = resolution_result.conversations[0];
+        const conversation_result = resolution_result.conversations[0];
         if(conversation_result.warnings && conversation_result.warnings.length != 0){
             console.log("... view warnings ...");
             conversation_result.warning.forEach((warning) => {
                 console.log(warning);
             });
         }else{
-            var summaries = conversation_result.summaries;
+            const summaries = conversation_result.summaries;
             console.log("... view task result ...");
             console.log("issue: %s", summaries[0].text);
             console.log("resolution: %s", summaries[1].text);
         }
     }
+}
+
+main().catch((err) => {
+    console.error("The sample encountered an error:", err);
 });

@@ -14,15 +14,15 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 //Get secrets
-//You will have to change these environment variables for the sample to work
-var clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT;
-var clu_key = process.env.AZURE_CONVERSATIONS_KEY;
-var project_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME;
-var deployment_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME;
+//You will have to set these environment variables for the sample to work
+const clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT;
+const clu_key = process.env.AZURE_CONVERSATIONS_KEY;
+const project_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME;
+const deployment_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME;
 
-var service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
+const service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
 
-var body: ConversationalTask = {
+const body: ConversationalTask = {
     "kind": "Conversation",
     "analysisInput": {
         "conversationItem": {
@@ -41,23 +41,28 @@ var body: ConversationalTask = {
     }
 }
 
+export async function main(){
 //Analyze query
-service.analyzeConversation(body).then((message) => {
-    console.log("query: %s", message.result.query);
-    console.log("project kind: %s", message.result.prediction.projectKind);
-    var top_intent = message.result.prediction.topIntent;
-    console.log("top intent: %s", top_intent);
-    var top_intent_object = message.result.prediction.intents[top_intent];
-    console.log("confidence score: %s", top_intent_object.confidence);
-    console.log("project kind: %s", top_intent_object.targetProjectKind);
+    const actionResult = await service.analyzeConversation(body);
+    console.log("query: ", actionResult.result.query);
+    console.log("project kind: ", actionResult.result.prediction.projectKind);
+    const top_intent = actionResult.result.prediction.topIntent;
+    console.log("top intent: ", top_intent);
+    const top_intent_object = actionResult.result.prediction.intents[top_intent];
+    console.log("confidence score: ", top_intent_object.confidence);
+    console.log("project kind: ", top_intent_object.targetProjectKind);
 
     if(top_intent_object.targetProjectKind == "Luis"){
         console.log("\nluis response:");
-        var luis_response = top_intent_object.result.prediction;
-        console.log("top intent: %s", luis_response.topIntent);
+        const luis_response = top_intent_object.result.prediction;
+        console.log("top intent: ", luis_response.topIntent);
         console.log("\nentities:");
         luis_response.entities.forEach((entity) => {
-            console.log("\n%s", entity);
+            console.log("\n", entity);
         })
     }
+}
+
+main().catch((err) => {
+    console.error("The sample encountered an error:", err);
 });

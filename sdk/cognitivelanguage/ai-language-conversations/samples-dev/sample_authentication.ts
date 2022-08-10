@@ -19,13 +19,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 function sample_authentication_api_key(){
-    // [START create_dt_client_with_key]
+    console.log("\n.. authentication_with_api_key")
     // You will need to set these environment variables or edit the following values
-    var endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT
-    var key = process.env.AZURE_CONVERSATIONS_KEY
+    const endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT
+    const key = process.env.AZURE_CONVERSATIONS_KEY
 
-    var clu_client = new ConversationAnalysisClient(endpoint, new AzureKeyCredential(key))
-    // [END create_clu_client_with_key]
+    const clu_client = new ConversationAnalysisClient(endpoint, new AzureKeyCredential(key))
 }
 
 function sample_authentication_with_azure_active_directory(){
@@ -34,11 +33,15 @@ function sample_authentication_with_azure_active_directory(){
 
     console.log("\n.. authentication_with_azure_active_directory")
 
-    var endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT
-    var credential = new DefaultAzureCredential()
+    const endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT
+    const credential = new DefaultAzureCredential()
 
-    var clu_client = ConversationAnalysisClient(endpoint, credential=credential)
+    const clu_client = new ConversationAnalysisClient(endpoint, credential)
 }
 
-sample_authentication_api_key();
-//sample_authentication_with_azure_active_directory();
+function main(){
+    sample_authentication_api_key();
+    sample_authentication_with_azure_active_directory();
+}
+
+main();
