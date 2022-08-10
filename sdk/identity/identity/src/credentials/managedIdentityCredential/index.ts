@@ -16,8 +16,8 @@ import { arcMsi } from "./arcMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { fabricMsi } from "./fabricMsi";
 import { appServiceMsi2019 } from "./appServiceMsi2019";
-import { AppTokenProviderParameters, ConfidentialClientApplication, NodeAuthOptions } from "@azure/msal-node";
-import {DeveloperSignOnClientId} from "../../constants";
+import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
+import { DeveloperSignOnClientId } from "../../constants";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -122,7 +122,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         clientId: this.clientId ?? DeveloperSignOnClientId,
         clientSecret: "dummy-secret"
       }
-    })
+    });
   }
 
   private cachedMSI: MSI | undefined;
@@ -177,20 +177,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     try {
       // Determining the available MSI, and avoiding checking for other MSIs while the program is running.
       const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
-      // const appTokenParameters: AppTokenProviderParameters = {
-      //   correlationId: this.identityClient.getCorrelationId(), 
-      //   tenantId: getTokenOptions?.tenantId || "organizations",
-      //   scopes: [...scopes],
-      //   claims: getTokenOptions?.claims
-      // }
-      // this.confidentialApp.SetAppTokenProvider(async(appTokenProviderParameters=appTokenParameters)=>{
-      //   console.log(appTokenProviderParameters);
-      //   return {
-      //     accessToken: "string;",
-      //     expiresInSeconds: 4224,
-      //     refreshInSeconds: 3243453
-      //   }
-      // })
       return availableMSI.getToken(
         {
           identityClient: this.identityClient,
@@ -244,16 +230,30 @@ export class ManagedIdentityCredential implements TokenCredential {
         scopes: [...scopes],
         claims: options?.claims
       }
+
       this.confidentialApp.SetAppTokenProvider(async(appTokenProviderParameters=appTokenParameters)=>{
         console.log(appTokenProviderParameters);
-        
-        return {
-          accessToken: "string;",
-          expiresInSeconds: 4224,
-          refreshInSeconds: 3243453
+        result = await this.authenticateManagedIdentity(scopes, {...updatedOptions, ...appTokenProviderParameters});
+        if(result){
+          return {
+            accessToken: result?.token,
+            expiresInSeconds: result?.expiresOnTimestamp,
+            refreshInSeconds: 0
+          }
+        }         
+        else{
+          return {
+            accessToken: "no_access_token_returned",
+            expiresInSeconds: 0,
+            refreshInSeconds: 0
+          }
         }
       })
-
+      
+      //TODO: do i need to set azureregion, cache etc?
+      this.confidentialApp.acquireTokenByClientCredential({
+          ...appTokenParameters
+        });
 
         if (result === null) {
           // If authenticateManagedIdentity returns null,
