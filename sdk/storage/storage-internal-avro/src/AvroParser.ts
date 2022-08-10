@@ -355,10 +355,7 @@ class AvroPrimitiveType extends AvroType {
     this._primitive = primitive;
   }
 
-  public read(
-    stream: AvroReadable,
-    options: AvroParserReadOptions = {}
-  ): Promise<Object | null> {
+  public read(stream: AvroReadable, options: AvroParserReadOptions = {}): Promise<Object | null> {
     switch (this._primitive) {
       case AvroPrimitive.NULL:
         return AvroParser.readNull();
@@ -407,7 +404,8 @@ class AvroUnionType extends AvroType {
   public async read(
     stream: AvroReadable,
     options: AvroParserReadOptions = {}
-  ): Promise<Object | null> { // eslint-disable-line @typescript-eslint/ban-types
+  ): Promise<Object | null> {
+    // eslint-disable-line @typescript-eslint/ban-types
     const typeIndex = await AvroParser.readInt(stream, options);
     return this._types[typeIndex].read(stream, options);
   }
@@ -425,7 +423,7 @@ class AvroMapType extends AvroType {
     const readItemMethod = (
       s: AvroReadable,
       opts?: AvroParserReadOptions
-    ): Promise<Object | null> => { 
+    ): Promise<Object | null> => {
       return this._itemType.read(s, opts);
     };
     return AvroParser.readMap(stream, readItemMethod, options);

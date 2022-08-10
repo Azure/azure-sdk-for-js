@@ -286,18 +286,17 @@ export = {
                 const symbol = typeChecker
                   .getTypeAtLocation(converter.get(node as TSESTree.Node))
                   .getSymbol();
-                const overloads =
-                  symbol?.declarations
-                    ? symbol.declarations
-                        .filter(
-                          (declaration: Declaration): boolean =>
-                            reverter.get(declaration as TSNode) !== undefined
-                        )
-                        .map((declaration: Declaration): FunctionExpression => {
-                          const method = reverter.get(declaration as TSNode) as MethodDefinition;
-                          return method.value;
-                        })
-                    : [];
+                const overloads = symbol?.declarations
+                  ? symbol.declarations
+                      .filter(
+                        (declaration: Declaration): boolean =>
+                          reverter.get(declaration as TSNode) !== undefined
+                      )
+                      .map((declaration: Declaration): FunctionExpression => {
+                        const method = reverter.get(declaration as TSNode) as MethodDefinition;
+                        return method.value;
+                      })
+                  : [];
                 evaluateOverloads(
                   overloads,
                   converter,
@@ -326,13 +325,12 @@ export = {
                 const symbol = typeChecker
                   .getTypeAtLocation(converter.get(node as TSESTree.Node))
                   .getSymbol();
-                const overloads =
-                  symbol?.declarations
-                    ? symbol.declarations.map(
-                        (declaration: Declaration): FunctionDeclaration =>
-                          reverter.get(declaration as TSNode) as FunctionDeclaration
-                      )
-                    : [];
+                const overloads = symbol?.declarations
+                  ? symbol.declarations.map(
+                      (declaration: Declaration): FunctionDeclaration =>
+                        reverter.get(declaration as TSNode) as FunctionDeclaration
+                    )
+                  : [];
                 evaluateOverloads(
                   overloads,
                   converter,

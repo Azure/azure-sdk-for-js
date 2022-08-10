@@ -72,7 +72,7 @@
     "@azure/core-auth": "^1.4.0",
     "@azure/core-rest-pipeline": "^1.9.1",
     "@azure/core-tracing": "^1.0.0",
-    "@azure/core-util": "^1.0.0",
+    "@azure/core-util": "^1.0.1",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },

@@ -40,7 +40,7 @@ import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
 } from "./util/constants";
-import { isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
 import { translateError } from "./util/error";
 import { v4 as uuid } from "uuid";
 
