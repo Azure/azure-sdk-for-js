@@ -338,7 +338,7 @@ Let's evaluate the composition of a Key Vault Certificate:
 
 Knowing that the private key is stored in a Key Vault Secret,
 with the public certificate included, we can retrieve it
-by using the [KeyVault Secrets client][keyvault-secrets-client].
+by using the KeyVault Secrets client.
 
 ```ts
 // Using the same credential object we used before,
@@ -360,7 +360,7 @@ fs.writeFileSync("myCertificate.p12", PKCS12Certificate);
 ```
 
 Note that, by default, the content type of the certificates
-is [PKCS 12][pkcs_12]. By specifying the content type
+is PKCS 12. By specifying the content type
 of your certificate, you'll be able to retrieve it in PEM format.
 Before showing how to create PEM certificates,
 let's first explore how to retrieve a PEM secret key
@@ -663,5 +663,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [default_azure_credential]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable#defaultazurecredential
 [managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [azure_identity]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable
+[composition-of-a-certificate]: https://docs.microsoft.com/en-us/azure/key-vault/certificates/about-certificates#composition-of-a-certificate
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2FREADME.png)

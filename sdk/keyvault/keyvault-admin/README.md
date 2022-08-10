@@ -144,35 +144,15 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 <!-- LINKS -->
 
-[dac]: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/README.md
-[jwk]: https://tools.ietf.org/html/rfc7517
-[access_control]: https://docs.microsoft.com/azure/key-vault/managed-hsm/access-control
-[api-rest]: https://docs.microsoft.com/rest/api/keyvault/
-[azure-cli]: https://docs.microsoft.com/cli/azure
-[azure-sub]: https://azure.microsoft.com/free/
-[backup_client]: ./src/KeyVaultBackupClient.cs
-[best_practices]: https://docs.microsoft.com/azure/key-vault/managed-hsm/best-practices
-[built_in_roles]: https://docs.microsoft.com/azure/key-vault/managed-hsm/built-in-roles
-[code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [compiler-options]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
 [core-lro]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro
-[docs-overview]: https://docs.microsoft.com/azure/key-vault/key-vault-overview
 [docs-service]: https://azure.microsoft.com/services/key-vault/
 [docs]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
-
-[dotenv]: https://www.npmjs.com/package/dotenv]
-[identity-npm]: https://www.npmjs.com/package/@azure/identity
-[keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
-[logging]: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/main/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
 [managedhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
 [npm]: https://www.npmjs.com/
 [package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin
 [package-npm]: https://www.npmjs.com/package/@azure/keyvault-admin
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples
-[storage-account-create-cli]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli
-[storage-account-create-portal]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal
-[storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
-
 [azure_keyvault_mhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
 [azure_keyvault_mhsm_cli]: https://docs.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
 [default_azure_credential]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable#defaultazurecredential
