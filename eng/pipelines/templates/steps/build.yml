@@ -99,7 +99,7 @@ steps:
 
   - task: Powershell@2
     inputs:
-      filePath: $(Build.SourcesDirectory)/eng/scripts/Create-APIView-File.ps1
+      filePath: $(Build.SourcesDirectory)/eng/scripts/Generate-APIView-CodeFile.ps1
       arguments: >
         -ArtifactPath $(Build.ArtifactStagingDirectory)
       pwsh: true
@@ -123,7 +123,7 @@ steps:
         ArtifactPath: '$(Build.ArtifactStagingDirectory)/_manifest'
         ArtifactName: 'manifest'
 
-  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+  - template: /eng/pipelines/templates/steps/create-apireview.yml
     parameters:
       Artifacts: ${{ parameters.Artifacts }}
 
