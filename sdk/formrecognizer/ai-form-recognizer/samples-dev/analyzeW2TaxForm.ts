@@ -10,6 +10,7 @@
  * https://aka.ms/azsdk/formrecognizer/taxusw2fieldschema
  *
  * @summary extract data from a United States W2 tax document
+ * @azsdk-skip-javascript
  */
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";

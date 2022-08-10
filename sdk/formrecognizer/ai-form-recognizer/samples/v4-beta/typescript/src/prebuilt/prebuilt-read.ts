@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @azsdk-util
- * @azsdk-skip-javascript
- */
-
-// Model:       prebuilt-layout
-// Description: Extract text and layout information from documents.
+// Model:       prebuilt-read
+// Description: Extract text from documents.
 // API Version: 2022-06-30-preview
 // Created:     Thu Jul 14 2022
 
 import * as fr from "@azure/ai-form-recognizer";
 
 /**
- * Extract text and layout information from documents.
+ * Extract text from documents.
  */
-export const PrebuiltLayoutModel = fr.createModelFromSchema(
+export const PrebuiltReadModel = fr.createModelFromSchema(
   modelInfo()
-) as fr.DocumentModel<PrebuiltLayoutResult>;
+) as fr.DocumentModel<PrebuiltReadResult>;
 
-export interface PrebuiltLayoutResult extends fr.AnalyzeResultCommon {
+export interface PrebuiltReadResult extends fr.AnalyzeResultCommon {
   /**
    * Extracted pages.
    */
@@ -34,9 +29,9 @@ export interface PrebuiltLayoutResult extends fr.AnalyzeResultCommon {
    */
   styles?: fr.DocumentStyle[];
   /**
-   * Extracted tables.
+   * Extracted text languages.
    */
-  tables?: fr.DocumentTable[];
+  languages?: fr.DocumentLanguage[];
 }
 
 /**
@@ -44,8 +39,8 @@ export interface PrebuiltLayoutResult extends fr.AnalyzeResultCommon {
  */
 function modelInfo() {
   return {
-    modelId: "prebuilt-layout",
-    description: "Extract text and layout information from documents.",
+    modelId: "prebuilt-read",
+    description: "Extract text from documents.",
     createdDateTime: "2022-06-30T00:00:00.000Z",
     apiVersion: "2022-06-30-preview",
   } as const;

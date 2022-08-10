@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @azsdk-util
- * @azsdk-skip-javascript
- */
-
 // Model:       prebuilt-businessCard
 // Description: Extract key information from business cards.
 // API Version: 2022-06-30-preview
