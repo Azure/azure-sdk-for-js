@@ -28,7 +28,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-language-text)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-language-text)
+- [API reference documentation](https://aka.ms/ai-language-text-js-api)
 - [Product documentation](https://docs.microsoft.com/azure/cognitive-services/language-service/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/samples)
 
