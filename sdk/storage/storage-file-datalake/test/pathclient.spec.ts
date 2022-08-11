@@ -10,7 +10,12 @@ import { assert } from "chai";
 
 import { DataLakeDirectoryClient, DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
-import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
+import {
+  bodyToString,
+  getDataLakeServiceClient,
+  getEncryptionScope,
+  recorderEnvSetup,
+} from "./utils";
 import { Context } from "mocha";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 
@@ -792,6 +797,31 @@ describe("DataLakePathClient", () => {
     );
   });
 
+  it("append with flush should work", async () => {
+    const body = "HelloWorld";
+
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+
+    await tempFileClient.create();
+
+    await tempFileClient.append(body, 0, body.length, {
+      transactionalContentMD5: new Uint8Array([]),
+    });
+    await tempFileClient.append(body, body.length, body.length, {
+      transactionalContentMD5: new Uint8Array([]),
+    });
+    await tempFileClient.append(body, body.length * 2, body.length, {
+      transactionalContentMD5: new Uint8Array([]),
+      flush: true,
+    });
+
+    const properties = await tempFileClient.getProperties();
+    assert.deepStrictEqual(properties.contentLength, body.length * 3);
+
+    await tempFileClient.delete();
+  });
+
   it("append & flush should work", async () => {
     const body = "HelloWorld";
 
@@ -1399,5 +1429,53 @@ describe("DataLakePathClient with CPK", () => {
       assert.equal((err as any).statusCode, 409);
     }
     assert.ok(gotError, "Should got an error");
+  });
+});
+
+describe("DataLakePathClient - Encryption Scope", () => {
+  let fileSystemName: string;
+  let fileSystemClient: DataLakeFileSystemClient;
+  let encryptionScopeName: string;
+
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    recorder = record(this, recorderEnvSetup);
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const serviceClient = getDataLakeServiceClient();
+    fileSystemName = recorder.getUniqueName("filesystem");
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+  });
+
+  afterEach(async function () {
+    await fileSystemClient?.deleteIfExists();
+    await recorder.stop();
+  });
+
+  it("DataLakeFileClient - getProperties should return Encryption Scope", async () => {
+    const fileName = recorder.getUniqueName("file");
+    const fileClient = fileSystemClient.getFileClient(fileName);
+    await fileClient.create();
+    const result = await fileClient.getProperties();
+    assert.equal(result.encryptionScope, encryptionScopeName);
+  });
+
+  it("DataLakeDirectoryClient - getProperties should return Encryption Scope", async () => {
+    const dirName = recorder.getUniqueName("dir");
+    const dirClient = fileSystemClient.getDirectoryClient(dirName);
+    await dirClient.create();
+    const result = await dirClient.getProperties();
+    assert.equal(result.encryptionScope, encryptionScopeName);
   });
 });

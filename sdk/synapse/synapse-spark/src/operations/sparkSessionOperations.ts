@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { SparkSessionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SparkClientContext } from "../sparkClientContext";
+import { SparkClient } from "../sparkClient";
 import {
   SparkSessionGetSparkSessionsOptionalParams,
   SparkSessionGetSparkSessionsResponse,
@@ -36,13 +35,13 @@ import {
 
 /** Class containing SparkSessionOperations operations. */
 export class SparkSessionOperationsImpl implements SparkSessionOperations {
-  private readonly client: SparkClientContext;
+  private readonly client: SparkClient;
 
   /**
    * Initialize a new instance of the class SparkSessionOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: SparkClientContext) {
+  constructor(client: SparkClient) {
     this.client = client;
   }
 
@@ -53,22 +52,16 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
   async getSparkSessions(
     options?: SparkSessionGetSparkSessionsOptionalParams
   ): Promise<SparkSessionGetSparkSessionsResponse> {
-    const { span } = createSpan("SparkClient-getSparkSessions", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getSparkSessionsOperationSpec
-      );
-      return result as SparkSessionGetSparkSessionsResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SparkClient.getSparkSessions",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getSparkSessionsOperationSpec
+        ) as Promise<SparkSessionGetSparkSessionsResponse>;
+      }
+    );
   }
 
   /**
@@ -80,25 +73,16 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sparkSessionOptions: SparkSessionOptions,
     options?: SparkSessionCreateSparkSessionOptionalParams
   ): Promise<SparkSessionCreateSparkSessionResponse> {
-    const { span } = createSpan(
-      "SparkClient-createSparkSession",
-      options || {}
+    return tracingClient.withSpan(
+      "SparkClient.createSparkSession",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sparkSessionOptions, options },
+          createSparkSessionOperationSpec
+        ) as Promise<SparkSessionCreateSparkSessionResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sparkSessionOptions, options },
-        createSparkSessionOperationSpec
-      );
-      return result as SparkSessionCreateSparkSessionResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -110,22 +94,16 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sessionId: number,
     options?: SparkSessionGetSparkSessionOptionalParams
   ): Promise<SparkSessionGetSparkSessionResponse> {
-    const { span } = createSpan("SparkClient-getSparkSession", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sessionId, options },
-        getSparkSessionOperationSpec
-      );
-      return result as SparkSessionGetSparkSessionResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SparkClient.getSparkSession",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sessionId, options },
+          getSparkSessionOperationSpec
+        ) as Promise<SparkSessionGetSparkSessionResponse>;
+      }
+    );
   }
 
   /**
@@ -137,25 +115,16 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sessionId: number,
     options?: SparkSessionCancelSparkSessionOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "SparkClient-cancelSparkSession",
-      options || {}
+    return tracingClient.withSpan(
+      "SparkClient.cancelSparkSession",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sessionId, options },
+          cancelSparkSessionOperationSpec
+        ) as Promise<void>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sessionId, options },
-        cancelSparkSessionOperationSpec
-      );
-      return result as void;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -167,25 +136,16 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sessionId: number,
     options?: SparkSessionResetSparkSessionTimeoutOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "SparkClient-resetSparkSessionTimeout",
-      options || {}
+    return tracingClient.withSpan(
+      "SparkClient.resetSparkSessionTimeout",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sessionId, options },
+          resetSparkSessionTimeoutOperationSpec
+        ) as Promise<void>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sessionId, options },
-        resetSparkSessionTimeoutOperationSpec
-      );
-      return result as void;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -197,25 +157,16 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sessionId: number,
     options?: SparkSessionGetSparkStatementsOptionalParams
   ): Promise<SparkSessionGetSparkStatementsResponse> {
-    const { span } = createSpan(
-      "SparkClient-getSparkStatements",
-      options || {}
+    return tracingClient.withSpan(
+      "SparkClient.getSparkStatements",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sessionId, options },
+          getSparkStatementsOperationSpec
+        ) as Promise<SparkSessionGetSparkStatementsResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sessionId, options },
-        getSparkStatementsOperationSpec
-      );
-      return result as SparkSessionGetSparkStatementsResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -229,25 +180,16 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sparkStatementOptions: SparkStatementOptions,
     options?: SparkSessionCreateSparkStatementOptionalParams
   ): Promise<SparkSessionCreateSparkStatementResponse> {
-    const { span } = createSpan(
-      "SparkClient-createSparkStatement",
-      options || {}
+    return tracingClient.withSpan(
+      "SparkClient.createSparkStatement",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sessionId, sparkStatementOptions, options },
+          createSparkStatementOperationSpec
+        ) as Promise<SparkSessionCreateSparkStatementResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sessionId, sparkStatementOptions, options },
-        createSparkStatementOperationSpec
-      );
-      return result as SparkSessionCreateSparkStatementResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -261,22 +203,16 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     statementId: number,
     options?: SparkSessionGetSparkStatementOptionalParams
   ): Promise<SparkSessionGetSparkStatementResponse> {
-    const { span } = createSpan("SparkClient-getSparkStatement", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sessionId, statementId, options },
-        getSparkStatementOperationSpec
-      );
-      return result as SparkSessionGetSparkStatementResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SparkClient.getSparkStatement",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sessionId, statementId, options },
+          getSparkStatementOperationSpec
+        ) as Promise<SparkSessionGetSparkStatementResponse>;
+      }
+    );
   }
 
   /**
@@ -290,25 +226,16 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     statementId: number,
     options?: SparkSessionCancelSparkStatementOptionalParams
   ): Promise<SparkSessionCancelSparkStatementResponse> {
-    const { span } = createSpan(
-      "SparkClient-cancelSparkStatement",
-      options || {}
+    return tracingClient.withSpan(
+      "SparkClient.cancelSparkStatement",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sessionId, statementId, options },
+          cancelSparkStatementOperationSpec
+        ) as Promise<SparkSessionCancelSparkStatementResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sessionId, statementId, options },
-        cancelSparkStatementOperationSpec
-      );
-      return result as SparkSessionCancelSparkStatementResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications
