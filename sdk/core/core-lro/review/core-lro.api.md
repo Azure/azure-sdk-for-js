@@ -80,9 +80,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
     poll(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;
-    pollUntilDone(options?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TResult>;
+    pollUntilDone(): Promise<TResult>;
     stopPolling(): void;
     toString(): string;
 }
@@ -106,9 +104,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
     poll(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;
-    pollUntilDone(options: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TResult>;
+    pollUntilDone(): Promise<TResult>;
     stopPolling(): void;
     toString(): string;
 }
@@ -163,9 +159,7 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
     poll(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;
-    pollUntilDone(options?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TResult>;
+    pollUntilDone(): Promise<TResult>;
     stopPolling(): void;
     toString(): string;
 }

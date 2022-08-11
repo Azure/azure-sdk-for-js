@@ -226,12 +226,12 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * Starts a loop that will break only if the poller is done
    * or if the poller is stopped.
    */
-  private async startPolling(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+  private async startPolling(): Promise<void> {
     if (this.stopped) {
       this.stopped = false;
     }
     while (!this.isStopped() && !this.isDone()) {
-      await this.poll(options);
+      await this.poll();
       await this.delay();
     }
   }
@@ -322,9 +322,9 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
-  public async pollUntilDone(options: { abortSignal?: AbortSignalLike } = {}): Promise<TResult> {
+  public async pollUntilDone(): Promise<TResult> {
     if (this.stopped) {
-      this.startPolling(options).catch(this.reject);
+      this.startPolling().catch(this.reject);
     }
     // This is needed because the state could have been updated by
     // `cancelOperation`, e.g. the operation is canceled or an error occurred.
