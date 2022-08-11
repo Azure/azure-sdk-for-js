@@ -10,7 +10,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
-        "Content-Length": "285",
+        "Content-Length": "311",
         "Content-Type": "application/json",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -19,17 +19,22 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "af8f9c96-5f75-4f4a-9cdb-70435cb35881",
-        "x-ms-useragent": "azsdk-js-monitor-ingestion/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/105.0.5173.0 Safari/537.36",
+        "x-ms-client-request-id": "c8a2cdb0-932c-4b24-8199-2caaa9f8e5dc",
+        "x-ms-useragent": "azsdk-js-monitor-ingestion/1.0.0-beta.2 core-rest-pipeline/1.9.2 OS/Win32"
       },
-      "RequestBody": "[{\u0022Time\u0022:\u00222021-12-08T23:51:14.1104269Z\u0022,\u0022Computer\u0022:\u0022Computer1\u0022,\u0022AdditionalContext\u0022:\u0022kaghiya-1\u0022},{\u0022Time\u0022:\u00222021-12-08T23:51:14.1104269Z\u0022,\u0022Computer\u0022:\u0022Computer2\u0022,\u0022AdditionalContext\u0022:{\u0022InstanceName\u0022:\u0022kaghiya-2\u0022,\u0022TimeZone\u0022:\u0022Central Time\u0022,\u0022Level\u0022:3,\u0022CounterName\u0022:\u0022test\u0022,\u0022CounterValue\u0022:23.5}}]",
+      "RequestBody": [
+        "\u001F\uFFFD\b\u0000\u0000\u0000\u0000\u0000\u0000\u0003\uFFFD\uFFFD\uFFFD\n",
+        "\uFFFD@\u0010@\u007F%\uFFFD\uFFFD\u001A\uFFFD-\u003C\u0005\uFFFDI:\u0018\u001D\uFFFD\u001Cji\uFFFD\r",
+        "\u001D\uFFFD\u0010\uFFFD\uFFFD]\uFFFDN\u077A\r",
+        "of\uFFFD;\u000EP\uFFFD\uFFFD \u0007\u0011\u000B\fQ\uFFFD\uFFFD\u0014I\uFFFDa\uFFFDi\uFFFD\u0018\uFFFDb\uFFFD\uFFFD \uFFFD\uFFFD6\uFFFD\uFFFD\uFFFDu\uFFFD\uFFFD\u000Eo\uFFFDZ\uFFFD\uFFFDF\uFFFD\uFFFD\u001A\uFFFD\u0027\uFFFD\uFFFDM^\uFFFD\uFFFD%C\uFFFD1\uFFFDC/~\uFFFD\u0007\u061A\uFFFD\uFFFD9\uFFFD^N\uFFFD9\uFFFD\uFFFD}\uFFFD\uFFFD\uFFFD\uFFFD\f\uFFFDR/\uFFFD~\u0000;z\uFFFD\uFFFD\u003C\uFFFD\u07A9\uFFFD\uFFFD7S\uFFFD\uFFFD\uFFFD\u0007\uFFFD{GE\u0012e\uFFFDxz\u0003\uFFFDU\u0014\u0004\u001D\u0001\u0000\u0000"
+      ],
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Tue, 19 Jul 2022 08:05:46 GMT",
+        "Date": "Thu, 11 Aug 2022 01:26:54 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
-        "x-ms-client-request-id": "af8f9c96-5f75-4f4a-9cdb-70435cb35881",
-        "x-ms-request-id": "176fcba9-1658-4cfa-93d8-a43865f7ac9b"
+        "x-ms-client-request-id": "c8a2cdb0-932c-4b24-8199-2caaa9f8e5dc",
+        "x-ms-request-id": "e3867217-887b-4c62-aa40-525b844c5289"
       },
       "ResponseBody": null
     }
