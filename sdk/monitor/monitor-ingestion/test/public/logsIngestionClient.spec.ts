@@ -12,7 +12,7 @@ import {
   getLogsIngestionEndpoint,
   loggerForTest,
 } from "./shared/testShared";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
@@ -56,7 +56,7 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("sends basic data", async function () {
-    if (isPlaybackMode()) this.skip();
+    //if (isPlaybackMode()) this.skip();
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", [
       {
         Time: "2021-12-08T23:51:14.1104269Z",
@@ -79,7 +79,7 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("Success Test - divides huge data into chunks", async function () {
-    if (isPlaybackMode()) this.skip();
+    //if (isPlaybackMode()) this.skip();
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
       maxConcurrency: 3,
     });
