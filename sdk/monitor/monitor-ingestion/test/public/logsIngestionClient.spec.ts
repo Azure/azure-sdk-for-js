@@ -12,7 +12,8 @@ import {
   getLogsIngestionEndpoint,
   loggerForTest,
 } from "./shared/testShared";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { isNode } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
@@ -56,7 +57,7 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("sends basic data", async function () {
-    //if (isPlaybackMode()) this.skip();
+    if (isPlaybackMode() && isNode) this.skip();
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", [
       {
         Time: "2021-12-08T23:51:14.1104269Z",
@@ -88,7 +89,7 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
-    if (isPlaybackMode()) this.skip();
+    if (isPlaybackMode() && isNode) this.skip();
     const noOfElements = 50000;
     const logData = getObjects(noOfElements);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
@@ -124,7 +125,7 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("Throws error when all logs fail", async function () {
-    if (isPlaybackMode()) this.skip();
+    if (isPlaybackMode() && isNode) this.skip();
     const noOfElements = 50000;
     const logData = getObjects(noOfElements);
     const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {

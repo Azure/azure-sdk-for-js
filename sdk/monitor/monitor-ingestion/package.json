@@ -96,6 +96,7 @@
     "pako": "^2.0.4"
   },
   "devDependencies": {
+    "@azure/core-util": "^1.0.0",
     "@azure-tools/test-credential": "~1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
     "@azure/dev-tool": "^1.0.0",
