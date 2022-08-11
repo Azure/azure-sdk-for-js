@@ -840,6 +840,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 [samples]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples
 [tscompileroptions]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
 [softdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete
+[azure_keyvault]: https://docs.microsoft.com/azure/key-vault/general/overview
+[azure_keyvault_cli]: https://docs.microsoft.com/azure/key-vault/general/quick-create-cli
+[azure_keyvault_portal]: https://docs.microsoft.com/azure/key-vault/general/quick-create-portal
 [azure_keyvault_mhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
 [azure_keyvault_mhsm_cli]: https://docs.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
 [default_azure_credential]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable#defaultazurecredential
