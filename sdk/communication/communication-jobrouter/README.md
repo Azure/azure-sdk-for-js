@@ -1,6 +1,6 @@
-# Azure Communication JobRouter client library for JavaScript
+# Azure Communication JobRouter client sdk for JavaScript
 
-The JobRouter library is used for managing users and tokens for Azure Communication Services.
+This package contains a JS SDK for Azure Communication Services for JobRouter.
 
 ## Getting started
 
@@ -32,9 +32,10 @@ In this tutorial, you will learn:
 - How to route incoming jobs to queues.
 
 ## Key concepts
-| Name | Description |
-|--|--|
-| RouterClient | This class is needed for router functionality. You instantiate it with your subscription information, and manage workers and queues. |
+ Name | Description 
+---|---
+| RouterClient | This class is needed for router functionality. You instantiate it with your subscription information, and manage workers and jobs. |
+| RouterAdministrationClient | This class is needed for router administration functionality. You instantiate it with your subscription information, and manage policies and queues. |
 | Job | A unit of work that needs to be done. eg. service an incoming call/chat/etc. Jobs will be organized into queues. |
 | Queue | Queues are where jobs wait until they get handled by workers, ordered by priority then enqueue time |
 | Worker | Workers are a resource (e.g. human or bot) that can handle incoming jobs from queues. |
@@ -82,13 +83,14 @@ import { RouterClient } from '@azure/communication-jobrouter';
 
 const acsConnectionString = 'endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>'
 const routerClient = new RouterClient(acsConnectionString );
+const routerAdministrationClient = new RouterAdministrationClient(acsConnectionString );
 ```
 
 ##Configure Queue and Workers
 ###Create a queue
 Then we create a sales queue with various labels.
 ```js
-const salesQueueResponse = await routerClient.CreateQueue({
+const salesQueueResponse = await routerAdministrationClient.CreateQueue({
   "name": "Sales",
   "distributionPolicyId": "0832f57a-a651-4cd3-b721-1a1ce76ecf2b",
   "labels": {
@@ -101,9 +103,9 @@ const salesQueueResponse = await routerClient.CreateQueue({
 ###Register workers
 Register workers “Bob” and “Alice” with various abilities.
 ```js
-// Register worker Bob
+// Create worker Bob
 const workerId = "21837c88-6967-4078-86b9-1207821a8392";
-const bobWorkerResponse = await routerClient.RegisterWorker(workerId, {
+const bobWorkerResponse = await routerClient.CreateWorker(workerId, {
   "totalCapacityScore": 100,
   "abilities": {
     "Xbox": 5,
@@ -112,17 +114,12 @@ const bobWorkerResponse = await routerClient.RegisterWorker(workerId, {
   "labels": {
     "name": "Bob"
   },
-  "socketConfigurations": [
-    {
-      "channelId": "chat",
-      "consumptionScore": 25
-    }
-  ]
+  "queueAssignments": {[salesQueueResponse.Id]: {}}
 });
 
-// Register worker Alice
+// Create worker Alice
 const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
-const aliceWorkerResponse = await routerClient.RegisterWorker(workerAliceId, {
+const aliceWorkerResponse = await routerClient.CreateWorker(workerAliceId, {
   "totalCapacityScore": 120,
   "abilities": {
     "Xbox": 5,
@@ -131,28 +128,23 @@ const aliceWorkerResponse = await routerClient.RegisterWorker(workerAliceId, {
   "labels": {
     "name": "Alice"
   },
-  "socketConfigurations": [
-    {
-      "channelId": "chat",
-      "consumptionScore": 25
-    }
-  ]
+  "queueAssignments": {[salesQueueResponse.Id]: {}}
 });
 ```
 Note: Workers may also be registered via [Azure Communication Services Worker Management SDK](https://skype.visualstudio.com/SPOOL/_wiki/wikis/SPOOL.wiki/21323/Worker-Management-DevX-JS?anchor=create-workers)
 
-###Assign workers to a queue
-Assign workers Bob and Alice to the Sales queue.
+### Register workers if workers are inactive (Optional)
+Register workers Bob and Alice to make them active.
 ```js
-await routerClient.JoinQueue(bobWorkerResponse.Id, salesQueueResponse.Id);
-await routerClient.JoinQueue(aliceWorkerResponse.Id, salesQueueResponse.Id);
+await routerClient.RegisterWorker(bobWorkerResponse.Id);
+await routerClient.RegisterWorker(aliceWorkerResponse.Id);
 ```
 Note: Workers may also be assigned to queues via [Azure Communication Services Worker Management SDK](https://skype.visualstudio.com/SPOOL/_wiki/wikis/SPOOL.wiki/21323/Worker-Management-DevX-JS?anchor=associate-group-to-a-queue)
 
 ###Configure classification policy
 Create a classification policy that will house skills policy, prioritization policy and queue selection policy in order to classify incoming jobs.
 ```js
-await routerClient.CreateClassificationPolicy({
+await routerAdministrationClient.CreateClassificationPolicy({
   "name": "Default Classification Policy",
   "defaultQueueId": "5a520826-d1d7-4403-9880-cfbc61f1e5f0",
   "queueSelectionRules": {
@@ -176,7 +168,7 @@ await routerClient.CreateClassificationPolicy({
 ###Configure distribution policy
 Create a distribution policy that will determine which workers will receive jobs as they are distributed off the queues.
 ```js
-await routerClient.CreateDistributionPolicy({
+await routerAdministrationClient.CreateDistributionPolicy({
   "name": "Default Distribution Policy",
   "offerTTL": { "seconds": 30 },
   "mode": {
@@ -293,7 +285,7 @@ app.post('/event', (req, res) => {
 ### Accept Job
 Once you receive an OfferIssued event, you can accept or decline the Job with the following SDK call, passing in the worker's ACS identity so that they can be added to the job.
 ```js
-await routerClient.acceptJob({
+await routerClient.acceptJobAction({
   "JobId": "ed02ac28-6a69-49ba-b1c1-be7ac6a9925f",
   "WorkerId": "90df513d-3394-434a-bf09-171a0e878b27"
 });
@@ -319,8 +311,9 @@ await routerClient.closeJob({
 
 ###Router Events
 The following is a list of possible router events:
-|Event Name|Description|
-|--|--|
+
+Event Name | Description
+---|---
 |JobCreatedEvent|A new job was created for routing|
 |JobClassifiedEvent|The classification policy was applied to a job|
 |JobQueuedEvent|The job was assigned a queue|

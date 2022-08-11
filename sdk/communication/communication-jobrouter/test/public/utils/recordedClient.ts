@@ -17,12 +17,6 @@ if (isNode) {
   dotenv.config();
 }
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
-  const recorder = new Recorder(context);
-  await recorder.start(recorderOptions);
-  return recorder;
-}
-
 export function createTestHttpClient(): HttpClient {
   const customHttpClient = new DefaultHttpClient();
 
@@ -61,3 +55,9 @@ export const recorderOptions: RecorderStartOptions = {
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }]
   }
 };
+
+export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start(recorderOptions);
+  return recorder;
+}
