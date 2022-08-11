@@ -105,15 +105,15 @@ export async function createPoller<TResult, TState extends OperationState<TResul
       handlers.set(s, callback);
       return () => handlers.delete(s);
     },
-    pollUntilDone: () =>
+    pollUntilDone: (options?: { abortSignal?: AbortSignalLike }) =>
       (resultPromise ??= (async () => {
         if (!poller.isDone()) {
-          await poller.poll();
+          await poller.poll(options);
           while (!poller.isDone()) {
             const delay = delayMs(currentPollIntervalInMs);
             cancelJob = delay.cancel;
             await delay;
-            await poller.poll();
+            await poller.poll(options);
           }
         }
         switch (state.status) {
