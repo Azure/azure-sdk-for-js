@@ -331,14 +331,12 @@ export enum StorageBlobAudience {
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
  */
- export declare interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
+export declare interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
   /**
    * Returns a promise that will resolve once a single polling request finishes.
    * It does this by calling the update method of the Poller's operation.
    */
-  poll(options?: {
-      abortSignal?: AbortSignalLike;
-  }): Promise<void>;
+  poll(options?: { abortSignal?: AbortSignalLike }): Promise<void>;
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
@@ -365,9 +363,7 @@ export enum StorageBlobAudience {
   /**
    * Attempts to cancel the underlying operation.
    */
-  cancelOperation(options?: {
-      abortSignal?: AbortSignalLike;
-  }): Promise<void>;
+  cancelOperation(options?: { abortSignal?: AbortSignalLike }): Promise<void>;
   /**
    * Returns the state of the operation.
    * The TState defined in PollerLike can be a subset of the TState defined in

@@ -85,7 +85,7 @@ import {
   BlobQueryArrowField,
   BlobImmutabilityPolicy,
   HttpAuthorization,
-  PollerLike
+  PollerLike,
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
