@@ -19,7 +19,7 @@ use-extension:
   "@autorest/typescript": "6.0.0-rc.1"
 azure-arm: false
 add-credentials: false
-package-version: 1.2.0-beta.1
+package-version: 1.0.0-beta.1
 v3: true
 ```
 

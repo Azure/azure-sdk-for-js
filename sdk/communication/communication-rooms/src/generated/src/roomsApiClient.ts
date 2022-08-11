@@ -38,7 +38,7 @@ export class RoomsApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-communication-rooms/1.2.0-beta.1`;
+    const packageDetails = `azsdk-js-communication-rooms/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
