@@ -12,7 +12,7 @@ import {
   TransferProgressEvent,
   URLBuilder,
 } from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollOperationState } from "@azure/core-lro";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
 
@@ -85,6 +85,7 @@ import {
   BlobQueryArrowField,
   BlobImmutabilityPolicy,
   HttpAuthorization,
+  PollerLike
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
