@@ -1280,6 +1280,8 @@ export interface PathAppendDataOptionalParams
   contentLength?: number;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
+  /** If file should be flushed after the append */
+  flush?: boolean;
 }
 
 /** Contains response data for the appendData operation. */

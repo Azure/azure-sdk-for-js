@@ -3,6 +3,7 @@
 
 /**
  * @azsdk-util
+ * @azsdk-skip-javascript
  */
 
 // Model:       prebuilt-tax.us.w2
