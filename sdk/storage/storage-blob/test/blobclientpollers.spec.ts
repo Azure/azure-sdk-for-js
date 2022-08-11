@@ -6,14 +6,7 @@ import { assert } from "chai";
 import { getBSU } from "./utils";
 import { record, Recorder, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, testPollerProperties } from "./utils/testutils.common";
-import {
-  BlobClient,
-  BlockBlobClient,
-  ContainerClient,
-  BlobBeginCopyFromURLResponse,
-  PollerLike,
-  PollOperationState,
-} from "../src";
+import { BlobClient, BlockBlobClient, ContainerClient, BlobBeginCopyFromURLResponse } from "../src";
 import { URLBuilder, URLQuery } from "@azure/core-http";
 import { Context } from "mocha";
 
@@ -59,10 +52,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
 
     // specify poller type to ensure types are properly exported
-    const poller: PollerLike<
-      PollOperationState<BlobBeginCopyFromURLResponse>,
-      BlobBeginCopyFromURLResponse
-    > = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
+    const poller = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
 
     const result = await poller.pollUntilDone();
     assert.ok(result.copyId);

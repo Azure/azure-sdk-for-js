@@ -20,6 +20,7 @@ import { HttpClient as IHttpClient } from '@azure/core-http';
 import { KeepAliveOptions } from '@azure/core-http';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { ProxyOptions } from '@azure/core-http';
 import { Readable } from 'stream';
@@ -408,7 +409,7 @@ export class BlobClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: PipelineLike);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
-    beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
+    beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLikeWithCancellation<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
     get containerName(): string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
@@ -2894,8 +2895,10 @@ export interface PipelineOptions {
     httpClient?: IHttpClient;
 }
 
+export { PollerLike }
+
 // @public
-export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
+export interface PollerLikeWithCancellation<TState extends PollOperationState<TResult>, TResult> {
     cancelOperation(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;

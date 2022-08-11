@@ -10,7 +10,7 @@ const maybemap = <T1, T2>(value: T1 | undefined, f: (v: T1) => T2): T2 | undefin
 
 type CancellationToken = Parameters<typeof clearTimeout>[0];
 
-const INTERRUPTED = "The local operation (timer) was interrupted or cancelled.";
+const INTERRUPTED = new Error("The poller is already stopped");
 
 /**
  * A PromiseLike object that supports cancellation.

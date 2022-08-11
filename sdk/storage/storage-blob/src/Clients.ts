@@ -85,7 +85,7 @@ import {
   BlobQueryArrowField,
   BlobImmutabilityPolicy,
   HttpAuthorization,
-  PollerLike,
+  PollerLikeWithCancellation,
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
@@ -1734,7 +1734,10 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobBeginCopyFromURLOptions = {}
   ): Promise<
-    PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>
+    PollerLikeWithCancellation<
+      PollOperationState<BlobBeginCopyFromURLResponse>,
+      BlobBeginCopyFromURLResponse
+    >
   > {
     const client: CopyPollerBlobClient = {
       abortCopyFromURL: (...args) => this.abortCopyFromURL(...args),

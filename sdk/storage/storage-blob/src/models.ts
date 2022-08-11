@@ -331,7 +331,7 @@ export enum StorageBlobAudience {
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
  */
-export declare interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
+export interface PollerLikeWithCancellation<TState extends PollOperationState<TResult>, TResult> {
   /**
    * Returns a promise that will resolve once a single polling request finishes.
    * It does this by calling the update method of the Poller's operation.
