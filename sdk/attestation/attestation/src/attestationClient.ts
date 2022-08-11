@@ -229,67 +229,72 @@ export class AttestationClient {
     report: Uint8Array | Buffer | Blob,
     options: AttestOpenEnclaveOptions = {}
   ): Promise<AttestationResponse<AttestationResult>> {
-    return tracingClient.withSpan("AttestationClient-attestOpenEnclave", options, async (updatedOptions) => {
-      if (options.initTimeData !== undefined && options.initTimeJson !== undefined) {
-        throw new Error("Cannot provide both initTimeData and initTimeJson.");
+    return tracingClient.withSpan(
+      "AttestationClient-attestOpenEnclave",
+      options,
+      async (updatedOptions) => {
+        if (options.initTimeData !== undefined && options.initTimeJson !== undefined) {
+          throw new Error("Cannot provide both initTimeData and initTimeJson.");
+        }
+
+        if (options.runTimeData !== undefined && options.runTimeJson !== undefined) {
+          throw new Error("Cannot provide both runTimeData and runTimeJson.");
+        }
+
+        const initData = await Uint8ArrayFromInput(options.initTimeData ?? options.initTimeJson);
+
+        const initTimeData: InitTimeData | undefined = initData
+          ? {
+              data: initData,
+              dataType:
+                options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
+            }
+          : undefined;
+
+        const runData = await Uint8ArrayFromInput(options.runTimeData ?? options.runTimeJson);
+
+        const runTimeData: RuntimeData | undefined = runData
+          ? {
+              data: runData,
+              dataType:
+                options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
+            }
+          : undefined;
+
+        const attestationResponse = await this._client.attestation.attestOpenEnclave(
+          {
+            report: await Uint8ArrayFromInput(report),
+            initTimeData: initTimeData,
+            runtimeData: runTimeData,
+            draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined,
+          },
+          updatedOptions
+        );
+
+        const token = new AttestationTokenImpl(attestationResponse.token);
+        const problems = token.getTokenProblems(
+          await this._signingKeys(),
+          options.validationOptions ?? this._validationOptions
+        );
+        if (problems.length) {
+          throw new Error(problems.join(";"));
+        }
+
+        const attestationResult = TypeDeserializer.deserialize(
+          token.getBody(),
+          {
+            GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
+            JsonWebKey: Mappers.JsonWebKey,
+          },
+          "GeneratedAttestationResult"
+        ) as GeneratedAttestationResult;
+
+        return createAttestationResponse<AttestationResult>(
+          token,
+          _attestationResultFromGenerated(attestationResult)
+        );
       }
-
-      if (options.runTimeData !== undefined && options.runTimeJson !== undefined) {
-        throw new Error("Cannot provide both runTimeData and runTimeJson.");
-      }
-
-      const initData = await Uint8ArrayFromInput(options.initTimeData ?? options.initTimeJson);
-
-      const initTimeData: InitTimeData | undefined = initData
-        ? {
-            data: initData,
-            dataType:
-              options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
-          }
-        : undefined;
-
-      const runData = await Uint8ArrayFromInput(options.runTimeData ?? options.runTimeJson);
-
-      const runTimeData: RuntimeData | undefined = runData
-        ? {
-            data: runData,
-            dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
-          }
-        : undefined;
-
-      const attestationResponse = await this._client.attestation.attestOpenEnclave(
-        {
-          report: await Uint8ArrayFromInput(report),
-          initTimeData: initTimeData,
-          runtimeData: runTimeData,
-          draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined,
-        },
-        updatedOptions
-      );
-
-      const token = new AttestationTokenImpl(attestationResponse.token);
-      const problems = token.getTokenProblems(
-        await this._signingKeys(),
-        options.validationOptions ?? this._validationOptions
-      );
-      if (problems.length) {
-        throw new Error(problems.join(";"));
-      }
-
-      const attestationResult = TypeDeserializer.deserialize(
-        token.getBody(),
-        {
-          GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
-          JsonWebKey: Mappers.JsonWebKey,
-        },
-        "GeneratedAttestationResult"
-      ) as GeneratedAttestationResult;
-
-      return createAttestationResponse<AttestationResult>(
-        token,
-        _attestationResultFromGenerated(attestationResult)
-      );
-    });
+    );
   }
 
   /** Attests a quote generated from SGX Enclave using the Intel SDK.
@@ -305,66 +310,71 @@ export class AttestationClient {
     quote: Uint8Array | Buffer | Blob,
     options: AttestSgxEnclaveOptions = {}
   ): Promise<AttestationResponse<AttestationResult>> {
-    return tracingClient.withSpan("AttestationClient-attestSgxEnclave", options, async (updatedOptions) => {
-      if (options.initTimeData !== undefined && options.initTimeJson !== undefined) {
-        throw new Error("Cannot provide both initTimeData and initTimeJson.");
+    return tracingClient.withSpan(
+      "AttestationClient-attestSgxEnclave",
+      options,
+      async (updatedOptions) => {
+        if (options.initTimeData !== undefined && options.initTimeJson !== undefined) {
+          throw new Error("Cannot provide both initTimeData and initTimeJson.");
+        }
+
+        if (options.runTimeData !== undefined && options.runTimeJson !== undefined) {
+          throw new Error("Cannot provide both runTimeData and runTimeJson.");
+        }
+
+        const initData = await Uint8ArrayFromInput(options.initTimeData ?? options.initTimeJson);
+
+        const initTimeData: InitTimeData | undefined = initData
+          ? {
+              data: initData,
+              dataType:
+                options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
+            }
+          : undefined;
+
+        const runData = await Uint8ArrayFromInput(options.runTimeData ?? options.runTimeJson);
+        const runTimeData: RuntimeData | undefined = runData
+          ? {
+              data: runData,
+              dataType:
+                options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
+            }
+          : undefined;
+
+        const attestationResponse = await this._client.attestation.attestSgxEnclave(
+          {
+            quote: await Uint8ArrayFromInput(quote),
+            initTimeData: initTimeData,
+            runtimeData: runTimeData,
+            draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined,
+          },
+          updatedOptions
+        );
+
+        const token = new AttestationTokenImpl(attestationResponse.token);
+        const problems = token.getTokenProblems(
+          await this._signingKeys(),
+          options.validationOptions ?? this._validationOptions
+        );
+        if (problems.length) {
+          throw new Error(problems.join(";"));
+        }
+
+        const attestationResult = TypeDeserializer.deserialize(
+          token.getBody(),
+          {
+            GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
+            JsonWebKey: Mappers.JsonWebKey,
+          },
+          "GeneratedAttestationResult"
+        ) as GeneratedAttestationResult;
+
+        return createAttestationResponse<AttestationResult>(
+          token,
+          _attestationResultFromGenerated(attestationResult)
+        );
       }
-
-      if (options.runTimeData !== undefined && options.runTimeJson !== undefined) {
-        throw new Error("Cannot provide both runTimeData and runTimeJson.");
-      }
-
-      const initData = await Uint8ArrayFromInput(options.initTimeData ?? options.initTimeJson);
-
-      const initTimeData: InitTimeData | undefined = initData
-        ? {
-            data: initData,
-            dataType:
-              options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
-          }
-        : undefined;
-
-      const runData = await Uint8ArrayFromInput(options.runTimeData ?? options.runTimeJson);
-      const runTimeData: RuntimeData | undefined = runData
-        ? {
-            data: runData,
-            dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
-          }
-        : undefined;
-
-      const attestationResponse = await this._client.attestation.attestSgxEnclave(
-        {
-          quote: await Uint8ArrayFromInput(quote),
-          initTimeData: initTimeData,
-          runtimeData: runTimeData,
-          draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined,
-        },
-        updatedOptions
-      );
-
-      const token = new AttestationTokenImpl(attestationResponse.token);
-      const problems = token.getTokenProblems(
-        await this._signingKeys(),
-        options.validationOptions ?? this._validationOptions
-      );
-      if (problems.length) {
-        throw new Error(problems.join(";"));
-      }
-
-      const attestationResult = TypeDeserializer.deserialize(
-        token.getBody(),
-        {
-          GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
-          JsonWebKey: Mappers.JsonWebKey,
-        },
-        "GeneratedAttestationResult"
-      ) as GeneratedAttestationResult;
-
-      return createAttestationResponse<AttestationResult>(
-        token,
-        _attestationResultFromGenerated(attestationResult)
-      );
-    });
+    );
   }
 
   /** Attest a TPM based enclave.
@@ -394,17 +404,21 @@ export class AttestationClient {
    * 
    */
   public async attestTpm(request: string, options: AttestTpmOptions = {}): Promise<string> {
-    return tracingClient.withSpan("AttestationClient-attestSgxEnclave", options, async (updatedOptions) => {
-      const response = await this._client.attestation.attestTpm(
-        { data: stringToBytes(request) },
-        updatedOptions
-      );
-      if (response.data) {
-        return bytesToString(response.data);
-      } else {
-        throw Error("Internal error - response data cannot be undefined.");
+    return tracingClient.withSpan(
+      "AttestationClient-attestSgxEnclave",
+      options,
+      async (updatedOptions) => {
+        const response = await this._client.attestation.attestTpm(
+          { data: stringToBytes(request) },
+          updatedOptions
+        );
+        if (response.data) {
+          return bytesToString(response.data);
+        } else {
+          throw Error("Internal error - response data cannot be undefined.");
+        }
       }
-    });
+    );
   }
 
   /**
@@ -417,14 +431,18 @@ export class AttestationClient {
   public async getAttestationSigners(
     options: AttestationClientOperationOptions = {}
   ): Promise<AttestationSigner[]> {
-    return tracingClient.withSpan("AttestationClient-getAttestationSigners", options, async (updatedOptions) => {
-      const signingCertificates = await this._client.signingCertificates.get(updatedOptions);
-      const signers: AttestationSigner[] = new Array();
-      signingCertificates.keys?.forEach((element) => {
-        signers.push(_attestationSignerFromGenerated(element));
-      });
-      return signers;
-    });
+    return tracingClient.withSpan(
+      "AttestationClient-getAttestationSigners",
+      options,
+      async (updatedOptions) => {
+        const signingCertificates = await this._client.signingCertificates.get(updatedOptions);
+        const signers: AttestationSigner[] = new Array();
+        signingCertificates.keys?.forEach((element) => {
+          signers.push(_attestationSignerFromGenerated(element));
+        });
+        return signers;
+      }
+    );
   }
 
   /**
@@ -435,10 +453,14 @@ export class AttestationClient {
   public async getOpenIdMetadata(
     options: AttestationClientOperationOptions = {}
   ): Promise<Record<string, unknown>> {
-    return tracingClient.withSpan("AttestationClient-getOpenIdMetadata", options, async (updatedOptions) => {
-      const configs = await this._client.metadataConfiguration.get(updatedOptions);
-      return configs;
-    });
+    return tracingClient.withSpan(
+      "AttestationClient-getOpenIdMetadata",
+      options,
+      async (updatedOptions) => {
+        const configs = await this._client.metadataConfiguration.get(updatedOptions);
+        return configs;
+      }
+    );
   }
 
   private _client: GeneratedClient;
