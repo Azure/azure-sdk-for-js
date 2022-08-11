@@ -20,7 +20,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/105.0.5173.0 Safari/537.36",
-        "x-ms-client-request-id": "c8a2cdb0-932c-4b24-8199-2caaa9f8e5dc",
+        "x-ms-client-request-id": "66f42ec5-c4ee-42d9-ba3c-7ffe2cd847a4",
         "x-ms-useragent": "azsdk-js-monitor-ingestion/1.0.0-beta.2 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": [
@@ -31,10 +31,10 @@
       ],
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Thu, 11 Aug 2022 01:26:54 GMT",
+        "Date": "Thu, 11 Aug 2022 01:46:02 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
-        "x-ms-client-request-id": "c8a2cdb0-932c-4b24-8199-2caaa9f8e5dc",
-        "x-ms-request-id": "e3867217-887b-4c62-aa40-525b844c5289"
+        "x-ms-client-request-id": "66f42ec5-c4ee-42d9-ba3c-7ffe2cd847a4",
+        "x-ms-request-id": "6d7d8c5f-e7b7-460b-8fd3-72ec080c6e97"
       },
       "ResponseBody": null
     }
