@@ -1,17 +1,5 @@
 # Release History
 
-## 2.1.2 (Unreleased)
-
-- Updated to `@azure/core-tracing` 1.0.
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 2.1.1 (Unreleased)
 
 ### Features Added
@@ -21,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Updated to `@azure/core-tracing` 1.0.
 
 ## 2.1.0 (2022-08-02)
 
