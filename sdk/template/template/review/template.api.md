@@ -12,7 +12,7 @@ import { TokenCredential } from '@azure/core-auth';
 export class ConfigurationClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: ConfigurationClientOptions);
     getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
-    getConfigurationSetting(setting: ConfigurationSetting, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
+    getConfigurationSetting(settings: ConfigurationSetting, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
 }
 
 // @public
