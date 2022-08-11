@@ -324,7 +324,7 @@ main();
 
 ### Getting the full information of a certificate
 
-Azure's KeyVault's design makes sharp distinctions between Keys,
+Azure Key Vault's design makes sharp distinctions between Keys,
 Secrets and Certificates. The Key Vault service's Certificates
 features were designed making use of it's Keys and Secrets capabilities.
 Let's evaluate the composition of a Key Vault Certificate:
@@ -338,7 +338,7 @@ Let's evaluate the composition of a Key Vault Certificate:
 
 Knowing that the private key is stored in a Key Vault Secret,
 with the public certificate included, we can retrieve it
-by using the KeyVault Secrets client.
+by using the Key Vault Secrets client.
 
 ```ts
 // Using the same credential object we used before,
@@ -649,9 +649,9 @@ See our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/m
 
 You can find more code samples through the following links:
 
-- [KeyVault Certificates Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript)
-- [KeyVault Certificates Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript)
-- [KeyVault Certificates Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/test/)
+- [Key Vault Certificates Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript)
+- [Key Vault Certificates Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript)
+- [Key Vault Certificates Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/test/)
 
 ## Contributing
 
