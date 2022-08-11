@@ -33,7 +33,7 @@ foreach($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json"))
         New-Item -Type Directory -Name $info.ArtifactName -Path $StagingDirectory > $null
       }
       $sourceFilePath = $apiFile[0].FullName
-      $targetFilePath = "$($pkgStagingDir)/$($info.ArtifactName).api.json"
+      $targetFilePath = "$($pkgStagingDir)/$($info.ArtifactName)_$($info.Version).api.json"
       Write-Host "Copying $($sourceFilePath) to $($targetFilePath)"
       Copy-Item $sourceFilePath $targetFilePath
     }
