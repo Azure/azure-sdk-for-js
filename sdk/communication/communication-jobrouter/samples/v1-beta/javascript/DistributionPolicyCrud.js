@@ -6,7 +6,7 @@
 // Load the .env file (you will need to set these environment variables)
 const dotenv = require("dotenv");
 const { assert } = require("chai");
-const { RouterAdministrationClient } = require("@azure/communication-jobrouter");
+const { RouterAdministrationClient } = require("../src");
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";

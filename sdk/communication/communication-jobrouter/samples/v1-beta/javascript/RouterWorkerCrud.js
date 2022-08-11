@@ -3,7 +3,7 @@
 /**
  * @summary router worker crud
  */
-const { RouterClient } = require("@azure/communication-jobrouter");
+const { RouterClient } = require("../src");
 
 // Load the .env file (you will need to set these environment variables)
 const dotenv = require("dotenv");

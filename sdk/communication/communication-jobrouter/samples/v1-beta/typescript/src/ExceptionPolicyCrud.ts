@@ -3,13 +3,13 @@
 /**
  * @summary Exception policy crud
  */
-import { RouterAdministrationClient } from "@azure/communication-jobrouter";
+import { RouterAdministrationClient } from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { ExceptionPolicy } from "@azure/communication-jobrouter";
-import { QueueLengthExceptionTrigger } from "@azure/communication-jobrouter";
-import { ExceptionPolicyItem } from "@azure/communication-jobrouter";
+import { ExceptionPolicy } from "../src";
+import { QueueLengthExceptionTrigger } from "../src";
+import { ExceptionPolicyItem } from "../src";
 import { assert } from "chai";
 dotenv.config();
 

@@ -3,12 +3,12 @@
 /**
  * @summary router job crud
  */
-import { DistributionPolicy, JobQueue, RouterAdministrationClient, RouterClient } from "@azure/communication-jobrouter";
+import { DistributionPolicy, JobQueue, RouterAdministrationClient, RouterClient } from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { RouterJob } from "@azure/communication-jobrouter";
-import { RouterJobItem } from "@azure/communication-jobrouter";
+import { RouterJob } from "../src";
+import { RouterJobItem } from "../src";
 import { assert } from "chai";
 dotenv.config();
 

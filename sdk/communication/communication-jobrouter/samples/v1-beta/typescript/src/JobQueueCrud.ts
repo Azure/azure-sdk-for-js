@@ -3,12 +3,12 @@
 /**
  * @summary job queue crud
  */
-import { DistributionPolicy, RouterAdministrationClient } from "@azure/communication-jobrouter";
+import { DistributionPolicy, RouterAdministrationClient } from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { JobQueue } from "@azure/communication-jobrouter";
-import { JobQueueItem } from "@azure/communication-jobrouter";
+import { JobQueue } from "../src";
+import { JobQueueItem } from "../src";
 import { assert } from "chai";
 dotenv.config();
 

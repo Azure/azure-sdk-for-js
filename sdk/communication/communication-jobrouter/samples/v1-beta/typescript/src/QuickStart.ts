@@ -3,11 +3,11 @@
 /**
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
-import { DistributionPolicy, JobQueue, RouterAdministrationClient, RouterClient, RouterWorker } from "@azure/communication-jobrouter";
+import { DistributionPolicy, JobQueue, RouterAdministrationClient, RouterClient, RouterWorker } from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { RouterJob } from "@azure/communication-jobrouter";
+import { RouterJob } from "../src";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -114,6 +114,7 @@ const quickStart = async (): Promise<void> => {
     note : `Job has been completed by ${workerRequest.id} at ${new Date()}`
   });
 
+  // @ts-ignore
   console.log(`Job has been successfully completed: ${completeJob._response.status == 200}`);
   
   // Closing a job
@@ -123,6 +124,7 @@ const quickStart = async (): Promise<void> => {
     {
       note : `Job has been closed by ${workerRequest.id} at ${new Date()}`
     });
+  // @ts-ignore
   console.log(`Job has been successfully closed: ${closeJob._response.status == 200}`);
 
   
@@ -133,6 +135,7 @@ const quickStart = async (): Promise<void> => {
     closeTime: t, // this will mark the job as closed after 2 seconds
     note: `Job has been marked to close in the future by ${workerRequest.id} at ${t}`
   });
+  // @ts-ignore
   console.log(`Job has been marked to close: ${closeJobInFuture._response.status == 202}`); // You'll received a 202 in that case
 
   await delay(2000);

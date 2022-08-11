@@ -5,10 +5,10 @@
  */
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { DistributionPolicy } from "@azure/communication-jobrouter";
-import { PagedDistributionPolicy } from "@azure/communication-jobrouter";
+import { DistributionPolicy } from "../src";
+import { DistributionPolicyItem } from "../src";
 import { assert } from "chai";
-import { RouterAdministrationClient } from "@azure/communication-jobrouter";
+import { RouterAdministrationClient } from "../src";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";

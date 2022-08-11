@@ -3,12 +3,12 @@
 /**
  * @summary router worker crud
  */
-import { RouterClient } from "@azure/communication-jobrouter";
+import { RouterClient } from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { RouterWorker } from "@azure/communication-jobrouter";
-import { RouterWorkerItem } from "@azure/communication-jobrouter";
+import { RouterWorker } from "../src";
+import { RouterWorkerItem } from "../src";
 import { assert } from "chai";
 dotenv.config();
 

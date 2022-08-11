@@ -3,7 +3,7 @@
 /**
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
-const { RouterAdministrationClient, RouterClient } = require("@azure/communication-jobrouter");
+const { RouterAdministrationClient, RouterClient } = require("../src");
 
 // Load the .env file (you will need to set these environment variables)
 require("dotenv").config();
@@ -120,6 +120,7 @@ const quickStart = async () => {
     }
   );
 
+  // @ts-ignore
   console.log(`Job has been successfully completed: ${completeJob._response.status == 200}`);
 
   // Closing a job
@@ -128,6 +129,7 @@ const quickStart = async () => {
   var closeJob = await routerClient.closeJob(jobRequest.id, acceptJobOfferResult.assignmentId, {
     note: `Job has been closed by ${workerRequest.id} at ${new Date()}`,
   });
+  // @ts-ignore
   console.log(`Job has been successfully closed: ${closeJob._response.status == 200}`);
 
   // Optionally, a job can also be set up to be marked as closed in the future.
@@ -141,6 +143,7 @@ const quickStart = async () => {
       note: `Job has been marked to close in the future by ${workerRequest.id} at ${t}`,
     }
   );
+  // @ts-ignore
   console.log(`Job has been marked to close: ${closeJobInFuture._response.status == 202}`); // You'll received a 202 in that case
 
   await delay(2000);

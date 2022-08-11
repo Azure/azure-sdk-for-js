@@ -3,7 +3,7 @@
 /**
  * @summary job queue crud
  */
-const { RouterAdministrationClient } = require("@azure/communication-jobrouter");
+const { RouterAdministrationClient } = require("../src");
 
 // Load the .env file (you will need to set these environment variables)
 const dotenv = require("dotenv");

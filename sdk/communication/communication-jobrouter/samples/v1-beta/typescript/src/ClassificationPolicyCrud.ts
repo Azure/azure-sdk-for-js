@@ -4,12 +4,12 @@
 /**
  * @summary Classification policy crud
  */
-import { DistributionPolicy, ExceptionPolicy, JobQueue, QueueLengthExceptionTrigger, RouterAdministrationClient } from "@azure/communication-jobrouter";
+import { DistributionPolicy, ExceptionPolicy, JobQueue, QueueLengthExceptionTrigger, RouterAdministrationClient } from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { ClassificationPolicy } from "@azure/communication-jobrouter";
-import { ClassificationPolicyItem } from "@azure/communication-jobrouter";
+import { ClassificationPolicy } from "../src";
+import { ClassificationPolicyItem } from "../src";
 import { assert } from "chai";
 dotenv.config();
 
