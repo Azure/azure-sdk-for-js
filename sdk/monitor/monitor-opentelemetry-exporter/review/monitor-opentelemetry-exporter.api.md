@@ -6,6 +6,7 @@
 
 import { AggregationTemporality } from '@opentelemetry/sdk-metrics-base';
 import { ExportResult } from '@opentelemetry/core';
+import { InstrumentType } from '@opentelemetry/sdk-metrics-base';
 import { PushMetricExporter } from '@opentelemetry/sdk-metrics-base';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import { ResourceMetrics } from '@opentelemetry/sdk-metrics-base';
@@ -24,16 +25,23 @@ export abstract class AzureMonitorBaseExporter {
     constructor(options?: AzureExporterConfig);
     protected _exportEnvelopes(envelopes: TelemetryItem[]): Promise<ExportResult>;
     protected readonly _instrumentationKey: string;
-    protected _shutdown(): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "Sender" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    protected readonly _sender: Sender;
 }
 
 // @public
 export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
     constructor(options?: AzureExporterConfig);
+    // (undocumented)
+    protected _aggregationTemporality: AggregationTemporality;
     export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
     forceFlush(): Promise<void>;
-    selectAggregationTemporality(): AggregationTemporality;
+    selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality;
     shutdown(): Promise<void>;
+    // (undocumented)
+    protected _shutdown: boolean;
 }
 
 // @public
@@ -41,6 +49,8 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
     constructor(options?: AzureExporterConfig);
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
     shutdown(): Promise<void>;
+    // (undocumented)
+    protected _shutdown: boolean;
 }
 
 // @public

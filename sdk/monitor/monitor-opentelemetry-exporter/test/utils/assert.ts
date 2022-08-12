@@ -100,8 +100,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: could not find exported envelope: ${
-          (expectation.data?.baseData as RequestData).name
+        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as RequestData).name
         }`
       );
     }
@@ -133,7 +132,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
 export const assertMetricExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
   for (const expectation of expectations) {
     let envelope: any = null;
-    if (expectation.data!.baseData!.name) {
+    if (expectation.data!.baseData!.metrics && expectation.data!.baseData!.metrics.length > 0) {
       envelope = actual.filter((e) => {
         return (
           (e.data!.baseData as MetricsData).metrics[0].name ===
@@ -148,8 +147,7 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: could not find exported envelope: ${
-          (expectation.data?.baseData as MetricsData).metrics[0].name
+        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as MetricsData).metrics[0].name
         }`
       );
     }
