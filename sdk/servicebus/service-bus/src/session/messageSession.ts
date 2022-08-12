@@ -37,7 +37,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
-import { isDefined } from "../util/typeGuards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
