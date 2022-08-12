@@ -6,6 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { AlphaIDsClient } from "./alphaIDsClient";
-export * from "./operationsInterfaces";
+import { createTracingClient } from "@azure/core-tracing";
+
+export const tracingClient = createTracingClient({
+  namespace: "Microsoft.Communication",
+  packageName: "@azure/communication-sms",
+  packageVersion: "1.2.0-beta.1"
+});

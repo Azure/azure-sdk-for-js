@@ -6,12 +6,13 @@ import {
   GetConfigurationOptions,
   UpsertConfigurationOptions,
 } from "./models";
-import { tracingClient, logger } from "./utils";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { AlphaIDsClient as AlphaIDsGeneratedClient } from "./generated/src";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
+import { logger } from "./utils";
+import { tracingClient } from "./generated/src/tracing";
 /**
  * Client options used to configure the AlphaIdsClient API requests.
  */

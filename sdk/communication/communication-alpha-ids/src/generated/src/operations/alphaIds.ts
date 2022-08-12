@@ -6,11 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { AlphaIds } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AlphaIDsClientContext } from "../alphaIDsClientContext";
+import { AlphaIDsClient } from "../alphaIDsClient";
 import {
   AlphaIdsGetConfigurationOptionalParams,
   AlphaIdsGetConfigurationResponse,
@@ -20,13 +21,13 @@ import {
 
 /** Class containing AlphaIds operations. */
 export class AlphaIdsImpl implements AlphaIds {
-  private readonly client: AlphaIDsClientContext;
+  private readonly client: AlphaIDsClient;
 
   /**
    * Initialize a new instance of the class AlphaIds class.
    * @param client Reference to the service client
    */
-  constructor(client: AlphaIDsClientContext) {
+  constructor(client: AlphaIDsClient) {
     this.client = client;
   }
 
@@ -34,12 +35,18 @@ export class AlphaIdsImpl implements AlphaIds {
    * Get the Alpha IDs configuration that's applied for the current resource.
    * @param options The options parameters.
    */
-  getConfiguration(
+  async getConfiguration(
     options?: AlphaIdsGetConfigurationOptionalParams
   ): Promise<AlphaIdsGetConfigurationResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getConfigurationOperationSpec
+    return tracingClient.withSpan(
+      "AlphaIDsClient.getConfiguration",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getConfigurationOperationSpec
+        ) as Promise<AlphaIdsGetConfigurationResponse>;
+      }
     );
   }
 
@@ -48,13 +55,19 @@ export class AlphaIdsImpl implements AlphaIds {
    * @param enabled Indicates whether the use of Alpha IDs is supported for a specific resource.
    * @param options The options parameters.
    */
-  upsertConfiguration(
+  async upsertConfiguration(
     enabled: boolean,
     options?: AlphaIdsUpsertConfigurationOptionalParams
   ): Promise<AlphaIdsUpsertConfigurationResponse> {
-    return this.client.sendOperationRequest(
-      { enabled, options },
-      upsertConfigurationOperationSpec
+    return tracingClient.withSpan(
+      "AlphaIDsClient.upsertConfiguration",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { enabled, options },
+          upsertConfigurationOperationSpec
+        ) as Promise<AlphaIdsUpsertConfigurationResponse>;
+      }
     );
   }
 }

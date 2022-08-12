@@ -16,9 +16,17 @@ require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/896d05e37d
 model-date-time-as-string: false
 optional-response-headers: true
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "latest"
 azure-arm: false
 add-credentials: false
 package-version: 1.2.0-beta.1
 v3: true
+
+tracing-info:
+  namespace: "Microsoft.Communication"
+  packagePrefix: "Azure.Communication"
+
+typescript:
+  generate-metadata: false
+  azure-arm: false
 ```

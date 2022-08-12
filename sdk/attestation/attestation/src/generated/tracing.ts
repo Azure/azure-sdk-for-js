@@ -6,6 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { AlphaIDsClient } from "./alphaIDsClient";
-export * from "./operationsInterfaces";
+import { createTracingClient } from "@azure/core-tracing";
+
+export const tracingClient = createTracingClient({
+  namespace: "Azure.Security.Attestation",
+  packageName: "@azure/attestation",
+  packageVersion: "1.0.1"
+});

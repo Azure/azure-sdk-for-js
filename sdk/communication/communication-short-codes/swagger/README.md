@@ -7,8 +7,7 @@
 ```yaml
 package-name: "@azure/communication-short-codes"
 description: Short code acquiring and management client
-package-version: 1.0.0-beta.4
-generate-metadata: false
+package-version: 1.0.0-beta.5
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-shortcode-2021-10-25-preview
@@ -16,12 +15,18 @@ input-file: ./shortcodes.json
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
-use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
 add-credentials: false
-azure-arm: false
 skip-enum-validation: true
 title: Short Codes Client
+use-extension:
+  "@autorest/typescript": "latest"
+tracing-info:
+  namespace: "Microsoft.Communication"
+  packagePrefix: "Azure.Communication"
+
+typescript:
+  generate-metadata: false
+  azure-arm: false
 ```
 
 ## Customizations

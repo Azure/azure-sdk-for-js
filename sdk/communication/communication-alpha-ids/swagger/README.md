@@ -7,20 +7,25 @@
 ```yaml
 package-name: "@azure/communication-alpha-ids"
 description: Alpha IDs administration client
-package-version: 1.0.0-beta.1
-generate-metadata: false
+package-version: 1.0.0-beta.2
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 input-file: ./alphaids.json
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
-use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
 add-credentials: false
-azure-arm: false
 skip-enum-validation: true
 title: Alpha IDs Client
+use-extension:
+  "@autorest/typescript": "latest"
+tracing-info:
+  namespace: "Microsoft.Communication"
+  packagePrefix: "Azure.Communication"
+
+typescript:
+  generate-metadata: false
+  azure-arm: false
 ```
 
 ## Customizations
