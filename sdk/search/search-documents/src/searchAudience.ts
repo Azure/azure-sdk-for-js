@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * Possible values for Search Audience
+ * Known values for Search Audience
  */
-export enum SearchAudience {
+export enum KnownSearchAudience {
   /**
    * Audience for Azure China
    */

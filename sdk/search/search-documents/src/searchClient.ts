@@ -43,7 +43,7 @@ import { encode, decode } from "./base64";
 import * as utils from "./serviceUtils";
 import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { SearchAudience } from "./searchAudience";
+import { KnownSearchAudience } from "./searchAudience";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -63,8 +63,9 @@ export interface SearchClientOptions extends ExtendedCommonClientOptions {
   /**
    * The Audience to use for authentication with Azure Active Directory (AAD). The
    * audience is not considered when using a shared key.
+   * {@link KnownSearchAudience} can be used interchangeably with audience
    */
-  audience?: SearchAudience;
+  audience?: string;
 }
 
 /**
@@ -184,7 +185,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     if (isTokenCredential(credential)) {
       const scope: string = options.audience
         ? `${options.audience}/.default`
-        : `${SearchAudience.AzurePublicCloud}/.default`;
+        : `${KnownSearchAudience.AzurePublicCloud}/.default`;
 
       this.client.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({ credential, scopes: scope })

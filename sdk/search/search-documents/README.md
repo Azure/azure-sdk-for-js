@@ -108,6 +108,7 @@ const {
   SearchIndexClient,
   SearchIndexerClient,
   AzureKeyCredential,
+  SearchAudience,
 } = require("@azure/search-documents");
 
 // To query and manipulate documents
