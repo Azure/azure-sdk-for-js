@@ -1839,6 +1839,13 @@ export interface SearchAlias {
 }
 
 // @public
+export enum SearchAudience {
+    AzureChina = "https://search.azure.cn",
+    AzureGovernment = "https://search.azure.us",
+    AzurePublicCloud = "https://search.azure.com"
+}
+
+// @public
 export class SearchClient<T> implements IndexDocumentsClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
     // @deprecated
@@ -1863,6 +1870,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 export interface SearchClientOptions extends ExtendedCommonClientOptions {
     // @deprecated
     apiVersion?: string;
+    audience?: SearchAudience;
     serviceVersion?: string;
 }
 
@@ -1949,6 +1957,7 @@ export class SearchIndexClient {
 export interface SearchIndexClientOptions extends ExtendedCommonClientOptions {
     // @deprecated
     apiVersion?: string;
+    audience?: SearchAudience;
     serviceVersion?: string;
 }
 
@@ -2011,6 +2020,7 @@ export class SearchIndexerClient {
 export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
     // @deprecated
     apiVersion?: string;
+    audience?: SearchAudience;
     serviceVersion?: string;
 }
 
