@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isDefined, isObjectWithProperties, objectHasProperty } from "../../src/index";
 import { assert } from "chai";
 
