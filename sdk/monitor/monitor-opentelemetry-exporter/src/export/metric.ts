@@ -18,7 +18,8 @@ import { resourceMetricsToEnvelope } from "../utils/metricUtils";
  */
 export class AzureMonitorMetricExporter
   extends AzureMonitorBaseExporter
-  implements PushMetricExporter {
+  implements PushMetricExporter
+{
   /**
    * Flag to determine if Exporter is shutdown.
    */
