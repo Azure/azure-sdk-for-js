@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
-import { KnownRenderingSessionStatus, KnownRenderingServerSize } from "../generated/models/index";
-import { getSessionInternal, endSessionInternal } from "../internal/commonQueries";
+import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
+import { KnownRenderingServerSize, KnownRenderingSessionStatus } from "../generated/models/index";
+import { endSessionInternal, getSessionInternal } from "../internal/commonQueries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { RemoteRendering } from "../generated/operationsInterfaces";
 import { delay } from "@azure/core-util";
