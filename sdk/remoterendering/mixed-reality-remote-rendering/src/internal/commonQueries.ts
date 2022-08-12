@@ -19,13 +19,17 @@ export async function getConversionInternal(
   tracingSpanName: string,
   options?: OperationOptions
 ): Promise<AssetConversion> {
-  return tracingClient.withSpan(tracingSpanName, {
-    conversionId: conversionId,
-    ...options,
-  }, async (updatedOptions) => {
-    const conversion = await operations.getConversion(accountId, conversionId, updatedOptions);
-    return assetConversionFromConversion(conversion);
-  });
+  return tracingClient.withSpan(
+    tracingSpanName,
+    {
+      conversionId: conversionId,
+      ...options,
+    },
+    async (updatedOptions) => {
+      const conversion = await operations.getConversion(accountId, conversionId, updatedOptions);
+      return assetConversionFromConversion(conversion);
+    }
+  );
 }
 
 /**
@@ -40,13 +44,17 @@ export async function getSessionInternal(
   tracingSpanName: string,
   options?: OperationOptions
 ): Promise<RenderingSession> {
-  return tracingClient.withSpan(tracingSpanName, {
-    sessionId,
-    ...options,
-  }, async (updatedOptions) => {
-    const sessionProperties = await operations.getSession(accountId, sessionId, updatedOptions);
-    return renderingSessionFromSessionProperties(sessionProperties);
-  });
+  return tracingClient.withSpan(
+    tracingSpanName,
+    {
+      sessionId,
+      ...options,
+    },
+    async (updatedOptions) => {
+      const sessionProperties = await operations.getSession(accountId, sessionId, updatedOptions);
+      return renderingSessionFromSessionProperties(sessionProperties);
+    }
+  );
 }
 
 /**
@@ -61,10 +69,14 @@ export async function endSessionInternal(
   tracingSpanName: string,
   options?: OperationOptions
 ): Promise<void> {
-  return tracingClient.withSpan(tracingSpanName, {
-    conversionId: sessionId,
-    ...options,
-  }, async (updatedOptions) => {
-    await operations.stopSession(accountId, sessionId, updatedOptions);
-  });
+  return tracingClient.withSpan(
+    tracingSpanName,
+    {
+      conversionId: sessionId,
+      ...options,
+    },
+    async (updatedOptions) => {
+      await operations.stopSession(accountId, sessionId, updatedOptions);
+    }
+  );
 }
