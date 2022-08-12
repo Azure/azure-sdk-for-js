@@ -997,6 +997,36 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
+
+  it("calls to AppTokenProvider for MI token caching support", async () => {
+
+    const credential:any = new ManagedIdentityCredential("client");
+    const confidentialSpy = Sinon.spy(credential.confidentialApp,"SetAppTokenProvider");
+
+    // Trigger App Service behavior by setting environment variables
+    process.env.MSI_ENDPOINT = "https://endpoint";
+    process.env.MSI_SECRET = "secret";
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential,
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
+    });
+    assert.equal(confidentialSpy.callCount,1);
+
+
+    if (authDetails.result?.token) {
+      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
+    } else {
+      assert.fail("No token was returned!");
+    }
+  });
+
   describe("File Exchange MSI", () => {
     it("sends an authorization request correctly if token file path is available", async function (this: Mocha.Context) {
       // Keep in mind that in this test we're also testing:

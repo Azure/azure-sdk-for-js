@@ -232,9 +232,11 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
 
       this.confidentialApp.SetAppTokenProvider(async(appTokenProviderParameters=appTokenParameters)=>{
-        console.log(appTokenProviderParameters);
+        logger.info(`SetAppTokenProvider invoked with parameters- ${JSON.stringify(appTokenProviderParameters)}`);
         result = await this.authenticateManagedIdentity(scopes, {...updatedOptions, ...appTokenProviderParameters});
+        
         if(result){
+          logger.info(`SetAppTokenProvider has saved the token in cache`);
           return {
             accessToken: result?.token,
             expiresInSeconds: result?.expiresOnTimestamp,
@@ -242,6 +244,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           }
         }         
         else{
+          logger.info(`SetAppTokenProvider token has "no_access_token_returned" as the saved token`);
           return {
             accessToken: "no_access_token_returned",
             expiresInSeconds: 0,
