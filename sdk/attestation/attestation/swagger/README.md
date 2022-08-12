@@ -39,7 +39,7 @@ tracing-info:
 
 typescript:
   generate-metadata: false
-  azure-arm: true
+  azure-arm: false
 ```
 
 ## Customizations for Track 2 Generator
