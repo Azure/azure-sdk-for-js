@@ -1,12 +1,12 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+
 require("dotenv").config();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode
-} = require("@azure-tools/test-recorder");
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+
+const { jsonRecordingFilterFunction, isRecordMode } = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -33,12 +33,7 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      // Uncomment the cdn link below for the polyfill service to support IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      // "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js"
-    ],
+    files: ["dist-test/index.browser.js"],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -56,7 +51,7 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["TEST_MODE", "COMMUNICATION_CONNECTION_STRING", "BASE_URL"],
+    envPreprocessor: ["TEST_MODE", "COMMUNICATION_CONNECTION_STRING", "RECORDINGS_RELATIVE_PATH"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

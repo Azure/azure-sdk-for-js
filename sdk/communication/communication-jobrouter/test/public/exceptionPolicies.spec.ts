@@ -2,22 +2,20 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+// import { assert } from "chai";
 import { createRecordedRouterClientWithConnectionString } from "../internal/utils/mockClient";
 import { Context } from "mocha";
-import { exceptionPolicyRequest } from "./utils/testData";
-import { RouterAdministrationClient } from "../../src";
+// import { exceptionPolicyRequest } from "./utils/testData";
+// import { RouterAdministrationClient } from "../../src";
 
 describe("RouterClient", function() {
   let recorder: Recorder;
   // let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+  // let administrationClient: RouterAdministrationClient;
 
   describe("Exception Policy Operations", function() {
     beforeEach(async function(this: Context) {
-      ({ administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(
-        this
-      ));
+      ({ recorder } = await createRecordedRouterClientWithConnectionString(this));
     });
 
     afterEach(async function(this: Context) {
@@ -27,15 +25,15 @@ describe("RouterClient", function() {
     });
 
     // exception policy actions
-    it("should successfully create a exception policy", async function() {
-      const request = exceptionPolicyRequest;
-
-      const result = await administrationClient.createExceptionPolicy(request.id!, request);
-
-      assert.isDefined(result);
-      assert.isDefined(result?.id);
-      assert.equal(result.name, request.name);
-    }).timeout(8000);
+    // it("should successfully create a exception policy", async function() {
+    //   const request = exceptionPolicyRequest;
+    //
+    //   const result = await administrationClient.createExceptionPolicy(request.id!, request);
+    //
+    //   assert.isDefined(result);
+    //   assert.isDefined(result?.id);
+    //   assert.equal(result.name, request.name);
+    // }).timeout(8000);
 
     // it("should successfully update a exception policy", async function() {
     //   var exceptionPolicy: ExceptionPolicy = await client.createExceptionPolicy(

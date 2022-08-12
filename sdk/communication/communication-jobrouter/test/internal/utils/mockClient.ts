@@ -6,6 +6,7 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import { RouterAdministrationClient, RouterClient } from "../../../src";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
+import { RouterAdministrationClientOptions, RouterClientOptions } from "../../../src";
 import { createRecorder } from "../../public/utils/recordedClient";
 
 if (isNode) {
@@ -24,9 +25,13 @@ export async function createRecordedRouterClientWithConnectionString(
   const recorder = await createRecorder(context.currentTest);
 
   return {
-    client: new RouterClient(env.COMMUNICATION_CONNECTION_STRING as string),
+    client: new RouterClient(
+      env.COMMUNICATION_CONNECTION_STRING as string,
+      recorder.configureClientOptions({}) as RouterClientOptions
+    ),
     administrationClient: new RouterAdministrationClient(
-      env.COMMUNICATION_CONNECTION_STRING as string
+      env.COMMUNICATION_CONNECTION_STRING as string,
+      recorder.configureClientOptions({}) as RouterAdministrationClientOptions
     ),
     recorder
   };
