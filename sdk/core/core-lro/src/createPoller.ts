@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import {
   CreatePollerOptions,
   LongRunningOperation,
@@ -10,7 +11,6 @@ import {
   StateProxy,
 } from "./models";
 import { POLL_INTERVAL_IN_MS, deserializeState, initOperation, pollOperation } from "./impl";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { delayMs } from "./util/delayMs";
 
 const createStateProxy: <TResult, TState extends OperationState<TResult>>() => StateProxy<
@@ -83,6 +83,7 @@ export async function createPoller<TResult, TState extends OperationState<TResul
       });
   let resultPromise: Promise<TResult> | undefined;
   let cancelJob: (() => void) | undefined;
+  const abortController = new AbortController();
   // Progress handlers
   type Handler = (state: TState) => void;
   const handlers = new Map<symbol, Handler>();
@@ -95,7 +96,10 @@ export async function createPoller<TResult, TState extends OperationState<TResul
     getResult: () => state.result,
     isDone: () => ["succeeded", "failed", "canceled"].includes(state.status),
     isStopped: () => resultPromise === undefined,
-    stopPolling: () => cancelJob?.(),
+    stopPolling: () => {
+      abortController.abort();
+      cancelJob?.();
+    },
     toString: () =>
       JSON.stringify({
         state,
@@ -105,15 +109,19 @@ export async function createPoller<TResult, TState extends OperationState<TResul
       handlers.set(s, callback);
       return () => handlers.delete(s);
     },
-    pollUntilDone: () =>
+    pollUntilDone: (pollOptions: { abortSignal?: AbortSignalLike } = {}) =>
       (resultPromise ??= (async () => {
+        const { abortSignal } = pollOptions;
+        const { signal } = abortSignal
+          ? new AbortController([abortSignal, abortController.signal])
+          : abortController;
         if (!poller.isDone()) {
-          await poller.poll();
+          await poller.poll({ abortSignal: signal });
           while (!poller.isDone()) {
             const delay = delayMs(currentPollIntervalInMs);
             cancelJob = delay.cancel;
             await delay;
-            await poller.poll();
+            await poller.poll({ abortSignal: signal });
           }
         }
         switch (state.status) {

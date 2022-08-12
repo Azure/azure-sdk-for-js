@@ -154,7 +154,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
-  pollUntilDone(): Promise<TResult>;
+  pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TResult>;
   /**
    * Invokes the provided callback after each polling is completed,
    * sending the current state of the poller's operation.
@@ -231,7 +231,7 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
-  pollUntilDone(): Promise<TResult>;
+  pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TResult>;
   /**
    * Invokes the provided callback after each polling is completed,
    * sending the current state of the poller's operation.

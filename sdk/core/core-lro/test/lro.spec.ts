@@ -2212,6 +2212,92 @@ matrix([["createPoller", "LroEngine"]] as const, async function (implName: Imple
         assert.equal(pollCount, 1);
         assert.ok(poller.isDone());
       });
+
+      it("pollUntilDone can be aborted", async () => {
+        let pollCount = 0;
+        const pollingPath = "pollingPath";
+        const poller = await createTestPoller({
+          routes: [
+            {
+              method: "POST",
+              status: 202,
+              headers: {
+                "Operation-Location": pollingPath,
+              },
+            },
+            ...Array(10).fill({
+              method: "GET",
+              path: pollingPath,
+              body: `{ "status": "running"}`,
+              status: 200,
+            }),
+            {
+              method: "GET",
+              path: pollingPath,
+              body: `{ "status": "succeeded"}`,
+              status: 200,
+            },
+          ],
+          implName,
+          updateState: () => {
+            pollCount++;
+          },
+        });
+        const abortController = new AbortController();
+        await poller.poll();
+        abortController.abort();
+        assert.equal(pollCount, 1);
+        await assertError(
+          poller.pollUntilDone({
+            abortSignal: abortController.signal,
+          }),
+          {
+            messagePattern: /The operation was aborted/,
+          }
+        );
+        assert.equal(pollCount, 1);
+        assert.ok(poller.isDone());
+      });
+
+      it("pollUntilDone is aborted when stopPolling() gets called", async () => {
+        let pollCount = 0;
+        const pollingPath = "pollingPath";
+        const poller = await createTestPoller({
+          routes: [
+            {
+              method: "POST",
+              status: 202,
+              headers: {
+                "Operation-Location": pollingPath,
+              },
+            },
+            ...Array(10).fill({
+              method: "GET",
+              path: pollingPath,
+              body: `{ "status": "running"}`,
+              status: 200,
+            }),
+            {
+              method: "GET",
+              path: pollingPath,
+              body: `{ "status": "succeeded"}`,
+              status: 200,
+            },
+          ],
+          implName,
+          updateState: () => {
+            pollCount++;
+          },
+        });
+        const abortController = new AbortController();
+        await poller.poll();
+        abortController.abort();
+        assert.equal(pollCount, 1);
+        const promise = poller.pollUntilDone();
+        poller.stopPolling();
+        await assertError(promise);
+        assert.equal(pollCount, 2);
+      });
     });
   });
 });
