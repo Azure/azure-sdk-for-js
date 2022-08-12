@@ -108,7 +108,7 @@ const {
   SearchIndexClient,
   SearchIndexerClient,
   AzureKeyCredential,
-  SearchAudience,
+  KnownSearchAudience,
 } = require("@azure/search-documents");
 
 // To query and manipulate documents
@@ -117,18 +117,18 @@ const searchClient = new SearchClient(
   "<indexName>",
   new AzureKeyCredential("<apiKey>"),
   {
-    audience: SearchAudience.AzureChina,
+    audience: KnownSearchAudience.AzureChina,
   }
 );
 
 // To manage indexes and synonymmaps
 const indexClient = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"), {
-  audience: SearchAudience.AzureChina,
+  audience: KnownSearchAudience.AzureChina,
 });
 
 // To manage indexers, datasources and skillsets
 const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"), {
-  audience: SearchAudience.AzureChina,
+  audience: KnownSearchAudience.AzureChina,
 });
 ```
 
