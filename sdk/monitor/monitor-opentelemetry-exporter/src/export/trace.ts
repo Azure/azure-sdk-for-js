@@ -16,7 +16,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
   /**
    * Flag to determine if Exporter is shutdown.
    */
-  protected _isShutdown = false;
+  private _isShutdown = false;
 
   /**
    * Initializes a new instance of the AzureMonitorTraceExporter class.

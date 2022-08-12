@@ -31,12 +31,8 @@ export abstract class AzureMonitorBaseExporter {
 // @public
 export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
     constructor(options?: AzureExporterConfig);
-    // (undocumented)
-    protected _aggregationTemporality: AggregationTemporality;
     export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
     forceFlush(): Promise<void>;
-    // (undocumented)
-    protected _isShutdown: boolean;
     selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality;
     shutdown(): Promise<void>;
 }
@@ -45,8 +41,6 @@ export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter impleme
 export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implements SpanExporter {
     constructor(options?: AzureExporterConfig);
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
-    // (undocumented)
-    protected _isShutdown: boolean;
     shutdown(): Promise<void>;
 }
 

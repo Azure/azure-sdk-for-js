@@ -22,11 +22,11 @@ export class AzureMonitorMetricExporter
   /**
    * Flag to determine if Exporter is shutdown.
    */
-  protected _isShutdown = false;
+  private _isShutdown = false;
   /**
    * Aggregation temporality.
    */
-  protected _aggregationTemporality: AggregationTemporality;
+  private _aggregationTemporality: AggregationTemporality;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
