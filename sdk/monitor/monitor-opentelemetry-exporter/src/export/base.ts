@@ -24,8 +24,8 @@ export abstract class AzureMonitorBaseExporter {
    * Instrumentation key to be used for exported envelopes
    */
   protected readonly _instrumentationKey: string;
-  protected readonly _sender: Sender;
   private readonly _persister: PersistentStorage;
+  private readonly _sender: Sender;
   private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
   /**
@@ -77,12 +77,19 @@ export abstract class AzureMonitorBaseExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-          code: ExportResultCode.FAILED,
-          error: new Error("Failed to persist envelope in disk."),
-        };
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk."),
+          };
     } catch (ex: any) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
+  }
+
+  /**
+   * Shutdown exporter
+   */
+  protected async _shutdown(): Promise<void> {
+    return this._sender.shutdown();
   }
 
   /**

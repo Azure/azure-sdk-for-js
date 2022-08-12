@@ -212,7 +212,7 @@ export class MetricBasicScenario implements Scenario {
     let counter2 = meter.createCounter("testCounter2");
     let histogram = meter.createHistogram("testHistogram");
     let histogram2 = meter.createHistogram("testHistogram2");
-    let attributes = { "testAttribute": "testValue" };
+    let attributes = { testAttribute: "testValue" };
     counter.add(1);
     counter.add(2);
     counter2.add(12, attributes);
@@ -267,7 +267,7 @@ export class MetricBasicScenario implements Scenario {
               dataPointType: "Aggregation",
             },
           ],
-          properties: { "testAttribute": "testValue" }
+          properties: { testAttribute: "testValue" },
         } as any,
       },
       children: [],
@@ -310,7 +310,7 @@ export class MetricBasicScenario implements Scenario {
               dataPointType: "Aggregation",
             },
           ],
-          properties: { "testAttribute": "testValue" },
+          properties: { testAttribute: "testValue" },
         } as any,
       },
       children: [],

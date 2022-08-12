@@ -6,7 +6,6 @@ import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-me
 import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
 import { createTagsFromResource } from "./resourceUtils";
 
-
 function createPropertiesFromMetricAttributes(attributes?: MetricAttributes): {
   [propertyName: string]: string;
 } {
@@ -35,7 +34,7 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
         let baseData: MetricsData = {
           metrics: [],
           version: 2,
-          properties: {}
+          properties: {},
         };
         baseData.properties = createPropertiesFromMetricAttributes(dataPoint.attributes);
         var metricDataPoint: MetricDataPoint = {

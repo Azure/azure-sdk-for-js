@@ -13,8 +13,10 @@ import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtil
  * Azure Monitor OpenTelemetry Trace Exporter.
  */
 export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implements SpanExporter {
-
-  protected _shutdown = false;
+  /**
+   * Flag to determine if Exported is shutdown.
+   */
+  protected _isShutdown = false;
 
   /**
    * Initializes a new instance of the AzureMonitorTraceExporter class.
@@ -34,7 +36,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void
   ): Promise<void> {
-    if (this._shutdown) {
+    if (this._isShutdown) {
       diag.info("Exporter shut down. Failed to export spans.");
       setTimeout(() => resultCallback({ code: ExportResultCode.FAILED }), 0);
       return;
@@ -57,8 +59,8 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    * Shutdown AzureMonitorTraceExporter.
    */
   async shutdown(): Promise<void> {
-    this._shutdown = true;
+    this._isShutdown = true;
     diag.info("AzureMonitorTraceExporter shutting down");
-    return this._sender.shutdown();
+    return this._shutdown();
   }
 }

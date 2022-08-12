@@ -25,10 +25,7 @@ export abstract class AzureMonitorBaseExporter {
     constructor(options?: AzureExporterConfig);
     protected _exportEnvelopes(envelopes: TelemetryItem[]): Promise<ExportResult>;
     protected readonly _instrumentationKey: string;
-    // Warning: (ae-forgotten-export) The symbol "Sender" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    protected readonly _sender: Sender;
+    protected _shutdown(): Promise<void>;
 }
 
 // @public
@@ -38,19 +35,19 @@ export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter impleme
     protected _aggregationTemporality: AggregationTemporality;
     export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
     forceFlush(): Promise<void>;
+    // (undocumented)
+    protected _isShutdown: boolean;
     selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality;
     shutdown(): Promise<void>;
-    // (undocumented)
-    protected _shutdown: boolean;
 }
 
 // @public
 export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implements SpanExporter {
     constructor(options?: AzureExporterConfig);
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
-    shutdown(): Promise<void>;
     // (undocumented)
-    protected _shutdown: boolean;
+    protected _isShutdown: boolean;
+    shutdown(): Promise<void>;
 }
 
 // @public

@@ -18,9 +18,15 @@ import { resourceMetricsToEnvelope } from "../utils/metricUtils";
  */
 export class AzureMonitorMetricExporter
   extends AzureMonitorBaseExporter
-  implements PushMetricExporter {
-
-  protected _shutdown = false;
+  implements PushMetricExporter
+{
+  /**
+   * Flag to determine if Exported is shutdown.
+   */
+  protected _isShutdown = false;
+  /**
+   * Aggregation temporality.
+   */
   protected _aggregationTemporality: AggregationTemporality;
 
   /**
@@ -42,7 +48,7 @@ export class AzureMonitorMetricExporter
     metrics: ResourceMetrics,
     resultCallback: (result: ExportResult) => void
   ): Promise<void> {
-    if (this._shutdown) {
+    if (this._isShutdown) {
       diag.info("Exporter shut down. Failed to export spans.");
       setTimeout(() => resultCallback({ code: ExportResultCode.FAILED }), 0);
       return;
@@ -57,9 +63,9 @@ export class AzureMonitorMetricExporter
    * Shutdown AzureMonitorMetricExporter.
    */
   public async shutdown(): Promise<void> {
-    this._shutdown = true;
+    this._isShutdown = true;
     diag.info("AzureMonitorMetricExporter shutting down");
-    return this._sender.shutdown();
+    return this._shutdown();
   }
 
   /**
