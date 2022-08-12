@@ -182,7 +182,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     );
 
     if (isTokenCredential(credential)) {
-      let scope: string = options.audience
+      const scope: string = options.audience
         ? `${options.audience}/.default`
         : `${SearchAudience.AzurePublicCloud}/.default`;
 
