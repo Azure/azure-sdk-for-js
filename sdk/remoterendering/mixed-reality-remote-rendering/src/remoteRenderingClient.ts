@@ -3,7 +3,6 @@
 
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
 
 import {
   AccessToken,
@@ -31,7 +30,7 @@ import { MixedRealityAccountKeyCredential } from "./authentication/mixedRealityA
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { createSpan } from "./tracing";
+import { tracingClient } from "./generated/tracing";
 
 import { PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -363,12 +362,10 @@ export class RemoteRenderingClient {
       );
     }
 
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginConversion", {
+    return tracingClient.withSpan("RemoteRenderingClient-BeginConversion", {
       conversionId: conversionId,
       ...options,
-    });
-
-    try {
+    }, async (updatedOptions) => {
       const conversion: RemoteRenderingCreateConversionResponse =
         await this.operations.createConversion(
           this.accountId,
@@ -387,18 +384,7 @@ export class RemoteRenderingClient {
       await poller.poll();
 
       return poller;
-    } catch (e: any) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -453,7 +439,7 @@ export class RemoteRenderingClient {
   public listConversions(
     options?: ListConversionsOptions
   ): PagedAsyncIterableIterator<AssetConversion> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
+    const { span, updatedOptions } = tracingClient.startSpan("RemoteRenderingClient-ListConversion", {
       ...options,
     });
     try {
@@ -471,8 +457,8 @@ export class RemoteRenderingClient {
       };
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e
       });
       throw e;
     } finally {
@@ -530,12 +516,10 @@ export class RemoteRenderingClient {
       );
     }
 
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginSession", {
+    return tracingClient.withSpan("RemoteRenderingClient-BeginSession", {
       conversionId: sessionId,
       ...operationOptions,
-    });
-
-    try {
+    }, async (updatedOptions) => {
       const sessionProperties: RemoteRenderingCreateSessionResponse =
         await this.operations.createSession(this.accountId, sessionId, settings, updatedOptions);
 
@@ -550,15 +534,7 @@ export class RemoteRenderingClient {
       await poller.poll();
 
       return poller;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -594,12 +570,10 @@ export class RemoteRenderingClient {
     settings: UpdateSessionSettings,
     options?: UpdateSessionOptions
   ): Promise<RenderingSession> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-UpdateSession", {
+    return tracingClient.withSpan("RemoteRenderingClient-UpdateSession", {
       conversionId: sessionId,
       ...options,
-    });
-
-    try {
+    }, async (updatedOptions) => {
       const sessionProperties = await this.operations.updateSession(
         this.accountId,
         sessionId,
@@ -607,15 +581,7 @@ export class RemoteRenderingClient {
         updatedOptions
       );
       return renderingSessionFromSessionProperties(sessionProperties);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -663,7 +629,7 @@ export class RemoteRenderingClient {
    * @param options - The options parameters.
    */
   public listSessions(options?: ListSessionsOptions): PagedAsyncIterableIterator<RenderingSession> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
+    const { span, updatedOptions } = tracingClient.startSpan("RemoteRenderingClient-ListConversion", {
       ...options,
     });
     try {
@@ -681,8 +647,8 @@ export class RemoteRenderingClient {
       };
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e
       });
       throw e;
     } finally {
