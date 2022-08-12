@@ -14,7 +14,7 @@ import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtil
  */
 export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implements SpanExporter {
   /**
-   * Flag to determine if Exported is shutdown.
+   * Flag to determine if Exporter is shutdown.
    */
   protected _isShutdown = false;
 
