@@ -5,8 +5,8 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 
 import { IdentityClient } from "../../client/identityClient";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
-import { AuthenticationError, CredentialUnavailableError } from "../../errors";
-import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
+import { AuthenticationError, AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
+import { CredentialLogger, credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { tracingClient } from "../../util/tracing";
 import { cloudShellMsi } from "./cloudShellMsi";
@@ -18,6 +18,7 @@ import { fabricMsi } from "./fabricMsi";
 import { appServiceMsi2019 } from "./appServiceMsi2019";
 import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
 import { DeveloperSignOnClientId } from "../../constants";
+import { MsalResult, MsalToken } from "../../msal/types";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -169,6 +170,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    console.log("this function is called")
     const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
       getTokenOptions
@@ -197,6 +199,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
   }
 
+
   /**
    * Authenticates with Azure Active Directory and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
@@ -222,7 +225,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
-        result = await this.authenticateManagedIdentity(scopes, updatedOptions);
+        //result = await this.authenticateManagedIdentity(scopes, updatedOptions);
 
         const appTokenParameters: AppTokenProviderParameters = {
         correlationId: this.identityClient.getCorrelationId(), 
@@ -233,13 +236,13 @@ export class ManagedIdentityCredential implements TokenCredential {
 
       this.confidentialApp.SetAppTokenProvider(async(appTokenProviderParameters=appTokenParameters)=>{
         logger.info(`SetAppTokenProvider invoked with parameters- ${JSON.stringify(appTokenProviderParameters)}`);
-        result = await this.authenticateManagedIdentity(scopes, {...updatedOptions, ...appTokenProviderParameters});
+        const resultToken = await this.authenticateManagedIdentity(scopes, {...updatedOptions, ...appTokenProviderParameters});
         
-        if(result){
+        if(resultToken){
           logger.info(`SetAppTokenProvider has saved the token in cache`);
           return {
-            accessToken: result?.token,
-            expiresInSeconds: result?.expiresOnTimestamp,
+            accessToken: resultToken?.token,
+            expiresInSeconds: resultToken?.expiresOnTimestamp,
             refreshInSeconds: 0
           }
         }         
@@ -253,11 +256,11 @@ export class ManagedIdentityCredential implements TokenCredential {
         }
       })
       
-      //TODO: do i need to set azureregion, cache etc?
-      this.confidentialApp.acquireTokenByClientCredential({
+      const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
           ...appTokenParameters
         });
-
+        result = this.handleResult(scopes, authenticationResult || undefined)
+        console.log("result is returned", result);
         if (result === null) {
           // If authenticateManagedIdentity returns null,
           // it means no MSI endpoints are available.
@@ -353,6 +356,56 @@ export class ManagedIdentityCredential implements TokenCredential {
     } finally {
       // Finally is always called, both if we return and if we throw in the above try/catch.
       span.end();
+    }
+  }
+
+   /**
+   * Handles the MSAL authentication result.
+   * If the result has an account, we update the local account reference.
+   * If the token received is invalid, an error will be thrown depending on what's missing.
+   */
+    private handleResult(
+      scopes: string | string[],
+      result?: MsalResult,
+      getTokenOptions?: GetTokenOptions
+    ): AccessToken {
+      // if (result?.account) {
+      //  this.authenticationRecord = msalToPublic(clientId, result.account);
+      // }
+      this.ensureValidMsalToken(scopes, logger, result, getTokenOptions);
+      logger.getToken.info(formatSuccess(scopes));
+      return {
+        token: result!.accessToken!,
+        expiresOnTimestamp: result!.expiresOn!.getTime(),
+      };
+    }
+
+/**
+ * Ensures the validity of the MSAL token
+ * @internal
+ */
+  private ensureValidMsalToken(
+  scopes: string | string[],
+  logger: CredentialLogger,
+  msalToken?: MsalToken,
+  getTokenOptions?: GetTokenOptions
+): void {
+    const error = (message: string): Error => {
+      logger.getToken.info(message);
+      return new AuthenticationRequiredError({
+        scopes: Array.isArray(scopes) ? scopes : [scopes],
+        getTokenOptions,
+        message,
+      });
+    };
+    if (!msalToken) {
+      throw error("No response");
+    }
+    if (!msalToken.expiresOn) {
+      throw error(`Response had no "expiresOn" property.`);
+    }
+    if (!msalToken.accessToken) {
+      throw error(`Response had no "accessToken" property.`);
     }
   }
 }
