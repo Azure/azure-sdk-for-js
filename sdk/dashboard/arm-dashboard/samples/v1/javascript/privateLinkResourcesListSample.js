@@ -12,19 +12,22 @@ const { DashboardManagementClient } = require("@azure/arm-dashboard");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Delete a workspace for Grafana resource.
+ * This sample demonstrates how to List all private link resources information for this grafana resource
  *
- * @summary Delete a workspace for Grafana resource.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_Delete.json
+ * @summary List all private link resources information for this grafana resource
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateLinkResources_List.json
  */
-async function grafanaDelete() {
+async function privateLinkResourcesList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
-  const result = await client.grafana.beginDeleteAndWait(resourceGroupName, workspaceName);
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.privateLinkResources.list(resourceGroupName, workspaceName)) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-grafanaDelete().catch(console.error);
+privateLinkResourcesList().catch(console.error);

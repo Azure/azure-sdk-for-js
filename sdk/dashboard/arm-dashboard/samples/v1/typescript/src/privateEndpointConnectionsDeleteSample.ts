@@ -12,22 +12,24 @@ import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Delete a workspace for Grafana resource.
+ * This sample demonstrates how to Delete private endpoint connection
  *
- * @summary Delete a workspace for Grafana resource.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Delete.json
+ * @summary Delete private endpoint connection
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateEndpointConnections_Delete.json
  */
-async function grafanaDelete() {
+async function privateEndpointConnectionsDelete() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const workspaceName = "myWorkspace";
+  const privateEndpointConnectionName = "myConnection";
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
-  const result = await client.grafana.beginDeleteAndWait(
+  const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
-    workspaceName
+    workspaceName,
+    privateEndpointConnectionName
   );
   console.log(result);
 }
 
-grafanaDelete().catch(console.error);
+privateEndpointConnectionsDelete().catch(console.error);

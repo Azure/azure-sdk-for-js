@@ -8,33 +8,26 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ManagedGrafanaUpdateParameters,
-  DashboardManagementClient
-} from "@azure/arm-dashboard";
+import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Update a workspace for Grafana resource.
+ * This sample demonstrates how to Delete a workspace for Grafana resource.
  *
- * @summary Update a workspace for Grafana resource.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_Update.json
+ * @summary Delete a workspace for Grafana resource.
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Delete.json
  */
-async function grafanaUpdate() {
+async function grafanaDelete() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const workspaceName = "myWorkspace";
-  const requestBodyParameters: ManagedGrafanaUpdateParameters = {
-    tags: { environment: "Dev 2" }
-  };
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
-  const result = await client.grafana.update(
+  const result = await client.grafana.beginDeleteAndWait(
     resourceGroupName,
-    workspaceName,
-    requestBodyParameters
+    workspaceName
   );
   console.log(result);
 }
 
-grafanaUpdate().catch(console.error);
+grafanaDelete().catch(console.error);
