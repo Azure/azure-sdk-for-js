@@ -180,7 +180,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
   });
 
-  it("can list secrets by page", async function (this: Context) {
+  it.only("can list secrets by page", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -189,7 +189,7 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     let found = 0;
-    for await (const page of client.listPropertiesOfSecrets().byPage()) {
+    for await (const page of client.listPropertiesOfSecrets().byPage({ maxPageSize: 1 })) {
       for (const secretProperties of page) {
         // The vault might contain more secrets than the ones we inserted.
         if (!secretNames.includes(secretProperties.name)) continue;
@@ -199,7 +199,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
   });
 
-  it("can list deleted secrets by page", async function (this: Context) {
+  it.only("can list deleted secrets by page", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -213,7 +213,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     let found = 0;
-    for await (const page of client.listDeletedSecrets().byPage()) {
+    for await (const page of client.listDeletedSecrets().byPage({ maxPageSize: 1 })) {
       for (const secret of page) {
         // The vault might contain more secrets than the ones we inserted.
         if (!secretNames.includes(secret.name)) continue;
@@ -223,7 +223,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
   });
 
-  it("can retrieve all versions of a secret by page", async function (this: Context) {
+  it.only("can retrieve all versions of a secret by page", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -239,7 +239,9 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     const results: VersionValuePair[] = [];
-    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+    for await (const page of client
+      .listPropertiesOfSecretVersions(secretName)
+      .byPage({ maxPageSize: 1 })) {
       for (const secretProperties of page) {
         const version = secretProperties.version!;
         const secret = await client.getSecret(secretName, { version });
@@ -255,12 +257,14 @@ describe("Secret client - list secrets in various ways", () => {
     assert.deepEqual(results, versions);
   });
 
-  it("can list secret versions by page (non existing)", async function (this: Context) {
+  it.only("can list secret versions by page (non existing)", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     let totalVersions = 0;
-    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+    for await (const page of client
+      .listPropertiesOfSecretVersions(secretName)
+      .byPage({ maxPageSize: 1 })) {
       for (const secretProperties of page) {
         assert.equal(
           secretProperties.name,
