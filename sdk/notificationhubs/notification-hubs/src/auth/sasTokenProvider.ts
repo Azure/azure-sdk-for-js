@@ -84,7 +84,7 @@ export class SasTokenProviderImpl implements SasTokenProvider {
    */
   async getToken(audience: string): Promise<AccessToken> {
     if (isNamedKeyCredential(this._credential)) {
-      return await createToken(
+      return createToken(
         this._credential.name,
         this._credential.key,
         Math.floor(Date.now() / 1000) + 3600,

@@ -30,13 +30,12 @@ export function updateInstallation(
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += `/installations/${installationId}`;
-      
-      const headers =await  context.createHeaders(OPERATION_NAME);
+
+      const headers = await context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/json");
 
       const request = createRequest(endpoint, "PATCH", headers, updatedOptions);
       request.body = JSON.stringify(installationPatches);
-
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationResponse(response);
