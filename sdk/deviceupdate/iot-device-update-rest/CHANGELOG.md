@@ -3,12 +3,11 @@
 ## 1.0.0-beta.3 (Unreleased)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+- Added filter to `listDeviceClasses` method
+- Updated description for some methods to be more descriptive and less ambiguous
 
 ### Other Changes
+- Removed filter from `listBestUpdatesForGroup` method
 
 ## 1.0.0-beta.2 (2022-07-08)
 

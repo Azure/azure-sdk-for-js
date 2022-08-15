@@ -204,13 +204,13 @@ export interface DeviceUpdateGetOperationdefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
-/** Gets a list of all device classes (unique combinations of device manufacturer and model) for all devices connected to Device Update for IoT Hub. */
+/** Gets a list of all device classes (sets of devices compatible with the same updates based on the model Id and compat properties reported in the Device Update PnP interface in IoT Hub) for all devices connected to Device Update for IoT Hub. */
 export interface DeviceManagementListDeviceClasses200Response extends HttpResponse {
   status: "200";
   body: DeviceClassesListOutput;
 }
 
-/** Gets a list of all device classes (unique combinations of device manufacturer and model) for all devices connected to Device Update for IoT Hub. */
+/** Gets a list of all device classes (sets of devices compatible with the same updates based on the model Id and compat properties reported in the Device Update PnP interface in IoT Hub) for all devices connected to Device Update for IoT Hub. */
 export interface DeviceManagementListDeviceClassesdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
@@ -452,38 +452,38 @@ export interface DeviceManagementGetDeploymentStatusdefaultResponse extends Http
   body: ErrorResponseOutput;
 }
 
-/** Get the device class subgroups for the group. */
+/** Get the device class subgroups for the group. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
 export interface DeviceManagementListDeviceClassSubgroupsForGroup200Response extends HttpResponse {
   status: "200";
   body: DeviceClassSubgroupsListOutput;
 }
 
-/** Get the device class subgroups for the group. */
+/** Get the device class subgroups for the group. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
 export interface DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
-/** Gets device class subgroup details. */
+/** Gets device class subgroup details. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
 export interface DeviceManagementGetDeviceClassSubgroup200Response extends HttpResponse {
   status: "200";
   body: DeviceClassSubgroupOutput;
 }
 
-/** Gets device class subgroup details. */
+/** Gets device class subgroup details. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
 export interface DeviceManagementGetDeviceClassSubgroupdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
-/** Deletes a device class subgroup. */
+/** Deletes a device class subgroup. This subgroup is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a subgroup if they do not need to retain any of the history of the subgroup and no longer need it. If a device is ever connected again for this subgroup after the subgroup was deleted it will be automatically re-created but there will be no history. */
 export interface DeviceManagementDeleteDeviceClassSubgroup204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-/** Deletes a device class subgroup. */
+/** Deletes a device class subgroup. This subgroup is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a subgroup if they do not need to retain any of the history of the subgroup and no longer need it. If a device is ever connected again for this subgroup after the subgroup was deleted it will be automatically re-created but there will be no history. */
 export interface DeviceManagementDeleteDeviceClassSubgroupdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;

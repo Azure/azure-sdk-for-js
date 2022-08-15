@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups/dpokluda-test?api-version=2022-07-01-preview",
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups/dpokluda-test?api-version=2022-10-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,17 +17,17 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "390140a5-6e0e-412e-becd-89ab17af5d2d",
-        "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Win32"
+        "x-ms-client-request-id": "1a549fb8-ce8a-4c46-a38a-f730b4f5cd03",
+        "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0-beta.3 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "296",
+        "Content-Length": "340",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Jul 2022 23:39:22 GMT",
-        "mise-correlation-id": "99b01378-724d-434f-8e62-964ec7a50e69",
-        "traceparent": "00-58e09e7fecbf64f33fd6cfe9d8f91f9f-1b51110f4d5edfa7-00"
+        "Date": "Mon, 15 Aug 2022 21:19:51 GMT",
+        "mise-correlation-id": "3eb37632-cfa6-48db-987d-b2cdfd6a9383",
+        "traceparent": "00-9a15be6ddcbc343aea4b84fe0f3c3191-5aed9da2a3ec9051-00"
       },
       "ResponseBody": {
         "groupId": "dpokluda-test",
@@ -37,7 +37,9 @@
         "subgroupsWithNewUpdatesAvailableCount": 1,
         "subgroupsWithUpdatesInProgressCount": 0,
         "subgroupsWithOnLatestUpdateCount": 0,
-        "deployments": []
+        "deployments": [
+          "3706728501f54ef4b4d6574eaef7fb6c"
+        ]
       }
     }
   ],

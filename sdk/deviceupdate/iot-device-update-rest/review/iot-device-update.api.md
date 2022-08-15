@@ -783,18 +783,7 @@ export interface DeviceManagementListBestUpdatesForGroupdefaultResponse extends 
 }
 
 // @public (undocumented)
-export type DeviceManagementListBestUpdatesForGroupParameters = DeviceManagementListBestUpdatesForGroupQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface DeviceManagementListBestUpdatesForGroupQueryParam {
-    // (undocumented)
-    queryParameters?: DeviceManagementListBestUpdatesForGroupQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface DeviceManagementListBestUpdatesForGroupQueryParamProperties {
-    filter?: string;
-}
+export type DeviceManagementListBestUpdatesForGroupParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementListDeploymentsForDeviceClassSubgroup {
@@ -888,7 +877,18 @@ export interface DeviceManagementListDeviceClassesdefaultResponse extends HttpRe
 }
 
 // @public (undocumented)
-export type DeviceManagementListDeviceClassesParameters = RequestParameters;
+export type DeviceManagementListDeviceClassesParameters = DeviceManagementListDeviceClassesQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeviceManagementListDeviceClassesQueryParam {
+    // (undocumented)
+    queryParameters?: DeviceManagementListDeviceClassesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeviceManagementListDeviceClassesQueryParamProperties {
+    filter?: string;
+}
 
 // @public (undocumented)
 export interface DeviceManagementListDeviceClassSubgroupsForGroup {

@@ -258,7 +258,7 @@ export interface DeviceUpdateGetOperation {
 }
 
 export interface DeviceManagementListDeviceClasses {
-  /** Gets a list of all device classes (unique combinations of device manufacturer and model) for all devices connected to Device Update for IoT Hub. */
+  /** Gets a list of all device classes (sets of devices compatible with the same updates based on the model Id and compat properties reported in the Device Update PnP interface in IoT Hub) for all devices connected to Device Update for IoT Hub. */
   get(
     options?: DeviceManagementListDeviceClassesParameters
   ): StreamableMethod<
@@ -430,7 +430,7 @@ export interface DeviceManagementGetDeploymentStatus {
 }
 
 export interface DeviceManagementListDeviceClassSubgroupsForGroup {
-  /** Get the device class subgroups for the group. */
+  /** Get the device class subgroups for the group. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
   get(
     options?: DeviceManagementListDeviceClassSubgroupsForGroupParameters
   ): StreamableMethod<
@@ -440,14 +440,14 @@ export interface DeviceManagementListDeviceClassSubgroupsForGroup {
 }
 
 export interface DeviceManagementGetDeviceClassSubgroup {
-  /** Gets device class subgroup details. */
+  /** Gets device class subgroup details. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
   get(
     options?: DeviceManagementGetDeviceClassSubgroupParameters
   ): StreamableMethod<
     | DeviceManagementGetDeviceClassSubgroup200Response
     | DeviceManagementGetDeviceClassSubgroupdefaultResponse
   >;
-  /** Deletes a device class subgroup. */
+  /** Deletes a device class subgroup. This subgroup is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a subgroup if they do not need to retain any of the history of the subgroup and no longer need it. If a device is ever connected again for this subgroup after the subgroup was deleted it will be automatically re-created but there will be no history. */
   delete(
     options?: DeviceManagementDeleteDeviceClassSubgroupParameters
   ): StreamableMethod<

@@ -1,24 +1,24 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups?api-version=2022-07-01-preview",
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups?api-version=2022-10-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "726054e2-bd68-4b0c-834b-4a55c5cc8f36"
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.3 core-rest-pipeline/1.9.2 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "6729faa4-fdd4-4c52-a095-0f980689151b"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "701",
+        "Content-Length": "1091",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Jul 2022 23:37:44 GMT",
-        "mise-correlation-id": "de4d1e14-5d81-4037-a1b9-70c6181ebd80",
-        "traceparent": "00-7717aa03cc7cc1fa6d6fad4333a37533-0c0899126e4ab946-00"
+        "Date": "Mon, 15 Aug 2022 21:19:35 GMT",
+        "mise-correlation-id": "0e4fb264-e9b2-4991-9695-3d0906982eb9",
+        "traceparent": "00-fc4321afec863b5e702435c0a5655818-88510fe9b7bec749-00"
       },
       "ResponseBody": {
         "value": [
@@ -36,6 +36,18 @@
             "groupId": "dpokluda-test",
             "groupType": "IoTHubTag",
             "createdDateTime": "2022-06-09T00:08:48.4487\u002B00:00",
+            "deviceCount": 1,
+            "subgroupsWithNewUpdatesAvailableCount": 1,
+            "subgroupsWithUpdatesInProgressCount": 0,
+            "subgroupsWithOnLatestUpdateCount": 0,
+            "deployments": [
+              "3706728501f54ef4b4d6574eaef7fb6c"
+            ]
+          },
+          {
+            "groupId": "testgroup",
+            "groupType": "IoTHubTag",
+            "createdDateTime": "2022-08-09T19:17:24.9549445\u002B00:00",
             "deviceCount": 1,
             "subgroupsWithNewUpdatesAvailableCount": 1,
             "subgroupsWithUpdatesInProgressCount": 0,

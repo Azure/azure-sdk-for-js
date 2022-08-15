@@ -26,7 +26,26 @@ async function main() {
 
   const client = DeviceUpdate(endpoint, credentials);
 
-  const result = await client
+  console.log("List providers, names and versions of updates in Device Update for IoT Hub...");
+
+  console.log("\nProviders:");
+  const providersResult = await client
+    .path("/deviceUpdate/{instanceId}/updates/providers", instanceId)
+    .get();
+  providersResult.body.value.forEach((provider: string) => {
+    console.log(provider);
+  });
+
+  console.log("\nNames in provider '" + provider + "':");
+  const namesResult = await client
+    .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", instanceId, provider)
+    .get();
+  namesResult.body.value.forEach((name: string) => {
+    console.log(name);
+  });
+
+  console.log("\nVersions in provider '" + provider + "' and name '" + name + "':");
+  const versionsResult = await client
     .path(
       "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
       instanceId,
@@ -34,8 +53,9 @@ async function main() {
       name
     )
     .get();
-
-  console.log(result.body);
+  versionsResult.body.value.forEach((version: string) => {
+    console.log(version);
+  });
 }
 
 main().catch(console.error);

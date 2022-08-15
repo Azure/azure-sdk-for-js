@@ -11,7 +11,7 @@ export default function createClient(
   options: ClientOptions = {}
 ): DeviceUpdateClient {
   const baseUrl = options.baseUrl ?? `https://${endpoint}`;
-  options.apiVersion = options.apiVersion ?? "2022-07-01-preview";
+  options.apiVersion = options.apiVersion ?? "2022-10-01";
   options = {
     ...options,
     credentials: {
@@ -19,7 +19,7 @@ export default function createClient(
     },
   };
 
-  const userAgentInfo = `azsdk-js-iot-device-update-rest/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-iot-device-update-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

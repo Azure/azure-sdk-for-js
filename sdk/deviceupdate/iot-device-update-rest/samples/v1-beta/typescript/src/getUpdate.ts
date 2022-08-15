@@ -26,7 +26,8 @@ async function main() {
 
   const client = DeviceUpdate(endpoint, credentials);
 
-  const result = await client
+  console.log("Get update data for provider '" + provider + "', name '" + name+ "' and version '" + version + "'...")
+  const updateResult = await client
     .path(
       "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
       instanceId,
@@ -35,8 +36,36 @@ async function main() {
       version
     )
     .get();
+  console.log(updateResult.body);
 
-  console.log(result);
+  console.log("\nEnumerate update files:");
+  const filesResult = await client
+    .path(
+      "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files",
+      instanceId,
+      provider,
+      name,
+      version
+    )
+    .get();
+  filesResult.body.value.forEach((file: string) => {
+    console.log(file);
+  });
+
+  console.log("\nGet file data:")
+  filesResult.body.value.forEach(async (fileId: string) => {
+    const fileResult = await client
+    .path(
+      "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",
+      instanceId,
+      provider,
+      name,
+      version,
+      fileId
+    )
+    .get();
+    console.log(fileResult.body);
+  });
 }
 
 main().catch(console.error);

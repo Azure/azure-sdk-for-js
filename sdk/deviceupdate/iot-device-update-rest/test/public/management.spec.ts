@@ -117,17 +117,20 @@ describe("device and deployment test", () => {
     assert.equal(response.status, "404");
   });
 
-  // Temporary disabled because the service doesn't properly handle this method yet
-  // it("list deployments for group", async function () {
-  //   const response = await client
-  //     .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments", "sdkinstance", group)
-  //     .get();
-  //   if (response.status !== "200") {
-  //     assert.fail(
-  //       `GET "/deviceUpdate/sdkInstance/management/groups/group/deployments" failed with ${response.status}`
-  //     );
-  //   }
-  // });
+  it("list deployments for group", async function () {
+    const response = await client
+      .path(
+        "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments",
+        "sdkinstance",
+        group
+      )
+      .get();
+    if (response.status !== "200") {
+      assert.fail(
+        `GET "/deviceUpdate/sdkInstance/management/groups/group/deployments" failed with ${response.status}`
+      );
+    }
+  });
 
   it("list deployments for group not found", async function () {
     const response = await client

@@ -1,30 +1,29 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/updates/providers/fabrikam/names/vacuum/versions?api-version=2022-07-01-preview",
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/updates/providers/fabrikam/names/vacuum/versions?api-version=2022-10-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "7f3d1ba4-4d95-42d4-8cfc-450d5d35c3fd"
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.3 core-rest-pipeline/1.9.2 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "fdd13129-e240-47c8-b876-2ff68687ffc1"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "81",
+        "Content-Length": "63",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Jul 2022 23:38:08 GMT",
-        "mise-correlation-id": "3e6274a9-8636-4a6b-b692-7f4f9f6f6ef9",
-        "traceparent": "00-bddd84131775e36d414d3f7b4065559a-db38a627879894f1-00"
+        "Date": "Mon, 15 Aug 2022 21:19:40 GMT",
+        "mise-correlation-id": "5d5c325c-8037-45cb-9751-6c80655e9232",
+        "traceparent": "00-782e80878b5494a807191588d7f67b84-2439c8201a52ea4e-00"
       },
       "ResponseBody": {
         "value": [
-          "2022.701.235.32",
-          "2022.609.510.21",
-          "2022.608.554.1",
+          "2022.812.237.5",
+          "2022.809.131.21",
           "2022.401.504.6"
         ]
       }

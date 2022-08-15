@@ -1,24 +1,24 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/devices?api-version=2022-07-01-preview",
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/devices?api-version=2022-10-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "b0ce26da-a690-4ce5-bcac-803a1b10d1dd"
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.3 core-rest-pipeline/1.9.2 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "fd926fd2-c149-4ec1-b331-27a2c191714e"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "1161",
+        "Content-Length": "1163",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 05 Jul 2022 23:37:41 GMT",
-        "mise-correlation-id": "5c2c31c5-268a-4234-a86b-81b15ed70bf4",
-        "traceparent": "00-a549c3be3c8085bb97c55ecc12cadb39-2ab2d99c61a2a77b-00"
+        "Date": "Mon, 15 Aug 2022 21:19:33 GMT",
+        "mise-correlation-id": "35dc7813-b944-4476-a100-e7f3d21ede58",
+        "traceparent": "00-12c0a9ac2123d80c2fd5fbf382317ab6-b1b164c4d170d1f6-00"
       },
       "ResponseBody": {
         "value": [
@@ -70,14 +70,14 @@
               "updateId": {
                 "provider": "fabrikam",
                 "name": "vacuum",
-                "version": "2022.608.554.1"
+                "version": "2022.809.1238.32"
               }
             },
             "deploymentStatus": "Failed",
-            "lastDeploymentId": "test0609070108",
+            "lastDeploymentId": "test0809074302",
             "lastInstallResult": {
               "resultCode": 0,
-              "extendedResultCode": 805306371,
+              "extendedResultCode": 805306472,
               "resultDetails": ""
             }
           }

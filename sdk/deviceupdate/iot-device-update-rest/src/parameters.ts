@@ -8,7 +8,7 @@ import { ImportUpdateInputItem, PatchBody, Deployment, LogCollection } from "./m
 export interface DeviceUpdateListUpdatesQueryParamProperties {
   /** Request updates matching a free-text search expression. */
   search?: string;
-  /** Filter updates by its properties. */
+  /** Optional to filter updates by isDeployable property. */
   filter?: string;
 }
 
@@ -20,7 +20,7 @@ export type DeviceUpdateListUpdatesParameters = DeviceUpdateListUpdatesQueryPara
   RequestParameters;
 
 export interface DeviceUpdateImportUpdateBodyParam {
-  /** The update to be imported. */
+  /** The update to be imported (see schema https://json.schemastore.org/azure-deviceupdate-import-manifest-5.0.json for details). */
   body: Array<ImportUpdateInputItem>;
 }
 
@@ -48,7 +48,7 @@ export type DeviceUpdateListProvidersParameters = RequestParameters;
 export type DeviceUpdateListNamesParameters = RequestParameters;
 
 export interface DeviceUpdateListVersionsQueryParamProperties {
-  /** Filter updates by its properties. */
+  /** Optional to filter updates by isDeployable property. */
   filter?: string;
 }
 
@@ -72,7 +72,7 @@ export interface DeviceUpdateGetFileHeaderParam {
 export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam & RequestParameters;
 
 export interface DeviceUpdateListOperationsQueryParamProperties {
-  /** Restricts the set of operations returned. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
+  /** Optional to filter operations by status property. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
   filter?: string;
   /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
   top?: number;
@@ -96,11 +96,22 @@ export interface DeviceUpdateGetOperationHeaderParam {
 
 export type DeviceUpdateGetOperationParameters = DeviceUpdateGetOperationHeaderParam &
   RequestParameters;
-export type DeviceManagementListDeviceClassesParameters = RequestParameters;
+
+export interface DeviceManagementListDeviceClassesQueryParamProperties {
+  /** Restricts the set of device classes returned. You can filter on friendly name. */
+  filter?: string;
+}
+
+export interface DeviceManagementListDeviceClassesQueryParam {
+  queryParameters?: DeviceManagementListDeviceClassesQueryParamProperties;
+}
+
+export type DeviceManagementListDeviceClassesParameters = DeviceManagementListDeviceClassesQueryParam &
+  RequestParameters;
 export type DeviceManagementGetDeviceClassParameters = RequestParameters;
 
 export interface DeviceManagementUpdateDeviceClassBodyParam {
-  /** The device class json merge patch body. Currently only supports patching friendlyName */
+  /** The device class json merge patch body. Currently only supports patching friendlyName. */
   body: PatchBody;
 }
 
@@ -116,7 +127,7 @@ export type DeviceManagementDeleteDeviceClassParameters = RequestParameters;
 export type DeviceManagementListInstallableUpdatesForDeviceClassParameters = RequestParameters;
 
 export interface DeviceManagementListDevicesQueryParamProperties {
-  /** Restricts the set of devices returned. You can filter on GroupId, DeviceClassId, or GroupId and DeploymentStatus. */
+  /** Restricts the set of devices returned. You can filter on GroupId, DeviceClassId, or GroupId and DeploymentStatus. Use DeploymentStatus eq null to query for devices with no deployment status (that have never been deployed to). */
   filter?: string;
 }
 
@@ -145,7 +156,7 @@ export type DeviceManagementGetDeviceModuleParameters = RequestParameters;
 export type DeviceManagementGetUpdateComplianceParameters = RequestParameters;
 
 export interface DeviceManagementListGroupsQueryParamProperties {
-  /** Orders the set of groups returned. You can order by any combination of groupId, device count, created date, subgroupsWithNewUpdatesAvailableCount, subgroupsWithUpdatesInProgressCount, or subgroupsOnLatestUpdateCount. */
+  /** Orders the set of groups returned. You can order by groupId, deviceCount, createdDate, subgroupsWithNewUpdatesAvailableCount, subgroupsWithUpdatesInProgressCount, or subgroupsOnLatestUpdateCount. */
   orderby?: string;
 }
 
@@ -158,18 +169,7 @@ export type DeviceManagementListGroupsParameters = DeviceManagementListGroupsQue
 export type DeviceManagementGetGroupParameters = RequestParameters;
 export type DeviceManagementDeleteGroupParameters = RequestParameters;
 export type DeviceManagementGetUpdateComplianceForGroupParameters = RequestParameters;
-
-export interface DeviceManagementListBestUpdatesForGroupQueryParamProperties {
-  /** Restricts the set of bestUpdates returned. You can filter on update Provider, Name and Version property. This filter is deprecated and should not be used. */
-  filter?: string;
-}
-
-export interface DeviceManagementListBestUpdatesForGroupQueryParam {
-  queryParameters?: DeviceManagementListBestUpdatesForGroupQueryParamProperties;
-}
-
-export type DeviceManagementListBestUpdatesForGroupParameters = DeviceManagementListBestUpdatesForGroupQueryParam &
-  RequestParameters;
+export type DeviceManagementListBestUpdatesForGroupParameters = RequestParameters;
 
 export interface DeviceManagementListDeploymentsForGroupQueryParamProperties {
   /** Orders the set of deployments returned. You can order by start date. */
@@ -201,7 +201,7 @@ export type DeviceManagementDeleteDeploymentParameters = RequestParameters;
 export type DeviceManagementGetDeploymentStatusParameters = RequestParameters;
 
 export interface DeviceManagementListDeviceClassSubgroupsForGroupQueryParamProperties {
-  /** Restricts the set of device class subgroups returned. You can filter on compat properties by name and value. */
+  /** Restricts the set of device class subgroups returned. You can filter on compat properties by name and value. (i.e. filter=compatProperties/propertyName1 eq 'value1' and compatProperties/propertyName2 eq 'value2') */
   filter?: string;
 }
 
@@ -289,7 +289,7 @@ export type DeviceManagementListLogCollectionsParameters = RequestParameters;
 export type DeviceManagementGetLogCollectionDetailedStatusParameters = RequestParameters;
 
 export interface DeviceManagementListDeviceHealthQueryParamProperties {
-  /** Filter list by specified properties. */
+  /** Restricts the set of devices for which device health is returned. You can filter on status, device id and module id. */
   filter: string;
 }
 
