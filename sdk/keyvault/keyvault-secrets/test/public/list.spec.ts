@@ -180,7 +180,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
   });
 
-  it.only("can list secrets by page", async function (this: Context) {
+  it("can list secrets by page", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -199,7 +199,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
   });
 
-  it.only("can list deleted secrets by page", async function (this: Context) {
+  it("can list deleted secrets by page", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -223,7 +223,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
   });
 
-  it.only("can retrieve all versions of a secret by page", async function (this: Context) {
+  it("can retrieve all versions of a secret by page", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -257,7 +257,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.deepEqual(results, versions);
   });
 
-  it.only("can list secret versions by page (non existing)", async function (this: Context) {
+  it("can list secret versions by page (non existing)", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
