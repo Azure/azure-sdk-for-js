@@ -25,7 +25,7 @@ import {
 /** Interface representing a DataNetworks. */
 export interface DataNetworks {
   /**
-   * Lists all dataNetworks in the mobile network.
+   * Lists all data networks in the mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
@@ -36,10 +36,10 @@ export interface DataNetworks {
     options?: DataNetworksListByMobileNetworkOptionalParams
   ): PagedAsyncIterableIterator<DataNetwork>;
   /**
-   * Deletes the specified mobile network dataNetwork.
+   * Deletes the specified data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
+   * @param dataNetworkName The name of the data network.
    * @param options The options parameters.
    */
   beginDelete(
@@ -49,10 +49,10 @@ export interface DataNetworks {
     options?: DataNetworksDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Deletes the specified mobile network dataNetwork.
+   * Deletes the specified data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
+   * @param dataNetworkName The name of the data network.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -62,10 +62,10 @@ export interface DataNetworks {
     options?: DataNetworksDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Gets information about the specified mobile network dataNetwork.
+   * Gets information about the specified data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
+   * @param dataNetworkName The name of the data network.
    * @param options The options parameters.
    */
   get(
@@ -75,11 +75,11 @@ export interface DataNetworks {
     options?: DataNetworksGetOptionalParams
   ): Promise<DataNetworksGetResponse>;
   /**
-   * Creates or updates a mobile network dataNetwork.
+   * Creates or updates a data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
-   * @param parameters Parameters supplied to the create or update mobile network dataNetwork operation.
+   * @param dataNetworkName The name of the data network.
+   * @param parameters Parameters supplied to the create or update data network operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -95,11 +95,11 @@ export interface DataNetworks {
     >
   >;
   /**
-   * Creates or updates a mobile network dataNetwork.
+   * Creates or updates a data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
-   * @param parameters Parameters supplied to the create or update mobile network dataNetwork operation.
+   * @param dataNetworkName The name of the data network.
+   * @param parameters Parameters supplied to the create or update data network operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -110,10 +110,10 @@ export interface DataNetworks {
     options?: DataNetworksCreateOrUpdateOptionalParams
   ): Promise<DataNetworksCreateOrUpdateResponse>;
   /**
-   * Update data network tags.
+   * Updates data network tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the mobile network dataNetwork.
+   * @param dataNetworkName The name of the data network.
    * @param parameters Parameters supplied to update data network tags.
    * @param options The options parameters.
    */

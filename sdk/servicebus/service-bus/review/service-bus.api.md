@@ -216,6 +216,7 @@ export interface ProcessErrorArgs {
     error: Error | ServiceBusError;
     errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
     fullyQualifiedNamespace: string;
+    identifier: string;
 }
 
 // @public
@@ -333,7 +334,7 @@ export class ServiceBusClient {
     createReceiver(queueName: string, options?: ServiceBusReceiverOptions): ServiceBusReceiver;
     createReceiver(topicName: string, subscriptionName: string, options?: ServiceBusReceiverOptions): ServiceBusReceiver;
     createRuleManager(topicName: string, subscriptionName: string): ServiceBusRuleManager;
-    createSender(queueOrTopicName: string): ServiceBusSender;
+    createSender(queueOrTopicName: string, options?: ServiceBusSenderOptions): ServiceBusSender;
     fullyQualifiedNamespace: string;
     identifier: string;
 }
@@ -485,6 +486,7 @@ export interface ServiceBusReceiver {
     }): Promise<void>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
+    identifier: string;
     isClosed: boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     receiveDeferredMessages(sequenceNumbers: Long_2 | Long_2[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
@@ -498,6 +500,7 @@ export interface ServiceBusReceiver {
 
 // @public
 export interface ServiceBusReceiverOptions {
+    identifier?: string;
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: "peekLock" | "receiveAndDelete";
     skipParsingBodyAsJson?: boolean;
@@ -518,9 +521,15 @@ export interface ServiceBusSender {
     close(): Promise<void>;
     createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
+    identifier: string;
     isClosed: boolean;
     scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long_2[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], options?: OperationOptionsBase): Promise<void>;
+}
+
+// @public
+export interface ServiceBusSenderOptions {
+    identifier?: string;
 }
 
 // @public
@@ -537,6 +546,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 
 // @public
 export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
+    identifier?: string;
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: "peekLock" | "receiveAndDelete";
     skipParsingBodyAsJson?: boolean;

@@ -13,8 +13,7 @@
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
@@ -22,7 +21,7 @@ const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
   "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
-  "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
+  "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.",
 ];
 
 async function main() {
@@ -56,3 +55,5 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

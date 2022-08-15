@@ -2130,6 +2130,13 @@ export const ManagedClusterSecurityProfile: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ManagedClusterSecurityProfileWorkloadIdentity"
         }
+      },
+      nodeRestriction: {
+        serializedName: "nodeRestriction",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterSecurityProfileNodeRestriction"
+        }
       }
     }
   }
@@ -2210,6 +2217,21 @@ export const ManagedClusterSecurityProfileWorkloadIdentity: coreClient.Composite
   type: {
     name: "Composite",
     className: "ManagedClusterSecurityProfileWorkloadIdentity",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterSecurityProfileNodeRestriction: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterSecurityProfileNodeRestriction",
     modelProperties: {
       enabled: {
         serializedName: "enabled",
@@ -3564,6 +3586,248 @@ export const TrustedAccessRoleBindingListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const FleetHubProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetHubProfile",
+    modelProperties: {
+      dnsPrefix: {
+        serializedName: "dnsPrefix",
+        type: {
+          name: "String"
+        }
+      },
+      fqdn: {
+        serializedName: "fqdn",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      kubernetesVersion: {
+        serializedName: "kubernetesVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const FleetPatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetPatch",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const FleetListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Fleet"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FleetMembersListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetMembersListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FleetMember"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FleetCredentialResults: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetCredentialResults",
+    modelProperties: {
+      kubeconfigs: {
+        serializedName: "kubeconfigs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FleetCredentialResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FleetCredentialResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetCredentialResult",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "ByteArray"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerServiceMasterProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3754,6 +4018,23 @@ export const TrustedAccessRoleBinding: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const AzureEntityResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureEntityResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -4505,6 +4786,60 @@ export const ManagedClusterSnapshot: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterPropertiesForSnapshot"
+        }
+      }
+    }
+  }
+};
+
+export const Fleet: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Fleet",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      hubProfile: {
+        serializedName: "properties.hubProfile",
+        type: {
+          name: "Composite",
+          className: "FleetHubProfile"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FleetMember: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetMember",
+    modelProperties: {
+      ...AzureEntityResource.type.modelProperties,
+      clusterResourceId: {
+        serializedName: "properties.clusterResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }

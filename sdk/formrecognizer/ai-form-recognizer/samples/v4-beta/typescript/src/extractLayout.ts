@@ -11,6 +11,8 @@
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
+import { PrebuiltLayoutModel } from "./prebuilt/prebuilt-layout";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -20,7 +22,8 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginExtractLayout(
+  const poller = await client.beginAnalyzeDocumentFromUrl(
+    PrebuiltLayoutModel,
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf"
   );
@@ -29,7 +32,7 @@ async function main() {
   // appearance (styles) of textual elements.
   const { pages, tables } = await poller.pollUntilDone();
 
-  if (pages.length <= 0) {
+  if (!pages || pages.length <= 0) {
     console.log("No pages were extracted from the document.");
   } else {
     console.log("Pages:");
@@ -56,7 +59,7 @@ async function main() {
     }
   }
 
-  if (tables.length <= 0) {
+  if (!tables || tables.length <= 0) {
     console.log("No tables were extracted from the document.");
   } else {
     console.log("Tables:");

@@ -16,8 +16,7 @@
 const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
@@ -69,6 +68,16 @@ async function main() {
     console.log(`Sending the last 5 scientists (as a ServiceBusMessageBatch)`);
     await sender.sendMessages(batch);
 
+    // Send a single message
+    console.log(`Sending one scientists`);
+    const message = {
+      contentType: "application/json",
+      subject: "Scientist",
+      body: { firstName: "Albert", lastName: "Einstein" },
+      timeToLive: 2 * 60 * 1000, // message expires in 2 minutes
+    };
+    await sender.sendMessages(message);
+
     // Close the sender
     console.log(`Done sending, closing...`);
     await sender.close();
@@ -81,3 +90,5 @@ main().catch((err) => {
   console.log("sendMessages Sample: Error occurred: ", err);
   process.exit(1);
 });
+
+module.exports = { main };

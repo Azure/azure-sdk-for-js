@@ -18,7 +18,7 @@ import {
 } from "rhea-promise";
 import { Constants, StandardAbortMessage } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
-import { isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * Describes the options that can be specified while sending a request.

@@ -6,11 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DataFlowOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -105,26 +104,19 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       DataFlowCreateOrUpdateDataFlowResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdateDataFlow",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<DataFlowCreateOrUpdateDataFlowResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as DataFlowCreateOrUpdateDataFlowResponse;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateOrUpdateDataFlow",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            DataFlowCreateOrUpdateDataFlowResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -200,22 +192,16 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     dataFlowName: string,
     options?: DataFlowGetDataFlowOptionalParams
   ): Promise<DataFlowGetDataFlowResponse> {
-    const { span } = createSpan("ArtifactsClient-getDataFlow", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { dataFlowName, options },
-        getDataFlowOperationSpec
-      );
-      return result as DataFlowGetDataFlowResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.getDataFlow",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { dataFlowName, options },
+          getDataFlowOperationSpec
+        ) as Promise<DataFlowGetDataFlowResponse>;
+      }
+    );
   }
 
   /**
@@ -227,26 +213,17 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     dataFlowName: string,
     options?: DataFlowDeleteDataFlowOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteDataFlow",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDeleteDataFlow",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -318,26 +295,17 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     request: ArtifactRenameRequest,
     options?: DataFlowRenameDataFlowOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenameDataFlow",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginRenameDataFlow",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -411,25 +379,16 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   private async _getDataFlowsByWorkspace(
     options?: DataFlowGetDataFlowsByWorkspaceOptionalParams
   ): Promise<DataFlowGetDataFlowsByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getDataFlowsByWorkspace",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getDataFlowsByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getDataFlowsByWorkspaceOperationSpec
+        ) as Promise<DataFlowGetDataFlowsByWorkspaceResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getDataFlowsByWorkspaceOperationSpec
-      );
-      return result as DataFlowGetDataFlowsByWorkspaceResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -442,25 +401,16 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     nextLink: string,
     options?: DataFlowGetDataFlowsByWorkspaceNextOptionalParams
   ): Promise<DataFlowGetDataFlowsByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getDataFlowsByWorkspaceNext",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getDataFlowsByWorkspaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getDataFlowsByWorkspaceNextOperationSpec
+        ) as Promise<DataFlowGetDataFlowsByWorkspaceNextResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        getDataFlowsByWorkspaceNextOperationSpec
-      );
-      return result as DataFlowGetDataFlowsByWorkspaceNextResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications

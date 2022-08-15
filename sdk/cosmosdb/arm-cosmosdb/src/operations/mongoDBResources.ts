@@ -19,6 +19,10 @@ import {
   MongoDBResourcesListMongoDBDatabasesOptionalParams,
   MongoDBCollectionGetResults,
   MongoDBResourcesListMongoDBCollectionsOptionalParams,
+  MongoRoleDefinitionGetResults,
+  MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
+  MongoUserDefinitionGetResults,
+  MongoDBResourcesListMongoUserDefinitionsOptionalParams,
   MongoDBResourcesListMongoDBDatabasesResponse,
   MongoDBResourcesGetMongoDBDatabaseOptionalParams,
   MongoDBResourcesGetMongoDBDatabaseResponse,
@@ -35,6 +39,12 @@ import {
   MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse,
+  RetrieveThroughputParameters,
+  MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
+  MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse,
+  RedistributeThroughputParameters,
+  MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
+  MongoDBResourcesMongoDBContainerRedistributeThroughputResponse,
   MongoDBResourcesListMongoDBCollectionsResponse,
   MongoDBResourcesGetMongoDBCollectionOptionalParams,
   MongoDBResourcesGetMongoDBCollectionResponse,
@@ -42,6 +52,9 @@ import {
   MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBCollectionResponse,
   MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
+  MergeParameters,
+  MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
+  MongoDBResourcesListMongoDBCollectionPartitionMergeResponse,
   MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
   MongoDBResourcesGetMongoDBCollectionThroughputResponse,
   MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
@@ -50,6 +63,20 @@ import {
   MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse,
   MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams,
   MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse,
+  MongoDBResourcesGetMongoRoleDefinitionOptionalParams,
+  MongoDBResourcesGetMongoRoleDefinitionResponse,
+  MongoRoleDefinitionCreateUpdateParameters,
+  MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams,
+  MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse,
+  MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams,
+  MongoDBResourcesListMongoRoleDefinitionsResponse,
+  MongoDBResourcesGetMongoUserDefinitionOptionalParams,
+  MongoDBResourcesGetMongoUserDefinitionResponse,
+  MongoUserDefinitionCreateUpdateParameters,
+  MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams,
+  MongoDBResourcesCreateUpdateMongoUserDefinitionResponse,
+  MongoDBResourcesDeleteMongoUserDefinitionOptionalParams,
+  MongoDBResourcesListMongoUserDefinitionsResponse,
   ContinuousBackupRestoreLocation,
   MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
   MongoDBResourcesRetrieveContinuousBackupInformationResponse
@@ -190,6 +217,126 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       resourceGroupName,
       accountName,
       databaseName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Retrieves the list of all Azure Cosmos DB Mongo Role Definitions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  public listMongoRoleDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+  ): PagedAsyncIterableIterator<MongoRoleDefinitionGetResults> {
+    const iter = this.listMongoRoleDefinitionsPagingAll(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listMongoRoleDefinitionsPagingPage(
+          resourceGroupName,
+          accountName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listMongoRoleDefinitionsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+  ): AsyncIterableIterator<MongoRoleDefinitionGetResults[]> {
+    let result = await this._listMongoRoleDefinitions(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listMongoRoleDefinitionsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+  ): AsyncIterableIterator<MongoRoleDefinitionGetResults> {
+    for await (const page of this.listMongoRoleDefinitionsPagingPage(
+      resourceGroupName,
+      accountName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Retrieves the list of all Azure Cosmos DB Mongo User Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  public listMongoUserDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+  ): PagedAsyncIterableIterator<MongoUserDefinitionGetResults> {
+    const iter = this.listMongoUserDefinitionsPagingAll(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listMongoUserDefinitionsPagingPage(
+          resourceGroupName,
+          accountName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listMongoUserDefinitionsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+  ): AsyncIterableIterator<MongoUserDefinitionGetResults[]> {
+    let result = await this._listMongoUserDefinitions(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listMongoUserDefinitionsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+  ): AsyncIterableIterator<MongoUserDefinitionGetResults> {
+    for await (const page of this.listMongoUserDefinitionsPagingPage(
+      resourceGroupName,
+      accountName,
       options
     )) {
       yield* page;
@@ -741,6 +888,236 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   }
 
   /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
+      >,
+      MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        retrieveThroughputParameters,
+        options
+      },
+      mongoDBContainerRetrieveThroughputDistributionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
+  > {
+    const poller = await this.beginMongoDBContainerRetrieveThroughputDistribution(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      retrieveThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
+      >,
+      MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        redistributeThroughputParameters,
+        options
+      },
+      mongoDBContainerRedistributeThroughputOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
+  ): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse> {
+    const poller = await this.beginMongoDBContainerRedistributeThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      redistributeThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Lists the MongoDB collection under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -978,6 +1355,118 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       accountName,
       databaseName,
       collectionName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Merges the partitions of a MongoDB Collection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginListMongoDBCollectionPartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
+      >,
+      MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        mergeParameters,
+        options
+      },
+      listMongoDBCollectionPartitionMergeOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Merges the partitions of a MongoDB Collection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginListMongoDBCollectionPartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
+  ): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse> {
+    const poller = await this.beginListMongoDBCollectionPartitionMerge(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      mergeParameters,
       options
     );
     return poller.pollUntilDone();
@@ -1319,6 +1808,466 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   }
 
   /**
+   * Retrieves the properties of an existing Azure Cosmos DB Mongo Role Definition with the given Id.
+   * @param mongoRoleDefinitionId The ID for the Role Definition {dbName.roleName}.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  getMongoRoleDefinition(
+    mongoRoleDefinitionId: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesGetMongoRoleDefinitionOptionalParams
+  ): Promise<MongoDBResourcesGetMongoRoleDefinitionResponse> {
+    return this.client.sendOperationRequest(
+      { mongoRoleDefinitionId, resourceGroupName, accountName, options },
+      getMongoRoleDefinitionOperationSpec
+    );
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB Mongo Role Definition.
+   * @param mongoRoleDefinitionId The ID for the Role Definition {dbName.roleName}.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param createUpdateMongoRoleDefinitionParameters The properties required to create or update a Role
+   *                                                  Definition.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateMongoRoleDefinition(
+    mongoRoleDefinitionId: string,
+    resourceGroupName: string,
+    accountName: string,
+    createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters,
+    options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
+      >,
+      MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        mongoRoleDefinitionId,
+        resourceGroupName,
+        accountName,
+        createUpdateMongoRoleDefinitionParameters,
+        options
+      },
+      createUpdateMongoRoleDefinitionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB Mongo Role Definition.
+   * @param mongoRoleDefinitionId The ID for the Role Definition {dbName.roleName}.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param createUpdateMongoRoleDefinitionParameters The properties required to create or update a Role
+   *                                                  Definition.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateMongoRoleDefinitionAndWait(
+    mongoRoleDefinitionId: string,
+    resourceGroupName: string,
+    accountName: string,
+    createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters,
+    options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
+  ): Promise<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse> {
+    const poller = await this.beginCreateUpdateMongoRoleDefinition(
+      mongoRoleDefinitionId,
+      resourceGroupName,
+      accountName,
+      createUpdateMongoRoleDefinitionParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Mongo Role Definition.
+   * @param mongoRoleDefinitionId The ID for the Role Definition {dbName.roleName}.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  async beginDeleteMongoRoleDefinition(
+    mongoRoleDefinitionId: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { mongoRoleDefinitionId, resourceGroupName, accountName, options },
+      deleteMongoRoleDefinitionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Mongo Role Definition.
+   * @param mongoRoleDefinitionId The ID for the Role Definition {dbName.roleName}.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  async beginDeleteMongoRoleDefinitionAndWait(
+    mongoRoleDefinitionId: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDeleteMongoRoleDefinition(
+      mongoRoleDefinitionId,
+      resourceGroupName,
+      accountName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieves the list of all Azure Cosmos DB Mongo Role Definitions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  private _listMongoRoleDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+  ): Promise<MongoDBResourcesListMongoRoleDefinitionsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listMongoRoleDefinitionsOperationSpec
+    );
+  }
+
+  /**
+   * Retrieves the properties of an existing Azure Cosmos DB Mongo User Definition with the given Id.
+   * @param mongoUserDefinitionId The ID for the User Definition {dbName.userName}.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  getMongoUserDefinition(
+    mongoUserDefinitionId: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesGetMongoUserDefinitionOptionalParams
+  ): Promise<MongoDBResourcesGetMongoUserDefinitionResponse> {
+    return this.client.sendOperationRequest(
+      { mongoUserDefinitionId, resourceGroupName, accountName, options },
+      getMongoUserDefinitionOperationSpec
+    );
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB Mongo User Definition.
+   * @param mongoUserDefinitionId The ID for the User Definition {dbName.userName}.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param createUpdateMongoUserDefinitionParameters The properties required to create or update a User
+   *                                                  Definition.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateMongoUserDefinition(
+    mongoUserDefinitionId: string,
+    resourceGroupName: string,
+    accountName: string,
+    createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters,
+    options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
+      >,
+      MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        mongoUserDefinitionId,
+        resourceGroupName,
+        accountName,
+        createUpdateMongoUserDefinitionParameters,
+        options
+      },
+      createUpdateMongoUserDefinitionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB Mongo User Definition.
+   * @param mongoUserDefinitionId The ID for the User Definition {dbName.userName}.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param createUpdateMongoUserDefinitionParameters The properties required to create or update a User
+   *                                                  Definition.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateMongoUserDefinitionAndWait(
+    mongoUserDefinitionId: string,
+    resourceGroupName: string,
+    accountName: string,
+    createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters,
+    options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
+  ): Promise<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse> {
+    const poller = await this.beginCreateUpdateMongoUserDefinition(
+      mongoUserDefinitionId,
+      resourceGroupName,
+      accountName,
+      createUpdateMongoUserDefinitionParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Mongo User Definition.
+   * @param mongoUserDefinitionId The ID for the User Definition {dbName.userName}.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  async beginDeleteMongoUserDefinition(
+    mongoUserDefinitionId: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { mongoUserDefinitionId, resourceGroupName, accountName, options },
+      deleteMongoUserDefinitionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Mongo User Definition.
+   * @param mongoUserDefinitionId The ID for the User Definition {dbName.userName}.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  async beginDeleteMongoUserDefinitionAndWait(
+    mongoUserDefinitionId: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDeleteMongoUserDefinition(
+      mongoUserDefinitionId,
+      resourceGroupName,
+      accountName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieves the list of all Azure Cosmos DB Mongo User Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  private _listMongoUserDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+  ): Promise<MongoDBResourcesListMongoUserDefinitionsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listMongoUserDefinitionsOperationSpec
+    );
+  }
+
+  /**
    * Retrieves continuous backup information for a Mongodb collection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -1636,6 +2585,76 @@ const migrateMongoDBDatabaseToManualThroughputOperationSpec: coreClient.Operatio
   headerParameters: [Parameters.accept],
   serializer
 };
+const mongoDBContainerRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/retrieveThroughputDistribution",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.retrieveThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const mongoDBContainerRedistributeThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/redistributeThroughput",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.redistributeThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listMongoDBCollectionsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections",
@@ -1723,6 +2742,41 @@ const deleteMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.collectionName
   ],
+  serializer
+};
+const listMongoDBCollectionPartitionMergeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/partitionMerge",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.mergeParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const getMongoDBCollectionThroughputOperationSpec: coreClient.OperationSpec = {
@@ -1840,6 +2894,212 @@ const migrateMongoDBCollectionToManualThroughputOperationSpec: coreClient.Operat
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.collectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoRoleDefinitionGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.mongoRoleDefinitionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createUpdateMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoRoleDefinitionGetResults
+    },
+    201: {
+      bodyMapper: Mappers.MongoRoleDefinitionGetResults
+    },
+    202: {
+      bodyMapper: Mappers.MongoRoleDefinitionGetResults
+    },
+    204: {
+      bodyMapper: Mappers.MongoRoleDefinitionGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.createUpdateMongoRoleDefinitionParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.mongoRoleDefinitionId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.mongoRoleDefinitionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listMongoRoleDefinitionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoRoleDefinitionListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoUserDefinitionGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.mongoUserDefinitionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createUpdateMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoUserDefinitionGetResults
+    },
+    201: {
+      bodyMapper: Mappers.MongoUserDefinitionGetResults
+    },
+    202: {
+      bodyMapper: Mappers.MongoUserDefinitionGetResults
+    },
+    204: {
+      bodyMapper: Mappers.MongoUserDefinitionGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.createUpdateMongoUserDefinitionParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.mongoUserDefinitionId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.mongoUserDefinitionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listMongoUserDefinitionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoUserDefinitionListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
   ],
   headerParameters: [Parameters.accept],
   serializer

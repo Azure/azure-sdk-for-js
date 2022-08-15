@@ -24,6 +24,7 @@ async function queryAtManagementGroupScope() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForManagementGroup(
+    "default",
     managementGroupName
   )) {
     resArray.push(item);

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all sites in the mobile network.
  *
  * @summary Lists all sites in the mobile network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SiteListByMobileNetwork.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SiteListByMobileNetwork.json
  */
 async function listMobileNetworkSitesInAMobileNetwork() {
   const subscriptionId = "subid";
