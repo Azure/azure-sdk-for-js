@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue of under some conditions, it may not be able to correctly parse URL with account name in URL path.
+
 ### Other Changes
 
 ## 12.10.0 (2022-07-08)

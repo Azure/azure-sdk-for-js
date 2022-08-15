@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fixed a hang issue in BlobClient.downloadToBuffer when encountering transient network failure.
+- Fixed an issue of under some conditions, it may not be able to correctly parse URL with account name in URL path.
 
 ## 12.11.0 (2022-07-08)
 

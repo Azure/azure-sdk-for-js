@@ -12,6 +12,7 @@
 ### Bugs Fixed
 
 - Correted permission string parsing in DataLakePathClient.setPermissions() and DataLakePathClient.getAccessControl().
+- Fixed an issue of under some conditions, it may not be able to correctly parse URL with account name in URL path.
 
 ## 12.10.0 (2022-07-08)
 
