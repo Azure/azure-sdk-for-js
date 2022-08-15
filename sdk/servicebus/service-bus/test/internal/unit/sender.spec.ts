@@ -29,7 +29,7 @@ describe("Sender helper unit tests", () => {
 
 describe("sender unit tests", () => {
   const fakeContext = createConnectionContextForTests();
-  const sender = new ServiceBusSenderImpl("serviceBusClientId", fakeContext, "fakeEntityPath");
+  const sender = new ServiceBusSenderImpl(fakeContext, "fakeEntityPath", {}, "serviceBusClientId");
   sender["_sender"].createBatch = async () => {
     return new ServiceBusMessageBatchImpl(fakeContext, 100);
   };

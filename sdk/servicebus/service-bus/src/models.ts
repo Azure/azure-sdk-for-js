@@ -32,6 +32,10 @@ export interface ProcessErrorArgs {
    * The fully qualified namespace for the Service Bus.
    */
   fullyQualifiedNamespace: string;
+  /**
+   * The identifier of the client that raised this event.
+   */
+  identifier: string;
 }
 
 /**
@@ -161,6 +165,22 @@ export interface ServiceBusReceiverOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+  /**
+   * Sets the name to identify the receiver. This can be used to correlate logs and exceptions.
+   * If not specified or empty, a random unique one will be used.
+   */
+  identifier?: string;
+}
+
+/**
+ * Options to use when creating a sender.
+ */
+export interface ServiceBusSenderOptions {
+  /**
+   * Sets the name to identify the sender. This can be used to correlate logs and exceptions.
+   * If not specified or empty, a random unique one will be used.
+   */
+  identifier?: string;
 }
 
 /**
@@ -271,6 +291,11 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+  /**
+   * Sets the name to identify the session receiver. This can be used to correlate logs and exceptions.
+   * If not specified or empty, a random unique one will be used.
+   */
+  identifier?: string;
 }
 
 /**

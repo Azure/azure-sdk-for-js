@@ -36,10 +36,10 @@ export interface Slices {
     options?: SlicesListByMobileNetworkOptionalParams
   ): PagedAsyncIterableIterator<Slice>;
   /**
-   * Deletes the specified mobile network slice.
+   * Deletes the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
+   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
   beginDelete(
@@ -49,10 +49,10 @@ export interface Slices {
     options?: SlicesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Deletes the specified mobile network slice.
+   * Deletes the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
+   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -62,10 +62,10 @@ export interface Slices {
     options?: SlicesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Gets information about the specified mobile network slice.
+   * Gets information about the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
+   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
   get(
@@ -75,11 +75,11 @@ export interface Slices {
     options?: SlicesGetOptionalParams
   ): Promise<SlicesGetResponse>;
   /**
-   * Creates or updates a mobile network slice.
+   * Creates or updates a network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
-   * @param parameters Parameters supplied to the create or update mobile network slice operation.
+   * @param sliceName The name of the network slice.
+   * @param parameters Parameters supplied to the create or update network slice operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -95,11 +95,11 @@ export interface Slices {
     >
   >;
   /**
-   * Creates or updates a mobile network slice.
+   * Creates or updates a network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
-   * @param parameters Parameters supplied to the create or update mobile network slice operation.
+   * @param sliceName The name of the network slice.
+   * @param parameters Parameters supplied to the create or update network slice operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -110,11 +110,11 @@ export interface Slices {
     options?: SlicesCreateOrUpdateOptionalParams
   ): Promise<SlicesCreateOrUpdateResponse>;
   /**
-   * Update slice tags.
+   * Updates slice tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
-   * @param parameters Parameters supplied to update mobile network slice tags.
+   * @param sliceName The name of the network slice.
+   * @param parameters Parameters supplied to update network slice tags.
    * @param options The options parameters.
    */
   updateTags(

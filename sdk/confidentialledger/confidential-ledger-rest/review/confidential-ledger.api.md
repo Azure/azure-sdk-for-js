@@ -21,10 +21,10 @@ export interface CollectionOutput {
 }
 
 // @public (undocumented)
-function ConfidentialLedger(ledgerBaseUrl: string, ledgerIdentityCertificate: string, options?: ClientOptions): ConfidentialLedgerClient;
+function ConfidentialLedger(ledgerEndpoint: string, ledgerIdentityCertificate: string, options?: ClientOptions): ConfidentialLedgerClient;
 
 // @public (undocumented)
-function ConfidentialLedger(ledgerBaseUrl: string, ledgerIdentityCertificate: string, credentials: TokenCredential, options?: ClientOptions): ConfidentialLedgerClient;
+function ConfidentialLedger(ledgerEndpoint: string, ledgerIdentityCertificate: string, credentials: TokenCredential, options?: ClientOptions): ConfidentialLedgerClient;
 export default ConfidentialLedger;
 
 // @public (undocumented)

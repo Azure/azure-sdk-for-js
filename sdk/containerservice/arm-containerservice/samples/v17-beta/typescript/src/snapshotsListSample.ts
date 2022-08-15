@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a list of snapshots in the specified subscription.
  *
  * @summary Gets a list of snapshots in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/SnapshotsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/SnapshotsList.json
  */
 async function listSnapshots() {
   const subscriptionId = "subid1";

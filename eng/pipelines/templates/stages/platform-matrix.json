@@ -12,8 +12,8 @@
         "OSVmImage": "MMSUbuntu20.04",
         "Pool": "azsdk-pool-mms-ubuntu-2004-general"
       },
-      "macOS-10.15": {
-        "OSVmImage": "macOS-10.15",
+      "macos-11": {
+        "OSVmImage": "macos-11",
         "Pool": "Azure Pipelines"
       }
     },

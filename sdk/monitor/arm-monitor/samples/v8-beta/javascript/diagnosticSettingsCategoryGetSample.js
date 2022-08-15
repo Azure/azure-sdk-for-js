@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the diagnostic settings category for the specified resource.
  *
  * @summary Gets the diagnostic settings category for the specified resource.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2017-05-01-preview/examples/getDiagnosticSettingsCategory.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/examples/getDiagnosticSettingsCategory.json
  */
 async function getsTheDiagnosticSetting() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

@@ -65,7 +65,7 @@ export interface AnalyzeResultOperation {
 export interface AnalyzeResult {
   /** API version used to produce this result. */
   apiVersion: ApiVersion;
-  /** Document Model ID used to produce this result. */
+  /** Document model ID used to produce this result. */
   modelId: string;
   /** Method used to compute string offset and length. */
   stringIndexType: StringIndexType;
@@ -107,6 +107,8 @@ export interface DocumentPage {
   words?: DocumentWord[];
   /** Extracted selection marks from the page. */
   selectionMarks?: DocumentSelectionMark[];
+  /** Extracted images from the page. */
+  images?: DocumentImage[];
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
   lines?: DocumentLine[];
 }
@@ -140,6 +142,18 @@ export interface DocumentSelectionMark {
   /** Location of the selection mark in the reading order concatenated content. */
   span: DocumentSpan;
   /** Confidence of correctly extracting the selection mark. */
+  confidence: number;
+}
+
+/** An image object detected in the page. */
+export interface DocumentImage {
+  /** Bounding polygon of the image. */
+  polygon?: number[];
+  /** Location of the image in the reading order concatenated content. */
+  span: DocumentSpan;
+  /** 0-based index of the global pages array that containing the content of the image. */
+  pageRef: number;
+  /** Confidence of correctly identifying the image. */
   confidence: number;
 }
 
@@ -360,7 +374,7 @@ export interface AddressValue {
 export interface BuildDocumentModelRequest {
   /** Unique document model name. */
   modelId: string;
-  /** Document Model description. */
+  /** Document model description. */
   description?: string;
   /** Custom document model build mode. */
   buildMode: DocumentBuildMode;
@@ -382,16 +396,16 @@ export interface AzureBlobContentSource {
 export interface ComposeDocumentModelRequest {
   /** Unique document model name. */
   modelId: string;
-  /** Document Model description. */
+  /** Document model description. */
   description?: string;
   /** List of component document models to compose. */
-  componentModels: ComponentDocumentModelInfo[];
+  componentModels: ComponentDocumentModelDetails[];
   /** List of key-value tag attributes associated with the document model. */
   tags?: { [propertyName: string]: string };
 }
 
 /** A component of a composed document model. */
-export interface ComponentDocumentModelInfo {
+export interface ComponentDocumentModelDetails {
   /** Unique document model name. */
   modelId: string;
 }
@@ -400,7 +414,7 @@ export interface ComponentDocumentModelInfo {
 export interface AuthorizeCopyRequest {
   /** Unique document model name. */
   modelId: string;
-  /** Document Model description. */
+  /** Document model description. */
   description?: string;
   /** List of key-value tag attributes associated with the document model. */
   tags?: { [propertyName: string]: string };
@@ -452,7 +466,7 @@ export interface OperationSummary {
   tags?: { [propertyName: string]: string };
 }
 
-/** List Document Models response object. */
+/** List Document models response object. */
 export interface GetDocumentModelsResponse {
   /** List of document models. */
   value: DocumentModelSummary[];
@@ -460,11 +474,11 @@ export interface GetDocumentModelsResponse {
   nextLink?: string;
 }
 
-/** Document Model summary. */
+/** Document model summary. */
 export interface DocumentModelSummary {
   /** Unique document model name. */
   modelId: string;
-  /** Document Model description. */
+  /** Document model description. */
   description?: string;
   /** Date and time (UTC) when the document model was created. */
   createdDateTime: Date;
@@ -475,8 +489,8 @@ export interface DocumentModelSummary {
 }
 
 /** Document type info. */
-export interface DocTypeInfo {
-  /** Document Model description. */
+export interface DocumentTypeDetails {
+  /** Document model description. */
   description?: string;
   /** Custom document model build mode. */
   buildMode?: DocumentBuildMode;
@@ -501,13 +515,13 @@ export interface DocumentFieldSchema {
 }
 
 /** General information regarding the current resource. */
-export interface ResourceInfo {
-  /** Info regarding custom document models. */
-  customDocumentModels: CustomDocumentModelsInfo;
+export interface ResourceDetails {
+  /** Details regarding custom document models. */
+  customDocumentModels: CustomDocumentModelsDetails;
 }
 
-/** Info regarding custom document models. */
-export interface CustomDocumentModelsInfo {
+/** Details regarding custom document models. */
+export interface CustomDocumentModelsDetails {
   /** Number of custom document models in the current resource. */
   count: number;
   /** Maximum number of custom document models supported in the current resource. */
@@ -515,17 +529,17 @@ export interface CustomDocumentModelsInfo {
 }
 
 /** Get Operation response object. */
-export interface OperationInfo extends OperationSummary {
+export interface OperationDetails extends OperationSummary {
   /** Encountered error. */
   error?: ErrorModel;
   /** Operation result upon success. */
   result?: Record<string, unknown>;
 }
 
-/** Document Model info. */
-export interface DocumentModelInfo extends DocumentModelSummary {
+/** Document model info. */
+export interface DocumentModelDetails extends DocumentModelSummary {
   /** Supported document types. */
-  docTypes?: { [propertyName: string]: DocTypeInfo };
+  docTypes?: { [propertyName: string]: DocumentTypeDetails };
 }
 
 /** Defines headers for GeneratedClient_analyzeDocument operation. */
@@ -921,7 +935,7 @@ export interface GetOperationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperation operation. */
-export type GetOperationResponse = OperationInfo;
+export type GetOperationResponse = OperationDetails;
 
 /** Optional parameters. */
 export interface GetDocumentModelsOptionalParams
@@ -935,18 +949,18 @@ export interface GetDocumentModelOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDocumentModel operation. */
-export type GetDocumentModelResponse = DocumentModelInfo;
+export type GetDocumentModelResponse = DocumentModelDetails;
 
 /** Optional parameters. */
 export interface DeleteDocumentModelOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GetResourceInfoOptionalParams
+export interface GetResourceDetailsOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getResourceInfo operation. */
-export type GetResourceInfoResponse = ResourceInfo;
+/** Contains response data for the getResourceDetails operation. */
+export type GetResourceDetailsResponse = ResourceDetails;
 
 /** Optional parameters. */
 export interface GetOperationsNextOptionalParams

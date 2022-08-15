@@ -14,7 +14,8 @@ export type CreateDeleteEntityAction = ["create" | "delete", TableEntity];
  */
 export type UpdateEntityAction =
   | ["update" | "upsert", TableEntity]
-  | ["update" | "upsert", TableEntity, "Merge" | "Replace"];
+  | ["update" | "upsert", TableEntity, "Merge" | "Replace"]
+  | ["update" | "upsert", TableEntity, "Merge" | "Replace", UpdateTableEntityOptions | undefined];
 
 /**
  * Represents the union of all the available transactional actions

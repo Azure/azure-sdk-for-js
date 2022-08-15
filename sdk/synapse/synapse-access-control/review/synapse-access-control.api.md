@@ -6,23 +6,19 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public (undocumented)
-export class AccessControlClient extends AccessControlClientContext {
-    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: AccessControlClientOptionalParams);
-    // (undocumented)
-    roleAssignments: RoleAssignments;
-    // (undocumented)
-    roleDefinitions: RoleDefinitions;
-}
-
-// @public (undocumented)
-export class AccessControlClientContext extends coreClient.ServiceClient {
+export class AccessControlClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: AccessControlClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     endpoint: string;
+    // (undocumented)
+    roleAssignments: RoleAssignments;
+    // (undocumented)
+    roleDefinitions: RoleDefinitions;
 }
 
 // @public
@@ -105,7 +101,7 @@ export interface RoleAssignments {
     createRoleAssignment(roleAssignmentId: string, roleId: string, principalId: string, scope: string, options?: RoleAssignmentsCreateRoleAssignmentOptionalParams): Promise<RoleAssignmentsCreateRoleAssignmentResponse>;
     deleteRoleAssignmentById(roleAssignmentId: string, options?: RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams): Promise<void>;
     getRoleAssignmentById(roleAssignmentId: string, options?: RoleAssignmentsGetRoleAssignmentByIdOptionalParams): Promise<RoleAssignmentsGetRoleAssignmentByIdResponse>;
-    listRoleAssignments(options?: RoleAssignmentsListRoleAssignmentsOptionalParams): Promise<RoleAssignmentsListRoleAssignmentsResponse>;
+    listRoleAssignments(options?: RoleAssignmentsListRoleAssignmentsOptionalParams): PagedAsyncIterableIterator<RoleAssignmentDetails>;
 }
 
 // @public
@@ -207,7 +203,6 @@ export interface SynapseRoleDefinition {
     permissions?: SynapseRbacPermission[];
     scopes?: string[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 

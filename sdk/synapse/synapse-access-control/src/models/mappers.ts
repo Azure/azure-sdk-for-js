@@ -100,7 +100,7 @@ export const CheckPrincipalAccessResponse: coreClient.CompositeMapper = {
     className: "CheckPrincipalAccessResponse",
     modelProperties: {
       accessDecisions: {
-        serializedName: "accessDecisions",
+        serializedName: "AccessDecisions",
         type: {
           name: "Sequence",
           element: {

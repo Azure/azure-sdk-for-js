@@ -388,7 +388,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/OperationInfo"
+              "$ref": "#/definitions/OperationDetails"
             }
           },
           "default": {
@@ -463,7 +463,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/DocumentModelInfo"
+              "$ref": "#/definitions/DocumentModelDetails"
             }
           },
           "default": {
@@ -519,7 +519,7 @@
       "get": {
         "summary": "Get resource info",
         "description": "Return information about the current resource.",
-        "operationId": "GetResourceInfo",
+        "operationId": "GetResourceDetails",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
@@ -532,7 +532,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/ResourceInfo"
+              "$ref": "#/definitions/ResourceDetails"
             }
           },
           "default": {
@@ -543,8 +543,8 @@
           }
         },
         "x-ms-examples": {
-          "GetResourceInfo": {
-            "$ref": "./examples/GetResourceInfo.json"
+          "GetResourceDetails": {
+            "$ref": "./examples/GetResourceDetails.json"
           }
         }
       }
@@ -608,7 +608,7 @@
           "type": "array",
           "uniqueItems": true,
           "items": {
-            "$ref": "#/definitions/ComponentDocumentModelInfo"
+            "$ref": "#/definitions/ComponentDocumentModelDetails"
           }
         },
         "tags": {
@@ -620,7 +620,7 @@
         }
       }
     },
-    "ComponentDocumentModelInfo": {
+    "ComponentDocumentModelDetails": {
       "description": "A component of a composed document model.",
       "type": "object",
       "required": ["modelId"],
@@ -668,7 +668,7 @@
         }
       }
     },
-    "OperationInfo": {
+    "OperationDetails": {
       "description": "Get Operation response object.",
       "type": "object",
       "allOf": [
@@ -688,7 +688,7 @@
       }
     },
     "GetDocumentModelsResponse": {
-      "description": "List Document Models response object.",
+      "description": "List Document models response object.",
       "type": "object",
       "required": ["value"],
       "properties": {
@@ -705,18 +705,18 @@
         }
       }
     },
-    "ResourceInfo": {
+    "ResourceDetails": {
       "description": "General information regarding the current resource.",
       "type": "object",
       "required": ["customDocumentModels"],
       "properties": {
         "customDocumentModels": {
-          "$ref": "#/definitions/CustomDocumentModelsInfo"
+          "$ref": "#/definitions/CustomDocumentModelsDetails"
         }
       }
     },
-    "CustomDocumentModelsInfo": {
-      "description": "Info regarding custom document models.",
+    "CustomDocumentModelsDetails": {
+      "description": "Details regarding custom document models.",
       "type": "object",
       "required": ["count", "limit"],
       "properties": {
@@ -933,7 +933,7 @@
       }
     },
     "DocumentModelSummary": {
-      "description": "Document Model summary.",
+      "description": "Document model summary.",
       "type": "object",
       "required": ["modelId", "createdDateTime"],
       "properties": {
@@ -961,8 +961,8 @@
         }
       }
     },
-    "DocumentModelInfo": {
-      "description": "Document Model info.",
+    "DocumentModelDetails": {
+      "description": "Document model info.",
       "type": "object",
       "allOf": [
         {
@@ -974,12 +974,12 @@
           "description": "Supported document types.",
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/DocTypeInfo"
+            "$ref": "#/definitions/DocumentTypeDetails"
           }
         }
       }
     },
-    "DocTypeInfo": {
+    "DocumentTypeDetails": {
       "description": "Document type info.",
       "type": "object",
       "required": ["fieldSchema"],
@@ -1083,7 +1083,7 @@
           "$ref": "#/definitions/ApiVersion"
         },
         "modelId": {
-          "description": "Document Model ID used to produce this result.",
+          "description": "Document model ID used to produce this result.",
           "$ref": "#/definitions/DocumentModelId"
         },
         "stringIndexType": {
@@ -1212,6 +1212,13 @@
             "$ref": "#/definitions/DocumentSelectionMark"
           }
         },
+        "images": {
+          "description": "Extracted images from the page.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DocumentImage"
+          }
+        },
         "lines": {
           "description": "Extracted lines from the page, potentially containing both textual and visual elements.",
           "type": "array",
@@ -1263,6 +1270,30 @@
         },
         "confidence": {
           "description": "Confidence of correctly extracting the selection mark.",
+          "$ref": "#/definitions/Confidence"
+        }
+      }
+    },
+    "DocumentImage": {
+      "description": "An image object detected in the page.",
+      "type": "object",
+      "required": ["span", "pageRef", "confidence"],
+      "properties": {
+        "polygon": {
+          "description": "Bounding polygon of the image.",
+          "$ref": "#/definitions/BoundingPolygon"
+        },
+        "span": {
+          "description": "Location of the image in the reading order concatenated content.",
+          "$ref": "#/definitions/DocumentSpan"
+        },
+        "pageRef": {
+          "description": "0-based index of the global pages array that containing the content of the image.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "confidence": {
+          "description": "Confidence of correctly identifying the image.",
           "$ref": "#/definitions/Confidence"
         }
       }
@@ -1798,7 +1829,7 @@
       "pattern": "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}"
     },
     "DocumentModelDescription": {
-      "description": "Document Model description.",
+      "description": "Document model description.",
       "type": "string",
       "maxLength": 4096
     },

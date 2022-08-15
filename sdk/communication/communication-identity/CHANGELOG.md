@@ -8,11 +8,23 @@
     - Added `GetTokenOptions` to pass mandatory and configurable parameters when using `getToken` APIs.
     - Added a new API version `2022-10-01` that is now the default API version.
 
-## 1.1.0 (Unreleased)
+## 1.1.1 (Unreleased)
 
 ### Features Added
 
-- Added support to build a custom Teams endpoint using Microsoft 365 Teams identities:
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Updated to `@azure/core-tracing` 1.0.
+
+## 1.1.0 (2022-07-21)
+
+### Features Added
+
+- Added support to integrate communication as Teams user with Azure Communication Services:
   - Added `getTokenForTeamsUser(teamsUserAadToken: string, appId: string, userId: string, options: OperationOptions = {})` method that provides the ability to exchange an AAD access token of a Teams user for a Communication Identity access token to `CommunicationIdentityClient`.
 
 ## 1.1.0-beta.2 (2022-04-05)
@@ -28,7 +40,7 @@
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
-- Added support to build custom Teams endpoint using M365 Teams identities
+- Added support to integrate communication as Teams user with Azure Communication Services:
   - `CommunicationIdentityClient` added a new method `getTokenForTeamsUser` that provides the ability to exchange an AAD access token of a Teams user for a Communication Identity access token
 
 ## 1.0.0 (2021-03-29)

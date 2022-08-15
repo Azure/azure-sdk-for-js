@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-auth",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Provides low-level interfaces and helper methods for authentication in Azure SDK",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -63,6 +63,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
+    "@azure/core-util": "^1.0.1",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

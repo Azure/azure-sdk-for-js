@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
-import { CpkInfo } from "../models";
+import { ContainerEncryptionScope } from "@azure/storage-blob";
+import { CpkInfo, FileSystemEncryptionScope } from "../models";
 
 import {
   DevelopmentConnectionString,
@@ -601,4 +602,17 @@ export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean)
   if (cpk && !cpk.encryptionAlgorithm) {
     cpk.encryptionAlgorithm = EncryptionAlgorithmAES25;
   }
+}
+
+export function ToBlobContainerEncryptionScope(
+  fileSystemEncryptionScope?: FileSystemEncryptionScope
+): ContainerEncryptionScope | undefined {
+  if (!fileSystemEncryptionScope) return undefined;
+
+  if (!fileSystemEncryptionScope.defaultEncryptionScope) return undefined;
+
+  return {
+    defaultEncryptionScope: fileSystemEncryptionScope.defaultEncryptionScope,
+    preventEncryptionScopeOverride: true,
+  };
 }

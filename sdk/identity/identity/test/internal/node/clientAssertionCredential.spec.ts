@@ -17,6 +17,7 @@ import * as fs from "fs";
 import * as uuid from "uuid";
 import * as jwt from "jsonwebtoken";
 import ms from "ms";
+import * as path from "path";
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -82,9 +83,9 @@ describe("ClientAssertionCredential (internal)", function () {
   });
 
   it("Sends the expected parameters", async function () {
-    const tenantId = env.AZURE_TENANT_ID ?? "tenant";
-    const clientId = env.AZURE_CLIENT_ID ?? "client";
-    const certificatePath = env.AZURE_CLIENT_CERTIFICATE_PATH ?? "certificate-path";
+    const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
+    const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
+    const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join("assets", "fake-cert.pem");
     const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
 
     async function getAssertion(): Promise<string> {

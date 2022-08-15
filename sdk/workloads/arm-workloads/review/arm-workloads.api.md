@@ -97,16 +97,16 @@ export interface DatabaseVmDetails {
 }
 
 // @public
-export type DB2ProviderInstanceProperties = ProviderSpecificProperties & {
-    providerType: "Db2";
-    hostname?: string;
+export interface DB2ProviderInstanceProperties extends ProviderSpecificProperties {
     dbName?: string;
-    dbPort?: string;
-    dbUsername?: string;
     dbPassword?: string;
     dbPasswordUri?: string;
+    dbPort?: string;
+    dbUsername?: string;
+    hostname?: string;
+    providerType: "Db2";
     sapSid?: string;
-};
+}
 
 // @public
 export interface DeployerVmPackages {
@@ -115,28 +115,28 @@ export interface DeployerVmPackages {
 }
 
 // @public
-export type DeploymentConfiguration = SAPConfiguration & {
+export interface DeploymentConfiguration extends SAPConfiguration {
+    appLocation?: string;
     configurationType: "Deployment";
-    appLocation?: string;
     infrastructureConfiguration?: InfrastructureConfigurationUnion;
     softwareConfiguration?: SoftwareConfigurationUnion;
-};
+}
 
 // @public
-export type DeploymentWithOSConfiguration = SAPConfiguration & {
+export interface DeploymentWithOSConfiguration extends SAPConfiguration {
+    appLocation?: string;
     configurationType: "DeploymentWithOSConfig";
-    appLocation?: string;
     infrastructureConfiguration?: InfrastructureConfigurationUnion;
-    softwareConfiguration?: SoftwareConfigurationUnion;
     osSapConfiguration?: OsSapConfiguration;
-};
+    softwareConfiguration?: SoftwareConfigurationUnion;
+}
 
 // @public
-export type DiscoveryConfiguration = SAPConfiguration & {
-    configurationType: "Discovery";
-    centralServerVmId?: string;
+export interface DiscoveryConfiguration extends SAPConfiguration {
     readonly appLocation?: string;
-};
+    centralServerVmId?: string;
+    configurationType: "Discovery";
+}
 
 // @public
 export interface DiskInfo {
@@ -241,18 +241,18 @@ export interface GatewayServerProperties {
 export type HAEnabled = string;
 
 // @public
-export type HanaDbProviderInstanceProperties = ProviderSpecificProperties & {
-    providerType: "SapHana";
-    hostname?: string;
+export interface HanaDbProviderInstanceProperties extends ProviderSpecificProperties {
     dbName?: string;
-    sqlPort?: string;
-    instanceNumber?: string;
-    dbUsername?: string;
     dbPassword?: string;
     dbPasswordUri?: string;
     dbSslCertificateUri?: string;
+    dbUsername?: string;
+    hostname?: string;
+    instanceNumber?: string;
+    providerType: "SapHana";
+    sqlPort?: string;
     sslHostNameInCertificate?: string;
-};
+}
 
 // @public
 export interface HighAvailabilityConfiguration {
@@ -286,229 +286,163 @@ export type InfrastructureConfigurationUnion = InfrastructureConfiguration | Sin
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownApplicationProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Installing = "Installing",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownAzureFrontDoorEnabled {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownCentralServerVirtualMachineType {
-    // (undocumented)
     Ascs = "ASCS",
-    // (undocumented)
     ERS = "ERS",
-    // (undocumented)
     ERSInactive = "ERSInactive",
-    // (undocumented)
     Primary = "Primary",
-    // (undocumented)
     Secondary = "Secondary",
-    // (undocumented)
     Standby = "Standby",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDatabaseType {
-    // (undocumented)
     MySql = "MySql"
 }
 
 // @public
 export enum KnownEnableBackup {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownEnableSslEnforcement {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownEnqueueReplicationServerType {
-    // (undocumented)
     EnqueueReplicator1 = "EnqueueReplicator1",
-    // (undocumented)
     EnqueueReplicator2 = "EnqueueReplicator2"
 }
 
 // @public
 export enum KnownFileShareStorageType {
-    // (undocumented)
     PremiumLRS = "Premium_LRS",
-    // (undocumented)
     StandardGRS = "Standard_GRS",
-    // (undocumented)
     StandardLRS = "Standard_LRS",
-    // (undocumented)
     StandardZRS = "Standard_ZRS"
 }
 
 // @public
 export enum KnownFileShareType {
-    // (undocumented)
     AzureFiles = "AzureFiles",
-    // (undocumented)
     NfsOnController = "NfsOnController"
 }
 
 // @public
 export enum KnownHAEnabled {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownLoadBalancerType {
-    // (undocumented)
     ApplicationGateway = "ApplicationGateway",
-    // (undocumented)
     LoadBalancer = "LoadBalancer"
 }
 
 // @public
 export enum KnownLocationType {
-    // (undocumented)
     EdgeZone = "EdgeZone",
-    // (undocumented)
     Region = "Region"
 }
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownOperationProperties {
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     System = "System",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownOSImageOffer {
-    // (undocumented)
     UbuntuServer = "UbuntuServer"
 }
 
 // @public
 export enum KnownOSImagePublisher {
-    // (undocumented)
     Canonical = "Canonical"
 }
 
 // @public
 export enum KnownOSImageSku {
-    // (undocumented)
     Eighteen04LTS = "18.04-LTS",
-    // (undocumented)
     Sixteen04LTS = "16.04-LTS"
 }
 
 // @public
 export enum KnownOSImageVersion {
-    // (undocumented)
     Latest = "latest"
 }
 
 // @public
 export enum KnownOSType {
-    // (undocumented)
     Linux = "Linux",
-    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownPHPVersion {
-    // (undocumented)
     Seven2 = "7.2",
-    // (undocumented)
     Seven3 = "7.3",
-    // (undocumented)
     Seven4 = "7.4"
 }
 
 // @public
 export enum KnownPhpWorkloadProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
@@ -522,231 +456,163 @@ export enum KnownRedisCacheFamily {
 
 // @public
 export enum KnownRoutingPreference {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     RouteAll = "RouteAll"
 }
 
 // @public
 export enum KnownSAPConfigurationType {
-    // (undocumented)
     Deployment = "Deployment",
-    // (undocumented)
     DeploymentWithOSConfig = "DeploymentWithOSConfig",
-    // (undocumented)
     Discovery = "Discovery"
 }
 
 // @public
 export enum KnownSAPDatabaseScaleMethod {
-    // (undocumented)
     ScaleUp = "ScaleUp"
 }
 
 // @public
 export enum KnownSAPDatabaseType {
-    // (undocumented)
     DB2 = "DB2",
-    // (undocumented)
     Hana = "HANA"
 }
 
 // @public
 export enum KnownSAPDeploymentType {
-    // (undocumented)
     SingleServer = "SingleServer",
-    // (undocumented)
     ThreeTier = "ThreeTier"
 }
 
 // @public
 export enum KnownSAPEnvironmentType {
-    // (undocumented)
     NonProd = "NonProd",
-    // (undocumented)
     Prod = "Prod"
 }
 
 // @public
 export enum KnownSAPHealthState {
-    // (undocumented)
     Degraded = "Degraded",
-    // (undocumented)
     Healthy = "Healthy",
-    // (undocumented)
     Unhealthy = "Unhealthy",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownSAPHighAvailabilityType {
-    // (undocumented)
     AvailabilitySet = "AvailabilitySet",
-    // (undocumented)
     AvailabilityZone = "AvailabilityZone"
 }
 
 // @public
 export enum KnownSAPProductType {
-    // (undocumented)
     ECC = "ECC",
-    // (undocumented)
     Other = "Other",
-    // (undocumented)
     S4Hana = "S4HANA"
 }
 
 // @public
 export enum KnownSAPSoftwareInstallationType {
-    // (undocumented)
     SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
-    // (undocumented)
     ServiceInitiated = "ServiceInitiated"
 }
 
 // @public
 export enum KnownSapVirtualInstanceProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSAPVirtualInstanceState {
-    // (undocumented)
     DiscoveryFailed = "DiscoveryFailed",
-    // (undocumented)
     DiscoveryInProgress = "DiscoveryInProgress",
-    // (undocumented)
     DiscoveryPending = "DiscoveryPending",
-    // (undocumented)
     InfrastructureDeploymentFailed = "InfrastructureDeploymentFailed",
-    // (undocumented)
     InfrastructureDeploymentInProgress = "InfrastructureDeploymentInProgress",
-    // (undocumented)
     InfrastructureDeploymentPending = "InfrastructureDeploymentPending",
-    // (undocumented)
     RegistrationComplete = "RegistrationComplete",
-    // (undocumented)
     SoftwareInstallationFailed = "SoftwareInstallationFailed",
-    // (undocumented)
     SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
-    // (undocumented)
     SoftwareInstallationPending = "SoftwareInstallationPending"
 }
 
 // @public
 export enum KnownSAPVirtualInstanceStatus {
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     PartiallyRunning = "PartiallyRunning",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Starting = "Starting",
-    // (undocumented)
     Stopping = "Stopping",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
 export enum KnownSearchType {
-    // (undocumented)
     Elastic = "Elastic"
 }
 
 // @public
 export enum KnownSkuRestrictionReasonCode {
-    // (undocumented)
     NotAvailableForSubscription = "NotAvailableForSubscription",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     QuotaId = "QuotaId"
 }
 
 // @public
 export enum KnownSkuRestrictionType {
-    // (undocumented)
     Location = "Location",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Zone = "Zone"
 }
 
 // @public
 export enum KnownSkuScaleType {
-    // (undocumented)
     Automatic = "Automatic",
-    // (undocumented)
     Manual = "Manual",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownWordpressVersions {
-    // (undocumented)
     Five4 = "5.4",
-    // (undocumented)
     Five41 = "5.4.1",
-    // (undocumented)
     Five42 = "5.4.2",
-    // (undocumented)
     Five43 = "5.4.3"
 }
 
 // @public
 export enum KnownWorkloadKind {
-    // (undocumented)
     WordPress = "WordPress"
 }
 
 // @public
 export enum KnownWorkloadMonitorActionType {
-    // (undocumented)
     Internal = "Internal",
-    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
 // @public
 export enum KnownWorkloadMonitorProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Migrating = "Migrating",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
-export type LinuxConfiguration = OSConfiguration & {
-    osType: "Linux";
+export interface LinuxConfiguration extends OSConfiguration {
     disablePasswordAuthentication?: boolean;
+    osType: "Linux";
     ssh?: SshConfiguration;
     sshKeyPair?: SshKeyPair;
-};
+}
 
 // @public
 export type LoadBalancerType = string;
@@ -774,17 +640,17 @@ export interface MessageServerProperties {
 }
 
 // @public
-export type Monitor = TrackedResource & {
-    identity?: UserAssignedServiceIdentity;
-    readonly provisioningState?: WorkloadMonitorProvisioningState;
-    readonly errors?: MonitorPropertiesErrors;
+export interface Monitor extends TrackedResource {
     appLocation?: string;
-    routingPreference?: RoutingPreference;
-    managedResourceGroupConfiguration?: ManagedRGConfiguration;
+    readonly errors?: MonitorPropertiesErrors;
+    identity?: UserAssignedServiceIdentity;
     logAnalyticsWorkspaceArmId?: string;
+    managedResourceGroupConfiguration?: ManagedRGConfiguration;
     monitorSubnet?: string;
     readonly msiArmId?: string;
-};
+    readonly provisioningState?: WorkloadMonitorProvisioningState;
+    routingPreference?: RoutingPreference;
+}
 
 // @public
 export interface MonitorListResult {
@@ -793,7 +659,8 @@ export interface MonitorListResult {
 }
 
 // @public
-export type MonitorPropertiesErrors = ErrorModel;
+export interface MonitorPropertiesErrors extends ErrorModel {
+}
 
 // @public
 export interface Monitors {
@@ -868,15 +735,15 @@ export interface MonitorsUpdateOptionalParams extends coreClient.OperationOption
 export type MonitorsUpdateResponse = Monitor;
 
 // @public
-export type MsSqlServerProviderInstanceProperties = ProviderSpecificProperties & {
-    providerType: "MsSqlServer";
-    hostname?: string;
-    dbPort?: string;
-    dbUsername?: string;
+export interface MsSqlServerProviderInstanceProperties extends ProviderSpecificProperties {
     dbPassword?: string;
     dbPasswordUri?: string;
+    dbPort?: string;
+    dbUsername?: string;
+    hostname?: string;
+    providerType: "MsSqlServer";
     sapSid?: string;
-};
+}
 
 // @public
 export interface NetworkConfiguration {
@@ -939,14 +806,14 @@ export interface Operations {
 }
 
 // @public
-export type OperationsContent = Resource & {
-    namePropertiesName?: string;
-    isDataAction?: boolean;
-    origin?: OperationProperties;
-    display?: OperationsDefinitionDisplay;
+export interface OperationsContent extends Resource {
     actionType?: WorkloadMonitorActionType;
+    display?: OperationsDefinitionDisplay;
+    isDataAction?: boolean;
+    namePropertiesName?: string;
+    origin?: OperationProperties;
     properties?: any;
-};
+}
 
 // @public
 export interface OperationsDefinition {
@@ -965,7 +832,8 @@ export interface OperationsDefinitionArrayResponseWithContinuation {
 }
 
 // @public
-export type OperationsDefinitionDisplay = OperationsDisplayDefinition;
+export interface OperationsDefinitionDisplay extends OperationsDisplayDefinition {
+}
 
 // @public
 export interface OperationsDisplayDefinition {
@@ -1058,7 +926,8 @@ export interface PatchResourceRequestBody {
 }
 
 // @public (undocumented)
-export type PatchResourceRequestBodyIdentity = UserAssignedServiceIdentity;
+export interface PatchResourceRequestBodyIdentity extends UserAssignedServiceIdentity {
+}
 
 // @public
 export interface PhpProfile {
@@ -1072,28 +941,29 @@ export type PHPVersion = string;
 export type PhpWorkloadProvisioningState = string;
 
 // @public
-export type PhpWorkloadResource = TrackedResource & {
-    kind: WorkloadKind;
-    sku?: Sku;
-    identity?: PhpWorkloadResourceIdentity;
-    appLocation?: string;
-    managedResourceGroupConfiguration?: ManagedRGConfiguration;
+export interface PhpWorkloadResource extends TrackedResource {
     adminUserProfile?: UserProfile;
-    webNodesProfile?: VmssNodesProfile;
-    controllerProfile?: NodeProfile;
-    networkProfile?: NetworkProfile;
-    databaseProfile?: DatabaseProfile;
-    siteProfile?: SiteProfile;
-    fileshareProfile?: FileshareProfile;
-    phpProfile?: PhpProfile;
-    searchProfile?: SearchProfile;
-    cacheProfile?: CacheProfile;
+    appLocation?: string;
     backupProfile?: BackupProfile;
+    cacheProfile?: CacheProfile;
+    controllerProfile?: NodeProfile;
+    databaseProfile?: DatabaseProfile;
+    fileshareProfile?: FileshareProfile;
+    identity?: PhpWorkloadResourceIdentity;
+    kind: WorkloadKind;
+    managedResourceGroupConfiguration?: ManagedRGConfiguration;
+    networkProfile?: NetworkProfile;
+    phpProfile?: PhpProfile;
     readonly provisioningState?: PhpWorkloadProvisioningState;
-};
+    searchProfile?: SearchProfile;
+    siteProfile?: SiteProfile;
+    sku?: Sku;
+    webNodesProfile?: VmssNodesProfile;
+}
 
 // @public
-export type PhpWorkloadResourceIdentity = UserAssignedServiceIdentity;
+export interface PhpWorkloadResourceIdentity extends UserAssignedServiceIdentity {
+}
 
 // @public
 export interface PhpWorkloadResourceList {
@@ -1172,27 +1042,27 @@ export interface PhpWorkloadsUpdateOptionalParams extends coreClient.OperationOp
 export type PhpWorkloadsUpdateResponse = PhpWorkloadResource;
 
 // @public
-export type PrometheusHaClusterProviderInstanceProperties = ProviderSpecificProperties & {
-    providerType: "PrometheusHaCluster";
-    prometheusUrl?: string;
-    hostname?: string;
-    sid?: string;
+export interface PrometheusHaClusterProviderInstanceProperties extends ProviderSpecificProperties {
     clusterName?: string;
-};
-
-// @public
-export type PrometheusOSProviderInstanceProperties = ProviderSpecificProperties & {
-    providerType: "PrometheusOS";
+    hostname?: string;
     prometheusUrl?: string;
-};
+    providerType: "PrometheusHaCluster";
+    sid?: string;
+}
 
 // @public
-export type ProviderInstance = ProxyResource & {
-    identity?: UserAssignedServiceIdentity;
-    readonly provisioningState?: WorkloadMonitorProvisioningState;
+export interface PrometheusOSProviderInstanceProperties extends ProviderSpecificProperties {
+    prometheusUrl?: string;
+    providerType: "PrometheusOS";
+}
+
+// @public
+export interface ProviderInstance extends ProxyResource {
     readonly errors?: ProviderInstancePropertiesErrors;
+    identity?: UserAssignedServiceIdentity;
     providerSettings?: ProviderSpecificPropertiesUnion;
-};
+    readonly provisioningState?: WorkloadMonitorProvisioningState;
+}
 
 // @public
 export interface ProviderInstanceListResult {
@@ -1201,7 +1071,8 @@ export interface ProviderInstanceListResult {
 }
 
 // @public
-export type ProviderInstancePropertiesErrors = ErrorModel;
+export interface ProviderInstancePropertiesErrors extends ErrorModel {
+}
 
 // @public
 export interface ProviderInstances {
@@ -1261,7 +1132,8 @@ export interface ProviderSpecificProperties {
 export type ProviderSpecificPropertiesUnion = ProviderSpecificProperties | HanaDbProviderInstanceProperties | SapNetWeaverProviderInstanceProperties | PrometheusOSProviderInstanceProperties | DB2ProviderInstanceProperties | PrometheusHaClusterProviderInstanceProperties | MsSqlServerProviderInstanceProperties;
 
 // @public
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type RedisCacheFamily = string;
@@ -1284,22 +1156,22 @@ export interface RestrictionInfo {
 export type RoutingPreference = string;
 
 // @public
-export type SAPApplicationServerInstance = TrackedResource & {
-    readonly instanceNo?: string;
-    readonly subnet?: string;
-    readonly hostname?: string;
-    readonly kernelVersion?: string;
-    readonly kernelPatch?: string;
-    readonly ipAddress?: string;
+export interface SAPApplicationServerInstance extends TrackedResource {
+    readonly errors?: SAPVirtualInstanceError;
     readonly gatewayPort?: number;
+    readonly health?: SAPHealthState;
+    readonly hostname?: string;
     readonly icmHttpPort?: number;
     readonly icmHttpsPort?: number;
-    readonly virtualMachineId?: string;
-    readonly status?: SAPVirtualInstanceStatus;
-    readonly health?: SAPHealthState;
+    readonly instanceNo?: string;
+    readonly ipAddress?: string;
+    readonly kernelPatch?: string;
+    readonly kernelVersion?: string;
     readonly provisioningState?: SapVirtualInstanceProvisioningState;
-    readonly errors?: SAPVirtualInstanceError;
-};
+    readonly status?: SAPVirtualInstanceStatus;
+    readonly subnet?: string;
+    readonly virtualMachineId?: string;
+}
 
 // @public
 export interface SAPApplicationServerInstanceList {
@@ -1464,21 +1336,21 @@ export interface SAPCentralInstancesUpdateOptionalParams extends coreClient.Oper
 export type SAPCentralInstancesUpdateResponse = SAPCentralServerInstance;
 
 // @public
-export type SAPCentralServerInstance = TrackedResource & {
-    readonly instanceNo?: string;
-    readonly subnet?: string;
-    messageServerProperties?: MessageServerProperties;
-    enqueueServerProperties?: EnqueueServerProperties;
-    gatewayServerProperties?: GatewayServerProperties;
+export interface SAPCentralServerInstance extends TrackedResource {
     enqueueReplicationServerProperties?: EnqueueReplicationServerProperties;
-    readonly kernelVersion?: string;
-    readonly kernelPatch?: string;
-    readonly vmDetails?: CentralServerVmDetails[];
-    readonly status?: SAPVirtualInstanceStatus;
-    readonly health?: SAPHealthState;
-    readonly provisioningState?: SapVirtualInstanceProvisioningState;
+    enqueueServerProperties?: EnqueueServerProperties;
     readonly errors?: SAPVirtualInstanceError;
-};
+    gatewayServerProperties?: GatewayServerProperties;
+    readonly health?: SAPHealthState;
+    readonly instanceNo?: string;
+    readonly kernelPatch?: string;
+    readonly kernelVersion?: string;
+    messageServerProperties?: MessageServerProperties;
+    readonly provisioningState?: SapVirtualInstanceProvisioningState;
+    readonly status?: SAPVirtualInstanceStatus;
+    readonly subnet?: string;
+    readonly vmDetails?: CentralServerVmDetails[];
+}
 
 // @public
 export interface SAPConfiguration {
@@ -1492,16 +1364,16 @@ export type SAPConfigurationType = string;
 export type SAPConfigurationUnion = SAPConfiguration | DiscoveryConfiguration | DeploymentConfiguration | DeploymentWithOSConfiguration;
 
 // @public
-export type SAPDatabaseInstance = TrackedResource & {
-    readonly subnet?: string;
+export interface SAPDatabaseInstance extends TrackedResource {
     readonly databaseSid?: string;
     readonly databaseType?: string;
-    readonly ipAddress?: string;
-    readonly vmDetails?: DatabaseVmDetails[];
-    readonly status?: SAPVirtualInstanceStatus;
-    readonly provisioningState?: SapVirtualInstanceProvisioningState;
     readonly errors?: SAPVirtualInstanceError;
-};
+    readonly ipAddress?: string;
+    readonly provisioningState?: SapVirtualInstanceProvisioningState;
+    readonly status?: SAPVirtualInstanceStatus;
+    readonly subnet?: string;
+    readonly vmDetails?: DatabaseVmDetails[];
+}
 
 // @public
 export interface SAPDatabaseInstanceList {
@@ -1624,28 +1496,28 @@ export type SAPHealthState = string;
 export type SAPHighAvailabilityType = string;
 
 // @public
-export type SAPInstallWithoutOSConfigSoftwareConfiguration = SoftwareConfiguration & {
-    softwareInstallationType: "SAPInstallWithoutOSConfig";
+export interface SAPInstallWithoutOSConfigSoftwareConfiguration extends SoftwareConfiguration {
     bomUrl: string;
-    sapBitsStorageAccountId: string;
-    softwareVersion: string;
     highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
-};
+    sapBitsStorageAccountId: string;
+    softwareInstallationType: "SAPInstallWithoutOSConfig";
+    softwareVersion: string;
+}
 
 // @public
-export type SapNetWeaverProviderInstanceProperties = ProviderSpecificProperties & {
+export interface SapNetWeaverProviderInstanceProperties extends ProviderSpecificProperties {
     providerType: "SapNetWeaver";
-    sapSid?: string;
+    sapClientId?: string;
+    sapHostFileEntries?: string[];
     sapHostname?: string;
     sapInstanceNr?: string;
-    sapHostFileEntries?: string[];
-    sapUsername?: string;
     sapPassword?: string;
     sapPasswordUri?: string;
-    sapClientId?: string;
     sapPortNumber?: string;
+    sapSid?: string;
     sapSslCertificateUri?: string;
-};
+    sapUsername?: string;
+}
 
 // @public
 export type SAPProductType = string;
@@ -1713,18 +1585,18 @@ export interface SAPSupportedSkusRequest {
 }
 
 // @public
-export type SAPVirtualInstance = TrackedResource & {
-    identity?: UserAssignedServiceIdentity;
-    environment: SAPEnvironmentType;
-    sapProduct: SAPProductType;
+export interface SAPVirtualInstance extends TrackedResource {
     configuration: SAPConfigurationUnion;
-    managedResourceGroupConfiguration?: ManagedRGConfiguration;
-    readonly status?: SAPVirtualInstanceStatus;
-    readonly health?: SAPHealthState;
-    readonly state?: SAPVirtualInstanceState;
-    readonly provisioningState?: SapVirtualInstanceProvisioningState;
+    environment: SAPEnvironmentType;
     readonly errors?: SAPVirtualInstanceError;
-};
+    readonly health?: SAPHealthState;
+    identity?: UserAssignedServiceIdentity;
+    managedResourceGroupConfiguration?: ManagedRGConfiguration;
+    readonly provisioningState?: SapVirtualInstanceProvisioningState;
+    sapProduct: SAPProductType;
+    readonly state?: SAPVirtualInstanceState;
+    readonly status?: SAPVirtualInstanceStatus;
+}
 
 // @public
 export interface SAPVirtualInstanceError {
@@ -1844,38 +1716,38 @@ export interface SAPVirtualInstancesUpdateOptionalParams extends coreClient.Oper
 export type SAPVirtualInstancesUpdateResponse = SAPVirtualInstance;
 
 // @public
-export type SearchProfile = NodeProfile & {
+export interface SearchProfile extends NodeProfile {
     searchType: SearchType;
-};
+}
 
 // @public
 export type SearchType = string;
 
 // @public
-export type ServiceInitiatedSoftwareConfiguration = SoftwareConfiguration & {
-    softwareInstallationType: "ServiceInitiated";
+export interface ServiceInitiatedSoftwareConfiguration extends SoftwareConfiguration {
     bomUrl: string;
-    softwareVersion: string;
+    highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
     sapBitsStorageAccountId: string;
     sapFqdn: string;
+    softwareInstallationType: "ServiceInitiated";
+    softwareVersion: string;
     sshPrivateKey: string;
-    highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
-};
+}
 
 // @public
-export type SingleServerConfiguration = InfrastructureConfiguration & {
+export interface SingleServerConfiguration extends InfrastructureConfiguration {
+    databaseType?: SAPDatabaseType;
     deploymentType: "SingleServer";
     networkConfiguration?: NetworkConfiguration;
-    databaseType?: SAPDatabaseType;
     subnetId: string;
     virtualMachineConfiguration: VirtualMachineConfiguration;
-};
+}
 
 // @public
-export type SingleServerRecommendationResult = SAPSizingRecommendationResult & {
+export interface SingleServerRecommendationResult extends SAPSizingRecommendationResult {
     deploymentType: "SingleServer";
     vmSku?: string;
-};
+}
 
 // @public
 export interface SiteProfile {
@@ -2035,33 +1907,33 @@ export interface Tags {
 }
 
 // @public
-export type ThreeTierConfiguration = InfrastructureConfiguration & {
-    deploymentType: "ThreeTier";
-    networkConfiguration?: NetworkConfiguration;
-    centralServer: CentralServerConfiguration;
+export interface ThreeTierConfiguration extends InfrastructureConfiguration {
     applicationServer: ApplicationServerConfiguration;
+    centralServer: CentralServerConfiguration;
     databaseServer: DatabaseConfiguration;
-    highAvailabilityConfig?: HighAvailabilityConfiguration;
-};
-
-// @public
-export type ThreeTierRecommendationResult = SAPSizingRecommendationResult & {
     deploymentType: "ThreeTier";
-    dbVmSku?: string;
-    databaseInstanceCount?: number;
-    centralServerVmSku?: string;
-    centralServerInstanceCount?: number;
-    applicationServerVmSku?: string;
-    applicationServerInstanceCount?: number;
-};
+    highAvailabilityConfig?: HighAvailabilityConfiguration;
+    networkConfiguration?: NetworkConfiguration;
+}
 
 // @public
-export type TrackedResource = Resource & {
+export interface ThreeTierRecommendationResult extends SAPSizingRecommendationResult {
+    applicationServerInstanceCount?: number;
+    applicationServerVmSku?: string;
+    centralServerInstanceCount?: number;
+    centralServerVmSku?: string;
+    databaseInstanceCount?: number;
+    dbVmSku?: string;
+    deploymentType: "ThreeTier";
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface UpdateMonitorRequest {
@@ -2128,24 +2000,24 @@ export interface VirtualMachineConfiguration {
 }
 
 // @public
-export type VmssNodesProfile = NodeProfile & {
-    autoScaleMinCount?: number;
+export interface VmssNodesProfile extends NodeProfile {
     autoScaleMaxCount?: number;
-};
+    autoScaleMinCount?: number;
+}
 
 // @public
-export type WindowsConfiguration = OSConfiguration & {
+export interface WindowsConfiguration extends OSConfiguration {
     osType: "Windows";
-};
+}
 
 // @public
-export type WordpressInstanceResource = ProxyResource & {
-    version?: WordpressVersions;
+export interface WordpressInstanceResource extends ProxyResource {
     databaseName?: string;
     databaseUser?: string;
-    readonly siteUrl?: string;
     readonly provisioningState?: ApplicationProvisioningState;
-};
+    readonly siteUrl?: string;
+    version?: WordpressVersions;
+}
 
 // @public
 export interface WordpressInstanceResourceList {
