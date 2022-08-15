@@ -297,13 +297,6 @@ export const DocumentPage: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DocumentPage",
     modelProperties: {
-      kind: {
-        serializedName: "kind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
       pageNumber: {
         constraints: {
           InclusiveMinimum: 1
@@ -381,18 +374,6 @@ export const DocumentPage: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DocumentSelectionMark"
-            }
-          }
-        }
-      },
-      images: {
-        serializedName: "images",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentImage"
             }
           }
         }
@@ -521,57 +502,6 @@ export const DocumentSelectionMark: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DocumentSpan"
-        }
-      },
-      confidence: {
-        constraints: {
-          InclusiveMaximum: 1,
-          InclusiveMinimum: 0
-        },
-        serializedName: "confidence",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const DocumentImage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentImage",
-    modelProperties: {
-      polygon: {
-        serializedName: "polygon",
-        type: {
-          name: "Sequence",
-          element: {
-            constraints: {
-              InclusiveMinimum: 0
-            },
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      span: {
-        serializedName: "span",
-        type: {
-          name: "Composite",
-          className: "DocumentSpan"
-        }
-      },
-      pageRef: {
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        serializedName: "pageRef",
-        required: true,
-        type: {
-          name: "Number"
         }
       },
       confidence: {
@@ -751,25 +681,6 @@ export const DocumentTable: coreClient.CompositeMapper = {
           }
         }
       },
-      caption: {
-        serializedName: "caption",
-        type: {
-          name: "Composite",
-          className: "DocumentCaption"
-        }
-      },
-      footnotes: {
-        serializedName: "footnotes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentFootnote"
-            }
-          }
-        }
-      },
       boundingRegions: {
         serializedName: "boundingRegions",
         type: {
@@ -845,88 +756,6 @@ export const DocumentTableCell: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      content: {
-        serializedName: "content",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      boundingRegions: {
-        serializedName: "boundingRegions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BoundingRegion"
-            }
-          }
-        }
-      },
-      spans: {
-        serializedName: "spans",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentSpan"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const DocumentCaption: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentCaption",
-    modelProperties: {
-      content: {
-        serializedName: "content",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      boundingRegions: {
-        serializedName: "boundingRegions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BoundingRegion"
-            }
-          }
-        }
-      },
-      spans: {
-        serializedName: "spans",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentSpan"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const DocumentFootnote: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentFootnote",
-    modelProperties: {
       content: {
         serializedName: "content",
         required: true,
@@ -1956,13 +1785,6 @@ export const OperationDetails: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ErrorModel"
         }
-      },
-      result: {
-        serializedName: "result",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
       }
     }
   }
@@ -1981,6 +1803,66 @@ export const DocumentModelDetails: coreClient.CompositeMapper = {
           value: {
             type: { name: "Composite", className: "DocumentTypeDetails" }
           }
+        }
+      }
+    }
+  }
+};
+
+export const DocumentModelBuildOperationDetails: coreClient.CompositeMapper = {
+  serializedName: "documentModelBuild",
+  type: {
+    name: "Composite",
+    className: "DocumentModelBuildOperationDetails",
+    uberParent: "OperationSummary",
+    polymorphicDiscriminator: OperationSummary.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...OperationDetails.type.modelProperties,
+      result: {
+        serializedName: "result",
+        type: {
+          name: "Composite",
+          className: "DocumentModelDetails"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentModelComposeOperationDetails: coreClient.CompositeMapper = {
+  serializedName: "documentModelCompose",
+  type: {
+    name: "Composite",
+    className: "DocumentModelComposeOperationDetails",
+    uberParent: "OperationSummary",
+    polymorphicDiscriminator: OperationSummary.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...OperationDetails.type.modelProperties,
+      result: {
+        serializedName: "result",
+        type: {
+          name: "Composite",
+          className: "DocumentModelDetails"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentModelCopyToOperationDetails: coreClient.CompositeMapper = {
+  serializedName: "documentModelCopyTo",
+  type: {
+    name: "Composite",
+    className: "DocumentModelCopyToOperationDetails",
+    uberParent: "OperationSummary",
+    polymorphicDiscriminator: OperationSummary.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...OperationDetails.type.modelProperties,
+      result: {
+        serializedName: "result",
+        type: {
+          name: "Composite",
+          className: "DocumentModelDetails"
         }
       }
     }
@@ -2045,4 +1927,10 @@ export const GeneratedClientCopyDocumentModelToHeaders: coreClient.CompositeMapp
       }
     }
   }
+};
+
+export let discriminators = {
+  "OperationSummary.documentModelBuild": DocumentModelBuildOperationDetails,
+  "OperationSummary.documentModelCompose": DocumentModelComposeOperationDetails,
+  "OperationSummary.documentModelCopyTo": DocumentModelCopyToOperationDetails
 };

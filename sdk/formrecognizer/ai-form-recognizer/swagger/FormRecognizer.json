@@ -3,7 +3,7 @@
   "info": {
     "title": "Form Recognizer Client",
     "description": "Extracts content, layout, and structured data from documents.",
-    "version": "2022-06-30-preview"
+    "version": "2022-08-31"
   },
   "securityDefinitions": {
     "apim_key": {
@@ -42,11 +42,7 @@
           "image/png",
           "image/tiff",
           "image/bmp",
-          "image/heif",
-          "text/html",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+          "image/heif"
         ],
         "produces": ["application/json"],
         "parameters": [
@@ -671,19 +667,65 @@
     "OperationDetails": {
       "description": "Get Operation response object.",
       "type": "object",
+      "required": ["kind"],
       "allOf": [
         {
           "$ref": "#/definitions/OperationSummary"
         }
       ],
+      "discriminator": "kind",
       "properties": {
         "error": {
           "description": "Encountered error.",
           "$ref": "#/definitions/Error"
-        },
+        }
+      }
+    },
+    "DocumentModelBuildOperationDetails": {
+      "description": "Get Operation response object.",
+      "x-ms-discriminator-value": "documentModelBuild",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationDetails"
+        }
+      ],
+      "properties": {
         "result": {
           "description": "Operation result upon success.",
-          "type": "object"
+          "$ref": "#/definitions/DocumentModelDetails"
+        }
+      }
+    },
+    "DocumentModelComposeOperationDetails": {
+      "description": "Get Operation response object.",
+      "x-ms-discriminator-value": "documentModelCompose",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationDetails"
+        }
+      ],
+      "properties": {
+        "result": {
+          "description": "Operation result upon success.",
+          "$ref": "#/definitions/DocumentModelDetails"
+        }
+      }
+    },
+    "DocumentModelCopyToOperationDetails": {
+      "description": "Get Operation response object.",
+      "x-ms-discriminator-value": "documentModelCopyTo",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationDetails"
+        }
+      ],
+      "properties": {
+        "result": {
+          "description": "Operation result upon success.",
+          "$ref": "#/definitions/DocumentModelDetails"
         }
       }
     },
@@ -735,7 +777,7 @@
     "ApiVersion": {
       "description": "API version.",
       "type": "string",
-      "enum": ["2022-06-30-preview"],
+      "enum": ["2022-08-31"],
       "x-ms-enum": {
         "name": "ApiVersion",
         "modelAsString": true
@@ -1148,17 +1190,8 @@
     "DocumentPage": {
       "description": "Content and layout elements extracted from a page from the input.",
       "type": "object",
-      "required": ["kind", "pageNumber", "spans"],
+      "required": ["pageNumber", "spans"],
       "properties": {
-        "kind": {
-          "description": "Kind of document page.",
-          "type": "string",
-          "enum": ["document", "sheet", "slide", "image"],
-          "x-ms-enum": {
-            "name": "DocumentPageKind",
-            "modelAsString": true
-          }
-        },
         "pageNumber": {
           "description": "1-based page number in the input document.",
           "type": "integer",
@@ -1212,13 +1245,6 @@
             "$ref": "#/definitions/DocumentSelectionMark"
           }
         },
-        "images": {
-          "description": "Extracted images from the page.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentImage"
-          }
-        },
         "lines": {
           "description": "Extracted lines from the page, potentially containing both textual and visual elements.",
           "type": "array",
@@ -1270,30 +1296,6 @@
         },
         "confidence": {
           "description": "Confidence of correctly extracting the selection mark.",
-          "$ref": "#/definitions/Confidence"
-        }
-      }
-    },
-    "DocumentImage": {
-      "description": "An image object detected in the page.",
-      "type": "object",
-      "required": ["span", "pageRef", "confidence"],
-      "properties": {
-        "polygon": {
-          "description": "Bounding polygon of the image.",
-          "$ref": "#/definitions/BoundingPolygon"
-        },
-        "span": {
-          "description": "Location of the image in the reading order concatenated content.",
-          "$ref": "#/definitions/DocumentSpan"
-        },
-        "pageRef": {
-          "description": "0-based index of the global pages array that containing the content of the image.",
-          "type": "integer",
-          "minimum": 0
-        },
-        "confidence": {
-          "description": "Confidence of correctly identifying the image.",
           "$ref": "#/definitions/Confidence"
         }
       }
@@ -1387,17 +1389,6 @@
             "$ref": "#/definitions/DocumentTableCell"
           }
         },
-        "caption": {
-          "description": "Caption associated with the table.",
-          "$ref": "#/definitions/DocumentCaption"
-        },
-        "footnotes": {
-          "description": "Footnotes associated with the table.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentFootnote"
-          }
-        },
         "boundingRegions": {
           "description": "Bounding regions covering the table.",
           "type": "array",
@@ -1466,56 +1457,6 @@
         },
         "spans": {
           "description": "Location of the table cell in the reading order concatenated content.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentSpan"
-          }
-        }
-      }
-    },
-    "DocumentCaption": {
-      "description": "An object representing the location and content of a table caption.",
-      "type": "object",
-      "required": ["content", "spans"],
-      "properties": {
-        "content": {
-          "description": "Table caption content.",
-          "type": "string"
-        },
-        "boundingRegions": {
-          "description": "Bounding regions covering the table caption.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BoundingRegion"
-          }
-        },
-        "spans": {
-          "description": "Location of the table caption in the reading order concatenated content.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentSpan"
-          }
-        }
-      }
-    },
-    "DocumentFootnote": {
-      "description": "An object representing the location and content of a table footnote.",
-      "type": "object",
-      "required": ["content", "spans"],
-      "properties": {
-        "content": {
-          "description": "Table footnote content.",
-          "type": "string"
-        },
-        "boundingRegions": {
-          "description": "Bounding regions covering the table footnote.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BoundingRegion"
-          }
-        },
-        "spans": {
-          "description": "Location of the table footnote in the reading order concatenated content.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/DocumentSpan"
@@ -1925,7 +1866,7 @@
       "required": true,
       "type": "string",
       "in": "query",
-      "enum": ["2022-06-30-preview"],
+      "enum": ["2022-08-31"],
       "x-ms-enum": {
         "name": "ApiVersion",
         "modelAsString": true

@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -26,7 +27,6 @@ import {
   GetDocumentModelsOptionalParams,
   ContentType,
   AnalyzeDocument$binaryOptionalParams,
-  AnalyzeDocument$textOptionalParams,
   AnalyzeDocument$jsonOptionalParams,
   AnalyzeDocumentResponse,
   GetAnalyzeDocumentResultOptionalParams,
@@ -97,11 +97,34 @@ export class GeneratedClient extends coreClient.ServiceClient {
         options.endpoint ?? options.baseUri ?? "{endpoint}/formrecognizer"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-06-30-preview";
+    this.apiVersion = options.apiVersion || "2022-08-31";
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -231,17 +254,6 @@ export class GeneratedClient extends coreClient.ServiceClient {
   /**
    * Analyzes document with document model.
    * @param modelId Unique document model name.
-   * @param contentType Upload file type
-   * @param options The options parameters.
-   */
-  analyzeDocument(
-    modelId: string,
-    contentType: "text/html",
-    options?: AnalyzeDocument$textOptionalParams
-  ): Promise<AnalyzeDocumentResponse>;
-  /**
-   * Analyzes document with document model.
-   * @param modelId Unique document model name.
    * @param contentType Body Parameter content-type
    * @param options The options parameters.
    */
@@ -257,7 +269,6 @@ export class GeneratedClient extends coreClient.ServiceClient {
   analyzeDocument(
     ...args:
       | [string, ContentType, AnalyzeDocument$binaryOptionalParams?]
-      | [string, "text/html", AnalyzeDocument$textOptionalParams?]
       | [string, "application/json", AnalyzeDocument$jsonOptionalParams?]
   ): Promise<AnalyzeDocumentResponse> {
     let operationSpec: coreClient.OperationSpec;
@@ -266,12 +277,6 @@ export class GeneratedClient extends coreClient.ServiceClient {
     if (
       args[1] === "application/octet-stream" ||
       args[1] === "application/pdf" ||
-      args[1] ===
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
-      args[1] ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-      args[1] ===
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
       args[1] === "image/bmp" ||
       args[1] === "image/heif" ||
       args[1] === "image/jpeg" ||
@@ -279,14 +284,6 @@ export class GeneratedClient extends coreClient.ServiceClient {
       args[1] === "image/tiff"
     ) {
       operationSpec = analyzeDocument$binaryOperationSpec;
-      operationArguments = {
-        modelId: args[0],
-        contentType: args[1],
-        options: args[2]
-      };
-      options = args[2];
-    } else if (args[1] === "text/html") {
-      operationSpec = analyzeDocument$textOperationSpec;
       operationArguments = {
         modelId: args[0],
         contentType: args[1],
@@ -527,7 +524,7 @@ const analyzeDocument$binaryOperationSpec: coreClient.OperationSpec = {
   mediaType: "binary",
   serializer
 };
-const analyzeDocument$textOperationSpec: coreClient.OperationSpec = {
+const analyzeDocument$jsonOperationSpec: coreClient.OperationSpec = {
   path: "/documentModels/{modelId}:analyze",
   httpMethod: "POST",
   responses: {
@@ -547,29 +544,6 @@ const analyzeDocument$textOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType1, Parameters.accept1],
-  mediaType: "text",
-  serializer
-};
-const analyzeDocument$jsonOperationSpec: coreClient.OperationSpec = {
-  path: "/documentModels/{modelId}:analyze",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      headersMapper: Mappers.GeneratedClientAnalyzeDocumentHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.analyzeRequest2,
-  queryParameters: [
-    Parameters.pages,
-    Parameters.locale,
-    Parameters.stringIndexType,
-    Parameters.apiVersion
-  ],
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.contentType2, Parameters.accept2],
   mediaType: "json",
   serializer
 };
@@ -586,7 +560,7 @@ const getAnalyzeDocumentResultOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.modelId, Parameters.resultId],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const buildDocumentModelOperationSpec: coreClient.OperationSpec = {
@@ -603,7 +577,7 @@ const buildDocumentModelOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.buildRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept2, Parameters.contentType3],
+  headerParameters: [Parameters.accept1, Parameters.contentType2],
   mediaType: "json",
   serializer
 };
@@ -621,7 +595,7 @@ const composeDocumentModelOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.composeRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept2, Parameters.contentType3],
+  headerParameters: [Parameters.accept1, Parameters.contentType2],
   mediaType: "json",
   serializer
 };
@@ -639,7 +613,7 @@ const authorizeCopyDocumentModelOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.authorizeCopyRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept2, Parameters.contentType3],
+  headerParameters: [Parameters.accept1, Parameters.contentType2],
   mediaType: "json",
   serializer
 };
@@ -657,7 +631,7 @@ const copyDocumentModelToOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.copyToRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept2, Parameters.contentType3],
+  headerParameters: [Parameters.accept1, Parameters.contentType2],
   mediaType: "json",
   serializer
 };
@@ -674,7 +648,7 @@ const getOperationsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const getOperationOperationSpec: coreClient.OperationSpec = {
@@ -690,7 +664,7 @@ const getOperationOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.operationId],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const getDocumentModelsOperationSpec: coreClient.OperationSpec = {
@@ -706,7 +680,7 @@ const getDocumentModelsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const getDocumentModelOperationSpec: coreClient.OperationSpec = {
@@ -722,7 +696,7 @@ const getDocumentModelOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const deleteDocumentModelOperationSpec: coreClient.OperationSpec = {
@@ -736,7 +710,7 @@ const deleteDocumentModelOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const getResourceDetailsOperationSpec: coreClient.OperationSpec = {
@@ -752,7 +726,7 @@ const getResourceDetailsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const getOperationsNextOperationSpec: coreClient.OperationSpec = {
@@ -768,7 +742,7 @@ const getOperationsNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const getDocumentModelsNextOperationSpec: coreClient.OperationSpec = {
@@ -784,6 +758,6 @@ const getDocumentModelsNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   serializer
 };
