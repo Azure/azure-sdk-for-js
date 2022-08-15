@@ -38,6 +38,6 @@ describe("My test", () => {
   });
 
   it("sample test", async function () {
-    console.log("===================Hi, I'm a test!");
+    console.log("Hi, I'm a test!");
   });
 });
