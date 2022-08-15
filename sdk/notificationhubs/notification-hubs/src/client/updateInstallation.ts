@@ -8,6 +8,8 @@ import { NotificationHubsResponse } from "../models/response.js";
 import { OperationOptions } from "@azure/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "updateInstallation";
+
 /**
  * Updates an installation using the JSON-Patch standard in RFC6902.
  * @param context - The Notification Hubs client.
@@ -23,12 +25,13 @@ export function updateInstallation(
   options: OperationOptions = {}
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-updateInstallation",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += `/installations/${installationId}`;
-      const headers = context.createHeaders();
+      
+      const headers =await  context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/json");
 
       const request = createRequest(endpoint, "PATCH", headers, updatedOptions);
