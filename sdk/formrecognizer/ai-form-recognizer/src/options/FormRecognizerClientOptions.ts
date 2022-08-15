@@ -23,6 +23,7 @@ export const FormRecognizerApiVersion = {
   Latest: "2022-06-30-preview",
   // TODO (GA): Add a `Stable` version selector that picks the latest GA version, even in beta packages, and an exact
   // version entry for the GA version.
+  Stable: "2022-08-31"
 } as const;
 
 /**
@@ -52,7 +53,7 @@ export const StringIndexType = {
  */
 export const DEFAULT_GENERATED_CLIENT_OPTIONS = {
   stringIndexType: StringIndexType.Utf16CodeUnit,
-  apiVersion: FormRecognizerApiVersion.Latest,
+  apiVersion: FormRecognizerApiVersion.Stable,
 } as const;
 
 /**
@@ -65,7 +66,7 @@ export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
    * not supported by this client. To use API version 2.1, please use version 3 of the Azure Form Recognizer SDK for
    * JavaScript (\@azure/ai-form-recognizer\@^3.2.0).
    *
-   * Default: FormRecognizerApiVersion.Latest ("2022-06-30-preview")
+   * Default: FormRecognizerApiVersion.Stable ("2022-08-31")
    */
   apiVersion?: FormRecognizerApiVersion;
 }
@@ -89,4 +90,4 @@ export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClien
  * Configurable options for DocumentModelAdministrationClient.
  */
 export interface DocumentModelAdministrationClientOptions
-  extends FormRecognizerCommonClientOptions {}
+  extends FormRecognizerCommonClientOptions { }

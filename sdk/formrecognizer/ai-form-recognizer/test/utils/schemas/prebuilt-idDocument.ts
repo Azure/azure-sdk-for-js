@@ -3,7 +3,7 @@
 
 // Model:       prebuilt-idDocument
 // Description: Extract key information from US driver licenses and international passports.
-// API Version: 2022-06-30-preview
+// API Version: 2022-08-31
 // Created:     Thu Jul 14 2022
 
 import * as fr from "../../../src";
@@ -220,7 +220,7 @@ function modelInfo() {
     modelId: "prebuilt-idDocument",
     description: "Extract key information from US driver licenses and international passports.",
     createdDateTime: "2022-06-30T00:00:00.000Z",
-    apiVersion: "2022-06-30-preview",
+    apiVersion: "2022-08-31",
     docTypes: {
       "idDocument.driverLicense": {
         buildMode: "template",

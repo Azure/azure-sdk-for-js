@@ -3,7 +3,7 @@
 
 // Model:       prebuilt-vaccinationCard
 // Description: Extract key information from US Covid-19 CDC vaccination cards.
-// API Version: 2022-06-30-preview
+// API Version: 2022-08-31
 // Created:     Thu Jul 14 2022
 
 import * as fr from "../../../src";
@@ -121,7 +121,7 @@ function modelInfo() {
     modelId: "prebuilt-vaccinationCard",
     description: "Extract key information from US Covid-19 CDC vaccination cards.",
     createdDateTime: "2022-06-30T00:00:00.000Z",
-    apiVersion: "2022-06-30-preview",
+    apiVersion: "2022-08-31",
     docTypes: {
       "vaccinationCard.covid19.us": {
         buildMode: "template",

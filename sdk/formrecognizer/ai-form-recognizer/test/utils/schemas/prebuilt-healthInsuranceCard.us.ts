@@ -3,7 +3,7 @@
 
 // Model:       prebuilt-healthInsuranceCard.us
 // Description: Extract key information from US health insurance cards.
-// API Version: 2022-06-30-preview
+// API Version: 2022-08-31
 // Created:     Thu Jul 14 2022
 
 import * as fr from "../../../src";
@@ -271,7 +271,7 @@ function modelInfo() {
     modelId: "prebuilt-healthInsuranceCard.us",
     description: "Extract key information from US health insurance cards.",
     createdDateTime: "2022-06-30T00:00:00.000Z",
-    apiVersion: "2022-06-30-preview",
+    apiVersion: "2022-08-31",
     docTypes: {
       "healthInsuranceCard.us": {
         buildMode: "template",
