@@ -1,16 +1,10 @@
 # Release History
 
-## 4.5.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.5.1 (2022-08-15)
 
 ### Bugs Fixed
 
 - Fixed an issue where `listPropertiesOfSecretVersions` would fail on the second page when using pagination.
-
-### Other Changes
 
 ## 4.5.0 (2022-08-09)
 
