@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure/communication-short-codes"
 description: Short code acquiring and management client
-package-version: 1.0.0-beta.5
+package-version: 1.0.0-beta.4
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-shortcode-2021-10-25-preview
@@ -17,9 +17,10 @@ optional-response-headers: true
 payload-flattening-threshold: 10
 add-credentials: false
 skip-enum-validation: true
+v3: true
 title: Short Codes Client
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.0-rc.1"
 tracing-info:
   namespace: "Microsoft.Communication"
   packagePrefix: "Azure.Communication"
