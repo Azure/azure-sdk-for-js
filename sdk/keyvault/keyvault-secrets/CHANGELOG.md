@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where `listPropertiesOfSecretVersions` would fail on the second page when using pagination.
+
 ### Other Changes
 
 ## 4.5.0 (2022-08-09)
