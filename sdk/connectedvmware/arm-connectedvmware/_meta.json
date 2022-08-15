@@ -1,0 +1,8 @@
+{
+  "commit": "aa8a23b8f92477d0fdce7af6ccffee1c604b3c56",
+  "readme": "specification/connectedvmware/resource-manager/readme.md",
+  "autorest_command": "",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.4.1",
+  "use": "@autorest/typescript@6.0.0-rc.1"
+}
