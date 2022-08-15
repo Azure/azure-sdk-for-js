@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Constants } from "../common";
-import { CosmosDiagnostic } from "../diagnostics/CosmosDiagnostics";
+import { CosmosDiagnostics } from "../diagnostics/CosmosDiagnostics";
 import { CosmosHeaders } from "../queryExecutionContext";
 
-export class FeedResponse<TResource> extends CosmosDiagnostic {
-  cosmosdiagnostics = new CosmosDiagnostic();
+export class FeedResponse<TResource> extends CosmosDiagnostics {
   constructor(
     public readonly resources: TResource[],
     private readonly headers: CosmosHeaders,

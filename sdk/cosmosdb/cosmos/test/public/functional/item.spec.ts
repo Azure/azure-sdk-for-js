@@ -236,9 +236,7 @@ describe("bulk/batch item operations", function () {
         },
         throughput: 25100,
       });
-      afterEach(async function () {
-        //console.log(diagnosticToString);
-      });
+      afterEach(async function () {});
 
       readItemId = addEntropy("item1");
       const itemResponse = await container.items.create({

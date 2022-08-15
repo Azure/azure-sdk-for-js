@@ -1,31 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 const _startTime = new Date().getTime();
-export const defaultHeaders: DiagnosticHeaders = {
+const _defaultHeader: DiagnosticHeader = {
   cosmosdiagnostics: "Started Cosmos Diagnostics",
   diagnosticStartTime: new Date().toLocaleString(),
   durationInMs: new Date().getTime() - _startTime,
+  activityId: "",
+  requestCharge: 0,
+  transportRequestTimeline: {},
+  data: {},
 };
-const _diagnosticHeaders: DiagnosticHeaders[] = [defaultHeaders];
+const _diagnosticHeader: DiagnosticHeader[] = [];
 /**
  * @internal
  */
-export function setDiagnostics(message: DiagnosticHeaders | string) {
-  if (_diagnosticHeaders.length === 0) {
-    setDiagnostics(_diagnosticHeaders);
+export function setDiagnostics(message?: string | DiagnosticHeader) {
+  if (_diagnosticHeader.length === 0) {
+    setDiagnostics(_defaultHeader);
   }
-  _diagnosticHeaders.push({
-    diagnosticsthread: _diagnosticHeaders.length.toString(),
+  if (typeof message === "string") {
+    _diagnosticHeader.push(parseDiagnosticHeader(message));
+  }
+}
+
+function parseDiagnosticHeader(data: string): DiagnosticHeader {
+  console.log(data);
+  const header = {
+    cosmosdiagnostics: "Started Cosmos Diagnostics",
+    diagnosticStartTime: new Date().toLocaleString(),
     durationInMs: new Date().getTime() - _startTime,
-    data: message,
-  });
+    activityId: "",
+    requestCharge: 0,
+    transportRequestTimeline: {},
+    data: data,
+  };
+  return header;
 }
 /**
  * @internal
  */
 export function getdiagnosticsdurationMilliseconds(): number | undefined {
-  if (_diagnosticHeaders.length > 0) {
-    return Number(_diagnosticHeaders[_diagnosticHeaders.length - 1].durationInMs);
+  if (_diagnosticHeader.length > 0) {
+    return Number(_diagnosticHeader[_diagnosticHeader.length - 1].durationInMs);
   }
   return undefined;
 }
@@ -34,25 +50,31 @@ export function getdiagnosticsdurationMilliseconds(): number | undefined {
  * @internal
  */
 export function getCosmosDiagnosticsToString(): string {
-  if (_diagnosticHeaders !== undefined) {
-    return JSON.stringify(_diagnosticHeaders);
+  if (_diagnosticHeader !== undefined) {
+    return JSON.stringify(_diagnosticHeader);
   }
-  setDiagnostics(defaultHeaders);
-  return JSON.stringify(_diagnosticHeaders);
+  setDiagnostics(_defaultHeader);
+  return JSON.stringify(_diagnosticHeader);
 }
 
 export function getDiagnosticsRaw(): string {
-  if (_diagnosticHeaders.length > 0) {
+  if (_diagnosticHeader.length > 0) {
     return JSON.stringify(
-      _diagnosticHeaders.map((diagnostic) => {
-        return JSON.stringify(diagnostic.excpetion);
+      _diagnosticHeader.map((diagnostic) => {
+        return JSON.stringify(diagnostic.data);
       })
     );
   }
-  setDiagnostics(defaultHeaders);
-  return JSON.stringify(_diagnosticHeaders);
+  setDiagnostics(_defaultHeader);
+  return JSON.stringify(_diagnosticHeader);
 }
 
-export interface DiagnosticHeaders {
-  [key: string]: string | boolean | number | any;
+export interface DiagnosticHeader {
+  cosmosdiagnostics: string;
+  diagnosticStartTime: string;
+  durationInMs: number;
+  activityId: string;
+  requestCharge?: number;
+  transportRequestTimeline?: any;
+  data?: any;
 }

@@ -753,10 +753,10 @@ export interface FeedOptions extends SharedOptions {
     useIncrementalFeed?: boolean;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CosmosDiagnostic" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CosmosDiagnostics" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export class FeedResponse<TResource> extends CosmosDiagnostic {
+export class FeedResponse<TResource> extends CosmosDiagnostics {
     constructor(resources: TResource[], headers: CosmosHeaders, hasMoreResults: boolean);
     // (undocumented)
     get activityId(): string;
@@ -764,8 +764,6 @@ export class FeedResponse<TResource> extends CosmosDiagnostic {
     get continuation(): string;
     // (undocumented)
     get continuationToken(): string;
-    // (undocumented)
-    cosmosdiagnostics: CosmosDiagnostic;
     // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
@@ -1507,10 +1505,8 @@ export class ResourceResponse<TResource> {
     get activityId(): string;
     // (undocumented)
     get cosmosDiagnostics(): string;
-    // Warning: (ae-forgotten-export) The symbol "DiagnosticHeaders" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    get cosmosDiagnosticsRegionsContacted(): DiagnosticHeaders;
+    get cosmosDiagnosticsRegionsContacted(): string;
     // (undocumented)
     get cosmosDiagnostisDurationInMs(): number;
     // (undocumented)

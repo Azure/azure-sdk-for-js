@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { getCosmosDiagnosticsToString, getdiagnosticsdurationMilliseconds } from "./Diagnostics"; //static?
-export class CosmosDiagnostic {
+export class CosmosDiagnostics {
   /**
    * Regions contacted for this request.
    */
