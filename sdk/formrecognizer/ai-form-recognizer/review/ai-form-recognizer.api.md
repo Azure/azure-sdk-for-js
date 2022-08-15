@@ -341,7 +341,6 @@ export interface DocumentObjectField<Properties = {
 export interface DocumentPage {
     angle?: number;
     height?: number;
-    kind: DocumentPageKind;
     lines?: DocumentLine[];
     pageNumber: number;
     selectionMarks?: DocumentSelectionMark[];
@@ -350,9 +349,6 @@ export interface DocumentPage {
     width?: number;
     words?: DocumentWord[];
 }
-
-// @public
-export type DocumentPageKind = string;
 
 // @public
 export interface DocumentParagraph {
@@ -532,7 +528,6 @@ export interface ListOperationsOptions extends OperationOptions {
 // @public
 export interface OperationDetails extends OperationSummary {
     error?: ErrorModel;
-    result?: Record<string, unknown>;
 }
 
 // @public

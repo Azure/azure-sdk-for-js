@@ -828,88 +828,88 @@ export type AnalyzeDocumentResponse = GeneratedClientAnalyzeDocumentHeaders;
 
 /** Optional parameters. */
 export interface GetAnalyzeDocumentResultOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getAnalyzeDocumentResult operation. */
 export type GetAnalyzeDocumentResultResponse = AnalyzeResultOperation;
 
 /** Optional parameters. */
 export interface BuildDocumentModelOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the buildDocumentModel operation. */
 export type BuildDocumentModelResponse = GeneratedClientBuildDocumentModelHeaders;
 
 /** Optional parameters. */
 export interface ComposeDocumentModelOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the composeDocumentModel operation. */
 export type ComposeDocumentModelResponse = GeneratedClientComposeDocumentModelHeaders;
 
 /** Optional parameters. */
 export interface AuthorizeCopyDocumentModelOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the authorizeCopyDocumentModel operation. */
 export type AuthorizeCopyDocumentModelResponse = CopyAuthorization;
 
 /** Optional parameters. */
 export interface CopyDocumentModelToOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the copyDocumentModelTo operation. */
 export type CopyDocumentModelToResponse = GeneratedClientCopyDocumentModelToHeaders;
 
 /** Optional parameters. */
 export interface GetOperationsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getOperations operation. */
 export type GetOperationsOperationResponse = GetOperationsResponse;
 
 /** Optional parameters. */
 export interface GetOperationOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getOperation operation. */
 export type GetOperationResponse = OperationDetails;
 
 /** Optional parameters. */
 export interface GetDocumentModelsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getDocumentModels operation. */
 export type GetDocumentModelsOperationResponse = GetDocumentModelsResponse;
 
 /** Optional parameters. */
 export interface GetDocumentModelOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getDocumentModel operation. */
 export type GetDocumentModelResponse = DocumentModelDetails;
 
 /** Optional parameters. */
 export interface DeleteDocumentModelOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface GetResourceDetailsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getResourceDetails operation. */
 export type GetResourceDetailsResponse = ResourceDetails;
 
 /** Optional parameters. */
 export interface GetOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getOperationsNext operation. */
 export type GetOperationsNextResponse = GetOperationsResponse;
 
 /** Optional parameters. */
 export interface GetDocumentModelsNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getDocumentModelsNext operation. */
 export type GetDocumentModelsNextResponse = GetDocumentModelsResponse;

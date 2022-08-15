@@ -67,7 +67,6 @@ export async function toTrainingPollOperationState(
     percentCompleted: response.percentCompleted ?? 0,
     lastUpdatedOn: response.lastUpdatedDateTime,
     createdOn: response.createdDateTime,
-    result: response.result as DocumentModelDetails | undefined,
     error: response.error && new FormRecognizerError(response.error),
     isCancelled: response.status === "canceled",
     isCompleted: response.status === "succeeded",

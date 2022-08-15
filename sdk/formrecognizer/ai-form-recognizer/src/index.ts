@@ -36,7 +36,6 @@ export {
   AnalyzeResultOperationStatus,
   SelectionMarkState,
   ParagraphRole,
-  DocumentPageKind,
   GetOperationResponse,
   OperationDetails,
   ErrorModel,
