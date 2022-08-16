@@ -324,12 +324,18 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * Gets the list of supported countries.
    * @param options The options parameters.
    */
-  private _listAvailableCountries(
+  private async _listAvailableCountries(
     options?: PhoneNumbersListAvailableCountriesOptionalParams
   ): Promise<PhoneNumbersListAvailableCountriesResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listAvailableCountriesOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAvailableCountries",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listAvailableCountriesOperationSpec
+        ) as Promise<PhoneNumbersListAvailableCountriesResponse>;
+      }
     );
   }
 
@@ -338,13 +344,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param countryCode The ISO 3166-2 country/region code, e.g. US.
    * @param options The options parameters.
    */
-  private _listAvailableLocalities(
+  private async _listAvailableLocalities(
     countryCode: string,
     options?: PhoneNumbersListAvailableLocalitiesOptionalParams
   ): Promise<PhoneNumbersListAvailableLocalitiesResponse> {
-    return this.client.sendOperationRequest(
-      { countryCode, options },
-      listAvailableLocalitiesOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAvailableLocalities",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, options },
+          listAvailableLocalitiesOperationSpec
+        ) as Promise<PhoneNumbersListAvailableLocalitiesResponse>;
+      }
     );
   }
 
@@ -353,13 +365,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param countryCode The ISO 3166-2 country/region code, e.g. US.
    * @param options The options parameters.
    */
-  private _listAreaCodes(
+  private async _listAreaCodes(
     countryCode: string,
     options?: PhoneNumbersListAreaCodesOptionalParams
   ): Promise<PhoneNumbersListAreaCodesResponse> {
-    return this.client.sendOperationRequest(
-      { countryCode, options },
-      listAreaCodesOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAreaCodes",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, options },
+          listAreaCodesOperationSpec
+        ) as Promise<PhoneNumbersListAreaCodesResponse>;
+      }
     );
   }
 
@@ -368,13 +386,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param countryCode The ISO 3166-2 country/region code, e.g. US.
    * @param options The options parameters.
    */
-  private _listOfferings(
+  private async _listOfferings(
     countryCode: string,
     options?: PhoneNumbersListOfferingsOptionalParams
   ): Promise<PhoneNumbersListOfferingsResponse> {
-    return this.client.sendOperationRequest(
-      { countryCode, options },
-      listOfferingsOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listOfferings",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, options },
+          listOfferingsOperationSpec
+        ) as Promise<PhoneNumbersListOfferingsResponse>;
+      }
     );
   }
 
@@ -855,13 +879,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param nextLink The nextLink from the previous successful call to the ListAvailableCountries method.
    * @param options The options parameters.
    */
-  private _listAvailableCountriesNext(
+  private async _listAvailableCountriesNext(
     nextLink: string,
     options?: PhoneNumbersListAvailableCountriesNextOptionalParams
   ): Promise<PhoneNumbersListAvailableCountriesNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAvailableCountriesNextOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAvailableCountriesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listAvailableCountriesNextOperationSpec
+        ) as Promise<PhoneNumbersListAvailableCountriesNextResponse>;
+      }
     );
   }
 
@@ -872,14 +902,20 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    *                 method.
    * @param options The options parameters.
    */
-  private _listAvailableLocalitiesNext(
+  private async _listAvailableLocalitiesNext(
     countryCode: string,
     nextLink: string,
     options?: PhoneNumbersListAvailableLocalitiesNextOptionalParams
   ): Promise<PhoneNumbersListAvailableLocalitiesNextResponse> {
-    return this.client.sendOperationRequest(
-      { countryCode, nextLink, options },
-      listAvailableLocalitiesNextOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAvailableLocalitiesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, nextLink, options },
+          listAvailableLocalitiesNextOperationSpec
+        ) as Promise<PhoneNumbersListAvailableLocalitiesNextResponse>;
+      }
     );
   }
 
@@ -889,14 +925,20 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param nextLink The nextLink from the previous successful call to the ListAreaCodes method.
    * @param options The options parameters.
    */
-  private _listAreaCodesNext(
+  private async _listAreaCodesNext(
     countryCode: string,
     nextLink: string,
     options?: PhoneNumbersListAreaCodesNextOptionalParams
   ): Promise<PhoneNumbersListAreaCodesNextResponse> {
-    return this.client.sendOperationRequest(
-      { countryCode, nextLink, options },
-      listAreaCodesNextOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAreaCodesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, nextLink, options },
+          listAreaCodesNextOperationSpec
+        ) as Promise<PhoneNumbersListAreaCodesNextResponse>;
+      }
     );
   }
 
@@ -906,14 +948,20 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param nextLink The nextLink from the previous successful call to the ListOfferings method.
    * @param options The options parameters.
    */
-  private _listOfferingsNext(
+  private async _listOfferingsNext(
     countryCode: string,
     nextLink: string,
     options?: PhoneNumbersListOfferingsNextOptionalParams
   ): Promise<PhoneNumbersListOfferingsNextResponse> {
-    return this.client.sendOperationRequest(
-      { countryCode, nextLink, options },
-      listOfferingsNextOperationSpec
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listOfferingsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, nextLink, options },
+          listOfferingsNextOperationSpec
+        ) as Promise<PhoneNumbersListOfferingsNextResponse>;
+      }
     );
   }
 

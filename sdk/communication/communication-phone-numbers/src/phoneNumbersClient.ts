@@ -146,7 +146,8 @@ export class PhoneNumbersClient {
       (updatedOptions) => {
         return this.client.phoneNumbers.getByNumber(phoneNumber, {
           ...updatedOptions,
-          acceptLanguage: this.acceptLanguage);
+          acceptLanguage: this.acceptLanguage,
+        });
       }
     );
   }
@@ -358,16 +359,26 @@ export class PhoneNumbersClient {
   public listAvailableCountries(
     options: ListAvailableCountriesOptions = {}
   ): PagedAsyncIterableIterator<PhoneNumberCountry> {
-    return tracingClient.withSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableCountries",
-      options,
-      (updatedOptions) => {
-        return this.client.phoneNumbers.listAvailableCountries({
-          ...updatedOptions,
-          acceptLanguage: this.acceptLanguage,
-        });
-      }
+      options
     );
+
+    try {
+      return this.client.phoneNumbers.listAvailableCountries({
+        ...updatedOptions,
+        acceptLanguage: this.acceptLanguage,
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -388,18 +399,27 @@ export class PhoneNumbersClient {
     countryCode: string,
     options: ListTollFreeAreaCodesOptions = {}
   ): PagedAsyncIterableIterator<AreaCodeResult> {
-    return tracingClient.withSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableTollFreeAreaCodes",
-      options,
-      (updatedOptions) => {
-
-        return this.client.phoneNumbers.listAreaCodes(countryCode, {
-          ...updatedOptions,
-          assignmentType: "application",
-          phoneNumberType: "tollFree",
-        });
-      }
+      options
     );
+
+    try {
+      return this.client.phoneNumbers.listAreaCodes(countryCode, {
+        ...updatedOptions,
+        assignmentType: "application",
+        phoneNumberType: "tollFree"
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -421,17 +441,27 @@ export class PhoneNumbersClient {
     assignmentType: PhoneNumberAssignmentType,
     options: ListGeographicAreaCodesOptions = {}
   ): PagedAsyncIterableIterator<AreaCodeResult> {
-    return tracingClient.withSpan(
-      "PhoneNumbersClient-listAvailableGeographicAreaCodes",
-      options,
-      (updatedOptions) => {
-        return this.client.phoneNumbers.listAreaCodes(countryCode, {
-          ...updatedOptions,
-          assignmentType: assignmentType,
-          phoneNumberType: "geographic",
-        });
-      }
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-listAvailableGeographicFreeAreaCodes",
+      options
     );
+
+    try {
+      return this.client.phoneNumbers.listAreaCodes(countryCode, {
+        ...updatedOptions,
+        assignmentType: assignmentType,
+        phoneNumberType: "geographic"
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -454,17 +484,27 @@ export class PhoneNumbersClient {
     administrativeDivision?: string,
     options: ListLocalitiesOptions = {}
   ): PagedAsyncIterableIterator<PhoneNumberLocality> {
-    return tracingClient.withSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableLocalities",
-      options,
-      (updatedOptions) => {
-        return this.client.phoneNumbers.listAvailableLocalities(countryCode, {
-          ...updatedOptions,
-          acceptLanguage: this.acceptLanguage,
-          administrativeDivision: administrativeDivision
-        });
-      }
+      options
     );
+
+    try {
+      return this.client.phoneNumbers.listAvailableLocalities(countryCode, {
+        ...updatedOptions,
+        acceptLanguage: this.acceptLanguage,
+        administrativeDivision: administrativeDivision
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -490,15 +530,26 @@ export class PhoneNumbersClient {
     assignmentType?: PhoneNumberAssignmentType,
     options: ListOfferingsOptions = {}
   ): PagedAsyncIterableIterator<PhoneNumberOffering> {
-    return tracingClient.withSpan("PhoneNumbersClient-listOfferings",
-      options,
-      (updatedOptions) => {
-        return this.client.phoneNumbers.listOfferings(countryCode, {
-          ...updatedOptions,
-          phoneNumberType: phoneNumberType,
-          assignmentType: assignmentType,
-        });
-      }
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-listOfferings",
+      options
     );
+
+    try {
+      return this.client.phoneNumbers.listOfferings(countryCode, {
+        ...updatedOptions,
+        phoneNumberType: phoneNumberType,
+        assignmentType: assignmentType
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
