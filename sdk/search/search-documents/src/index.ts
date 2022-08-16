@@ -5,7 +5,7 @@ export { SearchClient, SearchClientOptions } from "./searchClient";
 export {
   DEFAULT_BATCH_SIZE,
   DEFAULT_FLUSH_WINDOW,
-  DEFAULT_RETRY_COUNT
+  DEFAULT_RETRY_COUNT,
 } from "./searchIndexingBufferedSender";
 export {
   AutocompleteRequest,
@@ -36,7 +36,7 @@ export {
   SearchIndexingBufferedSenderFlushDocumentsOptions,
   SearchIndexingBufferedSenderMergeDocumentsOptions,
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
-  SearchIndexingBufferedSenderUploadDocumentsOptions
+  SearchIndexingBufferedSenderUploadDocumentsOptions,
 } from "./indexModels";
 export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
@@ -111,7 +111,7 @@ export {
   SearchIndexStatistics,
   SearchServiceStatistics,
   SearchIndexer,
-  LexicalNormalizer
+  LexicalNormalizer,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -134,7 +134,7 @@ export {
   Speller,
   KnownSpeller,
   CaptionResult,
-  AnswerResult
+  AnswerResult,
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -298,6 +298,7 @@ export {
   SearchIndexerKnowledgeStoreBlobProjectionSelector,
   SearchIndexerKnowledgeStoreProjectionSelector,
   SearchIndexerKnowledgeStoreObjectProjectionSelector,
-  SearchIndexerKnowledgeStoreTableProjectionSelector
+  SearchIndexerKnowledgeStoreTableProjectionSelector,
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
+export { createSynonymMapFromFile } from "./synonymMapHelper";

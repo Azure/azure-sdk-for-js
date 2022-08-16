@@ -1,6 +1,17 @@
 # Release History
 
-## 11.3.0-beta.1 (Unreleased)
+## 11.3.0 (Unreleased)
+
+### Features Added
+
+- Enabled national cloud support for Azure Search SDK. Please refer [#22887](https://github.com/Azure/azure-sdk-for-js/pull/22887) for further details.
+- Support for TokenCredential has been added. With this addition, the Search SDK supports authentication via AAD.
+
+### Bugs Fixed
+
+- Converted the complex fields correctly within the Search Fields. Please refer [#16489](https://github.com/Azure/azure-sdk-for-js/issues/16489) for more details.
+- Fixed the typos `anayzerName` to `analyzerName` and `normalizerNames` to `normalizerName` in `convertFieldsToPublic` method of `serviceUtils.ts`.
+- Fixed the issue with the presence of recursive structure while uploading documents. Please refer [#15656](https://github.com/Azure/azure-sdk-for-js/issues/15656) for further details.
 
 ## 11.2.0 (2021-06-08)
 

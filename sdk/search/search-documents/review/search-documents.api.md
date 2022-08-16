@@ -10,6 +10,7 @@ import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AnalyzedTokenInfo {
@@ -287,6 +288,9 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
 
 // @public
 export type CreateSkillsetOptions = OperationOptions;
+
+// @public
+export function createSynonymMapFromFile(name: string, filePath: string): Promise<SynonymMap>;
 
 // @public
 export type CreateSynonymMapOptions = OperationOptions;
@@ -1574,7 +1578,7 @@ export type ScoringStatistics = "local" | "global";
 
 // @public
 export class SearchClient<T> implements IndexDocumentsClient<T> {
-    constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
+    constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1594,6 +1598,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 // @public
 export interface SearchClientOptions extends PipelineOptions {
     apiVersion?: string;
+    audience?: string;
 }
 
 // @public
@@ -1643,7 +1648,7 @@ export interface SearchIndex {
 
 // @public
 export class SearchIndexClient {
-    constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: SearchIndexClientOptions);
     analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
     createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
@@ -1667,6 +1672,7 @@ export class SearchIndexClient {
 // @public
 export interface SearchIndexClientOptions extends PipelineOptions {
     apiVersion?: string;
+    audience?: string;
 }
 
 // @public
@@ -1687,7 +1693,7 @@ export interface SearchIndexer {
 
 // @public
 export class SearchIndexerClient {
-    constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexerClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: SearchIndexerClientOptions);
     readonly apiVersion: string;
     createDataSourceConnection(dataSourceConnection: SearchIndexerDataSourceConnection, options?: CreateDataSourceConnectionOptions): Promise<SearchIndexerDataSourceConnection>;
     createIndexer(indexer: SearchIndexer, options?: CreateIndexerOptions): Promise<SearchIndexer>;
@@ -1716,6 +1722,7 @@ export class SearchIndexerClient {
 // @public
 export interface SearchIndexerClientOptions extends PipelineOptions {
     apiVersion?: string;
+    audience?: string;
 }
 
 // @public
