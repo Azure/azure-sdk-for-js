@@ -99,18 +99,10 @@ To refresh the user token, issue another token with the same user.
 let { token } = await client.getToken(user, ["chat"]);
 ```
 
-### Creating a user token with custom expiration using GetTokenOptions
+### Creating a user token with custom expiration
 
 ```typescript
-const scopes: TokenScope[] = ["chat"];
-
-const options: GetTokenOptions = {
-        user: user,
-        scopes: scopes,
-        expiresInMinutes: 60
-      };
-
-let { token } = await client.getToken(options);
+let { token } = await client.getToken(user, ["chat"], 60);
 ```
 
 ### Creating a user and a token in a single request
@@ -119,6 +111,12 @@ For convenience, use `createUserAndToken` to create a new user and issue a token
 
 ```typescript
 let { user, token } = await client.createUserAndToken(["chat"]);
+```
+
+### Creating a user and a token with custom expiration in a single request
+
+```typescript
+let { user, token } = await client.createUserAndToken(["chat"], 60);
 ```
 
 ### Revoking tokens for a user
