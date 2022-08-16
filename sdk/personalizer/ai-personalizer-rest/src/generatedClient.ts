@@ -3,7 +3,7 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { GeneratedClient } from "./clientDefinitions";
-import { KeyCredential } from '@azure/core-auth';
+import { KeyCredential } from "@azure/core-auth";
 
 export default function createClient(
   Endpoint: string,
