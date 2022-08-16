@@ -25,7 +25,7 @@ import { join } from "path";
 import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
 import { tmpdir } from "os";
 
-describe("ManagedIdentityCredential", function () {
+describe.only("ManagedIdentityCredential", function () {
   let testContext: IdentityTestContextInterface;
   let envCopy: string = "";
 
@@ -55,10 +55,10 @@ describe("ManagedIdentityCredential", function () {
     await testContext.restore();
   });
 
-  it("sends an authorization request with a modified resource name", async function () {
+  it.only("sends an authorization request with a modified resource name", async function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new ManagedIdentityCredential("client",{authorityHost:"https://login.microsoftonline.com"}),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         createResponse(200, {
@@ -67,6 +67,7 @@ describe("ManagedIdentityCredential", function () {
         }),
       ],
     });
+    console.log(`${JSON.stringify(authDetails)}`)
 
     // The first request is the IMDS ping.
     // This ping request has to skip a header and the query parameters for it to work on POD identity.
