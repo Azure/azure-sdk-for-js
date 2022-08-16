@@ -1,30 +1,30 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/shortCodes?skip=0\u0026top=100\u0026api-version=2021-10-25-preview",
+      "RequestUri": "https://endpoint/shortCodes?skip=0\u0026top=100\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.9.2 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 07 Jul 2022 21:45:08 GMT"
+        "x-ms-date": "Tue, 16 Aug 2022 20:44:51 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-25-preview",
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 07 Jul 2022 21:45:08 GMT",
-        "MS-CV": "6FY9\u002BH0NgU6wOp9Qi9rp5w.0",
+        "Date": "Tue, 16 Aug 2022 20:44:51 GMT",
+        "MS-CV": "lqjqE6K1OEmp3N9Z4WrlaQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "041PHYgAAAADBY0BbVTqoRogy92Qu7UaUU0FPMzFFREdFMTIyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0wwH8YgAAAAAa1w\u002BDxcztSIw6w4CtlCLnU0FPMzFFREdFMTExMgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "371ms"
+        "X-Processing-Time": "496ms"
       },
       "ResponseBody": {
         "shortCodes": []

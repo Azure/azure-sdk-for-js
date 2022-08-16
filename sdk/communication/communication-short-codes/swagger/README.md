@@ -10,7 +10,6 @@ description: Short code acquiring and management client
 package-version: 1.0.0-beta.4
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-shortcode-2021-10-25-preview
 input-file: ./shortcodes.json
 model-date-time-as-string: false
 optional-response-headers: true
