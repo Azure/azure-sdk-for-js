@@ -5,7 +5,11 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 
 import { IdentityClient } from "../../client/identityClient";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
-import { AuthenticationError, AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
+import {
+  AuthenticationError,
+  AuthenticationRequiredError,
+  CredentialUnavailableError,
+} from "../../errors";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { tracingClient } from "../../util/tracing";
@@ -121,8 +125,8 @@ export class ManagedIdentityCredential implements TokenCredential {
     this.confidentialApp = new ConfidentialClientApplication({
       auth: {
         clientId: this.clientId ?? DeveloperSignOnClientId,
-        clientSecret: "dummy-secret"
-      }
+        clientSecret: "dummy-secret",
+      },
     });
   }
 
@@ -170,7 +174,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    console.log("this function is called")
+    console.log("this function is called");
     const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
       getTokenOptions
@@ -198,7 +202,6 @@ export class ManagedIdentityCredential implements TokenCredential {
       span.end();
     }
   }
-
 
   /**
    * Authenticates with Azure Active Directory and returns an access token if successful.
@@ -231,35 +234,45 @@ export class ManagedIdentityCredential implements TokenCredential {
           correlationId: this.identityClient.getCorrelationId(),
           tenantId: options?.tenantId || "organizations",
           scopes: [...scopes],
-          claims: options?.claims
-        }
+          claims: options?.claims,
+        };
 
-        this.confidentialApp.SetAppTokenProvider(async (appTokenProviderParameters = appTokenParameters) => {
-          logger.info(`SetAppTokenProvider invoked with parameters- ${JSON.stringify(appTokenProviderParameters)}`);
-          const resultToken = await this.authenticateManagedIdentity(scopes, { ...updatedOptions, ...appTokenProviderParameters });
+        this.confidentialApp.SetAppTokenProvider(
+          async (appTokenProviderParameters = appTokenParameters) => {
+            logger.info(
+              `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
+                appTokenProviderParameters
+              )}`
+            );
+            const resultToken = await this.authenticateManagedIdentity(scopes, {
+              ...updatedOptions,
+              ...appTokenProviderParameters,
+            });
 
-          if (resultToken) {
-            logger.info(`SetAppTokenProvider has saved the token in cache`);
-            return {
-              accessToken: resultToken?.token,
-              expiresInSeconds: resultToken?.expiresOnTimestamp,
-              refreshInSeconds: 0
+            if (resultToken) {
+              logger.info(`SetAppTokenProvider has saved the token in cache`);
+              return {
+                accessToken: resultToken?.token,
+                expiresInSeconds: resultToken?.expiresOnTimestamp,
+                refreshInSeconds: 0,
+              };
+            } else {
+              logger.info(
+                `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
+              );
+              return {
+                accessToken: "no_access_token_returned",
+                expiresInSeconds: 0,
+                refreshInSeconds: 0,
+              };
             }
           }
-          else {
-            logger.info(`SetAppTokenProvider token has "no_access_token_returned" as the saved token`);
-            return {
-              accessToken: "no_access_token_returned",
-              expiresInSeconds: 0,
-              refreshInSeconds: 0
-            }
-          }
-        })
+        );
 
         const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
-          ...appTokenParameters
+          ...appTokenParameters,
         });
-        result = this.handleResult(scopes, authenticationResult || undefined)
+        result = this.handleResult(scopes, authenticationResult || undefined);
         console.log("result is returned", result);
         if (result === null) {
           // If authenticateManagedIdentity returns null,
@@ -360,10 +373,10 @@ export class ManagedIdentityCredential implements TokenCredential {
   }
 
   /**
-  * Handles the MSAL authentication result.
-  * If the result has an account, we update the local account reference.
-  * If the token received is invalid, an error will be thrown depending on what's missing.
-  */
+   * Handles the MSAL authentication result.
+   * If the result has an account, we update the local account reference.
+   * If the token received is invalid, an error will be thrown depending on what's missing.
+   */
   private handleResult(
     scopes: string | string[],
     result?: MsalResult,
