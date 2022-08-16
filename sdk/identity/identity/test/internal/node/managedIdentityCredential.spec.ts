@@ -1027,10 +1027,10 @@ describe("ManagedIdentityCredential", function () {
   });
 
 
-  it.only("calls to AppTokenProvider for MI token caching support", async () => {
+  it("calls to AppTokenProvider for MI token caching support", async () => {
 
-    const credential:any = new ManagedIdentityCredential("client");
-    const confidentialSpy = Sinon.spy(credential.confidentialApp,"SetAppTokenProvider");
+    const credential: any = new ManagedIdentityCredential("client");
+    const confidentialSpy = Sinon.spy(credential.confidentialApp, "SetAppTokenProvider");
 
     // Trigger App Service behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
@@ -1046,8 +1046,8 @@ describe("ManagedIdentityCredential", function () {
         }),
       ],
     });
-    assert.equal(confidentialSpy.callCount,1);
-console.log(confidentialSpy.callCount)
+    assert.equal(confidentialSpy.callCount, 1);
+    console.log(confidentialSpy.callCount)
 
     if (authDetails.result?.token) {
       assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);

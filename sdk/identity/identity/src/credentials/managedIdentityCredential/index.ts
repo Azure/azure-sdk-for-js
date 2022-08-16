@@ -225,38 +225,38 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
-        //result = await this.authenticateManagedIdentity(scopes, updatedOptions);
+        // result = await this.authenticateManagedIdentity(scopes, updatedOptions);
 
         const appTokenParameters: AppTokenProviderParameters = {
-        correlationId: this.identityClient.getCorrelationId(), 
-        tenantId: options?.tenantId || "organizations",
-        scopes: [...scopes],
-        claims: options?.claims
-      }
-
-      this.confidentialApp.SetAppTokenProvider(async(appTokenProviderParameters=appTokenParameters)=>{
-        logger.info(`SetAppTokenProvider invoked with parameters- ${JSON.stringify(appTokenProviderParameters)}`);
-        const resultToken = await this.authenticateManagedIdentity(scopes, {...updatedOptions, ...appTokenProviderParameters});
-        
-        if(resultToken){
-          logger.info(`SetAppTokenProvider has saved the token in cache`);
-          return {
-            accessToken: resultToken?.token,
-            expiresInSeconds: resultToken?.expiresOnTimestamp,
-            refreshInSeconds: 0
-          }
-        }         
-        else{
-          logger.info(`SetAppTokenProvider token has "no_access_token_returned" as the saved token`);
-          return {
-            accessToken: "no_access_token_returned",
-            expiresInSeconds: 0,
-            refreshInSeconds: 0
-          }
+          correlationId: this.identityClient.getCorrelationId(),
+          tenantId: options?.tenantId || "organizations",
+          scopes: [...scopes],
+          claims: options?.claims
         }
-      })
-      
-      const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
+
+        this.confidentialApp.SetAppTokenProvider(async (appTokenProviderParameters = appTokenParameters) => {
+          logger.info(`SetAppTokenProvider invoked with parameters- ${JSON.stringify(appTokenProviderParameters)}`);
+          const resultToken = await this.authenticateManagedIdentity(scopes, { ...updatedOptions, ...appTokenProviderParameters });
+
+          if (resultToken) {
+            logger.info(`SetAppTokenProvider has saved the token in cache`);
+            return {
+              accessToken: resultToken?.token,
+              expiresInSeconds: resultToken?.expiresOnTimestamp,
+              refreshInSeconds: 0
+            }
+          }
+          else {
+            logger.info(`SetAppTokenProvider token has "no_access_token_returned" as the saved token`);
+            return {
+              accessToken: "no_access_token_returned",
+              expiresInSeconds: 0,
+              refreshInSeconds: 0
+            }
+          }
+        })
+
+        const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
           ...appTokenParameters
         });
         result = this.handleResult(scopes, authenticationResult || undefined)
@@ -359,37 +359,36 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
   }
 
-   /**
-   * Handles the MSAL authentication result.
-   * If the result has an account, we update the local account reference.
-   * If the token received is invalid, an error will be thrown depending on what's missing.
-   */
-    private handleResult(
-      scopes: string | string[],
-      result?: MsalResult,
-      getTokenOptions?: GetTokenOptions
-    ): AccessToken {
-      // if (result?.account) {
-      //  this.authenticationRecord = msalToPublic(clientId, result.account);
-      // }
-      this.ensureValidMsalToken(scopes, logger, result, getTokenOptions);
-      logger.getToken.info(formatSuccess(scopes));
-      return {
-        token: result!.accessToken!,
-        expiresOnTimestamp: result!.expiresOn!.getTime(),
-      };
-    }
+  /**
+  * Handles the MSAL authentication result.
+  * If the result has an account, we update the local account reference.
+  * If the token received is invalid, an error will be thrown depending on what's missing.
+  */
+  private handleResult(
+    scopes: string | string[],
+    result?: MsalResult,
+    getTokenOptions?: GetTokenOptions
+  ): AccessToken {
+    // if (result?.account) {
+    //  this.authenticationRecord = msalToPublic(clientId, result.account);
+    // }
+    this.ensureValidMsalToken(scopes, result, getTokenOptions);
+    logger.getToken.info(formatSuccess(scopes));
+    return {
+      token: result!.accessToken!,
+      expiresOnTimestamp: result!.expiresOn!.getTime(),
+    };
+  }
 
-/**
- * Ensures the validity of the MSAL token
- * @internal
- */
+  /**
+   * Ensures the validity of the MSAL token
+   * @internal
+   */
   private ensureValidMsalToken(
-  scopes: string | string[],
-  logger: CredentialLogger,
-  msalToken?: MsalToken,
-  getTokenOptions?: GetTokenOptions
-): void {
+    scopes: string | string[],
+    msalToken?: MsalToken,
+    getTokenOptions?: GetTokenOptions
+  ): void {
     const error = (message: string): Error => {
       logger.getToken.info(message);
       return new AuthenticationRequiredError({
