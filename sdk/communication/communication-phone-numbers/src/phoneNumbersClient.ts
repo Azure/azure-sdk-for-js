@@ -408,7 +408,7 @@ export class PhoneNumbersClient {
       return this.client.phoneNumbers.listAreaCodes(countryCode, {
         ...updatedOptions,
         assignmentType: "application",
-        phoneNumberType: "tollFree"
+        phoneNumberType: "tollFree",
       });
     } catch (e: any) {
       span.setStatus({
@@ -450,7 +450,7 @@ export class PhoneNumbersClient {
       return this.client.phoneNumbers.listAreaCodes(countryCode, {
         ...updatedOptions,
         assignmentType: assignmentType,
-        phoneNumberType: "geographic"
+        phoneNumberType: "geographic",
       });
     } catch (e: any) {
       span.setStatus({
@@ -493,7 +493,7 @@ export class PhoneNumbersClient {
       return this.client.phoneNumbers.listAvailableLocalities(countryCode, {
         ...updatedOptions,
         acceptLanguage: this.acceptLanguage,
-        administrativeDivision: administrativeDivision
+        administrativeDivision: administrativeDivision,
       });
     } catch (e: any) {
       span.setStatus({
@@ -539,7 +539,7 @@ export class PhoneNumbersClient {
       return this.client.phoneNumbers.listOfferings(countryCode, {
         ...updatedOptions,
         phoneNumberType: phoneNumberType,
-        assignmentType: assignmentType
+        assignmentType: assignmentType,
       });
     } catch (e: any) {
       span.setStatus({
