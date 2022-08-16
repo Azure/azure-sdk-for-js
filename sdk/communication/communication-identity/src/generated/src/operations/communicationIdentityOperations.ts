@@ -166,7 +166,8 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
-      createTokenWithScopes: ["options", "createTokenWithScopes"]
+      createTokenWithScopes: ["options", "createTokenWithScopes"],
+      expiresInMinutes: ["options", "expiresInMinutes"]
     },
     mapper: Mappers.CommunicationIdentityCreateRequest
   },

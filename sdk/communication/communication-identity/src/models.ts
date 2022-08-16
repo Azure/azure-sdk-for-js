@@ -57,21 +57,3 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
    */
   userObjectId: string;
 }
-
-/**
- * Options used to get a Communication Identity access token for an Azure Communication user
- */
-export interface GetTokenOptions extends OperationOptions {
-  /**
-  * An Azure Communication user identifier
-  */
-  user: CommunicationUserIdentifier;
-  /**
-   * The scopes that the token should have.
-   */
-  scopes: TokenScope[];
-  /**
-   * Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
-   */
-  expiresInMinutes?: number;
-}

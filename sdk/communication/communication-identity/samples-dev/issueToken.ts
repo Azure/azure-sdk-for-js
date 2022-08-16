@@ -5,7 +5,7 @@
  * @summary Issue a new user token.
  */
 
-import { CommunicationIdentityClient, TokenScope } from "@azure/communication-identity";
+import { CommunicationAccessToken, CommunicationIdentityClient, TokenScope } from "@azure/communication-identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -30,9 +30,13 @@ export async function main() {
   console.log("Issuing Token");
 
   // Issue token and get token from response
-  const { token } = await client.getToken(user, scopes);
+  const vanillaToken: CommunicationAccessToken = await client.getToken(user, scopes);
+  console.log(`Issued token: ${vanillaToken.token}`);
 
-  console.log(`Issued token: ${token}`);
+  // Issue token with custom expiration and get token from response
+  const { token, expiresOn } = await client.getToken(user, scopes, 60);
+  console.log(`Issued token with custom expiration: ${token}`);
+  console.log(`Token expires on: ${expiresOn}`);
 }
 
 main().catch((error) => {

@@ -46,6 +46,11 @@ export const createTokenWithScopes: OperationParameter = {
   mapper: CommunicationIdentityCreateRequestMapper
 };
 
+export const expiresInMinutes: OperationParameter = {
+  parameterPath: ["options", "expiresInMinutes"],
+  mapper: CommunicationIdentityCreateRequestMapper
+};
+
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
@@ -98,10 +103,5 @@ export const userId: OperationParameter = {
 
 export const scopes: OperationParameter = {
   parameterPath: "scopes",
-  mapper: CommunicationIdentityAccessTokenRequestMapper
-};
-
-export const expiresInMinutes: OperationParameter = {
-  parameterPath: ["options", "expiresInMinutes"],
   mapper: CommunicationIdentityAccessTokenRequestMapper
 };

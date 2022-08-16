@@ -11,6 +11,8 @@ import * as coreClient from "@azure/core-client";
 export interface CommunicationIdentityCreateRequest {
   /** Also create access token for the created identity. */
   createTokenWithScopes?: CommunicationIdentityTokenScope[];
+  /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
+  expiresInMinutes?: number;
 }
 
 /** A communication identity with access token. */
@@ -103,6 +105,8 @@ export interface CommunicationIdentityCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Also create access token for the created identity. */
   createTokenWithScopes?: CommunicationIdentityTokenScope[];
+  /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
+  expiresInMinutes?: number;
 }
 
 /** Contains response data for the create operation. */
