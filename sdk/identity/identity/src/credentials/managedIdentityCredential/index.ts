@@ -6,7 +6,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import { IdentityClient } from "../../client/identityClient";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { AuthenticationError, AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
-import { CredentialLogger, credentialLogger, formatError, formatSuccess } from "../../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { tracingClient } from "../../util/tracing";
 import { cloudShellMsi } from "./cloudShellMsi";
