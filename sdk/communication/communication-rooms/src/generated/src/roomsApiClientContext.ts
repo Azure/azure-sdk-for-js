@@ -14,14 +14,8 @@ export class RoomsApiClientContext extends coreClient.ServiceClient {
   apiVersion: string;
 
   /**
-<<<<<<< HEAD:sdk/communication/communication-phone-numbers/src/generated/src/phoneNumbersClientContext.ts
-   * Initializes a new instance of the PhoneNumbersClientContext class.
-   * @param endpoint The communication resource, for example
-   *                 https://resourcename.communication.azure.com.
-=======
    * Initializes a new instance of the RoomsApiClientContext class.
    * @param endpoint The endpoint of the Azure Communication resource.
->>>>>>> main:sdk/communication/communication-rooms/src/generated/src/roomsApiClientContext.ts
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: RoomsApiClientOptionalParams) {
@@ -56,10 +50,6 @@ export class RoomsApiClientContext extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-<<<<<<< HEAD:sdk/communication/communication-phone-numbers/src/generated/src/phoneNumbersClientContext.ts
-    this.apiVersion = options.apiVersion || "2022-11-30";
-=======
     this.apiVersion = options.apiVersion || "2022-02-01";
->>>>>>> main:sdk/communication/communication-rooms/src/generated/src/roomsApiClientContext.ts
   }
 }
