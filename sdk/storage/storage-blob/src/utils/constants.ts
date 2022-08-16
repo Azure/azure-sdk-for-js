@@ -210,3 +210,28 @@ export const StorageBlobLoggingAllowedQueryParameters = [
 export const BlobUsesCustomerSpecifiedEncryptionMsg = "BlobUsesCustomerSpecifiedEncryption";
 export const BlobDoesNotUseCustomerSpecifiedEncryption =
   "BlobDoesNotUseCustomerSpecifiedEncryption";
+
+/// List of ports used for path style addressing.
+/// Path style addressing means that storage account is put in URI's Path segment in instead of in host.
+export const PathStylePorts = [
+  "10000",
+  "10001",
+  "10002",
+  "10003",
+  "10004",
+  "10100",
+  "10101",
+  "10102",
+  "10103",
+  "10104",
+  "11000",
+  "11001",
+  "11002",
+  "11003",
+  "11004",
+  "11100",
+  "11101",
+  "11102",
+  "11103",
+  "11104",
+];
