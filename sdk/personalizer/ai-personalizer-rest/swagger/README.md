@@ -1,14 +1,13 @@
-# Azure Form Recognizer Protocol Layer
+# Azure Personalizer Layer
 
 > see https://aka.ms/autorest
 
 ## Configuration
 
 ```yaml
-package-name: "@azure/ai-personalizer"
+package-name: "@azure-rest/ai-personalizer"
 title: PersonalizerClient
 description: Personalizer Client
-generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
@@ -17,8 +16,11 @@ override-client-name: GeneratedClient
 add-credentials: false
 typescript: true
 package-version: "1.0.0-beta.1"
+generate-metadata: true
+generate-test: true
+rest-level-client: true
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.20.20220622.1"
+  "@autorest/typescript": "6.0.0-rc.1"
 ```
 
 ## Customizations for Track 2 Generator
