@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { createTracingClient } from "@azure/core-tracing";
+import { SDK_VERSION } from "./constants.js";
 
 /**
  * A tracing client to handle spans.
@@ -10,5 +11,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.NotificationHubs",
   packageName: "@azure/notification-hubs",
-  packageVersion: "1.0.0",
+  packageVersion: SDK_VERSION,
 });

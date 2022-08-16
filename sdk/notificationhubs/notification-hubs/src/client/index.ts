@@ -11,7 +11,7 @@ import {
 import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
-} from "../utils/connectionStringUtils.js";
+} from "../auth/connectionStringUtils.js";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { NotificationHubsClientOptions } from "../models/options.js";

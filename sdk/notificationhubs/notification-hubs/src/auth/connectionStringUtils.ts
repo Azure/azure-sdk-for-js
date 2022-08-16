@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SasTokenProvider, createSasTokenProvider } from "../auth/sasTokenProvider.js";
+import { SasTokenProvider, createSasTokenProvider } from "./sasTokenProvider.js";
 
 /**
  * Defines an object with possible properties defined in T.
@@ -22,7 +22,7 @@ export type ParsedOutput<T> = { [P in keyof T]: T[P] };
  * @param connectionString - The connection string to be parsed.
  * @returns ParsedOutput<T>.
  */
-export function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
+function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
   const output: { [k: string]: string } = {};
   const parts = connectionString.trim().split(";");
 
