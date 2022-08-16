@@ -48,13 +48,6 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
 }
 
 // @public
-export interface GetTokenOptions extends OperationOptions {
-    expiresInMinutes?: number;
-    scopes: TokenScope[];
-    user: CommunicationUserIdentifier;
-}
-
-// @public
 export type TokenScope = "chat" | "voip";
 
 // (No @packageDocumentation comment for this package)
