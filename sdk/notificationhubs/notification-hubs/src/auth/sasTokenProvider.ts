@@ -8,8 +8,8 @@ import {
   isNamedKeyCredential,
   isSASCredential,
 } from "@azure/core-auth";
-import crypto from "crypto-js";
 import { isObjectWithProperties } from "@azure/core-util";
+import { signString } from "./hmacSha256.js";
 
 /**
  * A SasTokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.
@@ -107,14 +107,16 @@ export class SasTokenProviderImpl implements SasTokenProvider {
  * @param audience - The audience for which the token is desired.
  * @internal
  */
-async function createToken(keyName: string, key: string, expiry: number, audience: string): Promise<AccessToken> {
-  audience = encodeURIComponent(audience);
+async function createToken(
+  keyName: string,
+  key: string,
+  expiry: number,
+  audience: string
+): Promise<AccessToken> {
+  audience = encodeURIComponent(audience.toLowerCase());
   keyName = encodeURIComponent(keyName);
   const stringToSign = audience + "\n" + expiry;
-
-  const bytes = crypto.HmacSHA256(stringToSign, key);
-  const digest = crypto.enc.Base64.stringify(bytes);
-  const sig = encodeURIComponent(digest);
+  const sig = await signString(key, stringToSign);
 
   return {
     token: `SharedAccessSignature sr=${audience}&sig=${sig}&se=${expiry}&skn=${keyName}`,

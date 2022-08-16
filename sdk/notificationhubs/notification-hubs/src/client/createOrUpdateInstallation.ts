@@ -28,7 +28,7 @@ export function createOrUpdateInstallation(
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += `/installations/${installation.installationId}`;
-      
+
       const headers = await context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/json");
 

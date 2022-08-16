@@ -17452,7 +17452,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-FwtYAJWV/5iIE6GLoj7JMYr0TbS3uOCmT2Di1ZFZ5gFjaJ0kt7AsVQaoP5CSA416KRt0nbNlSmLK66C/gCjQrw==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-l6uIJgKu3ZlOYHGibs0MyCu/6buu1Gn18k4GZrM5VxRvLsgrYrPtpIuje4OhOavTcUJHZUr9z0js9aj62LRrhQ==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:

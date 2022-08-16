@@ -25,7 +25,7 @@ export function getFeedbackContainerUrl(
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += "/feedbackcontainer";
-      
+
       const headers = await context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
 

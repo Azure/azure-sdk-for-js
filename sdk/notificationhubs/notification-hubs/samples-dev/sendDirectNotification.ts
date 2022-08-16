@@ -43,7 +43,7 @@ const devicetoken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 async function main() {
   const context = createClientContext(connectionString, hubName);
 
-  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there!" } } }`;
+  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there SDK Review!" } } }`;
 
   const notification = createAppleNotification({
     body: messageBody,
