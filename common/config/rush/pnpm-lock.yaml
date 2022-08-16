@@ -2456,10 +2456,6 @@ packages:
     resolution: {integrity: sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==}
     dev: false
 
-  /@types/crypto-js/4.1.1:
-    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
-    dev: false
-
   /@types/debug/4.1.7:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
@@ -2542,13 +2538,6 @@ packages:
     resolution: {integrity: sha512-zm6xBQpFDIDM6o9r6HSgDeIcLy82TKWctCXEPbJJcXb5AKmi5BNNdLXneixK4lplX3PqIVcwLBCGE/kAGnlD4A==}
     dependencies:
       '@types/node': 18.6.1
-    dev: false
-
-  /@types/jssha/3.0.0:
-    resolution: {integrity: sha512-EfJ5RHBfB/XVl9rg12W6u6on3jEGQXYqIHlEja1/tkn2PWJg+Kz0RjMRuKmoWmDCZp5cz0jlS++XslTpRUFNvQ==}
-    deprecated: This is a stub types definition. jssha provides its own type definitions, so you do not need this installed.
-    dependencies:
-      jssha: 3.2.0
     dev: false
 
   /@types/jws/3.2.4:
@@ -3813,10 +3802,6 @@ packages:
     resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
     dev: false
 
-  /crypto-js/4.1.1:
-    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
-    dev: false
-
   /csv-parse/5.3.0:
     resolution: {integrity: sha512-UXJCGwvJ2fep39purtAn27OUYmxB1JQto+zhZ4QlJpzsirtSFbzLvip1aIgziqNdZp/TptvsKEV5BZSxe10/DQ==}
     dev: false
@@ -4068,7 +4053,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220815
+      typescript: 4.9.0-dev.20220816
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8975,8 +8960,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220815:
-    resolution: {integrity: sha512-C4D85FWbZEZhbvGglzsQbIj6S5kIwCVA4X63nDBcBZd8qL47l4LBAG8akqPsQfKEqRVrHvNoRAVI4E5jv8aBqw==}
+  /typescript/4.9.0-dev.20220816:
+    resolution: {integrity: sha512-jNu5zDQoA3R0z7pQLGIfpeI3Z5L4M0hdDCGhIAp0wlUrAIyo6fdOD2Vx4Cpv/Y4W55RzQB709KKqh4dDbnIssg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17458,19 +17443,15 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.28.6
       '@types/chai': 4.3.1
-      '@types/crypto-js': 4.1.1
-      '@types/jssha': 3.0.0
       '@types/mocha': 9.1.1
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
       chai: 4.3.6
       cross-env: 7.0.3
-      crypto-js: 4.1.1
       dotenv: 16.0.1
       downlevel-dts: 0.10.0
       eslint: 8.20.0
       esm: 3.2.25
-      jssha: 3.2.0
       karma: 6.4.0
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
