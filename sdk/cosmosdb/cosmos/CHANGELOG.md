@@ -4,15 +4,14 @@
 
 ### Features Added
 
-#### Azure Cosmos DB Integrated Cache
+#### GA: Azure Cosmos DB Integrated Cache
 
-- GA: Support DedicatedGatewayRequestOptions and MaxIntegratedCacheStaleness [#21240](https://github.com/Azure/azure-sdk-for-js/pull/21240)
+- Support DedicatedGatewayRequestOptions and MaxIntegratedCacheStaleness [#21240](https://github.com/Azure/azure-sdk-for-js/pull/21240)
+- Upgrade cosmos with azure core tracing [#22284](https://github.com/Azure/azure-sdk-for-js/pull/22284)
+- Removed old logging and implement Azure core logging coverage [#18723](https://github.com/Azure/azure-sdk-for-js/pull/18723?)
 
 ### Bugs Fixed
 
-- Add indexing metrics populateQueryMetrics sample [#21799](https://github.com/Azure/azure-sdk-for-js/pull/21799)
-- Upgrade cosmos with azure core tracing [#22284](https://github.com/Azure/azure-sdk-for-js/pull/22284)
-- Removed old logging and implement Azure core logging coverage [#18723](https://github.com/Azure/azure-sdk-for-js/pull/18723?)
 - ParallelQueryExecutionContextBase breaks use of abortSignal [#18544](https://github.com/Azure/azure-sdk-for-js/pull/18544)
 - Fixes id encoding issues when using special characters fo RoutingGateway
 
