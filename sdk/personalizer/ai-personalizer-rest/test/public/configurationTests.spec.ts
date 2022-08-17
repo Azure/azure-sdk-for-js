@@ -77,6 +77,7 @@ describe("Configuration Tests", () => {
     const newPolicy = await getPolicyAsync(client);
     assertPolicyEquals(newPolicy, expectedPolicy);
   });
+});
 
   async function getConfigurationAsync(
     client: GeneratedClient
@@ -141,7 +142,6 @@ describe("Configuration Tests", () => {
     assert.equal(actual.explorationPercentage, expected.explorationPercentage);
     assert.equal(actual.logRetentionDays, expected.logRetentionDays);
   }
-});
 
 function assertPolicyEquals(actual: PolicyContractOutput, expected: PolicyContract) {
   assert.equal(actual.arguments, expected.arguments);

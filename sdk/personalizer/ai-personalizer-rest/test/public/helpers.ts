@@ -9,7 +9,7 @@ export async function isMultiSlotEnabledAsync(client: GeneratedClient): Promise<
   return policy.body.arguments.includes("--ccb_explore_adf");
 }
 
-export async function enableMultiSlotAsync(client: GeneratedClient) {
+export async function enableMultiSlotAsync(client: GeneratedClient): Promise<void> {
   const policy = await client.path("/configurations/policy").get();
   if (policy.body.arguments.includes("--ccb_explore_adf")) {
     return;
