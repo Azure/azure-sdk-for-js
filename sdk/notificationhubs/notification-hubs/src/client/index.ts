@@ -47,7 +47,7 @@ export interface NotificationHubsClientContext {
   /**
    * @internal
    */
-  createHeaders(operationName: string): Promise<Promise<HttpHeaders>>;
+  createHeaders(operationName: string): Promise<HttpHeaders>;
 
   /**
    * @internal
@@ -102,7 +102,7 @@ class NotificationHubsServiceClient extends ServiceClient implements Notificatio
     );
   }
 
-  async createHeaders(operationName: string): Promise<Promise<HttpHeaders>> {
+  async createHeaders(operationName: string): Promise<HttpHeaders> {
     const authorization = await await this.sasTokenProvider.getToken(this.baseUrl);
     const headers = createHttpHeaders();
     headers.set("Authorization", authorization.token);
