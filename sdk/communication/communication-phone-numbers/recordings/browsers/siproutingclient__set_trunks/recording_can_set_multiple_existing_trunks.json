@@ -1,0 +1,109 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"trunks\":{\"111.fqdn.com\":{\"sipSignalingPort\":8239},\"222.fqdn.com\":{\"sipSignalingPort\":7348}},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:24 GMT",
+    "ms-cv": "V7PF4qwsek2sKTF4WWFjTw.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0MBcEYwAAAACD46ySu/1TQYK8OaisP1W/UFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "227ms"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": "{\"trunks\":{\"111.fqdn.com\":{\"sipSignalingPort\":8239},\"222.fqdn.com\":{\"sipSignalingPort\":7348}}}",
+   "status": 200,
+   "response": "{\"trunks\":{\"111.fqdn.com\":{\"sipSignalingPort\":8239},\"222.fqdn.com\":{\"sipSignalingPort\":7348}},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:24 GMT",
+    "ms-cv": "DVK2TS0ULU+ZRnNJVqULaA.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0MRcEYwAAAACnAYgq6orXSY/8phK9fM/EUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "566ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"trunks\":{\"111.fqdn.com\":{\"sipSignalingPort\":8239},\"222.fqdn.com\":{\"sipSignalingPort\":7348}},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:26 GMT",
+    "ms-cv": "Zcj7gZV0j0W+hpG16suhCA.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0MRcEYwAAAABo7EPBpgf4ToDpe1iRMPTCUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "208ms"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": "{\"trunks\":{\"111.fqdn.com\":{\"sipSignalingPort\":6789},\"222.fqdn.com\":{\"sipSignalingPort\":9876}}}",
+   "status": 200,
+   "response": "{\"trunks\":{\"111.fqdn.com\":{\"sipSignalingPort\":6789},\"222.fqdn.com\":{\"sipSignalingPort\":9876}},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:27 GMT",
+    "ms-cv": "4ZQ+2QGlQkWbj959qndzPQ.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0MhcEYwAAAACzlG6gFH2BQ7FmLaGFnMPSUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "643ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"trunks\":{\"111.fqdn.com\":{\"sipSignalingPort\":6789},\"222.fqdn.com\":{\"sipSignalingPort\":9876}},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:27 GMT",
+    "ms-cv": "6e4bQlS3G0O0lVP8vq5oAQ.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0MxcEYwAAAACSfSXf6YV4QpPk2zwKBcjWUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "266ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "54d78751e8e1d6e0aaaf9aa5c7a32432"
+}

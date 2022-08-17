@@ -1,0 +1,49 @@
+{
+ "recordings": [
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": "{\"trunks\":{\"111.fqdn.com\":{\"sipSignalingPort\":1231}}}",
+   "status": 200,
+   "response": "{\"trunks\":{\"777.fqdn.com\":{\"sipSignalingPort\":5678},\"888.fqdn.com\":{\"sipSignalingPort\":5678},\"111.fqdn.com\":{\"sipSignalingPort\":1231}},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:18 GMT",
+    "ms-cv": "H5fbOWkg4kq4AML3FmA1IQ.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0KBcEYwAAAABwBLwVpMwGRohlUBUsjf0WUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "2270ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"trunks\":{\"777.fqdn.com\":{\"sipSignalingPort\":5678},\"888.fqdn.com\":{\"sipSignalingPort\":5678},\"111.fqdn.com\":{\"sipSignalingPort\":1231}},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:18 GMT",
+    "ms-cv": "rf1JpjYuSEu9+DC6DmWKWw.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0KhcEYwAAAACQXt6w7yDSSY+BUOSsM1OuUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "222ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "7dec9b778814401821f4dd2b9085a2b8"
+}

@@ -1,0 +1,48 @@
+{
+ "recordings": [
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": "{\"routes\":[{\"description\":\"description\",\"name\":\"\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\"}]}",
+   "status": 422,
+   "response": "{\"error\":{\"code\":\"UnprocessableConfiguration\",\"message\":\"One or more request inputs are not valid.\",\"innererror\":{\"code\":\"InvalidRouteName\",\"message\":\"Route with an invalid name.\"}}}",
+   "responseHeaders": {
+    "content-type": "application/json",
+    "date": "Mon, 22 Aug 2022 23:54:06 GMT",
+    "ms-cv": "wbL4pq4qUUa8pyd1WC2qdg.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0HhcEYwAAAADTwFY1NzeKQZAwy114LmkpUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "37ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"trunks\":{\"11.fqdn.com\":{\"sipSignalingPort\":1239},\"22.fqdn.com\":{\"sipSignalingPort\":2348},\"33.fqdn.com\":{\"sipSignalingPort\":3457},\"111.fqdn.com\":{\"sipSignalingPort\":5678}},\"routes\":[]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:06 GMT",
+    "ms-cv": "nh1TAOQ9mUKg7j5HdZyfgA.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0HxcEYwAAAACFZJ4pTsjSRa46rrr3yzmCUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "310ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "138f85a1ce44cb0c74ee8ff7474a1dcf"
+}

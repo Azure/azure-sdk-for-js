@@ -1,0 +1,89 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"trunks\":{\"111.fqdn.com\":{\"sipSignalingPort\":6789},\"222.fqdn.com\":{\"sipSignalingPort\":9876}},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:27 GMT",
+    "ms-cv": "QursEvJogkeCO96EqYDtDg.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0MxcEYwAAAAB+E3DFv7lSTIm2+RyHrfiMUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "241ms"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": "{\"trunks\":{\"111.fqdn.com\":null,\"222.fqdn.com\":null}}",
+   "status": 200,
+   "response": "{\"trunks\":{},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:28 GMT",
+    "ms-cv": "BO4BvH+DgE6AxY55T3UwpA.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0MxcEYwAAAACpK2WPz4x/T7Beejts8NhvUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "561ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"trunks\":{},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:29 GMT",
+    "ms-cv": "4gCoS7M49EW2zrBSFPWZEw.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0NBcEYwAAAAB4LZsBRCSlQIVutXcEyudKUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "227ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"trunks\":{},\"routes\":[{\"description\":\"myFirstRoute's description\",\"name\":\"myFirstRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]},{\"description\":\"mySecondRoute's description\",\"name\":\"mySecondRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[]}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 22 Aug 2022 23:54:29 GMT",
+    "ms-cv": "gSBzhZluW0u0hTzmxBkOlw.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0NRcEYwAAAABWCMw/ztJjTY9E71CEuc2EUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "226ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "635ba4390afc3610fbe51fd8880044d6"
+}
