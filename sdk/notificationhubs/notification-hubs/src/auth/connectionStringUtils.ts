@@ -1,7 +1,58 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SasTokenProvider, createSasTokenProvider, parseConnectionString } from "@azure/core-amqp";
+import { SasTokenProvider, createSasTokenProvider } from "./sasTokenProvider.js";
+
+/**
+ * Defines an object with possible properties defined in T.
+ */
+export type ParsedOutput<T> = { [P in keyof T]: T[P] };
+
+/**
+ * Parses the connection string and returns an object of type T.
+ *
+ * Connection strings have the following syntax:
+ *
+ * ConnectionString ::= `Part { ";" Part } [ ";" ] [ WhiteSpace ]`
+ * Part             ::= [ PartLiteral [ "=" PartLiteral ] ]
+ * PartLiteral      ::= [ WhiteSpace ] Literal [ WhiteSpace ]
+ * Literal          ::= ? any sequence of characters except ; or = or WhiteSpace ?
+ * WhiteSpace       ::= ? all whitespace characters including `\r` and `\n` ?
+ *
+ * @param connectionString - The connection string to be parsed.
+ * @returns ParsedOutput<T>.
+ */
+function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
+  const output: { [k: string]: string } = {};
+  const parts = connectionString.trim().split(";");
+
+  for (let part of parts) {
+    part = part.trim();
+
+    if (part === "") {
+      // parts can be empty
+      continue;
+    }
+
+    const splitIndex = part.indexOf("=");
+    if (splitIndex === -1) {
+      throw new Error(
+        "Connection string malformed: each part of the connection string must have an `=` assignment."
+      );
+    }
+
+    const key = part.substring(0, splitIndex).trim();
+    if (key === "") {
+      throw new Error("Connection string malformed: missing key for assignment");
+    }
+
+    const value = part.substring(splitIndex + 1).trim();
+
+    output[key] = value;
+  }
+
+  return output as any;
+}
 
 /**
  * The set of properties that comprise a Notification Hubs connection string.

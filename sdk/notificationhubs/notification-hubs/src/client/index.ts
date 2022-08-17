@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as constants from "../utils/constants.js";
 import {
   HttpHeaders,
   PipelineRequest,
@@ -10,11 +11,11 @@ import {
 import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
-} from "../utils/connectionStringUtils.js";
+} from "../auth/connectionStringUtils.js";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { NotificationHubsClientOptions } from "../models/options.js";
-import { SasTokenProvider } from "@azure/core-amqp";
+import { SasTokenProvider } from "../auth/sasTokenProvider.js";
 import { ServiceClient } from "@azure/core-client";
 
 const API_VERSION = "2020-06";
@@ -46,7 +47,7 @@ export interface NotificationHubsClientContext {
   /**
    * @internal
    */
-  createHeaders(): HttpHeaders;
+  createHeaders(operationName: string): Promise<HttpHeaders>;
 
   /**
    * @internal
@@ -85,6 +86,9 @@ class NotificationHubsServiceClient extends ServiceClient implements Notificatio
       serializationOptions: {
         stringifyXML,
       },
+      userAgentOptions: {
+        userAgentPrefix: `azsdk-js-messaging-notificationhubs/${constants.SDK_VERSION}`,
+      },
       ...options,
     } as InternalClientPipelineOptions);
 
@@ -98,11 +102,15 @@ class NotificationHubsServiceClient extends ServiceClient implements Notificatio
     );
   }
 
-  createHeaders(): HttpHeaders {
-    const authorization = this.sasTokenProvider.getToken(this.baseUrl);
+  async createHeaders(operationName: string): Promise<HttpHeaders> {
+    const authorization = await this.sasTokenProvider.getToken(this.baseUrl);
     const headers = createHttpHeaders();
     headers.set("Authorization", authorization.token);
     headers.set("x-ms-version", API_VERSION);
+    headers.set(
+      "X-MS-AZSDK-Telemetry",
+      `class=NotificationHubsServiceClient;method=${operationName}`
+    );
 
     return headers;
   }

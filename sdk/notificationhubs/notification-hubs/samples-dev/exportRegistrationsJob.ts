@@ -15,7 +15,7 @@
 
 import { NotificationHubJob } from "@azure/notification-hubs/models/notificationHubJob";
 import { createClientContext } from "@azure/notification-hubs/client";
-import { delay } from "@azure/core-amqp";
+import { delay } from "@azure/core-util";
 import { getNotificationHubJob } from "@azure/notification-hubs/client/getNotificationHubJob";
 import { submitNotificationHubJob } from "@azure/notification-hubs/client/submitNotificationHubJob";
 
