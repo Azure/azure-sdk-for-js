@@ -90,15 +90,13 @@ const createClassificationPolicy = async (): Promise<void> => {
     }
   };
 
-  try {
-    const request = classificationPolicyRequest;
 
-    const result = await routerAdministrationClient.createClassificationPolicy(request.id!, request);
+  const request = classificationPolicyRequest;
 
-    console.log("classification policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await routerAdministrationClient.createClassificationPolicy(request.id!, request);
+
+  console.log("classification policy: " + result);
+
 };
 
 void createClassificationPolicy();
@@ -111,13 +109,11 @@ const getClassificationPolicy = async (): Promise<void> => {
 
   const policyId = "classification-policy-123"
 
-  try {
-    const result = await routerAdministrationClient.getClassificationPolicy(policyId);
 
-    console.log("classification policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await routerAdministrationClient.getClassificationPolicy(policyId);
+
+  console.log("classification policy: " + result);
+
 };
 
 void getClassificationPolicy();
@@ -150,15 +146,13 @@ const updateClassificationPolicy = async (): Promise<void> => {
     }
   };
 
-  try {
-    const request = classificationPolicyRequest;
 
-    const result = await routerAdministrationClient.updateClassificationPolicy(request.id!, request);
+  const request = classificationPolicyRequest;
 
-    console.log("classification policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await routerAdministrationClient.updateClassificationPolicy(request.id!, request);
+
+  console.log("classification policy: " + result);
+
 };
 
 void updateClassificationPolicy();
@@ -171,21 +165,19 @@ const listClassificationPolicies = async (): Promise<void> => {
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems: ClassificationPolicyItem[] = [];
-  try {
-    for await (const page of routerAdministrationClient.listClassificationPolicies({ maxPageSize: maxPageSize }).byPage()) {
-      ++pagesCount;
-      let pageSize = 0;
-      console.log("page: " + pagesCount);
-      for (const policy of page) {
-        ++pageSize;
-        receivedPagedItems.push(policy);
-        console.log("Listing classification policy with id: " + policy.classificationPolicy!.id!);
-      }
-      assert.isAtMost(pageSize, maxPageSize);
+
+  for await (const page of routerAdministrationClient.listClassificationPolicies({ maxPageSize: maxPageSize }).byPage()) {
+    ++pagesCount;
+
+    console.log("page: " + pagesCount);
+    for (const policy of page) {
+      receivedPagedItems.push(policy);
+      console.log("Listing classification policy with id: " + policy.classificationPolicy!.id!);
     }
-  } catch (error) {
-    console.log(error);
+    let pageSize = receivedPagedItems.length;
+    assert.isAtMost(pageSize, maxPageSize);
   }
+
 };
 
 void listClassificationPolicies();
@@ -198,13 +190,11 @@ const deleteClassificationPolicy = async (): Promise<void> => {
 
   const policyId = "classification-policy-123"
 
-  try {
-    const result = await routerAdministrationClient.deleteClassificationPolicy(policyId);
 
-    console.log("classification policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await routerAdministrationClient.deleteClassificationPolicy(policyId);
+
+  console.log("classification policy: " + result);
+
 };
 
 void deleteClassificationPolicy();

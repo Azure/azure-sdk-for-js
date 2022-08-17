@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreHttp from "@azure/core-http";
 import {
   ChannelConfiguration,
   DistributionModeUnion,
@@ -22,12 +21,12 @@ import {
   WorkerSelector,
   WorkerStateSelector
 } from "../generated/src";
-import { PipelineOptions } from "@azure/core-http";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 /**
  * Options to create router client.
  */
-export interface RouterClientOptions extends PipelineOptions {
+export interface RouterClientOptions extends CommonClientOptions {
   /** The headers to be set on requests **/
   headers?: { [propertyName: string]: any };
 }
@@ -35,7 +34,7 @@ export interface RouterClientOptions extends PipelineOptions {
 /**
  * Options to create router administration client.
  */
-export interface RouterAdministrationClientOptions extends PipelineOptions {
+export interface RouterAdministrationClientOptions extends CommonClientOptions {
   /** The headers to be set on requests **/
   headers?: { [propertyName: string]: any };
 }
@@ -69,7 +68,7 @@ export interface UpdateClassificationPolicyOptions
 /**
  * Options to get classification policies.
  */
-export interface ListClassificationPoliciesOptions extends coreHttp.OperationOptions {
+export interface ListClassificationPoliciesOptions extends OperationOptions {
   /** Maximum page size */
   maxPageSize?: number;
 }
@@ -82,7 +81,7 @@ export interface CreateDistributionPolicyOptions
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlSeconds?: number;
+  offerTtlInSeconds?: number;
   /** Abstract base class for defining a distribution mode */
   mode?: DistributionModeUnion;
 }
@@ -95,7 +94,7 @@ export interface UpdateDistributionPolicyOptions
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlSeconds?: number;
+  offerTtlInSeconds?: number;
   /** Abstract base class for defining a distribution mode */
   mode?: DistributionModeUnion;
 }
@@ -103,7 +102,7 @@ export interface UpdateDistributionPolicyOptions
 /**
  * Options to get distribution policies.
  */
-export interface ListDistributionPoliciesOptions extends coreHttp.OperationOptions {
+export interface ListDistributionPoliciesOptions extends OperationOptions {
   /** Maximum page size */
   maxPageSize?: number;
 }
@@ -133,7 +132,7 @@ export interface UpdateExceptionPolicyOptions
 /**
  * Options to get exception policies.
  */
-export interface ListExceptionPoliciesOptions extends coreHttp.OperationOptions {
+export interface ListExceptionPoliciesOptions extends OperationOptions {
   /** Number of objects to return per page */
   maxPageSize?: number;
 }
@@ -201,7 +200,7 @@ export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOption
 /**
  * Options to update or insert a job's labels.
  */
-export interface UpdateJobLabelsOptions extends coreHttp.OperationOptions {
+export interface UpdateJobLabelsOptions extends OperationOptions {
   /** Request model for patching a job */
   patch?: RouterJob;
   /** If set to true, will force classification. Defaults to false. */
@@ -211,7 +210,7 @@ export interface UpdateJobLabelsOptions extends coreHttp.OperationOptions {
 /**
  * Options to update a job's classification.
  */
-export interface UpdateJobClassificationOptions extends coreHttp.OperationOptions {
+export interface UpdateJobClassificationOptions extends OperationOptions {
   /** Request model for patching a job */
   patch?: RouterJob;
   /** If set to true, will force classification. Defaults to false. */
@@ -257,7 +256,7 @@ export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {
 /**
  * Options to get router jobs.
  */
-export interface ListJobsOptions extends coreHttp.OperationOptions {
+export interface ListJobsOptions extends OperationOptions {
   /** Number of objects to return per page */
   maxPageSize?: number;
   /** (Optional) If specified, filter jobs by status. */
@@ -309,7 +308,7 @@ export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
 /**
  * Options to get existing workers.
  */
-export interface ListWorkersOptions extends coreHttp.OperationOptions {
+export interface ListWorkersOptions extends OperationOptions {
   /** Number of objects to return per page */
   maxPageSize?: number;
   /** (Optional) If specified, select workers who are assigned to this queue */
@@ -356,7 +355,7 @@ export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOp
 /**
  * Options to list queues.
  */
-export interface ListQueuesOptions extends coreHttp.OperationOptions {
+export interface ListQueuesOptions extends OperationOptions {
   /** Number of objects to return per page */
   maxPageSize?: number;
 }

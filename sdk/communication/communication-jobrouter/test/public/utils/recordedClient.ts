@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as dotenv from "dotenv";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { generateToken } from "./connectionUtils";

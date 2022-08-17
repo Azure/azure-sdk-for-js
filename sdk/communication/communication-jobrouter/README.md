@@ -21,8 +21,6 @@ npm install @azure/communication-jobrouter
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-
-
 # Tutorial: Route customer support requests to workers using the Azure Communication Services (ACS) Router SDK
 
 In this tutorial, you will learn:
@@ -32,21 +30,22 @@ In this tutorial, you will learn:
 - How to route incoming jobs to queues.
 
 ## Key concepts
- Name | Description 
----|---
-| RouterClient | This class is needed for router functionality. You instantiate it with your subscription information, and manage workers and jobs. |
-| RouterAdministrationClient | This class is needed for router administration functionality. You instantiate it with your subscription information, and manage policies and queues. |
-| Job | A unit of work that needs to be done. eg. service an incoming call/chat/etc. Jobs will be organized into queues. |
-| Queue | Queues are where jobs wait until they get handled by workers, ordered by priority then enqueue time |
-| Worker | Workers are a resource (e.g. human or bot) that can handle incoming jobs from queues. |
-| Socket | A socket is a property of a worker and represents a worker's capacity to take on new jobs.  When the worker is busy with one or more jobs, the socket is engaged, when a job completes the socket becomes open for new work.  This enables workers to manage the concurrency of jobs being offered to them according to channel. |
-| Channel | The medium upon which a job will be carried out.  In the context of communication scenarios, this includes Voice, Chat, Video, etc. |
-| Classification Policy | A named container for the skills policy, prioritization policy and queue selection policy.  When Contoso creates a new job, a classification policy can be specified that will determine the required skills to fulfill it, its priority and which queue it should be routed to respectively |
-| Distribution Policy | The distribution policy is a container of rules on how jobs are allocated and distributed to workers from a queue. This includes offer time to live, distribution method (e.g. round robin, top (n) available agents, etc) and allocation rules. |
-| Exception Policy | A container of rules that define what action to take when a particular exception occurs.  This container of rules can be associated with one or more queues. |
+
+| Name                       | Description                                                                                                                                                                                                                                                                                                                    |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| RouterClient               | This class is needed for router functionality. You instantiate it with your subscription information, and manage workers and jobs.                                                                                                                                                                                             |
+| RouterAdministrationClient | This class is needed for router administration functionality. You instantiate it with your subscription information, and manage policies and queues.                                                                                                                                                                           |
+| Job                        | A unit of work that needs to be done. eg. service an incoming call/chat/etc. Jobs will be organized into queues.                                                                                                                                                                                                               |
+| Queue                      | Queues are where jobs wait until they get handled by workers, ordered by priority then enqueue time                                                                                                                                                                                                                            |
+| Worker                     | Workers are a resource (e.g. human or bot) that can handle incoming jobs from queues.                                                                                                                                                                                                                                          |
+| Socket                     | A socket is a property of a worker and represents a worker's capacity to take on new jobs. When the worker is busy with one or more jobs, the socket is engaged, when a job completes the socket becomes open for new work. This enables workers to manage the concurrency of jobs being offered to them according to channel. |
+| Channel                    | The medium upon which a job will be carried out. In the context of communication scenarios, this includes Voice, Chat, Video, etc.                                                                                                                                                                                             |
+| Classification Policy      | A named container for the skills policy, prioritization policy and queue selection policy. When Contoso creates a new job, a classification policy can be specified that will determine the required skills to fulfill it, its priority and which queue it should be routed to respectively                                    |
+| Distribution Policy        | The distribution policy is a container of rules on how jobs are allocated and distributed to workers from a queue. This includes offer time to live, distribution method (e.g. round robin, top (n) available agents, etc) and allocation rules.                                                                               |
+| Exception Policy           | A container of rules that define what action to take when a particular exception occurs. This container of rules can be associated with one or more queues.                                                                                                                                                                    |
 
 ##Setting Up
-###Install an IDE 
+###Install an IDE
 Install IDE such as [VSCode](https://code.visualstudio.com/download) or [Webstorm](https://www.jetbrains.com/webstorm/download/) if you haven't (Optional)
 
 ###Install NodeJS if you haven't
@@ -65,137 +64,146 @@ npm install
 DEBUG=routerquickstart:* npm start
 ```
 
-###Create an ACS resource under dogfood
-Refer to this doc, https://skype.visualstudio.com/SPOOL/_wiki/wikis/SPOOL.wiki/20243/Azure-dogfood-env
-Create a new resource or use existing resource. If creating a resource, select `acs-pstn-dogfood` as resource group.
-
-![image.png](/.attachments/image-1a0118bb-0063-420b-924a-943b66ef0d01.png)
+###Create an ACS resource on Azure
+Create a new Azure Communication service resource on Azure https://ms.portal.azure.com/#home or use existing resource.
 
 ###Install the Azure Communication Services Router SDK
 In the application directory, install the Azure Communication Services Router client library for JavaScript package by using the `npm install --save` command
-`npm install --save @azure/communication-jobrouter`
+`npm install @azure/communication-jobrouter`
 
 ## Examples
+
 ###Initialize Router Client
 First we need to initialize a Router client.
-```js
-import { RouterClient } from '@azure/communication-jobrouter';
 
-const acsConnectionString = 'endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>'
-const routerClient = new RouterClient(acsConnectionString );
-const routerAdministrationClient = new RouterAdministrationClient(acsConnectionString );
+```js
+const { RouterClient } = require("@azure/communication-jobrouter");
+
+const acsConnectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = new RouterClient(acsConnectionString);
+const routerAdministrationClient = new RouterAdministrationClient(acsConnectionString);
 ```
 
 ##Configure Queue and Workers
 ###Create a queue
 Then we create a sales queue with various labels.
+
 ```js
 const salesQueueResponse = await routerAdministrationClient.CreateQueue({
-  "name": "Sales",
-  "distributionPolicyId": "0832f57a-a651-4cd3-b721-1a1ce76ecf2b",
-  "labels": {
-    "Department": "Xbox"
+  name: "Sales",
+  distributionPolicyId: "0832f57a-a651-4cd3-b721-1a1ce76ecf2b",
+  labels: {
+    Department: "Xbox"
   },
-  "exceptionPolicyId": "cb272ee4-38ae-41d8-9408-190d9c7a98aa"
+  exceptionPolicyId: "cb272ee4-38ae-41d8-9408-190d9c7a98aa"
 });
 ```
 
 ###Register workers
 Register workers “Bob” and “Alice” with various abilities.
+
 ```js
 // Create worker Bob
 const workerId = "21837c88-6967-4078-86b9-1207821a8392";
 const bobWorkerResponse = await routerClient.CreateWorker(workerId, {
-  "totalCapacityScore": 100,
-  "abilities": {
-    "Xbox": 5,
-    "English": 3
+  totalCapacityScore: 100,
+  abilities: {
+    Xbox: 5,
+    English: 3
   },
-  "labels": {
-    "name": "Bob"
+  labels: {
+    name: "Bob"
   },
-  "queueAssignments": {[salesQueueResponse.Id]: {}}
+  queueAssignments: { [salesQueueResponse.Id]: {} }
 });
 
 // Create worker Alice
 const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
 const aliceWorkerResponse = await routerClient.CreateWorker(workerAliceId, {
-  "totalCapacityScore": 120,
-  "abilities": {
-    "Xbox": 5,
-    "German": 4
+  totalCapacityScore: 120,
+  abilities: {
+    Xbox: 5,
+    German: 4
   },
-  "labels": {
-    "name": "Alice"
+  labels: {
+    name: "Alice"
   },
-  "queueAssignments": {[salesQueueResponse.Id]: {}}
+  queueAssignments: { [salesQueueResponse.Id]: {} }
 });
 ```
+
 Note: Workers may also be registered via [Azure Communication Services Worker Management SDK](https://skype.visualstudio.com/SPOOL/_wiki/wikis/SPOOL.wiki/21323/Worker-Management-DevX-JS?anchor=create-workers)
 
 ### Register workers if workers are inactive (Optional)
+
 Register workers Bob and Alice to make them active.
+
 ```js
 await routerClient.RegisterWorker(bobWorkerResponse.Id);
 await routerClient.RegisterWorker(aliceWorkerResponse.Id);
 ```
+
 Note: Workers may also be assigned to queues via [Azure Communication Services Worker Management SDK](https://skype.visualstudio.com/SPOOL/_wiki/wikis/SPOOL.wiki/21323/Worker-Management-DevX-JS?anchor=associate-group-to-a-queue)
 
 ###Configure classification policy
 Create a classification policy that will house skills policy, prioritization policy and queue selection policy in order to classify incoming jobs.
+
 ```js
 await routerAdministrationClient.CreateClassificationPolicy({
-  "name": "Default Classification Policy",
-  "defaultQueueId": "5a520826-d1d7-4403-9880-cfbc61f1e5f0",
-  "queueSelectionRules": {
-    "objectType": "expressionRuleContainer",
-    "language": "Javascript",
-    "expression": "return labels.department === 'xbox' ? { department: 'Xbox' } : { department: 'default' }"
+  name: "Default Classification Policy",
+  defaultQueueId: "5a520826-d1d7-4403-9880-cfbc61f1e5f0",
+  queueSelectionRules: {
+    objectType: "expressionRuleContainer",
+    language: "Javascript",
+    expression:
+      "return labels.department === 'xbox' ? { department: 'Xbox' } : { department: 'default' }"
   },
-  "workerAbilityRules": {
-    "objectType": "expressionRuleContainer",
-    "language": "Javascript",
-    "expression": "return labels.department === 'xbox' ? { xbox: 3, english: 1 } : { english: 1 }"
+  workerAbilityRules: {
+    objectType: "expressionRuleContainer",
+    language: "Javascript",
+    expression: "return labels.department === 'xbox' ? { xbox: 3, english: 1 } : { english: 1 }"
   },
-  "prioritizationRules": {
-    "objectType": "expressionRuleContainer",
-    "language": "Javascript",
-    "expression": "return labels.department === 'xbox' ? 2 : 1"
+  prioritizationRules: {
+    objectType: "expressionRuleContainer",
+    language: "Javascript",
+    expression: "return labels.department === 'xbox' ? 2 : 1"
   }
 });
 ```
 
 ###Configure distribution policy
 Create a distribution policy that will determine which workers will receive jobs as they are distributed off the queues.
+
 ```js
 await routerAdministrationClient.CreateDistributionPolicy({
-  "name": "Default Distribution Policy",
-  "offerTTL": { "seconds": 30 },
-  "mode": {
-    "objectType": "longest-idle",
-    "minConcurrentOffers": 1,
-    "maxConcurrentOffers": 3
+  name: "Default Distribution Policy",
+  offerTTL: { seconds: 30 },
+  mode: {
+    objectType: "longest-idle",
+    minConcurrentOffers: 1,
+    maxConcurrentOffers: 3
   },
-  "filter": {
-    "objectType": "weighted",
-    "allocations": [
+  filter: {
+    objectType: "weighted",
+    allocations: [
       {
-        "weight": 0.7,
-        "matchers": [
+        weight: 0.7,
+        matchers: [
           {
-            "key": "Company",
-            "operator": "Equal",
-            "value": "Tailwind"
+            key: "Company",
+            operator: "Equal",
+            value: "Tailwind"
           }
         ]
       },
       {
-        "weight": 0.3,
-        "matchers": [
+        weight: 0.3,
+        matchers: [
           {
-            "key": "Company",
-            "operator": "Equal",
-            "value": "Acme"
+            key: "Company",
+            operator: "Equal",
+            value: "Acme"
           }
         ]
       }
@@ -205,47 +213,54 @@ await routerAdministrationClient.CreateDistributionPolicy({
 ```
 
 ## Routing Jobs (call/chat/SMS) to queue
+
 A call comes in and is passed to an IVR system that extracts some information about the caller, we then pass the information to the Router service by creating a new job. We can either do this manually via the SDK or use ACS Router Logic App connectors to orchestrate the ACS Router of the call.
 
 ### Creating Job via SDK
+
 ```js
 await routerClient.CreateJob({
   // e.g. callId or chat threadId
-  "channelReference": "a7c54dc6-c545-4151-a195-41e9e35b17c6",
-  "jobType": "Inbound",
-  "channelId": "f394573b-915a-4abd-8303-eb46c19013be",
-  "classificationPolicyId": "5579aed1-369f-49d7-a164-b92f8fa0f267",
-  "labels": {
-    "department": "xbox"
+  channelReference: "a7c54dc6-c545-4151-a195-41e9e35b17c6",
+  jobType: "Inbound",
+  channelId: "f394573b-915a-4abd-8303-eb46c19013be",
+  classificationPolicyId: "5579aed1-369f-49d7-a164-b92f8fa0f267",
+  labels: {
+    department: "xbox"
   }
 });
 ```
 
 ### Logic App
+
 ![image.png](/.attachments/image-7063d85f-9a88-4c5b-99e5-5f2fb88d3c38.png)
 
 ### Bypass classification
+
 Alternatively, if your application can determine the correct queue, skills required and/or priority, you can pass these values instead of the classificationPolicyId.
+
 ```js
 await routerClient.CreateJob({
-  "channelReference": "66e4362e-aad5-4d71-bb51-448672ebf492",
-  "jobType": "Inbound",
-  "channelId": "f394573b-915a-4abd-8303-eb46c19013be",
-  "labels": {
-    "department": "xbox"
+  channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
+  jobType: "Inbound",
+  channelId: "f394573b-915a-4abd-8303-eb46c19013be",
+  labels: {
+    department: "xbox"
   },
-  "abilities": {
-    "xbox": 3
+  abilities: {
+    xbox: 3
   },
-  "priority": 2,
-  "queueId": "25218b8f-34d8-47af-8dae-7f3d38654d53"
+  priority: 2,
+  queueId: "25218b8f-34d8-47af-8dae-7f3d38654d53"
 });
 ```
 
 ### Receive events for jobs in queue
+
 Communication Services Router events are delivered to customers via Azure Event Grid. See [this resource](https://docs.microsoft.com/en-ca/azure/communication-services/quickstarts/telephony-sms/handle-sms-events) on how to setup and handle Router events.
 In above example, the incoming call gets routed to “Sales Queue” queue and a worker is matched to handle the job and an OfferIssued event will arrive at event grid with matched worker information.
 Once you setup to handle events by following steps in above link. Job events will be sent to your endpoint. Json payload of a sample event looks like this:
+
 ```json
 {
   "id": "4fb49a93-8704-4916-bbfd-befb432c667e",
@@ -256,7 +271,7 @@ Once you setup to handle events by following steps in above link. Job events wil
     "channelId": "989e73e8-1015-4f7c-bc16-2e9e19172dab",
     "offerTimeUtc": "2021-06-10T22:00:05.90463293+00:00",
     "expiryTimeUtc": "2021-06-10T22:00:35.90463293+00:00",
-    "consumptionScore": 25,
+    "consumptionScore": 25
   },
   "eventType": "Microsoft.Azure.CommunicationServices.OfferIssued",
   "eventTime": "2021-06-10T22:00:05.90463293+00:00",
@@ -265,9 +280,11 @@ Once you setup to handle events by following steps in above link. Job events wil
 ```
 
 ### Subscribing to events
-1.	Navigate to your Azure Communication Services resource in the Azure portal and open the “Events” blade.
-2.	Add an event subscription for the “Router OfferIssued” event and set it to go to a WebHook endpoint within your application. Other options for receiving the events include Azure Functions, Service Bus, etc. See [EventGrid documentation](https://docs.microsoft.com/azure/event-grid/overview) for details.
-3.	The route in your NodeJS application that receives these notifications would look something like this:
+
+1. Navigate to your Azure Communication Services resource in the Azure portal and open the “Events” blade.
+2. Add an event subscription for the “Router OfferIssued” event and set it to go to a WebHook endpoint within your application. Other options for receiving the events include Azure Functions, Service Bus, etc. See [EventGrid documentation](https://docs.microsoft.com/azure/event-grid/overview) for details.
+3. The route in your NodeJS application that receives these notifications would look something like this:
+
 ```js
 app.post('/event', (req, res) => {
     req.body.forEach(eventGridEvent => {
@@ -283,58 +300,63 @@ app.post('/event', (req, res) => {
 ```
 
 ### Accept Job
+
 Once you receive an OfferIssued event, you can accept or decline the Job with the following SDK call, passing in the worker's ACS identity so that they can be added to the job.
+
 ```js
 await routerClient.acceptJobAction({
-  "JobId": "ed02ac28-6a69-49ba-b1c1-be7ac6a9925f",
-  "WorkerId": "90df513d-3394-434a-bf09-171a0e878b27"
+  jobId: "ed02ac28-6a69-49ba-b1c1-be7ac6a9925f",
+  workerId: "90df513d-3394-434a-bf09-171a0e878b27"
 });
 ```
 
 ### Complete Job
-Once the worker has accepted the job, the response will include an assignment ID.  This can in turn be used to complete the job once a resolution has been reached, which will transition the job into a "wrap-up" state.
+
+Once the worker has accepted the job, the response will include an assignment ID. This can in turn be used to complete the job once a resolution has been reached, which will transition the job into a "wrap-up" state.
+
 ```js
 await routerClient.completeJob({
-  "JobId": "ed02ac28-6a69-49ba-b1c1-be7ac6a9925f",
-  "AssignmentId": "76e52b7b-c066-437d-b339-d4717bf4079f"
+  jobId: "ed02ac28-6a69-49ba-b1c1-be7ac6a9925f",
+  assignmentId: "76e52b7b-c066-437d-b339-d4717bf4079f"
 });
 ```
 
 ### Close Job
+
 Once the worker has completed the wrap-up phase of the job the worker can finally close the job and attach a disposition code to it for future reference.
+
 ```js
 await routerClient.closeJob({
-  "JobId": "ed02ac28-6a69-49ba-b1c1-be7ac6a9925f",
-  "DispositionCode": "Resolved"
+  jobId: "ed02ac28-6a69-49ba-b1c1-be7ac6a9925f",
+  dispositionCode: "Resolved"
 });
 ```
 
 ###Router Events
 The following is a list of possible router events:
 
-Event Name | Description
----|---
-|JobCreatedEvent|A new job was created for routing|
-|JobClassifiedEvent|The classification policy was applied to a job|
-|JobQueuedEvent|The job was assigned a queue|
-|JobLabelsUpdatedEvent|The labels of the job were changed|
-|OfferIssuedEvent|A job was offered to a worker|
-|OfferAcceptedEvent|An offer to a worker was accepted|
-|OfferDeclinedEvent|An offer to a worker was declined|
-|OfferRevokedEvent|An offer to a worker was revoked|
-|OfferExpiredEvent|An offer to a worker expired|
-|JobAssignedEvent|A job was assigned to a specific worker|
-|JobCompleteEvent|A job was completed and enters wrap-up|
-|JobClosedEvent|A job was closed and wrap-up is finished|
-|JobCancelledEvent|A job was cancelled|
-|JobExceptionEvent|A job hit an exception|
-|JobResetEvent|A job was moved to a different queue|
-|WorkerRegisteredEvent|A new worker was registered|
-|WorkerDeregisteredEvent|A worker was set to draining|
-|QueueCreatedEvent|A new queue was created|
-|QueueUpdatedEvent|A queue was updated|
-|QueueDeletedEvent|A queue was deleted|
-
+| Event Name              | Description                                    |
+| ----------------------- | ---------------------------------------------- |
+| JobCreatedEvent         | A new job was created for routing              |
+| JobClassifiedEvent      | The classification policy was applied to a job |
+| JobQueuedEvent          | The job was assigned a queue                   |
+| JobLabelsUpdatedEvent   | The labels of the job were changed             |
+| OfferIssuedEvent        | A job was offered to a worker                  |
+| OfferAcceptedEvent      | An offer to a worker was accepted              |
+| OfferDeclinedEvent      | An offer to a worker was declined              |
+| OfferRevokedEvent       | An offer to a worker was revoked               |
+| OfferExpiredEvent       | An offer to a worker expired                   |
+| JobAssignedEvent        | A job was assigned to a specific worker        |
+| JobCompleteEvent        | A job was completed and enters wrap-up         |
+| JobClosedEvent          | A job was closed and wrap-up is finished       |
+| JobCancelledEvent       | A job was cancelled                            |
+| JobExceptionEvent       | A job hit an exception                         |
+| JobResetEvent           | A job was moved to a different queue           |
+| WorkerRegisteredEvent   | A new worker was registered                    |
+| WorkerDeregisteredEvent | A worker was set to draining                   |
+| QueueCreatedEvent       | A new queue was created                        |
+| QueueUpdatedEvent       | A queue was updated                            |
+| QueueDeletedEvent       | A queue was deleted                            |
 
 ## Troubleshooting
 

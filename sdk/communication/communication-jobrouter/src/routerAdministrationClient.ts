@@ -36,8 +36,8 @@ import {
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  createCommunicationAuthPolicy,
   CommunicationTokenCredential,
+  createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments
 } from "@azure/communication-common";
@@ -75,24 +75,13 @@ export class RouterAdministrationClient {
   /**
    * Initializes a new instance of the RouterClient class using an Azure KeyCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or
+   * `@azure/identity` or TokenCredential to create a credential.
    * @param routerAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
    */
   constructor(
     endpoint: string,
-    credential: KeyCredential,
-    routerAdministrationClientOptions?: RouterAdministrationClientOptions
-  );
-
-  /**
-   * Initializes a new instance of the RouterClient class using a TokenCredential.
-   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential - TokenCredential that is used to authenticate requests to the service.
-   * @param routerAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
-   */
-  constructor(
-    endpoint: string,
-    credential: TokenCredential,
+    credential: KeyCredential | TokenCredential,
     routerAdministrationClientOptions?: RouterAdministrationClientOptions
   );
 
@@ -233,6 +222,8 @@ export class RouterAdministrationClient {
     distributionPolicyId: string,
     options: CreateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
+    const policy = <DistributionPolicy>options;
+    policy.offerTtlSeconds = options.offerTtlInSeconds;
     return this.client.jobRouterAdministration.upsertDistributionPolicy(
       distributionPolicyId,
       options,
@@ -250,6 +241,8 @@ export class RouterAdministrationClient {
     distributionPolicyId: string,
     options: UpdateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
+    const policy = <DistributionPolicy>options;
+    policy.offerTtlSeconds = options.offerTtlInSeconds;
     return this.client.jobRouterAdministration.upsertDistributionPolicy(
       distributionPolicyId,
       options,

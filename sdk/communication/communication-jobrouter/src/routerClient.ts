@@ -2,10 +2,19 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
+import {
+  CommunicationTokenCredential,
+  createCommunicationAuthPolicy,
+  isKeyCredential,
+  parseClientArguments
+} from "@azure/communication-common";
+
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { SDK_VERSION } from "./constants";
 import {
   AcceptJobOfferResult,
-  JobPositionDetails,
   JobRouterApiClient,
   JobRouterCancelJobActionResponse,
   JobRouterCloseJobActionResponse,
@@ -20,6 +29,7 @@ import {
   RouterWorker,
   RouterWorkerItem
 } from "./generated/src";
+import { logger } from "./models/logger";
 import {
   CancelJobOptions,
   CloseJobOptions,
@@ -33,17 +43,7 @@ import {
   UpdateJobOptions,
   UpdateWorkerOptions
 } from "./models/options";
-
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  createCommunicationAuthPolicy,
-  CommunicationTokenCredential,
-  isKeyCredential,
-  parseClientArguments
-} from "@azure/communication-common";
-import { logger } from "./models/logger";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SDK_VERSION } from "./constants";
+import { JobPositionDetailsResponse } from "./models/responses";
 
 /**
  * Checks whether the type of a value is {@link RouterClientOptions} or not.
@@ -70,24 +70,13 @@ export class RouterClient {
   /**
    * Initializes a new instance of the RouterClient class using an Azure KeyCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or
+   * `@azure/identity` or TokenCredential to create a credential.
    * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
    */
   constructor(
     endpoint: string,
-    credential: KeyCredential,
-    routerClientOptions?: RouterClientOptions
-  );
-
-  /**
-   * Initializes a new instance of the RouterClient class using a TokenCredential.
-   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential - TokenCredential that is used to authenticate requests to the service.
-   * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
-   */
-  constructor(
-    endpoint: string,
-    credential: TokenCredential,
+    credential: KeyCredential | TokenCredential,
     routerClientOptions?: RouterClientOptions
   );
 
@@ -196,8 +185,15 @@ export class RouterClient {
    * Returns job position details.
    * @param jobId - The ID of the job to get.
    */
-  public async getQueuePosition(jobId: string): Promise<JobPositionDetails> {
-    return this.client.jobRouter.getInQueuePosition(jobId);
+  public async getQueuePosition(jobId: string): Promise<JobPositionDetailsResponse> {
+    const jobPositionDetails = await this.client.jobRouter.getInQueuePosition(jobId);
+    return {
+      jobId: jobPositionDetails.jobId,
+      position: jobPositionDetails.position,
+      queueId: jobPositionDetails.queueId,
+      queueLength: jobPositionDetails.queueLength,
+      estimatedWaitTimeInMinutes: jobPositionDetails.estimatedWaitTimeMinutes
+    };
   }
 
   /**
