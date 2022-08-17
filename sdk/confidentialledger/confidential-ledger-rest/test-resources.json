@@ -22,6 +22,15 @@
       "metadata": {
         "description": "Location for all resources."
       }
+    },
+    "tenantId": {
+      "type": "string"
+    },
+    "clientId": {
+      "type": "string"
+    },
+    "clientSecret": {
+      "type": "string"
     }
   },
   "functions": [],
@@ -38,6 +47,10 @@
         "aadBasedSecurityPrincipals": [
           {
             "principalId": "[parameters('principalId')]",
+            "ledgerRoleName": "Administrator"
+          },
+          {
+            "principalId": "[parameters('clientId')]",
             "ledgerRoleName": "Administrator"
           }
         ]
@@ -56,6 +69,18 @@
     "USER_AAD": {
       "type": "string",
       "value": "[parameters('principalId')]"
+    },
+    "TENANT_ID": {
+      "type": "string",
+      "value": "[parameters('tenantId')]"
+    },
+    "CLIENT_ID": {
+      "type": "string",
+      "value": "[parameters('clientId')]"
+    },
+    "CLIENT_SECRET": {
+      "type": "string",
+      "value": "[parameters('clientSecret')]"
     }
   }
 }
