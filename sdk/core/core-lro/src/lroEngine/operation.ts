@@ -40,8 +40,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     private lroResourceLocationConfig?: LroResourceLocationConfig,
     private processResult?: (result: unknown, state: TState) => TResult,
     private updateState?: (state: TState, lastResponse: RawResponse) => void,
-    private isDone?: (lastResponse: TResult, state: TState) => boolean,
-    private cancelOp?: (state: TState) => Promise<void>
+    private isDone?: (lastResponse: TResult, state: TState) => boolean
   ) {}
 
   public setPollerConfig(pollerConfig: PollerConfig): void {
@@ -135,7 +134,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
   }
 
   async cancel(): Promise<PollOperation<TState, TResult>> {
-    await this.cancelOp?.(this.state);
+    logger.error("`cancelOperation` is deprecated because it wasn't implemented");
     return this;
   }
 

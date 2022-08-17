@@ -27,7 +27,9 @@ async function listRemediationsAtResourceGroupScopeWithQueryParameters() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.remediations.listForResourceGroup(resourceGroupName, options)) {
+  for await (let item of client.remediations.listForResourceGroup(resourceGroupName, {
+    queryOptions: options,
+  })) {
     resArray.push(item);
   }
   console.log(resArray);

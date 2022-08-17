@@ -768,7 +768,12 @@
     },
     {
       "packageName": "@azure-tests/perf-ai-text-analytics",
-      "projectFolder": "sdk/textanalytics/perf-tests/text-analytics",
+      "projectFolder": "sdk/textanalytics/perf-tests/ai-text-analytics",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-language-text",
+      "projectFolder": "sdk/cognitivelanguage/perf-tests/ai-language-text",
       "versionPolicyName": "test"
     },
     {
@@ -1782,6 +1787,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/api-management-custom-widgets-tools",
+      "projectFolder": "sdk/apimanagement/api-management-custom-widgets-tools",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-networkfunction",
       "projectFolder": "sdk/networkfunction/arm-networkfunction",
       "versionPolicyName": "management"
@@ -1792,9 +1802,14 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-devcenter",
-      "projectFolder": "sdk/devcenter/arm-devcenter",
+      "packageName": "@azure/arm-automanage",
+      "projectFolder": "sdk/automanage/arm-automanage",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/communication-rooms",
+      "projectFolder": "sdk/communication/communication-rooms",
+      "versionPolicyName": "client"
     }
   ]
 }

@@ -4,13 +4,13 @@
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { OperationOptions } from "@azure/core-client";
 import { FormRecognizerError } from "../error";
-import { GetOperationResponse, DocumentModelInfo, OperationStatus } from "../generated";
+import { GetOperationResponse, DocumentModelDetails, OperationStatus } from "../generated";
 import { PollerOptions } from "../options/PollerOptions";
 
 /**
  * The state of a model creation operation.
  */
-export interface DocumentModelOperationState extends PollOperationState<DocumentModelInfo> {
+export interface DocumentModelOperationState extends PollOperationState<DocumentModelDetails> {
   /**
    * The status of the operation. One of:
    *
@@ -67,7 +67,7 @@ export async function toTrainingPollOperationState(
     percentCompleted: response.percentCompleted ?? 0,
     lastUpdatedOn: response.lastUpdatedDateTime,
     createdOn: response.createdDateTime,
-    result: response.result as DocumentModelInfo | undefined,
+    result: response.result as DocumentModelDetails | undefined,
     error: response.error && new FormRecognizerError(response.error),
     isCancelled: response.status === "canceled",
     isCompleted: response.status === "succeeded",
@@ -78,9 +78,9 @@ export async function toTrainingPollOperationState(
 
 /**
  * A long-running operation (poller) that tracks the state of a model creation operation, eventually producing a
- * {@link ModelInfo}.
+ * {@link DocumentModelDetails}.
  */
-export type DocumentModelPoller = PollerLike<DocumentModelOperationState, DocumentModelInfo>;
+export type DocumentModelPoller = PollerLike<DocumentModelOperationState, DocumentModelDetails>;
 
 /**
  * Defines a training operation.

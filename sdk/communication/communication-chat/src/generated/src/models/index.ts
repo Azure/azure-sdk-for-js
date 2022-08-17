@@ -282,8 +282,11 @@ export interface SendTypingNotificationRequest {
 
 /** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
 export enum KnownCommunicationCloudEnvironmentModel {
+  /** Public */
   Public = "public",
+  /** Dod */
   Dod = "dod",
+  /** Gcch */
   Gcch = "gcch"
 }
 
@@ -331,7 +334,7 @@ export type ChatThreadSendChatMessageResponse = SendChatMessageResult;
 /** Optional parameters. */
 export interface ChatThreadListChatMessagesOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of messages to be returned per page. The limit can be found from https://docs.microsoft.com/en-us/azure/communication-services/concepts/service-limits.*/
+  /** The maximum number of messages to be returned per page. */
   maxPageSize?: number;
   /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   startTime?: Date;
@@ -411,7 +414,7 @@ export type ChatThreadListChatReadReceiptsNextResponse = ChatMessageReadReceipts
 /** Optional parameters. */
 export interface ChatThreadListChatMessagesNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of messages to be returned per page. The limit can be found from https://docs.microsoft.com/en-us/azure/communication-services/concepts/service-limits.*/
+  /** The maximum number of messages to be returned per page. */
   maxPageSize?: number;
   /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   startTime?: Date;

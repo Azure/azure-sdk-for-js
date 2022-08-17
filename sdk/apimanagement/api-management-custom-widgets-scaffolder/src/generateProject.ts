@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import {
+  DeploymentConfig,
   OVERRIDE_DEFAULT_PORT,
   OVERRIDE_PORT_KEY,
-  TDeploymentConfig,
-  TOptions,
-  TWidgetConfig,
+  Options,
+  WidgetConfig,
   displayNameToName,
   widgetFolderName,
 } from "./scaffolding";
@@ -25,9 +25,9 @@ const templateSuffix = ".mustache";
  * @param options - JSON object with other data, which will not be stored in the DevPortal.
  */
 export async function generateProject(
-  widgetConfig: TWidgetConfig,
-  deploymentConfig: TDeploymentConfig,
-  options: TOptions = {}
+  widgetConfig: WidgetConfig,
+  deploymentConfig: DeploymentConfig,
+  options: Options = {}
 ): Promise<void> {
   const { openUrl } = options;
   const openUrlParsed = openUrl ? new URL(openUrl) : null;

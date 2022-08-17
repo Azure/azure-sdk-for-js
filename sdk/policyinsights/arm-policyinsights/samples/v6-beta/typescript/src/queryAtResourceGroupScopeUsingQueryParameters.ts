@@ -29,7 +29,8 @@ async function queryAtResourceGroupScopeUsingQueryParameters() {
   const resArray = new Array();
   for await (let item of client.policyTrackedResources.listQueryResultsForResourceGroup(
     resourceGroupName,
-    options
+    "default",
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }

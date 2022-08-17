@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { SqlPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -39,22 +38,16 @@ export class SqlPoolsImpl implements SqlPools {
   async list(
     options?: SqlPoolsListOptionalParams
   ): Promise<SqlPoolsListResponse> {
-    const { span } = createSpan("ArtifactsClient-list", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listOperationSpec
-      );
-      return result as SqlPoolsListResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.list",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listOperationSpec
+        ) as Promise<SqlPoolsListResponse>;
+      }
+    );
   }
 
   /**
@@ -66,22 +59,16 @@ export class SqlPoolsImpl implements SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsGetOptionalParams
   ): Promise<SqlPoolsGetResponse> {
-    const { span } = createSpan("ArtifactsClient-get", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sqlPoolName, options },
-        getOperationSpec
-      );
-      return result as SqlPoolsGetResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sqlPoolName, options },
+          getOperationSpec
+        ) as Promise<SqlPoolsGetResponse>;
+      }
+    );
   }
 }
 // Operation Specifications

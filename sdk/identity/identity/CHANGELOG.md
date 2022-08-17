@@ -1,10 +1,11 @@
 # Release History
 
-## 2.1.1 (Unreleased)
+## 3.0.0-beta.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
+- Removed `VisualStudioCodeCredential` from `DefaultAzureCredential` token chain. [Issue 20500](https://github.com/Azure/azure-sdk-for-js/issues/20500) tracks this.
 
 ### Bugs Fixed
 

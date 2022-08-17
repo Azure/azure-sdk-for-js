@@ -27,12 +27,17 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
           value: 0,
           dataPointType: "Aggregation",
         };
-        if (metric.dataPointType == DataPointType.SINGULAR) {
+        if (
+          metric.dataPointType == DataPointType.SUM ||
+          metric.dataPointType == DataPointType.GAUGE
+        ) {
           metricDataPoint.value = dataPoint.value as number;
           metricDataPoint.count = 1;
         } else {
-          metricDataPoint.value = (dataPoint.value as Histogram).sum;
+          metricDataPoint.value = (dataPoint.value as Histogram).sum || 0;
           metricDataPoint.count = (dataPoint.value as Histogram).count;
+          metricDataPoint.max = (dataPoint.value as Histogram).max;
+          metricDataPoint.min = (dataPoint.value as Histogram).min;
         }
         baseData.metrics.push(metricDataPoint);
       });

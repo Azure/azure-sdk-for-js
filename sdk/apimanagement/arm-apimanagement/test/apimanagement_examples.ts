@@ -8,37 +8,30 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
+  RecorderStartOptions,
   delay,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { ApiManagementClient } from "../src/apiManagementClient";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
-
 describe("Apimanagement test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
@@ -48,91 +41,88 @@ describe("Apimanagement test", () => {
   let serviceName: string;
 
 
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new ApiManagementClient(credential, subscriptionId);
+    const credential = createTestCredential();
+    client = new ApiManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroupName = "myjstest";
-    serviceName = "myserviceyyy2";
+    serviceName = "myserviceyyy1";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  function sleep(ms: number){
-    return new Promise(resolve => setTimeout(resolve,ms))
+  function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
   }
 
-  it("apiManagementService create test", async function() {
-    const res = await client.apiManagementService.beginCreateOrUpdateAndWait(resourceGroupName,serviceName,{
+  it("apiManagementService create test", async function () {
+    const res = await client.apiManagementService.beginCreateOrUpdateAndWait(resourceGroupName, serviceName, {
       location: location,
-        sku: {
-            name: "Standard",
-            capacity: 1
-        },
-        publisherEmail: "foo@contoso.com",
-        publisherName: "foo"  
-    },testPollingOptions);
-    assert.equal(res.name,serviceName);
+      sku: {
+        name: "Standard",
+        capacity: 1
+      },
+      publisherEmail: "foo@contoso.com",
+      publisherName: "foo"
+    }, testPollingOptions);
+    assert.equal(res.name, serviceName);
   }).timeout(3600000);
 
-  it("apiManagementService get test", async function() {
-    const res = await client.apiManagementService.get(resourceGroupName,serviceName);
-    assert.equal(res.name,serviceName);
+  it("apiManagementService get test", async function () {
+    const res = await client.apiManagementService.get(resourceGroupName, serviceName);
+    assert.equal(res.name, serviceName);
   });
 
-  it("apiManagementService listByResourceGroup test", async function() {
+  it("apiManagementService listByResourceGroup test", async function () {
     const resArray = new Array();
-    for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)){
-        resArray.push(item);
+    for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("apiManagementService update test", async function() {
+  it("apiManagementService update test", async function () {
     // this.timeout(3600000);
     let count = 0;
-    while( count < 20 ){
+    while (count < 20) {
       count++;
-      const res = await client.apiManagementService.get(resourceGroupName,serviceName);
-      if(res.provisioningState == "Succeeded"){
-        const res = await client.apiManagementService.beginUpdateAndWait(resourceGroupName,serviceName,{
-            customProperties: {
-              "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false"
-            }
-        },testPollingOptions);
-        assert.equal(res.type,"Microsoft.ApiManagement/service");
+      const res = await client.apiManagementService.get(resourceGroupName, serviceName);
+      if (res.provisioningState == "Succeeded") {
+        const res = await client.apiManagementService.beginUpdateAndWait(resourceGroupName, serviceName, {
+          customProperties: {
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false"
+          }
+        }, testPollingOptions);
+        assert.equal(res.type, "Microsoft.ApiManagement/service");
         break;
-      }else {
+      } else {
         // The resource is activating
         await delay(300000)
       }
     }
   }).timeout(3600000);
 
-  it("apiManagementService delete test", async function() {
+  it("apiManagementService delete test", async function () {
     let count = 0;
-    while( count < 20 ){
+    while (count < 20) {
       count++;
-      const res = await client.apiManagementService.get(resourceGroupName,serviceName);
-      if(res.provisioningState == "Succeeded"){
-        const res = await client.apiManagementService.beginDeleteAndWait(resourceGroupName,serviceName,testPollingOptions);
-        const purge_resource = await client.deletedServices.beginPurgeAndWait(serviceName,location,testPollingOptions);
+      const res = await client.apiManagementService.get(resourceGroupName, serviceName);
+      if (res.provisioningState == "Succeeded") {
+        const res = await client.apiManagementService.beginDeleteAndWait(resourceGroupName, serviceName, testPollingOptions);
+        const purge_resource = await client.deletedServices.beginPurgeAndWait(serviceName, location, testPollingOptions);
         const resArray = new Array();
-        for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)){
-            resArray.push(item);
+        for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)) {
+          resArray.push(item);
         }
-        assert.equal(resArray.length,0);
+        assert.equal(resArray.length, 0);
         break;
-      }else {
+      } else {
         // The resource is activating
         await delay(300000);
       }

@@ -509,9 +509,10 @@ export class SecretClient {
         "SecretClient.listPropertiesOfSecretVersionsPage",
         options,
         (updatedOptions) =>
-          this.client.getSecretVersions(
-            continuationState.continuationToken!,
+          this.client.getSecretVersionsNext(
+            this.vaultUrl,
             secretName,
+            continuationState.continuationToken!,
             updatedOptions
           )
       );

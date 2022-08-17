@@ -29,7 +29,8 @@ async function createOrUpdateCertificate() {
   const certificateEnvelope: Certificate = {
     location: "East US",
     properties: {
-      password: "private key password"
+      password: "private key password",
+      value: Buffer.from("PFX-or-PEM-blob")
     }
   };
   const options: CertificatesCreateOrUpdateOptionalParams = {

@@ -8,5 +8,4 @@
 
 export * from "./models";
 export { AlphaIDsClient } from "./alphaIDsClient";
-export { AlphaIDsClientContext } from "./alphaIDsClientContext";
 export * from "./operationsInterfaces";

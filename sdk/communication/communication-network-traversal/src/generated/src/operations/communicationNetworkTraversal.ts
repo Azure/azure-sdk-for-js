@@ -6,11 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { CommunicationNetworkTraversal } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NetworkRelayRestClientContext } from "../networkRelayRestClientContext";
+import { NetworkRelayRestClient } from "../networkRelayRestClient";
 import {
   CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams,
   CommunicationNetworkTraversalIssueRelayConfigurationResponse
@@ -19,13 +20,13 @@ import {
 /** Class containing CommunicationNetworkTraversal operations. */
 export class CommunicationNetworkTraversalImpl
   implements CommunicationNetworkTraversal {
-  private readonly client: NetworkRelayRestClientContext;
+  private readonly client: NetworkRelayRestClient;
 
   /**
    * Initialize a new instance of the class CommunicationNetworkTraversal class.
    * @param client Reference to the service client
    */
-  constructor(client: NetworkRelayRestClientContext) {
+  constructor(client: NetworkRelayRestClient) {
     this.client = client;
   }
 
@@ -33,12 +34,20 @@ export class CommunicationNetworkTraversalImpl
    * Issue a configuration for an STUN/TURN server.
    * @param options The options parameters.
    */
-  issueRelayConfiguration(
+  async issueRelayConfiguration(
     options?: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
   ): Promise<CommunicationNetworkTraversalIssueRelayConfigurationResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      issueRelayConfigurationOperationSpec
+    return tracingClient.withSpan(
+      "NetworkRelayRestClient.issueRelayConfiguration",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          issueRelayConfigurationOperationSpec
+        ) as Promise<
+          CommunicationNetworkTraversalIssueRelayConfigurationResponse
+        >;
+      }
     );
   }
 }

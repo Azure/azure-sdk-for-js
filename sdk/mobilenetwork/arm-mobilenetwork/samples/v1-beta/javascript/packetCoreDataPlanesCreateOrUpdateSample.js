@@ -12,10 +12,10 @@ const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Creates or updates a PacketCoreDataPlane.
+ * This sample demonstrates how to Creates or updates a packet core data plane.
  *
- * @summary Creates or updates a PacketCoreDataPlane.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/PacketCoreDataPlaneCreate.json
+ * @summary Creates or updates a packet core data plane.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/PacketCoreDataPlaneCreate.json
  */
 async function createPacketCoreDataPlane() {
   const subscriptionId = "subid";
