@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/9d787bd6-07fc-4c7b-8e57-17f1fee41298?api-version=2022-09-06",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,12 +11,12 @@
         "Content-Length": "2038",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.9.2 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "iO39QjwqBSK\u002Bycyh8IBkzuJOPQIqeTsE3GrIu4N1nZQ=",
-        "x-ms-date": "Tue, 16 Aug 2022 20:44:38 GMT"
+        "x-ms-date": "Wed, 17 Aug 2022 17:19:59 GMT"
       },
       "RequestBody": {
-        "id": "00000000-0000-0000-0000-000000000000",
+        "id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -110,17 +110,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 16 Aug 2022 20:44:48 GMT",
-        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000",
-        "MS-CV": "twKLPHK8akuhQNjrYyTVcw.0",
+        "Date": "Wed, 17 Aug 2022 17:20:08 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/9d787bd6-07fc-4c7b-8e57-17f1fee41298",
+        "MS-CV": "WgEo9hy7H0Ko/5G2PpJ\u002BEw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0tQH8YgAAAADliFIhvOoLTLd\u002B23pWcXIRU0FPMzFFREdFMTExMgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0PiP9YgAAAADJfl2jG9PSQLnyNvKRRg9qU0FPMzFFREdFMTExMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "10613ms"
+        "X-Processing-Time": "9583ms"
       },
       "ResponseBody": {
-        "id": "00000000-0000-0000-0000-000000000000",
+        "id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "status": "draft",
         "costs": [
           {
@@ -134,7 +134,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-08-16T20:44:40\u002B00:00",
+        "statusUpdatedDate": "2022-08-17T17:19:59\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -226,7 +226,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/00000000-0000-0000-0000-000000000000?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/9d787bd6-07fc-4c7b-8e57-17f1fee41298?api-version=2022-09-06",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -236,12 +236,12 @@
         "Content-Length": "1945",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.9.2 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "fIsx3FbcsXtJABBId0/IwMyYjgi6eDhZ2\u002BYdiEPbj60=",
-        "x-ms-date": "Tue, 16 Aug 2022 20:44:49 GMT"
+        "x-ms-date": "Wed, 17 Aug 2022 17:20:08 GMT"
       },
       "RequestBody": {
-        "id": "00000000-0000-0000-0000-000000000000",
+        "id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -335,16 +335,16 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 16 Aug 2022 20:44:50 GMT",
-        "MS-CV": "8/hbbHs2lkW9PRuufRDJAg.0",
+        "Date": "Wed, 17 Aug 2022 17:20:10 GMT",
+        "MS-CV": "nQ/gUTgu3UG\u002B9lCHX190Tg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0wAH8YgAAAADtqhJc01YLTYUpRvCzAAaVU0FPMzFFREdFMTExMgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0SCP9YgAAAADcNg/h/E\u002B4Qr74/drDcvx1U0FPMzFFREdFMTExMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2231ms"
+        "X-Processing-Time": "2194ms"
       },
       "ResponseBody": {
-        "id": "00000000-0000-0000-0000-000000000000",
+        "id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "status": "draft",
         "costs": [
           {
@@ -358,7 +358,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2022-08-16T20:44:40\u002B00:00",
+        "statusUpdatedDate": "2022-08-17T17:19:59\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
