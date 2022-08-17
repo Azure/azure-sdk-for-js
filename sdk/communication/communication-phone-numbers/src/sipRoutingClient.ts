@@ -8,13 +8,13 @@ import {
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { createSpan, logger } from "./utils";
+import { logger } from "./utils";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
-import { SipConfigurationPatch } from "./generated/src/siprouting/models";
+import { CommunicationError, SipConfigurationPatch } from "./generated/src/siprouting/models";
 import { SipTrunk, SipTrunkRoute } from "./models";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { mapTrunks, mapTrunksToRestModel } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { tracingClient } from "./generated/src/tracing";
 
 export * from "./models";
 
@@ -103,21 +103,10 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   public async getTrunks(options: OperationOptions = {}): Promise<SipTrunk[]> {
-    const { span, updatedOptions } = createSpan("SipRoutingClient-GetTrunks", options);
-
-    try {
-      return this.client
-        .getSipConfiguration(updatedOptions)
-        .then((config) => mapTrunks(config.trunks));
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("SipRoutingClient-getTrunks", options, async (updatedOptions) => {
+      const config = await this.client.getSipConfiguration(updatedOptions);
+      return mapTrunks(config.trunks);
+    });
   }
 
   /**
@@ -125,22 +114,16 @@ export class SipRoutingClient {
    * @param fqdn - The trunk's FQDN.
    * @param options - The options parameters.
    */
-  public async getTrunk(fqdn: string, options: OperationOptions = {}): Promise<SipTrunk | null> {
-    const { span, updatedOptions } = createSpan("SipRoutingClient-GetTrunk", options);
+  public async getTrunk(fqdn: string, options: OperationOptions = {}): Promise<SipTrunk> {
+    return tracingClient.withSpan("SipRoutingClient-getTrunk", options, async (updatedOptions) => {
+      const trunks = await this.getTrunks(updatedOptions);
+      const trunk = trunks.find((value: SipTrunk) => value.fqdn === fqdn);
+      if (trunk) {
+        return Promise.resolve(trunk);
+      }
 
-    try {
-      return this.getTrunks(updatedOptions).then(
-        (trunks) => trunks.find((value: SipTrunk) => value.fqdn === fqdn) || null
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      throw { code: "NotFound", message: "Not Found" } as CommunicationError;
+    });
   }
 
   /**
@@ -148,19 +131,10 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   public async getRoutes(options: OperationOptions = {}): Promise<SipTrunkRoute[]> {
-    const { span, updatedOptions } = createSpan("SipRoutingClient-GetRoutes", options);
-
-    try {
-      return this.client.getSipConfiguration(updatedOptions).then((config) => config.routes || []);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("SipRoutingClient-getRoutes", options, async (updatedOptions) => {
+      const config = await this.client.getSipConfiguration(updatedOptions);
+      return config.routes || [];
+    });
   }
 
   /**
@@ -169,41 +143,29 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   public async setTrunks(trunks: SipTrunk[], options: OperationOptions = {}): Promise<SipTrunk[]> {
-    const { span, updatedOptions } = createSpan("SipRoutingClient-SetTrunks", options);
-
-    try {
+    return tracingClient.withSpan("SipRoutingClient-setTrunks", options, async (updatedOptions) => {
       const patch: SipConfigurationPatch = { trunks: mapTrunksToRestModel(trunks) };
+      let config = await this.client.getSipConfiguration(updatedOptions);
+      const storedFqdns = mapTrunks(config.trunks).map((trunk) => trunk.fqdn);
       const setFqdns = trunks.map((trunk) => trunk.fqdn);
-      const storedFqdns = await this.client
-        .getSipConfiguration(updatedOptions)
-        .then((config) => mapTrunks(config.trunks))
-        .then((value) => value.map((trunk) => trunk.fqdn));
       storedFqdns.forEach((storedFqdn) => {
-        if (!setFqdns.find((value) => value === storedFqdn)) {
+        const shouldDeleteStoredTrunk = !setFqdns.find((value) => value === storedFqdn);
+        if (shouldDeleteStoredTrunk) {
           patch.trunks![storedFqdn] = null;
         }
       });
 
-      if (Object.keys(patch.trunks!).length > 0) {
+      const isPatchNeeded = Object.keys(patch.trunks!).length > 0;
+      if (isPatchNeeded) {
         const payload = {
           ...updatedOptions,
           ...patch,
         };
-        return this.client.patchSipConfiguration(payload)
-          .then((config => mapTrunks(config.trunks)));
-      } else {
-        return this.client.getSipConfiguration()
-          .then((config => mapTrunks(config.trunks)));
+        config = await this.client.patchSipConfiguration(payload);
       }
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+
+      return mapTrunks(config.trunks);
+    });
   }
 
   /**
@@ -212,9 +174,7 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   public async setTrunk(trunk: SipTrunk, options: OperationOptions = {}): Promise<SipTrunk> {
-    const { span, updatedOptions } = createSpan("SipRoutingClient-SetTrunk", options);
-
-    try {
+    return tracingClient.withSpan("SipRoutingClient-setTrunk", options, async (updatedOptions) => {
       const patch: SipConfigurationPatch = {
         trunks: mapTrunksToRestModel([trunk]),
       };
@@ -222,20 +182,16 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...patch,
       };
-      return this.client.patchSipConfiguration(payload).then((config) => {
-        return (
-          mapTrunks(config.trunks).find((value: SipTrunk) => value.fqdn === trunk.fqdn) || trunk
-        );
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      const config = await this.client.patchSipConfiguration(payload);
+      const storedTrunk = mapTrunks(config.trunks).find(
+        (value: SipTrunk) => value.fqdn === trunk.fqdn
+      );
+      if (storedTrunk) {
+        return Promise.resolve(storedTrunk);
+      }
+
+      throw { code: "NotFound", message: "Not Found" } as CommunicationError;
+    });
   }
 
   /**
@@ -247,9 +203,7 @@ export class SipRoutingClient {
     routes: SipTrunkRoute[],
     options: OperationOptions = {}
   ): Promise<SipTrunkRoute[]> {
-    const { span, updatedOptions } = createSpan("SipRoutingClient-SetRoutes", options);
-
-    try {
+    return tracingClient.withSpan("SipRoutingClient-setRoutes", options, async (updatedOptions) => {
       const patch: SipConfigurationPatch = {
         routes: routes,
       };
@@ -257,16 +211,10 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...patch,
       };
-      return this.client.patchSipConfiguration(payload).then((config) => config.routes || []);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      const config = await this.client.patchSipConfiguration(payload);
+      const storedRoutes = config.routes || (await this.getRoutes(updatedOptions));
+      return storedRoutes;
+    });
   }
 
   /**
@@ -275,30 +223,22 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   public async deleteTrunk(fqdn: string, options: OperationOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("SipRoutingClient-DeleteTrunk", options);
+    return tracingClient.withSpan(
+      "SipRoutingClient-deleteTrunk",
+      options,
+      async (updatedOptions) => {
+        const trunks: any = {};
+        trunks[fqdn] = null;
+        const patch: SipConfigurationPatch = {
+          trunks: trunks,
+        };
 
-    try {
-      const trunks: any = {};
-      trunks[fqdn] = null;
-      const patch: SipConfigurationPatch = {
-        trunks: trunks,
-      };
-
-      const payload = {
-        ...updatedOptions,
-        ...patch,
-      };
-      return this.client.patchSipConfiguration(payload).then(() => {
-        return;
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        const payload = {
+          ...updatedOptions,
+          ...patch,
+        };
+        await this.client.patchSipConfiguration(payload);
+      }
+    );
   }
 }
