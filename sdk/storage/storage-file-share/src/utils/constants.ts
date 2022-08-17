@@ -8,6 +8,7 @@ export const FILE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024 * 1024 * 1024; // 4TB
 export const FILE_RANGE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024; // 4MB
 export const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS: number = 5;
 export const DEFAULT_HIGH_LEVEL_CONCURRENCY: number = 5;
+export const REQUEST_TIMEOUT: number = 100 * 1000; // In ms
 
 export const URLConstants = {
   Parameters: {
@@ -134,4 +135,29 @@ export const StorageFileLoggingAllowedQueryParameters = [
   "sv",
   "copyid",
   "restype",
+];
+
+/// List of ports used for path style addressing.
+/// Path style addressing means that storage account is put in URI's Path segment in instead of in host.
+export const PathStylePorts = [
+  "10000",
+  "10001",
+  "10002",
+  "10003",
+  "10004",
+  "10100",
+  "10101",
+  "10102",
+  "10103",
+  "10104",
+  "11000",
+  "11001",
+  "11002",
+  "11003",
+  "11004",
+  "11100",
+  "11101",
+  "11102",
+  "11103",
+  "11104",
 ];
