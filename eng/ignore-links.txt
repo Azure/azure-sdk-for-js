@@ -15,3 +15,5 @@ https://docs.microsoft.com/javascript/api/@azure-rest/arm-containerservice?view=
 https://docs.microsoft.com/javascript/api/@azure-rest/arm-servicefabric?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-fluidrelay
 https://docs.microsoft.com/javascript/api/@azure/arm-fluidrelay?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-automanage
+https://docs.microsoft.com/javascript/api/@azure/arm-automanage?view=azure-node-preview

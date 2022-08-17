@@ -19,15 +19,16 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 async function summarizeAtSubscriptionScopeForAPolicyDefinitionGroup() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 1;
   const filter = "'group1' IN PolicyDefinitionGroupNames";
   const options = { top: top, filter: filter };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.summarizeForSubscription(
-    subscriptionId,
-    options
+    "latest",
+    subscriptionId2,
+    { queryOptions: options }
   );
   console.log(result);
 }

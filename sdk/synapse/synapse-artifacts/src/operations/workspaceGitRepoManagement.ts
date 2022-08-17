@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { WorkspaceGitRepoManagement } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -41,25 +40,16 @@ export class WorkspaceGitRepoManagementImpl
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
     options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
   ): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-getGitHubAccessToken",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.getGitHubAccessToken",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { gitHubAccessTokenRequest, options },
+          getGitHubAccessTokenOperationSpec
+        ) as Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { gitHubAccessTokenRequest, options },
-        getGitHubAccessTokenOperationSpec
-      );
-      return result as WorkspaceGitRepoManagementGetGitHubAccessTokenResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications

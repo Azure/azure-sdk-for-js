@@ -39,6 +39,7 @@ import {
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
   ManagedClustersRotateClusterCertificatesOptionalParams,
+  ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersStopOptionalParams,
   ManagedClustersStartOptionalParams,
   RunCommandRequest,
@@ -319,6 +320,28 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
+  ): Promise<void>;
+  /**
+   * Rotates the service account signing keys of a managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginRotateServiceAccountSigningKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Rotates the service account signing keys of a managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginRotateServiceAccountSigningKeysAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
   ): Promise<void>;
   /**
    * This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster
