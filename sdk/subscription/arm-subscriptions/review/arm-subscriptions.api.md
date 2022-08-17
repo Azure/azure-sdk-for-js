@@ -32,6 +32,7 @@ export interface AcceptOwnershipStatusResponse {
     readonly acceptOwnershipState?: AcceptOwnership;
     readonly billingOwner?: string;
     displayName?: string;
+    readonly provisioningState?: Provisioning;
     readonly subscriptionId?: string;
     subscriptionTenantId?: string;
     tags?: {
@@ -145,41 +146,36 @@ export interface GetTenantPolicyResponse {
 
 // @public
 export enum KnownAcceptOwnership {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Pending = "Pending"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
-export enum KnownProvisioningState {
-    // (undocumented)
+export enum KnownProvisioning {
     Accepted = "Accepted",
-    // (undocumented)
+    Pending = "Pending",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownWorkload {
-    // (undocumented)
     DevTest = "DevTest",
-    // (undocumented)
     Production = "Production"
 }
 
@@ -238,6 +234,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Provisioning = string;
 
 // @public
 export type ProvisioningState = string;
@@ -396,7 +395,7 @@ export type SubscriptionEnableResponse = EnabledSubscriptionId;
 
 // @public
 export interface SubscriptionListResult {
-    nextLink: string;
+    nextLink?: string;
     value?: Subscription[];
 }
 
