@@ -4,7 +4,7 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
 
 ## General Troubleshooting
 
-Container registry service methods throw [`RestError`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/src/restError.ts) on failure.
+Container registry service methods throw [`RestError`] on failure.
 
 ### Enable client logging
 
