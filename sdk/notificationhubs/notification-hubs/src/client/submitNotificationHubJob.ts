@@ -11,6 +11,8 @@ import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "submitNotificationHubJob";
+
 /**
  * Submits a Notification Hub Job.
  * Note: this is available to Standard SKU namespace and above.
@@ -25,18 +27,17 @@ export function submitNotificationHubJob(
   options: OperationOptions = {}
 ): Promise<NotificationHubJob> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-submitNotificationHubJob",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += "/jobs";
 
-      const headers = context.createHeaders();
+      const headers = await context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
 
       const request = createRequest(endpoint, "POST", headers, updatedOptions);
       request.body = serializeNotificationHubJobEntry(job);
-
       const response = await sendRequest(context, request, 201);
 
       return parseNotificationHubJobEntry(response.bodyAsText!);

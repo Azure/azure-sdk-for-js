@@ -3,6 +3,8 @@
 ## 1.0.0-beta.4 (Unreleased)
 
 ### Features Added
+- Updated to `@azure/core-tracing` 1.0.
+- Use GA API
 
 ### Breaking Changes
 

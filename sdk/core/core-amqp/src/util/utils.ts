@@ -5,7 +5,7 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
 import { StandardAbortMessage } from "./constants";
 import { WebSocketImpl } from "rhea-promise";
-import { isDefined } from "./typeGuards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * @internal

@@ -31,7 +31,7 @@ import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { isDefined } from "../util/typeGuards";
+import { isDefined } from "@azure/core-util";
 import { defaultDataTransformer } from "../dataTransformer";
 
 /**

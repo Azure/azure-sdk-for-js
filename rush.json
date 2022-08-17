@@ -1807,6 +1807,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-automation",
+      "projectFolder": "sdk/automation/arm-automation",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-automanage",
       "projectFolder": "sdk/automanage/arm-automanage",
       "versionPolicyName": "management"

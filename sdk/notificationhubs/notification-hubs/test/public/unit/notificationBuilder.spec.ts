@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
 import {
   buildAdmNativeMessage,
   buildAppleNativeMessage,
   buildFirebaseLegacyNativeMessage,
   buildWindowsBadgeNativeMessage,
 } from "../../../src/models/notificationBuilder.js";
+import { assert } from "@azure/test-utils";
 
 describe("buildAdmNativeMessage", () => {
   it("should build a data message", () => {
