@@ -103,7 +103,7 @@ class NotificationHubsServiceClient extends ServiceClient implements Notificatio
   }
 
   async createHeaders(operationName: string): Promise<HttpHeaders> {
-    const authorization = await await this.sasTokenProvider.getToken(this.baseUrl);
+    const authorization = await this.sasTokenProvider.getToken(this.baseUrl);
     const headers = createHttpHeaders();
     headers.set("Authorization", authorization.token);
     headers.set("x-ms-version", API_VERSION);
