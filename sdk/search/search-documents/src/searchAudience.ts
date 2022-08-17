@@ -16,5 +16,5 @@ export enum KnownSearchAudience {
   /**
    * Audience for Azure Public
    */
-  AzurePublicCloud = "https://search.azure.com",
+  AzurePublicCloud = "https://search.azure.com"
 }

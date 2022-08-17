@@ -10,7 +10,7 @@ import {
   OperationOptions,
   operationOptionsToRequestOptionsBase,
   RequestPolicyFactory,
-  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -21,7 +21,7 @@ import {
   AutocompleteResult,
   AutocompleteRequest,
   SuggestRequest,
-  IndexDocumentsResult,
+  IndexDocumentsResult
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -43,7 +43,7 @@ import {
   DeleteDocumentsOptions,
   SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
-  SearchRequest,
+  SearchRequest
 } from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -147,10 +147,10 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
             "OData-MaxVersion",
             "OData-Version",
             "Prefer",
-            "throttle-reason",
-          ],
-        },
-      },
+            "throttle-reason"
+          ]
+        }
+      }
     };
 
     const scope: string = options.audience
@@ -193,7 +193,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -219,7 +219,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       searchText: searchText,
       suggesterName: suggesterName,
       searchFields: this.convertSearchFields<Fields>(searchFields),
-      ...nonFieldOptions,
+      ...nonFieldOptions
     };
 
     if (!fullOptions.searchText) {
@@ -241,7 +241,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -261,7 +261,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       select: this.convertSelect<Fields>(select),
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,
-      ...nextPageParameters,
+      ...nextPageParameters
     };
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", operationOptions);
@@ -271,7 +271,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         {
           ...fullOptions,
           includeTotalResultCount: fullOptions.includeTotalCount,
-          searchText: searchText,
+          searchText: searchText
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -285,14 +285,14 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         count,
         coverage,
         facets,
-        continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters),
+        continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters)
       };
 
       return deserialize<SearchDocumentsPageResult<Pick<T, Fields>>>(converted);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -335,7 +335,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     yield* firstPage.results;
     if (firstPage.continuationToken) {
       for await (const page of this.listSearchResultsPage(searchText, options, {
-        continuationToken: firstPage.continuationToken,
+        continuationToken: firstPage.continuationToken
       })) {
         yield* page.results;
       }
@@ -358,7 +358,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       },
       byPage: (settings: ListSearchResultsPageSettings = {}) => {
         return this.listSearchResultsPage(searchText, options, settings);
-      },
+      }
     };
   }
 
@@ -383,12 +383,12 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         count,
         coverage,
         facets,
-        results: this.listSearchResults(pageResult, searchText, updatedOptions),
+        results: this.listSearchResults(pageResult, searchText, updatedOptions)
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -416,7 +416,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       searchFields: this.convertSearchFields<Fields>(searchFields),
       select: this.convertSelect<Fields>(select),
       orderBy: this.convertOrderBy(orderBy),
-      ...nonFieldOptions,
+      ...nonFieldOptions
     };
 
     if (!fullOptions.searchText) {
@@ -435,14 +435,15 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
 
-      const modifiedResult =
-        utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(result);
+      const modifiedResult = utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
+        result
+      );
 
       return deserialize<SuggestDocumentsResult<Pick<T, Fields>>>(modifiedResult);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -469,7 +470,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -505,7 +506,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -532,7 +533,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -560,7 +561,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -588,7 +589,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -637,7 +638,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message,
+        message: e.message
       });
       throw e;
     } finally {
@@ -655,7 +656,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     const payload = JSON.stringify({
       apiVersion: this.apiVersion,
       nextLink,
-      nextPageParameters,
+      nextPageParameters
     });
     return encode(payload);
   }
@@ -682,7 +683,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 
       return {
         nextLink: result.nextLink,
-        nextPageParameters: result.nextPageParameters,
+        nextPageParameters: result.nextPageParameters
       };
     } catch (e) {
       throw new Error(`Corrupted or invalid continuation token: ${decodedToken}`);
@@ -702,9 +703,9 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       operationOptions: {
         abortSignal,
         requestOptions,
-        tracingOptions,
+        tracingOptions
       },
-      restOptions,
+      restOptions
     };
   }
 
