@@ -6,4 +6,3 @@ export * from "./models/models";
 export * from "./models/responses";
 export * from "./routerClient";
 export * from "./routerAdministrationClient";
-export * from "./policies";
