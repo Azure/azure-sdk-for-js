@@ -12,20 +12,20 @@ import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to List all resources of workspaces for Grafana under the specified subscription.
+ * This sample demonstrates how to List all available API operations provided by Microsoft.Dashboard.
  *
- * @summary List all resources of workspaces for Grafana under the specified subscription.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_List.json
+ * @summary List all available API operations provided by Microsoft.Dashboard.
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Operations_List.json
  */
-async function grafanaList() {
+async function operationsList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.grafana.list()) {
+  for await (let item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-grafanaList().catch(console.error);
+operationsList().catch(console.error);

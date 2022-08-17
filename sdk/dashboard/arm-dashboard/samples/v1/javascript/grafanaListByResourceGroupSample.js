@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DashboardManagementClient } from "@azure/arm-dashboard";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DashboardManagementClient } = require("@azure/arm-dashboard");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to List all resources of workspaces for Grafana under the specified resource group.
@@ -23,9 +23,7 @@ async function grafanaListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.grafana.listByResourceGroup(
-    resourceGroupName
-  )) {
+  for await (let item of client.grafana.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

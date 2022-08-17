@@ -513,6 +513,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedGrafana
     },
+    202: {
+      bodyMapper: Mappers.ManagedGrafana
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DashboardManagementClient } from "@azure/arm-dashboard";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DashboardManagementClient } = require("@azure/arm-dashboard");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to List all available API operations provided by Microsoft.Dashboard.

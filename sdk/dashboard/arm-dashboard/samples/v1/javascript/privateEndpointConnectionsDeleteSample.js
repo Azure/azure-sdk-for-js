@@ -12,21 +12,24 @@ const { DashboardManagementClient } = require("@azure/arm-dashboard");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to List all resources of workspaces for Grafana under the specified resource group.
+ * This sample demonstrates how to Delete private endpoint connection
  *
- * @summary List all resources of workspaces for Grafana under the specified resource group.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_ListByResourceGroup.json
+ * @summary Delete private endpoint connection
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateEndpointConnections_Delete.json
  */
-async function grafanaListByResourceGroup() {
+async function privateEndpointConnectionsDelete() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
+  const workspaceName = "myWorkspace";
+  const privateEndpointConnectionName = "myConnection";
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.grafana.listByResourceGroup(resourceGroupName)) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.privateEndpointConnections.beginDeleteAndWait(
+    resourceGroupName,
+    workspaceName,
+    privateEndpointConnectionName
+  );
+  console.log(result);
 }
 
-grafanaListByResourceGroup().catch(console.error);
+privateEndpointConnectionsDelete().catch(console.error);
