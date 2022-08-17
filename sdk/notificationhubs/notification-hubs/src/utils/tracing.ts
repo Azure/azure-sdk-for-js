@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createTracingClient } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants.js";
+import { createTracingClient } from "@azure/core-tracing";
 
 /**
  * A tracing client to handle spans.

@@ -108,7 +108,7 @@ class NotificationHubsServiceClient extends ServiceClient implements Notificatio
     headers.set("Authorization", authorization.token);
     headers.set("x-ms-version", API_VERSION);
     headers.set(
-      "X-MS-AZSDK-Telemetry",
+      "x-ms-azsdk-telemetry",
       `class=NotificationHubsServiceClient;method=${operationName}`
     );
 

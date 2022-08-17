@@ -8,7 +8,7 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { createOrUpdateRegistrationDescription } from "./internal/_createOrUpdateRegistrationDescription.js";
 import { tracingClient } from "../utils/tracing.js";
 
-const OPERATION_NAME = "createOrUpdateRegistration";
+const OPERATION_NAME = "createRegistration";
 
 /**
  * Creates a new registration. This method generates a registration ID,
