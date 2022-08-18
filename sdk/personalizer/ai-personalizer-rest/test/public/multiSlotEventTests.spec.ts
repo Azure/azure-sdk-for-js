@@ -4,14 +4,14 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, { GeneratedClient } from "../../src";
+import Personalizer, { PersonalizerClient } from "../../src";
 import { env } from "process";
 import { assert } from "chai";
 import { enableMultiSlotAsync, isMultiSlotEnabledAsync } from "./helpers";
 
 describe("Multi-Slot Event Tests", () => {
   let recorder: Recorder;
-  let client: GeneratedClient;
+  let client: PersonalizerClient;
 
   before(async function (this: Context) {
     client = Personalizer(env["PERSONALIZER_ENDPOINT_MULTI_SLOT"] ?? "", {

@@ -4,13 +4,13 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, { GeneratedClient } from "../../src";
+import Personalizer, { PersonalizerClient } from "../../src";
 import { env } from "process";
 import { assert } from "chai";
 
 describe("Event Tests", () => {
   let recorder: Recorder;
-  let client: GeneratedClient;
+  let client: PersonalizerClient;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);

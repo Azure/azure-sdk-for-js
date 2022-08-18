@@ -15,12 +15,42 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 
 // @public (undocumented)
-function createClient(Endpoint: string, credentials: KeyCredential, options?: ClientOptions): GeneratedClient;
+function createClient(Endpoint: string, credentials: KeyCredential, options?: ClientOptions): PersonalizerClient;
 export default createClient;
+
+// @public (undocumented)
+export interface DateRangeOutput {
+    from?: string;
+    to?: string;
+}
 
 // @public (undocumented)
 export interface ErrorResponseOutput {
     error: PersonalizerErrorOutput;
+}
+
+// @public (undocumented)
+export interface EvaluationContract {
+    enableOfflineExperimentation?: boolean;
+    endTime: Date | string;
+    name: string;
+    policies: Array<PolicyContract>;
+    startTime: Date | string;
+}
+
+// @public (undocumented)
+export interface EvaluationOutput {
+    creationTime?: string;
+    endTime?: string;
+    evaluationType?: "Manual" | "Auto";
+    featureImportance?: Array<Array<string>>;
+    id?: string;
+    jobId?: string;
+    name?: string;
+    optimalPolicy?: string;
+    policyResults?: Array<PolicyResultOutput>;
+    startTime?: string;
+    status?: "completed" | "pending" | "failed" | "notSubmitted" | "timeout" | "optimalPolicyApplied" | "onlinePolicyRetained";
 }
 
 // @public (undocumented)
@@ -31,7 +61,7 @@ export interface EvaluationsCreate201Headers {
 // @public
 export interface EvaluationsCreate201Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerEvaluationOutput;
+    body: EvaluationOutput;
     // (undocumented)
     headers: RawHttpHeaders & EvaluationsCreate201Headers;
     // (undocumented)
@@ -40,7 +70,7 @@ export interface EvaluationsCreate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EvaluationsCreateBodyParam {
-    body: PersonalizerEvaluationOptions;
+    body: EvaluationContract;
 }
 
 // @public
@@ -79,7 +109,7 @@ export interface EvaluationsGet {
 // @public
 export interface EvaluationsGet200Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerEvaluationOutput;
+    body: EvaluationOutput;
     // (undocumented)
     status: "200";
 }
@@ -104,7 +134,7 @@ export interface EvaluationsList {
 // @public
 export interface EvaluationsList200Response extends HttpResponse {
     // (undocumented)
-    body: Array<PersonalizerEvaluationOutput>;
+    body: Array<EvaluationOutput>;
     // (undocumented)
     status: "200";
 }
@@ -151,7 +181,7 @@ export interface EventsReward204Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EventsRewardBodyParam {
-    body: PersonalizerRewardOptions;
+    body: RewardRequest;
 }
 
 // @public
@@ -169,11 +199,6 @@ export interface EventsRewardMediaTypesParam {
 
 // @public (undocumented)
 export type EventsRewardParameters = EventsRewardMediaTypesParam & EventsRewardBodyParam & RequestParameters;
-
-// @public (undocumented)
-export type GeneratedClient = Client & {
-    path: Routes;
-};
 
 // @public (undocumented)
 export interface InternalErrorOutput {
@@ -256,7 +281,7 @@ export interface LogGetProperties {
 // @public
 export interface LogGetProperties200Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerLogPropertiesOutput;
+    body: LogsPropertiesOutput;
     // (undocumented)
     status: "200";
 }
@@ -341,6 +366,15 @@ export interface LogObservationsMediaTypesParam {
 export type LogObservationsParameters = LogObservationsMediaTypesParam & LogObservationsBodyParam & RequestParameters;
 
 // @public (undocumented)
+export interface LogsPropertiesDateRangeOutput extends DateRangeOutput {
+}
+
+// @public (undocumented)
+export interface LogsPropertiesOutput {
+    dateRange?: LogsPropertiesDateRangeOutput;
+}
+
+// @public (undocumented)
 export interface ModelGet {
     delete(options?: ModelResetParameters): StreamableMethod<ModelReset204Response | ModelResetdefaultResponse>;
     get(options?: ModelGetParameters): StreamableMethod<ModelGet200Response | ModelGetdefaultResponse>;
@@ -373,7 +407,7 @@ export interface ModelGetProperties {
 // @public
 export interface ModelGetProperties200Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerModelPropertiesOutput;
+    body: ModelPropertiesOutput;
     // (undocumented)
     status: "200";
 }
@@ -420,6 +454,12 @@ export interface ModelImportMediaTypesParam {
 
 // @public (undocumented)
 export type ModelImportParameters = ModelImportMediaTypesParam & ModelImportBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ModelPropertiesOutput {
+    creationTime?: string;
+    lastModifiedTime?: string;
+}
 
 // @public
 export interface ModelReset204Response extends HttpResponse {
@@ -479,7 +519,7 @@ export interface MultiSlotEventsReward204Response extends HttpResponse {
 
 // @public (undocumented)
 export interface MultiSlotEventsRewardBodyParam {
-    body: PersonalizerRewardMultiSlotOptions;
+    body: MultiSlotRewardRequest;
 }
 
 // @public
@@ -506,14 +546,14 @@ export interface MultiSlotRank {
 // @public
 export interface MultiSlotRank201Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerRankMultiSlotResultOutput;
+    body: MultiSlotRankResponseOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface MultiSlotRankBodyParam {
-    body: PersonalizerRankMultiSlotOptions;
+    body: MultiSlotRankRequest;
 }
 
 // @public
@@ -533,10 +573,29 @@ export interface MultiSlotRankMediaTypesParam {
 export type MultiSlotRankParameters = MultiSlotRankMediaTypesParam & MultiSlotRankBodyParam & RequestParameters;
 
 // @public (undocumented)
-export interface PersonalizerDateRangeOutput {
-    from?: string;
-    to?: string;
+export interface MultiSlotRankRequest {
+    actions: Array<RankableAction>;
+    contextFeatures?: Array<Record<string, unknown>>;
+    deferActivation?: boolean;
+    eventId?: string;
+    slots: Array<SlotRequest>;
 }
+
+// @public (undocumented)
+export interface MultiSlotRankResponseOutput {
+    eventId?: string;
+    slots?: Array<SlotResponseOutput>;
+}
+
+// @public (undocumented)
+export interface MultiSlotRewardRequest {
+    reward: Array<SlotReward>;
+}
+
+// @public (undocumented)
+export type PersonalizerClient = Client & {
+    path: Routes;
+};
 
 // @public (undocumented)
 export interface PersonalizerErrorOutput {
@@ -548,193 +607,15 @@ export interface PersonalizerErrorOutput {
 }
 
 // @public (undocumented)
-export interface PersonalizerEvaluationOptions {
-    enableOfflineExperimentation?: boolean;
-    endTime: Date | string;
-    name: string;
-    policies: Array<PersonalizerPolicy>;
-    startTime: Date | string;
-}
-
-// @public (undocumented)
-export interface PersonalizerEvaluationOutput {
-    creationTime?: string;
-    endTime?: string;
-    evaluationType?: "Manual" | "Auto";
-    featureImportance?: Array<Array<string>>;
-    id?: string;
-    jobId?: string;
-    name?: string;
-    optimalPolicy?: string;
-    policyResults?: Array<PersonalizerPolicyResultOutput>;
-    startTime?: string;
-    status?: "completed" | "pending" | "failed" | "notSubmitted" | "timeout" | "optimalPolicyApplied" | "onlinePolicyRetained";
-}
-
-// @public (undocumented)
-export interface PersonalizerLogPropertiesDateRangeOutput extends PersonalizerDateRangeOutput {
-}
-
-// @public (undocumented)
-export interface PersonalizerLogPropertiesOutput {
-    dateRange?: PersonalizerLogPropertiesDateRangeOutput;
-}
-
-// @public (undocumented)
-export interface PersonalizerModelPropertiesOutput {
-    creationTime?: string;
-    lastModifiedTime?: string;
-}
-
-// @public (undocumented)
-export interface PersonalizerPolicy {
+export interface PolicyContract {
     arguments: string;
     name: string;
 }
 
 // @public (undocumented)
-export interface PersonalizerPolicyOutput {
+export interface PolicyContractOutput {
     arguments: string;
     name: string;
-}
-
-// @public (undocumented)
-export interface PersonalizerPolicyReferenceOptions {
-    evaluationId: string;
-    policyName: string;
-}
-
-// @public (undocumented)
-export interface PersonalizerPolicyResultOutput {
-    arguments?: string;
-    name?: string;
-    policySource?: "Online" | "Baseline" | "Random" | "Custom" | "OfflineExperimentation";
-    summary?: Array<PersonalizerPolicyResultSummaryOutput>;
-    totalSummary?: PersonalizerPolicyResultTotalSummaryOutput;
-}
-
-// @public (undocumented)
-export interface PersonalizerPolicyResultSummaryOutput {
-    aggregateTimeWindow?: string;
-    averageReward?: number;
-    confidenceInterval?: number;
-    ipsEstimatorDenominator?: number;
-    ipsEstimatorNumerator?: number;
-    nonZeroProbability?: number;
-    snipsEstimatorDenominator?: number;
-    sumOfSquares?: number;
-    timeStamp?: string;
-}
-
-// @public (undocumented)
-export interface PersonalizerPolicyResultTotalSummaryOutput extends PersonalizerPolicyResultSummaryOutput {
-}
-
-// @public (undocumented)
-export interface PersonalizerRankableAction {
-    features: Array<Record<string, unknown>>;
-    id: string;
-}
-
-// @public (undocumented)
-export interface PersonalizerRankedActionOutput {
-    id?: string;
-    probability?: number;
-}
-
-// @public (undocumented)
-export interface PersonalizerRankMultiSlotOptions {
-    actions: Array<PersonalizerRankableAction>;
-    contextFeatures?: Array<Record<string, unknown>>;
-    deferActivation?: boolean;
-    eventId?: string;
-    slots: Array<PersonalizerSlotOptions>;
-}
-
-// @public (undocumented)
-export interface PersonalizerRankMultiSlotResultOutput {
-    eventId?: string;
-    slots?: Array<PersonalizerSlotResultOutput>;
-}
-
-// @public (undocumented)
-export interface PersonalizerRankOptions {
-    actions: Array<PersonalizerRankableAction>;
-    contextFeatures?: Array<Record<string, unknown>>;
-    deferActivation?: boolean;
-    eventId?: string;
-    excludedActions?: Array<string>;
-}
-
-// @public (undocumented)
-export interface PersonalizerRankResultOutput {
-    eventId?: string;
-    ranking?: Array<PersonalizerRankedActionOutput>;
-    rewardActionId?: string;
-}
-
-// @public (undocumented)
-export interface PersonalizerRewardMultiSlotOptions {
-    reward: Array<PersonalizerSlotReward>;
-}
-
-// @public (undocumented)
-export interface PersonalizerRewardOptions {
-    value: number;
-}
-
-// @public (undocumented)
-export interface PersonalizerServiceProperties {
-    autoOptimizationFrequency?: string;
-    autoOptimizationStartDate?: Date | string;
-    defaultReward: number;
-    explorationPercentage: number;
-    isAutoOptimizationEnabled?: boolean;
-    lastConfigurationEditDate?: Date | string;
-    learningMode?: "Online" | "Apprentice" | "LoggingOnly";
-    logMirrorEnabled?: boolean;
-    logMirrorSasUri?: string;
-    logRetentionDays: number;
-    modelExportFrequency: string;
-    rewardAggregation: string;
-    rewardWaitTime: string;
-}
-
-// @public (undocumented)
-export interface PersonalizerServicePropertiesOutput {
-    autoOptimizationFrequency?: string;
-    autoOptimizationStartDate?: string;
-    defaultReward: number;
-    explorationPercentage: number;
-    isAutoOptimizationEnabled?: boolean;
-    lastConfigurationEditDate?: string;
-    learningMode?: "Online" | "Apprentice" | "LoggingOnly";
-    logMirrorEnabled?: boolean;
-    logMirrorSasUri?: string;
-    logRetentionDays: number;
-    modelExportFrequency: string;
-    rewardAggregation: string;
-    rewardWaitTime: string;
-}
-
-// @public (undocumented)
-export interface PersonalizerSlotOptions {
-    baselineAction: string;
-    excludedActions?: Array<string>;
-    features?: Array<Record<string, unknown>>;
-    id: string;
-}
-
-// @public (undocumented)
-export interface PersonalizerSlotResultOutput {
-    id: string;
-    rewardActionId?: string;
-}
-
-// @public (undocumented)
-export interface PersonalizerSlotReward {
-    slotId: string;
-    value: number;
 }
 
 // @public (undocumented)
@@ -747,7 +628,7 @@ export interface PolicyGet {
 // @public
 export interface PolicyGet200Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerPolicyOutput;
+    body: PolicyContractOutput;
     // (undocumented)
     status: "200";
 }
@@ -755,10 +636,16 @@ export interface PolicyGet200Response extends HttpResponse {
 // @public (undocumented)
 export type PolicyGetParameters = RequestParameters;
 
+// @public (undocumented)
+export interface PolicyReferenceContract {
+    evaluationId: string;
+    policyName: string;
+}
+
 // @public
 export interface PolicyReset200Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerPolicyOutput;
+    body: PolicyContractOutput;
     // (undocumented)
     status: "200";
 }
@@ -766,17 +653,43 @@ export interface PolicyReset200Response extends HttpResponse {
 // @public (undocumented)
 export type PolicyResetParameters = RequestParameters;
 
+// @public (undocumented)
+export interface PolicyResultOutput {
+    arguments?: string;
+    name?: string;
+    policySource?: "Online" | "Baseline" | "Random" | "Custom" | "OfflineExperimentation";
+    summary?: Array<PolicyResultSummaryOutput>;
+    totalSummary?: PolicyResultTotalSummaryOutput;
+}
+
+// @public (undocumented)
+export interface PolicyResultSummaryOutput {
+    aggregateTimeWindow?: string;
+    averageReward?: number;
+    confidenceInterval?: number;
+    ipsEstimatorDenominator?: number;
+    ipsEstimatorNumerator?: number;
+    nonZeroProbability?: number;
+    snipsEstimatorDenominator?: number;
+    sumOfSquares?: number;
+    timeStamp?: string;
+}
+
+// @public (undocumented)
+export interface PolicyResultTotalSummaryOutput extends PolicyResultSummaryOutput {
+}
+
 // @public
 export interface PolicyUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerPolicyOutput;
+    body: PolicyContractOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
 export interface PolicyUpdateBodyParam {
-    body: PersonalizerPolicy;
+    body: PolicyContract;
 }
 
 // @public
@@ -803,14 +716,20 @@ export interface Rank {
 // @public
 export interface Rank201Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerRankResultOutput;
+    body: RankResponseOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
+export interface RankableAction {
+    features: Array<Record<string, unknown>>;
+    id: string;
+}
+
+// @public (undocumented)
 export interface RankBodyParam {
-    body: PersonalizerRankOptions;
+    body: RankRequest;
 }
 
 // @public
@@ -822,12 +741,39 @@ export interface RankdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface RankedActionOutput {
+    id?: string;
+    probability?: number;
+}
+
+// @public (undocumented)
 export interface RankMediaTypesParam {
     contentType?: "application/json";
 }
 
 // @public (undocumented)
 export type RankParameters = RankMediaTypesParam & RankBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface RankRequest {
+    actions: Array<RankableAction>;
+    contextFeatures?: Array<Record<string, unknown>>;
+    deferActivation?: boolean;
+    eventId?: string;
+    excludedActions?: Array<string>;
+}
+
+// @public (undocumented)
+export interface RankResponseOutput {
+    eventId?: string;
+    ranking?: Array<RankedActionOutput>;
+    rewardActionId?: string;
+}
+
+// @public (undocumented)
+export interface RewardRequest {
+    value: number;
+}
 
 // @public (undocumented)
 export interface Routes {
@@ -851,6 +797,23 @@ export interface Routes {
 }
 
 // @public (undocumented)
+export interface ServiceConfiguration {
+    autoOptimizationFrequency?: string;
+    autoOptimizationStartDate?: Date | string;
+    defaultReward: number;
+    explorationPercentage: number;
+    isAutoOptimizationEnabled?: boolean;
+    lastConfigurationEditDate?: Date | string;
+    learningMode?: "Online" | "Apprentice" | "LoggingOnly";
+    logMirrorEnabled?: boolean;
+    logMirrorSasUri?: string;
+    logRetentionDays: number;
+    modelExportFrequency: string;
+    rewardAggregation: string;
+    rewardWaitTime: string;
+}
+
+// @public (undocumented)
 export interface ServiceConfigurationApplyFromEvaluation {
     post(options: ServiceConfigurationApplyFromEvaluationParameters): StreamableMethod<ServiceConfigurationApplyFromEvaluation204Response | ServiceConfigurationApplyFromEvaluationdefaultResponse>;
 }
@@ -865,7 +828,7 @@ export interface ServiceConfigurationApplyFromEvaluation204Response extends Http
 
 // @public (undocumented)
 export interface ServiceConfigurationApplyFromEvaluationBodyParam {
-    body: PersonalizerPolicyReferenceOptions;
+    body: PolicyReferenceContract;
 }
 
 // @public
@@ -893,7 +856,7 @@ export interface ServiceConfigurationGet {
 // @public
 export interface ServiceConfigurationGet200Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerServicePropertiesOutput;
+    body: ServiceConfigurationOutput;
     // (undocumented)
     status: "200";
 }
@@ -901,17 +864,34 @@ export interface ServiceConfigurationGet200Response extends HttpResponse {
 // @public (undocumented)
 export type ServiceConfigurationGetParameters = RequestParameters;
 
+// @public (undocumented)
+export interface ServiceConfigurationOutput {
+    autoOptimizationFrequency?: string;
+    autoOptimizationStartDate?: string;
+    defaultReward: number;
+    explorationPercentage: number;
+    isAutoOptimizationEnabled?: boolean;
+    lastConfigurationEditDate?: string;
+    learningMode?: "Online" | "Apprentice" | "LoggingOnly";
+    logMirrorEnabled?: boolean;
+    logMirrorSasUri?: string;
+    logRetentionDays: number;
+    modelExportFrequency: string;
+    rewardAggregation: string;
+    rewardWaitTime: string;
+}
+
 // @public
 export interface ServiceConfigurationUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: PersonalizerServicePropertiesOutput;
+    body: ServiceConfigurationOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
 export interface ServiceConfigurationUpdateBodyParam {
-    body: PersonalizerServiceProperties;
+    body: ServiceConfiguration;
 }
 
 // @public
@@ -929,6 +909,26 @@ export interface ServiceConfigurationUpdateMediaTypesParam {
 
 // @public (undocumented)
 export type ServiceConfigurationUpdateParameters = ServiceConfigurationUpdateMediaTypesParam & ServiceConfigurationUpdateBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface SlotRequest {
+    baselineAction: string;
+    excludedActions?: Array<string>;
+    features?: Array<Record<string, unknown>>;
+    id: string;
+}
+
+// @public (undocumented)
+export interface SlotResponseOutput {
+    id: string;
+    rewardActionId?: string;
+}
+
+// @public (undocumented)
+export interface SlotReward {
+    slotId: string;
+    value: number;
+}
 
 // (No @packageDocumentation comment for this package)
 

@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { GeneratedClient, ServiceConfiguration } from "../../src";
+import { PersonalizerClient, ServiceConfiguration } from "../../src";
 
-export async function isMultiSlotEnabledAsync(client: GeneratedClient): Promise<boolean> {
+export async function isMultiSlotEnabledAsync(client: PersonalizerClient): Promise<boolean> {
   const policy = await client.path("/configurations/policy").get();
   return policy.body.arguments.includes("--ccb_explore_adf");
 }
 
-export async function enableMultiSlotAsync(client: GeneratedClient): Promise<void> {
+export async function enableMultiSlotAsync(client: PersonalizerClient): Promise<void> {
   const policy = await client.path("/configurations/policy").get();
   if (policy.body.arguments.includes("--ccb_explore_adf")) {
     return;

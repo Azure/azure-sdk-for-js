@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import Personalizer, {
-  GeneratedClient,
+  PersonalizerClient,
   RankRequest,
   RankResponseOutput,
   RankableAction,
@@ -15,7 +15,7 @@ import { assert } from "chai";
 
 describe("Rank Tests", () => {
   let recorder: Recorder;
-  let client: GeneratedClient;
+  let client: PersonalizerClient;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);

@@ -1,4 +1,4 @@
-# Azure Generated client library for JavaScript
+# Azure Personalizer client library for JavaScript
 
 Personalizer Client
 
@@ -23,13 +23,13 @@ Key links:
 
 ### Install the `@azure-rest/ai-personalizer` package
 
-Install the Azure Generated client REST client library for JavaScript with `npm`:
+Install the Azure Personalizer client REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/ai-personalizer
 ```
 
-### Create and authenticate a `GeneratedClient`
+### Create and authenticate a `PersonalizerClient`
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
 provide an instance of the desired credential type obtained from the
