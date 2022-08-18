@@ -423,4 +423,20 @@ describe("HttpsPipeline", function () {
     const policies = pipeline.getOrderedPolicies();
     assert.deepStrictEqual(policies, [testPolicy]);
   });
+
+  it("afterPhase respects phase ordering", function () {
+    const pipeline = createEmptyPipeline();
+    const testPolicy: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test",
+    };
+    const testPolicy2: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test2",
+    };
+    pipeline.addPolicy(testPolicy, { afterPhase: "Retry" });
+    pipeline.addPolicy(testPolicy2, { phase: "Sign" });
+    const policies = pipeline.getOrderedPolicies();
+    assert.deepStrictEqual(policies, [testPolicy, testPolicy2]);
+  });
 });

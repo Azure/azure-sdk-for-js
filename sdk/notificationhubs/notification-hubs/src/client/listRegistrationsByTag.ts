@@ -10,6 +10,8 @@ import { RegistrationQueryResponse } from "../models/response.js";
 import { registrationDescriptionParser } from "../serializers/registrationSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "listRegistrationsByTag";
+
 /**
  * Lists all registrations with the matching tag.
  * @param context - The Notification Hubs client.
@@ -23,7 +25,7 @@ export function listRegistrationsByTag(
   options: RegistrationQueryLimitOptions = {}
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const { span, updatedOptions } = tracingClient.startSpan(
-    "NotificationHubsClientContext-listRegistrationsByTag",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options
   );
   try {
@@ -88,8 +90,7 @@ async function _listRegistrationsByTag(
     endpoint.searchParams.set("continuationtoken", continuationToken);
   }
 
-  const headers = context.createHeaders();
-
+  const headers = await context.createHeaders(OPERATION_NAME);
   const request = createRequest(endpoint, "GET", headers, options);
   const response = await sendRequest(context, request, 200);
 
