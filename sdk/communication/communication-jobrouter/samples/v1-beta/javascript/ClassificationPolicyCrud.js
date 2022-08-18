@@ -93,15 +93,11 @@ const createClassificationPolicy = async () => {
     },
   };
 
-  try {
-    const request = classificationPolicyRequest;
+  const request = classificationPolicyRequest;
 
-    const result = await routerAdministrationClient.createClassificationPolicy(request.id, request);
+  const result = await routerAdministrationClient.createClassificationPolicy(request.id, request);
 
-    console.log("classification policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("classification policy: " + result);
 };
 
 void createClassificationPolicy();
@@ -114,13 +110,9 @@ const getClassificationPolicy = async () => {
 
   const policyId = "classification-policy-123";
 
-  try {
-    const result = await routerAdministrationClient.getClassificationPolicy(policyId);
+  const result = await routerAdministrationClient.getClassificationPolicy(policyId);
 
-    console.log("classification policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("classification policy: " + result);
 };
 
 void getClassificationPolicy();
@@ -152,15 +144,11 @@ const updateClassificationPolicy = async () => {
     },
   };
 
-  try {
-    const request = classificationPolicyRequest;
+  const request = classificationPolicyRequest;
 
-    const result = await routerAdministrationClient.updateClassificationPolicy(request.id, request);
+  const result = await routerAdministrationClient.updateClassificationPolicy(request.id, request);
 
-    console.log("classification policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("classification policy: " + result);
 };
 
 void updateClassificationPolicy();
@@ -173,22 +161,21 @@ const listClassificationPolicies = async () => {
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems = [];
-  try {
-    for await (const page of routerAdministrationClient
-      .listClassificationPolicies({ maxPageSize: maxPageSize })
-      .byPage()) {
-      ++pagesCount;
-      let pageSize = 0;
-      console.log("page: " + pagesCount);
-      for (const policy of page) {
-        ++pageSize;
+
+  for await (const page of routerAdministrationClient
+    .listClassificationPolicies({ maxPageSize: maxPageSize })
+    .byPage()) {
+    ++pagesCount;
+
+    console.log("page: " + pagesCount);
+    for (const policy of page) {
+      if (policy.classificationPolicy) {
         receivedPagedItems.push(policy);
         console.log("Listing classification policy with id: " + policy.classificationPolicy.id);
       }
-      assert.isAtMost(pageSize, maxPageSize);
     }
-  } catch (error) {
-    console.log(error);
+    let pageSize = receivedPagedItems.length;
+    assert.isAtMost(pageSize, maxPageSize);
   }
 };
 
@@ -201,13 +188,9 @@ const deleteClassificationPolicy = async () => {
 
   const policyId = "classification-policy-123";
 
-  try {
-    const result = await routerAdministrationClient.deleteClassificationPolicy(policyId);
+  const result = await routerAdministrationClient.deleteClassificationPolicy(policyId);
 
-    console.log("classification policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("classification policy: " + result);
 };
 
 void deleteClassificationPolicy();

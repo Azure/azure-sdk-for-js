@@ -46,15 +46,13 @@ const createExceptionPolicy = async (): Promise<void> => {
     }
   };
 
-  try {
-    const request = exceptionPolicyRequest;
 
-    const result = await routerAdministrationClient.createExceptionPolicy(request.id!, request);
+  const request = exceptionPolicyRequest;
 
-    console.log("exception policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await routerAdministrationClient.createExceptionPolicy(request.id!, request);
+
+  console.log("exception policy: " + result);
+
 };
 
 void createExceptionPolicy();
@@ -67,13 +65,10 @@ const getExceptionPolicy = async (): Promise<void> => {
 
   const policyId = "exception-policy-123"
 
-  try {
-    const result = await routerAdministrationClient.getExceptionPolicy(policyId);
+  const result = await routerAdministrationClient.getExceptionPolicy(policyId);
 
-    console.log("exception policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("exception policy: " + result);
+
 };
 
 void getExceptionPolicy();
@@ -109,15 +104,13 @@ const updateExceptionPolicy = async (): Promise<void> => {
     }
   };
 
-  try {
-    const request = exceptionPolicyRequest;
 
-    const result = await routerAdministrationClient.updateExceptionPolicy(request.id!, request);
+  const request = exceptionPolicyRequest;
 
-    console.log("exception policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await routerAdministrationClient.updateExceptionPolicy(request.id!, request);
+
+  console.log("exception policy: " + result);
+
 };
 
 void updateExceptionPolicy();
@@ -130,21 +123,20 @@ const listExceptionPolicies = async (): Promise<void> => {
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems: ExceptionPolicyItem[] = [];
-  try {
-    for await (const page of routerAdministrationClient.listExceptionPolicies({ maxPageSize: maxPageSize }).byPage()) {
-      ++pagesCount;
-      let pageSize = 0;
-      console.log("page: " + pagesCount);
-      for (const policy of page) {
-        ++pageSize;
+
+  for await (const page of routerAdministrationClient.listExceptionPolicies({ maxPageSize: maxPageSize }).byPage()) {
+    ++pagesCount;
+    console.log("page: " + pagesCount);
+    for (const policy of page) {
+      if (policy.exceptionPolicy) {
         receivedPagedItems.push(policy);
-        console.log("Listing exception policy with id: " + policy.exceptionPolicy!.id!);
+        console.log("Listing exception policy with id: " + policy.exceptionPolicy.id);
       }
-      assert.isAtMost(pageSize, maxPageSize);
     }
-  } catch (error) {
-    console.log(error);
+    let pageSize = receivedPagedItems.length;
+    assert.isAtMost(pageSize, maxPageSize);
   }
+
 };
 
 void listExceptionPolicies();
@@ -157,13 +149,11 @@ const deleteExceptionPolicy = async (): Promise<void> => {
 
   const policyId = "exception-policy-123"
 
-  try {
-    const result = await routerAdministrationClient.deleteExceptionPolicy(policyId);
 
-    console.log("exception policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await routerAdministrationClient.deleteExceptionPolicy(policyId);
+
+  console.log("exception policy: " + result);
+
 };
 
 void deleteExceptionPolicy();

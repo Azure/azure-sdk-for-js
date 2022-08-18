@@ -36,16 +36,11 @@ const createJobQueue = async () => {
     id: "queue-123",
     distributionPolicyId: distributionPolicy.id,
     name: "Main",
-    labels: {},
   };
 
-  try {
-    const result = await routerAdministrationClient.createQueue(request.id, request);
+  const result = await routerAdministrationClient.createQueue(request.id, request);
 
-    console.log("router jobQueue: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router jobQueue: " + result);
 };
 
 void createJobQueue();
@@ -58,13 +53,9 @@ const getJobQueue = async () => {
 
   const entityId = "router-jobQueue-123";
 
-  try {
-    const result = await routerAdministrationClient.getQueue(entityId);
+  const result = await routerAdministrationClient.getQueue(entityId);
 
-    console.log("router jobQueue: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router jobQueue: " + result);
 };
 
 void getJobQueue();
@@ -81,13 +72,9 @@ const updateJobQueue = async () => {
     labels: {},
   };
 
-  try {
-    const result = await routerAdministrationClient.updateQueue(request.id, request);
+  const result = await routerAdministrationClient.updateQueue(request.id, request);
 
-    console.log("router jobQueue: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router jobQueue: " + result);
 };
 
 void updateJobQueue();
@@ -100,22 +87,20 @@ const listJobQueues = async () => {
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems = [];
-  try {
-    for await (const page of routerAdministrationClient
-      .listQueues({ maxPageSize: maxPageSize })
-      .byPage()) {
-      ++pagesCount;
-      let pageSize = 0;
-      console.log("page: " + pagesCount);
-      for (const queue of page) {
-        ++pageSize;
+
+  for await (const page of routerAdministrationClient
+    .listQueues({ maxPageSize: maxPageSize })
+    .byPage()) {
+    ++pagesCount;
+    console.log("page: " + pagesCount);
+    for (const queue of page) {
+      if (queue.jobQueue) {
         receivedPagedItems.push(queue);
         console.log("Listing router jobQueue with id: " + queue.jobQueue.id);
       }
-      assert.isAtMost(pageSize, maxPageSize);
     }
-  } catch (error) {
-    console.log(error);
+    let pageSize = receivedPagedItems.length;
+    assert.isAtMost(pageSize, maxPageSize);
   }
 };
 
@@ -128,13 +113,9 @@ const deleteJobQueue = async () => {
 
   const entityId = "queue-123";
 
-  try {
-    const result = await routerAdministrationClient.deleteQueue(entityId);
+  const result = await routerAdministrationClient.deleteQueue(entityId);
 
-    console.log("router jobQueue: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router jobQueue: " + result);
 };
 
 void deleteJobQueue();

@@ -48,13 +48,9 @@ const createRouterJob = async () => {
     labels: {},
   };
 
-  try {
-    const result = await routerClient.createJob(request.id, request);
+  const result = await routerClient.createJob(request.id, request);
 
-    console.log("router job: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router job: " + result);
 };
 
 void createRouterJob();
@@ -67,13 +63,9 @@ const getRouterJob = async () => {
 
   const entityId = "router-job-123";
 
-  try {
-    const result = await routerClient.getJob(entityId);
+  const result = await routerClient.getJob(entityId);
 
-    console.log("router job: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router job: " + result);
 };
 
 void getRouterJob();
@@ -99,13 +91,9 @@ const updateRouterJob = async () => {
     labels: {},
   };
 
-  try {
-    const result = await routerClient.updateJob(request.id, request);
+  const result = await routerClient.updateJob(request.id, request);
 
-    console.log("router job: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router job: " + result);
 };
 
 void updateRouterJob();
@@ -118,22 +106,20 @@ const listRouterJobs = async () => {
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems = [];
-  try {
-    for await (const page of routerClient
-      .listJobs({ jobStateSelector: "queued", maxPageSize: maxPageSize })
-      .byPage()) {
-      ++pagesCount;
-      let pageSize = 0;
-      console.log("page: " + pagesCount);
-      for (const policy of page) {
-        ++pageSize;
+
+  for await (const page of routerClient
+    .listJobs({ jobStateSelector: "queued", maxPageSize: maxPageSize })
+    .byPage()) {
+    ++pagesCount;
+    console.log("page: " + pagesCount);
+    for (const policy of page) {
+      if (policy.routerJob) {
         receivedPagedItems.push(policy);
         console.log("Listing router job with id: " + policy.routerJob.id);
       }
-      assert.isAtMost(pageSize, maxPageSize);
     }
-  } catch (error) {
-    console.log(error);
+    let pageSize = receivedPagedItems.length;
+    assert.isAtMost(pageSize, maxPageSize);
   }
 };
 
@@ -146,13 +132,9 @@ const deleteRouterJob = async () => {
 
   const entityId = "router-job-123";
 
-  try {
-    const result = await routerClient.deleteJob(entityId);
+  const result = await routerClient.deleteJob(entityId);
 
-    console.log("router job: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router job: " + result);
 };
 
 void deleteRouterJob();

@@ -128,8 +128,10 @@ const listExceptionPolicies = async (): Promise<void> => {
     ++pagesCount;
     console.log("page: " + pagesCount);
     for (const policy of page) {
-      receivedPagedItems.push(policy);
-      console.log("Listing exception policy with id: " + policy.exceptionPolicy!.id!);
+      if (policy.exceptionPolicy) {
+        receivedPagedItems.push(policy);
+        console.log("Listing exception policy with id: " + policy.exceptionPolicy.id);
+      }
     }
     let pageSize = receivedPagedItems.length;
     assert.isAtMost(pageSize, maxPageSize);

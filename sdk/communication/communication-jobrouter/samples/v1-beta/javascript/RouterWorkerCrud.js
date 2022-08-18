@@ -37,13 +37,9 @@ const createRouterWorker = async () => {
     },
   };
 
-  try {
-    const result = await routerClient.createWorker(request.id, request);
+  const result = await routerClient.createWorker(request.id, request);
 
-    console.log("router worker: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router worker: " + result);
 };
 
 void createRouterWorker();
@@ -56,13 +52,9 @@ const getRouterWorker = async () => {
 
   const entityId = "router-worker-123";
 
-  try {
-    const result = await routerClient.getWorker(entityId);
+  const result = await routerClient.getWorker(entityId);
 
-    console.log("router worker: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router worker: " + result);
 };
 
 void getRouterWorker();
@@ -90,13 +82,9 @@ const updateRouterWorker = async () => {
     },
   };
 
-  try {
-    const result = await routerClient.updateWorker(request.id, request);
+  const result = await routerClient.updateWorker(request.id, request);
 
-    console.log("router worker: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router worker: " + result);
 };
 
 void updateRouterWorker();
@@ -109,20 +97,18 @@ const listRouterWorkers = async () => {
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems = [];
-  try {
-    for await (const page of routerClient.listWorkers({ maxPageSize: maxPageSize }).byPage()) {
-      ++pagesCount;
-      let pageSize = 0;
-      console.log("page: " + pagesCount);
-      for (const policy of page) {
-        ++pageSize;
+
+  for await (const page of routerClient.listWorkers({ maxPageSize: maxPageSize }).byPage()) {
+    ++pagesCount;
+    console.log("page: " + pagesCount);
+    for (const policy of page) {
+      if (policy.routerWorker) {
         receivedPagedItems.push(policy);
         console.log("Listing router worker with id: " + policy.routerWorker.id);
       }
-      assert.isAtMost(pageSize, maxPageSize);
     }
-  } catch (error) {
-    console.log(error);
+    let pageSize = receivedPagedItems.length;
+    assert.isAtMost(pageSize, maxPageSize);
   }
 };
 
@@ -135,13 +121,9 @@ const deleteRouterWorker = async () => {
 
   const entityId = "router-worker-123";
 
-  try {
-    const result = await routerClient.deleteWorker(entityId);
+  const result = await routerClient.deleteWorker(entityId);
 
-    console.log("router worker: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router worker: " + result);
 };
 
 void deleteRouterWorker();

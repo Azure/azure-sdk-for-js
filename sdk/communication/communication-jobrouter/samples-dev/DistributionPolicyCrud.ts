@@ -99,8 +99,10 @@ const listDistributionPolicies = async (): Promise<void> => {
     ++pagesCount;
     console.log("page: " + pagesCount);
     for (const policy of page) {
-      receivedPagedItems.push(policy);
-      console.log("Listing distribution policy with id: " + policy.distributionPolicy!.id!);
+      if (policy.distributionPolicy) {
+        receivedPagedItems.push(policy);
+        console.log("Listing distribution policy with id: " + policy.distributionPolicy.id);
+      }
     }
     let pageSize = receivedPagedItems.length;
     assert.isAtMost(pageSize, maxPageSize);

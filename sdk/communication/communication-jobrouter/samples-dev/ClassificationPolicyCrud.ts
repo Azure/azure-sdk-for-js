@@ -171,8 +171,10 @@ const listClassificationPolicies = async (): Promise<void> => {
 
     console.log("page: " + pagesCount);
     for (const policy of page) {
-      receivedPagedItems.push(policy);
-      console.log("Listing classification policy with id: " + policy.classificationPolicy!.id!);
+      if (policy.classificationPolicy) {
+        receivedPagedItems.push(policy);
+        console.log("Listing classification policy with id: " + policy.classificationPolicy.id);
+      }
     }
     let pageSize = receivedPagedItems.length;
     assert.isAtMost(pageSize, maxPageSize);

@@ -27,15 +27,11 @@ const createDistributionPolicy = async () => {
     offerTtlSeconds: 120,
   };
 
-  try {
-    const request = distributionPolicyRequest;
+  const request = distributionPolicyRequest;
 
-    const result = await routerAdministrationClient.createDistributionPolicy(request.id, request);
+  const result = await routerAdministrationClient.createDistributionPolicy(request.id, request);
 
-    console.log("distribution policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("distribution policy: " + result);
 };
 
 void createDistributionPolicy();
@@ -48,13 +44,9 @@ const getDistributionPolicy = async () => {
 
   const policyId = "distribution-policy-123";
 
-  try {
-    const result = await routerAdministrationClient.getDistributionPolicy(policyId);
+  const result = await routerAdministrationClient.getDistributionPolicy(policyId);
 
-    console.log("distribution policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("distribution policy: " + result);
 };
 
 void getDistributionPolicy();
@@ -75,15 +67,11 @@ const updateDistributionPolicy = async () => {
     offerTtlSeconds: 15,
   };
 
-  try {
-    const request = distributionPolicyRequest;
+  const request = distributionPolicyRequest;
 
-    const result = await routerAdministrationClient.updateDistributionPolicy(request.id, request);
+  const result = await routerAdministrationClient.updateDistributionPolicy(request.id, request);
 
-    console.log("distribution policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("distribution policy: " + result);
 };
 
 void updateDistributionPolicy();
@@ -96,22 +84,20 @@ const listDistributionPolicies = async () => {
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems = [];
-  try {
-    for await (const page of routerAdministrationClient
-      .listDistributionPolicies({ maxPageSize: maxPageSize })
-      .byPage()) {
-      ++pagesCount;
-      let pageSize = 0;
-      console.log("page: " + pagesCount);
-      for (const policy of page) {
-        ++pageSize;
+
+  for await (const page of routerAdministrationClient
+    .listDistributionPolicies({ maxPageSize: maxPageSize })
+    .byPage()) {
+    ++pagesCount;
+    console.log("page: " + pagesCount);
+    for (const policy of page) {
+      if (policy.distributionPolicy) {
         receivedPagedItems.push(policy);
         console.log("Listing distribution policy with id: " + policy.distributionPolicy.id);
       }
-      assert.isAtMost(pageSize, maxPageSize);
     }
-  } catch (error) {
-    console.log(error);
+    let pageSize = receivedPagedItems.length;
+    assert.isAtMost(pageSize, maxPageSize);
   }
 };
 
@@ -124,13 +110,9 @@ const deleteDistributionPolicy = async () => {
 
   const policyId = "distribution-policy-123";
 
-  try {
-    const result = await routerAdministrationClient.deleteDistributionPolicy(policyId);
+  const result = await routerAdministrationClient.deleteDistributionPolicy(policyId);
 
-    console.log("distribution policy: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("distribution policy: " + result);
 };
 
 void deleteDistributionPolicy();

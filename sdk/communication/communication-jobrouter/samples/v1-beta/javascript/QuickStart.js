@@ -120,8 +120,7 @@ const quickStart = async () => {
     }
   );
 
-  // @ts-ignore
-  console.log(`Job has been successfully completed: ${completeJob._response.status == 200}`);
+  console.log(`Job has been successfully completed: ${completeJob}`);
 
   // Closing a job
   // After a job has been completed, the worker can perform wrap up actions to the job before closing the job and finally
@@ -129,8 +128,8 @@ const quickStart = async () => {
   var closeJob = await routerClient.closeJob(jobRequest.id, acceptJobOfferResult.assignmentId, {
     note: `Job has been closed by ${workerRequest.id} at ${new Date()}`,
   });
-  // @ts-ignore
-  console.log(`Job has been successfully closed: ${closeJob._response.status == 200}`);
+
+  console.log(`Job has been successfully closed: ${closeJob}`);
 
   // Optionally, a job can also be set up to be marked as closed in the future.
   var t = new Date();
@@ -143,8 +142,8 @@ const quickStart = async () => {
       note: `Job has been marked to close in the future by ${workerRequest.id} at ${t}`,
     }
   );
-  // @ts-ignore
-  console.log(`Job has been marked to close: ${closeJobInFuture._response.status == 202}`); // You'll received a 202 in that case
+
+  console.log(`Job has been marked to close: ${closeJobInFuture}`); // You'll received a 202 in that case
 
   await delay(2000);
 

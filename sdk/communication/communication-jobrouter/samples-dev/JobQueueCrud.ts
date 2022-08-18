@@ -98,8 +98,10 @@ const listJobQueues = async (): Promise<void> => {
     ++pagesCount;
     console.log("page: " + pagesCount);
     for (const queue of page) {
-      receivedPagedItems.push(queue);
-      console.log("Listing router jobQueue with id: " + queue.jobQueue?.id);
+      if (queue.jobQueue) {
+        receivedPagedItems.push(queue);
+        console.log("Listing router jobQueue with id: " + queue.jobQueue.id);
+      }
     }
     let pageSize = receivedPagedItems.length;
     assert.isAtMost(pageSize, maxPageSize);

@@ -117,8 +117,10 @@ const listRouterJobs = async (): Promise<void> => {
     ++pagesCount;
     console.log("page: " + pagesCount);
     for (const policy of page) {
-      receivedPagedItems.push(policy);
-      console.log("Listing router job with id: " + policy.routerJob!.id!);
+      if (policy.routerJob) {
+        receivedPagedItems.push(policy);
+        console.log("Listing router job with id: " + policy.routerJob.id);
+      }
     }
     let pageSize = receivedPagedItems.length;
     assert.isAtMost(pageSize, maxPageSize);

@@ -40,14 +40,11 @@ const createRouterWorker = async (): Promise<void> => {
     }
   };
 
-  try {
 
-    const result = await routerClient.createWorker(request.id!, request);
+  const result = await routerClient.createWorker(request.id!, request);
 
-    console.log("router worker: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log("router worker: " + result);
+
 };
 
 void createRouterWorker();
@@ -60,13 +57,11 @@ const getRouterWorker = async (): Promise<void> => {
 
   const entityId = "router-worker-123"
 
-  try {
-    const result = await routerClient.getWorker(entityId);
 
-    console.log("router worker: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await routerClient.getWorker(entityId);
+
+  console.log("router worker: " + result);
+
 };
 
 void getRouterWorker();
@@ -95,14 +90,10 @@ const updateRouterWorker = async (): Promise<void> => {
     }
   };
 
-  try {
+  const result = await routerClient.updateWorker(request.id!, request);
 
-    const result = await routerClient.updateWorker(request.id!, request);
+  console.log("router worker: " + result);
 
-    console.log("router worker: " + result);
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 void updateRouterWorker();
@@ -115,21 +106,20 @@ const listRouterWorkers = async (): Promise<void> => {
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems: RouterWorkerItem[] = [];
-  try {
-    for await (const page of routerClient.listWorkers( { maxPageSize: maxPageSize }).byPage()) {
-      ++pagesCount;
-      let pageSize = 0;
-      console.log("page: " + pagesCount);
-      for (const policy of page) {
-        ++pageSize;
+
+  for await (const page of routerClient.listWorkers( { maxPageSize: maxPageSize }).byPage()) {
+    ++pagesCount;
+    console.log("page: " + pagesCount);
+    for (const policy of page) {
+      if (policy.routerWorker) {
         receivedPagedItems.push(policy);
-        console.log("Listing router worker with id: " + policy.routerWorker!.id!);
+        console.log("Listing router worker with id: " + policy.routerWorker.id);
       }
-      assert.isAtMost(pageSize, maxPageSize);
     }
-  } catch (error) {
-    console.log(error);
+    let pageSize = receivedPagedItems.length;
+    assert.isAtMost(pageSize, maxPageSize);
   }
+
 };
 
 void listRouterWorkers();
@@ -142,13 +132,11 @@ const deleteRouterWorker = async (): Promise<void> => {
 
   const entityId = "router-worker-123"
 
-  try {
-    const result = await routerClient.deleteWorker(entityId);
 
-    console.log("router worker: " + result);
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await routerClient.deleteWorker(entityId);
+
+  console.log("router worker: " + result);
+
 };
 
 void deleteRouterWorker();
