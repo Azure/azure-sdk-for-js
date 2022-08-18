@@ -13,7 +13,12 @@ output-folder: ../
 source-code-folder-path: ./src
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/cognitiveservices/data-plane/Personalizer/preview/v1.1-preview.3/Personalizer.json
 override-client-name: PersonalizerClient
-add-credentials: false
+security:
+  - AADToken
+  - AzureKey
+security-header-name: Ocp-Apim-Subscription-Key
+security-scopes: https://cognitiveservices.azure.com/.default
+add-credentials: true
 typescript: true
 package-version: "1.0.0-beta.1"
 generate-metadata: true

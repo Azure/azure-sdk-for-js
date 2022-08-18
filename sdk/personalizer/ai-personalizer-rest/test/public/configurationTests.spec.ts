@@ -79,7 +79,9 @@ describe("Configuration Tests", () => {
   });
 });
 
-async function getConfigurationAsync(client: PersonalizerClient): Promise<ServiceConfigurationOutput> {
+async function getConfigurationAsync(
+  client: PersonalizerClient
+): Promise<ServiceConfigurationOutput> {
   const response = await client.path("/configurations/service").get();
   // TODO: isUnexpected does not work as expected since responseMap does not include the baseUrl ( /personalizer/v1.1-preview.3) in the dictionary.
   // if (isUnexpected(response)) {

@@ -4,19 +4,10 @@
 /**
  * @summary Demonstrates the use of a Personalizer client to rank actions for multiple slots and reward the presented action.
  */
-import Personalizer, {
-  ErrorResponseOutput,
-  MultiSlotRankRequest,
-  MultiSlotRankResponseOutput,
-  PersonalizerErrorOutput,
-  RankableAction,
-  SlotRequest,
-  SlotResponseOutput,
-} from "@azure-rest/ai-personalizer";
+const Personalizer = require("@azure-rest/ai-personalizer").default;
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const endpoint = process.env.PERSONALIZER_ENDPOINT || "<endpoint>";
@@ -24,7 +15,7 @@ async function main() {
 
   const client = Personalizer(endpoint, { key: key });
 
-  const request: MultiSlotRankRequest = {
+  const request = {
     slots: getSlots(),
     actions: getActions(),
     contextFeatures: getContextFeatures(),
@@ -33,12 +24,12 @@ async function main() {
   console.log("Sending multi-slot rank request");
   const rankResponse = await client.path("/multislot/rank").post({ body: request });
   if (rankResponse.status != "201") {
-    const error = rankResponse.body as ErrorResponseOutput;
+    const error = rankResponse.body;
     throw error.error;
   }
-  const rankOutput = rankResponse.body as MultiSlotRankResponseOutput;
-  const eventId = rankOutput.eventId as string;
-  const slotResponses = rankOutput.slots as SlotResponseOutput[];
+  const rankOutput = rankResponse.body;
+  const eventId = rankOutput.eventId;
+  const slotResponses = rankOutput.slots;
   console.log(`Rank returned response with event id ${eventId} and recommended the following:`);
   slotResponses.forEach(function (slotResponse) {
     console.log(`Action ${slotResponse.rewardActionId} for slot ${slotResponse.id}`);
@@ -51,15 +42,15 @@ async function main() {
     .path("/multislot/events/{eventId}/reward", eventId)
     .post({ body: { reward: [{ slotId: "Main Article", value: 1 }] } });
   if (eventResponse.status != "204") {
-    const error = eventResponse.body as ErrorResponseOutput;
+    const error = eventResponse.body;
     throw error.error;
   }
-  
+
   console.log("Completed sending reward response");
 }
 
 // We want to rank the actions for two slots.
-function getSlots(): SlotRequest[] {
+function getSlots() {
   return [
     {
       id: "Main Article",
@@ -75,7 +66,7 @@ function getSlots(): SlotRequest[] {
 }
 
 // The list of actions to be ranked with metadata associated for each action.
-function getActions(): RankableAction[] {
+function getActions() {
   return [
     { id: "NewsArticle", features: [{ type: "News" }] },
     { id: "SportsArticle", features: [{ type: "Sports" }] },
@@ -93,7 +84,7 @@ function getContextFeatures() {
   ];
 }
 
-main().catch((err: PersonalizerErrorOutput) => {
+main().catch((err) => {
   console.error(
     `The sample encountered an error with code: ${err.code} and message: ${err.message}`
   );

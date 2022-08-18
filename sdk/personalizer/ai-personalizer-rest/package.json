@@ -111,6 +111,12 @@
     "karma": "^6.2.0",
     "nyc": "^14.0.0"
   },
+  "//sampleConfiguration": {
+    "productName": "Azure Personalizer",
+    "productSlugs": ["azure"],
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/en-us/azure/cognitive-services/personalizer/"
+    },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   }
