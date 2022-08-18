@@ -149,7 +149,7 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
     getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
-    getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk | null>;
+    getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
     getTrunks(options?: OperationOptions): Promise<SipTrunk[]>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
