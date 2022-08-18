@@ -23,7 +23,6 @@ import {
   JobRouterListJobsOptionalParams,
   JobRouterListWorkersOptionalParams,
   JobRouterReclassifyJobActionResponse,
-  JobRouterUnassignJobActionResponse,
   RouterJob,
   RouterJobItem,
   RouterWorker,
@@ -43,7 +42,7 @@ import {
   UpdateJobOptions,
   UpdateWorkerOptions
 } from "./models/options";
-import { JobPositionDetailsResponse } from "./models/responses";
+import { JobPositionDetailsResponse, UnAssignJobResponse } from "./models/responses";
 
 /**
  * Checks whether the type of a value is {@link RouterClientOptions} or not.
@@ -253,11 +252,12 @@ export class RouterClient {
    * @param jobId - The ID of the job to close.
    * @param assignmentId - The assignment within which the job is to be unassigned.
    */
-  public async unassignJob(
-    jobId: string,
-    assignmentId: string
-  ): Promise<JobRouterUnassignJobActionResponse> {
-    return this.client.jobRouter.unassignJobAction(jobId, assignmentId);
+  public async unassignJob(jobId: string, assignmentId: string): Promise<UnAssignJobResponse> {
+    const result = await this.client.jobRouter.unassignJobAction(jobId, assignmentId);
+    return {
+      jobId: result.jobId,
+      unAssignmentCount: result.unassignmentCount
+    };
   }
 
   /**

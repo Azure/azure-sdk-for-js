@@ -77,7 +77,6 @@ export {
   WeightedAllocationQueueSelectorAttachment,
   AcceptJobOfferResult,
   JobRouterReclassifyJobActionResponse,
-  JobRouterUnassignJobActionResponse,
   RouterJobStatus,
   FunctionRule,
   WorkerSelectorState,
@@ -86,6 +85,5 @@ export {
   RuleEngineWorkerSelectorAttachment,
   StaticWorkerSelectorAttachment,
   WeightedAllocationWorkerSelectorAttachment,
-  FunctionRuleCredential,
-  UnassignJobResult
+  FunctionRuleCredential
 } from "../generated/src/models";

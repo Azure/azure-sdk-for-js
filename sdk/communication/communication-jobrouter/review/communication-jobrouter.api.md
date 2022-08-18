@@ -341,9 +341,6 @@ export interface JobRouterReclassifyJobActionOptionalParams extends coreClient.O
 export type JobRouterReclassifyJobActionResponse = Record<string, unknown>;
 
 // @public
-export type JobRouterUnassignJobActionResponse = UnassignJobResult;
-
-// @public
 export interface JobRouterUpsertJobOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -520,7 +517,7 @@ export class RouterClient {
     listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<RouterWorkerItem>;
     reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<JobRouterReclassifyJobActionResponse>;
     registerWorker(workerId: string): Promise<RouterWorker>;
-    unassignJob(jobId: string, assignmentId: string): Promise<JobRouterUnassignJobActionResponse>;
+    unassignJob(jobId: string, assignmentId: string): Promise<UnAssignJobResponse>;
     updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJob>;
     updateWorker(workerId: string, options?: UpdateWorkerOptions): Promise<RouterWorker>;
 }
@@ -649,10 +646,10 @@ export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment
     labelSelector: WorkerSelector;
 }
 
-// @public
-export interface UnassignJobResult {
+// @public (undocumented)
+export interface UnAssignJobResponse {
     jobId: string;
-    unassignmentCount: number;
+    unAssignmentCount: number;
 }
 
 // @public

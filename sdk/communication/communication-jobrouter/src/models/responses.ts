@@ -20,3 +20,10 @@ export interface JobPositionDetailsResponse {
   /** Estimated wait time of the job rounded up to the nearest minute */
   estimatedWaitTimeInMinutes: number;
 }
+
+export interface UnAssignJobResponse {
+  /** The Id of the job unassigned. */
+  jobId: string;
+  /** The number of times a job is unassigned. At a maximum 3. */
+  unAssignmentCount: number;
+}
