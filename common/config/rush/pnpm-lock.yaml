@@ -47,6 +47,7 @@ specifiers:
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid': file:./projects/arm-compute-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-confidentialledger': file:./projects/arm-confidentialledger.tgz
   '@rush-temp/arm-confluent': file:./projects/arm-confluent.tgz
+  '@rush-temp/arm-connectedvmware': file:./projects/arm-connectedvmware.tgz
   '@rush-temp/arm-consumption': file:./projects/arm-consumption.tgz
   '@rush-temp/arm-containerinstance': file:./projects/arm-containerinstance.tgz
   '@rush-temp/arm-containerregistry': file:./projects/arm-containerregistry.tgz
@@ -349,6 +350,7 @@ dependencies:
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid': file:projects/arm-compute-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-confidentialledger': file:projects/arm-confidentialledger.tgz
   '@rush-temp/arm-confluent': file:projects/arm-confluent.tgz
+  '@rush-temp/arm-connectedvmware': file:projects/arm-connectedvmware.tgz
   '@rush-temp/arm-consumption': file:projects/arm-consumption.tgz
   '@rush-temp/arm-containerinstance': file:projects/arm-containerinstance.tgz
   '@rush-temp/arm-containerregistry': file:projects/arm-containerregistry.tgz
@@ -11008,6 +11010,33 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-connectedvmware.tgz:
+    resolution: {integrity: sha512-12LgkTdZkmzbUPLD2tgNyijsnNZG7HtQfwNdReKatvR6gfPAWLGeNdENOIS7DTE2iuQKf3Tur/ftjFKBNwStqA==, tarball: file:projects/arm-connectedvmware.tgz}
+    name: '@rush-temp/arm-connectedvmware'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
