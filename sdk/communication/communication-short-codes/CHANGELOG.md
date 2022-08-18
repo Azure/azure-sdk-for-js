@@ -1,16 +1,10 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2022-08-18)
 
 ### Features Added
 - Updated to `@azure/core-tracing` 1.0.
 - Use GA API
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.3 (2022-07-12)
 ### Features Added
