@@ -27,6 +27,7 @@ specifiers:
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:./projects/arm-authorization-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-automanage': file:./projects/arm-automanage.tgz
+  '@rush-temp/arm-automation': file:./projects/arm-automation.tgz
   '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
@@ -65,7 +66,6 @@ specifiers:
   '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
-  '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:./projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:./projects/arm-devspaces.tgz
@@ -328,6 +328,7 @@ dependencies:
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-automanage': file:projects/arm-automanage.tgz
+  '@rush-temp/arm-automation': file:projects/arm-automation.tgz
   '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
@@ -366,7 +367,6 @@ dependencies:
   '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
-  '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:projects/arm-devspaces.tgz
@@ -2566,8 +2566,8 @@ packages:
     resolution: {integrity: sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==}
     dev: false
 
-  /@types/mime/2.0.3:
-    resolution: {integrity: sha512-Jus9s4CDbqwocc5pOAnh8ShfrnMcPHuJYzVcSUU7lrh8Ni5HuIqX3oilL86p3dlTrk0LzHRCgA/GQ7uNCw6l2Q==}
+  /@types/mime/3.0.1:
+    resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
     dev: false
 
   /@types/minimatch/3.0.5:
@@ -3093,7 +3093,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
+    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
     dev: false
 
   /array-includes/3.1.5:
@@ -3348,7 +3348,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
+    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3498,7 +3498,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
+    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
     dev: false
 
   /check-error/1.0.2:
@@ -3636,7 +3636,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: false
 
   /concurrently/6.5.1:
@@ -3699,7 +3699,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
     dev: false
 
   /cookie/0.4.2:
@@ -3801,7 +3801,7 @@ packages:
     dev: false
 
   /crypt/0.0.2:
-    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
+    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
     dev: false
 
   /csv-parse/5.3.0:
@@ -4082,11 +4082,11 @@ packages:
     dev: false
 
   /edge-launcher/1.2.2:
-    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
+    resolution: {integrity: sha1-60Cq+9Bnpup27/+rBke81VCbN7I=}
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
+    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
   /electron-to-chromium/1.4.199:
@@ -4968,7 +4968,7 @@ packages:
     dev: false
 
   /fresh/0.5.2:
-    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
+    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -5108,7 +5108,7 @@ packages:
     dev: false
 
   /github-from-package/0.0.0:
-    resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
+    resolution: {integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=}
     dev: false
 
   /glob-parent/5.1.2:
@@ -6516,7 +6516,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
+    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6526,7 +6526,7 @@ packages:
     dev: false
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
+    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
     dev: false
 
   /merge-source-map/1.1.0:
@@ -6947,7 +6947,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
+    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -9074,7 +9074,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
+    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -9924,7 +9924,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-Z+roF7H+0CmBI9XsdhvW0ahvmS5dsqJDB4AKp2/ezgJJaC6TJpUjxP1jWreThSD47/YRA0UNvJxnP/Vle3pUQw==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-z0EjPK7PxwYUCKp42H25fSwwEXgwrwi1/FU4Mt6dfL1U2fDqczUIlhrvntVXhen3QOfBtbIePlqksE0+0pUt4w==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -9935,7 +9935,7 @@ packages:
       '@types/chai': 4.3.1
       '@types/glob': 7.2.0
       '@types/inquirer': 8.2.1
-      '@types/mime': 2.0.3
+      '@types/mime': 3.0.1
       '@types/mocha': 7.0.2
       '@types/mustache': 4.1.2
       '@types/node': 12.20.55
@@ -10431,6 +10431,33 @@ packages:
   file:projects/arm-automanage.tgz:
     resolution: {integrity: sha512-IqdKA2yoAZLl7nhBtmevoGW3e3bAJe0fSppmtZQe8FeqvFBS3Osp3wisHvgNYbYKlhGs0530fHWCHNkdddLZlQ==, tarball: file:projects/arm-automanage.tgz}
     name: '@rush-temp/arm-automanage'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+    dev: false
+
+  file:projects/arm-automation.tgz:
+    resolution: {integrity: sha512-VX0HKCxU+3ie6pU7dx5hhJQQeHvy5yIIIvUrHeQ7LAcVVx0PlUUJzKD2uaRGbzMsLCCS8dfthDKeo4KJBKPQYA==, tarball: file:projects/arm-automation.tgz}
+    name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
@@ -11194,7 +11221,7 @@ packages:
     dev: false
 
   file:projects/arm-dashboard.tgz:
-    resolution: {integrity: sha512-LUja5TM3dEnJKf1Q3nATwxyLFp6s04kh70p0kV6E3+ckeaMpcbWusutLtDbtXWaK++W+RZy8zixHspAUfD0EMA==, tarball: file:projects/arm-dashboard.tgz}
+    resolution: {integrity: sha512-YVHG9SmU9Vzy2Q8sZaP/AQQeo5uNQLWYh3D3vwcFfEUwzfCjbZBiI8oSuVX6k4D2kiNaQWF2dBjkOk2HvrqJuw==, tarball: file:projects/arm-dashboard.tgz}
     name: '@rush-temp/arm-dashboard'
     version: 0.0.0
     dependencies:
@@ -11206,6 +11233,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11213,11 +11242,10 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -11525,33 +11553,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
-      - supports-color
-    dev: false
-
-  file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-VgCNzmr+2BlcnDYuXWZFAySW9A9TT1wt9dKvhbWk+7y9WqpnWG0p5VegZBf/trdpND8EEJfC8HZVuulz/K+sRw==, tarball: file:projects/arm-devcenter.tgz}
-    name: '@rush-temp/arm-devcenter'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
-      '@types/chai': 4.3.1
-      chai: 4.3.6
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.77.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
-      tslib: 2.4.0
-      typescript: 4.6.4
-      uglify-js: 3.16.3
-    transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -15578,7 +15579,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-m4lWxPlHPjBeX70hbmpbfpY4U0ThVGwF49ghqAx1fqfO/bEkInd5PQ36cCU2JEaT6SR6CmgXWQQrfg4HNxGo8g==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-Vc6h4vxEdRqn2u0W3jOyLeQYonpZi66oKOv6ssdVaH1O9KkayQ64hNZ17PxGlkbMndkFmN8It7o97DO4LGsSxA==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -17466,7 +17467,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-aODIr/JRbgUNX4afbNOj0GlVxMhjRgDLQzUjDY7Zary6iK5nOGYXEXmnH44hj0a9OWgjuUbp+xNKfycbQ+sG2w==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-l6uIJgKu3ZlOYHGibs0MyCu/6buu1Gn18k4GZrM5VxRvLsgrYrPtpIuje4OhOavTcUJHZUr9z0js9aj62LRrhQ==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
