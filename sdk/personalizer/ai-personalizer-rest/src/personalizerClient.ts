@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { PersonalizerClient } from "./clientDefinitions";
-import { KeyCredential } from "@azure/core-auth";
 
 export default function createClient(
   Endpoint: string,
-  credentials: KeyCredential,
+  credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {}
 ): PersonalizerClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}/personalizer/v1.1-preview.3`;
@@ -15,6 +15,7 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
+      scopes: ["https://cognitiveservices.azure.com/.default"],
       apiKeyHeaderName: "Ocp-Apim-Subscription-Key",
     },
   };

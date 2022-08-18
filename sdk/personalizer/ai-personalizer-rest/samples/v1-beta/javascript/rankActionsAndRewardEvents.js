@@ -4,17 +4,10 @@
 /**
  * @summary Demonstrates the use of a Personalizer client to rank actions and reward the presented action.
  */
-import Personalizer, {
-  ErrorResponseOutput,
-  PersonalizerErrorOutput,
-  RankableAction,
-  RankRequest,
-  RankResponseOutput,
-} from "@azure-rest/ai-personalizer";
+const Personalizer = require("@azure-rest/ai-personalizer").default;
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const endpoint = process.env.PERSONALIZER_ENDPOINT || "<endpoint>";
@@ -23,7 +16,7 @@ async function main() {
   const client = Personalizer(endpoint, { key: key });
 
   // The list of actions (videos in this case) to be ranked with metadata associated for each action.
-  const actions: RankableAction[] = [
+  const actions = [
     {
       id: "Video1",
       features: [
@@ -52,7 +45,7 @@ async function main() {
       },
     },
   ];
-  const request: RankRequest = {
+  const request = {
     actions: actions,
     contextFeatures: contextFeatures,
   };
@@ -60,11 +53,11 @@ async function main() {
   console.log("Sending rank request");
   const rankResponse = await client.path("/rank").post({ body: request });
   if (rankResponse.status != "201") {
-    const error = rankResponse.body as ErrorResponseOutput;
+    const error = rankResponse.body;
     throw error.error;
   }
-  const rankOutput = rankResponse.body as RankResponseOutput;
-  const eventId = rankOutput.eventId as string;
+  const rankOutput = rankResponse.body;
+  const eventId = rankOutput.eventId;
   console.log(
     `Rank returned response with event id ${eventId} and recommended ${rankOutput.rewardActionId} as the best action`
   );
@@ -76,14 +69,14 @@ async function main() {
     .path("/events/{eventId}/reward", eventId)
     .post({ body: { value: 1 } });
   if (eventResponse.status != "204") {
-    const error = eventResponse.body as ErrorResponseOutput;
+    const error = eventResponse.body;
     throw error.error;
   }
 
   console.log("Completed sending reward response");
 }
 
-main().catch((err: PersonalizerErrorOutput) => {
+main().catch((err) => {
   console.error(
     `The sample encountered an error with code: ${err.code} and message: ${err.message}`
   );
