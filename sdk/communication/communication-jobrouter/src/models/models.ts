@@ -85,5 +85,7 @@ export {
   PassThroughWorkerSelectorAttachment,
   RuleEngineWorkerSelectorAttachment,
   StaticWorkerSelectorAttachment,
-  WeightedAllocationWorkerSelectorAttachment
+  WeightedAllocationWorkerSelectorAttachment,
+  FunctionRuleCredential,
+  UnassignJobResult
 } from "../generated/src/models";
