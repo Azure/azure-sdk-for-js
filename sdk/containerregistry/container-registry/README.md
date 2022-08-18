@@ -283,4 +283,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_sub]: https://azure.microsoft.com/free/
 [identity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
 [az_sdk_js]: https://github.com/Azure/azure-sdk-for-js
-[troubleshooting guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregstry/container-registry/TROUBLESHOOTING.md
+[troubleshooting guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/TROUBLESHOOTING.md
