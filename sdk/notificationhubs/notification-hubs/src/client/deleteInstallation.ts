@@ -7,6 +7,8 @@ import { NotificationHubsResponse } from "../models/response.js";
 import { OperationOptions } from "@azure/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "deleteInstallation";
+
 /**
  * Deletes an installation from a Notification Hub.
  * @param context - The Notification Hubs client.
@@ -20,15 +22,14 @@ export function deleteInstallation(
   options: OperationOptions = {}
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-deleteInstallation",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += `/installations/${installationId}`;
-      const headers = context.createHeaders();
 
+      const headers = await context.createHeaders(OPERATION_NAME);
       const request = createRequest(endpoint, "DELETE", headers, updatedOptions);
-
       const response = await sendRequest(context, request, 204);
 
       return parseNotificationResponse(response);

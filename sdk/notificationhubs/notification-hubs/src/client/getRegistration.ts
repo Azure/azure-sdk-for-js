@@ -8,6 +8,8 @@ import { RegistrationDescription } from "../models/registration.js";
 import { registrationDescriptionParser } from "../serializers/registrationSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "getRegistration";
+
 /**
  * Gets a registration by the given registration ID.
  * @param context - The Notification Hubs client.
@@ -21,13 +23,13 @@ export function getRegistration(
   options: OperationOptions = {}
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-getRegistration",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
       endpoint.pathname += `/registrations/${registrationId}`;
 
-      const headers = context.createHeaders();
+      const headers = await context.createHeaders(OPERATION_NAME);
       headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
 
       const request = createRequest(endpoint, "GET", headers, updatedOptions);

@@ -24,7 +24,7 @@ import {
 } from "@azure/notification-hubs/client";
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { delay } from "@azure/core-amqp";
+import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
 import { sendDirectNotification } from "@azure/notification-hubs/client/sendDirectNotification";
 
@@ -43,7 +43,7 @@ const devicetoken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 async function main() {
   const context = createClientContext(connectionString, hubName);
 
-  const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there SDK Review!" } } }`;
 
   const notification = createAppleNotification({
     body: messageBody,
