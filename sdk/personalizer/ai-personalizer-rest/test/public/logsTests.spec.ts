@@ -5,17 +5,17 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, { GeneratedClient, LogsPropertiesOutput } from "../../src";
+import Personalizer, { LogsPropertiesOutput, PersonalizerClient } from "../../src";
 import { env } from "process";
 
 describe("Log Tests", () => {
   let recorder: Recorder;
-  let client: GeneratedClient;
+  let client: PersonalizerClient;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = Personalizer(env["PERSONALIZER_ENDPOINT_SINGLE_SLOT"] ?? "", {
-      key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
+    client = Personalizer(env["PERSONALIZER_ENDPOINT_MULTI_SLOT"] ?? "", {
+      key: env["PERSONALIZER_API_KEY_MULTI_SLOT"] ?? "",
     });
   });
 
@@ -31,14 +31,14 @@ describe("Log Tests", () => {
   });
 });
 
-async function deleteLogsAsync(client: GeneratedClient) {
+async function deleteLogsAsync(client: PersonalizerClient) {
   await client.path("/logs").delete();
   // if (isUnexpected(response)) {
   //   throw response.body.error.code;
   // }
 }
 
-async function getLogPropertiesAsync(client: GeneratedClient): Promise<LogsPropertiesOutput> {
+async function getLogPropertiesAsync(client: PersonalizerClient): Promise<LogsPropertiesOutput> {
   const response = await client.path("/logs/properties").get();
   // if (isUnexpected(response)) {
   //   throw response.body.error.code;

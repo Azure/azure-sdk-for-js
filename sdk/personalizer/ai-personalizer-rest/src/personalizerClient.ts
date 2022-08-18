@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { GeneratedClient } from "./clientDefinitions";
+import { PersonalizerClient } from "./clientDefinitions";
 import { KeyCredential } from "@azure/core-auth";
 
 export default function createClient(
   Endpoint: string,
   credentials: KeyCredential,
   options: ClientOptions = {}
-): GeneratedClient {
+): PersonalizerClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}/personalizer/v1.1-preview.3`;
 
   options = {
@@ -31,7 +31,7 @@ export default function createClient(
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as GeneratedClient;
+  const client = getClient(baseUrl, credentials, options) as PersonalizerClient;
 
   return client;
 }

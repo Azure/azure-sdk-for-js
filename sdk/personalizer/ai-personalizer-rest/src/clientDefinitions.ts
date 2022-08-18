@@ -247,6 +247,6 @@ export interface Routes {
   (path: "/rank"): Rank;
 }
 
-export type GeneratedClient = Client & {
+export type PersonalizerClient = Client & {
   path: Routes;
 };

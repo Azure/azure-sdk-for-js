@@ -10,9 +10,9 @@ title: PersonalizerClient
 description: Personalizer Client
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
-source-code-folder-path: ./src/generated
+source-code-folder-path: ./src
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/cognitiveservices/data-plane/Personalizer/preview/v1.1-preview.3/Personalizer.json
-override-client-name: GeneratedClient
+override-client-name: PersonalizerClient
 add-credentials: false
 typescript: true
 package-version: "1.0.0-beta.1"

@@ -4,13 +4,13 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import Personalizer, { GeneratedClient, ModelPropertiesOutput } from "../../src";
+import Personalizer, { ModelPropertiesOutput, PersonalizerClient } from "../../src";
 import { env } from "process";
 import { assert } from "chai";
 
 describe("Model Tests", () => {
   let recorder: Recorder;
-  let client: GeneratedClient;
+  let client: PersonalizerClient;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -39,7 +39,7 @@ describe("Model Tests", () => {
 });
 
 async function exportModelAsync(
-  client: GeneratedClient,
+  client: PersonalizerClient,
   signed: boolean = false
 ): Promise<Uint8Array> {
   const queryParameters: Record<string, unknown> = { signed: signed };
@@ -50,14 +50,14 @@ async function exportModelAsync(
   return response.body as Uint8Array;
 }
 
-async function importModelAsync(client: GeneratedClient, modelBytes: Uint8Array) {
+async function importModelAsync(client: PersonalizerClient, modelBytes: Uint8Array) {
   await client.path("/model").put({ body: modelBytes });
   // if (isUnexpected(response)) {
   //   throw response.body.error.code;
   // }
 }
 
-async function getModelPropertiesAsync(client: GeneratedClient): Promise<ModelPropertiesOutput> {
+async function getModelPropertiesAsync(client: PersonalizerClient): Promise<ModelPropertiesOutput> {
   const response = await client.path("/model/properties").get();
   return response.body as ModelPropertiesOutput;
 }
