@@ -133,7 +133,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
 export const assertMetricExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
   for (const expectation of expectations) {
     let envelope: any = null;
-    if (expectation.data!.baseData!.name) {
+    if (expectation.data!.baseData!.metrics && expectation.data!.baseData!.metrics.length > 0) {
       envelope = actual.filter((e) => {
         return (
           (e.data!.baseData as MetricsData).metrics[0].name ===
