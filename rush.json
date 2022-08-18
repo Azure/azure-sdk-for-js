@@ -1802,13 +1802,13 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-devcenter",
-      "projectFolder": "sdk/devcenter/arm-devcenter",
+      "packageName": "@azure/arm-automanage",
+      "projectFolder": "sdk/automanage/arm-automanage",
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-automanage",
-      "projectFolder": "sdk/automanage/arm-automanage",
+      "packageName": "@azure/arm-devcenter",
+      "projectFolder": "sdk/devcenter/arm-devcenter",
       "versionPolicyName": "management"
     },
     {
