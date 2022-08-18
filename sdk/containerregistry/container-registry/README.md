@@ -251,16 +251,6 @@ main().catch((err) => {
 
 For infomation about troubleshooting, refer to the [troubleshooting guide].
 
-### Logging
-
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
-
-```javascript
-const { setLogLevel } = require("@azure/logger");
-
-setLogLevel("info");
-```
-
 ## Next steps
 
 Please take a look at the [samples][samples] directory for detailed examples that demonstrate how to use the client libraries.
