@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isObjectWithProperties } from "./typeguards";
+import { isObjectWithProperties } from "@azure/core-util";
 
 /**
  * Represents a credential defined by a static shared access signature.

@@ -10,14 +10,14 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InternalError\",\"message\":\"The server encountered an internal error.\",\"innererror\":{\"code\":\"BadRequest\",\"message\":\"We are unable to find phone plans to match your requested capabilities.\"}}}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
     "content-type": "application/json",
-    "date": "Thu, 12 May 2022 16:42:25 GMT",
-    "ms-cv": "atmwYZTSvUaJvrQYb8u+Dw.0",
+    "date": "Tue, 09 Aug 2022 23:42:13 GMT",
+    "ms-cv": "AwK1LDwVtE21QlDM6TzkBw.0",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "07zh9YgAAAAAOIKWAES/5QIyzK34oCRdpUFJHMDFFREdFMDkyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-azure-ref": "01PDyYgAAAAAkKjSy/1yxRLUgrZmLL19XTEFYMzExMDAwMTA4MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "2289ms"
+    "x-processing-time": "1250ms"
    }
   }
  ],

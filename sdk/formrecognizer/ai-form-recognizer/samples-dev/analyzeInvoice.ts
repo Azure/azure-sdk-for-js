@@ -10,6 +10,7 @@
  * https://aka.ms/azsdk/formrecognizer/invoicefieldschema
  *
  * @summary extract data from an invoice document
+ * @azsdk-skip-javascript
  */
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
@@ -25,7 +26,7 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocument(
+  const poller = await client.beginAnalyzeDocumentFromUrl(
     PrebuiltInvoiceModel,
     // The form recognizer service will access the following URL to an invoice image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/sample_invoice.jpg"

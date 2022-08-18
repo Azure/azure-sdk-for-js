@@ -3,6 +3,7 @@
 
 /**
  * @azsdk-util
+ * @azsdk-skip-javascript
  */
 
 // Model:       prebuilt-vaccinationCard
@@ -46,9 +47,9 @@ export type PrebuiltVaccinationCardDocument = VaccinationCovid19Us;
 
 export interface VaccinationCovid19Us {
   /**
-   * Document type: "vaccination.covid19.us".
+   * Document type: "vaccinationCard.covid19.us".
    */
-  docType: "vaccinationCar.covid.us";
+  docType: "vaccinationCard.covid19.us";
   /**
    * Document fields.
    */
@@ -127,7 +128,7 @@ function modelInfo() {
     createdDateTime: "2022-06-30T00:00:00.000Z",
     apiVersion: "2022-06-30-preview",
     docTypes: {
-      "vaccinationCard.covid.us": {
+      "vaccinationCard.covid19.us": {
         buildMode: "template",
         fieldSchema: {
           CardHolderInfo: {

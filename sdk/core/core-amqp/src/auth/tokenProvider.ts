@@ -8,7 +8,7 @@ import {
   isNamedKeyCredential,
   isSASCredential,
 } from "@azure/core-auth";
-import { isObjectWithProperties } from "../util/typeGuards";
+import { isObjectWithProperties } from "@azure/core-util";
 import jssha from "jssha";
 
 /**

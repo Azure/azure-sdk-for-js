@@ -9,7 +9,7 @@ import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
-import { isDefined } from "./typeGuards";
+import { isDefined } from "@azure/core-util";
 import { HttpResponse, toHttpResponse } from "./compat";
 import { StandardAbortMessage } from "@azure/core-amqp";
 

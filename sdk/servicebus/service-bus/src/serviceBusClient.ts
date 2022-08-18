@@ -24,7 +24,8 @@ import { ServiceBusRuleManager, ServiceBusRuleManagerImpl } from "./serviceBusRu
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
-import { isCredential, isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
+import { isCredential } from "./util/typeGuards";
 import { ensureValidIdentifier } from "./util/utils";
 
 /**
