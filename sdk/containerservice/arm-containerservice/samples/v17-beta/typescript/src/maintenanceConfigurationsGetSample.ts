@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the specified maintenance configuration of a managed cluster.
  *
  * @summary Gets the specified maintenance configuration of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/MaintenanceConfigurationsGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-07-02-preview/examples/MaintenanceConfigurationsGet.json
  */
 async function getMaintenanceConfiguration() {
   const subscriptionId = "subid1";
