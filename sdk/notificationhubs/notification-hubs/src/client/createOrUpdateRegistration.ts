@@ -7,6 +7,8 @@ import { RegistrationDescription } from "../models/registration.js";
 import { createOrUpdateRegistrationDescription } from "./internal/_createOrUpdateRegistrationDescription.js";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "createOrUpdateRegistration";
+
 /**
  * Creates or updates a registration.
  * @param context - The Notification Hubs client.
@@ -20,7 +22,7 @@ export function createOrUpdateRegistration(
   options: OperationOptions = {}
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-createOrUpdateRegistration",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       return createOrUpdateRegistrationDescription(

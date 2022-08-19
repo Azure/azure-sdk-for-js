@@ -24,7 +24,7 @@ import {
 } from "@azure/notification-hubs/client";
 import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { delay } from "@azure/core-amqp";
+import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
 import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 

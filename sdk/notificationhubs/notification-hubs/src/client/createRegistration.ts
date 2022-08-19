@@ -8,6 +8,8 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { createOrUpdateRegistrationDescription } from "./internal/_createOrUpdateRegistrationDescription.js";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "createRegistration";
+
 /**
  * Creates a new registration. This method generates a registration ID,
  * which you can subsequently use to retrieve, update, and delete this registration.
@@ -22,7 +24,7 @@ export function createRegistration(
   options: OperationOptions = {}
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-createRegistration",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       if (registration.registrationId) {
