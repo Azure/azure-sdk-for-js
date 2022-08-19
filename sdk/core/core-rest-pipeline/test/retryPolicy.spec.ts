@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { makeTestLogger } from "./util";
-import { AbortController } from "@azure/abort-controller";
-import { assert } from "chai";
 import * as sinon from "sinon";
 import {
   PipelineResponse,
@@ -12,7 +9,10 @@ import {
   createPipelineRequest,
   retryPolicy,
 } from "../src";
+import { AbortController } from "@azure/abort-controller";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+import { assert } from "chai";
+import { makeTestLogger } from "./util";
 
 describe("retryPolicy", function () {
   afterEach(function () {
