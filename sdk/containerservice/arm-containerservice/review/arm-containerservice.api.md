@@ -88,6 +88,7 @@ export type AgentPoolMode = string;
 
 // @public
 export interface AgentPools {
+    abortLatestOperation(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsAbortLatestOperationOptionalParams): Promise<void>;
     beginCreateOrUpdate(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AgentPoolsCreateOrUpdateResponse>, AgentPoolsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<AgentPoolsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -98,6 +99,10 @@ export interface AgentPools {
     getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams): Promise<AgentPoolsGetAvailableAgentPoolVersionsResponse>;
     getUpgradeProfile(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsGetUpgradeProfileOptionalParams): Promise<AgentPoolsGetUpgradeProfileResponse>;
     list(resourceGroupName: string, resourceName: string, options?: AgentPoolsListOptionalParams): PagedAsyncIterableIterator<AgentPool>;
+}
+
+// @public
+export interface AgentPoolsAbortLatestOperationOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -326,6 +331,9 @@ export interface ContainerServiceVMDiagnostics {
 
 // @public
 export type ContainerServiceVMSizeTypes = string;
+
+// @public
+export type ControlledValues = string;
 
 // @public
 export type Count = 1 | 3 | 5;
@@ -805,6 +813,12 @@ export enum KnownContainerServiceVMSizeTypes {
 }
 
 // @public
+export enum KnownControlledValues {
+    RequestsAndLimits = "RequestsAndLimits",
+    RequestsOnly = "RequestsOnly"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -972,7 +986,8 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
 // @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
@@ -1005,6 +1020,14 @@ export enum KnownTrustedAccessRoleBindingProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownUpdateMode {
+    Auto = "Auto",
+    Initial = "Initial",
+    Off = "Off",
+    Recreate = "Recreate"
 }
 
 // @public
@@ -1128,6 +1151,7 @@ export interface ManagedCluster extends TrackedResource {
     apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
     autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile;
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
+    azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
     readonly azurePortalFqdn?: string;
     creationData?: CreationData;
     readonly currentKubernetesVersion?: string;
@@ -1266,6 +1290,23 @@ export interface ManagedClusterAPIServerAccessProfile {
 // @public
 export interface ManagedClusterAutoUpgradeProfile {
     upgradeChannel?: UpgradeChannel;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfile {
+    metrics?: ManagedClusterAzureMonitorProfileMetrics;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
+    metricAnnotationsAllowList?: string;
+    metricLabelsAllowlist?: string;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileMetrics {
+    enabled: boolean;
+    kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
 }
 
 // @public
@@ -1442,6 +1483,7 @@ export interface ManagedClusterPropertiesForSnapshot {
 
 // @public
 export interface ManagedClusters {
+    abortLatestOperation(resourceGroupName: string, resourceName: string, options?: ManagedClustersAbortLatestOperationOptionalParams): Promise<void>;
     beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersCreateOrUpdateResponse>, ManagedClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<ManagedClustersCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -1476,6 +1518,10 @@ export interface ManagedClusters {
 }
 
 // @public
+export interface ManagedClustersAbortLatestOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface ManagedClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1495,6 +1541,7 @@ export interface ManagedClustersDeleteOptionalParams extends coreClient.Operatio
 export interface ManagedClusterSecurityProfile {
     azureKeyVaultKms?: AzureKeyVaultKms;
     defender?: ManagedClusterSecurityProfileDefender;
+    imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
     nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
@@ -1508,6 +1555,12 @@ export interface ManagedClusterSecurityProfileDefender {
 // @public
 export interface ManagedClusterSecurityProfileDefenderSecurityMonitoring {
     enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterSecurityProfileImageCleaner {
+    enabled?: boolean;
+    intervalHours?: number;
 }
 
 // @public
@@ -1821,11 +1874,20 @@ export interface ManagedClusterWindowsProfile {
 // @public
 export interface ManagedClusterWorkloadAutoScalerProfile {
     keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+    // (undocumented)
+    verticalPodAutoscaler?: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler;
 }
 
 // @public
 export interface ManagedClusterWorkloadAutoScalerProfileKeda {
     enabled: boolean;
+}
+
+// @public (undocumented)
+export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
+    controlledValues: ControlledValues;
+    enabled: boolean;
+    updateMode: UpdateMode;
 }
 
 // @public (undocumented)
@@ -2331,6 +2393,9 @@ export interface TrustedAccessRolesListOptionalParams extends coreClient.Operati
 
 // @public
 export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
+
+// @public
+export type UpdateMode = string;
 
 // @public
 export type UpgradeChannel = string;

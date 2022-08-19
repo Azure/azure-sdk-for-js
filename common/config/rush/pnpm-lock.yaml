@@ -47,6 +47,7 @@ specifiers:
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid': file:./projects/arm-compute-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-confidentialledger': file:./projects/arm-confidentialledger.tgz
   '@rush-temp/arm-confluent': file:./projects/arm-confluent.tgz
+  '@rush-temp/arm-connectedvmware': file:./projects/arm-connectedvmware.tgz
   '@rush-temp/arm-consumption': file:./projects/arm-consumption.tgz
   '@rush-temp/arm-containerinstance': file:./projects/arm-containerinstance.tgz
   '@rush-temp/arm-containerregistry': file:./projects/arm-containerregistry.tgz
@@ -349,6 +350,7 @@ dependencies:
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid': file:projects/arm-compute-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-confidentialledger': file:projects/arm-confidentialledger.tgz
   '@rush-temp/arm-confluent': file:projects/arm-confluent.tgz
+  '@rush-temp/arm-connectedvmware': file:projects/arm-connectedvmware.tgz
   '@rush-temp/arm-consumption': file:projects/arm-consumption.tgz
   '@rush-temp/arm-containerinstance': file:projects/arm-containerinstance.tgz
   '@rush-temp/arm-containerregistry': file:projects/arm-containerregistry.tgz
@@ -752,6 +754,21 @@ packages:
 
   /@azure/arm-operationalinsights/8.0.1:
     resolution: {integrity: sha512-5Xo1jTotmMREtgNqrHGI1+fOTuejyHfiquK4dPgLIZ2CiQoOnX/RDqD5O0Pcaj2R10PLeMBk/DohBpw9mI2ugg==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.6.0
+      '@azure/core-lro': 2.2.4
+      '@azure/core-paging': 1.3.0
+      '@azure/core-rest-pipeline': 1.9.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/arm-storage/17.2.1:
+    resolution: {integrity: sha512-J2jmTPv8ZraSHDTz9l2Bx8gNL3ktfDDWo2mxWfzarn64O9Fjhb+l85YWyubGy2xUdeGuZPKzvQLltGv8bSu8eQ==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -10596,10 +10613,11 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-rwz3C84yuvlxj1GLAPuX0hxvJLz7Bu2/W6ZQ9h+yts5okxKViUbf1IU8CMqGJw+xu4ip2yiDdGc1RDzxfS9Erg==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-xqfeQY8vjpNbjq1cmVlpEr2/tm4Ek+9CGFueKekx46O1rKuQxemizTsEJ6r31FDn/xI2cxOcM054LRbKFw1CEg==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
+      '@azure/arm-storage': 17.2.1
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
@@ -11008,6 +11026,33 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-connectedvmware.tgz:
+    resolution: {integrity: sha512-12LgkTdZkmzbUPLD2tgNyijsnNZG7HtQfwNdReKatvR6gfPAWLGeNdENOIS7DTE2iuQKf3Tur/ftjFKBNwStqA==, tarball: file:projects/arm-connectedvmware.tgz}
+    name: '@rush-temp/arm-connectedvmware'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
@@ -11614,7 +11659,7 @@ packages:
     dev: false
 
   file:projects/arm-deviceupdate.tgz:
-    resolution: {integrity: sha512-NNzXh6UQG8WrESPBhdM3dQ32GQI4ZhffplDRVHVmfdzbK/yzTsZ7i0DMjQoCB3DgiN3SH/PTyo5T8xcgw1vGrg==, tarball: file:projects/arm-deviceupdate.tgz}
+    resolution: {integrity: sha512-+xTipJlMdNqc2QBgoUJdeztn81XFGe+tPoavBoh3iaqK8s8n3ARuimU6BVwMMeHNp1OBaneAlM/T46WNlpMRRw==, tarball: file:projects/arm-deviceupdate.tgz}
     name: '@rush-temp/arm-deviceupdate'
     version: 0.0.0
     dependencies:
@@ -11634,7 +11679,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -11948,12 +11993,13 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-0/bLZaWh1M+YMhOqdV7043GLZJYohPa+NnJY//fRmfNe6PRe8MAmhkBP650zKFudSZa6nh/LTZ8mESRtPj6hYA==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-BSpsy3yIdAjRHhWl2960MX4BhtyOj78kO0/0VPcKyHpI1YmuDN/7QVak93CeF4AkPBXC28EytMu+Cx/5sz5eXg==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/arm-network': 26.0.0
+      '@azure/arm-storage': 17.2.1
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
@@ -12370,7 +12416,7 @@ packages:
     dev: false
 
   file:projects/arm-iothub.tgz:
-    resolution: {integrity: sha512-fLFY14DcCIgcllGY/h40TrsAthyciJzo/QZPWxIjenS8PY3qP5N7R3ohTEmFVxbhc9n1zc/gptRTrXtA7iD/lQ==, tarball: file:projects/arm-iothub.tgz}
+    resolution: {integrity: sha512-Jxfkg0ptrzILznyrxUkDkjkypL0LLt0D5hOCBAJaPTeUKk5YFckq6LwYsZi+KotDsLTstNoXkmOXN36f/44IiA==, tarball: file:projects/arm-iothub.tgz}
     name: '@rush-temp/arm-iothub'
     version: 0.0.0
     dependencies:
@@ -12390,7 +12436,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -12950,10 +12996,11 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-sVHjnt06bGNZ8H7Hvrn9m0lIBaHe7Dvz1C1p55YKJ2TTFt7pE86Mlu6PWhdBqnD64GnlmhP/V1u042d3B2NYzA==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-EOQfG1JpCWLpDvXpBTPYCC3hFQ39krtBLj5Jt5vfknSez10p/E0xsbnmoVAtfVsfRyoW06u877ZaSfgv25ab7w==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
+      '@azure/arm-storage': 17.2.1
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
@@ -13088,11 +13135,12 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-zTebCe64Jc+Yel0fatpfxLZa5BEDbywyFNqHTFQNKKIXvGubxXfjQN2SFDhWNP5mlkUwy4O3qKZU3Lqk/O7vQw==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-Qc2E0ysraHPrhujtZ/zTxdcmmcdTjy/obZZdzLwtwZeCTM3RWN0MBWb1pkBC9+fqXFsFYXkOnT6yOyHmQyWKqw==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       '@azure/arm-operationalinsights': 8.0.1
+      '@azure/arm-storage': 17.2.1
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
@@ -14605,7 +14653,7 @@ packages:
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-ftuAZ4Gz0fDNYNNe41u7kvBI0q6OLW1kkVRajzZDxtK1teNmhhl83xqaESlXNicPRUB2v9IioKxZ3BJrElqYQQ==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-Zf8xxrD5p/CJWl+32a0qEK8Ymf/GTFZiG76fu227UINMpnNOoWpDITsuxzH44N8cGdkdz9gxEmrc+5Yobj0kHw==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
@@ -14625,7 +14673,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
