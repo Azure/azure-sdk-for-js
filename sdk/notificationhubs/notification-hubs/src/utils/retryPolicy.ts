@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignal } from "@azure/abort-controller";
-import { delay } from "@azure/core-amqp";
+import { delay } from "@azure/core-util";
 import { isDefined } from "./utils.js";
 import { isError } from "@azure/core-util";
 import { isRestError } from "@azure/core-rest-pipeline";
@@ -115,7 +115,7 @@ export function createBaseRetryPolicy(
         ++failedAttemptCount;
         const retryDelay = calculateRetryDelay(err, failedAttemptCount);
         if (isDefined(retryDelay)) {
-          await delay(retryDelay, signal);
+          await delay(retryDelay);
         } else {
           throw err;
         }

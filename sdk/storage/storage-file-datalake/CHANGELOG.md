@@ -9,6 +9,11 @@
 - Added support for encryption scopes.
 - Added support for encryption scope SAS.
 
+### Bugs Fixed
+
+- Correted permission string parsing in DataLakePathClient.setPermissions() and DataLakePathClient.getAccessControl().
+- Refined URL parsing method to let it be able to correctly parse URLs with account name in path.
+
 ## 12.10.0 (2022-07-08)
 
 ### Features Added

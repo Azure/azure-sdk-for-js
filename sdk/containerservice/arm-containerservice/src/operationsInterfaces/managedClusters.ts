@@ -38,6 +38,7 @@ import {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
+  ManagedClustersAbortLatestOperationOptionalParams,
   ManagedClustersRotateClusterCertificatesOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersStopOptionalParams,
@@ -296,6 +297,21 @@ export interface ManagedClusters {
     resourceName: string,
     parameters: ManagedClusterAADProfile,
     options?: ManagedClustersResetAADProfileOptionalParams
+  ): Promise<void>;
+  /**
+   * Aborting last running operation on managed cluster.  We return a 204 no content code here to
+   * indicate that the operation has been accepted and an abort will be attempted but is not guaranteed
+   * to complete successfully. Please look up the provisioning state of the managed cluster to keep track
+   * of whether it changes to Canceled. A canceled provisioning state indicates that the abort was
+   * successful
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  abortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
   ): Promise<void>;
   /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more

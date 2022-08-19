@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Fixed a hang issue in ShareFileClient.downloadToBuffer when encountering transient network failure.
+- Refined URL parsing method to let it be able to correctly parse URLs with account name in path.
+
 ### Other Changes
 
 ## 12.11.0 (2022-07-08)

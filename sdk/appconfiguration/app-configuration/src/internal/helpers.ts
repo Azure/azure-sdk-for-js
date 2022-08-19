@@ -19,7 +19,7 @@ import {
   SecretReferenceValue,
   secretReferenceContentType,
 } from "../secretReference";
-import { isDefined } from "./typeguards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header

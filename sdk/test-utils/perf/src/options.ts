@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
-import { isDefined } from "./utils";
+import { isDefined } from "@azure/core-util";
 
 /**
  * The structure of a Perf option. They represent command line parameters.

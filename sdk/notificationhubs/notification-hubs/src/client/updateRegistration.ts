@@ -8,6 +8,8 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { createOrUpdateRegistrationDescription } from "./internal/_createOrUpdateRegistrationDescription.js";
 import { tracingClient } from "../utils/tracing.js";
 
+const OPERATION_NAME = "updateRegistration";
+
 /**
  * Updates an existing registration.
  * @param context - The Notification Hubs client.
@@ -21,7 +23,7 @@ export function updateRegistration(
   options: OperationOptions = {}
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
-    "NotificationHubsClientContext-updateRegistration",
+    `NotificationHubsClientContext-${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       if (!registration.etag) {

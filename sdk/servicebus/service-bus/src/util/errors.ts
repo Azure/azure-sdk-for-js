@@ -10,7 +10,7 @@ import {
   isServiceBusMessage,
   ServiceBusReceivedMessage,
 } from "../serviceBusMessage";
-import { isDefined } from "./typeGuards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * Error message to use when EntityPath in connection string does not match the

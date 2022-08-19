@@ -79,6 +79,58 @@ describe("#AzureMonitorBaseExporter", () => {
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       });
 
+      it("should persist retriable failed telemetry", async () => {
+        const exporter = new TestExporter();
+        const response = failedBreezeResponse(1, 500);
+        scope.reply(500, JSON.stringify(response));
+
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+
+        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      });
+
+      it("should persist retriable failed telemetry", async () => {
+        const exporter = new TestExporter();
+        const response = failedBreezeResponse(1, 502);
+        scope.reply(502, JSON.stringify(response));
+
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+
+        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      });
+
+      it("should persist retriable failed telemetry", async () => {
+        const exporter = new TestExporter();
+        const response = failedBreezeResponse(1, 503);
+        scope.reply(503, JSON.stringify(response));
+
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+
+        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      });
+
+      it("should persist retriable failed telemetry", async () => {
+        const exporter = new TestExporter();
+        const response = failedBreezeResponse(1, 504);
+        scope.reply(504, JSON.stringify(response));
+
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+
+        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      });
+
       it("should persist partial retriable failed telemetry", async () => {
         const exporter = new TestExporter();
         const response = partialBreezeResponse([200, 408, 408]);

@@ -743,6 +743,8 @@ export interface ManagedClusterSecurityProfile {
   azureKeyVaultKms?: AzureKeyVaultKms;
   /** [Workload Identity](https://azure.github.io/azure-workload-identity/docs/) settings for the security profile. */
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
+  /** ImageCleaner settings for the security profile. */
+  imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
   /** [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile. */
   nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
 }
@@ -777,6 +779,14 @@ export interface AzureKeyVaultKms {
 export interface ManagedClusterSecurityProfileWorkloadIdentity {
   /** Whether to enable Workload Identity */
   enabled?: boolean;
+}
+
+/** ImageCleaner removes unused images from nodes, freeing up disk space and helping to reduce attack surface area. Here are settings for the security profile. */
+export interface ManagedClusterSecurityProfileImageCleaner {
+  /** Whether to enable ImageCleaner on AKS cluster. */
+  enabled?: boolean;
+  /** ImageCleaner scanning interval. */
+  intervalHours?: number;
 }
 
 /** Node Restriction settings for the security profile. */
@@ -841,12 +851,44 @@ export interface ManagedClusterIngressProfileWebAppRouting {
 export interface ManagedClusterWorkloadAutoScalerProfile {
   /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
   keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+  verticalPodAutoscaler?: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler;
 }
 
 /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
 export interface ManagedClusterWorkloadAutoScalerProfileKeda {
   /** Whether to enable KEDA. */
   enabled: boolean;
+}
+
+export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
+  /** Whether to enable VPA. Default value is false. */
+  enabled: boolean;
+  /** Controls which resource value autoscaler will change. Default value is RequestsAndLimits. */
+  controlledValues: ControlledValues;
+  /** Each update mode level is a superset of the lower levels. Off<Initial<Recreate<=Auto. For example: if UpdateMode is Initial, it means VPA sets the recommended resources in the VerticalPodAutoscaler Custom Resource (from UpdateMode Off) and also assigns resources on pod creation (from Initial). The default value is Off. */
+  updateMode: UpdateMode;
+}
+
+/** Prometheus addon profile for the container service cluster */
+export interface ManagedClusterAzureMonitorProfile {
+  /** Metrics profile for the prometheus service addon */
+  metrics?: ManagedClusterAzureMonitorProfileMetrics;
+}
+
+/** Metrics profile for the prometheus service addon */
+export interface ManagedClusterAzureMonitorProfileMetrics {
+  /** Whether to enable the Prometheus collector */
+  enabled: boolean;
+  /** Kube State Metrics for prometheus addon profile for the container service cluster */
+  kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
+}
+
+/** Kube State Metrics for prometheus addon profile for the container service cluster */
+export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
+  /** Comma-separated list of Kubernetes annotations keys that will be used in the resource's labels metric. */
+  metricLabelsAllowlist?: string;
+  /** Comma-separated list of additional Kubernetes label keys that will be used in the resource's labels metric. */
+  metricAnnotationsAllowList?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -1761,6 +1803,8 @@ export interface ManagedCluster extends TrackedResource {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Workload Auto-scaler profile for the container service cluster. */
   workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
+  /** Prometheus addon profile for the container service cluster */
+  azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
 }
 
 /** Managed cluster Access Profile. */
@@ -2377,10 +2421,12 @@ export type KeyVaultNetworkAccessTypes = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
-  /** Enabled */
+  /** Inbound/Outbound to the managedCluster is allowed. */
   Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
+  /** Inbound traffic to managedCluster is disabled, traffic from managedCluster is allowed. */
+  Disabled = "Disabled",
+  /** Inbound/Outbound traffic is managed by Microsoft.Network/NetworkSecurityPerimeters. */
+  SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 /**
@@ -2388,10 +2434,53 @@ export enum KnownPublicNetworkAccess {
  * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Inbound\/Outbound to the managedCluster is allowed. \
+ * **Disabled**: Inbound traffic to managedCluster is disabled, traffic from managedCluster is allowed. \
+ * **SecuredByPerimeter**: Inbound\/Outbound traffic is managed by Microsoft.Network\/NetworkSecurityPerimeters.
  */
 export type PublicNetworkAccess = string;
+
+/** Known values of {@link ControlledValues} that the service accepts. */
+export enum KnownControlledValues {
+  /** Autoscaler will control resource requests and limits. */
+  RequestsAndLimits = "RequestsAndLimits",
+  /** Autoscaler will control resource requests only. */
+  RequestsOnly = "RequestsOnly"
+}
+
+/**
+ * Defines values for ControlledValues. \
+ * {@link KnownControlledValues} can be used interchangeably with ControlledValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequestsAndLimits**: Autoscaler will control resource requests and limits. \
+ * **RequestsOnly**: Autoscaler will control resource requests only.
+ */
+export type ControlledValues = string;
+
+/** Known values of {@link UpdateMode} that the service accepts. */
+export enum KnownUpdateMode {
+  /** Autoscaler never changes pod resources but provides recommendations. */
+  Off = "Off",
+  /** Autoscaler only assigns resources on pod creation and doesn't change them during the lifetime of the pod. */
+  Initial = "Initial",
+  /** Autoscaler assigns resources on pod creation and updates pods that need further scaling during their lifetime by deleting and recreating. */
+  Recreate = "Recreate",
+  /** Autoscaler chooses the update mode. Autoscaler currently does the same as Recreate. In the future, it may take advantage of restart-free mechanisms once they are available. */
+  Auto = "Auto"
+}
+
+/**
+ * Defines values for UpdateMode. \
+ * {@link KnownUpdateMode} can be used interchangeably with UpdateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Off**: Autoscaler never changes pod resources but provides recommendations. \
+ * **Initial**: Autoscaler only assigns resources on pod creation and doesn't change them during the lifetime of the pod. \
+ * **Recreate**: Autoscaler assigns resources on pod creation and updates pods that need further scaling during their lifetime by deleting and recreating. \
+ * **Auto**: Autoscaler chooses the update mode. Autoscaler currently does the same as Recreate. In the future, it may take advantage of restart-free mechanisms once they are available.
+ */
+export type UpdateMode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -3312,6 +3401,10 @@ export interface ManagedClustersResetAADProfileOptionalParams
 }
 
 /** Optional parameters. */
+export interface ManagedClustersAbortLatestOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface ManagedClustersRotateClusterCertificatesOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -3425,6 +3518,10 @@ export interface MaintenanceConfigurationsListByManagedClusterNextOptionalParams
 
 /** Contains response data for the listByManagedClusterNext operation. */
 export type MaintenanceConfigurationsListByManagedClusterNextResponse = MaintenanceConfigurationListResult;
+
+/** Optional parameters. */
+export interface AgentPoolsAbortLatestOperationOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentPoolsListOptionalParams
