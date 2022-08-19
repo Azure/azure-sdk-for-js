@@ -89,7 +89,7 @@ describe("LogsIngestionClient live tests", function () {
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
     if (isPlaybackMode()) this.skip();
-    const noOfElements = 150000;
+    const noOfElements = 50000;
     const logData = getObjects(noOfElements);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
     client = new LogsIngestionClient(
@@ -113,6 +113,7 @@ describe("LogsIngestionClient live tests", function () {
       });
 
       const chunkArraySize = getChunkArraylength(noOfElements);
+      assert.isAbove(chunkArraySize, 1);
       if (chunkArraySize % 2 === 0) {
         assert.equal(result.errors.length, chunkArraySize / 2);
       }
@@ -124,7 +125,7 @@ describe("LogsIngestionClient live tests", function () {
 
   it("Throws error when all logs fail", async function () {
     if (isPlaybackMode()) this.skip();
-    const noOfElements = 100000;
+    const noOfElements = 50000;
     const logData = getObjects(noOfElements);
     const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
       maxConcurrency: 3,
@@ -138,6 +139,7 @@ describe("LogsIngestionClient live tests", function () {
         );
       });
       const chunkArraySize = getChunkArraylength(noOfElements);
+      assert.isAbove(chunkArraySize, 1);
       assert.equal(chunkArraySize, result.errors.length);
     }
   });
