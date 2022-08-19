@@ -14,7 +14,7 @@ import {
 import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
-import { isDefined, isObjectWithProperties } from "./util/typeGuards";
+import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import { reorderLockToken } from "./util/utils";
 
 /**

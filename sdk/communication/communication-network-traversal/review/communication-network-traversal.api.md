@@ -46,9 +46,7 @@ export interface GetRelayConfigurationOptions extends OperationOptions {
 
 // @public
 export enum KnownRouteType {
-    // (undocumented)
     Any = "any",
-    // (undocumented)
     Nearest = "nearest"
 }
 

@@ -31,7 +31,7 @@ export function sendNotificationPayload(
         endpoint.searchParams.append("debug", "true");
       }
 
-      const headers = context.createHeaders();
+      const headers = await context.createHeaders(method);
       if (notification.headers) {
         for (const headerName of Object.keys(notification.headers)) {
           headers.set(headerName, notification.headers[headerName]);

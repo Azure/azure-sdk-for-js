@@ -9,7 +9,7 @@
  */
 
 import { matrix } from "@azure/test-utils";
-import { isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import * as sinon from "sinon";
 import { Uuid } from "../../src/utils/uuid";
 import {
