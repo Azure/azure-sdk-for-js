@@ -1039,6 +1039,13 @@ export const enum KnownRegexFlags {
 }
 
 // @public
+export enum KnownSearchAudience {
+    AzureChina = "https://search.azure.cn",
+    AzureGovernment = "https://search.azure.us",
+    AzurePublicCloud = "https://search.azure.com"
+}
+
+// @public
 export const enum KnownSearchIndexerDataSourceType {
     AdlsGen2 = "adlsgen2",
     AzureBlob = "azureblob",
