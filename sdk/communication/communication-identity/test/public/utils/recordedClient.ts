@@ -32,7 +32,6 @@ const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_M365_AAD_TENANT: "00000000-0000-0000-0000-000000000000",
   COMMUNICATION_M365_SCOPE: "M365Scope",
   COMMUNICATION_EXPIRED_TEAMS_TOKEN: "ExpiredToken",
-  SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "false",
 };
 
 const sanitizerOptions: SanitizerOptions = {

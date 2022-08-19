@@ -29,10 +29,6 @@ matrix([[true, false]], async function (useAad) {
     };
 
     before(async function (this: Context) {
-      const skipTests = env.SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST === "true";
-      if (skipTests) {
-        this.skip();
-      }
       if (!isPlaybackMode()) {
         options = await fetchParamsForGetTokenForTeamsUser();
       }

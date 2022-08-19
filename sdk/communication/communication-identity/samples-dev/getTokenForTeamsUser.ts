@@ -27,10 +27,6 @@ const msalUsername = process.env["COMMUNICATION_MSAL_USERNAME"] || "<msal userna
 const msalPassword = process.env["COMMUNICATION_MSAL_PASSWORD"] || "<msal password>";
 
 export async function main() {
-  if (process.env["SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST"] === "true") {
-    console.log("Skipping the Get Access Token for Teams User sample");
-    return;
-  }
   console.log("\n== Get Access Token for Teams User sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
