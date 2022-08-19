@@ -3,11 +3,12 @@
 
 import { assert } from "chai";
 import { createPipelineFromOptions } from "../src/createPipelineFromOptions";
-import { PipelinePolicy } from "../src/pipeline";
 import { createPipelineRequest } from "../src/pipelineRequest";
 import { createHttpHeaders } from "../src/httpHeaders";
-import sinon from "sinon";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+import { isNode } from "@azure/core-util";
+import { PipelinePolicy } from "../src/pipeline";
+import sinon from "sinon";
 
 describe("defaultLogPolicy", function () {
   it("should be invoked on every retry", async function () {
@@ -15,68 +16,60 @@ describe("defaultLogPolicy", function () {
       url: "https://bing.com",
     });
 
-    let testSignPolicy: PipelinePolicy = {
+    const testSignPolicy: PipelinePolicy = {
       name: "testSignPolicy",
-      sendRequest: async function (request, next) {
-        let response = await next(request);
+      sendRequest: async function (req, next) {
+        const response = await next(req);
         return response;
       },
     };
 
-    let pipeline = createPipelineFromOptions({
+    const pipeline = createPipelineFromOptions({
       retryOptions: { maxRetryDelayInMs: 0 },
     });
     pipeline.addPolicy(testSignPolicy, { phase: "Sign" });
 
-    let orderedPolicies = pipeline.getOrderedPolicies();
+    const orderedPolicies = pipeline.getOrderedPolicies();
+
+    const expectedOrderedPolicies = isNode ? ["proxyPolicy", "decompressResponsePolicy"] : [];
+    expectedOrderedPolicies.push(
+      "formDataPolicy",
+      "userAgentPolicy",
+      "setClientRequestIdPolicy",
+      "defaultRetryPolicy",
+      "tracingPolicy"
+    );
+    if (isNode) {
+      expectedOrderedPolicies.push("redirectPolicy");
+    }
+    expectedOrderedPolicies.push("testSignPolicy", "logPolicy");
     assert.deepEqual(
       orderedPolicies.map((policy) => policy.name),
-      [
-        "proxyPolicy",
-        "decompressResponsePolicy",
-        "formDataPolicy",
-        "userAgentPolicy",
-        "setClientRequestIdPolicy",
-        "defaultRetryPolicy",
-        "tracingPolicy",
-        "redirectPolicy",
-        "testSignPolicy",
-        "logPolicy",
-      ]
+      expectedOrderedPolicies
     );
 
-    let order: string[] = [];
+    const order: string[] = [];
     orderedPolicies.map((policy) => {
-      let wrappedMethod = policy.sendRequest;
-      sinon.stub(policy, "sendRequest").callsFake(async function (request, next) {
+      const stub = sinon.stub(policy, "sendRequest").callsFake(async function (req, next) {
         order.push(policy.name);
-        return wrappedMethod(request, next);
+        return stub.wrappedMethod(req, next);
       });
     });
 
     await pipeline.sendRequest(
       {
-        sendRequest: async function (request) {
-          return { headers: createHttpHeaders(), request, status: 500 };
+        sendRequest: async function (req) {
+          return { headers: createHttpHeaders(), request: req, status: 500 };
         },
       },
       request
     );
 
-    let expectedOrder = [
-      "proxyPolicy",
-      "decompressResponsePolicy",
-      "formDataPolicy",
-      "userAgentPolicy",
-      "setClientRequestIdPolicy",
-      "defaultRetryPolicy",
-    ];
-    for (let i = 0; i < DEFAULT_RETRY_POLICY_COUNT + 1; i++) {
-      for (let policy of ["tracingPolicy", "redirectPolicy", "testSignPolicy", "logPolicy"]) {
-        expectedOrder.push(policy);
-      }
+    const expectedOrder: string[] = orderedPolicies.map((policy) => policy.name);
+    const repeatedPolicies = expectedOrder.slice(expectedOrder.indexOf("tracingPolicy"));
+    for (let i = 0; i < DEFAULT_RETRY_POLICY_COUNT; i++) {
+      expectedOrder.push(...repeatedPolicies);
     }
-
     assert.deepEqual(order, expectedOrder);
   });
 });
