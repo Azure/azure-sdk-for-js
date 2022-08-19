@@ -8,7 +8,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/functions-authentication-events/      
+      - sdk/entra/functions-authentication-events/      
       # eng/common code changes trigger template pipeline for basic checking.
       - eng/common/
 
@@ -21,7 +21,7 @@ pr:
       - hotfix/*
   paths:
     include:
-      - sdk/template/
+      - sdk/entra/functions-authentication-events/
       # eng/common code changes trigger template pipeline for basic checking.
       - eng/common/
 

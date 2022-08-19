@@ -6,14 +6,13 @@
  */
 import {
   ActionableCloudEventResponse,
-  AuthEventAction,
-  AuthEventData,
+  AuthenticationEventAction,
+  AuthenticationEventData,
   CloudEventRequest,
 } from "../events";
 
 /**
  * The main request class, this will relate it's response and payload.
- * @beta
  */
 export interface TokenIssuanceStartRequest
   extends CloudEventRequest<TokenIssuanceStartResponse, TokenIssuanceStartData> {
@@ -24,22 +23,19 @@ export interface TokenIssuanceStartRequest
 /**
  * The main response class that is related to the request, this extends IActionable as the response
  * contains actions, we only allow actions that inherit the TokenIssuanceStartAction.
- * @beta
  */
 export type TokenIssuanceStartResponse = ActionableCloudEventResponse<TokenIssuanceStartAction>;
 
 /**
  * The main data class related to the request.
- * @beta
  */
-export interface TokenIssuanceStartData extends AuthEventData {
+export interface TokenIssuanceStartData extends AuthenticationEventData {
   /** The main context of the data. */
   authenticationContext: AuthenticationEventContext;
 }
 
 /**
  * Client class for data.
- * @beta
  */
 export interface AuthenticationEventContextClient {
   /** The Ip Address */
@@ -50,7 +46,6 @@ export interface AuthenticationEventContextClient {
 
 /**
  * ResourceServicePrincipal class for data.
- * @beta
  */
 export interface AuthenticationEventContextServicePrincipal {
   /** The identifier for the service principal. */
@@ -65,7 +60,6 @@ export interface AuthenticationEventContextServicePrincipal {
 
 /**
  * User class for data.
- * @beta
  */
 export interface AuthenticationEventContextUser {
   /** The user's company name. */
@@ -100,7 +94,6 @@ export interface AuthenticationEventContextUser {
 
 /**
  * Context class for data.
- * @beta
  */
 export interface AuthenticationEventContext {
   /** Unique identifier for the request. */
@@ -119,9 +112,8 @@ export interface AuthenticationEventContext {
 
 /**
  * All actions for the token issuance start event should extended this class, as it looks the correct action to the correct event.
- * @beta
  */
-export interface TokenIssuanceStartAction extends AuthEventAction {
+export interface TokenIssuanceStartAction extends AuthenticationEventAction {
   /** This will be the 'Name' of the action in the JSON. */
   actionType: string;
 }

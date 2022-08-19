@@ -4,21 +4,18 @@
 
 ```ts
 
-// Warning: (ae-incompatible-release-tags) The symbol "ActionableCloudEventResponse" is marked as @public, but its signature references "AuthEventAction" which is marked as @beta
-// Warning: (ae-incompatible-release-tags) The symbol "ActionableCloudEventResponse" is marked as @public, but its signature references "ActionableResponse" which is marked as @beta
-//
 // @public (undocumented)
 export interface ActionableCloudEventResponse<TEventAction extends AuthEventAction> extends ActionableResponse<TEventAction> {
     // (undocumented)
     oDataType: string;
 }
 
-// @beta
+// @public
 export interface ActionableResponse<TEventAction extends AuthEventAction> extends AuthEventResponse {
     actions: TEventAction[];
 }
 
-// @beta
+// @public
 export interface AuthenticationEventContext {
     authenticationProtocol: "OAUTH2.0" | "SAML" | "WS-FED" | "unknownFutureValue" | "";
     client: AuthenticationEventContextClient;
@@ -28,7 +25,7 @@ export interface AuthenticationEventContext {
     user: AuthenticationEventContextUser;
 }
 
-// @beta
+// @public
 export interface AuthenticationEventContextClient {
     ip: string;
     // (undocumented)
@@ -37,7 +34,7 @@ export interface AuthenticationEventContextClient {
     market: string;
 }
 
-// @beta
+// @public
 export interface AuthenticationEventContextServicePrincipal {
     appDisplayName: string;
     appId: string;
@@ -45,7 +42,7 @@ export interface AuthenticationEventContextServicePrincipal {
     id: string;
 }
 
-// @beta
+// @public
 export interface AuthenticationEventContextUser {
     companyName: string;
     country: string;
@@ -63,25 +60,25 @@ export interface AuthenticationEventContextUser {
     userType: string;
 }
 
-// @beta
+// @public
 export interface AuthEventAction {
     actionType: string;
 }
 
-// @beta
+// @public
 export interface AuthEventData {
     authenticationEventListenerId: string;
     customAuthenticationExtensionId: string;
     tenantId: string;
 }
 
-// @beta
+// @public
 export interface AuthEventRequest<TResponse extends AuthEventResponse, TData extends AuthEventData> extends AuthEventRequestBase {
     payload: TData;
     response: TResponse;
 }
 
-// @beta
+// @public
 export interface AuthEventRequestBase {
     queryParameters: Record<string, string>;
     requestStatus: RequestStatus;
@@ -89,57 +86,57 @@ export interface AuthEventRequestBase {
     type: string;
 }
 
-// @beta
+// @public
 export interface AuthEventResponse {
     body: string;
 }
 
-// @beta
+// @public
 export interface CloudEventRequest<TResponse extends AuthEventResponse, TData extends AuthEventData> extends AuthEventRequest<TResponse, TData> {
     oDataType: string;
     source: string;
 }
 
-// @beta
+// @public
 export function createFailedRequest(error: string | Error): FailedRequest;
 
-// @beta
+// @public
 export interface FailedRequest {
     // (undocumented)
     error: string;
 }
 
-// @beta
+// @public
 export interface ProvideClaimsForToken extends TokenIssuanceStartAction {
     actionType: "ProvideClaimsForToken";
     claims: TokenClaim[];
 }
 
-// @beta
+// @public
 export type RequestStatus = "Failed" | "TokenInvalid" | "Successful";
 
-// @beta
+// @public
 export interface TokenClaim {
     id: string;
     value: string | string[];
 }
 
-// @beta
+// @public
 export interface TokenIssuanceStartAction extends AuthEventAction {
     actionType: string;
 }
 
-// @beta
+// @public
 export interface TokenIssuanceStartData extends AuthEventData {
     authenticationContext: AuthenticationEventContext;
 }
 
-// @beta
+// @public
 export interface TokenIssuanceStartRequest extends CloudEventRequest<TokenIssuanceStartResponse, TokenIssuanceStartData> {
     tokenClaims?: Record<string, string>;
 }
 
-// @beta
+// @public
 export type TokenIssuanceStartResponse = ActionableCloudEventResponse<TokenIssuanceStartAction>;
 
 // (No @packageDocumentation comment for this package)
