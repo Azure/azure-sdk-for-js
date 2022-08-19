@@ -981,21 +981,6 @@ export const CommunicationServicesDeleteHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const CommunicationServicesRegenerateKeyHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunicationServicesRegenerateKeyHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DomainsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

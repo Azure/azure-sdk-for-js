@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Operation to delete a Domains resource.
  *
  * @summary Operation to delete a Domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2021-10-01-preview/examples/domains/delete.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/delete.json
  */
 async function deleteDomainsResource() {
   const subscriptionId = "12345";
