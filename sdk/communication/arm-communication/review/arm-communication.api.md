@@ -64,15 +64,15 @@ export interface CommunicationServiceManagementClientOptionalParams extends core
 }
 
 // @public
-export type CommunicationServiceResource = TrackedResource & {
-    readonly provisioningState?: CommunicationServicesProvisioningState;
-    readonly hostName?: string;
+export interface CommunicationServiceResource extends TrackedResource {
     dataLocation?: string;
-    readonly notificationHubId?: string;
-    readonly version?: string;
+    readonly hostName?: string;
     readonly immutableResourceId?: string;
     linkedDomains?: string[];
-};
+    readonly notificationHubId?: string;
+    readonly provisioningState?: CommunicationServicesProvisioningState;
+    readonly version?: string;
+}
 
 // @public
 export interface CommunicationServiceResourceList {
@@ -81,9 +81,9 @@ export interface CommunicationServiceResourceList {
 }
 
 // @public
-export type CommunicationServiceResourceUpdate = TaggedResource & {
+export interface CommunicationServiceResourceUpdate extends TaggedResource {
     linkedDomains?: string[];
-};
+}
 
 // @public
 export interface CommunicationServices {
@@ -189,11 +189,6 @@ export type CommunicationServicesListKeysResponse = CommunicationServiceKeys;
 export type CommunicationServicesProvisioningState = string;
 
 // @public
-export interface CommunicationServicesRegenerateKeyHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
 export interface CommunicationServicesRegenerateKeyOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -249,19 +244,19 @@ export interface DomainPropertiesVerificationStates {
 }
 
 // @public
-export type DomainResource = TrackedResource & {
-    readonly provisioningState?: DomainsProvisioningState;
+export interface DomainResource extends TrackedResource {
     readonly dataLocation?: string;
+    domainManagement?: DomainManagement;
     readonly fromSenderDomain?: string;
     readonly mailFromSenderDomain?: string;
-    domainManagement?: DomainManagement;
-    readonly verificationStates?: DomainPropertiesVerificationStates;
-    readonly verificationRecords?: DomainPropertiesVerificationRecords;
+    readonly provisioningState?: DomainsProvisioningState;
+    userEngagementTracking?: UserEngagementTracking;
     validSenderUsernames?: {
         [propertyName: string]: string;
     };
-    userEngagementTracking?: UserEngagementTracking;
-};
+    readonly verificationRecords?: DomainPropertiesVerificationRecords;
+    readonly verificationStates?: DomainPropertiesVerificationStates;
+}
 
 // @public
 export interface DomainResourceList {
@@ -377,10 +372,10 @@ export interface DomainsUpdateOptionalParams extends coreClient.OperationOptions
 export type DomainsUpdateResponse = DomainResource;
 
 // @public
-export type EmailServiceResource = TrackedResource & {
-    readonly provisioningState?: EmailServicesProvisioningState;
+export interface EmailServiceResource extends TrackedResource {
     dataLocation?: string;
-};
+    readonly provisioningState?: EmailServicesProvisioningState;
+}
 
 // @public
 export interface EmailServiceResourceList {
@@ -389,7 +384,8 @@ export interface EmailServiceResourceList {
 }
 
 // @public
-export type EmailServiceResourceUpdate = TaggedResource;
+export interface EmailServiceResourceUpdate extends TaggedResource {
+}
 
 // @public
 export interface EmailServices {
@@ -517,151 +513,98 @@ export { KeyType_2 as KeyType }
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownCheckNameAvailabilityReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownCommunicationServicesProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDomainManagement {
-    // (undocumented)
     AzureManaged = "AzureManaged",
-    // (undocumented)
     CustomerManaged = "CustomerManaged",
-    // (undocumented)
     CustomerManagedInExchangeOnline = "CustomerManagedInExchangeOnline"
 }
 
 // @public
 export enum KnownDomainsProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownEmailServicesProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownUserEngagementTracking {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownVerificationStatus {
-    // (undocumented)
     CancellationRequested = "CancellationRequested",
-    // (undocumented)
     NotStarted = "NotStarted",
-    // (undocumented)
     VerificationFailed = "VerificationFailed",
-    // (undocumented)
     VerificationInProgress = "VerificationInProgress",
-    // (undocumented)
     VerificationRequested = "VerificationRequested",
-    // (undocumented)
     Verified = "Verified"
 }
 
 // @public
 export enum KnownVerificationType {
-    // (undocumented)
     Dkim = "DKIM",
-    // (undocumented)
     Dkim2 = "DKIM2",
-    // (undocumented)
     Dmarc = "DMARC",
-    // (undocumented)
     Domain = "Domain",
-    // (undocumented)
     SPF = "SPF"
 }
 
@@ -677,7 +620,8 @@ export interface LinkNotificationHubParameters {
 }
 
 // @public
-export type NameAvailabilityParameters = CheckNameAvailabilityRequest;
+export interface NameAvailabilityParameters extends CheckNameAvailabilityRequest {
+}
 
 // @public
 export interface Operation {
@@ -755,20 +699,20 @@ export interface TaggedResource {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
-export type UpdateDomainRequestParameters = TaggedResource & {
+export interface UpdateDomainRequestParameters extends TaggedResource {
+    userEngagementTracking?: UserEngagementTracking;
     validSenderUsernames?: {
         [propertyName: string]: string;
     };
-    userEngagementTracking?: UserEngagementTracking;
-};
+}
 
 // @public
 export type UserEngagementTracking = string;
