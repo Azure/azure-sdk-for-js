@@ -8,7 +8,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/azure-functions-authentication-events-js/      
+      - sdk/functions-authentication-events/      
       # eng/common code changes trigger template pipeline for basic checking.
       - eng/common/
 
@@ -30,5 +30,5 @@ extends:
   parameters:
     ServiceDirectory: entra
     Artifacts:
-      - name: azure-functions-authentication-events-js
-        safeName: azurefunctionsauthenticationeventsjs
+      - name: azure-functions-authentication-events
+        safeName: azurefunctionsauthenticationevents
