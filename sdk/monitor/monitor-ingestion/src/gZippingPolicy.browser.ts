@@ -12,7 +12,7 @@ export const GZippingPolicy: PipelinePolicy = {
   name: gZippingPolicyName,
   sendRequest: async (req, next) => {
     if (req.body) {
-      const buffer = pako.gzip(req.body.toString());
+      const buffer = pako.gzip(String(req.body));
       req.body = buffer;
     }
     return next(req);
