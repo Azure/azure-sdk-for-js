@@ -12,7 +12,7 @@ import {
   getLogsIngestionEndpoint,
   loggerForTest,
 } from "./shared/testShared";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -80,7 +80,6 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("Success Test - divides huge data into chunks", async function () {
-    //if (isPlaybackMode()) this.skip();
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
       maxConcurrency: 3,
     });

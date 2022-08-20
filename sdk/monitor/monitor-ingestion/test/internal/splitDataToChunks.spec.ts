@@ -1,9 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { splitDataToChunks } from "../../src/utils/splitDataToChunksHelper";
 import { assert } from "chai";
 
 describe("LogsIngestionClient unit tests", function () {
   it("creates one chunk for single log record of 1MB size", () => {
-    let log = [
+    const log = [
       {
         data: Array(1000000).fill("x").join(""),
       },
@@ -15,7 +18,7 @@ describe("LogsIngestionClient unit tests", function () {
   });
 
   it("creates one chunk for single log record greater than 1MB size", () => {
-    let log: Record<string, unknown>[] = [
+    const log: Record<string, unknown>[] = [
       {
         data: Array(3000000).fill("x").join(""),
       },
@@ -27,7 +30,7 @@ describe("LogsIngestionClient unit tests", function () {
   });
 
   it("creates two chunks for logs greater than 1MB size", () => {
-    let log = [
+    const log = [
       {
         data: Array(3000000).fill("x").join(""),
       },
