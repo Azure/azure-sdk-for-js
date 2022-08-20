@@ -49,12 +49,12 @@ describe("defaultLogPolicy", function () {
     );
 
     const order: string[] = [];
-    orderedPolicies.map((policy) => {
+    for (const policy of orderedPolicies) {
       const stub = sinon.stub(policy, "sendRequest").callsFake(async function (req, next) {
         order.push(policy.name);
         return stub.wrappedMethod(req, next);
       });
-    });
+    }
 
     await pipeline.sendRequest(
       {
