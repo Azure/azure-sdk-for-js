@@ -17,8 +17,7 @@ export function splitDataToChunks(logs: Record<string, unknown>[]): Record<strin
       chunk.push(element);
       size += elementSize;
     } else {
-      if(chunk.length)
-        chunkArray.push(chunk);
+      if (chunk.length) chunkArray.push(chunk);
       chunk = [element];
       size = elementSize;
     }
