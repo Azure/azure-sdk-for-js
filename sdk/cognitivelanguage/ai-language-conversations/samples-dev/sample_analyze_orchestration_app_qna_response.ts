@@ -44,13 +44,13 @@ const body: ConversationalTask = {
 
 export async function main(){
     //Analyze query
-    const actionResult = await service.analyzeConversation(body);
-    console.log("query: ", actionResult.result.query);
-    console.log("project kind: ", actionResult.result.prediction.projectKind);
+    const { result } = await service.analyzeConversation(body);
+    console.log("query: ", result.query);
+    console.log("project kind: ", result.prediction.projectKind);
 
-    const top_intent = actionResult.result.prediction.topIntent;
+    const top_intent = result.prediction.topIntent;
     console.log("\ntop intent: ", top_intent);
-    const top_intent_object = actionResult.result.prediction.intents[top_intent];
+    const top_intent_object = result.prediction.intents[top_intent];
     console.log("confidence score: ", top_intent_object.confidence);
     console.log("project kind: ", top_intent_object.targetProjectKind);
 

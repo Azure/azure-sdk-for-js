@@ -40,15 +40,15 @@ const body: ConversationalTask = {
 
 export async function main() {
     //Analyze query
-    const actionResult = await service.analyzeConversation(body);
-    console.log("query: ", actionResult.result.query);
-    console.log("project kind: ", actionResult.result.prediction.projectKind);
-    console.log("top intent: ", actionResult.result.prediction.topIntent);
-    console.log("category: ", actionResult.result.prediction.intents[0].category);
-    console.log("confidence score: ", actionResult.result.prediction.intents[0].confidence);
+    const { result } = await service.analyzeConversation(body);
+    console.log("query: ", result.query);
+    console.log("project kind: ", result.prediction.projectKind);
+    console.log("top intent: ", result.prediction.topIntent);
+    console.log("category: ", result.prediction.intents[0].category);
+    console.log("confidence score: ", result.prediction.intents[0].confidence);
     console.log("entities:");
 
-    actionResult.result.prediction.entities.forEach(entity => {
+    result.prediction.entities.forEach(entity => {
         console.log("\ncategory: ", entity.category);
         console.log("text: ", entity.text);
         console.log("confidence score: ", entity.confidence);
