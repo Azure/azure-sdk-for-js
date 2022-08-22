@@ -220,6 +220,54 @@ describe("RemoteRendering functional tests", () => {
     assert.isTrue(didThrowExpected);
   });
 
+  it("will fail in the correct way on missing asset", async () => {
+    const storageContainerUrl =
+      "https://" +
+      assertEnvironmentVariable("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
+      ".blob.core.windows.net/" +
+      assertEnvironmentVariable("REMOTERENDERING_ARR_BLOB_CONTAINER_NAME");
+
+    const inputSettings: AssetConversionInputSettings = {
+      storageContainerUrl,
+      storageContainerReadListSas: assertEnvironmentVariable("REMOTERENDERING_ARR_SAS_TOKEN"),
+      relativeInputAssetPath: "boxWhichDoesNotExist.fbx",
+      blobPrefix: "Input",
+    };
+    const outputSettings: AssetConversionOutputSettings = {
+      storageContainerUrl,
+      storageContainerWriteSas: assertEnvironmentVariable("REMOTERENDERING_ARR_SAS_TOKEN"),
+      blobPrefix: "Output",
+    };
+    const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+
+    const conversionId: string = recorder.variable(
+      "conversionId",
+      `conversionId-${Math.floor(Math.random() * 10000)}`
+    );
+
+    const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
+      conversionId,
+      conversionSettings,
+      pollerSettings
+    );
+
+    const assetConversion: AssetConversion = await client.getConversion(conversionId);
+    assert.equal(assetConversion.conversionId, conversionId);
+
+    const newPoller = await client.beginConversion({ resumeFrom: conversionPoller.toString() });
+    assert.equal(newPoller.getOperationState().latestResponse.conversionId, conversionId);
+
+    try {
+      await conversionPoller.pollUntilDone();
+      assert.isTrue(false, "Previous call should have thrown an exception.")
+    }
+    catch (e: any) {
+      // Invalid input provided. Check logs in output container for details.
+      assert.isTrue(e.message.toLowerCase().includes("invalid input"));
+      assert.isTrue(e.message.toLowerCase().includes("logs"));
+    }
+  });
+
   it("can start a session", async () => {
     const sessionSettings: RenderingSessionSettings = {
       maxLeaseTimeInMinutes: 4,
@@ -262,7 +310,7 @@ describe("RemoteRendering functional tests", () => {
     // would carry the earlier maxLeastTimeInMinutes value.
     assert.isTrue(
       readyRenderingSession.maxLeaseTimeInMinutes === 4 ||
-        readyRenderingSession.maxLeaseTimeInMinutes === 5
+      readyRenderingSession.maxLeaseTimeInMinutes === 5
     );
 
     assert.equal(readyRenderingSession.status, "Ready");
