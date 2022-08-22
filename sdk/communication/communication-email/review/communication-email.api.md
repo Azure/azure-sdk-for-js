@@ -6,6 +6,7 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface EmailAddress {
@@ -27,6 +28,7 @@ export type EmailAttachmentType = string;
 export class EmailClient {
     constructor(connectionString: string, options?: EmailClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: EmailClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: EmailClientOptions);
     getSendStatus(messageId: string): Promise<SendStatusResult>;
     send(emailMessage: EmailMessage): Promise<SendEmailResult>;
 }
