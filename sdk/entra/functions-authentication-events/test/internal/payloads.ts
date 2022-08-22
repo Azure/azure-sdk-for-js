@@ -36,7 +36,6 @@ export const request: TokenIssuanceStartRequest = {
         mail: "test@example.com",
         onPremisesSamAccountName: "testadmin",
         onPremisesSecurityIdentifier: "DummySID",
-        // TODO: If this is nullable the type can be defined as string | null
         onPremiseUserPrincipalName: "",
         preferredDataLocation: "DummyDataLocation",
         preferredLanguage: "DummyLanguage",
