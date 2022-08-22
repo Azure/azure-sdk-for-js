@@ -99,11 +99,29 @@ if (Test-Path $sdpath) {
     Remove-Item $sdPath -Force
 }
 
-Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath -ErrorAction SilentlyContinue -Verbose
-if ( !$? ) {
-    Write-Host $Error[0].Exception
-    Write-Error $Error[0]
+$errorRetries = 5
+$retryTimeout = 30
 
+$success = $false
+
+for ($i = 0; $i -lt $errorRetries; $i++) {
+    Log 'Sleeping for 30 seconds to allow resource to become available'
+    Start-Sleep -Seconds $retryTimeout
+
+    Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath -ErrorAction SilentlyContinue -Verbose
+    if ( !$? ) {
+        Write-Host $Error[0].Exception
+        Write-Error $Error[0]
+
+        continue
+    }
+
+    $success = $true
+    break
+}
+
+if (!$success) {
+    Write-Error "Failed to download security domain"
     exit
 }
 
