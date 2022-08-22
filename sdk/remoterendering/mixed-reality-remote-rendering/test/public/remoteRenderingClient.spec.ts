@@ -259,9 +259,8 @@ describe("RemoteRendering functional tests", () => {
 
     try {
       await conversionPoller.pollUntilDone();
-      assert.isTrue(false, "Previous call should have thrown an exception.")
-    }
-    catch (e: any) {
+      assert.isTrue(false, "Previous call should have thrown an exception.");
+    } catch (e: any) {
       // Invalid input provided. Check logs in output container for details.
       assert.isTrue(e.message.toLowerCase().includes("invalid input"));
       assert.isTrue(e.message.toLowerCase().includes("logs"));
@@ -310,7 +309,7 @@ describe("RemoteRendering functional tests", () => {
     // would carry the earlier maxLeastTimeInMinutes value.
     assert.isTrue(
       readyRenderingSession.maxLeaseTimeInMinutes === 4 ||
-      readyRenderingSession.maxLeaseTimeInMinutes === 5
+        readyRenderingSession.maxLeaseTimeInMinutes === 5
     );
 
     assert.equal(readyRenderingSession.status, "Ready");
