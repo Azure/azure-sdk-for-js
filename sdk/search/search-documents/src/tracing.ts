@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSpanFunction } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 
 /**
- * Creates a span using the global tracer.
+ * Creates a tracing client using the global tracer.
  * @internal
  */
-export const createSpan = createSpanFunction({
-  packagePrefix: "Azure.Search",
+export const tracingClient = createTracingClient({
   namespace: "Microsoft.Search",
+  packageName: "Azure.Search",
 });
+
+export const createSpan = tracingClient.startSpan;

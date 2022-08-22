@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
 import {
-  EnvironmentContainerData,
+  EnvironmentContainer,
   EnvironmentContainersListNextOptionalParams,
   EnvironmentContainersListOptionalParams,
   EnvironmentContainersListResponse,
@@ -48,7 +48,7 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: EnvironmentContainersListOptionalParams
-  ): PagedAsyncIterableIterator<EnvironmentContainerData> {
+  ): PagedAsyncIterableIterator<EnvironmentContainer> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -67,7 +67,7 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: EnvironmentContainersListOptionalParams
-  ): AsyncIterableIterator<EnvironmentContainerData[]> {
+  ): AsyncIterableIterator<EnvironmentContainer[]> {
     let result = await this._list(resourceGroupName, workspaceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -87,7 +87,7 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: EnvironmentContainersListOptionalParams
-  ): AsyncIterableIterator<EnvironmentContainerData> {
+  ): AsyncIterableIterator<EnvironmentContainer> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -164,7 +164,7 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    body: EnvironmentContainerData,
+    body: EnvironmentContainer,
     options?: EnvironmentContainersCreateOrUpdateOptionalParams
   ): Promise<EnvironmentContainersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -249,7 +249,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentContainerData
+      bodyMapper: Mappers.EnvironmentContainer
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -272,10 +272,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentContainerData
+      bodyMapper: Mappers.EnvironmentContainer
     },
     201: {
-      bodyMapper: Mappers.EnvironmentContainerData
+      bodyMapper: Mappers.EnvironmentContainer
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

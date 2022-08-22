@@ -100,7 +100,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion4, Parameters.metricnamespace],
+  queryParameters: [Parameters.apiVersion5, Parameters.metricnamespace],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer

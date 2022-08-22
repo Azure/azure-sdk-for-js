@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates a managed cluster snapshot.
  *
  * @summary Creates or updates a managed cluster snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClusterSnapshotsCreate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-07-02-preview/examples/ManagedClusterSnapshotsCreate.json
  */
 async function createOrUpdateManagedClusterSnapshot() {
   const subscriptionId = "subid1";

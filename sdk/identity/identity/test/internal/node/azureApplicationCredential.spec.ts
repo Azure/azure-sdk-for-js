@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { RestError } from "@azure/core-rest-pipeline";
 import { AzureApplicationCredential } from "../../../src/credentials/azureApplicationCredential";
 import { IdentityTestContext } from "../../httpRequests";
-import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
 
 describe("AzureApplicationCredential testing Managed Identity (internal)", function () {
   let envCopy: string = "";

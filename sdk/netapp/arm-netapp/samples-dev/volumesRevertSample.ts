@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Revert a volume to the snapshot specified in the body
  *
  * @summary Revert a volume to the snapshot specified in the body
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-01-01/examples/Volumes_Revert.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-03-01/examples/Volumes_Revert.json
  */
 async function volumesRevert() {
   const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";

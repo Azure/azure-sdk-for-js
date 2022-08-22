@@ -10,13 +10,12 @@
  * https://aka.ms/azsdk/formrecognizer/receiptfieldschema
  *
  * @summary extract data from a receipt document
+ * @azsdk-skip-javascript
  */
 
-import {
-  AzureKeyCredential,
-  DocumentAnalysisClient,
-  PrebuiltModels,
-} from "@azure/ai-form-recognizer";
+import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+
+import { PrebuiltReceiptModel } from "./prebuilt/prebuilt-receipt";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -27,22 +26,22 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocument(
-    PrebuiltModels.Receipt,
+  const poller = await client.beginAnalyzeDocumentFromUrl(
+    PrebuiltReceiptModel,
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
   );
 
   const {
-    documents: [result],
+    documents: [document],
   } = await poller.pollUntilDone();
 
   // Use of PrebuiltModels.Receipt above (rather than the raw model ID), as it adds strong typing of the model's output
-  if (result) {
-    const { merchantName, items, total } = result.fields;
+  if (document) {
+    const { merchantName, items, total } = document.fields;
 
     console.log("=== Receipt Information ===");
-    console.log("Type:", result.docType);
+    console.log("Type:", document.docType);
     console.log("Merchant:", merchantName && merchantName.value);
 
     console.log("Items:");

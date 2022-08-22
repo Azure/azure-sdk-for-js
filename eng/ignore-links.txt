@@ -6,3 +6,16 @@ https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-cha
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/typescript
 https://docs.microsoft.com/javascript/api/@azure/arm-app?view=azure-node-preview
 https://docs.microsoft.com/en-us/rest/api/index
+https://docs.microsoft.com/javascript/api/@azure/arm-workloads?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-resourceconnector?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-networkfunction
+https://docs.microsoft.com/javascript/api/@azure/arm-networkfunction?view=azure-node-preview
+https://docs.microsoft.com/en-us/javascript/api/@azure-rest/arm-containerservice?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure-rest/arm-containerservice?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure-rest/arm-servicefabric?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-fluidrelay
+https://docs.microsoft.com/javascript/api/@azure/arm-fluidrelay?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-automanage
+https://docs.microsoft.com/javascript/api/@azure/arm-automanage?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-devcenter?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-connectedvmware?view=azure-node-preview

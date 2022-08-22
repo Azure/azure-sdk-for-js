@@ -21,6 +21,7 @@ export interface TestChallenge {
 }
 
 let cachedChallenge: string | undefined;
+let cachedPreviousToken: AccessToken | null;
 
 /**
  * Converts a uint8Array to a string.
@@ -94,6 +95,9 @@ async function authorizeRequestOnChallenge(
 
   if (!accessToken) {
     return false;
+  }
+  if (cachedPreviousToken) {
+    cachedPreviousToken = accessToken;
   }
 
   options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
@@ -259,17 +263,22 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
         request: pipelineRequest,
         status: 200,
       },
+      {
+        headers: createHttpHeaders(),
+        request: pipelineRequest,
+        status: 200,
+      },
     ];
 
     const getTokenResponses = [
       { token: "mock-token", expiresOnTimestamp: Date.now() + 5000 },
-      { token: "mock-token2", expiresOnTimestamp: Date.now() + 10000 },
+      { token: "mock-token2", expiresOnTimestamp: Date.now() + 100000 },
+      { token: "mock-token3", expiresOnTimestamp: Date.now() + 100000 },
     ];
     const credential = new MockRefreshAzureCredential([...getTokenResponses]);
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
-    let previousToken: AccessToken | null;
     const bearerPolicy = bearerTokenAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
@@ -280,13 +289,13 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
             firstRequest = false;
             // send first request without the Authorization header
           } else {
-            if (!previousToken) {
-              previousToken = await getAccessToken([], {});
-              if (!previousToken) {
+            if (!cachedPreviousToken) {
+              cachedPreviousToken = await getAccessToken([], {});
+              if (!cachedPreviousToken) {
                 throw new Error("Failed to retrieve an access token");
               }
             }
-            request.headers.set("Authorization", `Bearer ${previousToken.token}`);
+            request.headers.set("Authorization", `Bearer ${cachedPreviousToken.token}`);
           }
         },
         authorizeRequestOnChallenge,
@@ -308,8 +317,14 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       },
     };
 
+    // Will refresh token once as the first time token is empty
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     clock.tick(5000);
+    // Will refresh token twice
+    // - 1st refreshing because the token is epxired
+    // - 2nd refreshing because the response with old token has 401 error and claim details so we need refresh token again
+    await pipeline.sendRequest(testHttpsClient, pipelineRequest);
+    // Token is still valid and no need to refresh it
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
 
     // Our goal is to test that:
@@ -333,6 +348,107 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     assert.deepEqual(finalSendRequestHeaders, [
       undefined,
       `Bearer ${getTokenResponses[0].token}`,
+      `Bearer ${getTokenResponses[1].token}`,
+      `Bearer ${getTokenResponses[2].token}`,
+      `Bearer ${getTokenResponses[2].token}`,
+    ]);
+  });
+
+  it("tests that once the challenge is processed we won't refresh the token again and again", async function () {
+    const expected = [
+      {
+        scope: ["http://localhost/.default"],
+        challengeClaims: JSON.stringify({
+          access_token: { foo: "bar" },
+        }),
+      },
+    ];
+
+    const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
+    const responses: PipelineResponse[] = [
+      {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": `Bearer scope="${expected[0].scope[0]}", claims="${encodeString(
+            expected[0].challengeClaims
+          )}"`,
+        }),
+        request: pipelineRequest,
+        status: 401,
+      },
+      {
+        headers: createHttpHeaders(),
+        request: pipelineRequest,
+        status: 200,
+      },
+      {
+        headers: createHttpHeaders(),
+        request: pipelineRequest,
+        status: 200,
+      },
+      {
+        headers: createHttpHeaders(),
+        request: pipelineRequest,
+        status: 200,
+      },
+    ];
+
+    const getTokenResponses = [
+      { token: "mock-token-initialzation", expiresOnTimestamp: Date.now() + 180000 },
+      // ensure the token will not expire
+      { token: "mock-token-challenge", expiresOnTimestamp: Date.now() + 180000 },
+    ];
+    const credential = new MockRefreshAzureCredential([...getTokenResponses]);
+
+    const pipeline = createEmptyPipeline();
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
+      scopes: [],
+      credential,
+      challengeCallbacks: {
+        authorizeRequestOnChallenge,
+      },
+    });
+    pipeline.addPolicy(bearerPolicy);
+
+    const finalSendRequestHeaders: (string | undefined)[] = [];
+
+    const testHttpsClient: HttpClient = {
+      sendRequest: async (req) => {
+        finalSendRequestHeaders.push(req.headers.get("Authorization"));
+        if (responses.length) {
+          const response = responses.shift()!;
+          response.request = req;
+          return response;
+        }
+        throw new Error("No responses found");
+      },
+    };
+
+    // Will refresh token twice
+    // - 1st refreshing to initialize the token
+    // - 2nd refreshing to handle challenge process
+    await pipeline.sendRequest(testHttpsClient, pipelineRequest);
+    assert.equal(credential.authCount, 2);
+    clock.tick(5000);
+    // Will not refresh the token because the previous one is still valid
+    await pipeline.sendRequest(testHttpsClient, pipelineRequest);
+    await pipeline.sendRequest(testHttpsClient, pipelineRequest);
+
+    // Our goal is to test that:
+    // - After a challenge is received and processed and once the token is valid, we'll use it in future calls
+    assert.equal(credential.authCount, 2);
+    assert.deepEqual(credential.scopesAndClaims, [
+      {
+        scope: [],
+        challengeClaims: undefined,
+      },
+      {
+        scope: expected[0].scope,
+        challengeClaims: expected[0].challengeClaims,
+      },
+    ]);
+    assert.deepEqual(finalSendRequestHeaders, [
+      `Bearer ${getTokenResponses[0].token}`,
+      `Bearer ${getTokenResponses[1].token}`,
       `Bearer ${getTokenResponses[1].token}`,
       `Bearer ${getTokenResponses[1].token}`,
     ]);

@@ -7,6 +7,12 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
@@ -63,7 +69,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-storagecache/5.1.1`;
+    const packageDetails = `azsdk-js-arm-storagecache/5.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -78,15 +84,46 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-01";
+    this.apiVersion = options.apiVersion || "2022-05-01";
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.usageModels = new UsageModelsImpl(this);
@@ -95,6 +132,35 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
     this.caches = new CachesImpl(this);
     this.storageTargets = new StorageTargetsImpl(this);
     this.storageTargetOperations = new StorageTargetOperationsImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   operations: Operations;

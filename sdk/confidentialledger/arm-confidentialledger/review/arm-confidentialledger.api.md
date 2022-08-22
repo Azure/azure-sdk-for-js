@@ -47,9 +47,9 @@ export interface CheckNameAvailabilityResponse {
 }
 
 // @public
-export type ConfidentialLedger = Resource & ResourceLocation & Tags & {
+export interface ConfidentialLedger extends Resource, ResourceLocation, Tags {
     properties?: LedgerProperties;
-};
+}
 
 // @public (undocumented)
 export class ConfidentialLedgerClient extends coreClient.ServiceClient {
@@ -105,59 +105,40 @@ export interface ErrorResponse {
 
 // @public
 export enum KnownCheckNameAvailabilityReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownLedgerRoleName {
-    // (undocumented)
     Administrator = "Administrator",
-    // (undocumented)
     Contributor = "Contributor",
-    // (undocumented)
     Reader = "Reader"
 }
 
 // @public
 export enum KnownLedgerType {
-    // (undocumented)
     Private = "Private",
-    // (undocumented)
     Public = "Public",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Updating = "Updating"
 }
 

@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.11.0-beta.2
+package-version: 12.12.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -1362,13 +1362,13 @@ directive:
       $["x-ms-enum"]["modelAsString"] = true;
 ```
 
-### Update service version from "2021-04-10" to "2021-08-06"
+### Update service version from "2021-04-10" to "2021-10-04"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2021-08-06" ];
+    transform: $.enum = [ "2021-10-04" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

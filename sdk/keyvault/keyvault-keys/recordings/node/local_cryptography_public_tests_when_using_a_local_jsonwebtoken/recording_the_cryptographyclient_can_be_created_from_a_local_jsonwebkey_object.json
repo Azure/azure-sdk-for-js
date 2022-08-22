@@ -1,0 +1,100 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-beforeeachhook-/create?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "589cbf5b-1235-4d2a-a562-581f2c710040"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "97",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 23:07:14 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.windows.net/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://vault.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "589cbf5b-1235-4d2a-a562-581f2c710040",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "073c6291-9e2c-4a0e-a4e0-f7ef9e81ca05"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "Unauthorized",
+          "message": "AKV10000: Request is missing a Bearer or PoP token."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-beforeeachhook-/create?api-version=7.3",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "13",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "589cbf5b-1235-4d2a-a562-581f2c710040"
+      },
+      "RequestBody": {
+        "kty": "RSA"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "712",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 23:07:15 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "589cbf5b-1235-4d2a-a562-581f2c710040",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=7756;da_age=7756;rd_age=7756;brd_age=6262;ra_notif_age=8811;dec_lev=1;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "9ee81b93-fc5a-45a8-98ea-6c5539cd08e8"
+      },
+      "ResponseBody": {
+        "key": {
+          "kid": "https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-beforeeachhook-/99a48d155d4e4f7888f56a5ab190e389",
+          "kty": "RSA",
+          "key_ops": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey"
+          ],
+          "n": "xG8mJhbzD-cN2F3AHJVlSRUD1_E0PSPyeNYoWnGg2FQSCfRdFq2ze-QQE_N8vHkgNAysyAQuEWA7utOK9b4zO7PCTAxv9qsRnFo7VJxNKzYt7l8QKTGeeTnJAhl1LaNRqEe-9aO1g376Fo0wX_sgGmpc94CI1tYQa7Vej2a8oxKcyU4XZWridEvZT7udYSweGULRElZdIGad7Vb7js2-7FjX_D4amDpiyFXQTueU5McEGCenKpSSPmoP2pKeJhHyPXWxDwolDPsqusklTVf7MMEcWx8A9YjSNWDl9xqRnmdveUyjGUjNn12jYpdCsBBe3l0noQe2-WstPRF2FnPjXQ",
+          "e": "AQAB"
+        },
+        "attributes": {
+          "enabled": true,
+          "created": 1653692836,
+          "updated": 1653692836,
+          "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
+          "recoverableDays": 7
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

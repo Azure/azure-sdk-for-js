@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, delay } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
 import { KeyVaultClient } from "../generated/keyVaultClient";
+import { delay } from "@azure/core-util";
 
 /**
  * Common parameters to a Key Vault Secret Poller.

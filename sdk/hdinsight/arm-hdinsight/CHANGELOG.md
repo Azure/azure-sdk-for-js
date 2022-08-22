@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,19 @@
 
 ### Other Changes
 
+## 1.2.0 (2022-08-01)
+    
+**Features**
+
+  - Added Interface Application
+  - Added Interface Cluster
+  - Added Interface ClusterCreateRequestValidationParameters
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface RuntimeScriptActionDetail
+  - Added Interface TrackedResource
+    
 ## 1.1.1 (2022-04-26)
 
 **Features**

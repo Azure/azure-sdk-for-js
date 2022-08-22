@@ -7,7 +7,7 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 
 import { DeletedKey, KeyClient } from "../../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { getServiceVersion } from "./utils/common";
 
@@ -19,11 +19,13 @@ describe("Keys client - Long Running Operations - delete", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(envSetupForPlayback);
+
+    const authentication = await authenticate(getServiceVersion(), recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
-    recorder = authentication.recorder;
   });
 
   afterEach(async function () {

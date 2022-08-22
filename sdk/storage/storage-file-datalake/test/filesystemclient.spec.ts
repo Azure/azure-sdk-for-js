@@ -16,6 +16,7 @@ import {
 } from "../src";
 import {
   getDataLakeServiceClient,
+  getEncryptionScope,
   getGenericDataLakeServiceClient,
   recorderEnvSetup,
 } from "./utils";
@@ -130,6 +131,46 @@ describe("DataLakeFileSystemClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
+  it("create with encryption scope", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+    const result = await cClient.getProperties();
+    assert.equal(result.defaultEncryptionScope, encryptionScopeName);
+    await cClient.delete();
+  });
+
+  it("create with encryption scope - preventEncryptionScopeOverride : false", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: false,
+      },
+    });
+    const result = await cClient.getProperties();
+    assert.equal(result.defaultEncryptionScope, encryptionScopeName);
+    await cClient.delete();
+  });
+
   it("createIfNotExists", async () => {
     const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
     const metadata = { key: "value" };
@@ -185,6 +226,67 @@ describe("DataLakeFileSystemClient", () => {
     for (const file of fileClients) {
       await file.delete();
     }
+  });
+
+  it("listPaths - Encryption Scope", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const fileClient = cClient.getFileClient(recorder.getUniqueName(`file`));
+    await fileClient.create();
+
+    const dirClient = cClient.getFileClient(recorder.getUniqueName(`dir`));
+    await dirClient.create();
+
+    const result = (await cClient.listPaths().byPage().next()).value as FileSystemListPathsResponse;
+
+    assert.equal(result.pathItems!.length, 2);
+    assert.equal(result.pathItems![0].encryptionScope, encryptionScopeName);
+    assert.equal(result.pathItems![1].encryptionScope, encryptionScopeName);
+
+    await fileClient.delete();
+    await dirClient.delete();
+  });
+
+  it("listPaths - PagedAsyncIterableIterator with Encryption Scope", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    await cClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const fileClient = cClient.getFileClient(recorder.getUniqueName(`file`));
+    await fileClient.create();
+    const dirClient = cClient.getFileClient(recorder.getUniqueName(`dir`));
+    await dirClient.create();
+
+    for await (const listedFile of cClient.listPaths()) {
+      assert.equal(listedFile.encryptionScope, encryptionScopeName);
+    }
+
+    await fileClient.delete();
+    await dirClient.delete();
   });
 
   it("listPaths - ExpiryTime, NeverExpire", async () => {

@@ -1,0 +1,59 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "63c7f015-c656-4e03-96e6-49e571b953af",
+        "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "701",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:39:22 GMT",
+        "mise-correlation-id": "6c819079-15c0-4b14-81b2-3d22832c95f3",
+        "traceparent": "00-91b554908311859b4f2e727f28d7f1f8-c1d973a4d1df00fc-00"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "groupId": "$default",
+            "groupType": "DefaultNoTag",
+            "createdDateTime": "2022-06-08T23:58:17.7255595\u002B00:00",
+            "deviceCount": 0,
+            "subgroupsWithNewUpdatesAvailableCount": 0,
+            "subgroupsWithUpdatesInProgressCount": 0,
+            "subgroupsWithOnLatestUpdateCount": 0,
+            "deployments": []
+          },
+          {
+            "groupId": "dpokluda-test",
+            "groupType": "IoTHubTag",
+            "createdDateTime": "2022-06-09T00:08:48.4487\u002B00:00",
+            "deviceCount": 1,
+            "subgroupsWithNewUpdatesAvailableCount": 1,
+            "subgroupsWithUpdatesInProgressCount": 0,
+            "subgroupsWithOnLatestUpdateCount": 0,
+            "deployments": []
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

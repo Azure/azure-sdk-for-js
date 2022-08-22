@@ -75,8 +75,8 @@ import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper
 import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { createSpan } from "./diagnostics/tracing";
-import { isDefined } from "./util/typeGuards";
+import { tracingClient } from "./diagnostics/tracing";
+import { isDefined } from "@azure/core-util";
 import {
   formatUserAgentPrefix,
   getHttpResponseOnly,
@@ -84,7 +84,6 @@ import {
   isJSONLikeObject,
   ServiceBusAtomAPIVersion,
 } from "./util/utils";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { HttpResponse } from "./util/compat";
 
 /**
@@ -278,29 +277,22 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async getNamespaceProperties(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<NamespaceProperties>> {
     logger.verbose(`Performing management operation - getNamespaceProperties()`);
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getNamespaceProperties",
-      operationOptions
+
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getNamespaceProperties",
+      operationOptions,
+      async (updatedOptions) => {
+        const response = await this.getResource(
+          "$namespaceinfo",
+          this.namespaceResourceSerializer,
+          updatedOptions
+        );
+        return this.buildNamespacePropertiesResponse(response);
+      }
     );
-    try {
-      const response = await this.getResource(
-        "$namespaceinfo",
-        this.namespaceResourceSerializer,
-        updatedOptions
-      );
-      return this.buildNamespacePropertiesResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -321,35 +313,27 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async createQueue(
     queueName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: CreateQueueOptions
+    options: CreateQueueOptions = {}
   ): Promise<WithResponse<QueueProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-createQueue",
-      options
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - createQueue() for "${queueName}" with options: %j`,
-        options
-      );
-      const response = await this.putResource(
-        queueName,
-        buildQueueOptions(options || {}),
-        this.queueResourceSerializer,
-        false,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.createQueue",
+      options,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - createQueue() for "${queueName}" with options: %j`,
+          options
+        );
+        const response = await this.putResource(
+          queueName,
+          buildQueueOptions(options || {}),
+          this.queueResourceSerializer,
+          false,
+          updatedOptions
+        );
 
-      return this.buildQueueResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildQueueResponse(response);
+      }
+    );
   }
 
   /**
@@ -369,30 +353,22 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getQueue(
     queueName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<QueueProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getQueue",
-      operationOptions
-    );
-    try {
-      logger.verbose(`Performing management operation - getQueue() for "${queueName}"`);
-      const response = await this.getResource(
-        queueName,
-        this.queueResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getQueue",
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(`Performing management operation - getQueue() for "${queueName}"`);
+        const response = await this.getResource(
+          queueName,
+          this.queueResourceSerializer,
+          updatedOptions
+        );
 
-      return this.buildQueueResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildQueueResponse(response);
+      }
+    );
   }
 
   /**
@@ -411,32 +387,24 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getQueueRuntimeProperties(
     queueName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<QueueRuntimeProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getQueueRuntimeProperties",
-      operationOptions
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - getQueueRuntimeProperties() for "${queueName}"`
-      );
-      const response = await this.getResource(
-        queueName,
-        this.queueResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getQueueRuntimeProperties",
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - getQueueRuntimeProperties() for "${queueName}"`
+        );
+        const response = await this.getResource(
+          queueName,
+          this.queueResourceSerializer,
+          updatedOptions
+        );
 
-      return this.buildQueueRuntimePropertiesResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildQueueRuntimePropertiesResponse(response);
+      }
+    );
   }
 
   /**
@@ -453,30 +421,22 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getQueues(
-    options?: ListRequestOptions & OperationOptions
+    options: ListRequestOptions & OperationOptions = {}
   ): Promise<EntitiesResponse<QueueProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getQueues",
-      options
-    );
-    try {
-      logger.verbose(`Performing management operation - getQueues() with options: %j`, options);
-      const response = await this.listResources(
-        "$Resources/Queues",
-        updatedOptions,
-        this.queueResourceSerializer
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getQueues",
+      options,
+      async (updatedOptions) => {
+        logger.verbose(`Performing management operation - getQueues() with options: %j`, options);
+        const response = await this.listResources(
+          "$Resources/Queues",
+          updatedOptions,
+          this.queueResourceSerializer
+        );
 
-      return this.buildListQueuesResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildListQueuesResponse(response);
+      }
+    );
   }
 
   private async *listQueuesPage(
@@ -553,33 +513,25 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getQueuesRuntimeProperties(
-    options?: ListRequestOptions & OperationOptions
+    options: ListRequestOptions & OperationOptions = {}
   ): Promise<EntitiesResponse<QueueRuntimeProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getQueuesRuntimeProperties",
-      options
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - getQueuesRuntimeProperties() with options: %j`,
-        options
-      );
-      const response = await this.listResources(
-        "$Resources/Queues",
-        updatedOptions,
-        this.queueResourceSerializer
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getQueuesRuntimeProperties",
+      options,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - getQueuesRuntimeProperties() with options: %j`,
+          options
+        );
+        const response = await this.listResources(
+          "$Resources/Queues",
+          updatedOptions,
+          this.queueResourceSerializer
+        );
 
-      return this.buildListQueuesRuntimePropertiesResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildListQueuesRuntimePropertiesResponse(response);
+      }
+    );
   }
 
   private async *listQueuesRuntimePropertiesPage(
@@ -670,46 +622,38 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async updateQueue(
     queue: WithResponse<QueueProperties>,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<QueueProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-updateQueue",
-      operationOptions
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - updateQueue() for "${queue.name}" with options: %j`,
-        queue
-      );
-
-      if (!isJSONLikeObject(queue) || queue == null) {
-        throw new TypeError(
-          `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.updateQueue",
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - updateQueue() for "${queue.name}" with options: %j`,
+          queue
         );
+
+        if (!isJSONLikeObject(queue) || queue == null) {
+          throw new TypeError(
+            `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
+          );
+        }
+
+        if (!queue.name) {
+          throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
+        }
+
+        const response = await this.putResource(
+          queue.name,
+          buildQueueOptions(queue),
+          this.queueResourceSerializer,
+          true,
+          updatedOptions
+        );
+
+        return this.buildQueueResponse(response);
       }
-
-      if (!queue.name) {
-        throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
-      }
-
-      const response = await this.putResource(
-        queue.name,
-        buildQueueOptions(queue),
-        this.queueResourceSerializer,
-        true,
-        updatedOptions
-      );
-
-      return this.buildQueueResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -728,31 +672,23 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async deleteQueue(
     queueName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
     // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-deleteQueue",
-      operationOptions
-    );
-    try {
-      logger.verbose(`Performing management operation - deleteQueue() for "${queueName}"`);
-      const response = await this.deleteResource(
-        queueName,
-        this.queueResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.deleteQueue",
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(`Performing management operation - deleteQueue() for "${queueName}"`);
+        const response = await this.deleteResource(
+          queueName,
+          this.queueResourceSerializer,
+          updatedOptions
+        );
 
-      return { _response: getHttpResponseOnly(response) };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return { _response: getHttpResponseOnly(response) };
+      }
+    );
   }
 
   /**
@@ -760,28 +696,19 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-queueExists",
+  async queueExists(queueName: string, operationOptions: OperationOptions = {}): Promise<boolean> {
+    logger.verbose(`Performing management operation - queueExists() for "${queueName}"`);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ServiceBusAdministrationClient.queueExists",
       operationOptions
     );
     try {
-      logger.verbose(`Performing management operation - queueExists() for "${queueName}"`);
-      try {
-        await this.getQueue(queueName, updatedOptions);
-      } catch (error: any) {
-        if (error.code === "MessageEntityNotFoundError") {
-          return false;
-        }
-        throw error;
-      }
+      await this.getQueue(queueName, updatedOptions);
+      span.setStatus({ status: "success" });
       return true;
     } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
+      span.setStatus({ status: "error", error: e });
+      return false;
     } finally {
       span.end();
     }
@@ -805,35 +732,27 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async createTopic(
     topicName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: CreateTopicOptions
+    options: CreateTopicOptions = {}
   ): Promise<WithResponse<TopicProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-createTopic",
-      options
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - createTopic() for "${topicName}" with options: %j`,
-        options
-      );
-      const response = await this.putResource(
-        topicName,
-        buildTopicOptions(options || {}),
-        this.topicResourceSerializer,
-        false,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.createTopic",
+      options,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - createTopic() for "${topicName}" with options: %j`,
+          options
+        );
+        const response = await this.putResource(
+          topicName,
+          buildTopicOptions(options || {}),
+          this.topicResourceSerializer,
+          false,
+          updatedOptions
+        );
 
-      return this.buildTopicResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildTopicResponse(response);
+      }
+    );
   }
 
   /**
@@ -853,30 +772,22 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getTopic(
     topicName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<TopicProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getTopic",
-      operationOptions
-    );
-    try {
-      logger.verbose(`Performing management operation - getTopic() for "${topicName}"`);
-      const response = await this.getResource(
-        topicName,
-        this.topicResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getTopic",
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(`Performing management operation - getTopic() for "${topicName}"`);
+        const response = await this.getResource(
+          topicName,
+          this.topicResourceSerializer,
+          updatedOptions
+        );
 
-      return this.buildTopicResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildTopicResponse(response);
+      }
+    );
   }
 
   /**
@@ -895,32 +806,24 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getTopicRuntimeProperties(
     topicName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<TopicRuntimeProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getTopicRuntimeProperties",
-      operationOptions
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`
-      );
-      const response = await this.getResource(
-        topicName,
-        this.topicResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getTopicRuntimeProperties",
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`
+        );
+        const response = await this.getResource(
+          topicName,
+          this.topicResourceSerializer,
+          updatedOptions
+        );
 
-      return this.buildTopicRuntimePropertiesResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildTopicRuntimePropertiesResponse(response);
+      }
+    );
   }
 
   /**
@@ -937,30 +840,22 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getTopics(
-    options?: ListRequestOptions & OperationOptions
+    options: ListRequestOptions & OperationOptions = {}
   ): Promise<EntitiesResponse<TopicProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getTopics",
-      options
-    );
-    try {
-      logger.verbose(`Performing management operation - getTopics() with options: %j`, options);
-      const response = await this.listResources(
-        "$Resources/Topics",
-        updatedOptions,
-        this.topicResourceSerializer
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getTopics",
+      options,
+      async (updatedOptions) => {
+        logger.verbose(`Performing management operation - getTopics() with options: %j`, options);
+        const response = await this.listResources(
+          "$Resources/Topics",
+          updatedOptions,
+          this.topicResourceSerializer
+        );
 
-      return this.buildListTopicsResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildListTopicsResponse(response);
+      }
+    );
   }
 
   private async *listTopicsPage(
@@ -1038,33 +933,26 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getTopicsRuntimeProperties(
-    options?: ListRequestOptions & OperationOptions
+    options: ListRequestOptions & OperationOptions = {}
   ): Promise<EntitiesResponse<TopicRuntimeProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getTopicsRuntimeProperties",
-      options
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - getTopicsRuntimeProperties() with options: %j`,
-        options
-      );
-      const response = await this.listResources(
-        "$Resources/Topics",
-        updatedOptions,
-        this.topicResourceSerializer
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getTopicsRuntimeProperties",
 
-      return this.buildListTopicsRuntimePropertiesResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      options,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - getTopicsRuntimeProperties() with options: %j`,
+          options
+        );
+        const response = await this.listResources(
+          "$Resources/Topics",
+          updatedOptions,
+          this.topicResourceSerializer
+        );
+
+        return this.buildListTopicsRuntimePropertiesResponse(response);
+      }
+    );
   }
 
   private async *listTopicsRuntimePropertiesPage(
@@ -1158,46 +1046,39 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async updateTopic(
     topic: WithResponse<TopicProperties>,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<TopicProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-updateTopic",
-      operationOptions
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - updateTopic() for "${topic.name}" with options: %j`,
-        topic
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.updateTopic",
 
-      if (!isJSONLikeObject(topic) || topic == null) {
-        throw new TypeError(
-          `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - updateTopic() for "${topic.name}" with options: %j`,
+          topic
         );
+
+        if (!isJSONLikeObject(topic) || topic == null) {
+          throw new TypeError(
+            `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
+          );
+        }
+
+        if (!topic.name) {
+          throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
+        }
+
+        const response = await this.putResource(
+          topic.name,
+          buildTopicOptions(topic),
+          this.topicResourceSerializer,
+          true,
+          updatedOptions
+        );
+
+        return this.buildTopicResponse(response);
       }
-
-      if (!topic.name) {
-        throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
-      }
-
-      const response = await this.putResource(
-        topic.name,
-        buildTopicOptions(topic),
-        this.topicResourceSerializer,
-        true,
-        updatedOptions
-      );
-
-      return this.buildTopicResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -1216,31 +1097,23 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async deleteTopic(
     topicName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
     // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-deleteTopic",
-      operationOptions
-    );
-    try {
-      logger.verbose(`Performing management operation - deleteTopic() for "${topicName}"`);
-      const response = await this.deleteResource(
-        topicName,
-        this.topicResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.deleteTopic",
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(`Performing management operation - deleteTopic() for "${topicName}"`);
+        const response = await this.deleteResource(
+          topicName,
+          this.topicResourceSerializer,
+          updatedOptions
+        );
 
-      return { _response: getHttpResponseOnly(response) };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return { _response: getHttpResponseOnly(response) };
+      }
+    );
   }
 
   /**
@@ -1249,27 +1122,18 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-topicExists",
+    logger.verbose(`Performing management operation - topicExists() for "${topicName}"`);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ServiceBusAdministrationClient.topicExists",
       operationOptions
     );
     try {
-      logger.verbose(`Performing management operation - topicExists() for "${topicName}"`);
-      try {
-        await this.getTopic(topicName, updatedOptions);
-      } catch (error: any) {
-        if (error.code === "MessageEntityNotFoundError") {
-          return false;
-        }
-        throw error;
-      }
+      span.setStatus({ status: "success" });
+      await this.getTopic(topicName, updatedOptions);
       return true;
     } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
+      span.setStatus({ status: "error", error: e });
+      return false;
     } finally {
       span.end();
     }
@@ -1294,36 +1158,28 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: CreateSubscriptionOptions
+    options: CreateSubscriptionOptions = {}
   ): Promise<WithResponse<SubscriptionProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-createSubscription",
-      options
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - createSubscription() for "${subscriptionName}" with options: %j`,
-        options
-      );
-      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response = await this.putResource(
-        fullPath,
-        buildSubscriptionOptions(options || {}),
-        this.subscriptionResourceSerializer,
-        false,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.createSubscription",
+      options,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - createSubscription() for "${subscriptionName}" with options: %j`,
+          options
+        );
+        const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+        const response = await this.putResource(
+          fullPath,
+          buildSubscriptionOptions(options || {}),
+          this.subscriptionResourceSerializer,
+          false,
+          updatedOptions
+        );
 
-      return this.buildSubscriptionResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildSubscriptionResponse(response);
+      }
+    );
   }
 
   /**
@@ -1344,33 +1200,25 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<SubscriptionProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getSubscription",
-      operationOptions
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - getSubscription() for "${subscriptionName}"`
-      );
-      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response = await this.getResource(
-        fullPath,
-        this.subscriptionResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getSubscription",
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - getSubscription() for "${subscriptionName}"`
+        );
+        const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+        const response = await this.getResource(
+          fullPath,
+          this.subscriptionResourceSerializer,
+          updatedOptions
+        );
 
-      return this.buildSubscriptionResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildSubscriptionResponse(response);
+      }
+    );
   }
 
   /**
@@ -1390,33 +1238,25 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<SubscriptionRuntimeProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getSubscriptionRuntimeProperties",
-      operationOptions
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - getSubscriptionRuntimeProperties() for "${subscriptionName}"`
-      );
-      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response = await this.getResource(
-        fullPath,
-        this.subscriptionResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getSubscriptionRuntimeProperties",
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - getSubscriptionRuntimeProperties() for "${subscriptionName}"`
+        );
+        const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+        const response = await this.getResource(
+          fullPath,
+          this.subscriptionResourceSerializer,
+          updatedOptions
+        );
 
-      return this.buildSubscriptionRuntimePropertiesResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildSubscriptionRuntimePropertiesResponse(response);
+      }
+    );
   }
 
   /**
@@ -1434,33 +1274,25 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   private async getSubscriptions(
     topicName: string,
-    options?: ListRequestOptions & OperationOptions
+    options: ListRequestOptions & OperationOptions = {}
   ): Promise<EntitiesResponse<SubscriptionProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getSubscriptions",
-      options
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - getSubscriptions() with options: %j`,
-        options
-      );
-      const response = await this.listResources(
-        topicName + "/Subscriptions/",
-        updatedOptions,
-        this.subscriptionResourceSerializer
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getSubscriptions",
+      options,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - getSubscriptions() with options: %j`,
+          options
+        );
+        const response = await this.listResources(
+          topicName + "/Subscriptions/",
+          updatedOptions,
+          this.subscriptionResourceSerializer
+        );
 
-      return this.buildListSubscriptionsResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildListSubscriptionsResponse(response);
+      }
+    );
   }
 
   private async *listSubscriptionsPage(
@@ -1546,33 +1378,25 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   private async getSubscriptionsRuntimeProperties(
     topicName: string,
-    options?: ListRequestOptions & OperationOptions
+    options: ListRequestOptions & OperationOptions = {}
   ): Promise<EntitiesResponse<SubscriptionRuntimeProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getSubscriptionsRuntimeProperties",
-      options
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - getSubscriptionsRuntimeProperties() with options: %j`,
-        options
-      );
-      const response = await this.listResources(
-        topicName + "/Subscriptions/",
-        updatedOptions,
-        this.subscriptionResourceSerializer
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getSubscriptionsRuntimeProperties",
+      options,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - getSubscriptionsRuntimeProperties() with options: %j`,
+          options
+        );
+        const response = await this.listResources(
+          topicName + "/Subscriptions/",
+          updatedOptions,
+          this.subscriptionResourceSerializer
+        );
 
-      return this.buildListSubscriptionsRuntimePropertiesResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildListSubscriptionsRuntimePropertiesResponse(response);
+      }
+    );
   }
 
   private async *listSubscriptionsRuntimePropertiesPage(
@@ -1672,53 +1496,46 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async updateSubscription(
     subscription: WithResponse<SubscriptionProperties>,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<SubscriptionProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-updateSubscription",
-      operationOptions
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.updateSubscription",
+
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: %j`,
+          subscription
+        );
+
+        if (!isJSONLikeObject(subscription) || subscription == null) {
+          throw new TypeError(
+            `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
+          );
+        }
+
+        if (!subscription.topicName || !subscription.subscriptionName) {
+          throw new TypeError(
+            `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`
+          );
+        }
+
+        const fullPath = this.getSubscriptionPath(
+          subscription.topicName,
+          subscription.subscriptionName
+        );
+
+        const response = await this.putResource(
+          fullPath,
+          buildSubscriptionOptions(subscription),
+          this.subscriptionResourceSerializer,
+          true,
+          updatedOptions
+        );
+
+        return this.buildSubscriptionResponse(response);
+      }
     );
-    try {
-      logger.verbose(
-        `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: %j`,
-        subscription
-      );
-
-      if (!isJSONLikeObject(subscription) || subscription == null) {
-        throw new TypeError(
-          `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
-        );
-      }
-
-      if (!subscription.topicName || !subscription.subscriptionName) {
-        throw new TypeError(
-          `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`
-        );
-      }
-
-      const fullPath = this.getSubscriptionPath(
-        subscription.topicName,
-        subscription.subscriptionName
-      );
-
-      const response = await this.putResource(
-        fullPath,
-        buildSubscriptionOptions(subscription),
-        this.subscriptionResourceSerializer,
-        true,
-        updatedOptions
-      );
-
-      return this.buildSubscriptionResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -1738,34 +1555,27 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
     // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-deleteSubscription",
-      operationOptions
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - deleteSubscription() for "${subscriptionName}"`
-      );
-      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response = await this.deleteResource(
-        fullPath,
-        this.subscriptionResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.deleteSubscription",
 
-      return { _response: getHttpResponseOnly(response) };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - deleteSubscription() for "${subscriptionName}"`
+        );
+        const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+        const response = await this.deleteResource(
+          fullPath,
+          this.subscriptionResourceSerializer,
+          updatedOptions
+        );
+
+        return { _response: getHttpResponseOnly(response) };
+      }
+    );
   }
 
   /**
@@ -1776,31 +1586,22 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<boolean> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-subscriptionExists",
+    logger.verbose(
+      `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
+    );
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ServiceBusAdministrationClient.subscriptionExists",
       operationOptions
     );
     try {
-      logger.verbose(
-        `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
-      );
-      try {
-        await this.getSubscription(topicName, subscriptionName, updatedOptions);
-      } catch (error: any) {
-        if (error.code === "MessageEntityNotFoundError") {
-          return false;
-        }
-        throw error;
-      }
+      span.setStatus({ status: "success" });
+      await this.getSubscription(topicName, subscriptionName, updatedOptions);
       return true;
     } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
+      span.setStatus({ status: "error", error: e });
+      return false;
     } finally {
       span.end();
     }
@@ -1876,33 +1677,26 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         operOptions = { ...ruleActionOrOperationOptions, ...operationOptions };
       }
     }
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-createRule",
-      operOptions
+
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.createRule",
+      operOptions ?? {},
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - createRule() for "${ruleName}" with filter: "%j"`,
+          ruleFilter
+        );
+        const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+        const response = await this.putResource(
+          fullPath,
+          { name: ruleName, filter: ruleFilter, action: ruleAction },
+          this.ruleResourceSerializer,
+          false,
+          updatedOptions
+        );
+        return this.buildRuleResponse(response);
+      }
     );
-    try {
-      logger.verbose(
-        `Performing management operation - createRule() for "${ruleName}" with filter: "%j"`,
-        ruleFilter
-      );
-      const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-      const response = await this.putResource(
-        fullPath,
-        { name: ruleName, filter: ruleFilter, action: ruleAction },
-        this.ruleResourceSerializer,
-        false,
-        updatedOptions
-      );
-      return this.buildRuleResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -1923,31 +1717,23 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     ruleName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<WithResponse<RuleProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getRule",
-      operationOptions
-    );
-    try {
-      logger.verbose(`Performing management operation - getRule() for "${ruleName}"`);
-      const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-      const response = await this.getResource(
-        fullPath,
-        this.ruleResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getRule",
+      operationOptions,
+      async (updatedOptions) => {
+        logger.verbose(`Performing management operation - getRule() for "${ruleName}"`);
+        const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+        const response = await this.getResource(
+          fullPath,
+          this.ruleResourceSerializer,
+          updatedOptions
+        );
 
-      return this.buildRuleResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.buildRuleResponse(response);
+      }
+    );
   }
 
   /**
@@ -1965,28 +1751,24 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getRules(
     topicName: string,
     subscriptionName: string,
-    options?: ListRequestOptions & OperationOptions
+    options: ListRequestOptions & OperationOptions = {}
   ): Promise<EntitiesResponse<RuleProperties>> {
-    const { span, updatedOptions } = createSpan("ServiceBusAdministrationClient-getRules", options);
-    try {
-      logger.verbose(`Performing management operation - getRules() with options: %j`, options);
-      const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
-      const response = await this.listResources(
-        fullPath,
-        updatedOptions,
-        this.ruleResourceSerializer
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getRules",
 
-      return this.buildListRulesResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      options,
+      async (updatedOptions) => {
+        logger.verbose(`Performing management operation - getRules() with options: %j`, options);
+        const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
+        const response = await this.listResources(
+          fullPath,
+          updatedOptions,
+          this.ruleResourceSerializer
+        );
+
+        return this.buildListRulesResponse(response);
+      }
+    );
   }
 
   private async *listRulesPage(
@@ -2082,45 +1864,37 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<RuleProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-updateRule",
-      operationOptions
-    );
-    try {
-      logger.verbose(
-        `Performing management operation - updateRule() for "${rule.name}" with options: %j`,
-        rule
-      );
-
-      if (!isJSONLikeObject(rule) || rule === null) {
-        throw new TypeError(
-          `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.updateRule",
+      operationOptions ?? {},
+      async (updatedOptions) => {
+        logger.verbose(
+          `Performing management operation - updateRule() for "${rule.name}" with options: %j`,
+          rule
         );
+
+        if (!isJSONLikeObject(rule) || rule === null) {
+          throw new TypeError(
+            `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`
+          );
+        }
+
+        if (!rule.name) {
+          throw new TypeError(`"name" attribute of the parameter "rule" cannot be undefined.`);
+        }
+
+        const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
+        const response = await this.putResource(
+          fullPath,
+          rule,
+          this.ruleResourceSerializer,
+          true,
+          updatedOptions
+        );
+
+        return this.buildRuleResponse(response);
       }
-
-      if (!rule.name) {
-        throw new TypeError(`"name" attribute of the parameter "rule" cannot be undefined.`);
-      }
-
-      const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
-      const response = await this.putResource(
-        fullPath,
-        rule,
-        this.ruleResourceSerializer,
-        true,
-        updatedOptions
-      );
-
-      return this.buildRuleResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -2144,29 +1918,21 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     operationOptions?: OperationOptions
     // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-deleteRule",
-      operationOptions
-    );
-    try {
-      logger.verbose(`Performing management operation - deleteRule() for "${ruleName}"`);
-      const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-      const response = await this.deleteResource(
-        fullPath,
-        this.ruleResourceSerializer,
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.deleteRule",
+      operationOptions ?? {},
+      async (updatedOptions) => {
+        logger.verbose(`Performing management operation - deleteRule() for "${ruleName}"`);
+        const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+        const response = await this.deleteResource(
+          fullPath,
+          this.ruleResourceSerializer,
+          updatedOptions
+        );
 
-      return { _response: getHttpResponseOnly(response) };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return { _response: getHttpResponseOnly(response) };
+      }
+    );
   }
 
   /**
@@ -2178,29 +1944,20 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     ruleName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions: OperationOptions = {}
   ): Promise<boolean> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-ruleExists",
+    logger.verbose(`Performing management operation - ruleExists() for "${ruleName}"`);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ServiceBusAdministrationClient.ruleExists",
       operationOptions
     );
     try {
-      logger.verbose(`Performing management operation - ruleExists() for "${ruleName}"`);
-      try {
-        await this.getRule(topicName, subscriptionName, ruleName, updatedOptions);
-      } catch (error: any) {
-        if (error.code === "MessageEntityNotFoundError") {
-          return false;
-        }
-        throw error;
-      }
+      span.setStatus({ status: "success" });
+      await this.getRule(topicName, subscriptionName, ruleName, updatedOptions);
       return true;
     } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
+      span.setStatus({ status: "error", error: e });
+      return false;
     } finally {
       span.end();
     }
@@ -2220,62 +1977,54 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     isUpdate: boolean = false,
     operationOptions: OperationOptions = {}
   ): Promise<PipelineResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-putResource",
-      operationOptions
-    );
-    try {
-      const request: PipelineRequest = createPipelineRequest({
-        url: this.getUrl(name),
-        method: "PUT",
-      });
-      if (isUpdate) {
-        request.headers.set("If-Match", "*");
-      }
-
-      const queueOrSubscriptionFields = entityFields as
-        | InternalQueueOptions
-        | InternalSubscriptionOptions;
-      if (
-        queueOrSubscriptionFields.ForwardTo ||
-        queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-      ) {
-        const token =
-          this.credentials instanceof SasServiceClientCredentials
-            ? this.credentials.getToken(this.endpoint).token
-            : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
-
-        if (queueOrSubscriptionFields.ForwardTo) {
-          request.headers.set("ServiceBusSupplementaryAuthorization", token);
-          if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
-            queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
-              queueOrSubscriptionFields.ForwardTo
-            );
-          }
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.putResource",
+      operationOptions,
+      async (updatedOptions) => {
+        const request: PipelineRequest = createPipelineRequest({
+          url: this.getUrl(name),
+          method: "PUT",
+        });
+        if (isUpdate) {
+          request.headers.set("If-Match", "*");
         }
-        if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
-          request.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
-          if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
-            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo =
-              this.endpointWithProtocol.concat(
-                queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+
+        const queueOrSubscriptionFields = entityFields as
+          | InternalQueueOptions
+          | InternalSubscriptionOptions;
+        if (
+          queueOrSubscriptionFields.ForwardTo ||
+          queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+        ) {
+          const token =
+            this.credentials instanceof SasServiceClientCredentials
+              ? this.credentials.getToken(this.endpoint).token
+              : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
+
+          if (queueOrSubscriptionFields.ForwardTo) {
+            request.headers.set("ServiceBusSupplementaryAuthorization", token);
+            if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
+              queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
+                queueOrSubscriptionFields.ForwardTo
               );
+            }
+          }
+          if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
+            request.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
+            if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
+              queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo =
+                this.endpointWithProtocol.concat(
+                  queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+                );
+            }
           }
         }
+
+        request.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
+
+        return executeAtomXmlOperation(this, request, serializer, updatedOptions, entityFields);
       }
-
-      request.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
-
-      return executeAtomXmlOperation(this, request, serializer, updatedOptions, entityFields);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -2286,42 +2035,34 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
   ): Promise<FullOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getResource",
-      operationOptions
-    );
-    try {
-      const request = createPipelineRequest({
-        url: this.getUrl(name),
-        method: "GET",
-      });
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.getResource",
+      operationOptions,
+      async (updatedOptions) => {
+        const request = createPipelineRequest({
+          url: this.getUrl(name),
+          method: "GET",
+        });
 
-      const response = await executeAtomXmlOperation(this, request, serializer, updatedOptions);
-      if (
-        !isDefined(response.parsedBody) ||
-        (Array.isArray(response.parsedBody) && response.parsedBody.length === 0)
-      ) {
-        const err = new RestError(
-          `The messaging entity "${name}" being requested cannot be found.`,
-          {
-            code: "MessageEntityNotFoundError",
-            statusCode: response.status,
-            request,
-            response,
-          }
-        );
-        throw err;
+        const response = await executeAtomXmlOperation(this, request, serializer, updatedOptions);
+        if (
+          !isDefined(response.parsedBody) ||
+          (Array.isArray(response.parsedBody) && response.parsedBody.length === 0)
+        ) {
+          const err = new RestError(
+            `The messaging entity "${name}" being requested cannot be found.`,
+            {
+              code: "MessageEntityNotFoundError",
+              statusCode: response.status,
+              request,
+              response,
+            }
+          );
+          throw err;
+        }
+        return response;
       }
-      return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -2332,36 +2073,28 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     options: ListRequestOptions & OperationOptions = {},
     serializer: AtomXmlSerializer
   ): Promise<FullOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-listResources",
-      options
-    );
-    try {
-      const queryParams: { [key: string]: string } = {};
-      if (options) {
-        if (options.skip) {
-          queryParams["$skip"] = options.skip.toString();
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.listResources",
+      options,
+      async (updatedOptions) => {
+        const queryParams: { [key: string]: string } = {};
+        if (options) {
+          if (options.skip) {
+            queryParams["$skip"] = options.skip.toString();
+          }
+          if (options.maxCount) {
+            queryParams["$top"] = options.maxCount.toString();
+          }
         }
-        if (options.maxCount) {
-          queryParams["$top"] = options.maxCount.toString();
-        }
+
+        const request = createPipelineRequest({
+          url: this.getUrl(name, queryParams),
+          method: "GET",
+        });
+
+        return executeAtomXmlOperation(this, request, serializer, updatedOptions);
       }
-
-      const request = createPipelineRequest({
-        url: this.getUrl(name, queryParams),
-        method: "GET",
-      });
-
-      return executeAtomXmlOperation(this, request, serializer, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -2372,25 +2105,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
   ): Promise<FullOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-deleteResource",
-      operationOptions
+    return tracingClient.withSpan(
+      "ServiceBusAdministrationClient.deleteResource",
+      operationOptions,
+      async (updatedOptions) => {
+        const request = createPipelineRequest({
+          url: this.getUrl(name),
+          method: "DELETE",
+        });
+        return executeAtomXmlOperation(this, request, serializer, updatedOptions);
+      }
     );
-    try {
-      const request = createPipelineRequest({
-        url: this.getUrl(name),
-        method: "DELETE",
-      });
-      return executeAtomXmlOperation(this, request, serializer, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   private getUrl(path: string, queryParams?: { [key: string]: string }): string {

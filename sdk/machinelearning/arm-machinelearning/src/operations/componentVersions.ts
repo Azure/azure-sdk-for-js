@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
 import {
-  ComponentVersionData,
+  ComponentVersion,
   ComponentVersionsListNextOptionalParams,
   ComponentVersionsListOptionalParams,
   ComponentVersionsListResponse,
@@ -50,7 +50,7 @@ export class ComponentVersionsImpl implements ComponentVersions {
     workspaceName: string,
     name: string,
     options?: ComponentVersionsListOptionalParams
-  ): PagedAsyncIterableIterator<ComponentVersionData> {
+  ): PagedAsyncIterableIterator<ComponentVersion> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
@@ -80,7 +80,7 @@ export class ComponentVersionsImpl implements ComponentVersions {
     workspaceName: string,
     name: string,
     options?: ComponentVersionsListOptionalParams
-  ): AsyncIterableIterator<ComponentVersionData[]> {
+  ): AsyncIterableIterator<ComponentVersion[]> {
     let result = await this._list(
       resourceGroupName,
       workspaceName,
@@ -107,7 +107,7 @@ export class ComponentVersionsImpl implements ComponentVersions {
     workspaceName: string,
     name: string,
     options?: ComponentVersionsListOptionalParams
-  ): AsyncIterableIterator<ComponentVersionData> {
+  ): AsyncIterableIterator<ComponentVersion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -193,7 +193,7 @@ export class ComponentVersionsImpl implements ComponentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    body: ComponentVersionData,
+    body: ComponentVersion,
     options?: ComponentVersionsCreateOrUpdateOptionalParams
   ): Promise<ComponentVersionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -284,7 +284,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentVersionData
+      bodyMapper: Mappers.ComponentVersion
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -308,10 +308,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentVersionData
+      bodyMapper: Mappers.ComponentVersion
     },
     201: {
-      bodyMapper: Mappers.ComponentVersionData
+      bodyMapper: Mappers.ComponentVersion
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

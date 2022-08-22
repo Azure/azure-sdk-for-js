@@ -1,0 +1,77 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cantgetadeletedkeythatdoesntexist-?api-version=7.3",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "f6131b82-b36e-4042-9670-9f83d9620b02"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "97",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 23:04:14 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.windows.net/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://vault.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "f6131b82-b36e-4042-9670-9f83d9620b02",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "a134aade-c111-4a6e-a640-69f29b8ad089"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "Unauthorized",
+          "message": "AKV10000: Request is missing a Bearer or PoP token."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cantgetadeletedkeythatdoesntexist-?api-version=7.3",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "f6131b82-b36e-4042-9670-9f83d9620b02"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "334",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 27 May 2022 23:04:14 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "f6131b82-b36e-4042-9670-9f83d9620b02",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.159.44;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "bcec85b9-f9c6-5289-888e-6f6ce533c6a2",
+        "x-ms-keyvault-rbac-cache": "ra_age=7574;da_age=7574;rd_age=7574;brd_age=6080;ra_notif_age=8630;dec_lev=1;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.395.1",
+        "x-ms-request-id": "b8b59834-d15a-44fc-a59c-c249a255a63e"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "KeyNotFound",
+          "message": "A key with (name/id) CRUDKeyName-cantgetadeletedkeythatdoesntexist- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

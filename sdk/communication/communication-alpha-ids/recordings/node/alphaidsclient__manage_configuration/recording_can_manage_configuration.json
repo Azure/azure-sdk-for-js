@@ -1,0 +1,111 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/alphaIds/configuration?api-version=2022-09-26-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-alpha-ids/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 21 Jul 2022 00:22:08 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 403,
+      "ResponseHeaders": {
+        "api-supported-versions": "2022-09-26-preview",
+        "Content-Type": "application/json",
+        "Date": "Thu, 21 Jul 2022 00:22:08 GMT",
+        "MS-CV": "BfdiLu5ODUOqIobSSEmm5Q.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0L5zYYgAAAAA69v3IvQnJSYIn42HonAOWU0FPMzFFREdFMTIxOABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "385ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "Forbidden",
+          "message": "Subscription with subscriptionId 00000000-0000-0000-0000-000000000000 is not eligible for Alpha IDs usage.",
+          "target": "subscriptionid"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/alphaIds/configuration?api-version=2022-09-26-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "17",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-alpha-ids/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "Ws8/93tEIGd7WSMHHzA/rKunqSc6NGKEpmeidd8yUUY=",
+        "x-ms-date": "Thu, 21 Jul 2022 00:22:09 GMT"
+      },
+      "RequestBody": {
+        "enabled": false
+      },
+      "StatusCode": 403,
+      "ResponseHeaders": {
+        "api-supported-versions": "2022-09-26-preview",
+        "Content-Type": "application/json",
+        "Date": "Thu, 21 Jul 2022 00:22:09 GMT",
+        "MS-CV": "rR9JEjaICUO/BbssoAWtoQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0MZzYYgAAAADDSoKJcX9lT5D0etFu5FI6U0FPMzFFREdFMTIxOABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "348ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "Forbidden",
+          "message": "Subscription with subscriptionId 00000000-0000-0000-0000-000000000000 is not eligible for Alpha IDs usage.",
+          "target": "subscriptionid"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/alphaIds/configuration?api-version=2022-09-26-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-alpha-ids/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 21 Jul 2022 00:22:10 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 403,
+      "ResponseHeaders": {
+        "api-supported-versions": "2022-09-26-preview",
+        "Content-Type": "application/json",
+        "Date": "Thu, 21 Jul 2022 00:22:09 GMT",
+        "MS-CV": "cDGsMv\u002B11064axkyzkKXOw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0MZzYYgAAAACTwVS5Y3xYRpJwEmyy2vd\u002BU0FPMzFFREdFMTIxOABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "147ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "Forbidden",
+          "message": "Subscription with subscriptionId 00000000-0000-0000-0000-000000000000 is not eligible for Alpha IDs usage.",
+          "target": "subscriptionid"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

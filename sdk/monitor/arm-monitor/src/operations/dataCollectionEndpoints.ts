@@ -286,7 +286,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -307,7 +307,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -324,7 +324,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -350,7 +350,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -374,7 +374,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -396,7 +396,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -417,7 +417,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -438,7 +438,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

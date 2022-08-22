@@ -9,7 +9,7 @@ import {
   Message as RheaMessage,
   types,
 } from "rhea-promise";
-import { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
+import { isDefined, isObjectWithProperties, objectHasProperty } from "@azure/core-util";
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,

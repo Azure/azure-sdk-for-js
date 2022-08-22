@@ -7,11 +7,11 @@ import fs from "fs";
 import childProcess from "child_process";
 import { assert } from "@azure/test-utils";
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 
 import { CertificateClient } from "../../src";
 import { assertThrowsAbortError } from "./utils/common";
@@ -43,7 +43,7 @@ describe("Certificates client - create, read, update and delete", () => {
     recorder = authentication.recorder;
     keyVaultUrl = authentication.keyVaultUrl;
     credential = authentication.credential;
-    secretClient = new SecretClient(keyVaultUrl, credential);
+    secretClient = new SecretClient(keyVaultUrl, credential, recorder.configureClientOptions({}));
   });
 
   afterEach(async function () {
@@ -81,9 +81,11 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work - in browsers
+  // On playback mode, the tests happen too fast for the timeout to work
   it("can create a certificate with requestOptions timeout", async function (this: Context) {
-    recorder.skip("browser", "Timeout tests don't work on playback mode.");
+    if (isPlaybackMode()) {
+      this.skip();
+    }
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await assertThrowsAbortError(async () => {
@@ -179,7 +181,10 @@ describe("Certificates client - create, read, update and delete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can update certificate with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const poller = await client.beginCreateCertificate(
@@ -215,12 +220,9 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can get a certificate's secret in PKCS 12 format", async function (this: Context) {
-    recorder.skip(
-      undefined,
-      "This test uses the file system and the certificate value has been sanitized in recordings."
-    );
     // Skipping this test from the live browser test runs, because we use the file system.
-    if (!isNode) {
+    // This test uses the file system and the certificate value has been sanitized in recordings, so skip in playback too
+    if (!isNode || isPlaybackMode()) {
       this.skip();
     }
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -265,7 +267,6 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can get a certificate's secret in PEM format", async function (this: Context) {
-    recorder.skip("browser", "This test uses the file system.");
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
       this.skip();
@@ -300,7 +301,10 @@ describe("Certificates client - create, read, update and delete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can get a certificate with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -373,7 +377,10 @@ describe("Certificates client - create, read, update and delete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can delete a certificate with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -553,7 +560,10 @@ describe("Certificates client - create, read, update and delete", () => {
     // Known flaky test due to the lag between the request and when the job gets picked up by the service.
     this.retries(5);
 
-    const certificateName = recorder.getUniqueName("crudcertoperation");
+    const certificateName = recorder.variable(
+      "crudcertoperation",
+      `crudcertoperation-${Math.floor(Math.random() * 10000)}`
+    );
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,

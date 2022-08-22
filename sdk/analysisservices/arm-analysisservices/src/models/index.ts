@@ -216,7 +216,7 @@ export interface SkuDetailsForExistingResource {
 /** Status of gateway is live. */
 export interface GatewayListStatusLive {
   /** Live message of list gateway. Status: 0 - Live */
-  status?: "undefined";
+  status?: 0;
 }
 
 /** Status of gateway is error. */
@@ -403,7 +403,8 @@ export interface LogSpecifications {
 }
 
 /** Properties of Analysis Services resource. */
-export type AnalysisServicesServerProperties = AnalysisServicesServerMutableProperties & {
+export interface AnalysisServicesServerProperties
+  extends AnalysisServicesServerMutableProperties {
   /**
    * The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -421,10 +422,10 @@ export type AnalysisServicesServerProperties = AnalysisServicesServerMutableProp
   readonly serverFullName?: string;
   /** The SKU of the Analysis Services resource. */
   sku?: ResourceSku;
-};
+}
 
 /** Represents an instance of an Analysis Services resource. */
-export type AnalysisServicesServer = Resource & {
+export interface AnalysisServicesServer extends Resource {
   /** A collection of AS server administrators */
   asAdministrators?: ServerAdministrators;
   /** The SAS container URI to the backup container. */
@@ -456,21 +457,33 @@ export type AnalysisServicesServer = Resource & {
   readonly serverFullName?: string;
   /** The SKU of the Analysis Services resource. */
   skuPropertiesSku?: ResourceSku;
-};
+}
 
 /** Known values of {@link State} that the service accepts. */
 export enum KnownState {
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Paused */
   Paused = "Paused",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Updating */
   Updating = "Updating",
+  /** Suspending */
   Suspending = "Suspending",
+  /** Pausing */
   Pausing = "Pausing",
+  /** Resuming */
   Resuming = "Resuming",
+  /** Preparing */
   Preparing = "Preparing",
+  /** Scaling */
   Scaling = "Scaling"
 }
 
@@ -496,17 +509,29 @@ export type State = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Paused */
   Paused = "Paused",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Updating */
   Updating = "Updating",
+  /** Suspending */
   Suspending = "Suspending",
+  /** Pausing */
   Pausing = "Pausing",
+  /** Resuming */
   Resuming = "Resuming",
+  /** Preparing */
   Preparing = "Preparing",
+  /** Scaling */
   Scaling = "Scaling"
 }
 
@@ -532,8 +557,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Development */
   Development = "Development",
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard"
 }
 

@@ -15,10 +15,10 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Updates a site update tags.
+ * This sample demonstrates how to Updates site tags.
  *
- * @summary Updates a site update tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-03-01-preview/examples/SiteUpdateTags.json
+ * @summary Updates site tags.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/preview/2022-04-01-preview/examples/SiteUpdateTags.json
  */
 async function updateMobileNetworkSiteTags() {
   const subscriptionId = "subid";

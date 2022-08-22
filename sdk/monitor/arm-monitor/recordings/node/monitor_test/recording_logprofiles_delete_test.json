@@ -7,24 +7,24 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
-        "x-ms-client-request-id": "09a038fb-79e9-4690-9efd-149b8da2abd2"
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "c74147e8-8bb8-44ee-a96b-ba9a544111f7"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Tue, 14 Jun 2022 07:45:54 GMT",
+        "Date": "Fri, 29 Jul 2022 02:35:25 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "5ab6ada8-3f8b-457a-add7-034ce3226079",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14994",
-        "x-ms-request-id": "42147f39-550b-48c3-b820-c69bf71fbb24",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220614T074555Z:5ab6ada8-3f8b-457a-add7-034ce3226079"
+        "x-ms-correlation-request-id": "73c24b3f-d224-4749-bc71-84f7abc47556",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14995",
+        "x-ms-request-id": "acc37305-bdc3-45c5-812b-16a9df3ca517",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220729T023526Z:73c24b3f-d224-4749-bc71-84f7abc47556"
       },
       "ResponseBody": null
     },
@@ -36,8 +36,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
-        "x-ms-client-request-id": "5b9c66cc-b507-4294-90eb-6b9a13c83682"
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "eebae787-8161-419a-b820-1a0ea3d8914c"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -45,7 +45,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Jun 2022 07:45:55 GMT",
+        "Date": "Fri, 29 Jul 2022 02:35:26 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
@@ -53,13 +53,39 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "819cb795-2492-432c-bbe1-6f7403268805",
-        "x-ms-ratelimit-remaining-subscription-reads": "11967",
-        "x-ms-request-id": "c5e8bee4-b9e0-44bb-b91f-3ef704b5d0e4",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220614T074555Z:819cb795-2492-432c-bbe1-6f7403268805"
+        "x-ms-correlation-request-id": "3bdb4f38-cc90-4866-aef8-8cfcf1036fc0",
+        "x-ms-ratelimit-remaining-subscription-reads": "11994",
+        "x-ms-request-id": "87357649-3d27-4449-8c25-81ba855dc4c5",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220729T023526Z:3bdb4f38-cc90-4866-aef8-8cfcf1036fc0"
       },
       "ResponseBody": {
-        "value": []
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/providers/microsoft.insights/logprofiles/mylogprofilexxx",
+            "type": null,
+            "name": "mylogprofilexxx",
+            "location": null,
+            "kind": null,
+            "tags": null,
+            "properties": {
+              "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+              "serviceBusRuleId": null,
+              "locations": [
+                "global"
+              ],
+              "categories": [
+                "Write",
+                "Delete",
+                "Action"
+              ],
+              "retentionPolicy": {
+                "enabled": true,
+                "days": 3
+              }
+            },
+            "identity": null
+          }
+        ]
       }
     }
   ],

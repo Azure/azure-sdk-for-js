@@ -75,6 +75,8 @@ async function createOrUpdateAPolicyDefinitionWithAdvancedParameters() {
     parameters: {
       requiredRetentionDays: {
         type: "Integer",
+        allowedValues: [0, 30, 90, 180, 365],
+        defaultValue: 365,
         metadata: {
           description: "The required diagnostic logs retention in days",
           displayName: "Required retention (days)"

@@ -161,27 +161,27 @@ export interface WcfRelaysListResult {
 }
 
 /** Definition of resource. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource location. */
   location: string;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** Definition of resource. */
-export type ResourceNamespacePatch = Resource & {
+export interface ResourceNamespacePatch extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** Description of a namespace authorization rule. */
-export type AuthorizationRule = Resource & {
+export interface AuthorizationRule extends Resource {
   /** The rights associated with the rule. */
   rights: AccessRights[];
-};
+}
 
 /** Description of hybrid connection resource. */
-export type HybridConnection = Resource & {
+export interface HybridConnection extends Resource {
   /**
    * The time the hybrid connection was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -201,10 +201,10 @@ export type HybridConnection = Resource & {
   requiresClientAuthorization?: boolean;
   /** The usermetadata is a placeholder to store user-defined string data for the hybrid connection endpoint. For example, it can be used to store descriptive data, such as a list of teams and their contact information. Also, user-defined configuration settings can be stored. */
   userMetadata?: string;
-};
+}
 
 /** Description of the WCF relay resource. */
-export type WcfRelay = Resource & {
+export interface WcfRelay extends Resource {
   /**
    * Returns true if the relay is dynamic; otherwise, false.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -233,10 +233,10 @@ export type WcfRelay = Resource & {
   requiresTransportSecurity?: boolean;
   /** The usermetadata is a placeholder to store user-defined string data for the WCF Relay endpoint. For example, it can be used to store descriptive data, such as list of teams and their contact information. Also, user-defined configuration settings can be stored. */
   userMetadata?: string;
-};
+}
 
 /** Description of a namespace resource. */
-export type RelayNamespace = TrackedResource & {
+export interface RelayNamespace extends TrackedResource {
   /** SKU of the namespace. */
   sku?: Sku;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
@@ -261,10 +261,10 @@ export type RelayNamespace = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricId?: string;
-};
+}
 
 /** Description of a namespace resource. */
-export type RelayUpdateParameters = ResourceNamespacePatch & {
+export interface RelayUpdateParameters extends ResourceNamespacePatch {
   /** SKU of the namespace. */
   sku?: Sku;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
@@ -289,7 +289,8 @@ export type RelayUpdateParameters = ResourceNamespacePatch & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricId?: string;
-};
+}
+
 /** Defines values for UnavailableReason. */
 export type UnavailableReason =
   | "None"

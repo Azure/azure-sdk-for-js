@@ -1,14 +1,24 @@
 # Release History
 
-## 12.10.0-beta.2 (Unreleased)
+## 12.11.0-beta.1 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2021-10-04.
+- Added support for flush parameter to DataLakeFileClient.append().
+- Added support for encryption scopes.
+- Added support for encryption scope SAS.
 
 ### Bugs Fixed
 
-### Other Changes
+- Correted permission string parsing in DataLakePathClient.setPermissions() and DataLakePathClient.getAccessControl().
+- Refined URL parsing method to let it be able to correctly parse URLs with account name in path.
+
+## 12.10.0 (2022-07-08)
+
+### Features Added
+
+- Includes all features released in 12.10.0-beta.1.
 
 ## 12.10.0-beta.1 (2022-06-17)
 

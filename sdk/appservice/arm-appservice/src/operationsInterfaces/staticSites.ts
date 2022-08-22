@@ -26,6 +26,9 @@ import {
   RemotePrivateEndpointConnectionARMResource,
   StaticSitesGetPrivateEndpointConnectionListOptionalParams,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams,
+  StaticSiteLinkedBackendARMResource,
+  StaticSitesGetLinkedBackendsOptionalParams,
+  StaticSitesGetLinkedBackendsForBuildOptionalParams,
   StaticSitesWorkflowPreviewRequest,
   StaticSitesPreviewWorkflowOptionalParams,
   StaticSitesPreviewWorkflowResponse,
@@ -98,7 +101,19 @@ import {
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse,
   StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams,
-  StaticSitesCreateZipDeploymentForStaticSiteOptionalParams
+  StaticSitesCreateZipDeploymentForStaticSiteOptionalParams,
+  StaticSitesValidateBackendOptionalParams,
+  StaticSitesValidateBackendForBuildOptionalParams,
+  StaticSitesGetLinkedBackendOptionalParams,
+  StaticSitesGetLinkedBackendResponse,
+  StaticSitesLinkBackendOptionalParams,
+  StaticSitesLinkBackendResponse,
+  StaticSitesUnlinkBackendOptionalParams,
+  StaticSitesGetLinkedBackendForBuildOptionalParams,
+  StaticSitesGetLinkedBackendForBuildResponse,
+  StaticSitesLinkBackendToBuildOptionalParams,
+  StaticSitesLinkBackendToBuildResponse,
+  StaticSitesUnlinkBackendFromBuildOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -215,6 +230,30 @@ export interface StaticSites {
     name: string,
     options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams
   ): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
+  /**
+   * Returns details of all backends linked to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  listLinkedBackends(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetLinkedBackendsOptionalParams
+  ): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
+  /**
+   * Returns details of all backends linked to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param options The options parameters.
+   */
+  listLinkedBackendsForBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetLinkedBackendsForBuildOptionalParams
+  ): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
   /**
    * Description for Generates a preview workflow file for the static site
    * @param location Location where you plan to create the static site.
@@ -958,5 +997,207 @@ export interface StaticSites {
     name: string,
     staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
     options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams
+  ): Promise<void>;
+  /**
+   * Validates that a backend can be linked to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  beginValidateBackend(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Validates that a backend can be linked to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  beginValidateBackendAndWait(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendOptionalParams
+  ): Promise<void>;
+  /**
+   * Validates that a backend can be linked to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  beginValidateBackendForBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendForBuildOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Validates that a backend can be linked to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  beginValidateBackendForBuildAndWait(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendForBuildOptionalParams
+  ): Promise<void>;
+  /**
+   * Returns the details of a linked backend linked to a static site by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param options The options parameters.
+   */
+  getLinkedBackend(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    options?: StaticSitesGetLinkedBackendOptionalParams
+  ): Promise<StaticSitesGetLinkedBackendResponse>;
+  /**
+   * Link backend to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the backend to link to the static site
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  beginLinkBackend(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<StaticSitesLinkBackendResponse>,
+      StaticSitesLinkBackendResponse
+    >
+  >;
+  /**
+   * Link backend to a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the backend to link to the static site
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  beginLinkBackendAndWait(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendOptionalParams
+  ): Promise<StaticSitesLinkBackendResponse>;
+  /**
+   * Unlink a backend from a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param linkedBackendName Name of the backend linked to the static site
+   * @param options The options parameters.
+   */
+  unlinkBackend(
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    options?: StaticSitesUnlinkBackendOptionalParams
+  ): Promise<void>;
+  /**
+   * Returns the details of a linked backend linked to a static site build by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the linked backend that should be retrieved
+   * @param options The options parameters.
+   */
+  getLinkedBackendForBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    options?: StaticSitesGetLinkedBackendForBuildOptionalParams
+  ): Promise<StaticSitesGetLinkedBackendForBuildResponse>;
+  /**
+   * Link backend to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the backend to link to the static site
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  beginLinkBackendToBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendToBuildOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<StaticSitesLinkBackendToBuildResponse>,
+      StaticSitesLinkBackendToBuildResponse
+    >
+  >;
+  /**
+   * Link backend to a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the backend to link to the static site
+   * @param staticSiteLinkedBackendEnvelope A JSON representation of the linked backend request
+   *                                        properties
+   * @param options The options parameters.
+   */
+  beginLinkBackendToBuildAndWait(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendToBuildOptionalParams
+  ): Promise<StaticSitesLinkBackendToBuildResponse>;
+  /**
+   * Unlink a backend from a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier
+   * @param linkedBackendName Name of the backend linked to the static site
+   * @param options The options parameters.
+   */
+  unlinkBackendFromBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    options?: StaticSitesUnlinkBackendFromBuildOptionalParams
   ): Promise<void>;
 }

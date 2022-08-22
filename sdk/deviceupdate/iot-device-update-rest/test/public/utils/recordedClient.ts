@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import DeviceUpdate, { DeviceUpdateRestClient } from "../../../src";
+import DeviceUpdate, { DeviceUpdateClient } from "../../../src";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 
-export function createRecordedClient(recorder: Recorder): DeviceUpdateRestClient {
+export function createRecordedClient(recorder: Recorder): DeviceUpdateClient {
   const credential = createTestCredential();
   const client = DeviceUpdate(
     assertEnvironmentVariable("ENDPOINT"),

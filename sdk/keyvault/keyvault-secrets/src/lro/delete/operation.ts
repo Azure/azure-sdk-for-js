@@ -9,7 +9,7 @@ import {
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getSecretFromSecretBundle } from "../../transformations";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { tracingClient } from "../../tracing";
 
 /**

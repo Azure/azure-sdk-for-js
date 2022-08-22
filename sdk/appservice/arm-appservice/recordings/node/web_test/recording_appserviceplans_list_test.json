@@ -1,0 +1,103 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms?api-version=2022-03-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appservice/13.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "aa233713-923d-47e1-901c-f6984b43dae7"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Wed, 06 Jul 2022 06:13:08 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-AspNet-Version": "4.0.30319",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5484021a-e7f2-40c9-befc-2140f05158f9",
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "485cf00f-51ee-493d-a049-e6e3bce5b617",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220706T061309Z:5484021a-e7f2-40c9-befc-2140f05158f9",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
+            "name": "myappserviceplanxxx",
+            "type": "Microsoft.Web/serverfarms",
+            "kind": "app",
+            "location": "East US",
+            "properties": {
+              "serverFarmId": 22793,
+              "name": "myappserviceplanxxx",
+              "workerSize": "Default",
+              "workerSizeId": 0,
+              "workerTierName": null,
+              "numberOfWorkers": 1,
+              "currentWorkerSize": "Default",
+              "currentWorkerSizeId": 0,
+              "currentNumberOfWorkers": 1,
+              "status": "Ready",
+              "webSpace": "myjstest-EastUSwebspace",
+              "subscription": "azure_subscription_id",
+              "adminSiteName": null,
+              "hostingEnvironment": null,
+              "hostingEnvironmentProfile": null,
+              "maximumNumberOfWorkers": 10,
+              "planName": "VirtualDedicatedPlan",
+              "adminRuntimeSiteName": null,
+              "computeMode": "Dedicated",
+              "siteMode": null,
+              "geoRegion": "East US",
+              "perSiteScaling": false,
+              "elasticScaleEnabled": false,
+              "maximumElasticWorkerCount": 1,
+              "numberOfSites": 1,
+              "hostingEnvironmentId": null,
+              "isSpot": false,
+              "spotExpirationTime": null,
+              "freeOfferExpirationTime": null,
+              "tags": null,
+              "kind": "app",
+              "resourceGroup": "myjstest",
+              "reserved": false,
+              "isXenon": false,
+              "hyperV": false,
+              "mdmId": "waws-prod-blu-339_22793",
+              "targetWorkerCount": 0,
+              "targetWorkerSizeId": 0,
+              "provisioningState": "Succeeded",
+              "webSiteId": null,
+              "existingServerFarmIds": null,
+              "kubeEnvironmentProfile": null,
+              "zoneRedundant": false
+            },
+            "sku": {
+              "name": "S1",
+              "tier": "Standard",
+              "size": "S1",
+              "family": "S",
+              "capacity": 1
+            }
+          }
+        ],
+        "nextLink": null,
+        "id": null
+      }
+    }
+  ],
+  "Variables": {}
+}

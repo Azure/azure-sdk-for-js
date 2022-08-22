@@ -20,14 +20,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function queryAtSubscriptionLevelPolicySetDefinitionScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForPolicySetDefinition(
     policyEventsResource,
-    subscriptionId,
+    subscriptionId2,
     policySetDefinitionName
   )) {
     resArray.push(item);
@@ -46,11 +46,11 @@ queryAtSubscriptionLevelPolicySetDefinitionScope().catch(console.error);
 async function queryAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options = {
-    skipToken,
+    queryOptions: { skipToken: skipToken },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
