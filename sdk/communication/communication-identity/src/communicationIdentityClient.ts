@@ -99,15 +99,15 @@ export class CommunicationIdentityClient {
    *
    * @param user - The user whose tokens are being issued.
    * @param scopes - Scopes to include in the token.
-   * @param expiresAfter - Custom validity period of the Communication Identity access token within <60,1440> minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within <60,1440> minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
-   public getToken(
+  public getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
-    expiresAfter?: number,
+    tokenExpirationInMinutes?: number,
     options?: OperationOptions
-  ): Promise<CommunicationAccessToken>; 
+  ): Promise<CommunicationAccessToken>;
 
   /**
    * Creates a scoped user token.
@@ -120,42 +120,45 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
     options?: OperationOptions
-  ): Promise<CommunicationAccessToken>; 
-  
+  ): Promise<CommunicationAccessToken>;
+
   public getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
-    expiresAfterOrOptions?: number | OperationOptions,
+    tokenExpirationInMinutesOrOptions?: number | OperationOptions,
     options?: OperationOptions
-  ): Promise<CommunicationAccessToken>
-  {
-    let operationOptions: OperationOptions
+  ): Promise<CommunicationAccessToken> {
+    let operationOptions: OperationOptions;
 
     if (options) {
-      operationOptions = options
+      operationOptions = options;
+    } else if (
+      tokenExpirationInMinutesOrOptions &&
+      typeof tokenExpirationInMinutesOrOptions !== "number"
+    ) {
+      operationOptions = tokenExpirationInMinutesOrOptions as OperationOptions;
+    } else {
+      operationOptions = {};
     }
-    else if (expiresAfterOrOptions && typeof expiresAfterOrOptions !== "number") {
-      operationOptions = expiresAfterOrOptions as OperationOptions
-    } 
-    else {
-      operationOptions = {}
-    }
 
-    return tracingClient.withSpan("CommunicationIdentity-issueToken", operationOptions, (updatedOptions) => {
+    return tracingClient.withSpan(
+      "CommunicationIdentity-issueToken",
+      operationOptions,
+      (updatedOptions) => {
+        let additionalOptions: CommunicationIdentityIssueAccessTokenOptionalParams;
+        additionalOptions = updatedOptions;
 
-      let additionalOptions : CommunicationIdentityIssueAccessTokenOptionalParams
-      additionalOptions = updatedOptions
+        if (typeof tokenExpirationInMinutesOrOptions === "number") {
+          additionalOptions.expiresInMinutes = tokenExpirationInMinutesOrOptions;
+        }
 
-      if (typeof expiresAfterOrOptions === "number") {
-        additionalOptions.expiresInMinutes = expiresAfterOrOptions
+        return this.client.communicationIdentityOperations.issueAccessToken(
+          user.communicationUserId,
+          scopes,
+          additionalOptions
+        );
       }
-
-      return this.client.communicationIdentityOperations.issueAccessToken(
-        user.communicationUserId,
-        scopes,
-        additionalOptions
-      );
-    });
+    );
   }
 
   /**
@@ -202,14 +205,14 @@ export class CommunicationIdentityClient {
    * Creates a single user and a token simultaneously.
    *
    * @param scopes - Scopes to include in the token.
-   * @param expiresAfter - Custom validity period of the Communication Identity access token within <60,1440> minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+   * @param tokenExpirationInMinutes - Custom validity period of the Communication Identity access token within <60,1440> minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
    * @param options - Additional options for the request.
    */
- public createUserAndToken(
-  scopes: TokenScope[],
-  expiresAfter?: number,
-  options?: OperationOptions
-): Promise<CommunicationUserToken>;
+  public createUserAndToken(
+    scopes: TokenScope[],
+    tokenExpirationInMinutes?: number,
+    options?: OperationOptions
+  ): Promise<CommunicationUserToken>;
 
   /**
    * Creates a single user and a token simultaneously.
@@ -221,36 +224,35 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options?: OperationOptions
   ): Promise<CommunicationUserToken>;
-  
+
   public createUserAndToken(
     scopes: TokenScope[],
-    expiresAfterOrOptions?: number | OperationOptions,
+    tokenExpirationInMinutesOrOptions?: number | OperationOptions,
     options?: OperationOptions
-  )
-  {
-    let operationOptions: OperationOptions
+  ) {
+    let operationOptions: OperationOptions;
 
     if (options) {
-      operationOptions = options
-    }
-    else if (expiresAfterOrOptions && typeof expiresAfterOrOptions !== "number") {
-      operationOptions = expiresAfterOrOptions as OperationOptions
-    } 
-    else {
-      operationOptions = {}
+      operationOptions = options;
+    } else if (
+      tokenExpirationInMinutesOrOptions &&
+      typeof tokenExpirationInMinutesOrOptions !== "number"
+    ) {
+      operationOptions = tokenExpirationInMinutesOrOptions as OperationOptions;
+    } else {
+      operationOptions = {};
     }
 
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
       operationOptions,
       async (updatedOptions) => {
+        let additionalOptions: CommunicationIdentityIssueAccessTokenOptionalParams;
+        additionalOptions = updatedOptions;
 
-      let additionalOptions : CommunicationIdentityIssueAccessTokenOptionalParams
-      additionalOptions = updatedOptions
-
-      if (typeof expiresAfterOrOptions === "number") {
-        additionalOptions.expiresInMinutes = expiresAfterOrOptions
-      }
+        if (typeof tokenExpirationInMinutesOrOptions === "number") {
+          additionalOptions.expiresInMinutes = tokenExpirationInMinutesOrOptions;
+        }
 
         const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
           createTokenWithScopes: scopes,

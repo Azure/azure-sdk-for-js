@@ -74,7 +74,11 @@ matrix([[true, false]], async function (useAad: boolean) {
     });
 
     it("successfully creates a user and a token with custom expiration in a single request", async function () {
-      const { user: newUser, token, expiresOn } = await client.createUserAndToken(["chat", "voip"], 60);
+      const {
+        user: newUser,
+        token,
+        expiresOn,
+      } = await client.createUserAndToken(["chat", "voip"], 60);
       assert.isTrue(isCommunicationUserIdentifier(newUser));
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);

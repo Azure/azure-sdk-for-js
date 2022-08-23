@@ -5,7 +5,11 @@
  * @summary Issue a new user token.
  */
 
-import { CommunicationAccessToken, CommunicationIdentityClient, TokenScope } from "@azure/communication-identity";
+import {
+  CommunicationAccessToken,
+  CommunicationIdentityClient,
+  TokenScope,
+} from "@azure/communication-identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
