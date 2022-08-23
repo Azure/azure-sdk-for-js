@@ -16,7 +16,7 @@ const _diagnosticHeader: DiagnosticHeader[] = [];
  */
 export function setDiagnostics(message?: string | DiagnosticHeader) {
   if (_diagnosticHeader.length === 0) {
-    setDiagnostics(_defaultHeader);
+    _diagnosticHeader.push(_defaultHeader);
   }
   if (typeof message === "string") {
     _diagnosticHeader.push(parseDiagnosticHeader(message));
@@ -24,19 +24,21 @@ export function setDiagnostics(message?: string | DiagnosticHeader) {
 }
 
 function parseDiagnosticHeader(data: string): DiagnosticHeader {
-  console.log(data);
+  if (JSON.parse(data)) {
+    return JSON.parse(data);
+  }
   const header = {
     cosmosdiagnostics: "Started Cosmos Diagnostics",
     diagnosticStartTime: new Date().toLocaleString(),
     durationInMs: new Date().getTime() - _startTime,
     activityId: "",
-    requestCharge: 0,
+    requestCharge: parseRequestCharge(),
     transportRequestTimeline: {},
     data: data,
   };
   return header;
 }
-/**
+/*
  * @internal
  */
 export function getdiagnosticsdurationMilliseconds(): number | undefined {
@@ -45,11 +47,48 @@ export function getdiagnosticsdurationMilliseconds(): number | undefined {
   }
   return undefined;
 }
-
+/**
+ * @internal
+ */
+export function parseTransportRequestTimeline(): number | undefined {
+  if (_diagnosticHeader.length > 0) {
+    return Number(_diagnosticHeader[_diagnosticHeader.length - 1].durationInMs);
+  }
+  return undefined;
+}
+/**
+ * @internal
+ */
+export function parseRequestCharge(): number | undefined {
+  if (_diagnosticHeader.length > 0) {
+    return Number(_diagnosticHeader[_diagnosticHeader.length - 1].durationInMs);
+  }
+  return undefined;
+}
+/**
+ * @internal
+ */
+export function parseContactedRegions(): number | undefined {
+  if (_diagnosticHeader.length > 0) {
+    return Number(_diagnosticHeader[_diagnosticHeader.length - 1].durationInMs);
+  }
+  return undefined;
+}
 /**
  * @internal
  */
 export function getCosmosDiagnosticsToString(): string {
+  if (_diagnosticHeader !== undefined) {
+    return JSON.stringify(_diagnosticHeader);
+  }
+  setDiagnostics(_defaultHeader);
+  return JSON.stringify(_diagnosticHeader);
+}
+
+/**
+ * @internal
+ */
+export function getRegionsContacted(): string {
   if (_diagnosticHeader !== undefined) {
     return JSON.stringify(_diagnosticHeader);
   }

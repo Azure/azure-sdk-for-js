@@ -5,6 +5,7 @@ import { Constants } from "../common";
 import {
   getCosmosDiagnosticsToString,
   getdiagnosticsdurationMilliseconds,
+  getRegionsContacted,
 } from "../diagnostics/Diagnostics";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { StatusCode, SubStatusCode } from "./StatusCodes";
@@ -17,7 +18,7 @@ export class ResourceResponse<TResource> {
     public readonly substatus?: SubStatusCode
   ) {}
   public get cosmosDiagnosticsRegionsContacted(): string {
-    return getCosmosDiagnosticsToString();
+    return getRegionsContacted();
   }
   public get cosmosDiagnostisDurationInMs(): number {
     return getdiagnosticsdurationMilliseconds();
