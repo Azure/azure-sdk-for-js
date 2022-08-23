@@ -9,8 +9,6 @@ trigger:
   paths:
     include:
       - sdk/entra/functions-authentication-events/      
-      # eng/common code changes trigger template pipeline for basic checking.
-      - eng/common/
 
 pr:
   branches:
@@ -22,8 +20,6 @@ pr:
   paths:
     include:
       - sdk/entra/functions-authentication-events/
-      # eng/common code changes trigger template pipeline for basic checking.
-      - eng/common/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
