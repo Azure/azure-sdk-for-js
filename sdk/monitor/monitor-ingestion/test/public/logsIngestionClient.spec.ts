@@ -88,7 +88,7 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
-    const noOfElements = 50000;
+    const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
     client = new LogsIngestionClient(
@@ -123,7 +123,7 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("Throws error when all logs fail", async function () {
-    const noOfElements = 50000;
+    const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
       maxConcurrency: 3,
