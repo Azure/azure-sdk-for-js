@@ -40,6 +40,10 @@ export {
   OperationDetails,
   ErrorModel,
   InnerError,
+  OperationDetailsUnion,
+  DocumentModelBuildOperationDetails,
+  DocumentModelComposeOperationDetails,
+  DocumentModelCopyToOperationDetails
 } from "./generated";
 export {
   AnalysisPoller,

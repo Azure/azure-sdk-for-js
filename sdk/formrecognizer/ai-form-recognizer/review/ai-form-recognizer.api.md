@@ -293,6 +293,24 @@ export const DocumentModelBuildMode: {
 };
 
 // @public
+export interface DocumentModelBuildOperationDetails extends OperationDetails {
+    kind: "documentModelBuild";
+    result?: DocumentModelDetails;
+}
+
+// @public
+export interface DocumentModelComposeOperationDetails extends OperationDetails {
+    kind: "documentModelCompose";
+    result?: DocumentModelDetails;
+}
+
+// @public
+export interface DocumentModelCopyToOperationDetails extends OperationDetails {
+    kind: "documentModelCopyTo";
+    result?: DocumentModelDetails;
+}
+
+// @public
 export interface DocumentModelDetails {
     apiVersion?: string;
     createdDateTime: Date;
@@ -503,8 +521,6 @@ export interface GetModelOptions extends OperationOptions {
 export interface GetOperationOptions extends OperationOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "OperationDetailsUnion" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type GetOperationResponse = OperationDetailsUnion;
 
@@ -550,6 +566,9 @@ export interface OperationDetails {
         [propertyName: string]: string;
     };
 }
+
+// @public (undocumented)
+export type OperationDetailsUnion = OperationDetails | DocumentModelBuildOperationDetails | DocumentModelComposeOperationDetails | DocumentModelCopyToOperationDetails;
 
 // @public
 export type OperationKind = string;
