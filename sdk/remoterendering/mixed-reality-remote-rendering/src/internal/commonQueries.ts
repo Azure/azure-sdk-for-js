@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
-import { RemoteRendering } from "../generated/operationsInterfaces";
-import { createSpan } from "../tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AssetConversion, assetConversionFromConversion } from "./assetConversion";
 import { RenderingSession, renderingSessionFromSessionProperties } from "./renderingSession";
+import { OperationOptions } from "@azure/core-client";
+import { RemoteRendering } from "../generated/operationsInterfaces";
+import { tracingClient } from "../generated/tracing";
 
 /**
  * Call getConversion on the service, wrapped in a tracing span with a provided name.
@@ -20,23 +19,13 @@ export async function getConversionInternal(
   tracingSpanName: string,
   options?: OperationOptions
 ): Promise<AssetConversion> {
-  const { span, updatedOptions } = createSpan(tracingSpanName, {
+  return tracingClient.withSpan(tracingSpanName, {
     conversionId: conversionId,
     ...options,
-  });
-
-  try {
+  }, async (updatedOptions) => {
     const conversion = await operations.getConversion(accountId, conversionId, updatedOptions);
-    return assetConversionFromConversion(conversion);
-  } catch (e: any) {
-    span.setStatus({
-      code: SpanStatusCode.ERROR,
-      message: e.message,
-    });
-    throw e;
-  } finally {
-    span.end();
-  }
+    return assetConversionFromConversion(conversion);    
+  });
 }
 
 /**
@@ -51,23 +40,13 @@ export async function getSessionInternal(
   tracingSpanName: string,
   options?: OperationOptions
 ): Promise<RenderingSession> {
-  const { span, updatedOptions } = createSpan(tracingSpanName, {
+  return tracingClient.withSpan(tracingSpanName, {
     sessionId,
     ...options,
-  });
-
-  try {
+  }, async (updatedOptions) => {
     const sessionProperties = await operations.getSession(accountId, sessionId, updatedOptions);
     return renderingSessionFromSessionProperties(sessionProperties);
-  } catch (e: any) {
-    span.setStatus({
-      code: SpanStatusCode.ERROR,
-      message: e.message,
-    });
-    throw e;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 /**
@@ -82,20 +61,10 @@ export async function endSessionInternal(
   tracingSpanName: string,
   options?: OperationOptions
 ): Promise<void> {
-  const { span, updatedOptions } = createSpan(tracingSpanName, {
+  return tracingClient.withSpan(tracingSpanName, {
     conversionId: sessionId,
     ...options,
-  });
-
-  try {
+  }, async (updatedOptions) => {
     await operations.stopSession(accountId, sessionId, updatedOptions);
-  } catch (e: any) {
-    span.setStatus({
-      code: SpanStatusCode.ERROR,
-      message: e.message,
-    });
-    throw e;
-  } finally {
-    span.end();
-  }
+  });
 }

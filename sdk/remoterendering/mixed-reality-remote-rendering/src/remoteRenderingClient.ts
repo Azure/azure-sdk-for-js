@@ -3,7 +3,6 @@
 
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
 
 import {
   AccessToken,
@@ -31,7 +30,7 @@ import { MixedRealityAccountKeyCredential } from "./authentication/mixedRealityA
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { createSpan } from "./tracing";
+import { tracingClient } from "./generated/tracing";
 
 import { PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -363,42 +362,33 @@ export class RemoteRenderingClient {
       );
     }
 
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginConversion", {
-      conversionId: conversionId,
-      ...options,
-    });
+    return tracingClient.withSpan(
+      "RemoteRenderingClient-BeginConversion",
+      {
+        conversionId: conversionId,
+        ...options,
+      },
+      async (updatedOptions) => {
+        const conversion: RemoteRenderingCreateConversionResponse =
+          await this.operations.createConversion(
+            this.accountId,
+            conversionId,
+            { settings: settings },
+            updatedOptions
+          );
 
-    try {
-      const conversion: RemoteRenderingCreateConversionResponse =
-        await this.operations.createConversion(
+        const poller = new AssetConversionPoller(
           this.accountId,
-          conversionId,
-          { settings: settings },
-          updatedOptions
+          this.operations,
+          assetConversionFromConversion(conversion),
+          operationOptions
         );
 
-      const poller = new AssetConversionPoller(
-        this.accountId,
-        this.operations,
-        assetConversionFromConversion(conversion),
-        operationOptions
-      );
+        await poller.poll();
 
-      await poller.poll();
-
-      return poller;
-    } catch (e: any) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-
-      throw e;
-    } finally {
-      span.end();
-    }
+        return poller;
+      }
+    );
   }
 
   /**
@@ -453,9 +443,12 @@ export class RemoteRenderingClient {
   public listConversions(
     options?: ListConversionsOptions
   ): PagedAsyncIterableIterator<AssetConversion> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
-      ...options,
-    });
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "RemoteRenderingClient-ListConversion",
+      {
+        ...options,
+      }
+    );
     try {
       const iter = this.getAllConversionsPagingAll(updatedOptions);
       return {
@@ -471,8 +464,8 @@ export class RemoteRenderingClient {
       };
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
     } finally {
@@ -530,35 +523,29 @@ export class RemoteRenderingClient {
       );
     }
 
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginSession", {
-      conversionId: sessionId,
-      ...operationOptions,
-    });
+    return tracingClient.withSpan(
+      "RemoteRenderingClient-BeginSession",
+      {
+        conversionId: sessionId,
+        ...operationOptions,
+      },
+      async (updatedOptions) => {
+        const sessionProperties: RemoteRenderingCreateSessionResponse =
+          await this.operations.createSession(this.accountId, sessionId, settings, updatedOptions);
 
-    try {
-      const sessionProperties: RemoteRenderingCreateSessionResponse =
-        await this.operations.createSession(this.accountId, sessionId, settings, updatedOptions);
+        const poller = new RenderingSessionPoller(
+          this.accountId,
+          this.operations,
+          renderingSessionFromSessionProperties(sessionProperties),
+          operationOptions
+        );
 
-      const poller = new RenderingSessionPoller(
-        this.accountId,
-        this.operations,
-        renderingSessionFromSessionProperties(sessionProperties),
-        operationOptions
-      );
+        // Do I want this?
+        await poller.poll();
 
-      // Do I want this?
-      await poller.poll();
-
-      return poller;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return poller;
+      }
+    );
   }
 
   /**
@@ -594,28 +581,22 @@ export class RemoteRenderingClient {
     settings: UpdateSessionSettings,
     options?: UpdateSessionOptions
   ): Promise<RenderingSession> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-UpdateSession", {
-      conversionId: sessionId,
-      ...options,
-    });
-
-    try {
-      const sessionProperties = await this.operations.updateSession(
-        this.accountId,
-        sessionId,
-        settings,
-        updatedOptions
-      );
-      return renderingSessionFromSessionProperties(sessionProperties);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "RemoteRenderingClient-UpdateSession",
+      {
+        conversionId: sessionId,
+        ...options,
+      },
+      async (updatedOptions) => {
+        const sessionProperties = await this.operations.updateSession(
+          this.accountId,
+          sessionId,
+          settings,
+          updatedOptions
+        );
+        return renderingSessionFromSessionProperties(sessionProperties);
+      }
+    );
   }
 
   /**
@@ -663,9 +644,12 @@ export class RemoteRenderingClient {
    * @param options - The options parameters.
    */
   public listSessions(options?: ListSessionsOptions): PagedAsyncIterableIterator<RenderingSession> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
-      ...options,
-    });
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "RemoteRenderingClient-ListConversion",
+      {
+        ...options,
+      }
+    );
     try {
       const iter = this.getAllSessionsPagingAll(updatedOptions);
       return {
@@ -681,8 +665,8 @@ export class RemoteRenderingClient {
       };
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
     } finally {
