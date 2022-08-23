@@ -23,6 +23,7 @@ import {
   JobRouterListJobsOptionalParams,
   JobRouterListWorkersOptionalParams,
   JobRouterReclassifyJobActionResponse,
+  QueueStatistics,
   RouterJob,
   RouterJobItem,
   RouterWorker,
@@ -373,5 +374,15 @@ export class RouterClient {
    */
   public async deleteWorker(workerId: string): Promise<void> {
     return this.client.jobRouter.deleteWorker(workerId);
+  }
+
+  // Queue Actions
+  /**
+   * Gets a queue's statistics.
+   * Returns queue's statistics.
+   * @param queueId - The ID of the queue to get statistics.
+   */
+  public async getQueueStatistics(queueId: string): Promise<QueueStatistics> {
+    return this.client.jobRouter.getQueueStatistics(queueId);
   }
 }

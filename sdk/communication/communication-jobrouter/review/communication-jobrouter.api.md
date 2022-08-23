@@ -446,6 +446,16 @@ export interface QueueSelectorAttachment {
 export type QueueSelectorAttachmentUnion = QueueSelectorAttachment | ConditionalQueueSelectorAttachment | PassThroughQueueSelectorAttachment | RuleEngineQueueSelectorAttachment | StaticQueueSelectorAttachment | WeightedAllocationQueueSelectorAttachment;
 
 // @public
+export interface QueueStatistics {
+    estimatedWaitTimeMinutes?: {
+        [propertyName: string]: number;
+    };
+    length: number;
+    longestJobWaitTimeMinutes?: number;
+    queueId: string;
+}
+
+// @public
 export interface QueueWeightedAllocation {
     labelSelectors: QueueSelector[];
     weight: number;
@@ -512,6 +522,7 @@ export class RouterClient {
     deregisterWorker(workerId: string): Promise<RouterWorker>;
     getJob(jobId: string): Promise<RouterJob>;
     getQueuePosition(jobId: string): Promise<JobPositionDetailsResponse>;
+    getQueueStatistics(queueId: string): Promise<QueueStatistics>;
     getWorker(workerId: string): Promise<RouterWorker>;
     listJobs(options?: ListJobsOptions): PagedAsyncIterableIterator<RouterJobItem>;
     listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<RouterWorkerItem>;

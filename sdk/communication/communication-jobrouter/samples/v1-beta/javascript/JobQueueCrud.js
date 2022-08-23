@@ -8,6 +8,7 @@ const { RouterAdministrationClient } = require("../src");
 // Load the .env file (you will need to set these environment variables)
 const dotenv = require("dotenv");
 const { assert } = require("chai");
+const { RouterClient } = require("../src");
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -78,6 +79,21 @@ const updateJobQueue = async () => {
 };
 
 void updateJobQueue();
+
+// Get a router jobQueue's statistics
+
+const getJobQueueStatistics = async () => {
+  // Create the Router Client
+  const routerClient = new RouterClient(connectionString);
+
+  const entityId = "router-jobQueue-123";
+
+  const result = await routerClient.getQueueStatistics(entityId);
+
+  console.log("router jobQueue: " + result);
+};
+
+void getJobQueueStatistics();
 
 // List exception policies
 const listJobQueues = async () => {

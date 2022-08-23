@@ -10,6 +10,7 @@ import * as dotenv from "dotenv";
 import { JobQueue } from "../src";
 import { JobQueueItem } from "../src";
 import { assert } from "chai";
+import { RouterClient } from "../src";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -85,6 +86,23 @@ const updateJobQueue = async (): Promise<void> => {
 
 void updateJobQueue();
 
+// Get a router jobQueue's statistics
+
+const getJobQueueStatistics = async (): Promise<void> => {
+  // Create the Router Client
+  const routerClient: RouterClient = new RouterClient(connectionString);
+
+  const entityId = "router-jobQueue-123"
+
+
+  const result = await routerClient.getQueueStatistics(entityId);
+
+  console.log("router jobQueue: " + result);
+
+};
+
+void getJobQueueStatistics();
+
 // List exception policies
 const listJobQueues = async (): Promise<void> => {
   // Create the Router Client
@@ -127,3 +145,5 @@ const deleteJobQueue = async (): Promise<void> => {
 };
 
 void deleteJobQueue();
+
+
