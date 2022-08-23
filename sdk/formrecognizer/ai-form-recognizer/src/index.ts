@@ -43,7 +43,7 @@ export {
   OperationDetailsUnion,
   DocumentModelBuildOperationDetails,
   DocumentModelComposeOperationDetails,
-  DocumentModelCopyToOperationDetails
+  DocumentModelCopyToOperationDetails,
 } from "./generated";
 export {
   AnalysisPoller,
