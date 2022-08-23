@@ -1,0 +1,47 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.App/containerApps/mycontainerappxxx?api-version=2022-03-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "185",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-appcontainers/1.1.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "38e87b3e-5ca5-4da4-bad7-d7f0125068a4"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "properties": {
+          "managedEnvironmentId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.App/managedEnvironments/testcontainerenv12"
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "api-supported-versions": "2022-01-01-preview, 2022-03-01, 2022-05-01, 2022-06-01-preview",
+        "Cache-Control": "no-cache",
+        "Content-Length": "173",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 22 Aug 2022 09:34:44 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "25201a72-f254-44e7-adf8-cc747ff93e00",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "499",
+        "x-ms-request-id": "25201a72-f254-44e7-adf8-cc747ff93e00",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220822T093444Z:25201a72-f254-44e7-adf8-cc747ff93e00",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": {
+        "code": "ContainerAppCreateMustContainContainer",
+        "message": "Error creating container app \u0027mycontainerappxxx\u0027. Must specify atleast one container to create a container app."
+      }
+    }
+  ],
+  "Variables": {}
+}
