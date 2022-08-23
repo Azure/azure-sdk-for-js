@@ -1570,6 +1570,99 @@ export const OperationSummary: coreClient.CompositeMapper = {
   }
 };
 
+export const OperationDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationDetails",
+    uberParent: "OperationDetails",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    modelProperties: {
+      operationId: {
+        serializedName: "operationId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "notStarted",
+            "running",
+            "failed",
+            "succeeded",
+            "canceled"
+          ]
+        }
+      },
+      percentCompleted: {
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0
+        },
+        serializedName: "percentCompleted",
+        type: {
+          name: "Number"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedDateTime: {
+        serializedName: "lastUpdatedDateTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceLocation: {
+        serializedName: "resourceLocation",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      apiVersion: {
+        serializedName: "apiVersion",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      }
+    }
+  }
+};
+
 export const GetDocumentModelsResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1640,6 +1733,63 @@ export const DocumentModelSummary: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const DocumentModelDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentModelDetails",
+    modelProperties: {
+      modelId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+        },
+        serializedName: "modelId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        constraints: {
+          MaxLength: 4096
+        },
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      apiVersion: {
+        serializedName: "apiVersion",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      docTypes: {
+        serializedName: "docTypes",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "DocumentTypeDetails" }
+          }
         }
       }
     }
@@ -1773,49 +1923,13 @@ export const CustomDocumentModelsDetails: coreClient.CompositeMapper = {
   }
 };
 
-export const OperationDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationDetails",
-    modelProperties: {
-      ...OperationSummary.type.modelProperties,
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorModel"
-        }
-      }
-    }
-  }
-};
-
-export const DocumentModelDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentModelDetails",
-    modelProperties: {
-      ...DocumentModelSummary.type.modelProperties,
-      docTypes: {
-        serializedName: "docTypes",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "DocumentTypeDetails" }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const DocumentModelBuildOperationDetails: coreClient.CompositeMapper = {
   serializedName: "documentModelBuild",
   type: {
     name: "Composite",
     className: "DocumentModelBuildOperationDetails",
-    uberParent: "OperationSummary",
-    polymorphicDiscriminator: OperationSummary.type.polymorphicDiscriminator,
+    uberParent: "OperationDetails",
+    polymorphicDiscriminator: OperationDetails.type.polymorphicDiscriminator,
     modelProperties: {
       ...OperationDetails.type.modelProperties,
       result: {
@@ -1834,8 +1948,8 @@ export const DocumentModelComposeOperationDetails: coreClient.CompositeMapper = 
   type: {
     name: "Composite",
     className: "DocumentModelComposeOperationDetails",
-    uberParent: "OperationSummary",
-    polymorphicDiscriminator: OperationSummary.type.polymorphicDiscriminator,
+    uberParent: "OperationDetails",
+    polymorphicDiscriminator: OperationDetails.type.polymorphicDiscriminator,
     modelProperties: {
       ...OperationDetails.type.modelProperties,
       result: {
@@ -1854,8 +1968,8 @@ export const DocumentModelCopyToOperationDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DocumentModelCopyToOperationDetails",
-    uberParent: "OperationSummary",
-    polymorphicDiscriminator: OperationSummary.type.polymorphicDiscriminator,
+    uberParent: "OperationDetails",
+    polymorphicDiscriminator: OperationDetails.type.polymorphicDiscriminator,
     modelProperties: {
       ...OperationDetails.type.modelProperties,
       result: {
@@ -1930,7 +2044,8 @@ export const GeneratedClientCopyDocumentModelToHeaders: coreClient.CompositeMapp
 };
 
 export let discriminators = {
-  "OperationSummary.documentModelBuild": DocumentModelBuildOperationDetails,
-  "OperationSummary.documentModelCompose": DocumentModelComposeOperationDetails,
-  "OperationSummary.documentModelCopyTo": DocumentModelCopyToOperationDetails
+  OperationDetails: OperationDetails,
+  "OperationDetails.documentModelBuild": DocumentModelBuildOperationDetails,
+  "OperationDetails.documentModelCompose": DocumentModelComposeOperationDetails,
+  "OperationDetails.documentModelCopyTo": DocumentModelCopyToOperationDetails
 };

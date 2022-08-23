@@ -9,6 +9,12 @@
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 
+export type OperationDetailsUnion =
+  | OperationDetails
+  | DocumentModelBuildOperationDetails
+  | DocumentModelComposeOperationDetails
+  | DocumentModelCopyToOperationDetails;
+
 /** Document analysis parameters. */
 export interface AnalyzeDocumentRequest {
   /** Document URL to analyze */
@@ -426,7 +432,31 @@ export interface OperationSummary {
   tags?: { [propertyName: string]: string };
 }
 
-/** List Document models response object. */
+/** Get Operation response object. */
+export interface OperationDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "documentModelBuild" | "documentModelCompose" | "documentModelCopyTo";
+  /** Operation ID */
+  operationId: string;
+  /** Operation status. */
+  status: OperationStatus;
+  /** Operation progress (0-100). */
+  percentCompleted?: number;
+  /** Date and time (UTC) when the operation was created. */
+  createdDateTime: Date;
+  /** Date and time (UTC) when the status was last updated. */
+  lastUpdatedDateTime: Date;
+  /** URL of the resource targeted by this operation. */
+  resourceLocation: string;
+  /** API version used to create this operation. */
+  apiVersion?: string;
+  /** List of key-value tag attributes associated with the document model. */
+  tags?: { [propertyName: string]: string };
+  /** Encountered error. */
+  error?: ErrorModel;
+}
+
+/** List document models response object. */
 export interface GetDocumentModelsResponse {
   /** List of document models. */
   value: DocumentModelSummary[];
@@ -446,6 +476,22 @@ export interface DocumentModelSummary {
   apiVersion?: string;
   /** List of key-value tag attributes associated with the document model. */
   tags?: { [propertyName: string]: string };
+}
+
+/** Document model info. */
+export interface DocumentModelDetails {
+  /** Unique document model name. */
+  modelId: string;
+  /** Document model description. */
+  description?: string;
+  /** Date and time (UTC) when the document model was created. */
+  createdDateTime: Date;
+  /** API version used to create this document model. */
+  apiVersion?: string;
+  /** List of key-value tag attributes associated with the document model. */
+  tags?: { [propertyName: string]: string };
+  /** Supported document types. */
+  docTypes?: { [propertyName: string]: DocumentTypeDetails };
 }
 
 /** Document type info. */
@@ -489,31 +535,25 @@ export interface CustomDocumentModelsDetails {
 }
 
 /** Get Operation response object. */
-export interface OperationDetails extends OperationSummary {
-  /** Encountered error. */
-  error?: ErrorModel;
-}
-
-/** Document model info. */
-export interface DocumentModelDetails extends DocumentModelSummary {
-  /** Supported document types. */
-  docTypes?: { [propertyName: string]: DocumentTypeDetails };
-}
-
-/** Get Operation response object. */
 export interface DocumentModelBuildOperationDetails extends OperationDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "documentModelBuild";
   /** Operation result upon success. */
   result?: DocumentModelDetails;
 }
 
 /** Get Operation response object. */
 export interface DocumentModelComposeOperationDetails extends OperationDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "documentModelCompose";
   /** Operation result upon success. */
   result?: DocumentModelDetails;
 }
 
 /** Get Operation response object. */
 export interface DocumentModelCopyToOperationDetails extends OperationDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "documentModelCopyTo";
   /** Operation result upon success. */
   result?: DocumentModelDetails;
 }
@@ -828,88 +868,88 @@ export type AnalyzeDocumentResponse = GeneratedClientAnalyzeDocumentHeaders;
 
 /** Optional parameters. */
 export interface GetAnalyzeDocumentResultOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAnalyzeDocumentResult operation. */
 export type GetAnalyzeDocumentResultResponse = AnalyzeResultOperation;
 
 /** Optional parameters. */
 export interface BuildDocumentModelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the buildDocumentModel operation. */
 export type BuildDocumentModelResponse = GeneratedClientBuildDocumentModelHeaders;
 
 /** Optional parameters. */
 export interface ComposeDocumentModelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the composeDocumentModel operation. */
 export type ComposeDocumentModelResponse = GeneratedClientComposeDocumentModelHeaders;
 
 /** Optional parameters. */
 export interface AuthorizeCopyDocumentModelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the authorizeCopyDocumentModel operation. */
 export type AuthorizeCopyDocumentModelResponse = CopyAuthorization;
 
 /** Optional parameters. */
 export interface CopyDocumentModelToOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the copyDocumentModelTo operation. */
 export type CopyDocumentModelToResponse = GeneratedClientCopyDocumentModelToHeaders;
 
 /** Optional parameters. */
 export interface GetOperationsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperations operation. */
 export type GetOperationsOperationResponse = GetOperationsResponse;
 
 /** Optional parameters. */
 export interface GetOperationOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperation operation. */
-export type GetOperationResponse = OperationDetails;
+export type GetOperationResponse = OperationDetailsUnion;
 
 /** Optional parameters. */
 export interface GetDocumentModelsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDocumentModels operation. */
 export type GetDocumentModelsOperationResponse = GetDocumentModelsResponse;
 
 /** Optional parameters. */
 export interface GetDocumentModelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDocumentModel operation. */
 export type GetDocumentModelResponse = DocumentModelDetails;
 
 /** Optional parameters. */
 export interface DeleteDocumentModelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface GetResourceDetailsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getResourceDetails operation. */
 export type GetResourceDetailsResponse = ResourceDetails;
 
 /** Optional parameters. */
 export interface GetOperationsNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperationsNext operation. */
 export type GetOperationsNextResponse = GetOperationsResponse;
 
 /** Optional parameters. */
 export interface GetDocumentModelsNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDocumentModelsNext operation. */
 export type GetDocumentModelsNextResponse = GetDocumentModelsResponse;

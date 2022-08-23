@@ -293,9 +293,16 @@ export const DocumentModelBuildMode: {
 };
 
 // @public
-export interface DocumentModelDetails extends DocumentModelSummary {
+export interface DocumentModelDetails {
+    apiVersion?: string;
+    createdDateTime: Date;
+    description?: string;
     docTypes?: {
         [propertyName: string]: DocumentTypeDetails;
+    };
+    modelId: string;
+    tags?: {
+        [propertyName: string]: string;
     };
 }
 
@@ -473,6 +480,7 @@ export type FormRecognizerApiVersion = typeof FormRecognizerApiVersion[keyof typ
 // @public
 export const FormRecognizerApiVersion: {
     readonly Latest: "2022-06-30-preview";
+    readonly Stable: "2022-08-31";
 };
 
 // @public
@@ -495,8 +503,10 @@ export interface GetModelOptions extends OperationOptions {
 export interface GetOperationOptions extends OperationOptions {
 }
 
+// Warning: (ae-forgotten-export) The symbol "OperationDetailsUnion" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type GetOperationResponse = OperationDetails;
+export type GetOperationResponse = OperationDetailsUnion;
 
 // @public
 export interface GetResourceDetailsOptions extends OperationOptions {
@@ -526,8 +536,19 @@ export interface ListOperationsOptions extends OperationOptions {
 }
 
 // @public
-export interface OperationDetails extends OperationSummary {
+export interface OperationDetails {
+    apiVersion?: string;
+    createdDateTime: Date;
     error?: ErrorModel;
+    kind: "documentModelBuild" | "documentModelCompose" | "documentModelCopyTo";
+    lastUpdatedDateTime: Date;
+    operationId: string;
+    percentCompleted?: number;
+    resourceLocation: string;
+    status: OperationStatus;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
