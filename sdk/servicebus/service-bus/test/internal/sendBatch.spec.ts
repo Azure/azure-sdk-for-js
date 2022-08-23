@@ -34,7 +34,7 @@ describe("Send Batch", () => {
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    entityNames = await serviceBusClient.test.createTestEntities(entityType);
+    entityNames = await serviceBusClient.test.createTestEntities(entityType, { maxMessageSizeInKilobytes: 102400 });
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -255,6 +255,39 @@ describe("Send Batch", () => {
     it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSendBatch();
+    });
+  });
+
+  describe("Send single message - size > 1 MB", function (): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
+    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+      const messagesToSend: ServiceBusMessage[] = [];
+      messagesToSend.push({
+        body: Buffer.alloc(1024 * 1024),
+        sessionId: useSessions ? `s` : undefined,
+      });
+      return messagesToSend;
+    }
+
+    async function testSend(): Promise<void> {
+      // Prepare messages to send
+      const messagesToSend = prepareMessages(entityNames.usesSessions);
+      await sender.sendMessages(messagesToSend);
+      // receive all the messages in receive and delete mode
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, messagesToSend);
+    }
+
+    it.only(`${TestClientType.UnpartitionedQueue}: SendBatch`, async function (): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      await testSend();
+    });
+
+    it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testSend();
     });
   });
 
