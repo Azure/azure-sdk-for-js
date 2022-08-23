@@ -2662,6 +2662,10 @@ packages:
     resolution: {integrity: sha512-z+2vB6yDt1fNwKOeGbckpmirO+VBDuQqecXkgeIqDlaOtmKn6hPR/viQ8cxCfqLU4fTlvM3+YjM367TukWdxpg==}
     dev: false
 
+  /@types/pako/2.0.0:
+    resolution: {integrity: sha512-10+iaz93qR5WYxTo+PMifD5TSxiOtdRaxBf7INGGXMQgTCu8Z/7GYWYFUOS3q/G0nE5boj1r4FEB+WSy7s5gbA==}
+    dev: false
+
   /@types/prettier/2.6.3:
     resolution: {integrity: sha512-ymZk3LEC/fsut+/Q5qejp6R9O1rMxz3XaRHDV6kX8MrGAhOSPqVARbDi+EZvInBpw+BnCX3TD240byVkOfQsHg==}
     dev: false
@@ -4076,7 +4080,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220822
+      typescript: 4.9.0-dev.20220823
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -7322,6 +7326,10 @@ packages:
       release-zalgo: 1.0.0
     dev: false
 
+  /pako/2.0.4:
+    resolution: {integrity: sha512-v8tweI900AUkZN6heMU/4Uy4cXRc2AYNRggVmTR+dEncawDJgCdLMximOVA2p4qO57WMynangsfGRb5WD6L1Bg==}
+    dev: false
+
   /parent-module/1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -8983,8 +8991,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220822:
-    resolution: {integrity: sha512-AOwv5P9FEACID+BXIvdWuP/ZroTJ0YaB6Cl3vP865CP2PC8E3HXuqZwNtbY0ikfCzgSiArprv+rnAAH+6Gkpxw==}
+  /typescript/4.9.0-dev.20220823:
+    resolution: {integrity: sha512-8LTaS3Uev9r3Mj6CzXIpr1KQdFD+98bM1Y/tuXUpKGoPWnplMoralGsxflIMa5l6O8P0NPqioDJDsxWeHsxA5A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17443,7 +17451,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-1iuICt8ODAZhN99QyWO/p7FFat8LRWq2/zvdyC/RwW7mPjqK+MumVAHGO6vsMlzpAvYKnIOe1UvJ0+NcDBAezw==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-ygrwt0/tmSjaMWOxlw6loVyQHrkd/u6t238qQk93FvYAaemzwxDfXBaK3Qjqow/I3ukxI6yerEWLe/q/Vv6E7Q==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -17453,6 +17461,7 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
+      '@types/pako': 2.0.0
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17475,6 +17484,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
+      pako: 2.0.4
       prettier: 2.7.1
       rimraf: 3.0.2
       source-map-support: 0.5.21
