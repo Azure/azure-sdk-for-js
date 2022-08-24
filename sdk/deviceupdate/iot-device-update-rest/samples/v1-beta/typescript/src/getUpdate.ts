@@ -7,7 +7,7 @@
  * @summary Demonstrates the use of a DeviceUpdateClient to get a specific update version in Device Update for IoT Hub.
  */
 
-import DeviceUpdate from "@azure-rest/iot-device-update";
+import DeviceUpdate, {isUnexpected} from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -26,7 +26,15 @@ async function main() {
 
   const client = DeviceUpdate(endpoint, credentials);
 
-  console.log("Get update data for provider '" + provider + "', name '" + name+ "' and version '" + version + "'...")
+  console.log(
+    "Get update data for provider '" +
+      provider +
+      "', name '" +
+      name +
+      "' and version '" +
+      version +
+      "'..."
+  );
   const updateResult = await client
     .path(
       "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
@@ -48,22 +56,25 @@ async function main() {
       version
     )
     .get();
+  if (isUnexpected(filesResult)) {
+    throw filesResult.body    
+  }
   filesResult.body.value.forEach((file: string) => {
     console.log(file);
   });
 
-  console.log("\nGet file data:")
+  console.log("\nGet file data:");
   filesResult.body.value.forEach(async (fileId: string) => {
     const fileResult = await client
-    .path(
-      "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",
-      instanceId,
-      provider,
-      name,
-      version,
-      fileId
-    )
-    .get();
+      .path(
+        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",
+        instanceId,
+        provider,
+        name,
+        version,
+        fileId
+      )
+      .get();
     console.log(fileResult.body);
   });
 }

@@ -8,7 +8,7 @@
  * @azsdk-weight 40
  */
 
-import DeviceUpdate from "@azure-rest/iot-device-update";
+import DeviceUpdate, { isUnexpected } from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -31,6 +31,9 @@ async function main() {
   const devicesResult = await client
     .path("/deviceUpdate/{instanceId}/management/devices", instanceId)
     .get();
+  if (isUnexpected(devicesResult)) {
+    throw devicesResult.body;
+  }
   devicesResult.body.value.forEach((device: any) => {
     console.log(device.deviceId);
   });
@@ -39,6 +42,9 @@ async function main() {
   const groupsResult = await client
     .path("/deviceUpdate/{instanceId}/management/groups", instanceId)
     .get();
+  if (isUnexpected(groupsResult)) {
+    throw groupsResult.body;
+  }
   groupsResult.body.value.forEach((group: any) => {
     console.log(group.groupId);
   });
@@ -47,6 +53,9 @@ async function main() {
   const deviceClassesResult = await client
     .path("/deviceUpdate/{instanceId}/management/deviceClasses", instanceId)
     .get();
+  if (isUnexpected(deviceClassesResult)) {
+    throw deviceClassesResult.body;
+  }
   deviceClassesResult.body.value.forEach((deviceClass: any) => {
     console.log(deviceClass.deviceClassId);
   });
@@ -55,6 +64,9 @@ async function main() {
   const bestUpdatesResult = await client
     .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates", instanceId, groupId)
     .get();
+  if (isUnexpected(bestUpdatesResult)) {
+    throw bestUpdatesResult.body;
+  }
   bestUpdatesResult.body.value.forEach((bestUpdate: any) => {
     console.log("  For device class '" + bestUpdate.deviceClassId + "':");
     console.log("    " + bestUpdate.update.updateId.provider);

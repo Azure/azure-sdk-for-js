@@ -7,7 +7,8 @@
  * @summary Demonstrates the use of a DeviceUpdateClient to list all updates in Device Update for IoT Hub.
  */
 
-const DeviceUpdate = require("@azure-rest/iot-device-update").default;
+const DeviceUpdate = require("@azure-rest/iot-device-update").default,
+  { isUnexpected } = require("@azure-rest/iot-device-update");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -29,6 +30,9 @@ async function main() {
   const providersResult = await client
     .path("/deviceUpdate/{instanceId}/updates/providers", instanceId)
     .get();
+  if (isUnexpected(providersResult)) {
+    throw providersResult.body;
+  }
   providersResult.body.value.forEach((provider) => {
     console.log(provider);
   });
@@ -37,6 +41,9 @@ async function main() {
   const namesResult = await client
     .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", instanceId, provider)
     .get();
+  if (isUnexpected(namesResult)) {
+    throw namesResult.body;
+  }
   namesResult.body.value.forEach((name) => {
     console.log(name);
   });
@@ -50,6 +57,9 @@ async function main() {
       name
     )
     .get();
+  if (isUnexpected(versionsResult)) {
+    throw versionsResult.body;
+  }
   versionsResult.body.value.forEach((version) => {
     console.log(version);
   });

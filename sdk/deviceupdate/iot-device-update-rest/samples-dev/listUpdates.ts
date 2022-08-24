@@ -8,7 +8,7 @@
  * @azsdk-weight 40
  */
 
-import DeviceUpdate from "@azure-rest/iot-device-update";
+import DeviceUpdate, { isUnexpected } from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -32,6 +32,9 @@ async function main() {
   const providersResult = await client
     .path("/deviceUpdate/{instanceId}/updates/providers", instanceId)
     .get();
+  if (isUnexpected(providersResult)) {
+    throw providersResult.body;
+  }
   providersResult.body.value.forEach((provider: string) => {
     console.log(provider);
   });
@@ -40,6 +43,9 @@ async function main() {
   const namesResult = await client
     .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", instanceId, provider)
     .get();
+  if (isUnexpected(namesResult)) {
+    throw namesResult.body;
+  }
   namesResult.body.value.forEach((name: string) => {
     console.log(name);
   });
@@ -53,6 +59,9 @@ async function main() {
       name
     )
     .get();
+  if (isUnexpected(versionsResult)) {
+    throw versionsResult.body;
+  }
   versionsResult.body.value.forEach((version: string) => {
     console.log(version);
   });

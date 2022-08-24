@@ -7,7 +7,7 @@
  * @summary Demonstrates the use of a DeviceUpdateClient to list all updates in Device Update for IoT Hub.
  */
 
-import DeviceUpdate from "@azure-rest/iot-device-update";
+import DeviceUpdate, {isUnexpected} from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -25,32 +25,31 @@ async function main() {
 
   const client = DeviceUpdate(endpoint, credentials);
 
-  console.log("List providers, names and versions of updates in Device Update for IoT Hub...")
+  console.log("List providers, names and versions of updates in Device Update for IoT Hub...");
 
-  console.log("\nProviders:")
+  console.log("\nProviders:");
   const providersResult = await client
-    .path(
-      "/deviceUpdate/{instanceId}/updates/providers",
-      instanceId
-    )
+    .path("/deviceUpdate/{instanceId}/updates/providers", instanceId)
     .get();
+  if (isUnexpected(providersResult)) {
+    throw providersResult.body    
+  }
   providersResult.body.value.forEach((provider: string) => {
     console.log(provider);
   });
 
-  console.log("\nNames in provider '" + provider + "':")
+  console.log("\nNames in provider '" + provider + "':");
   const namesResult = await client
-    .path(
-      "/deviceUpdate/{instanceId}/updates/providers/{provider}/names",
-      instanceId,
-      provider,
-    )
+    .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", instanceId, provider)
     .get();
-    namesResult.body.value.forEach((name: string) => {
-      console.log(name);
-    });
+  if (isUnexpected(namesResult)) {
+    throw namesResult.body    
+  }
+  namesResult.body.value.forEach((name: string) => {
+    console.log(name);
+  });
 
-  console.log("\nVersions in provider '" + provider + "' and name '" + name+ "':")
+  console.log("\nVersions in provider '" + provider + "' and name '" + name + "':");
   const versionsResult = await client
     .path(
       "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
@@ -59,6 +58,9 @@ async function main() {
       name
     )
     .get();
+  if (isUnexpected(versionsResult)) {
+    throw versionsResult.body    
+  }
   versionsResult.body.value.forEach((version: string) => {
     console.log(version);
   });

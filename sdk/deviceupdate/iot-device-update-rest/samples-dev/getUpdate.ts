@@ -8,7 +8,7 @@
  * @azsdk-weight 40
  */
 
-import DeviceUpdate from "@azure-rest/iot-device-update";
+import DeviceUpdate, { isUnexpected } from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -57,6 +57,9 @@ async function main() {
       version
     )
     .get();
+  if (isUnexpected(filesResult)) {
+    throw filesResult.body;
+  }
   filesResult.body.value.forEach((file: string) => {
     console.log(file);
   });

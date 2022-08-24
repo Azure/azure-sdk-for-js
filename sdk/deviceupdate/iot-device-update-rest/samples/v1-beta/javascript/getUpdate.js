@@ -7,7 +7,8 @@
  * @summary Demonstrates the use of a DeviceUpdateClient to get a specific update version in Device Update for IoT Hub.
  */
 
-const DeviceUpdate = require("@azure-rest/iot-device-update").default;
+const DeviceUpdate = require("@azure-rest/iot-device-update").default,
+  { isUnexpected } = require("@azure-rest/iot-device-update");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -54,6 +55,9 @@ async function main() {
       version
     )
     .get();
+  if (isUnexpected(filesResult)) {
+    throw filesResult.body;
+  }
   filesResult.body.value.forEach((file) => {
     console.log(file);
   });

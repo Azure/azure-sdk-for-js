@@ -7,7 +7,7 @@
  * @summary Demonstrates the use of a DeviceUpdateClient to get a specific device information in Device Update for IoT Hub.
  */
 
-import DeviceUpdate from "@azure-rest/iot-device-update";
+import DeviceUpdate, {isUnexpected} from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -24,37 +24,49 @@ async function main() {
 
   const client = DeviceUpdate(endpoint, credentials);
 
-  console.log("Get various device management information from Device Update for IoT Hub...")
+  console.log("Get various device management information from Device Update for IoT Hub...");
 
-  console.log("\nDevices:")
+  console.log("\nDevices:");
   const devicesResult = await client
     .path("/deviceUpdate/{instanceId}/management/devices", instanceId)
     .get();
+  if (isUnexpected(devicesResult)) {
+    throw devicesResult.body    
+  }
   devicesResult.body.value.forEach((device: any) => {
     console.log(device.deviceId);
   });
 
-  console.log("\nDevice groups:")
+  console.log("\nDevice groups:");
   const groupsResult = await client
     .path("/deviceUpdate/{instanceId}/management/groups", instanceId)
     .get();
-    groupsResult.body.value.forEach((group: any) => {
+  if (isUnexpected(groupsResult)) {
+    throw groupsResult.body    
+  }
+  groupsResult.body.value.forEach((group: any) => {
     console.log(group.groupId);
   });
-  
-  console.log("\nDevice classes:")
+
+  console.log("\nDevice classes:");
   const deviceClassesResult = await client
     .path("/deviceUpdate/{instanceId}/management/deviceClasses", instanceId)
     .get();
-    deviceClassesResult.body.value.forEach((deviceClass: any) => {
+  if (isUnexpected(deviceClassesResult)) {
+    throw deviceClassesResult.body    
+  }
+  deviceClassesResult.body.value.forEach((deviceClass: any) => {
     console.log(deviceClass.deviceClassId);
   });
-  
-  console.log("\nFor group '" + groupId + "', best updates are:")
+
+  console.log("\nFor group '" + groupId + "', best updates are:");
   const bestUpdatesResult = await client
     .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates", instanceId, groupId)
     .get();
-    bestUpdatesResult.body.value.forEach((bestUpdate: any) => {
+  if (isUnexpected(bestUpdatesResult)) {
+    throw bestUpdatesResult.body    
+  }
+  bestUpdatesResult.body.value.forEach((bestUpdate: any) => {
     console.log("  For device class '" + bestUpdate.deviceClassId + "':");
     console.log("    " + bestUpdate.update.updateId.provider);
     console.log("    " + bestUpdate.update.updateId.name);

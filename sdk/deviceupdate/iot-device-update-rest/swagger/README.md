@@ -18,5 +18,5 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: https://api.adu.microsoft.com/.default
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.0-rc.1"
 ```
