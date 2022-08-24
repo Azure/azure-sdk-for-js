@@ -63,8 +63,6 @@ export interface SipTrunk {
    */
   sipSignalingPort: number;
 }
-<<<<<<< Updated upstream
-=======
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.
