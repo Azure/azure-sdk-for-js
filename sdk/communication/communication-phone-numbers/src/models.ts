@@ -48,7 +48,10 @@ export {
   PhoneNumberSource,
 } from "./generated/src/models/";
 
-export { SipTrunkRoute, CommunicationError } from "./generated/src/siprouting/models";
+export {
+  SipTrunkRoute,
+  CommunicationError
+} from "./generated/src/siprouting/models";
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.
@@ -62,48 +65,4 @@ export interface SipTrunk {
    * Gets or sets SIP signaling port of the trunk.
    */
   sipSignalingPort: number;
-}
-
-/**
- * Additional options for the get phone number request.
- */
-export type GetTrunksStatusOptions = OperationOptions;
-
-/**
- * Additional options for the get phone number request.
- */
-export type GetTrunkStatusOptions = OperationOptions;
-
-/** Possible values of the status of TLS connections between Direct Routing and the SBC */
-export type TrunkStatusTls = "NoData" | "OK" | "CertExpiring" | "CertExpired";
-
-/** Possible values of the status of options message send by SBC */
-export type TrunkStatusPing = "NoData" | "OK" | "PingError" | "PingExpired";
-
-/** Possible values of the overall status of SBC*/
-export type TrunkOverallStatus =
-  | "NoData"
-  | "Active"
-  | "InactiveNoRecentPings"
-  | "InactiveNoRecentPingsAndCalls"
-  | "InactiveNoRecentCalls";
-
-/** Represents a trunk's SBC status */
-export interface TrunkStatus {
-  /** Trunk's FQDN of the paired SBC */
-  fqdn: string;
-  /** The status of the TLS connections between Direct Routing and the SBC */
-  tls: TrunkStatusTls;
-  /** The status of options message send by SBC */
-  ping: TrunkStatusPing;
-  /** The overall status of SBC */
-  trunkOverallStatus: TrunkOverallStatus;
-  /** The last time the status has been updated */
-  lastUpdateTime: Date;
-}
-
-/** SIP trunks for routing calls */
-export interface TrunksStatus {
-  /** Array of SIP trunks for routing calls */
-  values?: TrunkStatus[];
 }

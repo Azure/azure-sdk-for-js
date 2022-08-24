@@ -43,12 +43,6 @@ export interface CommunicationError {
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
-export type GetTrunksStatusOptions = OperationOptions;
-
-// @public
-export type GetTrunkStatusOptions = OperationOptions;
-
-// @public
 export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 }
 
@@ -148,7 +142,7 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
     countryCode: string;
 }
 
-// @public
+// @public (undocumented)
 export class SipRoutingClient {
     constructor(connectionString: string, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
@@ -157,15 +151,13 @@ export class SipRoutingClient {
     getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
     getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk | null>;
     getTrunks(options?: OperationOptions): Promise<SipTrunk[]>;
-    getTrunksStatus(options?: GetTrunksStatusOptions): Promise<TrunksStatus>;
-    getTrunkStatus(fqdn: string, options?: GetTrunkStatusOptions): Promise<TrunkStatus>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
     setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
 }
 
 // @public
-export interface SipRoutingClientOptions extends CommonClientOptions {
+export interface SipRoutingClientOptions extends PipelineOptions {
 }
 
 // @public
@@ -181,42 +173,6 @@ export interface SipTrunkRoute {
     numberPattern: string;
     trunks?: string[];
 }
-
-// @public
-export type TrunkOverallStatus = "NoData" | "Active" | "InactiveNoRecentPings" | "InactiveNoRecentPingsAndCalls" | "InactiveNoRecentCalls";
-
-// @public
-export interface TrunksStatus {
-    values?: TrunkStatus[];
-}
-
-// @public
-export interface TrunkStatus {
-    fqdn: string;
-    lastUpdateTime: Date;
-    ping: TrunkStatusPing;
-    tls: TrunkStatusTls;
-    trunkOverallStatus: TrunkOverallStatus;
-}
-
-// @public
-export class TrunkStatusClient {
-    constructor(connectionString: string, options?: TrunkStatusClientOptions);
-    constructor(endpoint: string, credential: KeyCredential, options?: TrunkStatusClientOptions);
-    constructor(endpoint: string, credential: TokenCredential, options?: TrunkStatusClientOptions);
-    getTrunksStatus(options?: GetTrunksStatusOptions): Promise<TrunksStatus>;
-    getTrunkStatus(fqdn: string, options?: GetTrunkStatusOptions): Promise<TrunkStatus>;
-}
-
-// @public
-export interface TrunkStatusClientOptions extends CommonClientOptions {
-}
-
-// @public
-export type TrunkStatusPing = "NoData" | "OK" | "PingError" | "PingExpired";
-
-// @public
-export type TrunkStatusTls = "NoData" | "OK" | "CertExpiring" | "CertExpired";
 
 // (No @packageDocumentation comment for this package)
 

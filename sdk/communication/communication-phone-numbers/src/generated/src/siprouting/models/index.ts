@@ -81,7 +81,7 @@ export interface SipConfigurationPatch {
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
    */
-  trunks?: { [propertyName: string]: TrunkPatch | null };
+  trunks?: { [propertyName: string]: TrunkPatch };
   /** Trunk routes for routing calls. */
   routes?: SipTrunkRoute[];
 }

@@ -5,4 +5,3 @@ export * from "./models";
 export * from "./phoneNumbersClient";
 export * from "./lroModels";
 export * from "./sipRoutingClient";
-export * from "./trunkStatusClient";

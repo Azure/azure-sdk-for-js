@@ -12,7 +12,7 @@ import {
   isPlaybackMode,
   record,
 } from "@azure-tools/test-recorder";
-import { PhoneNumbersClient, SipRoutingClient } from "../../../src";
+import { PhoneNumbersClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
@@ -126,57 +126,3 @@ export function createRecordedClientWithToken(
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
-
-export function createRecordedSipRoutingClient(context: Context): RecordedClient<SipRoutingClient> {
-  const recorder = record(context, environmentSetup);
-
-  // casting is a workaround to enable min-max testing
-  return {
-    client: new SipRoutingClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-      httpClient,
-      additionalPolicies,
-    }),
-    recorder,
-  };
-}
-
-export function createRecordedSipRoutingClientWithToken(
-  context: Context
-): RecordedClient<SipRoutingClient> | undefined {
-  const recorder = record(context, environmentSetup);
-  let credential: TokenCredential;
-  const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
-  ).endpoint;
-  if (isPlaybackMode()) {
-    credential = createMockToken();
-
-    // casting is a workaround to enable min-max testing
-    return {
-      client: new SipRoutingClient(endpoint, credential, {
-        httpClient,
-      }),
-      recorder,
-    };
-  }
-
-  if (isNode) {
-    credential = new DefaultAzureCredential({ authorityHost: "https://login.windows-ppe.net" });
-  } else {
-    credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET,
-      { httpClient, authorityHost: "https://login.windows-ppe.net" }
-    );
-  }
-
-  // casting is a workaround to enable min-max testing
-  return {
-    client: new SipRoutingClient(endpoint, credential, {
-      httpClient,
-      additionalPolicies,
-    }),
-    recorder,
-  };
-}
