@@ -14,10 +14,14 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
+import { assert, use } from "chai";
 import { Context } from "mocha";
 import { ContainerAppsAPIClient } from "../src/containerAppsAPIClient";
 import { ContainerApp, ManagedEnvironment } from "../src/models";
+import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
+import { DictionaryMapper } from "@azure/core-client";
+import { cpuUsage, memoryUsage } from "process";
+
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -41,6 +45,7 @@ describe("AppContainer test", () => {
   let location: string;
   let resourceGroup: string;
   let containerAppName: string;
+  let environmentEnvelope: ManagedEnvironment;
   let containerAppEnvelope: ContainerApp;
   let environmentName: string;
 
@@ -61,39 +66,68 @@ describe("AppContainer test", () => {
     await recorder.stop();
   });
 
+
+
+  it("managedEnvironments create test", async function () {
+
+    environmentEnvelope = {
+      location: "East US",
+      zoneRedundant: false
+    };
+    const res = await client.managedEnvironments.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      environmentName,
+      environmentEnvelope,
+      testPollingOptions
+    );
+    assert.equal(res.name, environmentName);
+  })
+
   it("containerApp create test", async function () {
     containerAppEnvelope = {
       "location": location,
       "managedEnvironmentId": "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.App/managedEnvironments/" + environmentName,
+      template: {
+        containers: [
+          {
+            name: "simple-hello-world-container",
+            image: "mcr.microsoft.com/azuredocs/containerapps-helloworld",
+            resources: {
+              cpu: 0.25,
+              memory: "0.5Gi"
+            }
+          }
+        ]
+      }
     }
     const res = await client.containerApps.beginCreateOrUpdateAndWait(resourceGroup, containerAppName, containerAppEnvelope, testPollingOptions);
     assert.equal(res.name, containerAppName);
   });
 
 
-  // it("containerapp list Secrets test", async function () {
-  //   const res = await client.containerApps.listSecrets(
-  //     resourceGroup,
-  //     containerAppName
-  //   );
-  // });
+  it("containerapp list Secrets test", async function () {
+    const res = await client.containerApps.listSecrets(
+      resourceGroup,
+      containerAppName
+    );
+  });
 
-  // it("containerapp delete test", async function () {
-  //   const res = await client.containerApps.beginDeleteAndWait(resourceGroup, containerAppName);
-  //   const resArray = new Array();
-  //   for await (let item of client.containerApps.listByResourceGroup(resourceGroup)) {
-  //     resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length, 0);
-  // })
+  it("containerapp delete test", async function () {
+    const res = await client.containerApps.beginDeleteAndWait(resourceGroup, containerAppName);
+    const resArray = new Array();
+    for await (let item of client.containerApps.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  })
 
-  // it("managedEnvironments delete test", async function () {
-  //   const res = await client.managedEnvironments.beginDeleteAndWait(resourceGroup, environmentName);
-  //   const resArray = new Array();
-  //   for await (let item of client.managedEnvironments.listByResourceGroup(resourceGroup)) {
-  //     resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length, 0);
-  // })
+  it("managedEnvironments delete test", async function () {
+    const res = await client.managedEnvironments.beginDeleteAndWait(resourceGroup, environmentName);
+    const resArray = new Array();
+    for await (let item of client.managedEnvironments.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  })
 
 })
