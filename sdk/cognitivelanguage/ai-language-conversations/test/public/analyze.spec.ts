@@ -21,11 +21,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         authMethod,
         recorder
       });
-      let nextId = 0;
-      getId = function () {
-        nextId += 1;
-        return nextId.toString();
-      };
+      
     });
 
     afterEach(async function () {
@@ -35,7 +31,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
     describe("#sync", () => {
 
     it("Test Conversation App", async function () {
-      const message = await client.analyzeConversation(conv1);
+      const message = await client.analyzeConversation(conv1) as any;
       //Assert prediction type
       assert.equal(message.kind, "ConversationResult");
       assert.exists(message.result.query);
@@ -55,7 +51,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
     })
     
     it("Test Orchestration App Conversational Response", async function () {
-      const message = await client.analyzeConversation(conv2);
+      const message = await client.analyzeConversation(conv2) as any;
       //Assert prediction type
       assert.equal(message.kind, "ConversationResult");
       assert.exists(message.result.query);
@@ -82,7 +78,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
     })
 
     it.skip("Test Orchestration App LUIS Response", async function() {
-      const message = await client.analyzeConversation(conv3);
+      const message = await client.analyzeConversation(conv3) as any;
       //Assert prediction type
       assert.equal(message.kind, "ConversationResult");
       assert.exists(message.result.query);
@@ -105,7 +101,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
     })
 
     it("Test Orchestration App QnA Response", async function () {
-      const message = await client.analyzeConversation(conv4);
+      const message = await client.analyzeConversation(conv4) as any;
       //Assert prediction type
       assert.equal(message.kind, "ConversationResult");
       assert.exists(message.result.query);
@@ -124,7 +120,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
     })
 
     it("Test Conversation App PII transcript", async function () {
-      const message = await client.beginConversationAnalysisAndWait(conv5);
+      const message = await client.beginConversationAnalysisAndWait(conv5) as any;
       //Assert main object
       assert.equal(message.status, "succeeded");
 
@@ -143,7 +139,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
     })
 
     it("Test Conversation Summarization App", async function () {
-      const message = await client.beginConversationAnalysisAndWait(conv6);
+      const message = await client.beginConversationAnalysisAndWait(conv6) as any;
       //Assert main object
       assert.equal(message.status, "succeeded");
 
@@ -161,7 +157,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
   describe("#async", () => {
 
     it("Test Conversation App PII transcript", async function () {
-      const poller = await client.beginConversationAnalysis(conv5);
+      const poller = await client.beginConversationAnalysis(conv5) as any;
       const message = await poller.pollUntilDone();
       //Assert main object
       assert.equal(message.status, "succeeded");
@@ -181,7 +177,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
     })
 
     it("Test Conversation Summarization App", async function () {
-      const poller = await client.beginConversationAnalysis(conv6);
+      const poller = await client.beginConversationAnalysis(conv6) as any;
       const message = await poller.pollUntilDone();
       //Assert main object
       assert.equal(message.status, "succeeded");

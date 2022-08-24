@@ -5,7 +5,7 @@
 
 import * as coreClient from "@azure/core-client";
 import {
-    bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest

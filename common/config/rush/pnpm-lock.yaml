@@ -3973,7 +3973,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220807
+      typescript: 4.9.0-dev.20220824
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8900,8 +8900,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220807:
-    resolution: {integrity: sha512-IKavUdg6DoklEaP1ikTPRa4i+BgFgWqt0IqttrDGADpSoqwvMlVFo8A24996T58PZI/GGKT5j3og/dLPo/oIPg==}
+  /typescript/4.9.0-dev.20220824:
+    resolution: {integrity: sha512-NsplEHXMgy5v81L3fXRgvitWTjUgIwxZylKWI5Nex06xASPKrhuJOnP0ucEpDpIvDofVoUV6W8N8DzPql58H2A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9671,11 +9671,12 @@ packages:
     dev: false
 
   file:projects/ai-language-conversations.tgz:
-    resolution: {integrity: sha512-ohPSrlYLZBsJY8Ka+xKbKsphIPq5vCeAHtFEMuVPalETckDvWEzABkNkWaUYjd35XRLGYThjNxL85mwgQWqm9g==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-clBzLC/2b/yik1y8pJToerbX+K8Z3oNAK/hAfMJojab4F1mQQxLDYaOjaCrYdxVIhftVELcKl1u5qKXUb17v0Q==, tarball: file:projects/ai-language-conversations.tgz}
     name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.2.4
+      '@azure/core-tracing': 1.0.0
       '@azure/identity': 2.1.0
       '@azure/logger': 1.0.3
       '@microsoft/api-extractor': 7.18.11

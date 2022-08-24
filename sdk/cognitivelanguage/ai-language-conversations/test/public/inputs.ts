@@ -1,4 +1,6 @@
-export const conv1 = {
+import { AnalyzeConversationJobsInput, ConversationalTask } from "@azure/ai-language-conversations"
+
+export const conv1: ConversationalTask = {
     "kind": "Conversation",
     "analysisInput": {
         "conversationItem": {
@@ -10,14 +12,14 @@ export const conv1 = {
         },
     },
     "parameters": {
-        "projectName": process.env.LANGUAGE_CLU_PROJECT_NAME,
-        "deploymentName": process.env.LANGUAGE_CLU_DEPLOYMENT_NAME,
+        "projectName": process.env.LANGUAGE_CLU_PROJECT_NAME || "<project-name>",
+        "deploymentName": process.env.LANGUAGE_CLU_DEPLOYMENT_NAME || "<deployment-name>",
         "verbose": true,
         "isLoggingEnabled": false
     }
 }
 
-export const conv2 ={
+export const conv2: ConversationalTask = {
     "kind": "Conversation",
     "analysisInput": {
         "conversationItem": {
@@ -29,14 +31,14 @@ export const conv2 ={
         },
     },
     "parameters": {
-        "projectName": process.env.LANGUAGE_ORCHESTRATION_PROJECT_NAME,
-        "deploymentName": process.env.LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME,
+        "projectName": process.env.LANGUAGE_ORCHESTRATION_PROJECT_NAME || "<project-name>",
+        "deploymentName": process.env.LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME || "<deployment-name>",
         "verbose": true,
         "isLoggingEnabled": false
     }
 }
 
-export const conv3 = {
+export const conv3: ConversationalTask = {
     "kind": "Conversation",
     "analysisInput": {
         "conversationItem": {
@@ -48,14 +50,14 @@ export const conv3 = {
         },
     },
     "parameters": {
-        "projectName": process.env.LANGUAGE_ORCHESTRATION_PROJECT_NAME,
-        "deploymentName": process.env.LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME,
+        "projectName": process.env.LANGUAGE_ORCHESTRATION_PROJECT_NAME || "<project-name>",
+        "deploymentName": process.env.LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME || "<deployment-name>",
         "verbose": true,
         "isLoggingEnabled": false
     }
 }
 
-export const conv4 = {
+export const conv4: ConversationalTask = {
     "kind": "Conversation",
     "analysisInput": {
         "conversationItem": {
@@ -67,14 +69,14 @@ export const conv4 = {
         },
     },
     "parameters": {
-        "projectName": process.env.LANGUAGE_ORCHESTRATION_PROJECT_NAME,
-        "deploymentName": process.env.LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME,
+        "projectName": process.env.LANGUAGE_ORCHESTRATION_PROJECT_NAME || "<project-name>",
+        "deploymentName": process.env.LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME || "<deployment-name>",
         "verbose": true,
         "isLoggingEnabled": false
     }
 }
 
-export const conv5 = {
+export const conv5: AnalyzeConversationJobsInput = {
     "displayName": "Analyze PII in conversation",
     "analysisInput": {
         "conversations": [
@@ -127,7 +129,7 @@ export const conv5 = {
     ]
 }
 
-export const conv6 = {
+export const conv6: AnalyzeConversationJobsInput = {
     "displayName": "Analyze conversations from xxx",
     "analysisInput": {
         "conversations": [

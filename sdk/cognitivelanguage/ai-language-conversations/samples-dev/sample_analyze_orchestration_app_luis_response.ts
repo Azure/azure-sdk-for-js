@@ -16,10 +16,10 @@ dotenv.config();
 
 //Get secrets
 //You will have to set these environment variables for the sample to work
-const clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT;
-const clu_key = process.env.AZURE_CONVERSATIONS_KEY;
-const project_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME;
-const deployment_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME;
+const clu_endpoint = process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
+const clu_key = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
+const project_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<project-name>";
+const deployment_name = process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
 
 const service: ConversationAnalysisClient = new ConversationAnalysisClient(clu_endpoint, new AzureKeyCredential(clu_key));
 
@@ -44,7 +44,7 @@ const body: ConversationalTask = {
 
 export async function main(){
 //Analyze query
-    const { result } = await service.analyzeConversation(body);
+    const { result } = await service.analyzeConversation(body) as any;
     console.log("query: ", result.query);
     console.log("project kind: ", result.prediction.projectKind);
     const top_intent = result.prediction.topIntent;
@@ -58,7 +58,7 @@ export async function main(){
         const luis_response = top_intent_object.result.prediction;
         console.log("top intent: ", luis_response.topIntent);
         console.log("\nentities:");
-        luis_response.entities.forEach((entity) => {
+        luis_response.entities.forEach((entity: any) => {
             console.log("\n", entity);
         })
     }

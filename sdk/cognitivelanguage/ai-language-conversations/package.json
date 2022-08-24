@@ -16,7 +16,7 @@
   "keywords": ["node", "azure", "typescript", "browser", "isomorphic"],
   "license": "MIT",
   "main": "./dist/index.js",
-  "module": "./dist-esm/index.js",
+  "module": "./dist-esm/src/index.js",
   "types": "./types/ai-language-conversations.d.ts",
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -24,6 +24,7 @@
     "@azure/identity": "^2.1.0",
     "@azure/logger": "^1.0.3",
     "@azure/test-utils": "^1.0.0",
+    "@azure/core-tracing": "1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@microsoft/api-extractor": "7.18.11",

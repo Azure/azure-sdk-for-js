@@ -9,7 +9,10 @@
       "strict": true,
       "alwaysStrict": true,
       "outDir": "dist",
-      "rootDir": "src"
+      "rootDir": "src",
+      "paths": {
+        "@azure/ai-language-conversations": ["../../../src/index"]
+      }
     },
     "include": [
       "src/**.ts"
