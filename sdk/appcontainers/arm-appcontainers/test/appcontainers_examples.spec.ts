@@ -18,10 +18,6 @@ import { assert, use } from "chai";
 import { Context } from "mocha";
 import { ContainerAppsAPIClient } from "../src/containerAppsAPIClient";
 import { ContainerApp, ManagedEnvironment } from "../src/models";
-import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
-import { DictionaryMapper } from "@azure/core-client";
-import { cpuUsage, memoryUsage } from "process";
-
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
