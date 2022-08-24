@@ -17,7 +17,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "1a549fb8-ce8a-4c46-a38a-f730b4f5cd03",
+        "x-ms-client-request-id": "e8c023cd-24f1-457f-9f90-0d6b2a18fc9c",
         "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0-beta.3 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
@@ -25,9 +25,9 @@
       "ResponseHeaders": {
         "Content-Length": "340",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 15 Aug 2022 21:19:51 GMT",
-        "mise-correlation-id": "3eb37632-cfa6-48db-987d-b2cdfd6a9383",
-        "traceparent": "00-9a15be6ddcbc343aea4b84fe0f3c3191-5aed9da2a3ec9051-00"
+        "Date": "Wed, 24 Aug 2022 18:16:30 GMT",
+        "mise-correlation-id": "b239b074-23de-49cc-b0f3-e94730217dcb",
+        "traceparent": "00-4c7b911d32dfff919a94e5c9b074be64-1aae77dfce4884c6-00"
       },
       "ResponseBody": {
         "groupId": "dpokluda-test",

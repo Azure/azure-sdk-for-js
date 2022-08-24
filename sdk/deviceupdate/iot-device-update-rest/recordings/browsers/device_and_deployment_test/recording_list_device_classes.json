@@ -17,7 +17,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "b93d2697-c059-4a5b-a676-89082b3cc6b7",
+        "x-ms-client-request-id": "b30c880a-a1a3-467e-897b-d80066d83204",
         "x-ms-useragent": "azsdk-js-iot-device-update-rest/1.0.0-beta.3 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
@@ -25,9 +25,9 @@
       "ResponseHeaders": {
         "Content-Length": "585",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 15 Aug 2022 21:19:51 GMT",
-        "mise-correlation-id": "7a7c66ac-812e-4664-b6e7-6e5ea2359833",
-        "traceparent": "00-f0470d256b9a85d3914f4084604d6163-7f34c5f5e22a26a5-00"
+        "Date": "Wed, 24 Aug 2022 18:16:31 GMT",
+        "mise-correlation-id": "68c262c0-4137-4138-a5b3-349db69d57be",
+        "traceparent": "00-27637102febcafeb202dde23b930ca57-4b2e78fdaae99d39-00"
       },
       "ResponseBody": {
         "value": [

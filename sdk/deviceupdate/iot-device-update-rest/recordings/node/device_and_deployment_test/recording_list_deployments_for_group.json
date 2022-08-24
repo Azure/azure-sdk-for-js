@@ -9,16 +9,16 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.3 core-rest-pipeline/1.9.2 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "64d30d86-8a21-49d1-bca9-f0658acc1a8f"
+        "x-ms-client-request-id": "42179903-5078-4ab4-9081-46c572903ec9"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "5677",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 15 Aug 2022 21:19:38 GMT",
-        "mise-correlation-id": "f6869a84-0a98-4c8d-b6e5-e0b73ef40a93",
-        "traceparent": "00-8b44fb9d921ce339497f30afa85a2d16-7dd7e3ec18900970-00"
+        "Date": "Wed, 24 Aug 2022 18:16:14 GMT",
+        "mise-correlation-id": "4afbc650-22fe-43cf-a43a-01ea7afc6a2f",
+        "traceparent": "00-98ffb4ca63e3bb645fb92803c95e1b32-96ecd7c7a631c36a-00"
       },
       "ResponseBody": {
         "value": [
