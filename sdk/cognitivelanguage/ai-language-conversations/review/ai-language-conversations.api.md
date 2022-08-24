@@ -225,15 +225,11 @@ export interface ConversationalTaskResult extends AnalyzeConversationTaskResult 
 // Warning: (ae-internal-missing-underscore) The name "ConversationAnalysisClient" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export class ConversationAnalysisClient extends coreClient.ServiceClient {
+export class ConversationAnalysisClient {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: ConversationAnalysisClientOptionalParams);
     analyzeConversation(task: AnalyzeConversationTaskUnion, options?: AnalyzeConversationOptionalParams): Promise<AnalyzeConversationResponse>;
-    // (undocumented)
-    apiVersion: string;
     beginConversationAnalysis(task: AnalyzeConversationJobsInput, options?: ConversationAnalysisOptionalParams): Promise<PollerLike<PollOperationState<ConversationAnalysisResponse>, ConversationAnalysisResponse>>;
     beginConversationAnalysisAndWait(task: AnalyzeConversationJobsInput, options?: ConversationAnalysisOptionalParams): Promise<ConversationAnalysisResponse>;
-    // (undocumented)
-    endpoint: string;
 }
 
 // @public
