@@ -731,6 +731,13 @@ export type ExistingKeyOperation = {
 };
 
 // @public (undocumented)
+export type MoveOperation = {
+  op: keyof typeof PatchOperationType;
+  from: string;
+  path: string;
+};
+
+// @public (undocumented)
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // @public
@@ -1110,7 +1117,7 @@ export interface PartitionKeyRangePropertiesNames {
 }
 
 // @public (undocumented)
-export type PatchOperation = ExistingKeyOperation | RemoveOperation;
+export type PatchOperation = ExistingKeyOperation | RemoveOperation | MoveOperation;
 
 // @public (undocumented)
 export interface PatchOperationInput {
