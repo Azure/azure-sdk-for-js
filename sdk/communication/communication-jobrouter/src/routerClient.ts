@@ -10,11 +10,13 @@ import {
 } from "@azure/communication-common";
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "./constants";
 import {
   AcceptJobOfferResult,
+  JobPositionDetails,
   JobRouterApiClient,
   JobRouterCancelJobActionResponse,
   JobRouterCloseJobActionResponse,
@@ -24,9 +26,7 @@ import {
   JobRouterListWorkersOptionalParams,
   JobRouterReclassifyJobActionResponse,
   QueueStatistics,
-  RouterJob,
   RouterJobItem,
-  RouterWorker,
   RouterWorkerItem
 } from "./generated/src";
 import { logger } from "./models/logger";
@@ -43,7 +43,7 @@ import {
   UpdateJobOptions,
   UpdateWorkerOptions
 } from "./models/options";
-import { JobPositionDetailsResponse, UnAssignJobResponse } from "./models/responses";
+import { RouterJobResponse, RouterWorkerResponse, UnAssignJobResponse } from "./models/responses";
 
 /**
  * Checks whether the type of a value is {@link RouterClientOptions} or not.
@@ -145,9 +145,13 @@ export class RouterClient {
    * @param jobId - The job to be create
    * @param options - Operation options.
    */
-  public async createJob(jobId: string, options: CreateJobOptions = {}): Promise<RouterJob> {
+  public async createJob(
+    jobId: string,
+    options: CreateJobOptions = {}
+  ): Promise<RouterJobResponse> {
     const jobModel = options;
-    return this.client.jobRouter.upsertJob(jobId, jobModel, options);
+    const job = await this.client.jobRouter.upsertJob(jobId, jobModel, options);
+    return <RouterJobResponse>job;
   }
 
   /**
@@ -155,18 +159,24 @@ export class RouterClient {
    * @param jobId - The job to be updated
    * @param options -  Operation options.
    */
-  public async updateJob(jobId: string, options: UpdateJobOptions = {}): Promise<RouterJob> {
+  public async updateJob(
+    jobId: string,
+    options: UpdateJobOptions = {}
+  ): Promise<RouterJobResponse> {
     const jobModel = options;
-    return this.client.jobRouter.upsertJob(jobId, jobModel, options);
+    const job = await this.client.jobRouter.upsertJob(jobId, jobModel, options);
+    return <RouterJobResponse>job;
   }
 
   /**
    * Gets an job.
    * Returns job with the id of the job.
    * @param jobId - The id of the job to get.
+   * @param options -  Operation options.
    */
-  public async getJob(jobId: string): Promise<RouterJob> {
-    return this.client.jobRouter.getJob(jobId);
+  public async getJob(jobId: string, options: OperationOptions = {}): Promise<RouterJobResponse> {
+    const job = await this.client.jobRouter.getJob(jobId, options);
+    return <RouterJobResponse>job;
   }
 
   /**
@@ -184,16 +194,13 @@ export class RouterClient {
    * Gets a job's position details.
    * Returns job position details.
    * @param jobId - The ID of the job to get.
+   * @param options -  Operation options.
    */
-  public async getQueuePosition(jobId: string): Promise<JobPositionDetailsResponse> {
-    const jobPositionDetails = await this.client.jobRouter.getInQueuePosition(jobId);
-    return {
-      jobId: jobPositionDetails.jobId,
-      position: jobPositionDetails.position,
-      queueId: jobPositionDetails.queueId,
-      queueLength: jobPositionDetails.queueLength,
-      estimatedWaitTimeInMinutes: jobPositionDetails.estimatedWaitTimeMinutes
-    };
+  public async getQueuePosition(
+    jobId: string,
+    options: OperationOptions = {}
+  ): Promise<JobPositionDetails> {
+    return this.client.jobRouter.getInQueuePosition(jobId, options);
   }
 
   /**
@@ -252,9 +259,14 @@ export class RouterClient {
    * Unassign a job.
    * @param jobId - The ID of the job to close.
    * @param assignmentId - The assignment within which the job is to be unassigned.
+   * @param options - Operation options.
    */
-  public async unassignJob(jobId: string, assignmentId: string): Promise<UnAssignJobResponse> {
-    const result = await this.client.jobRouter.unassignJobAction(jobId, assignmentId);
+  public async unassignJob(
+    jobId: string,
+    assignmentId: string,
+    options: OperationOptions = {}
+  ): Promise<UnAssignJobResponse> {
+    const result = await this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
     return {
       jobId: result.jobId,
       unAssignmentCount: result.unassignmentCount
@@ -264,9 +276,10 @@ export class RouterClient {
   /**
    * Deletes a job.
    * @param jobId - The id of the job to delete.
+   * @param options -  Operation options.
    */
-  public async deleteJob(jobId: string): Promise<void> {
-    return this.client.jobRouter.deleteJob(jobId);
+  public async deleteJob(jobId: string, options: OperationOptions = {}): Promise<void> {
+    return this.client.jobRouter.deleteJob(jobId, options);
   }
 
   // Offer Actions
@@ -274,9 +287,14 @@ export class RouterClient {
    * Accept a job offer.
    * @param workerId - The ID of the worker that accepts the job.
    * @param offerId - The ID of the offer to accept.
+   * @param options -  Operation options.
    */
-  public async acceptJobOffer(workerId: string, offerId: string): Promise<AcceptJobOfferResult> {
-    return this.client.jobRouter.acceptJobAction(offerId, workerId);
+  public async acceptJobOffer(
+    workerId: string,
+    offerId: string,
+    options: OperationOptions = {}
+  ): Promise<AcceptJobOfferResult> {
+    return this.client.jobRouter.acceptJobAction(offerId, workerId, options);
   }
 
   /**
@@ -287,9 +305,10 @@ export class RouterClient {
    */
   public async declineJobOffer(
     workerId: string,
-    offerId: string
+    offerId: string,
+    options: OperationOptions = {}
   ): Promise<JobRouterDeclineJobActionResponse> {
-    return this.client.jobRouter.declineJobAction(offerId, workerId);
+    return this.client.jobRouter.declineJobAction(offerId, workerId, options);
   }
 
   // Worker Actions
@@ -302,9 +321,10 @@ export class RouterClient {
   public async createWorker(
     workerId: string,
     options: CreateWorkerOptions = {}
-  ): Promise<RouterWorker> {
+  ): Promise<RouterWorkerResponse> {
     const workerModel = options;
-    return this.client.jobRouter.upsertWorker(workerId, workerModel, options);
+    const worker = await this.client.jobRouter.upsertWorker(workerId, workerModel, options);
+    return <RouterWorkerResponse>worker;
   }
 
   /**
@@ -315,9 +335,10 @@ export class RouterClient {
   public async updateWorker(
     workerId: string,
     options: UpdateWorkerOptions = {}
-  ): Promise<RouterWorker> {
+  ): Promise<RouterWorkerResponse> {
     const workerModel = options;
-    return this.client.jobRouter.upsertWorker(workerId, workerModel, options);
+    const worker = await this.client.jobRouter.upsertWorker(workerId, workerModel, options);
+    return <RouterWorkerResponse>worker;
   }
 
   /**
@@ -326,11 +347,15 @@ export class RouterClient {
    * @param workerId - The ID of the worker to register.
    * @param options - Operation options.
    */
-  public async registerWorker(workerId: string): Promise<RouterWorker> {
+  public async registerWorker(
+    workerId: string,
+    options: OperationOptions = {}
+  ): Promise<RouterWorkerResponse> {
     const worker = {
       availableForOffers: true
     };
-    return this.client.jobRouter.upsertWorker(workerId, worker);
+    const workerResult = await this.client.jobRouter.upsertWorker(workerId, worker, options);
+    return <RouterWorkerResponse>workerResult;
   }
 
   /**
@@ -339,20 +364,29 @@ export class RouterClient {
    * @param workerId - The ID of the worker to deregister.
    * @param options - Operation options.
    */
-  public async deregisterWorker(workerId: string): Promise<RouterWorker> {
+  public async deregisterWorker(
+    workerId: string,
+    options: OperationOptions = {}
+  ): Promise<RouterWorkerResponse> {
     const worker = {
       availableForOffers: false
     };
-    return this.client.jobRouter.upsertWorker(workerId, worker);
+    const workerResult = await this.client.jobRouter.upsertWorker(workerId, worker, options);
+    return <RouterWorkerResponse>workerResult;
   }
 
   /**
    * Gets a worker.
    * Returns worker with the id of the worker.
    * @param workerId - The ID of the worker to get.
+   * @param options -  Operation options.
    */
-  public async getWorker(workerId: string): Promise<RouterWorker> {
-    return this.client.jobRouter.getWorker(workerId);
+  public async getWorker(
+    workerId: string,
+    options: OperationOptions = {}
+  ): Promise<RouterWorkerResponse> {
+    const worker = await this.client.jobRouter.getWorker(workerId, options);
+    return <RouterWorkerResponse>worker;
   }
 
   /**
@@ -372,8 +406,8 @@ export class RouterClient {
    * @param workerId - The ID of the worker to delete.
    * @param options -  Operation options.
    */
-  public async deleteWorker(workerId: string): Promise<void> {
-    return this.client.jobRouter.deleteWorker(workerId);
+  public async deleteWorker(workerId: string, options: OperationOptions = {}): Promise<void> {
+    return this.client.jobRouter.deleteWorker(workerId, options);
   }
 
   // Queue Actions
@@ -381,8 +415,12 @@ export class RouterClient {
    * Gets a queue's statistics.
    * Returns queue's statistics.
    * @param queueId - The ID of the queue to get statistics.
+   * @param options -  Operation options.
    */
-  public async getQueueStatistics(queueId: string): Promise<QueueStatistics> {
-    return this.client.jobRouter.getQueueStatistics(queueId);
+  public async getQueueStatistics(
+    queueId: string,
+    options: OperationOptions = {}
+  ): Promise<QueueStatistics> {
+    return this.client.jobRouter.getQueueStatistics(queueId, options);
   }
 }

@@ -265,7 +265,7 @@ export const DistributionPolicy: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      offerTtlSeconds: {
+      offerTtlInSeconds: {
         serializedName: "offerTtlSeconds",
         type: {
           name: "Number"
@@ -534,7 +534,7 @@ export const RouterJob: coreClient.CompositeMapper = {
           ]
         }
       },
-      enqueueTimeUtc: {
+      enqueuedOn: {
         serializedName: "enqueueTimeUtc",
         readOnly: true,
         type: {
@@ -715,20 +715,20 @@ export const JobAssignment: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      assignTime: {
+      assignedOn: {
         serializedName: "assignTime",
         required: true,
         type: {
           name: "DateTime"
         }
       },
-      completeTime: {
+      completedOn: {
         serializedName: "completeTime",
         type: {
           name: "DateTime"
         }
       },
-      closeTime: {
+      closedOn: {
         serializedName: "closeTime",
         type: {
           name: "DateTime"
@@ -920,7 +920,7 @@ export const JobPositionDetails: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      estimatedWaitTimeMinutes: {
+      estimatedWaitTimeInMinutes: {
         serializedName: "estimatedWaitTimeMinutes",
         required: true,
         type: {
@@ -1500,7 +1500,7 @@ export const QueueWeightedAllocation: coreClient.CompositeMapper = {
     name: "Composite",
     className: "QueueWeightedAllocation",
     modelProperties: {
-      weight: {
+      weightTotalAsOne: {
         serializedName: "weight",
         required: true,
         type: {
@@ -1996,7 +1996,7 @@ export const QueueLengthExceptionTrigger: coreClient.CompositeMapper = {
     polymorphicDiscriminator: JobExceptionTrigger.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobExceptionTrigger.type.modelProperties,
-      threshold: {
+      maxJobCount: {
         serializedName: "threshold",
         required: true,
         type: {

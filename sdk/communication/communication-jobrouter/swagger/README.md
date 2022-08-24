@@ -38,7 +38,39 @@ input-file: ../swagger/swagger.json
 
 ```yaml
 directive:
-
+  - from: swagger-document
+    where: "$.definitions.RouterJob.properties.enqueueTimeUtc"
+    transform: >
+      $["x-ms-client-name"] = "enqueuedOn";
+  - from: swagger-document
+    where: "$.definitions.DistributionPolicy.properties.offerTtlSeconds"
+    transform: >
+      $["x-ms-client-name"] = "offerTtlInSeconds";
+  - from: swagger-document
+    where: "$.definitions.JobAssignment.properties.assignTime"
+    transform: >
+      $["x-ms-client-name"] = "assignedOn";
+  - from: swagger-document
+    where: "$.definitions.JobAssignment.properties.closeTime"
+    transform: >
+      $["x-ms-client-name"] = "closedOn";  
+  - from: swagger-document
+    where: "$.definitions.JobAssignment.properties.completeTime"
+    transform: >
+      $["x-ms-client-name"] = "completedOn";
+  - from: swagger-document
+    where: "$.definitions.JobPositionDetails.properties.estimatedWaitTimeMinutes"
+    transform: >
+      $["x-ms-client-name"] = "estimatedWaitTimeInMinutes";
+  - from: swagger-document
+    where: "$.definitions.QueueLengthExceptionTrigger.properties.threshold"
+    transform: >
+      $["x-ms-client-name"] = "maxJobCount";  
+  - from: swagger-document
+    where: "$.definitions.QueueWeightedAllocation.properties.weight"
+    transform: >
+      $["x-ms-client-name"] = "weightTotalAsOne";     
+      
   - from: swagger-document
     where: "$.definitions.DistributionPolicy.properties.mode"
     transform: >

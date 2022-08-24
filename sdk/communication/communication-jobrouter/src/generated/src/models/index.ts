@@ -162,7 +162,7 @@ export interface DistributionPolicy {
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlSeconds?: number;
+  offerTtlInSeconds?: number;
   /** Abstract base class for defining a distribution mode */
   mode?: DistributionModeUnion;
 }
@@ -260,7 +260,7 @@ export interface RouterJob {
    * The time a job was queued.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly enqueueTimeUtc?: Date;
+  readonly enqueuedOn?: Date;
   /** The channel identifier. eg. voice, chat, etc. */
   channelId?: string;
   /** The Id of the Classification policy used for classifying a job. */
@@ -323,11 +323,11 @@ export interface JobAssignment {
   /** The Id of the Worker assigned to the job. */
   workerId?: string;
   /** The assignment time of the job. */
-  assignTime: Date;
+  assignedOn: Date;
   /** The time the job was marked as completed after being assigned. */
-  completeTime?: Date;
+  completedOn?: Date;
   /** The time the job was marked as closed after being completed. */
-  closeTime?: Date;
+  closedOn?: Date;
 }
 
 /** Request payload for deleting a job */
@@ -390,7 +390,7 @@ export interface JobPositionDetails {
   /** Length of the queue: total number of enqueued jobs. */
   queueLength: number;
   /** Estimated wait time of the job rounded up to the nearest minute */
-  estimatedWaitTimeMinutes: number;
+  estimatedWaitTimeInMinutes: number;
 }
 
 /** Response payload after a job has been successfully unassigned. */
@@ -600,7 +600,7 @@ export interface FunctionRuleCredential {
 /** Contains the weight percentage and label selectors to be applied if selected for weighted distributions. */
 export interface QueueWeightedAllocation {
   /** The percentage of this weight, expressed as a fraction of 1. */
-  weight: number;
+  weightTotalAsOne: number;
   /** A collection of label selectors that will be applied if this allocation is selected. */
   labelSelectors: QueueSelector[];
 }
@@ -808,7 +808,7 @@ export interface QueueLengthExceptionTrigger extends JobExceptionTrigger {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "queue-length";
   /** Threshold of number of jobs ahead in the queue to for this trigger to fire. */
-  threshold: number;
+  maxJobCount: number;
 }
 
 /** Trigger for an exception action on exceeding wait time */

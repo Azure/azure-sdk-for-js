@@ -2,14 +2,11 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
+import { OperationOptions } from "@azure/core-client";
 import {
-  ClassificationPolicy,
   ClassificationPolicyItem,
-  DistributionPolicy,
   DistributionPolicyItem,
-  ExceptionPolicy,
   ExceptionPolicyItem,
-  JobQueue,
   JobQueueItem,
   JobRouterAdministrationListClassificationPoliciesOptionalParams,
   JobRouterAdministrationListDistributionPoliciesOptionalParams,
@@ -45,6 +42,12 @@ import {
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./models/logger";
+import {
+  ClassificationPolicyResponse,
+  DistributionPolicyResponse,
+  ExceptionPolicyResponse,
+  JobQueueResponse
+} from "./models/responses";
 
 /**
  * Checks whether the type of a value is {@link RouterAdministrationClientOptions} or not.
@@ -155,12 +158,13 @@ export class RouterAdministrationClient {
   public async createClassificationPolicy(
     classificationPolicyId: string,
     options: CreateClassificationPolicyOptions = {}
-  ): Promise<ClassificationPolicy> {
-    return this.client.jobRouterAdministration.upsertClassificationPolicy(
+  ): Promise<ClassificationPolicyResponse> {
+    const policy = await this.client.jobRouterAdministration.upsertClassificationPolicy(
       classificationPolicyId,
       options,
       options
     );
+    return <ClassificationPolicyResponse>policy;
   }
 
   /**
@@ -172,12 +176,13 @@ export class RouterAdministrationClient {
   public async updateClassificationPolicy(
     classificationPolicyId: string,
     options: UpdateClassificationPolicyOptions = {}
-  ): Promise<ClassificationPolicy> {
-    return this.client.jobRouterAdministration.upsertClassificationPolicy(
+  ): Promise<ClassificationPolicyResponse> {
+    const policy = await this.client.jobRouterAdministration.upsertClassificationPolicy(
       classificationPolicyId,
       options,
       options
     );
+    return <ClassificationPolicyResponse>policy;
   }
 
   /**
@@ -196,19 +201,32 @@ export class RouterAdministrationClient {
    * Gets a classification policy.
    * Returns classification policy with the id of the classification policy.
    * @param classificationPolicyId - The id of the classification policy to get.
+   * @param options -  Operation options.
    */
   public async getClassificationPolicy(
-    classificationPolicyId: string
-  ): Promise<ClassificationPolicy> {
-    return this.client.jobRouterAdministration.getClassificationPolicy(classificationPolicyId);
+    classificationPolicyId: string,
+    options: OperationOptions = {}
+  ): Promise<ClassificationPolicyResponse> {
+    const policy = await this.client.jobRouterAdministration.getClassificationPolicy(
+      classificationPolicyId,
+      options
+    );
+    return <ClassificationPolicyResponse>policy;
   }
 
   /**
    * Deletes a classification policy.
    * @param classificationPolicyId - The id of the classification policy to delete.
+   * @param options -  Operation options.
    */
-  public async deleteClassificationPolicy(classificationPolicyId: string): Promise<void> {
-    return this.client.jobRouterAdministration.deleteClassificationPolicy(classificationPolicyId);
+  public async deleteClassificationPolicy(
+    classificationPolicyId: string,
+    options: OperationOptions = {}
+  ): Promise<void> {
+    return this.client.jobRouterAdministration.deleteClassificationPolicy(
+      classificationPolicyId,
+      options
+    );
   }
 
   // DistributionPolicy Actions
@@ -221,14 +239,13 @@ export class RouterAdministrationClient {
   public async createDistributionPolicy(
     distributionPolicyId: string,
     options: CreateDistributionPolicyOptions = {}
-  ): Promise<DistributionPolicy> {
-    const policy = <DistributionPolicy>options;
-    policy.offerTtlSeconds = options.offerTtlInSeconds;
-    return this.client.jobRouterAdministration.upsertDistributionPolicy(
+  ): Promise<DistributionPolicyResponse> {
+    const policy = await this.client.jobRouterAdministration.upsertDistributionPolicy(
       distributionPolicyId,
       options,
       options
     );
+    return <DistributionPolicyResponse>policy;
   }
 
   /**
@@ -240,14 +257,13 @@ export class RouterAdministrationClient {
   public async updateDistributionPolicy(
     distributionPolicyId: string,
     options: UpdateDistributionPolicyOptions = {}
-  ): Promise<DistributionPolicy> {
-    const policy = <DistributionPolicy>options;
-    policy.offerTtlSeconds = options.offerTtlInSeconds;
-    return this.client.jobRouterAdministration.upsertDistributionPolicy(
+  ): Promise<DistributionPolicyResponse> {
+    const policy = await this.client.jobRouterAdministration.upsertDistributionPolicy(
       distributionPolicyId,
       options,
       options
     );
+    return <DistributionPolicyResponse>policy;
   }
 
   /**
@@ -266,17 +282,32 @@ export class RouterAdministrationClient {
    * Gets a distribution policy.
    * Returns distribution policy client with the id of the distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to get.
+   * @param options -  Operation options.
    */
-  public async getDistributionPolicy(distributionPolicyId: string): Promise<DistributionPolicy> {
-    return this.client.jobRouterAdministration.getDistributionPolicy(distributionPolicyId);
+  public async getDistributionPolicy(
+    distributionPolicyId: string,
+    options: OperationOptions = {}
+  ): Promise<DistributionPolicyResponse> {
+    const policy = await this.client.jobRouterAdministration.getDistributionPolicy(
+      distributionPolicyId,
+      options
+    );
+    return <DistributionPolicyResponse>policy;
   }
 
   /**
    * Deletes a distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to delete.
+   * @param options -  Operation options.
    */
-  public async deleteDistributionPolicy(distributionPolicyId: string): Promise<void> {
-    return this.client.jobRouterAdministration.deleteDistributionPolicy(distributionPolicyId);
+  public async deleteDistributionPolicy(
+    distributionPolicyId: string,
+    options: OperationOptions = {}
+  ): Promise<void> {
+    return this.client.jobRouterAdministration.deleteDistributionPolicy(
+      distributionPolicyId,
+      options
+    );
   }
 
   // ExceptionPolicy Actions
@@ -289,12 +320,13 @@ export class RouterAdministrationClient {
   public async createExceptionPolicy(
     exceptionPolicyId: string,
     options: CreateExceptionPolicyOptions = {}
-  ): Promise<ExceptionPolicy> {
-    return this.client.jobRouterAdministration.upsertExceptionPolicy(
+  ): Promise<ExceptionPolicyResponse> {
+    const policy = await this.client.jobRouterAdministration.upsertExceptionPolicy(
       exceptionPolicyId,
       options,
       options
     );
+    return <ExceptionPolicyResponse>policy;
   }
 
   /**
@@ -306,12 +338,13 @@ export class RouterAdministrationClient {
   public async updateExceptionPolicy(
     exceptionPolicyId: string,
     options: UpdateExceptionPolicyOptions = {}
-  ): Promise<ExceptionPolicy> {
-    return this.client.jobRouterAdministration.upsertExceptionPolicy(
+  ): Promise<ExceptionPolicyResponse> {
+    const policy = await this.client.jobRouterAdministration.upsertExceptionPolicy(
       exceptionPolicyId,
       options,
       options
     );
+    return <ExceptionPolicyResponse>policy;
   }
 
   /**
@@ -330,17 +363,29 @@ export class RouterAdministrationClient {
    * Gets an exception policy.
    * Returns exception policy with the id of the exception policy.
    * @param exceptionPolicyId - The id of the exception policy to get.
+   * @param options -  Operation options.
    */
-  public async getExceptionPolicy(exceptionPolicyId: string): Promise<ExceptionPolicy> {
-    return this.client.jobRouterAdministration.getExceptionPolicy(exceptionPolicyId);
+  public async getExceptionPolicy(
+    exceptionPolicyId: string,
+    options: OperationOptions = {}
+  ): Promise<ExceptionPolicyResponse> {
+    const policy = await this.client.jobRouterAdministration.getExceptionPolicy(
+      exceptionPolicyId,
+      options
+    );
+    return <ExceptionPolicyResponse>policy;
   }
 
   /**
    * Deletes an exception policy.
    * @param exceptionPolicyId - The id of the exception policy to delete.
+   * @param options -  Operation options.
    */
-  public async deleteExceptionPolicy(exceptionPolicyId: string): Promise<void> {
-    return this.client.jobRouterAdministration.deleteExceptionPolicy(exceptionPolicyId);
+  public async deleteExceptionPolicy(
+    exceptionPolicyId: string,
+    options: OperationOptions = {}
+  ): Promise<void> {
+    return this.client.jobRouterAdministration.deleteExceptionPolicy(exceptionPolicyId, options);
   }
 
   // Queue Actions
@@ -350,9 +395,17 @@ export class RouterAdministrationClient {
    * @param queueId - The ID of the queue to create.
    * @param options - Operation options.
    */
-  public async createQueue(queueId: string, options: CreateQueueOptions = {}): Promise<JobQueue> {
-    const queueModel = <JobQueue>options;
-    return this.client.jobRouterAdministration.upsertQueue(queueId, <JobQueue>queueModel, options);
+  public async createQueue(
+    queueId: string,
+    options: CreateQueueOptions = {}
+  ): Promise<JobQueueResponse> {
+    const queueModel = <JobQueueResponse>options;
+    const queue = await this.client.jobRouterAdministration.upsertQueue(
+      queueId,
+      <JobQueueResponse>queueModel,
+      options
+    );
+    return <JobQueueResponse>queue;
   }
 
   /**
@@ -361,9 +414,17 @@ export class RouterAdministrationClient {
    * @param queueId - The ID of the queue to update.
    * @param options - Operation options.
    */
-  public async updateQueue(queueId: string, options: UpdateQueueOptions = {}): Promise<JobQueue> {
+  public async updateQueue(
+    queueId: string,
+    options: UpdateQueueOptions = {}
+  ): Promise<JobQueueResponse> {
     const queueModel = options;
-    return this.client.jobRouterAdministration.upsertQueue(queueId, <JobQueue>queueModel, options);
+    const queue = await this.client.jobRouterAdministration.upsertQueue(
+      queueId,
+      <JobQueueResponse>queueModel,
+      options
+    );
+    return <JobQueueResponse>queue;
   }
 
   /**
@@ -380,16 +441,22 @@ export class RouterAdministrationClient {
    * Gets a queue.
    * Returns queue with the id of the queue.
    * @param queueId - The ID of the queue to get.
+   * @param options -  Operation options.
    */
-  public async getQueue(queueId: string): Promise<JobQueue> {
-    return this.client.jobRouterAdministration.getQueue(queueId);
+  public async getQueue(
+    queueId: string,
+    options: OperationOptions = {}
+  ): Promise<JobQueueResponse> {
+    const queue = await this.client.jobRouterAdministration.getQueue(queueId, options);
+    return <JobQueueResponse>queue;
   }
 
   /**
    * Deletes a queue.
    * @param queueId - The ID of the queue to delete.
+   * @param options -  Operation options.
    */
-  public async deleteQueue(queueId: string): Promise<void> {
-    return this.client.jobRouterAdministration.deleteQueue(queueId);
+  public async deleteQueue(queueId: string, options: OperationOptions = {}): Promise<void> {
+    return this.client.jobRouterAdministration.deleteQueue(queueId, options);
   }
 }
