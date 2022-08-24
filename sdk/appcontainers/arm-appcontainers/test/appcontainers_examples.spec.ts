@@ -63,7 +63,6 @@ describe("AppContainer test", () => {
   });
 
   it("managedEnvironments create test", async function () {
-
     environmentEnvelope = {
       location: "East US",
       zoneRedundant: false
