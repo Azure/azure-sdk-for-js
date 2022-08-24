@@ -538,7 +538,7 @@ describe("Serializer", function () {
 
     it("should correctly serialize object version of polymorphic discriminator", function () {
       const serializer = createSerializer(Mappers);
-      const mapper = Mappers.SawShark;
+      const mapper = Mappers.Shark;
       const sawshark = {
         fishtype: "sawshark",
         age: 22,

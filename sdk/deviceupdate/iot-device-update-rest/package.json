@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "Device Update for IoT Hub is an Azure service that enables customers to publish update for their IoT devices to the cloud, and then deploy that update to their devices (approve updates to groups of devices managed and provisioned in IoT Hub). It leverages the proven security and reliability of the Windows Update platform, optimized for IoT devices. It works globally and knows when and how to update devices, enabling customers to focus on their business goals and let Device Update for IoT Hub handle the updates.",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.3",
   "keywords": [
     "node",
     "azure",
@@ -13,10 +13,10 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/iot-device-update-rest.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update/README.md",
+  "types": "./types/iot-device-update.d.ts",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update-rest/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -24,13 +24,11 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/iot-device-update-rest.d.ts",
+    "types/iot-device-update.d.ts",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "review/*"
   ],
-  "engines": {
-    "node": ">=12.0.0"
-  },
   "//metadata": {
     "constantPaths": [
       {
@@ -38,6 +36,9 @@
         "prefix": "package-version"
       }
     ]
+  },
+  "engines": {
+    "node": ">=12.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure IoT Hub Device Update rest",
@@ -84,11 +85,11 @@
   "autoPublish": false,
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
-    "@azure-rest/core-client": "1.0.0-beta.9",
-    "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure-rest/core-client": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "@azure/core-paging": "^1.1.1",
+    "@azure/core-paging": "^1.2.0",
     "@azure/core-lro": "^2.2.0"
   },
   "devDependencies": {
@@ -102,7 +103,6 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^8.0.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -122,10 +122,9 @@
     "mkdirp": "^1.0.4",
     "mocha-junit-reporter": "^1.18.0",
     "mocha": "^7.1.1",
-    "nyc": "^15.0.0",
     "prettier": "2.2.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.2.0"
+    "typescript": "~4.6.0"
   }
 }

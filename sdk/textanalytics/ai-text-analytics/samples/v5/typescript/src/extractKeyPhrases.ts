@@ -15,13 +15,13 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
   "I need to take my cat to the veterinarian.",
-  "I will travel to South America in the summer."
+  "I will travel to South America in the summer.",
 ];
 
 export async function main() {

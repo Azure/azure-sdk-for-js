@@ -1,6 +1,6 @@
 # Release History
 
-## 17.2.2 (Unreleased)
+## 18.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,45 @@
 
 ### Other Changes
 
+## 18.0.0 (2022-08-16)
+    
+**Features**
+
+  - Added Interface AzureEntityResource
+  - Added Interface BlobContainer
+  - Added Interface BlobInventoryPolicy
+  - Added Interface BlobServiceProperties
+  - Added Interface DeletedAccount
+  - Added Interface EncryptionScope
+  - Added Interface FileServiceProperties
+  - Added Interface FileShare
+  - Added Interface FileShareItem
+  - Added Interface ImmutabilityPolicy
+  - Added Interface ListContainerItem
+  - Added Interface ListQueue
+  - Added Interface LocalUser
+  - Added Interface ManagementPolicy
+  - Added Interface ObjectReplicationPolicy
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface QueueServiceProperties
+  - Added Interface StorageAccount
+  - Added Interface StorageQueue
+  - Added Interface Table
+  - Added Interface TableServiceProperties
+  - Added Interface TrackedResource
+  - Added Type Alias AccountType
+  - Added Type Alias AllowedMethods
+  - Added Enum KnownAccountType
+  - Added Enum KnownAllowedMethods
+  - Enum KnownDirectoryServiceOptions has a new value Aadkerb
+
+**Breaking Changes**
+
+  - Removed Enum KnownActiveDirectoryPropertiesAccountType
+  - Removed Enum KnownCorsRuleAllowedMethodsItem
+    
 ## 17.2.1 (2022-06-15)
 
 **Features**

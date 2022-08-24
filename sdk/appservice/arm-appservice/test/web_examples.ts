@@ -8,31 +8,25 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
+  RecorderStartOptions,
   delay,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { WebSiteManagementClient } from "../src/webSiteManagementClient";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
@@ -48,96 +42,93 @@ describe("Web test", () => {
   let appservicePlanName: string;
   let name: string;
 
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new WebSiteManagementClient(credential, subscriptionId);
+    const credential = createTestCredential();
+    client = new WebSiteManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     appservicePlanName = "myappserviceplanxxx";
     name = "mysitexxxx";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("appServicePlans create test", async function() {
-    const res = await client.appServicePlans.beginCreateOrUpdateAndWait(resourceGroup,appservicePlanName,{
+  it("appServicePlans create test", async function () {
+    const res = await client.appServicePlans.beginCreateOrUpdateAndWait(resourceGroup, appservicePlanName, {
       location: "eastus",
-    sku: {
-      name: "S1",
-      tier: "STANDARD",
-      capacity: 1,
-    },
-    perSiteScaling: false,
-    isXenon: false
-    },testPollingOptions)
-    assert.equal(res.name,appservicePlanName);
+      sku: {
+        name: "S1",
+        tier: "STANDARD",
+        capacity: 1,
+      },
+      perSiteScaling: false,
+      isXenon: false
+    }, testPollingOptions)
+    assert.equal(res.name, appservicePlanName);
   });
 
-  it("webApps create test", async function() {
-    const res = await client.webApps.beginCreateOrUpdateAndWait(resourceGroup,name,{
+  it("webApps create test", async function () {
+    const res = await client.webApps.beginCreateOrUpdateAndWait(resourceGroup, name, {
       location: "eastus",
-    serverFarmId:
-      "/subscriptions/" +
-      subscriptionId +
-      "/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
-    reserved: false,
-    isXenon: false,
-    hyperV: false,
-    siteConfig: {
-      netFrameworkVersion: "v4.6",
-      appSettings: [
-        {
-          name: "WEBSITE_NODE_DEFAULT_VERSION",
-          value: "10.14",
-        },
-      ],
-      localMySqlEnabled: false,
-      http20Enabled: true,
-    },
-    scmSiteAlsoStopped: false,
-    httpsOnly: false
-    },testPollingOptions)
-    assert.equal(res.name,name);
+      serverFarmId:
+        "/subscriptions/" +
+        subscriptionId +
+        "/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
+      reserved: false,
+      isXenon: false,
+      hyperV: false,
+      siteConfig: {
+        netFrameworkVersion: "v4.6",
+        appSettings: [
+          {
+            name: "WEBSITE_NODE_DEFAULT_VERSION",
+            value: "10.14",
+          },
+        ],
+        localMySqlEnabled: false,
+        http20Enabled: true,
+      },
+      scmSiteAlsoStopped: false,
+      httpsOnly: false
+    }, testPollingOptions)
+    assert.equal(res.name, name);
   });
 
-  it("appServicePlans get test", async function() {
-    const res = await client.appServicePlans.get(resourceGroup,appservicePlanName);
-    assert.equal(res.name,appservicePlanName);
+  it("appServicePlans get test", async function () {
+    const res = await client.appServicePlans.get(resourceGroup, appservicePlanName);
+    assert.equal(res.name, appservicePlanName);
   });
 
-  it("webApps get test", async function() {
-    const res = await client.webApps.get(resourceGroup,name);
-    assert.equal(res.name,name);
+  it("webApps get test", async function () {
+    const res = await client.webApps.get(resourceGroup, name);
+    assert.equal(res.name, name);
   });
 
-  it("appServicePlans list test", async function() {
+  it("appServicePlans list test", async function () {
     const resArray = new Array();
-    for await (let item of client.appServicePlans.listByResourceGroup(resourceGroup)){
+    for await (let item of client.appServicePlans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("webApps list test", async function() {
+  it("webApps list test", async function () {
     const resArray = new Array();
-    for await (let item of client.webApps.list()){
+    for await (let item of client.webApps.list()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("webApps update test", async function() {
-    const res = await client.webApps.update(resourceGroup,name,{
-      serverFarmId: "/subscriptions/" +subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
+  it("webApps update test", async function () {
+    const res = await client.webApps.update(resourceGroup, name, {
+      serverFarmId: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
       reserved: false,
       isXenon: false,
       hyperV: false,
@@ -148,24 +139,24 @@ describe("Web test", () => {
       },
       scmSiteAlsoStopped: false
     })
-    assert.equal(res.name,name);
+    assert.equal(res.name, name);
   });
 
-  it("webApps delete test", async function() {
-    const res = await client.webApps.delete(resourceGroup,name);
+  it("webApps delete test", async function () {
+    const res = await client.webApps.delete(resourceGroup, name);
     const resArray = new Array();
-    for await (let item of client.webApps.list()){
+    for await (let item of client.webApps.list()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 
-  it("appServicePlans delete test", async function() {
-    const res = await client.appServicePlans.delete(resourceGroup,appservicePlanName);
+  it("appServicePlans delete test", async function () {
+    const res = await client.appServicePlans.delete(resourceGroup, appservicePlanName);
     const resArray = new Array();
-    for await (let item of client.appServicePlans.listByResourceGroup(resourceGroup)){
+    for await (let item of client.appServicePlans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 });

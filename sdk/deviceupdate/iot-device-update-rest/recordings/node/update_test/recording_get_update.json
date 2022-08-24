@@ -1,0 +1,49 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/updates/providers/fabrikam/names/vacuum/versions/2022.401.504.6?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "2c9b8882-2819-4911-8bf1-895b0db333f4"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "max-age=60, private",
+        "Content-Length": "453",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 05 Jul 2022 23:38:09 GMT",
+        "ETag": "\u002246deecbf-a19e-41c8-939b-1a8a9ee6fcac\u0022",
+        "mise-correlation-id": "6fb01732-98ff-42e9-8f31-e7184ed1df1f",
+        "traceparent": "00-a6f9f7ec8691921274a6c1aa9801480f-b23603f437f3d86d-00"
+      },
+      "ResponseBody": {
+        "updateId": {
+          "provider": "fabrikam",
+          "name": "vacuum",
+          "version": "2022.401.504.6"
+        },
+        "isDeployable": true,
+        "updateType": "microsoft/apt:1",
+        "installedCriteria": "apt-update-test-2022.401.504.6",
+        "compatibility": [
+          {
+            "DeviceManufacturer": "fabrikam",
+            "DeviceModel": "vacuum"
+          }
+        ],
+        "scanResult": "Success",
+        "manifestVersion": "3.0",
+        "importedDateTime": "2022-04-02T00:06:08.5994525Z",
+        "createdDateTime": "2022-04-02T00:04:07.002276Z",
+        "etag": "\u002246deecbf-a19e-41c8-939b-1a8a9ee6fcac\u0022"
+      }
+    }
+  ],
+  "Variables": {}
+}

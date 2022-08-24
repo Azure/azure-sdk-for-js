@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { TriggerRunOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -44,25 +43,16 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
     runId: string,
     options?: TriggerRunRerunTriggerInstanceOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "ArtifactsClient-rerunTriggerInstance",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.rerunTriggerInstance",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { triggerName, runId, options },
+          rerunTriggerInstanceOperationSpec
+        ) as Promise<void>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { triggerName, runId, options },
-        rerunTriggerInstanceOperationSpec
-      );
-      return result as void;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -76,25 +66,16 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
     runId: string,
     options?: TriggerRunCancelTriggerInstanceOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "ArtifactsClient-cancelTriggerInstance",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.cancelTriggerInstance",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { triggerName, runId, options },
+          cancelTriggerInstanceOperationSpec
+        ) as Promise<void>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { triggerName, runId, options },
-        cancelTriggerInstanceOperationSpec
-      );
-      return result as void;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -106,25 +87,16 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
     filterParameters: RunFilterParameters,
     options?: TriggerRunQueryTriggerRunsByWorkspaceOptionalParams
   ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-queryTriggerRunsByWorkspace",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.queryTriggerRunsByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { filterParameters, options },
+          queryTriggerRunsByWorkspaceOperationSpec
+        ) as Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { filterParameters, options },
-        queryTriggerRunsByWorkspaceOperationSpec
-      );
-      return result as TriggerRunQueryTriggerRunsByWorkspaceResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications

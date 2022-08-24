@@ -86,6 +86,13 @@ import {
   AppServiceEnvironmentsGetVipInfoOptionalParams,
   AppServiceEnvironmentsGetVipInfoResponse,
   AppServiceEnvironmentsChangeVnetResponse,
+  AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams,
+  AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse,
+  CustomDnsSuffixConfiguration,
+  AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams,
+  AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse,
+  AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams,
+  AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse,
   AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams,
   AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse,
   AseV3NetworkingConfiguration,
@@ -106,6 +113,8 @@ import {
   AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsResponse,
   AppServiceEnvironmentsListMultiRoleMetricDefinitionsResponse,
   AppServiceEnvironmentsListMultiRolePoolSkusResponse,
+  AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams,
+  AppServiceEnvironmentsUpgradeOptionalParams,
   AppServiceEnvironmentsListMultiRoleUsagesResponse,
   AppServiceEnvironmentsListOperationsOptionalParams,
   AppServiceEnvironmentsListOperationsResponse,
@@ -2026,6 +2035,63 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
+   * Get Custom Dns Suffix configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The options parameters.
+   */
+  getAseCustomDnsSuffixConfiguration(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams
+  ): Promise<AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getAseCustomDnsSuffixConfigurationOperationSpec
+    );
+  }
+
+  /**
+   * Update Custom Dns Suffix configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param customDnsSuffixConfiguration Full view of the custom domain suffix configuration for ASEv3.
+   * @param options The options parameters.
+   */
+  updateAseCustomDnsSuffixConfiguration(
+    resourceGroupName: string,
+    name: string,
+    customDnsSuffixConfiguration: CustomDnsSuffixConfiguration,
+    options?: AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams
+  ): Promise<
+    AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse
+  > {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, customDnsSuffixConfiguration, options },
+      updateAseCustomDnsSuffixConfigurationOperationSpec
+    );
+  }
+
+  /**
+   * Delete Custom Dns Suffix configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The options parameters.
+   */
+  deleteAseCustomDnsSuffixConfiguration(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams
+  ): Promise<
+    AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse
+  > {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      deleteAseCustomDnsSuffixConfigurationOperationSpec
+    );
+  }
+
+  /**
    * Description for Get networking configuration of an App Service Environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -2317,6 +2383,101 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, options },
       listMultiRolePoolSkusOperationSpec
     );
+  }
+
+  /**
+   * Send a test notification that an upgrade is available for this App Service Environment.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The options parameters.
+   */
+  testUpgradeAvailableNotification(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      testUpgradeAvailableNotificationOperationSpec
+    );
+  }
+
+  /**
+   * Description for Initiate an upgrade of an App Service Environment if one is available.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The options parameters.
+   */
+  async beginUpgrade(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsUpgradeOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, name, options },
+      upgradeOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Description for Initiate an upgrade of an App Service Environment if one is available.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The options parameters.
+   */
+  async beginUpgradeAndWait(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsUpgradeOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginUpgrade(resourceGroupName, name, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -3737,6 +3898,81 @@ const changeVnetOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const getAseCustomDnsSuffixConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/customdnssuffix",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomDnsSuffixConfiguration
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateAseCustomDnsSuffixConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/customdnssuffix",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomDnsSuffixConfiguration
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.customDnsSuffixConfiguration,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteAseCustomDnsSuffixConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/customdnssuffix",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    204: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getAseV3NetworkingConfigurationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/networking",
@@ -4017,6 +4253,49 @@ const listMultiRolePoolSkusOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SkuInfoCollection
     },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const testUpgradeAvailableNotificationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/testUpgradeAvailableNotification",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const upgradeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/upgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }

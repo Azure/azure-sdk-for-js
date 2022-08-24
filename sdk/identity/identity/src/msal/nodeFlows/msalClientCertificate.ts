@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { readFile } from "fs";
-import { createHash } from "crypto";
+import { createHash, createPrivateKey } from "crypto";
 import { promisify } from "util";
 import { AccessToken } from "@azure/core-auth";
 
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import {
@@ -14,6 +14,7 @@ import {
   ClientCertificatePEMCertificate,
   ClientCertificatePEMCertificatePath,
 } from "../../credentials/clientCertificateCredential";
+import { ClientCredentialRequest } from "@azure/msal-node";
 
 const readFileAsync = promisify(readFile);
 
@@ -120,9 +121,28 @@ export class MsalClientCertificate extends MsalNode {
   async init(options?: CredentialFlowGetTokenOptions): Promise<void> {
     try {
       const parts = await parseCertificate(this.configuration, this.sendCertificateChain);
+
+      let privateKey: string | undefined;
+      if (this.configuration.certificatePassword !== undefined) {
+        const privateKeyObject = createPrivateKey({
+          key: parts.certificateContents,
+          passphrase: this.configuration.certificatePassword,
+          format: "pem",
+        });
+
+        privateKey = privateKeyObject
+          .export({
+            format: "pem",
+            type: "pkcs8",
+          })
+          .toString();
+      } else {
+        privateKey = parts.certificateContents;
+      }
+
       this.msalConfig.auth.clientCertificate = {
         thumbprint: parts.thumbprint,
-        privateKey: parts.certificateContents,
+        privateKey: privateKey,
         x5c: parts.x5c,
       };
     } catch (error: any) {
@@ -137,13 +157,14 @@ export class MsalClientCertificate extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
-      const result = await this.confidentialApp!.acquireTokenByClientCredential({
+      const clientCredReq: ClientCredentialRequest = {
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,
         authority: options.authority,
         claims: options.claims,
-      });
+      };
+      const result = await this.confidentialApp!.acquireTokenByClientCredential(clientCredReq);
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,
       // so each time getToken gets called, we will have to acquire a new token through the service.

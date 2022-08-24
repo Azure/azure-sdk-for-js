@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
+  PipelineRequestOptions,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { TokenResponseParsedBody } from "../../client/identityClient";

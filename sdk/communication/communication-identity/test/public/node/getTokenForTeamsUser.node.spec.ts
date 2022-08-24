@@ -61,7 +61,10 @@ matrix([[true, false]], async function (useAad) {
       };
       const msalInstance = new PublicClientApplication(msalConfig);
       const usernamePasswordRequest = {
-        scopes: [env.COMMUNICATION_M365_SCOPE ?? ""],
+        scopes: [
+          "https://auth.msft.communication.azure.com/Teams.ManageCalls",
+          "https://auth.msft.communication.azure.com/Teams.ManageChats",
+        ],
         username: env.COMMUNICATION_MSAL_USERNAME ?? "",
         password: env.COMMUNICATION_MSAL_PASSWORD ?? "",
       };

@@ -9,14 +9,14 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  OnlineDeploymentData,
+  OnlineDeployment,
   OnlineDeploymentsListOptionalParams,
   SkuResource,
   OnlineDeploymentsListSkusOptionalParams,
   OnlineDeploymentsDeleteOptionalParams,
   OnlineDeploymentsGetOptionalParams,
   OnlineDeploymentsGetResponse,
-  PartialOnlineDeploymentPartialTrackedResource,
+  PartialMinimalTrackedResourceWithSku,
   OnlineDeploymentsUpdateOptionalParams,
   OnlineDeploymentsUpdateResponse,
   OnlineDeploymentsCreateOrUpdateOptionalParams,
@@ -41,7 +41,7 @@ export interface OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     options?: OnlineDeploymentsListOptionalParams
-  ): PagedAsyncIterableIterator<OnlineDeploymentData>;
+  ): PagedAsyncIterableIterator<OnlineDeployment>;
   /**
    * List Inference Endpoint Deployment Skus.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -116,7 +116,7 @@ export interface OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: PartialOnlineDeploymentPartialTrackedResource,
+    body: PartialMinimalTrackedResourceWithSku,
     options?: OnlineDeploymentsUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -138,7 +138,7 @@ export interface OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: PartialOnlineDeploymentPartialTrackedResource,
+    body: PartialMinimalTrackedResourceWithSku,
     options?: OnlineDeploymentsUpdateOptionalParams
   ): Promise<OnlineDeploymentsUpdateResponse>;
   /**
@@ -155,7 +155,7 @@ export interface OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: OnlineDeploymentData,
+    body: OnlineDeployment,
     options?: OnlineDeploymentsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -177,7 +177,7 @@ export interface OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    body: OnlineDeploymentData,
+    body: OnlineDeployment,
     options?: OnlineDeploymentsCreateOrUpdateOptionalParams
   ): Promise<OnlineDeploymentsCreateOrUpdateResponse>;
   /**

@@ -1,34 +1,10 @@
 {
  "recordings": [
   {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1325",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:40 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - NCUS ProdSlices",
-    "x-ms-request-id": "995fb27d-f6fa-4b35-ab9d-b27116193101"
-   }
-  },
-  {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsBuilding%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsBuilding%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -36,16 +12,17 @@
    "responseHeaders": {
     "content-length": "228",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:40 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:22 GMT",
+    "mise-correlation-id": "39cac817-2cbb-4413-bb37-3aa0634639d3",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-1ffd2c1682e2cd46b10e5380529a9923-18f12e0008af5342-01"
+    "traceresponse": "00-360497b26a70e3c688984541e9850012-81bcaf6b0f3a35b0-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsFloor%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsFloor%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -53,16 +30,17 @@
    "responseHeaders": {
     "content-length": "225",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:40 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:22 GMT",
+    "mise-correlation-id": "522b6f8d-c224-4a77-82c3-6258fc4b4fc5",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-27f84596ea12a548b4794c72d0168ecf-7c36a7693ef43b4b-01"
+    "traceresponse": "00-a959ba9eec37a781053474aa296745ec-e0fd6ec00004a903-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsRoom%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsRoom%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -70,279 +48,284 @@
    "responseHeaders": {
     "content-length": "224",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:40 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:22 GMT",
+    "mise-correlation-id": "cd450117-9d25-4387-a097-fc6237d93f1b",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-01f4a0be4f05384d9a95143e71577933-bc46f9230c760d46-01"
+    "traceresponse": "00-e1a7047439d0f24ce89b3b4dac3e26a8-26f0d151ca8bf2b8-01"
    }
   },
   {
    "method": "POST",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Building\",\"contents\":[{\"@type\":\"Relationship\",\"name\":\"has\",\"target\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"properties\":[{\"@type\":\"Property\",\"name\":\"isAccessRestricted\",\"schema\":\"boolean\"}]},{\"@type\":\"Property\",\"name\":\"AverageTemperature\",\"schema\":\"double\"}]},{\"@id\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Floor\",\"contents\":[{\"@type\":\"Relationship\",\"name\":\"contains\",\"target\":\"dtmi:samples:DTRelationshipsTestsRoom;1\"},{\"@type\":\"Property\",\"name\":\"AverageTemperature\",\"schema\":\"double\"}]},{\"@id\":\"dtmi:samples:DTRelationshipsTestsRoom;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Room\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Temperature\",\"schema\":\"double\"},{\"@type\":\"Property\",\"name\":\"IsOccupied\",\"schema\":\"boolean\"}]}]",
    "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\",\"description\":{},\"displayName\":{\"en\":\"Building\"},\"decommissioned\":false,\"uploadTime\":\"2021-06-30T15:29:41.8556036+00:00\"},{\"id\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"description\":{},\"displayName\":{\"en\":\"Floor\"},\"decommissioned\":false,\"uploadTime\":\"2021-06-30T15:29:41.8556358+00:00\"},{\"id\":\"dtmi:samples:DTRelationshipsTestsRoom;1\",\"description\":{},\"displayName\":{\"en\":\"Room\"},\"decommissioned\":false,\"uploadTime\":\"2021-06-30T15:29:41.8556557+00:00\"}]",
+   "response": "[{\"id\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\",\"description\":{},\"displayName\":{\"en\":\"Building\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:23.9012358+00:00\"},{\"id\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"description\":{},\"displayName\":{\"en\":\"Floor\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:23.9012588+00:00\"},{\"id\":\"dtmi:samples:DTRelationshipsTestsRoom;1\",\"description\":{},\"displayName\":{\"en\":\"Room\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:23.9012722+00:00\"}]",
    "responseHeaders": {
     "content-length": "509",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:40 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:22 GMT",
+    "mise-correlation-id": "18457355-93be-4100-803f-9821593f3d49",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-111c278f7c596349a1ca1f099d730f8c-b503010c95a8c74f-01"
+    "traceresponse": "00-70a75a30841564a38184b47a00189e3d-24c89136a336653c-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID DTRelationshipsTestsBuildingTwin. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins http://aka.ms/adtv2query.\"}}",
+   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID DTRelationshipsTestsBuildingTwin. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
    "responseHeaders": {
-    "content-length": "285",
+    "content-length": "286",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-21251f68eff0b549a9bbc42cdc9d485a-6f4c477986b59544-01"
+    "traceresponse": "00-2be3012ac19b7d41a771dccfe11a0e72-b546eddd5052a04e-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsFloorTwin",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsFloorTwin",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID DTRelationshipsTestsFloorTwin. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins http://aka.ms/adtv2query.\"}}",
+   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID DTRelationshipsTestsFloorTwin. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
+   "responseHeaders": {
+    "content-length": "283",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-1e386c1224ba7a4184b67e7e137a2c5f-ff17e119da37a142-01"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsRoomTwin",
+   "query": {
+    "api-version": "2022-05-31"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID DTRelationshipsTestsRoomTwin. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
    "responseHeaders": {
     "content-length": "282",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-0e354ac2c407a84b826974f93de8cf95-6160327224d8b149-01"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsRoomTwin",
-   "query": {
-    "api-version": "2020-10-31"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID DTRelationshipsTestsRoomTwin. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins http://aka.ms/adtv2query.\"}}",
-   "responseHeaders": {
-    "content-length": "281",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-9217338b95e8d3478b9dcf08e1317691-3a86374a7e9be542-01"
+    "traceresponse": "00-933b7cd9ef8aa44a94071375156b8178-ca178af8c774f744-01"
    }
   },
   {
    "method": "PUT",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\"},\"AverageTemperature\":68}",
    "status": 200,
-   "response": "{\"$dtId\":\"DTRelationshipsTestsBuildingTwin\",\"$etag\":\"W/\\\"3360a71e-b3b9-42c4-bcea-2c1059ee1877\\\"\",\"AverageTemperature\":68,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\",\"AverageTemperature\":{\"lastUpdateTime\":\"2021-06-30T15:29:42.0347777Z\"}}}",
+   "response": "{\"$dtId\":\"DTRelationshipsTestsBuildingTwin\",\"$etag\":\"W/\\\"d9c8a324-9872-4e12-8cd6-e7eb6e886677\\\"\",\"AverageTemperature\":68,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsBuilding;1\",\"$lastUpdateTime\":\"2022-06-28T18:51:24.2027364Z\",\"AverageTemperature\":{\"lastUpdateTime\":\"2022-06-28T18:51:24.2027364Z\"}}}",
    "responseHeaders": {
-    "content-length": "261",
+    "content-length": "310",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
-    "etag": "W/\"3360a71e-b3b9-42c4-bcea-2c1059ee1877\"",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
+    "etag": "W/\"d9c8a324-9872-4e12-8cd6-e7eb6e886677\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-eb90d09631cc074db7cf8437d5c816ef-a27520ccc8ec9f4e-01"
+    "traceresponse": "00-a42a2719f90e2e4baf140c5b1e335c3c-8b19e7e107817647-01"
    }
   },
   {
    "method": "PUT",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsFloorTwin",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsFloorTwin",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsFloor;1\"},\"AverageTemperature\":75}",
    "status": 200,
-   "response": "{\"$dtId\":\"DTRelationshipsTestsFloorTwin\",\"$etag\":\"W/\\\"941a6b68-6eee-49f1-9dd7-83607ba15fe4\\\"\",\"AverageTemperature\":75,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"AverageTemperature\":{\"lastUpdateTime\":\"2021-06-30T15:29:42.0910469Z\"}}}",
+   "response": "{\"$dtId\":\"DTRelationshipsTestsFloorTwin\",\"$etag\":\"W/\\\"4b9c9d87-caac-4abf-9254-794cda269490\\\"\",\"AverageTemperature\":75,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsFloor;1\",\"$lastUpdateTime\":\"2022-06-28T18:51:24.2873853Z\",\"AverageTemperature\":{\"lastUpdateTime\":\"2022-06-28T18:51:24.2873853Z\"}}}",
    "responseHeaders": {
-    "content-length": "255",
+    "content-length": "304",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
-    "etag": "W/\"941a6b68-6eee-49f1-9dd7-83607ba15fe4\"",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
+    "etag": "W/\"4b9c9d87-caac-4abf-9254-794cda269490\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-fe3a6264d3107e45a73f7770960e0b7e-a8040cfdbc9d4b4b-01"
+    "traceresponse": "00-5cc0b5c4b1e6b84aa71a9df2ff81c551-c6423a74ed16c141-01"
    }
   },
   {
    "method": "PUT",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsRoomTwin",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsRoomTwin",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsRoom;1\"},\"Temperature\":80,\"IsOccupied\":true}",
    "status": 200,
-   "response": "{\"$dtId\":\"DTRelationshipsTestsRoomTwin\",\"$etag\":\"W/\\\"034d852b-e522-43c7-8286-68553ab57376\\\"\",\"Temperature\":80,\"IsOccupied\":true,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsRoom;1\",\"Temperature\":{\"lastUpdateTime\":\"2021-06-30T15:29:42.1445552Z\"},\"IsOccupied\":{\"lastUpdateTime\":\"2021-06-30T15:29:42.1445552Z\"}}}",
+   "response": "{\"$dtId\":\"DTRelationshipsTestsRoomTwin\",\"$etag\":\"W/\\\"9db5e0d2-c0fe-4814-aba0-262e612d4301\\\"\",\"Temperature\":80,\"IsOccupied\":true,\"$metadata\":{\"$model\":\"dtmi:samples:DTRelationshipsTestsRoom;1\",\"$lastUpdateTime\":\"2022-06-28T18:51:24.3737643Z\",\"Temperature\":{\"lastUpdateTime\":\"2022-06-28T18:51:24.3737643Z\"},\"IsOccupied\":{\"lastUpdateTime\":\"2022-06-28T18:51:24.3737643Z\"}}}",
    "responseHeaders": {
-    "content-length": "320",
+    "content-length": "369",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
-    "etag": "W/\"034d852b-e522-43c7-8286-68553ab57376\"",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
+    "etag": "W/\"9db5e0d2-c0fe-4814-aba0-262e612d4301\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-a447a037db0527408b505e88c3c790f8-750cea3b3c7dbc4e-01"
+    "traceresponse": "00-a3ba623ad1b932489272854b5b8d9939-06c5dfb61af82749-01"
    }
   },
   {
    "method": "PUT",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin/relationships/BuildingHasFloor",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin/relationships/BuildingHasFloor",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": "{\"$relationshipId\":\"BuildingHasFloor\",\"$sourceId\":\"DTRelationshipsTestsBuildingTwin\",\"$relationshipName\":\"has\",\"$targetId\":\"DTRelationshipsTestsFloorTwin\",\"isAccessRestricted\":false}",
    "status": 200,
-   "response": "{\"$relationshipId\":\"BuildingHasFloor\",\"$etag\":\"W/\\\"2ab00c2e-34f9-4659-a8d1-4c43fead1218\\\"\",\"$sourceId\":\"DTRelationshipsTestsBuildingTwin\",\"$relationshipName\":\"has\",\"$targetId\":\"DTRelationshipsTestsFloorTwin\",\"isAccessRestricted\":false}",
+   "response": "{\"$relationshipId\":\"BuildingHasFloor\",\"$etag\":\"W/\\\"d1d72de2-6c86-495b-9b00-f20e651a3e1a\\\"\",\"$sourceId\":\"DTRelationshipsTestsBuildingTwin\",\"$relationshipName\":\"has\",\"$targetId\":\"DTRelationshipsTestsFloorTwin\",\"isAccessRestricted\":false}",
    "responseHeaders": {
     "content-length": "235",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
-    "etag": "W/\"2ab00c2e-34f9-4659-a8d1-4c43fead1218\"",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
+    "etag": "W/\"d1d72de2-6c86-495b-9b00-f20e651a3e1a\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-ba14ad700a3a684eaa402528b53f8381-bbb333cd270d034b-01"
+    "traceresponse": "00-6f1f0374a7ee704db13a4f5a209ee5b7-bda935b77db27145-01"
    }
   },
   {
    "method": "PUT",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin/relationships/BuildingHasFloor",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin/relationships/BuildingHasFloor",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": "{\"$relationshipId\":\"BuildingHasFloor\",\"$sourceId\":\"DTRelationshipsTestsBuildingTwin\",\"$relationshipName\":\"has\",\"$targetId\":\"DTRelationshipsTestsFloorTwin\",\"isAccessRestricted\":true}",
    "status": 200,
-   "response": "{\"$relationshipId\":\"BuildingHasFloor\",\"$etag\":\"W/\\\"b7edea08-70a5-4d6f-9a0f-e2fe0233b89f\\\"\",\"$sourceId\":\"DTRelationshipsTestsBuildingTwin\",\"$relationshipName\":\"has\",\"$targetId\":\"DTRelationshipsTestsFloorTwin\",\"isAccessRestricted\":true}",
+   "response": "{\"$relationshipId\":\"BuildingHasFloor\",\"$etag\":\"W/\\\"f2006aee-f950-412a-8e61-288c7a8cfd52\\\"\",\"$sourceId\":\"DTRelationshipsTestsBuildingTwin\",\"$relationshipName\":\"has\",\"$targetId\":\"DTRelationshipsTestsFloorTwin\",\"isAccessRestricted\":true}",
    "responseHeaders": {
     "content-length": "234",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
-    "etag": "W/\"b7edea08-70a5-4d6f-9a0f-e2fe0233b89f\"",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
+    "etag": "W/\"f2006aee-f950-412a-8e61-288c7a8cfd52\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-8e76937f4110074da1e21ae29cb4678d-64468cfc9231a64f-01"
+    "traceresponse": "00-69fe185a0dd29b4a98b1bf79bf285f61-010e2afaf071ae4f-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin/relationships/BuildingHasFloor",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin/relationships/BuildingHasFloor",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-d5b48f1734c97949b98a3011257d0dd4-e22cc15fb46e4c45-01"
+    "traceresponse": "00-0d72b249a7b7a9479b298cd03d0ce44d-1d78f77ea4dd9049-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsBuildingTwin",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-170c18c10e83a0409407aab28318befb-d4d39b9e030c574b-01"
+    "traceresponse": "00-802106465402844eabb3d359752539fc-d4ef3a54001fe746-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsFloorTwin",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsFloorTwin",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-aa6adfd3d012884bb0d6db1f0e4fb429-f4908de7c29e3742-01"
+    "traceresponse": "00-557c71beba2eb3458f2e9d3b9c6d6946-5247338cac689e4e-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsRoomTwin",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTRelationshipsTestsRoomTwin",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:23 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-d687da82a3e11e49a238d39c9e0a1f06-afbee78150ee2541-01"
+    "traceresponse": "00-25bbddf2deb32444aa4fe01c72d2c4c6-2d48296d46c81940-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsBuilding%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsBuilding%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:25 GMT",
+    "mise-correlation-id": "188e93df-4c90-4071-b56b-dbdedc1a57f9",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-cb13e22d05a17a40abf579c21286053b-d3e63f61b0d6c84b-01"
+    "traceresponse": "00-e3082b5deff90973bc10c3d01f8a4ce5-17ba50a8b1105919-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsFloor%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsFloor%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:25 GMT",
+    "mise-correlation-id": "f9b900e1-a3f0-4b9b-8a95-2be639f25a09",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-61aa257705bdd64d8e6b3cf044533b3e-efd4a12724e9044e-01"
+    "traceresponse": "00-3bef49dedbe72af39a162ec0eb4b29fb-1175b932a6807ad1-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsRoom%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTRelationshipsTestsRoom%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Wed, 30 Jun 2021 15:29:41 GMT",
+    "date": "Tue, 28 Jun 2022 18:51:25 GMT",
+    "mise-correlation-id": "b253769c-3d5a-421e-9495-a759b76c16f9",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-504b00c2fb48024ebd14796299649254-ae1043afccf8104e-01"
+    "traceresponse": "00-9b7426588c1a0aaced5fc9ec1e0339ba-b9483f73d5ea4b52-01"
    }
   }
  ],
@@ -350,5 +333,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "8ffd88d2113a0769d1181936942b75a4"
+ "hash": "20403862c473976f48dd1599f86897ad"
 }

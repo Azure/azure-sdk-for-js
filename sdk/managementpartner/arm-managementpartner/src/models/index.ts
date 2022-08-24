@@ -49,16 +49,12 @@ export interface PartnerResponse {
 export interface ErrorModel {
   /** this is the ExtendedErrorInfo property */
   error?: ExtendedErrorInfo;
-  /** this is the error response code */
-  code?: string;
-  /** this is the extended error info message */
-  message?: string;
 }
 
 /** this is the extended error info */
 export interface ExtendedErrorInfo {
   /** this is the error response code */
-  code?: string;
+  code?: ErrorResponseCode;
   /** this is the extended error info message */
   message?: string;
 }
@@ -95,7 +91,9 @@ export interface OperationDisplay {
 
 /** Known values of {@link ManagementPartnerState} that the service accepts. */
 export enum KnownManagementPartnerState {
+  /** Active */
   Active = "Active",
+  /** Deleted */
   Deleted = "Deleted"
 }
 
@@ -108,6 +106,27 @@ export enum KnownManagementPartnerState {
  * **Deleted**
  */
 export type ManagementPartnerState = string;
+
+/** Known values of {@link ErrorResponseCode} that the service accepts. */
+export enum KnownErrorResponseCode {
+  /** NotFound */
+  NotFound = "NotFound",
+  /** Conflict */
+  Conflict = "Conflict",
+  /** BadRequest */
+  BadRequest = "BadRequest"
+}
+
+/**
+ * Defines values for ErrorResponseCode. \
+ * {@link KnownErrorResponseCode} can be used interchangeably with ErrorResponseCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotFound** \
+ * **Conflict** \
+ * **BadRequest**
+ */
+export type ErrorResponseCode = string;
 
 /** Optional parameters. */
 export interface PartnerGetOptionalParams extends coreClient.OperationOptions {}

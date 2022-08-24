@@ -339,6 +339,8 @@ export interface CapacityPoolPatch {
   size?: number;
   /** The qos type of the pool */
   qosType?: QosType;
+  /** If enabled (true) the pool can contain cool Access enabled volumes. */
+  coolAccess?: boolean;
 }
 
 /** List of volume resources */
@@ -496,6 +498,10 @@ export interface VolumePatch {
   defaultGroupQuotaInKiBs?: number;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
   unixPermissions?: string;
+  /** Specifies whether Cool Access(tiering) is enabled for the volume. */
+  coolAccess?: boolean;
+  /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
+  coolnessPeriod?: number;
 }
 
 /** Set of export policy rules */
@@ -522,6 +528,12 @@ export interface VolumeRevert {
 export interface BreakReplicationRequest {
   /** If replication is in status transferring and you want to force break the replication, set to true */
   forceBreakReplication?: boolean;
+}
+
+/** Re-establish request object supplied in the body of the operation. */
+export interface ReestablishReplicationRequest {
+  /** Resource id of the source volume for the replication */
+  sourceVolumeId?: string;
 }
 
 /** Replication status */
@@ -1187,10 +1199,12 @@ export interface VolumeGroupVolumeProperties {
   smbEncryption?: boolean;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean;
-  /** Maximum throughput in Mibps that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
+  /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number;
-  /** Source of key used to encrypt data in volume. Possible values (case-insensitive) are: 'Microsoft.NetApp' */
+  /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
   encryptionKeySource?: EncryptionKeySource;
+  /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
+  keyVaultPrivateEndpointResourceId?: string;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
@@ -1452,18 +1466,18 @@ export interface BackupPolicyDetails {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Information regarding Subscription Quota Item. */
-export type SubscriptionQuotaItem = ProxyResource & {
+export interface SubscriptionQuotaItem extends ProxyResource {
   /**
    * The current quota value.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1474,10 +1488,10 @@ export type SubscriptionQuotaItem = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly default?: number;
-};
+}
 
 /** Subvolume Information properties */
-export type SubvolumeInfo = ProxyResource & {
+export interface SubvolumeInfo extends ProxyResource {
   /** Path to the subvolume */
   path?: string;
   /** Truncate subvolume to the provided size in bytes */
@@ -1489,10 +1503,10 @@ export type SubvolumeInfo = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** NetApp account resource */
-export type NetAppAccount = TrackedResource & {
+export interface NetAppAccount extends TrackedResource {
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1507,10 +1521,10 @@ export type NetAppAccount = TrackedResource & {
   activeDirectories?: ActiveDirectory[];
   /** Encryption settings */
   encryption?: AccountEncryption;
-};
+}
 
 /** Capacity pool resource */
-export type CapacityPool = TrackedResource & {
+export interface CapacityPool extends TrackedResource {
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1531,12 +1545,12 @@ export type CapacityPool = TrackedResource & {
    */
   readonly provisioningState?: string;
   /**
-   * Total throughput of pool in Mibps
+   * Total throughput of pool in MiB/s
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalThroughputMibps?: number;
   /**
-   * Utilized throughput of pool in Mibps
+   * Utilized throughput of pool in MiB/s
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly utilizedThroughputMibps?: number;
@@ -1546,10 +1560,10 @@ export type CapacityPool = TrackedResource & {
   coolAccess?: boolean;
   /** Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool. */
   encryptionType?: EncryptionType;
-};
+}
 
 /** Volume resource */
-export type Volume = TrackedResource & {
+export interface Volume extends TrackedResource {
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1621,10 +1635,12 @@ export type Volume = TrackedResource & {
   smbEncryption?: boolean;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean;
-  /** Maximum throughput in Mibps that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
+  /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number;
-  /** Source of key used to encrypt data in volume. Possible values (case-insensitive) are: 'Microsoft.NetApp' */
+  /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
   encryptionKeySource?: EncryptionKeySource;
+  /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
+  keyVaultPrivateEndpointResourceId?: string;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
@@ -1676,10 +1692,10 @@ export type Volume = TrackedResource & {
   placementRules?: PlacementKeyValuePairs[];
   /** Flag indicating whether subvolume operations are enabled on the volume */
   enableSubvolumes?: EnableSubvolumes;
-};
+}
 
 /** Snapshot policy information */
-export type SnapshotPolicy = TrackedResource & {
+export interface SnapshotPolicy extends TrackedResource {
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1700,10 +1716,10 @@ export type SnapshotPolicy = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Backup policy information */
-export type BackupPolicy = TrackedResource & {
+export interface BackupPolicy extends TrackedResource {
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1737,10 +1753,10 @@ export type BackupPolicy = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly volumeBackups?: VolumeBackups[];
-};
+}
 
 /** Quota Rule of a Volume */
-export type VolumeQuotaRule = TrackedResource & {
+export interface VolumeQuotaRule extends TrackedResource {
   /**
    * Gets the status of the VolumeQuotaRule at the time the operation was called.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1752,10 +1768,11 @@ export type VolumeQuotaRule = TrackedResource & {
   quotaType?: Type;
   /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
   quotaTarget?: string;
-};
+}
 
 /** Known values of {@link MetricAggregationType} that the service accepts. */
 export enum KnownMetricAggregationType {
+  /** Average */
   Average = "Average"
 }
 
@@ -1770,9 +1787,13 @@ export type MetricAggregationType = string;
 
 /** Known values of {@link CheckNameResourceTypes} that the service accepts. */
 export enum KnownCheckNameResourceTypes {
+  /** MicrosoftNetAppNetAppAccounts */
   MicrosoftNetAppNetAppAccounts = "Microsoft.NetApp/netAppAccounts",
+  /** MicrosoftNetAppNetAppAccountsCapacityPools */
   MicrosoftNetAppNetAppAccountsCapacityPools = "Microsoft.NetApp/netAppAccounts/capacityPools",
+  /** MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes */
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
+  /** MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots */
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
 }
 
@@ -1790,7 +1811,9 @@ export type CheckNameResourceTypes = string;
 
 /** Known values of {@link InAvailabilityReasonType} that the service accepts. */
 export enum KnownInAvailabilityReasonType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -1806,9 +1829,13 @@ export type InAvailabilityReasonType = string;
 
 /** Known values of {@link CheckQuotaNameResourceTypes} that the service accepts. */
 export enum KnownCheckQuotaNameResourceTypes {
+  /** MicrosoftNetAppNetAppAccounts */
   MicrosoftNetAppNetAppAccounts = "Microsoft.NetApp/netAppAccounts",
+  /** MicrosoftNetAppNetAppAccountsCapacityPools */
   MicrosoftNetAppNetAppAccountsCapacityPools = "Microsoft.NetApp/netAppAccounts/capacityPools",
+  /** MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes */
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
+  /** MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots */
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
 }
 
@@ -1826,9 +1853,13 @@ export type CheckQuotaNameResourceTypes = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1933,7 +1964,9 @@ export type EncryptionType = string;
 
 /** Known values of {@link ChownMode} that the service accepts. */
 export enum KnownChownMode {
+  /** Restricted */
   Restricted = "Restricted",
+  /** Unrestricted */
   Unrestricted = "Unrestricted"
 }
 
@@ -1988,7 +2021,9 @@ export type VolumeStorageToNetworkProximity = string;
 
 /** Known values of {@link EndpointType} that the service accepts. */
 export enum KnownEndpointType {
+  /** Src */
   Src = "src",
+  /** Dst */
   Dst = "dst"
 }
 
@@ -2004,8 +2039,11 @@ export type EndpointType = string;
 
 /** Known values of {@link ReplicationSchedule} that the service accepts. */
 export enum KnownReplicationSchedule {
+  /** 10Minutely */
   "10Minutely" = "_10minutely",
+  /** Hourly */
   Hourly = "hourly",
+  /** Daily */
   Daily = "daily"
 }
 
@@ -2022,7 +2060,9 @@ export type ReplicationSchedule = string;
 
 /** Known values of {@link SecurityStyle} that the service accepts. */
 export enum KnownSecurityStyle {
+  /** Ntfs */
   Ntfs = "ntfs",
+  /** Unix */
   Unix = "unix"
 }
 
@@ -2039,7 +2079,9 @@ export type SecurityStyle = string;
 /** Known values of {@link EncryptionKeySource} that the service accepts. */
 export enum KnownEncryptionKeySource {
   /** Microsoft-managed key encryption */
-  MicrosoftNetApp = "Microsoft.NetApp"
+  MicrosoftNetApp = "Microsoft.NetApp",
+  /** Customer-managed key encryption */
+  MicrosoftKeyVault = "Microsoft.KeyVault"
 }
 
 /**
@@ -2047,7 +2089,8 @@ export enum KnownEncryptionKeySource {
  * {@link KnownEncryptionKeySource} can be used interchangeably with EncryptionKeySource,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Microsoft.NetApp**: Microsoft-managed key encryption
+ * **Microsoft.NetApp**: Microsoft-managed key encryption \
+ * **Microsoft.KeyVault**: Customer-managed key encryption
  */
 export type EncryptionKeySource = string;
 
@@ -2089,7 +2132,9 @@ export type EnableSubvolumes = string;
 
 /** Known values of {@link RelationshipStatus} that the service accepts. */
 export enum KnownRelationshipStatus {
+  /** Idle */
   Idle = "Idle",
+  /** Transferring */
   Transferring = "Transferring"
 }
 
@@ -2105,8 +2150,11 @@ export type RelationshipStatus = string;
 
 /** Known values of {@link MirrorState} that the service accepts. */
 export enum KnownMirrorState {
+  /** Uninitialized */
   Uninitialized = "Uninitialized",
+  /** Mirrored */
   Mirrored = "Mirrored",
+  /** Broken */
   Broken = "Broken"
 }
 
@@ -2165,6 +2213,7 @@ export type Type = string;
 
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
+  /** SAPHana */
   SAPHana = "SAP-HANA"
 }
 
@@ -2417,6 +2466,15 @@ export interface VolumesBreakReplicationOptionalParams
   extends coreClient.OperationOptions {
   /** Optional body to force break the replication. */
   body?: BreakReplicationRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VolumesReestablishReplicationOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

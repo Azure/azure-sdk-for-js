@@ -9,7 +9,7 @@ import {
   serializeToAtomXmlRequest,
 } from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
-import { isDefined, isObjectWithProperties } from "../util/typeGuards";
+import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import { getString, getStringOrUndefined } from "../util/utils";
 
 /**

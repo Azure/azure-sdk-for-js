@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates setting.
  *
  * @summary Updates setting.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/settings/UpdateEyesOnSetting.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/settings/UpdateEyesOnSetting.json
  */
 async function updateEyesOnSettings() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

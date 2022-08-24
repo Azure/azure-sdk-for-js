@@ -218,7 +218,7 @@ export class Recorder {
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         logger.verbose("[Recorder#start] Setting redirect mode");
-        await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: isNode });
+        await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: !isNode });
         logger.verbose("[Recorder#start] Sending the start request to the test proxy");
         const rsp = await this.httpClient.sendRequest({
           ...req,

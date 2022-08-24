@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary Creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/MaintenanceConfigurationsCreate_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-07-02-preview/examples/MaintenanceConfigurationsCreate_Update.json
  */
 async function createOrUpdateMaintenanceConfiguration() {
   const subscriptionId = "subid1";

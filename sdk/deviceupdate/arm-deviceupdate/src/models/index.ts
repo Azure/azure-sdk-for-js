@@ -447,7 +447,7 @@ export interface OperationDisplay {
 }
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -459,51 +459,54 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {}
 
 /** Request payload used to update and existing Accounts. */
-export type AccountUpdate = TagUpdate & {
+export interface AccountUpdate extends TagUpdate {
   /** The type of identity used for the resource. */
   identity?: ManagedServiceIdentity;
   /** The geo-location where the resource lives */
   location?: string;
-};
+}
 
 /** The properties for a group information object */
-export type GroupInformationProperties = PrivateLinkResourceProperties & {
+export interface GroupInformationProperties
+  extends PrivateLinkResourceProperties {
   /**
    * The provisioning state of private link group ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: GroupIdProvisioningState;
-};
+}
 
 /** Private endpoint connection proxy details. */
-export type PrivateEndpointConnectionProxy = ProxyResource &
-  PrivateEndpointConnectionProxyProperties & {
-    /**
-     * The provisioning state of the private endpoint connection proxy resource.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly provisioningState?: PrivateEndpointConnectionProxyProvisioningState;
-  };
+export interface PrivateEndpointConnectionProxy
+  extends ProxyResource,
+    PrivateEndpointConnectionProxyProperties {
+  /**
+   * The provisioning state of the private endpoint connection proxy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProxyProvisioningState;
+}
 
 /** Remote private endpoint connection details. */
-export type PrivateLinkServiceProxyRemotePrivateEndpointConnection = RemotePrivateEndpointConnection;
+export interface PrivateLinkServiceProxyRemotePrivateEndpointConnection
+  extends RemotePrivateEndpointConnection {}
 
 /** Device Update account details. */
-export type Account = TrackedResource & {
+export interface Account extends TrackedResource {
   /** The type of identity used for the resource. */
   identity?: ManagedServiceIdentity;
   /**
@@ -527,10 +530,10 @@ export type Account = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly locations?: Location[];
-};
+}
 
 /** Device Update instance details. */
-export type Instance = TrackedResource & {
+export interface Instance extends TrackedResource {
   /**
    * Provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -547,10 +550,10 @@ export type Instance = TrackedResource & {
   enableDiagnostics?: boolean;
   /** Customer-initiated diagnostic log collection storage properties */
   diagnosticStorageProperties?: DiagnosticStorageProperties;
-};
+}
 
 /** The group information for creating a private endpoint on an Account */
-export type GroupInformation = ProxyResource & {
+export interface GroupInformation extends ProxyResource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -568,11 +571,13 @@ export type GroupInformation = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: GroupIdProvisioningState;
-};
+}
 
 /** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
 export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -588,11 +593,17 @@ export type CheckNameAvailabilityReason = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating"
 }
 
@@ -612,7 +623,9 @@ export type ProvisioningState = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -628,8 +641,11 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -646,9 +662,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -666,9 +686,13 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -686,7 +710,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link Sku} that the service accepts. */
 export enum KnownSku {
+  /** Free */
   Free = "Free",
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -702,7 +728,9 @@ export type Sku = string;
 
 /** Known values of {@link Role} that the service accepts. */
 export enum KnownRole {
+  /** Primary */
   Primary = "Primary",
+  /** Failover */
   Failover = "Failover"
 }
 
@@ -718,9 +746,13 @@ export type Role = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
@@ -738,6 +770,7 @@ export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link AuthenticationType} that the service accepts. */
 export enum KnownAuthenticationType {
+  /** KeyBased */
   KeyBased = "KeyBased"
 }
 
@@ -752,8 +785,11 @@ export type AuthenticationType = string;
 
 /** Known values of {@link GroupIdProvisioningState} that the service accepts. */
 export enum KnownGroupIdProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -770,9 +806,13 @@ export type GroupIdProvisioningState = string;
 
 /** Known values of {@link PrivateEndpointConnectionProxyProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProxyProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -790,8 +830,11 @@ export type PrivateEndpointConnectionProxyProvisioningState = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -808,6 +851,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -822,35 +866,35 @@ export type ActionType = string;
 
 /** Optional parameters. */
 export interface CheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
 export type CheckNameAvailabilityOperationResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface AccountsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type AccountsListBySubscriptionResponse = AccountList;
 
 /** Optional parameters. */
 export interface AccountsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type AccountsListByResourceGroupResponse = AccountList;
 
 /** Optional parameters. */
 export interface AccountsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AccountsGetResponse = Account;
 
 /** Optional parameters. */
 export interface AccountsHeadOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the head operation. */
 export type AccountsHeadResponse = {
@@ -892,35 +936,35 @@ export type AccountsUpdateResponse = Account;
 
 /** Optional parameters. */
 export interface AccountsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type AccountsListBySubscriptionNextResponse = AccountList;
 
 /** Optional parameters. */
 export interface AccountsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type AccountsListByResourceGroupNextResponse = AccountList;
 
 /** Optional parameters. */
 export interface InstancesListByAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAccount operation. */
 export type InstancesListByAccountResponse = InstanceList;
 
 /** Optional parameters. */
 export interface InstancesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type InstancesGetResponse = Instance;
 
 /** Optional parameters. */
 export interface InstancesHeadOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the head operation. */
 export type InstancesHeadResponse = {
@@ -950,28 +994,28 @@ export interface InstancesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface InstancesUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type InstancesUpdateResponse = Instance;
 
 /** Optional parameters. */
 export interface InstancesListByAccountNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAccountNext operation. */
 export type InstancesListByAccountNextResponse = InstanceList;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAccount operation. */
 export type PrivateEndpointConnectionsListByAccountResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -999,36 +1043,36 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAccount operation. */
 export type PrivateLinkResourcesListByAccountResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = GroupInformation;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionProxiesListByAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAccount operation. */
 export type PrivateEndpointConnectionProxiesListByAccountResponse = PrivateEndpointConnectionProxyListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionProxiesValidateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionProxiesUpdatePrivateEndpointPropertiesOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionProxiesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionProxiesGetResponse = PrivateEndpointConnectionProxy;
@@ -1056,14 +1100,14 @@ export interface PrivateEndpointConnectionProxiesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;

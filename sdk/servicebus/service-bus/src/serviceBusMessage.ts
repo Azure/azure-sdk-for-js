@@ -14,7 +14,7 @@ import {
 import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
-import { isDefined, isObjectWithProperties } from "./util/typeGuards";
+import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import { reorderLockToken } from "./util/utils";
 
 /**
@@ -327,7 +327,7 @@ export function toRheaMessage(
   if (amqpMsg.ttl != null && amqpMsg.ttl !== Constants.maxDurationValue) {
     amqpMsg.creation_time = new Date();
     amqpMsg.absolute_expiry_time = new Date(
-      Math.min(Constants.maxAbsoluteExpiryTime, (amqpMsg.creation_time as any) + amqpMsg.ttl)
+      Math.min(Constants.maxAbsoluteExpiryTime, amqpMsg.creation_time.getTime() + amqpMsg.ttl)
     );
   }
 

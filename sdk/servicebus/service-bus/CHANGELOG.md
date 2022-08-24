@@ -1,12 +1,30 @@
 # Release History
 
-## 7.6.0-beta.5 (Unreleased)
+## 7.7.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 7.7.0 (2022-08-09)
+
+### Features Added
+
+- Add Client Identifier support [tracking issue: #21902](https://github.com/Azure/azure-sdk-for-js/issues/21902)
+
+### Bugs Fixed
+
+- Fix an invalid date issue when converting a `ServiceBusMessage` with `timeToLive` property set to a `RheaMessage`.
+
+### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (v1.0.0)
+
+## 7.6.0 (2022-07-07)
 
 ### Other Changes
 

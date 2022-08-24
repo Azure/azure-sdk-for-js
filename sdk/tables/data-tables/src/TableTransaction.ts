@@ -77,12 +77,14 @@ export class TableTransaction {
    * Adds an update action to the transaction
    * @param entity - entity to update
    * @param updateMode - update mode
+   * @param options - options for the update operation
    */
   updateEntity<T extends object = Record<string, unknown>>(
     entity: TableEntity<T>,
-    updateMode: UpdateMode = "Merge"
+    updateMode: UpdateMode = "Merge",
+    updateOptions?: UpdateTableEntityOptions
   ): void {
-    this.actions.push(["update", entity, updateMode]);
+    this.actions.push(["update", entity, updateMode, updateOptions]);
   }
 
   /**

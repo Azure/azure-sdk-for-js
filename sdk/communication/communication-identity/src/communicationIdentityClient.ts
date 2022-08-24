@@ -17,9 +17,8 @@ import {
 import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { IdentityRestClient } from "./generated/src/identityRestClient";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./common/tracing";
 import { logger } from "./common/logger";
+import { tracingClient } from "./generated/src/tracing";
 
 const isCommunicationIdentityClientOptions = (
   options: any
@@ -101,27 +100,18 @@ export class CommunicationIdentityClient {
    * @param scopes - Scopes to include in the token.
    * @param options - Additional options for the request.
    */
-  public async getToken(
+  public getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<CommunicationAccessToken> {
-    const { span, updatedOptions } = createSpan("CommunicationIdentity-issueToken", options);
-    try {
-      return await this.client.communicationIdentityOperations.issueAccessToken(
+    return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
+      return this.client.communicationIdentityOperations.issueAccessToken(
         user.communicationUserId,
         scopes,
         updatedOptions
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -130,25 +120,20 @@ export class CommunicationIdentityClient {
    * @param user - The user whose tokens are being revoked.
    * @param options - Additional options for the request.
    */
-  public async revokeTokens(
+  public revokeTokens(
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("CommunicationIdentity-revokeTokens", options);
-    try {
-      await this.client.communicationIdentityOperations.revokeAccessTokens(
-        user.communicationUserId,
-        updatedOptions
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "CommunicationIdentity-revokeTokens",
+      options,
+      async (updatedOptions) => {
+        await this.client.communicationIdentityOperations.revokeAccessTokens(
+          user.communicationUserId,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -156,22 +141,17 @@ export class CommunicationIdentityClient {
    *
    * @param options - Additional options for the request.
    */
-  public async createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
-    const { span, updatedOptions } = createSpan("CommunicationIdentity-createUser", options);
-    try {
-      const result = await this.client.communicationIdentityOperations.create(updatedOptions);
-      return {
-        communicationUserId: result.identity.id,
-      };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+  public createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
+    return tracingClient.withSpan(
+      "CommunicationIdentity-createUser",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.communicationIdentityOperations.create(updatedOptions);
+        return {
+          communicationUserId: result.identity.id,
+        };
+      }
+    );
   }
 
   /**
@@ -180,32 +160,24 @@ export class CommunicationIdentityClient {
    * @param scopes - Scopes to include in the token.
    * @param options - Additional options for the request.
    */
-  public async createUserAndToken(
+  public createUserAndToken(
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<CommunicationUserToken> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
-      options
+      options,
+      async (updatedOptions) => {
+        const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
+          createTokenWithScopes: scopes,
+          ...updatedOptions,
+        });
+        return {
+          ...accessToken!,
+          user: { communicationUserId: identity.id },
+        };
+      }
     );
-    try {
-      const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
-        createTokenWithScopes: scopes,
-        ...updatedOptions,
-      });
-      return {
-        ...accessToken!,
-        user: { communicationUserId: identity.id },
-      };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -214,25 +186,20 @@ export class CommunicationIdentityClient {
    * @param user - The user being deleted.
    * @param options - Additional options for the request.
    */
-  public async deleteUser(
+  public deleteUser(
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("CommunicationIdentity-deleteUser", options);
-    try {
-      await this.client.communicationIdentityOperations.delete(
-        user.communicationUserId,
-        updatedOptions
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "CommunicationIdentity-deleteUser",
+      options,
+      async (updatedOptions) => {
+        await this.client.communicationIdentityOperations.delete(
+          user.communicationUserId,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -240,29 +207,21 @@ export class CommunicationIdentityClient {
    *
    * @param options - Options used to exchange an Azure AD access token of a Teams user for a new Communication Identity access token.
    */
-  public async getTokenForTeamsUser(
+  public getTokenForTeamsUser(
     options: GetTokenForTeamsUserOptions
   ): Promise<CommunicationAccessToken> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "CommunicationIdentity-getTokenForTeamsUser",
-      options
+      options,
+      (updatedOptions) => {
+        const { teamsUserAadToken, clientId, userObjectId } = updatedOptions;
+        return this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
+          teamsUserAadToken,
+          clientId,
+          userObjectId,
+          updatedOptions
+        );
+      }
     );
-    const { teamsUserAadToken, clientId, userObjectId } = options;
-    try {
-      return await this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
-        teamsUserAadToken,
-        clientId,
-        userObjectId,
-        updatedOptions
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }

@@ -118,25 +118,6 @@ export interface CustomLocationListResult {
   readonly value?: CustomLocation[];
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Identity for the resource. */
 export interface Identity {
   /**
@@ -175,6 +156,25 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 /** The Custom Locations patchable resource definition. */
@@ -223,19 +223,88 @@ export interface EnabledResourceTypePropertiesTypesMetadataItem {
   resourceType?: string;
 }
 
+/** The Find Target Resource Group operation request. */
+export interface CustomLocationFindTargetResourceGroupProperties {
+  /** Labels of the custom resource, this is a map of {key,value} pairs. */
+  labels?: { [propertyName: string]: string };
+}
+
+/** The Find Target Resource Group operation response. */
+export interface CustomLocationFindTargetResourceGroupResult {
+  /**
+   * The matching resource sync rule is the particular resource sync rule that matched the match expressions and labels and had lowest priority. This is the rule responsible for mapping the target resource to the target resource group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly matchedResourceSyncRule?: string;
+  /**
+   * The target resource group of matching resource sync rule. The labels from the request will be used to find out matching resource sync rule against the selector property of the resource sync rule. The one with highest priority will be returned if there are multiple matching rules.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetResourceGroup?: string;
+}
+
+/** The List Resource Sync Rules operation response. */
+export interface ResourceSyncRuleListResult {
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of Resource Sync Rules.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ResourceSyncRule[];
+}
+
+/** A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match. */
+export interface ResourceSyncRulePropertiesSelector {
+  /** MatchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. */
+  matchExpressions?: MatchExpressionsProperties[];
+  /** MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. */
+  matchLabels?: { [propertyName: string]: string };
+}
+
+/** Resource Sync Rules matchExpression property definition. */
+export interface MatchExpressionsProperties {
+  /** Key is the label key that the selector applies to. */
+  key?: string;
+  /** The Operator field represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. */
+  operator?: string;
+  /** The label value */
+  values?: string[];
+}
+
+/** The Resource Sync Rules patchable resource definition. */
+export interface PatchableResourceSyncRule {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /** Priority represents a priority of the Resource Sync Rule */
+  priority?: number;
+  /**
+   * Provisioning State for the Resource Sync Rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match. */
+  selector?: ResourceSyncRulePropertiesSelector;
+  /** For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule. */
+  targetResourceGroup?: string;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Custom Locations definition. */
-export type CustomLocation = TrackedResource & {
+export interface CustomLocation extends TrackedResource {
   /** Identity for the resource. */
   identity?: Identity;
   /**
@@ -257,10 +326,30 @@ export type CustomLocation = TrackedResource & {
   namespace?: string;
   /** Provisioning State for the Custom Location. */
   provisioningState?: string;
-};
+}
+
+/** Resource Sync Rules definition. */
+export interface ResourceSyncRule extends TrackedResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Priority represents a priority of the Resource Sync Rule */
+  priority?: number;
+  /**
+   * Provisioning State for the Resource Sync Rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match. */
+  selector?: ResourceSyncRulePropertiesSelector;
+  /** For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule. */
+  targetResourceGroup?: string;
+}
 
 /** EnabledResourceType definition. */
-export type EnabledResourceType = ProxyResource & {
+export interface EnabledResourceType extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -272,11 +361,13 @@ export type EnabledResourceType = ProxyResource & {
   extensionType?: string;
   /** Metadata of the Resource Type */
   typesMetadata?: EnabledResourceTypePropertiesTypesMetadataItem[];
-};
+}
 
 /** Known values of {@link ResourceIdentityType} that the service accepts. */
 export enum KnownResourceIdentityType {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** None */
   None = "None"
 }
 
@@ -292,6 +383,7 @@ export type ResourceIdentityType = string;
 
 /** Known values of {@link HostType} that the service accepts. */
 export enum KnownHostType {
+  /** Kubernetes */
   Kubernetes = "Kubernetes"
 }
 
@@ -306,9 +398,13 @@ export type HostType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -407,6 +503,13 @@ export interface CustomLocationsListEnabledResourceTypesOptionalParams
 export type CustomLocationsListEnabledResourceTypesResponse = EnabledResourceTypesListResult;
 
 /** Optional parameters. */
+export interface CustomLocationsFindTargetResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the findTargetResourceGroup operation. */
+export type CustomLocationsFindTargetResourceGroupResponse = CustomLocationFindTargetResourceGroupResult;
+
+/** Optional parameters. */
 export interface CustomLocationsListOperationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -433,6 +536,63 @@ export interface CustomLocationsListEnabledResourceTypesNextOptionalParams
 
 /** Contains response data for the listEnabledResourceTypesNext operation. */
 export type CustomLocationsListEnabledResourceTypesNextResponse = EnabledResourceTypesListResult;
+
+/** Optional parameters. */
+export interface ResourceSyncRulesListByCustomLocationIDOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomLocationID operation. */
+export type ResourceSyncRulesListByCustomLocationIDResponse = ResourceSyncRuleListResult;
+
+/** Optional parameters. */
+export interface ResourceSyncRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ResourceSyncRulesGetResponse = ResourceSyncRule;
+
+/** Optional parameters. */
+export interface ResourceSyncRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ResourceSyncRulesCreateOrUpdateResponse = ResourceSyncRule;
+
+/** Optional parameters. */
+export interface ResourceSyncRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ResourceSyncRulesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /** Priority represents a priority of the Resource Sync Rule */
+  priority?: number;
+  /** A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match. */
+  selector?: ResourceSyncRulePropertiesSelector;
+  /** For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule. */
+  targetResourceGroup?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ResourceSyncRulesUpdateResponse = ResourceSyncRule;
+
+/** Optional parameters. */
+export interface ResourceSyncRulesListByCustomLocationIDNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomLocationIDNext operation. */
+export type ResourceSyncRulesListByCustomLocationIDNextResponse = ResourceSyncRuleListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsManagementClientOptionalParams

@@ -6,22 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DiagnosticSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
 import {
+  DiagnosticSettingsResource,
+  DiagnosticSettingsListOptionalParams,
   DiagnosticSettingsGetOptionalParams,
   DiagnosticSettingsGetResponse,
-  DiagnosticSettingsResource,
   DiagnosticSettingsCreateOrUpdateOptionalParams,
   DiagnosticSettingsCreateOrUpdateResponse,
   DiagnosticSettingsDeleteOptionalParams,
-  DiagnosticSettingsListOptionalParams,
   DiagnosticSettingsListResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing DiagnosticSettings operations. */
 export class DiagnosticSettingsImpl implements DiagnosticSettings {
   private readonly client: MonitorClient;
@@ -32,6 +34,46 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
    */
   constructor(client: MonitorClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets the active diagnostic settings list for the specified resource.
+   * @param resourceUri The identifier of the resource.
+   * @param options The options parameters.
+   */
+  public list(
+    resourceUri: string,
+    options?: DiagnosticSettingsListOptionalParams
+  ): PagedAsyncIterableIterator<DiagnosticSettingsResource> {
+    const iter = this.listPagingAll(resourceUri, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listPagingPage(resourceUri, options);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    resourceUri: string,
+    options?: DiagnosticSettingsListOptionalParams
+  ): AsyncIterableIterator<DiagnosticSettingsResource[]> {
+    let result = await this._list(resourceUri, options);
+    yield result.value || [];
+  }
+
+  private async *listPagingAll(
+    resourceUri: string,
+    options?: DiagnosticSettingsListOptionalParams
+  ): AsyncIterableIterator<DiagnosticSettingsResource> {
+    for await (const page of this.listPagingPage(resourceUri, options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -92,7 +134,7 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
    * @param resourceUri The identifier of the resource.
    * @param options The options parameters.
    */
-  list(
+  private _list(
     resourceUri: string,
     options?: DiagnosticSettingsListOptionalParams
   ): Promise<DiagnosticSettingsListResponse> {
@@ -116,7 +158,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.name],
   headerParameters: [Parameters.accept],
   serializer
@@ -133,7 +175,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.name],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -149,7 +191,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.name],
   headerParameters: [Parameters.accept],
   serializer
@@ -165,7 +207,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer

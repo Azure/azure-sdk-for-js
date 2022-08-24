@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates the alert rule.
  *
  * @summary Creates or updates the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/CreateFusionAlertRuleWithFusionScenarioExclusion.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/CreateFusionAlertRuleWithFusionScenarioExclusion.json
  */
 async function createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -173,7 +173,7 @@ createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern().catch(console.err
  * This sample demonstrates how to Creates or updates the alert rule.
  *
  * @summary Creates or updates the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/CreateFusionAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/CreateFusionAlertRule.json
  */
 async function createsOrUpdatesAFusionAlertRule() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -331,7 +331,7 @@ createsOrUpdatesAFusionAlertRule().catch(console.error);
  * This sample demonstrates how to Creates or updates the alert rule.
  *
  * @summary Creates or updates the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
  */
 async function createsOrUpdatesAMicrosoftSecurityIncidentCreationRule() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -362,7 +362,7 @@ createsOrUpdatesAMicrosoftSecurityIncidentCreationRule().catch(console.error);
  * This sample demonstrates how to Creates or updates the alert rule.
  *
  * @summary Creates or updates the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/CreateNrtAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/CreateNrtAlertRule.json
  */
 async function createsOrUpdatesANrtAlertRule() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -410,7 +410,7 @@ createsOrUpdatesANrtAlertRule().catch(console.error);
  * This sample demonstrates how to Creates or updates the alert rule.
  *
  * @summary Creates or updates the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/CreateScheduledAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/CreateScheduledAlertRule.json
  */
 async function createsOrUpdatesAScheduledAlertRule() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

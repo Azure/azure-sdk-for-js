@@ -29,7 +29,7 @@ async function createOrUpdateAPolicyAssignment() {
     nonComplianceMessages: [
       { message: "Resource names must start with 'DeptA' and end with '-LC'." }
     ],
-    parameters: { prefix: {}, suffix: {} },
+    parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
     policyDefinitionId:
       "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming"
   };
@@ -63,7 +63,7 @@ async function createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity() {
     identity: { type: "SystemAssigned" },
     location: "eastus",
     metadata: { assignedBy: "Foo Bar" },
-    parameters: { prefix: {}, suffix: {} },
+    parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
     policyDefinitionId:
       "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming"
   };
@@ -104,7 +104,7 @@ async function createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity() {
     },
     location: "eastus",
     metadata: { assignedBy: "Foo Bar" },
-    parameters: { prefix: {}, suffix: {} },
+    parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
     policyDefinitionId:
       "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming"
   };
@@ -179,7 +179,7 @@ async function createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuring
     displayName: "Enforce resource naming rules",
     enforcementMode: "DoNotEnforce",
     metadata: { assignedBy: "Special Someone" },
-    parameters: { prefix: {}, suffix: {} },
+    parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
     policyDefinitionId:
       "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming"
   };

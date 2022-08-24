@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "441e067c521638638523e2dbd04138a4";
+module.exports.hash = "66f26a8bf56378c1f8758e261dc5c583";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4a72a31e-8269-4e7c-9cb0-c419c9cb6f00',
+  '52ae33fc-b449-44d0-8641-6214478d7101',
   'x-ms-ests-server',
-  '2.1.11829.9 - NCUS ProdSlices',
+  '2.1.13006.6 - SCUS ProdSlices',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=Ag0kRxVsCxRKucMwVaNslXqpMdrgBwAAAHiEbtgOAAAA; expires=Fri, 30-Jul-2021 15:28:01 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoGIR7D9s-RDkGwB7iLXoJ0; expires=Thu, 28-Jul-2022 18:49:18 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrxiJunwwb3Udi2Hgj_K31SkshBT4LVDgpuQABxFvDFzyerlrm6beoZnNCr4x8lWPhvgsfRZZ-hDhgJqrMOcIJXSz7VtmMZHR7RXw373AN_II_ZS5Xg8jKwbcUXMut3918dbwf-SeuNou4Z-TtXVmFCND6dbrwRmT3mndTsf0uJRogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr4qID7S4K5DSUwlBjIdn8O507N5eH0i8-nWV0xRrBejJo8HkqMOR01YAxZios9odaw8j8sKMAoe79UdZUPZWziPU2pd2ZHO9_SB83hk5qyvwWLheCj5DaLLaPlmHItOHsN1j61TJwo_UnZeMSeOtMp_iBjhja6GfNs4zVfFZrpV8gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 30 Jun 2021 15:28:00 GMT',
+  'Tue, 28 Jun 2022 18:49:18 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +60,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a9a1e068-3c7e-4040-b4a3-695201867301',
+  'ed74c7fb-4a9c-4202-870a-d441d743b601',
   'x-ms-ests-server',
-  '2.1.11829.9 - EUS ProdSlices',
+  '2.1.13006.6 - EUS ProdSlices',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=Ag0kRxVsCxRKucMwVaNslXqpMdrgBwAAAHiEbtgOAAAA; expires=Fri, 30-Jul-2021 15:28:01 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApMa1xnEmoJJoqoTaMsG97M; expires=Thu, 28-Jul-2022 18:49:18 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr4KR_tAhPNQxgoAXcWs-751dVY2mm1eeSc-dbJCGyhH4iKs2Ajx4aWjOi0UYQ3hzx4i8idJF_ciJlWRBgarRPSJL7j4UoozAgEX0e1yNWviGhFKqBuwz1ZYfqWbmOI04knyjrttU150SWTsxqsqDVugzxAF9aRGQRcgXtaTiOXisgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrZKq7wmTUZ8OHpRmdNx4CsHptMFEIRsYbl9szXqn03da23NhYCbwQ3MN7ZF_vtKMKe3rlPdnrK2KkZl3L2tufVotNv_n6UKMaHmWGTTp0WzPFqccOFZJ_3BaJUjGcARsw8mjr-CC06PRW_5A-5uf7x_hHPfa6jttYI9sMvU69psYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 30 Jun 2021 15:28:00 GMT',
+  'Tue, 28 Jun 2022 18:49:18 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=00783254-d476-4354-bf77-2e39cf24886b&client_secret=azure_client_secret")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=d8308e43-4eb0-4c0b-b753-99f5c57049f1&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,24 +97,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '28812791-b9ec-449e-b425-0faa1fb81f01',
+  '13403b20-e869-49b4-b4c4-05ca37619001',
   'x-ms-ests-server',
-  '2.1.11829.9 - WUS2 ProdSlices',
+  '2.1.13006.6 - NCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=Ag0kRxVsCxRKucMwVaNslXqpMdrgCAAAAHiEbtgOAAAA; expires=Fri, 30-Jul-2021 15:28:02 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuUErTAK6txAmY-abBwNy4EuuutMAQAAAC5ETdoOAAAA; expires=Thu, 28-Jul-2022 18:49:18 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 30 Jun 2021 15:28:01 GMT',
+  'Tue, 28 Jun 2022 18:49:18 GMT',
   'Content-Length',
   '1325'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .delete('/models/dtmi%3Asamples%3ADTComponentTestsModel%3B1')
   .query(true)
   .reply(404, {"error":{"code":"ModelNotFound","message":"There is no Model(s) available that matches the provided id(s) dtmi:samples:DTComponentTestsModel;1. Check that the Model ID provided is valid by doing a Model_List API call."}}, [
@@ -121,12 +127,14 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-cce2ac1508d02a49880e7662fdcf3107-160473673017db40-01',
+  '00-0a98450d26d9c5d94ef192158922feef-1a6e99abe2374d07-01',
+  'mise-correlation-id',
+  'fbce537d-03a4-4093-8b8b-51b53bdfdce8',
   'Date',
-  'Wed, 30 Jun 2021 15:28:02 GMT'
+  'Tue, 28 Jun 2022 18:49:18 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .delete('/models/dtmi%3Asamples%3ADTComponentTestsComponent%3B1')
   .query(true)
   .reply(404, {"error":{"code":"ModelNotFound","message":"There is no Model(s) available that matches the provided id(s) dtmi:samples:DTComponentTestsComponent;1. Check that the Model ID provided is valid by doing a Model_List API call."}}, [
@@ -137,15 +145,17 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-ce49fb446bd64542a3e81fc58c389026-dfa3ff28dbc11b48-01',
+  '00-ef56d75a4d77d675a66b488b7d2dbd5a-6f5526a595be8ce9-01',
+  'mise-correlation-id',
+  '50f1c684-50ec-453c-b1d7-7c90add29640',
   'Date',
-  'Wed, 30 Jun 2021 15:28:02 GMT'
+  'Tue, 28 Jun 2022 18:49:19 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .post('/models', [{"@id":"dtmi:samples:DTComponentTestsComponent;1","@type":"Interface","@context":"dtmi:dtdl:context;2","displayName":"Component1","contents":[{"@type":"Property","name":"ComponentProp1","schema":"string"},{"@type":"Telemetry","name":"ComponentTelemetry1","schema":"integer"}]},{"@id":"dtmi:samples:DTComponentTestsModel;1","@type":"Interface","@context":"dtmi:dtdl:context;2","displayName":"TempModel","contents":[{"@type":"Property","name":"Prop1","schema":"string"},{"@type":"Component","name":"Component1","schema":"dtmi:samples:DTComponentTestsComponent;1"},{"@type":"Telemetry","name":"Telemetry1","schema":"integer"}]}])
   .query(true)
-  .reply(201, [{"id":"dtmi:samples:DTComponentTestsComponent;1","description":{},"displayName":{"en":"Component1"},"decommissioned":false,"uploadTime":"2021-06-30T15:28:02.2081374+00:00"},{"id":"dtmi:samples:DTComponentTestsModel;1","description":{},"displayName":{"en":"TempModel"},"decommissioned":false,"uploadTime":"2021-06-30T15:28:02.2081697+00:00"}], [
+  .reply(201, [{"id":"dtmi:samples:DTComponentTestsComponent;1","description":{},"displayName":{"en":"Component1"},"decommissioned":false,"uploadTime":"2022-06-28T18:49:19.2208596+00:00"},{"id":"dtmi:samples:DTComponentTestsModel;1","description":{},"displayName":{"en":"TempModel"},"decommissioned":false,"uploadTime":"2022-06-28T18:49:19.2209031+00:00"}], [
   'Content-Length',
   '342',
   'Content-Type',
@@ -153,62 +163,64 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-da5f06624bb51a4d8a1ad6c8c851b692-c9cce4e027518646-01',
+  '00-ec94de046c586707ab1135fef5ec5065-98bca544305b586d-01',
+  'mise-correlation-id',
+  '6be6df03-448f-489c-875e-80471381c63b',
   'Date',
-  'Wed, 30 Jun 2021 15:28:02 GMT'
+  'Tue, 28 Jun 2022 18:49:19 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .delete('/digitaltwins/DTComponentTestsTempTwin')
   .query(true)
-  .reply(404, {"error":{"code":"DigitalTwinNotFound","message":"There is no digital twin instance that exists with the ID DTComponentTestsTempTwin. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins http://aka.ms/adtv2query."}}, [
+  .reply(404, {"error":{"code":"DigitalTwinNotFound","message":"There is no digital twin instance that exists with the ID DTComponentTestsTempTwin. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query."}}, [
   'Content-Length',
-  '277',
+  '278',
   'Content-Type',
   'application/json; charset=utf-8',
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-64fbd552d621684fbf5389439599452a-0e1a7ffbdc700349-01',
+  '00-22e5e47c2c48804c948379aba5eaade9-2121bff26878f840-01',
   'Date',
-  'Wed, 30 Jun 2021 15:28:02 GMT'
+  'Tue, 28 Jun 2022 18:49:19 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .put('/digitaltwins/DTComponentTestsTempTwin', {"$metadata":{"$model":"dtmi:samples:DTComponentTestsModel;1"},"Prop1":"value","Component1":{"$metadata":{},"ComponentProp1":"value1"}})
   .query(true)
-  .reply(200, {"$dtId":"DTComponentTestsTempTwin","$etag":"W/\"9458727e-405a-4bf4-a6df-5a6262de19ce\"","Prop1":"value","Component1":{"ComponentProp1":"value1","$metadata":{"ComponentProp1":{"lastUpdateTime":"2021-06-30T15:28:02.2986850Z"}}},"$metadata":{"$model":"dtmi:samples:DTComponentTestsModel;1","Prop1":{"lastUpdateTime":"2021-06-30T15:28:02.2986850Z"}}}, [
+  .reply(200, {"$dtId":"DTComponentTestsTempTwin","$etag":"W/\"fa4db70f-859d-49e4-bbe4-18b19fe6f279\"","Prop1":"value","Component1":{"ComponentProp1":"value1","$metadata":{"$lastUpdateTime":"2022-06-28T18:49:19.3717203Z","ComponentProp1":{"lastUpdateTime":"2022-06-28T18:49:19.3717203Z"}}},"$metadata":{"$model":"dtmi:samples:DTComponentTestsModel;1","$lastUpdateTime":"2022-06-28T18:49:19.3717203Z","Prop1":{"lastUpdateTime":"2022-06-28T18:49:19.3717203Z"}}}, [
   'Content-Length',
-  '347',
+  '445',
   'Content-Type',
   'application/json; charset=utf-8',
   'ETag',
-  'W/"9458727e-405a-4bf4-a6df-5a6262de19ce"',
+  'W/"fa4db70f-859d-49e4-bbe4-18b19fe6f279"',
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-15ec9d5214d9c2478f6fb8ca03b35fe6-055e3f4f9f6ec647-01',
+  '00-f7ad61c65def2b41aa9d3c830cfe4889-9cd3249dab279047-01',
   'Date',
-  'Wed, 30 Jun 2021 15:28:02 GMT'
+  'Tue, 28 Jun 2022 18:49:19 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .patch('/digitaltwins/DTComponentTestsTempTwin/components/Component2', [{"op":"replace","path":"/ComponentProp1","value":"value2"}])
   .query(true)
-  .reply(400, {"error":{"code":"JsonPatchInvalid","message":"Could not resolve path /Component2/ComponentProp1. Please provide a valid patch document. See section on update apis in the documentation http://aka.ms/adtv2twins."}}, [
+  .reply(400, {"error":{"code":"JsonPatchInvalid","message":"Could not resolve path /Component2/ComponentProp1. Please provide a valid patch document. See section on update apis in the documentation https://aka.ms/adtv2twins."}}, [
   'Content-Length',
-  '213',
+  '214',
   'Content-Type',
   'application/json; charset=utf-8',
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-fb5e736690146443813d088743bae3cf-209438c45bdcf04f-01',
+  '00-2ecc76b59ffd4243a20a6e1c1f182d62-b0d0081071851b46-01',
   'Date',
-  'Wed, 30 Jun 2021 15:28:02 GMT'
+  'Tue, 28 Jun 2022 18:49:19 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .delete('/digitaltwins/DTComponentTestsTempTwin')
   .query(true)
   .reply(204, "", [
@@ -217,12 +229,12 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-a7046be72ad00340af5a9bc8c5b2203b-f70bd68978c23d40-01',
+  '00-58f08f8122e4f14bb535555ad730172e-2d85916f5c18e04b-01',
   'Date',
-  'Wed, 30 Jun 2021 15:28:02 GMT'
+  'Tue, 28 Jun 2022 18:49:19 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .delete('/models/dtmi%3Asamples%3ADTComponentTestsModel%3B1')
   .query(true)
   .reply(204, "", [
@@ -231,12 +243,14 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-72356c9e0ec09d438ea2cf8156fad42e-4ac535e585093b40-01',
+  '00-db90a538a032d9869ecb93348e0a4d91-6f18c4f330b87b04-01',
+  'mise-correlation-id',
+  'a4f9aa32-1a63-438d-a745-ad4f374b8e9d',
   'Date',
-  'Wed, 30 Jun 2021 15:28:02 GMT'
+  'Tue, 28 Jun 2022 18:49:19 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .delete('/models/dtmi%3Asamples%3ADTComponentTestsComponent%3B1')
   .query(true)
   .reply(204, "", [
@@ -245,7 +259,9 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-7ea9f0d36933e247bfa0348371f8c824-ab400000ac724c48-01',
+  '00-2ae94e9bac391013529cca83bb5cab92-7f09fd35f47d5b04-01',
+  'mise-correlation-id',
+  'ff61471a-a486-45fd-8e4a-a1c9bcb19465',
   'Date',
-  'Wed, 30 Jun 2021 15:28:02 GMT'
+  'Tue, 28 Jun 2022 18:49:19 GMT'
 ]);

@@ -8,32 +8,27 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
+  RecorderStartOptions,
   delay,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient";
-import { ClientSecretCredential } from "@azure/identity";
 
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
@@ -49,96 +44,93 @@ describe("Cosmosdb test", () => {
   let accountName: string;
   let keyspaceName: string;
 
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new CosmosDBManagementClient(credential, subscriptionId);
+    const credential = createTestCredential();
+    client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroupName = "myjstest";
     accountName = "myaccountxxyy1";
     keyspaceName = "mykeyspacexxx";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("databaseAccounts create for cassandraResources test", async function() {
-    const res = await client.databaseAccounts.beginCreateOrUpdateAndWait(resourceGroupName,accountName,{
+  it("databaseAccounts create for cassandraResources test", async function () {
+    const res = await client.databaseAccounts.beginCreateOrUpdateAndWait(resourceGroupName, accountName, {
       kind: "GlobalDocumentDB",
       databaseAccountOfferType: "Standard",
       locations: [
-          {
-              failoverPriority: 0,
-              locationName: "eastus",
-              isZoneRedundant: false
-          }
+        {
+          failoverPriority: 0,
+          locationName: "eastus",
+          isZoneRedundant: false
+        }
       ],
       location: location,
       capabilities: [
-          {
-              name: "EnableCassandra"
-          }
+        {
+          name: "EnableCassandra"
+        }
       ],
       apiProperties: {},
       createMode: "Default"
-  }, testPollingOptions);
+    }, testPollingOptions);
     assert.equal(res.name, accountName);
   });
 
-  it("cassandraResources create test", async function() {
-    const res = await client.cassandraResources.beginCreateUpdateCassandraKeyspaceAndWait(resourceGroupName,accountName,keyspaceName,{
+  it("cassandraResources create test", async function () {
+    const res = await client.cassandraResources.beginCreateUpdateCassandraKeyspaceAndWait(resourceGroupName, accountName, keyspaceName, {
       location: location,
-        resource: {
-            id: keyspaceName
-        },
-        options: {
-            throughput: 2000
-        }
+      resource: {
+        id: keyspaceName
+      },
+      options: {
+        throughput: 2000
+      }
     }, testPollingOptions);
     assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces");
   });
 
-  it("cassandraResources update test", async function() {
-    const res = await client.cassandraResources.beginUpdateCassandraKeyspaceThroughputAndWait(resourceGroupName,accountName,keyspaceName,{
+  it("cassandraResources update test", async function () {
+    const res = await client.cassandraResources.beginUpdateCassandraKeyspaceThroughputAndWait(resourceGroupName, accountName, keyspaceName, {
       location: location,
-        resource: {
-            throughput: 400
-        }
+      resource: {
+        throughput: 400
+      }
     }, testPollingOptions);
-    assert.equal(res.resource?.throughput,400);
+    assert.equal(res.resource?.throughput, 400);
   });
 
-  it("cassandraResources get test", async function() {
-    const res = await client.cassandraResources.getCassandraKeyspace(resourceGroupName,accountName,keyspaceName);
+  it("cassandraResources get test", async function () {
+    const res = await client.cassandraResources.getCassandraKeyspace(resourceGroupName, accountName, keyspaceName);
     assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces");
   });
 
-  it("cassandraResources list test", async function() {
+  it("cassandraResources list test", async function () {
     const resArray = new Array();
-    for await (let item of client.cassandraResources.listCassandraKeyspaces(resourceGroupName,accountName)){
-        resArray.push(item);
+    for await (let item of client.cassandraResources.listCassandraKeyspaces(resourceGroupName, accountName)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("cassandraResources MigrateCassandra test", async function() {
-    const res = await client.cassandraResources.beginMigrateCassandraKeyspaceToAutoscaleAndWait(resourceGroupName,accountName,keyspaceName, testPollingOptions);
-    assert.equal(res.type,"Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/throughputSettings/migrateToAutoscale")
+  it("cassandraResources MigrateCassandra test", async function () {
+    const res = await client.cassandraResources.beginMigrateCassandraKeyspaceToAutoscaleAndWait(resourceGroupName, accountName, keyspaceName, testPollingOptions);
+    assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/throughputSettings/migrateToAutoscale")
   });
 
-  it("cassandraResources delete test", async function() {
-    await client.cassandraResources.beginDeleteCassandraKeyspaceAndWait(resourceGroupName,accountName,keyspaceName, testPollingOptions);
+  it("cassandraResources delete test", async function () {
+    await client.cassandraResources.beginDeleteCassandraKeyspaceAndWait(resourceGroupName, accountName, keyspaceName, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.cassandraResources.listCassandraKeyspaces(resourceGroupName,accountName)){
-        resArray.push(item);
+    for await (let item of client.cassandraResources.listCassandraKeyspaces(resourceGroupName, accountName)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 });

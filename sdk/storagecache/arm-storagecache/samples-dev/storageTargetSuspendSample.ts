@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Suspends client access to a storage target.
  *
  * @summary Suspends client access to a storage target.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/StorageTargets_Suspend.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_Suspend.json
  */
 async function storageTargetsSuspend() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

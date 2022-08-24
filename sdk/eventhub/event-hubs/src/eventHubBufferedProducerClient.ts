@@ -13,7 +13,8 @@ import {
 } from "./models/public";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { isCredential, isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
+import { isCredential } from "./util/typeGuards";
 import { AbortController } from "@azure/abort-controller";
 import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
 import { BatchingPartitionChannel } from "./batchingPartitionChannel";

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { FarmBeatsRestClient, getLongRunningPoller } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
-
-import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
+
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
+import { isNode } from "@azure/core-util";
 
 const startDateTime = new Date("2020-02-01T08:00:00.000Z");
 const endDateTime = new Date("2020-03-02T08:00:00.000Z");
@@ -93,7 +93,7 @@ describe("Farmer Operations", () => {
     assert.include(["200", "201"], result.status);
   });
 
-  it("should create a satelite job", async () => {
+  it.skip("should create a satelite job", async () => {
     const initialResponse = await client.path("/scenes/satellite/ingest-data/{jobId}", jobId).put({
       body: {
         farmerId,

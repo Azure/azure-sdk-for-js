@@ -3,7 +3,7 @@
 
 import { logErrorStackTrace, logger } from "../log";
 import { ConnectionContext } from "../connectionContext";
-import { isDefined } from "./typeGuards";
+import { isDefined } from "@azure/core-util";
 import { AmqpError, isAmqpError } from "rhea-promise";
 import { isMessagingError, MessagingError, translate } from "@azure/core-amqp";
 

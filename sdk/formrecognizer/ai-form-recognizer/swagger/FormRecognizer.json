@@ -31,7 +31,7 @@
     "/documentModels/{modelId}:analyze": {
       "post": {
         "summary": "Analyze document",
-        "description": "Analyzes document with model.",
+        "description": "Analyzes document with document model.",
         "operationId": "AnalyzeDocument",
         "tags": ["Analysis"],
         "consumes": [
@@ -51,7 +51,7 @@
         "produces": ["application/json"],
         "parameters": [
           {
-            "$ref": "#/parameters/PathModelId"
+            "$ref": "#/parameters/PathDocumentModelId"
           },
           {
             "$ref": "#/parameters/QueryPages"
@@ -113,7 +113,7 @@
         "produces": ["application/json"],
         "parameters": [
           {
-            "$ref": "#/parameters/PathModelId"
+            "$ref": "#/parameters/PathDocumentModelId"
           },
           {
             "$ref": "#/parameters/PathResultId"
@@ -145,7 +145,7 @@
     },
     "/documentModels:build": {
       "post": {
-        "summary": "Build model",
+        "summary": "Build document model",
         "description": "Builds a custom document analysis model.",
         "operationId": "BuildDocumentModel",
         "tags": ["Creation"],
@@ -192,8 +192,8 @@
     },
     "/documentModels:compose": {
       "post": {
-        "summary": "Compose model",
-        "description": "Creates a new model from document types of existing models.",
+        "summary": "Compose document model",
+        "description": "Creates a new document model from document types of existing document models.",
         "operationId": "ComposeDocumentModel",
         "tags": ["Creation"],
         "consumes": ["application/json"],
@@ -240,7 +240,7 @@
     "/documentModels:authorizeCopy": {
       "post": {
         "summary": "Generate copy authorization",
-        "description": "Generates authorization to copy a model to this location with specified modelId and optional description.",
+        "description": "Generates authorization to copy a document model to this location with specified modelId and optional description.",
         "operationId": "AuthorizeCopyDocumentModel",
         "tags": ["Creation"],
         "consumes": ["application/json"],
@@ -282,15 +282,15 @@
     },
     "/documentModels/{modelId}:copyTo": {
       "post": {
-        "summary": "Copy model",
-        "description": "Copies model to the target resource, region, and modelId.",
+        "summary": "Copy document model",
+        "description": "Copies document model to the target resource, region, and modelId.",
         "operationId": "CopyDocumentModelTo",
         "tags": ["Creation"],
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "parameters": [
           {
-            "$ref": "#/parameters/PathModelId"
+            "$ref": "#/parameters/PathDocumentModelId"
           },
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -388,7 +388,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/GetOperationResponse"
+              "$ref": "#/definitions/OperationDetails"
             }
           },
           "default": {
@@ -407,9 +407,9 @@
     },
     "/documentModels": {
       "get": {
-        "summary": "List models",
-        "description": "List all models",
-        "operationId": "GetModels",
+        "summary": "List document models",
+        "description": "List all document models",
+        "operationId": "GetDocumentModels",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
@@ -422,7 +422,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/GetModelsResponse"
+              "$ref": "#/definitions/GetDocumentModelsResponse"
             }
           },
           "default": {
@@ -437,23 +437,23 @@
           "itemName": "value"
         },
         "x-ms-examples": {
-          "GetModels": {
-            "$ref": "./examples/GetModels.json"
+          "GetDocumentModels": {
+            "$ref": "./examples/GetDocumentModels.json"
           }
         }
       }
     },
     "/documentModels/{modelId}": {
       "get": {
-        "summary": "Get model",
-        "description": "Gets detailed model information.",
-        "operationId": "GetModel",
+        "summary": "Get document model",
+        "description": "Gets detailed document model information.",
+        "operationId": "GetDocumentModel",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
         "parameters": [
           {
-            "$ref": "#/parameters/PathModelId"
+            "$ref": "#/parameters/PathDocumentModelId"
           },
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -463,7 +463,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/ModelInfo"
+              "$ref": "#/definitions/DocumentModelDetails"
             }
           },
           "default": {
@@ -474,24 +474,24 @@
           }
         },
         "x-ms-examples": {
-          "GetModel_Prebuilt": {
-            "$ref": "./examples/GetModel_Prebuilt.json"
+          "GetDocumentModel_Prebuilt": {
+            "$ref": "./examples/GetDocumentModel_Prebuilt.json"
           },
-          "GetModel_Custom": {
-            "$ref": "./examples/GetModel_Custom.json"
+          "GetDocumentModel_Custom": {
+            "$ref": "./examples/GetDocumentModel_Custom.json"
           }
         }
       },
       "delete": {
-        "summary": "Delete model",
-        "description": "Deletes model.",
-        "operationId": "DeleteModel",
+        "summary": "Delete document model",
+        "description": "Deletes document model.",
+        "operationId": "DeleteDocumentModel",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
         "parameters": [
           {
-            "$ref": "#/parameters/PathModelId"
+            "$ref": "#/parameters/PathDocumentModelId"
           },
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -499,7 +499,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Deleting model."
+            "description": "Deleting document model."
           },
           "default": {
             "description": "Error encountered.",
@@ -509,17 +509,17 @@
           }
         },
         "x-ms-examples": {
-          "DeleteModel": {
-            "$ref": "./examples/DeleteModel.json"
+          "DeleteDocumentModel": {
+            "$ref": "./examples/DeleteDocumentModel.json"
           }
         }
       }
     },
     "/info": {
       "get": {
-        "summary": "Get info",
-        "description": "Return basic info about the current resource.",
-        "operationId": "GetInfo",
+        "summary": "Get resource info",
+        "description": "Return information about the current resource.",
+        "operationId": "GetResourceDetails",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
@@ -532,7 +532,7 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "#/definitions/GetInfoResponse"
+              "$ref": "#/definitions/ResourceDetails"
             }
           },
           "default": {
@@ -543,8 +543,8 @@
           }
         },
         "x-ms-examples": {
-          "GetInfo": {
-            "$ref": "./examples/GetInfo.json"
+          "GetResourceDetails": {
+            "$ref": "./examples/GetResourceDetails.json"
           }
         }
       }
@@ -566,15 +566,15 @@
       }
     },
     "BuildDocumentModelRequest": {
-      "description": "Request body to build a new custom model.",
+      "description": "Request body to build a new custom document model.",
       "type": "object",
       "required": ["modelId", "buildMode"],
       "properties": {
         "modelId": {
-          "$ref": "#/definitions/ModelId"
+          "$ref": "#/definitions/DocumentModelId"
         },
         "description": {
-          "$ref": "#/definitions/ModelDescription"
+          "$ref": "#/definitions/DocumentModelDescription"
         },
         "buildMode": {
           "$ref": "#/definitions/DocumentBuildMode"
@@ -584,7 +584,7 @@
           "$ref": "#/definitions/AzureBlobContentSource"
         },
         "tags": {
-          "description": "List of key-value tag attributes associated with the model.",
+          "description": "List of key-value tag attributes associated with the document model.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -593,26 +593,26 @@
       }
     },
     "ComposeDocumentModelRequest": {
-      "description": "Request body to create a composed model from component models.",
+      "description": "Request body to create a composed document model from component document models.",
       "type": "object",
       "required": ["modelId", "componentModels"],
       "properties": {
         "modelId": {
-          "$ref": "#/definitions/ModelId"
+          "$ref": "#/definitions/DocumentModelId"
         },
         "description": {
-          "$ref": "#/definitions/ModelDescription"
+          "$ref": "#/definitions/DocumentModelDescription"
         },
         "componentModels": {
-          "description": "List of component models to compose.",
+          "description": "List of component document models to compose.",
           "type": "array",
           "uniqueItems": true,
           "items": {
-            "$ref": "#/definitions/ComponentModelInfo"
+            "$ref": "#/definitions/ComponentDocumentModelDetails"
           }
         },
         "tags": {
-          "description": "List of key-value tag attributes associated with the model.",
+          "description": "List of key-value tag attributes associated with the document model.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -620,29 +620,29 @@
         }
       }
     },
-    "ComponentModelInfo": {
-      "description": "A component of a composed model.",
+    "ComponentDocumentModelDetails": {
+      "description": "A component of a composed document model.",
       "type": "object",
       "required": ["modelId"],
       "properties": {
         "modelId": {
-          "$ref": "#/definitions/ModelId"
+          "$ref": "#/definitions/DocumentModelId"
         }
       }
     },
     "AuthorizeCopyRequest": {
-      "description": "Request body to authorize model copy.",
+      "description": "Request body to authorize document model copy.",
       "type": "object",
       "required": ["modelId"],
       "properties": {
         "modelId": {
-          "$ref": "#/definitions/ModelId"
+          "$ref": "#/definitions/DocumentModelId"
         },
         "description": {
-          "$ref": "#/definitions/ModelDescription"
+          "$ref": "#/definitions/DocumentModelDescription"
         },
         "tags": {
-          "description": "List of key-value tag attributes associated with the model.",
+          "description": "List of key-value tag attributes associated with the document model.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -659,7 +659,7 @@
           "description": "List of operations.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/OperationInfo"
+            "$ref": "#/definitions/OperationSummary"
           }
         },
         "nextLink": {
@@ -668,12 +668,12 @@
         }
       }
     },
-    "GetOperationResponse": {
+    "OperationDetails": {
       "description": "Get Operation response object.",
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/OperationInfo"
+          "$ref": "#/definitions/OperationSummary"
         }
       ],
       "properties": {
@@ -687,46 +687,46 @@
         }
       }
     },
-    "GetModelsResponse": {
-      "description": "List Models response object.",
+    "GetDocumentModelsResponse": {
+      "description": "List Document models response object.",
       "type": "object",
       "required": ["value"],
       "properties": {
         "value": {
-          "description": "List of models.",
+          "description": "List of document models.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ModelSummary"
+            "$ref": "#/definitions/DocumentModelSummary"
           }
         },
         "nextLink": {
-          "description": "Link to the next page of models.",
+          "description": "Link to the next page of document models.",
           "type": "string"
         }
       }
     },
-    "GetInfoResponse": {
+    "ResourceDetails": {
       "description": "General information regarding the current resource.",
       "type": "object",
       "required": ["customDocumentModels"],
       "properties": {
         "customDocumentModels": {
-          "$ref": "#/definitions/CustomDocumentModelsInfo"
+          "$ref": "#/definitions/CustomDocumentModelsDetails"
         }
       }
     },
-    "CustomDocumentModelsInfo": {
-      "description": "Info regarding custom document models.",
+    "CustomDocumentModelsDetails": {
+      "description": "Details regarding custom document models.",
       "type": "object",
       "required": ["count", "limit"],
       "properties": {
         "count": {
-          "description": "Number of custom models in the current resource.",
+          "description": "Number of custom document models in the current resource.",
           "type": "integer",
           "format": "int32"
         },
         "limit": {
-          "description": "Maximum number of custom models supported in the current resource.",
+          "description": "Maximum number of custom document models supported in the current resource.",
           "type": "integer",
           "format": "int32"
         }
@@ -825,7 +825,7 @@
       }
     },
     "CopyAuthorization": {
-      "description": "Authorization to copy a model to the specified target resource and modelId.",
+      "description": "Authorization to copy a document model to the specified target resource and modelId.",
       "type": "object",
       "required": [
         "targetResourceId",
@@ -837,20 +837,20 @@
       ],
       "properties": {
         "targetResourceId": {
-          "description": "ID of the target Azure resource where the model should be copied to.",
+          "description": "ID of the target Azure resource where the document model should be copied to.",
           "type": "string",
           "x-ms-azure-resource": true
         },
         "targetResourceRegion": {
-          "description": "Location of the target Azure resource where the model should be copied to.",
+          "description": "Location of the target Azure resource where the document model should be copied to.",
           "type": "string"
         },
         "targetModelId": {
-          "description": "Identifier of the target model.",
-          "$ref": "#/definitions/ModelId"
+          "description": "Identifier of the target document model.",
+          "$ref": "#/definitions/DocumentModelId"
         },
         "targetModelLocation": {
-          "description": "URL of the copied model in the target account.",
+          "description": "URL of the copied document model in the target account.",
           "type": "string"
         },
         "accessToken": {
@@ -864,7 +864,7 @@
         }
       }
     },
-    "OperationInfo": {
+    "OperationSummary": {
       "description": "Operation info.",
       "type": "object",
       "required": [
@@ -924,7 +924,7 @@
           "type": "string"
         },
         "tags": {
-          "description": "List of key-value tag attributes associated with the model.",
+          "description": "List of key-value tag attributes associated with the document model.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -932,28 +932,28 @@
         }
       }
     },
-    "ModelSummary": {
-      "description": "Model summary.",
+    "DocumentModelSummary": {
+      "description": "Document model summary.",
       "type": "object",
       "required": ["modelId", "createdDateTime"],
       "properties": {
         "modelId": {
-          "$ref": "#/definitions/ModelId"
+          "$ref": "#/definitions/DocumentModelId"
         },
         "description": {
-          "$ref": "#/definitions/ModelDescription"
+          "$ref": "#/definitions/DocumentModelDescription"
         },
         "createdDateTime": {
-          "description": "Date and time (UTC) when the model was created.",
+          "description": "Date and time (UTC) when the document model was created.",
           "type": "string",
           "format": "date-time"
         },
         "apiVersion": {
-          "description": "API version used to create this model.",
+          "description": "API version used to create this document model.",
           "type": "string"
         },
         "tags": {
-          "description": "List of key-value tag attributes associated with the model.",
+          "description": "List of key-value tag attributes associated with the document model.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -961,12 +961,12 @@
         }
       }
     },
-    "ModelInfo": {
-      "description": "Model info.",
+    "DocumentModelDetails": {
+      "description": "Document model info.",
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/ModelSummary"
+          "$ref": "#/definitions/DocumentModelSummary"
         }
       ],
       "properties": {
@@ -974,18 +974,18 @@
           "description": "Supported document types.",
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/DocTypeInfo"
+            "$ref": "#/definitions/DocumentTypeDetails"
           }
         }
       }
     },
-    "DocTypeInfo": {
+    "DocumentTypeDetails": {
       "description": "Document type info.",
       "type": "object",
       "required": ["fieldSchema"],
       "properties": {
         "description": {
-          "$ref": "#/definitions/ModelDescription"
+          "$ref": "#/definitions/DocumentModelDescription"
         },
         "buildMode": {
           "$ref": "#/definitions/DocumentBuildMode"
@@ -1083,8 +1083,8 @@
           "$ref": "#/definitions/ApiVersion"
         },
         "modelId": {
-          "description": "Model ID used to produce this result.",
-          "$ref": "#/definitions/ModelId"
+          "description": "Document model ID used to produce this result.",
+          "$ref": "#/definitions/DocumentModelId"
         },
         "stringIndexType": {
           "description": "Method used to compute string offset and length.",
@@ -1823,18 +1823,18 @@
         }
       }
     },
-    "ModelId": {
-      "description": "Unique model name.",
+    "DocumentModelId": {
+      "description": "Unique document model name.",
       "type": "string",
       "pattern": "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}"
     },
-    "ModelDescription": {
-      "description": "Model description.",
+    "DocumentModelDescription": {
+      "description": "Document model description.",
       "type": "string",
       "maxLength": 4096
     },
     "DocumentBuildMode": {
-      "description": "Custom model build mode.",
+      "description": "Custom document model build mode.",
       "type": "string",
       "enum": ["template", "neural"],
       "x-ms-enum": {
@@ -1932,9 +1932,9 @@
       },
       "x-ms-parameter-location": "client"
     },
-    "PathModelId": {
+    "PathDocumentModelId": {
       "name": "modelId",
-      "description": "Unique model name.",
+      "description": "Unique document model name.",
       "required": true,
       "type": "string",
       "pattern": "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}",

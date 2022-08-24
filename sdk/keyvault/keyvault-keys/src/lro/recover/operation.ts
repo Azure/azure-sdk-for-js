@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { GetKeyOptions, KeyVaultKey, RecoverDeletedKeyOptions } from "../../keysModels";
 import { tracingClient } from "../../tracing";

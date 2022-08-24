@@ -133,6 +133,22 @@ describe("invalid parameters", () => {
       );
     });
 
+    [false, 0, -0, "", NaN].forEach((falsyValue) => {
+      it("PeekBySequenceNumber: Wrong type sequenceNumber in SessionReceiver when passing falsy value that is not undefined or null", async function (): Promise<void> {
+        let caughtError: Error | undefined;
+        try {
+          await receiver.peekMessages(1, { fromSequenceNumber: falsyValue as any });
+        } catch (error: any) {
+          caughtError = error;
+        }
+        should.equal(caughtError && caughtError.name, "TypeError");
+        should.equal(
+          caughtError && caughtError.message,
+          `The parameter "fromSequenceNumber" should be of type "Long"`
+        );
+      });
+    });
+
     it("RegisterMessageHandler: Missing onMessage in SessionReceiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
@@ -290,6 +306,22 @@ describe("invalid parameters", () => {
         caughtError && caughtError.message,
         `The parameter "fromSequenceNumber" should be of type "Long"`
       );
+    });
+
+    [false, 0, -0, "", NaN].forEach((falsyValue) => {
+      it("PeekBySequenceNumber: Wrong type fromSequenceNumber for Queue when passing falsy value that is not undefined or null", async function (): Promise<void> {
+        let caughtError: Error | undefined;
+        try {
+          await receiver.peekMessages(1, { fromSequenceNumber: falsyValue as any });
+        } catch (error: any) {
+          caughtError = error;
+        }
+        should.equal(caughtError && caughtError.name, "TypeError");
+        should.equal(
+          caughtError && caughtError.message,
+          `The parameter "fromSequenceNumber" should be of type "Long"`
+        );
+      });
     });
 
     it("RegisterMessageHandler: Missing onMessage in Receiver", async function (): Promise<void> {

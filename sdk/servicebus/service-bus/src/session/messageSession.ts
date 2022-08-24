@@ -37,7 +37,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
-import { isDefined } from "../util/typeGuards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -260,7 +260,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   private async _init(abortSignal?: AbortSignalLike): Promise<void> {
     try {
-      const options = this._createMessageSessionOptions();
+      const options = this._createMessageSessionOptions(this.identifier);
       await this.initLink(options, abortSignal);
 
       if (this.link == null) {
@@ -327,7 +327,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
    */
-  private _createMessageSessionOptions(): ReceiverOptions {
+  private _createMessageSessionOptions(clientId: string): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = createReceiverOptions(
       this.name,
       this.receiveMode,
@@ -335,6 +335,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         address: this.address,
         filter: { [Constants.sessionFilterName]: this.sessionId },
       },
+      clientId,
       {
         onClose: (context) =>
           this._onAmqpClose(context).catch(() => {
@@ -364,6 +365,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * to indicate we want the next unlocked non-empty session.
    */
   constructor(
+    public identifier: string,
     connectionContext: ConnectionContext,
     entityPath: string,
     private _providedSessionId: string | undefined,
@@ -430,6 +432,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier: this.identifier,
         });
       }
     };
@@ -451,6 +454,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier: this.identifier,
         });
       }
     };
@@ -655,6 +659,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           });
 
           const error = translateServiceBusError(err);
@@ -693,6 +698,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 errorSource: "abandon",
                 entityPath: this.entityPath,
                 fullyQualifiedNamespace: this._context.config.host,
+                identifier: this.identifier,
               });
             }
           }
@@ -734,6 +740,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               errorSource: "complete",
               entityPath: this.entityPath,
               fullyQualifiedNamespace: this._context.config.host,
+              identifier: this.identifier,
             });
           }
         }
@@ -767,6 +774,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         errorSource: "receive",
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
+        identifier: this.identifier,
       });
     }
   }
@@ -790,6 +798,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       errorSource: "processMessageCallback",
       entityPath: this.entityPath,
       fullyQualifiedNamespace: this._context.config.host,
+      identifier: this.identifier,
     });
   }
 
@@ -837,6 +846,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         fullyQualifiedNamespace: this._context.config.host,
         error: translateServiceBusError(connectionError),
         errorSource: "receive",
+        identifier: this.identifier,
       });
     } catch (error: any) {
       logger.error(
@@ -920,17 +930,19 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   /**
    * Creates a new instance of the MessageSession based on the provided parameters.
+   * @param identifier - name to identify the message session
    * @param context - The client entity context
    * @param options - Options that can be provided while creating the MessageSession.
    */
   static async create(
+    identifier: string,
     context: ConnectionContext,
     entityPath: string,
     sessionId: string | undefined,
     options: MessageSessionOptions
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context);
-    const messageSession = new MessageSession(context, entityPath, sessionId, options);
+    const messageSession = new MessageSession(identifier, context, entityPath, sessionId, options);
     await messageSession._init(options?.abortSignal);
     return messageSession;
   }

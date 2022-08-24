@@ -15,9 +15,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Triggers playbook on a specific incident
  *
  * @summary Triggers playbook on a specific incident
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/manualTrigger/AutomationRules_ManualTriggerPlaybook.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/manualTrigger/Incidents_RunPlaybook.json
  */
-async function automationRulesManualTriggerPlaybook() {
+async function incidentsRunPlaybook() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = "myRg";
   const workspaceName = "myWorkspace";
@@ -32,4 +32,4 @@ async function automationRulesManualTriggerPlaybook() {
   console.log(result);
 }
 
-automationRulesManualTriggerPlaybook().catch(console.error);
+incidentsRunPlaybook().catch(console.error);

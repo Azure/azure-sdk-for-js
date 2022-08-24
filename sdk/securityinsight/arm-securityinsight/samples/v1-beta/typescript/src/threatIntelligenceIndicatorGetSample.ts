@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to View a threat intelligence indicator by name.
  *
  * @summary View a threat intelligence indicator by name.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/threatintelligence/GetThreatIntelligenceById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/threatintelligence/GetThreatIntelligenceById.json
  */
 async function viewAThreatIntelligenceIndicatorByName() {
   const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";

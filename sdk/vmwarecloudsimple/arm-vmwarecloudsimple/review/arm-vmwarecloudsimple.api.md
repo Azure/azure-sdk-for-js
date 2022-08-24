@@ -431,53 +431,37 @@ export type GuestOSType = "linux" | "windows" | "other";
 
 // @public
 export enum KnownCustomizationHostNameType {
-    // (undocumented)
     CustomName = "CUSTOM_NAME",
-    // (undocumented)
     Fixed = "FIXED",
-    // (undocumented)
     PrefixBased = "PREFIX_BASED",
-    // (undocumented)
     UserDefined = "USER_DEFINED",
-    // (undocumented)
     VirtualMachineName = "VIRTUAL_MACHINE_NAME"
 }
 
 // @public
 export enum KnownCustomizationIdentityType {
-    // (undocumented)
     Linux = "LINUX",
-    // (undocumented)
     Windows = "WINDOWS",
-    // (undocumented)
     WindowsText = "WINDOWS_TEXT"
 }
 
 // @public
 export enum KnownCustomizationIPAddressType {
-    // (undocumented)
     Custom = "CUSTOM",
-    // (undocumented)
     DhcpIP = "DHCP_IP",
-    // (undocumented)
     FixedIP = "FIXED_IP",
-    // (undocumented)
     UserDefined = "USER_DEFINED"
 }
 
 // @public
 export enum KnownCustomizationPolicyPropertiesType {
-    // (undocumented)
     Linux = "LINUX",
-    // (undocumented)
     Windows = "WINDOWS"
 }
 
 // @public
 export enum KnownGuestOsnicCustomizationAllocation {
-    // (undocumented)
     Dynamic = "dynamic",
-    // (undocumented)
     Static = "static"
 }
 

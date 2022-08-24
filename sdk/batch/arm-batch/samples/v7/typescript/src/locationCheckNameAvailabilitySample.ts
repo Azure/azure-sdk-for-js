@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Checks whether the Batch account name is available in the specified region.
  *
  * @summary Checks whether the Batch account name is available in the specified region.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/LocationCheckNameAvailability_AlreadyExists.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/LocationCheckNameAvailability_AlreadyExists.json
  */
 async function locationCheckNameAvailabilityAlreadyExists() {
   const subscriptionId = "subid";
@@ -42,7 +42,7 @@ locationCheckNameAvailabilityAlreadyExists().catch(console.error);
  * This sample demonstrates how to Checks whether the Batch account name is available in the specified region.
  *
  * @summary Checks whether the Batch account name is available in the specified region.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/LocationCheckNameAvailability_Available.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/LocationCheckNameAvailability_Available.json
  */
 async function locationCheckNameAvailabilityAvailable() {
   const subscriptionId = "subid";

@@ -23,9 +23,9 @@ export interface AccessKeys {
 export type AccessRights = "Manage" | "Send" | "Listen";
 
 // @public
-export type AuthorizationRule = Resource & {
+export interface AuthorizationRule extends Resource {
     rights: AccessRights[];
-};
+}
 
 // @public
 export interface AuthorizationRuleListResult {
@@ -52,13 +52,13 @@ export interface ErrorResponse {
 }
 
 // @public
-export type HybridConnection = Resource & {
+export interface HybridConnection extends Resource {
     readonly createdAt?: Date;
-    readonly updatedAt?: Date;
     readonly listenerCount?: number;
     requiresClientAuthorization?: boolean;
+    readonly updatedAt?: Date;
     userMetadata?: string;
-};
+}
 
 // @public
 export interface HybridConnectionListResult {
@@ -365,14 +365,14 @@ export interface RelayAPIOptionalParams extends coreClient.ServiceClientOptions 
 }
 
 // @public
-export type RelayNamespace = TrackedResource & {
-    sku?: Sku;
-    readonly provisioningState?: ProvisioningStateEnum;
+export interface RelayNamespace extends TrackedResource {
     readonly createdAt?: Date;
-    readonly updatedAt?: Date;
-    readonly serviceBusEndpoint?: string;
     readonly metricId?: string;
-};
+    readonly provisioningState?: ProvisioningStateEnum;
+    readonly serviceBusEndpoint?: string;
+    sku?: Sku;
+    readonly updatedAt?: Date;
+}
 
 // @public
 export interface RelayNamespaceListResult {
@@ -384,14 +384,14 @@ export interface RelayNamespaceListResult {
 export type Relaytype = "NetTcp" | "Http";
 
 // @public
-export type RelayUpdateParameters = ResourceNamespacePatch & {
-    sku?: Sku;
-    readonly provisioningState?: ProvisioningStateEnum;
+export interface RelayUpdateParameters extends ResourceNamespacePatch {
     readonly createdAt?: Date;
-    readonly updatedAt?: Date;
-    readonly serviceBusEndpoint?: string;
     readonly metricId?: string;
-};
+    readonly provisioningState?: ProvisioningStateEnum;
+    readonly serviceBusEndpoint?: string;
+    sku?: Sku;
+    readonly updatedAt?: Date;
+}
 
 // @public
 export interface Resource {
@@ -401,11 +401,11 @@ export interface Resource {
 }
 
 // @public
-export type ResourceNamespacePatch = Resource & {
+export interface ResourceNamespacePatch extends Resource {
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface Sku {
@@ -414,27 +414,27 @@ export interface Sku {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";
 
 // @public
-export type WcfRelay = Resource & {
-    readonly isDynamic?: boolean;
+export interface WcfRelay extends Resource {
     readonly createdAt?: Date;
-    readonly updatedAt?: Date;
+    readonly isDynamic?: boolean;
     readonly listenerCount?: number;
     relayType?: Relaytype;
     requiresClientAuthorization?: boolean;
     requiresTransportSecurity?: boolean;
+    readonly updatedAt?: Date;
     userMetadata?: string;
-};
+}
 
 // @public
 export interface WCFRelays {

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates settings for the specified application.
  *
  * @summary Updates settings for the specified application.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-01-01/examples/ApplicationUpdate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/ApplicationUpdate.json
  */
 async function applicationUpdate() {
   const subscriptionId = "subid";
