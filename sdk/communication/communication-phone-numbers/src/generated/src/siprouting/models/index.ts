@@ -12,16 +12,46 @@ import * as coreClient from "@azure/core-client";
  * Represents a SIP configuration.
  * When a call is being routed the routes are applied in the same order as in the routes list.
  * A route is matched by its number pattern.
- * Call is then directed into route's first available trunk, based on the order in the route's trunks list.
+ * Call is then directed into route's first available trunk, based on the order in the route's trunks list. The configuration can be expanded with additional data.
  */
-export interface SipConfiguration {
+export interface SipConfigurationExpanded {
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
    */
-  trunks?: { [propertyName: string]: SipTrunk };
+  trunks?: { [propertyName: string]: TrunkExpanded };
   /** Trunk routes for routing calls. */
   routes?: SipTrunkRoute[];
+}
+
+/** Represents health state of a SIP trunk for routing calls. */
+export interface TrunkExpandedHealth {
+  /** The status of the TLS connections between Direct Routing and the SBC. */
+  tls: TrunkExpandedHealthTls;
+  /** The status of options message sent by SBC. */
+  ping: TrunkExpandedHealthPing;
+  /** The overall health status of SBC. */
+  overall: TrunkExpandedHealthOverall;
+}
+
+/** The status of the TLS connections between Direct Routing and the SBC. */
+export interface TrunkExpandedHealthTls {
+  /** The status of the TLS connections between Direct Routing and the SBC. */
+  status: TlsStatus;
+}
+
+/** The status of options message sent by SBC. */
+export interface TrunkExpandedHealthPing {
+  /** The status of options message sent by SBC. */
+  status: PingStatus;
+}
+
+/** The overall health status of SBC. */
+export interface TrunkExpandedHealthOverall {
+  /** The overall health status of SBC. */
+  status: OverallHealthStatus;
+  /** The reason overall status of SBC is inactive. */
+  reason?: InactiveStatusReason;
 }
 
 /** Represents a SIP trunk for routing calls. See RFC 4904. */
@@ -81,7 +111,7 @@ export interface SipConfigurationPatch {
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
    */
-  trunks?: { [propertyName: string]: TrunkPatch };
+  trunks?: { [propertyName: string]: TrunkPatch | null };
   /** Trunk routes for routing calls. */
   routes?: SipTrunkRoute[];
 }
@@ -92,12 +122,142 @@ export interface TrunkPatch {
   sipSignalingPort?: number;
 }
 
+/**
+ * Represents a SIP configuration.
+ * When a call is being routed the routes are applied in the same order as in the routes list.
+ * A route is matched by its number pattern.
+ * Call is then directed into route's first available trunk, based on the order in the route's trunks list.
+ */
+export interface SipConfiguration {
+  /**
+   * SIP trunks for routing calls.
+   * Map key is trunk's FQDN (1-249 characters).
+   */
+  trunks?: { [propertyName: string]: SipTrunk };
+  /** Trunk routes for routing calls. */
+  routes?: SipTrunkRoute[];
+}
+
+/** Represents a SIP trunk for routing calls. See RFC 4904. Can be expanded with additional data. */
+export type TrunkExpanded = SipTrunk & {
+  /** Represents health state of a SIP trunk for routing calls. */
+  health?: TrunkExpandedHealth;
+};
+
+/** Known values of {@link ExpandEnum} that the service accepts. */
+export enum KnownExpandEnum {
+  /** Health state of a SIP trunk for routing calls. */
+  TrunkHealth = "trunkHealth"
+}
+
+/**
+ * Defines values for ExpandEnum. \
+ * {@link KnownExpandEnum} can be used interchangeably with ExpandEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **trunkHealth**: Health state of a SIP trunk for routing calls.
+ */
+export type ExpandEnum = string;
+
+/** Known values of {@link TlsStatus} that the service accepts. */
+export enum KnownTlsStatus {
+  /** Indicates an unknown status. */
+  Unknown = "unknown",
+  /** Indicates the status is okay. */
+  Ok = "ok",
+  /** Indicates the SBC certificate is expiring. */
+  CertExpiring = "certExpiring",
+  /** Indicates the SBC certificate is expired. */
+  CertExpired = "certExpired"
+}
+
+/**
+ * Defines values for TlsStatus. \
+ * {@link KnownTlsStatus} can be used interchangeably with TlsStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **unknown**: Indicates an unknown status. \
+ * **ok**: Indicates the status is okay. \
+ * **certExpiring**: Indicates the SBC certificate is expiring. \
+ * **certExpired**: Indicates the SBC certificate is expired.
+ */
+export type TlsStatus = string;
+
+/** Known values of {@link PingStatus} that the service accepts. */
+export enum KnownPingStatus {
+  /** Indicates an unknown status. */
+  Unknown = "unknown",
+  /** Indicates the status is okay. */
+  Ok = "ok",
+  /** Indicates the status is expired. */
+  Expired = "expired",
+  /** Indicates the status is at an error level. */
+  Error = "error"
+}
+
+/**
+ * Defines values for PingStatus. \
+ * {@link KnownPingStatus} can be used interchangeably with PingStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **unknown**: Indicates an unknown status. \
+ * **ok**: Indicates the status is okay. \
+ * **expired**: Indicates the status is expired. \
+ * **error**: Indicates the status is at an error level.
+ */
+export type PingStatus = string;
+
+/** Known values of {@link OverallHealthStatus} that the service accepts. */
+export enum KnownOverallHealthStatus {
+  /** Indicates an unknown health status. */
+  Unknown = "unknown",
+  /** Indicates the SBC is active. */
+  Active = "active",
+  /** Indicates the SBC is inactive. */
+  Inactive = "inactive"
+}
+
+/**
+ * Defines values for OverallHealthStatus. \
+ * {@link KnownOverallHealthStatus} can be used interchangeably with OverallHealthStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **unknown**: Indicates an unknown health status. \
+ * **active**: Indicates the SBC is active. \
+ * **inactive**: Indicates the SBC is inactive.
+ */
+export type OverallHealthStatus = string;
+
+/** Known values of {@link InactiveStatusReason} that the service accepts. */
+export enum KnownInactiveStatusReason {
+  /** Indicates no recent calls. */
+  NoRecentCalls = "noRecentCalls",
+  /** Indicates ping status is expired. */
+  NoRecentPings = "noRecentPings",
+  /** Indicates no recent calls and ping status is expired. */
+  NoRecentCallsAndPings = "noRecentCallsAndPings"
+}
+
+/**
+ * Defines values for InactiveStatusReason. \
+ * {@link KnownInactiveStatusReason} can be used interchangeably with InactiveStatusReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **noRecentCalls**: Indicates no recent calls. \
+ * **noRecentPings**: Indicates ping status is expired. \
+ * **noRecentCallsAndPings**: Indicates no recent calls and ping status is expired.
+ */
+export type InactiveStatusReason = string;
+
 /** Optional parameters. */
 export interface GetSipConfigurationOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Sip configuration expand. Optional. */
+  expand?: ExpandEnum;
+}
 
 /** Contains response data for the getSipConfiguration operation. */
-export type GetSipConfigurationResponse = SipConfiguration;
+export type GetSipConfigurationResponse = SipConfigurationExpanded;
 
 /** Optional parameters. */
 export interface PatchSipConfigurationOptionalParams
@@ -106,7 +266,7 @@ export interface PatchSipConfigurationOptionalParams
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
    */
-  trunks?: { [propertyName: string]: TrunkPatch };
+  trunks?: { [propertyName: string]: TrunkPatch | null };
   /** Trunk routes for routing calls. */
   routes?: SipTrunkRoute[];
 }

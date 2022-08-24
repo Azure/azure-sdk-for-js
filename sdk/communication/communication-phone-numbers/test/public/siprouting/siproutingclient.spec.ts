@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {assert} from "chai";
-import {Context} from "mocha";
+import { assert } from "chai";
+import { Context } from "mocha";
 
-import {SipRoutingClient} from "../../../src";
+import { SipRoutingClient } from "../../../src";
 
-import {env, record, Recorder} from "@azure/test-utils-recorder";
-import {SipTrunk, SipTrunkRoute} from "../../../src/models";
+import { env, record, Recorder } from "@azure/test-utils-recorder";
+import { SipTrunk, SipTrunkRoute } from "../../../src/models";
 
 const replaceableVariables: Record<string, string> = {
   // This must at least look like connection string to pass the validation.
@@ -16,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   APPCONFIG_TEST_SETTING_EXPECTED_VALUE: "test-value",
   AZURE_TENANT_ID: "azure_tenant_id",
   AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret"
+  AZURE_CLIENT_SECRET: "azure_client_secret",
 };
 
 function createSipRoutingClient(): SipRoutingClient {
@@ -24,7 +24,7 @@ function createSipRoutingClient(): SipRoutingClient {
   return new SipRoutingClient(connectionString);
 }
 
-describe("[ACS] SipRoutingClient functional tests", function() {
+describe("[ACS] SipRoutingClient functional tests", function () {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
   let client: SipRoutingClient;
@@ -33,7 +33,7 @@ describe("[ACS] SipRoutingClient functional tests", function() {
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
@@ -53,8 +53,8 @@ describe("[ACS] SipRoutingClient functional tests", function() {
       // replacements within recordings.
       customizationsOnRecordings: [
         (recording: any): any =>
-          recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
-      ]
+          recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+      ],
     });
 
     // We'll be able to refer to the instantiated `client` in tests, since we
@@ -66,7 +66,7 @@ describe("[ACS] SipRoutingClient functional tests", function() {
   });
 
   // After each test, we need to stop the recording.
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -78,8 +78,8 @@ describe("[ACS] SipRoutingClient functional tests", function() {
 
   it("can set a new trunk", async () => {
     const trunk: SipTrunk = {
-      fqdn: 'test-sbc.foo.bar',
-      sipSignalingPort: 5678
+      fqdn: "test-sbc.foo.bar",
+      sipSignalingPort: 5678,
     };
 
     const setTrunk = await client.setTrunk(trunk);
@@ -91,8 +91,8 @@ describe("[ACS] SipRoutingClient functional tests", function() {
 
   it("can set an existing trunk", async () => {
     const trunk: SipTrunk = {
-      fqdn: 'test-sbc.foo.bar',
-      sipSignalingPort: 5678
+      fqdn: "test-sbc.foo.bar",
+      sipSignalingPort: 5678,
     };
     await client.setTrunk(trunk);
 
@@ -106,13 +106,16 @@ describe("[ACS] SipRoutingClient functional tests", function() {
   });
 
   it("can set multiple new trunks", async () => {
-    const trunks: SipTrunk[] = [{
-      fqdn: 'test-one-sbc.foo.bar',
-      sipSignalingPort: 5678
-    },{
-      fqdn: 'test-two-sbc.foo.bar',
-      sipSignalingPort: 5678
-    }];
+    const trunks: SipTrunk[] = [
+      {
+        fqdn: "test-one-sbc.foo.bar",
+        sipSignalingPort: 5678,
+      },
+      {
+        fqdn: "test-two-sbc.foo.bar",
+        sipSignalingPort: 5678,
+      },
+    ];
 
     const setTrunks = await client.setTrunks(trunks);
     assert.deepEqual(setTrunks, trunks);
@@ -122,13 +125,16 @@ describe("[ACS] SipRoutingClient functional tests", function() {
   });
 
   it("can set multiple existing trunks", async () => {
-    const trunks: SipTrunk[] = [{
-      fqdn: 'test-one-sbc.foo.bar',
-      sipSignalingPort: 5678
-    },{
-      fqdn: 'test-two-sbc.foo.bar',
-      sipSignalingPort: 5678
-    }];
+    const trunks: SipTrunk[] = [
+      {
+        fqdn: "test-one-sbc.foo.bar",
+        sipSignalingPort: 5678,
+      },
+      {
+        fqdn: "test-two-sbc.foo.bar",
+        sipSignalingPort: 5678,
+      },
+    ];
     await client.setTrunks(trunks);
 
     trunks[0].sipSignalingPort = 6789;
@@ -143,16 +149,16 @@ describe("[ACS] SipRoutingClient functional tests", function() {
 
   it("can delete an existing trunk", async () => {
     const trunk: SipTrunk = {
-      fqdn: 'test-sbc.foo.bar',
-      sipSignalingPort: 5678
+      fqdn: "test-sbc.foo.bar",
+      sipSignalingPort: 5678,
     };
     const storedTrunk = await client.setTrunk(trunk);
     assert.deepEqual(storedTrunk, trunk);
-    assert.exists((await client.getTrunks()).find(value => value.fqdn === trunk.fqdn));
+    assert.exists((await client.getTrunks()).find((value) => value.fqdn === trunk.fqdn));
 
     await client.deleteTrunk("test-sbc.foo.bar");
 
-    assert.notExists((await client.getTrunks()).find(value => value.fqdn === trunk.fqdn));  
+    assert.notExists((await client.getTrunks()).find((value) => value.fqdn === trunk.fqdn));
   });
 
   it("can retrieve empty routes", async () => {
@@ -162,17 +168,20 @@ describe("[ACS] SipRoutingClient functional tests", function() {
   });
 
   it("can set multiple new routes", async () => {
-    const routes: SipTrunkRoute[] = [{
-      name: "myFirstRoute",
-      description: "myFirstRoute's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: []
-    },{
-      name: "mySecondRoute",
-      description: "mySecondRoute's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: []
-    }];
+    const routes: SipTrunkRoute[] = [
+      {
+        name: "myFirstRoute",
+        description: "myFirstRoute's description",
+        numberPattern: "^+[1-9][0-9]{3,23}$",
+        trunks: [],
+      },
+      {
+        name: "mySecondRoute",
+        description: "mySecondRoute's description",
+        numberPattern: "^+[1-9][0-9]{3,23}$",
+        trunks: [],
+      },
+    ];
 
     const setRoutes = await client.setRoutes(routes);
     assert.deepEqual(setRoutes, routes);
@@ -182,17 +191,20 @@ describe("[ACS] SipRoutingClient functional tests", function() {
   });
 
   it("can set multiple existing routes", async () => {
-    const routes: SipTrunkRoute[] = [{
-      name: "myFirstRoute",
-      description: "myFirstRoute's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: []
-    },{
-      name: "mySecondRoute",
-      description: "mySecondRoute's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: []
-    }];
+    const routes: SipTrunkRoute[] = [
+      {
+        name: "myFirstRoute",
+        description: "myFirstRoute's description",
+        numberPattern: "^+[1-9][0-9]{3,23}$",
+        trunks: [],
+      },
+      {
+        name: "mySecondRoute",
+        description: "mySecondRoute's description",
+        numberPattern: "^+[1-9][0-9]{3,23}$",
+        trunks: [],
+      },
+    ];
     await client.setRoutes(routes);
 
     routes[0].numberPattern = "^.*$";
@@ -207,44 +219,48 @@ describe("[ACS] SipRoutingClient functional tests", function() {
 
   it("can set a new route with trunk", async () => {
     const trunk: SipTrunk = {
-      fqdn: 'test-sbc.foo.bar',
-      sipSignalingPort: 5678
+      fqdn: "test-sbc.foo.bar",
+      sipSignalingPort: 5678,
     };
     await client.setTrunk(trunk);
 
     const route: SipTrunkRoute = {
       name: "myFirstRoute",
       description: "myFirstRoute's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: [
-        "test-sbc.foo.bar"
-      ]
+      numberPattern: "^+[1-9][0-9]{3,23}$",
+      trunks: ["test-sbc.foo.bar"],
     };
     assert.deepEqual(await client.setRoutes([route]), [route]);
     assert.deepEqual(await client.getRoutes(), [route]);
   });
 
   it("can set multiple new trunks without affecting routes via PATCH", async () => {
-    const routes: SipTrunkRoute[] = [{
-      name: "myFirstRoute",
-      description: "myFirstRoute's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: []
-    },{
-      name: "mySecondRoute",
-      description: "mySecondRoute's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: []
-    }];
+    const routes: SipTrunkRoute[] = [
+      {
+        name: "myFirstRoute",
+        description: "myFirstRoute's description",
+        numberPattern: "^+[1-9][0-9]{3,23}$",
+        trunks: [],
+      },
+      {
+        name: "mySecondRoute",
+        description: "mySecondRoute's description",
+        numberPattern: "^+[1-9][0-9]{3,23}$",
+        trunks: [],
+      },
+    ];
     await client.setRoutes(routes);
 
-    const trunks: SipTrunk[] = [{
-      fqdn: 'test-one-sbc.foo.bar',
-      sipSignalingPort: 5678
-    },{
-      fqdn: 'test-two-sbc.foo.bar',
-      sipSignalingPort: 5678
-    }];
+    const trunks: SipTrunk[] = [
+      {
+        fqdn: "test-one-sbc.foo.bar",
+        sipSignalingPort: 5678,
+      },
+      {
+        fqdn: "test-two-sbc.foo.bar",
+        sipSignalingPort: 5678,
+      },
+    ];
     await client.setTrunks(trunks);
 
     assert.deepEqual(await client.getTrunks(), trunks);
@@ -252,26 +268,32 @@ describe("[ACS] SipRoutingClient functional tests", function() {
   });
 
   it("can set multiple new routes without affecting trunks via PATCH", async () => {
-    const trunks: SipTrunk[] = [{
-      fqdn: 'test-one-sbc.foo.bar',
-      sipSignalingPort: 5678
-    },{
-      fqdn: 'test-two-sbc.foo.bar',
-      sipSignalingPort: 5678
-    }];
+    const trunks: SipTrunk[] = [
+      {
+        fqdn: "test-one-sbc.foo.bar",
+        sipSignalingPort: 5678,
+      },
+      {
+        fqdn: "test-two-sbc.foo.bar",
+        sipSignalingPort: 5678,
+      },
+    ];
     await client.setTrunks(trunks);
 
-    const routes: SipTrunkRoute[] = [{
-      name: "myFirstRoute",
-      description: "myFirstRoute's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: []
-    },{
-      name: "mySecondRoute",
-      description: "mySecondRoute's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: []
-    }];
+    const routes: SipTrunkRoute[] = [
+      {
+        name: "myFirstRoute",
+        description: "myFirstRoute's description",
+        numberPattern: "^+[1-9][0-9]{3,23}$",
+        trunks: [],
+      },
+      {
+        name: "mySecondRoute",
+        description: "mySecondRoute's description",
+        numberPattern: "^+[1-9][0-9]{3,23}$",
+        trunks: [],
+      },
+    ];
     await client.setRoutes(routes);
 
     assert.deepEqual(await client.getTrunks(), trunks);

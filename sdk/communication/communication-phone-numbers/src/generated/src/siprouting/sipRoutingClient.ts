@@ -62,13 +62,13 @@ const getSipConfigurationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SipConfiguration
+      bodyMapper: Mappers.SipConfigurationExpanded
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -80,9 +80,6 @@ const patchSipConfigurationOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SipConfiguration
     },
-    415: {},
-    422: {},
-    500: {},
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
