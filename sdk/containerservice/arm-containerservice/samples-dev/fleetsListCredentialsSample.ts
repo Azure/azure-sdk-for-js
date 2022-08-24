@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists the user credentials of a Fleet.
  *
  * @summary Lists the user credentials of a Fleet.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/Fleets_ListCredentialsResult.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-07-02-preview/examples/Fleets_ListCredentialsResult.json
  */
 async function listFleetCredentials() {
   const subscriptionId = "subid1";

@@ -1,6 +1,6 @@
 # Release History
 
-## 17.1.0-beta.2 (Unreleased)
+## 17.1.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 17.1.0-beta.1 (2022-07-25)
+## 17.1.0-beta.2 (2022-08-19)
     
 **Features**
 
@@ -19,8 +19,11 @@
   - Added operation group ManagedClusterSnapshots
   - Added operation group TrustedAccessRoleBindings
   - Added operation group TrustedAccessRoles
+  - Added operation AgentPools.abortLatestOperation
+  - Added operation ManagedClusters.abortLatestOperation
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeys
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait
+  - Added Interface AgentPoolsAbortLatestOperationOptionalParams
   - Added Interface AzureEntityResource
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
@@ -47,10 +50,15 @@
   - Added Interface FleetsListNextOptionalParams
   - Added Interface FleetsListOptionalParams
   - Added Interface FleetsUpdateOptionalParams
+  - Added Interface ManagedClusterAzureMonitorProfile
+  - Added Interface ManagedClusterAzureMonitorProfileKubeStateMetrics
+  - Added Interface ManagedClusterAzureMonitorProfileMetrics
   - Added Interface ManagedClusterIngressProfile
   - Added Interface ManagedClusterIngressProfileWebAppRouting
   - Added Interface ManagedClusterOidcIssuerProfile
   - Added Interface ManagedClusterPropertiesForSnapshot
+  - Added Interface ManagedClustersAbortLatestOperationOptionalParams
+  - Added Interface ManagedClusterSecurityProfileImageCleaner
   - Added Interface ManagedClusterSecurityProfileNodeRestriction
   - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
   - Added Interface ManagedClusterSnapshot
@@ -67,6 +75,7 @@
   - Added Interface ManagedClusterStorageProfileBlobCSIDriver
   - Added Interface ManagedClusterWorkloadAutoScalerProfile
   - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
   - Added Interface NetworkProfileForSnapshot
   - Added Interface TrustedAccessRole
   - Added Interface TrustedAccessRoleBinding
@@ -80,6 +89,7 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias ControlledValues
   - Added Type Alias FleetMemberProvisioningState
   - Added Type Alias FleetMembersCreateOrUpdateResponse
   - Added Type Alias FleetMembersGetResponse
@@ -109,11 +119,13 @@
   - Added Type Alias TrustedAccessRoleBindingsListResponse
   - Added Type Alias TrustedAccessRolesListNextResponse
   - Added Type Alias TrustedAccessRolesListResponse
+  - Added Type Alias UpdateMode
   - Interface AgentPool has a new optional parameter capacityReservationGroupID
   - Interface AgentPool has a new optional parameter enableCustomCATrust
   - Interface AgentPool has a new optional parameter messageOfTheDay
   - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
+  - Interface ManagedCluster has a new optional parameter azureMonitorProfile
   - Interface ManagedCluster has a new optional parameter creationData
   - Interface ManagedCluster has a new optional parameter enableNamespaceResources
   - Interface ManagedCluster has a new optional parameter ingressProfile
@@ -126,6 +138,7 @@
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId
   - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
   - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface ManagedClusterSecurityProfile has a new optional parameter imageCleaner
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
   - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
   - Interface ManagedClusterStorageProfile has a new optional parameter blobCSIDriver
@@ -135,12 +148,15 @@
   - Class ContainerServiceClient has a new parameter managedClusterSnapshots
   - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
   - Class ContainerServiceClient has a new parameter trustedAccessRoles
+  - Added Enum KnownControlledValues
   - Added Enum KnownFleetMemberProvisioningState
   - Added Enum KnownFleetProvisioningState
   - Added Enum KnownNetworkPluginMode
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
+  - Added Enum KnownUpdateMode
   - Enum KnownOssku has a new value Windows2019
   - Enum KnownOssku has a new value Windows2022
+  - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
     
     

@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 11.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 11.0.0-beta.1 (2022-07-25)
 
 The package of @azure/arm-automation is using our next generation design principles since version 11.0.0-beta.1, which contains breaking changes.

@@ -1820,6 +1820,11 @@
       "packageName": "@azure/communication-rooms",
       "projectFolder": "sdk/communication/communication-rooms",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-connectedvmware",
+      "projectFolder": "sdk/connectedvmware/arm-connectedvmware",
+      "versionPolicyName": "management"
     }
   ]
 }
