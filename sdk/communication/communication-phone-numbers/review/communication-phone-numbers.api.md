@@ -171,7 +171,6 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
-    getExpandedTrunks(options?: OperationOptions): Promise<SipTrunkExpanded[]>;
     getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
     getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
     getTrunks(options?: OperationOptions): Promise<SipTrunk[]>;
@@ -191,36 +190,12 @@ export interface SipTrunk {
 }
 
 // @public
-export type SipTrunkExpanded = SipTrunk & {
-    health?: SipTrunkHealth;
-};
-
-// @public (undocumented)
-export interface SipTrunkHealth {
-    // (undocumented)
-    overall: OverallHealth;
-    // (undocumented)
-    ping: PingHealth;
-    // (undocumented)
-    tls: TlsHealth;
-}
-
-// @public
 export interface SipTrunkRoute {
     description?: string;
     name: string;
     numberPattern: string;
     trunks?: string[];
 }
-
-// @public (undocumented)
-export interface TlsHealth {
-    // (undocumented)
-    status: TlsStatus;
-}
-
-// @public
-export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 
 // (No @packageDocumentation comment for this package)
 
