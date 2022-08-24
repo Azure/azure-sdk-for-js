@@ -62,8 +62,6 @@ describe("AppContainer test", () => {
     await recorder.stop();
   });
 
-
-
   it("managedEnvironments create test", async function () {
 
     environmentEnvelope = {
@@ -100,7 +98,6 @@ describe("AppContainer test", () => {
     assert.equal(res.name, containerAppName);
   });
 
-
   it("containerapp list Secrets test", async function () {
     const res = await client.containerApps.listSecrets(
       resourceGroup,
@@ -125,5 +122,4 @@ describe("AppContainer test", () => {
     }
     assert.equal(resArray.length, 0);
   })
-
 })
