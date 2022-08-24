@@ -63,3 +63,44 @@ export interface SipTrunk {
    */
   sipSignalingPort: number;
 }
+<<<<<<< Updated upstream
+=======
+
+/**
+ * Represents a SIP trunk for routing calls. See RFC 4904.
+ */
+export type SipTrunkExpanded = SipTrunk & {
+  /** Represents health state of a SIP trunk for routing calls. */
+  health?: SipTrunkHealth;
+};
+
+export interface SipTrunkHealth {
+  tls: TlsHealth;
+  ping: PingHealth;
+  overall: OverallHealth;
+}
+
+export interface TlsHealth {
+  status: TlsStatus;
+}
+
+export interface PingHealth {
+  status: PingStatus;
+}
+
+export interface OverallHealth {
+  status: OverallStatus;
+  reason?: InactiveStatusReason;
+}
+
+/** Possible values of the status of TLS connections between Direct Routing and the SBC */
+export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
+
+/** Possible values of the status of options message send by SBC */
+export type PingStatus = "unknown" | "ok" | "expired" | "error";
+
+/** Possible values of the overall status of SBC*/
+export type OverallStatus = "unknown" | "active" | "inactive";
+
+/** Possible values of the overall status of SBC*/
+export type InactiveStatusReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";

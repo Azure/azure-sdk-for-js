@@ -7,10 +7,11 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const buildClient = () => {
-  const connectionString = process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
+  const connectionString =
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
   return new SipRoutingClient(connectionString);
-}
+};
 
 export async function main() {
   console.log("\n== SIP Routing Client Example ==\n");
@@ -25,33 +26,35 @@ export async function main() {
   // Set trunks
   await client.setTrunks([
     {
-      fqdn: 'sbc.one.domain.com',
-      sipSignalingPort: 1234
-    },{
-      fqdn: 'sbc.two.domain.com',
-      sipSignalingPort: 1234
-    }
+      fqdn: "sbc.one.domain.com",
+      sipSignalingPort: 1234,
+    },
+    {
+      fqdn: "sbc.two.domain.com",
+      sipSignalingPort: 1234,
+    },
   ]);
-  
+
   // Set routes
   await client.setRoutes([
     {
       name: "First Route",
       description: "route's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: [ 'sbc.one.domain.com' ]
-    },{
+      numberPattern: "^+[1-9][0-9]{3,23}$",
+      trunks: ["sbc.one.domain.com"],
+    },
+    {
       name: "Second Route",
       description: "route's description",
       numberPattern: "^.*$",
-      trunks: [ 'sbc.two.domain.com', 'sbc.one.domain.com' ]
-    }
+      trunks: ["sbc.two.domain.com", "sbc.one.domain.com"],
+    },
   ]);
 
   // Update a trunk
   await client.setTrunk({
-    fqdn: 'sbc.one.domain.com',
-    sipSignalingPort: 4321
+    fqdn: "sbc.one.domain.com",
+    sipSignalingPort: 4321,
   });
 
   // Get trunks
