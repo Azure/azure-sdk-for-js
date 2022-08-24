@@ -68,7 +68,7 @@
 /sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @jay-most @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @sajeetharan
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli
 
 # ServiceLabel: %Cosmos %Service Attention
 #/<NotInRepo>/ @sajeetharan @simorenoh @pjohari-ms
