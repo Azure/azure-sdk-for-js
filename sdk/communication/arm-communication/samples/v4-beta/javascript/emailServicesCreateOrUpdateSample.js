@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Create a new EmailService or update an existing EmailService.
  *
  * @summary Create a new EmailService or update an existing EmailService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2021-10-01-preview/examples/emailServices/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/createOrUpdate.json
  */
 async function createOrUpdateEmailServiceResource() {
   const subscriptionId = "12345";
