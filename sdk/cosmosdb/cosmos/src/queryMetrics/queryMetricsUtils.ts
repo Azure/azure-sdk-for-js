@@ -19,7 +19,7 @@ export function parseDelimitedString(delimitedString: string): {
     const attributeKeyValue = attribute.split("=");
 
     if (attributeKeyValue.length !== 2) {
-      throw new Error("recieved a malformed delimited string");
+      throw new Error("received a malformed delimited string");
     }
 
     const attributeKey = attributeKeyValue[0];

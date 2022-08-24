@@ -42,7 +42,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * This is the base class that ParallelQueryExecutionContext and OrderByQueryExecutionContext will derive from.
    *
    * When handling a parallelized query, it instantiates one instance of
-   * DocumentProcuder per target partition key range and aggregates the result of each.
+   * DocumentProducer per target partition key range and aggregates the result of each.
    *
    * @param clientContext - The service endpoint to use to create the client.
    * @param collectionLink - The Collection Link
@@ -222,7 +222,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       const replacementDocumentProducers: DocumentProducer[] = [];
       // Create the replacement documentProducers
       replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
-        // Create replacment document producers with the parent's continuationToken
+        // Create replacement document producers with the parent's continuationToken
         const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
           partitionKeyRange,
           parentDocumentProducer.continuationToken
@@ -335,7 +335,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const ifCallback = (): void => {
           // Release the semaphore to avoid deadlock
           this.sem.leave();
-          // Reexcute the function
+          // Reexecute the function
           return resolve(this.nextItem());
         };
         const elseCallback = async (): Promise<void> => {
@@ -435,7 +435,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   /**
-   * Determine if there are still remaining resources to processs based on the value of the continuation
+   * Determine if there are still remaining resources to process based on the value of the continuation
    * token or the elements remaining on the current batch in the QueryIterator.
    * @returns true if there is other elements to process in the ParallelQueryExecutionContextBase.
    */

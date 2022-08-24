@@ -20,7 +20,7 @@ export class OrderByQueryExecutionContext
    * This class is capable of handling orderby queries and dervives from ParallelQueryExecutionContextBase.
    *
    * When handling a parallelized query, it instantiates one instance of
-   * DocumentProcuder per target partition key range and aggregates the result of each.
+   * DocumentProducer per target partition key range and aggregates the result of each.
    *
    * @param clientContext - The service endpoint to use to create the client.
    * @param collectionLink - The Collection Link

@@ -14,7 +14,7 @@ import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
 import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
 
 /**
- * Used to read, replace, or delete a specified User Definied Function by id.
+ * Used to read, replace, or delete a specified User Defined Function by id.
  *
  * @see {@link UserDefinedFunction} to create, upsert, query, read all User Defined Functions.
  */

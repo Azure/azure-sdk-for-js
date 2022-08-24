@@ -1651,11 +1651,11 @@ export enum SasTokenPermissionKind {
     // (undocumented)
     TriggerReplace = 33554432,
     // (undocumented)
-    UserDefinedFuntionDelete = 16777216,
+    UserDefinedFunctionDelete = 16777216,
     // (undocumented)
-    UserDefinedFuntionRead = 256,
+    UserDefinedFunctionRead = 256,
     // (undocumented)
-    UserDefinedFuntionReplace = 8388608
+    UserDefinedFunctionReplace = 8388608
 }
 
 // @public (undocumented)

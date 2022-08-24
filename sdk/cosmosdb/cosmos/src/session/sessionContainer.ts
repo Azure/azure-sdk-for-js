@@ -137,7 +137,7 @@ export class SessionContainer {
     }
   }
 
-  // TODO: have a assert if the type doesn't mastch known types
+  // TODO: have a assert if the type doesn't match known types
   private static isReadingFromMaster(
     resourceType: ResourceType,
     operationType: OperationType

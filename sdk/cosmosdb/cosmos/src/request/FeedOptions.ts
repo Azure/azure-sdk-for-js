@@ -35,7 +35,7 @@ export interface FeedOptions extends SharedOptions {
   /**
    * Max number of items to be returned in the enumeration operation. Default: undefined (server will defined payload)
    *
-   * Expirimenting with this value can usually result in the biggest performance changes to the query.
+   * Experimenting with this value can usually result in the biggest performance changes to the query.
    *
    * The smaller the item count, the faster the first result will be delivered (for non-aggregates). For larger amounts,
    * it will take longer to serve the request, but you'll usually get better throughput for large queries (i.e. if you need 1000 items

@@ -20,7 +20,7 @@ function compareRanges(a: any, b: any): 0 | 1 | -1 {
 
 /** @hidden */
 export function createCompleteRoutingMap(
-  partitionKeyRangeInfoTuppleList: any[]
+  partitionKeyRangeInfoTupleList: any[]
 ): InMemoryCollectionRoutingMap {
   const rangeById: any = {}; // TODO: any
   const rangeByInfo: any = {}; // TODO: any
@@ -28,7 +28,7 @@ export function createCompleteRoutingMap(
   let sortedRanges = [];
 
   // the for loop doesn't invoke any async callback
-  for (const r of partitionKeyRangeInfoTuppleList) {
+  for (const r of partitionKeyRangeInfoTupleList) {
     rangeById[r[0][Constants.PartitionKeyRange.Id]] = r;
     rangeByInfo[r[1]] = r[0];
     sortedRanges.push(r);

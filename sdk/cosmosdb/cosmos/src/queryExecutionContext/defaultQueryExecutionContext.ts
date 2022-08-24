@@ -95,7 +95,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   }
 
   /**
-   * Determine if there are still remaining resources to processs based on
+   * Determine if there are still remaining resources to process based on
    * the value of the continuation token or the elements remaining on the current batch in the execution context.
    *
    * @returns true if there is other elements to process in the DefaultQueryExecutionContext.

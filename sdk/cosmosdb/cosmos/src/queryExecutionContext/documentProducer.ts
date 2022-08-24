@@ -204,7 +204,7 @@ export class DocumentProducer {
    * @returns buffered current item if any
    * @hidden
    */
-  public getTargetParitionKeyRange(): PartitionKeyRange {
+  public getTargetPartitionKeyRange(): PartitionKeyRange {
     return this.targetPartitionKeyRange;
   }
 
@@ -273,7 +273,7 @@ export class DocumentProducer {
       };
     }
 
-    // If there are no more bufferd items and there are still items to be fetched then buffer more
+    // If there are no more buffered items and there are still items to be fetched then buffer more
     const { result, headers } = await this.bufferMore();
     mergeHeaders(this.respHeaders, headers);
     if (result === undefined) {

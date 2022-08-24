@@ -465,7 +465,7 @@ Based on customer feedback, we identified scenarios where it still makes sense t
 ## 3.0.4 (2019-07-22)
 
 - Allow initialHeaders to explicitly set partition key header (#383)
-- Use package.json#files to prevent extraneous files from being pubished (#382)
+- Use package.json#files to prevent extraneous files from being published (#382)
 - Fix for routing map sort error on older version of node+v8 (#378)
 - Fixes bug when user supplies partial retry options. Close #377 (#379)
 - README updates (#374)
@@ -493,7 +493,7 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
   - User cancelable requests
 - Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
 - Make it easier to use Cosmos from the browser
-- Better align with the new [Azure JS SDK guidlines](https://azure.github.io/azure-sdk/typescript_introduction.html)
+- Better align with the new [Azure JS SDK guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html)
 
 ### Migration Guide for Breaking Changes
 
@@ -522,13 +522,13 @@ const client = new CosmosClient({
 
 #### Simplified QueryIterator API (#238 #316)
 
-In v2 there were many different ways to iterate or retrieve results from a query. We have attempted to simplify the v3 API and remove similar or duplciate APIs:
+In v2 there were many different ways to iterate or retrieve results from a query. We have attempted to simplify the v3 API and remove similar or duplicate APIs:
 
 - Remove iterator.next() and iterator.current(). Use fetchNext() to get pages of results.
 - Remove iterator.forEach(). Use async iterators instead.
 - iterator.executeNext() renamed to iterator.fetchNext()
 - iterator.toArray() renamed to iterator.fetchAll()
-- Pages are now proper `Response` objects intead of plain JS objects
+- Pages are now proper `Response` objects instead of plain JS objects
 
 ```js
 const container = client.database(dbId).container(containerId)
@@ -563,7 +563,7 @@ v3 removed `partitionKey` from `FeedOptions` so there is now only one way to spe
 container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchAll();
 ```
 
-#### Fixed Containers are now Paritioned (#308)
+#### Fixed Containers are now Partitioned (#308)
 
 [The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
 
@@ -785,9 +785,9 @@ Not always the most visible changes, but they help our team ship better code, fa
   By default, DocumentClient retries nine times for each request when error code 429 is encountered, honoring the retryAfter time in the response header.
   A fixed retry interval time can now be set as part of the RetryOptions property on the ConnectionPolicy object if you want to ignore the retryAfter time returned by server between the retries.
   DocumentClient now waits for a maximum of 30 seconds for each request that is being throttled (irrespective of retry count) and returns the response with error code 429.
-  This time can also be overriden in the RetryOptions property on ConnectionPolicy object.
+  This time can also be overridden in the RetryOptions property on ConnectionPolicy object.
 
-- DocumentClient now returns x-ms-throttle-retry-count and x-ms-throttle-retry-wait-time-ms as the response headers in every request to denote the throttle retry count and the cummulative time the request waited between the retries.
+- DocumentClient now returns x-ms-throttle-retry-count and x-ms-throttle-retry-wait-time-ms as the response headers in every request to denote the throttle retry count and the cumulative time the request waited between the retries.
 
 - The RetryOptions class was added, exposing the RetryOptions property on the ConnectionPolicy class that can be used to override some of the default retry options.
 
@@ -811,7 +811,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 
 ## 1.5.5 (2016-02-02)
 
-- Fixed hashParitionResolver resolveForRead(): When no partition key supplied was throwing exception, instead of returning a list of all registered links.
+- Fixed hashPartitionResolver resolveForRead(): When no partition key supplied was throwing exception, instead of returning a list of all registered links.
 
 ## 1.5.4 (2016-02-01)
 
@@ -833,7 +833,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 
 - Added client-side sharding support.
 - Added hash partition resolver implementation.
-- Added range partitoin resolver implementation.
+- Added range partition resolver implementation.
 
 ## 1.4.0 (2015-10-06)
 

@@ -6,7 +6,7 @@ import { PartitionKeyRangeCache } from "./partitionKeyRangeCache";
 import { QueryRange } from "./QueryRange";
 
 /** @hidden */
-export const PARITIONKEYRANGE = Constants.PartitionKeyRange;
+export const PARTITIONKEYRANGE = Constants.PartitionKeyRange;
 
 /** @hidden */
 export class SmartRoutingMapProvider {
@@ -57,7 +57,7 @@ export class SmartRoutingMapProvider {
   }
 
   private static _subtractRange(r: QueryRange, partitionKeyRange: any): QueryRange {
-    const left = this._stringMax(partitionKeyRange[PARITIONKEYRANGE.MaxExclusive], r.min);
+    const left = this._stringMax(partitionKeyRange[PARTITIONKEYRANGE.MaxExclusive], r.min);
     const leftInclusive = this._stringCompare(left, r.min) === 0 ? r.isMinInclusive : false;
     return new QueryRange(left, r.max, leftInclusive, r.isMaxInclusive);
   }
@@ -77,7 +77,7 @@ export class SmartRoutingMapProvider {
       throw new Error("the list of ranges is not a non-overlapping sorted ranges");
     }
 
-    let partitionKeyRanges: any[] = []; // TODO: any ParitionKeyRanges
+    let partitionKeyRanges: any[] = []; // TODO: any PartitionKeyRanges
 
     if (sortedRanges.length === 0) {
       return partitionKeyRanges;

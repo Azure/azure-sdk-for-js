@@ -28,7 +28,7 @@ export class InMemoryCollectionRoutingMap {
     });
     this.orderedPartitionInfo = orderedPartitionInfo;
   }
-  public getOrderedParitionKeyRanges(): PartitionKeyRange[] {
+  public getOrderedPartitionKeyRanges(): PartitionKeyRange[] {
     return this.orderedPartitionKeyRanges;
   }
 

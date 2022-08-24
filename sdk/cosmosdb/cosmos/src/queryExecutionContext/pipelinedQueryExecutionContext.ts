@@ -103,7 +103,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     return this.endpoint.nextItem();
   }
 
-  // Removed callback here beacuse it wouldn't have ever worked...
+  // Removed callback here because it wouldn't have ever worked...
   public hasMoreResults(): boolean {
     return this.endpoint.hasMoreResults();
   }
