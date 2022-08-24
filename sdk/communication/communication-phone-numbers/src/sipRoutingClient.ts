@@ -250,18 +250,10 @@ export class SipRoutingClient {
    * @param options - The optional parameters.
    */
   public getExpandedTrunks(options: OperationOptions = {}): Promise<SipTrunkExpanded[]> {
-    return tracingClient.withSpan(
-      "SipRoutingClient-getTrunksStatuses",
-      options,
-      async (
-        {
-          ...updatedOptions,
-          expand: "trunkHealth"
-        }) => {
-          this.client
-              .getSipConfiguration(expandedOptions)
-              .then((config) => mapExpandedTrunks(config.trunks));
-      }
-    );
+    const expandedOptions = {...options, expand: "trunkHealth"}
+    return tracingClient.withSpan("SipRoutingClient-getTrunksStatuses", expandedOptions, async (updatedOptions) => {
+      const config = await this.client.getSipConfiguration(updatedOptions);
+      return mapExpandedTrunks(config.trunks);
+    });
   };
 }
